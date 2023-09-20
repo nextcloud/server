@@ -57,13 +57,11 @@ OC.L10N.register(
     "Failed to select tag" : "Fallo al seleccionar etiqueta",
     "Failed to create tag" : "Fallo al crear etiqueta",
     "Failed to delete tag" : "Fallo al borrar etiqueta",
+    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}",
+    "No tags found" : "No se encontraron etiquetas",
     "Failed to load last used tags" : "Fallo al cargar las etiquetas recientemente utilizadas",
     "Missing \"Content-Location\" header" : "No existe la cabecera \"Content-Location\"",
-    "Tagged files" : "Archivos etiquetados",
-    "Select tags to filter by" : "Seleccionar etiquetas por las que filtrar",
-    "No tags found" : "No se encontraron etiquetas",
-    "Please select tags to filter by" : "Por favor, seleccione las etiquetas por las que desea filtrar",
-    "No files found for the selected tags" : "No se han encontrado archivos para las etiquetas seleccionadas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Las etiquetas colaborativas están disponibles para todos los usuarios. Las etiquetas restringidas son visibles para los usuarios, pero no pueden ser asignadas por ellos. Las etiquetas invisibles son para uso interno, pues los usuarios no pueden verlas ni asignarlas.",
     "Create a new tag" : "Crear una etiqueta nueva",
     "Name" : "Nombre",
@@ -75,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "Aquí no hay archivos",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "Tagged files" : "Archivos etiquetados",
+    "Select tags to filter by" : "Seleccionar etiquetas por las que filtrar",
+    "Please select tags to filter by" : "Por favor, seleccione las etiquetas por las que desea filtrar",
+    "No files found for the selected tags" : "No se han encontrado archivos para las etiquetas seleccionadas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

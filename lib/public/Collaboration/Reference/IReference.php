@@ -126,4 +126,11 @@ interface IReference extends JsonSerializable {
 	 * @since 25.0.0
 	 */
 	public function getOpenGraphObject(): array;
+
+	/**
+	 * @return array{richObjectType: string, richObject: array<string, mixed>, openGraphObject: array{id: string, name: string, description: ?string, thumb: ?string, link: string}, accessible: bool}
+	 *
+	 * @since 25.0.0
+	 */
+	public function jsonSerialize(): array;
 }

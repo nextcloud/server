@@ -91,17 +91,18 @@
 
 <script>
 import { generateFilePath, generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { Palette } from 'node-vibrant/lib/color.js'
 import axios from '@nextcloud/axios'
-import Check from 'vue-material-design-icons/Check.vue'
-import Close from 'vue-material-design-icons/Close.vue'
-import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import Vibrant from 'node-vibrant'
-import { Palette } from 'node-vibrant/lib/color.js'
-import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { getCurrentUser } from '@nextcloud/auth'
+
+import Check from 'vue-material-design-icons/Check.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
 
 const backgroundImage = loadState('theming', 'backgroundImage')
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
@@ -109,12 +110,6 @@ const themingDefaultBackground = loadState('theming', 'themingDefaultBackground'
 const defaultShippedBackground = loadState('theming', 'defaultShippedBackground')
 
 const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
-const picker = getFilePickerBuilder(t('theming', 'Select a background from your files'))
-	.setMultiSelect(false)
-	.setModal(true)
-	.setType(1)
-	.setMimeTypeFilter(['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml', 'image/svg'])
-	.build()
 
 export default {
 	name: 'BackgroundSettings',
@@ -256,8 +251,30 @@ export default {
 			this.pickColor(...args)
 		}, 200),
 
-		async pickFile() {
-			const path = await picker.pick()
+		pickFile() {
+			const picker = getFilePickerBuilder(t('theming', 'Select a background from your files'))
+				.allowDirectories(false)
+				.setMimeTypeFilter(['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml', 'image/svg'])
+				.setMultiSelect(false)
+				.addButton({
+					id: 'select',
+					label: t('theming', 'Select background'),
+					callback: (nodes) => {
+						this.applyFile(nodes[0]?.path)
+					},
+					type: 'primary',
+				})
+				.build()
+			picker.pick()
+		},
+
+		async applyFile(path) {
+			if (!path || typeof path !== 'string' || path.trim().length === 0 || path === '/') {
+				console.error('No valid background have been selected', { path })
+				showError(t('theming', 'No background has been selected'))
+				return
+			}
+
 			this.loading = 'custom'
 
 			// Extract primary color from image

@@ -74,6 +74,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
@@ -112,8 +113,6 @@ class OC {
 	public static array $APPSROOTS = [];
 
 	public static string $configDir;
-
-	public static int $VERSION_MTIME = 0;
 
 	/**
 	 * requested app
@@ -609,10 +608,9 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		// Add default composer PSR-4 autoloader
+		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		OC::$VERSION_MTIME = filemtime(OC::$SERVERROOT . '/version.php');
-		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . OC::$VERSION_MTIME));
+		self::$composerAutoloader->setApcuPrefix(null);
 
 		try {
 			self::initPaths();
@@ -871,7 +869,7 @@ class OC {
 					// reset brute force delay for this IP address and username
 					$uid = $userSession->getUser()->getUID();
 					$request = Server::get(IRequest::class);
-					$throttler = Server::get(\OC\Security\Bruteforce\Throttler::class);
+					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 				}
 
@@ -1137,7 +1135,7 @@ class OC {
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
-		if (self::tryAppEcosystemV2Login($request)) {
+		if (self::tryAppAPILogin($request)) {
 			return true;
 		}
 		if ($userSession->tryTokenLogin($request)) {
@@ -1149,7 +1147,7 @@ class OC {
 			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request, Server::get(\OC\Security\Bruteforce\Throttler::class))) {
+		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {
 			return true;
 		}
 		return false;
@@ -1178,17 +1176,17 @@ class OC {
 		}
 	}
 
-	protected static function tryAppEcosystemV2Login(OCP\IRequest $request): bool {
+	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
 		$appManager = Server::get(OCP\App\IAppManager::class);
-		if (!$request->getHeader('AE-SIGNATURE')) {
+		if (!$request->getHeader('AUTHORIZATION-APP-API')) {
 			return false;
 		}
-		if (!$appManager->isInstalled('app_ecosystem_v2')) {
+		if (!$appManager->isInstalled('app_api')) {
 			return false;
 		}
 		try {
-			$appEcosystemV2Service = Server::get(OCA\AppEcosystemV2\Service\AppEcosystemV2Service::class);
-			return $appEcosystemV2Service->validateExAppRequestToNC($request);
+			$appAPIService = Server::get(OCA\AppAPI\Service\AppAPIService::class);
+			return $appAPIService->validateExAppRequestToNC($request);
 		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			return false;
 		}

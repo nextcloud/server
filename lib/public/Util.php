@@ -49,6 +49,7 @@ namespace OCP;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -57,17 +58,11 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	/** @var \OCP\Share\IManager */
-	private static $shareManager;
+	private static ?IManager $shareManager = null;
 
-	/** @var array */
-	private static $scripts = [];
-
-	/** @var array */
-	private static $scriptDeps = [];
-
-	/** @var array */
-	private static $sortedScriptDeps = [];
+	private static array $scriptsInit = [];
+	private static array $scripts = [];
+	private static array $scriptDeps = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -164,14 +159,34 @@ class Util {
 	}
 
 	/**
+	 * Add a standalone init js file that is loaded for initialization
+	 *
+	 * Be careful loading scripts using this method as they are loaded early
+	 * and block the initial page rendering. They should not have dependencies
+	 * on any other scripts than core-common and core-main.
+	 *
+	 * @since 28.0.0
+	 */
+	public static function addInitScript(string $application, string $file): void {
+		if (!empty($application)) {
+			$path = "$application/js/$file";
+		} else {
+			$path = "js/$file";
+		}
+
+		self::$scriptsInit[] = $path;
+	}
+
+	/**
 	 * add a javascript file
 	 *
 	 * @param string $application
 	 * @param string|null $file
 	 * @param string $afterAppId
+	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core'): void {
+	public static function addScript(string $application, string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -194,7 +209,11 @@ class Util {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
-		self::$scripts[$application][] = $path;
+		if ($prepend) {
+			array_unshift(self::$scripts[$application], $path);
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
@@ -209,10 +228,16 @@ class Util {
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
-		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
+		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
+		$sortedScripts = array_merge(...array_values($sortedScripts));
 
 		// Override core-common and core-main order
-		array_unshift($sortedScripts, 'core/js/common', 'core/js/main');
+		if (in_array('core/js/main', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/main');
+		}
+		if (in_array('core/js/common', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/common');
+		}
 
 		return array_unique($sortedScripts);
 	}

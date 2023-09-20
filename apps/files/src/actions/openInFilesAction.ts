@@ -22,7 +22,7 @@
 import { translate as t } from '@nextcloud/l10n'
 import { FileType, type Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction, DefaultType } from '../../../files/src/services/FileAction'
+import { registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
 
 /**
  * TODO: Move away from a redirect and handle
@@ -44,7 +44,7 @@ export const action = new FileAction({
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
 			{ view: 'files', fileid: node.fileid },
-			{ dir, fileid: node.fileid, openfile: true },
+			{ dir, fileid: node.fileid },
 		)
 		return null
 	},

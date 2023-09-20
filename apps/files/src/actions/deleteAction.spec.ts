@@ -21,22 +21,20 @@
  */
 import { action } from './deleteAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import logger from '../logger'
-import type { Navigation } from '../services/Navigation'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const trashbinView = {
 	id: 'trashbin',
 	name: 'Trashbin',
-} as Navigation
+} as View
 
 describe('Delete action conditions tests', () => {
 	test('Default values', () => {

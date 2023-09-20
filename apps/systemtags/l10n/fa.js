@@ -57,13 +57,11 @@ OC.L10N.register(
     "Failed to select tag" : "Failed to select tag",
     "Failed to create tag" : "Failed to create tag",
     "Failed to delete tag" : "Failed to delete tag",
+    "This file has the tag {tag}" : "این فایل دارای تگ {tag} است",
+    "This file has the tags {firstTags} and {lastTag}" : "این فایل دارای تگ‌های {firstTags} و {lastTag} است.",
+    "No tags found" : "هیچ برچسبی یافت نشد",
     "Failed to load last used tags" : "Failed to load last used tags",
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
-    "Tagged files" : "Tagged files",
-    "Select tags to filter by" : "Select tags to filter by",
-    "No tags found" : "هیچ برچسبی یافت نشد",
-    "Please select tags to filter by" : "Please select tags to filter by",
-    "No files found for the selected tags" : "No files found for the selected tags",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.",
     "Create a new tag" : "Create a new tag",
     "Name" : "نام",
@@ -75,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "هیچ فایلی اینجا وجود ندارد",
     "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
     "Size" : "اندازه",
-    "Modified" : "تغییر یافته"
+    "Modified" : "تغییر یافته",
+    "Tagged files" : "Tagged files",
+    "Select tags to filter by" : "Select tags to filter by",
+    "Please select tags to filter by" : "Please select tags to filter by",
+    "No files found for the selected tags" : "No files found for the selected tags"
 },
 "nplurals=2; plural=(n > 1);");

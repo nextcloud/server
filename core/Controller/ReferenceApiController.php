@@ -55,7 +55,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $text Text to extract from
 	 * @param bool $resolve Resolve the references
 	 * @param int $limit Maximum amount of references to extract
-	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|mixed|null>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
 	 */
 	public function extract(string $text, bool $resolve = false, int $limit = 1): DataResponse {
 		$references = $this->referenceManager->extractReferences($text);
@@ -99,7 +99,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string[] $references References to resolve
 	 * @param int $limit Maximum amount of references to resolve
-	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|mixed|null>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
 	 */
 	public function resolve(array $references, int $limit = 1): DataResponse {
 		$result = [];

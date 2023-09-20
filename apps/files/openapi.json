@@ -22,12 +22,12 @@
         "schemas": {
             "Capabilities": {
                 "type": "object",
+                "required": [
+                    "files"
+                ],
                 "properties": {
                     "files": {
-                        "type": [
-                            "object",
-                            "object"
-                        ],
+                        "type": "object",
                         "required": [
                             "bigfilechunking",
                             "blacklisted_files",
@@ -340,6 +340,7 @@
                     "api"
                 ],
                 "security": [
+                    {},
                     {
                         "bearer_auth": []
                     },

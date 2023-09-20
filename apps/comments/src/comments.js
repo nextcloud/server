@@ -23,7 +23,7 @@
 
 import './app.js'
 import './templates.js'
-import './filesplugin.js'
 import './activitytabviewplugin.js'
+import './actions/inlineUnreadCommentsAction.ts'
 
 window.OCA.Comments = OCA.Comments

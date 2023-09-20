@@ -29,7 +29,11 @@
 					button-class="icon-add"
 					@click="showNewUserMenu"
 					@keyup.enter="showNewUserMenu"
-					@keyup.space="showNewUserMenu" />
+					@keyup.space="showNewUserMenu">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcAppNavigationNew>
 
 				<template #list>
 					<NcAppNavigationNewItem id="addgroup"
@@ -47,10 +51,12 @@
 					<NcAppNavigationItem id="everyone"
 						:exact="true"
 						:name="t('settings', 'Active users')"
-						:to="{ name: 'users' }"
-						icon="icon-contacts-dark">
+						:to="{ name: 'users' }">
+						<template #icon>
+							<AccountGroup :size="20" />
+						</template>
 						<template #counter>
-							<NcCounterBubble :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
 								{{ userCount }}
 							</NcCounterBubble>
 						</template>
@@ -59,8 +65,10 @@
 						id="admin"
 						:exact="true"
 						:name="t('settings', 'Admins')"
-						:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
-						icon="icon-user-admin">
+						:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
+						<template #icon>
+							<ShieldAccount :size="20" />
+						</template>
 						<template v-if="adminGroupMenu.count > 0" #counter>
 							<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
 								{{ adminGroupMenu.count }}
@@ -73,8 +81,10 @@
 						id="disabled"
 						:exact="true"
 						:name="t('settings', 'Disabled users')"
-						:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
-						icon="icon-disabled-users">
+						:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
+						<template #icon>
+							<AccountOff :size="20" />
+						</template>
 						<template v-if="disabledGroupMenu.usercount > 0" #counter>
 							<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
 								{{ disabledGroupMenu.usercount }}
@@ -127,8 +137,11 @@ import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigati
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 
+import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
+import AccountOff from 'vue-material-design-icons/AccountOff.vue'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+import ShieldAccount from 'vue-material-design-icons/ShieldAccount.vue'
 
 import GroupListItem from '../components/GroupListItem.vue'
 import UserList from '../components/UserList.vue'
@@ -140,6 +153,8 @@ export default {
 	name: 'Users',
 
 	components: {
+		AccountGroup,
+		AccountOff,
 		Cog,
 		Fragment,
 		GroupListItem,
@@ -152,6 +167,7 @@ export default {
 		NcContent,
 		NcCounterBubble,
 		Plus,
+		ShieldAccount,
 		UserList,
 		UserSettingsDialog,
 	},

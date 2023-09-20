@@ -19,16 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { action } from './openFolderAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Node, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../services/FileAction'
-import type { Navigation } from '../services/Navigation'
+import { File, Folder, Node, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+
+import { action } from './openFolderAction'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('Open folder action conditions tests', () => {
 	test('Default values', () => {
@@ -132,7 +131,7 @@ describe('Open folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, null, { dir: '/FooBar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: undefined, view: 'files' }, { dir: '/FooBar' })
 	})
 
 	test('Open folder fails without node', async () => {

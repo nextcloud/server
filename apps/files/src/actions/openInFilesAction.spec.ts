@@ -21,19 +21,17 @@
  */
 import { action } from './openInFilesAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
-import type { Navigation } from '../../../files/src/services/Navigation'
+import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const recentView = {
 	id: 'recent',
 	name: 'Recent',
-} as Navigation
+} as View
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
@@ -78,7 +76,7 @@ describe('Open in files action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo', openfile: true })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo' })
 	})
 
 	test('Open in files with folder', async () => {
@@ -98,6 +96,6 @@ describe('Open in files action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo/Bar', openfile: true })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo/Bar' })
 	})
 })

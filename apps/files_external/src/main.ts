@@ -19,9 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../../files/src/services/Navigation'
-import type { Navigation } from '../../files/src/services/Navigation'
-
 import { translate as t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
 import FolderNetworkSvg from '@mdi/svg/svg/folder-network.svg?raw'
@@ -30,11 +27,12 @@ import './actions/enterCredentialsAction'
 import './actions/inlineStorageCheckAction'
 import './actions/openInFilesAction'
 import { getContents } from './services/externalStorage'
+import { View, getNavigation, Column } from '@nextcloud/files'
 
 const allowUserMounting = loadState('files_external', 'allowUserMounting', false)
 
-const Navigation = window.OCP.Files.Navigation as NavigationService
-Navigation.register({
+const Navigation = getNavigation()
+Navigation.register(new View({
 	id: 'extstoragemounts',
 	name: t('files_external', 'External storage'),
 	caption: t('files_external', 'List of external storage.'),
@@ -48,7 +46,7 @@ Navigation.register({
 	order: 30,
 
 	columns: [
-		{
+		new Column({
 			id: 'storage-type',
 			title: t('files_external', 'Storage type'),
 			render(node) {
@@ -57,8 +55,8 @@ Navigation.register({
 				span.textContent = backend
 				return span
 			},
-		},
-		{
+		}),
+		new Column({
 			id: 'scope',
 			title: t('files_external', 'Scope'),
 			render(node) {
@@ -70,8 +68,8 @@ Navigation.register({
 				span.textContent = scope
 				return span
 			},
-		},
+		}),
 	],
 
 	getContents,
-} as Navigation)
+}))

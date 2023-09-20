@@ -46,12 +46,9 @@ OC.L10N.register(
     "Failed to select tag" : "Nepavyko parinkti žymios",
     "Failed to create tag" : "Nepavyko įkelti žymios",
     "Failed to delete tag" : "Nepavyko pervadinti žymės",
-    "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
-    "Tagged files" : "Pažymėti failai",
-    "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
+    "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
     "No tags found" : "Nerasta jokių žymių",
-    "Please select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
-    "No files found for the selected tags" : "Pasirinktai žymei, nerasti jokie failai.",
+    "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Bendradarbiavimo žymės yra prieinamos visiems naudotojams. Apribotos žymės yra matomos naudotojams, tačiau naudotojai negali jų priskirinėti. Nematomos žymės yra vidiniam naudojimui, nes naudotojai negali jų nei matyti, nei priskirinėti.",
     "Create a new tag" : "Sukurti naują žymę",
     "Name" : "Pavadinimas",
@@ -63,6 +60,10 @@ OC.L10N.register(
     "No files in here" : "Čia failų nėra",
     "No entries found in this folder" : "Šiame aplanke nerasta jokių įrašų",
     "Size" : "Dydis",
-    "Modified" : "Pakeista"
+    "Modified" : "Pakeista",
+    "Tagged files" : "Pažymėti failai",
+    "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
+    "Please select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
+    "No files found for the selected tags" : "Pasirinktai žymei, nerasti jokie failai."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

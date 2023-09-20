@@ -842,10 +842,6 @@ span.version {
 	overflow: hidden;
 }
 
-.app-name, .app-version, .app-score, .app-level {
-	display: inline-block;
-}
-
 .app-description-toggle-show, .app-description-toggle-hide {
 	clear: both;
 	padding: 7px 0;
@@ -918,7 +914,6 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
-			margin-top: $toolbar-height;
 		}
 
 		margin-bottom: 100px;
@@ -1042,7 +1037,6 @@ span.version {
 
 	/* Bundle header */
 	.apps-header {
-		display: table-row;
 		position: relative;
 
 		div {
@@ -1051,11 +1045,9 @@ span.version {
 		}
 
 		h2 {
-			display: table-cell;
-			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
-
+			margin-bottom: 12px;
 			.enable {
 				position: relative;
 				top: -1px;

@@ -153,15 +153,34 @@ class ViewController extends Controller {
 	 *
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
-	 * @throws NotFoundException
 	 */
-	public function showFile(string $fileid = null, int $openfile = 1): Response {
+	public function showFile(string $fileid = null): Response {
+		if (!$fileid) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
+		}
+
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile($fileid, $openfile !== 0);
+			return $this->redirectToFile((int) $fileid);
 		} catch (NotFoundException $e) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 		}
+	}
+
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @UseSession
+	 * 
+	 * @param string $dir
+	 * @param string $view
+	 * @param string $fileid
+	 * @param bool $fileNotFound
+	 * @return TemplateResponse|RedirectResponse
+	 */
+	public function indexView($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+		return $this->index($dir, $view, $fileid, $fileNotFound);
 	}
 
 	/**
@@ -173,21 +192,29 @@ class ViewController extends Controller {
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
-	 * @param string $openfile - the openfile URL parameter if it was present in the initial request
 	 * @return TemplateResponse|RedirectResponse
-	 * @throws NotFoundException
 	 */
-	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
+	public function indexViewFileid($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+		return $this->index($dir, $view, $fileid, $fileNotFound);
+	}
 
-		if ($fileid !== null && $dir === '') {
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @UseSession
+	 *
+	 * @param string $dir
+	 * @param string $view
+	 * @param string $fileid
+	 * @param bool $fileNotFound
+	 * @return TemplateResponse|RedirectResponse
+	 */
+	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+		if ($fileid !== null && $view !== 'trashbin') {
 			try {
-				return $this->redirectToFile($fileid);
-			} catch (NotFoundException $e) {
-				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
-			}
+				return $this->redirectToFileIfInTrashbin((int) $fileid);
+			} catch (NotFoundException $e) {}
 		}
-
-		$nav = new \OCP\Template('files', 'appnavigation', '');
 
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
@@ -203,17 +230,6 @@ class ViewController extends Controller {
 			$favElements['folders'] = [];
 		}
 
-		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-
-		// parse every menu and add the expanded user value
-		foreach ($navItems as $key => $item) {
-			$navItems[$key]['expanded'] = $this->config->getUserValue($userId, 'files', 'show_' . $item['id'], '0') === '1';
-		}
-
-		$nav->assign('navigationItems', $navItems);
-
-		$contentItems = [];
-
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
 			$storageInfo =  $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
@@ -222,7 +238,6 @@ class ViewController extends Controller {
 		}
 
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
-		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 		$this->initialState->provideInitialState('favoriteFolders', $favElements['folders'] ?? []);
@@ -231,34 +246,9 @@ class ViewController extends Controller {
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
-		// render the container content for every navigation item
-		foreach ($navItems as $item) {
-			$content = '';
-			if (isset($item['script'])) {
-				$content = $this->renderScript($item['appname'], $item['script']);
-			}
-			// parse submenus
-			if (isset($item['sublist'])) {
-				foreach ($item['sublist'] as $subitem) {
-					$subcontent = '';
-					if (isset($subitem['script'])) {
-						$subcontent = $this->renderScript($subitem['appname'], $subitem['script']);
-					}
-					$contentItems[$subitem['id']] = [
-						'id' => $subitem['id'],
-						'content' => $subcontent
-					];
-				}
-			}
-			$contentItems[$item['id']] = [
-				'id' => $item['id'],
-				'content' => $content
-			];
-		}
-
-		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
+		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
@@ -268,23 +258,9 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
-		$params = [];
-		$params['usedSpacePercent'] = (int) $storageInfo['relative'];
-		$params['owner'] = $storageInfo['owner'] ?? '';
-		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
-		$params['isPublic'] = false;
-		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
-		$params['defaultFileSorting'] = $filesSortingConfig['files']['mode'] ?? 'basename';
-		$params['defaultFileSortingDirection'] = $filesSortingConfig['files']['direction'] ?? 'asc';
-		$params['showgridview'] = $this->config->getUserValue($userId, 'files', 'show_grid', false);
-		$showHidden = (bool) $this->config->getUserValue($userId, 'files', 'show_hidden', false);
-		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
-		$cropImagePreviews = (bool) $this->config->getUserValue($userId, 'files', 'crop_image_previews', true);
-		$params['cropImagePreviews'] = $cropImagePreviews ? 1 : 0;
-		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
-		$params['appNavigation'] = $nav;
-		$params['appContents'] = $contentItems;
-		$params['hiddenFields'] = $event->getHiddenFields();
+		$params = [
+			'fileNotFound' => $fileNotFound ? 1 : 0
+		];
 
 		$response = new TemplateResponse(
 			Application::APP_ID,
@@ -293,21 +269,23 @@ class ViewController extends Controller {
 		);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
+		// Allow preview service worker
+		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
-		$this->provideInitialState($dir, $openfile);
+		$this->provideInitialState($dir, $fileid);
 
 		return $response;
 	}
 
 	/**
-	 * Add openFileInfo in initialState if $openfile is set.
+	 * Add openFileInfo in initialState.
 	 * @param string $dir - the ?dir= URL param
-	 * @param string $openfile - the ?openfile= URL param
+	 * @param string $fileid - the fileid URL param
 	 * @return void
 	 */
-	private function provideInitialState(string $dir, ?string $openfile): void {
-		if ($openfile === null) {
+	private function provideInitialState(string $dir, ?string $fileid): void {
+		if ($fileid === null) {
 			return;
 		}
 
@@ -319,7 +297,7 @@ class ViewController extends Controller {
 
 		$uid = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $userFolder->getById((int) $openfile);
+		$nodes = $userFolder->getById((int) $fileid);
 		$node = array_shift($nodes);
 
 		if ($node === null) {
@@ -351,44 +329,70 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * Redirects to the file list and highlight the given file id
+	 * Redirects to the trashbin file list and highlight the given file id
 	 *
-	 * @param string $fileId file id to show
-	 * @param bool $setOpenfile - whether or not to set the openfile URL parameter
+	 * @param int $fileId file id to show
 	 * @return RedirectResponse redirect response or not found response
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
-	private function redirectToFile($fileId, bool $setOpenfile = false) {
+	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$files = $baseFolder->getById($fileId);
+		$nodes = $baseFolder->getById($fileId);
 		$params = [];
 
-		if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
+		if (empty($nodes) && $this->appManager->isEnabledForUser('files_trashbin')) {
+			/** @var Folder */
 			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$files = $baseFolder->getById($fileId);
+			$nodes = $baseFolder->getById($fileId);
 			$params['view'] = 'trashbin';
-		}
 
-		if (!empty($files)) {
-			$file = current($files);
-			if ($file instanceof Folder) {
+			if (!empty($nodes)) {
+				$node = current($nodes);
+				$params['fileid'] = $fileId;
+				if ($node instanceof Folder) {
+					// set the full path to enter the folder
+					$params['dir'] = $baseFolder->getRelativePath($node->getPath());
+				} else {
+					// set parent path as dir
+					$params['dir'] = $baseFolder->getRelativePath($node->getParent()->getPath());
+				}
+				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
+			}
+		}
+		throw new NotFoundException();
+	}
+
+	/**
+	 * Redirects to the file list and highlight the given file id
+	 *
+	 * @param int $fileId file id to show
+	 * @return RedirectResponse redirect response or not found response
+	 * @throws NotFoundException
+	 */
+	private function redirectToFile(int $fileId) {
+		$uid = $this->userSession->getUser()->getUID();
+		$baseFolder = $this->rootFolder->getUserFolder($uid);
+		$nodes = $baseFolder->getById($fileId);
+		$params = [];
+
+		try {
+			$this->redirectToFileIfInTrashbin($fileId);
+		} catch (NotFoundException $e) {}
+
+		if (!empty($nodes)) {
+			$node = current($nodes);
+			$params['fileid'] = $fileId;
+			if ($node instanceof Folder) {
 				// set the full path to enter the folder
-				$params['dir'] = $baseFolder->getRelativePath($file->getPath());
+				$params['dir'] = $baseFolder->getRelativePath($node->getPath());
 			} else {
 				// set parent path as dir
-				$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
-				// and scroll to the entry
-				$params['scrollto'] = $file->getName();
-
-				if ($setOpenfile) {
-					// forward the openfile URL parameter.
-					$params['openfile'] = $fileId;
-				}
+				$params['dir'] = $baseFolder->getRelativePath($node->getParent()->getPath());
 			}
-
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
 		}
-		throw new \OCP\Files\NotFoundException();
+	
+		throw new NotFoundException();
 	}
 }

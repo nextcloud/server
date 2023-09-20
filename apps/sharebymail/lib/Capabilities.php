@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OCA\ShareByMail;
 
 use OCA\ShareByMail\Settings\SettingsManager;
+use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\Share\IManager;
 
@@ -39,10 +40,15 @@ class Capabilities implements ICapability {
 	/** @var SettingsManager */
 	private $settingsManager;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	public function __construct(IManager $manager,
-								SettingsManager $settingsManager) {
+								SettingsManager $settingsManager,
+								IAppManager $appManager) {
 		$this->manager = $manager;
 		$this->settingsManager = $settingsManager;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -64,9 +70,12 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         }
 	 *     }
-	 * }
+	 * }|array<empty>
 	 */
 	public function getCapabilities(): array {
+		if (!$this->appManager->isEnabledForUser('files_sharing')) {
+			return [];
+		}
 		return [
 			'files_sharing' =>
 				[

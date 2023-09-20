@@ -29,7 +29,6 @@ import { encodeFilePath } from '../../../files/src/utils/fileUtils.js'
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
-import path from 'path'
 
 /**
  * @typedef {object} Version
@@ -101,16 +100,13 @@ export async function restoreVersion(version) {
 function formatVersion(version, fileInfo) {
 	const mtime = moment(version.lastmod).unix() * 1000
 	let previewUrl = ''
-	let filename = ''
 
 	if (mtime === fileInfo.mtime) { // Version is the current one
-		filename = path.join('files', getCurrentUser()?.uid ?? '', fileInfo.path, fileInfo.name)
 		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
 			fileId: fileInfo.id,
 			fileEtag: fileInfo.etag,
 		})
 	} else {
-		filename = version.filename
 		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
 			file: joinPaths(fileInfo.path, fileInfo.name),
 			fileVersion: version.basename,
@@ -120,7 +116,7 @@ function formatVersion(version, fileInfo) {
 	return {
 		fileId: fileInfo.id,
 		label: version.props['version-label'],
-		filename,
+		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
 		mime: version.mime,
 		etag: `${version.props.getetag}`,
@@ -130,8 +126,8 @@ function formatVersion(version, fileInfo) {
 		permissions: 'R',
 		hasPreview: version.props['has-preview'] === 1,
 		previewUrl,
-		url: joinPaths('/remote.php/dav', filename),
-		source: generateRemoteUrl('dav') + encodeFilePath(filename),
+		url: joinPaths('/remote.php/dav', version.filename),
+		source: generateRemoteUrl('dav') + encodeFilePath(version.filename),
 		fileVersion: version.basename,
 	}
 }

@@ -50,13 +50,6 @@ module.exports = function(config) {
 			'files',
 			'files_versions',
 			{
-				name: 'comments',
-				srcFiles: [
-					'dist/comments-comments.js'
-				],
-				testFiles: ['apps/comments/tests/js/**/*.js']
-			},
-			{
 				name: 'files_sharing',
 				srcFiles: [
 					// only test these files, others are not ready and mess
@@ -72,7 +65,6 @@ module.exports = function(config) {
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
-			'systemtags',
 			'files_trashbin',
 		];
 	}

@@ -14,6 +14,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Izendatutako bertsioak mantentzen dira eta garbiketa automatikoetatik kanpo geratzen dira biltegiratze-kuota beteta dagoenean.",
     "Remove version name" : "Kendu bertsioaren izena",
     "Save version name" : "Gorde bertsioaren izena",
+    "Current version" : "Uneko bertsioa",
     "Initial version restored" : "Hasierako bertsioa ondo leheneratu da",
     "Version restored" : "Bertsioa leheneratu da",
     "Could not restore version" : "Ezin izan da bertsioa leheneratu",

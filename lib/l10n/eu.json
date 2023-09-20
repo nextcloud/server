@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$serabiltzaileak »%2$s« partekatu du zurekin.",
     "Click the button below to open it." : "Egin klik beheko botoian hura irekitzeko.",
     "The requested share does not exist anymore" : "Eskatutako partekatzea ez da existitzen dagoeneko",
+    "The requested share comes from a disabled user" : "Eskatutako partekatzea desgaitutako erabiltzaile batengatik dator",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Ezin izan da erabiltzailea sortu, erabiltzaile muga gainditu delako. Egiaztatu zure jakinarazpenak gehiago jakiteko.",
     "Could not find category \"%s\"" : "Ezin da \"%s\" kategoria aurkitu",
     "Sunday" : "Igandea",
@@ -242,8 +243,6 @@
     "Please ask your server administrator to restart the web server." : "Mesedez eskatu zerbitzariaren administratzaileari web zerbitzaria berrabiarazteko.",
     "The required %s config variable is not configured in the config.php file." : "Beharrezko %s config aldagaia ez dago konfiguratuta config.php fitxategian.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Mesedez, eskatu zure zerbitzari administratzaileari Nextclouden konfigurazioa egiaztatzeko.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 behar da",
-    "Please upgrade your database version." : "Mesedez eguneratu zure datu-basearen bertsioa.",
     "Your data directory is readable by other users." : "Zure datuen karpeta beste erabiltzaileek irakur dezakete.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Aldatu baimenak 0770ra beste erabiltzaileek karpetan sartu ezin izateko.",
     "Your data directory must be an absolute path." : "Zure datuen karpeta bide-izen absolutua izan behar da.",
@@ -262,6 +261,7 @@
     "Storage is temporarily not available" : "Biltegia ez dago erabilgarri aldi baterako",
     "Storage connection timeout. %s" : "Biltegiratze-konexioa denboraz kanpo geratu da. %s",
     "Free prompt" : "Gonbita librea",
+    "Runs an arbitrary prompt through the language model." : "Hizkuntza ereduaren zehar esaldi arbitrario bat exekutatzen du.",
     "Generate headline" : "Sortu izenburua",
     "Generates a possible headline for a text." : "Testu baten izenburu posiblea sortzen du.",
     "Summarize" : "Laburtu",
@@ -273,6 +273,8 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Ezin izan da erabiltzailea sortu, erabiltzaile muga gainditu delako. Egiaztatu zure jakinarazpenak gehiago jakiteko.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Erabiltzaile-izenean karaktere hauek soilik erabil daitezke: \"a-z\", \"A-Z\", \"0-9\", eta \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 bertsioa edo berriagoa behar da. Orain %s dago instalatuta.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Arazo hori konpontzeko, eguneratu zure libxml2 bertsioa eta berrabiarazi web zerbitzaria."
+    "To fix this issue update your libxml2 version and restart your web server." : "Arazo hori konpontzeko, eguneratu zure libxml2 bertsioa eta berrabiarazi web zerbitzaria.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 behar da",
+    "Please upgrade your database version." : "Mesedez eguneratu zure datu-basearen bertsioa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

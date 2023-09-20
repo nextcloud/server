@@ -61,7 +61,7 @@ class PropfindCompressionPlugin extends ServerPlugin {
 			return $response;
 		}
 
-		if (strpos($header, 'gzip') !== false) {
+		if (str_contains($header, 'gzip')) {
 			$body = $response->getBody();
 			if (is_string($body)) {
 				$response->setHeader('Content-Encoding', 'gzip');

@@ -18,13 +18,13 @@
     "No more messages" : "Tidak ada pesan lagi",
     "Retry" : "Ulangi",
     "Unable to load the comments list" : "Tidak dapat memuat daftar komentar",
-    "_%n unread comment_::_%n unread comments_" : ["%nkomentar belum dibaca"],
     "_1 new comment_::_{unread} new comments_" : ["komentar baru {belum terbaca}"],
     "Comment" : "Komentar",
     "An error occurred while trying to edit the comment" : "Terjadi kesalahan ketika mencoba menyunting komentar",
     "Comment deleted" : "Komentar dihapus",
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
     "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
-    "%1$s commented" : "%1$s dikomentari"
+    "%1$s commented" : "%1$s dikomentari",
+    "_%n unread comment_::_%n unread comments_" : ["%nkomentar belum dibaca"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

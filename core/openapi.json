@@ -73,7 +73,7 @@
                     "resources": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/OpenGraphObject"
+                            "$ref": "#/components/schemas/Resource"
                         }
                     }
                 }
@@ -226,52 +226,29 @@
             "OpenGraphObject": {
                 "type": "object",
                 "required": [
-                    "richObjectType",
-                    "richObject",
-                    "openGraphObject",
-                    "accessible"
+                    "id",
+                    "name",
+                    "description",
+                    "thumb",
+                    "link"
                 ],
                 "properties": {
-                    "richObjectType": {
+                    "id": {
                         "type": "string"
                     },
-                    "richObject": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "type": "object"
-                        }
+                    "name": {
+                        "type": "string"
                     },
-                    "openGraphObject": {
-                        "type": "object",
-                        "required": [
-                            "id",
-                            "name",
-                            "description",
-                            "thumb",
-                            "link"
-                        ],
-                        "properties": {
-                            "id": {
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string",
-                                "nullable": true
-                            },
-                            "thumb": {
-                                "type": "string",
-                                "nullable": true
-                            },
-                            "link": {
-                                "type": "string"
-                            }
-                        }
+                    "description": {
+                        "type": "string",
+                        "nullable": true
                     },
-                    "accessible": {
-                        "type": "boolean"
+                    "thumb": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "link": {
+                        "type": "string"
                     }
                 }
             },
@@ -330,6 +307,32 @@
                         "items": {
                             "type": "string"
                         }
+                    }
+                }
+            },
+            "Resource": {
+                "type": "object",
+                "required": [
+                    "richObjectType",
+                    "richObject",
+                    "openGraphObject",
+                    "accessible"
+                ],
+                "properties": {
+                    "richObjectType": {
+                        "type": "string"
+                    },
+                    "richObject": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "openGraphObject": {
+                        "$ref": "#/components/schemas/OpenGraphObject"
+                    },
+                    "accessible": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -939,6 +942,15 @@
                             "type": "string",
                             "default": "fill"
                         }
+                    },
+                    {
+                        "name": "mimeFallback",
+                        "in": "query",
+                        "description": "Whether to fallback to the mime icon if no preview is available",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
                     }
                 ],
                 "responses": {
@@ -974,6 +986,16 @@
                         "content": {
                             "application/json": {
                                 "schema": {}
+                            }
+                        }
+                    },
+                    "303": {
+                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -1051,6 +1073,15 @@
                             "type": "string",
                             "default": "fill"
                         }
+                    },
+                    {
+                        "name": "mimeFallback",
+                        "in": "query",
+                        "description": "Whether to fallback to the mime icon if no preview is available",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
                     }
                 ],
                 "responses": {
@@ -1086,6 +1117,16 @@
                         "content": {
                             "application/json": {
                                 "schema": {}
+                            }
+                        }
+                    },
+                    "303": {
+                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -3296,15 +3337,8 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "nullable": true,
-                                                                "oneOf": [
-                                                                    {
-                                                                        "$ref": "#/components/schemas/Reference"
-                                                                    },
-                                                                    {
-                                                                        "type": "object"
-                                                                    }
-                                                                ]
+                                                                "$ref": "#/components/schemas/Reference",
+                                                                "nullable": true
                                                             }
                                                         }
                                                     }
@@ -3403,15 +3437,8 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "nullable": true,
-                                                                "oneOf": [
-                                                                    {
-                                                                        "$ref": "#/components/schemas/Reference"
-                                                                    },
-                                                                    {
-                                                                        "type": "object"
-                                                                    }
-                                                                ]
+                                                                "$ref": "#/components/schemas/Reference",
+                                                                "nullable": true
                                                             }
                                                         }
                                                     }
@@ -3579,7 +3606,7 @@
         "/ocs/v2.php/profile/{targetUserId}": {
             "put": {
                 "operationId": "profile_api-set-visibility",
-                "summary": "Update the visiblity of a parameter",
+                "summary": "Update the visibility of a parameter",
                 "tags": [
                     "profile_api"
                 ],

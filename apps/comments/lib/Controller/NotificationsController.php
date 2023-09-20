@@ -25,6 +25,7 @@
 namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http;
@@ -40,6 +41,7 @@ use OCP\Notification\IManager;
 /**
  * @package OCA\Comments\Controller
  */
+#[IgnoreOpenAPI]
 class NotificationsController extends Controller {
 
 	protected IRootFolder $rootFolder;

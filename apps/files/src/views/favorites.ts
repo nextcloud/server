@@ -19,22 +19,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { Navigation } from '../services/Navigation'
-import type NavigationService from '../services/Navigation'
+import { basename } from 'path'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
+import { Node, FileType, View, getNavigation } from '@nextcloud/files'
+import { subscribe } from '@nextcloud/event-bus'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import { basename } from 'path'
 import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
-import { loadState } from '@nextcloud/initial-state'
-import { Node, FileType } from '@nextcloud/files'
-import { subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 
-export const generateFolderView = function(folder: string, index = 0): Navigation {
-	return {
+export const generateFolderView = function(folder: string, index = 0): View {
+	return new View({
 		id: generateIdFromPath(folder),
 		name: basename(folder),
 
@@ -50,7 +48,7 @@ export const generateFolderView = function(folder: string, index = 0): Navigatio
 		columns: [],
 
 		getContents,
-	} as Navigation
+	})
 }
 
 export const generateIdFromPath = function(path: string): string {
@@ -60,10 +58,10 @@ export const generateIdFromPath = function(path: string): string {
 export default () => {
 	// Load state in function for mock testing purposes
 	const favoriteFolders = loadState<string[]>('files', 'favoriteFolders', [])
-	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index))
+	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index)) as View[]
 
-	const Navigation = window.OCP.Files.Navigation as NavigationService
-	Navigation.register({
+	const Navigation = getNavigation()
+	Navigation.register(new View({
 		id: 'favorites',
 		name: t('files', 'Favorites'),
 		caption: t('files', 'List of favorites files and folders.'),
@@ -77,7 +75,7 @@ export default () => {
 		columns: [],
 
 		getContents,
-	} as Navigation)
+	}))
 
 	favoriteFoldersViews.forEach(view => Navigation.register(view))
 

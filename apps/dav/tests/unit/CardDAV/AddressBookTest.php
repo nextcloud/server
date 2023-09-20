@@ -124,7 +124,6 @@ class AddressBookTest extends TestCase {
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->atLeast(1))->method('updateAddressBook');
 		$addressBookInfo = [
-			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
 			'principaluri' => 'user1',
 			'id' => 666,

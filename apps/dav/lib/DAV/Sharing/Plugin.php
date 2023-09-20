@@ -24,6 +24,8 @@
  */
 namespace OCA\DAV\DAV\Sharing;
 
+use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\DAV\Sharing\Xml\Invite;
 use OCA\DAV\DAV\Sharing\Xml\ShareRequest;
@@ -125,8 +127,8 @@ class Plugin extends ServerPlugin {
 		$path = $request->getPath();
 
 		// Only handling xml
-		$contentType = $request->getHeader('Content-Type');
-		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
+		$contentType = (string) $request->getHeader('Content-Type');
+		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
 
@@ -201,6 +203,20 @@ class Plugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function propFind(PropFind $propFind, INode $node) {
+		if ($node instanceof CalendarHome && $propFind->getDepth() === 1) {
+			$backend = $node->getCalDAVBackend();
+			if ($backend instanceof CalDavBackend) {
+				$calendars = $node->getChildren();
+				$calendars = array_filter($calendars, function (INode $node) {
+					return $node instanceof IShareable;
+				});
+				/** @var int[] $resourceIds */
+				$resourceIds = array_map(function (IShareable $node) {
+					return $node->getResourceId();
+				}, $calendars);
+				$backend->preloadShares($resourceIds);
+			}
+		}
 		if ($node instanceof IShareable) {
 			$propFind->handle('{' . Plugin::NS_OWNCLOUD . '}invite', function () use ($node) {
 				return new Invite(

@@ -230,7 +230,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$property->setAccessible(true);
 
 			if (!empty($parameters)) {
-				$property->setValue($object, array_pop($parameters));
+				if ($property->isStatic()) {
+					$property->setValue(null, array_pop($parameters));
+				} else {
+					$property->setValue($object, array_pop($parameters));
+				}
 			}
 
 			if (is_object($object)) {

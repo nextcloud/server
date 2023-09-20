@@ -13,8 +13,8 @@ OC.L10N.register(
     "Delete comment" : "Dzēst komentāru",
     "No comments yet, start the conversation!" : "Vēl nav komentāru, uzsāciet sarunu!",
     "Retry" : "Mēģināt vēlreiz",
-    "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri","%n nelasīti komentāri"],
     "Comment" : "Komentārs",
-    "%1$s commented" : "%1$s komentēja"
+    "%1$s commented" : "%1$s komentēja",
+    "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri","%n nelasīti komentāri"]
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s ha compartit «%2$s» amb vós.",
     "Click the button below to open it." : "Feu clic en el botó següent per a obrir-ho.",
     "The requested share does not exist anymore" : "L'element compartit sol·licitat ja no existeix",
+    "The requested share comes from a disabled user" : "L'element compartit sol·licitat prové d'un usuari inhabilitat",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "No s'ha creat l'usuari perquè s'ha assolit el límit d'usuaris. Consulteu les notificacions per a obtenir més informació.",
     "Could not find category \"%s\"" : "No s'ha trobat la categoria «%s»",
     "Sunday" : "Diumenge",
@@ -242,8 +243,6 @@
     "Please ask your server administrator to restart the web server." : "Demaneu a l'administrador que reiniciï el servidor web.",
     "The required %s config variable is not configured in the config.php file." : "No s'ha configurat la variable obligatòria %s en el fitxer config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Demaneu a l'administrador del servidor que comprovi la configuració del Nextcloud.",
-    "PostgreSQL >= 9 required." : "Cal el PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Actualitzeu la versió de la base de dades.",
     "Your data directory is readable by other users." : "Els altres usuaris poden llegir la carpeta de dades.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Canvieu els permisos a 0770 perquè els altres usuaris no puguin veure el contingut de la carpeta.",
     "Your data directory must be an absolute path." : "La carpeta de dades ha de ser un camí absolut.",
@@ -274,6 +273,8 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "S'ha assolit el límit d'usuaris i no s'ha creat l'usuari. Consulteu les notificacions per a obtenir més informació.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Només es permeten els caràcters següents en un nom d'usuari: «a-z», «A-Z», «0-9» i «_.@-'»",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Cal almenys libxml2 2.7.0. Actualment s'ha instal·lat %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Per a resoldre aquest problema, actualitzeu la versió de libxml2 i reinicieu el servidor web."
+    "To fix this issue update your libxml2 version and restart your web server." : "Per a resoldre aquest problema, actualitzeu la versió de libxml2 i reinicieu el servidor web.",
+    "PostgreSQL >= 9 required." : "Cal el PostgreSQL >= 9.",
+    "Please upgrade your database version." : "Actualitzeu la versió de la base de dades."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Son durumlar",
+    "No recent status changes" : "Son zamanlarda durum değiştirilmemiş",
     "In a meeting" : "Toplantıda",
     "Commuting" : "İşe gidiyor/geliyor",
     "Out sick" : "Hasta",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Durum kaydedilirken bir sorun çıktı",
     "There was an error clearing the status" : "Durum kaldırılırken bir sorun çıktı",
     "There was an error reverting the status" : "Durum geri alınırken bir sorun çıktı",
-    "No recent status changes" : "Son zamanlarda durum değiştirilmemiş",
-    "Away" : "Uzakta",
-    "Do not disturb" : "Rahatsız etmeyin",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Kaldırılmasın",
     "Today" : "Bugün",
     "This week" : "Bu hafta",
     "Online" : "Çevrim içi",
+    "Away" : "Uzakta",
+    "Do not disturb" : "Rahatsız etmeyin",
     "Invisible" : "Gizli",
     "Offline" : "Çevrim dışı",
     "There was an error saving the new status" : "Yeni durum kaydedilirken bir sorun çıktı",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
-    "Appear offline" : "Çevrim dışı görün"
+    "Appear offline" : "Çevrim dışı görün",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n > 1);");

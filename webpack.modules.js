@@ -64,7 +64,7 @@ module.exports = {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
 		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing_tab.js'),
-		files_sharing: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing.ts'),
+		init: path.join(__dirname, 'apps/files_sharing/src', 'init.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 	},
@@ -99,7 +99,7 @@ module.exports = {
 		'vue-settings-admin-sharebymail': path.join(__dirname, 'apps/sharebymail/src', 'main-admin.js'),
 	},
 	systemtags: {
-		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
+		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
 	},
 	theming: {
 		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
@@ -112,7 +112,6 @@ module.exports = {
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'init.js'),
 	},
 	user_status: {
-		dashboard: path.join(__dirname, 'apps/user_status/src', 'dashboard.js'),
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
 	},
 	weather_status: {

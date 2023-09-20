@@ -19,13 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, Node, FileType } from '@nextcloud/files'
+import { join } from 'path'
+import { Permission, Node, FileType, View, registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
-
-import type { Navigation } from '../services/Navigation'
-import { join } from 'path'
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 
 export const action = new FileAction({
 	id: 'open-folder',
@@ -52,15 +49,15 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec(node: Node, view: Navigation, dir: string) {
+	async exec(node: Node, view: View, dir: string) {
 		if (!node || node.type !== FileType.Folder) {
 			return false
 		}
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			null,
-			{ dir: join(dir, node.basename) },
+			{ view: view.id, fileid: undefined },
+			{ dir: join(dir, node.basename), fileid: undefined },
 		)
 		return null
 	},

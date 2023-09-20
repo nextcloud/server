@@ -814,6 +814,67 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an error if the admin IP is bruteforce throttled', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasDBFileLocking: false,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					isFairUseOfFreePushService: true,
+					isBruteforceThrottled: true,
+					bruteforceRemoteAddress: '::1',
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Your remote address was identified as "::1" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">documentation ↗</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+				}]);
+				done();
+			});
+		});
+
 		it('should return an error if set_time_limit is unavailable', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 

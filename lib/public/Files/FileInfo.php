@@ -299,4 +299,13 @@ interface FileInfo {
 	 * @since 18.0.0
 	 */
 	public function getUploadTime(): int;
+
+	/**
+	 * Get the fileid or the parent folder
+	 * or -1 if this item has no parent folder (because it is the root)
+	 *
+	 * @return int
+	 * @since 28.0.0
+	 */
+	public function getParentId(): int;
 }

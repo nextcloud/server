@@ -127,6 +127,7 @@ use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
+use OC\Preview\MimeIconProvider;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
@@ -146,6 +147,7 @@ use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
 use OC\Share20\ProviderFactory;
+use OC\Share20\ShareDisableChecker;
 use OC\Share20\ShareHelper;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
@@ -262,6 +264,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\BackendService;
 use OCP\Profiler\IProfiler;
 use OC\Profiler\Profiler;
+use OCP\Preview\IMimeIconProvider;
 
 /**
  * Class Server
@@ -337,6 +340,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('PreviewManager', IPreview::class);
+		$this->registerAlias(IMimeIconProvider::class, MimeIconProvider::class);
 
 		$this->registerService(\OC\Preview\Watcher::class, function (ContainerInterface $c) {
 			return new \OC\Preview\Watcher(
@@ -782,8 +786,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('Search', ISearch::class);
 
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
-			$cacheFactory = $c->get(ICacheFactory::class);
-			if ($cacheFactory->isAvailable()) {
+			$config = $c->get(\OCP\IConfig::class);
+			if (ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
 				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
 					$c->get(AllConfig::class),
 					$this->get(ICacheFactory::class),
@@ -947,6 +951,18 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
 		$this->registerAlias(IThrottler::class, Throttler::class);
+
+		$this->registerService(\OC\Security\Bruteforce\Backend\IBackend::class, function ($c) {
+			$config = $c->get(\OCP\IConfig::class);
+			if (ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
+				$backend = $c->get(\OC\Security\Bruteforce\Backend\MemoryCacheBackend::class);
+			} else {
+				$backend = $c->get(\OC\Security\Bruteforce\Backend\DatabaseBackend::class);
+			}
+
+			return $backend;
+		});
+
 		$this->registerService('IntegrityCodeChecker', function (ContainerInterface $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
@@ -1237,7 +1253,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get('ThemingDefaults'),
 				$c->get(IEventDispatcher::class),
 				$c->get(IUserSession::class),
-				$c->get(KnownUserService::class)
+				$c->get(KnownUserService::class),
+				$c->get(ShareDisableChecker::class)
 			);
 
 			return $manager;
@@ -2091,7 +2108,7 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return Throttler
+	 * @return IThrottler
 	 * @deprecated 20.0.0
 	 */
 	public function getBruteForceThrottler() {

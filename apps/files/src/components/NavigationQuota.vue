@@ -19,11 +19,12 @@
 </template>
 
 <script>
+import { debounce, throttle } from 'throttle-debounce'
 import { formatFileSize } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import { debounce, throttle } from 'throttle-debounce'
+import { subscribe } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import ChartPie from 'vue-material-design-icons/ChartPie.vue'
@@ -31,7 +32,6 @@ import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationI
 import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 
 import logger from '../logger.js'
-import { subscribe } from '@nextcloud/event-bus'
 
 export default {
 	name: 'NavigationQuota',
@@ -134,13 +134,13 @@ export default {
 // User storage stats display
 .app-navigation-entry__settings-quota {
 	// Align title with progress and icon
-	&--not-unlimited::v-deep .app-navigation-entry__title {
-		margin-top: -4px;
+	&--not-unlimited::v-deep .app-navigation-entry__name {
+		margin-top: -6px;
 	}
 
 	progress {
 		position: absolute;
-		bottom: 10px;
+		bottom: 12px;
 		margin-left: 44px;
 		width: calc(100% - 44px - 22px);
 	}

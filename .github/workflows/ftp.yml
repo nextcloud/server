@@ -5,9 +5,11 @@ on:
       - master
       - stable*
     paths:
+      - '.github/**'
       - 'apps/files_external/**'
   pull_request:
     paths:
+      - '.github/**'
       - 'apps/files_external/**'
 
 env:
@@ -30,17 +32,19 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v3
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
         with:
           submodules: true
 
       - name: Set up ftpd
         run: |
           sudo mkdir /tmp/ftp
-          sudo chown -R 0777 /tmp/ftp
-          if [[ "${{ matrix.ftpd }}" == 'proftpd' ]]; then docker run --name ftp -d --net host -e FTP_USERNAME=test -e FTP_PASSWORD=test -v /tmp/ftp:/home/test hauptmedia/proftpd; fi
+          sudo chmod -R 0777 /tmp/ftp
+          if [[ "${{ matrix.ftpd }}" == 'proftpd' ]]; then echo '$6$Q7V2n3q2GRVv5YeQ$/AhLu07H76Asojy7bxGXMY1caKLAbp5Vt82LOZYMkD/8uDzyMAEXwk0c1Bdz1DkBsk2Vh/9SF130mOPavRGMo.' > /tmp/secret.txt; fi
+          if [[ "${{ matrix.ftpd }}" == 'proftpd' ]]; then echo 'FTP_ROOT=/home/test' > $GITHUB_ENV; fi
+          if [[ "${{ matrix.ftpd }}" == 'proftpd' ]]; then docker run --name ftp -d --net host -e PASV_ADDRESS=127.0.0.1 -e FTPUSER_NAME=test -v /tmp/secret.txt:/run/secrets/ftp-user-password-secret -v /tmp/ftp:/home/test instantlinux/proftpd; fi
           if [[ "${{ matrix.ftpd }}" == 'vsftpd' ]]; then docker run --name ftp -d --net host -e FTP_USER=test -e FTP_PASS=test -e PASV_ADDRESS=127.0.0.1 -v /tmp/ftp:/home/vsftpd/test fauria/vsftpd; fi
-          if [[ "${{ matrix.ftpd }}" == 'pure-ftpd' ]]; then docker run --name ftp -d --net host -e "PUBLICHOST=localhost" -e FTP_USER_NAME=test -e FTP_USER_PASS=test -e FTP_USER_HOME=/home/test -v /tmp/ftp2:/home/test -v /tmp/ftp2:/etc/pure-ftpd/passwd stilliard/pure-ftpd; fi
+          if [[ "${{ matrix.ftpd }}" == 'pure-ftpd' ]]; then docker run --name ftp -d --net host -e "PUBLICHOST=localhost" -e FTP_USER_NAME=test -e FTP_USER_PASS=test -e FTP_USER_HOME=/home/test -v /tmp/ftp:/home/test -v /tmp/ftp:/etc/pure-ftpd/passwd stilliard/pure-ftpd; fi
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
@@ -58,13 +62,14 @@ jobs:
           php -S localhost:8080 &
       - name: smoketest ftp
         run: |
-          php -r 'var_dump(file_put_contents("ftp://test:test@localhost/ftp.txt", "asd"));'
-          php -r 'var_dump(file_get_contents("ftp://test:test@localhost/ftp.txt"));'
-          php -r 'var_dump(mkdir("ftp://test:test@localhost/asdads"));'
+          php -r 'var_dump(file_put_contents("ftp://test:test@localhost${{ env.FTP_ROOT }}/ftp.txt", "asd"));'
+          php -r 'var_dump(file_get_contents("ftp://test:test@localhost${{ env.FTP_ROOT }}/ftp.txt"));'
+          php -r 'var_dump(mkdir("ftp://test:test@localhost${{ env.FTP_ROOT }}/asdads"));'
           ls -l /tmp/ftp
+          [ -f /tmp/ftp/ftp.txt ]
       - name: PHPUnit
         run: |
-          echo "<?php return ['run' => true,'host' => 'localhost','user' => 'test','password' => 'test', 'root' => ''];" > apps/${{ env.APP_NAME }}/tests/config.ftp.php
+          echo "<?php return ['run' => true,'host' => 'localhost','user' => 'test','password' => 'test', 'root' => '${{ env.FTP_ROOT }}'];" > apps/${{ env.APP_NAME }}/tests/config.ftp.php
           phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/FtpTest.php
       - name: ftpd logs
         if: always()

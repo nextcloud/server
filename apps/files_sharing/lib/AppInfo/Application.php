@@ -65,12 +65,14 @@ use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUserSession;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
@@ -104,7 +106,9 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
 		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -116,11 +120,6 @@ class Application extends App implements IBootstrap {
 
 		Share::registerBackend('file', File::class);
 		Share::registerBackend('folder', Folder::class, 'file');
-
-		/**
-		 * Always add main sharing script
-		 */
-		Util::addScript(self::APP_ID, 'main');
 	}
 
 
@@ -138,6 +137,12 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function () {
 			\OCP\Util::addScript('files_sharing', 'collaboration');
+		});
+		$dispatcher->addListener(\OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent::class, function () {
+			/**
+			 * Always add main sharing script
+			 */
+			Util::addScript(self::APP_ID, 'main');
 		});
 
 		// notifications api to accept incoming user shares

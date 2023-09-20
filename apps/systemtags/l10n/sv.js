@@ -57,13 +57,11 @@ OC.L10N.register(
     "Failed to select tag" : "Det gick inte att välja tagg",
     "Failed to create tag" : "Det gick inte att skapa tagg",
     "Failed to delete tag" : "Det gick inte att ta bort tagg",
+    "This file has the tag {tag}" : "Den här filen har taggen {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Den här filen har taggarna {firstTags} och {lastTag}",
+    "No tags found" : "Inga taggar hittades",
     "Failed to load last used tags" : "Det gick inte att läsa in senast använda taggar",
     "Missing \"Content-Location\" header" : "\"Content-Location\" header saknas",
-    "Tagged files" : "Taggade filer",
-    "Select tags to filter by" : "Välj taggar att filtrera efter",
-    "No tags found" : "Inga taggar hittades",
-    "Please select tags to filter by" : "Vänligen välj taggar att filtrera efter",
-    "No files found for the selected tags" : "Inga filer hittades för de valda taggarna",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbetstaggar är tillgängliga för alla användare. Begränsade taggar är synliga för användarna men kan inte tilldelas av dem. Osynliga taggar är för internt bruk, eftersom användarna inte kan se eller tilldela dem.",
     "Create a new tag" : "Skapa en ny tagg",
     "Name" : "Namn",
@@ -75,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "Inga filer här inne",
     "No entries found in this folder" : "Ingenting hittades i denna mapp",
     "Size" : "Storlek",
-    "Modified" : "Modifierad"
+    "Modified" : "Modifierad",
+    "Tagged files" : "Taggade filer",
+    "Select tags to filter by" : "Välj taggar att filtrera efter",
+    "Please select tags to filter by" : "Vänligen välj taggar att filtrera efter",
+    "No files found for the selected tags" : "Inga filer hittades för de valda taggarna"
 },
 "nplurals=2; plural=(n != 1);");

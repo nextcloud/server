@@ -21,9 +21,18 @@
   -->
 
 <template>
-	<Fragment>
+	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive}"
+		data-cy-files-list-row
+		:data-cy-files-list-row-fileid="fileid"
+		:data-cy-files-list-row-name="source.basename"
+		class="files-list__row"
+		@contextmenu="onRightClick">
+		<!-- Failed indicator -->
+		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+
+		<!-- Checkbox -->
 		<td class="files-list__row-checkbox">
-			<NcCheckboxRadioSwitch v-if="active"
+			<NcCheckboxRadioSwitch v-if="visible"
 				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
 				:checked="selectedFiles"
 				:value="fileid"
@@ -32,20 +41,21 @@
 		</td>
 
 		<!-- Link to file -->
-		<td class="files-list__row-name">
+		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
 			<span class="files-list__row-icon" @click="execDefaultAction">
-				<FolderIcon v-if="source.type === 'folder'" />
+				<template v-if="source.type === 'folder'">
+					<FolderIcon />
+					<OverlayIcon :is="folderOverlay"
+						v-if="folderOverlay"
+						class="files-list__row-icon-overlay" />
+				</template>
 
 				<!-- Decorative image, should not be aria documented -->
 				<span v-else-if="previewUrl && !backgroundFailed"
 					ref="previewImg"
 					class="files-list__row-icon-preview"
 					:style="{ backgroundImage }" />
-
-				<span v-else-if="mimeIconUrl"
-					class="files-list__row-icon-preview files-list__row-icon-preview--mime"
-					:style="{ backgroundImage: mimeIconUrl }" />
 
 				<FileIcon v-else />
 
@@ -65,7 +75,7 @@
 				class="files-list__row-rename"
 				@submit.prevent.stop="onRename">
 				<NcTextField ref="renameInput"
-					:aria-label="t('files', 'File name')"
+					:label="renameLabel"
 					:autofocus="true"
 					:minlength="1"
 					:required="true"
@@ -79,6 +89,7 @@
 				ref="basename"
 				:aria-hidden="isRenaming"
 				class="files-list__row-name-link"
+				data-cy-files-list-row-name-link
 				v-bind="linkTo"
 				@click="execDefaultAction">
 				<!-- File name -->
@@ -91,19 +102,24 @@
 		</td>
 
 		<!-- Actions -->
-		<td v-show="!isRenamingSmallScreen" :class="`files-list__row-actions-${uniqueId}`" class="files-list__row-actions">
+		<td v-show="!isRenamingSmallScreen"
+			:class="`files-list__row-actions-${uniqueId}`"
+			class="files-list__row-actions"
+			data-cy-files-list-row-actions>
 			<!-- Render actions -->
 			<CustomElementRender v-for="action in enabledRenderActions"
 				:key="action.id"
+				:class="'files-list__row-action-' + action.id"
 				:current-view="currentView"
 				:render="action.renderInline"
-				:source="source" />
+				:source="source"
+				class="files-list__row-action--inline" />
 
 			<!-- Menu actions -->
-			<NcActions v-if="active"
+			<NcActions v-if="visible"
 				ref="actionsMenu"
-				:boundaries-element="boundariesElement"
-				:container="boundariesElement"
+				:boundaries-element="getBoundariesElement()"
+				:container="getBoundariesElement()"
 				:disabled="source._loading"
 				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
@@ -113,6 +129,7 @@
 					:key="action.id"
 					:class="'files-list__row-action-' + action.id"
 					:close-after-click="true"
+					:data-cy-files-list-row-action="action.id"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loading === action.id" :size="18" />
@@ -127,6 +144,7 @@
 		<td v-if="isSizeAvailable"
 			:style="{ opacity: sizeOpacity }"
 			class="files-list__row-size"
+			data-cy-files-list-row-size
 			@click="openDetailsIfAvailable">
 			<span>{{ size }}</span>
 		</td>
@@ -134,6 +152,7 @@
 		<!-- Mtime -->
 		<td v-if="isMtimeAvailable"
 			class="files-list__row-mtime"
+			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
 			<span>{{ mtime }}</span>
 		</td>
@@ -143,47 +162,56 @@
 			:key="column.id"
 			:class="`files-list__row-${currentView?.id}-${column.id}`"
 			class="files-list__row-column-custom"
+			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
-			<CustomElementRender v-if="active"
+			<CustomElementRender v-if="visible"
 				:current-view="currentView"
 				:render="column.render"
 				:source="source" />
 		</td>
-	</Fragment>
+	</tr>
 </template>
 
 <script lang='ts'>
+import type { PropType } from 'vue'
+
+import { CancelablePromise } from 'cancelable-promise'
 import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
-import { formatFileSize, Permission } from '@nextcloud/files'
-import { Fragment } from 'vue-frag'
 import { extname } from 'path'
+import { generateUrl } from '@nextcloud/router'
+import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File, Node } from '@nextcloud/files'
+import { Type as ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
-import CancelablePromise from 'cancelable-promise'
+import moment from '@nextcloud/moment'
+import Vue from 'vue'
+
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import KeyIcon from 'vue-material-design-icons/Key.vue'
+import TagIcon from 'vue-material-design-icons/Tag.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import NetworkIcon from 'vue-material-design-icons/Network.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import Vue from 'vue'
-import type moment from 'moment'
 
-import { ACTION_DETAILS } from '../actions/sidebarAction.ts'
-import { getFileActions, DefaultType } from '../services/FileAction.ts'
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isCachedPreview } from '../services/PreviewService.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useKeyboardStore } from '../store/keyboard.ts'
+import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { useRenamingStore } from '../store/renaming.ts'
 import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
@@ -198,21 +226,26 @@ export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
+		AccountGroupIcon,
+		AccountPlusIcon,
 		CustomElementRender,
 		CustomSvgIconRender,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
-		Fragment,
+		KeyIcon,
+		LinkIcon,
 		NcActionButton,
 		NcActions,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcTextField,
+		NetworkIcon,
+		TagIcon,
 	},
 
 	props: {
-		active: {
+		visible: {
 			type: Boolean,
 			default: false,
 		},
@@ -225,7 +258,7 @@ export default Vue.extend({
 			default: false,
 		},
 		source: {
-			type: Object,
+			type: [Folder, File, Node] as PropType<Node>,
 			required: true,
 		},
 		index: {
@@ -233,7 +266,7 @@ export default Vue.extend({
 			required: true,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		filesListWidth: {
@@ -263,7 +296,6 @@ export default Vue.extend({
 		return {
 			backgroundFailed: false,
 			backgroundImage: '',
-			boundariesElement: document.querySelector('.app-content > .files-list'),
 			loading: '',
 		}
 	},
@@ -284,9 +316,12 @@ export default Vue.extend({
 			return this.currentView?.columns || []
 		},
 
-		dir() {
+		currentDir() {
 			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
+		},
+		currentFileId() {
+			return this.$route.params.fileid || this.$route.query.fileid || null
 		},
 		fileid() {
 			return this.source?.fileid?.toString?.()
@@ -341,7 +376,51 @@ export default Vue.extend({
 			return ''
 		},
 
+		folderOverlay() {
+			if (this.source.type !== FileType.Folder) {
+				return null
+			}
+
+			// Encrypted folders
+			if (this.source?.attributes?.['is-encrypted'] === 1) {
+				return KeyIcon
+			}
+
+			// System tags
+			if (this.source?.attributes?.['is-tag']) {
+				return TagIcon
+			}
+
+			// Link and mail shared folders
+			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
+			if (shareTypes.some(type => type === ShareType.SHARE_TYPE_LINK || type === ShareType.SHARE_TYPE_EMAIL)) {
+				return LinkIcon
+			}
+
+			// Shared folders
+			if (shareTypes.length > 0) {
+				return AccountPlusIcon
+			}
+
+			switch (this.source?.attributes?.['mount-type']) {
+			case 'external':
+			case 'external-session':
+				return NetworkIcon
+			case 'group':
+				return AccountGroupIcon
+			}
+
+			return null
+		},
+
 		linkTo() {
+			if (this.source.attributes.failed) {
+				return {
+					title: this.t('files', 'This node is unavailable'),
+					is: 'span',
+				}
+			}
+
 			if (this.enabledDefaultActions.length > 0) {
 				const action = this.enabledDefaultActions[0]
 				const displayName = action.displayName([this.source], this.currentView)
@@ -368,13 +447,17 @@ export default Vue.extend({
 			return this.selectionStore.selected
 		},
 		isSelected() {
-			return this.selectedFiles.includes(this.source?.fileid?.toString?.())
+			return this.selectedFiles.includes(this.fileid)
 		},
 
 		cropPreviews() {
 			return this.userConfig.crop_image_previews
 		},
 		previewUrl() {
+			if (this.source.type === FileType.Folder) {
+				return null
+			}
+
 			try {
 				const previewUrl = this.source.attributes.previewUrl
 					|| generateUrl('/core/preview?fileId={fileid}', {
@@ -385,6 +468,7 @@ export default Vue.extend({
 				// Request tiny previews
 				url.searchParams.set('x', '32')
 				url.searchParams.set('y', '32')
+				url.searchParams.set('mimeFallback', 'true')
 
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
@@ -393,17 +477,13 @@ export default Vue.extend({
 				return null
 			}
 		},
-		mimeIconUrl() {
-			const mimeType = this.source.mime || 'application/octet-stream'
-			const mimeIconUrl = window.OC?.MimeType?.getIconUrl?.(mimeType)
-			if (mimeIconUrl) {
-				return `url(${mimeIconUrl})`
-			}
-			return ''
-		},
 
 		// Sorted actions that are enabled for this node
 		enabledActions() {
+			if (this.source.attributes.failed) {
+				return []
+			}
+
 			return actions
 				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -419,7 +499,7 @@ export default Vue.extend({
 
 		// Enabled action that are displayed inline with a custom render function
 		enabledRenderActions() {
-			if (!this.active) {
+			if (!this.visible) {
 				return []
 			}
 			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
@@ -459,6 +539,14 @@ export default Vue.extend({
 			return this.source.attributes.favorite === 1
 		},
 
+		renameLabel() {
+			const matchLabel: Record<FileType, string> = {
+				[FileType.File]: t('files', 'File name'),
+				[FileType.Folder]: t('files', 'Folder name'),
+			}
+			return matchLabel[this.source.type]
+		},
+
 		isRenaming() {
 			return this.renamingStore.renamingNode === this.source
 		},
@@ -473,24 +561,13 @@ export default Vue.extend({
 				this.renamingStore.newName = newName
 			},
 		},
+
+		isActive() {
+			return this.fileid === this.currentFileId?.toString?.()
+		},
 	},
 
 	watch: {
-		active(active, before) {
-			if (active === false && before === true) {
-				this.resetState()
-
-				// When the row is not active anymore
-				// remove the display from the row to prevent
-				// keyboard interaction with it.
-				this.$el.parentNode.style.display = 'none'
-				return
-			}
-
-			// Restore default tabindex
-			this.$el.parentNode.style.display = ''
-		},
-
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
@@ -504,8 +581,10 @@ export default Vue.extend({
 		 * If renaming starts, select the file name
 		 * in the input, without the extension.
 		 */
-		isRenaming() {
-			this.startRenaming()
+		isRenaming(renaming) {
+			if (renaming) {
+				this.startRenaming()
+			}
 		},
 	},
 
@@ -522,9 +601,6 @@ export default Vue.extend({
 
 		// Fetch the preview on init
 		this.debounceIfNotCached()
-
-		// Right click watcher on tr
-		this.$el.parentNode?.addEventListener?.('contextmenu', this.onRightClick)
 	},
 
 	beforeDestroy() {
@@ -563,8 +639,8 @@ export default Vue.extend({
 			// Store the promise to be able to cancel it
 			this.previewPromise = new CancelablePromise((resolve, reject, onCancel) => {
 				const img = new Image()
-				// If active, load the preview with higher priority
-				img.fetchpriority = this.active ? 'high' : 'auto'
+				// If visible, load the preview with higher priority
+				img.fetchpriority = this.visible ? 'high' : 'auto'
 				img.onload = () => {
 					this.backgroundImage = `url(${this.previewUrl})`
 					this.backgroundFailed = false
@@ -613,7 +689,7 @@ export default Vue.extend({
 				this.loading = action.id
 				Vue.set(this.source, '_loading', true)
 
-				const success = await action.exec(this.source, this.currentView, this.dir)
+				const success = await action.exec(this.source, this.currentView, this.currentDir)
 
 				// If the action returns null, we stay silent
 				if (success === null) {
@@ -639,16 +715,15 @@ export default Vue.extend({
 				event.preventDefault()
 				event.stopPropagation()
 				// Execute the first default action if any
-				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.dir)
+				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.currentDir)
 			}
 		},
 
 		openDetailsIfAvailable(event) {
-			const detailsAction = this.enabledActions.find(action => action.id === ACTION_DETAILS)
-			if (detailsAction) {
-				event.preventDefault()
-				event.stopPropagation()
-				detailsAction.exec(this.source, this.currentView)
+			event.preventDefault()
+			event.stopPropagation()
+			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
+				sidebarAction.exec(this.source, this.currentView, this.currentDir)
 			}
 		},
 
@@ -704,9 +779,10 @@ export default Vue.extend({
 		 * input validity using browser's native validation.
 		 * @param event the keyup event
 		 */
-		checkInputValidity(event: KeyboardEvent) {
-			const input = event?.target as HTMLInputElement
+		checkInputValidity(event?: KeyboardEvent) {
+			const input = event.target as HTMLInputElement
 			const newName = this.newName.trim?.() || ''
+			logger.debug('Checking input validity', { newName })
 			try {
 				this.isFileNameValid(newName)
 				input.setCustomValidity('')
@@ -739,10 +815,10 @@ export default Vue.extend({
 		},
 
 		startRenaming() {
-			this.checkInputValidity()
 			this.$nextTick(() => {
-				const extLength = (this.source.extension || '').length
-				const length = this.source.basename.length - extLength
+				// Using split to get the true string length
+				const extLength = (this.source.extension || '').split('').length
+				const length = this.source.basename.split('').length - extLength
 				const input = this.$refs.renameInput?.$refs?.inputField?.$refs?.input
 				if (!input) {
 					logger.error('Could not find the rename input')
@@ -750,6 +826,9 @@ export default Vue.extend({
 				}
 				input.setSelectionRange(0, length)
 				input.focus()
+
+				// Trigger a keyup event to update the input validity
+				input.dispatchEvent(new Event('keyup'))
 			})
 		},
 		stopRenaming() {
@@ -802,6 +881,8 @@ export default Vue.extend({
 				emit('files:node:updated', this.source)
 				emit('files:node:renamed', this.source)
 				showSuccess(this.t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
+
+				// Reset the renaming store
 				this.stopRenaming()
 				this.$nextTick(() => {
 					this.$refs.basename.focus()
@@ -816,7 +897,7 @@ export default Vue.extend({
 					showError(this.t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
 					return
 				} else if (error?.response?.status === 412) {
-					showError(this.t('files', 'The name "{newName}"" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.dir }))
+					showError(this.t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
 					return
 				}
 
@@ -826,6 +907,15 @@ export default Vue.extend({
 				this.loading = false
 				Vue.set(this.source, '_loading', false)
 			}
+		},
+
+		/**
+		 * Making this a function in case the files-list
+		 * reference changes in the future. That way we're
+		 * sure there is one at the time we call it.
+		 */
+		getBoundariesElement() {
+			return document.querySelector('.app-content > .files-list')
 		},
 
 		t: translate,
@@ -838,10 +928,19 @@ export default Vue.extend({
 /* Hover effect on tbody lines only */
 tr {
 	&:hover,
-	&:focus,
-	&:active {
+	&:focus {
 		background-color: var(--color-background-dark);
 	}
+}
+
+// Folder overlay
+.files-list__row-icon-overlay {
+	position: absolute;
+	max-height: 18px;
+	max-width: 18px;
+	color: var(--color-main-background);
+	// better alignment with the folder icon
+	margin-top: 2px;
 }
 
 /* Preview not loaded animation effect */

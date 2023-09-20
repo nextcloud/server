@@ -149,7 +149,7 @@ class Cache implements ICache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
-	 * @return ICacheEntry|false the cache entry as array of false if the file is not found in the cache
+	 * @return ICacheEntry|false the cache entry as array or false if the file is not found in the cache
 	 */
 	public function get($file) {
 		$query = $this->getQueryBuilder();
@@ -1012,8 +1012,12 @@ class Cache implements ICache {
 	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
+		// we select the fileid here first instead of directly selecting the path since this helps mariadb/mysql
+		// to use the correct index.
+		// The overhead of this should be minimal since the cost of selecting the path by id should be much lower
+		// than the cost of finding an item with size < 0
 		$query = $this->getQueryBuilder();
-		$query->select('path')
+		$query->select('fileid')
 			->from('filecache')
 			->whereStorageId($this->getNumericStorageId())
 			->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
@@ -1021,15 +1025,15 @@ class Cache implements ICache {
 			->setMaxResults(1);
 
 		$result = $query->execute();
-		$path = $result->fetchOne();
+		$id = $result->fetchOne();
 		$result->closeCursor();
 
-		if ($path === false) {
+		if ($id === false) {
 			return false;
 		}
 
-		// Make sure Oracle does not continue with null for empty strings
-		return (string)$path;
+		$path = $this->getPathById($id);
+		return $path ?? false;
 	}
 
 	/**

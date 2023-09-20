@@ -20,28 +20,18 @@
   -
   -->
 <template>
-	<RecycleScroller ref="recycleScroller"
-		class="files-list"
-		key-field="source"
-		:items="nodes"
-		:item-size="55"
-		:table-mode="true"
-		item-class="files-list__row"
-		item-tag="tr"
-		list-class="files-list__body"
-		list-tag="tbody"
-		role="table">
-		<template #default="{ item, active, index }">
-			<!-- File row -->
-			<FileEntry :active="active"
-				:index="index"
-				:is-mtime-available="isMtimeAvailable"
-				:is-size-available="isSizeAvailable"
-				:files-list-width="filesListWidth"
-				:nodes="nodes"
-				:source="item" />
-		</template>
-
+	<VirtualList :data-component="FileEntry"
+		:data-key="'source'"
+		:data-sources="nodes"
+		:item-height="56"
+		:extra-props="{
+			isMtimeAvailable,
+			isSizeAvailable,
+			nodes,
+			filesListWidth,
+		}"
+		:scroll-to-index="scrollToIndex">
+		<!-- Accessibility description and headers -->
 		<template #before>
 			<!-- Accessibility description -->
 			<caption class="hidden-visually">
@@ -49,42 +39,59 @@
 				{{ t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.') }}
 			</caption>
 
-			<!-- Thead-->
-			<FilesListHeader :files-list-width="filesListWidth"
+			<!-- Headers -->
+			<FilesListHeader v-for="header in sortedHeaders"
+				:key="header.id"
+				:current-folder="currentFolder"
+				:current-view="currentView"
+				:header="header" />
+		</template>
+
+		<!-- Thead-->
+		<template #header>
+			<FilesListTableHeader :files-list-width="filesListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
 		</template>
 
-		<template #after>
-			<!-- Tfoot-->
-			<FilesListFooter :files-list-width="filesListWidth"
+		<!-- Tfoot-->
+		<template #footer>
+			<FilesListTableFooter :files-list-width="filesListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
 				:summary="summary" />
 		</template>
-	</RecycleScroller>
+	</VirtualList>
 </template>
 
 <script lang="ts">
-import { RecycleScroller } from 'vue-virtual-scroller'
-import { translate, translatePlural } from '@nextcloud/l10n'
+import type { PropType } from 'vue'
+import type { Node } from '@nextcloud/files'
+
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { getFileListHeaders, Folder, View } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
 import Vue from 'vue'
 
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import FileEntry from './FileEntry.vue'
-import FilesListFooter from './FilesListFooter.vue'
 import FilesListHeader from './FilesListHeader.vue'
+import FilesListTableFooter from './FilesListTableFooter.vue'
+import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import logger from '../logger.js'
+import VirtualList from './VirtualList.vue'
 
 export default Vue.extend({
 	name: 'FilesListVirtual',
 
 	components: {
-		RecycleScroller,
-		FileEntry,
 		FilesListHeader,
-		FilesListFooter,
+		FilesListTableHeader,
+		FilesListTableFooter,
+		VirtualList,
 	},
 
 	mixins: [
@@ -93,11 +100,15 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
-			type: Object,
+			type: View,
+			required: true,
+		},
+		currentFolder: {
+			type: Folder,
 			required: true,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 	},
@@ -105,6 +116,8 @@ export default Vue.extend({
 	data() {
 		return {
 			FileEntry,
+			headers: getFileListHeaders(),
+			scrollToIndex: 0,
 		}
 	},
 
@@ -113,16 +126,20 @@ export default Vue.extend({
 			return this.nodes.filter(node => node.type === 'file')
 		},
 
+		fileId() {
+			return parseInt(this.$route.params.fileid || this.$route.query.fileid) || null
+		},
+
 		summaryFile() {
 			const count = this.files.length
-			return translatePlural('files', '{count} file', '{count} files', count, { count })
+			return n('files', '{count} file', '{count} files', count, { count })
 		},
 		summaryFolder() {
 			const count = this.nodes.length - this.files.length
-			return translatePlural('files', '{count} folder', '{count} folders', count, { count })
+			return n('files', '{count} folder', '{count} folders', count, { count })
 		},
 		summary() {
-			return translate('files', '{summaryFile} and {summaryFolder}', this)
+			return t('files', '{summaryFile} and {summaryFolder}', this)
 		},
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
@@ -138,13 +155,36 @@ export default Vue.extend({
 			}
 			return this.nodes.some(node => node.attributes.size !== undefined)
 		},
+
+		sortedHeaders() {
+			if (!this.currentFolder || !this.currentView) {
+				return []
+			}
+
+			return [...this.headers].sort((a, b) => a.order - b.order)
+		},
 	},
 
 	mounted() {
-		// Make the root recycle scroller a table for proper semantics
-		const slots = this.$el.querySelectorAll('.vue-recycle-scroller__slot')
-		slots[0].setAttribute('role', 'thead')
-		slots[1].setAttribute('role', 'tfoot')
+		// Scroll to the file if it's in the url
+		if (this.fileId) {
+			const index = this.nodes.findIndex(node => node.fileid === this.fileId)
+			if (index === -1) {
+				showError(this.t('files', 'File not found'))
+			}
+			this.scrollToIndex = Math.max(0, index)
+		}
+
+		// Open the file sidebar if we have the room for it
+		if (document.documentElement.clientWidth > 1024) {
+			// Open the sidebar on the file if it's in the url and
+			// we're just loaded the app for the first time.
+			const node = this.nodes.find(n => n.fileid === this.fileId) as Node
+			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
+				logger.debug('Opening sidebar on file ' + node.path, { node })
+				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+			}
+		}
 	},
 
 	methods: {
@@ -152,7 +192,7 @@ export default Vue.extend({
 			return node.fileid
 		},
 
-		t: translate,
+		t,
 	},
 })
 </script>
@@ -173,7 +213,7 @@ export default Vue.extend({
 
 	&::v-deep {
 		// Table head, body and footer
-		tbody, .vue-recycle-scroller__slot {
+		tbody {
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -181,22 +221,36 @@ export default Vue.extend({
 			position: relative;
 		}
 
+		// Before table and thead
+		.files-list__before {
+			display: flex;
+			flex-direction: column;
+		}
+
 		// Table header
-		.vue-recycle-scroller__slot[role='thead'] {
+		.files-list__thead {
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
 			top: 0;
-			height: var(--row-height);
+		}
+
+		.files-list__thead,
+		.files-list__tfoot {
+			display: flex;
+			width: 100%;
 			background-color: var(--color-main-background);
+
 		}
 
 		tr {
-			position: absolute;
+			position: relative;
 			display: flex;
 			align-items: center;
 			width: 100%;
+			user-select: none;
 			border-bottom: 1px solid var(--color-border);
+			user-select: none;
 		}
 
 		td, th {
@@ -221,8 +275,21 @@ export default Vue.extend({
 			}
 		}
 
+		.files-list__row--failed {
+			position: absolute;
+			display: block;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: .1;
+			z-index: -1;
+			background: var(--color-error);
+		}
+
 		.files-list__row-checkbox {
 			justify-content: center;
+
 			.checkbox-radio-switch {
 				display: flex;
 				justify-content: center;
@@ -242,9 +309,17 @@ export default Vue.extend({
 			}
 		}
 
-		// Hover state of the row should also change the favorite markers background
-		.files-list__row:hover .favorite-marker-icon svg path {
-			stroke: var(--color-background-dark);
+		.files-list__row {
+			&:hover, &:focus, &:active, &--active {
+				background-color: var(--color-background-dark);
+				> * {
+					--color-border: var(--color-border-dark);
+				}
+				// Hover state of the row should also change the favorite markers background
+				.favorite-marker-icon svg path {
+					stroke: var(--color-background-dark);
+				}
+			}
 		}
 
 		// Entry preview or mime icon
@@ -273,6 +348,15 @@ export default Vue.extend({
 				&:not(.files-list__row-icon-favorite) svg {
 					width: var(--icon-preview-size);
 					height: var(--icon-preview-size);
+				}
+
+				// Slightly increase the size of the folder icon
+				&.folder-icon {
+					margin: -3px;
+					svg {
+						width: calc(var(--icon-preview-size) + 6px);
+						height: calc(var(--icon-preview-size) + 6px);
+					}
 				}
 			}
 
@@ -375,6 +459,10 @@ export default Vue.extend({
 					color: var(--color-text-maxcontrast);
 				}
 			}
+		}
+
+		.files-list__row-action--inline {
+			margin-right: 7px;
 		}
 
 		.files-list__row-mtime,

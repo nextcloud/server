@@ -88,20 +88,23 @@
 	</NcAppSidebar>
 </template>
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { encodePath } from '@nextcloud/paths'
+import { File, Folder } from '@nextcloud/files'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { getCurrentUser } from '@nextcloud/auth'
+import { Type as ShareTypes } from '@nextcloud/sharing'
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
-import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
-import { Type as ShareTypes } from '@nextcloud/sharing'
 
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 import FileInfo from '../services/FileInfo.js'
-import SidebarTab from '../components/SidebarTab.vue'
 import LegacyView from '../components/LegacyView.vue'
+import SidebarTab from '../components/SidebarTab.vue'
 import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 
 export default {
@@ -253,7 +256,7 @@ export default {
 				return {
 					key: 'error', // force key to re-render
 					subname: '',
-					title: '',
+					name: '',
 					class: {
 						'app-sidebar--full': this.isFullScreen,
 					},
@@ -263,7 +266,7 @@ export default {
 			return {
 				loading: this.loading,
 				subname: '',
-				title: '',
+				name: '',
 				class: {
 					'app-sidebar--full': this.isFullScreen,
 				},
@@ -297,7 +300,7 @@ export default {
 		},
 
 		isSystemTagsEnabled() {
-			return OCA && 'SystemTags' in OCA
+			return getCapabilities()?.systemtags?.enabled === true
 		},
 	},
 	created() {
@@ -372,7 +375,13 @@ export default {
 		 */
 		setActiveTab(id) {
 			OCA.Files.Sidebar.setActiveTab(id)
-			this.tabs.forEach(tab => tab.setIsActive(id === tab.id))
+			this.tabs.forEach(tab => {
+				try {
+					tab.setIsActive(id === tab.id)
+				} catch (error) {
+					logger.error('Error while setting tab active state', { error, id: tab.id, tab })
+				}
+			})
 		},
 
 		/**
@@ -397,12 +406,18 @@ export default {
 						</d:propertyupdate>`,
 				})
 
-				// TODO: Obliterate as soon as possible and use events with new files app
-				// Terrible fallback for legacy files: toggle filelist as well
-				if (OCA.Files && OCA.Files.App && OCA.Files.App.fileList && OCA.Files.App.fileList.fileActions) {
-					OCA.Files.App.fileList.fileActions.triggerAction('Favorite', OCA.Files.App.fileList.getModelForFile(this.fileInfo.name), OCA.Files.App.fileList)
-				}
-
+				/**
+				 * TODO: adjust this when the Sidebar is finally using File/Folder classes
+				 * @see https://github.com/nextcloud/server/blob/8a75cb6e72acd42712ab9fea22296aa1af863ef5/apps/files/src/views/favorites.ts#L83-L115
+				 */
+				const isDir = this.fileInfo.type === 'dir'
+				const Node = isDir ? Folder : File
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+					fileid: this.fileInfo.id,
+					source: this.davPath,
+					root: `/files/${getCurrentUser().uid}`,
+					mime: isDir ? undefined : this.fileInfo.mimetype,
+				}))
 			} catch (error) {
 				OC.Notification.showTemporary(t('files', 'Unable to change the favourite state of the file'))
 				console.error('Unable to change favourite state', error)
@@ -437,39 +452,41 @@ export default {
 		 * @throws {Error} loading failure
 		 */
 		async open(path) {
+			if (!path || path.trim() === '') {
+				throw new Error(`Invalid path '${path}'`)
+			}
+
 			// update current opened file
 			this.Sidebar.file = path
 
-			if (path && path.trim() !== '') {
-				// reset data, keep old fileInfo to not reload all tabs and just hide them
-				this.error = null
-				this.loading = true
+			// reset data, keep old fileInfo to not reload all tabs and just hide them
+			this.error = null
+			this.loading = true
 
-				try {
-					this.fileInfo = await FileInfo(this.davPath)
-					// adding this as fallback because other apps expect it
-					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+			try {
+				this.fileInfo = await FileInfo(this.davPath)
+				// adding this as fallback because other apps expect it
+				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
 
-					// DEPRECATED legacy views
-					// TODO: remove
-					this.views.forEach(view => {
-						view.setFileInfo(this.fileInfo)
-					})
+				// DEPRECATED legacy views
+				// TODO: remove
+				this.views.forEach(view => {
+					view.setFileInfo(this.fileInfo)
+				})
 
-					this.$nextTick(() => {
-						if (this.$refs.tabs) {
-							this.$refs.tabs.updateTabs()
-						}
-						this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
-					})
-				} catch (error) {
-					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data', error)
+				this.$nextTick(() => {
+					if (this.$refs.tabs) {
+						this.$refs.tabs.updateTabs()
+					}
+					this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
+				})
+			} catch (error) {
+				this.error = t('files', 'Error while loading the file data')
+				console.error('Error while loading the file data', error)
 
-					throw new Error(error)
-				} finally {
-					this.loading = false
-				}
+				throw new Error(error)
+			} finally {
+				this.loading = false
 			}
 		},
 

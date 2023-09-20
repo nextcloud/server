@@ -55,13 +55,11 @@
     "Failed to select tag" : "Impossible de sélectionner l'étiquette",
     "Failed to create tag" : "Impossible de créer l'étiquette",
     "Failed to delete tag" : "Impossible de supprimer l'étiquette",
+    "This file has the tag {tag}" : "Ce fichier a l'étiquette {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier a les étiquettes {firstTags} et {lastTag}",
+    "No tags found" : "Aucune étiquette trouvée",
     "Failed to load last used tags" : "Impossible de charger les dernières étiquettes utilisées",
     "Missing \"Content-Location\" header" : "Entête \"Contenu-Localisation\" manquant",
-    "Tagged files" : "Fichiers étiquetés",
-    "Select tags to filter by" : "Indiquez les étiquettes à filtrer",
-    "No tags found" : "Aucune étiquette trouvée",
-    "Please select tags to filter by" : "Veuillez sélectionner les étiquettes à filtrer",
-    "No files found for the selected tags" : "Aucun fichier pour les étiquettes sélectionnées",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Les étiquettes collaboratives sont disponibles pour tous les utilisateurs. Les étiquettes restreintes sont visibles par les utilisateurs, mais ne peuvent pas être attribuées par eux. Les étiquettes invisibles sont à usage interne, car les utilisateurs ne peuvent pas les voir ou les assigner.",
     "Create a new tag" : "Créer une nouvelle étiquette",
     "Name" : "Nom",
@@ -73,6 +71,10 @@
     "No files in here" : "Aucun fichier",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Size" : "Taille",
-    "Modified" : "Modifié"
+    "Modified" : "Modifié",
+    "Tagged files" : "Fichiers étiquetés",
+    "Select tags to filter by" : "Indiquez les étiquettes à filtrer",
+    "Please select tags to filter by" : "Veuillez sélectionner les étiquettes à filtrer",
+    "No files found for the selected tags" : "Aucun fichier pour les étiquettes sélectionnées"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

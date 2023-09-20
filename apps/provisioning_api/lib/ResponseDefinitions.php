@@ -28,7 +28,7 @@ namespace OCA\Provisioning_API;
 /**
  * @psalm-type ProvisioningApiUserDetailsQuota = array{
  *     free?: float,
- *     quota?: float|string,
+ *     quota?: float|int|string,
  *     relative?: float,
  *     total?: float,
  *     used?: float,

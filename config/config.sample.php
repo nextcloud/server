@@ -353,6 +353,19 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
+ * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ *
+ * In testing mode bruteforce attempts are still recorded, but the requests do
+ * not sleep/wait for the specified time. They will still abort with
+ * "429 Too Many Requests" when the maximum delay is reached.
+ * Enabling this is discouraged for security reasons
+ * and should only be done for debugging and on CI when running tests.
+ *
+ * Defaults to ``false``
+ */
+'auth.bruteforce.protection.testing' => false,
+
+/**
  * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
@@ -1578,7 +1591,6 @@ $CONFIG = [
  * filesystem and encryption will cause severe overhead because key files need
  * to be fetched in addition to any requested file.
  *
- * One way to test is applying for a trystack account at http://trystack.org/
  */
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',

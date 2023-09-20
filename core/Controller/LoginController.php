@@ -38,7 +38,6 @@ namespace OC\Core\Controller;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
@@ -58,6 +57,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Util;
 
 #[IgnoreOpenAPI]
@@ -74,7 +74,7 @@ class LoginController extends Controller {
 		private Session $userSession,
 		private IURLGenerator $urlGenerator,
 		private Defaults $defaults,
-		private Throttler $throttler,
+		private IThrottler $throttler,
 		private IInitialStateService $initialStateService,
 		private WebAuthnManager $webAuthnManager,
 		private IManager $manager,

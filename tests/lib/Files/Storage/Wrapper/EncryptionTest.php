@@ -601,19 +601,19 @@ class EncryptionTest extends Storage {
 					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
-			->setMethods(['getCache','readFirstBlock', 'parseRawHeader'])
+			->setMethods(['getCache', 'readFirstBlock'])
 			->getMock();
 
-		$instance->expects($this->once())->method('getCache')->willReturn($cache);
+		$instance->method('getCache')->willReturn($cache);
 
-		$instance->expects($this->once())->method(('parseRawHeader'))
+		$util->method('parseRawHeader')
 			->willReturn([Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']);
 
 		if ($strippedPathExists) {
-			$instance->expects($this->once())->method('readFirstBlock')
+			$instance->method('readFirstBlock')
 				->with($strippedPath)->willReturn('');
 		} else {
-			$instance->expects($this->once())->method('readFirstBlock')
+			$instance->method('readFirstBlock')
 				->with($path)->willReturn('');
 		}
 
@@ -679,11 +679,13 @@ class EncryptionTest extends Storage {
 					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
-			->setMethods(['readFirstBlock', 'parseRawHeader', 'getCache'])
+			->setMethods(['readFirstBlock', 'getCache'])
 			->getMock();
 
-		$instance->expects($this->any())->method(('parseRawHeader'))->willReturn($header);
-		$instance->expects($this->once())->method('getCache')->willReturn($cache);
+		$instance->method('readFirstBlock')->willReturn('');
+
+		$util->method(('parseRawHeader'))->willReturn($header);
+		$instance->method('getCache')->willReturn($cache);
 
 		$result = $this->invokePrivate($instance, 'getHeader', ['test.txt']);
 		$this->assertSameSize($expected, $result);
@@ -699,44 +701,6 @@ class EncryptionTest extends Storage {
 			[[], true, false, []],
 			[[], true, true, [Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']],
 			[[], false, true, []],
-		];
-	}
-
-	/**
-	 * @dataProvider dataTestParseRawHeader
-	 */
-	public function testParseRawHeader($rawHeader, $expected) {
-		$instance = new \OC\Files\Storage\Wrapper\Encryption(
-			[
-				'storage' => $this->sourceStorage,
-				'root' => 'foo',
-				'mountPoint' => '/',
-				'mount' => $this->mount
-			],
-			$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
-
-		);
-
-		$result = $this->invokePrivate($instance, 'parseRawHeader', [$rawHeader]);
-		$this->assertSameSize($expected, $result);
-		foreach ($result as $key => $value) {
-			$this->assertArrayHasKey($key, $expected);
-			$this->assertSame($expected[$key], $value);
-		}
-	}
-
-	public function dataTestParseRawHeader() {
-		return [
-			[str_pad('HBEGIN:oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
-				, [Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
-			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
-				, ['custom_header' => 'foo', Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
-			[str_pad('HelloWorld', $this->headerSize, '-', STR_PAD_RIGHT), []],
-			['', []],
-			[str_pad('HBEGIN:oc_encryption_module:0', $this->headerSize, '-', STR_PAD_RIGHT)
-				, []],
-			[str_pad('oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
-				, []],
 		];
 	}
 

@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s ha compartido «%2$s» contigo.",
     "Click the button below to open it." : "Haz clic en el botón de abajo para abrirlo.",
     "The requested share does not exist anymore" : "El recurso compartido solicitado ya no existe",
+    "The requested share comes from a disabled user" : "El recurso compartido solicitado proviene de un usuario deshabilitado",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "El usuario no fue creado ya que el límite de usuarios fue alcanzado. Compruebe sus notificaciones para aprender más.",
     "Could not find category \"%s\"" : "No puede encontrar la categoría \"%s\"",
     "Sunday" : "Domingo",
@@ -242,8 +243,6 @@
     "Please ask your server administrator to restart the web server." : "Consulte al administrador de su servidor para reiniciar el servidor web.",
     "The required %s config variable is not configured in the config.php file." : "La variable de configuración %s requerida no está configurada en el archivo config.php.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Por favor, pida al administrador de su servidor que compruebe la configuración de Nextcloud.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 requerido.",
-    "Please upgrade your database version." : "Por favor, actualiza la versión de tu base de datos.",
     "Your data directory is readable by other users." : "Tu carpeta de datos puede ser leído por otros usuarios.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor, cambia los permisos a 0770 para que el directorio no se pueda mostrar a otros usuarios.",
     "Your data directory must be an absolute path." : "Tu carpeta de datos debe ser una ruta absoluta.",
@@ -262,6 +261,7 @@
     "Storage is temporarily not available" : "El almacenamiento no esta disponible temporalmente",
     "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
     "Free prompt" : "Prompt libre",
+    "Runs an arbitrary prompt through the language model." : "Ejecuta un prompt arbitrario mediante el modelo de lenguaje integrado.",
     "Generate headline" : "Generar titular",
     "Generates a possible headline for a text." : "Genera un posible titular para un texto.",
     "Summarize" : "Resumir",
@@ -273,6 +273,8 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "El límite de usuarios fue alcanzado y el usuario no fue creado. Compruebe sus notificaciones para aprender más.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 es requerido en esta o en versiones superiores. Ahora mismo tienes instalada %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este error, actualiza la versión de tu libxml2 y reinicia el servidor web."
+    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este error, actualiza la versión de tu libxml2 y reinicia el servidor web.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 requerido.",
+    "Please upgrade your database version." : "Por favor, actualiza la versión de tu base de datos."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

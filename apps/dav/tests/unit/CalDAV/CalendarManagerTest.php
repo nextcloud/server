@@ -36,7 +36,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class CalendarManagerTest extends \Test\TestCase {
-
 	/** @var CalDavBackend | MockObject */
 	private $backend;
 
@@ -77,22 +76,16 @@ class CalendarManagerTest extends \Test\TestCase {
 
 		/** @var IManager | MockObject $calendarManager */
 		$calendarManager = $this->createMock(Manager::class);
-		$calendarManager->expects($this->at(0))
+		$registeredIds = [];
+		$calendarManager->expects($this->exactly(2))
 			->method('registerCalendar')
-			->willReturnCallback(function (): void {
-				$parameter = func_get_arg(0);
+			->willReturnCallback(function ($parameter) use (&$registeredIds): void {
 				$this->assertInstanceOf(CalendarImpl::class, $parameter);
-				$this->assertEquals(123, $parameter->getKey());
-			});
-
-		$calendarManager->expects($this->at(1))
-			->method('registerCalendar')
-			->willReturnCallback(function (): void {
-				$parameter = func_get_arg(0);
-				$this->assertInstanceOf(CalendarImpl::class, $parameter);
-				$this->assertEquals(456, $parameter->getKey());
+				$registeredIds[] = $parameter->getKey();
 			});
 
 		$this->manager->setupCalendarProvider($calendarManager, 'user123');
+
+		$this->assertEquals(['123','456'], $registeredIds);
 	}
 }

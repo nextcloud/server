@@ -178,4 +178,31 @@ class UtilTest extends TestCase {
 			['/foo/test.txt.ocTransferId7567.part', '/foo/test.txt'],
 		];
 	}
+
+	/**
+	 * @dataProvider dataTestParseRawHeader
+	 */
+	public function testParseRawHeader($rawHeader, $expected) {
+		$result = $this->util->parseRawHeader($rawHeader);
+		$this->assertSameSize($expected, $result);
+		foreach ($result as $key => $value) {
+			$this->assertArrayHasKey($key, $expected);
+			$this->assertSame($expected[$key], $value);
+		}
+	}
+
+	public function dataTestParseRawHeader() {
+		return [
+			[str_pad('HBEGIN:oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, [Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
+			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, ['custom_header' => 'foo', Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
+			[str_pad('HelloWorld', $this->headerSize, '-', STR_PAD_RIGHT), []],
+			['', []],
+			[str_pad('HBEGIN:oc_encryption_module:0', $this->headerSize, '-', STR_PAD_RIGHT)
+				, []],
+			[str_pad('oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, []],
+		];
+	}
 }

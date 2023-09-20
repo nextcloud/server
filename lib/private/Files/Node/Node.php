@@ -59,10 +59,7 @@ class Node implements INode {
 
 	protected ?FileInfo $fileInfo;
 
-	/**
-	 * @var Node|null
-	 */
-	protected $parent;
+	protected ?INode $parent;
 
 	private bool $infoHasSubMountsIncluded;
 
@@ -300,7 +297,25 @@ class Node implements INode {
 				return $this->root;
 			}
 
-			$this->parent = $this->root->get($newPath);
+			// Manually fetch the parent if the current node doesn't have a file info yet
+			try {
+				$fileInfo = $this->getFileInfo();
+			} catch (NotFoundException) {
+				$this->parent = $this->root->get($newPath);
+				/** @var \OCP\Files\Folder $this->parent */
+				return $this->parent;
+			}
+
+			// gather the metadata we already know about our parent
+			$parentData = [
+				'path' => $newPath,
+				'fileid' => $fileInfo->getParentId(),
+			];
+
+			// and create lazy folder with it instead of always querying
+			$this->parent = new LazyFolder($this->root, function () use ($newPath) {
+				return $this->root->get($newPath);
+			}, $parentData);
 		}
 
 		return $this->parent;
@@ -328,13 +343,7 @@ class Node implements INode {
 	 * @return bool
 	 */
 	public function isValidPath($path) {
-		if (!$path || $path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		if (strstr($path, '/../') || strrchr($path, '/') === '/..') {
-			return false;
-		}
-		return true;
+		return Filesystem::isValidPath($path);
 	}
 
 	public function isMounted() {
@@ -476,5 +485,9 @@ class Node implements INode {
 
 	public function getUploadTime(): int {
 		return $this->getFileInfo()->getUploadTime();
+	}
+
+	public function getParentId(): int {
+		return $this->fileInfo->getParentId();
 	}
 }

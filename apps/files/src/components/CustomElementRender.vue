@@ -59,14 +59,11 @@ export default {
 	},
 	methods: {
 		async updateRootElement() {
-			const span = document.createElement('span') as HTMLSpanElement
-			this.$el.replaceWith(span)
-			this.$el = span
-
 			const element = await this.render(this.source, this.currentView)
 			if (element) {
-				this.$el.replaceWith(element)
-				this.$el = element
+				this.$el.replaceChildren(element)
+			} else {
+				this.$el.replaceChildren()
 			}
 		},
 	},

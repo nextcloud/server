@@ -294,7 +294,7 @@ const ContactsMenuView = View.extend({
 	contentTemplate: function(data) {
 		return this.templates.menu(
 			_.extend({
-				searchContactsText: t('core', 'Search contacts …')
+				searchContactsLabel: t('core', 'Search contacts'),
 			}, data)
 		)
 	},

@@ -82,7 +82,7 @@ class PushProvider extends AbstractProvider {
 						 ?string $calendarDisplayName,
 						 array $principalEmailAddresses,
 						 array $users = []):void {
-		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
+		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'yes') !== 'yes') {
 			return;
 		}
 

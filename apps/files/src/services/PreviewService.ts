@@ -26,8 +26,12 @@ const SWCacheName = 'previews'
 /**
  * Check if the preview is already cached by the service worker
  */
-export const isCachedPreview = function(previewUrl: string) {
-	return caches.open(SWCacheName)
+export const isCachedPreview = function(previewUrl: string): Promise<boolean> {
+	if (!window?.caches?.open) {
+		return Promise.resolve(false)
+	}
+
+	return window?.caches?.open(SWCacheName)
 		.then(function(cache) {
 			return cache.match(previewUrl)
 				.then(function(response) {

@@ -34,6 +34,7 @@ use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -53,7 +54,14 @@ class ApiController extends OCSController {
 
 	/**
 	 * Get a reminder
+	 *
+	 * @param int $fileId ID of the file
+	 * @return DataResponse<Http::STATUS_OK, array{dueDate: ?string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array<empty>, array{}>
+	 *
+	 * 200: Reminder returned
+	 * 401: User not found
 	 */
+	#[NoAdminRequired]
 	public function get(int $fileId): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -77,8 +85,18 @@ class ApiController extends OCSController {
 	/**
 	 * Set a reminder
 	 *
+	 * @param int $fileId ID of the file
 	 * @param string $dueDate ISO 8601 formatted date time string
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_CREATED|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Reminder updated
+	 * 201: Reminder created successfully
+	 * 400: Creating reminder is not possible
+	 * 401: User not found
+	 * 404: File not found
 	 */
+	#[NoAdminRequired]
 	public function set(int $fileId, string $dueDate): DataResponse {
 		try {
 			$dueDate = (new DateTime($dueDate))->setTimezone(new DateTimeZone('UTC'));
@@ -105,7 +123,16 @@ class ApiController extends OCSController {
 
 	/**
 	 * Remove a reminder
+	 *
+	 * @param int $fileId ID of the file
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Reminder deleted successfully
+	 * 401: User not found
+	 * 404: Reminder not found
 	 */
+	#[NoAdminRequired]
 	public function remove(int $fileId): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {

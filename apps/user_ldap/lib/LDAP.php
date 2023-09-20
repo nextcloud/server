@@ -33,6 +33,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
 use OCP\Profiler\IProfiler;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\DataCollector\LdapDataCollector;
@@ -317,6 +318,14 @@ class LDAP implements ILDAPWrapper {
 
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
+		if(strcasecmp($functionName, 'ldap_bind') === 0) {
+			// The arguments are not key value pairs
+			// \OCA\User_LDAP\LDAP::bind passes 3 arguments, the 3rd being the pw
+			// Remove it via direct array access for now, although a better solution could be found mebbe?
+			// @link https://github.com/nextcloud/server/issues/38461
+			$args[2] = IConfig::SENSITIVE_VALUE;
+		}
+
 		$this->logger->debug('Calling LDAP function {func} with parameters {args}', [
 			'app' => 'user_ldap',
 			'func' => $functionName,

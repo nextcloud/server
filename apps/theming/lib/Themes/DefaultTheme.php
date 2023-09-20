@@ -109,10 +109,10 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#e9322d';
+		$colorError = '#d91812';
 		$colorWarning = '#c28900';
-		$colorSuccess = '#3fa857';
-		$colorInfo = '#006aa3';
+		$colorSuccess = '#2d7b41';
+		$colorInfo = '#0071ad';
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -145,7 +145,7 @@ class DefaultTheme implements ITheme {
 			// error/warning/success/info feedback colours
 			'--color-error' => $colorError,
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
+			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
 			'--color-error-text' => $this->util->darken($colorError, 4),
 			'--color-warning' => $colorWarning,
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
@@ -153,12 +153,12 @@ class DefaultTheme implements ITheme {
 			'--color-warning-text' => $this->util->darken($colorWarning, 8),
 			'--color-success' => $colorSuccess,
 			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
-			'--color-success-text' => $this->util->darken($colorSuccess, 10),
+			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 78),
+			'--color-success-text' => $this->util->darken($colorSuccess, 4),
 			'--color-info' => $colorInfo,
 			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
-			'--color-info-text' => $colorInfo,
+			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
+			'--color-info-text' => $this->util->darken($colorInfo, 4),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',

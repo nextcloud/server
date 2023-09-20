@@ -47,17 +47,12 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Application {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 	private SymfonyApplication $application;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var IRequest */
-	private $request;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var MemoryInfo */
-	private $memoryInfo;
+	private IEventDispatcher $dispatcher;
+	private IRequest $request;
+	private LoggerInterface $logger;
+	private MemoryInfo $memoryInfo;
 
 	public function __construct(IConfig $config,
 								IEventDispatcher $dispatcher,
@@ -74,8 +69,6 @@ class Application {
 	}
 
 	/**
-	 * @param InputInterface $input
-	 * @param ConsoleOutputInterface $output
 	 * @throws \Exception
 	 */
 	public function loadCommands(

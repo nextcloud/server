@@ -22,14 +22,12 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { Permission, Node } from '@nextcloud/files'
+import { Permission, Node, View, registerFileAction, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
-import { registerFileAction, FileAction } from '../../../files/src/services/FileAction'
 import logger from '../../../files/src/logger.js'
-import type { Navigation } from '../../../files/src/services/Navigation'
 
 registerFileAction(new FileAction({
 	id: 'restore',
@@ -52,7 +50,7 @@ registerFileAction(new FileAction({
 
 	async exec(node: Node) {
 		try {
-			const destination = generateRemoteUrl(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`)
+			const destination = generateRemoteUrl(encodeURI(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`))
 			await axios({
 				method: 'MOVE',
 				url: node.source,
@@ -70,7 +68,7 @@ registerFileAction(new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+	async execBatch(nodes: Node[], view: View, dir: string) {
 		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 

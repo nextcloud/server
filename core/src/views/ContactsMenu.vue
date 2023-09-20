@@ -71,7 +71,7 @@ export default {
 #contactsmenu-menu {
 	/* show 2.5 to 4.5 entries depending on the screen height */
 	height: calc(100vh - 50px * 3);
-	max-height: calc(50px * 6 + 2px);
+	max-height: calc(50px * 6 + 2px + 26px);
 	min-height: calc(50px * 3.5);
 	width: 350px;
 
@@ -83,6 +83,12 @@ export default {
 			.icon-search {
 				display: inline-block;
 			}
+		}
+
+		label[for="contactsmenu-search"] {
+			font-weight: bold;
+			font-size: 19px;
+			margin-left: 22px;
 		}
 
 		#contactsmenu-search {

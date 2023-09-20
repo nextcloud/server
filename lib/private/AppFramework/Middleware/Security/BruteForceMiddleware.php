@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -39,6 +38,7 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
@@ -51,9 +51,11 @@ use ReflectionMethod;
  * @package OC\AppFramework\Middleware\Security
  */
 class BruteForceMiddleware extends Middleware {
+	private int $delaySlept = 0;
+
 	public function __construct(
 		protected ControllerMethodReflector $reflector,
-		protected Throttler $throttler,
+		protected IThrottler $throttler,
 		protected IRequest $request,
 		protected LoggerInterface $logger,
 	) {
@@ -67,7 +69,7 @@ class BruteForceMiddleware extends Middleware {
 
 		if ($this->reflector->hasAnnotation('BruteForceProtection')) {
 			$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
-			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $action);
+			$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $action);
 		} else {
 			$reflectionMethod = new ReflectionMethod($controller, $methodName);
 			$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
@@ -79,7 +81,7 @@ class BruteForceMiddleware extends Middleware {
 					/** @var BruteForceProtection $protection */
 					$protection = $attribute->newInstance();
 					$action = $protection->getAction();
-					$this->throttler->sleepDelayOrThrowOnMax($remoteAddress, $action);
+					$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($remoteAddress, $action);
 				}
 			}
 		}
@@ -95,7 +97,7 @@ class BruteForceMiddleware extends Middleware {
 					$action = $this->reflector->getAnnotationParameter('BruteForceProtection', 'action');
 					$ip = $this->request->getRemoteAddress();
 					$this->throttler->registerAttempt($action, $ip, $response->getThrottleMetadata());
-					$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+					$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($ip, $action);
 				} else {
 					$reflectionMethod = new ReflectionMethod($controller, $methodName);
 					$attributes = $reflectionMethod->getAttributes(BruteForceProtection::class);
@@ -111,7 +113,7 @@ class BruteForceMiddleware extends Middleware {
 
 							if (!isset($metaData['action']) || $metaData['action'] === $action) {
 								$this->throttler->registerAttempt($action, $ip, $metaData);
-								$this->throttler->sleepDelayOrThrowOnMax($ip, $action);
+								$this->delaySlept += $this->throttler->sleepDelayOrThrowOnMax($ip, $action);
 							}
 						}
 					} else {
@@ -125,6 +127,10 @@ class BruteForceMiddleware extends Middleware {
 
 				return new TooManyRequestsResponse();
 			}
+		}
+
+		if ($this->delaySlept) {
+			$response->addHeader('X-Nextcloud-Bruteforce-Throttled', $this->delaySlept . 'ms');
 		}
 
 		return parent::afterController($controller, $methodName, $response);

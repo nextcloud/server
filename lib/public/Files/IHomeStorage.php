@@ -27,6 +27,7 @@
 namespace OCP\Files;
 
 use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 
 /**
  * Interface IHomeStorage
@@ -34,4 +35,11 @@ use OCP\Files\Storage\IStorage;
  * @since 7.0.0
  */
 interface IHomeStorage extends IStorage {
+	/**
+	 * Get the user for this home storage
+	 *
+	 * @return IUser
+	 * @since 28.0.0
+	 */
+	public function getUser(): IUser;
 }

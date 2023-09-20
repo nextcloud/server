@@ -24,21 +24,20 @@
 			<NcButton type="tertiary"
 				class="custom-input__emoji-button"
 				:aria-label="t('user_status', 'Emoji for your status message')">
-				{{ visibleIcon }}
+				<template #icon>
+					{{ visibleIcon }}
+				</template>
 			</NcButton>
 		</NcEmojiPicker>
 		<div class="custom-input__container">
-			<label class="hidden-visually" for="user_status_message">
-				{{ t('user_status', 'What is your status?') }}
-			</label>
-			<input id="user_status_message"
-				ref="input"
-				maxlength="80"
+			<NcTextField maxlength="80"
 				:disabled="disabled"
 				:placeholder="$t('user_status', 'What is your status?')"
-				type="text"
 				:value="message"
-				@input="onChange">
+				ref="input"
+				type="text"
+				:label="t('user_status', 'What is your status?')"
+				@input="onChange" />
 		</div>
 	</div>
 </template>
@@ -46,11 +45,13 @@
 <script>
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+import NcTextField	from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'CustomMessageInput',
 
 	components: {
+		NcTextField,
 		NcButton,
 		NcEmojiPicker,
 	},

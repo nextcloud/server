@@ -7,6 +7,7 @@
 
 namespace Test\Files;
 
+use OC\Share20\ShareDisableChecker;
 use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
@@ -22,6 +23,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IShare;
@@ -295,7 +297,7 @@ class ViewTest extends \Test\TestCase {
 	 */
 	public function testRemoveSharePermissionWhenSharingDisabledForUser($excludeGroups, $excludeGroupsList, $expectedShareable) {
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
 		$config = \OC::$server->getConfig();
 		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
@@ -320,7 +322,7 @@ class ViewTest extends \Test\TestCase {
 		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 	}
 
 	public function testCacheIncompleteFolder() {
@@ -1568,10 +1570,10 @@ class ViewTest extends \Test\TestCase {
 		$defaultRootValue->setAccessible(true);
 		$oldRoot = $defaultRootValue->getValue();
 		$defaultView = new View('/foo/files');
-		$defaultRootValue->setValue($defaultView);
+		$defaultRootValue->setValue(null, $defaultView);
 		$view = new View($root);
 		$result = self::invokePrivate($view, 'shouldEmitHooks', [$path]);
-		$defaultRootValue->setValue($oldRoot);
+		$defaultRootValue->setValue(null, $oldRoot);
 		$this->assertEquals($shouldEmit, $result);
 	}
 
@@ -1590,7 +1592,7 @@ class ViewTest extends \Test\TestCase {
 				->getMock();
 			$storage->method('getId')->willReturn('non-null-id');
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
-				return new \OC\Files\Cache\Storage($storage);
+				return new \OC\Files\Cache\Storage($storage, true, \OC::$server->get(IDBConnection::class));
 			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
@@ -1688,8 +1690,6 @@ class ViewTest extends \Test\TestCase {
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
-			->setId(42)
-			->setProviderId('foo')
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 

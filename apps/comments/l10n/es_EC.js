@@ -21,13 +21,13 @@ OC.L10N.register(
     "Retry" : "Reintentar",
     "Failed to mark comments as read" : "Error al marcar los comentarios como leídos",
     "Unable to load the comments list" : "No se puede cargar la lista de comentarios",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer","%n comentarios sin leer"],
     "_1 new comment_::_{unread} new comments_" : ["1 comentario nuevo","{unread} comentarios nuevos","{unread} comentarios nuevos"],
     "Comment" : "Comentario",
     "An error occurred while trying to edit the comment" : "Ocurrió un error al intentar editar el comentario",
     "Comment deleted" : "Comentario eliminado",
     "An error occurred while trying to delete the comment" : "Ocurrió un error al intentar eliminar el comentario",
     "An error occurred while trying to create the comment" : "Ocurrió un error al intentar crear el comentario",
-    "%1$s commented" : "%1$s comentó"
+    "%1$s commented" : "%1$s comentó",
+    "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer","%n comentarios sin leer"]
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
