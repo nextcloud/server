@@ -37,21 +37,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  * have no matching principal. Happened because of a bug in the calendar app.
  */
 class RemoveInvalidShares extends Command {
-
-	/** @var IDBConnection */
-	private $connection;
-	/** @var Principal */
-	private $principalBackend;
-
-	public function __construct(IDBConnection $connection,
-								Principal $principalBackend) {
+	public function __construct(
+		private IDBConnection $connection,
+		private Principal $principalBackend,
+	) {
 		parent::__construct();
-
-		$this->connection = $connection;
-		$this->principalBackend = $principalBackend;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:remove-invalid-shares')
 			->setDescription('Remove invalid dav shares');
@@ -72,13 +65,13 @@ class RemoveInvalidShares extends Command {
 		}
 
 		$result->closeCursor();
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * @param string $principaluri
 	 */
-	private function deleteSharesForPrincipal($principaluri) {
+	private function deleteSharesForPrincipal($principaluri): void {
 		$delete = $this->connection->getQueryBuilder();
 		$delete->delete('dav_shares')
 			->where($delete->expr()->eq('principaluri', $delete->createNamedParameter($principaluri)));
