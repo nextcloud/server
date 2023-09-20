@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
+ * @copyright 2023, Maxence Lange <maxence@artificial-owl.com>
  *
- * @author Joas Schilling <coding@schilljs.com>
  * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,25 +23,12 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-return [
-	'routes' => [
-		[
-			'name' => 'RequestHandler#addShare',
-			'url' => '/shares',
-			'verb' => 'POST',
-			'root' => '/ocm',
-		],
-		[
-			'name' => 'RequestHandler#receiveNotification',
-			'url' => '/notifications',
-			'verb' => 'POST',
-			'root' => '/ocm',
-		],
-//		[
-//			'name' => 'RequestHandler#inviteAccepted',
-//			'url' => '/invite-accepted',
-//			'verb' => 'POST',
-//			'root' => '/ocm',
-//		]
-	],
-];
+namespace OCP\OCM\Exceptions;
+
+use Exception;
+
+/**
+ * @since 28.0.0
+ */
+class OCMArgumentException extends Exception {
+}

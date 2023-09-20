@@ -28,6 +28,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Federation\CloudId;
+use OCA\Files_Sharing\External\Manager as ExternalShareManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -75,6 +76,7 @@ class ExternalStorageTest extends \Test\TestCase {
 	private function getTestStorage($uri) {
 		$certificateManager = \OC::$server->getCertificateManager();
 		$httpClientService = $this->createMock(IClientService::class);
+		$manager = $this->createMock(ExternalShareManager::class);
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$client
@@ -98,7 +100,7 @@ class ExternalStorageTest extends \Test\TestCase {
 				'mountpoint' => 'remoteshare',
 				'token' => 'abcdef',
 				'password' => '',
-				'manager' => null,
+				'manager' => $manager,
 				'certificateManager' => $certificateManager,
 				'HttpClientService' => $httpClientService,
 			]
