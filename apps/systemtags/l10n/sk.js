@@ -55,12 +55,8 @@ OC.L10N.register(
     "Failed to delete tag" : "Nepodarilo sa vymazať štítok",
     "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}",
-    "Failed to load last used tags" : "Nepodarilo sa načítať posledné použité štítky",
-    "Tagged files" : "Súbory so štítkom",
-    "Select tags to filter by" : "Vybrať štítky pre filter",
     "No tags found" : "Štítky sa nenašli",
-    "Please select tags to filter by" : "Vyberte štítky pre filtrovanie",
-    "No files found for the selected tags" : "Neboli nájdené žiadne súbory označené vybranými štítkami",
+    "Failed to load last used tags" : "Nepodarilo sa načítať posledné použité štítky",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Štítky pre spoluprácu sú k dispozícii pre všetkých používateľov. Obmedzené značky sú viditeľné pre používateľov, ale nedajú sa priradiť. Neviditeľné značky sú určené na interné použitie, pretože používatelia ich nemôžu vidieť ani priradiť.",
     "Create a new tag" : "Vytvoriť nový štítok",
     "Name" : "Názov",
@@ -72,6 +68,10 @@ OC.L10N.register(
     "No files in here" : "Žiadne súbory",
     "No entries found in this folder" : "V tomto priečinku sa nič nenašlo",
     "Size" : "Veľkosť",
-    "Modified" : "Upravené"
+    "Modified" : "Upravené",
+    "Tagged files" : "Súbory so štítkom",
+    "Select tags to filter by" : "Vybrať štítky pre filter",
+    "Please select tags to filter by" : "Vyberte štítky pre filtrovanie",
+    "No files found for the selected tags" : "Neboli nájdené žiadne súbory označené vybranými štítkami"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -59,13 +59,9 @@ OC.L10N.register(
     "Failed to delete tag" : "Štítek se nepodařilo smazat",
     "This file has the tag {tag}" : "Tento soubor má štítek {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}",
+    "No tags found" : "Nenalezeny žádné štítky",
     "Failed to load last used tags" : "Nepodařilo se načíst nedávno použité štítky",
     "Missing \"Content-Location\" header" : "Chybí hlavička „Content-Location“",
-    "Tagged files" : "Oštítkované soubory",
-    "Select tags to filter by" : "Vybrat štítky pro filtr",
-    "No tags found" : "Nenalezeny žádné štítky",
-    "Please select tags to filter by" : "Vyberte štítky podle kterých filtrovat",
-    "No files found for the selected tags" : "Pro vybrané štítky nebyly nalezeny žádné soubory",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Štítky pro spolupráci jsou k dispozici všem uživatelům. Uživatelsky nepřiřaditelné štítky jsou uživatelům viditelné, ale nemohou je přiřazovat.\nNeviditelné štítky jsou pro vnitřní potřebu, protože uživatelé je nemohou vidět ani je přiřazovat.",
     "Create a new tag" : "Vytvořit nový  štítek",
     "Name" : "Název",
@@ -77,6 +73,10 @@ OC.L10N.register(
     "No files in here" : "Nejsou zde žádné soubory",
     "No entries found in this folder" : "V této složce nic nenalezeno",
     "Size" : "Velikost",
-    "Modified" : "Změněno"
+    "Modified" : "Změněno",
+    "Tagged files" : "Oštítkované soubory",
+    "Select tags to filter by" : "Vybrat štítky pro filtr",
+    "Please select tags to filter by" : "Vyberte štítky podle kterých filtrovat",
+    "No files found for the selected tags" : "Pro vybrané štítky nebyly nalezeny žádné soubory"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

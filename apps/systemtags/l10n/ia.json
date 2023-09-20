@@ -34,11 +34,7 @@
     "<strong>System tags</strong> for a file have been modified" : "<strong>Le etiquettas de systema</strong> de un file esseva modificate",
     "Tags" : "Etiquettas",
     "Collaborative tags" : "Etiquettas collaborative",
-    "Tagged files" : "Files etiquettate",
-    "Select tags to filter by" : "Selectionar etiquettas a filtrar per",
     "No tags found" : "Nulle etiquettas trovate",
-    "Please select tags to filter by" : "Per favor, selectiona etiquettas a filtrar per",
-    "No files found for the selected tags" : "Nulle files trovate in correspondentia a le etiquettas selectionate",
     "Name" : "Nomine",
     "Public" : "Public",
     "Restricted" : "Restringite",
@@ -48,6 +44,10 @@
     "No files in here" : "Nulle files ci",
     "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
     "Size" : "Dimension",
-    "Modified" : "Modificate"
+    "Modified" : "Modificate",
+    "Tagged files" : "Files etiquettate",
+    "Select tags to filter by" : "Selectionar etiquettas a filtrar per",
+    "Please select tags to filter by" : "Per favor, selectiona etiquettas a filtrar per",
+    "No files found for the selected tags" : "Nulle files trovate in correspondentia a le etiquettas selectionate"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

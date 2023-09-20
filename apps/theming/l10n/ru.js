@@ -81,6 +81,8 @@ OC.L10N.register(
     "Change color" : "Изменить цвет",
     "No background" : "Без фона",
     "Select a background from your files" : "Выберите фон из ваших файлов",
+    "Select background" : "Выбрать фоновое изображение",
+    "No background has been selected" : "Фоновое изображение не было выбрано",
     "Theme selection is enforced" : "Выбор темы принудительно",
     "Select a custom color" : "Выберать собственный цвет",
     "Reset to default" : "Сбросить изменения",
