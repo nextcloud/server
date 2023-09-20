@@ -36,15 +36,21 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
+use OC\Files\Filesystem;
+use OC\Files\Storage\Common;
+use OCP\Constants;
+use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
 use phpseclib\Net\SFTP\Stream;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
  * provide access to SFTP servers.
  */
-class SFTP extends \OC\Files\Storage\Common {
+class SFTP extends Common {
 	private $host;
 	private $user;
 	private $root;
@@ -56,6 +62,9 @@ class SFTP extends \OC\Files\Storage\Common {
 	 * @var \phpseclib\Net\SFTP
 	 */
 	protected $client;
+	private IMimeTypeDetector $mimeTypeDetector;
+
+	const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
 
 	/**
 	 * @param string $host protocol://server:port
@@ -111,6 +120,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
+		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	/**
@@ -370,20 +380,24 @@ class SFTP extends \OC\Files\Storage\Common {
 	public function fopen($path, $mode) {
 		try {
 			$absPath = $this->absPath($path);
+			$connection = $this->getConnection();
 			switch ($mode) {
 				case 'r':
 				case 'rb':
-					if (!$this->file_exists($path)) {
+					$stat = $this->stat($path);
+					if (!$stat) {
 						return false;
 					}
 					SFTPReadStream::register();
-					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					$context = stream_context_create(['sftp' => ['session' => $connection, 'size' => $stat['size']]]);
 					$handle = fopen('sftpread://' . trim($absPath, '/'), 'r', false, $context);
 					return RetryWrapper::wrap($handle);
 				case 'w':
 				case 'wb':
 					SFTPWriteStream::register();
-					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					// the SFTPWriteStream doesn't go through the "normal" methods so it doesn't clear the stat cache.
+					$connection->_remove_from_stat_cache($absPath);
+					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					return fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 				case 'a':
 				case 'ab':
@@ -395,7 +409,7 @@ class SFTP extends \OC\Files\Storage\Common {
 				case 'x+':
 				case 'c':
 				case 'c+':
-					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					$handle = fopen($this->constructUrl($path), $mode, false, $context);
 					return RetryWrapper::wrap($handle);
 			}
@@ -450,14 +464,14 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return array{mtime: int, size: int, ctime: int}|false
 	 */
 	public function stat($path) {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
 
-			$mtime = $stat ? $stat['mtime'] : -1;
-			$size = $stat ? $stat['size'] : 0;
+			$mtime = $stat ? (int)$stat['mtime'] : -1;
+			$size = $stat ? (int)$stat['size'] : 0;
 
 			return ['mtime' => $mtime, 'size' => $size, 'ctime' => -1];
 		} catch (\Exception $e) {
@@ -475,5 +489,100 @@ class SFTP extends \OC\Files\Storage\Common {
 		// hostname because this might show up in logs (they are not used).
 		$url = 'sftp://' . urlencode($this->user) . '@' . $this->host . ':' . $this->port . $this->root . $path;
 		return $url;
+	}
+
+	public function file_put_contents($path, $data) {
+		/** @psalm-suppress InternalMethod */
+		$result = $this->getConnection()->put($this->absPath($path), $data);
+		if ($result) {
+			return strlen($data);
+		} else {
+			return false;
+		}
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		if ($size === null) {
+			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
+				$size = $writtenSize;
+			});
+			if (!$stream) {
+				throw new \Exception("Failed to wrap stream");
+			}
+		}
+		/** @psalm-suppress InternalMethod */
+		$result = $this->getConnection()->put($this->absPath($path), $stream);
+		fclose($stream);
+		if ($result) {
+			return $size;
+		} else {
+			throw new \Exception("Failed to write steam to sftp storage");
+		}
+	}
+
+	public function copy($source, $target) {
+		if ($this->is_dir($source) || $this->is_dir($target)) {
+			return parent::copy($source, $target);
+		} else {
+			$absSource = $this->absPath($source);
+			$absTarget = $this->absPath($target);
+
+			$connection = $this->getConnection();
+			$size = $connection->size($absSource);
+			if ($size === false) {
+				return false;
+			}
+			for ($i = 0; $i < $size; $i += self::COPY_CHUNK_SIZE) {
+				/** @psalm-suppress InvalidArgument */
+				$chunk = $connection->get($absSource, false, $i, self::COPY_CHUNK_SIZE);
+				if ($chunk === false) {
+					return false;
+				}
+				/** @psalm-suppress InternalMethod */
+				if (!$connection->put($absTarget, $chunk, \phpseclib\Net\SFTP::SOURCE_STRING, $i)) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	public function getPermissions($path) {
+		$stat = $this->getConnection()->stat($this->absPath($path));
+		if (!$stat) {
+			return 0;
+		}
+		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			return Constants::PERMISSION_ALL;
+		} else {
+			return Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
+	}
+
+	public function getMetaData($path) {
+		$stat = $this->getConnection()->stat($this->absPath($path));
+		if (!$stat) {
+			return null;
+		}
+
+		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			$stat['permissions'] = Constants::PERMISSION_ALL;
+		} else {
+			$stat['permissions'] = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
+
+		if ($stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			$stat['size'] = -1;
+			$stat['mimetype'] = FileInfo::MIMETYPE_FOLDER;
+		} else {
+			$stat['mimetype'] = $this->mimeTypeDetector->detectPath($path);
+		}
+
+		$stat['etag'] = $this->getETag($path);
+		$stat['storage_mtime'] = $stat['mtime'];
+		$stat['name'] = basename($path);
+
+		$keys = ['size', 'mtime', 'mimetype', 'etag', 'storage_mtime', 'permissions', 'name'];
+		return array_intersect_key($stat, array_flip($keys));
 	}
 }
