@@ -109,9 +109,11 @@
 			<!-- Render actions -->
 			<CustomElementRender v-for="action in enabledRenderActions"
 				:key="action.id"
+				:class="'files-list__row-action-' + action.id"
 				:current-view="currentView"
 				:render="action.renderInline"
-				:source="source" />
+				:source="source"
+				class="files-list__row-action--inline" />
 
 			<!-- Menu actions -->
 			<NcActions v-if="visible"
@@ -119,6 +121,7 @@
 				:boundaries-element="getBoundariesElement()"
 				:container="getBoundariesElement()"
 				:disabled="source._loading"
+				:force-name="true"
 				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 				:inline="enabledInlineActions.length"
 				:open.sync="openedMenu">
