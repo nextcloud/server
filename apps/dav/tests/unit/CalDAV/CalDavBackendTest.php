@@ -32,7 +32,9 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use DateInterval;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
@@ -1419,5 +1421,72 @@ EOD;
 
 		// Check that no crash occurs when prune is called without current changes
 		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+	}
+
+	public function testSearchAndExpandRecurrences() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+PRODID:-//IDN nextcloud.com//Calendar app 4.5.0-alpha.2//EN
+CALSCALE:GREGORIAN
+VERSION:2.0
+BEGIN:VEVENT
+CREATED:20230921T133401Z
+DTSTAMP:20230921T133448Z
+LAST-MODIFIED:20230921T133448Z
+SEQUENCE:2
+UID:7b7d5d12-683c-48ce-973a-b3e1cb0bae2a
+DTSTART;VALUE=DATE:20230912
+DTEND;VALUE=DATE:20230913
+STATUS:CONFIRMED
+SUMMARY:Daily Event
+RRULE:FREQ=DAILY
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$uri = static::getUniqueID('calobj');
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		$start = new DateTimeImmutable('2023-09-20T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			null,
+			null,
+		);
+
+		$this->assertCount(1, $results);
+		$this->assertCount(14, $results[0]['objects']);
+		foreach ($results as $result) {
+			foreach ($result['objects'] as $object) {
+				$this->assertEquals($object['UID'][0], '7b7d5d12-683c-48ce-973a-b3e1cb0bae2a');
+				$this->assertEquals($object['SUMMARY'][0], 'Daily Event');
+				$this->assertGreaterThanOrEqual(
+					$start->getTimestamp(),
+					$object['DTSTART'][0]->getTimestamp(),
+					'Recurrence starting before requested start',
+				);
+				$this->assertLessThanOrEqual(
+					$end->getTimestamp(),
+					$object['DTSTART'][0]->getTimestamp(),
+					'Recurrence starting after requested end',
+				);
+			}
+		}
 	}
 }
