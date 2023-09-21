@@ -33,7 +33,7 @@ class SearchComparison implements ISearchComparison {
 	public function __construct(
 		private string $type,
 		private string $field,
-		private \DateTime|int|string|bool $value,
+		private \DateTime|int|string|bool|array $value,
 		private string $extra = ''
 	) {
 	}
@@ -53,9 +53,9 @@ class SearchComparison implements ISearchComparison {
 	}
 
 	/**
-	 * @return \DateTime|int|string|bool
+	 * @return \DateTime|int|string|bool|(\DateTime|int|string)[]
 	 */
-	public function getValue(): string|int|bool|\DateTime {
+	public function getValue(): string|int|bool|\DateTime|array {
 		return $this->value;
 	}
 
@@ -77,5 +77,9 @@ class SearchComparison implements ISearchComparison {
 
 	public static function escapeLikeParameter(string $param): string {
 		return addcslashes($param, '\\_%');
+	}
+
+	public function __toString(): string {
+		return $this->field . ' ' . $this->type . ' ' . json_encode($this->value);
 	}
 }

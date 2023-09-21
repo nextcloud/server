@@ -67,6 +67,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * @since 28.0.0
 	 */
 	public const COMPARE_DEFINED = 'is-defined';
+	public const COMPARE_IN = 'in';
 
 	/**
 	 * @since 23.0.0
@@ -102,8 +103,8 @@ interface ISearchComparison extends ISearchOperator {
 	/**
 	 * Get the value to compare the field with
 	 *
-	 * @return string|integer|bool|\DateTime
+	 * @return string|integer|bool|\DateTime|(\DateTime|int|string)[]
 	 * @since 12.0.0
 	 */
-	public function getValue(): string|int|bool|\DateTime;
+	public function getValue(): string|int|bool|\DateTime|array;
 }

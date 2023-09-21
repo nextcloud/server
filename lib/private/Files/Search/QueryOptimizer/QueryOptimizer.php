@@ -29,15 +29,18 @@ class QueryOptimizer {
 	/** @var QueryOptimizerStep[] */
 	private $steps = [];
 
-	public function __construct(
-		PathPrefixOptimizer $pathPrefixOptimizer
-	) {
+	public function __construct() {
+		// note that the order here is relevant
 		$this->steps = [
-			$pathPrefixOptimizer
+			new PathPrefixOptimizer(),
+			new MergeDistributiveOperations(),
+			new FlattenSingleArgumentBinaryOperation(),
+			new OrEqualsToIn(),
+			new FlattenNestedBool(),
 		];
 	}
 
-	public function processOperator(ISearchOperator $operator) {
+	public function processOperator(ISearchOperator &$operator) {
 		foreach ($this->steps as $step) {
 			$step->inspectOperator($operator);
 		}
