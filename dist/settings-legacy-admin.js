@@ -1,2 +1,283 @@
-({39583:function(){var e=this;window.addEventListener("DOMContentLoaded",(function(){$("#linksExcludedGroups,#passwordsExcludedGroups").each((function(e,s){OC.Settings.setupGroupsSelect($(s)),$(s).change((function(e){var s=e.val||[];s=JSON.stringify(s),OCP.AppConfig.setValue("core",$(this).attr("name"),s)}))})),$("#loglevel").change((function(){$.post(OC.generateUrl("/settings/admin/log/level"),{level:$(this).val()},(function(){OC.Log.reload()}))})),$("#shareAPIEnabled").change((function(){$("#shareAPI p:not(#enable)").toggleClass("hidden",!this.checked)})),$("#shareapiExpireAfterNDays").on("input",(function(){this.value=this.value.replace(/\D/g,"")})),$("#shareAPI input:not(.noJSAutoUpdate)").change((function(){var e=$(this).val();"checkbox"===$(this).attr("type")&&(e=this.checked?"yes":"no"),OCP.AppConfig.setValue("core",$(this).attr("name"),e)})),$("#shareapiDefaultExpireDate").change((function(){$("#setDefaultExpireDate").toggleClass("hidden",!this.checked)})),$("#shareapiDefaultInternalExpireDate").change((function(){$("#setDefaultInternalExpireDate").toggleClass("hidden",!this.checked)})),$("#shareapiDefaultRemoteExpireDate").change((function(){$("#setDefaultRemoteExpireDate").toggleClass("hidden",!this.checked)})),$("#enableLinkPasswordByDefault").change((function(){this.checked?($("#enforceLinkPassword").removeAttr("disabled"),$("#passwordsExcludedGroups").removeAttr("disabled")):($("#enforceLinkPassword").attr("disabled",""),$("#passwordsExcludedGroups").attr("disabled",""),$("#enforceLinkPassword").removeAttr("checked").trigger("change"))})),$("#enforceLinkPassword").change((function(){$("#selectPasswordsExcludedGroups").toggleClass("hidden",!this.checked)})),$("#publicShareDisclaimer").change((function(){$("#publicShareDisclaimerText").toggleClass("hidden",!this.checked),this.checked||s("")})),$("#shareApiDefaultPermissionsSection input").change((function(e){var s=$("#shareApiDefaultPermissions"),t=$(e.target),i=s.val();return t.is(":checked")?i|=t.val():i&=~t.val(),i|=OC.PERMISSION_READ,s.val(i).change(),e.preventDefault(),!1}));var s=_.debounce((function(e){var s={success:function(){OC.msg.finishedSuccess("#publicShareDisclaimerStatus",t("settings","Saved"))},error:function(){OC.msg.finishedError("#publicShareDisclaimerStatus",t("settings","Not saved"))}};OC.msg.startSaving("#publicShareDisclaimerStatus"),_.isString(e)&&""!==e?OCP.AppConfig.setValue("core","shareapi_public_link_disclaimertext",e,s):($("#publicShareDisclaimerText").val(""),OCP.AppConfig.deleteKey("core","shareapi_public_link_disclaimertext",s))}),500);$("#publicShareDisclaimerText").on("change, keyup",(function(){s(this.value)})),$("#shareapi_allow_share_dialog_user_enumeration").on("change",(function(){$("#shareapi_restrict_user_enumeration_to_group_setting").toggleClass("hidden",!this.checked),$("#shareapi_restrict_user_enumeration_to_phone_setting").toggleClass("hidden",!this.checked),$("#shareapi_restrict_user_enumeration_combinewarning_setting").toggleClass("hidden",!this.checked)})),$("#allowLinks").change((function(){$("#publicLinkSettings").toggleClass("hidden",!this.checked),$("#setDefaultExpireDate").toggleClass("hidden",!(this.checked&&$("#shareapiDefaultExpireDate")[0].checked))})),$("#mail_smtpauth").change((function(){this.checked?$("#mail_credentials").removeClass("hidden"):$("#mail_credentials").addClass("hidden")})),$("#mail_smtpmode").change((function(){"smtp"!==$(this).val()?($("#setting_smtpauth").addClass("hidden"),$("#setting_smtphost").addClass("hidden"),$("#mail_smtpsecure_label").addClass("hidden"),$("#mail_smtpsecure").addClass("hidden"),$("#mail_credentials").addClass("hidden"),$("#mail_sendmailmode_label, #mail_sendmailmode").removeClass("hidden")):($("#setting_smtpauth").removeClass("hidden"),$("#setting_smtphost").removeClass("hidden"),$("#mail_smtpsecure_label").removeClass("hidden"),$("#mail_smtpsecure").removeClass("hidden"),$("#mail_smtpauth").is(":checked")&&$("#mail_credentials").removeClass("hidden"),$("#mail_sendmailmode_label, #mail_sendmailmode").addClass("hidden"))})),$("#mail_general_settings_form").change((function e(){OC.PasswordConfirmation.requiresPasswordConfirmation()?OC.PasswordConfirmation.requirePasswordConfirmation(e):(OC.msg.startSaving("#mail_settings_msg"),$.ajax({url:OC.generateUrl("/settings/admin/mailsettings"),type:"POST",data:$("#mail_general_settings_form").serialize(),success:function(){OC.msg.finishedSuccess("#mail_settings_msg",t("settings","Saved"))},error:function(e){OC.msg.finishedError("#mail_settings_msg",e.responseJSON)}}))})),$("#mail_credentials_settings_submit").click((function e(){OC.PasswordConfirmation.requiresPasswordConfirmation()?OC.PasswordConfirmation.requirePasswordConfirmation(e):(OC.msg.startSaving("#mail_settings_msg"),$.ajax({url:OC.generateUrl("/settings/admin/mailsettings/credentials"),type:"POST",data:$("#mail_credentials_settings").serialize(),success:function(){OC.msg.finishedSuccess("#mail_settings_msg",t("settings","Saved"))},error:function(e){OC.msg.finishedError("#mail_settings_msg",e.responseJSON)}}))})),$("#mail_smtppassword").click((function(){"text"===e.type&&"********"===e.value&&(e.type="password",e.value="")})),$("#sendtestemail").click((function(e){e.preventDefault(),OC.msg.startAction("#sendtestmail_msg",t("settings","Sending…")),$.ajax({url:OC.generateUrl("/settings/admin/mailtest"),type:"POST",success:function(){OC.msg.finishedSuccess("#sendtestmail_msg",t("settings","Email sent"))},error:function(e){OC.msg.finishedError("#sendtestmail_msg",e.responseJSON)}})})),$("#allowGroupSharing").change((function(){$("#allowGroupSharing").toggleClass("hidden",!this.checked)})),$("#shareapiExcludeGroups").change((function(){$("#selectExcludedGroups").toggleClass("hidden",!this.checked)})),null!==document.getElementById("security-warning")&&$.when(OC.SetupChecks.checkWebDAV(),OC.SetupChecks.checkWellKnownUrl("GET","/.well-known/webfinger",OC.theme.docPlaceholderUrl,!0===$("#postsetupchecks").data("check-wellknown"),[200,404],!0),OC.SetupChecks.checkWellKnownUrl("GET","/.well-known/nodeinfo",OC.theme.docPlaceholderUrl,!0===$("#postsetupchecks").data("check-wellknown"),[200,404],!0),OC.SetupChecks.checkWellKnownUrl("PROPFIND","/.well-known/caldav",OC.theme.docPlaceholderUrl,!0===$("#postsetupchecks").data("check-wellknown")),OC.SetupChecks.checkWellKnownUrl("PROPFIND","/.well-known/carddav",OC.theme.docPlaceholderUrl,!0===$("#postsetupchecks").data("check-wellknown")),OC.SetupChecks.checkProviderUrl(OC.getRootPath()+"/ocm-provider/",OC.theme.docPlaceholderUrl,!0===$("#postsetupchecks").data("check-wellknown")),OC.SetupChecks.checkProviderUrl(OC.getRootPath()+"/ocs-provider/",OC.theme.docPlaceholderUrl,!0===$("#postsetupchecks").data("check-wellknown")),OC.SetupChecks.checkSetup(),OC.SetupChecks.checkGeneric(),OC.SetupChecks.checkWOFF2Loading(OC.filePath("core","","fonts/NotoSans-Regular-latin.woff2"),OC.theme.docPlaceholderUrl),OC.SetupChecks.checkDataProtected()).then((function(e,s,t,i,a,n,l,r,c,d,o){var h=[].concat(e,s,t,i,a,n,l,r,c,d,o),u=$("#postsetupchecks");$("#security-warning-state-loading").addClass("hidden");for(var g=!1,m=u.find(".errors"),p=u.find(".warnings"),C=u.find(".info"),f=0;f<h.length;f++)switch(h[f].type){case OC.SetupChecks.MESSAGE_TYPE_INFO:C.append("<li>"+h[f].msg+"</li>");break;case OC.SetupChecks.MESSAGE_TYPE_WARNING:p.append("<li>"+h[f].msg+"</li>");break;case OC.SetupChecks.MESSAGE_TYPE_ERROR:default:m.append("<li>"+h[f].msg+"</li>")}m.find("li").length>0&&(m.removeClass("hidden"),g=!0),p.find("li").length>0&&(p.removeClass("hidden"),g=!0),C.find("li").length>0&&(C.removeClass("hidden"),g=!0),g?($("#postsetupchecks-hint").removeClass("hidden"),m.find("li").length>0?$("#security-warning-state-failure").removeClass("hidden"):$("#security-warning-state-warning").removeClass("hidden")):0===$("#security-warning").children("ul").children().length?$("#security-warning-state-ok").removeClass("hidden"):$("#security-warning-state-failure").removeClass("hidden")})),$("#shareAPI").removeClass("loading")}))}})[39583]();
-//# sourceMappingURL=settings-legacy-admin.js.map?v=0f765f80ba1c1f32f578
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/admin.js":
+/*!************************************!*\
+  !*** ./apps/settings/src/admin.js ***!
+  \************************************/
+/***/ (function() {
+
+window.addEventListener('DOMContentLoaded', () => {
+  $('#linksExcludedGroups,#passwordsExcludedGroups').each(function (index, element) {
+    OC.Settings.setupGroupsSelect($(element));
+    $(element).change(function (ev) {
+      let groups = ev.val || [];
+      groups = JSON.stringify(groups);
+      OCP.AppConfig.setValue('core', $(this).attr('name'), groups);
+    });
+  });
+  $('#loglevel').change(function () {
+    $.post(OC.generateUrl('/settings/admin/log/level'), {
+      level: $(this).val()
+    }, () => {
+      OC.Log.reload();
+    });
+  });
+  $('#shareAPIEnabled').change(function () {
+    $('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
+  });
+  $('#shareapiExpireAfterNDays').on('input', function () {
+    this.value = this.value.replace(/\D/g, '');
+  });
+  $('#shareAPI input:not(.noJSAutoUpdate)').change(function () {
+    let value = $(this).val();
+    if ($(this).attr('type') === 'checkbox') {
+      if (this.checked) {
+        value = 'yes';
+      } else {
+        value = 'no';
+      }
+    }
+    OCP.AppConfig.setValue('core', $(this).attr('name'), value);
+  });
+  $('#shareapiDefaultExpireDate').change(function () {
+    $('#setDefaultExpireDate').toggleClass('hidden', !this.checked);
+  });
+  $('#shareapiDefaultInternalExpireDate').change(function () {
+    $('#setDefaultInternalExpireDate').toggleClass('hidden', !this.checked);
+  });
+  $('#shareapiDefaultRemoteExpireDate').change(function () {
+    $('#setDefaultRemoteExpireDate').toggleClass('hidden', !this.checked);
+  });
+  $('#enableLinkPasswordByDefault').change(function () {
+    if (this.checked) {
+      $('#enforceLinkPassword').removeAttr('disabled');
+      $('#passwordsExcludedGroups').removeAttr('disabled');
+    } else {
+      $('#enforceLinkPassword').attr('disabled', '');
+      $('#passwordsExcludedGroups').attr('disabled', '');
+
+      // Uncheck "Enforce password protection" when "Always asks for a
+      // password" is unchecked; the change event needs to be explicitly
+      // triggered so it behaves like a change done by the user.
+      $('#enforceLinkPassword').removeAttr('checked').trigger('change');
+    }
+  });
+  $('#enforceLinkPassword').change(function () {
+    $('#selectPasswordsExcludedGroups').toggleClass('hidden', !this.checked);
+  });
+  $('#publicShareDisclaimer').change(function () {
+    $('#publicShareDisclaimerText').toggleClass('hidden', !this.checked);
+    if (!this.checked) {
+      savePublicShareDisclaimerText('');
+    }
+  });
+  $('#shareApiDefaultPermissionsSection input').change(function (ev) {
+    const $el = $('#shareApiDefaultPermissions');
+    const $target = $(ev.target);
+    let value = $el.val();
+    if ($target.is(':checked')) {
+      value = value | $target.val();
+    } else {
+      value = value & ~$target.val();
+    }
+
+    // always set read permission
+    value |= OC.PERMISSION_READ;
+
+    // this will trigger the field's change event and will save it
+    $el.val(value).change();
+    ev.preventDefault();
+    return false;
+  });
+  const savePublicShareDisclaimerText = _.debounce(function (value) {
+    const options = {
+      success: () => {
+        OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('settings', 'Saved'));
+      },
+      error: () => {
+        OC.msg.finishedError('#publicShareDisclaimerStatus', t('settings', 'Not saved'));
+      }
+    };
+    OC.msg.startSaving('#publicShareDisclaimerStatus');
+    if (_.isString(value) && value !== '') {
+      OCP.AppConfig.setValue('core', 'shareapi_public_link_disclaimertext', value, options);
+    } else {
+      $('#publicShareDisclaimerText').val('');
+      OCP.AppConfig.deleteKey('core', 'shareapi_public_link_disclaimertext', options);
+    }
+  }, 500);
+  $('#publicShareDisclaimerText').on('change, keyup', function () {
+    savePublicShareDisclaimerText(this.value);
+  });
+  $('#shareapi_allow_share_dialog_user_enumeration').on('change', function () {
+    $('#shareapi_restrict_user_enumeration_to_group_setting').toggleClass('hidden', !this.checked);
+    $('#shareapi_restrict_user_enumeration_to_phone_setting').toggleClass('hidden', !this.checked);
+    $('#shareapi_restrict_user_enumeration_combinewarning_setting').toggleClass('hidden', !this.checked);
+  });
+  $('#allowLinks').change(function () {
+    $('#publicLinkSettings').toggleClass('hidden', !this.checked);
+    $('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked));
+  });
+  $('#mail_smtpauth').change(function () {
+    if (!this.checked) {
+      $('#mail_credentials').addClass('hidden');
+    } else {
+      $('#mail_credentials').removeClass('hidden');
+    }
+  });
+  $('#mail_smtpmode').change(function () {
+    if ($(this).val() !== 'smtp') {
+      $('#setting_smtpauth').addClass('hidden');
+      $('#setting_smtphost').addClass('hidden');
+      $('#mail_smtpsecure_label').addClass('hidden');
+      $('#mail_smtpsecure').addClass('hidden');
+      $('#mail_credentials').addClass('hidden');
+      $('#mail_sendmailmode_label, #mail_sendmailmode').removeClass('hidden');
+    } else {
+      $('#setting_smtpauth').removeClass('hidden');
+      $('#setting_smtphost').removeClass('hidden');
+      $('#mail_smtpsecure_label').removeClass('hidden');
+      $('#mail_smtpsecure').removeClass('hidden');
+      if ($('#mail_smtpauth').is(':checked')) {
+        $('#mail_credentials').removeClass('hidden');
+      }
+      $('#mail_sendmailmode_label, #mail_sendmailmode').addClass('hidden');
+    }
+  });
+  const changeEmailSettings = function () {
+    if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+      OC.PasswordConfirmation.requirePasswordConfirmation(changeEmailSettings);
+      return;
+    }
+    OC.msg.startSaving('#mail_settings_msg');
+    $.ajax({
+      url: OC.generateUrl('/settings/admin/mailsettings'),
+      type: 'POST',
+      data: $('#mail_general_settings_form').serialize(),
+      success: () => {
+        OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
+      },
+      error: xhr => {
+        OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON);
+      }
+    });
+  };
+  const toggleEmailCredentials = function () {
+    if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+      OC.PasswordConfirmation.requirePasswordConfirmation(toggleEmailCredentials);
+      return;
+    }
+    OC.msg.startSaving('#mail_settings_msg');
+    $.ajax({
+      url: OC.generateUrl('/settings/admin/mailsettings/credentials'),
+      type: 'POST',
+      data: $('#mail_credentials_settings').serialize(),
+      success: () => {
+        OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
+      },
+      error: xhr => {
+        OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON);
+      }
+    });
+  };
+  $('#mail_general_settings_form').change(changeEmailSettings);
+  $('#mail_credentials_settings_submit').click(toggleEmailCredentials);
+  $('#mail_smtppassword').click(() => {
+    if (this.type === 'text' && this.value === '********') {
+      this.type = 'password';
+      this.value = '';
+    }
+  });
+  $('#sendtestemail').click(event => {
+    event.preventDefault();
+    OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending…'));
+    $.ajax({
+      url: OC.generateUrl('/settings/admin/mailtest'),
+      type: 'POST',
+      success: () => {
+        OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'));
+      },
+      error: xhr => {
+        OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON);
+      }
+    });
+  });
+  $('#allowGroupSharing').change(function () {
+    $('#allowGroupSharing').toggleClass('hidden', !this.checked);
+  });
+  $('#shareapiExcludeGroups').change(function () {
+    $('#selectExcludedGroups').toggleClass('hidden', !this.checked);
+  });
+  const setupChecks = () => {
+    // run setup checks then gather error messages
+    $.when(OC.SetupChecks.checkWebDAV(), OC.SetupChecks.checkWellKnownUrl('GET', '/.well-known/webfinger', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true, [200, 404], true), OC.SetupChecks.checkWellKnownUrl('GET', '/.well-known/nodeinfo', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true, [200, 404], true), OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true), OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/carddav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true), OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocm-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true), OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocs-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true), OC.SetupChecks.checkSetup(), OC.SetupChecks.checkGeneric(), OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), OC.theme.docPlaceholderUrl), OC.SetupChecks.checkDataProtected()).then((check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11) => {
+      const messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11);
+      const $el = $('#postsetupchecks');
+      $('#security-warning-state-loading').addClass('hidden');
+      let hasMessages = false;
+      const $errorsEl = $el.find('.errors');
+      const $warningsEl = $el.find('.warnings');
+      const $infoEl = $el.find('.info');
+      for (let i = 0; i < messages.length; i++) {
+        switch (messages[i].type) {
+          case OC.SetupChecks.MESSAGE_TYPE_INFO:
+            $infoEl.append('<li>' + messages[i].msg + '</li>');
+            break;
+          case OC.SetupChecks.MESSAGE_TYPE_WARNING:
+            $warningsEl.append('<li>' + messages[i].msg + '</li>');
+            break;
+          case OC.SetupChecks.MESSAGE_TYPE_ERROR:
+          default:
+            $errorsEl.append('<li>' + messages[i].msg + '</li>');
+        }
+      }
+      if ($errorsEl.find('li').length > 0) {
+        $errorsEl.removeClass('hidden');
+        hasMessages = true;
+      }
+      if ($warningsEl.find('li').length > 0) {
+        $warningsEl.removeClass('hidden');
+        hasMessages = true;
+      }
+      if ($infoEl.find('li').length > 0) {
+        $infoEl.removeClass('hidden');
+        hasMessages = true;
+      }
+      if (hasMessages) {
+        $('#postsetupchecks-hint').removeClass('hidden');
+        if ($errorsEl.find('li').length > 0) {
+          $('#security-warning-state-failure').removeClass('hidden');
+        } else {
+          $('#security-warning-state-warning').removeClass('hidden');
+        }
+      } else {
+        const securityWarning = $('#security-warning');
+        if (securityWarning.children('ul').children().length === 0) {
+          $('#security-warning-state-ok').removeClass('hidden');
+        } else {
+          $('#security-warning-state-failure').removeClass('hidden');
+        }
+      }
+    });
+  };
+  if (document.getElementById('security-warning') !== null) {
+    setupChecks();
+  }
+  $('#shareAPI').removeClass('loading');
+});
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./apps/settings/src/admin.js"]();
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-legacy-admin.js.map?v=3b8b7a684d04fc1b456e

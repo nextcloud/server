@@ -37,7 +37,7 @@
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@mdi/svg": "^7.0.96",
-    "@nextcloud/auth": "^2.1.0",
+    "@nextcloud/auth": "^2.2.1",
     "@nextcloud/axios": "^2.3.0",
     "@nextcloud/browser-storage": "^0.2.0",
     "@nextcloud/browserslist-config": "^3.0.0",
@@ -48,7 +48,7 @@
     "@nextcloud/files": "^3.0.0-beta.21",
     "@nextcloud/initial-state": "^2.0.0",
     "@nextcloud/l10n": "^2.1.0",
-    "@nextcloud/logger": "^2.5.0",
+    "@nextcloud/logger": "^2.7.0",
     "@nextcloud/moment": "^1.2.1",
     "@nextcloud/password-confirmation": "^4.0.4",
     "@nextcloud/paths": "^2.1.0",
