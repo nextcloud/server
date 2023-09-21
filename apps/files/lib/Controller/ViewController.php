@@ -217,6 +217,7 @@ class ViewController extends Controller {
 		}
 
 		// Load the files we need
+		\OCP\Util::addInitScript('files', 'init');
 		\OCP\Util::addStyle('files', 'merged');
 		\OCP\Util::addScript('files', 'merged-index', 'files');
 		\OCP\Util::addScript('files', 'main');

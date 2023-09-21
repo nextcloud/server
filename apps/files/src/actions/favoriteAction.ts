@@ -21,7 +21,7 @@
  */
 import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
-import { Permission, type Node, View, registerFileAction, FileAction } from '@nextcloud/files'
+import { Permission, type Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
@@ -101,5 +101,3 @@ export const action = new FileAction({
 
 	order: -50,
 })
-
-registerFileAction(action)

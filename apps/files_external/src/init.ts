@@ -19,18 +19,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate as t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { View, getNavigation, Column, registerFileAction } from '@nextcloud/files'
 import FolderNetworkSvg from '@mdi/svg/svg/folder-network.svg?raw'
 
-import './actions/enterCredentialsAction'
-import './actions/inlineStorageCheckAction'
-import './actions/openInFilesAction'
+import { action as enterCredentialsAction } from './actions/enterCredentialsAction'
+import { action as inlineStorageCheckAction } from './actions/inlineStorageCheckAction'
+import { action as openInFilesAction } from './actions/openInFilesAction'
 import { getContents } from './services/externalStorage'
-import { View, getNavigation, Column } from '@nextcloud/files'
 
 const allowUserMounting = loadState('files_external', 'allowUserMounting', false)
 
+// Register view
 const Navigation = getNavigation()
 Navigation.register(new View({
 	id: 'extstoragemounts',
@@ -73,3 +74,8 @@ Navigation.register(new View({
 
 	getContents,
 }))
+
+// Register actions
+registerFileAction(enterCredentialsAction)
+registerFileAction(inlineStorageCheckAction)
+registerFileAction(openInFilesAction)

@@ -20,14 +20,11 @@
  *
  */
 import type { ContentsWithRoot } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { File, Folder, davParsePermissions } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
+import { Folder, getDavNameSpaces, getDavProperties, davGetDefaultPropfind } from '@nextcloud/files'
 
-import { getClient, rootPath } from './WebdavClient'
-import { getDavNameSpaces, getDavProperties, getDefaultPropfind } from './DavProperties'
+import { getClient } from './WebdavClient'
 import { resultToNode } from './Files'
 
 const client = getClient()
@@ -42,21 +39,15 @@ const reportPayload = `<?xml version="1.0"?>
 	</oc:filter-rules>
 </oc:filter-files>`
 
-interface ResponseProps extends DAVResultResponseProps {
-	permissions: string,
-	fileid: number,
-	size: number,
-}
-
 export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
-	const propfindPayload = getDefaultPropfind()
+	const propfindPayload = davGetDefaultPropfind()
 
 	// Get root folder
 	let rootResponse
 	if (path === '/') {
 		rootResponse = await client.stat(path, {
 			details: true,
-			data: getDefaultPropfind(),
+			data: propfindPayload,
 		}) as ResponseDataDetailed<FileStat>
 	}
 

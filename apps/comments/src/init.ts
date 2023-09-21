@@ -19,35 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate as t } from '@nextcloud/l10n'
-import { type Node, FileType, FileAction, DefaultType } from '@nextcloud/files'
+import { registerFileAction } from '@nextcloud/files'
+import { action } from './actions/inlineUnreadCommentsAction'
 
-/**
- * TODO: Move away from a redirect and handle
- * navigation straight out of the recent view
- */
-export const action = new FileAction({
-	id: 'open-in-files-recent',
-	displayName: () => t('files', 'Open in Files'),
-	iconSvgInline: () => '',
-
-	enabled: (nodes, view) => view.id === 'recent',
-
-	async exec(node: Node) {
-		let dir = node.dirname
-		if (node.type === FileType.Folder) {
-			dir = dir + '/' + node.basename
-		}
-
-		window.OCP.Files.Router.goToRoute(
-			null, // use default route
-			{ view: 'files', fileid: node.fileid },
-			{ dir, fileid: node.fileid },
-		)
-		return null
-	},
-
-	// Before openFolderAction
-	order: -1000,
-	default: DefaultType.HIDDEN,
-})
+registerFileAction(action)
