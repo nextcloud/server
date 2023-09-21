@@ -35,16 +35,14 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
 	private string $mountPoint;
-	private  IUserManager$userManager;
+	private IUserManager$userManager;
 	private LoggerInterface $logger;
 	private IEventDispatcher $eventDispatcher;
 	private IRootFolder $rootFolder;
@@ -218,7 +216,7 @@ class Storage extends Wrapper {
 					$rootFolder,
 				);
 			},
-		1);
+			1);
 	}
 
 	public function getMountPoint() {

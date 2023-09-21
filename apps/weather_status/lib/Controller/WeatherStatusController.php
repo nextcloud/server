@@ -30,32 +30,19 @@ use OCA\WeatherStatus\Service\WeatherStatusService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\ILogger;
 use OCP\IRequest;
 
 /**
  * @psalm-import-type WeatherStatusForecast from ResponseDefinitions
  */
 class WeatherStatusController extends OCSController {
-
-	/** @var string */
-	private $userId;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var WeatherStatusService */
-	private $service;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								ILogger $logger,
-								WeatherStatusService $service,
-								?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private WeatherStatusService $service,
+		private ?string $userId,
+	) {
 		parent::__construct($appName, $request);
-		$this->userId = $userId;
-		$this->logger = $logger;
-		$this->service = $service;
 	}
 
 	/**

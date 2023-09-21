@@ -36,24 +36,17 @@ use OCP\Log\ILogFactory;
 use Psr\Log\LoggerInterface;
 
 class Logger {
-	/** @var ILogger */
-	protected $generalLogger;
-	/** @var LoggerInterface */
-	protected $flowLogger;
-	/** @var IConfig */
-	private $config;
-	/** @var ILogFactory */
-	private $logFactory;
+	protected ?LoggerInterface $flowLogger = null;
 
-	public function __construct(ILogger $generalLogger, IConfig $config, ILogFactory $logFactory) {
-		$this->generalLogger = $generalLogger;
-		$this->config = $config;
-		$this->logFactory = $logFactory;
-
+	public function __construct(
+		protected LoggerInterface $generalLogger,
+		private IConfig $config,
+		private ILogFactory $logFactory,
+	) {
 		$this->initLogger();
 	}
 
-	protected function initLogger() {
+	protected function initLogger(): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
 		if ($logFile !== '') {

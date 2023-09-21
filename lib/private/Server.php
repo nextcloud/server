@@ -1170,7 +1170,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getAppDataDir('theming'),
 					$c->get(IURLGenerator::class),
 					$this->get(ICacheFactory::class),
-					$this->get(ILogger::class),
+					$this->get(LoggerInterface::class),
 					$this->get(ITempManager::class)
 				);
 				return new ThemingDefaults(
