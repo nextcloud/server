@@ -45,7 +45,7 @@
     "@nextcloud/capabilities": "^1.0.4",
     "@nextcloud/dialogs": "^5.0.0-beta.2",
     "@nextcloud/event-bus": "^3.1.0",
-    "@nextcloud/files": "^3.0.0-beta.21",
+    "@nextcloud/files": "^3.0.0-beta.22",
     "@nextcloud/initial-state": "^2.0.0",
     "@nextcloud/l10n": "^2.1.0",
     "@nextcloud/logger": "^2.5.0",

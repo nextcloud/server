@@ -33,7 +33,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -59,8 +58,6 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	protected $urlGenerator;
 	/** @var IRootFolder */
 	protected $root;
-	/** @var ILogger */
-	protected $logger;
 	/** @var string */
 	protected $eventName;
 	/** @var Event */
@@ -82,7 +79,6 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		IL10N $l10n,
 		IURLGenerator $urlGenerator,
 		IRootFolder $root,
-		ILogger $logger,
 		ShareManager $shareManager,
 		IUserSession $userSession,
 		ISystemTagManager $tagManager,
@@ -91,7 +87,6 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 		$this->root = $root;
-		$this->logger = $logger;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->tagManager = $tagManager;

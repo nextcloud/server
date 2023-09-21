@@ -20,7 +20,7 @@
  *
  */
 import { generateUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
+import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -86,5 +86,3 @@ export const action = new FileAction({
 
 	order: 30,
 })
-
-registerFileAction(action)

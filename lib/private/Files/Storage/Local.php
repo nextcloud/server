@@ -86,7 +86,7 @@ class Local extends \OC\Files\Storage\Common {
 			$realPath = realpath($this->datadir) ?: $this->datadir;
 			$this->realDataDir = rtrim($realPath, '/') . '/';
 		}
-		if (substr($this->datadir, -1) !== '/') {
+		if (!str_ends_with($this->datadir, '/')) {
 			$this->datadir .= '/';
 		}
 		$this->dataDirLength = strlen($this->realDataDir);
@@ -162,7 +162,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function is_dir($path) {
-		if (substr($path, -1) == '/') {
+		if (str_ends_with($path, '/')) {
 			$path = substr($path, 0, -1);
 		}
 		return is_dir($this->getSourcePath($path));

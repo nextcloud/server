@@ -23,7 +23,7 @@
 import './actions/inlineSystemTagsAction.js'
 
 import { translate as t } from '@nextcloud/l10n'
-import { Column, Node, View, getNavigation } from '@nextcloud/files'
+import { View, getNavigation } from '@nextcloud/files'
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 
 import { getContents } from './services/systemtags.js'

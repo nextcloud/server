@@ -22,12 +22,11 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
-import { File, Folder, Permission, davParsePermissions } from '@nextcloud/files'
+import { Folder, Permission, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { getClient, rootPath } from './WebdavClient'
-import { getDavNameSpaces, getDavProperties } from './DavProperties'
 import { resultToNode } from './Files'
 
 const client = getClient(generateRemoteUrl('dav'))

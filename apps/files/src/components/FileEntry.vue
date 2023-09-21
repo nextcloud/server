@@ -130,12 +130,13 @@
 					:class="'files-list__row-action-' + action.id"
 					:close-after-click="true"
 					:data-cy-files-list-row-action="action.id"
+					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loading === action.id" :size="18" />
 						<CustomSvgIconRender v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
-					{{ action.displayName([source], currentView) }}
+					{{ actionDisplayName(action) }}
 				</NcActionButton>
 			</NcActions>
 		</td>
@@ -180,7 +181,7 @@ import { debounce } from 'debounce'
 import { emit } from '@nextcloud/event-bus'
 import { extname } from 'path'
 import { generateUrl } from '@nextcloud/router'
-import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File, Node } from '@nextcloud/files'
+import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File, Node, FileAction } from '@nextcloud/files'
 import { Type as ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
@@ -916,6 +917,16 @@ export default Vue.extend({
 		 */
 		getBoundariesElement() {
 			return document.querySelector('.app-content > .files-list')
+		},
+
+		actionDisplayName(action: FileAction) {
+			if (this.filesListWidth < 768 && action.inline && typeof action.title === 'function') {
+				// if an inline action is rendered in the menu for
+				// lack of space we use the title first if defined
+				const title = action.title([this.source], this.currentView)
+				if (title) return title
+			}
+			return action.displayName([this.source], this.currentView)
 		},
 
 		t: translate,

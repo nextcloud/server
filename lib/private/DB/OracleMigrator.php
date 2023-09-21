@@ -206,7 +206,7 @@ class OracleMigrator extends Migrator {
 	 * @return string
 	 */
 	protected function convertStatementToScript($statement) {
-		if (substr($statement, -1) === ';') {
+		if (str_ends_with($statement, ';')) {
 			return $statement . PHP_EOL . '/' . PHP_EOL;
 		}
 		$script = $statement . ';';

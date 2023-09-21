@@ -42,41 +42,21 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-import-type UserStatusPrivate from ResponseDefinitions
  */
 class UserStatusController extends OCSController {
-
-	/** @var string */
-	private $userId;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var StatusService */
-	private $service;
-
-	/**
-	 * StatusesController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param string $userId
-	 * @param ILogger $logger;
-	 * @param StatusService $service
-	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								string $userId,
-								ILogger $logger,
-								StatusService $service) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private string $userId,
+		private LoggerInterface $logger,
+		private StatusService $service,
+	) {
 		parent::__construct($appName, $request);
-		$this->userId = $userId;
-		$this->logger = $logger;
-		$this->service = $service;
 	}
 
 	/**

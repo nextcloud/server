@@ -31,7 +31,7 @@ import axios from '@nextcloud/axios'
 import LoginSvg from '@mdi/svg/svg/login.svg?raw'
 import Vue from 'vue'
 
-import { registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { FileAction, DefaultType } from '@nextcloud/files'
 import { STORAGE_STATUS, isMissingAuthConfig } from '../utils/credentialsUtils'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils'
 
@@ -106,5 +106,3 @@ export const action = new FileAction({
 	default: DefaultType.DEFAULT,
 	inline: () => true,
 })
-
-registerFileAction(action)

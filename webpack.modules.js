@@ -26,6 +26,7 @@ module.exports = {
 		comments: path.join(__dirname, 'apps/comments/src', 'comments.js'),
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
 		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
+		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
 	},
 	core: {
 		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
@@ -51,11 +52,12 @@ module.exports = {
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
+		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
 		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.js'),
 	},
 	files_external: {
-		main: path.join(__dirname, 'apps/files_external/src', 'main.ts'),
+		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
 	},
 	files_reminders: {
 		main: path.join(__dirname, 'apps/files_reminders/src', 'main.ts'),

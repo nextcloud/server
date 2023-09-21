@@ -47,17 +47,28 @@ export const action = new FileAction({
 	displayName(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
-		if (shareTypes.length > 0) {
-			return t('files_sharing', 'Shared')
-		}
-
 		const ownerId = node?.attributes?.['owner-id']
-		if (ownerId && ownerId !== getCurrentUser()?.uid) {
+
+		if (shareTypes.length > 0
+			|| (ownerId && ownerId !== getCurrentUser()?.uid)) {
 			return t('files_sharing', 'Shared')
 		}
 
 		return ''
 	},
+
+	title(nodes: Node[]) {
+		const node = nodes[0]
+		const ownerId = node?.attributes?.['owner-id']
+		const ownerDisplayName = node?.attributes?.['owner-display-name']
+
+		if (ownerId && ownerId !== getCurrentUser()?.uid) {
+			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
+		}
+
+		return ''
+	},
+
 	iconSvgInline(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]

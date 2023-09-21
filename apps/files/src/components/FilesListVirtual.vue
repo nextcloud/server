@@ -454,10 +454,6 @@ export default Vue.extend({
 					// Remove bold from default button styling
 					font-weight: normal;
 				}
-				&:not(:hover, :focus, :active) .button-vue__wrapper {
-					// Also apply color-text-maxcontrast to non-active button
-					color: var(--color-text-maxcontrast);
-				}
 			}
 		}
 
