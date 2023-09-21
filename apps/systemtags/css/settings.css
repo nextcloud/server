@@ -1,6 +1,20 @@
 .systemtag-input {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
+}
+.systemtag-input--name {
+	margin-right: 3px;
+}
+.systemtag-input--name,
+.systemtag-input--level {
+	display: flex;
+	flex-direction: column;
+}
+.systemtag-input--actions {
+	margin-top: 25px;
+	display: flex;
+	flex-direction: row;
 }
 #systemtags .select2-container {
 	width: 100%;
