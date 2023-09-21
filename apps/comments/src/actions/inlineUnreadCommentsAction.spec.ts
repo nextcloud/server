@@ -44,7 +44,8 @@ describe('Inline unread comments action display name tests', () => {
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('comments-unread')
-		expect(action.displayName([file], view)).toBe('1 new comment')
+		expect(action.displayName([file], view)).toBe('')
+		expect(action.title!([file], view)).toBe('1 new comment')
 		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
 		expect(action.enabled!([file], view)).toBe(true)
 		expect(action.inline!(file, view)).toBe(true)
@@ -64,7 +65,8 @@ describe('Inline unread comments action display name tests', () => {
 			},
 		})
 
-		expect(action.displayName([file], view)).toBe('2 new comments')
+		expect(action.displayName([file], view)).toBe('')
+		expect(action.title!([file], view)).toBe('2 new comments')
 	})
 })
 
