@@ -53,7 +53,6 @@ class Expire implements ICommand {
 			// In case of external storage and session credentials, the expiration
 			// fails because the command does not have those credentials
 
-			/** @var LoggerInterface $logger */
 			$logger = \OC::$server->get(LoggerInterface::class);
 			$logger->warning($e->getMessage(), [
 				'exception' => $e,

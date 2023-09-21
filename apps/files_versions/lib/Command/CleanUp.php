@@ -115,7 +115,7 @@ class CleanUp extends Command {
 	/**
 	 * delete versions for the given user
 	 */
-	protected function deleteVersions(string $user, string $path = null): void {
+	protected function deleteVersions(string $user, ?string $path = null): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 
