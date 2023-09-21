@@ -17,6 +17,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
+        'B' => 
+        array (
+            'Bamarni\\Composer\\Bin\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -32,6 +36,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
+        'Bamarni\\Composer\\Bin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -39,6 +47,19 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $classMap = array (
+        'Bamarni\\Composer\\Bin\\ApplicationFactory\\FreshInstanceApplicationFactory' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/ApplicationFactory/FreshInstanceApplicationFactory.php',
+        'Bamarni\\Composer\\Bin\\ApplicationFactory\\NamespaceApplicationFactory' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/ApplicationFactory/NamespaceApplicationFactory.php',
+        'Bamarni\\Composer\\Bin\\BamarniBinPlugin' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/BamarniBinPlugin.php',
+        'Bamarni\\Composer\\Bin\\CommandProvider' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/CommandProvider.php',
+        'Bamarni\\Composer\\Bin\\Command\\BinCommand' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Command/BinCommand.php',
+        'Bamarni\\Composer\\Bin\\Command\\CouldNotCreateNamespaceDir' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Command/CouldNotCreateNamespaceDir.php',
+        'Bamarni\\Composer\\Bin\\Config\\Config' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Config/Config.php',
+        'Bamarni\\Composer\\Bin\\Config\\ConfigFactory' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Config/ConfigFactory.php',
+        'Bamarni\\Composer\\Bin\\Config\\InvalidBamarniComposerExtraConfig' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Config/InvalidBamarniComposerExtraConfig.php',
+        'Bamarni\\Composer\\Bin\\Input\\BinInputFactory' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Input/BinInputFactory.php',
+        'Bamarni\\Composer\\Bin\\Input\\InvalidBinInput' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Input/InvalidBinInput.php',
+        'Bamarni\\Composer\\Bin\\Logger' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Logger.php',
+        'Bamarni\\Composer\\Bin\\PublicIO' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/PublicIO.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
@@ -622,6 +643,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Route\\IRouter' => __DIR__ . '/../../..' . '/lib/public/Route/IRouter.php',
         'OCP\\SabrePluginEvent' => __DIR__ . '/../../..' . '/lib/public/SabrePluginEvent.php',
         'OCP\\SabrePluginException' => __DIR__ . '/../../..' . '/lib/public/SabrePluginException.php',
+        'OCP\\Search\\FilterDefinition' => __DIR__ . '/../../..' . '/lib/public/Search/FilterDefinition.php',
+        'OCP\\Search\\IFilter' => __DIR__ . '/../../..' . '/lib/public/Search/IFilter.php',
+        'OCP\\Search\\IFilterCollection' => __DIR__ . '/../../..' . '/lib/public/Search/IFilterCollection.php',
+        'OCP\\Search\\IFilteringProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IFilteringProvider.php',
         'OCP\\Search\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IProvider.php',
         'OCP\\Search\\ISearchQuery' => __DIR__ . '/../../..' . '/lib/public/Search/ISearchQuery.php',
         'OCP\\Search\\PagedProvider' => __DIR__ . '/../../..' . '/lib/public/Search/PagedProvider.php',
@@ -1674,6 +1699,16 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Route\\Route' => __DIR__ . '/../../..' . '/lib/private/Route/Route.php',
         'OC\\Route\\Router' => __DIR__ . '/../../..' . '/lib/private/Route/Router.php',
         'OC\\Search' => __DIR__ . '/../../..' . '/lib/private/Search.php',
+        'OC\\Search\\FilterCollection' => __DIR__ . '/../../..' . '/lib/private/Search/FilterCollection.php',
+        'OC\\Search\\FilterFactory' => __DIR__ . '/../../..' . '/lib/private/Search/FilterFactory.php',
+        'OC\\Search\\Filter\\BooleanFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/BooleanFilter.php',
+        'OC\\Search\\Filter\\DateTimeFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/DateTimeFilter.php',
+        'OC\\Search\\Filter\\FloatFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/FloatFilter.php',
+        'OC\\Search\\Filter\\GroupFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/GroupFilter.php',
+        'OC\\Search\\Filter\\IntegerFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/IntegerFilter.php',
+        'OC\\Search\\Filter\\StringFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/StringFilter.php',
+        'OC\\Search\\Filter\\StringsFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/StringsFilter.php',
+        'OC\\Search\\Filter\\UserFilter' => __DIR__ . '/../../..' . '/lib/private/Search/Filter/UserFilter.php',
         'OC\\Search\\Provider\\File' => __DIR__ . '/../../..' . '/lib/private/Search/Provider/File.php',
         'OC\\Search\\Result\\Audio' => __DIR__ . '/../../..' . '/lib/private/Search/Result/Audio.php',
         'OC\\Search\\Result\\File' => __DIR__ . '/../../..' . '/lib/private/Search/Result/File.php',
@@ -1681,6 +1716,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Search\\Result\\Image' => __DIR__ . '/../../..' . '/lib/private/Search/Result/Image.php',
         'OC\\Search\\SearchComposer' => __DIR__ . '/../../..' . '/lib/private/Search/SearchComposer.php',
         'OC\\Search\\SearchQuery' => __DIR__ . '/../../..' . '/lib/private/Search/SearchQuery.php',
+        'OC\\Search\\UnsupportedFilter' => __DIR__ . '/../../..' . '/lib/private/Search/UnsupportedFilter.php',
         'OC\\Security\\Bruteforce\\Backend\\DatabaseBackend' => __DIR__ . '/../../..' . '/lib/private/Security/Bruteforce/Backend/DatabaseBackend.php',
         'OC\\Security\\Bruteforce\\Backend\\IBackend' => __DIR__ . '/../../..' . '/lib/private/Security/Bruteforce/Backend/IBackend.php',
         'OC\\Security\\Bruteforce\\Backend\\MemoryCacheBackend' => __DIR__ . '/../../..' . '/lib/private/Security/Bruteforce/Backend/MemoryCacheBackend.php',
