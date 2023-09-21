@@ -62,7 +62,7 @@ export const getUniqueName = (name: string, names: string[]): string => {
 	return newName
 }
 
-const entry = {
+export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
 	if: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
@@ -92,5 +92,3 @@ const entry = {
 		emit('files:node:rename', folder)
 	},
 } as Entry
-
-addNewFileMenuEntry(entry)

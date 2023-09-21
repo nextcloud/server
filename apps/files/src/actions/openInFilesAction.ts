@@ -20,9 +20,7 @@
  *
  */
 import { translate as t } from '@nextcloud/l10n'
-import { FileType, type Node } from '@nextcloud/files'
-
-import { registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { type Node, FileType, FileAction, DefaultType } from '@nextcloud/files'
 
 /**
  * TODO: Move away from a redirect and handle
@@ -53,5 +51,3 @@ export const action = new FileAction({
 	order: -1000,
 	default: DefaultType.HIDDEN,
 })
-
-registerFileAction(action)

@@ -19,15 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { FileAction, Node, registerFileAction } from '@nextcloud/files'
+import { FileAction, Node } from '@nextcloud/files'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import commentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
+import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
+
 import logger from '../logger'
 
 export const action = new FileAction({
 	id: 'comments-unread',
 
-	displayName(nodes: Node[]) {
+	title(nodes: Node[]) {
 		const unread = nodes[0].attributes['comments-unread'] as number
 		if (unread >= 0) {
 			return n('comments', '1 new comment', '{unread} new comments', unread, { unread })
@@ -35,7 +36,10 @@ export const action = new FileAction({
 		return t('comments', 'Comment')
 	},
 
-	iconSvgInline: () => commentProcessingSvg,
+	// Empty string when rendered inline
+	displayName: () => '',
+
+	iconSvgInline: () => CommentProcessingSvg,
 
 	enabled(nodes: Node[]) {
 		const unread = nodes[0].attributes['comments-unread'] as number|undefined
@@ -57,5 +61,3 @@ export const action = new FileAction({
 
 	order: -140,
 })
-
-registerFileAction(action)

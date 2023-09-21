@@ -20,7 +20,7 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node, View, registerFileAction, FileAction } from '@nextcloud/files'
+import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
@@ -62,5 +62,3 @@ export const action = new FileAction({
 
 	order: 100,
 })
-
-registerFileAction(action)
