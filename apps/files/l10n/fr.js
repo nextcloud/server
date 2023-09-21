@@ -226,7 +226,7 @@ OC.L10N.register(
     "Shared by link" : "Partagés par lien",
     "Shared" : "Partagé",
     "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
-    "Files settings" : "Paramètres des fichiers",
+    "Files settings" : "Paramètres de Fichiers",
     "File cannot be accessed" : "Impossible d'accéder au fichier",
     "You might not have have permissions to view it, ask the sender to share it" : "Vous n’avez peut-être pas les autorisations pour le voir, demandez à l’expéditeur de le partager",
     "Sort favorites first" : "Trier les favoris d'abord",
