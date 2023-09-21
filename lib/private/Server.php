@@ -143,6 +143,7 @@ use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
+use OC\Security\RateLimiting\Limiter;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
@@ -241,6 +242,7 @@ use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
+use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -1418,6 +1420,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
 
 		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
+
+		$this->registerAlias(ILimiter::class, Limiter::class);
 
 		$this->connectDispatcher();
 	}

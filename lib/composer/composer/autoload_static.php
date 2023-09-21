@@ -621,6 +621,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Security\\IRemoteHostValidator' => __DIR__ . '/../../..' . '/lib/public/Security/IRemoteHostValidator.php',
         'OCP\\Security\\ISecureRandom' => __DIR__ . '/../../..' . '/lib/public/Security/ISecureRandom.php',
         'OCP\\Security\\ITrustedDomainHelper' => __DIR__ . '/../../..' . '/lib/public/Security/ITrustedDomainHelper.php',
+        'OCP\\Security\\RateLimiting\\ILimiter' => __DIR__ . '/../../..' . '/lib/public/Security/RateLimiting/ILimiter.php',
+        'OCP\\Security\\RateLimiting\\IRateLimitExceededException' => __DIR__ . '/../../..' . '/lib/public/Security/RateLimiting/IRateLimitExceededException.php',
         'OCP\\Security\\VerificationToken\\IVerificationToken' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/IVerificationToken.php',
         'OCP\\Security\\VerificationToken\\InvalidTokenException' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
         'OCP\\Server' => __DIR__ . '/../../..' . '/lib/public/Server.php',
