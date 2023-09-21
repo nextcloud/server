@@ -124,6 +124,7 @@ use OC\Metadata\Capabilities as MetadataCapabilities;
 use OC\Metadata\IMetadataManager;
 use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
+use OC\OCM\OCMDiscoveryService;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
@@ -228,6 +229,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -1306,6 +1308,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IClientService::class)
 			);
 		});
+		$this->registerAlias(IOCMDiscoveryService::class, OCMDiscoveryService::class);
 
 		$this->registerService(ICloudIdManager::class, function (ContainerInterface $c) {
 			return new CloudIdManager(
@@ -1321,9 +1324,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(ICloudFederationProviderManager::class, function (ContainerInterface $c) {
 			return new CloudFederationProviderManager(
+				$c->get(\OCP\IConfig::class),
 				$c->get(IAppManager::class),
 				$c->get(IClientService::class),
 				$c->get(ICloudIdManager::class),
+				$c->get(IOCMDiscoveryService::class),
 				$c->get(LoggerInterface::class)
 			);
 		});

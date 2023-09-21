@@ -97,7 +97,7 @@
 			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
-				:disabled="saving"
+				:disabled="saving || isExpiryDateEnforced"
 				:is-native-picker="true"
 				:hide-label="true"
 				:value="new Date(share.expireDate)"
@@ -302,34 +302,12 @@ export default {
 			}
 			return null
 		},
-
-		/**
-		 * Does the current share have an expiration date
-		 *
-		 * @return {boolean}
-		 */
-		hasExpirationDate: {
-			get() {
-				return this.config.isDefaultExpireDateEnforced
-					|| !!this.share.expireDate
-			},
-			set(enabled) {
-				const defaultExpirationDate = this.config.defaultExpirationDate
-					|| new Date(new Date().setDate(new Date().getDate() + 1))
-				this.share.expireDate = enabled
-					? this.formatDateToString(defaultExpirationDate)
-					: ''
-				console.debug('Expiration date status', enabled, this.share.expireDate)
-			},
-		},
-
 		dateMaxEnforced() {
 			if (this.config.isDefaultExpireDateEnforced) {
 				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
 			}
 			return null
 		},
-
 		/**
 		 * Is the current share password protected ?
 		 *

@@ -32,26 +32,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateAddressBook extends Command {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var CardDavBackend */
-	private $cardDavBackend;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param CardDavBackend $cardDavBackend
-	 */
-	public function __construct(IUserManager $userManager,
-						 CardDavBackend $cardDavBackend
+	public function __construct(
+		private IUserManager $userManager,
+		private CardDavBackend $cardDavBackend,
 	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->cardDavBackend = $cardDavBackend;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 				->setName('dav:create-addressbook')
 				->setDescription('Create a dav addressbook')
@@ -71,6 +59,6 @@ class CreateAddressBook extends Command {
 
 		$name = $input->getArgument('name');
 		$this->cardDavBackend->createAddressBook("principals/users/$user", $name, []);
-		return 0;
+		return self::SUCCESS;
 	}
 }

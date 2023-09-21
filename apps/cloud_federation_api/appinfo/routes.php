@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,15 +28,21 @@ return [
 	'routes' => [
 		[
 			'name' => 'RequestHandler#addShare',
-			'url' => '/ocm/shares',
+			'url' => '/shares',
 			'verb' => 'POST',
-			'root' => '',
+			'root' => '/ocm',
 		],
 		[
 			'name' => 'RequestHandler#receiveNotification',
-			'url' => '/ocm/notifications',
+			'url' => '/notifications',
 			'verb' => 'POST',
-			'root' => '',
+			'root' => '/ocm',
 		],
+//		[
+//			'name' => 'RequestHandler#inviteAccepted',
+//			'url' => '/invite-accepted',
+//			'verb' => 'POST',
+//			'root' => '/ocm',
+//		]
 	],
 ];
