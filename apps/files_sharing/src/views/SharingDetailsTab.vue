@@ -368,7 +368,13 @@ export default {
 		 */
 		hasExpirationDate: {
 			get() {
-				return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced
+				if (this.isPublicShare) {
+					return !!this.share.expireDate || this.config.isDefaultExpireDateEnforced
+				}
+				if (this.isRemoteShare) {
+					return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+				}
+				return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
@@ -401,7 +407,7 @@ export default {
 			return this.fileInfo.type === 'dir'
 		},
 		dateMaxEnforced() {
-			if (!this.isRemote && this.config.isDefaultInternalExpireDateEnforced) {
+			if (!this.isRemoteShare && this.config.isDefaultInternalExpireDateEnforced) {
 				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultInternalExpireDate))
 			} else if (this.config.isDefaultRemoteExpireDateEnforced) {
 				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultRemoteExpireDate))
@@ -429,9 +435,6 @@ export default {
 		},
 		isPasswordEnforced() {
 			return this.isPublicShare && this.config.enforcePasswordForPublicLink
-		},
-		isExpiryDateEnforced() {
-			return this.config.isDefaultInternalExpireDateEnforced
 		},
 		defaultExpiryDate() {
 			if ((this.isGroupShare || this.isUserShare) && this.config.isDefaultInternalExpireDateEnabled) {
