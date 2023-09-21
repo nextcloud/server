@@ -30,14 +30,9 @@ use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
 use OCP\ISession;
 
-/** @psalm-suppress PropertyNotSetInConstructor */
 class MfaVerified implements ICheck{
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var ISession */
-	protected $session;
+	protected IL10N $l;
+	protected ISession $session;
 
 	/**
 	 * @param IL10N $l
