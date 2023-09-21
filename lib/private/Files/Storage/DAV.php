@@ -120,9 +120,9 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (substr($host, 0, 8) == "https://") {
+			if (str_starts_with($host, "https://")) {
 				$host = substr($host, 8);
-			} elseif (substr($host, 0, 7) == "http://") {
+			} elseif (str_starts_with($host, "http://")) {
 				$host = substr($host, 7);
 			}
 			$this->host = $host;
