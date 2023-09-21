@@ -48,15 +48,11 @@ class PersonalSettingsController extends Controller {
 		INavigationManager $navigationManager,
 		ISettingsManager $settingsManager,
 		IUserSession $userSession,
-		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
 	) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
 		$this->settingsManager = $settingsManager;
 		$this->userSession = $userSession;
-		$this->subAdmin = $subAdmin;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

@@ -7,6 +7,7 @@
  * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Private Maker <privatemaker@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,7 +27,8 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
-use OCA\Settings\Controller\AdminSettingsController;
+use OCA\Settings\Controller\PersonalSettingsController;
+use OCA\Settings\Settings\Personal\ServerDevNotice;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
@@ -39,16 +41,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
- * Class AdminSettingsControllerTest
+ * Class PersonalSettingsControllerTest
  *
  * @group DB
  *
  * @package Tests\Settings\Controller
  */
-class AdminSettingsControllerTest extends TestCase {
+class PersonalSettingsControllerTest extends TestCase {
 
-	/** @var AdminSettingsController */
-	private $adminSettingsController;
+	/** @var PersonalSettingsController */
+	private $personalSettingsController;
 	/** @var IRequest|MockObject */
 	private $request;
 	/** @var INavigationManager|MockObject */
@@ -58,11 +60,6 @@ class AdminSettingsControllerTest extends TestCase {
 	/** @var IUserSession|MockObject */
 	private $userSession;
 	/** @var IGroupManager|MockObject */
-	private $groupManager;
-	/** @var ISubAdmin|MockObject */
-	private $subAdmin;
-	/** @var string */
-	private $adminUid = 'lololo';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -71,26 +68,22 @@ class AdminSettingsControllerTest extends TestCase {
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->settingsManager = $this->createMock(IManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->subAdmin = $this->createMock(ISubAdmin::class);
 
-		$this->adminSettingsController = new AdminSettingsController(
+		$this->personalSettingsController = new PersonalSettingsController(
 			'settings',
 			$this->request,
 			$this->navigationManager,
 			$this->settingsManager,
 			$this->userSession,
-			$this->groupManager,
-			$this->subAdmin
 		);
 
 		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'mylongrandompassword');
 		\OC_User::setUserId($user->getUID());
-		\OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
+		// \OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getUserManager()->get($this->adminUid)->delete();
+		// \OC::$server->getUserManager()->get($this->adminUid)->delete();
 
 		parent::tearDown();
 	}
@@ -101,32 +94,15 @@ class AdminSettingsControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$user->method('getUID')->willReturn('user123');
-		$this->groupManager
-			->method('isAdmin')
-			->with('user123')
-			->willReturn(true);
-		$this->subAdmin
-			->method('isSubAdmin')
-			->with($user)
-			->willReturn(false);
-		$this->settingsManager
-			->expects($this->once())
-			->method('getAdminSections')
-			->willReturn([]);
 		$this->settingsManager
 			->expects($this->once())
 			->method('getPersonalSections')
 			->willReturn([]);
-		$this->settingsManager
-			->expects($this->once())
-			->method('getAllowedAdminSettings')
-			->with('test')
-			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
 
-		$idx = $this->adminSettingsController->index('test');
+		$idx = $this->personalSettingsController->index('test');
 
-		$expected = new TemplateResponse('settings', 'settings/admin', [
-			'forms' => ['admin' => []],
+		$expected = new TemplateResponse('settings', 'settings/personal', [
+			'forms' => ['personal' => []],
 			'content' => ''
 		]);
 		$this->assertEquals($expected, $idx);

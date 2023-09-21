@@ -22,6 +22,8 @@
  *
  */
 
+use OCP\IURLGenerator;
+
 style('settings', 'settings');
 script('settings', 'settings');
 \OCP\Util::addScript('settings', 'legacy-admin');
@@ -33,9 +35,10 @@ script('files', 'jquery.fileupload');
 	<ul tabindex="0">
 		<li class="app-navigation-caption"><?php p($l->t('Administration')); ?></li>
 		<?php foreach ($_['forms']['admin'] as $form):
-			if (isset($form['anchor'])):
-				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
-				$class = 'nav-icon-' . $form['anchor'];
+        if (isset($form['anchor'])):
+                $urlGenerator = \OC::$server->get(IURLGenerator::class);
+                $anchor = $urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
+                $class = 'nav-icon-' . $form['anchor'];
 				$sectionName = $form['section-name']; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?> data-section-id="<?php print_unescaped($form['anchor']); ?>" data-section-type="admin">
 					<a href="<?php p($anchor); ?>"<?php print_unescaped($form['active'] ? ' aria-current="page"' : ''); ?>>
