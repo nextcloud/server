@@ -29,6 +29,7 @@
 			$('#uploadprogressbar').fadeOut(function() {
 				self.$el.trigger(new $.Event('resized'));
 			});
+			this.setProgressBarText('', '');
 		},
 
 		hideCancelButton: function() {
