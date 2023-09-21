@@ -4,6 +4,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0-or-later
  *
@@ -22,12 +23,15 @@
  *
  */
 
-import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
-
 import AdminTwoFactor from './components/AdminTwoFactor.vue'
 import Encryption from './components/Encryption.vue'
+import CORS from './components/CORS.vue'
 import store from './store/admin-security.js'
+
+import { loadState } from '@nextcloud/initial-state'
+
+import '@nextcloud/password-confirmation/dist/style.css'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)
@@ -49,3 +53,6 @@ new View({
 
 const EncryptionView = Vue.extend(Encryption)
 new EncryptionView().$mount('#vue-admin-encryption')
+
+const CORSView = Vue.extend(CORS)
+new CORSView().$mount('#vue-admin-cors-settings')

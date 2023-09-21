@@ -30,6 +30,7 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
@@ -40,17 +41,20 @@ class Security implements ISettings {
 	private MandatoryTwoFactor $mandatoryTwoFactor;
 	private IInitialState $initialState;
 	private IURLGenerator $urlGenerator;
+	private IConfig $config;
 
 	public function __construct(IManager $manager,
 								IUserManager $userManager,
 								MandatoryTwoFactor $mandatoryTwoFactor,
 								IInitialState $initialState,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								IConfig $config) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->initialState = $initialState;
 		$this->urlGenerator = $urlGenerator;
+		$this->config = $config;
 	}
 
 	/**
@@ -75,6 +79,11 @@ class Security implements ISettings {
 		$this->initialState->provideInitialState('external-backends-enabled', count($this->userManager->getBackends()) > 1);
 		$this->initialState->provideInitialState('encryption-modules', $encryptionModuleList);
 		$this->initialState->provideInitialState('encryption-admin-doc', $this->urlGenerator->linkToDocs('admin-encryption'));
+
+		$this->initialState->provideInitialState('cors-allowed-domains', $this->config->getSystemValue('cors.allowed-domains', []));
+		$this->initialState->provideInitialState('cors-allow-user-domains', $this->config->getSystemValue('cors.allow-user-domains', false));
+		$this->initialState->provideInitialState('cors-settings-admin-docs', $this->urlGenerator->linkToDocs('admin-cors'));
+
 
 		return new TemplateResponse('settings', 'settings/admin/security', [], '');
 	}

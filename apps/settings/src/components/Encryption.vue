@@ -80,18 +80,13 @@ import axios from '@nextcloud/axios'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import { loadState } from '@nextcloud/initial-state'
-import { getLoggerBuilder } from '@nextcloud/logger'
 
+import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
 import { showError } from '@nextcloud/dialogs'
 
-const logger = getLoggerBuilder()
-	.setApp('settings')
-	.detectUser()
-	.build()
+import { logger } from '../utils/logger.ts'
 
 export default {
 	name: 'Encryption',

@@ -8,6 +8,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -28,16 +29,15 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
-use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\CORS;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use ReflectionMethod;
 
@@ -48,83 +48,16 @@ use ReflectionMethod;
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
  */
 class CORSMiddleware extends Middleware {
-	/** @var IRequest  */
-	private $request;
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var Session */
-	private $session;
-	/** @var IThrottler */
-	private $throttler;
-
-	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								Session $session,
-								IThrottler $throttler) {
-		$this->request = $request;
-		$this->reflector = $reflector;
-		$this->session = $session;
-		$this->throttler = $throttler;
+	public function __construct(private IRequest $request,
+								private ControllerMethodReflector $reflector,
+								private IUserSession $session,
+								private IThrottler $throttler,
+								private IConfig $config,
+								) {
 	}
 
 	/**
-	 * This is being run in normal order before the controller is being
-	 * called which allows several modifications and checks
-	 *
-	 * @param Controller $controller the controller that is being called
-	 * @param string $methodName the name of the method that will be called on
-	 *                           the controller
-	 * @throws SecurityException
-	 * @since 6.0.0
-	 */
-	public function beforeController($controller, $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		// ensure that @CORS annotated API routes are not used in conjunction
-		// with session authentication since this enables CSRF attack vectors
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) &&
-			(!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
-			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
-			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
-
-			// Allow to use the current session if a CSRF token is provided
-			if ($this->request->passesCSRFCheck()) {
-				return;
-			}
-			$this->session->logout();
-			try {
-				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
-					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
-				}
-			} catch (PasswordLoginForbiddenException $ex) {
-				throw new SecurityException('Password login forbidden, use token instead', Http::STATUS_UNAUTHORIZED);
-			}
-		}
-	}
-
-	/**
-	 * @template T
-	 *
-	 * @param ReflectionMethod $reflectionMethod
-	 * @param string $annotationName
-	 * @param class-string<T> $attributeClass
-	 * @return boolean
-	 */
-	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
-		if ($this->reflector->hasAnnotation($annotationName)) {
-			return true;
-		}
-
-
-		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * This is being run after a successful controller method call and allows
+	 * This is being run after a successful controllermethod call and allows
 	 * the manipulation of a Response object. The middleware is run in reverse order
 	 *
 	 * @param Controller $controller the controller that is being called
@@ -135,24 +68,24 @@ class CORSMiddleware extends Middleware {
 	 * @throws SecurityException
 	 */
 	public function afterController($controller, $methodName, Response $response) {
-		// only react if it's a CORS request and if the request sends origin and
+		$userId = !is_null($this->session->getUser()) ? $this->session->getUser()->getUID() : null;
+		$requesterDomain = $this->request->getHeader("Origin");
 
-		if (isset($this->request->server['HTTP_ORIGIN'])) {
-			$reflectionMethod = new ReflectionMethod($controller, $methodName);
-			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)) {
-				// allow credentials headers must not be true or CSRF is possible
-				// otherwise
-				foreach ($response->getHeaders() as $header => $value) {
-					if (strtolower($header) === 'access-control-allow-credentials' &&
-					   strtolower(trim($value)) === 'true') {
-						$msg = 'Access-Control-Allow-Credentials must not be '.
-							   'set to true in order to prevent CSRF';
-						throw new SecurityException($msg);
-					}
+		// only react if it's a CORS request and if the request sends origin and user is logged in
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+		if ($requesterDomain !== ''
+			&& !is_null($userId)
+			&& $this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)) {
+			\OC_Response::setCorsHeaders($response, $userId, $requesterDomain, $this->config);
+
+			// allow credentials headers must not be true or CSRF is possible
+			// otherwise
+			foreach ($response->getHeaders() as $header => $value) {
+				if (strtolower($header) === 'access-control-allow-credentials' &&
+					strtolower(trim($value)) === 'true') {
+					$msg = 'Access-Control-Allow-Credentials must not be set to true in order to prevent CSRF';
+					throw new SecurityException($msg);
 				}
-
-				$origin = $this->request->server['HTTP_ORIGIN'];
-				$response->addHeader('Access-Control-Allow-Origin', $origin);
 			}
 		}
 		return $response;
@@ -180,5 +113,25 @@ class CORSMiddleware extends Middleware {
 		}
 
 		throw $exception;
+	}
+
+	/**
+	 * @template T
+	 *
+	 * @param ReflectionMethod $reflectionMethod
+	 * @param string $annotationName
+	 * @param class-string<T> $attributeClass
+	 * @return boolean
+	 */
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
+		if ($this->reflector->hasAnnotation($annotationName)) {
+			return true;
+		}
+
+		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		return false;
 	}
 }

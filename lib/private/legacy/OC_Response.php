@@ -11,6 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -102,5 +103,200 @@ class OC_Response {
 			header('X-Robots-Tag: noindex, nofollow'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
 			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
+	}
+
+	/**
+	 * This function adds the CORS headers if the requester domain is white-listed
+	 *
+	 * @param \OCP\AppFramework\Http\Response|Sabre\HTTP\ResponseInterface $response
+	 * @param string $userId
+	 * @param string $domain
+	 * @param \OCP\IConfig|null $config
+	 * @param array $headers Additional CORS headers to merge when setting
+	 *
+	 * Format of $headers:
+	 * Array [
+	 *     "Access-Control-Allow-Headers": ["a", "b", "c"],
+	 *     "Access-Control-Allow-Origin": ["a", "b", "c"],
+	 *     "Access-Control-Allow-Methods": ["a", "b", "c"]
+	 * ]
+	 */
+	public static function setCorsHeaders($response, ?string $userId, string $domain, $config = null, array|null $methods = null) {
+		if (is_null($config)) {
+			$config = \OC::$server->getConfig();
+		}
+
+		// first check if any of the global CORS domains matches
+		$globalAllowedDomains = $config->getSystemValue('cors.allowed-domains', []);
+		$isCorsRequest = (\is_array($globalAllowedDomains) && \in_array($domain, $globalAllowedDomains, true));
+		// check if user defined CORS domains are enabled
+		$isUserCorsEnabled = $config->getSystemValueBool('cors.allow-user-domains', false);
+
+		// if not a global CORS domain, but user defined ones are enabled, check if one matches
+		if (!$isCorsRequest && $isUserCorsEnabled && $userId !== null) {
+			$allowedDomains = \json_decode($config->getUserValue($userId, 'core', 'cors.allowed-domains'), true);
+			$isCorsRequest = (\is_array($allowedDomains) && \in_array($domain, $allowedDomains, true));
+		}
+
+		// Global or user domain matches so set headers
+		if ($isCorsRequest) {
+			$allHeaders = [
+				'Access-Control-Allow-Origin' => [$domain],
+				'Access-Control-Allow-Headers' => self::getAllowedCorsHeaders($config),
+				'Access-Control-Expose-Headers' => self::getExposeCorsHeaders(),
+				'Access-Control-Allow-Methods' => $methods ?? self::getAllowedCorsMethods(),
+				// Indicate that the response might change depending on the origin
+				'Vary' => ['Origin'],
+			];
+
+			foreach ($allHeaders as $key => $value) {
+				$response->addHeader($key, \join(',', $value));
+			}
+		}
+	}
+
+	/**
+	 * This function adds the CORS headers for all domains
+	 *
+	 * @param \OCP\AppFramework\Http\Response|Sabre\HTTP\ResponseInterface $response
+	 * @param \OCP\IConfig|null $config
+	 * @param array $headers Additional cors headers to merge when setting
+	 *
+	 * Format of $headers:
+	 * Array [
+	 *     "Access-Control-Allow-Headers": ["a", "b", "c"],
+	 *     "Access-Control-Allow-Origin": ["a", "b", "c"],
+	 *     "Access-Control-Allow-Methods": ["a", "b", "c"]
+	 * ]
+	 *
+	 * @return void
+	 */
+	public static function setOptionsRequestHeaders($response, \OCP\IConfig $config = null, ?array $methods = null) {
+		$allHeaders = [
+			'Access-Control-Allow-Headers' => self::getAllowedCorsHeaders($config),
+			'Access-Control-Allow-Origin' => ['*'],
+			'Access-Control-Allow-Methods' => $methods ?? self::getAllowedCorsMethods(),
+		];
+
+		foreach ($allHeaders as $key => $value) {
+			$response->addHeader($key, \join(',', $value));
+		}
+	}
+
+	/**
+	 * This are the allowed methods a browser can use from javascript code.
+	 *
+	 * @return string[]
+	 */
+	private static function getAllowedCorsMethods() {
+		return [
+			'GET',
+			'OPTIONS',
+			'POST',
+			'PUT',
+			'DELETE',
+			'MKCOL',
+			'PROPFIND',
+			'PATCH',
+			'PROPPATCH',
+			'REPORT',
+			'SEARCH',
+			'COPY',
+			'MOVE',
+			'HEAD',
+		];
+	}
+
+	/**
+	 * These are the header which a browser can access from javascript code.
+	 * Simple headers are always accessible.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
+	 *
+	 * @return array
+	 */
+	private static function getExposeCorsHeaders() {
+		return [
+			'Content-Location',
+			'DAV',
+			'ETag',
+			'Link',
+			'Lock-Token',
+			'OC-ETag',
+			'OC-Checksum',
+			'OC-FileId',
+			'OC-JobStatus-Location',
+			'OC-RequestAppPassword',
+			'Vary',
+			'Webdav-Location',
+			'X-Sabre-Status',
+		];
+	}
+
+	/**
+	 * These are the headers the browser is allowed to ask for in a CORS request.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+	 *
+	 * @param \OCP\IConfig $config
+	 * @return array|mixed
+	 */
+	private static function getAllowedCorsHeaders(\OCP\IConfig $config = null) {
+		if ($config === null) {
+			$config = \OC::$server->getConfig();
+		}
+		$allowedDefaultHeaders = [
+			// own headers
+			'OC-Checksum',
+			'OC-Total-Length',
+			'OCS-APIREQUEST',
+			'X-OC-Mtime',
+			'OC-RequestAppPassword',
+			// as used in sabre
+			'Accept',
+			'Authorization',
+			'Brief',
+			'Content-Length',
+			'Content-Range',
+			'Content-Type',
+			'Date',
+			'Depth',
+			'Destination',
+			'Host',
+			'If',
+			'If-Match',
+			'If-Modified-Since',
+			'If-None-Match',
+			'If-Range',
+			'If-Unmodified-Since',
+			'Location',
+			'Lock-Token',
+			'Overwrite',
+			'Prefer',
+			'Range',
+			'Schedule-Reply',
+			'Timeout',
+			'User-Agent',
+			'X-Expected-Entity-Length',
+			// generally used headers in core
+			'Accept-Language',
+			'Access-Control-Request-Method',
+			'Access-Control-Allow-Origin',
+			'Cache-Control',
+			'ETag',
+			'OC-Autorename',
+			'OC-CalDav-Import',
+			'OC-Chunked',
+			'OC-Etag',
+			'OC-FileId',
+			'OC-LazyOps',
+			'OC-Total-File-Length',
+			'OC-Total-Length',
+			'Origin',
+			'X-Request-ID',
+			'X-Requested-With'
+		];
+		$corsAllowedHeaders = $config->getSystemValue('cors.allowed-headers', []);
+		$corsAllowedHeaders = \array_merge($corsAllowedHeaders, $allowedDefaultHeaders);
+		$corsAllowedHeaders = \array_unique(\array_values($corsAllowedHeaders));
+		return $corsAllowedHeaders;
 	}
 }

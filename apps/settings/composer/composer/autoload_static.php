@@ -36,6 +36,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AppSettingsController.php',
         'OCA\\Settings\\Controller\\AuthSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AuthSettingsController.php',
         'OCA\\Settings\\Controller\\AuthorizedGroupController' => __DIR__ . '/..' . '/../lib/Controller/AuthorizedGroupController.php',
+        'OCA\\Settings\\Controller\\CORSSettingsController' => __DIR__ . '/..' . '/../lib/Controller/CORSSettingsController.php',
         'OCA\\Settings\\Controller\\ChangePasswordController' => __DIR__ . '/..' . '/../lib/Controller/ChangePasswordController.php',
         'OCA\\Settings\\Controller\\CheckSetupController' => __DIR__ . '/..' . '/../lib/Controller/CheckSetupController.php',
         'OCA\\Settings\\Controller\\CommonSettingsTrait' => __DIR__ . '/..' . '/../lib/Controller/CommonSettingsTrait.php',

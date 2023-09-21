@@ -4,6 +4,7 @@
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,3 +29,5 @@
 <div id="two-factor-auth-settings"></div>
 
 <div id="vue-admin-encryption"></div>
+
+<div id="vue-admin-cors-settings"></div>

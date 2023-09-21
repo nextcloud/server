@@ -100,6 +100,7 @@ class ServerFactory {
 
 		// Load plugins
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config, $this->l10n));
+		$server->addPlugin(new \OCA\DAV\Connector\Sabre\CorsPlugin($this->userSession, $this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin());
 		$server->addPlugin($authPlugin);
