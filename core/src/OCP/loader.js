@@ -22,6 +22,8 @@
  *
  */
 
+import { generateFilePath } from '@nextcloud/router'
+
 const loadedScripts = {}
 const loadedStylesheets = {}
 /**
@@ -44,7 +46,7 @@ export default {
 		}
 		loadedScripts[key] = true
 		return new Promise(function(resolve, reject) {
-			const scriptPath = OC.filePath(app, 'js', file)
+			const scriptPath = generateFilePath(app, 'js', file)
 			const script = document.createElement('script')
 			script.src = scriptPath
 			script.setAttribute('nonce', btoa(OC.requestToken))
@@ -68,7 +70,7 @@ export default {
 		}
 		loadedStylesheets[key] = true
 		return new Promise(function(resolve, reject) {
-			const stylePath = OC.filePath(app, 'css', file)
+			const stylePath = generateFilePath(app, 'css', file)
 			const link = document.createElement('link')
 			link.href = stylePath
 			link.type = 'text/css'
