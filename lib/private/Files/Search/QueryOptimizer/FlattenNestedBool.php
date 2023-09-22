@@ -26,5 +26,4 @@ class FlattenNestedBool extends QueryOptimizerStep {
 		}
 		parent::processOperator($operator);
 	}
-
 }

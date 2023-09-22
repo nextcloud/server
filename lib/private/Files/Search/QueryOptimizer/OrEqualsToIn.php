@@ -29,7 +29,10 @@ class OrEqualsToIn extends ReplacingOptimizerStep {
 						return $value;
 					}, $group);
 					$in = new SearchComparison(ISearchComparison::COMPARE_IN, $field, $values);
-					$in->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, $group[0]->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true));
+					$pathEqHash = array_reduce($group, function ($pathEqHash, ISearchComparison $comparison) {
+						return $comparison->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true) && $pathEqHash;
+					}, true);
+					$in->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, $pathEqHash);
 					return $in;
 				} else {
 					return $group[0];
@@ -57,8 +60,7 @@ class OrEqualsToIn extends ReplacingOptimizerStep {
 		$result = [];
 		foreach ($operators as $operator) {
 			if ($operator instanceof ISearchComparison && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
-				$key = $operator->getField() . $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true);
-				$result[$key][] = $operator;
+				$result[$operator->getField()][] = $operator;
 			} else {
 				$result[] = [$operator];
 			}
