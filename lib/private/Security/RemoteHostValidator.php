@@ -38,19 +38,12 @@ use function urldecode;
  * @internal
  */
 final class RemoteHostValidator implements IRemoteHostValidator {
-	private IConfig $config;
-	private HostnameClassifier $hostnameClassifier;
-	private IpAddressClassifier $ipAddressClassifier;
-	private LoggerInterface $logger;
-
-	public function __construct(IConfig $config,
-								HostnameClassifier $hostnameClassifier,
-								IpAddressClassifier $ipAddressClassifier,
-								LoggerInterface $logger) {
-		$this->config = $config;
-		$this->hostnameClassifier = $hostnameClassifier;
-		$this->ipAddressClassifier = $ipAddressClassifier;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private HostnameClassifier $hostnameClassifier,
+		private IpAddressClassifier $ipAddressClassifier,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function isValid(string $host): bool {
