@@ -921,7 +921,7 @@ class DAV extends Common {
 			}
 
 			foreach ($responses as $file => $response) {
-				$file = urldecode($file);
+				$file = rawurldecode($file);
 				$file = substr($file, strlen($this->root));
 				$file = $this->cleanPath($file);
 				$this->statCache->set($file, $response);
