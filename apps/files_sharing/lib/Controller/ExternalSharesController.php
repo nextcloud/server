@@ -134,14 +134,14 @@ class ExternalSharesController extends Controller {
 		}
 
 		if (
-			$this->testUrl('https://' . $remote . '/ocs-provider/') ||
-			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('https://' . $remote . '/ocm-provider/') ||
+			$this->testUrl('https://' . $remote . '/ocm-provider/index.php') ||
 			$this->testUrl('https://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('https');
 		} elseif (
-			$this->testUrl('http://' . $remote . '/ocs-provider/') ||
-			$this->testUrl('http://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('http://' . $remote . '/ocm-provider/') ||
+			$this->testUrl('http://' . $remote . '/ocm-provider/index.php') ||
 			$this->testUrl('http://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('http');
