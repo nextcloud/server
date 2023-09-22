@@ -59,7 +59,7 @@ class OCMController extends Controller {
 	 * @NoCSRFRequired
 	 * @psalm-suppress MoreSpecificReturnType
 	 * @psalm-suppress LessSpecificReturnStatement
-	 * @return DataResponse<Http::STATUS_OK, array{enabled: bool, apiVersion: string, endPoint: string, resourceTypes: array{array{name: string, shareTypes: string[], protocols: array{webdav: string}}}}, array{X-NEXTCLOUD-OCM-PROVIDERS: true, Content-Type: 'application/json'}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{enabled: bool, apiVersion: string, endPoint: string, resourceTypes: array{name: string, shareTypes: string[], protocols: array{webdav: string}}[]}, array{X-NEXTCLOUD-OCM-PROVIDERS: true, Content-Type: 'application/json'}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: OCM Provider details returned
 	 * 500: OCM not supported
