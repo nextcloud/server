@@ -154,6 +154,7 @@
     "%1$s shared »%2$s« with you." : "%1$s надав(-ла) доступ до \"%2$s\".",
     "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
     "The requested share does not exist anymore" : "Запитуваний спільний ресурс більше недоступний",
+    "The requested share comes from a disabled user" : "Отримано запит на спільний доступ від неактивного користувача",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Користувача не створено, оскільки досягнуто обмеження на кількість користувачів. Перевірте сповіщення для докладної інформації.",
     "Could not find category \"%s\"" : "Не вдалося знайти категорію \"%s\"",
     "Sunday" : "Неділя",
