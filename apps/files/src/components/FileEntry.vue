@@ -232,11 +232,14 @@ import CustomElementRender from './CustomElementRender.vue'
 import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 import logger from '../logger.js'
+import { loadState } from '@nextcloud/initial-state'
 
 // The registered actions list
 const actions = getFileActions()
 
 Vue.directive('onClickOutside', vOnClickOutside)
+
+const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
 
 export default Vue.extend({
 	name: 'FileEntry',
@@ -809,6 +812,13 @@ export default Vue.extend({
 			} else if (this.checkIfNodeExists(name)) {
 				throw new Error(this.t('files', '{newName} already exists.', { newName: name }))
 			}
+
+			const toCheck = trimmedName.split('')
+			toCheck.forEach(char => {
+				if (forbiddenCharacters.indexOf(char) !== -1) {
+					throw new Error(this.t('files', '"{char}" is not allowed inside a file name.', { char }))
+				}
+			})
 
 			return true
 		},
