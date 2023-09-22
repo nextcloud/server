@@ -164,6 +164,7 @@
 
 		<!-- Mtime -->
 		<td v-if="isMtimeAvailable"
+			:style="{ opacity: mtimeOpacity }"
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
@@ -388,6 +389,24 @@ export default Vue.extend({
 				return moment(this.source.mtime).fromNow()
 			}
 			return this.t('files_trashbin', 'A long time ago')
+		},
+		mtimeOpacity() {
+			// Whatever theme is active, the contrast will pass WCAG AA
+			// with color main text over main background and an opacity of 0.7
+			const minOpacity = 0.7
+			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
+
+			const mtime = this.source.mtime?.getTime?.()
+			if (!mtime) {
+				return minOpacity
+			}
+
+			// 1 = today, 0 = 31 days ago
+			const factor = (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime
+			if (factor < 0) {
+				return minOpacity
+			}
+			return minOpacity + (1 - minOpacity) * factor
 		},
 		mtimeTitle() {
 			if (this.source.mtime) {

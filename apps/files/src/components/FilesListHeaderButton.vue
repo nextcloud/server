@@ -22,6 +22,7 @@
 <template>
 	<NcButton :aria-label="sortAriaLabel(name)"
 		:class="{'files-list__column-sort-button--active': sortingMode === mode}"
+		:alignment="mode !== 'size' ? 'start-reverse' : ''"
 		class="files-list__column-sort-button"
 		type="tertiary"
 		@click.stop.prevent="toggleSortBy(mode)">
