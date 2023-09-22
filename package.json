@@ -24,7 +24,8 @@
     "cypress": "npm run cypress:component && npm run cypress:e2e",
     "cypress:component": "cypress run --component",
     "cypress:e2e": "cypress run --e2e",
-    "cypress:gui": "cypress open"
+    "cypress:gui": "cypress open",
+    "cypress:version": "cypress version"
   },
   "repository": {
     "type": "git",

@@ -55,6 +55,9 @@ jobs:
           npm ci
           TESTING=true npm run build --if-present
 
+      - name: Show cypress version
+        run: npm run cypress:version
+
       - name: Save context
         uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
