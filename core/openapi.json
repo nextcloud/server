@@ -1336,37 +1336,32 @@
                                             "type": "string"
                                         },
                                         "resourceTypes": {
-                                            "type": "object",
-                                            "required": [
-                                                null
-                                            ],
-                                            "properties": {
-                                                "": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "name",
-                                                        "shareTypes",
-                                                        "protocols"
-                                                    ],
-                                                    "properties": {
-                                                        "name": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "required": [
+                                                    "name",
+                                                    "shareTypes",
+                                                    "protocols"
+                                                ],
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "shareTypes": {
+                                                        "type": "array",
+                                                        "items": {
                                                             "type": "string"
-                                                        },
-                                                        "shareTypes": {
-                                                            "type": "array",
-                                                            "items": {
+                                                        }
+                                                    },
+                                                    "protocols": {
+                                                        "type": "object",
+                                                        "required": [
+                                                            "webdav"
+                                                        ],
+                                                        "properties": {
+                                                            "webdav": {
                                                                 "type": "string"
-                                                            }
-                                                        },
-                                                        "protocols": {
-                                                            "type": "object",
-                                                            "required": [
-                                                                "webdav"
-                                                            ],
-                                                            "properties": {
-                                                                "webdav": {
-                                                                    "type": "string"
-                                                                }
                                                             }
                                                         }
                                                     }
