@@ -49,7 +49,7 @@ p($theme->getTitle());
 		</div>
 		<?php
 		$longFooter = $theme->getLongFooter();
-		?>
+?>
 		<footer class="guest-box <?php if ($longFooter === '') {
 			p('hidden');
 		} ?>">
