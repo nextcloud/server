@@ -81,6 +81,8 @@ OC.L10N.register(
     "Change color" : "Changer la couleur",
     "No background" : "Pas d'arrière-plan",
     "Select a background from your files" : "Sélectionner un arrière-plan parmi vos fichiers",
+    "Select background" : "Sélectionner un arrière-plan",
+    "No background has been selected" : "Aucun arrière-plan n'a été sélectionné",
     "Theme selection is enforced" : "La sélection du thème est imposée",
     "Select a custom color" : "Sélectionnez une couleur personnalisée",
     "Reset to default" : "Restaurer les valeurs par défaut",

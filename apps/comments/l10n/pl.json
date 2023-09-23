@@ -17,6 +17,7 @@
     "No comments yet, start the conversation!" : "Brak komentarzy, rozpocznij rozmowę!",
     "No more messages" : "Nie ma więcej wiadomości",
     "Retry" : "Powtórz",
+    "Failed to mark comments as read" : "Nie udało się oznaczyć komentarzy jako przeczytane",
     "Unable to load the comments list" : "Nie można załadować listy komentarzy",
     "_1 new comment_::_{unread} new comments_" : ["{unread} nowy komentarz","{unread} nowe komentarze","{unread} nowych komentarzy","{unread} nowe komentarze"],
     "Comment" : "Komentarz",
