@@ -223,6 +223,7 @@
     "_Reject share_::_Reject shares_" : ["Rejeter le partage","Rejeter les partages","Rejeter les partages"],
     "_Restore share_::_Restore shares_" : ["Restaurer le partage","Restaurer les partages","Restaurer les partages"],
     "Shared" : "Partagé",
+    "Shared by {ownerDisplayName}" : "Partagé par {ownerDisplayName}",
     "Link to a file" : "Relier à un fichier",
     "Error creating the share: {errorMessage}" : "Erreur à la création du partage : {errorMessage} ",
     "Error creating the share" : "Erreur lors de la création du partage",

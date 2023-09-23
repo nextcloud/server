@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Rejeitar compartilhamentos","Rejeitar compartilhamentos","Rejeitar compartilhamentos"],
     "_Restore share_::_Restore shares_" : ["Restaurar compartilhamentos","Restaurar compartilhamentos","Restaurar compartilhamentos"],
     "Shared" : "Compartilhado",
+    "Shared by {ownerDisplayName}" : "Compartilhado por {ownerDisplayName}",
     "Link to a file" : "Criar link para um arquivo",
     "Error creating the share: {errorMessage}" : "Erro ao criar o compartilhamento: {errorMessage}",
     "Error creating the share" : "Erro ao criar o compartilhamento",

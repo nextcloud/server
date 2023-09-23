@@ -13,6 +13,7 @@
     "Remove version name" : "Retirer le nom de version",
     "Save version name" : "Sauvegarder le nom de version",
     "Current version" : "Version actuelle",
+    "Initial version" : "Version initiale",
     "Initial version restored" : "Version initiale restaurée",
     "Version restored" : "Version restaurée",
     "Could not restore version" : "Impossible de restaurer la version",

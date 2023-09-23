@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Rebutja l'element compartit","Rebutja els elements compartits"],
     "_Restore share_::_Restore shares_" : ["Restaura l'element compartit","Restaura els elements compartits"],
     "Shared" : "S'ha compartit",
+    "Shared by {ownerDisplayName}" : "Compartit per {ownerDisplayName}",
     "Link to a file" : "Enllaç a un fitxer",
     "Error creating the share: {errorMessage}" : "S'ha produït un error en crear l'element compartit: {errorMessage}",
     "Error creating the share" : "S'ha produït un error en crear l'element compartit",
