@@ -32,6 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: versions
 
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+
     steps:
       - name: Checkout
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
@@ -47,9 +50,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Show cypress version
+        run: npm run cypress:version
+
       - name: Test and process coverage
         run: npm run test:coverage
-  
+
       - name: Collect coverage
         uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         with:
@@ -59,6 +65,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: versions
 
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+
     steps:
       - name: Checkout
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
@@ -73,6 +82,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Show cypress version
+        run: npm run cypress:version
 
       - name: Test
         run: npm run test:jsunit
@@ -81,6 +93,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: versions
 
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+
     steps:
       - name: Checkout
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
@@ -95,6 +110,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Show cypress version
+        run: npm run cypress:version
 
       - name: Run compile
         run: ./build/compile-handlebars-templates.sh
