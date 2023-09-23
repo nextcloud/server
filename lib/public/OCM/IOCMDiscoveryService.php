@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Maxence Lange <maxence@artificial-owl.com>
  *
- * @author Joas Schilling <coding@schilljs.com>
  * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,25 +23,26 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-return [
-	'routes' => [
-		[
-			'name' => 'RequestHandler#addShare',
-			'url' => '/shares',
-			'verb' => 'POST',
-			'root' => '/ocm',
-		],
-		[
-			'name' => 'RequestHandler#receiveNotification',
-			'url' => '/notifications',
-			'verb' => 'POST',
-			'root' => '/ocm',
-		],
-//		[
-//			'name' => 'RequestHandler#inviteAccepted',
-//			'url' => '/invite-accepted',
-//			'verb' => 'POST',
-//			'root' => '/ocm',
-//		]
-	],
-];
+
+namespace OCP\OCM;
+
+use OCP\OCM\Exceptions\OCMProviderException;
+
+/**
+ * Discover remote OCM services
+ *
+ * @since 28.0.0
+ */
+interface IOCMDiscoveryService {
+	/**
+	 * Discover remote OCM services
+	 *
+	 * @param string $remote address of the remote provider
+	 * @param bool $skipCache ignore cache, refresh data
+	 *
+	 * @return IOCMProvider
+	 * @throws OCMProviderException if no valid discovery data can be returned
+	 * @since 28.0.0
+	 */
+	public function discover(string $remote, bool $skipCache = false): IOCMProvider;
+}

@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -51,52 +52,19 @@ use Psr\Log\LoggerInterface;
  * @package OCA\CloudFederationAPI\Controller
  */
 class RequestHandlerController extends Controller {
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var Config */
-	private $config;
-
-	/** @var ICloudFederationFactory */
-	private $factory;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	public function __construct($appName,
-								IRequest $request,
-								LoggerInterface $logger,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								Config $config,
-								ICloudFederationFactory $factory,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IURLGenerator $urlGenerator,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private Config $config,
+		private ICloudFederationFactory $factory,
+		private ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
-
-		$this->logger = $logger;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->config = $config;
-		$this->factory = $factory;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -122,7 +90,6 @@ class RequestHandlerController extends Controller {
 	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"sharedSecret":"secret","permissions":"webdav-property"}}}' http://localhost/server/index.php/ocm/shares
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -281,7 +248,7 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		return new JSONResponse($result,Http::STATUS_CREATED);
+		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
 	/**
