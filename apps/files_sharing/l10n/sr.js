@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Одбиј дељење","Одбиј дељења","Одбиј дељења"],
     "_Restore share_::_Restore shares_" : ["Обнови дељење","Обнови дељења","Обнови дељења"],
     "Shared" : "Подељено",
+    "Shared by {ownerDisplayName}" : "Поделио {ownerDisplayName}",
     "Link to a file" : "Веза ка фајлу",
     "Error creating the share: {errorMessage}" : "Greška pri pravljenju deljenja: {errorMessage}",
     "Error creating the share" : "Грешка при прављењу дељења",
