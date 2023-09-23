@@ -5,7 +5,7 @@
     "The selected file cannot be read." : "Није могуће читати изабрани фајл.",
     "The file was uploaded" : "Фајл је отпремљен",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Фајл за отпремање премашује upload_max_filesize директиву у php.ini",
-    "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Отпремани фајл превазилази смерницу MAX_FILE_SIZE наведену у ХТМЛ обрасцу",
+    "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Отпремани фајл превазилази смерницу MAX_FILE_SIZE наведену у HTML обрасцу",
     "The file was only partially uploaded" : "Фајл је парцијално отпремљен",
     "No file was uploaded" : "Није отпремљен фајл",
     "Missing a temporary folder" : "Недостаје привремена фасцикла",

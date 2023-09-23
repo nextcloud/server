@@ -223,6 +223,7 @@
     "_Reject share_::_Reject shares_" : ["رفض المشاركات","رفض المشاركة","رفض المشاركات","رفض المشاركات","رفض المشاركات","أرفُض المشاركات"],
     "_Restore share_::_Restore shares_" : ["استعادة المشاركات","استعادة المشاركة","استعادة المشاركات","استعادة المشاركات","استعادة المشاركات","إستعادة المشاركات"],
     "Shared" : "مُشارَكة",
+    "Shared by {ownerDisplayName}" : "تمّت مشاركته من قِبَل {ownerDisplayName}",
     "Link to a file" : "رابط إلى ملف",
     "Error creating the share: {errorMessage}" : "خطأ في إنشاء المشاركة: {errorMessage}",
     "Error creating the share" : "خطأ في إنشاء المشاركة",

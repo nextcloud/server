@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Reject share","Reject shares"],
     "_Restore share_::_Restore shares_" : ["Restore share","Restore shares"],
     "Shared" : "Shared",
+    "Shared by {ownerDisplayName}" : "Shared by {ownerDisplayName}",
     "Link to a file" : "Link to a file",
     "Error creating the share: {errorMessage}" : "Error creating the share: {errorMessage}",
     "Error creating the share" : "Error creating the share",

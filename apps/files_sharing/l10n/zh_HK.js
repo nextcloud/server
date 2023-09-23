@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["拒絕分享"],
     "_Restore share_::_Restore shares_" : ["還原分享"],
     "Shared" : "已分享",
+    "Shared by {ownerDisplayName}" : "由 {ownerDisplayName} 分享",
     "Link to a file" : "連結到一個檔案",
     "Error creating the share: {errorMessage}" : "創建分享出錯：{errorMessage}",
     "Error creating the share" : "創建分享出錯",

@@ -151,7 +151,7 @@ OC.L10N.register(
     "Migrated calendar (%1$s)" : "Мигрирани календар (%1$s)",
     "Calendars including events, details and attendees" : "Календари који укључују догађаје, детаље и учеснике",
     "Contacts and groups" : "Контакти и групе",
-    "WebDAV" : "ВебДАВ",
+    "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајња тачка",
     "Availability" : "Доступност",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако подесите своје радне сате, када буду заказивали састанак, остали корисници ће видети када сте ван канцеларије.",
