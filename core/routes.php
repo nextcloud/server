@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -102,6 +103,9 @@ $application->registerRoutes($this, [
 
 		// Well known requests https://tools.ietf.org/html/rfc5785
 		['name' => 'WellKnown#handle', 'url' => '.well-known/{service}'],
+
+		// OCM Provider requests https://github.com/cs3org/OCM-API
+		['name' => 'OCM#discovery', 'url' => '/ocm-provider/'],
 
 		// Unsupported browser
 		['name' => 'UnsupportedBrowser#index', 'url' => 'unsupported'],

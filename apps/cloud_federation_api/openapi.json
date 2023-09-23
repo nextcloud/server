@@ -76,13 +76,8 @@
                                         },
                                         "protocols": {
                                             "type": "object",
-                                            "required": [
-                                                "webdav"
-                                            ],
-                                            "properties": {
-                                                "webdav": {
-                                                    "type": "string"
-                                                }
+                                            "additionalProperties": {
+                                                "type": "string"
                                             }
                                         }
                                     }
