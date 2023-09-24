@@ -168,7 +168,10 @@
 				var $el
 				for (var i = 0; i < files.length; i++) {
 					$el = this.remove(OC.basename(files[i]), { updateSummary: false })
-					this.fileSummary.remove({ type: $el.attr('data-type'), size: $el.attr('data-size') })
+					// Only remove element if already loaded (might be unloaded if scrollable list)
+					if ($el) {
+						this.fileSummary.remove({ type: $el.attr('data-type'), size: $el.attr('data-size') })
+					}
 				}
 				this.fileSummary.update()
 				this.updateEmptyContent()
