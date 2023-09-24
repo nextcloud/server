@@ -174,6 +174,7 @@ OC.L10N.register(
     "Select the row for {displayName}" : "Sélectionner la ligne pour {displayName}",
     "Rename file" : "Renommer le fichier",
     "A long time ago" : "Il y a longtemps",
+    "This node is unavailable" : "Ce nœud est indisponible ",
     "Download file {name}" : "Télécharger le fichier {name}",
     "File name" : "Nom du fichier",
     "Folder name" : "Nom du dossier",
