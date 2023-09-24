@@ -169,7 +169,7 @@ export default Vue.extend({
 		// Scroll to the file if it's in the url
 		if (this.fileId) {
 			const index = this.nodes.findIndex(node => node.fileid === this.fileId)
-			if (index === -1) {
+			if (index === -1 && this.fileId !== this.currentFolder.fileid) {
 				showError(this.t('files', 'File not found'))
 			}
 			this.scrollToIndex = Math.max(0, index)
@@ -177,8 +177,13 @@ export default Vue.extend({
 
 		// Open the file sidebar if we have the room for it
 		if (document.documentElement.clientWidth > 1024) {
-			// Open the sidebar on the file if it's in the url and
-			// we're just loaded the app for the first time.
+			// Don't open the sidebar for the current folder
+			if (this.currentFolder.fileid === this.fileId) {
+				return
+			}
+
+			// Open the sidebar for the given URL fileid
+			// iif we just loaded the app.
 			const node = this.nodes.find(n => n.fileid === this.fileId) as Node
 			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
