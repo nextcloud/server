@@ -13,6 +13,7 @@
     "Remove version name" : "Sürüm adını kaldır",
     "Save version name" : "Sürüm adını kaydet",
     "Current version" : "Geçerli sürüm",
+    "Initial version" : "İlk sürüm",
     "Initial version restored" : "İlk sürüm geri yüklendi",
     "Version restored" : "Sürüm geri yüklendi",
     "Could not restore version" : "Sürüm geri yüklenemedi",
