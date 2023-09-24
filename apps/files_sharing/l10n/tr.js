@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Paylaşımı reddet","Paylaşımları reddet"],
     "_Restore share_::_Restore shares_" : ["Paylaşımı geri yükle","Paylaşımları geri yükle"],
     "Shared" : "Paylaşılan",
+    "Shared by {ownerDisplayName}" : "{ownerDisplayName} tarafından paylaşılmış",
     "Link to a file" : "Bir dosya bağlantısı",
     "Error creating the share: {errorMessage}" : "Paylaşım oluşturulurken sorun çıktı: {errorMessage}",
     "Error creating the share" : "Paylaşım oluşturulurken sorun çıktı",
