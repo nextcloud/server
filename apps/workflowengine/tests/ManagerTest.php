@@ -35,6 +35,7 @@ use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -408,6 +409,7 @@ class ManagerTest extends TestCase {
 							$this->createMock(ISystemTagManager::class),
 							$this->createMock(IUserManager::class),
 							$this->createMock(UserMountCache::class),
+							$this->createMock(IMountManager::class),
 						])
 						->setMethodsExcept(['getEvents'])
 						->getMock();
