@@ -192,6 +192,8 @@ class SearchBuilder {
 		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true)) {
 			$field = 'path_hash';
 			$value = md5((string)$value);
+		} elseif ($field === 'owner') {
+			$field = 'uid_owner';
 		}
 		return [$field, $value, $type];
 	}
@@ -208,6 +210,9 @@ class SearchBuilder {
 			'favorite' => 'boolean',
 			'fileid' => 'integer',
 			'storage' => 'integer',
+			'share_with' => 'string',
+			'share_type' => 'integer',
+			'owner' => 'string',
 		];
 		$comparisons = [
 			'mimetype' => ['eq', 'like'],
@@ -220,6 +225,9 @@ class SearchBuilder {
 			'favorite' => ['eq'],
 			'fileid' => ['eq'],
 			'storage' => ['eq'],
+			'share_with' => ['eq'],
+			'share_type' => ['eq'],
+			'owner' => ['eq'],
 		];
 
 		if (!isset($types[$operator->getField()])) {
