@@ -33,7 +33,7 @@ use OCP\Migration\SimpleMigrationStep;
 /**
  * @package OCA\UserStatus\Migration
  */
-class Version2301Date20210809144824 extends SimpleMigrationStep {
+class Version1003Date20210809144824 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -48,10 +48,12 @@ class Version2301Date20210809144824 extends SimpleMigrationStep {
 
 		$statusTable = $schema->getTable('user_status');
 
-		$statusTable->addColumn('is_backup', Types::BOOLEAN, [
-			'notnull' => false,
-			'default' => false,
-		]);
+		if (!$statusTable->hasColumn('is_backup')) {
+			$statusTable->addColumn('is_backup', Types::BOOLEAN, [
+				'notnull' => false,
+				'default' => false,
+			]);
+		}
 
 		return $schema;
 	}
