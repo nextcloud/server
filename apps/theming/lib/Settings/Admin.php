@@ -31,37 +31,28 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Util;
 
 class Admin implements IDelegatedSettings {
-	private string $appName;
-	private IConfig $config;
-	private IL10N $l;
-	private ThemingDefaults $themingDefaults;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
-	private ImageManager $imageManager;
 
-	public function __construct(string $appName,
-								IConfig $config,
-								IL10N $l,
-								ThemingDefaults $themingDefaults,
-								IInitialState $initialState,
-								IURLGenerator $urlGenerator,
-								ImageManager $imageManager) {
-		$this->appName = $appName;
-		$this->config = $config;
-		$this->l = $l;
-		$this->themingDefaults = $themingDefaults;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
-		$this->imageManager = $imageManager;
+	public function __construct(private string $appName,
+								private IConfig $config,
+								private IL10N $l,
+								private ThemingDefaults $themingDefaults,
+								private IInitialState $initialState,
+								private IURLGenerator $urlGenerator,
+								private ImageManager $imageManager,
+								private IAppManager $appManager,
+								private INavigationManager $navigationManager,
+								) {
 	}
 
 	/**
@@ -80,7 +71,7 @@ class Admin implements IDelegatedSettings {
 			$carry[$key] = $this->imageManager->getSupportedUploadImageFormats($key);
 			return $carry;
 		}, []);
-		
+
 		$this->initialState->provideInitialState('adminThemingParameters', [
 			'isThemable' => $themable,
 			'notThemableErrorMessage' => $errorMessage,
@@ -89,6 +80,7 @@ class Admin implements IDelegatedSettings {
 			'slogan' => $this->themingDefaults->getSlogan(),
 			'color' => $this->themingDefaults->getDefaultColorPrimary(),
 			'logoMime' => $this->config->getAppValue(Application::APP_ID, 'logoMime', ''),
+			'allowedMimeTypes' => $allowedMimeTypes,
 			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
 			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
 			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
@@ -98,7 +90,8 @@ class Admin implements IDelegatedSettings {
 			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
 			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
-			'allowedMimeTypes' => $allowedMimeTypes,
+			'defaultApps' => $this->appManager->getDefaultApps(),
+			'userDefaultAppEnabled' => $this->config->getAppValue(Application::APP_ID, 'userDefaultAppEnabled', 'false') === 'true',
 		]);
 
 		Util::addScript($this->appName, 'admin-theming');

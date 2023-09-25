@@ -28,6 +28,7 @@ namespace OCA\Theming\Settings;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
@@ -36,22 +37,13 @@ use OCP\Util;
 
 class Personal implements ISettings {
 
-	protected string $appName;
-	private IConfig $config;
-	private ThemesService $themesService;
-	private IInitialState $initialStateService;
-	private ThemingDefaults $themingDefaults;
-
-	public function __construct(string $appName,
-								IConfig $config,
-								ThemesService $themesService,
-								IInitialState $initialStateService,
-								ThemingDefaults $themingDefaults) {
-		$this->appName = $appName;
-		$this->config = $config;
-		$this->themesService = $themesService;
-		$this->initialStateService = $initialStateService;
-		$this->themingDefaults = $themingDefaults;
+	public function __construct(protected string $appName,
+								private IConfig $config,
+								private ThemesService $themesService,
+								private IInitialState $initialStateService,
+								private ThemingDefaults $themingDefaults,
+								private IAppManager $appManager,
+								) {
 	}
 
 	public function getForm(): TemplateResponse {
@@ -77,6 +69,8 @@ class Personal implements ISettings {
 		$this->initialStateService->provideInitialState('themes', array_values($themes));
 		$this->initialStateService->provideInitialState('enforceTheme', $enforcedTheme);
 		$this->initialStateService->provideInitialState('isUserThemingDisabled', $this->themingDefaults->isUserThemingDisabled());
+		$this->initialStateService->provideInitialState('userDefaultAppEnabled', $this->config->getAppValue($this->appName, 'userDefaultAppEnabled', 'false') === 'true');
+		$this->initialStateService->provideInitialState('userDefaultApp', $this->appManager->getDefaultAppForUser(null));
 
 		Util::addScript($this->appName, 'personal-theming');
 
