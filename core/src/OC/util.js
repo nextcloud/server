@@ -64,9 +64,11 @@ export default {
 	History,
 
 	/**
-	 * @deprecated use https://nextcloud.github.io/nextcloud-files/functions/formatFileSize.html
+	 * @param {number} size Size in bytes
+	 * @param {boolean} skipSmallSizes return '< 1 KiB' for small files
+	 * @deprecated use `@nextcloud/files`, see https://nextcloud-libraries.github.io/nextcloud-files/functions/formatFileSize.html
 	 */
-	humanFileSize,
+	humanFileSize: (size, skipSmallSizes) => humanFileSize(size, skipSmallSizes, true).replace('iB', 'B'), // the replace is for backwards compatibility, where binary sizes but decimal units were used
 
 	/**
 	 * Returns a file size in bytes from a humanly readable string
@@ -87,20 +89,16 @@ export default {
 		let bytes = null
 
 		const bytesArray = {
+			'': 1,
 			b: 1,
 			k: 1024,
-			kb: 1024,
-			mb: 1024 * 1024,
 			m: 1024 * 1024,
-			gb: 1024 * 1024 * 1024,
 			g: 1024 * 1024 * 1024,
-			tb: 1024 * 1024 * 1024 * 1024,
 			t: 1024 * 1024 * 1024 * 1024,
-			pb: 1024 * 1024 * 1024 * 1024 * 1024,
 			p: 1024 * 1024 * 1024 * 1024 * 1024,
 		}
 
-		const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
+		const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?)i?b?$/i)
 		if (matches !== null) {
 			bytes = parseFloat(s)
 			if (!isFinite(bytes)) {
