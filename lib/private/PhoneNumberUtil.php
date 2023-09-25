@@ -35,12 +35,7 @@ use OCP\IPhoneNumberUtil;
  */
 class PhoneNumberUtil implements IPhoneNumberUtil {
 	/**
-	 * Returns the country code for a specific region
-	 *
-	 * For example, this would be `41` for Switzerland and `49` for Germany.
-	 * Returns null when the region is invalid.
-	 *
-	 * @since 28.0.0
+	 * {@inheritDoc}
 	 */
 	public function getCountryCodeForRegion(string $regionCode): ?int {
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -49,13 +44,7 @@ class PhoneNumberUtil implements IPhoneNumberUtil {
 	}
 
 	/**
-	 * Converts a given input into an E164 formatted phone number
-	 *
-	 * E164 is the international format without any formatting characters or spaces.
-	 * E.g. +41446681800 where +41 is the region code.
-	 * Returns null when the input is invalid for the given region.
-	 *
-	 * @since 28.0.0
+	 * {@inheritDoc}
 	 */
 	public function convertToStandardFormat(string $input, ?string $defaultRegion = null): ?string {
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
