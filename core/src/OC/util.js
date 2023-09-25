@@ -25,7 +25,7 @@ import moment from 'moment'
 
 import History from './util-history.js'
 import OC from './index.js'
-import { formatFileSize as humanFileSize } from '@nextcloud/files'
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
 
 /**
  * @param {any} t -
@@ -64,58 +64,20 @@ export default {
 	History,
 
 	/**
-	 * @deprecated use https://nextcloud.github.io/nextcloud-files/functions/formatFileSize.html
+	 * @deprecated use `formatFileSize` from `@nextcloud/files`, see https://nextcloud-libraries.github.io/nextcloud-files/functions/formatFileSize.html
 	 */
-	humanFileSize,
+	humanFileSize: formatFileSize,
 
 	/**
 	 * Returns a file size in bytes from a humanly readable string
-	 * Makes 2kB to 2048.
+	 * Makes 2KiB to 2048.
 	 * Inspired by computerFileSize in helper.php
 	 *
-	 * @param  {string} string file size in human-readable format
-	 * @return {number} or null if string could not be parsed
-	 *
-	 *
+	 * @param  {string} value file size in human-readable format
+ 	 * @param  {boolean} forceBinary for backwards compatibility this allows values to be base 2 (so 2KB means 2048 bytes instead of 2000 bytes)
+	 * @deprecated use `parseFileSize` from the `@nextcloud/files` library
 	 */
-	computerFileSize(string) {
-		if (typeof string !== 'string') {
-			return null
-		}
-
-		const s = string.toLowerCase().trim()
-		let bytes = null
-
-		const bytesArray = {
-			b: 1,
-			k: 1024,
-			kb: 1024,
-			mb: 1024 * 1024,
-			m: 1024 * 1024,
-			gb: 1024 * 1024 * 1024,
-			g: 1024 * 1024 * 1024,
-			tb: 1024 * 1024 * 1024 * 1024,
-			t: 1024 * 1024 * 1024 * 1024,
-			pb: 1024 * 1024 * 1024 * 1024 * 1024,
-			p: 1024 * 1024 * 1024 * 1024 * 1024,
-		}
-
-		const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
-		if (matches !== null) {
-			bytes = parseFloat(s)
-			if (!isFinite(bytes)) {
-				return null
-			}
-		} else {
-			return null
-		}
-		if (matches[5]) {
-			bytes = bytes * bytesArray[matches[5]]
-		}
-
-		bytes = Math.round(bytes)
-		return bytes
-	},
+	computerFileSize: (value, forceBinary) => parseFileSize(value, forceBinary ?? true),
 
 	/**
 	 * @param {string|number} timestamp timestamp

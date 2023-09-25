@@ -252,7 +252,7 @@ class Setup {
 			$errors[] = [
 				'error' => $this->l10n->t(
 					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
-					'This will lead to problems with files over 4 GB and is highly discouraged.',
+					'This will lead to problems with files over 4 GiB and is highly discouraged.',
 					[$this->defaults->getProductName()]
 				),
 				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.'),

@@ -77,7 +77,7 @@ class OC_Helper {
 	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 *
-	 * Makes 2048 to 2 kB.
+	 * Makes 2048 to 2 KiB.
 	 */
 	public static function humanFileSize(int|float $bytes): string {
 		if ($bytes < 0) {
@@ -88,58 +88,58 @@ class OC_Helper {
 		}
 		$bytes = round($bytes / 1024, 0);
 		if ($bytes < 1024) {
-			return "$bytes KB";
+			return "$bytes KiB";
 		}
 		$bytes = round($bytes / 1024, 1);
 		if ($bytes < 1024) {
-			return "$bytes MB";
+			return "$bytes MiB";
 		}
 		$bytes = round($bytes / 1024, 1);
 		if ($bytes < 1024) {
-			return "$bytes GB";
+			return "$bytes GiB";
 		}
 		$bytes = round($bytes / 1024, 1);
 		if ($bytes < 1024) {
-			return "$bytes TB";
+			return "$bytes TiB";
 		}
 
 		$bytes = round($bytes / 1024, 1);
-		return "$bytes PB";
+		return "$bytes PiB";
 	}
 
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
+	 * @param boolean $forceBinary Parse even KB as binary (e.g. 1KB = 1024 byte)
 	 * @return false|int|float a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
 	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 */
-	public static function computerFileSize(string $str): false|int|float {
+	public static function computerFileSize(string $str, bool $forceBinary = true): false|int|float {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
 			return Util::numericToNumber($str);
 		}
 
 		$bytes_array = [
-			'b' => 1,
-			'k' => 1024,
-			'kb' => 1024,
-			'mb' => 1024 * 1024,
-			'm' => 1024 * 1024,
-			'gb' => 1024 * 1024 * 1024,
-			'g' => 1024 * 1024 * 1024,
-			'tb' => 1024 * 1024 * 1024 * 1024,
-			't' => 1024 * 1024 * 1024 * 1024,
-			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
-			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
+			'' => 0,
+			'k' => 1,
+			'm' => 2,
+			'g' => 3,
+			't' => 4,
+			'p' => 5,
 		];
 
 		$bytes = (float)$str;
 
-		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
-			$bytes *= $bytes_array[$matches[1]];
+		// remove bytes from string to only get the suffix
+		$str = trim(substr($str, strlen((string)$bytes)));
+
+		if (preg_match('#^([kmgtp]?)(i?)b?$#si', $str, $matches)) {
+			$base = $matches[2] === 'i' || $forceBinary ? 1024 : 1000;
+			$bytes *= ($base ** $bytes_array[$matches[1]]);
 		} else {
 			return false;
 		}

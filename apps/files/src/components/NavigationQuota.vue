@@ -51,8 +51,8 @@ export default {
 
 	computed: {
 		storageStatsTitle() {
-			const usedQuotaByte = formatFileSize(this.storageStats?.used, false, false)
-			const quotaByte = formatFileSize(this.storageStats?.quota, false, false)
+			const usedQuotaByte = formatFileSize(this.storageStats?.used, false)
+			const quotaByte = formatFileSize(this.storageStats?.quota, false)
 
 			// If no quota set
 			if (this.storageStats?.quota < 0) {

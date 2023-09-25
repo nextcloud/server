@@ -245,7 +245,7 @@ class UsersController extends Controller {
 		];
 
 		/* QUOTAS PRESETS */
-		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
+		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GiB, 5 GiB, 10 GiB'));
 		$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
 		if (!$allowUnlimitedQuota && count($quotaPreset) > 0) {
 			$defaultQuota = $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
@@ -307,7 +307,7 @@ class UsersController extends Controller {
 	 * @return array
 	 */
 	protected function parseQuotaPreset(string $quotaPreset): array {
-		// 1 GB, 5 GB, 10 GB => [1 GB, 5 GB, 10 GB]
+		// 1 GiB, 5 GiB, 10 GiB => [1 GiB, 5 GiB, 10 GiB]
 		$presets = array_filter(array_map('trim', explode(',', $quotaPreset)));
 		// Drop default and none, Make array indexes numerically
 		return array_values(array_diff($presets, ['default', 'none']));

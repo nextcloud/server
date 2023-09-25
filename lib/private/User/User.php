@@ -510,7 +510,7 @@ class User implements IUser {
 			// use the first preset instead
 			$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
 			if (!$allowUnlimitedQuota) {
-				$presets = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+				$presets = $this->config->getAppValue('files', 'quota_preset', '1 GiB, 5 GiB, 10 GiB');
 				$presets = array_filter(array_map('trim', explode(',', $presets)));
 				$quotaPreset = array_values(array_diff($presets, ['default', 'none']));
 				if (count($quotaPreset) > 0) {
