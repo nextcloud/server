@@ -404,33 +404,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	/**
-	 * @deprecated use the ILogger instead
-	 * @param string $message
-	 * @param string $level
-	 * @return mixed
-	 */
-	public function log($message, $level) {
-		switch ($level) {
-			case 'debug':
-				$level = ILogger::DEBUG;
-				break;
-			case 'info':
-				$level = ILogger::INFO;
-				break;
-			case 'warn':
-				$level = ILogger::WARN;
-				break;
-			case 'fatal':
-				$level = ILogger::FATAL;
-				break;
-			default:
-				$level = ILogger::ERROR;
-				break;
-		}
-		\OCP\Util::writeLog($this->getAppName(), $message, $level);
-	}
-
-	/**
 	 * Register a capability
 	 *
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'

@@ -988,16 +988,17 @@ class OC {
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
+			$logger = Server::get(\Psr\Log\LoggerInterface::class);
 			$setupHelper = new OC\Setup(
 				$systemConfig,
 				Server::get(\bantu\IniGetWrapper\IniGetWrapper::class),
 				Server::get(\OCP\L10N\IFactory::class)->get('lib'),
 				Server::get(\OCP\Defaults::class),
-				Server::get(\Psr\Log\LoggerInterface::class),
+				$logger,
 				Server::get(\OCP\Security\ISecureRandom::class),
 				Server::get(\OC\Installer::class)
 			);
-			$controller = new OC\Core\Controller\SetupController($setupHelper);
+			$controller = new OC\Core\Controller\SetupController($setupHelper, $logger);
 			$controller->run($_POST);
 			exit();
 		}
