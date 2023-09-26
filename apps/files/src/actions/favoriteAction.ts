@@ -30,6 +30,7 @@ import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
 import logger from '../logger.js'
+import { encodePath } from '@nextcloud/paths'
 
 // If any of the nodes is not favorited, we display the favorite action.
 const shouldFavorite = (nodes: Node[]): boolean => {
@@ -39,7 +40,7 @@ const shouldFavorite = (nodes: Node[]): boolean => {
 export const favoriteNode = async (node: Node, view: View, willFavorite: boolean): Promise<boolean> => {
 	try {
 		// TODO: migrate to webdav tags plugin
-		const url = generateUrl('/apps/files/api/v1/files') + node.path
+		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
 		await axios.post(url, {
 			tags: willFavorite
 				? [window.OC.TAG_FAVORITE]
