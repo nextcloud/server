@@ -113,7 +113,7 @@ describe('OC.Upload tests', function() {
 		});
 		it('does not add file if it exceeds free space', function(done) {
 			var result;
-			$('#free_space').val(1000);
+			$('#free_space').val(1024);
 
 			failStub.callsFake(function(){
 				expect(failStub.calledOnce).toEqual(true);
