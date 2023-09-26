@@ -39,21 +39,15 @@ use OCP\Lock\LockedException;
  * Locking provider that stores the locks in the database
  */
 class DBLockingProvider extends AbstractLockingProvider {
-	private IDBConnection $connection;
-	private ITimeFactory $timeFactory;
 	private array $sharedLocks = [];
-	private bool $cacheSharedLocks;
 
 	public function __construct(
-		IDBConnection $connection,
-		ITimeFactory $timeFactory,
+		private IDBConnection $connection,
+		private ITimeFactory $timeFactory,
 		int $ttl = 3600,
-		bool $cacheSharedLocks = true
+		private bool $cacheSharedLocks = true
 	) {
-		$this->connection = $connection;
-		$this->timeFactory = $timeFactory;
-		$this->ttl = $ttl;
-		$this->cacheSharedLocks = $cacheSharedLocks;
+		parent::__construct($ttl);
 	}
 
 	/**
