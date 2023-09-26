@@ -23,6 +23,7 @@ import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
 import { action as editLocallyAction } from './actions/editLocallyAction'
 import { action as favoriteAction } from './actions/favoriteAction'
+import { action as moveOrCopyAction } from './actions/moveOrCopyAction'
 import { action as openFolderAction } from './actions/openFolderAction'
 import { action as openInFilesAction } from './actions/openInFilesAction'
 import { action as renameAction } from './actions/renameAction'
@@ -41,6 +42,7 @@ registerFileAction(deleteAction)
 registerFileAction(downloadAction)
 registerFileAction(editLocallyAction)
 registerFileAction(favoriteAction)
+registerFileAction(moveOrCopyAction)
 registerFileAction(openFolderAction)
 registerFileAction(openInFilesAction)
 registerFileAction(renameAction)

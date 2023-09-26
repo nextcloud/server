@@ -24,7 +24,7 @@ import { joinPaths } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import moment from '@nextcloud/moment'
 
-import { encodeFilePath } from '../../../files/src/utils/fileUtils.js'
+import { encodeFilePath } from '../../../files/src/utils/fileUtils.ts'
 
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'

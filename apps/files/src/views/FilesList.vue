@@ -63,7 +63,7 @@
 			data-cy-files-content-empty>
 			<template #action>
 				<NcButton v-if="dir !== '/'"
-					aria-label="t('files', 'Go to the previous folder')"
+					:aria-label="t('files', 'Go to the previous folder')"
 					type="primary"
 					:to="toPreviousDir">
 					{{ t('files', 'Go back') }}
@@ -93,7 +93,7 @@ import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
-import { translate } from '@nextcloud/l10n'
+import { translate, translatePlural } from '@nextcloud/l10n'
 import { UploadPicker } from '@nextcloud/upload'
 import { Type } from '@nextcloud/sharing'
 import Vue from 'vue'
@@ -425,6 +425,7 @@ export default Vue.extend({
 		},
 
 		t: translate,
+		n: translatePlural,
 	},
 })
 </script>
