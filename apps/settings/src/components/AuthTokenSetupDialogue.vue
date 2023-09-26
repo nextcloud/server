@@ -22,7 +22,7 @@
 <template>
 	<div v-if="!adding" id="generate-app-token-section" class="row spacing">
 		<!-- Port to TextField component when available -->
-		<NcTextField v-model="deviceName"
+		<NcTextField :value.sync="deviceName"
 			type="text"
 			:maxlength="120"
 			:disabled="loading"
