@@ -391,8 +391,6 @@ export default {
 		margin-right: 5px;
 
 		.email__actions {
-			opacity: 0.4 !important;
-
 			&:hover,
 			&:focus,
 			&:active {
