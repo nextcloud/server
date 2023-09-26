@@ -539,7 +539,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.find('.fileinfo').text()).toEqual('2 files');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
-			expect($summary.find('.filesize').text()).toEqual('70 KB');
+			expect($summary.find('.filesize').text()).toEqual('69 KB');
 			expect(fileList.isEmpty).toEqual(false);
 		});
 		it('Shows empty content when removing last file', function() {
@@ -609,7 +609,7 @@ describe('OCA.Files.FileList tests', function() {
 				expect($summary.find('.fileinfo').text()).toEqual('1 file');
 				expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 				expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
-				expect($summary.find('.filesize').text()).toEqual('58 KB');
+				expect($summary.find('.filesize').text()).toEqual('57 KB');
 				expect(fileList.isEmpty).toEqual(false);
 				expect($('.files-filestable thead th').hasClass('hidden')).toEqual(false);
 				expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(true);
@@ -1138,7 +1138,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
 			expect($summary.find('.fileinfo').text()).toEqual('3 files');
-			expect($summary.find('.filesize').text()).toEqual('70 KB');
+			expect($summary.find('.filesize').text()).toEqual('69 KB');
 		});
 		it('shows headers, summary and hide empty content message after setting files', function(){
 			fileList.setFiles(testFiles);
