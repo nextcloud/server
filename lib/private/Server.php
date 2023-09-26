@@ -1724,7 +1724,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @param string $app appid
 	 * @param string $lang
 	 * @return IL10N
-	 * @deprecated 20.0.0 use \OCP\Util::getL10N instead
+	 * @deprecated 20.0.0 use DI of IL10N instead, or \OCP\Util::getL10N as a last resort
 	 */
 	public function getL10N($app, $lang = null) {
 		return $this->get(IFactory::class)->get($app, $lang);
