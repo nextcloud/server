@@ -212,6 +212,7 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\INavigationManager;
+use OCP\IPhoneNumberUtil;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
@@ -1422,6 +1423,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
 
 		$this->registerAlias(ILimiter::class, Limiter::class);
+
+		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
 		$this->connectDispatcher();
 	}

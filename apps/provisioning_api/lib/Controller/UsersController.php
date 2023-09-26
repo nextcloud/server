@@ -45,9 +45,6 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Authentication\Token\RemoteWipe;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -66,6 +63,7 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IPhoneNumberUtil;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -113,7 +111,8 @@ class UsersController extends AUserData {
 		ISecureRandom $secureRandom,
 		RemoteWipe $remoteWipe,
 		KnownUserService $knownUserService,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
 		parent::__construct(
 			$appName,
@@ -243,9 +242,7 @@ class UsersController extends AUserData {
 	 * 400: Invalid location
 	 */
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
-		$phoneUtil = PhoneNumberUtil::getInstance();
-
-		if ($phoneUtil->getCountryCodeForRegion($location) === 0) {
+		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
 			// Not a valid region code
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -258,26 +255,18 @@ class UsersController extends AUserData {
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
-				try {
-					$phoneNumber = $phoneUtil->parse($phone, $location);
-					if ($phoneUtil->isValidNumber($phoneNumber)) {
-						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
-					}
-				} catch (NumberParseException $e) {
+				$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $location);
+				if ($normalizedNumber !== null) {
+					$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 				}
 
-				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && strpos($phone, '0') === 0) {
+				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && str_starts_with($phone, '0')) {
 					// If the number has a leading zero (no country code),
 					// we also check the default phone region of the instance,
 					// when it's different to the user's given region.
-					try {
-						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
-						if ($phoneUtil->isValidNumber($phoneNumber)) {
-							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
-						}
-					} catch (NumberParseException $e) {
+					$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $defaultPhoneRegion);
+					if ($normalizedNumber !== null) {
+						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 					}
 				}
 			}
