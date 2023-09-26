@@ -13,7 +13,7 @@ describe('Navigation renders', () => {
 
 	before(() => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
 			quota: -1,
 		})
 	})
@@ -178,7 +178,7 @@ describe('Quota rendering', () => {
 
 	it('Unlimited quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
 			quota: -1,
 		})
 
@@ -194,14 +194,14 @@ describe('Quota rendering', () => {
 		})
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GB used')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GiB used')
 		cy.get('[data-cy-files-navigation-settings-quota] progress').should('not.exist')
 	})
 
 	it('Non-reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
-			quota: 5 * 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
+			quota: 5 * 1024 * 1024 * 1024,
 			relative: 20, // percent
 		})
 
@@ -217,15 +217,15 @@ describe('Quota rendering', () => {
 		})
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GB of 5 GB used')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GiB of 5 GiB used')
 		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '20')
 	})
 
 	it('Reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 5 * 1000 * 1000 * 1000,
-			quota: 1000 * 1000 * 1000,
+			used: 5 * 1024 * 1024 * 1024,
+			quota: 1024 * 1024 * 1024,
 			relative: 500, // percent
 		})
 
@@ -241,7 +241,7 @@ describe('Quota rendering', () => {
 		})
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '5 GB of 1 GB used')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '5 GiB of 1 GiB used')
 		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '100') // progress max is 100
 	})

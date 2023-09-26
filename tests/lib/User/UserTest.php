@@ -735,7 +735,7 @@ class UserTest extends TestCase {
 		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
 			$hooksCalled++;
 			$test->assertEquals('quota', $feature);
-			$test->assertEquals('23 TB', $value);
+			$test->assertEquals('23 TiB', $value);
 		};
 
 		$emitter = new PublicEmitter();
@@ -748,11 +748,11 @@ class UserTest extends TestCase {
 				'foo',
 				'files',
 				'quota',
-				'23 TB'
+				'23 TiB'
 			);
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
-		$user->setQuota('23 TB');
+		$user->setQuota('23 TiB');
 	}
 
 	public function testGetDefaultUnlimitedQuota() {
@@ -807,9 +807,9 @@ class UserTest extends TestCase {
 			['files', 'default_quota', 'none', 'none'],
 			// do not allow unlimited quota
 			['files', 'allow_unlimited_quota', '1', '0'],
-			['files', 'quota_preset', '1 GB, 5 GB, 10 GB', '1 GB, 5 GB, 10 GB'],
-			// expect seeing 1 GB used as fallback value
-			['files', 'default_quota', '1 GB', '1 GB'],
+			['files', 'quota_preset', '1 GiB, 5 GiB, 10 GiB', '1 GiB, 5 GiB, 10 GiB'],
+			// expect seeing 1 GiB used as fallback value
+			['files', 'default_quota', '1 GiB', '1 GiB'],
 		];
 		$config->method('getUserValue')
 			->will($this->returnValueMap($userValueMap));
@@ -817,7 +817,7 @@ class UserTest extends TestCase {
 			->will($this->returnValueMap($appValueMap));
 
 		$quota = $user->getQuota();
-		$this->assertEquals('1 GB', $quota);
+		$this->assertEquals('1 GiB', $quota);
 	}
 
 	public function testSetQuotaAddressNoChange() {
@@ -834,12 +834,12 @@ class UserTest extends TestCase {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->any())
 			->method('getUserValue')
-			->willReturn('23 TB');
+			->willReturn('23 TiB');
 		$config->expects($this->never())
 			->method('setUserValue');
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
-		$user->setQuota('23 TB');
+		$user->setQuota('23 TiB');
 	}
 
 	public function testGetLastLogin() {

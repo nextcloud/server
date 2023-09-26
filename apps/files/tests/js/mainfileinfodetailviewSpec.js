@@ -62,7 +62,7 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			view.setFileInfo(testFileInfo);
 			expect(view.$el.find('.fileName h3').text()).toEqual('One.txt');
 			expect(view.$el.find('.fileName h3').attr('title')).toEqual('One.txt');
-			expect(view.$el.find('.size').text()).toEqual('123.5 MB');
+			expect(view.$el.find('.size').text()).toEqual('117.7 MiB');
 			expect(view.$el.find('.size').attr('title')).toEqual('123456789 bytes');
 			expect(view.$el.find('.date').text()).toEqual('seconds ago');
 			expect(view.$el.find('.date').attr('title')).toEqual(dateExpected);

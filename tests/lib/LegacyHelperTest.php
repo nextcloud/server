@@ -35,31 +35,41 @@ class LegacyHelperTest extends \Test\TestCase {
 	public function humanFileSizeProvider() {
 		return [
 			['0 B', 0],
-			['1 KB', 1024],
-			['9.5 MB', 10000000],
-			['1.3 GB', 1395864371],
-			['465.7 GB', 500000000000],
-			['454.7 TB', 500000000000000],
-			['444.1 PB', 500000000000000000],
+			['1 KiB', 1024],
+			['9.5 MiB', 10000000],
+			['1.3 GiB', 1395864371],
+			['465.7 GiB', 500000000000],
+			['454.7 TiB', 500000000000000],
+			['444.1 PiB', 500000000000000000],
 		];
 	}
 
 	/**
 	 * @dataProvider providesComputerFileSize
 	 */
-	public function testComputerFileSize($expected, $input) {
-		$result = OC_Helper::computerFileSize($input);
+	public function testComputerFileSize($expected, $input, $forceBinary = true) {
+		$result = OC_Helper::computerFileSize($input, $forceBinary);
 		$this->assertEquals($expected, $result);
 	}
 
 	public function providesComputerFileSize() {
 		return [
+			// expected, input, forceBianry (defaults to true)
 			[0.0, "0 B"],
+			[0.0, "0"],
+			[1024.0, "1 KiB"],
 			[1024.0, "1 KB"],
+			[1000.0, "1 KB", false],
+			[1395864371.0, '1.3 GiB'],
 			[1395864371.0, '1.3 GB'],
+			[1300000000.0, '1.3 GB', false],
+			[9961472.0, "9.5 MiB"],
 			[9961472.0, "9.5 MB"],
+			[9500000.0, "9.5 MB", false],
+			[500041567437.0, "465.7 GiB"],
 			[500041567437.0, "465.7 GB"],
-			[false, "12 GB etfrhzui"]
+			[465700000000.0, "465.7 GB", false],
+			[false, "12 GB etfrhzui"],
 		];
 	}
 

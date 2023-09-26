@@ -801,7 +801,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'protected' => 'false',
 			'dir' => null,
 			'downloadURL' => '',
-			'fileSize' => '1 KB',
+			'fileSize' => '1 KiB',
 			'nonHumanFileSize' => 1337,
 			'maxSizeAnimateGif' => null,
 			'previewSupported' => null,
