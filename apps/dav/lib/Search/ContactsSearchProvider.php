@@ -41,18 +41,6 @@ use Sabre\VObject\Reader;
 
 class ContactsSearchProvider implements IProvider {
 
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var CardDavBackend */
-	private $backend;
-
 	/**
 	 * @var string[]
 	 */
@@ -68,22 +56,12 @@ class ContactsSearchProvider implements IProvider {
 		'NOTE',
 	];
 
-	/**
-	 * ContactsSearchProvider constructor.
-	 *
-	 * @param IAppManager $appManager
-	 * @param IL10N $l10n
-	 * @param IURLGenerator $urlGenerator
-	 * @param CardDavBackend $backend
-	 */
-	public function __construct(IAppManager $appManager,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								CardDavBackend $backend) {
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->backend = $backend;
+	public function __construct(
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private CardDavBackend $backend,
+	) {
 	}
 
 	/**
@@ -127,11 +105,13 @@ class ContactsSearchProvider implements IProvider {
 
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
-			$query->getTerm(),
+			$query->getFilter('term')?->get() ?? '',
 			self::$searchProperties,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
+				'since' => $query->getFilter('since'),
+				'until' => $query->getFilter('until'),
 			]
 		);
 		$formattedResults = \array_map(function (array $contactRow) use ($addressBooksById):SearchResultEntry {
@@ -158,15 +138,11 @@ class ContactsSearchProvider implements IProvider {
 		);
 	}
 
-	/**
-	 * @param string $principalUri
-	 * @param string $addressBookUri
-	 * @param string $contactsUri
-	 * @return string
-	 */
-	protected function getDavUrlForContact(string $principalUri,
-										   string $addressBookUri,
-										   string $contactsUri): string {
+	protected function getDavUrlForContact(
+		string $principalUri,
+		string $addressBookUri,
+		string $contactsUri,
+	): string {
 		[, $principalType, $principalId] = explode('/', $principalUri, 3);
 
 		return $this->urlGenerator->getAbsoluteURL(
@@ -178,13 +154,10 @@ class ContactsSearchProvider implements IProvider {
 		);
 	}
 
-	/**
-	 * @param string $addressBookUri
-	 * @param string $contactUid
-	 * @return string
-	 */
-	protected function getDeepLinkToContactsApp(string $addressBookUri,
-												string $contactUid): string {
+	protected function getDeepLinkToContactsApp(
+		string $addressBookUri,
+		string $contactUid,
+	): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->linkToRoute('contacts.contacts.direct', [
 				'contact' => $contactUid . '~' . $addressBookUri
@@ -194,7 +167,6 @@ class ContactsSearchProvider implements IProvider {
 
 	/**
 	 * @param VCard $vCard
-	 * @return string
 	 */
 	protected function generateSubline(VCard $vCard): string {
 		$emailAddresses = $vCard->select('EMAIL');
