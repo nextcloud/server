@@ -284,16 +284,10 @@ class NavigationManager implements INavigationManager {
 			return;
 		}
 
-		$adminCustomOrders = json_decode($this->config->getSystemValueString('apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
-		$forceAdminOrder = $this->config->getSystemValueBool('apporderForce', false);
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
-			if ($forceAdminOrder) {
-				$customOrders = [];
-			} else {
-				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
-			}
+			$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getInstalledApps();
 			$customOrders = [];
@@ -325,7 +319,7 @@ class NavigationManager implements INavigationManager {
 				}
 				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
-				$order = $customOrders[$app][$key] ?? $adminCustomOrders[$app][$key] ?? $nav['order'] ?? 100;
+				$order = $customOrders[$app][$key] ?? $nav['order'] ?? 100;
 				$type = $nav['type'];
 				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
