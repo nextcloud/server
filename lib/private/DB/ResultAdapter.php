@@ -101,7 +101,7 @@ class ResultAdapter implements IResult {
 
 	public function fetchFirstColumn(): array {
 		try {
-			return $this->inner->fetchAllNumeric();
+			return $this->inner->fetchFirstColumn();
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
