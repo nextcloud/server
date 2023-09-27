@@ -258,6 +258,7 @@
     "Storage connection error. %s" : "Грешка во конекција до складиштето. %s",
     "Storage is temporarily not available" : "Складиштето моментално не е достапно",
     "Storage connection timeout. %s" : "Поврзувањето со складиштето не успеа. %s",
+    "Generate headline" : "Генерирај заглавие",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Датотеките од аоликацијата %1$s не се преклопени коректно. Проверете дали верзијата е компатибилна со серверот.",
     "Full name" : "Цело име",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Максималниот број на корисници е достигнат. Проверете ги вашите известувања за да дознаете повеќе.",

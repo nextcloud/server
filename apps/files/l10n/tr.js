@@ -249,6 +249,8 @@ OC.L10N.register(
     "Blank" : "Boş",
     "Unable to create new file from template" : "Kalıptan yeni dosya eklenemedi",
     "Delete permanently" : "Kalıcı olarak sil",
+    "Copy to {target}" : "{target} içine kopyala",
+    "Move to {target}" : "{target} içine taşı",
     "Open folder {displayName}" : "{displayName} klasörünü aç",
     "Open in Files" : "Dosyalar uygulamasında aç",
     "Open details" : "Ayrıntıları aç",

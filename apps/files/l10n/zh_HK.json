@@ -247,6 +247,8 @@
     "Blank" : "空白",
     "Unable to create new file from template" : "無法從模板創建新檔案",
     "Delete permanently" : "永久刪除",
+    "Copy to {target}" : "複製到 {target}",
+    "Move to {target}" : "移動到 {target}",
     "Open folder {displayName}" : "打開資料夾 {displayName}",
     "Open in Files" : "在「檔案」應用程式中打開",
     "Open details" : "開啟細節",

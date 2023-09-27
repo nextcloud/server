@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Rechazar recurso compartido","Rechazar recursos compartidos","Rechazar recursos compartidos"],
     "_Restore share_::_Restore shares_" : ["Restaurar recurso compartido","Restaurar recursos compartidos","Restaurar recursos compartidos"],
     "Shared" : "Compartido",
+    "Shared by {ownerDisplayName}" : "Compartido por {ownerDisplayName}",
     "Link to a file" : "Enlace al archivo",
     "Error creating the share: {errorMessage}" : "Error al crear el recurso compartido: {errorMessage}",
     "Error creating the share" : "Error quitando el recurso compartido",

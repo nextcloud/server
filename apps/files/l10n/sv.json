@@ -247,6 +247,8 @@
     "Blank" : "Tom",
     "Unable to create new file from template" : "Kunde inte skapa fil från mall",
     "Delete permanently" : "Ta bort permanent",
+    "Copy to {target}" : "Kopiera till {target}",
+    "Move to {target}" : "Flytta till {target}",
     "Open folder {displayName}" : "Öppna mappen {displayName}",
     "Open in Files" : "Öppna i Filer",
     "Open details" : "Öppna detaljer",

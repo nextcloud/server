@@ -15,6 +15,7 @@ OC.L10N.register(
     "Remove version name" : "Избриши име на верзијата",
     "Save version name" : "Зачувај име на верзија",
     "Current version" : "Моментална верзија",
+    "Initial version" : "Првична верзија",
     "Initial version restored" : "Почетната верзијата е вратена",
     "Version restored" : "Верзијата е вратена",
     "Could not restore version" : "Неможе да се врати верзијата",
