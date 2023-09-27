@@ -159,7 +159,7 @@ class Migrator {
 		$step = 0;
 		foreach ($sqls as $sql) {
 			$this->emit($sql, $step++, count($sqls));
-			$connection->query($sql);
+			$connection->executeQuery($sql);
 		}
 		if (!$connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			$connection->commit();
