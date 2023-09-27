@@ -237,9 +237,11 @@ class ViewController extends Controller {
 		if ($fileid && $dir !== '') {
 			$baseFolder = $this->rootFolder->getUserFolder($userId);
 			$nodes = $baseFolder->getById((int) $fileid);
-			$relativePath = dirname($baseFolder->getRelativePath($nodes[0]->getPath()));
-			// If the requested path is different from the file path
-			if (count($nodes) === 1 && $relativePath !== $dir) {
+			$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
+			$relativePath = $nodePath ? dirname($nodePath) : '';
+			// If the requested path does not contain the file id
+			// or if the requested path is not the file id itself
+			if (count($nodes) === 1 && $relativePath !== $dir && $nodePath !== $dir) {
 				return $this->redirectToFile((int) $fileid);
 			}
 		}
