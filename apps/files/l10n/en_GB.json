@@ -247,6 +247,8 @@
     "Blank" : "Blank",
     "Unable to create new file from template" : "Unable to create new file from template",
     "Delete permanently" : "Delete permanently",
+    "Copy to {target}" : "Copy to {target}",
+    "Move to {target}" : "Move to {target}",
     "Open folder {displayName}" : "Open folder {displayName}",
     "Open in Files" : "Open in Files",
     "Open details" : "Open details",

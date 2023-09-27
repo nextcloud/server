@@ -249,6 +249,8 @@ OC.L10N.register(
     "Blank" : "Pusty",
     "Unable to create new file from template" : "Nie można utworzyć nowego pliku z szablonu",
     "Delete permanently" : "Usuń bezpowrotnie",
+    "Copy to {target}" : "Skopiuj do {target}",
+    "Move to {target}" : "Przenieś do {target}",
     "Open folder {displayName}" : "Otwórz katalog {displayName}",
     "Open in Files" : "Otwórz w Plikach",
     "Open details" : "Otwórz szczegóły",
