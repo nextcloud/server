@@ -309,7 +309,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Manifest returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -763,7 +763,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Background deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {

@@ -580,7 +580,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Installed apps returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -661,7 +661,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "App info returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -729,7 +729,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "App enabled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -795,7 +795,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "App disabled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -882,7 +882,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Groups returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -970,7 +970,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1057,7 +1057,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Groups details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1268,7 +1268,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group users details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1365,7 +1365,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Sub admins returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1439,7 +1439,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group users returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1537,7 +1537,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1604,7 +1604,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1691,7 +1691,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Users returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1954,7 +1954,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Users details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2158,7 +2158,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2243,7 +2243,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User value edited successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2308,7 +2308,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2366,7 +2366,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Current user returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2426,7 +2426,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Editable fields returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2498,7 +2498,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Editable fields for user returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2598,7 +2598,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User values edited successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2665,7 +2665,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Wiped all user devices successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2732,7 +2732,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User enabled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2799,7 +2799,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User disabled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2866,7 +2866,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Users groups returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2953,7 +2953,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User added to group successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3027,7 +3027,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User removed from group successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3095,7 +3095,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User subadmin groups returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3175,7 +3175,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User added as group subadmin successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3250,7 +3250,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User removed as group subadmin successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3317,7 +3317,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Resent welcome message successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3376,7 +3376,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Apps returned",
                         "content": {
                             "application/json": {
                                 "schema": {

@@ -76,7 +76,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Config created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {

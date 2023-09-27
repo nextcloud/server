@@ -2107,7 +2107,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Pending shares returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2609,7 +2609,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Deleted shares returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2900,7 +2900,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Recommended sharees returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2960,7 +2960,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Accepted remote shares returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3023,7 +3023,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Pending remote shares returned",
                         "content": {
                             "application/json": {
                                 "schema": {

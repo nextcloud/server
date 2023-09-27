@@ -67,6 +67,8 @@ class ConfigAPIController extends OCSController {
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @return DataResponse<Http::STATUS_OK, array{configID: string}, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Config created successfully
 	 */
 	public function create() {
 		try {

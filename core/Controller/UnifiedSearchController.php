@@ -64,6 +64,8 @@ class UnifiedSearchController extends OCSController {
 	 *
 	 * @param string $from the url the user is currently at
 	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchProvider[], array{}>
+	 *
+	 * 200: Providers returned
 	 */
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);

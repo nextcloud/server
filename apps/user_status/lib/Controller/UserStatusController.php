@@ -172,6 +172,8 @@ class UserStatusController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 *
+	 * 200: Message cleared successfully
 	 */
 	public function clearMessage(): DataResponse {
 		$this->service->clearMessage($this->userId);
