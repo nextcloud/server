@@ -246,6 +246,8 @@ OC.L10N.register(
     "Blank" : "空白",
     "Unable to create new file from template" : "无法从模板创建新文件",
     "Delete permanently" : "彻底删除",
+    "Copy to {target}" : "复制到 {target}",
+    "Move to {target}" : "移动到 {target}",
     "Open folder {displayName}" : "打开文件夹{displayName}",
     "Open in Files" : "在文件中打开",
     "Open details" : "打开详情",

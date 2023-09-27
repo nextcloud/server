@@ -249,6 +249,8 @@ OC.L10N.register(
     "Blank" : "Порожньо",
     "Unable to create new file from template" : "Неможливо створити новий файл з шаблону",
     "Delete permanently" : "Вилучити назавжди",
+    "Copy to {target}" : "Копіювати до {target}",
+    "Move to {target}" : "Перемістити до {target}",
     "Open folder {displayName}" : "Відкрити каталог {displayName}",
     "Open in Files" : "Відкрити у Файлах",
     "Open details" : "Показати деталі",

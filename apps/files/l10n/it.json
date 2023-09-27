@@ -244,6 +244,8 @@
     "Blank" : "Vuoto",
     "Unable to create new file from template" : "Impossibile creare un nuovo file dal modello",
     "Delete permanently" : "Elimina permanentemente",
+    "Copy to {target}" : "Copia in {target}",
+    "Move to {target}" : "Sposta in {target}",
     "Open folder {displayName}" : "Apri la cartella {displayName}",
     "Open in Files" : "Apri in File",
     "Open details" : "Apri i dettagli",

@@ -249,6 +249,8 @@ OC.L10N.register(
     "Blank" : "Em branco",
     "Unable to create new file from template" : "Incapaz de criar novo arquivo a partir do modelo",
     "Delete permanently" : "Remover permanentemente",
+    "Copy to {target}" : "Copiar para {target}",
+    "Move to {target}" : "Mover para {target}",
     "Open folder {displayName}" : "Abra a pasta {displayName}",
     "Open in Files" : "Abrir em arquivos",
     "Open details" : "Abrir detalhes",

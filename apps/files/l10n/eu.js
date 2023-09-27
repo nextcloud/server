@@ -245,6 +245,8 @@ OC.L10N.register(
     "Blank" : "Hutsik",
     "Unable to create new file from template" : "Ezin da fitxategi berria sortu txantiloitik",
     "Delete permanently" : "Ezabatu betirako",
+    "Copy to {target}" : "Kopiatu hona: {target}",
+    "Move to {target}" : "Mugitu hona: {target}",
     "Open folder {displayName}" : "Ireki {displayName} karpeta",
     "Open in Files" : "Ireki Fitxategiak aplikazioan",
     "Open details" : "Ireki xehetasunak",
