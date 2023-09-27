@@ -249,6 +249,8 @@ OC.L10N.register(
     "Blank" : "Leer",
     "Unable to create new file from template" : "Neue Datei kann nicht aus Vorlage erstellt werden",
     "Delete permanently" : "Endgültig löschen",
+    "Copy to {target}" : "Nach {target} kopieren",
+    "Move to {target}" : "Nach {target} verschieben",
     "Open folder {displayName}" : "Ordner {displayName} öffnen",
     "Open in Files" : "In Dateien öffnen",
     "Open details" : "Details öffnen",

@@ -235,6 +235,8 @@ OC.L10N.register(
     "Blank" : "여백",
     "Unable to create new file from template" : "템플릿으로 새 파일을 만들 수 없음",
     "Delete permanently" : "영구히 삭제",
+    "Copy to {target}" : "{target}에 복사",
+    "Move to {target}" : "{target}에 이동",
     "Open folder {displayName}" : "{displayName} 폴더 열기",
     "Open in Files" : "파일에서 열기",
     "Open details" : "자세한 정보 열기",

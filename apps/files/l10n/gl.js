@@ -249,6 +249,8 @@ OC.L10N.register(
     "Blank" : "Baleiro",
     "Unable to create new file from template" : "Non é posíbel crear un novo ficheiro a partir do modelo",
     "Delete permanently" : "Eliminar definitivamente",
+    "Copy to {target}" : "Copiar en {target}",
+    "Move to {target}" : "Mover a {target}",
     "Open folder {displayName}" : "Abrir o cartafol  {displayName}",
     "Open in Files" : "Abrir en Ficheiros",
     "Open details" : "Abrir detalles",

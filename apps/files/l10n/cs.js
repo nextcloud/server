@@ -246,6 +246,8 @@ OC.L10N.register(
     "Blank" : "Prázdný",
     "Unable to create new file from template" : "Nedaří se vytvořit soubor ze šablony",
     "Delete permanently" : "Nevratně smazat",
+    "Copy to {target}" : "Zkopírovat do {target}",
+    "Move to {target}" : "Přesunout do {target}",
     "Open folder {displayName}" : "Otevřít složku {displayName}",
     "Open in Files" : "Otevřít v Souborech",
     "Open details" : "Otevřít podorobnosti",
