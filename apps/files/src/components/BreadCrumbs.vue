@@ -69,7 +69,8 @@ export default Vue.extend({
 
 		sections() {
 			return this.dirs.map(dir => {
-				const to = { ...this.$route, query: { dir } }
+				const fileid = this.getFileIdFromPath(dir)
+				const to = { ...this.$route, params: { fileid }, query: { dir } }
 				return {
 					dir,
 					exact: true,
