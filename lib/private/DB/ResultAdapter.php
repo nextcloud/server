@@ -25,7 +25,9 @@ declare(strict_types=1);
  */
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
+use OC\DB\Exceptions\DbalException;
 use OCP\DB\IResult;
 use PDO;
 
@@ -50,6 +52,22 @@ class ResultAdapter implements IResult {
 		return $this->inner->fetch($fetchMode);
 	}
 
+	public function fetchAssociative(): array|false {
+		try {
+			return $this->inner->fetchAssociative();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
+	public function fetchAllAssociative(): array {
+		try {
+			return $this->inner->fetchAllAssociative();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
 		if ($fetchMode !== PDO::FETCH_ASSOC && $fetchMode !== PDO::FETCH_NUM && $fetchMode !== PDO::FETCH_COLUMN) {
 			throw new \Exception('Fetch mode needs to be assoc, num or column.');
@@ -61,8 +79,32 @@ class ResultAdapter implements IResult {
 		return $this->inner->fetchOne();
 	}
 
+	public function fetchNumeric(): array|false {
+		try {
+			return $this->inner->fetchNumeric();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
+	public function fetchAllNumeric(): array {
+		try {
+			return $this->inner->fetchAllNumeric();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function fetchOne() {
 		return $this->inner->fetchOne();
+	}
+
+	public function fetchFirstColumn(): array {
+		try {
+			return $this->inner->fetchAllNumeric();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function rowCount(): int {

@@ -57,8 +57,29 @@ interface IResult {
 	 * @return mixed
 	 *
 	 * @since 21.0.0
+	 * @deprecated 28.0.0 use fetchAssociative, fetchNumeric or fetchOne
 	 */
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC);
+
+	/**
+	 * Returns the next row of the result as an associative array or FALSE if there are no more rows.
+	 *
+	 * @return array<string,mixed>|false
+	 * @throws Exception
+	 *
+	 * @since 28.0.0
+	 */
+	public function fetchAssociative(): array|false;
+
+	/**
+	 * Returns an array containing all of the result rows represented as associative arrays
+	 *
+	 * @return list<array<string,mixed>>
+	 * @throws Exception
+	 *
+	 * @since 28.0.0
+	 */
+	public function fetchAllAssociative(): array;
 
 	/**
 	 * @param int $fetchMode (one of PDO::FETCH_ASSOC, PDO::FETCH_NUM or PDO::FETCH_COLUMN (2, 3 or 7)
@@ -66,6 +87,7 @@ interface IResult {
 	 * @return mixed[]
 	 *
 	 * @since 21.0.0
+	 * @deprecated 28.0.0 use fetchAllAssociative, fetchAllNumeric or fetchOne
 	 */
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array;
 
@@ -78,6 +100,26 @@ interface IResult {
 	public function fetchColumn();
 
 	/**
+	 * Returns the next row of the result as a numeric array or FALSE if there are no more rows
+	 *
+	 * @return list<mixed>|false
+	 * @throws Exception
+	 *
+	 * @since 28.0.0
+	 */
+	public function fetchNumeric(): array|false;
+
+	/**
+	 * Returns an array containing all of the result rows represented as numeric arrays
+	 *
+	 * @return list<list<mixed>>
+	 * @throws Exception
+	 *
+	 * @since 28.0.0
+	 */
+	public function fetchAllNumeric(): array;
+
+	/**
 	 * Returns the first value of the next row of the result or FALSE if there are no more rows.
 	 *
 	 * @return false|mixed
@@ -85,6 +127,16 @@ interface IResult {
 	 * @since 21.0.0
 	 */
 	public function fetchOne();
+
+	/**
+	 * Returns an array containing all of the result rows represented as numeric arrays
+	 *
+	 * @return list<list<mixed>>
+	 * @throws Exception
+	 *
+	 * @since 21.0.0
+	 */
+	public function fetchFirstColumn(): array;
 
 	/**
 	 * @return int
