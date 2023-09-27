@@ -6,28 +6,34 @@
  * See the COPYING-README file.
  */
 
-function loadDirectory($path) {
+function loadDirectory($path): void {
 	if (strpos($path, 'integration')) {
 		return;
 	}
+
 	if (strpos($path, 'Integration')) {
 		return;
 	}
-	if ($dh = opendir($path)) {
-		while ($name = readdir($dh)) {
-			if ($name[0] !== '.') {
-				$file = $path . '/' . $name;
-				if (is_dir($file)) {
-					loadDirectory($file);
-				} elseif (substr($name, -4, 4) === '.php') {
-					require_once $file;
-				}
-			}
+
+	if (! $dh = opendir($path)) {
+		return;
+	}
+
+	while ($name = readdir($dh)) {
+		if ($name[0] === '.') {
+			continue;
+		}
+
+		$file = $path . '/' . $name;
+		if (is_dir($file)) {
+			loadDirectory($file);
+		} elseif (str_ends_with($name, '.php')) {
+			require_once $file;
 		}
 	}
 }
 
-function getSubclasses($parentClassName) {
+function getSubclasses($parentClassName): array {
 	$classes = [];
 	foreach (get_declared_classes() as $className) {
 		if (is_subclass_of($className, $parentClassName)) {
