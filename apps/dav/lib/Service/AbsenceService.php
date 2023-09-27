@@ -26,18 +26,30 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Service;
 
+use InvalidArgumentException;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IUserManager;
+use OCP\User\Events\OutOfOfficeChangedEvent;
+use OCP\User\Events\OutOfOfficeClearedEvent;
+use OCP\User\Events\OutOfOfficeScheduledEvent;
 
 class AbsenceService {
 	public function __construct(
 		private AbsenceMapper $absenceMapper,
+		private IEventDispatcher $eventDispatcher,
+		private IUserManager $userManager,
 	) {
 	}
 
 	/**
+	 * @param string $firstDay The first day (inclusive) of the absence formatted as YYYY-MM-DD.
+	 * @param string $lastDay The last day (inclusive) of the absence formatted as YYYY-MM-DD.
+	 *
 	 * @throws \OCP\DB\Exception
+	 * @throws InvalidArgumentException If no user with the given user id exists.
 	 */
 	public function createOrUpdateAbsence(
 		string $userId,
@@ -58,9 +70,19 @@ class AbsenceService {
 		$absence->setStatus($status);
 		$absence->setMessage($message);
 
+		// TODO: this method should probably just take a IUser instance
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			throw new InvalidArgumentException("User $userId does not exist");
+		}
+		$eventData = $absence->toOutOufOfficeData($user);
+
 		if ($absence->getId() === null) {
+			$this->eventDispatcher->dispatchTyped(new OutOfOfficeScheduledEvent($eventData));
 			return $this->absenceMapper->insert($absence);
 		}
+
+		$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent($eventData));
 		return $this->absenceMapper->update($absence);
 	}
 
@@ -68,7 +90,20 @@ class AbsenceService {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function clearAbsence(string $userId): void {
-		$this->absenceMapper->deleteByUserId($userId);
+		try {
+			$absence = $this->absenceMapper->findByUserId($userId);
+		} catch (DoesNotExistException $e) {
+			// Nothing to clear
+			return;
+		}
+		$this->absenceMapper->delete($absence);
+		// TODO: this method should probably just take a IUser instance
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			throw new InvalidArgumentException("User $userId does not exist");
+		}
+		$eventData = $absence->toOutOufOfficeData($user);
+		$this->eventDispatcher->dispatchTyped(new OutOfOfficeClearedEvent($eventData));
 	}
 }
 
