@@ -32,14 +32,11 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class LegacySSEKeyFormat implements ISetupCheck {
-	private IL10N $l10n;
-	private IConfig $config;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct(IL10N $l10n, IConfig $config, IURLGenerator $urlGenerator) {
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IL10N $l10n,
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	public function getCategory(): string {

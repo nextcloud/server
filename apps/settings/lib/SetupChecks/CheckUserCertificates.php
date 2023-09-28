@@ -32,11 +32,12 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class CheckUserCertificates implements ISetupCheck {
-	private IL10N $l10n;
 	private string $configValue;
 
-	public function __construct(IL10N $l10n, IConfig $config) {
-		$this->l10n = $l10n;
+	public function __construct(
+		private IL10N $l10n,
+		IConfig $config,
+	) {
 		$configValue = $config->getAppValue('files_external', 'user_certificate_scan', '');
 		$this->configValue = $configValue;
 	}

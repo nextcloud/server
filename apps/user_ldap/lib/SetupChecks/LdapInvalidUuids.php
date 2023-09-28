@@ -34,14 +34,11 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class LdapInvalidUuids implements ISetupCheck {
-	private IL10N $l10n;
-	private UserMapping $userMapping;
-	private GroupMapping $groupMapping;
-
-	public function __construct(IL10N $l10n, UserMapping $userMapping, GroupMapping $groupMapping) {
-		$this->l10n = $l10n;
-		$this->userMapping = $userMapping;
-		$this->groupMapping = $groupMapping;
+	public function __construct(
+		private IL10N $l10n,
+		private UserMapping $userMapping,
+		private GroupMapping $groupMapping,
+	) {
 	}
 
 	public function getCategory(): string {
