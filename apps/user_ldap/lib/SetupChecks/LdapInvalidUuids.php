@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2022 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,14 +29,12 @@ namespace OCA\User_LDAP\SetupChecks;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCP\App\IAppManager;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\SetupResult;
 
 class LdapInvalidUuids implements ISetupCheck {
 	private IL10N $l10n;
-	private IServerContainer $server;
 	private UserMapping $userMapping;
 	private GroupMapping $groupMapping;
 
@@ -49,16 +48,16 @@ class LdapInvalidUuids implements ISetupCheck {
 		return 'ldap';
 	}
 
-	public function description(): string {
-		return $this->l10n->t('Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.');
+	public function getName(): string {
+		return $this->l10n->t('Checking for invalid LDAP UUIDs');
 	}
 
-	public function severity(): string {
-		return 'warning';
-	}
-
-	public function run(): bool {
-		return count($this->userMapping->getList(0, 1, true)) === 0
-			&& count($this->groupMapping->getList(0, 1, true)) === 0;
+	public function run(): SetupResult {
+		if (count($this->userMapping->getList(0, 1, true)) === 0
+			&& count($this->groupMapping->getList(0, 1, true)) === 0) {
+			return new SetupResult(SetupResult::SUCCESS);
+		} else {
+			return new SetupResult(SetupResult::WARNING, $this->l10n->t('Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.'));
+		}
 	}
 }
