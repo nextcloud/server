@@ -82,15 +82,15 @@
 			<form class="version-label-modal"
 				@submit.prevent="setVersionLabel(formVersionLabelValue)">
 				<label>
-					<div class="version-label-modal__title">{{ t('photos', 'Version name') }}</div>
+					<div class="version-label-modal__title">{{ t('files_versions', 'Version name') }}</div>
 					<NcTextField ref="labelInput"
 						:value.sync="formVersionLabelValue"
-						:placeholder="t('photos', 'Version name')"
+						:placeholder="t('files_versions', 'Version name')"
 						:label-outside="true" />
 				</label>
 
 				<div class="version-label-modal__info">
-					{{ t('photos', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
+					{{ t('files_versions', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
 				</div>
 
 				<div class="version-label-modal__actions">
