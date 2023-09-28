@@ -826,6 +826,7 @@ class AppManager implements IAppManager {
 		// Set fallback to always-enabled files app
 		$appId = 'files';
 		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', ''));
+		$defaultApps = array_filter($defaultApps);
 
 		$user ??= $this->userSession->getUser();
 
