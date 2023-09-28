@@ -136,7 +136,10 @@
 					{{ t('file_sharing', 'Note to recipient') }}
 				</NcCheckboxRadioSwitch>
 				<template v-if="writeNoteToRecipientIsChecked">
-					<textarea :value="share.note" @input="share.note = $event.target.value" />
+					<label for="share-note-textarea">
+						{{ t('files_sharing', 'Enter a note for the share recipient') }}
+					</label>
+					<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
 				</template>
 				<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
 					{{ t('file_sharing', 'Custom permissions') }}
