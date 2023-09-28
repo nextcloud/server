@@ -1,5 +1,5 @@
 <template>
-	<SettingsSection :title="t('settings', 'Setup Checks')"
+	<NcSettingsSection :title="t('settings', 'Setup Checks')"
 		:description="t('settings', `It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.`)">
 		<div v-for="(checks, category) in results"
 			:key="category"
@@ -28,11 +28,11 @@
 				</div>
 			</div>
 		</div>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import Check from 'vue-material-design-icons/Check'
@@ -40,7 +40,7 @@ import Check from 'vue-material-design-icons/Check'
 export default {
 	name: 'SetupCheck',
 	components: {
-		SettingsSection,
+		NcSettingsSection,
 		Check,
 	},
 	data() {
