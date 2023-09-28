@@ -28,6 +28,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ContentsWithRoot } from '../../../files/src/services/Navigation.ts'
 
 import client, { rootPath } from './client'
+import { encodePath } from '@nextcloud/paths'
 
 const data = `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:"
@@ -57,7 +58,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
-		source: generateRemoteUrl('dav' + rootPath + node.filename),
+		source: generateRemoteUrl(encodePath('dav' + rootPath + node.filename)),
 		mtime: new Date(node.lastmod),
 		mime: node.mime as string,
 		size: node.props?.size as number || 0,
