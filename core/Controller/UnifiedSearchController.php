@@ -100,7 +100,7 @@ class UnifiedSearchController extends OCSController {
 						   ?int $limit = null,
 						   $cursor = null,
 						   string $from = ''): DataResponse {
-		if (empty(trim($term))) {
+		if (trim($term) === "") {
 			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
 		}
 		[$route, $routeParameters] = $this->getRouteInformation($from);
