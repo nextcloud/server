@@ -46,13 +46,13 @@ jobs:
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:9
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Nextcloud
         run: |
+          composer install
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
@@ -60,8 +60,8 @@ jobs:
       - name: PHPUnit
         run: |
           echo "<?php return ['run' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => 'minio','secret' => 'minio123', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/${{ env.APP_NAME }}/tests/config.amazons3.php
-          phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/Amazons3Test.php
-          phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/VersionedAmazonS3Test.php
+          composer run test:files_external apps/files_external/tests/Storage/Amazons3Test.php
+          composer run test:files_external apps/files_external/tests/Storage/VersionedAmazonS3Test.php
       - name: S3 logs
         if: always()
         run: |
@@ -99,13 +99,13 @@ jobs:
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:9
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Nextcloud
         run: |
+          composer install
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
@@ -113,8 +113,8 @@ jobs:
       - name: PHPUnit
         run: |
           echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/${{ env.APP_NAME }}/tests/config.amazons3.php
-          phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/Amazons3Test.php
-          phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/VersionedAmazonS3Test.php
+          composer run test:files_external apps/files_external/tests/Storage/Amazons3Test.php
+          composer run test:files_external apps/files_external/tests/Storage/VersionedAmazonS3Test.php
       - name: S3 logs
         if: always()
         run: |
