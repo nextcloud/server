@@ -37,7 +37,7 @@ function NavigationListElements($item, $l, $pinned) {
 		<?php if (isset($item['defaultExpandedState']) && $item['defaultExpandedState']) { ?> open<?php } ?>"
 		<?php if (isset($item['folderPosition'])) { ?> folderposition="<?php p($item['folderPosition']); ?>" <?php } ?>>
 
-		<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
+		<a href="<?php p($item['href'] ?? '#') ?>"
 		   class="nav-icon-<?php p(isset($item['icon']) && $item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']); ?></a>
 
 

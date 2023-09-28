@@ -178,8 +178,8 @@ class Import extends Base {
 		$mount->setAuthMechanism($authBackend);
 		$mount->setBackendOptions($data['configuration']);
 		$mount->setMountOptions($data['options']);
-		$mount->setApplicableUsers(isset($data['applicable_users']) ? $data['applicable_users'] : []);
-		$mount->setApplicableGroups(isset($data['applicable_groups']) ? $data['applicable_groups'] : []);
+		$mount->setApplicableUsers($data['applicable_users'] ?? []);
+		$mount->setApplicableGroups($data['applicable_groups'] ?? []);
 		return $mount;
 	}
 

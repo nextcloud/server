@@ -1746,7 +1746,7 @@ class Access extends LDAPUtility {
 		$uuid = false;
 		if ($this->detectUuidAttribute($dn, $isUser, false, $ldapRecord)) {
 			$attr = $this->connection->$uuidAttr;
-			$uuid = isset($ldapRecord[$attr]) ? $ldapRecord[$attr] : $this->readAttribute($dn, $attr);
+			$uuid = $ldapRecord[$attr] ?? $this->readAttribute($dn, $attr);
 			if (!is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true, $ldapRecord)) {

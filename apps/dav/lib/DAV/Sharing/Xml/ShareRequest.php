@@ -62,8 +62,8 @@ class ShareRequest implements XmlDeserializable {
 
 					$set[] = [
 						'href' => $sharee['{DAV:}href'],
-						'commonName' => isset($sharee[$commonName]) ? $sharee[$commonName] : null,
-						'summary' => isset($sharee[$sumElem]) ? $sharee[$sumElem] : null,
+						'commonName' => $sharee[$commonName] ?? null,
+						'summary' => $sharee[$sumElem] ?? null,
 						'readOnly' => !array_key_exists('{' . Plugin::NS_OWNCLOUD . '}read-write', $sharee),
 					];
 					break;
