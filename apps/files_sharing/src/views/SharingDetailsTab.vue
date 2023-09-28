@@ -380,13 +380,19 @@ export default {
 		 */
 		hasExpirationDate: {
 			get() {
+				const isDefaultExpireDateEnabled = this.config.isDefaultExpireDateEnabled
+				const hasExistingExpirationDate = !!this.share.expireDate || isDefaultExpireDateEnabled
+				const isDefaultInternalExpireDateEnabled = this.config.isDefaultInternalExpireDateEnabled
+				const isDefaultRemoteExpireDateEnabled = this.config.isDefaultRemoteExpireDateEnabled
 				if (this.isPublicShare) {
-					return !!this.share.expireDate || this.config.isDefaultExpireDateEnforced
+					return hasExistingExpirationDate
 				}
+
 				if (this.isRemoteShare) {
-					return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+					return hasExistingExpirationDate || isDefaultRemoteExpireDateEnabled
 				}
-				return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+
+				return hasExistingExpirationDate || isDefaultInternalExpireDateEnabled
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
