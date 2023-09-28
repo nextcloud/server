@@ -316,7 +316,11 @@ export default Vue.extend({
 
 		.files-list__row {
 			&:hover, &:focus, &:active, &--active, &--dragover {
-				background-color: var(--color-background-dark);
+				// WCAG AA compliant
+				background-color: var(--color-background-hover);
+				// text-maxcontrast have been designed to pass WCAG AA over
+				// a white background, we need to adjust then.
+				--color-text-maxcontrast: var(--color-main-text);
 				> * {
 					--color-border: var(--color-border-dark);
 				}
@@ -475,8 +479,7 @@ export default Vue.extend({
 
 		.files-list__row-mtime,
 		.files-list__row-size {
-			// opacity varies with the size
-			color: var(--color-main-text);
+			color: var(--color-text-maxcontrast);
 		}
 		.files-list__row-size {
 			width: calc(var(--row-height) * 1.5);
