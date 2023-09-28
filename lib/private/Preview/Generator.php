@@ -245,7 +245,7 @@ class Generator {
 
 		try {
 			return $this->getCachedPreview($previewFiles, $width, $height, $crop, $mimeType, $prefix);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException | \InvalidArgumentException $e) {
 			return $this->generateProviderPreview($previewFolder, $file, $width, $height, $crop, false, $mimeType, $prefix);
 		}
 	}
