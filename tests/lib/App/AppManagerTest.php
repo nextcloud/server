@@ -607,21 +607,43 @@ class AppManagerTest extends TestCase {
 			// none specified, default to files
 			[
 				'',
+				'',
+				'{}',
 				'files',
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
+				'',
+				'{}',
 				'files',
 			],
 			// non-standard app
 			[
 				'settings',
+				'',
+				'{}',
 				'settings',
 			],
 			// non-standard app with fallback
 			[
 				'unexist,settings',
+				'',
+				'{}',
+				'settings',
+			],
+			// user-customized defaultapp
+			[
+				'unexist,settings',
+				'files',
+				'{"settings":[1],"files":[2]}',
+				'files',
+			],
+			// user-customized apporder fallback
+			[
+				'',
+				'',
+				'{"settings":[1],"files":[2]}',
 				'settings',
 			],
 		];
@@ -630,7 +652,7 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider provideDefaultApps
 	 */
-	public function testGetDefaultAppForUser($defaultApps, $expectedApp) {
+	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $expectedApp) {
 		$user = $this->newUser('user1');
 
 		$this->userSession->expects($this->once())
@@ -642,10 +664,12 @@ class AppManagerTest extends TestCase {
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->atLeastOnce())
 			->method('getUserValue')
-			->with('user1', 'core', 'defaultapp')
-			->willReturn('');
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', $userDefaultApps],
+				['user1', 'core', 'apporder', '[]', $userApporder],
+			]);
 
 		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
 	}

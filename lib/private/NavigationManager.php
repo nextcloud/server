@@ -285,10 +285,14 @@ class NavigationManager implements INavigationManager {
 		}
 
 		if ($this->userSession->isLoggedIn()) {
-			$apps = $this->appManager->getEnabledAppsForUser($this->userSession->getUser());
+			$user = $this->userSession->getUser();
+			$apps = $this->appManager->getEnabledAppsForUser($user);
+			$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getInstalledApps();
+			$customOrders = [];
 		}
+
 
 		foreach ($apps as $app) {
 			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
@@ -315,7 +319,7 @@ class NavigationManager implements INavigationManager {
 				}
 				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
-				$order = isset($nav['order']) ? $nav['order'] : 100;
+				$order = $customOrders[$app][$key] ?? $nav['order'] ?? 100;
 				$type = $nav['type'];
 				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
