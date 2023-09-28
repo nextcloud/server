@@ -20,7 +20,10 @@
 				</span>
 			</div>
 			<div class="card__body" v-if="!collapsed[category]">
-				<div v-for="(check, name) in checks" :key="name" class="row-check" :class="['row-check__' + check.severity]">
+				<div v-for="(check, name) in checks"
+					:key="name"
+					class="row-check"
+					:class="['row-check__' + check.severity]">
 					<template v-if="check.severity === 'success'">
 						<Check :size="20" :fill-color="'var(--color-success)'" />
 					</template>
@@ -32,10 +35,10 @@
 </template>
 
 <script>
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-import Check from 'vue-material-design-icons/Check'
+import Check from 'vue-material-design-icons/Check.vue'
 
 export default {
 	name: 'SetupCheck',

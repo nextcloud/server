@@ -24,9 +24,9 @@ import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 
-import logger from './logger'
+import logger from './logger.js'
 
-import SetupCheck from './components/SetupCheck'
+import SetupCheck from './components/SetupCheck.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 
