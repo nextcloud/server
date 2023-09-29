@@ -48,8 +48,7 @@ jobs:
           coverage: none
           ini-file: development
           ini-values:
-            apc.enabled=on,
-            apc.enable_cli=on
+            apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
