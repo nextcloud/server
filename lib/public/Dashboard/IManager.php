@@ -40,7 +40,7 @@ interface IManager {
 	/**
 	 * @since 20.0.0
 	 *
-	 * @return IWidget[]
+	 * @return array<string, IWidget>
 	 */
 	public function getWidgets(): array;
 }
