@@ -40,6 +40,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -87,6 +88,9 @@ class EncryptAllTest extends TestCase {
 
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OCP\Security\ISecureRandom  */
 	protected $secureRandom;
+
+	/** @var MockObject|IFactory  */
+	protected $l10nFactory;
 
 	/** @var  EncryptAll */
 	protected $encryptAll;
