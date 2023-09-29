@@ -224,6 +224,7 @@
 				class="multiselect-vue"
 				label="displayname"
 				track-by="id"
+				@open="_id => searchUserManager()"
 				@search-change="searchUserManager"
 				@remove="updateUserManager"
 				@select="updateUserManager">
@@ -387,7 +388,6 @@ export default {
 		},
 	},
 	async beforeMount() {
-		await this.searchUserManager()
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
