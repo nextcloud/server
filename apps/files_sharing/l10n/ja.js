@@ -204,6 +204,7 @@ OC.L10N.register(
     "Hide download" : "ダウンロードを隠す",
     "Video verification" : "ビデオ通話によるパスワード通知",
     "Note to recipient" : "受取人への注意",
+    "Enter a note for the share recipient" : "共有受信者へのメモを入力してください",
     "Create" : "作成",
     "Update" : "更新",
     "Share" : "共有",
@@ -302,7 +303,6 @@ OC.L10N.register(
     "Expiration date enforced" : "有効期限が強制される",
     "Allow download" : "ダウンロードを許可",
     "Password protect" : "パスワード保護",
-    "Enter a note for the share recipient" : "共有受信者へのメモを入力してください",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "password_policy からのパスワード生成エラー"
 },

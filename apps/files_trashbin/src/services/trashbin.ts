@@ -46,7 +46,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
-		source: generateRemoteUrl('dav' + rootPath + node.filename),
+		source: generateRemoteUrl(encodePath('dav' + rootPath + node.filename)),
 		// do not show the mtime column
 		// mtime: new Date(node.lastmod),
 		mime: node.mime as string,

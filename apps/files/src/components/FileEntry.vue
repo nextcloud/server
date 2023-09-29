@@ -155,7 +155,7 @@
 
 		<!-- Size -->
 		<td v-if="isSizeAvailable"
-			:style="{ opacity: sizeOpacity }"
+			:style="sizeOpacity"
 			class="files-list__row-size"
 			data-cy-files-list-row-size
 			@click="openDetailsIfAvailable">
@@ -164,6 +164,7 @@
 
 		<!-- Mtime -->
 		<td v-if="isMtimeAvailable"
+			:style="mtimeOpacity"
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
@@ -370,17 +371,17 @@ export default Vue.extend({
 			return formatFileSize(size, true)
 		},
 		sizeOpacity() {
-			// Whatever theme is active, the contrast will pass WCAG AA
-			// with color main text over main background and an opacity of 0.7
-			const minOpacity = 0.7
 			const maxOpacitySize = 10 * 1024 * 1024
 
 			const size = parseInt(this.source.size, 10) || 0
 			if (!size || size < 0) {
-				return minOpacity
+				return {}
 			}
 
-			return minOpacity + (1 - minOpacity) * Math.pow((this.source.size / maxOpacitySize), 2)
+			const ratio = Math.round(Math.min(100, 100 * Math.pow((this.source.size / maxOpacitySize), 2)))
+			return {
+				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
+			}
 		},
 
 		mtime() {
@@ -388,6 +389,23 @@ export default Vue.extend({
 				return moment(this.source.mtime).fromNow()
 			}
 			return this.t('files_trashbin', 'A long time ago')
+		},
+		mtimeOpacity() {
+			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
+
+			const mtime = this.source.mtime?.getTime?.()
+			if (!mtime) {
+				return {}
+			}
+
+			// 1 = today, 0 = 31 days ago
+			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
+			if (ratio < 0) {
+				return {}
+			}
+			return {
+				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
+			}
 		},
 		mtimeTitle() {
 			if (this.source.mtime) {

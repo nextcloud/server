@@ -390,7 +390,7 @@ class OC_App {
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
 		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
-		return isset($appData['version']) ? $appData['version'] : '';
+		return $appData['version'] ?? '';
 	}
 
 	/**

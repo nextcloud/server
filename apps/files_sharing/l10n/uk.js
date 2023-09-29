@@ -204,6 +204,7 @@ OC.L10N.register(
     "Hide download" : "Приховати завантаження",
     "Video verification" : "Відеоперевірка",
     "Note to recipient" : "Примітка для одержувача",
+    "Enter a note for the share recipient" : "Додайте нотатку для одержувача доступу до спільного ресурсу",
     "Create" : "Створити",
     "Update" : "Оновлення",
     "Share" : "Спільне",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Expiration date enforced" : "Вимагати термін дії",
     "Allow download" : "Дозволити звантаження",
     "Password protect" : "Захистити паролем",
-    "Enter a note for the share recipient" : "Додайте нотатку для одержувача доступу до спільного ресурсу",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Помилка під час створення паролів з password_policy"
 },

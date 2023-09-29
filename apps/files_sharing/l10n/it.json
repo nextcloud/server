@@ -202,6 +202,7 @@
     "Hide download" : "Nascondi scaricamento",
     "Video verification" : "Verifica video",
     "Note to recipient" : "Nota al destinatario",
+    "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Create" : "Crea",
     "Update" : "Aggiorna",
     "Share" : "Condividi",
@@ -300,7 +301,6 @@
     "Expiration date enforced" : "Data di scadenza applicata",
     "Allow download" : "Consenti download",
     "Password protect" : "Proteggi con password",
-    "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Errore: la password non rispetta i criteri stabiliti"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

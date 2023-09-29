@@ -601,7 +601,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @return mixed
 	 */
 	public function getMountOption($name, $default = null) {
-		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
+		return $this->mountOptions[$name] ?? $default;
 	}
 
 	/**
