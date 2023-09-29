@@ -30,6 +30,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getClient, rootPath } from './WebdavClient'
 import { hashCode } from '../utils/hashUtils'
 import logger from '../logger'
+import { encodePath } from '@nextcloud/paths'
 
 const client = getClient()
 
@@ -44,7 +45,7 @@ export const resultToNode = function(node: FileStat): File | Folder {
 	const permissions = davParsePermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
 
-	const source = generateRemoteUrl('dav' + rootPath + node.filename)
+	const source = generateRemoteUrl(encodePath('dav' + rootPath + node.filename))
 	const id = props?.fileid < 0
 		? hashCode(source)
 		: props?.fileid as number || 0
