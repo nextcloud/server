@@ -130,10 +130,6 @@ class MigratorTest extends \Test\TestCase {
 		return $config;
 	}
 
-	private function isSQLite() {
-		return $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
-	}
-
 	public function testUpgrade() {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
