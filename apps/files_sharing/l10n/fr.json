@@ -202,6 +202,7 @@
     "Hide download" : "Masquer le téléchargement",
     "Video verification" : "Vérification vidéo",
     "Note to recipient" : "Note au destinataire",
+    "Enter a note for the share recipient" : "Saisissez une note pour le destinataire du partage",
     "Create" : "Créer",
     "Update" : "Mise à jour",
     "Share" : "Partager",
@@ -300,7 +301,6 @@
     "Expiration date enforced" : "Date d'expiration forcée",
     "Allow download" : "Autoriser le téléchargement",
     "Password protect" : "Protéger par un mot de passe",
-    "Enter a note for the share recipient" : "Saisissez une note pour le destinataire du partage",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Erreur de génération de mot de passe à partir de password_policy"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

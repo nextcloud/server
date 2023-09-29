@@ -192,6 +192,7 @@ OC.L10N.register(
     "Hide download" : "Piilota lataus",
     "Video verification" : "Videovarmistus",
     "Note to recipient" : "Huomio vastaanottajalle",
+    "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle",
     "Create" : "Luo",
     "Update" : "Päivitä",
     "Share" : "Jaa",
@@ -282,7 +283,6 @@ OC.L10N.register(
     "Allow resharing" : "Salli uudelleenjakaminen",
     "Expiration date enforced" : "Vanhenemispäivä pakotettu",
     "Allow download" : "Salli lataus",
-    "Password protect" : "Suojaa salasanalla",
-    "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle"
+    "Password protect" : "Suojaa salasanalla"
 },
 "nplurals=2; plural=(n != 1);");

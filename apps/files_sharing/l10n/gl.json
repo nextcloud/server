@@ -202,6 +202,7 @@
     "Hide download" : "Agochar a descarga",
     "Video verification" : "Verificación de vídeo",
     "Note to recipient" : "Nota para o destinatario",
+    "Enter a note for the share recipient" : "Introduza unha nota para o destinatario da compartición",
     "Create" : "Crear",
     "Update" : "Actualizar",
     "Share" : "Compartir",
@@ -299,7 +300,6 @@
     "Expiration date enforced" : "Data de caducidade obrigada",
     "Allow download" : "Permitir a descarga",
     "Password protect" : "Protexido con contrasinal",
-    "Enter a note for the share recipient" : "Introduza unha nota para o destinatario da compartición",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Produciuse un erro ao xerar o contrasinal a partir da directiva de contrasinais"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
