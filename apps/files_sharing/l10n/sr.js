@@ -204,6 +204,7 @@ OC.L10N.register(
     "Hide download" : "Сакриј преузимање",
     "Video verification" : "Видео потврда",
     "Note to recipient" : "Белешка примаоцу",
+    "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Create" : "Креирање",
     "Update" : "Ажурирај",
     "Share" : "Подели",
@@ -302,7 +303,6 @@ OC.L10N.register(
     "Expiration date enforced" : "Захтевано постављање датума истека",
     "Allow download" : "Дозволи преузимање",
     "Password protect" : "Заштићено лозинком",
-    "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Грешка приликом креирања лозинке из password_policy"
 },

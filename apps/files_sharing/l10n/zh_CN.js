@@ -204,6 +204,7 @@ OC.L10N.register(
     "Hide download" : "隐藏下载",
     "Video verification" : "视频验证",
     "Note to recipient" : "接收人备注",
+    "Enter a note for the share recipient" : "给共享接收人留备注",
     "Create" : "创建",
     "Update" : "更新",
     "Share" : "共享",
@@ -296,7 +297,6 @@ OC.L10N.register(
     "Expiration date enforced" : "强制过期日期",
     "Allow download" : "允许下载",
     "Password protect" : "密码保护",
-    "Enter a note for the share recipient" : "给共享接收人留备注",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "从密码策略生成密码时出错"
 },

@@ -202,6 +202,7 @@
     "Hide download" : "إخفاء التنزيل",
     "Video verification" : "التحقُّق من الفيديو",
     "Note to recipient" : "ملاحظة للمستلم",
+    "Enter a note for the share recipient" : "أدخل ملاحظةً لمُستلِم المُشارَكة",
     "Create" : "أنشِيء",
     "Update" : "تحديث",
     "Share" : "مُشارَكة",
@@ -300,7 +301,6 @@
     "Expiration date enforced" : "فرض تاريخ انتهاء الصلاحية المشاركة",
     "Allow download" : "إسمَح بالتنزيل",
     "Password protect" : "حماية بكلمة مرور",
-    "Enter a note for the share recipient" : "أدخل ملاحظةً لمُستلِم المُشارَكة",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "خطأ في توليد كلمة المرور بسبب مخالفة سياسة كلمات المرور"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

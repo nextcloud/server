@@ -204,6 +204,7 @@ OC.L10N.register(
     "Hide download" : "Dölj hämtning",
     "Video verification" : "Video-verifiering",
     "Note to recipient" : "Notering till mottagare",
+    "Enter a note for the share recipient" : "Ange en notering till mottagaren",
     "Create" : "Skapa",
     "Update" : "Uppdatera",
     "Share" : "Dela",
@@ -302,7 +303,6 @@ OC.L10N.register(
     "Expiration date enforced" : "Förfallodatum obligatorisk",
     "Allow download" : "Tillåt nedladdning",
     "Password protect" : "Lösenordsskydda",
-    "Enter a note for the share recipient" : "Ange en notering till mottagaren",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "Fel vid generering av lösenord från lösenordspolicy"
 },
