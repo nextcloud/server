@@ -201,6 +201,7 @@ OC.L10N.register(
     "Hide download" : "پنهان کردن بارگیری",
     "Video verification" : "تأیید صحت ویدیو",
     "Note to recipient" : "یادداشت برای گیرنده",
+    "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Create" : "ایجاد",
     "Update" : "به‌روز رسانی",
     "Share" : "هم‌رسانی",
@@ -294,7 +295,6 @@ OC.L10N.register(
     "Expiration date enforced" : "تاریخ انقضا اجرا شده است",
     "Allow download" : "Allow download",
     "Password protect" : "محافظت با گذرواژه",
-    "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Error generating password from password_policy"
 },

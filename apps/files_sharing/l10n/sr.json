@@ -202,6 +202,7 @@
     "Hide download" : "Сакриј преузимање",
     "Video verification" : "Видео потврда",
     "Note to recipient" : "Белешка примаоцу",
+    "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Create" : "Креирање",
     "Update" : "Ажурирај",
     "Share" : "Подели",
@@ -300,7 +301,6 @@
     "Expiration date enforced" : "Захтевано постављање датума истека",
     "Allow download" : "Дозволи преузимање",
     "Password protect" : "Заштићено лозинком",
-    "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Грешка приликом креирања лозинке из password_policy"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

@@ -88,7 +88,7 @@ OC.L10N.register(
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui %s panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Bendrinimas %1$s nepavyko, kadangi sistema nepalaiko bendrinimų šio tipo %2$s",
     "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
-    "You cannot share to a Circle if the app is not enabled" : "Negalite dalintis su naudotojų ratu, kai įskiepis \"Circle\" neveikia",
+    "You cannot share to a Circle if the app is not enabled" : "Negalite bendrinti su ratu, jeigu programėlė nėra įjungta",
     "Please specify a valid circle" : "Pasirinkite naudotojų ratą",
     "Sharing %s failed because the back end does not support room shares" : "Bendrinimas %s nepavyko, kadangi sistema nepalaiko kambario bendrinimo",
     "Unknown share type" : "Nežinomas viešinio tipas",
@@ -108,7 +108,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Jūs gavote bendrinimą {share} prie grupės {group}, kuriuo pasidalino {user}",
     "Accept" : "Priimti",
     "Reject" : "Atmesti",
-    "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : " Ši programa leidžia vartotojams dalytis failais „Nextcloud“ informacinės sistemos platformoje. Sistemos administratorius gali pasirinkti, kurios naudotojų grupės gali atlikti failų bendrinimus. Tuomet atitinkami naudotojau gali dalintis failais ir aplankais su kitais „Nextcloud“ naudotojais ir jų grupėmis. Jei administratorius įjungia bendrinimo nuorodos funkcionalumą, išorinė nuoroda gali būti naudojama bendrinant failus su išoriniais naudotojais už „Nextcloud“ ribų. Administratoriai taip pat gali nustatyti slaptažodžius, bendrinimo galiojimo datas ir įjungti serveris serveriui bendrinimą nuorodomis, taip pat bendrinimasi iš mobiliųjų įrenginių.\nIšjungus šią funkciją, bendrinami failai ir aplankai yra pašalinami serveryje visiems bendrinimo gavėjams, taip pat sinchronizavimo klientams ir mobilioms programoms. Daugiau informacijos rasite „Nextcloud“ dokumentacijoje. ",
+    "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Ši programa leidžia naudotojams bendrinti failus „Nextcloud“ platformoje. Jei įjungta, administratorius gali pasirinkti, kurios naudotojų grupės galės bendrinti failus. Tuomet atitinkami naudotojai galės bendrinti failus ir aplankus su kitais „Nextcloud“ naudotojais ir jų grupėmis. Be to, jei administratorius įjungia bendrinimo nuorodos ypatybę, išorinė nuoroda galės būti naudojama bendrinant failus su išoriniais naudotojais už „Nextcloud“ ribų. Administratoriai taip pat gali nustatyti slaptažodžius, viešinio galiojimo datas ir įjungti per bendrinimo nuorodas bendrinimą nuo serverio serveriui, o taip pat bendrinimą iš mobiliųjų įrenginių.\nIšjungus šią ypatybę, serveryje esantys bendrinami failai ir aplankai taps nebeprieinami visiems viešinio gavėjams, o taip pat sinchronizavimo klientams ir mobiliosioms programėlėms. Daugiau informacijos rasite „Nextcloud“ dokumentacijoje. ",
     "Sharing" : "Bendrinimas",
     "Accept user and group shares by default" : "Pagal numatymą, priimti naudotojo ir grupių viešinius",
     "Error while toggling options" : "Klaida perjungiant parinktis",
@@ -179,9 +179,10 @@ OC.L10N.register(
     "Hide download" : "Slėpti atsisiuntimą",
     "Video verification" : "Video patikrinimas",
     "Note to recipient" : "Pastaba gavėjui",
+    "Enter a note for the share recipient" : "Įrašykite pranešimą bendrinimo gavėjui",
     "Create" : "Sukurti",
     "Update" : "Atnaujinti",
-    "Share" : "Dalintis",
+    "Share" : "Bendrinti",
     "Delete share" : "Ištrinti viešinį",
     "Others with access" : "Kiti asmenys, turintys prieigą",
     "No other users with access found" : "Nerasta kitų naudotojų, turinčių prieigą",
@@ -251,7 +252,6 @@ OC.L10N.register(
     "Allow resharing" : "Leisti bendrinti iš naujo",
     "Expiration date enforced" : "Aktyvuotas galiojimo laikas",
     "Allow download" : "Leisti atsisiųsti",
-    "Password protect" : "Apsaugoti slaptažodžiu",
-    "Enter a note for the share recipient" : "Įrašykite pranešimą bendrinimo gavėjui"
+    "Password protect" : "Apsaugoti slaptažodžiu"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

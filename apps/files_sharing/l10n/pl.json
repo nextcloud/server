@@ -198,6 +198,7 @@
     "Hide download" : "Ukryj pobieranie",
     "Video verification" : "Weryfikacja wideo",
     "Note to recipient" : "Informacja dla odbiorcy",
+    "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Create" : "Utwórz",
     "Update" : "Aktualizuj",
     "Share" : "Udostępnij",
@@ -277,7 +278,6 @@
     "Expiration date enforced" : "Wymuszona data wygaśnięcia",
     "Allow download" : "Zezwól na pobieranie",
     "Password protect" : "Zabezpiecz hasłem",
-    "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Błąd podczas generowania hasła z password_policy"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
