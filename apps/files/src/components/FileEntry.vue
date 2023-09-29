@@ -620,7 +620,7 @@ export default Vue.extend({
 
 		canDrag() {
 			const canDrag = (node: Node): boolean => {
-				return (node.permissions & Permission.UPDATE) !== 0
+				return (node?.permissions & Permission.UPDATE) !== 0
 			}
 
 			// If we're dragging a selection, we need to check all files

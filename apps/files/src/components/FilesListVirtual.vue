@@ -145,7 +145,7 @@ export default Vue.extend({
 		},
 
 		fileId() {
-			return parseInt(this.$route.params.fileid || this.$route.query.fileid) || null
+			return parseInt(this.$route.params.fileid) || null
 		},
 
 		summaryFile() {
@@ -187,35 +187,47 @@ export default Vue.extend({
 		},
 	},
 
+	watch: {
+		fileId(fileId) {
+			this.scrollToFile(fileId, false)
+		},
+	},
+
 	mounted() {
 		// Add events on parent to cover both the table and DragAndDrop notice
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 		mainContent.addEventListener('dragleave', this.onDragLeave)
 
-		// Scroll to the file if it's in the url
-		if (this.fileId) {
-			const index = this.nodes.findIndex(node => node.fileid === this.fileId)
-			if (index === -1 && this.fileId !== this.currentFolder.fileid) {
-				showError(this.t('files', 'File not found'))
-			}
-			this.scrollToIndex = Math.max(0, index)
-		}
-
-		// Open the file sidebar if we have the room for it
-		// but don't open the sidebar for the current folder
-		if (document.documentElement.clientWidth > 1024 && this.currentFolder.fileid !== this.fileId) {
-			// Open the sidebar for the given URL fileid
-			// iif we just loaded the app.
-			const node = this.nodes.find(n => n.fileid === this.fileId) as NcNode
-			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
-				logger.debug('Opening sidebar on file ' + node.path, { node })
-				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
-			}
-		}
+		this.scrollToFile(this.fileId)
+		this.openSidebarForFile(this.fileId)
 	},
 
 	methods: {
+		// Open the file sidebar if we have the room for it
+		// but don't open the sidebar for the current folder
+		openSidebarForFile(fileId) {
+			if (document.documentElement.clientWidth > 1024 && this.currentFolder.fileid !== fileId) {
+				// Open the sidebar for the given URL fileid
+				// iif we just loaded the app.
+				const node = this.nodes.find(n => n.fileid === fileId) as NcNode
+				if (node && sidebarAction?.enabled?.([node], this.currentView)) {
+					logger.debug('Opening sidebar on file ' + node.path, { node })
+					sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+				}
+			}
+		},
+
+		scrollToFile(fileId: number, warn = true) {
+			if (fileId) {
+				const index = this.nodes.findIndex(node => node.fileid === fileId)
+				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
+					showError(this.t('files', 'File not found'))
+				}
+				this.scrollToIndex = Math.max(0, index)
+			}
+		},
+
 		getFileId(node) {
 			return node.fileid
 		},
