@@ -138,6 +138,22 @@ kbd {
 	flex-direction: column;
 	flex-grow: 0;
 	flex-shrink: 0;
+}
+.app-navigation-caption,
+.app-navigation-caption {
+	font-weight: bold;
+	line-height: 44px;
+	padding: 10px 44px 0 44px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	box-shadow: none !important;
+	user-select: none;
+	pointer-events:none;
+	margin-left: 10px;
+}
+
+.app-navigation-personal,
+.app-navigation-administration {
 
 	/* 'New' button */
 	.app-navigation-new {
@@ -239,21 +255,6 @@ kbd {
 				}
 			}
 
-			&.app-navigation-caption {
-				font-weight: bold;
-				line-height: 44px;
-				padding: 0 44px;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				box-shadow: none !important;
-				user-select: none;
-				pointer-events:none;
-
-				&:not(:first-child) {
-					margin-top: 22px;
-				}
-			}
-
 			/* Second level nesting for lists */
 			> ul {
 				flex: 0 1 auto;
@@ -344,7 +345,7 @@ kbd {
 					}
 				}
 				&:first-child img {
-					margin-right: 11px;
+					margin-right: 11px!important;
 					width: 16px;
 					height: 16px;
 					// Legacy invert if bright background
