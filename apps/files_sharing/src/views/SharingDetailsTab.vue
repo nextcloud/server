@@ -278,7 +278,7 @@ export default {
 
 	computed: {
 		title() {
-			let title = t('files_sharing', 'Share with ')
+			let title = t('files_sharing', 'Share with')
 			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER) {
 				title = title + this.share.shareWithDisplayName
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK) {
