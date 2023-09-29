@@ -101,7 +101,7 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$id = $entry['id'];
-		$entry['unread'] = isset($this->unreadCounters[$id]) ? $this->unreadCounters[$id] : 0;
+		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
 
 		$this->entries[$id] = $entry;
 	}
@@ -313,7 +313,7 @@ class NavigationManager implements INavigationManager {
 				if (!isset($nav['route']) && $nav['type'] !== 'settings') {
 					continue;
 				}
-				$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
+				$role = $nav['@attributes']['role'] ?? 'all';
 				if ($role === 'admin' && !$this->isAdmin()) {
 					continue;
 				}
@@ -322,7 +322,7 @@ class NavigationManager implements INavigationManager {
 				$order = $customOrders[$app][$key] ?? $nav['order'] ?? 100;
 				$type = $nav['type'];
 				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
-				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
+				$icon = $nav['icon'] ?? 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {
 						$icon = $this->urlGenerator->imagePath($app, $i);

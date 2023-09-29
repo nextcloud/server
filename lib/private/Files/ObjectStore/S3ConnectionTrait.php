@@ -128,7 +128,7 @@ trait S3ConnectionTrait {
 		);
 
 		$options = [
-			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
+			'version' => $this->params['version'] ?? 'latest',
 			'credentials' => $provider,
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],

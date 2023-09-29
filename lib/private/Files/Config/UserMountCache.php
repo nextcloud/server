@@ -238,7 +238,7 @@ class UserMountCache implements IUserMountCache {
 			$row['mount_point'],
 			$row['mount_provider_class'] ?? '',
 			$mount_id,
-			isset($row['path']) ? $row['path'] : '',
+			$row['path'] ?? '',
 		);
 	}
 
