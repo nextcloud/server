@@ -151,6 +151,7 @@ OC.L10N.register(
     "Expiration date" : "Limdato",
     "Hide download" : "Kaŝi elŝuton",
     "Note to recipient" : "Noto por la ricevonto",
+    "Enter a note for the share recipient" : "Entajpu noton por la ricevonto",
     "Update" : "Ĝisdatigi",
     "Share" : "Kunhavigi",
     "Delete share" : "Forigi kunhavigon",
@@ -204,7 +205,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
     "Allow resharing" : "Permesi rekunhavigon",
     "Expiration date enforced" : "Limdato efektiva",
-    "Password protect" : "Protekti per pasvorto",
-    "Enter a note for the share recipient" : "Entajpu noton por la ricevonto"
+    "Password protect" : "Protekti per pasvorto"
 },
 "nplurals=2; plural=(n != 1);");

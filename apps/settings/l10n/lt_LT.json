@@ -381,7 +381,7 @@
     "Hide" : "Slėpti",
     "Download and enable" : "Atsisiųsti ir įjungti",
     "The app will be downloaded from the App Store" : "Programėlė bus atsisiųsta iš programėlių parduotuvės",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ši programėlė nėra pažymėta kaip suderinama su jūsų Nextcloud versija. Jei tęsite, vis tiek galėsite įdiegti programėlę. Turėkite omenyje, kad programėlė gali neveikti taip kaip tikimasi.",
+    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ši programėlė nėra pažymėta kaip suderinama su jūsų Nextcloud versija. Jei tęsite, vis tiek galėsite įdiegti programėlę. Turėkite omenyje, kad programėlė gali neveikti taip, kaip tikimasi.",
     "Never" : "Niekada",
     "An error occurred during the request. Unable to proceed." : "Užklausos metu įvyko klaida. Nepavyksta tęsti.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Programėlė įjungta, tačiau turi būti atnaujinta. Po 5 sekundžių būsite peradresuoti į atnaujinimo puslapį.",

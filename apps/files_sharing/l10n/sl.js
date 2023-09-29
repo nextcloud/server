@@ -197,6 +197,7 @@ OC.L10N.register(
     "Hide download" : "Skrij prejem",
     "Video verification" : "Video overitev",
     "Note to recipient" : "Sporočilo za prejemnika",
+    "Enter a note for the share recipient" : "Vpišite opombo za prejemnika",
     "Create" : "Ustvari",
     "Update" : "Posodobi",
     "Share" : "·Souporaba·",
@@ -274,7 +275,6 @@ OC.L10N.register(
     "Expiration date enforced" : "Datum preteka je vsiljeno omogočen",
     "Allow download" : "Dovoli prejem datotek",
     "Password protect" : "Zaščiti z geslom",
-    "Enter a note for the share recipient" : "Vpišite opombo za prejemnika",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Napaka ustvarjanja gesla po določenih varnostnih pravilih"
 },

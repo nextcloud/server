@@ -200,6 +200,7 @@ OC.L10N.register(
     "Hide download" : "Ukryj pobieranie",
     "Video verification" : "Weryfikacja wideo",
     "Note to recipient" : "Informacja dla odbiorcy",
+    "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Create" : "Utwórz",
     "Update" : "Aktualizuj",
     "Share" : "Udostępnij",
@@ -279,7 +280,6 @@ OC.L10N.register(
     "Expiration date enforced" : "Wymuszona data wygaśnięcia",
     "Allow download" : "Zezwól na pobieranie",
     "Password protect" : "Zabezpiecz hasłem",
-    "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Błąd podczas generowania hasła z password_policy"
 },

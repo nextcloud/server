@@ -75,7 +75,7 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Šaknis",
     "SFTP with secret key login" : "SFTP protokolas su prisijungimu",
-    "Share" : "Dalintis",
+    "Share" : "Bendrinti",
     "Show hidden files" : "Rodyti paslėptus failus",
     "Timeout" : "Pasibaigė laikas",
     "Username as share" : "Dalinimosi vardas kaip ir vartotojo vardas",

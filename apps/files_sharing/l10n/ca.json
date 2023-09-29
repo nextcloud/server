@@ -202,6 +202,7 @@
     "Hide download" : "Amaga la baixada",
     "Video verification" : "Verificació de vídeo",
     "Note to recipient" : "Nota per al destinatari",
+    "Enter a note for the share recipient" : "Introduïu una nota per al destinatari de l'element compartit",
     "Create" : "Crea",
     "Update" : "Actualitza",
     "Share" : "Comparteix",
@@ -300,7 +301,6 @@
     "Expiration date enforced" : "Data de caducitat",
     "Allow download" : "Permet la baixada",
     "Password protect" : "Protegeix amb contrasenya",
-    "Enter a note for the share recipient" : "Introduïu una nota per al destinatari de l'element compartit",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "S'ha produït un error en generar la contrasenya a partir de password_policy"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

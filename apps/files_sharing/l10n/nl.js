@@ -190,6 +190,7 @@ OC.L10N.register(
     "Hide download" : "Verberg download",
     "Video verification" : "Video verificatie",
     "Note to recipient" : "Notitie voor ontvanger",
+    "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger",
     "Create" : "Creëer",
     "Update" : "Update",
     "Share" : "Delen",
@@ -262,7 +263,6 @@ OC.L10N.register(
     "Allow resharing" : "Opnieuw delen toestaan",
     "Expiration date enforced" : "Vervaldatum afgedwongen",
     "Allow download" : "Downloaden toestaan",
-    "Password protect" : "Beveiligen met wachtwoord",
-    "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger"
+    "Password protect" : "Beveiligen met wachtwoord"
 },
 "nplurals=2; plural=(n != 1);");

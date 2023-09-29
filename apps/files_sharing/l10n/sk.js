@@ -194,6 +194,7 @@ OC.L10N.register(
     "Hide download" : "Skryť sťahovanie",
     "Video verification" : "Overovanie pomocou videa",
     "Note to recipient" : "Poznámka pre príjemcu",
+    "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
     "Create" : "Vytvoriť",
     "Update" : "Aktualizovať",
     "Share" : "Sprístupniť",
@@ -265,7 +266,6 @@ OC.L10N.register(
     "Allow resharing" : "Povoliť sprístupňovanie ďalej",
     "Expiration date enforced" : "Vynútený dátum ukončenia platnosti",
     "Allow download" : "Povoliť sťahovanie",
-    "Password protect" : "Chrániť heslom",
-    "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania"
+    "Password protect" : "Chrániť heslom"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
