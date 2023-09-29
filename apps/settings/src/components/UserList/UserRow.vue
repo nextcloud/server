@@ -221,10 +221,11 @@
 				:user-select="true"
 				:options="possibleManagers"
 				:placeholder="t('settings', 'Select manager')"
+				:loading="loadingPossibleManagers || loading.manager"
 				class="multiselect-vue"
 				label="displayname"
 				track-by="id"
-				@open="_id => searchUserManager()"
+				@open="searchInitialUserManager"
 				@search-change="searchUserManager"
 				@remove="updateUserManager"
 				@select="updateUserManager">
@@ -337,6 +338,7 @@ export default {
 			rand: parseInt(Math.random() * 1000),
 			openedMenu: false,
 			feedbackMessage: '',
+			loadingPossibleManagers: false,
 			possibleManagers: [],
 			currentManager: '',
 			editing: false,
@@ -431,11 +433,19 @@ export default {
 		filterManagers(managers) {
 			return managers.filter((manager) => manager.id !== this.user.id)
 		},
+
 		async initManager(userId) {
 			await this.$store.dispatch('getUser', userId).then(response => {
 				this.currentManager = response?.data.ocs.data
 			})
 		},
+
+		async searchInitialUserManager() {
+			this.loadingPossibleManagers = true
+			await this.searchUserManager()
+			this.loadingPossibleManagers = false
+		},
+
 		async searchUserManager(query) {
 			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
 				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []
