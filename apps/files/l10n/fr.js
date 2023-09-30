@@ -110,7 +110,7 @@ OC.L10N.register(
     "New folder" : "Nouveau dossier",
     "Create new folder" : "Créer un nouveau dossier",
     "Upload file" : "Téléverser un fichier",
-    "Recent" : "Récent",
+    "Recent" : "Récents",
     "Not favorited" : "Non marqué comme favori",
     "Remove from favorites" : "Retirer des favoris",
     "Add to favorites" : "Ajouter aux favoris",
