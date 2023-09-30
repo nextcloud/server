@@ -50,11 +50,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-<<<<<<< HEAD
-=======
-
-use Psr\Log\LoggerInterface;
->>>>>>> cc486e4eaa7 (Enable adding E-Mail addresses to new user accounts using the CLI)
 
 use OC\Core\Command;
 use OCP\IConfig;
