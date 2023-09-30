@@ -19,6 +19,9 @@ jobs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
+
     steps:
       - name: Checkout server
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
