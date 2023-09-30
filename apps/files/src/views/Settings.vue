@@ -22,7 +22,7 @@
 <template>
 	<NcAppSettingsDialog :open="open"
 		:show-navigation="true"
-		:name="t('files', 'Files settings')"
+		:name="t('files', 'Test!!!!!!!')"
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
