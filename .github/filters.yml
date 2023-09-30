@@ -1,0 +1,13 @@
+# Filters for https://github.com/dorny/paths-filter
+
+phpunit:
+  - '**/*.php'
+  - '**/*.sh'
+  - '**/*.xml'
+  - '**/*.yml'
+  - '**/l10n/*.json'
+  - '**/tests/**'
+  - '3rdparty'
+  - 'apps/theming/css'
+  - 'composer.json'
+  - 'composer.lock'
