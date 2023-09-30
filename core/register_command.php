@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Anupam Kumar <kyteinsky@gmail.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christian Kampka <christian@kampka.net>
@@ -183,7 +184,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
 
-	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager(), \OC::$server->get(Egulias\EmailValidator\EmailValidator::class), \OC::$server->get(\OC\AllConfig::class), \OC::$server->get(\OCA\Settings\Mailer\NewUserMailHelper::class), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(\OCP\Security\ISecureRandom::class)));
+	$application->add(\OCP\Server::get(\OC\Core\Command\User\Add::class));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));

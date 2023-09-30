@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Anupam Kumar <kyteinsky@gmail.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
@@ -25,8 +26,6 @@
  */
 namespace OC\Core\Command\User;
 
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
 use OC\Files\Filesystem;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -35,6 +34,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Mail\IMailer;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
@@ -46,63 +46,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class Add extends Command {
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-
-	/**
-	 * @var IGroupManager
-	 */
-	protected $groupManager;
-
-	/**
-	 * @var EmailValidator
-	 */
-	protected $emailValidator;
-
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @var NewUserMailHelper
-	 */
-	private $mailHelper;
-
-	/**
-	 * @var IEventDispatcher
-	 */
-	private $eventDispatcher;
-
-	/**
-	 * @var ISecureRandom
-	 */
-	private $secureRandom;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param EmailValidator $emailValidator
-	 */
 	public function __construct(
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		EmailValidator $emailValidator,
-		IConfig $config,
-		NewUserMailHelper $mailHelper,
-		IEventDispatcher $eventDispatcher,
-		ISecureRandom $secureRandom
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+		protected IMailer $mailer,
+		private IConfig $config,
+		private NewUserMailHelper $mailHelper,
+		private IEventDispatcher $eventDispatcher,
+		private ISecureRandom $secureRandom,
 	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->emailValidator = $emailValidator;
-		$this->config = $config;
-		$this->mailHelper = $mailHelper;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->secureRandom = $secureRandom;
 	}
 
 	protected function configure() {
@@ -142,15 +95,13 @@ class Add extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
-		$emailIsSet = \is_string($input->getOption('email')) && \mb_strlen($input->getOption('email')) > 0;
-		$emailIsValid = $this->emailValidator->isValid($input->getOption('email') ?? '', new RFCValidation());
-		$password = '';
-		$temporaryPassword = '';
-
 		if ($this->userManager->userExists($uid)) {
 			$output->writeln('<error>The user "' . $uid . '" already exists.</error>');
 			return 1;
 		}
+
+		$password = '';
+		$sendPasswordEmail = false;
 
 		if ($input->getOption('password-from-env')) {
 			$password = getenv('OC_PASS');
@@ -159,6 +110,23 @@ class Add extends Command {
 				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
 				return 1;
 			}
+		} elseif ($input->getOption('email') !== '') {
+			if (!$this->mailer->validateMailAddress($input->getOption(('email')))) {
+				$output->writeln(\sprintf(
+					'<error>The given E-Mail address "%s" is invalid</error>',
+					$input->getOption('email'),
+				));
+
+				return 1;
+			}
+
+			$output->writeln('Setting a temporary password.');
+
+			$passwordEvent = new GenerateSecurePasswordEvent();
+			$this->eventDispatcher->dispatchTyped($passwordEvent);
+			$password = $passwordEvent->getPassword() ?? $this->secureRandom->generate(20);
+
+			$sendPasswordEmail = true;
 		} elseif ($input->isInteractive()) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
@@ -180,26 +148,10 @@ class Add extends Command {
 			return 1;
 		}
 
-		if (trim($password) === '' && $emailIsSet) {
-			if ($emailIsValid) {
-				$output->writeln('Setting a temporary password.');
-
-				$temporaryPassword = $this->getTemporaryPassword();
-			} else {
-				$output->writeln(\sprintf(
-					'<error>The given E-Mail address "%s" is invalid: %s</error>',
-					$input->getOption('email'),
-					$this->emailValidator->getError()->description()
-				));
-
-				return 1;
-			}
-		}
-
 		try {
 			$user = $this->userManager->createUser(
 				$input->getArgument('uid'),
-				$password ?: $temporaryPassword
+				$password,
 			);
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
@@ -215,24 +167,7 @@ class Add extends Command {
 
 		if ($input->getOption('display-name')) {
 			$user->setDisplayName($input->getOption('display-name'));
-			$output->writeln(sprintf('Display name set to "%s"', $user->getDisplayName()));
-		}
-
-		if ($emailIsSet && $emailIsValid) {
-			$user->setSystemEMailAddress($input->getOption('email'));
-			$output->writeln(sprintf('E-Mail set to "%s"', (string) $user->getSystemEMailAddress()));
-
-			if (trim($password) === '' && $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
-				try {
-					$this->mailHelper->sendMail(
-						$user,
-						$this->mailHelper->generateTemplate($user, true)
-					);
-					$output->writeln('Invitation E-Mail sent.');
-				} catch (\Exception $e) {
-					$output->writeln(\sprintf('Unable to send the invitation mail to %s', $user->getEMailAddress()));
-				}
-			}
+			$output->writeln('Display name set to "' . $user->getDisplayName() . '"');
 		}
 
 		$groups = $input->getOption('group');
@@ -257,18 +192,22 @@ class Add extends Command {
 				$output->writeln('User "' . $user->getUID() . '" added to group "' . $group->getGID() . '"');
 			}
 		}
+
+		// Send email to user if we set a temporary password
+		if ($sendPasswordEmail) {
+			$email = $input->getOption('email');
+			$user->setSystemEMailAddress($email);
+
+			if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				try {
+					$this->mailHelper->sendMail($user, $this->mailHelper->generateTemplate($user, true));
+					$output->writeln('Invitation E-Mail sent to ' . $email);
+				} catch (\Exception $e) {
+					$output->writeln('Unable to send the invitation mail to ' . $email);
+				}
+			}
+		}
+
 		return 0;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getTemporaryPassword(): string
-	{
-		$passwordEvent = new GenerateSecurePasswordEvent();
-
-		$this->eventDispatcher->dispatchTyped($passwordEvent);
-
-		return $passwordEvent->getPassword() ?? $this->secureRandom->generate(20);
 	}
 }

@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace Core\Command\User;
 
-use Egulias\EmailValidator\EmailValidator;
 use OC\Core\Command\User\Add;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -34,19 +33,20 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IEMailTemplate;
+use OCP\mail\IMailer;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class AddTest extends TestCase {
-
 	/**
 	 * @dataProvider addEmailDataProvider
 	 */
 	public function testAddEmail(?string $email, bool $isValid, bool $shouldSendMail): void {
 		$userManager = static::createMock(IUserManager::class);
 		$groupManager = static::createStub(IGroupManager::class);
+		$mailer = static::createMock(IMailer::class);
 		$user = static::createMock(IUser::class);
 		$config = static::createMock(IConfig::class);
 		$mailHelper = static::createMock(NewUserMailHelper::class);
@@ -66,6 +66,9 @@ class AddTest extends TestCase {
 		$config->method('getAppValue')
 			->willReturn($shouldSendMail ? 'yes' : 'no');
 
+		$mailer->method('validateMailAddress')
+			->willReturn($isValid);
+
 		$mailHelper->method('generateTemplate')
 			->willReturn(static::createMock(IEMailTemplate::class));
 
@@ -82,7 +85,7 @@ class AddTest extends TestCase {
 		$addCommand = new Add(
 			$userManager,
 			$groupManager,
-			new EmailValidator(),
+			$mailer,
 			$config,
 			$mailHelper,
 			$eventDispatcher,
@@ -96,31 +99,30 @@ class AddTest extends TestCase {
 	}
 
 	/**
-	 * @return \Generator<string, array>
+	 * @return array
 	 */
-	public function addEmailDataProvider(): \Generator {
-		yield 'Valid E-Mail' => [
-			'info@example.com',
-			true,
-			true,
-		];
-
-		yield 'Invalid E-Mail' => [
-			'info@@example.com',
-			false,
-			true,
-		];
-
-		yield 'No E-Mail' => [
-			'',
-			false,
-			true,
-		];
-
-		yield 'Valid E-Mail, but no mail should be sent' => [
-			'info@example.com',
-			true,
-			false,
+	public function addEmailDataProvider(): array {
+		return [
+			'Valid E-Mail' => [
+				'info@example.com',
+				true,
+				true,
+			],
+			'Invalid E-Mail' => [
+				'info@@example.com',
+				false,
+				true,
+			],
+			'No E-Mail' => [
+				'',
+				false,
+				true,
+			],
+			'Valid E-Mail, but no mail should be sent' => [
+				'info@example.com',
+				true,
+				false,
+			],
 		];
 	}
 }
