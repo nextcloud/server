@@ -244,6 +244,7 @@ OC.L10N.register(
     "Blank" : "Prázdne",
     "Unable to create new file from template" : "Nemôžem vytvoriť nový súbor zo šablóny",
     "Delete permanently" : "Zmazať  natrvalo",
+    "Cancelled move or copy operation" : "Zrušená operácia kopírovania alebo presunu",
     "Open folder {displayName}" : "Otvoriť adresár {displayName}",
     "Open in Files" : "Otvoriť v súboroch",
     "Open details" : "Otvoriť detaily",
