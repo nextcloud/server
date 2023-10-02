@@ -221,25 +221,6 @@ class Generator {
 	}
 
 	/**
-	 * Generate a small image straight away without generating a max preview first
-	 * Preview generated is 256x256
-	 *
-	 * @param ISimpleFile[] $previewFiles
-	 *
-	 * @throws NotFoundException
-	 */
-	private function getSmallImagePreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
-		$width = 256;
-		$height = 256;
-
-		try {
-			return $this->getCachedPreview($previewFiles, $width, $height, $crop, $mimeType, $prefix);
-		} catch (NotFoundException $e) {
-			return $this->generateProviderPreview($previewFolder, $file, $width, $height, $crop, false, $mimeType, $prefix);
-		}
-	}
-
-	/**
 	 * Acquire a semaphore of the specified id and concurrency, blocking if necessary.
 	 * Return an identifier of the semaphore on success, which can be used to release it via
 	 * {@see Generator::unguardWithSemaphore()}.
