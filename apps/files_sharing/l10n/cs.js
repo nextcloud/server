@@ -226,6 +226,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Odmítnout sdílení","Odmítnout sdílení","Odmítnout sdílení","Odmítnout sdílení"],
     "_Restore share_::_Restore shares_" : ["Obnovit sdílení","Obnovit sdílení","Obnovit sdílení","Obnovit sdílení"],
     "Shared" : "Sdíleno",
+    "Shared by {ownerDisplayName}" : "Nasdílel(a) {ownerDisplayName}",
     "Link to a file" : "Odkaz na soubor",
     "Error creating the share: {errorMessage}" : "Chyba při vytváření sdílení: {errorMessage}",
     "Error creating the share" : "Chyba při vytváření sdílení",
