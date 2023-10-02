@@ -1174,6 +1174,7 @@ return array(
     'OC\\Core\\Migrations\\Version28000Date20230616104802' => $baseDir . '/core/Migrations/Version28000Date20230616104802.php',
     'OC\\Core\\Migrations\\Version28000Date20230728104802' => $baseDir . '/core/Migrations/Version28000Date20230728104802.php',
     'OC\\Core\\Migrations\\Version28000Date20230803221055' => $baseDir . '/core/Migrations/Version28000Date20230803221055.php',
+    'OC\\Core\\Migrations\\Version28000Date20231002171502' => $baseDir . '/core/Migrations/Version28000Date20231002171502.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',

@@ -33,7 +33,9 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<ClientDiagnostic>
  */
 class ClientDiagnosticMapper extends QBMapper {
+	public const TABLE_NAME = 'client_diagnostics';
+
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'client_diagnostics', ClientDiagnostic::class);
+		parent::__construct($db, self::TABLE_NAME, ClientDiagnostic::class);
 	}
 }
