@@ -1411,9 +1411,7 @@ class Access extends LDAPUtility {
 			$asterisk = '*';
 			$input = mb_substr($input, 1, null, 'UTF-8');
 		}
-		$search = ['*', '\\', '(', ')'];
-		$replace = ['\\*', '\\\\', '\\(', '\\)'];
-		return $asterisk . str_replace($search, $replace, $input);
+		return $asterisk . ldap_escape($input, '', LDAP_ESCAPE_FILTER);
 	}
 
 	/**
