@@ -48,7 +48,6 @@ namespace OCA\Settings\Controller;
 use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use GuzzleHttp\Exception\ClientException;
 use OC;
@@ -62,12 +61,7 @@ use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
-use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\NeedsSystemAddressBookSync;
-use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
-use OCA\Settings\SetupChecks\PhpDefaultCharset;
-use OCA\Settings\SetupChecks\PhpOutputBuffering;
-use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
@@ -917,9 +911,6 @@ Raw output
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
 	public function check() {
-		$phpDefaultCharset = new PhpDefaultCharset();
-		$phpOutputBuffering = new PhpOutputBuffering();
-		$supportedDatabases = new SupportedDatabase($this->l10n, $this->connection);
 		$needsSystemAddressBookSync = new NeedsSystemAddressBookSync($this->config, $this->l10n);
 
 		return new DataResponse(
@@ -968,10 +959,7 @@ Raw output
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 				'imageMagickLacksSVGSupport' => $this->imageMagickLacksSVGSupport(),
-				PhpDefaultCharset::class => ['pass' => $phpDefaultCharset->run(), 'description' => $phpDefaultCharset->description(), 'severity' => $phpDefaultCharset->severity()],
-				PhpOutputBuffering::class => ['pass' => $phpOutputBuffering->run(), 'description' => $phpOutputBuffering->description(), 'severity' => $phpOutputBuffering->severity()],
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
-				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				NeedsSystemAddressBookSync::class => ['pass' => $needsSystemAddressBookSync->run(), 'description' => $needsSystemAddressBookSync->description(), 'severity' => $needsSystemAddressBookSync->severity()],
 			]

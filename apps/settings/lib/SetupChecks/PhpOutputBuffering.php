@@ -25,17 +25,30 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-class PhpOutputBuffering {
-	public function description(): string {
-		return 'PHP configuration option output_buffering must be disabled';
+use OCP\IL10N;
+use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\SetupResult;
+
+class PhpOutputBuffering implements ISetupCheck {
+	public function __construct(
+		private IL10N $l10n,
+	) {
 	}
 
-	public function severity(): string {
-		return 'error';
+	public function getCategory(): string {
+		return 'php';
 	}
 
-	public function run(): bool {
+	public function getName(): string {
+		return $this->l10n->t('Checking for PHP output_buffering option');
+	}
+
+	public function run(): SetupResult {
 		$value = trim(ini_get('output_buffering'));
-		return $value === '' || $value === '0';
+		if ($value === '' || $value === '0') {
+			return new SetupResult(SetupResult::SUCCESS);
+		} else {
+			return new SetupResult(SetupResult::ERROR, $this->l10n->t('PHP configuration option output_buffering must be disabled'));
+		}
 	}
 }
