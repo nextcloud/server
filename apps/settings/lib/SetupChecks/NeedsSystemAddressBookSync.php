@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2023 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,19 +29,29 @@ namespace OCA\Settings\SetupChecks;
 
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\SetupResult;
 
-class NeedsSystemAddressBookSync {
-	public function __construct(private IConfig $config, private IL10N $l10n) {}
-
-	public function description(): string {
-		return $this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling "occ dav:sync-system-addressbook".');
+class NeedsSystemAddressBookSync implements ISetupCheck {
+	public function __construct(
+		private IConfig $config,
+		private IL10N $l10n,
+	) {
 	}
 
-	public function severity(): string {
-		return 'warning';
+	public function getName(): string {
+		return $this->l10n->t('Checking for DAV system address book');
 	}
 
-	public function run(): bool {
-		return $this->config->getAppValue('dav', 'needs_system_address_book_sync', 'no') === 'no';
+	public function getCategory(): string {
+		return 'dav';
+	}
+
+	public function run(): SetupResult {
+		if ($this->config->getAppValue('dav', 'needs_system_address_book_sync', 'no') === 'no') {
+			return new SetupResult(SetupResult::SUCCESS, $this->l10n->t('The address book sync has already run'));
+		} else {
+			return new SetupResult(SetupResult::WARNING, $this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook.'));
+		}
 	}
 }

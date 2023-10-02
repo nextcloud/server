@@ -91,6 +91,7 @@ use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
+use OCA\Settings\SetupChecks\NeedsSystemAddressBookSync;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -101,7 +102,6 @@ use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\IServerContainer;
 use OCP\IUser;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -124,12 +124,12 @@ class Application extends App implements IBootstrap {
 				$c->get(LoggerInterface::class)
 			);
 		});
-		$context->registerService(AppCalendarPlugin::class, function(ContainerInterface $c) {
+		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
-			  $c->get(ICalendarManager::class),
-			  $c->get(LoggerInterface::class)
+				$c->get(ICalendarManager::class),
+				$c->get(LoggerInterface::class)
 			);
-		  });
+		});
 
 		/*
 		 * Register capabilities
@@ -201,6 +201,8 @@ class Application extends App implements IBootstrap {
 
 		$context->registerUserMigrator(CalendarMigrator::class);
 		$context->registerUserMigrator(ContactsMigrator::class);
+
+		$context->registerSetupCheck(NeedsSystemAddressBookSync::class);
 	}
 
 	public function boot(IBootContext $context): void {

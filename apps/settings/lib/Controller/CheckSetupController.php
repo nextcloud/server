@@ -61,7 +61,6 @@ use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
-use OCA\Settings\SetupChecks\NeedsSystemAddressBookSync;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
@@ -911,8 +910,6 @@ Raw output
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
 	public function check() {
-		$needsSystemAddressBookSync = new NeedsSystemAddressBookSync($this->config, $this->l10n);
-
 		return new DataResponse(
 			[
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
@@ -961,7 +958,6 @@ Raw output
 				'imageMagickLacksSVGSupport' => $this->imageMagickLacksSVGSupport(),
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
-				NeedsSystemAddressBookSync::class => ['pass' => $needsSystemAddressBookSync->run(), 'description' => $needsSystemAddressBookSync->description(), 'severity' => $needsSystemAddressBookSync->severity()],
 			]
 		);
 	}
