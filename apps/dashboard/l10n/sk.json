@@ -1,6 +1,6 @@
 { "translations": {
     "Dashboard" : "Infopanel",
-    "Dashboard app" : "Applikácia Infopanel",
+    "Dashboard app" : "Aplikácia Infopanel",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
     "Get more widgets from the App Store" : "Získať viac miniaplikácií z Obchodu s aplikáciami",
@@ -13,8 +13,8 @@
     "Status" : "Stav",
     "Good morning" : "Dobré ráno",
     "Good morning, {name}" : "Dobré ráno, {name}",
-    "Good afternoon" : "Dobrý večer",
-    "Good afternoon, {name}" : "Dobrý večer, {name}",
+    "Good afternoon" : "Dobrý deň",
+    "Good afternoon, {name}" : "Dobrý deň, {name}",
     "Good evening" : "Dobrý večer",
     "Good evening, {name}" : "Dobrý večer, {name}",
     "Hello" : "Ahoj",
