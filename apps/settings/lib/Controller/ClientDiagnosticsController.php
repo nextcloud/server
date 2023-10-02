@@ -27,8 +27,8 @@ namespace OCA\Settings\Controller;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
-use OCA\Settings\Db\ClientDiagnostics;
-use OCA\Settings\Db\ClientDiagnosticsMapper;
+use OCA\Settings\Db\ClientDiagnostic;
+use OCA\Settings\Db\ClientDiagnosticMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -43,7 +43,7 @@ class ClientDiagnosticsController extends Controller {
 		IRequest $request,
 		private ISession $session,
 		private IUserSession $userSession,
-		private ClientDiagnosticsMapper $mapper,
+		private ClientDiagnosticMapper $mapper,
 		private IProvider $tokenProvider,
 	) {
 		parent::__construct($appName, $request);
@@ -53,7 +53,7 @@ class ClientDiagnosticsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
-	public function update(string $data): DataResponse {
+	public function update(array $data): DataResponse {
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $e) {
@@ -71,7 +71,13 @@ class ClientDiagnosticsController extends Controller {
 			return new DataResponse([], Http::STATUS_METHOD_NOT_ALLOWED);
 		}
 
-		$entity = $this->mapper->insertOrUpdate(new ClientDiagnostics($token->getId(), $data));
+		/* TODO: validate data structure */
+
+		$entity = $this->mapper->insertOrUpdate(
+			ClientDiagnostic::fromParams([
+				'authtokenid' => $token->getId(),
+				'diagnostic' => json_encode($data),
+			]));
 
 		return new DataResponse([]);
 	}
