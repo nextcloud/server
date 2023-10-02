@@ -91,6 +91,10 @@ class CORSMiddleware extends Middleware {
 			if ($this->request->passesCSRFCheck()) {
 				return;
 			}
+			// Skip CORS check for requests with AppAPI auth.
+			if ($this->session->getSession()->get('app_api') === true) {
+				return;
+			}
 			$this->session->logout();
 			try {
 				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
