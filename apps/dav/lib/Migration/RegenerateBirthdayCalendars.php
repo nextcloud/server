@@ -41,7 +41,8 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
-		if ($this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes') {
+		if ($this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes'
+			&& $this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForAlarmFix') === 'yes') {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -51,5 +52,6 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 
 		// if all were done, no need to redo the repair during next upgrade
 		$this->config->setAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
+		$this->config->setAppValue('dav', 'regeneratedBirthdayCalendarsForAlarmFix', 'yes');
 	}
 }
