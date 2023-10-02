@@ -26,7 +26,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.0','8.3']
 
     steps:
       - name: Checkout server
@@ -40,15 +40,15 @@ jobs:
           sudo apt-get install -y ffmpeg imagemagick libmagickcore-6.q16-3-extra
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9c77701ae57b0c47f6732beebfbdec76e4e5c90a #debian bookworm fix
+        uses: shivammathur/setup-php@72ae4ccbe57f82bbe08411e84e2130bd4ba1c10f #v2.25.5
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu
           tools: phpunit:9
           coverage: none
+          ini-file: development
           ini-values:
-            apc.enabled=on,
-            apc.enable_cli=on
+            apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

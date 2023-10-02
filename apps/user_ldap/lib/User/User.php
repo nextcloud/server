@@ -739,8 +739,8 @@ class User {
 		}
 
 
-		//make sure it is a square and not bigger than 128x128
-		$size = min([$this->image->width(), $this->image->height(), 128]);
+		//make sure it is a square and not bigger than 512x512
+		$size = min([$this->image->width(), $this->image->height(), 512]);
 		if (!$this->image->centerCrop($size)) {
 			$this->logger->error('croping image for avatar failed for '.$this->dn, ['app' => 'user_ldap']);
 			return false;
