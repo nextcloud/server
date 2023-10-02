@@ -52,6 +52,11 @@ class SetupResult implements \JsonSerializable {
 		return $this->linkToDoc;
 	}
 
+	/**
+	 * @brief Get an array representation of the result for API responses
+	 *
+	 * @since 28.0.0
+	 */
 	public function jsonSerialize(): array {
 		return [
 			'severity' => $this->severity,
