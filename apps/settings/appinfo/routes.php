@@ -36,6 +36,7 @@ return [
 		['name' => 'AuthorizedGroup#destroy', 'url' => '/settings/authorizedgroups', 'verb' => 'DELETE'],
 
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
+		['name' => 'ClientDiagnostics#update', 'url' => '/settings/diagnostics', 'verb' => 'PUT' , 'root' => ''],
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST' , 'root' => ''],
