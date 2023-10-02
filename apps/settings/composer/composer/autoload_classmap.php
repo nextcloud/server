@@ -7,6 +7,8 @@ $baseDir = $vendorDir;
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarning.php',
+    'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
     'OCA\\Settings\\Activity\\GroupProvider' => $baseDir . '/../lib/Activity/GroupProvider.php',
     'OCA\\Settings\\Activity\\GroupSetting' => $baseDir . '/../lib/Activity/GroupSetting.php',
     'OCA\\Settings\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',
