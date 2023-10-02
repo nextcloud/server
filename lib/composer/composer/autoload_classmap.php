@@ -595,6 +595,8 @@ return array(
     'OCP\\Security\\VerificationToken\\InvalidTokenException' => $baseDir . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
     'OCP\\Server' => $baseDir . '/lib/public/Server.php',
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
+    'OCP\\Settings\\IAccountWarning' => $baseDir . '/lib/public/Settings/IAccountWarning.php',
+    'OCP\\Settings\\IAccountWarningsProvider' => $baseDir . '/lib/public/Settings/IAccountWarningsProvider.php',
     'OCP\\Settings\\IDelegatedSettings' => $baseDir . '/lib/public/Settings/IDelegatedSettings.php',
     'OCP\\Settings\\IIconSection' => $baseDir . '/lib/public/Settings/IIconSection.php',
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',

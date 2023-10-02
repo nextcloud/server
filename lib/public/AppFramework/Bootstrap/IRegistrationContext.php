@@ -371,4 +371,14 @@ interface IRegistrationContext {
 	 * @since 26.0.0
 	 */
 	public function registerPublicShareTemplateProvider(string $class): void;
+
+	/**
+	 * Register an implementation of IAccountWarningsProvider.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Settings\IAccountWarningsProvider> $class
+	 * @return void
+	 * @since 28.0.0
+	 */
+	public function registerAccountWarningsProvider(string $class): void;
 }

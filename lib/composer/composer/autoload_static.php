@@ -628,6 +628,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Security\\VerificationToken\\InvalidTokenException' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
         'OCP\\Server' => __DIR__ . '/../../..' . '/lib/public/Server.php',
         'OCP\\Session\\Exceptions\\SessionNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
+        'OCP\\Settings\\IAccountWarning' => __DIR__ . '/../../..' . '/lib/public/Settings/IAccountWarning.php',
+        'OCP\\Settings\\IAccountWarningsProvider' => __DIR__ . '/../../..' . '/lib/public/Settings/IAccountWarningsProvider.php',
         'OCP\\Settings\\IDelegatedSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/IDelegatedSettings.php',
         'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',
         'OCP\\Settings\\IManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IManager.php',
