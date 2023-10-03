@@ -845,7 +845,7 @@ export default Vue.extend({
 		// Rename and move the file
 		async onRename() {
 			const oldName = this.source.basename
-			const oldSource = this.source.source
+			const oldEncodedSource = this.source.encodedSource
 			const newName = this.newName.trim?.() || ''
 			if (newName === '') {
 				showError(this.t('files', 'Name cannot be empty'))
@@ -870,12 +870,13 @@ export default Vue.extend({
 			// Update node
 			this.source.rename(newName)
 
+			logger.debug('Moving file to', { destination: this.source.encodedSource, oldEncodedSource })
 			try {
 				await axios({
 					method: 'MOVE',
-					url: oldSource,
+					url: oldEncodedSource,
 					headers: {
-						Destination: encodeURI(this.source.source),
+						Destination: this.source.encodedSource,
 					},
 				})
 
