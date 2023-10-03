@@ -38,6 +38,7 @@ use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
 use OCA\Settings\AccountWarnings\OutdatedClientWarningsProvider;
+use OCA\Settings\AccountWarnings\QuotaWarningsProvider;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
@@ -139,6 +140,7 @@ class Application extends App implements IBootstrap {
 		$context->registerUserMigrator(AccountMigrator::class);
 
 		$context->registerAccountWarningsProvider(OutdatedClientWarningsProvider::class);
+		$context->registerAccountWarningsProvider(QuotaWarningsProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

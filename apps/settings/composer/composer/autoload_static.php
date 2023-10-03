@@ -25,6 +25,8 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\AccountWarnings\\AccountWarningsManager' => __DIR__ . '/..' . '/../lib/AccountWarnings/AccountWarningsManager.php',
         'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => __DIR__ . '/..' . '/../lib/AccountWarnings/OutdatedClientWarning.php',
         'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => __DIR__ . '/..' . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
+        'OCA\\Settings\\AccountWarnings\\QuotaWarning' => __DIR__ . '/..' . '/../lib/AccountWarnings/QuotaWarning.php',
+        'OCA\\Settings\\AccountWarnings\\QuotaWarningsProvider' => __DIR__ . '/..' . '/../lib/AccountWarnings/QuotaWarningsProvider.php',
         'OCA\\Settings\\Activity\\GroupProvider' => __DIR__ . '/..' . '/../lib/Activity/GroupProvider.php',
         'OCA\\Settings\\Activity\\GroupSetting' => __DIR__ . '/..' . '/../lib/Activity/GroupSetting.php',
         'OCA\\Settings\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',

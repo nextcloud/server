@@ -10,6 +10,8 @@ return array(
     'OCA\\Settings\\AccountWarnings\\AccountWarningsManager' => $baseDir . '/../lib/AccountWarnings/AccountWarningsManager.php',
     'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarning.php',
     'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
+    'OCA\\Settings\\AccountWarnings\\QuotaWarning' => $baseDir . '/../lib/AccountWarnings/QuotaWarning.php',
+    'OCA\\Settings\\AccountWarnings\\QuotaWarningsProvider' => $baseDir . '/../lib/AccountWarnings/QuotaWarningsProvider.php',
     'OCA\\Settings\\Activity\\GroupProvider' => $baseDir . '/../lib/Activity/GroupProvider.php',
     'OCA\\Settings\\Activity\\GroupSetting' => $baseDir . '/../lib/Activity/GroupSetting.php',
     'OCA\\Settings\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',
