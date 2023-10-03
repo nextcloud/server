@@ -16,6 +16,7 @@ OC.L10N.register(
     "Undo" : "Deshacer",
     "Custom" : "Personalizado",
     "Value" : "Valor",
+    "Line" : "Linea",
     "Text" : "Texto",
     "Size" : "Tamaño",
     "Position" : "Posición"

@@ -12,6 +12,8 @@ OC.L10N.register(
     "Drop changes" : "Odrzuć zmiany",
     "Your browser does not support videos." : "Twoja przeglądarka nie obsługuje wideo.",
     "Edit" : "Edytuj",
+    "Exit full screen" : "Wyłącz tryb pełnoekranowy",
+    "Full screen" : "Tryb pełnoekranowy",
     "Open sidebar" : "Otwórz pasek boczny",
     "Download" : "Pobierz",
     "Delete" : "Usuń",
@@ -106,6 +108,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Rozmiar zapisanego obrazu (szerokość x wysokość)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Zwróć uwagę, że wybrany obszar kadrowania jest mniejszy niż zastosowana zmiana rozmiaru, co może spowodować spadek jakości",
     "Actual size (100%)" : "Rzeczywisty rozmiar (100%)",
-    "Fit size" : "Dopasuj rozmiar"
+    "Fit size" : "Dopasuj rozmiar",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
