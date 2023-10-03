@@ -37,17 +37,17 @@ class QuotaWarning implements IAccountWarning {
 
 	public function __construct(
 		private IL10N $l10n,
-		private int $count,
+		private array $userIds,
 		private int $threshold,
 	) {
 	}
 
 	public function getText(): string {
 		return $this->l10n->n(
-			'%n account is using more than %d%% of their quota',
-			'%n accounts are using more than %d%% of their quota',
-			$this->count,
-			[$this->threshold]
+			'%n account is using more than %d%% of their quota: %s',
+			'%n accounts are using more than %d%% of their quota: %s',
+			count($this->userIds),
+			[$this->threshold, implode(',', $this->userIds)]
 		);
 	}
 

@@ -47,7 +47,7 @@ class QuotaWarningsProvider implements IAccountWarningsProvider {
 	public function getAccountWarnings(): array {
 		$users = [];
 		foreach (QuotaWarning::THRESHOLDS as $threshold) {
-			$users[$threshold] = 0;
+			$users[$threshold] = [];
 		}
 		$this->userManager->callForSeenUsers(function (IUser $user) use (&$users) {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
@@ -59,15 +59,16 @@ class QuotaWarningsProvider implements IAccountWarningsProvider {
 			$usage = 100 * ($size / $quota);
 			foreach (QuotaWarning::THRESHOLDS as $threshold => $level) {
 				if ($usage >= $threshold) {
-					$users[$threshold]++;
+					$users[$threshold][] = $user->getUID();
 					break;
 				}
 			}
 		});
 		$warnings = [];
-		foreach ($users as $threshold => $count) {
+		foreach ($users as $threshold => $uids) {
+			$count = count($uids);
 			if ($count > 0) {
-				$warnings[] = new QuotaWarning($this->l10n, $count, $threshold);
+				$warnings[] = new QuotaWarning($this->l10n, $uids, $threshold);
 			}
 		}
 		return $warnings;
