@@ -199,6 +199,7 @@ OC.L10N.register(
     "Expiration date" : "Lejárati dátum",
     "Hide download" : "Letöltés elrejtése",
     "Video verification" : "Videós ellenőrzés",
+    "Allow download" : "Letöltés engedélyezése",
     "Note to recipient" : "Jegyzet a címzettnek",
     "Enter a note for the share recipient" : "Adjon meg egy megjegyzést a megosztás címzettje számára",
     "Create" : "Létrehozás",
@@ -276,7 +277,6 @@ OC.L10N.register(
     "Allow deleting" : "Törlés engedélyezése",
     "Allow resharing" : "A megosztás továbbadásának engedélyezése",
     "Expiration date enforced" : "Lejárati idő megkövetelése",
-    "Allow download" : "Letöltés engedélyezése",
     "Password protect" : "Jelszavas védelem",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó-előállításkor"

@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Data di scadenza",
     "Hide download" : "Nascondi scaricamento",
     "Video verification" : "Verifica video",
+    "Allow download" : "Consenti download",
     "Note to recipient" : "Nota al destinatario",
     "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Create" : "Crea",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "Consenti l'eliminazione",
     "Allow resharing" : "Consenti la ri-condivisione",
     "Expiration date enforced" : "Data di scadenza applicata",
-    "Allow download" : "Consenti download",
     "Password protect" : "Proteggi con password",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Errore: la password non rispetta i criteri stabiliti"
