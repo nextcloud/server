@@ -5,7 +5,7 @@ OC.L10N.register(
     "Dashboard app" : "Aplikácia Infopanel",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
-    "Get more widgets from the App Store" : "Získať viac miniaplikácií z Obchodu s aplikáciami",
+    "Get more widgets from the App Store" : "Získať viac miniaplikácií v Obchode s aplikáciami",
     "Weather service" : "Služba počasie",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "V záujme vášho súkromia údaje o počasí vyžaduje váš server Nextcloud vo vašom mene, aby meteorologická služba nedostávala žiadne osobné informácie.",
     "Weather data from Met.no" : "Dáta počasia z Met.no",

@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Data de caducitat",
     "Hide download" : "Amaga la baixada",
     "Video verification" : "Verificació de vídeo",
+    "Allow download" : "Permet la baixada",
     "Note to recipient" : "Nota per al destinatari",
     "Enter a note for the share recipient" : "Introduïu una nota per al destinatari de l'element compartit",
     "Create" : "Crea",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "Permet la supressió",
     "Allow resharing" : "Permet l'ús compartit derivat",
     "Expiration date enforced" : "Data de caducitat",
-    "Allow download" : "Permet la baixada",
     "Password protect" : "Protegeix amb contrasenya",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "S'ha produït un error en generar la contrasenya a partir de password_policy"

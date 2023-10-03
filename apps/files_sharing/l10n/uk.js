@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Термін дії",
     "Hide download" : "Приховати завантаження",
     "Video verification" : "Відеоперевірка",
+    "Allow download" : "Дозволити звантаження",
     "Note to recipient" : "Примітка для одержувача",
     "Enter a note for the share recipient" : "Додайте нотатку для одержувача доступу до спільного ресурсу",
     "Create" : "Створити",
@@ -226,6 +227,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Скасувати запит на спільний ресурс","Скасувати запит на спільні ресурси","Скасувати запит на спільні ресурси","Скасувати запит на спільні ресурси"],
     "_Restore share_::_Restore shares_" : ["Відновити спільний ресурс","Відновити спільні ресурси","Відновити спільні ресурси","Відновити спільні ресурси"],
     "Shared" : "Спільні",
+    "Shared by {ownerDisplayName}" : "{ownerDisplayName} надав(-ла) доступ",
     "Link to a file" : "Посилання на файл",
     "Error creating the share: {errorMessage}" : "Помилка під час створення спільного ресурсу: {errorMessage}",
     "Error creating the share" : "Помилка під час створення спільного ресурсу",
@@ -300,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "Може вилучати",
     "Allow resharing" : "Дозволити передавати у спільний доступ іншим",
     "Expiration date enforced" : "Вимагати термін дії",
-    "Allow download" : "Дозволити звантаження",
     "Password protect" : "Захистити паролем",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Помилка під час створення паролів з password_policy"

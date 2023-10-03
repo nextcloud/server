@@ -201,6 +201,7 @@
     "Expiration date" : "Датум истека",
     "Hide download" : "Сакриј преузимање",
     "Video verification" : "Видео потврда",
+    "Allow download" : "Дозволи преузимање",
     "Note to recipient" : "Белешка примаоцу",
     "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Create" : "Креирање",
@@ -299,7 +300,6 @@
     "Allow deleting" : "Дозволи брисање",
     "Allow resharing" : "Дозволи дељење даље",
     "Expiration date enforced" : "Захтевано постављање датума истека",
-    "Allow download" : "Дозволи преузимање",
     "Password protect" : "Заштићено лозинком",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Грешка приликом креирања лозинке из password_policy"
