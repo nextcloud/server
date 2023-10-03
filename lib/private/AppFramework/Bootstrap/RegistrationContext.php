@@ -55,6 +55,7 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Settings\IAccountWarningsProvider;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\Support\CrashReport\IReporter;
 use OCP\UserMigration\IMigrator as IUserMigrator;
@@ -145,6 +146,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IPublicShareTemplateProvider>[] */
 	private $publicShareTemplateProviders = [];
+
+	/** @var ServiceRegistration<IAccountWarningsProvider>[] */
+	private array $accountWarningsProviders = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -372,6 +376,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerAccountWarningsProvider(string $class): void {
+				$this->context->registerAccountWarningsProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -521,6 +532,10 @@ class RegistrationContext {
 
 	public function registerPublicShareTemplateProvider(string $appId, string $class): void {
 		$this->publicShareTemplateProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerAccountWarningsProvider(string $appId, string $class): void {
+		$this->accountWarningsProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -827,5 +842,12 @@ class RegistrationContext {
 	 */
 	public function getPublicShareTemplateProviders(): array {
 		return $this->publicShareTemplateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IAccountWarningsProvider>[]
+	 */
+	public function getAccountWarningsProviders(): array {
+		return $this->accountWarningsProviders;
 	}
 }
