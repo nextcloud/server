@@ -58,7 +58,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
-		source: generateRemoteUrl(encodePath('dav' + rootPath + node.filename)),
+		source: generateRemoteUrl('dav' + rootPath + node.filename),
 		mtime: new Date(node.lastmod),
 		mime: node.mime as string,
 		size: node.props?.size as number || 0,
