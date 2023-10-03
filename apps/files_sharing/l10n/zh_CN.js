@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "过期日期 ",
     "Hide download" : "隐藏下载",
     "Video verification" : "视频验证",
+    "Allow download" : "允许下载",
     "Note to recipient" : "接收人备注",
     "Enter a note for the share recipient" : "给共享接收人留备注",
     "Create" : "创建",
@@ -295,7 +296,6 @@ OC.L10N.register(
     "Allow deleting" : "允许删除",
     "Allow resharing" : "允许二次共享",
     "Expiration date enforced" : "强制过期日期",
-    "Allow download" : "允许下载",
     "Password protect" : "密码保护",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "从密码策略生成密码时出错"

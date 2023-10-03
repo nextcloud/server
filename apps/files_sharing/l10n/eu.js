@@ -200,6 +200,7 @@ OC.L10N.register(
     "Expiration date" : "Iraungitze-data",
     "Hide download" : "Ezkutatu deskarga",
     "Video verification" : "Bideo egiaztapena",
+    "Allow download" : "Baimendu deskarga",
     "Note to recipient" : "Oharra hartzailearentzat",
     "Enter a note for the share recipient" : "Sartu ohar bat partekatzearen hartzailearentzat",
     "Create" : "Sortu",
@@ -293,7 +294,6 @@ OC.L10N.register(
     "Allow deleting" : "Baimendu ezabatzea",
     "Allow resharing" : "Baimendu birpartekatzea",
     "Expiration date enforced" : "Iraungitze-data betearazita",
-    "Allow download" : "Baimendu deskarga",
     "Password protect" : "Babestu pasahitzarekin",
     "Science Mesh" : "Zientzia sarea",
     "Error generating password from password_policy" : "Errorea pasahitz-gidalerrotik pasahitza sortzean"

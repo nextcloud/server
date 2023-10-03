@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "到期日",
     "Hide download" : "隱藏下載",
     "Video verification" : "視訊驗證",
+    "Allow download" : "允許下載",
     "Note to recipient" : "給收件者的訊息",
     "Enter a note for the share recipient" : "輸入給分享收件者的訊息",
     "Create" : "建立",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "允許刪除",
     "Allow resharing" : "允許轉分享",
     "Expiration date enforced" : "已設定到期日",
-    "Allow download" : "允許下載",
     "Password protect" : "密碼保護",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "從密碼策略產生密碼時發生錯誤"

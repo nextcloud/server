@@ -199,6 +199,7 @@ OC.L10N.register(
     "Expiration date" : "Валидност",
     "Hide download" : "Скрий свалянето",
     "Video verification" : "Видео потвърждение",
+    "Allow download" : "Позволяване на изтегляне/сваляне/",
     "Note to recipient" : "Бележка за получателя",
     "Enter a note for the share recipient" : "Въведете бележка за получателя на споделянето",
     "Create" : "Създаване",
@@ -276,7 +277,6 @@ OC.L10N.register(
     "Allow deleting" : "Разреши изтриването",
     "Allow resharing" : "Може да споделя повторно",
     "Expiration date enforced" : "Дата на изтичане на срока на действие",
-    "Allow download" : "Позволяване на изтегляне/сваляне/",
     "Password protect" : "Защита с парола",
     "Science Mesh" : "Приложение Science Mesh",
     "Error generating password from password_policy" : "Грешка при генериране на парола от политиката за пароли"
