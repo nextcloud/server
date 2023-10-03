@@ -23,6 +23,8 @@ class ComposerStaticInitSettings
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Settings\\AccountWarnings\\AccountWarningsManager' => __DIR__ . '/..' . '/../lib/AccountWarnings/AccountWarningsManager.php',
+        'OCA\\Settings\\AccountWarnings\\ClientDiagnosticWarning' => __DIR__ . '/..' . '/../lib/AccountWarnings/ClientDiagnosticWarning.php',
+        'OCA\\Settings\\AccountWarnings\\ClientDiagnosticWarningsProvider' => __DIR__ . '/..' . '/../lib/AccountWarnings/ClientDiagnosticWarningsProvider.php',
         'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => __DIR__ . '/..' . '/../lib/AccountWarnings/OutdatedClientWarning.php',
         'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => __DIR__ . '/..' . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
         'OCA\\Settings\\AccountWarnings\\QuotaWarning' => __DIR__ . '/..' . '/../lib/AccountWarnings/QuotaWarning.php',

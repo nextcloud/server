@@ -25,19 +25,21 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\IProvider;
 use OCA\Settings\Db\ClientDiagnostic;
 use OCA\Settings\Db\ClientDiagnosticMapper;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\IProvider;
+use Psr\Clock\ClockInterface;
 
-class ClientDiagnosticsController extends Controller {
+class ClientDiagnosticsController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -45,6 +47,7 @@ class ClientDiagnosticsController extends Controller {
 		private IUserSession $userSession,
 		private ClientDiagnosticMapper $mapper,
 		private IProvider $tokenProvider,
+		private ClockInterface $clock,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -52,8 +55,9 @@ class ClientDiagnosticsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @NoCSRFRequired
 	 */
-	public function update(array $data): DataResponse {
+	public function update(array $problems): DataResponse {
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $e) {
@@ -71,13 +75,21 @@ class ClientDiagnosticsController extends Controller {
 			return new DataResponse([], Http::STATUS_METHOD_NOT_ALLOWED);
 		}
 
-		/* TODO: validate data structure */
+		/* TODO: validate problems structure */
 
-		$entity = $this->mapper->insertOrUpdate(
-			ClientDiagnostic::fromParams([
-				'authtokenid' => $token->getId(),
-				'diagnostic' => json_encode($data),
-			]));
+		try {
+			$entity = $this->mapper->findByAuthtokenid($token->getId());
+			$entity->setDiagnostic(json_encode(['problems' => $problems], JSON_THROW_ON_ERROR));
+			$entity->setTimestamp(\DateTime::createFromImmutable($this->clock->now()));
+			$this->mapper->update($entity);
+		} catch (DoesNotExistException $e) {
+			$entity = $this->mapper->insert(
+				ClientDiagnostic::fromParams([
+					'authtokenid' => $token->getId(),
+					'diagnostic' => json_encode(['problems' => $problems], JSON_THROW_ON_ERROR),
+					'timestamp' => \DateTime::createFromImmutable($this->clock->now()),
+				]));
+		}
 
 		return new DataResponse([]);
 	}

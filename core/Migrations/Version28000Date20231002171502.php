@@ -59,9 +59,12 @@ class Version28000Date20231002171502 extends SimpleMigrationStep {
 			$table->addColumn('diagnostic', Types::TEXT, [
 				'notnull' => true,
 			]);
+			$table->addColumn('timestamp', Types::DATETIME, [
+				'notnull' => true,
+			]);
 
-			$table->setPrimaryKey(['id'], 'client_diagnostics_id_primary');
-			$table->addUniqueIndex(['authtokenid'], 'client_diagnostics_authtokenid_index');
+			$table->setPrimaryKey(['id'], 'client_diag_id_primary');
+			$table->addUniqueIndex(['authtokenid'], 'client_diag_authtokenid_index');
 
 			$changed = true;
 			return $schema;

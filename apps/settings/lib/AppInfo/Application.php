@@ -37,6 +37,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OCA\Settings\AccountWarnings\ClientDiagnosticWarningsProvider;
 use OCA\Settings\AccountWarnings\OutdatedClientWarningsProvider;
 use OCA\Settings\AccountWarnings\QuotaWarningsProvider;
 use OCA\Settings\Hooks;
@@ -139,6 +140,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerUserMigrator(AccountMigrator::class);
 
+		$context->registerAccountWarningsProvider(ClientDiagnosticWarningsProvider::class);
 		$context->registerAccountWarningsProvider(OutdatedClientWarningsProvider::class);
 		$context->registerAccountWarningsProvider(QuotaWarningsProvider::class);
 	}

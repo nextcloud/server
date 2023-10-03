@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 
@@ -37,5 +38,32 @@ class ClientDiagnosticMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME, ClientDiagnostic::class);
+	}
+
+	/**
+	 * @return ClientDiagnostic[]
+	 */
+	public function getAll(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$select = $qb
+			->select('*')
+			->from($this->getTableName());
+
+		return $this->findEntities($select);
+	}
+
+	/**
+	 * @throws DoesNotExistException
+	 */
+	public function findByAuthtokenid(int $id): ClientDiagnostic {
+		$qb = $this->db->getQueryBuilder();
+
+		$select = $qb
+			->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('authtokenid', $qb->createNamedParameter($id, $qb::PARAM_INT)));
+
+		return $this->findEntity($select);
 	}
 }

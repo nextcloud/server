@@ -8,6 +8,8 @@ $baseDir = $vendorDir;
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Settings\\AccountWarnings\\AccountWarningsManager' => $baseDir . '/../lib/AccountWarnings/AccountWarningsManager.php',
+    'OCA\\Settings\\AccountWarnings\\ClientDiagnosticWarning' => $baseDir . '/../lib/AccountWarnings/ClientDiagnosticWarning.php',
+    'OCA\\Settings\\AccountWarnings\\ClientDiagnosticWarningsProvider' => $baseDir . '/../lib/AccountWarnings/ClientDiagnosticWarningsProvider.php',
     'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarning.php',
     'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
     'OCA\\Settings\\AccountWarnings\\QuotaWarning' => $baseDir . '/../lib/AccountWarnings/QuotaWarning.php',
