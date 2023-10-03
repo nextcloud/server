@@ -197,6 +197,9 @@
 				</NcButton>
 				<NcButton type="primary" @click="saveShare">
 					{{ shareButtonText }}
+					<template v-if="creating" #icon>
+						<NcLoadingIcon />
+					</template>
 				</NcButton>
 			</div>
 		</div>
@@ -210,6 +213,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import CircleIcon from 'vue-material-design-icons/CircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import EditIcon from 'vue-material-design-icons/Pencil.vue'
@@ -244,6 +248,7 @@ export default {
 		NcDatetimePicker,
 		NcDateTimePickerNative,
 		NcCheckboxRadioSwitch,
+		NcLoadingIcon,
 		CloseIcon,
 		CircleIcon,
 		EditIcon,
@@ -282,6 +287,7 @@ export default {
 			bundledPermissions: BUNDLED_PERMISSIONS,
 			isFirstComponentLoad: true,
 			test: false,
+			creating: false,
 		}
 	},
 
@@ -804,7 +810,9 @@ export default {
 					incomingShare.password = this.share.password
 				}
 
+				this.creating = true
 				const share = await this.addShare(incomingShare, this.fileInfo)
+				this.creating = false
 				this.share = share
 				this.$emit('add:share', this.share)
 			} else {
