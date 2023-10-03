@@ -7,6 +7,7 @@ $baseDir = $vendorDir;
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'OCA\\Settings\\AccountWarnings\\AccountWarningsManager' => $baseDir . '/../lib/AccountWarnings/AccountWarningsManager.php',
     'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarning.php',
     'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => $baseDir . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
     'OCA\\Settings\\Activity\\GroupProvider' => $baseDir . '/../lib/Activity/GroupProvider.php',
@@ -19,6 +20,7 @@ return array(
     'OCA\\Settings\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Settings\\BackgroundJobs\\VerifyUserData' => $baseDir . '/../lib/BackgroundJobs/VerifyUserData.php',
     'OCA\\Settings\\Controller\\AISettingsController' => $baseDir . '/../lib/Controller/AISettingsController.php',
+    'OCA\\Settings\\Controller\\AccountWarningsController' => $baseDir . '/../lib/Controller/AccountWarningsController.php',
     'OCA\\Settings\\Controller\\AdminSettingsController' => $baseDir . '/../lib/Controller/AdminSettingsController.php',
     'OCA\\Settings\\Controller\\AppSettingsController' => $baseDir . '/../lib/Controller/AppSettingsController.php',
     'OCA\\Settings\\Controller\\AuthSettingsController' => $baseDir . '/../lib/Controller/AuthSettingsController.php',

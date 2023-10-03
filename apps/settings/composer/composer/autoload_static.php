@@ -22,6 +22,7 @@ class ComposerStaticInitSettings
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'OCA\\Settings\\AccountWarnings\\AccountWarningsManager' => __DIR__ . '/..' . '/../lib/AccountWarnings/AccountWarningsManager.php',
         'OCA\\Settings\\AccountWarnings\\OutdatedClientWarning' => __DIR__ . '/..' . '/../lib/AccountWarnings/OutdatedClientWarning.php',
         'OCA\\Settings\\AccountWarnings\\OutdatedClientWarningsProvider' => __DIR__ . '/..' . '/../lib/AccountWarnings/OutdatedClientWarningsProvider.php',
         'OCA\\Settings\\Activity\\GroupProvider' => __DIR__ . '/..' . '/../lib/Activity/GroupProvider.php',
@@ -34,6 +35,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Settings\\BackgroundJobs\\VerifyUserData' => __DIR__ . '/..' . '/../lib/BackgroundJobs/VerifyUserData.php',
         'OCA\\Settings\\Controller\\AISettingsController' => __DIR__ . '/..' . '/../lib/Controller/AISettingsController.php',
+        'OCA\\Settings\\Controller\\AccountWarningsController' => __DIR__ . '/..' . '/../lib/Controller/AccountWarningsController.php',
         'OCA\\Settings\\Controller\\AdminSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AdminSettingsController.php',
         'OCA\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AppSettingsController.php',
         'OCA\\Settings\\Controller\\AuthSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AuthSettingsController.php',

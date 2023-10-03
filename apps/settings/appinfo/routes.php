@@ -37,6 +37,7 @@ return [
 
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'ClientDiagnostics#update', 'url' => '/settings/diagnostics', 'verb' => 'PUT' , 'root' => ''],
+		['name' => 'AccountWarnings#getAll', 'url' => '/settings/accountwarnings', 'verb' => 'GET' , 'root' => ''],
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST' , 'root' => ''],
