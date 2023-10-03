@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Son kullanma tarihi",
     "Hide download" : "İndirme gizlensin",
     "Video verification" : "Görüntü doğrulaması",
+    "Allow download" : "İndirilebilsin",
     "Note to recipient" : "Alıcıya not",
     "Enter a note for the share recipient" : "Paylaşım alıcısı için bir not yazın",
     "Create" : "Ekle",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "Silinebilsin",
     "Allow resharing" : "Yeniden paylaşılabilsin",
     "Expiration date enforced" : "Son kullanma tarihi dayatılıyor",
-    "Allow download" : "İndirilebilsin",
     "Password protect" : "Parola koruması",
     "Science Mesh" : "ScienceMesh",
     "Error generating password from password_policy" : "password_policy ile parola oluşturulurken sorun çıktı"

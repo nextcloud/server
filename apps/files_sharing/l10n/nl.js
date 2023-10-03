@@ -189,6 +189,7 @@ OC.L10N.register(
     "Expiration date" : "Vervaldatum",
     "Hide download" : "Verberg download",
     "Video verification" : "Video verificatie",
+    "Allow download" : "Downloaden toestaan",
     "Note to recipient" : "Notitie voor ontvanger",
     "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger",
     "Create" : "Creëer",
@@ -262,7 +263,6 @@ OC.L10N.register(
     "Allow deleting" : "Toestaan verwijderen",
     "Allow resharing" : "Opnieuw delen toestaan",
     "Expiration date enforced" : "Vervaldatum afgedwongen",
-    "Allow download" : "Downloaden toestaan",
     "Password protect" : "Beveiligen met wachtwoord"
 },
 "nplurals=2; plural=(n != 1);");

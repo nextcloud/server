@@ -196,6 +196,7 @@ OC.L10N.register(
     "Expiration date" : "Datum preteka",
     "Hide download" : "Skrij prejem",
     "Video verification" : "Video overitev",
+    "Allow download" : "Dovoli prejem datotek",
     "Note to recipient" : "Sporočilo za prejemnika",
     "Enter a note for the share recipient" : "Vpišite opombo za prejemnika",
     "Create" : "Ustvari",
@@ -273,7 +274,6 @@ OC.L10N.register(
     "Allow deleting" : "Dovoli brisanje",
     "Allow resharing" : "Dovoli nadaljnje omogočanje souporabe",
     "Expiration date enforced" : "Datum preteka je vsiljeno omogočen",
-    "Allow download" : "Dovoli prejem datotek",
     "Password protect" : "Zaščiti z geslom",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Napaka ustvarjanja gesla po določenih varnostnih pravilih"

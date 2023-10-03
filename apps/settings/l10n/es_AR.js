@@ -68,6 +68,7 @@ OC.L10N.register(
     "Settings" : "Ajustes",
     "Personal" : "Personal",
     "Additional settings" : "Configuraciones adicionales",
+    "Overview" : "Visión general",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",
     "Calendar" : "Calendario",
