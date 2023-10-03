@@ -57,7 +57,6 @@
     "@nextcloud/sharing": "^0.1.0",
     "@nextcloud/upload": "^1.0.0-beta.17",
     "@nextcloud/vue": "^8.0.0-beta.5",
-    "@nextcloud/vue-dashboard": "^2.0.1",
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^10.4.1",
     "autosize": "^6.0.1",
