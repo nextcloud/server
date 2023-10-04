@@ -44,7 +44,7 @@ export const action = new FileAction({
 
 	async exec(node: Node) {
 		try {
-			await axios.delete(node.source)
+			await axios.delete(node.encodedSource)
 
 			// Let's delete even if it's moved to the trashbin
 			// since it has been removed from the current view

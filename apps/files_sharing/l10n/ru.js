@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Срок действия",
     "Hide download" : "Скрыть загрузку",
     "Video verification" : "Подтверждение по видесвязи",
+    "Allow download" : "Разрешить скачивать",
     "Note to recipient" : "Примечание для получателя",
     "Enter a note for the share recipient" : "Введите примечание для получателя",
     "Create" : "Создать",
@@ -300,7 +301,6 @@ OC.L10N.register(
     "Allow deleting" : "Разрешить удалять",
     "Allow resharing" : "Разрешить повторное открытие общего доступа",
     "Expiration date enforced" : "Требуется срок действия",
-    "Allow download" : "Разрешить скачивать",
     "Password protect" : "Защитить паролем",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Не удалось создать пароль на основе политики"

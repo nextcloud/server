@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Datum skončení platnosti",
     "Hide download" : "Skrýt stahování",
     "Video verification" : "Ověřování pomocí videa",
+    "Allow download" : "Umožnit stahování",
     "Note to recipient" : "Poznámka pro příjemce",
     "Enter a note for the share recipient" : "Zadejte poznámku pro příjemce sdílení",
     "Create" : "Vytvářet",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "Povolit mazání",
     "Allow resharing" : "Povolit sdílet dále",
     "Expiration date enforced" : "Datum skončení platnosti vynuceno",
-    "Allow download" : "Umožnit stahování",
     "Password protect" : "Chránit heslem",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Chyba při vytváření hesla ze zásady pro hesla"

@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "تاريخ إنتهاء صلاحية المشاركة",
     "Hide download" : "إخفاء التنزيل",
     "Video verification" : "التحقُّق من الفيديو",
+    "Allow download" : "إسمَح بالتنزيل",
     "Note to recipient" : "ملاحظة للمستلم",
     "Enter a note for the share recipient" : "أدخل ملاحظةً لمُستلِم المُشارَكة",
     "Create" : "أنشِيء",
@@ -301,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "السماح بالحذف",
     "Allow resharing" : "السماح بإعادة المشاركة ",
     "Expiration date enforced" : "فرض تاريخ انتهاء الصلاحية المشاركة",
-    "Allow download" : "إسمَح بالتنزيل",
     "Password protect" : "حماية بكلمة مرور",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "خطأ في توليد كلمة المرور بسبب مخالفة سياسة كلمات المرور"

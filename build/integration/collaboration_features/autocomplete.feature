@@ -15,12 +15,13 @@ Feature: autocomplete
       | auto | users |
       | autocomplete | users |
       | autocomplete2 | users |
+    And user "autocomplete" has status "dnd"
     When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
     Then get autocomplete for "auto"
-      | id | source |
-      | auto | users |
-      | autocomplete | users |
-      | autocomplete2 | users |
+      | id            | source | status |
+      | auto          | users  | ""     |
+      | autocomplete  | users  | {"status":"dnd","message":null,"icon":null,"clearAt":null} |
+      | autocomplete2 | users  | ""     |
 
 
   Scenario: getting autocomplete without enumeration
