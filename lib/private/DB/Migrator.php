@@ -101,7 +101,9 @@ class Migrator {
 	 * @return SchemaDiff
 	 */
 	protected function getDiff(Schema $targetSchema, Connection $connection) {
-		// adjust varchar columns with a length higher than getVarcharMaxLength to clob
+		// Adjust STRING columns with a length higher than 4000 to TEXT (clob)
+		// for consistency between the supported databases and
+		// old vs. new installations.
 		foreach ($targetSchema->getTables() as $table) {
 			foreach ($table->getColumns() as $column) {
 				if ($column->getType() instanceof StringType) {
