@@ -70,7 +70,7 @@ export const entry = {
 	async handler(context: Folder, content: Node[]) {
 		const contentNames = content.map((node: Node) => node.basename)
 		const name = getUniqueName(t('files', 'New folder'), contentNames)
-		const { fileid, source } = await createNewFolder(context.source, name)
+		const { fileid, source } = await createNewFolder(context.encodedSource, encodeURIComponent(name))
 
 		// Create the folder in the store
 		const folder = new Folder({

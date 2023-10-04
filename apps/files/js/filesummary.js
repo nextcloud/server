@@ -226,7 +226,7 @@
 			$dirInfo.html(n('files', '%n folder', '%n folders', this.summary.totalDirs));
 			$fileInfo.html(n('files', '%n file', '%n files', this.summary.totalFiles));
 			$hiddenInfo.html(' (' + n('files', 'including %n hidden', 'including %n hidden', this.summary.totalHidden) + ')');
-			var fileSize = this.summary.sumIsPending ? t('files', 'Pending') : OC.Util.humanFileSize(this.summary.totalSize);
+			var fileSize = this.summary.sumIsPending ? t('files', 'Pending') : OC.Util.humanFileSize(this.summary.totalSize, false, false);
 			this.$el.find('.filesize').html(fileSize);
 
 			// Show only what's necessary (may be hidden)
@@ -263,7 +263,7 @@
 			// don't show the filesize column, if filesize is NaN (e.g. in trashbin)
 			var fileSize = '';
 			if (!isNaN(summary.totalSize)) {
-				fileSize = summary.sumIsPending ? t('files', 'Pending') : OC.Util.humanFileSize(summary.totalSize);
+				fileSize = summary.sumIsPending ? t('files', 'Pending') : OC.Util.humanFileSize(summary.totalSize, false, false);
 				fileSize = '<td class="filesize">' + fileSize + '</td>';
 			}
 
