@@ -103,14 +103,14 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@59810ebfa5a5ac6fcfdcfdf036d1cd4d083a88f2 # v6.5.0
         with:
-          record: '${{ !!matrix.use-cypress-cloud }}'
-          parallel: '${{ !!matrix.use-cypress-cloud }}'
+          record: ${{ !!matrix.use-cypress-cloud }}
+          parallel: ${{ !!matrix.use-cypress-cloud }}
           # cypress run type
           component: ${{ matrix.containers == 'component' }}
-          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud || 'Run E2E' }}
+          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
-          ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ matrix.use-cypress-cloud && github.event_name }}
+          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
+          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
