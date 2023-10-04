@@ -104,17 +104,8 @@ class MigrateOc extends Base {
 			$output->writeln("Successfully migrated");
 		}
 
-		$passwords = $this->getV2StoragePasswords();
-
-		if (count($passwords)) {
-			$output->writeln("Found <info>" . count($passwords) . "</info> stored passwords that need re-encoding");
-			foreach ($passwords as $id => $password) {
-				$decoded = $this->decodePassword($password);
-				if (!$dryRun) {
-					$this->setStorageConfig($id, $this->encryptPassword($decoded));
-				}
-			}
-		}
+		$this->migrateV2StoragePasswords($dryRun, $output);
+		$this->migrateUserCredentials($dryRun, $output);
 
 		return 0;
 	}
@@ -167,12 +158,63 @@ class MigrateOc extends Base {
 		return $configs;
 	}
 
-	private function setStorageConfig(int $id, string $value) {
+	private function migrateV2StoragePasswords(bool $dryRun, OutputInterface $output): void {
+		$passwords = $this->getV2StoragePasswords();
+
+		if (count($passwords)) {
+			$output->writeln("Found <info>" . count($passwords) . "</info> stored passwords that need re-encoding");
+			foreach ($passwords as $id => $password) {
+				$decoded = $this->decodePassword($password);
+				if (!$dryRun) {
+					$this->setStorageConfig($id, $this->encryptPassword($decoded));
+				}
+			}
+		}
+	}
+
+	private function setStorageConfig(int $id, string $value): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('external_config')
 			->set('value', $query->createNamedParameter($value))
 			->where($query->expr()->eq('config_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
+	}
+
+	/**
+	 * @return array<array<string, string>>
+	 */
+	private function getUserCredentials(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('user', 'identifier', 'credentials')
+			->from('credentials');
+
+		return $query->executeQuery()->fetchAll();
+	}
+
+	private function migrateUserCredentials(bool $dryRun, OutputInterface $output): void {
+		$passwords = $this->getUserCredentials();
+
+		if (count($passwords)) {
+			$output->writeln("Found <info>" . count($passwords) . "</info> stored user credentials that need re-encoding");
+			foreach ($passwords as $passwordRow) {
+				$decoded = $this->decodePassword($passwordRow["credentials"]);
+				if (!$dryRun) {
+					$this->setStorageCredentials($passwordRow, $this->encryptPassword($decoded));
+				}
+			}
+		}
+	}
+
+	private function setStorageCredentials(array $row, string $encryptedPassword): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->insert('storages_credentials')
+			->values([
+				'user' => $query->createNamedParameter($row['user']),
+				'identifier' => $query->createNamedParameter($row['identifier']),
+				'credentials' => $query->createNamedParameter($encryptedPassword),
+			])
+			->executeStatement();
 	}
 
 	private function setStorageId(string $old, string $new): bool {
