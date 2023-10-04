@@ -34,7 +34,6 @@ import OC from './OC/index.js'
 import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
 import { setUp as setUpUserMenu } from './components/UserMenu.js'
-import PasswordConfirmation from './OC/password-confirmation.js'
 import { interceptRequests } from './utils/xhr-request.js'
 
 // keep in sync with core/css/variables.scss
@@ -298,5 +297,4 @@ export const initCore = () => {
 	}
 
 	initLiveTimestamps()
-	PasswordConfirmation.init()
 }
