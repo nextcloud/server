@@ -20,12 +20,12 @@
   -
   -->
 <template>
-	<CustomSvgIconRender class="favorite-marker-icon" :svg="StarSvg" />
+	<NcIconSvgWrapper class="favorite-marker-icon" :svg="StarSvg" />
 </template>
 
 <script>
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
-import CustomSvgIconRender from './CustomSvgIconRender.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
 /**
  * A favorite icon to be used for overlaying favorite entries like the file preview / icon
@@ -41,33 +41,37 @@ import CustomSvgIconRender from './CustomSvgIconRender.vue'
 export default {
 	name: 'FavoriteIcon',
 	components: {
-		CustomSvgIconRender,
+		NcIconSvgWrapper,
 	},
 	data() {
 		return {
 			StarSvg,
 		}
 	},
-	mounted() {
+	async mounted() {
+		await this.$nextTick()
 		// MDI default viewbox is "0 0 24 24" but we add a stroke of 10px so we must adjust it
 		const el = this.$el.querySelector('svg')
 		el.setAttribute('viewBox', '-4 -4 30 30')
-		el.setAttribute('width', '25')
-		el.setAttribute('height', '25')
 	},
 }
 </script>
 <style lang="scss" scoped>
 .favorite-marker-icon {
 	color: #a08b00;
-	width: fit-content;
-	height: fit-content;
+	// Override NcIconSvgWrapper defaults (clickable area)
+	min-width: unset !important;
+    min-height: unset !important;
 
 	:deep() {
 		svg {
 			// We added a stroke for a11y so we must increase the size to include the stroke
-			width: 26px;
-			height: 26px;
+			width: 26px !important;
+			height: 26px !important;
+
+			// Override NcIconSvgWrapper defaults of 20px
+			max-width: unset !important;
+			max-height: unset !important;
 
 			// Sow a border around the icon for better contrast
 			path {
