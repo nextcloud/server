@@ -103,7 +103,8 @@ class DefaultTheme implements ITheme {
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
-		$colorTextMaxcontrast = $this->util->lighten($colorMainText, 33);
+		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
+		$colorTextMaxcontrast = '#707070'; // 4.54 : 1 for hover background
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
@@ -138,7 +139,7 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
 			'--color-text-light' => $colorMainText,
-			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
+			'--color-text-lighter' => $this->util->lighten($colorMainText, 30),
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 

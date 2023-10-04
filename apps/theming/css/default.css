@@ -11,11 +11,11 @@
   --color-placeholder-light: #e6e6e6;
   --color-placeholder-dark: #cccccc;
   --color-main-text: #222222;
-  --color-text-maxcontrast: #767676;
-  --color-text-maxcontrast-default: #767676;
-  --color-text-maxcontrast-background-blur: #646464;
+  --color-text-maxcontrast: #707070;
+  --color-text-maxcontrast-default: #707070;
+  --color-text-maxcontrast-background-blur: #5e5e5e;
   --color-text-light: #222222;
-  --color-text-lighter: #767676;
+  --color-text-lighter: #6f6f6f;
   --color-scrollbar: rgba(34,34,34, .15);
   --color-error: #d91812;
   --color-error-rgb: 217,24,18;
