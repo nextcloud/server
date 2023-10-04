@@ -40,7 +40,7 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 	) {
 	}
 
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
@@ -51,6 +51,7 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 				$table->addColumn('code_created_at', Types::BIGINT, [
 					'notnull' => true,
 					'default' => 0,
+					'unsigned' => true,
 				]);
 				$dbChanged = true;
 			}
@@ -58,6 +59,7 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 				$table->addColumn('token_count', Types::BIGINT, [
 					'notnull' => true,
 					'default' => 0,
+					'unsigned' => true,
 				]);
 				$dbChanged = true;
 			}
@@ -73,7 +75,7 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 		return null;
 	}
 
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		// we consider that existing access_tokens have already produced at least one oauth token
 		// which prevents cleaning them up
 		$qbUpdate = $this->connection->getQueryBuilder();
