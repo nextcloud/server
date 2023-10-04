@@ -20,13 +20,13 @@
 					class="panel">
 					<div class="panel--header">
 						<h2>
-							<div aria-labelledby="panel--header--icon--description"
+							<div :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="apiWidgets[panels[panelId].id].icon_class"
 								role="img" />
 							{{ apiWidgets[panels[panelId].id].title }}
 						</h2>
-						<span id="panel--header--icon--description" class="hidden-visually">
+						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually">
 							{{ t('dashboard', '"{title} icon"', { title: apiWidgets[panels[panelId].id].title }) }}
 						</span>
 					</div>
@@ -39,13 +39,13 @@
 				<div v-else :key="panels[panelId].id" class="panel">
 					<div class="panel--header">
 						<h2>
-							<div aria-labelledby="panel--header--icon--description"
+							<div :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="panels[panelId].iconClass"
 								role="img" />
 							{{ panels[panelId].title }}
 						</h2>
-						<span id="panel--header--icon--description" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
+						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
 					</div>
 					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
 						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
