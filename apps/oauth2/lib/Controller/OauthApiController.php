@@ -74,10 +74,10 @@ class OauthApiController extends Controller {
 	 * Get a token
 	 *
 	 * @param string $grant_type Token type that should be granted
-	 * @param string|null $code Code of the flow
-	 * @param string|null $refresh_token Refresh token
-	 * @param string|null $client_id Client ID
-	 * @param string|null $client_secret Client secret
+	 * @param ?string $code Code of the flow
+	 * @param ?string $refresh_token Refresh token
+	 * @param ?string $client_id Client ID
+	 * @param ?string $client_secret Client secret
 	 * @throws Exception
 	 * @return JSONResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int, refresh_token: string, user_id: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 *
