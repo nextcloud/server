@@ -1934,6 +1934,17 @@ $CONFIG = [
 'blacklisted_files' => ['.htaccess'],
 
 /**
+ * Blacklist characters from being used in filenames. This is useful if you
+ * have a filesystem or OS which does not support certain characters like windows.
+ *
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
+ * 
+ * Defaults to ``array()``
+ */
+'forbidden_chars' => [],
+
+/**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
  * The default location for themes is ``nextcloud/themes/``.
  *
