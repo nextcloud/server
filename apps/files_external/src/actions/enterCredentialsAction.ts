@@ -75,11 +75,13 @@ export const action = new FileAction({
 
 	async exec(node: Node) {
 		// always resolve auth request, we'll process the data afterwards
-		const response = await axios.get(generateOcsUrl('/apps/files_external/api/v1/auth'), {
-			validateStatus: () => true,
+		// Using fetch as axios have integrated auth handling and X-Requested-With header
+		const response = await fetch(generateOcsUrl('/apps/files_external/api/v1/auth'), {
+			headers: new Headers({ Accept: 'application/json' }),
+			credentials: 'include',
 		})
 
-		const data = (response?.data || {}) as OCSAuthResponse
+		const data = (await response?.json() || {}) as OCSAuthResponse
 		if (data.ocs.data.user && data.ocs.data.password) {
 			const configResponse = await axios.put(generateUrl('apps/files_external/userglobalstorages/{id}', node.attributes), {
 				backendOptions: data.ocs.data,

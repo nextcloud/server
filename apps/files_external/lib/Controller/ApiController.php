@@ -126,6 +126,7 @@ class ApiController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 *
 	 * Ask for credentials using a browser's native basic auth prompt
 	 * Then returns it if provided
