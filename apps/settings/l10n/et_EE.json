@@ -141,6 +141,7 @@
     "This is the final warning: Do you really want to enable encryption?" : "See on viimane hoiatus: Kas oled kindel, et soovid krüpteerimise sisse lülitada?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Krüpteerimise moodulit pole laetud, palun luba krüpteerimise moodul rakenduste menüüs.",
     "Select default encryption module:" : "Määra vaikimisi krüpteerimise moodul:",
+    "Submit" : "Saada",
     "Remove group" : "Eemalda grupp",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Sa oled eemaldamas gruppi {group}. Selles grupis olevaid kasutajaid EI kustutata.",
     "Please confirm the group removal " : "Palun kinnita grupi eemaldamine",

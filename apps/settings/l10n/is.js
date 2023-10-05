@@ -192,6 +192,7 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Þetta er lokaaðvörun: Viltu örugglega virkja dulritun?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Engin dulritunareining hlaðin inn, virkjaðu dulritunareiningu í valmynd forritsins.",
     "Select default encryption module:" : "Veldu sjálfgefna dulritunareiningu:",
+    "Submit" : "Senda inn",
     "Remove group" : "Fjarlægja hóp",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Þú er í þann mund að fara að fjarlægja hópinn {group}. Notendunum verður EKKI eytt.",
     "Please confirm the group removal " : "Staðfestu fjarlægingu hópsins",

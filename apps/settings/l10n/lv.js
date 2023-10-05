@@ -99,6 +99,7 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Šis ir pēdējais brīdinājums: vai tiešām vēlaties iespējot šifrēšanu?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Nav ielādēts šifrēšanas moduļis, lūdzu, aktivizējiet šifrēšanas moduli lietotņu izvēlnē.",
     "Select default encryption module:" : "Atlasiet noklusēto šifrēšanas moduli:",
+    "Submit" : "Iesniegt",
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
