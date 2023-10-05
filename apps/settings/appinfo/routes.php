@@ -36,7 +36,6 @@ return [
 		['name' => 'AuthorizedGroup#destroy', 'url' => '/settings/authorizedgroups', 'verb' => 'DELETE'],
 
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'ClientDiagnostics#update', 'url' => '/settings/diagnostics', 'verb' => 'PUT' , 'root' => ''],
 		['name' => 'AccountWarnings#getAll', 'url' => '/settings/accountwarnings', 'verb' => 'GET' , 'root' => ''],
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],
@@ -86,5 +85,8 @@ return [
 		['name' => 'WebAuthn#deleteRegistration', 'url' => '/settings/api/personal/webauthn/registration/{id}', 'verb' => 'DELETE' , 'root' => ''],
 
 		['name' => 'Reasons#getPdf', 'url' => '/settings/download/reasons', 'verb' => 'GET', 'root' => ''],
-	]
+	],
+	'ocs' => [
+		['name' => 'ClientDiagnostics#update', 'url' => '/diagnostics', 'verb' => 'PUT' ],
+	],
 ];
