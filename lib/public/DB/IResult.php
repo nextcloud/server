@@ -129,7 +129,7 @@ interface IResult {
 	public function fetchOne();
 
 	/**
-	 * Returns an array containing all of the result rows represented as numeric arrays
+	 * Returns an array containing the values of the first column of the result
 	 *
 	 * @return list<mixed>
 	 * @throws Exception
