@@ -131,10 +131,10 @@ interface IResult {
 	/**
 	 * Returns an array containing all of the result rows represented as numeric arrays
 	 *
-	 * @return list<list<mixed>>
+	 * @return list<mixed>
 	 * @throws Exception
 	 *
-	 * @since 21.0.0
+	 * @since 28.0.0
 	 */
 	public function fetchFirstColumn(): array;
 
