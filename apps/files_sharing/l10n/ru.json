@@ -225,6 +225,7 @@
     "_Reject share_::_Reject shares_" : ["Отклонить общий ресурс","Отклонить общие ресурсы","Отклонить общие ресурсы","Отклонить общие ресурсы"],
     "_Restore share_::_Restore shares_" : ["Восстановить общий ресурс","Восстановить общие ресурсы","Восстановить общие ресурсы","Восстановить общие ресурсы"],
     "Shared" : "Опубликованное",
+    "Shared by {ownerDisplayName}" : "Доступно пользователю {ownerDisplayName}",
     "Link to a file" : "Ссылка на файл",
     "Error creating the share: {errorMessage}" : "Не удалось создать общий ресурс: {errorMessage}",
     "Error creating the share" : "Ошибка создания общего доступа",

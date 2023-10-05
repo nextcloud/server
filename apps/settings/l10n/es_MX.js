@@ -157,6 +157,7 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Esta es la advertencia final: ¿Realmente deseas habilitar la encripción?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "No se ha cargado un módulo de encripción, por favor habilita un módulo de encripción en el menú de la aplicación. ",
     "Select default encryption module:" : "Selecciona el modulo de encripción predeterminado:",
+    "Submit" : "Enviar",
     "Remove group" : "Eliminar grupo",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Estás a punto de eliminar el grupo {group}. Los usuarios NO serán borrados.",
     "Please confirm the group removal " : "Por favor confirma la eliminación del grupo",
