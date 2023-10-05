@@ -138,8 +138,8 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
-			'--color-text-light' => $colorMainText,
-			'--color-text-lighter' => $this->util->lighten($colorMainText, 30),
+			'--color-text-light' => 'var(--color-main-text)', // deprecated
+			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 

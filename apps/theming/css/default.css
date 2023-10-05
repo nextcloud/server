@@ -14,8 +14,10 @@
   --color-text-maxcontrast: #707070;
   --color-text-maxcontrast-default: #707070;
   --color-text-maxcontrast-background-blur: #5e5e5e;
-  --color-text-light: #222222;
-  --color-text-lighter: #6f6f6f;
+  /** @deprecated use ` --color-main-text` instead */
+  --color-text-light: var(--color-main-text);
+  /** @deprecated use `--color-text-maxcontrast` instead */
+  --color-text-lighter: var(--color-text-maxcontrast);
   --color-scrollbar: rgba(34,34,34, .15);
   --color-error: #d91812;
   --color-error-rgb: 217,24,18;
