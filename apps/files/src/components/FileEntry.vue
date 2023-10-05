@@ -261,7 +261,7 @@ export default Vue.extend({
 			if (typeof size !== 'number' || size < 0) {
 				return this.t('files', 'Pending')
 			}
-			return formatFileSize(size, true)
+			return formatFileSize(size, true, true).replace('iB', 'B')
 		},
 		sizeOpacity() {
 			const size = parseInt(this.source.size, 10) || 0

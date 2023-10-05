@@ -127,11 +127,11 @@ export default Vue.extend({
 		totalSize() {
 			// If we have the size already, let's use it
 			if (this.currentFolder?.size) {
-				return formatFileSize(this.currentFolder.size, true)
+				return formatFileSize(this.currentFolder.size, true, true).replace('iB', 'B')
 			}
 
 			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true)
+			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true, true).replace('iB', 'B')
 		},
 	},
 
