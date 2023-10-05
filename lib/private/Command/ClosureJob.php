@@ -26,8 +26,8 @@ use OC\BackgroundJob\QueuedJob;
 use Laravel\SerializableClosure\SerializableClosure as LaravelClosure;
 
 class ClosureJob extends QueuedJob {
-	protected function run($serializedCallable) {
-		$callable = unserialize($serializedCallable, [LaravelClosure::class]);
+	protected function run($argument) {
+		$callable = unserialize($argument, [LaravelClosure::class]);
 		$callable = $callable->getClosure();
 		if (is_callable($callable)) {
 			$callable();

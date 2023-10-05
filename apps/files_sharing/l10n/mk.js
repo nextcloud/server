@@ -200,7 +200,9 @@ OC.L10N.register(
     "Expiration date" : "Рок на траење",
     "Hide download" : "Сокриј преземање",
     "Video verification" : "Верификација со видео",
+    "Allow download" : "Дозволи преземање",
     "Note to recipient" : "Белешка до примачот",
+    "Enter a note for the share recipient" : "Внесете белешка до примачот на споделуваето",
     "Create" : "Креирај",
     "Update" : "Ажурирај",
     "Share" : "Сподели",
@@ -296,9 +298,7 @@ OC.L10N.register(
     "Allow deleting" : "Дозволи бришење",
     "Allow resharing" : "Дозволи повторно споделување",
     "Expiration date enforced" : "Задолжителен рок на траење",
-    "Allow download" : "Дозволи преземање",
     "Password protect" : "Заштити со лозинка",
-    "Enter a note for the share recipient" : "Внесете белешка до примачот на споделуваето",
     "Error generating password from password_policy" : "Грешка при генерирање на лозинка од политиката на лозинки"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

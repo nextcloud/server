@@ -1421,9 +1421,7 @@ class Access extends LDAPUtility {
 			$asterisk = '*';
 			$input = mb_substr($input, 1, null, 'UTF-8');
 		}
-		$search = ['*', '\\', '(', ')'];
-		$replace = ['\\*', '\\\\', '\\(', '\\)'];
-		return $asterisk . str_replace($search, $replace, $input);
+		return $asterisk . ldap_escape($input, '', LDAP_ESCAPE_FILTER);
 	}
 
 	/**
@@ -1746,7 +1744,7 @@ class Access extends LDAPUtility {
 		$uuid = false;
 		if ($this->detectUuidAttribute($dn, $isUser, false, $ldapRecord)) {
 			$attr = $this->connection->$uuidAttr;
-			$uuid = isset($ldapRecord[$attr]) ? $ldapRecord[$attr] : $this->readAttribute($dn, $attr);
+			$uuid = $ldapRecord[$attr] ?? $this->readAttribute($dn, $attr);
 			if (!is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true, $ldapRecord)) {

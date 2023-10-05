@@ -60,7 +60,7 @@ class SyncFederationAddressBooks {
 			$syncToken = $trustedServer['sync_token'];
 
 			$endPoints = $this->ocsDiscoveryService->discover($url, 'FEDERATED_SHARING');
-			$cardDavUser = isset($endPoints['carddav-user']) ? $endPoints['carddav-user'] : 'system';
+			$cardDavUser = $endPoints['carddav-user'] ?? 'system';
 			$addressBookUrl = isset($endPoints['system-address-book']) ? trim($endPoints['system-address-book'], '/') : 'remote.php/dav/addressbooks/system/system/system';
 
 			if (is_null($sharedSecret)) {

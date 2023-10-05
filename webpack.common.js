@@ -109,7 +109,6 @@ module.exports = {
 				exclude: BabelLoaderExcludeNodeModulesExcept([
 					'@nextcloud/dialogs',
 					'@nextcloud/event-bus',
-					'@nextcloud/vue-dashboard',
 					'davclient.js',
 					'nextcloud-vue-collections',
 					'p-finally',

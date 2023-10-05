@@ -198,7 +198,9 @@ OC.L10N.register(
     "Expiration date" : "Utløpsdato",
     "Hide download" : "Gjem nedlasting",
     "Video verification" : "Videobekreftelse",
+    "Allow download" : "Tillat nedlasting",
     "Note to recipient" : "Melding til mottaker",
+    "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
     "Create" : "Opprett",
     "Update" : "Oppdater",
     "Share" : "Del",
@@ -273,9 +275,7 @@ OC.L10N.register(
     "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
     "Expiration date enforced" : "Utløpsdato er påkrevd",
-    "Allow download" : "Tillat nedlasting",
     "Password protect" : "Passordbeskyttelse",
-    "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
     "Error generating password from password_policy" : "Feil under generering av passord fra passordregler"
 },
 "nplurals=2; plural=(n != 1);");

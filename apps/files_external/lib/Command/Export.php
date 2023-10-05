@@ -54,6 +54,6 @@ class Export extends ListCommand {
 		$listInput->setOption('show-password', true);
 		$listInput->setOption('full', true);
 		$listCommand->execute($listInput, $output);
-		return 0;
+		return self::SUCCESS;
 	}
 }

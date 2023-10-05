@@ -124,7 +124,12 @@ namespace OCA\Core;
  *     label: string,
  *     icon: string,
  *     source: string,
- *     status: string,
+ *     status: array{
+ *       status: string,
+ *       message: ?string,
+ *       icon: ?string,
+ *       clearAt: ?int,
+ *     }|string,
  *     subline: string,
  *     shareWithDisplayNameUnique: string,
  * }

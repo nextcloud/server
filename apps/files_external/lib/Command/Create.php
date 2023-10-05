@@ -42,26 +42,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class Create extends Base {
-	private GlobalStoragesService $globalService;
-	private UserStoragesService $userService;
-	private IUserManager $userManager;
-	private BackendService $backendService;
-	private IUserSession $userSession;
-
-	public function __construct(GlobalStoragesService $globalService,
-						 UserStoragesService $userService,
-						 IUserManager $userManager,
-						 IUserSession $userSession,
-						 BackendService $backendService
+	public function __construct(
+		private GlobalStoragesService $globalService,
+		private UserStoragesService $userService,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private BackendService $backendService,
 	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userService = $userService;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->backendService = $backendService;
 	}
 
 	protected function configure(): void {
@@ -116,32 +107,32 @@ class Create extends Base {
 
 		if (!Filesystem::isValidPath($mountPoint)) {
 			$output->writeln('<error>Invalid mountpoint "' . $mountPoint . '"</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		if (is_null($storageBackend)) {
 			$output->writeln('<error>Storage backend with identifier "' . $storageIdentifier . '" not found (see `occ files_external:backends` for possible values)</error>');
-			return 404;
+			return Response::HTTP_NOT_FOUND;
 		}
 		if (is_null($authBackend)) {
 			$output->writeln('<error>Authentication backend with identifier "' . $authIdentifier . '" not found (see `occ files_external:backends` for possible values)</error>');
-			return 404;
+			return Response::HTTP_NOT_FOUND;
 		}
 		$supportedSchemes = array_keys($storageBackend->getAuthSchemes());
 		if (!in_array($authBackend->getScheme(), $supportedSchemes)) {
 			$output->writeln('<error>Authentication backend "' . $authIdentifier . '" not valid for storage backend "' . $storageIdentifier . '" (see `occ files_external:backends storage ' . $storageIdentifier . '` for possible values)</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$config = [];
 		foreach ($configInput as $configOption) {
 			if (!str_contains($configOption, '=')) {
 				$output->writeln('<error>Invalid mount configuration option "' . $configOption . '"</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			[$key, $value] = explode('=', $configOption, 2);
 			if (!$this->validateParam($key, $value, $storageBackend, $authBackend)) {
 				$output->writeln('<error>Unknown configuration for backends "' . $key . '"</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$config[$key] = $value;
 		}
@@ -155,7 +146,7 @@ class Create extends Base {
 		if ($user) {
 			if (!$this->userManager->userExists($user)) {
 				$output->writeln('<error>User "' . $user . '" not found</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$mount->setApplicableUsers([$user]);
 		}
@@ -170,7 +161,7 @@ class Create extends Base {
 				$output->writeln((string)$mount->getId());
 			}
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
 	private function validateParam(string $key, &$value, Backend $storageBackend, AuthMechanism $authBackend): bool {
@@ -196,15 +187,15 @@ class Create extends Base {
 	}
 
 	protected function getStorageService(string $userId): StoragesService {
-		if (!empty($userId)) {
-			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
-				throw new NoUserException("user $userId not found");
-			}
-			$this->userSession->setUser($user);
-			return $this->userService;
-		} else {
+		if (empty($userId)) {
 			return $this->globalService;
 		}
+
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
+			throw new NoUserException("user $userId not found");
+		}
+		$this->userSession->setUser($user);
+		return $this->userService;
 	}
 }

@@ -109,6 +109,7 @@ OC.L10N.register(
     "Share link" : "Share link",
     "View only" : "Visualizar apenas",
     "Can edit" : "Pode editar",
+    "File drop" : "File drop",
     "No recommendations. Start typing." : "Nenhuma recomendação. Comece a escrever ",
     "Resharing is not allowed" : "Voltar a partilhar não é permitido",
     "Searching …" : "À procura …",

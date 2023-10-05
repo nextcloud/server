@@ -165,6 +165,7 @@ OC.L10N.register(
     "Share link ({label})" : "Odkaz na zdieľanie ({label})",
     "Share link" : "Sprístupniť odkaz",
     "Error, please enter proper password and/or expiration date" : "Chyba, zadajte správne heslo a/alebo dátum ukončenia platnosti",
+    "Link share created" : "Odkaz na zdieľanie vytvorený",
     "Error while creating the share" : "Chyba pri vytváraní zdieľania",
     "View only" : "Iba pre čítanie",
     "Can edit" : "Môže upravovať",
@@ -193,7 +194,9 @@ OC.L10N.register(
     "Expiration date" : "Dátum vypršania",
     "Hide download" : "Skryť sťahovanie",
     "Video verification" : "Overovanie pomocou videa",
+    "Allow download" : "Povoliť sťahovanie",
     "Note to recipient" : "Poznámka pre príjemcu",
+    "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
     "Create" : "Vytvoriť",
     "Update" : "Aktualizovať",
     "Share" : "Sprístupniť",
@@ -264,8 +267,6 @@ OC.L10N.register(
     "Allow deleting" : "Umožniť mazanie",
     "Allow resharing" : "Povoliť sprístupňovanie ďalej",
     "Expiration date enforced" : "Vynútený dátum ukončenia platnosti",
-    "Allow download" : "Povoliť sťahovanie",
-    "Password protect" : "Chrániť heslom",
-    "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania"
+    "Password protect" : "Chrániť heslom"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

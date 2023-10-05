@@ -71,6 +71,7 @@
     "Where: %s" : "Kde: %s",
     "%1$s via %2$s" : "%1$s cez %2$s",
     "Cancelled: %1$s" : "Zrušené: %1$s",
+    "\"%1$s\" has been canceled" : "\"%1$s\" bolo zrušené",
     "Re: %1$s" : "Re: %1$s",
     "Invitation: %1$s" : "Pozvánka: %1$s",
     "Organizer:" : "Organizátor:",

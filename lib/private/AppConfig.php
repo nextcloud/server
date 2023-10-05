@@ -373,7 +373,7 @@ class AppConfig implements IAppConfig {
 		} else {
 			$appIds = $this->getApps();
 			$values = array_map(function ($appId) use ($key) {
-				return isset($this->cache[$appId][$key]) ? $this->cache[$appId][$key] : null;
+				return $this->cache[$appId][$key] ?? null;
 			}, $appIds);
 			$result = array_combine($appIds, $values);
 

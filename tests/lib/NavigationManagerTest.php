@@ -215,6 +215,10 @@ class NavigationManagerTest extends TestCase {
 			return vsprintf($text, $parameters);
 		});
 
+		/* Return default value */
+		$this->config->method('getUserValue')
+			->willReturnArgument(3);
+
 		$this->appManager->expects($this->any())
 		   ->method('isEnabledForUser')
 		   ->with('theming')
@@ -417,12 +421,82 @@ class NavigationManagerTest extends TestCase {
 			],
 			'no admin' => [
 				$defaults,
-				['navigations' => [[
-					'@attributes' => ['role' => 'admin'],
-					'route' => 'test.page.index',
-					'name' => 'Test'
-				]]]
+				['navigations' => [
+					'navigation' => [
+						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
+					],
+				]],
 			]
 		];
+	}
+
+	public function testWithAppManagerAndApporder() {
+		$l = $this->createMock(IL10N::class);
+		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
+			return vsprintf($text, $parameters);
+		});
+
+		$testOrder = 12;
+		$expected = [
+			'test' => [
+				'type' => 'link',
+				'id' => 'test',
+				'order' => $testOrder,
+				'href' => '/apps/test/',
+				'name' => 'Test',
+				'icon' => '/apps/test/img/app.svg',
+				'active' => false,
+				'classes' => '',
+				'unread' => 0,
+			],
+		];
+		$navigation = ['navigations' => [
+			'navigation' => [
+				['route' => 'test.page.index', 'name' => 'Test']
+			],
+		]];
+
+		$this->config->method('getUserValue')
+			->willReturnCallback(
+				function (string $userId, string $appName, string $key, mixed $default = '') use ($testOrder) {
+					$this->assertEquals('user001', $userId);
+					if ($key === 'apporder') {
+						return json_encode(['test' => [$testOrder]]);
+					}
+					return $default;
+				}
+			);
+
+		$this->appManager->expects($this->any())
+		   ->method('isEnabledForUser')
+		   ->with('theming')
+		   ->willReturn(true);
+		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
+		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
+		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
+			return "/apps/$appName/img/$file";
+		});
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+			if ($route === 'core.login.logout') {
+				return 'https://example.com/logout';
+			}
+			return '/apps/test/';
+		});
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('user001');
+		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
+		$this->appManager->expects($this->any())
+			 ->method('getEnabledAppsForUser')
+			 ->with($user)
+			 ->willReturn(['test']);
+		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(false);
+		$subadmin = $this->createMock(SubAdmin::class);
+		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
+		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
+
+		$this->navigationManager->clear();
+		$entries = $this->navigationManager->getAll();
+		$this->assertEquals($expected, $entries);
 	}
 }

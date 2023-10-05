@@ -249,7 +249,7 @@ OC.L10N.register(
     "Copy" : "コピー",
     "Could not copy app password. Please copy it manually." : "アプリのパスワードをコピーできませんでした。 手動でコピーしてください。",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "サーバーが正しく動作するには、バックグラウンドジョブを正確に設定することが重要です。大規模なインスタンスでは、Cronがお薦めの設定です。詳細な情報は、ドキュメントを参照してください。",
-    "Last job execution ran {time}. Something seems wrong." : "最終ジョブ実行は %s です。何か問題が発生しています。",
+    "Last job execution ran {time}. Something seems wrong." : "最終ジョブ実行は {time} です。何か問題が発生しています。",
     "Last job ran {relativeTime}." : "最終ジョブ実行は {relativeTime} です。",
     "Background job did not run yet!" : "バックグラウンドジョブはまだ実行されていません！",
     "AJAX" : "Ajax",

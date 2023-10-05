@@ -33,13 +33,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Backends extends Base {
-	private BackendService $backendService;
-
-	public function __construct(BackendService $backendService
+	public function __construct(
+		private BackendService $backendService,
 	) {
 		parent::__construct();
-
-		$this->backendService = $backendService;
 	}
 
 	protected function configure(): void {
@@ -72,24 +69,24 @@ class Backends extends Base {
 		if ($type) {
 			if (!isset($data[$type])) {
 				$output->writeln('<error>Invalid type "' . $type . '". Possible values are "authentication" or "storage"</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$data = $data[$type];
 
 			if ($backend) {
 				if (!isset($data[$backend])) {
 					$output->writeln('<error>Unknown backend "' . $backend . '" of type  "' . $type . '"</error>');
-					return 1;
+					return self::FAILURE;
 				}
 				$data = $data[$backend];
 			}
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $data);
-		return 0;
+		return self::SUCCESS;
 	}
 
-	private function serializeAuthBackend(\JsonSerializable $backend) {
+	private function serializeAuthBackend(\JsonSerializable $backend): array {
 		$data = $backend->jsonSerialize();
 		$result = [
 			'name' => $data['name'],
@@ -112,7 +109,7 @@ class Backends extends Base {
 	 * @param DefinitionParameter[] $parameters
 	 * @return string[]
 	 */
-	private function formatConfiguration(array $parameters) {
+	private function formatConfiguration(array $parameters): array {
 		$configuration = array_filter($parameters, function (DefinitionParameter $parameter) {
 			return $parameter->getType() !== DefinitionParameter::VALUE_HIDDEN;
 		});

@@ -93,7 +93,7 @@ class SqliteAutoincrement implements IRepairStep {
 
 		$this->connection->beginTransaction();
 		foreach ($schemaDiff->toSql($this->connection->getDatabasePlatform()) as $sql) {
-			$this->connection->query($sql);
+			$this->connection->executeQuery($sql);
 		}
 		$this->connection->commit();
 	}
