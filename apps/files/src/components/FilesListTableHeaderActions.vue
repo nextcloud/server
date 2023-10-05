@@ -33,7 +33,7 @@
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
-					<CustomSvgIconRender v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
 				</template>
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
@@ -47,6 +47,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Vue from 'vue'
 
@@ -54,7 +55,6 @@ import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
 
 // The registered actions list
@@ -64,9 +64,9 @@ export default Vue.extend({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
-		CustomSvgIconRender,
 		NcActions,
 		NcActionButton,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
 
