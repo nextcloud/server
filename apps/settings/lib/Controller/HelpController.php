@@ -79,32 +79,19 @@ class HelpController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
-	public function help(string $mode = 'user'): TemplateResponse {
+	public function help(): TemplateResponse {
 		$this->navigationManager->setActiveEntry('help');
-		$pageTitle = $this->l10n->t('Administrator documentation');
-		if ($mode !== 'admin') {
-			$pageTitle = $this->l10n->t('User documentation');
-			$mode = 'user';
-		}
+		$pageTitle = $this->l10n->t('Nextcloud help overview');
 
-		$documentationUrl = $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->linkTo('', 'core/doc/' . $mode . '/index.html')
-		);
-
-		$urlUserDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'user']);
-		$urlAdminDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'admin']);
+		$urlUserDocs = $this->urlGenerator->linkToDocs('user');
+		$urlAdminDocs = $this->urlGenerator->linkToDocs('admin');
 
 		$response = new TemplateResponse('settings', 'help', [
 			'admin' => $this->groupManager->isAdmin($this->userId),
-			'url' => $documentationUrl,
 			'urlUserDocs' => $urlUserDocs,
 			'urlAdminDocs' => $urlAdminDocs,
-			'mode' => $mode,
 			'pageTitle' => $pageTitle,
 		]);
-		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedFrameDomain('\'self\'');
-		$response->setContentSecurityPolicy($policy);
 		return $response;
 	}
 }

@@ -1,16 +1,32 @@
-.help-includes {
-	overflow: hidden !important;
-}
-
 .help-list__text {
 	margin-left: 24px;
 }
 
-.help-iframe {
-	width: 100%;
+.help-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 100%;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	overflow: auto;
+	width: 100%;
+}
+
+.help-content__heading {
+	text-align: center;
+	padding: 20px;
+}
+
+.help-content {
+	display: block;
+	padding: 20px;
+}
+
+.help-content__body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.help-content__body > .button {
+	margin: 20px;
 }
