@@ -1,5 +1,8 @@
 <?php
+
+declare(strict_types=1);
 /**
+ * @copyright Copyright (c) 2023, Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -29,176 +32,114 @@
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
-use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Table;
 
 class OracleMigrator extends Migrator {
-	/**
-	 * Quote a column's name but changing the name requires recreating
-	 * the column instance and copying over all properties.
-	 *
-	 * @param Column $column old column
-	 * @return Column new column instance with new name
-	 */
-	protected function quoteColumn(Column $column) {
-		$newColumn = new Column(
-			$this->connection->quoteIdentifier($column->getName()),
-			$column->getType()
-		);
-		$newColumn->setAutoincrement($column->getAutoincrement());
-		$newColumn->setColumnDefinition($column->getColumnDefinition());
-		$newColumn->setComment($column->getComment());
-		$newColumn->setDefault($column->getDefault());
-		$newColumn->setFixed($column->getFixed());
-		$newColumn->setLength($column->getLength());
-		$newColumn->setNotnull($column->getNotnull());
-		$newColumn->setPrecision($column->getPrecision());
-		$newColumn->setScale($column->getScale());
-		$newColumn->setUnsigned($column->getUnsigned());
-		$newColumn->setPlatformOptions($column->getPlatformOptions());
-		$newColumn->setCustomSchemaOptions($column->getPlatformOptions());
-		return $newColumn;
-	}
-
-	/**
-	 * Quote an index's name but changing the name requires recreating
-	 * the index instance and copying over all properties.
-	 *
-	 * @param Index $index old index
-	 * @return Index new index instance with new name
-	 */
-	protected function quoteIndex($index) {
-		return new Index(
-			//TODO migrate existing uppercase indexes, then $this->connection->quoteIdentifier($index->getName()),
-			$index->getName(),
-			array_map(function ($columnName) {
-				return $this->connection->quoteIdentifier($columnName);
-			}, $index->getColumns()),
-			$index->isUnique(),
-			$index->isPrimary(),
-			$index->getFlags(),
-			$index->getOptions()
-		);
-	}
-
-	/**
-	 * Quote an ForeignKeyConstraint's name but changing the name requires recreating
-	 * the ForeignKeyConstraint instance and copying over all properties.
-	 *
-	 * @param ForeignKeyConstraint $fkc old fkc
-	 * @return ForeignKeyConstraint new fkc instance with new name
-	 */
-	protected function quoteForeignKeyConstraint($fkc) {
-		return new ForeignKeyConstraint(
-			array_map(function ($columnName) {
-				return $this->connection->quoteIdentifier($columnName);
-			}, $fkc->getLocalColumns()),
-			$this->connection->quoteIdentifier($fkc->getForeignTableName()),
-			array_map(function ($columnName) {
-				return $this->connection->quoteIdentifier($columnName);
-			}, $fkc->getForeignColumns()),
-			$fkc->getName(),
-			$fkc->getOptions()
-		);
-	}
-
 	/**
 	 * @param Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
 	 * @throws Exception
 	 */
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
-		$schemaDiff = parent::getDiff($targetSchema, $connection);
-
+	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection): \Doctrine\DBAL\Schema\SchemaDiff {
 		// oracle forces us to quote the identifiers
-		$schemaDiff->newTables = array_map(function (Table $table) {
-			return new Table(
+		$quotedSchema = new Schema();
+		foreach ($targetSchema->getTables() as $table) {
+			$quotedTable = $quotedSchema->createTable(
 				$this->connection->quoteIdentifier($table->getName()),
-				array_map(function (Column $column) {
-					return $this->quoteColumn($column);
-				}, $table->getColumns()),
-				array_map(function (Index $index) {
-					return $this->quoteIndex($index);
-				}, $table->getIndexes()),
-				[],
-				array_map(function (ForeignKeyConstraint $fck) {
-					return $this->quoteForeignKeyConstraint($fck);
-				}, $table->getForeignKeys()),
-				$table->getOptions()
 			);
-		}, $schemaDiff->newTables);
 
-		$schemaDiff->removedTables = array_map(function (Table $table) {
-			return new Table(
-				$this->connection->quoteIdentifier($table->getName()),
-				$table->getColumns(),
-				$table->getIndexes(),
-				[],
-				$table->getForeignKeys(),
-				$table->getOptions()
-			);
-		}, $schemaDiff->removedTables);
-
-		foreach ($schemaDiff->changedTables as $tableDiff) {
-			$tableDiff->name = $this->connection->quoteIdentifier($tableDiff->name);
-
-			$tableDiff->addedColumns = array_map(function (Column $column) {
-				return $this->quoteColumn($column);
-			}, $tableDiff->addedColumns);
-
-			foreach ($tableDiff->changedColumns as $column) {
-				$column->oldColumnName = $this->connection->quoteIdentifier($column->oldColumnName);
-				// auto increment is not relevant for oracle and can anyhow not be applied on change
-				$column->changedProperties = array_diff($column->changedProperties, ['autoincrement', 'unsigned']);
+			foreach ($table->getColumns() as $column) {
+				$newColumn = $quotedTable->addColumn(
+					$this->connection->quoteIdentifier($column->getName()),
+					$column->getType()->getTypeRegistry()->lookupName($column->getType()),
+				);
+				$newColumn->setAutoincrement($column->getAutoincrement());
+				$newColumn->setColumnDefinition($column->getColumnDefinition());
+				$newColumn->setComment($column->getComment());
+				$newColumn->setDefault($column->getDefault());
+				$newColumn->setFixed($column->getFixed());
+				$newColumn->setLength($column->getLength());
+				$newColumn->setNotnull($column->getNotnull());
+				$newColumn->setPrecision($column->getPrecision());
+				$newColumn->setScale($column->getScale());
+				$newColumn->setUnsigned($column->getUnsigned());
+				$newColumn->setPlatformOptions($column->getPlatformOptions());
 			}
-			// remove columns that no longer have changed (because autoincrement and unsigned are not supported)
-			$tableDiff->changedColumns = array_filter($tableDiff->changedColumns, function (ColumnDiff $column) {
-				return count($column->changedProperties) > 0;
-			});
 
-			$tableDiff->removedColumns = array_map(function (Column $column) {
-				return $this->quoteColumn($column);
-			}, $tableDiff->removedColumns);
+			foreach ($table->getIndexes() as $index) {
+				if ($index->isPrimary()) {
+					$quotedTable->setPrimaryKey(
+						array_map(function ($columnName) {
+							return $this->connection->quoteIdentifier($columnName);
+						}, $index->getColumns()),
+						//TODO migrate existing uppercase indexes, then $this->connection->quoteIdentifier($index->getName()),
+						$index->getName(),
+					);
+				} elseif ($index->isUnique()) {
+					$quotedTable->addUniqueIndex(
+						array_map(function ($columnName) {
+							return $this->connection->quoteIdentifier($columnName);
+						}, $index->getColumns()),
+						//TODO migrate existing uppercase indexes, then $this->connection->quoteIdentifier($index->getName()),
+						$index->getName(),
+						$index->getOptions(),
+					);
+				} else {
+					$quotedTable->addIndex(
+						array_map(function ($columnName) {
+							return $this->connection->quoteIdentifier($columnName);
+						}, $index->getColumns()),
+						//TODO migrate existing uppercase indexes, then $this->connection->quoteIdentifier($index->getName()),
+						$index->getName(),
+						$index->getFlags(),
+						$index->getOptions(),
+					);
+				}
+			}
 
-			$tableDiff->renamedColumns = array_map(function (Column $column) {
-				return $this->quoteColumn($column);
-			}, $tableDiff->renamedColumns);
+			foreach ($table->getUniqueConstraints() as $constraint) {
+				$quotedTable->addUniqueConstraint(
+					array_map(function ($columnName) {
+						return $this->connection->quoteIdentifier($columnName);
+					}, $constraint->getColumns()),
+					$this->connection->quoteIdentifier($constraint->getName()),
+					$constraint->getFlags(),
+					$constraint->getOptions(),
+				);
+			}
 
-			$tableDiff->addedIndexes = array_map(function (Index $index) {
-				return $this->quoteIndex($index);
-			}, $tableDiff->addedIndexes);
+			foreach ($table->getForeignKeys() as $foreignKey) {
+				$quotedTable->addForeignKeyConstraint(
+					$this->connection->quoteIdentifier($foreignKey->getForeignTableName()),
+					array_map(function ($columnName) {
+						return $this->connection->quoteIdentifier($columnName);
+					}, $foreignKey->getLocalColumns()),
+					array_map(function ($columnName) {
+						return $this->connection->quoteIdentifier($columnName);
+					}, $foreignKey->getForeignColumns()),
+					$foreignKey->getOptions(),
+					$this->connection->quoteIdentifier($foreignKey->getName()),
+				);
+			}
 
-			$tableDiff->changedIndexes = array_map(function (Index $index) {
-				return $this->quoteIndex($index);
-			}, $tableDiff->changedIndexes);
-
-			$tableDiff->removedIndexes = array_map(function (Index $index) {
-				return $this->quoteIndex($index);
-			}, $tableDiff->removedIndexes);
-
-			$tableDiff->renamedIndexes = array_map(function (Index $index) {
-				return $this->quoteIndex($index);
-			}, $tableDiff->renamedIndexes);
-
-			$tableDiff->addedForeignKeys = array_map(function (ForeignKeyConstraint $fkc) {
-				return $this->quoteForeignKeyConstraint($fkc);
-			}, $tableDiff->addedForeignKeys);
-
-			$tableDiff->changedForeignKeys = array_map(function (ForeignKeyConstraint $fkc) {
-				return $this->quoteForeignKeyConstraint($fkc);
-			}, $tableDiff->changedForeignKeys);
-
-			$tableDiff->removedForeignKeys = array_map(function (ForeignKeyConstraint $fkc) {
-				return $this->quoteForeignKeyConstraint($fkc);
-			}, $tableDiff->removedForeignKeys);
+			foreach ($table->getOptions() as $option => $value) {
+				$quotedTable->addOption(
+					$option,
+					$value,
+				);
+			}
 		}
 
-		return $schemaDiff;
+		foreach ($targetSchema->getSequences() as $sequence) {
+			$quotedSchema->createSequence(
+				$sequence->getName(),
+				$sequence->getAllocationSize(),
+				$sequence->getInitialValue(),
+			);
+		}
+
+		return parent::getDiff($quotedSchema, $connection);
 	}
 
 	/**
