@@ -4193,6 +4193,7 @@ class UsersControllerTest extends TestCase {
 				$this->equalTo('allow_user_to_change_display_name'),
 				$this->anything()
 			)->willReturn($allowedToChangeDisplayName);
+		
 		$this->config
 			->method('getSystemValue')
 			->with(
