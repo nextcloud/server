@@ -1,13 +1,16 @@
 import * as InitialState from '@nextcloud/initial-state'
 import * as L10n from '@nextcloud/l10n'
-import FolderSvg from '@mdi/svg/svg/folder.svg'
-import ShareSvg from '@mdi/svg/svg/share-variant.svg'
+// eslint-disable-next-line import/no-unresolved
+import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+// eslint-disable-next-line import/no-unresolved
+import ShareSvg from '@mdi/svg/svg/share-variant.svg?raw'
 import { createTestingPinia } from '@pinia/testing'
 
-import NavigationService from '../services/Navigation.ts'
+import NavigationService from '../services/Navigation'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
 import { useViewConfigStore } from '../store/viewConfig'
+import { Folder } from '@nextcloud/files'
 
 describe('Navigation renders', () => {
 	const Navigation = new NavigationService() as NavigationService
@@ -15,7 +18,7 @@ describe('Navigation renders', () => {
 	before(() => {
 		cy.stub(InitialState, 'loadState')
 			.returns({
-				used: 1000 * 1000 * 1000,
+				used: 1024 * 1024 * 1024,
 				quota: -1,
 			})
 	})
@@ -72,7 +75,7 @@ describe('Navigation API', () => {
 		Navigation.register({
 			id: 'sharing',
 			name: 'Sharing',
-			getContents: () => Promise.resolve(),
+			getContents: () => Promise.resolve({ contents: [], folder: new Folder({ owner: 'admin', source: 'source' }) }),
 			icon: ShareSvg,
 			order: 2,
 		})
@@ -99,7 +102,7 @@ describe('Navigation API', () => {
 		Navigation.register({
 			id: 'sharingin',
 			name: 'Shared with me',
-			getContents: () => Promise.resolve(),
+			getContents: () => Promise.resolve({ contents: [], folder: new Folder({ owner: 'admin', source: 'source' }) }),
 			parent: 'sharing',
 			icon: ShareSvg,
 			order: 1,
@@ -146,7 +149,7 @@ describe('Navigation API', () => {
 			Navigation.register({
 				id: 'files',
 				name: 'Files',
-				getContents: () => Promise.resolve(),
+				getContents: () => Promise.resolve({ contents: [], folder: new Folder({ owner: 'admin', source: 'source' }) }),
 				icon: FolderSvg,
 				order: 1,
 			})
@@ -191,7 +194,7 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 1000 * 1000 * 1000,
+				used: 1024 * 1024 * 1024,
 				quota: -1,
 			})
 
@@ -215,8 +218,8 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: 5 * 1000 * 1000 * 1000,
+				used: 1024 * 1024 * 1024,
+				quota: 5 * 1024 * 1024 * 1024,
 				relative: 20, // percent
 			})
 
@@ -241,8 +244,8 @@ describe('Quota rendering', () => {
 		cy.stub(InitialState, 'loadState')
 			.as('loadStateStats')
 			.returns({
-				used: 5 * 1000 * 1000 * 1000,
-				quota: 1000 * 1000 * 1000,
+				used: 5 * 1024 * 1024 * 1024,
+				quota: 1024 * 1024 * 1024,
 				relative: 500, // percent
 			})
 
