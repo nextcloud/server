@@ -4182,10 +4182,11 @@ class UsersControllerTest extends TestCase {
 	 * @dataProvider dataGetEditableFields
 	 *
 	 * @param bool $allowedToChangeDisplayName
+	 * @param bool $allowedToChangeEmailAddress
 	 * @param string $userBackend
 	 * @param array $expected
 	 */
-	public function testGetEditableFields(bool $allowedToChangeDisplayName, string $userBackend, array $expected) {
+	public function testGetEditableFields(bool $allowedToChangeDisplayName,bool $allowedToChangeEmailAddress, string $userBackend, array $expected) {
 		$this->config
 			->method('getSystemValue')
 			->with(
@@ -4197,7 +4198,7 @@ class UsersControllerTest extends TestCase {
 			->with(
 				$this->equalTo('allow_user_to_change_email_address'),
 				$this->anything()
-			)->willReturn($allowedToChangeDisplayName);
+			)->willReturn($allowedToChangeEmailAddress);
 
 		$user = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')

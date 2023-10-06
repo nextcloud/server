@@ -147,7 +147,7 @@ interface IUser {
 	 * check if the backend supports changing email addresses
 	 *
 	 * @return bool
-	 * @since 8.0.0
+	 * @since 28.0.0
 	 */
 	public function canChangeEmailAddress();
 

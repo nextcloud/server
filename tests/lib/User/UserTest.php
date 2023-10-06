@@ -383,7 +383,7 @@ class UserTest extends TestCase {
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
+				if ($actions === \OC\User\Backend::SET_EMAILADDRESS) {
 					return true;
 				} else {
 					return false;
