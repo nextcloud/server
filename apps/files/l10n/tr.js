@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "\"{displayName}\" işlemi tamamlanamadı",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" dosya türüne izin verilmiyor.",
     "{newName} already exists." : "{newName} zaten var.",
+    "\"{char}\" is not allowed inside a file name." : "Dosya adlarında \"{char}\" karakteri kullanılamaz.",
     "Name cannot be empty" : "Ad boş olamaz",
     "Another entry with the same name already exists" : "Aynı adlı bir kayıt zaten var",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" adı \"{newName}\" olarak değiştirildi",

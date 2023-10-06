@@ -180,6 +180,7 @@
     "\"{displayName}\" action failed" : "Действие «{displayName}» завершилось неудачно",
     "\"{name}\" is not an allowed filetype." : "«{name}» не является допустимым типом файла.",
     "{newName} already exists." : "«{newName}» уже существует.",
+    "\"{char}\" is not allowed inside a file name." : "\"{char}\" не допускается внутри имени файла.",
     "Name cannot be empty" : "Имя не может быть пустым",
     "Another entry with the same name already exists" : "Другая запись с таким названием уже существует",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Переименовано «{oldName}» в \"{newName}\"",
