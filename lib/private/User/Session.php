@@ -792,6 +792,8 @@ class Session implements IUserSession, Emitter {
 			$this->logger->error('App token login name does not match', [
 				'tokenLoginName' => $dbToken->getLoginName(),
 				'sessionLoginName' => $user,
+				'app' => 'core',
+				'user' => $dbToken->getUID(),
 			]);
 
 			return false;
