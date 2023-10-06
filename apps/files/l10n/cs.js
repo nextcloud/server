@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "akce „{displayName}“ se nezdařila",
     "\"{name}\" is not an allowed filetype." : "„{name}“ není dovoleným typem souboru.",
     "{newName} already exists." : "{newName} už existuje.",
+    "\"{char}\" is not allowed inside a file name." : "„{char}“ není povolený znak v názvu souboru.",
     "Name cannot be empty" : "Je třeba zadat název",
     "Another entry with the same name already exists" : "Už existuje jiná položka se stejným názevm",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Přejmenováno „{oldName}“ na „{newName}",
