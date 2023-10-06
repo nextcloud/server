@@ -389,6 +389,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 			->with('allow_user_to_change_display_name')
 			->willReturn(false);
+		
+		 $this->config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('allow_user_to_change_email_address')
+			->willReturn(false);
 
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
@@ -645,6 +650,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->method('getDisplayName')->willReturn($oldDisplayName);
 		$user->method('getSystemEMailAddress')->willReturn($oldEmailAddress);
 		$user->method('canChangeDisplayName')->willReturn(true);
+		$user->method('canChangeEmailAddress')->willReturn(true);
 
 		if (strtolower($data[IAccountManager::PROPERTY_EMAIL]['value']) === strtolower($oldEmailAddress ?? '')) {
 			$user->expects($this->never())->method('setSystemEMailAddress');
@@ -787,7 +793,7 @@ class UsersControllerTest extends \Test\TestCase {
 			});
 
 		if ($data[IAccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
-			$user->method('canChangeDisplayName')
+			$user->method('canChangeEmailAddress')
 				->willReturn($canChangeEmail);
 		}
 

@@ -241,6 +241,12 @@ $CONFIG = [
 'allow_user_to_change_display_name' => true,
 
 /**
+ * ``true`` allows users to change their email address (on their Personal
+ * pages), and ``false`` prevents them from changing their email address.
+ */
+'allow_user_to_change_email_address' => true,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.

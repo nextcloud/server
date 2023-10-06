@@ -31,7 +31,7 @@
 			:scope.sync="primaryEmail.scope"
 			@add-additional="onAddAdditionalEmail" />
 
-		<template v-if="displayNameChangeSupported">
+		<template v-if="emailAddressChangeSupported">
 			<Email :primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
@@ -73,7 +73,7 @@ import { validateEmail } from '../../../utils/validate.js'
 import { handleError } from '../../../utils/handlers.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
-const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
+const { emailAddressChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
 	name: 'EmailSection',
@@ -87,7 +87,7 @@ export default {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
-			displayNameChangeSupported,
+			emailAddressChangeSupported,
 			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
 			savePrimaryEmailScope,
 			notificationEmail,

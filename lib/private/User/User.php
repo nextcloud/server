@@ -415,6 +415,18 @@ class User implements IUser {
 	}
 
 	/**
+	 * check if the backend supports changing display names
+	 *
+	 * @return bool
+	 */
+	public function canChangeEmailAddress() {
+		if (!$this->config->getSystemValueBool('allow_user_to_change_email_address', true)) {
+			return false;
+		}
+		return $this->backend->implementsActions(Backend::SET_EMAILADDRESS);
+	}
+
+	/**
 	 * check if the user is enabled
 	 *
 	 * @return bool

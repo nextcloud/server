@@ -422,9 +422,14 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
+		$allowUserToChangeEmailAddress = $this->config->getSystemValueBool('allow_user_to_change_email_address', true);
 		foreach ($updatable as $property => $data) {
 			if ($allowUserToChangeDisplayName === false
-				&& in_array($property, [IAccountManager::PROPERTY_DISPLAYNAME, IAccountManager::PROPERTY_EMAIL], true)) {
+				&& in_array($property, [IAccountManager::PROPERTY_DISPLAYNAME], true)) {
+				continue;
+			}
+			if ($allowUserToChangeEmailAddress === false
+				&& in_array($property, [IAccountManager::PROPERTY_EMAIL], true)) {
 				continue;
 			}
 			$property = $userAccount->getProperty($property);
@@ -497,7 +502,7 @@ class UsersController extends Controller {
 		if ($oldEmailAddress !== strtolower($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue())) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address
-			if (!$userAccount->getUser()->canChangeDisplayName()) {
+			if (!$userAccount->getUser()->canChangeEmailAddress()) {
 				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
 			}
 			$userAccount->getUser()->setSystemEMailAddress($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue());

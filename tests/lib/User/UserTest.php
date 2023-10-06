@@ -374,6 +374,31 @@ class UserTest extends TestCase {
 		$this->assertTrue($user->canChangeDisplayName());
 	}
 
+	public function testCanChangeEmailAddress() {
+		/**
+		 * @var Backend | MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(function ($actions) {
+				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueBool')
+			->with('allow_user_to_change_email_address')
+			->willReturn(true);
+
+		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$this->assertTrue($user->canChangeEmailAddress());
+	}
+
 	public function testCanChangeDisplayNameNotSupported() {
 		/**
 		 * @var Backend | MockObject $backend

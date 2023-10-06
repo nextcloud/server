@@ -144,6 +144,14 @@ interface IUser {
 	public function canChangeDisplayName();
 
 	/**
+	 * check if the backend supports changing email addresses
+	 *
+	 * @return bool
+	 * @since 8.0.0
+	 */
+	public function canChangeEmailAddress();
+
+	/**
 	 * check if the user is enabled
 	 *
 	 * @return bool
