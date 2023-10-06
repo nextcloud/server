@@ -38,6 +38,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
 use ReflectionMethod;
 
@@ -92,7 +93,7 @@ class CORSMiddleware extends Middleware {
 				return;
 			}
 			// Skip CORS check for requests with AppAPI auth.
-			if ($this->session->getSession()->get('app_api') === true) {
+			if ($this->session->getSession() instanceof ISession && $this->session->getSession()->get('app_api') === true) {
 				return;
 			}
 			$this->session->logout();
