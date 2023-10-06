@@ -52,7 +52,7 @@
 		<div class="help-wrapper">
 			<div class="help-content">
 				<h2 class="help-content__heading">
-					<?php p($l->t('Nextcloud help overview')); ?>
+					<?php p($l->t('Nextcloud help resources')); ?>
 				</h2>
 				<div class="help-content__body">
 				<a class="button" target="_blank" rel="noreferrer noopener"
