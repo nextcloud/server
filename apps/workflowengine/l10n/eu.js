@@ -89,7 +89,7 @@ OC.L10N.register(
     "is not" : "ez da",
     "File name" : "Fitxategi-izena",
     "File MIME type" : "Fitxategiaren MIME mota",
-    "File size (upload)" : "Fitxategiaren tamaina (kargatzea)",
+    "File size (upload)" : "Fitxategiaren tamaina (igoera)",
     "less" : "gutxiago",
     "less or equals" : "gutxiago edo berdin",
     "greater or equals" : "handiagoa edo berdina",

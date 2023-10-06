@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "Акција „{displayName}” није успела",
     "\"{name}\" is not an allowed filetype." : "„{name}” није дозвољени тип фајла.",
     "{newName} already exists." : "{newName} већ постоји.",
+    "\"{char}\" is not allowed inside a file name." : "„{char}“ није дозвољен каракетер у имену фајла.",
     "Name cannot be empty" : "Назив не може бити празан",
     "Another entry with the same name already exists" : "Већ постоји ставка са истим именом.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}” је променњено на „{newName}”",

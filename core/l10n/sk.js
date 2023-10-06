@@ -208,7 +208,7 @@ OC.L10N.register(
     "Could not load your contacts" : "Nie je možné načítať Vaše kontakty",
     "No contacts found" : "Kontakty nenájdené",
     "Show all contacts …" : "Zobraziť všetky kontakty...",
-    "Install the Contacts app" : "Inštalovaťa aplikáciu Kontakty",
+    "Install the Contacts app" : "Inštalovať aplikáciu Kontakty",
     "Loading your contacts …" : "Otvárajú sa kontakty...",
     "Looking for {term} …" : "Hľadá sa výraz {term}...",
     "No" : "Nie",
