@@ -57,7 +57,7 @@ interface IResult {
 	 * @return mixed
 	 *
 	 * @since 21.0.0
-	 * @deprecated 28.0.0 use fetchAssociative, fetchNumeric or fetchOne
+	 * @deprecated 28.0.0 use fetchAssociative instead of fetch(), fetchNumeric instead of fetch(\PDO::FETCH_NUM) and fetchOne instead of fetch(\PDO::FETCH_COLUMN)
 	 */
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC);
 
@@ -87,7 +87,7 @@ interface IResult {
 	 * @return mixed[]
 	 *
 	 * @since 21.0.0
-	 * @deprecated 28.0.0 use fetchAllAssociative, fetchAllNumeric or fetchOne
+	 * @deprecated 28.0.0 use fetchAllAssociative instead of fetchAll(), fetchAllNumeric instead of fetchAll(FETCH_NUM) and fetchOne instead of fetchAll(FETCH_COLUMN)
 	 */
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array;
 
