@@ -16,12 +16,12 @@
 * 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
 * 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
-Do you want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
+Do you want to learn more about how you can use Nextcloud to access, share, and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
 
 ## Get your Nextcloud 🚚
 
 - ☑️ [**Simply sign up**](https://nextcloud.com/signup/) at one of our providers either through our website or through the apps directly.
-- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready to use **appliances**
+- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready-to-use **appliances**
 - 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
 - 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
@@ -64,7 +64,7 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 - [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
 - [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
 
-#### Helpful bots at github :robot:
+#### Helpful bots at gitHub :robot:
 
 - Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
 
@@ -82,8 +82,8 @@ changed it substantially:
 @copyright Copyright (c) <year>, <your name> (<your email address>)
 ```
 
-Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
+Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere and to explain how together we can strengthen and support each other.
 
 Please review the [guidelines for contributing](.github/CONTRIBUTING.md) to this repository.
 
-More information how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
+More information on how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
