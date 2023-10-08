@@ -88,7 +88,7 @@ class DnsPinMiddleware {
 					if (isset($dnsResponse['ip'])) {
 						$targetIps[] = $dnsResponse['ip'];
 						$canHaveCnameRecord = false;
-					} elseif (isset($dnsResponse['ipv6'])) {
+					} elseif (isset($dnsResponse['ipv6']) && defined('AF_INET6')) {
 						$targetIps[] = $dnsResponse['ipv6'];
 						$canHaveCnameRecord = false;
 					} elseif (isset($dnsResponse['target']) && $canHaveCnameRecord) {
