@@ -149,7 +149,7 @@ class Imaginary extends ProviderV2 {
 					'timeout' => 120,
 					'connect_timeout' => 3,
 				]);
-		} catch (\Exception $e) {
+		} catch (\GuzzleHttp\Exception\ClientException | \Exception $e) {
 			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);
