@@ -200,7 +200,7 @@ OC.L10N.register(
     "Create" : "Vytvoriť",
     "Update" : "Aktualizovať",
     "Share" : "Sprístupniť",
-    "Others with access" : "Ostatní, ktorí majú prístup",
+    "Others with access" : "Ďalší, ktorí majú prístup",
     "No other users with access found" : "Neboli nájdení ďalší používatelia s prístupom",
     "Toggle list of others with access to this directory" : "Vypnutie/zapnutie zoznamu ostatných s prístupom k tomuto priečinku",
     "Toggle list of others with access to this file" : "Vypnutie/zapnutie zoznamu ostatných s prístupom k tomuto súboru",

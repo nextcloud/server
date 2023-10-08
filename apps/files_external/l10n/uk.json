@@ -131,7 +131,7 @@
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
     "Empty response from the server" : "Отримано порожню відповідь від сервера",
-    "Couldn't access. Please log out and in again to activate this mount point" : "Не вдалося отримати доступ. Будь ласка, вийдіть із системи та знову ввійдіть, щоб активувати цю точку монтування",
+    "Couldn't access. Please log out and in again to activate this mount point" : "Не вдалося отримати доступ. Будь ласка, вийдіть із системи та знову увійдіть, щоб активувати цю точку монтування",
     "Couldn't get the information from the remote server: {code} {type}" : "Не вдалося отримати інформацію з віддаленого сервера: {код} {тип}",
     "Couldn't get the list of external mount points: {type}" : "Не вдалося отримати список зовнішніх точок підключення: {type}",
     "There was an error with message: " : "Сповіщення про помилку:",

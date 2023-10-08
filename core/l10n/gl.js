@@ -417,7 +417,7 @@ OC.L10N.register(
     "Modified" : "Modificado",
     "\"{name}\" is an invalid file name." : "«{name}» é un nome incorrecto de ficheiro.",
     "File name cannot be empty." : "O nome de ficheiro non pode estar baleiro",
-    "\"/\" is not allowed inside a file name." : "«/» non está permitido nun nome de ficheiro",
+    "\"/\" is not allowed inside a file name." : "«/» non está permitido nun nome de ficheiro.",
     "\"{name}\" is not an allowed filetype" : "«{name}» non é un tipo de ficheiro permitido",
     "{newName} already exists" : "Xa existe {newName}",
     "Error loading file picker template: {error}" : "Produciuse un erro ao cargar o modelo do selector: {error}",
