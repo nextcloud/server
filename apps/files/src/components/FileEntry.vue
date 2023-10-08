@@ -508,7 +508,7 @@ export default Vue.extend({
 
 			try {
 				const previewUrl = this.source.attributes.previewUrl
-					|| generateUrl('/core/preview?fileid={fileid}', {
+					|| generateUrl('/core/preview?fileId={fileid}', {
 						fileid: this.fileid,
 					})
 				const url = new URL(window.location.origin + previewUrl)
