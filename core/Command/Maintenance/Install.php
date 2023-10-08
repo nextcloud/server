@@ -30,6 +30,9 @@
  */
 namespace OC\Core\Command\Maintenance;
 
+require_once __DIR__ . '/../../../lib/base.php';
+
+use OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use InvalidArgumentException;
 use OC\Installer;
@@ -111,6 +114,26 @@ class Install extends Command {
 		return 0;
 	}
 
+	protected function getOption(InputInterface $input, string $name) {
+		$option_mapping = [
+			'database' => 'dbtype',
+			'database-user' => 'dbuser',
+			'database-pass' => 'dbpassword',
+			'database-name' => 'dbname',
+			'database-host' => 'dbhost',
+			'admin-user' => 'adminlogin',
+			'admin-pass' => 'adminpass',
+			'admin-email' => 'adminemail',
+			'data-dir' => 'datadirectory',
+		];
+		$option = $input->getOption($name);
+		if (is_null($option)) {
+			return OC::$config->getValue($option_mapping[$name]);
+		} else {
+			return $option;
+		}
+	}
+
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
@@ -118,33 +141,33 @@ class Install extends Command {
 	 * @return array
 	 */
 	protected function validateInput(InputInterface $input, OutputInterface $output, $supportedDatabases) {
-		$db = strtolower($input->getOption('database'));
+		$db = strtolower($this->getOption($input, 'database'));
 
 		if (!in_array($db, $supportedDatabases)) {
 			throw new InvalidArgumentException("Database <$db> is not supported. " . implode(", ", $supportedDatabases) . " are supported.");
 		}
 
-		$dbUser = $input->getOption('database-user');
-		$dbPass = $input->getOption('database-pass');
-		$dbName = $input->getOption('database-name');
-		$dbPort = $input->getOption('database-port');
+		$dbUser = $this->getOption($input, 'database-user');
+		$dbPass = $this->getOption($input, 'database-pass');
+		$dbName = $this->getOption($input, 'database-name');
+		$dbPort = $this->getOption($input, 'database-port');
 		if ($db === 'oci') {
 			// an empty hostname needs to be read from the raw parameters
 			$dbHost = $input->getParameterOption('--database-host', '');
 		} else {
-			$dbHost = $input->getOption('database-host');
+			$dbHost = $this->getOption($input, 'database-host');
 		}
 		if ($dbPort) {
 			// Append the port to the host so it is the same as in the config (there is no dbport config)
 			$dbHost .= ':' . $dbPort;
 		}
 		if ($input->hasParameterOption('--database-pass')) {
-			$dbPass = (string) $input->getOption('database-pass');
+			$dbPass = (string) $this->getOption($input, 'database-pass');
 		}
-		$adminLogin = $input->getOption('admin-user');
-		$adminPassword = $input->getOption('admin-pass');
-		$adminEmail = $input->getOption('admin-email');
-		$dataDir = $input->getOption('data-dir');
+		$adminLogin = $this->getOption($input, 'admin-user');
+		$adminPassword = $this->getOption($input, 'admin-pass');
+		$adminEmail = $this->getOption($input, 'admin-email');
+		$dataDir = $this->getOption($input, 'data-dir');
 
 		if ($db !== 'sqlite') {
 			if (is_null($dbUser)) {

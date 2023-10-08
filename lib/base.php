@@ -130,7 +130,7 @@ class OC {
 
 	public static \OC\Server $server;
 
-	private static \OC\Config $config;
+	public static \OC\Config $config;
 
 	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
