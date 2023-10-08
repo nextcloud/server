@@ -417,7 +417,7 @@
     "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "Nie je k dispozícii, pretože federácia bola pre váš účet zakázaná. Ak máte nejaké otázky, kontaktujte správcu systému",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Nie je k dispozícii, pretože publikovanie špecifických údajov užívateľa na vyhľadávacom serveri nie je povolené. Ak máte nejaké otázky, kontaktujte správcu systému",
     "Active apps" : "Aktívne aplikácie",
-    "Disabled apps" : "Zakázané aplikácie",
+    "Disabled apps" : "Vypnuté aplikácie",
     "Updates" : "Aktualizácie",
     "App bundles" : "Aplikačné balíky",
     "Featured apps" : "Odporúčané aplikácie",
