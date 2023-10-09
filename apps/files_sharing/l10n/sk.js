@@ -186,7 +186,7 @@ OC.L10N.register(
     "Deck board" : "Palubná doska",
     "on {server}" : "na {server}",
     "Advanced settings" : "Rozšírené nastavenia",
-    "Share label" : "Štitok zdieľania",
+    "Share label" : "Štítok zdieľania",
     "Password" : "Heslo",
     "Password expires {passwordExpirationTime}" : "Heslo expiruje za {passwordExpirationTime}",
     "Password expired" : "Heslo expirovalo",
