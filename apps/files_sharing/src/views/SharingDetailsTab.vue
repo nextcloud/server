@@ -34,8 +34,16 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="toggleCustomPermissions">
-					<EditIcon :size="20" />
-					<span>{{ t('files_sharing', 'Allow upload and editing') }}</span>
+					<template v-if="allowsFileDrop">
+						{{ t('files_sharing', 'Allow upload and editing') }}
+					</template>
+					<template v-else>
+						{{ t('files_sharing', 'Allow editing') }}
+					</template>
+
+					<template #icon>
+						<EditIcon :size="20" />
+					</template>
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch v-if="allowsFileDrop"
 					:button-variant="true"
@@ -124,6 +132,9 @@
 					@update:checked="onPasswordProtectedByTalkChange">
 					{{ t('file_sharing', 'Video verification') }}
 				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
+					{{ t('file_sharing', 'Allow download') }}
+				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
 					{{ t('file_sharing', 'Note to recipient') }}
 				</NcCheckboxRadioSwitch>
@@ -148,9 +159,6 @@
 						:disabled="!canSetReshare"
 						:checked.sync="canReshare">
 						{{ t('file_sharing', 'Share') }}
-					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
-						{{ t('file_sharing', 'Download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
 						{{ t('file_sharing', 'Delete') }}
@@ -360,13 +368,19 @@ export default {
 		 */
 		hasExpirationDate: {
 			get() {
+				const isDefaultExpireDateEnabled = this.config.isDefaultExpireDateEnabled
+				const hasExistingExpirationDate = !!this.share.expireDate || isDefaultExpireDateEnabled
+				const isDefaultInternalExpireDateEnabled = this.config.isDefaultInternalExpireDateEnabled
+				const isDefaultRemoteExpireDateEnabled = this.config.isDefaultRemoteExpireDateEnabled
 				if (this.isPublicShare) {
-					return !!this.share.expireDate || this.config.isDefaultExpireDateEnforced
+					return hasExistingExpirationDate
 				}
+
 				if (this.isRemoteShare) {
-					return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+					return hasExistingExpirationDate || isDefaultRemoteExpireDateEnabled
 				}
-				return !!this.share.expireDate || this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+
+				return hasExistingExpirationDate || isDefaultInternalExpireDateEnabled
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
@@ -531,7 +545,7 @@ export default {
 			return this.share.newPassword !== undefined
 		},
 		passwordExpirationTime() {
-			if (this.share.passwordExpirationTime === null) {
+			if (!this.isValidShareAttribute(this.share.passwordExpirationTime)) {
 				return null
 			}
 
@@ -618,9 +632,6 @@ export default {
 			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.SHARE)) {
 				perms.push('share')
 			}
-			if (this.share.hasDownloadPermission) {
-				perms.push('download')
-			}
 			const capitalizeFirstAndJoin = array => array.map((item, index) => index === 0 ? item[0].toUpperCase() + item.substring(1) : item).join(', ')
 
 			return capitalizeFirstAndJoin(perms)
@@ -676,34 +687,24 @@ export default {
 			this.setCustomPermissions = isCustomPermissions
 		},
 		async initializeAttributes() {
-			let hasAdvancedAttributes = false
 
 			if (this.isNewShare) {
 				if (this.isPasswordEnforced && this.isPublicShare) {
 					this.share.newPassword = await GeneratePassword()
 					this.advancedSectionAccordionExpanded = true
 				}
+				if (this.hasExpirationDate) {
+					this.share.expireDate = this.defaultExpiryDate
+					this.advancedSectionAccordionExpanded = true
+				}
 				return
 			}
 
-			if (this.isValidShareAttribute(this.share.note)) {
-				this.writeNoteToRecipientIsChecked = true
-				hasAdvancedAttributes = true
-			}
-
-			if (this.isValidShareAttribute(this.share.password)) {
-				hasAdvancedAttributes = true
-			}
-
-			if (this.isValidShareAttribute(this.share.expireDate)) {
-				hasAdvancedAttributes = true
-			}
-
-			if (this.isValidShareAttribute(this.share.label)) {
-				hasAdvancedAttributes = true
-			}
-
-			if (hasAdvancedAttributes) {
+			if (
+				this.isValidShareAttribute(this.share.password)
+				|| this.isValidShareAttribute(this.share.expireDate)
+				|| this.isValidShareAttribute(this.share.label)
+			) {
 				this.advancedSectionAccordionExpanded = true
 			}
 
@@ -1028,6 +1029,7 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: flex-start;
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--color-main-background));
 
 		>button:first-child {
 			color: rgb(223, 7, 7);
