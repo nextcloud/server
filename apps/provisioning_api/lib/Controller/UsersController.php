@@ -238,6 +238,8 @@ class UsersController extends AUserData {
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Disabled users details returned
 	 */
 	public function getDisabledUsersDetails(?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
