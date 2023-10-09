@@ -74,8 +74,9 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
 	 */
 	protected string $ldapGroupMemberAssocAttr;
+	private IConfig $config;
 
-	public function __construct(Access $access, GroupPluginManager $groupPluginManager) {
+	public function __construct(Access $access, GroupPluginManager $groupPluginManager, IConfig $config) {
 		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gAssoc = $this->access->connection->ldapGroupMemberAssocAttr;
@@ -89,6 +90,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->groupPluginManager = $groupPluginManager;
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
+		$this->config = $config;
 	}
 
 	/**
@@ -684,9 +686,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if ($user instanceof OfflineUser) {
 			// We load known group memberships from configuration for remnants,
 			// because LDAP server does not contain them anymore
-			/** @var IConfig $config */
-			$config = Server::get(IConfig::class);
-			$groupStr = $config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
+			$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
 			return json_decode($groupStr) ?? [];
 		}
 
@@ -803,10 +803,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 
 		$groups = array_unique($groups, SORT_LOCALE_STRING);
 		$this->access->connection->writeToCache($cacheKey, $groups);
-		/** @var IConfig $config */
-		$config = Server::get(IConfig::class);
 		$groupStr = \json_encode($groups);
-		$config->setUserValue($ncUid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), $groupStr);
+		$this->config->setUserValue($ncUid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), $groupStr);
 
 		return $groups;
 	}
