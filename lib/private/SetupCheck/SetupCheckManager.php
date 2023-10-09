@@ -29,8 +29,9 @@ namespace OC\SetupCheck;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Server;
 use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\ISetupCheckManager;
 
-class SetupCheckManager {
+class SetupCheckManager implements ISetupCheckManager {
 	private Coordinator $coordinator;
 
 	public function __construct(Coordinator $coordinator) {

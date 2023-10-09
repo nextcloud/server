@@ -85,6 +85,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
 #[IgnoreOpenAPI]
@@ -127,7 +128,7 @@ class CheckSetupController extends Controller {
 	private $appManager;
 	/** @var IServerContainer */
 	private $serverContainer;
-	private OC\SetupCheck\SetupCheckManager $setupCheckManager;
+	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -150,7 +151,7 @@ class CheckSetupController extends Controller {
 								IManager $manager,
 								IAppManager $appManager,
 								IServerContainer $serverContainer,
-								OC\SetupCheck\SetupCheckManager $setupCheckManager
+								ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;

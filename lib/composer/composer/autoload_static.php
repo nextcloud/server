@@ -635,6 +635,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Settings\\ISettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISettings.php',
         'OCP\\Settings\\ISubAdminSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISubAdminSettings.php',
         'OCP\\SetupCheck\\ISetupCheck' => __DIR__ . '/../../..' . '/lib/public/SetupCheck/ISetupCheck.php',
+        'OCP\\SetupCheck\\ISetupCheckManager' => __DIR__ . '/../../..' . '/lib/public/SetupCheck/ISetupCheckManager.php',
         'OCP\\SetupCheck\\SetupResult' => __DIR__ . '/../../..' . '/lib/public/SetupCheck/SetupResult.php',
         'OCP\\Share' => __DIR__ . '/../../..' . '/lib/public/Share.php',
         'OCP\\Share\\Events\\BeforeShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/BeforeShareCreatedEvent.php',
