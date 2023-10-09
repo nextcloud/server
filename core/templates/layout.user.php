@@ -68,6 +68,7 @@ p($theme->getTitle());
 			</div>
 
 			<div class="header-right">
+			    <div id="global-search"></div>
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>

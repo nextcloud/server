@@ -110,6 +110,7 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
 			$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 			Util::addScript('core', 'unified-search', 'core');
+			Util::addScript('core', 'global-search', 'core');
 
 			// Set body data-theme
 			$this->assign('enabledThemes', []);

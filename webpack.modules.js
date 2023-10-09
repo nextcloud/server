@@ -38,6 +38,7 @@ module.exports = {
 		profile: path.join(__dirname, 'core/src', 'profile.js'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
+		'global-search': path.join(__dirname, 'core/src', 'global-search.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
