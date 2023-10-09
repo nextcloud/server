@@ -37,7 +37,10 @@ use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\OfflineUser;
 use OCP\GroupInterface;
+use OCP\IConfig;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -49,6 +52,14 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class Group_LDAPTest extends TestCase {
+
+	public function tearDown(): void {
+		parent::tearDown();
+
+		$realConfig = Server::get(IConfig::class);
+		$realConfig->deleteUserValue('userX', 'user_ldap', 'cached-group-memberships-');
+	}
+
 	public function testCountEmptySearchString() {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
@@ -921,6 +932,40 @@ class Group_LDAPTest extends TestCase {
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groupBackend->getUserGroups('userX');
+	}
+
+	public function testGetUserGroupsOfflineUser() {
+		$access = $this->getAccessMock();
+		$pluginManager = $this->getPluginManagerMock();
+
+		$access->connection = $this->createMock(Connection::class);
+		$access->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'useMemberOfToDetectMembership') {
+					return 0;
+				} elseif ($name === 'ldapDynamicGroupMemberURL') {
+					return '';
+				}
+				return 1;
+			});
+
+		$offlineUser = $this->createMock(OfflineUser::class);
+
+		// FIXME: should be available via CI
+		$realConfig = Server::get(IConfig::class);
+		$realConfig->setUserValue('userX', 'user_ldap', 'cached-group-memberships-', \json_encode(['groupB', 'groupF']));
+
+		$access->userManager->expects($this->any())
+			->method('get')
+			->with('userX')
+			->willReturn($offlineUser);
+
+		$groupBackend = new GroupLDAP($access, $pluginManager);
+		$returnedGroups = $groupBackend->getUserGroups('userX');
+		$this->assertCount(2, $returnedGroups);
+		$this->assertTrue(in_array('groupB', $returnedGroups));
+		$this->assertTrue(in_array('groupF', $returnedGroups));
 	}
 
 	public function nestedGroupsProvider(): array {
