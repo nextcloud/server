@@ -70,7 +70,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 	private $crypto;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
-
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $timeFactory;
 
 	/** @var ClientFlowLoginController */
 	private $clientFlowLoginController;
