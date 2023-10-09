@@ -40,7 +40,6 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\GroupInterface;
 use OCP\IConfig;
-use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -52,24 +51,21 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class Group_LDAPTest extends TestCase {
+	private MockObject|Access $access;
+	private MockObject|GroupPluginManager $pluginManager;
+	private MockObject|IConfig $config;
+	private GroupLDAP $groupBackend;
 
 	public function setUp(): void {
 		parent::setUp();
 
 		$this->access = $this->getAccessMock();
 		$this->pluginManager = $this->createMock(GroupPluginManager::class);
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	public function initBackend(): void {
-		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager);
-	}
-
-
-	public function tearDown(): void {
-		parent::tearDown();
-
-		$realConfig = Server::get(IConfig::class);
-		$realConfig->deleteUserValue('userX', 'user_ldap', 'cached-group-memberships-');
+		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->config);
 	}
 
 	public function testCountEmptySearchString() {
@@ -848,9 +844,10 @@ class Group_LDAPTest extends TestCase {
 
 		$offlineUser = $this->createMock(OfflineUser::class);
 
-		// FIXME: should be available via CI
-		$realConfig = Server::get(IConfig::class);
-		$realConfig->setUserValue('userX', 'user_ldap', 'cached-group-memberships-', \json_encode(['groupB', 'groupF']));
+		$this->config->expects($this->any())
+			->method('getUserValue')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', $this->anything())
+			->willReturn(\json_encode(['groupB', 'groupF']));
 
 		$this->access->userManager->expects($this->any())
 			->method('get')

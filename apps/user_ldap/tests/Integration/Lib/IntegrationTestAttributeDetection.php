@@ -30,6 +30,8 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../Bootstrap.php';
 
@@ -56,7 +58,7 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
 
-		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class));
+		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class), \OC::$server->get(IConfig::class));
 		$groupManger = \OC::$server->getGroupManager();
 		$groupManger->clearBackends();
 		$groupManger->addBackend($groupBackend);
