@@ -90,6 +90,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => __DIR__ . '/..' . '/../lib/Settings/Personal/ServerDevNotice.php',
         'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckUserCertificates.php',
         'OCA\\Settings\\SetupChecks\\DefaultPhoneRegionSet' => __DIR__ . '/..' . '/../lib/SetupChecks/DefaultPhoneRegionSet.php',
+        'OCA\\Settings\\SetupChecks\\InternetConnectivity' => __DIR__ . '/..' . '/../lib/SetupChecks/InternetConnectivity.php',
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
         'OCA\\Settings\\SetupChecks\\NeedsSystemAddressBookSync' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',

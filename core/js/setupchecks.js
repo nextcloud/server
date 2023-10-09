@@ -275,12 +275,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if (data.serverHasInternetConnectionProblems) {
-						messages.push({
-							msg: t('core', 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if(!data.isMemcacheConfigured) {
 						messages.push({
 							msg: t('core', 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the {linkstart}documentation ↗{linkend}.')

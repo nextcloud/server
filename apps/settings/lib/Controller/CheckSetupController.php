@@ -193,54 +193,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks if the server can connect to the internet using HTTPS and HTTP
-	 * @return bool
-	 */
-	private function hasInternetConnectivityProblems(): bool {
-		if ($this->config->getSystemValue('has_internet_connection', true) === false) {
-			return false;
-		}
-
-		$siteArray = $this->config->getSystemValue('connectivity_check_domains', [
-			'www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'
-		]);
-
-		foreach ($siteArray as $site) {
-			if ($this->isSiteReachable($site)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Checks if the Nextcloud server can connect to a specific URL
-	 * @param string $site site domain or full URL with http/https protocol
-	 * @return bool
-	 */
-	private function isSiteReachable(string $site): bool {
-		try {
-			$client = $this->clientService->newClient();
-			// if there is no protocol, test http:// AND https://
-			if (preg_match('/^https?:\/\//', $site) !== 1) {
-				$httpSite = 'http://' . $site . '/';
-				$client->get($httpSite);
-				$httpsSite = 'https://' . $site . '/';
-				$client->get($httpsSite);
-			} else {
-				$client->get($site);
-			}
-		} catch (\Exception $e) {
-			$this->logger->error('Cannot connect to: ' . $site, [
-				'app' => 'internet_connection_check',
-				'exception' => $e,
-			]);
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Checks whether a local memcache is installed or not
 	 * @return bool
 	 */
@@ -906,7 +858,6 @@ Raw output
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
 				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
-				'serverHasInternetConnectionProblems' => $this->hasInternetConnectivityProblems(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
 				'isRandomnessSecure' => $this->isRandomnessSecure(),
