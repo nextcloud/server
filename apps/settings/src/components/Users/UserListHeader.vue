@@ -80,7 +80,7 @@
 			scope="col">
 			<span>{{ t('settings', 'Last login') }}</span>
 		</th>
-		<th class="header__cell header__cell--large"
+		<th class="header__cell header__cell--large header__cell--fill"
 			scope="col">
 			<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 			<span>{{ t('settings', 'Manager') }}</span>

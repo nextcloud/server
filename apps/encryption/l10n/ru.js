@@ -31,6 +31,7 @@ OC.L10N.register(
     "Encryption password" : "Пароль шифрования",
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Администратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с помощью пароля <strong>%s</strong>.",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Администратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с помощью пароля \"%s\".",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Пожалуйста, войдите в веб-интерфейс, перейдите в раздел \"Безопасность\" ваших личных настроек и обновите свой пароль шифрования, введя этот пароль в поле \"Старый пароль для входа\" и ваш текущий логин/пароль.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не удаётся расшифровать этот файл, вероятно, это файл общего доступа. Пожалуйста, попросите владельца файла предоставить доступ повторно.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не могу прочитать этот файл, вероятно, это общий файл. Пожалуйста, попросите владельца файла повторно поделиться им с вами.",
     "Default encryption module" : "Модуль шифрования по умолчанию",

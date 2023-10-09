@@ -143,6 +143,7 @@
     "This is the final warning: Do you really want to enable encryption?" : "Esta es la advertencia final: ¿Realmente deseas habilitar la encripción?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "No se ha cargado un módulo de encripción, por favor habilita un módulo de encripción en el menú de la aplicación. ",
     "Select default encryption module:" : "Selecciona el modulo de encripción predeterminado:",
+    "Submit" : "Enviar",
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",

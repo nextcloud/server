@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "S'ha produït un error en l'acció «{displayName}»",
     "\"{name}\" is not an allowed filetype." : "«{name}» no és un tipus de fitxer permès.",
     "{newName} already exists." : "{newName} ja existeix.",
+    "\"{char}\" is not allowed inside a file name." : "El caràcter «{char}» no es pot utilitzar en el nom dels fitxers.",
     "Name cannot be empty" : "El nom no pot estar buit",
     "Another entry with the same name already exists" : "Ja existeix una altra entrada amb aquest nom",
     "Renamed \"{oldName}\" to \"{newName}\"" : "S'ha canviat el nom de «{oldName}» a «{newName}»",

@@ -190,6 +190,7 @@ OC.L10N.register(
     "Enable server-side encryption" : "Kích hoạt mã hoá phía máy chủ",
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "Mã hoá đơn phương không bảo đảm bảo mật hệ thống. Vui lòng xem tài liệu để biết thêm thông tin về cách hoạt động của mã hoá ứng dụng và những trường hợp hỗ trợ.",
     "This is the final warning: Do you really want to enable encryption?" : "Cảnh báo lần cuối: Bạn có thực sự muốn kích hoạt tính năng mã hoá?",
+    "Submit" : "Gửi đi",
     "Remove group" : "Xóa nhóm",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Bạn sắp xóa nhóm {group}. Người dùng sẽ KHÔNG bị xóa.",
     "Please confirm the group removal " : "Vui lòng xác nhận xóa nhóm",

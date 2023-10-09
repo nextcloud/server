@@ -143,6 +143,7 @@
     "This is the final warning: Do you really want to enable encryption?" : "ეს ბოლო გაფრთხილებაა: ნამდვილად გსურთ შიფრაციის ამოქმედება?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "შიფრაციის მოდული არაა ჩატვირთული, გთხოვთ აამოქმედოთ ის აპლიკაციის მენიუდან. ",
     "Select default encryption module:" : "აირჩიეთ შიფრაციის საწყისი მოდული:",
+    "Submit" : "გაგზავნა",
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",

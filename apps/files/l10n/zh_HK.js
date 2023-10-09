@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "“{displayName}” 操作失敗",
     "\"{name}\" is not an allowed filetype." : "「{name}」是不允許的檔案類型。",
     "{newName} already exists." : "{newName} 已經存在。",
+    "\"{char}\" is not allowed inside a file name." : "不允許檔案名稱中出現 \"{char}\"。",
     "Name cannot be empty" : "名稱不能空白",
     "Another entry with the same name already exists" : "另一個同名的條目已經存在",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已將「{oldName}」重新命名為「{newName}」",
