@@ -145,23 +145,6 @@ class Generator {
 			$previewVersion = $file->getPreviewVersion() . '-';
 		}
 
-		// If imaginary is enabled, and we request a small thumbnail,
-		// let's not generate the max preview for performance reasons
-		if (count($specifications) === 1
-			&& ($specifications[0]['width'] <= 256 || $specifications[0]['height'] <= 256)
-			&& preg_match(Imaginary::supportedMimeTypes(), $mimeType)
-			&& $this->config->getSystemValueString('preview_imaginary_url', 'invalid') !== 'invalid') {
-			$crop = $specifications[0]['crop'] ?? false;
-			$preview = $this->getSmallImagePreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion, $crop);
-
-			if ($preview->getSize() === 0) {
-				$preview->delete();
-				throw new NotFoundException('Cached preview size 0, invalid!');
-			}
-
-			return $preview;
-		}
-
 		// Get the max preview and infer the max preview sizes from that
 		$maxPreview = $this->getMaxPreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion);
 		$maxPreviewImage = null; // only load the image when we need it
@@ -235,25 +218,6 @@ class Generator {
 		}
 
 		return $preview;
-	}
-
-	/**
-	 * Generate a small image straight away without generating a max preview first
-	 * Preview generated is 256x256
-	 *
-	 * @param ISimpleFile[] $previewFiles
-	 *
-	 * @throws NotFoundException
-	 */
-	private function getSmallImagePreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
-		$width = 256;
-		$height = 256;
-
-		try {
-			return $this->getCachedPreview($previewFiles, $width, $height, $crop, $mimeType, $prefix);
-		} catch (NotFoundException $e) {
-			return $this->generateProviderPreview($previewFolder, $file, $width, $height, $crop, false, $mimeType, $prefix);
-		}
 	}
 
 	/**
