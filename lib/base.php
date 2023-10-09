@@ -1132,6 +1132,9 @@ class OC {
 	 * Check login: apache auth, auth token, basic auth
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
+		if ($request->getHeader('X-Nextcloud-Federation')) {
+			return false;
+		}
 		$userSession = Server::get(\OC\User\Session::class);
 		if (OC_User::handleApacheAuth()) {
 			return true;
