@@ -245,14 +245,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if (!data.isDefaultPhoneRegionSet) {
-						messages.push({
-							msg: t('core', 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective {linkstart}ISO 3166-1 code ↗{linkend} of the region to your config file.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
 					if (data.cronErrors.length > 0) {
 						var listOfCronErrors = "";
 						data.cronErrors.forEach(function(element){
@@ -310,22 +302,6 @@
 							msg: data.isUsedTlsLibOutdated,
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
-					}
-					if (data.phpSupported && data.phpSupported.eol) {
-						messages.push({
-							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of {linkstart}performance and security updates provided by the PHP Group ↗{linkend} as soon as your distribution supports it.', { version: data.phpSupported.version })
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '8.0') {
-						messages.push({
-							msg: t('core', 'PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible.')
-							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
-							.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
 					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
@@ -535,14 +511,16 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpDefaultCharset', messages)
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\CheckUserCertificates', messages)
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LdapInvalidUuids', messages)
-					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\NeedsSystemAddressBookSync', messages)
+					if (Object.keys(data.generic).length > 0) {
+						Object.keys(data.generic).forEach(function(key){
+							Object.keys(data.generic[key]).forEach(function(title){
+								if (data.generic[key][title].severity != 'success') {
+									data.generic[key][title].pass = false;
+									OC.SetupChecks.addGenericSetupCheck(data.generic[key], title, messages);
+								}
+							});
+						});
+					}
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),
@@ -561,7 +539,7 @@
 		},
 
 		addGenericSetupCheck: function(data, check, messages) {
-			var setupCheck = data[check] || { pass: true, description: '', severity: 'info', linkToDocumentation: null}
+			var setupCheck = data[check] || { pass: true, description: '', severity: 'info', linkToDoc: null}
 
 			var type = OC.SetupChecks.MESSAGE_TYPE_INFO
 			if (setupCheck.severity === 'warning') {
@@ -571,9 +549,9 @@
 			}
 
 			var message = setupCheck.description;
-			if (setupCheck.linkToDocumentation) {
+			if (setupCheck.linkToDoc) {
 				message += ' ' + t('core', 'For more details see the {linkstart}documentation ↗{linkend}.')
-					.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + setupCheck.linkToDocumentation + '">')
+					.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + setupCheck.linkToDoc + '">')
 					.replace('{linkend}', '</a>');
 			}
 			if (setupCheck.elements) {

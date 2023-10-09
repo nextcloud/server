@@ -330,25 +330,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Whether the version is outdated
-	 *
-	 * @return bool
-	 */
-	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 80100;
-	}
-
-	/**
-	 * Whether the php version is still supported (at time of release)
-	 * according to: https://www.php.net/supported-versions.php
-	 *
-	 * @return array
-	 */
-	private function isPhpSupported(): array {
-		return ['eol' => $this->isPhpOutdated(), 'version' => PHP_VERSION];
-	}
-
-	/**
 	 * Check if the reverse proxy configuration is working as expected
 	 *
 	 * @return bool
@@ -931,7 +912,6 @@ Raw output
 				'isRandomnessSecure' => $this->isRandomnessSecure(),
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
-				'phpSupported' => $this->isPhpSupported(),
 				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
@@ -956,8 +936,8 @@ Raw output
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 				'imageMagickLacksSVGSupport' => $this->imageMagickLacksSVGSupport(),
-				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
+				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);
 	}
