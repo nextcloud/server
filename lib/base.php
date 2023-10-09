@@ -114,8 +114,6 @@ class OC {
 
 	public static string $configDir;
 
-	public static int $VERSION_MTIME = 0;
-
 	/**
 	 * requested app
 	 */
@@ -604,10 +602,9 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		// Add default composer PSR-4 autoloader
+		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		OC::$VERSION_MTIME = filemtime(OC::$SERVERROOT . '/version.php');
-		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . OC::$VERSION_MTIME));
+		self::$composerAutoloader->setApcuPrefix(null);
 
 		try {
 			self::initPaths();
