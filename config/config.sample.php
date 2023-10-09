@@ -235,6 +235,12 @@ $CONFIG = [
 'knowledgebaseenabled' => true,
 
 /**
+ * ``true`` embeds the documentation in an iframe inside Nextcloud.
+ * ``false`` only shows buttons to the online documentation.
+ */
+'knowledgebase.embedded' => false,
+
+/**
  * ``true`` allows users to change their display names (on their Personal
  * pages), and ``false`` prevents them from changing their display names.
  */
