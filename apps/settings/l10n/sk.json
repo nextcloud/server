@@ -131,7 +131,7 @@
     "Create" : "Vytvárať",
     "Change" : "Zmeniť",
     "Delete" : "Zmazať",
-    "Reshare" : "Zdieľať ďaľej",
+    "Reshare" : "Zdieľať ďale",
     "Unlimited" : "Nelimitované",
     "Verifying" : "Overovanie",
     "A background job is pending that checks for user imported SSL certificates. Please check back later." : "Úloha na pozadí, čaká na kontrolu importovaných SSL certifikátov používateľov. Skúste to znova neskôr.",
@@ -296,7 +296,7 @@
     "This address is not confirmed" : "Táto adresa nie je potvrdená",
     "Set as primary email" : "Nastaviť ako primárny e-mail",
     "Your email address" : "Vaša emailová adresa",
-    "Additional email address {index}" : "Ďaľšia e-mail adresa {index}",
+    "Additional email address {index}" : "Ďalšia e-mailová adresa {index}",
     "Unable to delete primary email address" : "Nie je možné zmazať primárnu e-mail adresu",
     "Unable to update primary email address" : "Nie je možné aktualizovať primárnu e-mail adresu",
     "Unable to add additional email address" : "Nie je možné pridať ďalšiu e-mail adresu",
@@ -348,6 +348,7 @@
     "Last login" : "Posledné prihlásenie",
     "Change display name" : "Zmeniť zobrazované meno",
     "You do not have permissions to see the details of this user" : "Nemáte oprávnenie vidieť detaily tohoto používateľa",
+    "Set new email address" : "Nastavte novú e-mailovú adresu",
     "Add user to group" : "Pridať užívateľa do skupiny",
     "Set user as admin for" : "Nastaviť používateľa ako správcu pre",
     "Select user quota" : "Zvoliť kvótu používateľa",
@@ -519,6 +520,8 @@
     "Authentication method" : "Autentifikačná metóda",
     "Allow username autocompletion in share dialog" : "Povoliť automatické dopĺňanie používateľského mena v dialógovom okne zdieľania",
     "Allow username autocompletion to users within the same groups" : "Povoliť automatické dopĺňanie mien užívateľom v rovnakých skupinách",
-    "Edit display name" : "Upraviť zobrazované meno"
+    "Edit display name" : "Upraviť zobrazované meno",
+    "Select manager" : "Vybrať nástroj pre správu",
+    "Select user manager" : "Vyberte nástroj pre správu používateľov"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
