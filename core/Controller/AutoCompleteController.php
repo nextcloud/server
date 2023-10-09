@@ -123,8 +123,8 @@ class AutoCompleteController extends OCSController {
 				/** @var ?string $subline */
 				$subline = array_key_exists('subline', $result) ? $result['subline'] : null;
 
-				/** @var ?string $status */
-				$status = array_key_exists('status', $result) && is_string($result['status']) ? $result['status'] : null;
+				/** @var ?array{status: string, message: ?string, icon: ?string, clearAt: ?int} $status */
+				$status = array_key_exists('status', $result) && is_array($result['status']) && !empty($result['status']) ? $result['status'] : null;
 
 				/** @var ?string $shareWithDisplayNameUnique */
 				$shareWithDisplayNameUnique = array_key_exists('shareWithDisplayNameUnique', $result) ? $result['shareWithDisplayNameUnique'] : null;

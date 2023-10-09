@@ -203,6 +203,7 @@ OC.L10N.register(
     "Expiration date" : "Срок действия",
     "Hide download" : "Скрыть загрузку",
     "Video verification" : "Подтверждение по видесвязи",
+    "Allow download" : "Разрешить скачивать",
     "Note to recipient" : "Примечание для получателя",
     "Enter a note for the share recipient" : "Введите примечание для получателя",
     "Create" : "Создать",
@@ -226,6 +227,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Отклонить общий ресурс","Отклонить общие ресурсы","Отклонить общие ресурсы","Отклонить общие ресурсы"],
     "_Restore share_::_Restore shares_" : ["Восстановить общий ресурс","Восстановить общие ресурсы","Восстановить общие ресурсы","Восстановить общие ресурсы"],
     "Shared" : "Опубликованное",
+    "Shared by {ownerDisplayName}" : "Доступно пользователю {ownerDisplayName}",
     "Link to a file" : "Ссылка на файл",
     "Error creating the share: {errorMessage}" : "Не удалось создать общий ресурс: {errorMessage}",
     "Error creating the share" : "Ошибка создания общего доступа",
@@ -300,7 +302,6 @@ OC.L10N.register(
     "Allow deleting" : "Разрешить удалять",
     "Allow resharing" : "Разрешить повторное открытие общего доступа",
     "Expiration date enforced" : "Требуется срок действия",
-    "Allow download" : "Разрешить скачивать",
     "Password protect" : "Защитить паролем",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Не удалось создать пароль на основе политики"

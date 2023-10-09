@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Yorumu sil",
     "Cancel edit" : "Düzenlemeyi iptal et",
     "Post comment" : "Yorum gönder",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "Anmalar için \"@\" , emojiler için \":\"  akıllı seçici için \"/\"",
     "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir görüşme başlatın!",
     "No more messages" : "Başka ileti yok",
     "Retry" : "Yeniden dene",

@@ -315,10 +315,13 @@ export default {
 
 <style lang="scss" scoped>
 .comments {
-	// Do not add emptycontent top margin
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+
 	&__empty,
 	&__error {
-		margin-top: 0 !important;
+		flex: 1 0;
 	}
 
 	&__retry {

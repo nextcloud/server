@@ -156,7 +156,7 @@
 					path: this.model.get('path'),
 					hasSize: this.model.has('size'),
 					sizeLabel: t('files', 'Size'),
-					size: OC.Util.humanFileSize(this.model.get('size'), true),
+					size: OC.Util.humanFileSize(this.model.get('size'), true, false),
 					altSize: n('files', '%n byte', '%n bytes', this.model.get('size')),
 					dateLabel: t('files', 'Modified'),
 					altDate: OC.Util.formatDate(this.model.get('mtime')),

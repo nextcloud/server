@@ -51,7 +51,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use OCP\Template;
 use Test\TestCase;
 
 /**
@@ -153,6 +152,12 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]);
+
+		$this->config
+		->expects($this->any())
+			->method('getSystemValue')
+			->with('forbidden_chars', [])
+			->willReturn([]);
 		$this->config
 			->method('getUserValue')
 			->willReturnMap([

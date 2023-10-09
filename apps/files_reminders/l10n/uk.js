@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_reminders",
     {
+    "File reminders" : "Нагадування для файлів",
     "Reminder for {name}" : "Нагадування для {name}",
     "View file" : "Переглянути файл",
     "View folder" : "Переглянути каталог",

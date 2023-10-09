@@ -81,7 +81,7 @@ describe('Settings: Create and delete users', function() {
 		})
 
 		// see that the created user is in the list
-		cy.get(`tbody.user-list__body tr td[data-test="john"]`).parents('tr').within(() => {
+		cy.get('tbody.user-list__body tr[data-test="john"]').within(() => {
 			// see that the list of users contains the user john
 			cy.contains('john').should('exist')
 		})
@@ -126,7 +126,7 @@ describe('Settings: Create and delete users', function() {
 		})
 
 		// see that the created user is in the list
-		cy.get(`tbody.user-list__body tr td[data-test="john"]`).parents('tr').within(() => {
+		cy.get('tbody.user-list__body tr[data-test="john"]').within(() => {
 			// see that the list of users contains the user john
 			cy.contains('john').should('exist')
 		})
@@ -139,7 +139,7 @@ describe('Settings: Create and delete users', function() {
 		cy.reload().login(admin)
 
 		// see that the user is in the list
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// open the actions menu for the user
@@ -165,6 +165,6 @@ describe('Settings: Create and delete users', function() {
 		})
 
 		// deleted clicked the user is not shown anymore
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').should('not.be.visible')
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).should('not.exist')
 	})
 })

@@ -74,6 +74,13 @@ jobs:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows
         containers: ["component", 1, 2]
+        # Only use cypress cloud for PRs
+        use-cypress-cloud:
+          - ${{ !!github.head_ref }}
+        # Only use one container if we are not using the cypress cloud.
+        exclude:
+          - use-cypress-cloud: false
+            containers: 2
 
     name: runner ${{ matrix.containers }}
 
@@ -96,14 +103,14 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@59810ebfa5a5ac6fcfdcfdf036d1cd4d083a88f2 # v6.5.0
         with:
-          record: true
-          parallel: true
+          record: '${{ !!matrix.use-cypress-cloud }}'
+          parallel: '${{ !!matrix.use-cypress-cloud }}'
           # cypress run type
           component: ${{ matrix.containers == 'component' }}
-          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
+          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud || 'Run E2E' }}
           # cypress env
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ github.event_name }}
+          tag: ${{ matrix.use-cypress-cloud && github.event_name }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}

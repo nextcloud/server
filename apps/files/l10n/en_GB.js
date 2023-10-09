@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "\"{displayName}\" action failed",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" is not an allowed filetype.",
     "{newName} already exists." : "{newName} already exists.",
+    "\"{char}\" is not allowed inside a file name." : "\"{char}\" is not allowed inside a file name.",
     "Name cannot be empty" : "Name cannot be empty",
     "Another entry with the same name already exists" : "Another entry with the same name already exists",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",

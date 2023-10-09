@@ -201,6 +201,7 @@ OC.L10N.register(
     "Expiration date" : "만료 날짜",
     "Hide download" : "Hide download",
     "Video verification" : "화상 인증",
+    "Allow download" : "다운로드 허용",
     "Note to recipient" : "받는이에게 메모",
     "Enter a note for the share recipient" : "받는이를 위한 메모 입력",
     "Create" : "생성",
@@ -298,7 +299,6 @@ OC.L10N.register(
     "Allow deleting" : "삭제 수락",
     "Allow resharing" : "재공유 허용",
     "Expiration date enforced" : "만료 날짜 적용",
-    "Allow download" : "다운로드 허용",
     "Password protect" : "암호 보호",
     "Error generating password from password_policy" : "password_policy에서 암호 생성 중에 오류 발생"
 },

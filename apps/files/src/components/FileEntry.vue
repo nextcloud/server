@@ -75,7 +75,7 @@
 				<span v-if="isFavorite"
 					class="files-list__row-icon-favorite"
 					:aria-label="t('files', 'Favorite')">
-					<FavoriteIcon :aria-hidden="true" />
+					<FavoriteIcon />
 				</span>
 			</span>
 
@@ -146,7 +146,7 @@
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loading === action.id" :size="18" />
-						<CustomSvgIconRender v-else :svg="action.iconSvgInline([source], currentView)" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
 				</NcActionButton>
@@ -186,7 +186,7 @@
 	</tr>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import type { PropType } from 'vue'
 
 import { emit } from '@nextcloud/event-bus'
@@ -213,6 +213,7 @@ import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
@@ -229,14 +230,16 @@ import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import CustomElementRender from './CustomElementRender.vue'
-import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 import logger from '../logger.js'
+import { loadState } from '@nextcloud/initial-state'
 
 // The registered actions list
 const actions = getFileActions()
 
 Vue.directive('onClickOutside', vOnClickOutside)
+
+const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
 
 export default Vue.extend({
 	name: 'FileEntry',
@@ -245,7 +248,6 @@ export default Vue.extend({
 		AccountGroupIcon,
 		AccountPlusIcon,
 		CustomElementRender,
-		CustomSvgIconRender,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
@@ -255,6 +257,7 @@ export default Vue.extend({
 		NcActionButton,
 		NcActions,
 		NcCheckboxRadioSwitch,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NcTextField,
 		NetworkIcon,
@@ -653,6 +656,7 @@ export default Vue.extend({
 		/**
 		 * If renaming starts, select the file name
 		 * in the input, without the extension.
+		 * @param renaming
 		 */
 		isRenaming(renaming) {
 			if (renaming) {
@@ -810,6 +814,13 @@ export default Vue.extend({
 				throw new Error(this.t('files', '{newName} already exists.', { newName: name }))
 			}
 
+			const toCheck = trimmedName.split('')
+			toCheck.forEach(char => {
+				if (forbiddenCharacters.indexOf(char) !== -1) {
+					throw new Error(this.t('files', '"{char}" is not allowed inside a file name.', { char }))
+				}
+			})
+
 			return true
 		},
 		checkIfNodeExists(name) {
@@ -845,7 +856,7 @@ export default Vue.extend({
 		// Rename and move the file
 		async onRename() {
 			const oldName = this.source.basename
-			const oldSource = this.source.source
+			const oldEncodedSource = this.source.encodedSource
 			const newName = this.newName.trim?.() || ''
 			if (newName === '') {
 				showError(this.t('files', 'Name cannot be empty'))
@@ -870,12 +881,13 @@ export default Vue.extend({
 			// Update node
 			this.source.rename(newName)
 
+			logger.debug('Moving file to', { destination: this.source.encodedSource, oldEncodedSource })
 			try {
 				await axios({
 					method: 'MOVE',
-					url: oldSource,
+					url: oldEncodedSource,
 					headers: {
-						Destination: encodeURI(this.source.source),
+						Destination: this.source.encodedSource,
 					},
 				})
 

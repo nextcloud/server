@@ -189,6 +189,10 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
 
+			// Set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
+
 			/** @var IRegistry $subscription */
 			$subscription = \OCP\Server::get(IRegistry::class);
 			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);

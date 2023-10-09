@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "\"{dispalyName}\" الأمر أخفق عند التنفيذ",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ليس نوع ملف مسموحًا به.",
     "{newName} already exists." : "{newName} موجود بالفعل.",
+    "\"{char}\" is not allowed inside a file name." : "\"{char}\" حرفٌ غير مسموح به في اسم الملف.",
     "Name cannot be empty" : "لا يمكن أن يكون الاسم فارغاً",
     "Another entry with the same name already exists" : "إدخال آخر بنفس الاسم موجود بالفعل",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تمت إعادة تسمية \"{oldName}\" إلى \"{newName}\"",

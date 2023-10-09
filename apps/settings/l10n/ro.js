@@ -190,6 +190,7 @@ OC.L10N.register(
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "Criptarea, ca unică variantă, nu garantează securitatea sistemului. Consultați documentația pentru mai multe informații despre cum funcționează aplicația de criptare și variantele de utilizare acceptate.",
     "This is the final warning: Do you really want to enable encryption?" : "Aceasta este avertizarea finală: Chiar vrei să activezi criptarea?",
     "Select default encryption module:" : "Selectează modulul implicit de criptare:",
+    "Submit" : "Trimite",
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",

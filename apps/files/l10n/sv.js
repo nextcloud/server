@@ -182,6 +182,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "\"{displayName}\"-åtgärden misslyckades",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" är inte en tillåten filtyp.",
     "{newName} already exists." : "{newName} finns redan.",
+    "\"{char}\" is not allowed inside a file name." : "\"{char}\" är inte tillåtet i ett filnamn.",
     "Name cannot be empty" : "Namn kan inte vara tom",
     "Another entry with the same name already exists" : "En annan post med samma namn finns redan",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Bytte namn på \"{oldName}\" till \"{newName}\"",

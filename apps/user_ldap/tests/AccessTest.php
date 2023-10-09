@@ -137,13 +137,13 @@ class AccessTest extends TestCase {
 
 	public function testEscapeFilterPartEscapeWildcard() {
 		$input = '*';
-		$expected = '\\\\*';
+		$expected = '\\2a';
 		$this->assertTrue($expected === $this->access->escapeFilterPart($input));
 	}
 
 	public function testEscapeFilterPartEscapeWildcard2() {
 		$input = 'foo*bar';
-		$expected = 'foo\\\\*bar';
+		$expected = 'foo\\2abar';
 		$this->assertTrue($expected === $this->access->escapeFilterPart($input));
 	}
 

@@ -197,6 +197,7 @@ OC.L10N.register(
     "Expiration date" : "Fecha de expiración",
     "Hide download" : "Ocultar descarga",
     "Video verification" : "Verificación de video",
+    "Allow download" : "Permitir descarga",
     "Note to recipient" : "Nota para el destinatario",
     "Enter a note for the share recipient" : "Ingresa una nota para el destinatario de la compartición",
     "Create" : "Crear",
@@ -289,7 +290,6 @@ OC.L10N.register(
     "Allow deleting" : "Permitir eliminación",
     "Allow resharing" : "Permitir volver a compartir",
     "Expiration date enforced" : "Vencimiento de la fecha exigido",
-    "Allow download" : "Permitir descarga",
     "Password protect" : "Proteger con contraseña",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Error al generar la contraseña según la política de contraseñas"

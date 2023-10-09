@@ -42,24 +42,24 @@ describe('Settings: Disable and enable users', function() {
 		cy.enableUser(jdoe)
 
 		// see that the user is in the list of active users
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// open the actions menu for the user
-			cy.get('td.row__cell--actions button.action-item__menutoggle').click()
+			cy.get('td.row__cell--actions button.action-item__menutoggle').click({ scrollBehavior: 'center' })
 		})
 
 		// The "Disable user" action in the actions menu is shown and clicked
 		cy.get('.action-item__popper .action').contains('Disable user').should('exist').click()
 		// When clicked the section is not shown anymore
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').should('not.be.visible')
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).should('not.exist')
 		// But the disabled user section now exists
 		cy.get('#disabled').should('exist')
 		// Open disabled users section
 		cy.get('#disabled a').click()
 		cy.url().should('match', /\/disabled/)
 		// The list of disabled users should now contain the user
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').should('exist')
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).should('exist')
 	})
 
 	it('Can enable the user', function() {
@@ -71,11 +71,11 @@ describe('Settings: Disable and enable users', function() {
 		cy.url().should('match', /\/disabled/)
 
 		// see that the user is in the list of active users
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// see that the list of disabled users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// open the actions menu for the user
-			cy.get('td.row__cell--actions button.action-item__menutoggle').click()
+			cy.get('td.row__cell--actions button.action-item__menutoggle').click({ scrollBehavior: 'center' })
 		})
 
 		// The "Enable user" action in the actions menu is shown and clicked

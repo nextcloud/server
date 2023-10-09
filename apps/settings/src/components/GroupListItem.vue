@@ -41,6 +41,7 @@
 			<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
 				ref="displayNameInput"
 				icon="icon-edit"
+				:trailing-button-label="t('settings', 'Submit')"
 				type="text"
 				:value="name"
 				:label=" t('settings', 'Rename group')"

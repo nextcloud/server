@@ -68,26 +68,33 @@
 			</div>
 
 			<!-- Message editor -->
-			<div v-if="editor || editing" class="comment__editor ">
-				<NcRichContenteditable ref="editor"
-					:auto-complete="autoComplete"
-					:contenteditable="!loading"
-					:value="localMessage"
-					:user-data="userData"
-					@update:value="updateLocalMessage"
-					@submit="onSubmit" />
-				<NcButton class="comment__submit"
-					type="tertiary-no-background"
-					native-type="submit"
-					:aria-label="t('comments', 'Post comment')"
-					:disabled="isEmptyMessage"
-					@click="onSubmit">
-					<template #icon>
-						<span v-if="loading" class="icon-loading-small" />
-						<ArrowRight v-else :size="20" />
-					</template>
-				</NcButton>
-			</div>
+			<form v-if="editor || editing" class="comment__editor" @submit.prevent>
+				<div class="comment__editor-group">
+					<NcRichContenteditable ref="editor"
+						:auto-complete="autoComplete"
+						:contenteditable="!loading"
+						:value="localMessage"
+						:user-data="userData"
+						aria-describedby="tab-comments__editor-description"
+						@update:value="updateLocalMessage"
+						@submit="onSubmit" />
+					<div class="comment__submit">
+						<NcButton type="tertiary-no-background"
+							native-type="submit"
+							:aria-label="t('comments', 'Post comment')"
+							:disabled="isEmptyMessage"
+							@click="onSubmit">
+							<template #icon>
+								<span v-if="loading" class="icon-loading-small" />
+								<ArrowRight v-else :size="20" />
+							</template>
+						</NcButton>
+					</div>
+				</div>
+				<div id="tab-comments__editor-description" class="comment__editor-description">
+					{{ t('comments', '"@" for mentions, ":" for emoji, "/" for smart picker') }}
+				</div>
+			</form>
 
 			<!-- Message content -->
 			<!-- The html is escaped and sanitized before rendering -->
@@ -273,7 +280,6 @@ $comment-padding: 10px;
 .comment {
 	display: flex;
 	gap: 16px;
-	position: relative;
 	padding: 5px $comment-padding;
 
 	&__side {
@@ -313,12 +319,19 @@ $comment-padding: 10px;
 		color: var(--color-text-maxcontrast);
 	}
 
+	&__editor-group {
+		position: relative;
+	}
+
+	&__editor-description {
+		color: var(--color-text-maxcontrast);
+		padding-block: var(--default-grid-baseline);
+	}
+
 	&__submit {
 		position: absolute !important;
-		right: 0;
 		bottom: 0;
-		// Align with input border
-		margin: 1px;
+		right: 0;
 	}
 
 	&__message {

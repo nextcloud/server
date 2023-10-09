@@ -45,7 +45,38 @@
                         "type": "string"
                     },
                     "status": {
-                        "type": "string"
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "required": [
+                                    "status",
+                                    "message",
+                                    "icon",
+                                    "clearAt"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "clearAt": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "subline": {
                         "type": "string"

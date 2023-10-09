@@ -174,6 +174,7 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Este é o aviso final: quer mesmo ativar a encriptação?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Nenhum módulo de encriptação carregador, por favor ative um módulo de encriptação no menu das aplicações.",
     "Select default encryption module:" : "Selecionar o módulo de encriptação predefinido:",
+    "Submit" : "Submeter",
     "Current password" : "Palavra-passe atual",
     "New password" : "Nova palavra-passe",
     "Change password" : "Alterar palavra-passe",
