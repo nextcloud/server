@@ -27,6 +27,7 @@
 namespace OC;
 
 use OC\Tagging\TagMapper;
+use OCP\Db\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -35,7 +36,6 @@ use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUserSession;
 use OCP\User\Events\UserDeletedEvent;
-use OCP\Db\Exception as DBException;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -31,7 +31,7 @@ class RequestId implements IRequestId {
 	protected string $requestId;
 
 	public function __construct(string $uniqueId,
-								ISecureRandom $secureRandom) {
+		ISecureRandom $secureRandom) {
 		$this->requestId = $uniqueId;
 		$this->secureRandom = $secureRandom;
 	}

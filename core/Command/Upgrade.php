@@ -33,10 +33,6 @@
  */
 namespace OC\Core\Command;
 
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
-use OCP\Util;
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Installer;
@@ -48,6 +44,10 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC\Updater;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;

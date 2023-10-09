@@ -46,8 +46,8 @@ class ServiceAliasRegistration extends ARegistration {
 	 * @paslm-param string|class-string $target
 	 */
 	public function __construct(string $appId,
-								string $alias,
-								string $target) {
+		string $alias,
+		string $target) {
 		parent::__construct($appId);
 		$this->alias = $alias;
 		$this->target = $target;

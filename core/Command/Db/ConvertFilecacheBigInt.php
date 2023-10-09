@@ -33,9 +33,9 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
-use OCP\DB\Types;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
+use OCP\DB\Types;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

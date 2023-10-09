@@ -37,9 +37,9 @@
  */
 namespace OC\Files;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MountPoint;
 use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;

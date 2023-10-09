@@ -29,8 +29,8 @@ declare(strict_types=1);
  */
 namespace OC\Security\Bruteforce;
 
-use OCP\Capabilities\IPublicCapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
+use OCP\Capabilities\IPublicCapability;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
 

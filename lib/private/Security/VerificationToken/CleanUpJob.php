@@ -27,10 +27,10 @@ declare(strict_types=1);
 namespace OC\Security\VerificationToken;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
-use OCP\IUserManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
+use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
 

@@ -59,11 +59,11 @@ class SearchQuery implements ISearchQuery {
 	 * @param array $routeParameters
 	 */
 	public function __construct(string $term,
-								int $sortOrder = ISearchQuery::SORT_DATE_DESC,
-								int $limit = self::LIMIT_DEFAULT,
-								$cursor = null,
-								string $route = '',
-								array $routeParameters = []) {
+		int $sortOrder = ISearchQuery::SORT_DATE_DESC,
+		int $limit = self::LIMIT_DEFAULT,
+		$cursor = null,
+		string $route = '',
+		array $routeParameters = []) {
 		$this->term = $term;
 		$this->sortOrder = $sortOrder;
 		$this->limit = $limit;

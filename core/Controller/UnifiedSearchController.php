@@ -31,9 +31,9 @@ namespace OC\Core\Controller;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
 use OCA\Core\ResponseDefinitions;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -95,11 +95,11 @@ class UnifiedSearchController extends OCSController {
 	 * 400: Searching is not possible
 	 */
 	public function search(string $providerId,
-						   string $term = '',
-						   ?int $sortOrder = null,
-						   ?int $limit = null,
-						   $cursor = null,
-						   string $from = ''): DataResponse {
+		string $term = '',
+		?int $sortOrder = null,
+		?int $limit = null,
+		$cursor = null,
+		string $from = ''): DataResponse {
 		if (trim($term) === "") {
 			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
 		}

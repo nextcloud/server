@@ -30,6 +30,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Constants;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -38,7 +39,6 @@ use OCP\Files\NotFoundException;
 use OCP\Share\IShare;
 use OCP\Util;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCP\Files\Folder;
 
 class FileUtils {
 	public function __construct(

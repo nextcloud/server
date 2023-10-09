@@ -34,9 +34,9 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class ManagerTest extends TestCase {
 	/** @var Manager|MockObject */

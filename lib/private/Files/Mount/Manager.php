@@ -29,10 +29,10 @@ declare(strict_types=1);
 
 namespace OC\Files\Mount;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;

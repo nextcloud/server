@@ -91,7 +91,7 @@ class Manager {
 			$user->getUID(),                              //Name
 			$user->getUID(),                              //ID
 			$user->getDisplayName()                      //Display name
-//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
+			//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
 		);
 
 		$challenge = random_bytes(32);

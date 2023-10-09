@@ -89,15 +89,15 @@ class Manager {
 	private $userIsTwoFactorAuthenticated = [];
 
 	public function __construct(ProviderLoader $providerLoader,
-								IRegistry $providerRegistry,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								ISession $session,
-								IConfig $config,
-								IManager $activityManager,
-								LoggerInterface $logger,
-								TokenProvider $tokenProvider,
-								ITimeFactory $timeFactory,
-								IEventDispatcher $eventDispatcher) {
+		IRegistry $providerRegistry,
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		ISession $session,
+		IConfig $config,
+		IManager $activityManager,
+		LoggerInterface $logger,
+		TokenProvider $tokenProvider,
+		ITimeFactory $timeFactory,
+		IEventDispatcher $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;

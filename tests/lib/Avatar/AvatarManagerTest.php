@@ -29,6 +29,7 @@ use OC\Avatar\PlaceholderAvatar;
 use OC\Avatar\UserAvatar;
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
+use OC\User\User;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -37,7 +38,6 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
-use OC\User\User;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 

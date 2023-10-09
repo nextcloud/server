@@ -70,7 +70,7 @@ interface IShareProvider {
 	 * @return IShare The share object
 	 * @since 17.0.0
 	 */
-//	public function acceptShare(IShare $share, string $recipient): IShare;
+	//	public function acceptShare(IShare $share, string $recipient): IShare;
 
 	/**
 	 * Delete a share

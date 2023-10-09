@@ -44,7 +44,7 @@ class NodeRemovedFromCache extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(IStorage $storage,
-								string $path) {
+		string $path) {
 		parent::__construct();
 		$this->storage = $storage;
 		$this->path = $path;

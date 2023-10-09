@@ -230,9 +230,9 @@ class Router implements IRouter {
 	 * @return \OC\Route\Route
 	 */
 	public function create($name,
-						   $pattern,
-						   array $defaults = [],
-						   array $requirements = []) {
+		$pattern,
+		array $defaults = [],
+		array $requirements = []) {
 		$route = new Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
@@ -354,8 +354,8 @@ class Router implements IRouter {
 	 * @return string
 	 */
 	public function generate($name,
-							 $parameters = [],
-							 $absolute = false) {
+		$parameters = [],
+		$absolute = false) {
 		$referenceType = UrlGenerator::ABSOLUTE_URL;
 		if ($absolute === false) {
 			$referenceType = UrlGenerator::ABSOLUTE_PATH;

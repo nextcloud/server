@@ -35,10 +35,10 @@ use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use OCP\IRequestId;
 
 class TestController extends Controller {
 	/**

@@ -28,18 +28,18 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Profile\ProfileManager;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
-use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
-use OCP\EventDispatcher\IEventDispatcher;
 
 #[IgnoreOpenAPI]
 class ProfilePageController extends Controller {

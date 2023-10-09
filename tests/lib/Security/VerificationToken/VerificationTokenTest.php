@@ -34,8 +34,8 @@ use OCP\IUser;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Security\VerificationToken\InvalidTokenException;
-use Test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
 class VerificationTokenTest extends TestCase {
 	/** @var VerificationToken */

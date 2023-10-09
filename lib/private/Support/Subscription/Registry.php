@@ -62,10 +62,10 @@ class Registry implements IRegistry {
 	private $logger;
 
 	public function __construct(IConfig $config,
-								IServerContainer $container,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								LoggerInterface $logger) {
+		IServerContainer $container,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		LoggerInterface $logger) {
 		$this->config = $config;
 		$this->container = $container;
 		$this->userManager = $userManager;

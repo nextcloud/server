@@ -43,9 +43,9 @@ class UserChangedEvent extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(IUser $user,
-								string $feature,
-								$value,
-								$oldValue = null) {
+		string $feature,
+		$value,
+		$oldValue = null) {
 		parent::__construct();
 		$this->user = $user;
 		$this->feature = $feature;

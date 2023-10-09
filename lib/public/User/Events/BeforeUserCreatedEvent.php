@@ -44,7 +44,7 @@ class BeforeUserCreatedEvent extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(string $uid,
-								string $password) {
+		string $password) {
 		parent::__construct();
 		$this->uid = $uid;
 		$this->password = $password;

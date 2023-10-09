@@ -22,9 +22,9 @@ declare(strict_types = 1);
 
 namespace OC;
 
+use OCP\IBinaryFinder;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IBinaryFinder;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**

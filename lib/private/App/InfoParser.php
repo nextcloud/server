@@ -272,7 +272,7 @@ class InfoParser {
 				} else {
 					$array[$element] = $data;
 				}
-			// Just a value
+				// Just a value
 			} else {
 				if ($totalElement > 1) {
 					$array[$element][] = $this->xmlToArray($node);

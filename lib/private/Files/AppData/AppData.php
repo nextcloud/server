@@ -26,9 +26,9 @@ declare(strict_types=1);
  */
 namespace OC\Files\AppData;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\SystemConfig;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -53,8 +53,8 @@ class AppData implements IAppData {
 	 * @param string $appId
 	 */
 	public function __construct(IRootFolder $rootFolder,
-								SystemConfig $systemConfig,
-								string $appId) {
+		SystemConfig $systemConfig,
+		string $appId) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 		$this->appId = $appId;

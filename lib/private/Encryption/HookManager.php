@@ -24,8 +24,8 @@
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
-use OC\Files\View;
 use OC\Files\SetupManager;
+use OC\Files\View;
 use Psr\Log\LoggerInterface;
 
 class HookManager {

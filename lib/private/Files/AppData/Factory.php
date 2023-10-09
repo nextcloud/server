@@ -39,7 +39,7 @@ class Factory implements IAppDataFactory {
 	private array $folders = [];
 
 	public function __construct(IRootFolder $rootFolder,
-								SystemConfig $systemConfig) {
+		SystemConfig $systemConfig) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 	}

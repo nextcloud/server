@@ -46,8 +46,8 @@ interface ITalkBackend {
 	 * @since 24.0.0
 	 */
 	public function createConversation(string $name,
-									   array $moderators,
-									   IConversationOptions $options): IConversation;
+		array $moderators,
+		IConversationOptions $options): IConversation;
 
 	/**
 	 * Delete a conversation by id

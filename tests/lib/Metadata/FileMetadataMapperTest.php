@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace Test\Metadata;
 
-use OC\Metadata\FileMetadataMapper;
 use OC\Metadata\FileMetadata;
+use OC\Metadata\FileMetadataMapper;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**

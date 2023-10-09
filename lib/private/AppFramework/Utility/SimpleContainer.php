@@ -37,8 +37,8 @@ use Pimple\Container;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionParameter;
 use ReflectionNamedType;
+use ReflectionParameter;
 use function class_exists;
 
 /**

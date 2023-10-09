@@ -271,11 +271,11 @@ class LoginController extends Controller {
 	 */
 	#[UseSession]
 	public function tryLogin(Chain $loginChain,
-							 string $user = '',
-							 string $password = '',
-							 string $redirect_url = null,
-							 string $timezone = '',
-							 string $timezone_offset = ''): RedirectResponse {
+		string $user = '',
+		string $password = '',
+		string $redirect_url = null,
+		string $timezone = '',
+		string $timezone_offset = ''): RedirectResponse {
 		if (!$this->request->passesCSRFCheck()) {
 			if ($this->userSession->isLoggedIn()) {
 				// If the user is already logged in and the CSRF check does not pass then

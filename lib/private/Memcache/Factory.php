@@ -31,10 +31,10 @@
  */
 namespace OC\Memcache;
 
-use OCP\Profiler\IProfiler;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
+use OCP\Profiler\IProfiler;
 use Psr\Log\LoggerInterface;
 
 class Factory implements ICacheFactory {

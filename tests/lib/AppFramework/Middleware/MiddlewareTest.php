@@ -23,13 +23,13 @@
 
 namespace Test\AppFramework\Middleware;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
 use OCP\IRequestId;
-use OC\AppFramework\DependencyInjection\DIContainer;
 
 class ChildMiddleware extends Middleware {
 };

@@ -45,7 +45,7 @@ class UserCreatedEvent extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(IUser $user,
-								string $password) {
+		string $password) {
 		parent::__construct();
 		$this->user = $user;
 		$this->password = $password;

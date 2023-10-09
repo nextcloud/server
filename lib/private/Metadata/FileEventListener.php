@@ -28,9 +28,9 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\FileInfo;
 use Psr\Log\LoggerInterface;
 
 /**

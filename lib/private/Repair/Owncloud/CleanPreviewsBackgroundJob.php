@@ -51,10 +51,10 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 	 * CleanPreviewsBackgroundJob constructor.
 	 */
 	public function __construct(IRootFolder $rootFolder,
-								LoggerInterface $logger,
-								IJobList $jobList,
-								ITimeFactory $timeFactory,
-								IUserManager $userManager) {
+		LoggerInterface $logger,
+		IJobList $jobList,
+		ITimeFactory $timeFactory,
+		IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
 		$this->jobList = $jobList;

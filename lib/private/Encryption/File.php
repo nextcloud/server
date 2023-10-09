@@ -27,9 +27,9 @@
  */
 namespace OC\Encryption;
 
-use OCP\Cache\CappedMemoryCache;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\App\IAppManager;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Share\IManager;
@@ -47,8 +47,8 @@ class File implements \OCP\Encryption\IFile {
 	private ?IAppManager $appManager = null;
 
 	public function __construct(Util $util,
-								IRootFolder $rootFolder,
-								IManager $shareManager) {
+		IRootFolder $rootFolder,
+		IManager $shareManager) {
 		$this->util = $util;
 		$this->cache = new CappedMemoryCache();
 		$this->rootFolder = $rootFolder;

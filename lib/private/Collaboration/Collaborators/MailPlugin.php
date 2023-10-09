@@ -37,8 +37,8 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IShare;
 use OCP\Mail\IMailer;
+use OCP\Share\IShare;
 
 class MailPlugin implements ISearchPlugin {
 	protected bool $shareWithGroupOnly;

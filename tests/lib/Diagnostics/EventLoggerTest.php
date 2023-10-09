@@ -21,10 +21,10 @@
 
 namespace Test\Diagnostics;
 
-use Psr\Log\LoggerInterface;
 use OC\Diagnostics\EventLogger;
 use OC\Log;
 use OC\SystemConfig;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EventLoggerTest extends TestCase {

@@ -55,10 +55,10 @@ class JSCombiner {
 	private $cacheFactory;
 
 	public function __construct(IAppData $appData,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								SystemConfig $config,
-								LoggerInterface $logger) {
+		IURLGenerator $urlGenerator,
+		ICacheFactory $cacheFactory,
+		SystemConfig $config,
+		LoggerInterface $logger) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;

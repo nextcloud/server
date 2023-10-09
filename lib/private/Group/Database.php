@@ -30,6 +30,7 @@
 namespace OC\Group;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\User\LazyUser;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
@@ -40,13 +41,12 @@ use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\INamedBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
-use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
 use OCP\IUserManager;
-use OC\User\LazyUser;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)

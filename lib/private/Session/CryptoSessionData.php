@@ -57,8 +57,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $passphrase
 	 */
 	public function __construct(ISession $session,
-								ICrypto $crypto,
-								string $passphrase) {
+		ICrypto $crypto,
+		string $passphrase) {
 		$this->crypto = $crypto;
 		$this->session = $session;
 		$this->passphrase = $passphrase;

@@ -46,10 +46,10 @@ class AppScriptSort {
 	 * @param array $sortedScriptDeps
 	 */
 	private function topSortVisit(
-			AppScriptDependency $app,
-			array &$parents,
-			array &$scriptDeps,
-			array &$sortedScriptDeps): void {
+		AppScriptDependency $app,
+		array &$parents,
+		array &$scriptDeps,
+		array &$sortedScriptDeps): void {
 		// Detect and log circular dependencies
 		if (isset($parents[$app->getId()])) {
 			$this->logger->error('Circular dependency in app scripts at app ' . $app->getId());

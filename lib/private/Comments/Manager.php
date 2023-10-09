@@ -40,8 +40,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IEmojiHelper;
-use OCP\IUser;
 use OCP\IInitialStateService;
+use OCP\IUser;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -66,11 +66,11 @@ class Manager implements ICommentsManager {
 	protected array $displayNameResolvers = [];
 
 	public function __construct(IDBConnection $dbConn,
-								LoggerInterface $logger,
-								IConfig $config,
-								ITimeFactory $timeFactory,
-								IEmojiHelper $emojiHelper,
-								IInitialStateService $initialStateService) {
+		LoggerInterface $logger,
+		IConfig $config,
+		ITimeFactory $timeFactory,
+		IEmojiHelper $emojiHelper,
+		IInitialStateService $initialStateService) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
 		$this->config = $config;
@@ -536,8 +536,8 @@ class Manager implements ICommentsManager {
 	 * @param int $id the comment to look for
 	 */
 	protected function getLastKnownComment(string $objectType,
-										   string $objectId,
-										   int $id): ?IComment {
+		string $objectId,
+		int $id): ?IComment {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('*')
 			->from('comments')

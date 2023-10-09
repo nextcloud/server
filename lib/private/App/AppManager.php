@@ -47,10 +47,10 @@ use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -104,12 +104,12 @@ class AppManager implements IAppManager {
 	private array $loadedApps = [];
 
 	public function __construct(IUserSession $userSession,
-								IConfig $config,
-								AppConfig $appConfig,
-								IGroupManager $groupManager,
-								ICacheFactory $memCacheFactory,
-								IEventDispatcher $dispatcher,
-								LoggerInterface $logger) {
+		IConfig $config,
+		AppConfig $appConfig,
+		IGroupManager $groupManager,
+		ICacheFactory $memCacheFactory,
+		IEventDispatcher $dispatcher,
+		LoggerInterface $logger) {
 		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->appConfig = $appConfig;

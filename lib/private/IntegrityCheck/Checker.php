@@ -83,12 +83,12 @@ class Checker {
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
-								FileAccessHelper $fileAccessHelper,
-								AppLocator $appLocator,
-								?IConfig $config,
-								ICacheFactory $cacheFactory,
-								?IAppManager $appManager,
-								IMimeTypeDetector $mimeTypeDetector) {
+		FileAccessHelper $fileAccessHelper,
+		AppLocator $appLocator,
+		?IConfig $config,
+		ICacheFactory $cacheFactory,
+		?IAppManager $appManager,
+		IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
@@ -161,7 +161,7 @@ class Checker {
 	 * @return array Array of hashes.
 	 */
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
-									string $path): array {
+		string $path): array {
 		$hashes = [];
 
 		$baseDirectoryLength = \strlen($path);
@@ -223,8 +223,8 @@ class Checker {
 	 * @return array
 	 */
 	private function createSignatureData(array $hashes,
-										 X509 $certificate,
-										 RSA $privateKey): array {
+		X509 $certificate,
+		RSA $privateKey): array {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
@@ -249,8 +249,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeAppSignature($path,
-									  X509 $certificate,
-									  RSA $privateKey) {
+		X509 $certificate,
+		RSA $privateKey) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
@@ -279,8 +279,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeCoreSignature(X509 $certificate,
-									   RSA $rsa,
-									   $path) {
+		RSA $rsa,
+		$path) {
 		$coreDir = $path . '/core';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($coreDir);

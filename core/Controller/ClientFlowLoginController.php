@@ -181,8 +181,8 @@ class ClientFlowLoginController extends Controller {
 	 */
 	#[UseSession]
 	public function grantPage(string $stateToken = '',
-				  string $clientIdentifier = '',
-				  int $direct = 0): StandaloneTemplateResponse {
+		string $clientIdentifier = '',
+		int $direct = 0): StandaloneTemplateResponse {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -233,7 +233,7 @@ class ClientFlowLoginController extends Controller {
 	 */
 	#[UseSession]
 	public function generateAppPassword(string $stateToken,
-										string $clientIdentifier = '') {
+		string $clientIdentifier = '') {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();

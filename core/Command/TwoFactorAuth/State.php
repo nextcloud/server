@@ -92,7 +92,7 @@ class State extends Base {
 	}
 
 	private function printProviders(string $title, array $providers,
-									OutputInterface $output) {
+		OutputInterface $output) {
 		if (empty($providers)) {
 			// Ignore and don't print anything
 			return;

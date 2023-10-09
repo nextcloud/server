@@ -49,12 +49,12 @@ class AppFetcher extends Fetcher {
 	private $ignoreMaxVersion;
 
 	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								CompareVersion $compareVersion,
-								LoggerInterface $logger,
-								IRegistry $registry) {
+		IClientService $clientService,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		CompareVersion $compareVersion,
+		LoggerInterface $logger,
+		IRegistry $registry) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,

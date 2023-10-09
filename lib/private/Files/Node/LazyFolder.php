@@ -28,8 +28,8 @@ namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Utils\PathHelper;
-use OCP\Files\Folder;
 use OCP\Constants;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotPermittedException;

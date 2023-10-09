@@ -54,8 +54,8 @@ final class ServiceEventListener {
 	private $service;
 
 	public function __construct(IServerContainer $container,
-								string $class,
-								LoggerInterface $logger) {
+		string $class,
+		LoggerInterface $logger) {
 		$this->container = $container;
 		$this->class = $class;
 		$this->logger = $logger;

@@ -39,8 +39,8 @@ use OCP\ISession;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use function reset;
 use Test\TestCase;
+use function reset;
 
 class ManagerTest extends TestCase {
 	/** @var IUser|MockObject */

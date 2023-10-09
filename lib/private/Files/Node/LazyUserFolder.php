@@ -23,13 +23,13 @@ declare(strict_types=1);
 
 namespace OC\Files\Node;
 
-use OCP\Files\FileInfo;
 use OCP\Constants;
+use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
-use OCP\Files\Folder;
-use OCP\Files\File;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
 

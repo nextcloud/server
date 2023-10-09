@@ -28,8 +28,8 @@
  */
 namespace OC\Files\Config;
 
-use OCP\Cache\CappedMemoryCache;
 use OCA\Files_Sharing\SharedMount;
+use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\ICachedMountFileInfo;

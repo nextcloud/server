@@ -68,11 +68,11 @@ abstract class Fetcher {
 	protected $channel = null;
 
 	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								LoggerInterface $logger,
-								IRegistry $registry) {
+		IClientService $clientService,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		LoggerInterface $logger,
+		IRegistry $registry) {
 		$this->appData = $appDataFactory->get('appstore');
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;

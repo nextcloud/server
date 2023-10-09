@@ -23,6 +23,7 @@
 
 namespace Test\AppFramework\Controller;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -30,7 +31,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
-use OC\AppFramework\DependencyInjection\DIContainer;
 
 class ChildController extends Controller {
 	public function __construct($appName, $request) {

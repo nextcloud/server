@@ -48,8 +48,8 @@ class Store implements IStore {
 	private $tokenProvider;
 
 	public function __construct(ISession $session,
-								LoggerInterface $logger,
-								IProvider $tokenProvider = null) {
+		LoggerInterface $logger,
+		IProvider $tokenProvider = null) {
 		$this->session = $session;
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;

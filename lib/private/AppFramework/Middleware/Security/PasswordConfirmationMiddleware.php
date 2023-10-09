@@ -55,9 +55,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								ISession $session,
-								IUserSession $userSession,
-								ITimeFactory $timeFactory) {
+		ISession $session,
+		IUserSession $userSession,
+		ITimeFactory $timeFactory) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 		$this->userSession = $userSession;

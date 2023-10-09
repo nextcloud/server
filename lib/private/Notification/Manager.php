@@ -74,11 +74,11 @@ class Manager implements IManager {
 	private $parsedRegistrationContext;
 
 	public function __construct(IValidator $validator,
-								IUserManager $userManager,
-								ICacheFactory $cacheFactory,
-								IRegistry $subscription,
-								LoggerInterface $logger,
-								Coordinator $coordinator) {
+		IUserManager $userManager,
+		ICacheFactory $cacheFactory,
+		IRegistry $subscription,
+		LoggerInterface $logger,
+		Coordinator $coordinator) {
 		$this->validator = $validator;
 		$this->userManager = $userManager;
 		$this->cache = $cacheFactory->createDistributed('notifications');

@@ -26,13 +26,13 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\TwoFactorAuth;
 
-use function implode;
 use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function implode;
 
 class Enforce extends Command {
 	public function __construct(

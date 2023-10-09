@@ -51,7 +51,7 @@ class Manager implements IManager {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(IServerContainer $container,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->container = $container;
 		$this->logger = $logger;
 	}

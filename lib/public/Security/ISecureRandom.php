@@ -64,5 +64,5 @@ interface ISecureRandom {
 	 * @since 8.0.0
 	 */
 	public function generate(int $length,
-							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
+		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
 }

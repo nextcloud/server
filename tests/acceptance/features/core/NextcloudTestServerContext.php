@@ -73,7 +73,7 @@ class NextcloudTestServerContext implements Context {
 	 *        constructor of the $nextcloudTestServerHelper class.
 	 */
 	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerLocalBuiltInHelper",
-								$nextcloudTestServerHelperParameters = [ ]) {
+		$nextcloudTestServerHelperParameters = [ ]) {
 		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
 
 		if ($nextcloudTestServerHelperParameters === null) {

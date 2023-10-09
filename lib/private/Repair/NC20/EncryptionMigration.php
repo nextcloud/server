@@ -38,7 +38,7 @@ class EncryptionMigration implements IRepairStep {
 	private $manager;
 
 	public function __construct(IConfig $config,
-								IManager $manager) {
+		IManager $manager) {
 		$this->config = $config;
 		$this->manager = $manager;
 	}

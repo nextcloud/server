@@ -27,11 +27,11 @@ declare(strict_types = 1);
 namespace OC\Profiler;
 
 use OC\AppFramework\Http\Request;
+use OC\SystemConfig;
 use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\IDataCollector;
-use OCP\Profiler\IProfiler;
 use OCP\Profiler\IProfile;
-use OC\SystemConfig;
+use OCP\Profiler\IProfiler;
 
 class Profiler implements IProfiler {
 	/** @var array<string, IDataCollector> */
@@ -95,7 +95,7 @@ class Profiler implements IProfiler {
 	 * @return array[]
 	 */
 	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end,
-						 string $statusCode = null): array {
+		string $statusCode = null): array {
 		if ($this->storage) {
 			return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
 		} else {

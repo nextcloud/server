@@ -26,12 +26,12 @@ declare(strict_types=1);
 
 namespace OC\Profile\Actions;
 
-use function Safe\substr;
 use OCP\Accounts\IAccountManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
+use function Safe\substr;
 
 class TwitterAction implements ILinkAction {
 	private string $value = '';

@@ -29,10 +29,10 @@
  */
 namespace OC\Setup;
 
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {

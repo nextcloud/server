@@ -28,8 +28,8 @@
  */
 namespace OC\Files\Storage\Wrapper;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Storage\IStorage;
 use OCP\ICache;
 

@@ -24,9 +24,9 @@ declare(strict_types=1);
 namespace OC\Core\Command\Preview;
 
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use Symfony\Component\Console\Command\Command;

@@ -26,12 +26,12 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Login;
 
-use function array_pop;
-use function count;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IURLGenerator;
+use function array_pop;
+use function count;
 
 class TwoFactorCommand extends ALoginCommand {
 	/** @var Manager */
@@ -44,8 +44,8 @@ class TwoFactorCommand extends ALoginCommand {
 	private $urlGenerator;
 
 	public function __construct(Manager $twoFactorManager,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								IURLGenerator $urlGenerator) {
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		IURLGenerator $urlGenerator) {
 		$this->twoFactorManager = $twoFactorManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->urlGenerator = $urlGenerator;

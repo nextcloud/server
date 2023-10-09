@@ -104,18 +104,18 @@ class SecurityMiddleware extends Middleware {
 	private $userSession;
 
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								INavigationManager $navigationManager,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger,
-								string $appName,
-								bool $isLoggedIn,
-								bool $isAdminUser,
-								bool $isSubAdmin,
-								IAppManager $appManager,
-								IL10N $l10n,
-								AuthorizedGroupMapper $mapper,
-								IUserSession $userSession
+		ControllerMethodReflector $reflector,
+		INavigationManager $navigationManager,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger,
+		string $appName,
+		bool $isLoggedIn,
+		bool $isAdminUser,
+		bool $isSubAdmin,
+		IAppManager $appManager,
+		IL10N $l10n,
+		AuthorizedGroupMapper $mapper,
+		IUserSession $userSession
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;

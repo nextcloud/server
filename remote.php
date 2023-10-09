@@ -34,9 +34,9 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class RemoteException

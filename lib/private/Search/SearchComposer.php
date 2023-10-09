@@ -28,13 +28,13 @@ declare(strict_types=1);
 namespace OC\Search;
 
 use InvalidArgumentException;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-use OC\AppFramework\Bootstrap\Coordinator;
 use Psr\Log\LoggerInterface;
 use function array_map;
 
@@ -70,8 +70,8 @@ class SearchComposer {
 	private LoggerInterface $logger;
 
 	public function __construct(Coordinator $bootstrapCoordinator,
-								IServerContainer $container,
-								LoggerInterface $logger) {
+		IServerContainer $container,
+		LoggerInterface $logger) {
 		$this->container = $container;
 		$this->logger = $logger;
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
@@ -148,8 +148,8 @@ class SearchComposer {
 	 * @throws InvalidArgumentException when the $providerId does not correspond to a registered provider
 	 */
 	public function search(IUser $user,
-						   string $providerId,
-						   ISearchQuery $query): SearchResult {
+		string $providerId,
+		ISearchQuery $query): SearchResult {
 		$this->loadLazyProviders();
 
 		$provider = $this->providers[$providerId] ?? null;

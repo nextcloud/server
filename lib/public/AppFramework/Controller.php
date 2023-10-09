@@ -65,7 +65,7 @@ abstract class Controller {
 	 * @since 6.0.0 - parameter $appName was added in 7.0.0 - parameter $app was removed in 7.0.0
 	 */
 	public function __construct($appName,
-								IRequest $request) {
+		IRequest $request) {
 		$this->appName = $appName;
 		$this->request = $request;
 

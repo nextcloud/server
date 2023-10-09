@@ -45,8 +45,8 @@ class EnforcementState implements JsonSerializable {
 	 * @param string[] $excludedGroups
 	 */
 	public function __construct(bool $enforced,
-								array $enforcedGroups = [],
-								array $excludedGroups = []) {
+		array $enforcedGroups = [],
+		array $excludedGroups = []) {
 		$this->enforced = $enforced;
 		$this->enforcedGroups = $enforcedGroups;
 		$this->excludedGroups = $excludedGroups;
