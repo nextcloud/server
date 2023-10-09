@@ -225,8 +225,8 @@ kbd {
 				}
 			}
 			a:focus-visible {
-				box-shadow: var(--color-primary-element) inset 0 0 0 2px;
-				outline: none;
+				box-shadow: 0 0 0 4px var(--color-main-background);
+				outline: 2px solid var(--color-main-text);
 			}
 			&.active,
 			a:active,
