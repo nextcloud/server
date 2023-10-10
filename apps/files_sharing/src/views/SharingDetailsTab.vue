@@ -85,17 +85,17 @@
 				<NcInputField v-if="isPublicShare"
 					:value.sync="share.label"
 					type="text"
-					:label="t('file_sharing', 'Share label')" />
+					:label="t('files_sharing', 'Share label')" />
 				<template v-if="isPublicShare">
 					<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
-						{{ t('file_sharing', 'Set password') }}
+						{{ t('files_sharing', 'Set password') }}
 					</NcCheckboxRadioSwitch>
 					<NcInputField v-if="isPasswordProtected"
 						:type="hasUnsavedPassword ? 'text' : 'password'"
 						:value="hasUnsavedPassword ? share.newPassword : '***************'"
 						:error="passwordError"
 						:required="isPasswordEnforced"
-						:label="t('file_sharing', 'Password')"
+						:label="t('files_sharing', 'Password')"
 						@update:value="onPasswordChange" />
 
 					<!-- Migrate icons and remote -> icon="icon-info"-->
@@ -118,25 +118,28 @@
 					:max="dateMaxEnforced"
 					:hide-label="true"
 					:disabled="isExpiryDateEnforced"
-					:placeholder="t('file_sharing', 'Expiration date')"
+					:placeholder="t('files_sharing', 'Expiration date')"
 					type="date"
 					@input="onExpirationChange" />
 				<NcCheckboxRadioSwitch v-if="isPublicShare"
 					:disabled="canChangeHideDownload"
 					:checked.sync="share.hideDownload"
 					@update:checked="queueUpdate('hideDownload')">
-					{{ t('file_sharing', 'Hide download') }}
+					{{ t('files_sharing', 'Hide download') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
 					:checked.sync="isPasswordProtectedByTalk"
 					@update:checked="onPasswordProtectedByTalkChange">
-					{{ t('file_sharing', 'Video verification') }}
+					{{ t('files_sharing', 'Video verification') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
+					{{ t('files_sharing', 'Allow download') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
 					{{ t('file_sharing', 'Allow download') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
-					{{ t('file_sharing', 'Note to recipient') }}
+					{{ t('files_sharing', 'Note to recipient') }}
 				</NcCheckboxRadioSwitch>
 				<template v-if="writeNoteToRecipientIsChecked">
 					<label for="share-note-textarea">
@@ -145,26 +148,26 @@
 					<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
 				</template>
 				<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
-					{{ t('file_sharing', 'Custom permissions') }}
+					{{ t('files_sharing', 'Custom permissions') }}
 				</NcCheckboxRadioSwitch>
 				<section v-if="setCustomPermissions" class="custom-permissions-group">
 					<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
 						:checked.sync="hasRead">
-						{{ t('file_sharing', 'Read') }}
+						{{ t('files_sharing', 'Read') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
-						{{ t('file_sharing', 'Create') }}
+						{{ t('files_sharing', 'Create') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
-						{{ t('file_sharing', 'Update') }}
+						{{ t('files_sharing', 'Update') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
 						:disabled="!canSetReshare"
 						:checked.sync="canReshare">
-						{{ t('file_sharing', 'Share') }}
+						{{ t('files_sharing', 'Share') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
-						{{ t('file_sharing', 'Delete') }}
+						{{ t('files_sharing', 'Delete') }}
 					</NcCheckboxRadioSwitch>
 				</section>
 			</section>
@@ -184,7 +187,7 @@
 			</NcButton>
 			<div class="button-group">
 				<NcButton @click="$emit('close-sharing-details')">
-					{{ t('file_sharing', 'Cancel') }}
+					{{ t('files_sharing', 'Cancel') }}
 				</NcButton>
 				<NcButton type="primary" @click="saveShare">
 					{{ shareButtonText }}
@@ -480,9 +483,9 @@ export default {
 		},
 		shareButtonText() {
 			if (this.isNewShare) {
-				return t('file_sharing', 'Save share')
+				return t('files_sharing', 'Save share')
 			}
-			return t('file_sharing', 'Update share')
+			return t('files_sharing', 'Update share')
 
 		},
 		/**
