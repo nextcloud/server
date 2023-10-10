@@ -437,6 +437,7 @@ export default Vue.extend({
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
+	position: relative;
 }
 
 $margin: 4px;
