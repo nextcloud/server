@@ -823,9 +823,9 @@ class AppManager implements IAppManager {
 		return $this->defaultEnabled;
 	}
 
-	public function getDefaultAppForUser(?IUser $user = null): string {
+	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string {
 		// Set fallback to always-enabled files app
-		$appId = 'files';
+		$appId = $withFallbacks ? 'files' : '';
 		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', ''));
 		$defaultApps = array_filter($defaultApps);
 
@@ -834,7 +834,7 @@ class AppManager implements IAppManager {
 		if ($user !== null) {
 			$userDefaultApps = explode(',', $this->config->getUserValue($user->getUID(), 'core', 'defaultapp'));
 			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
-			if (empty($defaultApps)) {
+			if (empty($defaultApps) && $withFallbacks) {
 				/* Fallback on user defined apporder */
 				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 				if (!empty($customOrders)) {
@@ -845,7 +845,7 @@ class AppManager implements IAppManager {
 			}
 		}
 
-		if (empty($defaultApps)) {
+		if (empty($defaultApps) && $withFallbacks) {
 			$defaultApps = ['dashboard','files'];
 		}
 

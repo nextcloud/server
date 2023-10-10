@@ -248,9 +248,13 @@ interface IAppManager {
 	 *
 	 * If `user` is not passed, the currently logged in user will be used
 	 *
+	 * @param ?IUser $user User to query default app for
+	 * @param bool $withFallbacks Include fallback values if no default app was configured manually
+	 *
 	 * @since 25.0.6
+	 * @since 28.0.0 Added optional $withFallbacks parameter
 	 */
-	public function getDefaultAppForUser(?IUser $user = null): string;
+	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string;
 
 	/**
 	 * Get the global default apps with fallbacks

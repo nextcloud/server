@@ -123,25 +123,43 @@ class NavigationManager implements INavigationManager {
 			});
 		}
 
-		return $this->proceedNavigation($result);
+		return $this->proceedNavigation($result, $type);
 	}
 
 	/**
-	 * Sort navigation entries by order, name and set active flag
+	 * Sort navigation entries default app is always sorted first, then by order, name and set active flag
 	 *
 	 * @param array $list
 	 * @return array
 	 */
-	private function proceedNavigation(array $list): array {
+	private function proceedNavigation(array $list, string $type): array {
 		uasort($list, function ($a, $b) {
-			if (isset($a['order']) && isset($b['order'])) {
+			if (($a['default'] ?? false) xor ($b['default'] ?? false)) {
+				// Always sort the default app first
+				return ($a['default'] ?? false) ? -1 : 1;
+			} elseif (isset($a['order']) && isset($b['order'])) {
+				// Sort by order
 				return ($a['order'] < $b['order']) ? -1 : 1;
 			} elseif (isset($a['order']) || isset($b['order'])) {
+				// Sort the one that has an order property first
 				return isset($a['order']) ? -1 : 1;
 			} else {
+				// Sort by name otherwise
 				return ($a['name'] < $b['name']) ? -1 : 1;
 			}
 		});
+
+		if ($type === 'all' || $type === 'link') {
+			// There might be the case that no default app was set, in this case the first app is the default app.
+			// Otherwise the default app is already the ordered first, so setting the default prop will make no difference.
+			foreach ($list as $index => &$navEntry) {
+				if ($navEntry['type'] === 'link') {
+					$navEntry['default'] = true;
+					break;
+				}
+			}
+			unset($navEntry);
+		}
 
 		$activeApp = $this->getActiveEntry();
 		if ($activeApp !== null) {
@@ -293,6 +311,8 @@ class NavigationManager implements INavigationManager {
 			$customOrders = [];
 		}
 
+		// The default app of the current user without fallbacks
+		$defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
 
 		foreach ($apps as $app) {
 			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
@@ -335,14 +355,28 @@ class NavigationManager implements INavigationManager {
 					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
 				}
 
-				$this->add([
+				$this->add(array_merge([
+					// Navigation id
 					'id' => $id,
+					// Order where this entry should be shown
 					'order' => $order,
+					// Target of the navigation entry
 					'href' => $route,
+					// The icon used for the naviation entry
 					'icon' => $icon,
+					// Type of the navigation entry ('link' vs 'settings')
 					'type' => $type,
+					// Localized name of the navigation entry
 					'name' => $l->t($nav['name']),
-				]);
+				], $type === 'link' ? [
+					// This is the default app that will always be shown first
+					'default' => $defaultApp === $id,
+					// App that registered this navigation entry (not necessarly the same as the id)
+					'app' => $app,
+					// The key used to identify this entry in the navigations entries
+					'key' => $key,
+				] : []
+				));
 			}
 		}
 	}
