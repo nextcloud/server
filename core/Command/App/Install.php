@@ -45,6 +45,11 @@ class Install extends Command {
 				InputArgument::REQUIRED,
 				'install the specified app'
 			)
+			->addArgument(
+				'app-version',
+				InputArgument::OPTIONAL,
+				'version of the app to install'
+			)
 			->addOption(
 				'keep-disabled',
 				null,
@@ -68,6 +73,7 @@ class Install extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
+		$appVersion = $input->getArgument('app-version');
 		$forceEnable = (bool) $input->getOption('force');
 
 		if (\OC_App::getAppPath($appId)) {
@@ -78,7 +84,7 @@ class Install extends Command {
 		try {
 			/** @var Installer $installer */
 			$installer = \OC::$server->query(Installer::class);
-			$installer->downloadApp($appId, $input->getOption('allow-unstable'));
+			$installer->downloadApp($appId, $input->getOption('allow-unstable'), $appVersion);
 			$result = $installer->installApp($appId, $forceEnable);
 		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());

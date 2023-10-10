@@ -142,26 +142,6 @@ class AppFetcher extends Fetcher {
 			if (empty($releases)) {
 				// Remove apps that don't have a matching release
 				$response['data'][$dataKey] = [];
-				continue;
-			}
-
-			// Get the highest version
-			$versions = [];
-			foreach ($releases as $release) {
-				$versions[] = $release['version'];
-			}
-			usort($versions, function ($version1, $version2) {
-				return version_compare($version1, $version2);
-			});
-			$versions = array_reverse($versions);
-			if (isset($versions[0])) {
-				$highestVersion = $versions[0];
-				foreach ($releases as $release) {
-					if ((string)$release['version'] === (string)$highestVersion) {
-						$response['data'][$dataKey]['releases'] = [$release];
-						break;
-					}
-				}
 			}
 		}
 

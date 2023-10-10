@@ -224,7 +224,7 @@ class Installer {
 	 *
 	 * @throws \Exception If the installation was not successful
 	 */
-	public function downloadApp($appId, $allowUnstable = false) {
+	public function downloadApp($appId, $allowUnstable = false, ?string $appVersion = null) {
 		$appId = strtolower($appId);
 
 		$apps = $this->appFetcher->get($allowUnstable);
@@ -293,11 +293,32 @@ class Installer {
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
 				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
-				$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
+
+				$releaseIndex = null;
+				if ($appVersion !== null) {
+					foreach ($app['releases'] as $index => $release) {
+						if ($release['version'] == $appVersion) {
+							$releaseIndex = $index;
+							break;
+						}
+					}
+					if ($releaseIndex === null) {
+						throw new \Exception(
+							sprintf(
+								'App with id %s has no version %s',
+								$appId,
+								$appVersion
+							)
+						);
+					}
+				} else {
+					$releaseIndex = 0;
+				}
+				$client->get($app['releases'][$releaseIndex]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
 
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
-				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
+				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][$releaseIndex]['signature']), $certificate, OPENSSL_ALGO_SHA512);
 				// PHP 8+ deprecates openssl_free_key and automatically destroys the key instance when it goes out of scope
 				if ((PHP_VERSION_ID < 80000)) {
 					openssl_free_key($certificate);
