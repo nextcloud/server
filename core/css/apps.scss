@@ -138,17 +138,18 @@ kbd {
 	flex-direction: column;
 	flex-grow: 0;
 	flex-shrink: 0;
-}
-.app-navigation-caption {
-	font-weight: bold;
-	line-height: 44px;
-	padding: 10px 44px 0 44px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	box-shadow: none !important;
-	user-select: none;
-	pointer-events:none;
-	margin-left: 10px;
+
+	.app-navigation-caption {
+		font-weight: bold;
+		line-height: 44px;
+		padding: 10px 44px 0 44px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		box-shadow: none !important;
+		user-select: none;
+		pointer-events:none;
+		margin-left: 10px;
+	}
 }
 
 .app-navigation-personal,
