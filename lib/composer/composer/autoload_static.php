@@ -243,6 +243,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
         'OCP\\Contacts\\ContactsMenu\\IAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IAction.php',
         'OCP\\Contacts\\ContactsMenu\\IActionFactory' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',
+        'OCP\\Contacts\\ContactsMenu\\IBulkProvider' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IBulkProvider.php',
         'OCP\\Contacts\\ContactsMenu\\IContactsStore' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IContactsStore.php',
         'OCP\\Contacts\\ContactsMenu\\IEntry' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IEntry.php',
         'OCP\\Contacts\\ContactsMenu\\ILinkAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/ILinkAction.php',

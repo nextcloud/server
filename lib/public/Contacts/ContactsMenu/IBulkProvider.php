@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -26,17 +26,15 @@ declare(strict_types=1);
 namespace OCP\Contacts\ContactsMenu;
 
 /**
- * Process contacts menu entries
+ * Process contacts menu entries in bulk
  *
- * @see IBulkProvider for providers that work with the full dataset at once
- *
- * @since 12.0
+ * @since 28.0
  */
-interface IProvider {
+interface IBulkProvider {
 	/**
-	 * @since 12.0
-	 * @param IEntry $entry
+	 * @since 28.0
+	 * @param list<IEntry> $entries
 	 * @return void
 	 */
-	public function process(IEntry $entry);
+	public function process(array $entries): void;
 }
