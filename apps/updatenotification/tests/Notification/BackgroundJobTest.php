@@ -112,9 +112,34 @@ class BackgroundJobTest extends TestCase {
 		$job->expects($this->once())
 			->method('checkAppUpdates');
 
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValueBool')
+			->withConsecutive(
+				['has_internet_connection', true],
+				['debug', false],
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				true,
+			);
+
+		self::invokePrivate($job, 'run', [null]);
+	}
+
+	public function testRunNoInternet() {
+		$job = $this->getJob([
+			'checkCoreUpdate',
+			'checkAppUpdates',
+		]);
+
+		$job->expects($this->never())
+			->method('checkCoreUpdate');
+		$job->expects($this->never())
+			->method('checkAppUpdates');
+
 		$this->config->method('getSystemValueBool')
-			->with('debug', false)
-			->willReturn(true);
+			->with('has_internet_connection', true)
+			->willReturn(false);
 
 		self::invokePrivate($job, 'run', [null]);
 	}
