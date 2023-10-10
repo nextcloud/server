@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Обриши коментар",
     "Cancel edit" : "Поништи измену",
     "Post comment" : "Објави коментар",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” за помињања, „:” за емођи, „/” за паметни бирач",
     "No comments yet, start the conversation!" : "Још нема коментара. Започните дискусију!",
     "No more messages" : "Нема више порука",
     "Retry" : "Покушај поново",

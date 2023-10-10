@@ -180,6 +180,7 @@
     "\"{displayName}\" action failed" : "\"{displayName}\" アクションは失敗しました",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" は許可されたファイルタイプではありません。",
     "{newName} already exists." : "{newName} すでに存在しています。",
+    "\"{char}\" is not allowed inside a file name." : "\"{char}\"はファイル名には使用できません。",
     "Name cannot be empty" : "名前は空にできません",
     "Another entry with the same name already exists" : "同じ名前の別のエントリがすでに存在しています",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" から \"{newName}\" に名前を変更済み",
