@@ -62,68 +62,131 @@ class MigrateOc extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$configs = $this->getWndConfigs();
 		$dryRun = $input->getOption('dry-run');
 
-		$output->writeln("Found <info>" . count($configs) . "</info> wnd storages");
-
-		foreach ($configs as $config) {
-			if (!isset($config['user'])) {
-				$output->writeln("<error>Only basic username password authentication is currently supported</error>");
-				return 1;
-			}
-
-			if (isset($config['root']) && $config['root'] !== '' && $config['root'] !== '/') {
-				$root = '/' . trim($config['root'], '/') . '/';
-			} else {
-				$root = '/';
-			}
-
-			if (isset($config['domain']) && $config['domain'] !== ""
-				&& \strpos($config['user'], "\\") === false && \strpos($config['user'], "/") === false
-			) {
-				$usernameWithDomain = $config['domain'] . "\\" . $config['user'];
-			} else {
-				$usernameWithDomain = $config['user'];
-			}
-			$wndStorageId = "wnd::{$usernameWithDomain}@{$config['host']}/{$config['share']}/{$root}";
-
-			$storage = new SMB($config);
-			$storageId = $storage->getId();
-			if (!$dryRun) {
-				if (!$this->setStorageId($wndStorageId, $storageId)) {
-					$output->writeln("<error>No WMD storage with id $wndStorageId found</error>");
-					return 1;
-				}
-			}
-		}
-
-		if (count($configs) && !$dryRun) {
-			$this->migrateWndBackend();
-
-			$output->writeln("Successfully migrated");
-		}
-
-		$this->migrateV2StoragePasswords($dryRun, $output);
-		$this->migrateUserCredentials($dryRun, $output);
+		$this->migrateStorageConfigPasswords($dryRun, $output);
+		$this->migrateStorageCredentials($dryRun, $output);
+		$this->migrateWndStorage($dryRun, $output);
+		$this->migrateWndExternalStorages($dryRun, $output);
 
 		return 0;
 	}
 
-	private function migrateWndBackend(): int {
+	private function migrateWndStorage(bool $dryRun, OutputInterface $output): void {
+		$configs = $this->getWndExternalStorageConfigs();
+		$output->writeln("Found <info>" . count($configs) . "</info> wnd storages");
+
+		foreach ($configs as $config) {
+			$output->writeln("<info>" . $config['host'] . ' - ' . $config['auth_backend'] . "</info>");
+
+			switch($config['auth_backend']) {
+				case 'password::password':
+					$this->migrateWndStorageWithCredentials($dryRun, $output, $config);
+					break;
+				case 'password::sessioncredentials':
+					// Impossible to do as credentials are stored in memory.
+					$output->writeln("	<error>Cannot migrate storages authenticated by sessions credentials</error>");
+					break;
+				case 'password::logincredentials':
+					$sessionCredentials = $this->getStorageCredentialsWithIdentifier($config['auth_backend'].'/credentials');
+					foreach ($sessionCredentials as $credentials) {
+						$config['user'] = $credentials['user'];
+						$config['password'] = $credentials['password'];
+						$this->migrateWndStorageWithCredentials($dryRun, $output, $config);
+					}
+					break;
+				case 'password::userprovided':
+					$sessionCredentials = $this->getStorageCredentialsWithIdentifier($config['auth_backend'].'/'.$config['mount_id']);
+					foreach ($sessionCredentials as $credentials) {
+						$config['user'] = $credentials['user'];
+						$config['password'] = $credentials['password'];
+						$this->migrateWndStorageWithCredentials($dryRun, $output, $config);
+					}
+					break;
+				case 'password::global':
+					$sessionCredentials = $this->getStorageCredentialsWithIdentifier($config['auth_backend']);
+					foreach ($sessionCredentials as $credentials) {
+						$config['user'] = $credentials['user'];
+						$config['password'] = $credentials['password'];
+						$this->migrateWndStorageWithCredentials($dryRun, $output, $config);
+					}
+					break;
+				case 'password::hardcodedconfigcredentials':
+					$output->writeln("	<error>Cannot migrate storages authenticated by hard coded credentials</error>");
+					break;
+				case 'kerberos::kerberos':
+					// Impossible to do as credentials are stored in memory.
+					$output->writeln("	<error>Cannot migrate storages authenticated by kerberos</error>");
+					continue 2;
+					break;
+				default:
+					echo "UNSUPPORTED AUTH BACKEND !";
+					continue 2;
+			}
+		}
+	}
+
+	private function migrateWndStorageWithCredentials(bool $dryRun, OutputInterface $output, array $config): void {
+		if (isset($config['root']) && $config['root'] !== '' && $config['root'] !== '/') {
+			$root = '/' . trim($config['root'], '/') . '/';
+		} else {
+			$root = '/';
+		}
+
+		if (isset($config['domain']) && $config['domain'] !== ""
+			&& \strpos($config['user'], "\\") === false && \strpos($config['user'], "/") === false
+		) {
+			$usernameWithDomain = $config['domain'] . "\\" . $config['user'];
+		} else {
+			$usernameWithDomain = $config['user'];
+		}
+		$wndStorageId = "wnd::{$usernameWithDomain}@{$config['host']}/{$config['share']}/{$root}";
+
+		$storage = new SMB($config);
+		$storageId = $storage->getId();
+
 		$query = $this->connection->getQueryBuilder();
-		$query->update('external_mounts')
-			->set('storage_backend', $query->createNamedParameter('smb'))
-			->where($query->expr()->eq('storage_backend', $query->createNamedParameter('windows_network_drive')));
-		return $query->executeStatement();
+		$rows = $query->select('id')
+			->from('storages')
+			->where($query->expr()->eq('id', $query->createNamedParameter($wndStorageId)))
+			->executeQuery()
+			->fetchAll();
+
+		if (count($rows) === 1) {
+			$output->writeln("	- Found one storage $wndStorageId");
+			if (!$dryRun && !$this->setStorageId($wndStorageId, $storageId)) {
+					$output->writeln("<error>Failed to update WMD storage with id $wndStorageId</error>");
+			}
+		} elseif (count($rows) > 1) {
+			$output->writeln("<error>More than one storage found $wndStorageId</error>");
+		}
+	}
+
+	private function migrateWndExternalStorages(bool $dryRun, OutputInterface $output): void {
+		$query = $this->connection->getQueryBuilder();
+		$rows = $query->select('mount_id')
+				->from('external_mounts')
+				->where($query->expr()->eq('storage_backend', $query->createNamedParameter('windows_network_drive')))
+				->executeQuery()
+				->fetchAll();
+
+		$output->writeln("Found <info>" . count($rows) . "</info> wnd external storages");
+
+		if (count($rows) > 0 && !$dryRun) {
+			$query = $this->connection->getQueryBuilder();
+			$query->update('external_mounts')
+				->set('storage_backend', $query->createNamedParameter('smb'))
+				->where($query->expr()->eq('storage_backend', $query->createNamedParameter('windows_network_drive')))
+				->executeStatement();
+		}
 	}
 
 	/**
 	 * @return array<int, array<string, string>>
 	 */
-	private function getWndConfigs(): array {
+	private function getWndExternalStorageConfigs(): array {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('c.mount_id', 'key', 'value')
+		$query->select('c.mount_id', 'key', 'value', 'm.auth_backend')
 			->from('external_config', 'c')
 			->innerJoin('c', 'external_mounts', 'm', $query->expr()->eq('c.mount_id', 'm.mount_id'))
 			->where($query->expr()->eq('storage_backend', $query->createNamedParameter('windows_network_drive')));
@@ -134,6 +197,8 @@ class MigrateOc extends Base {
 			$mountId = (int)$row['mount_id'];
 			if (!isset($configs[$mountId])) {
 				$configs[$mountId] = [];
+				$configs[$mountId]['mount_id'] = $row['mount_id'];
+				$configs[$mountId]['auth_backend'] = $row['auth_backend'];
 			}
 			$configs[$mountId][$row['key']] = $row['value'];
 		}
@@ -143,7 +208,7 @@ class MigrateOc extends Base {
 	/**
 	 * @return array<int, string>
 	 */
-	private function getV2StoragePasswords(): array {
+	private function getStorageConfigPasswords(): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('config_id', 'value')
 			->from('external_config')
@@ -158,11 +223,11 @@ class MigrateOc extends Base {
 		return $configs;
 	}
 
-	private function migrateV2StoragePasswords(bool $dryRun, OutputInterface $output): void {
-		$passwords = $this->getV2StoragePasswords();
+	private function migrateStorageConfigPasswords(bool $dryRun, OutputInterface $output): void {
+		$passwords = $this->getStorageConfigPasswords();
+		$output->writeln("Found <info>" . count($passwords) . "</info> config passwords that need re-encoding");
 
 		if (count($passwords)) {
-			$output->writeln("Found <info>" . count($passwords) . "</info> stored passwords that need re-encoding");
 			foreach ($passwords as $id => $password) {
 				$decoded = $this->decodePassword($password);
 				if (!$dryRun) {
@@ -183,37 +248,49 @@ class MigrateOc extends Base {
 	/**
 	 * @return array<array<string, string>>
 	 */
-	private function getUserCredentials(): array {
+	private function getStorageCredentials(): array {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('user', 'identifier', 'credentials')
-			->from('credentials');
+		$query->select('id', 'user', 'identifier', 'credentials')
+			->from('storages_credentials')
+			->where($query->expr()->like('credentials', $query->createNamedParameter('v2|%')));
 
 		return $query->executeQuery()->fetchAll();
 	}
 
-	private function migrateUserCredentials(bool $dryRun, OutputInterface $output): void {
-		$passwords = $this->getUserCredentials();
+	/**
+	 * @return array<array<string, string>>
+	 */
+	private function getStorageCredentialsWithIdentifier(string $identifier): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('credentials')
+			->from('storages_credentials')
+			->where($query->expr()->eq('identifier', $query->createNamedParameter($identifier)));
+
+		$rows = $query->executeQuery()->fetchAll();
+
+		return array_map(fn ($row): array => json_decode($this->crypto->decrypt($row['credentials']), true), $rows);
+	}
+
+	private function migrateStorageCredentials(bool $dryRun, OutputInterface $output): void {
+		$passwords = $this->getStorageCredentials();
+		$output->writeln("Found <info>" . count($passwords) . "</info> stored credentials that need re-encoding");
 
 		if (count($passwords)) {
-			$output->writeln("Found <info>" . count($passwords) . "</info> stored user credentials that need re-encoding");
 			foreach ($passwords as $passwordRow) {
 				$decoded = $this->decodePassword($passwordRow["credentials"]);
 				if (!$dryRun) {
-					$this->setStorageCredentials($passwordRow, $this->encryptPassword($decoded));
+					$this->setStorageCredentials($passwordRow['id'], $this->encryptPassword($decoded));
 				}
 			}
 		}
 	}
 
-	private function setStorageCredentials(array $row, string $encryptedPassword): void {
+	private function setStorageCredentials(string $id, string $encryptedPassword): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->insert('storages_credentials')
-			->values([
-				'user' => $query->createNamedParameter($row['user']),
-				'identifier' => $query->createNamedParameter($row['identifier']),
-				'credentials' => $query->createNamedParameter($encryptedPassword),
-			])
+		$query->update('storages_credentials')
+			->set('credentials', $query->createNamedParameter($encryptedPassword))
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
 	}
 
