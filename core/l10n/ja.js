@@ -235,6 +235,7 @@ OC.L10N.register(
     "Looking for {term} …" : "{term} を確認中 ...",
     "No" : "いいえ",
     "Yes" : "はい",
+    "Choose {file}" : "{file}を選択",
     "Choose" : "選択",
     "Copy to {target}" : "{target} にコピー",
     "Copy" : "コピー",
