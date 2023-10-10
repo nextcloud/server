@@ -246,6 +246,13 @@ class UsersController extends AUserData {
 		if ($currentUser === null) {
 			return new DataResponse(['users' => []]);
 		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
 		$users = [];
 
 		// Admin? Or SubAdmin?
