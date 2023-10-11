@@ -14,6 +14,7 @@
     "Delete comment" : "コメントを削除",
     "Cancel edit" : "編集をキャンセル",
     "Post comment" : "コメントを投稿",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "メンションには \"@\"、絵文字には \":\"、スマートピッカーには \"/\"",
     "No comments yet, start the conversation!" : "まだコメントはありません、会話を開始してください！",
     "No more messages" : "これ以上のメッセージはありません",
     "Retry" : "再試行",
