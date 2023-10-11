@@ -86,23 +86,26 @@ class Capabilities implements IPublicCapability {
 	 * }
 	 */
 	public function getCapabilities() {
+		$color = $this->theming->getDefaultColorPrimary();
+		$colorText = $this->theming->getDefaultTextColorPrimary();
+
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
-		$color = $this->theming->getColorPrimary();
+		$backgroundPlain = $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $color !== '#0082c9');
+		$background = $backgroundPlain ? $color : $this->url->getAbsoluteURL($this->theming->getBackground());
+
 		return [
 			'theming' => [
 				'name' => $this->theming->getName(),
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $color,
-				'color-text' => $this->theming->getTextColorPrimary(),
+				'color-text' => $colorText,
 				'color-element' => $this->util->elementColor($color),
 				'color-element-bright' => $this->util->elementColor($color),
 				'color-element-dark' => $this->util->elementColor($color, false),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
-				'background' => $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $this->theming->getColorPrimary() !== '#0082c9') ?
-					$this->theming->getColorPrimary() :
-					$this->url->getAbsoluteURL($this->theming->getBackground()),
-				'background-plain' => $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $this->theming->getColorPrimary() !== '#0082c9'),
+				'background' => $background,
+				'background-plain' => $backgroundPlain,
 				'background-default' => !$this->util->isBackgroundThemed(),
 				'logoheader' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'favicon' => $this->url->getAbsoluteURL($this->theming->getLogo()),

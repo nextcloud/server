@@ -165,13 +165,13 @@ class CapabilitiesTest extends TestCase {
 			->method('getSlogan')
 			->willReturn($slogan);
 		$this->theming->expects($this->atLeast(1))
-			->method('getColorPrimary')
+			->method('getDefaultColorPrimary')
 			->willReturn($color);
 		$this->theming->expects($this->exactly(3))
 			->method('getLogo')
 			->willReturn($logo);
 		$this->theming->expects($this->once())
-			->method('getTextColorPrimary')
+			->method('getDefaultTextColorPrimary')
 			->willReturn($textColor);
 
 		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
