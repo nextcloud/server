@@ -209,14 +209,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.app-icon {
 		filter: var(--background-invert-if-bright);
-	}
-	.actions {
-		display: flex !important;
-		gap: 8px;
-		flex-wrap: wrap;
-		justify-content: end;
 	}
 </style>
