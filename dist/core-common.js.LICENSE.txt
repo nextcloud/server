@@ -59,18 +59,8 @@
  */
 
 /*!
-* focus-trap 7.2.0
-* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
-*/
-
-/*!
 * focus-trap 7.5.2
 * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
-*/
-
-/*!
-* tabbable 6.0.1
-* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
 
 /*!
@@ -79,14 +69,6 @@
 */
 
 /*! @license DOMPurify 3.0.5 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.0.5/LICENSE */
-
-/*! For license information please see NcButton.js.LICENSE.txt */
-
-/*! For license information please see NcModal.js.LICENSE.txt */
-
-/*! For license information please see NcNoteCard.js.LICENSE.txt */
-
-/*! For license information please see NcPasswordField.js.LICENSE.txt */
 
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
