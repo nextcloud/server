@@ -36,6 +36,8 @@ namespace OC\Session;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function headers_sent;
+use function OCP\Log\logger;
 
 /**
  * Class Internal
@@ -138,6 +140,14 @@ class Internal extends Session {
 			}
 		}
 
+		if (headers_sent()) {
+			logger('core')->critical('Regenerating session ID but headers have been sent. This session will be lost.', [
+				'deleteOldSession' => $deleteOldSession,
+			]);
+		} elseif ($deleteOldSession) {
+			logger('core')->warning('Calling session_regenerate_id with delete_old_session=true can lead to lost sessions');
+		}
+
 		try {
 			@session_regenerate_id($deleteOldSession);
 		} catch (\Error $e) {
@@ -221,6 +231,12 @@ class Internal extends Session {
 		$sessionParams = ['cookie_samesite' => 'Lax'];
 		if (\OC::hasSessionRelaxedExpiry()) {
 			$sessionParams['read_and_close'] = $readAndClose;
+		}
+		if (headers_sent()) {
+			logger('core')->critical('Starting session but headers have been sent. This session will be lost.', [
+				'silence' => $silence,
+				'readAndClose' => $readAndClose,
+			]);
 		}
 		$this->invoke('session_start', [$sessionParams], $silence);
 	}
