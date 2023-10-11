@@ -53,6 +53,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
@@ -67,6 +68,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private IClientService $httpClient;
 	private bool $updateChecked = false;
 	private ExternalShareManager $manager;
+	private IConfig $config;
 
 	/**
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
@@ -78,6 +80,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->cloudId = $options['cloudId'];
 		$this->logger = Server::get(LoggerInterface::class);
 		$discoveryService = Server::get(IOCMDiscoveryService::class);
+		$this->config = Server::get(IConfig::class);
 
 		// use default path to webdav if not found on discovery
 		try {
@@ -290,6 +293,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$result = $client->get($url, [
 				'timeout' => 10,
 				'connect_timeout' => 10,
+				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 			])->getBody();
 			$data = json_decode($result);
 			$returnValue = (is_object($data) && !empty($data->version));
