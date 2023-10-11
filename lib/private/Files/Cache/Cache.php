@@ -896,7 +896,7 @@ class Cache implements ICache {
 	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
-	 * @return int
+	 * @return int|float
 	 */
 	protected function calculateFolderSizeInner(string $path, $entry = null, bool $ignoreUnknown = false) {
 		$totalSize = 0;
