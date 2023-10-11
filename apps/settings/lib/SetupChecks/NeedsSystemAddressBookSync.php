@@ -33,7 +33,7 @@ class NeedsSystemAddressBookSync {
 	public function __construct(private IConfig $config, private IL10N $l10n) {}
 
 	public function description(): string {
-		return $this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occured. Please run it manually by calling occ dav:sync-system-addressbook.');
+		return $this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling "occ dav:sync-system-addressbook".');
 	}
 
 	public function severity(): string {
