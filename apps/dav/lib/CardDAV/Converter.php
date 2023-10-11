@@ -87,7 +87,7 @@ class Converter {
 					break;
 				case IAccountManager::COLLECTION_EMAIL:
 				case IAccountManager::PROPERTY_EMAIL:
-					$vCard->add(new Text($vCard, 'EMAIL', $property->getValue(), ['TYPE' => 'OTHER', 'X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'EMAIL', $property->getValue(), ['X-NC-SCOPE' => $scope]));
 					break;
 				case IAccountManager::PROPERTY_WEBSITE:
 					$vCard->add(new Text($vCard, 'URL', $property->getValue(), ['X-NC-SCOPE' => $scope]));
@@ -108,7 +108,7 @@ class Converter {
 					}
 					break;
 				case IAccountManager::PROPERTY_PHONE:
-					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'VOICE', 'X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['X-NC-SCOPE' => $scope]));
 					break;
 				case IAccountManager::PROPERTY_ADDRESS:
 					// structured prop: https://www.rfc-editor.org/rfc/rfc6350.html#section-6.3.1
