@@ -673,4 +673,17 @@ class IMipService {
 		}
 		return null;
 	}
+
+	public function isRoomOrResource(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if(!$cuType instanceof Parameter) {
+			return false;
+		}
+		$type = $cuType->getValue() ?? 'INDIVIDUAL';
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
+			// Don't send emails to things
+			return true;
+		}
+		return false;
+	}
 }
