@@ -26,48 +26,20 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Search;
 
-use OCP\Accounts\IAccountManager;
-use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-use OCP\Settings\IManager;
 
 class UserSearch implements IProvider {
 
-	/** @var IManager */
-	protected $settingsManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
 
 	/** @var IL10N */
 	protected $l;
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IAccountManager */
-	protected $accountManager;
-
-	public function __construct(IManager $settingsManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								IUserManager $userManager,
-								IAccountManager $accountManager,
+	public function __construct(
 								IL10N $l) {
-		$this->settingsManager = $settingsManager;
-		$this->groupManager = $groupManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
 		$this->l = $l;
 	}
 
