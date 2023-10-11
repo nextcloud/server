@@ -38,8 +38,12 @@ use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCA\User_LDAP\User\User;
+use OCA\User_LDAP\User_Proxy;
 use OCP\GroupInterface;
 use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -54,6 +58,7 @@ class Group_LDAPTest extends TestCase {
 	private MockObject|Access $access;
 	private MockObject|GroupPluginManager $pluginManager;
 	private MockObject|IConfig $config;
+	private MockObject|IUserManager $ncUserManager;
 	private GroupLDAP $groupBackend;
 
 	public function setUp(): void {
@@ -62,10 +67,11 @@ class Group_LDAPTest extends TestCase {
 		$this->access = $this->getAccessMock();
 		$this->pluginManager = $this->createMock(GroupPluginManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->ncUserManager = $this->createMock(IUserManager::class);
 	}
 
 	public function initBackend(): void {
-		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->config);
+		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->config, $this->ncUserManager);
 	}
 
 	public function testCountEmptySearchString() {
@@ -786,12 +792,14 @@ class Group_LDAPTest extends TestCase {
 		$this->access->connection->hasPrimaryGroups = false;
 		$this->access->connection->hasGidNumber = false;
 
+		$expectedGroups = ['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'];
+
 		$this->access->expects($this->any())
 			->method('username2dn')
 			->willReturn($dn);
 		$this->access->expects($this->exactly(5))
 			->method('readAttribute')
-			->will($this->onConsecutiveCalls(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'], [], [], [], []));
+			->will($this->onConsecutiveCalls($expectedGroups, [], [], [], []));
 		$this->access->expects($this->any())
 			->method('dn2groupname')
 			->willReturnArgument(0);
@@ -801,6 +809,10 @@ class Group_LDAPTest extends TestCase {
 		$this->access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', \json_encode($expectedGroups));
 
 		$this->initBackend();
 		$groups = $this->groupBackend->getUserGroups('userX');
@@ -835,6 +847,34 @@ class Group_LDAPTest extends TestCase {
 			->method('nextcloudGroupNames')
 			->willReturn([]);
 
+		// empty group result should not be oer
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', '[]');
+
+		$ldapUser = $this->createMock(User::class);
+
+		$this->access->userManager->expects($this->any())
+			->method('get')
+			->with('userX')
+			->willReturn($ldapUser);
+
+		$userBackend = $this->createMock(User_Proxy::class);
+		$userBackend->expects($this->once())
+			->method('userExistsOnLDAP')
+			->with('userX', true)
+			->willReturn(true);
+
+		$ncUser = $this->createMock(IUser::class);
+		$ncUser->expects($this->any())
+			->method('getBackend')
+			->willReturn($userBackend);
+
+		$this->ncUserManager->expects($this->once())
+			->method('get')
+			->with('userX')
+			->willReturn($ncUser);
+
 		$this->initBackend();
 		$this->groupBackend->getUserGroups('userX');
 	}
@@ -853,6 +893,49 @@ class Group_LDAPTest extends TestCase {
 			->method('get')
 			->with('userX')
 			->willReturn($offlineUser);
+
+		$this->initBackend();
+		$returnedGroups = $this->groupBackend->getUserGroups('userX');
+		$this->assertCount(2, $returnedGroups);
+		$this->assertTrue(in_array('groupB', $returnedGroups));
+		$this->assertTrue(in_array('groupF', $returnedGroups));
+	}
+
+	public function testGetUserGroupsUnrecognizedOfflineUser() {
+		$this->enableGroups();
+		$dn = 'cn=userX,dc=foobar';
+
+		$ldapUser = $this->createMock(User::class);
+
+		$userBackend = $this->createMock(User_Proxy::class);
+		$userBackend->expects($this->once())
+			->method('userExistsOnLDAP')
+			->with('userX', true)
+			->willReturn(false);
+
+		$ncUser = $this->createMock(IUser::class);
+		$ncUser->expects($this->any())
+			->method('getBackend')
+			->willReturn($userBackend);
+
+		$this->config->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', $this->anything())
+			->willReturn(\json_encode(['groupB', 'groupF']));
+
+		$this->access->expects($this->any())
+			->method('username2dn')
+			->willReturn($dn);
+
+		$this->access->userManager->expects($this->any())
+			->method('get')
+			->with('userX')
+			->willReturn($ldapUser);
+
+		$this->ncUserManager->expects($this->once())
+			->method('get')
+			->with('userX')
+			->willReturn($ncUser);
 
 		$this->initBackend();
 		$returnedGroups = $this->groupBackend->getUserGroups('userX');
