@@ -36,6 +36,7 @@ use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\GroupInterface;
 use OCP\IConfig;
+use OCP\IUserManager;
 
 class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend {
 	private $backends = [];
@@ -44,6 +45,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	private GroupPluginManager $groupPluginManager;
 	private bool $isSetUp = false;
 	private IConfig $config;
+	private IUserManager $ncUserManager;
 
 	public function __construct(
 		Helper $helper,
@@ -51,11 +53,13 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		AccessFactory $accessFactory,
 		GroupPluginManager $groupPluginManager,
 		IConfig $config,
+		IUserManager $ncUserManager,
 	) {
 		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
 		$this->groupPluginManager = $groupPluginManager;
 		$this->config = $config;
+		$this->ncUserManager = $ncUserManager;
 	}
 
 	protected function setup(): void {
@@ -66,7 +70,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->config);
+				new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->config, $this->ncUserManager);
 			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
