@@ -273,7 +273,8 @@ export default {
 			isSidebarShown: false,
 			isFullscreenMode: false,
 			canSwipe: true,
-			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files), // FIXME this probably needs some adjustment
+			// TODO: remove OCA?.Files?.fileActions when public Files is Vue
+			isStandalone: OCP?.Files === undefined && OCA?.Files?.fileActions === undefined,
 			theme: null,
 			root: getRootPath(),
 			handlerId: '',
@@ -527,7 +528,7 @@ export default {
 				this.Sidebar = OCA.Files.Sidebar.state
 			}
 
-			this.registerFileAction()
+			this.registerFileActions()
 
 			logger.info(`${this.handlers.length} viewer handlers registered`, { handlers: this.handlers })
 		})
@@ -535,7 +536,7 @@ export default {
 		window.addEventListener('resize', this.onResize)
 
 		if (this.isStandalone) {
-			logger.info('No OCA.Files app found, viewer is now in standalone mode')
+			logger.info('No OCP.Files app found, viewer is now in standalone mode')
 		}
 	},
 
@@ -881,7 +882,7 @@ export default {
 		},
 
 		registerLegacyAction({ mime, group }) {
-			if (!this.isStandalone) {
+			if (!this.isStandalone && OCA?.Files?.fileActions) {
 				// unregistered handler, let's go!
 				OCA.Files.fileActions.registerAction({
 					name: 'view',
@@ -891,7 +892,9 @@ export default {
 					actionHandler: legacyFilesActionHandler,
 				})
 				OCA.Files.fileActions.setDefault(mime, 'view')
+				logger.debug('Legacy file action registered for mime ' + mime, { mime, group })
 			}
+
 			// register groups
 			if (group) {
 				this.mimeGroups[mime] = group
@@ -914,7 +917,7 @@ export default {
 			}
 		},
 
-		registerFileAction() {
+		registerFileActions() {
 			if (!this.isStandalone) {
 				registerFileAction(new FileAction({
 					id: 'view',
@@ -924,9 +927,13 @@ export default {
 					iconSvgInline: () => EyeSvg,
 					default: DefaultType.DEFAULT,
 					enabled: (nodes) => {
-						return nodes.filter((node) => node.permissions & Permission.READ
-							&& this.Viewer.mimetypes.indexOf(node.mime) !== -1,
-						).length > 0
+						// Faster to check if at least one node doesn't match the requirements
+						const test = !nodes.some(node => (
+							(node.permissions & Permission.READ) === 0
+							|| !this.Viewer.mimetypes.includes(node.mime)
+						))
+						console.debug(test)
+						return test
 					},
 					exec: filesActionHandler,
 				}))
