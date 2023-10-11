@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
