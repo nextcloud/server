@@ -185,15 +185,6 @@ class Factory implements ICacheFactory {
 	}
 
 	/**
-	 * @see \OC\Memcache\Factory::createLocal()
-	 * @param string $prefix
-	 * @return ICache
-	 */
-	public function createLowLatency(string $prefix = ''): ICache {
-		return $this->createLocal($prefix);
-	}
-
-	/**
 	 * Check if a local memory cache backend is available
 	 *
 	 * @return bool
