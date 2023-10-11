@@ -5,6 +5,7 @@ OC.L10N.register(
     "Open sidebar" : "Agor y bar ochr",
     "Download" : "Llwytho i lawr",
     "Delete" : "Dileu",
+    "View" : "Golwg",
     "Name" : "Enw",
     "Save" : "Cadw",
     "Back" : "Nôl",
