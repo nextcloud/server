@@ -53,26 +53,43 @@ interface ICacheFactory {
 	 * create a cache instance for storing locks
 	 *
 	 * @param string $prefix
-	 * @return IMemcache
+	 * @return IMemcache|null
 	 * @since 13.0.0
+	 * @since 28.0.0 return type is nullable but the method will continue to return an object for backwards compatibility. Future versions will only return an object if distributed cache is available.
 	 */
-	public function createLocking(string $prefix = ''): IMemcache;
+	public function createLocking(string $prefix = ''): ?IMemcache;
 
 	/**
 	 * create a distributed cache instance
 	 *
 	 * @param string $prefix
-	 * @return ICache
+	 * @return ICache|null a cache implementation
 	 * @since 13.0.0
+	 * @since 28.0.0 return type is nullable but the method will continue to return an object for backwards compatibility. Future versions will only return an object if distributed cache is available.
 	 */
-	public function createDistributed(string $prefix = ''): ICache;
+	public function createDistributed(string $prefix = ''): ?ICache;
 
 	/**
-	 * create a local cache instance
+	 * Create a local cache instance
 	 *
 	 * @param string $prefix
-	 * @return ICache
+	 *
+	 * @return ICache|null a cache implementation
 	 * @since 13.0.0
+	 * @since 28.0.0 return type is nullable but the method will continue to return an object for backwards compatibility. Future versions will only return an object if local cache is available.
 	 */
-	public function createLocal(string $prefix = ''): ICache;
+	public function createLocal(string $prefix = ''): ?ICache;
+
+	/**
+	 * Create an in-memory cache instance
+	 *
+	 * Useful for remembering values inside one process. Cache memory is cleared
+	 * when the object is garbage-collected. Implementation may also expire keys
+	 * earlier when the TTL is reached or too much memory is consumed.
+	 *
+	 * @param int $capacity
+	 * @return ICache
+	 * @since 28.0.0
+	 */
+	public function createInMemory(int $capacity = 512): ICache;
 }

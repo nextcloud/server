@@ -31,6 +31,7 @@
  */
 namespace OC\Memcache;
 
+use OCP\Cache\CappedMemoryCache;
 use OCP\Profiler\IProfiler;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -115,7 +116,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return IMemcache
 	 */
-	public function createLocking(string $prefix = ''): IMemcache {
+	public function createLocking(string $prefix = ''): ?IMemcache {
 		assert($this->lockingCacheClass !== null);
 		$cache = new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix);
 		if ($this->lockingCacheClass === Redis::class && $this->profiler->isEnabled()) {
@@ -137,7 +138,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
-	public function createDistributed(string $prefix = ''): ICache {
+	public function createDistributed(string $prefix = ''): ?ICache {
 		assert($this->distributedCacheClass !== null);
 		$cache = new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix);
 		if ($this->distributedCacheClass === Redis::class && $this->profiler->isEnabled()) {
@@ -159,7 +160,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
-	public function createLocal(string $prefix = ''): ICache {
+	public function createLocal(string $prefix = ''): ?ICache {
 		assert($this->localCacheClass !== null);
 		$cache = new $this->localCacheClass($this->globalPrefix . '/' . $prefix);
 		if ($this->localCacheClass === Redis::class && $this->profiler->isEnabled()) {
@@ -182,6 +183,10 @@ class Factory implements ICacheFactory {
 	 */
 	public function isAvailable(): bool {
 		return $this->distributedCacheClass !== self::NULL_CACHE;
+	}
+
+	public function createInMemory(int $capacity = 512): ICache {
+		return new CappedMemoryCache($capacity);
 	}
 
 	/**
