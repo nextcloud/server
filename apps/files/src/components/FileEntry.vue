@@ -86,44 +86,14 @@
 		</td>
 
 		<!-- Actions -->
-		<td v-show="!isRenamingSmallScreen"
+		<FileEntryActions v-show="!isRenamingSmallScreen"
+			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			class="files-list__row-actions"
-			data-cy-files-list-row-actions>
-			<!-- Render actions -->
-			<CustomElementRender v-for="action in enabledRenderActions"
-				:key="action.id"
-				:class="'files-list__row-action-' + action.id"
-				:current-view="currentView"
-				:render="action.renderInline"
-				:source="source"
-				class="files-list__row-action--inline" />
-
-			<!-- Menu actions -->
-			<NcActions v-if="visible"
-				ref="actionsMenu"
-				:boundaries-element="getBoundariesElement()"
-				:container="getBoundariesElement()"
-				:disabled="isLoading"
-				:force-name="true"
-				:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
-				:inline="enabledInlineActions.length"
-				:open.sync="openedMenu">
-				<NcActionButton v-for="action in enabledMenuActions"
-					:key="action.id"
-					:class="'files-list__row-action-' + action.id"
-					:close-after-click="true"
-					:data-cy-files-list-row-action="action.id"
-					:title="action.title?.([source], currentView)"
-					@click="onActionClick(action)">
-					<template #icon>
-						<NcLoadingIcon v-if="loading === action.id" :size="18" />
-						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
-					</template>
-					{{ actionDisplayName(action) }}
-				</NcActionButton>
-			</NcActions>
-		</td>
+			:files-list-width="filesListWidth"
+			:loading.sync="loading"
+			:opened.sync="openedMenu"
+			:source="source"
+			:visible="visible" />
 
 		<!-- Size -->
 		<td v-if="isSizeAvailable"
@@ -163,7 +133,7 @@ import type { PropType } from 'vue'
 
 import { emit } from '@nextcloud/event-bus'
 import { extname, join } from 'path'
-import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File as NcFile, FileAction, NodeStatus, Node } from '@nextcloud/files'
+import { FileType, formatFileSize, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
 import { getUploader } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -173,29 +143,23 @@ import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
 import Vue from 'vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction.ts'
-import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
+import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import CustomElementRender from './CustomElementRender.vue'
+import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import logger from '../logger.js'
-
-// The registered actions list
-const actions = getFileActions()
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -206,11 +170,8 @@ export default Vue.extend({
 
 	components: {
 		CustomElementRender,
+		FileEntryActions,
 		FileEntryPreview,
-		NcActionButton,
-		NcActions,
-		NcIconSvgWrapper,
-		NcLoadingIcon,
 		NcTextField,
 		FileEntryCheckbox,
 	},
@@ -267,8 +228,8 @@ export default Vue.extend({
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
+		currentView(): View {
+			return this.$navigation.active as View
 		},
 		columns() {
 			// Hide columns if the list is too small
@@ -287,6 +248,12 @@ export default Vue.extend({
 		},
 		fileid() {
 			return this.source?.fileid?.toString?.()
+		},
+		uniqueId() {
+			return hashCode(this.source.source)
+		},
+		isLoading() {
+			return this.source.status === NodeStatus.LOADING
 		},
 
 		extension() {
@@ -363,8 +330,9 @@ export default Vue.extend({
 				}
 			}
 
-			if (this.enabledDefaultActions.length > 0) {
-				const action = this.enabledDefaultActions[0]
+			const enabledDefaultActions = this.$refs?.actions?.enabledDefaultActions
+			if (enabledDefaultActions?.length > 0) {
+				const action = enabledDefaultActions[0]
 				const displayName = action.displayName([this.source], this.currentView)
 				return {
 					title: displayName,
@@ -393,66 +361,6 @@ export default Vue.extend({
 		},
 		isSelected() {
 			return this.selectedFiles.includes(this.fileid)
-		},
-
-		// Sorted actions that are enabled for this node
-		enabledActions() {
-			if (this.source.attributes.failed) {
-				return []
-			}
-
-			return actions
-				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
-				.sort((a, b) => (a.order || 0) - (b.order || 0))
-		},
-
-		// Enabled action that are displayed inline
-		enabledInlineActions() {
-			if (this.filesListWidth < 768) {
-				return []
-			}
-			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
-		},
-
-		// Enabled action that are displayed inline with a custom render function
-		enabledRenderActions() {
-			if (!this.visible) {
-				return []
-			}
-			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
-		},
-
-		// Default actions
-		enabledDefaultActions() {
-			return this.enabledActions.filter(action => !!action?.default)
-		},
-
-		// Actions shown in the menu
-		enabledMenuActions() {
-			return [
-				// Showing inline first for the NcActions inline prop
-				...this.enabledInlineActions,
-				// Then the rest
-				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
-			].filter((value, index, self) => {
-				// Then we filter duplicates to prevent inline actions to be shown twice
-				return index === self.findIndex(action => action.id === value.id)
-			})
-		},
-		openedMenu: {
-			get() {
-				return this.actionsMenuStore.opened === this.uniqueId
-			},
-			set(opened) {
-				this.actionsMenuStore.opened = opened ? this.uniqueId : null
-			},
-		},
-
-		uniqueId() {
-			return hashCode(this.source.source)
-		},
-		isLoading() {
-			return this.source.status === NodeStatus.LOADING
 		},
 
 		renameLabel() {
@@ -507,6 +415,15 @@ export default Vue.extend({
 
 			return (this.source.permissions & Permission.CREATE) !== 0
 		},
+
+		openedMenu: {
+			get() {
+				return this.actionsMenuStore.opened === this.uniqueId
+			},
+			set(opened) {
+				this.actionsMenuStore.opened = opened ? this.uniqueId : null
+			},
+		},
 	},
 
 	watch: {
@@ -543,67 +460,6 @@ export default Vue.extend({
 
 			// Close menu
 			this.openedMenu = false
-		},
-
-		async onActionClick(action) {
-			const displayName = action.displayName([this.source], this.currentView)
-			try {
-				// Set the loading marker
-				this.loading = action.id
-				Vue.set(this.source, 'status', NodeStatus.LOADING)
-
-				const success = await action.exec(this.source, this.currentView, this.currentDir)
-
-				// If the action returns null, we stay silent
-				if (success === null) {
-					return
-				}
-
-				if (success) {
-					showSuccess(t('files', '"{displayName}" action executed successfully', { displayName }))
-					return
-				}
-				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} catch (e) {
-				logger.error('Error while executing action', { action, e })
-				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} finally {
-				// Reset the loading marker
-				this.loading = ''
-				Vue.set(this.source, 'status', undefined)
-			}
-		},
-		execDefaultAction(event) {
-			if (this.enabledDefaultActions.length > 0) {
-				event.preventDefault()
-				event.stopPropagation()
-				// Execute the first default action if any
-				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.currentDir)
-			}
-		},
-
-		openDetailsIfAvailable(event) {
-			event.preventDefault()
-			event.stopPropagation()
-			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
-				sidebarAction.exec(this.source, this.currentView, this.currentDir)
-			}
-		},
-
-		// Open the actions menu on right click
-		onRightClick(event) {
-			// If already opened, fallback to default browser
-			if (this.openedMenu) {
-				return
-			}
-
-			// If the clicked row is in the selection, open global menu
-			const isMoreThanOneSelected = this.selectedFiles.length > 1
-			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this.uniqueId
-
-			// Prevent any browser defaults
-			event.preventDefault()
-			event.stopPropagation()
 		},
 
 		/**
@@ -749,23 +605,32 @@ export default Vue.extend({
 			}
 		},
 
-		/**
-		 * Making this a function in case the files-list
-		 * reference changes in the future. That way we're
-		 * sure there is one at the time we call it.
-		 */
-		getBoundariesElement() {
-			return document.querySelector('.app-content > .files-list')
+		// Open the actions menu on right click
+		onRightClick(event) {
+			// If already opened, fallback to default browser
+			if (this.openedMenu) {
+				return
+			}
+
+			// If the clicked row is in the selection, open global menu
+			const isMoreThanOneSelected = this.selectedFiles.length > 1
+			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this.uniqueId
+
+			// Prevent any browser defaults
+			event.preventDefault()
+			event.stopPropagation()
 		},
 
-		actionDisplayName(action: FileAction) {
-			if (this.filesListWidth < 768 && action.inline && typeof action.title === 'function') {
-				// if an inline action is rendered in the menu for
-				// lack of space we use the title first if defined
-				const title = action.title([this.source], this.currentView)
-				if (title) return title
+		execDefaultAction() {
+			this.$refs.actions.execDefaultAction()
+		},
+
+		openDetailsIfAvailable(event) {
+			event.preventDefault()
+			event.stopPropagation()
+			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
+				sidebarAction.exec(this.source, this.currentView, this.currentDir)
 			}
-			return action.displayName([this.source], this.currentView)
 		},
 
 		onDragOver(event: DragEvent) {
