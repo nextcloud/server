@@ -81,7 +81,7 @@
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Root",
-    "SFTP with secret key login" : "SFTP prihlásenie s tajným kľúčom",
+    "SFTP with secret key login" : "SFTP prihlásenie pomocou tajného kľúča",
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Sprístupniť",
     "Show hidden files" : "Zobraziť skryté súbory",

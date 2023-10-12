@@ -253,7 +253,7 @@ OC.L10N.register(
     "Created new folder \"{name}\"" : "Vytvorený nový adresár \"{name}\"",
     "Set up templates folder" : "Nastaviť priečinok pre šablóny",
     "Templates" : "Šablóny",
-    "Create new templates folder" : "Vytvoriť nový vzorový adresár",
+    "Create new templates folder" : "Vytvoriť nový vzorový priečinok",
     "Unable to initialize the templates directory" : "Nemôžem inicializovať priečinok so šablónami",
     "List of favorites files and folders." : "Zoznam obľúbených súborov a adresárov.",
     "No favorites yet" : "Zatiaľ žiadne obľúbené",
