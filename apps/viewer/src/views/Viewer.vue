@@ -928,12 +928,10 @@ export default {
 					default: DefaultType.DEFAULT,
 					enabled: (nodes) => {
 						// Faster to check if at least one node doesn't match the requirements
-						const test = !nodes.some(node => (
+						return !nodes.some(node => (
 							(node.permissions & Permission.READ) === 0
 							|| !this.Viewer.mimetypes.includes(node.mime)
 						))
-						console.debug(test)
-						return test
 					},
 					exec: filesActionHandler,
 				}))
