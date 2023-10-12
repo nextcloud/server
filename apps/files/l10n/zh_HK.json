@@ -169,6 +169,8 @@
     "File Management" : "檔案管理",
     "Reload current directory" : "重新加載目前目錄",
     "Go to the \"{dir}\" directory" : "前往「{dir}」目錄",
+    "Drag and drop files here to upload" : "將檔案拖拽到此處即可上傳",
+    "Upload successful" : "上傳成功",
     "Select the row for {displayName}" : "選擇 {displayName} 的行",
     "Rename file" : "重新命名檔案",
     "A long time ago" : "很久以前",

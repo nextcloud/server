@@ -15,6 +15,7 @@
     "Version restored" : "Verzia bola obnovená",
     "Could not restore version" : "Nepodarilo sa obnoviť verziu",
     "Could not delete version" : "Nepodarilo sa odstrániť verziu",
+    "${version.label} restored" : "${version.label} obnovené",
     "Failed to revert {file} to revision {timestamp}." : "Zlyhalo obnovenie súboru {file} na verziu {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajtov","%n bajtov","%n bajtov"],
     "Restore" : "Obnoviť",

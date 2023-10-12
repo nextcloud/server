@@ -235,7 +235,7 @@ OC.L10N.register(
     "Error updating the share" : "Erreur lors de la mise à jour du partage",
     "File \"{path}\" has been unshared" : "Le partage du fichier \"{path}\" a été retiré",
     "Folder \"{path}\" has been unshared" : "Le partage du dossier \"{path}\" a été retiré",
-    "Share {propertyName} saved" : "{propertyName} du partage enregistré",
+    "Share {propertyName} saved" : "{propertyName} du partage enregistré(e)(s)",
     "Shared by" : "Partagé par",
     "Shared with" : "Partagé avec",
     "Password created successfully" : "Mot de passe créé avec succès",

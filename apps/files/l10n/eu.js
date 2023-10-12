@@ -171,6 +171,8 @@ OC.L10N.register(
     "File Management" : "Fitxategi-kudeaketa",
     "Reload current directory" : "Birkargatu uneko direktorioa",
     "Go to the \"{dir}\" directory" : "Joan \"{dir}\" direktoriora",
+    "Drag and drop files here to upload" : "Jaregin fitxategiak hemen igotzeko",
+    "Upload successful" : "Igoera ongi burutu da",
     "Select the row for {displayName}" : "Hautatu {displayName} errenkada",
     "Rename file" : "Berrizendatu fitxategia",
     "A long time ago" : "Orain dela denbora asko",

@@ -171,6 +171,8 @@ OC.L10N.register(
     "File Management" : "Управљање фајловима",
     "Reload current directory" : "Поново учитај текући директоријум",
     "Go to the \"{dir}\" directory" : "Иди у „{dir}” дирекотријум",
+    "Drag and drop files here to upload" : "Да отпремите, превуците и отпустите фајлове овде",
+    "Upload successful" : "Отпремање је успешно",
     "Select the row for {displayName}" : "Изабери ред за {displayName}",
     "Rename file" : "Промени назив фајла",
     "A long time ago" : "Пре доста времена",
