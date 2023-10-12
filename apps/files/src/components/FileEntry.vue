@@ -37,13 +37,11 @@
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<td class="files-list__row-checkbox">
-			<NcLoadingIcon v-if="isLoading" />
-			<NcCheckboxRadioSwitch v-else-if="visible"
-				:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
-				:checked="isSelected"
-				@update:checked="onSelectionChange" />
-		</td>
+		<FileEntryCheckbox v-if="visible"
+			:display-name="displayName"
+			:fileid="fileid"
+			:loading="isLoading"
+			:nodes="nodes"/>
 
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
@@ -177,7 +175,6 @@ import Vue from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
@@ -190,10 +187,10 @@ import { hashCode } from '../utils/hashUtils.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
-import { useKeyboardStore } from '../store/keyboard.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import CustomElementRender from './CustomElementRender.vue'
+import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import logger from '../logger.js'
 
@@ -212,10 +209,10 @@ export default Vue.extend({
 		FileEntryPreview,
 		NcActionButton,
 		NcActions,
-		NcCheckboxRadioSwitch,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NcTextField,
+		FileEntryCheckbox,
 	},
 
 	props: {
@@ -235,10 +232,6 @@ export default Vue.extend({
 			type: [Folder, NcFile, Node] as PropType<Node>,
 			required: true,
 		},
-		index: {
-			type: Number,
-			required: true,
-		},
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
@@ -253,14 +246,12 @@ export default Vue.extend({
 		const actionsMenuStore = useActionsMenuStore()
 		const draggingStore = useDragAndDropStore()
 		const filesStore = useFilesStore()
-		const keyboardStore = useKeyboardStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		return {
 			actionsMenuStore,
 			draggingStore,
 			filesStore,
-			keyboardStore,
 			renamingStore,
 			selectionStore,
 		}
@@ -276,7 +267,6 @@ export default Vue.extend({
 	},
 
 	computed: {
-
 		currentView() {
 			return this.$navigation.active
 		},
@@ -598,41 +588,6 @@ export default Vue.extend({
 			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
 				sidebarAction.exec(this.source, this.currentView, this.currentDir)
 			}
-		},
-
-		onSelectionChange(selected: boolean) {
-			const newSelectedIndex = this.index
-			const lastSelectedIndex = this.selectionStore.lastSelectedIndex
-
-			// Get the last selected and select all files in between
-			if (this.keyboardStore?.shiftKey && lastSelectedIndex !== null) {
-				const isAlreadySelected = this.selectedFiles.includes(this.fileid)
-
-				const start = Math.min(newSelectedIndex, lastSelectedIndex)
-				const end = Math.max(lastSelectedIndex, newSelectedIndex)
-
-				const lastSelection = this.selectionStore.lastSelection
-				const filesToSelect = this.nodes
-					.map(file => file.fileid?.toString?.())
-					.slice(start, end + 1)
-
-				// If already selected, update the new selection _without_ the current file
-				const selection = [...lastSelection, ...filesToSelect]
-					.filter(fileid => !isAlreadySelected || fileid !== this.fileid)
-
-				logger.debug('Shift key pressed, selecting all files in between', { start, end, filesToSelect, isAlreadySelected })
-				// Keep previous lastSelectedIndex to be use for further shift selections
-				this.selectionStore.set(selection)
-				return
-			}
-
-			const selection = selected
-				? [...this.selectedFiles, this.fileid]
-				: this.selectedFiles.filter(fileid => fileid !== this.fileid)
-
-			logger.debug('Updating selection', { selection })
-			this.selectionStore.set(selection)
-			this.selectionStore.setLastIndex(newSelectedIndex)
 		},
 
 		// Open the actions menu on right click
