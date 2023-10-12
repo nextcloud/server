@@ -96,6 +96,14 @@ class OCMProvider implements IOCMProvider {
 	}
 
 	/**
+	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
+	 * @return IOCMResource
+	 */
+	public function createNewResourceType(): IOCMResource {
+		return new OCMResource();
+	}
+
+	/**
 	 * @param IOCMResource $resource
 	 *
 	 * @return $this

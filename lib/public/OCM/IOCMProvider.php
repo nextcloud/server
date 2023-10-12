@@ -91,6 +91,13 @@ interface IOCMProvider extends JsonSerializable {
 	public function getEndPoint(): string;
 
 	/**
+	 * create a new resource to later add it with {@see addResourceType()}
+	 * @return IOCMResource
+	 * @since 28.0.0
+	 */
+	public function createNewResourceType(): IOCMResource;
+
+	/**
 	 * add a single resource to the object
 	 *
 	 * @param IOCMResource $resource
