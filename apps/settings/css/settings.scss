@@ -2,7 +2,8 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 @use 'variables';
-@import 'functions';
+@use 'sass:math';
+@import 'functions';	
 
 input {
 	&#openid, &#webdav {
@@ -914,6 +915,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
+			white-space: normal;
 		}
 
 		margin-bottom: 100px;
@@ -931,6 +933,13 @@ span.version {
 				border-bottom: 1px solid var(--color-border);
 				padding: 6px;
 				box-sizing: border-box;
+			}
+
+			> .actions {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: end;
 			}
 
 			&.selected {
@@ -1058,6 +1067,13 @@ span.version {
 				margin-top: 50px;
 			}
 		}
+	}
+}
+
+// Display buttons above each other on mobile
+@media (max-width: math.div(1024px, 2)) {
+	.apps-list.installed .section > .actions {
+		display: table-cell;
 	}
 }
 
