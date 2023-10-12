@@ -30,6 +30,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0-or-later
  *
