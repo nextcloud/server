@@ -263,7 +263,7 @@ export default {
 		},
 
 		// Fallback to the original image if not already done
-		onFail(event) {
+		onFail() {
 			if (!this.fallback) {
 				console.error(`Loading of file preview ${basename(this.src)} failed, falling back to original file`)
 				this.fallback = true

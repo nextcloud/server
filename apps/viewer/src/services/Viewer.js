@@ -102,7 +102,7 @@ export default class Viewer {
 		this._state.handlers.push(handler)
 		const handledMimes = [
 			...handler.mimes,
-			...Object.keys(handler.mimesAliases || {})
+			...Object.keys(handler.mimesAliases || {}),
 		]
 		this._mimetypes.push.apply(this._mimetypes, handledMimes)
 		if (handler?.canCompare === true) {

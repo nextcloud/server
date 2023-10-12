@@ -510,7 +510,7 @@ export default {
 
 	beforeMount() {
 		// register on load
-		document.addEventListener('DOMContentLoaded', event => {
+		document.addEventListener('DOMContentLoaded', () => {
 			// register all primary components mimes
 			this.handlers.forEach(handler => {
 				this.registerHandler(handler)
