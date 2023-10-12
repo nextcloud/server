@@ -5,8 +5,9 @@ on:
   push:
     branches:
       # implemented since 28, once branched off, add your stable branch here
-      - main
       # - stable28
+      - main
+      - master
 
 concurrency:
   group: update-node-dist-${{ github.head_ref || github.ref || github.run_id }}
