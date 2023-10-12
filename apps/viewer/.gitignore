@@ -32,3 +32,6 @@ cypress/snapshots/diff
 # RelativeCI webpack bundle stats
 webpack-stats.json
 *.orig
+
+# js folder, to be updated wth --force
+/js

@@ -37,17 +37,17 @@ jobs:
     name: node
     steps:
       - name: Checkout
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: versions
         with:
-          fallbackNode: '^16'
-          fallbackNpm: '^7'
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@bea5baf987ba7aa777a8a0b4ace377a21c45c381 # v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -61,19 +61,8 @@ jobs:
           npm run stats --if-present
 
       - name: Send bundle stats to RelativeCI
-        uses: relative-ci/agent-action@12ae70ae754dd23b097fc19af712a45b8426de55 # v2
+        uses: relative-ci/agent-action@e92b0c712e5ad0a039faf1026cbe438b8e7fed16 # v2
         with:
           webpackStatsFile: ./webpack-stats.json
           key: ${{ secrets.RELATIVE_CI_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check webpack build changes
-        run: |
-          bash -c "[[ ! \"`git status --porcelain `\" ]] || (echo 'Please recompile and commit the assets, see the section \"Show changes on failure\" for details' && exit 1)"
-
-      - name: Show changes on failure
-        if: failure()
-        run: |
-          git status
-          git --no-pager diff
-          exit 1 # make it red to grab attention
