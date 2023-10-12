@@ -34,6 +34,7 @@
 		<template v-else>
 			<!-- Link to file -->
 			<th class="files-list__column files-list__row-name files-list__column--sortable"
+				:aria-sort="ariaSortForMode('basename')"
 				@click.stop.prevent="toggleSortBy('basename')">
 				<!-- Icon or preview -->
 				<span class="files-list__row-icon" />
@@ -48,21 +49,24 @@
 			<!-- Size -->
 			<th v-if="isSizeAvailable"
 				:class="{'files-list__column--sortable': isSizeAvailable}"
-				class="files-list__column files-list__row-size">
+				class="files-list__column files-list__row-size"
+				:aria-sort="ariaSortForMode('size')">
 				<FilesListTableHeaderButton :name="t('files', 'Size')" mode="size" />
 			</th>
 
 			<!-- Mtime -->
 			<th v-if="isMtimeAvailable"
 				:class="{'files-list__column--sortable': isMtimeAvailable}"
-				class="files-list__column files-list__row-mtime">
+				class="files-list__column files-list__row-mtime"
+				:aria-sort="ariaSortForMode('mtime')">
 				<FilesListTableHeaderButton :name="t('files', 'Modified')" mode="mtime" />
 			</th>
 
 			<!-- Custom views columns -->
 			<th v-for="column in columns"
 				:key="column.id"
-				:class="classForColumn(column)">
+				:class="classForColumn(column)"
+				:aria-sort="ariaSortForMode(column.id)">
 				<FilesListTableHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
 				<span v-else>
 					{{ column.title }}
@@ -173,6 +177,13 @@ export default Vue.extend({
 	},
 
 	methods: {
+		ariaSortForMode(mode: string): ARIAMixin['ariaSort'] {
+			if (this.sortingMode === mode) {
+				return this.isAscSorting ? 'ascending' : 'descending'
+			}
+			return null
+		},
+
 		classForColumn(column) {
 			return {
 				'files-list__column': true,
