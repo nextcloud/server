@@ -370,6 +370,9 @@ export default {
 			if (event.ctrlKey && event.key === 'f' && !this.open) {
 				event.preventDefault()
 				this.open = true
+			} else if (event.ctrlKey && event.key === 'f' && this.open) {
+				// User wants to use the native browser search, so we close ours again
+				this.open = false
 			}
 
 			// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
