@@ -28,8 +28,10 @@
 ?>
 
 <div id="security-warning" class="section">
-	<h2 class="inlineblock"><?php p($l->t('Security & setup warnings'));?></h2>
-	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-warnings')); ?>"></a>
+	<div class="security-warning__heading">
+		<h2><?php p($l->t('Security & setup warnings'));?></h2>
+		<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-warnings')); ?>"></a>
+	</div>
 	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.'));?></p>
 
 	<div id="security-warning-state-ok" class="hidden">
