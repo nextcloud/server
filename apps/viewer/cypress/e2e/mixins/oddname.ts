@@ -43,7 +43,7 @@ function naughtyFileName(realName) {
 }
 
 let failsLeft = 5
-Cypress.on('fail', (error, runnable) => {
+Cypress.on('fail', (error) => {
 	failsLeft--
 	throw error // throw error to have test still fail
 })

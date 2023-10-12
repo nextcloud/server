@@ -141,7 +141,7 @@ export default {
 	},
 
 	methods: {
-		hideHeaderAndFooter(e) {
+		hideHeaderAndFooter() {
 			// work arround to get the state of the fullscreen button, aria-selected attribute is not reliable
 			this.isFullscreenButtonVisible = !this.isFullscreenButtonVisible
 			if (this.isFullscreenButtonVisible) {
