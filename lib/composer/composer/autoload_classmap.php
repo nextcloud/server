@@ -537,6 +537,7 @@ return array(
     'OCP\\Notification\\IManager' => $baseDir . '/lib/public/Notification/IManager.php',
     'OCP\\Notification\\INotification' => $baseDir . '/lib/public/Notification/INotification.php',
     'OCP\\Notification\\INotifier' => $baseDir . '/lib/public/Notification/INotifier.php',
+    'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => $baseDir . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
     'OCP\\OCM\\Exceptions\\OCMArgumentException' => $baseDir . '/lib/public/OCM/Exceptions/OCMArgumentException.php',
     'OCP\\OCM\\Exceptions\\OCMProviderException' => $baseDir . '/lib/public/OCM/Exceptions/OCMProviderException.php',
     'OCP\\OCM\\IOCMDiscoveryService' => $baseDir . '/lib/public/OCM/IOCMDiscoveryService.php',
