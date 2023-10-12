@@ -169,6 +169,8 @@
     "File Management" : "Gestió de fitxers",
     "Reload current directory" : "Torna a carregar la carpeta actual",
     "Go to the \"{dir}\" directory" : "Ves a la carpeta «{dir}»",
+    "Drag and drop files here to upload" : "Arrossegueu i deixeu anar fitxers aquí per a pujar-los",
+    "Upload successful" : "S'ha pujat correctament",
     "Select the row for {displayName}" : "Selecciona la fila per a {displayName}",
     "Rename file" : "Canvia el nom del fitxer",
     "A long time ago" : "Fa molt de temps",

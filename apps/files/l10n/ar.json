@@ -169,6 +169,8 @@
     "File Management" : "إدارة الملفات",
     "Reload current directory" : "إعادة تحميل المجلد الحالي",
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
+    "Drag and drop files here to upload" : "إسحَب و أفلِت الملفات هنا لرفعها",
+    "Upload successful" : "تمّ الرفع بنجاحٍ",
     "Select the row for {displayName}" : "إختر السطر في {displayName}",
     "Rename file" : "إعادة تسمية الملف",
     "A long time ago" : "منذ وقت طويل",

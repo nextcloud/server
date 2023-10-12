@@ -171,6 +171,8 @@ OC.L10N.register(
     "File Management" : "Dosya yönetimi",
     "Reload current directory" : "Geçerli klasörü yeniden yükle",
     "Go to the \"{dir}\" directory" : "\"{dir}\" klasörüne git",
+    "Drag and drop files here to upload" : "Yüklemek istediğiniz dosyaları sürükleyip buraya bırakın",
+    "Upload successful" : "Yüklendi",
     "Select the row for {displayName}" : "{displayName} satırını seç",
     "Rename file" : "Dosyayı yeniden adlandır",
     "A long time ago" : "Uzun süre önce",

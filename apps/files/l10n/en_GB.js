@@ -171,6 +171,8 @@ OC.L10N.register(
     "File Management" : "File Management",
     "Reload current directory" : "Reload current directory",
     "Go to the \"{dir}\" directory" : "Go to the \"{dir}\" directory",
+    "Drag and drop files here to upload" : "Drag and drop files here to upload",
+    "Upload successful" : "Upload successful",
     "Select the row for {displayName}" : "Select the row for {displayName}",
     "Rename file" : "Rename file",
     "A long time ago" : "A long time ago",
