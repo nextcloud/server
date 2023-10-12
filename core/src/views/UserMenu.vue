@@ -24,12 +24,15 @@
 	<NcHeaderMenu id="user-menu"
 		class="user-menu"
 		is-nav
-		:aria-label="t('core', 'Settings menu')">
+		:aria-label="t('core', 'Settings menu')"
+		:description="avatarDescription">
 		<template #trigger>
-			<NcAvatar class="user-menu__avatar"
+			<NcAvatar v-if="!isLoadingUserStatus"
+				class="user-menu__avatar"
 				:disable-menu="true"
 				:disable-tooltip="true"
-				:user="userId" />
+				:user="userId"
+				:preloaded-user-status="userStatus" />
 		</template>
 		<ul>
 			<UserMenuEntry v-for="entry in settingsNavEntries"
@@ -40,16 +43,33 @@
 </template>
 
 <script>
-import { emit } from '@nextcloud/event-bus'
-import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { getCapabilities } from '@nextcloud/capabilities'
 
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
 
+import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
 import UserMenuEntry from '../components/UserMenu/UserMenuEntry.vue'
 
+import logger from '../logger.js'
+
 const settingsNavEntries = loadState('core', 'settingsNavEntries', [])
+
+const translateStatus = (status) => {
+	const statusMap = Object.fromEntries(
+		getAllStatusOptions()
+			.map(({ type, label }) => [type, label]),
+	)
+	if (statusMap[status]) {
+		return statusMap[status]
+	}
+	return status
+}
 
 export default {
 	name: 'UserMenu',
@@ -63,12 +83,66 @@ export default {
 	data() {
 		return {
 			settingsNavEntries,
+			displayName: getCurrentUser()?.displayName,
 			userId: getCurrentUser()?.uid,
+			isLoadingUserStatus: true,
+			userStatus: {
+				status: null,
+				icon: null,
+				message: null,
+			},
 		}
 	},
 
+	computed: {
+		translatedUserStatus() {
+			return {
+				...this.userStatus,
+				status: translateStatus(this.userStatus.status),
+			}
+		},
+
+		avatarDescription() {
+			const description = [
+				t('core', 'Avatar of {displayName}', { displayName: this.displayName }),
+				...Object.values(this.translatedUserStatus).filter(Boolean),
+			].join(' — ')
+			return description
+		},
+	},
+
+	async created() {
+		if (!getCapabilities()?.user_status?.enabled) {
+			this.isLoadingUserStatus = false
+			return
+		}
+
+		const url = generateOcsUrl('/apps/user_status/api/v1/user_status')
+		try {
+			const response = await axios.get(url)
+			const { status, icon, message } = response.data.ocs.data
+			this.userStatus = { status, icon, message }
+		} catch (e) {
+			logger.error('Failed to load user status')
+		}
+		this.isLoadingUserStatus = false
+	},
+
 	mounted() {
+		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
 		emit('core:user-menu:mounted')
+	},
+
+	methods: {
+		handleUserStatusUpdated(state) {
+			if (this.userId === state.userId) {
+				this.userStatus = {
+					status: state.status,
+					icon: state.icon,
+					message: state.message,
+				}
+			}
+		},
 	},
 }
 </script>
