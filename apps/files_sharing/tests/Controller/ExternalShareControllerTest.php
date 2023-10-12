@@ -27,6 +27,7 @@ use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Http\Client\IResponse;
 use OCP\Http\Client\IClient;
@@ -50,6 +51,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
 		$this->clientService = $this->createMock(IClientService::class);
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	/**
@@ -60,7 +62,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->clientService
+			$this->clientService,
+			$this->config,
 		);
 	}
 

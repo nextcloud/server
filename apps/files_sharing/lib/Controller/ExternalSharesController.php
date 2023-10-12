@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IRequest;
 
 /**
@@ -37,25 +38,14 @@ use OCP\IRequest;
  * @package OCA\Files_Sharing\Controller
  */
 class ExternalSharesController extends Controller {
-
-	/** @var \OCA\Files_Sharing\External\Manager */
-	private $externalManager;
-	/** @var IClientService */
-	private $clientService;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param \OCA\Files_Sharing\External\Manager $externalManager
-	 * @param IClientService $clientService
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								\OCA\Files_Sharing\External\Manager $externalManager,
-								IClientService $clientService) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private \OCA\Files_Sharing\External\Manager $externalManager,
+		private IClientService $clientService,
+		private IConfig $config,
+	) {
 		parent::__construct($appName, $request);
-		$this->externalManager = $externalManager;
-		$this->clientService = $clientService;
 	}
 
 	/**
@@ -107,6 +97,7 @@ class ExternalSharesController extends Controller {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			)->getBody());
 
