@@ -23,21 +23,19 @@
 <template>
 	<NcHeaderMenu id="user-menu"
 		class="user-menu"
-		:aria-label="t('core', 'Open settings menu')">
+		is-nav
+		:aria-label="t('core', 'Settings menu')">
 		<template #trigger>
 			<NcAvatar class="user-menu__avatar"
 				:disable-menu="true"
 				:disable-tooltip="true"
 				:user="userId" />
 		</template>
-		<nav class="user-menu__nav"
-			:aria-label="t('core', 'Settings menu')">
-			<ul>
-				<UserMenuEntry v-for="entry in settingsNavEntries"
-					v-bind="entry"
-					:key="entry.id" />
-			</ul>
-		</nav>
+		<ul>
+			<UserMenuEntry v-for="entry in settingsNavEntries"
+				v-bind="entry"
+				:key="entry.id" />
+		</ul>
 	</NcHeaderMenu>
 </template>
 
@@ -108,74 +106,69 @@ export default {
 		}
 	}
 
-	&__nav {
+	ul {
 		display: flex;
-		width: 100%;
+		flex-direction: column;
+		gap: 2px;
 
-		ul {
-			display: flex;
-			flex-direction: column;
-			gap: 2px;
+		&:deep {
+			li {
+				a,
+				button {
+					border-radius: 6px;
+					display: inline-flex;
+					align-items: center;
+					height: var(--header-menu-item-height);
+					color: var(--color-main-text);
+					padding: 10px 8px;
+					box-sizing: border-box;
+					white-space: nowrap;
+					position: relative;
+					width: 100%;
 
-			&:deep {
-				li {
-					a,
-					button {
-						border-radius: 6px;
-						display: inline-flex;
-						align-items: center;
-						height: var(--header-menu-item-height);
+					&:hover {
+						background-color: var(--color-background-hover);
+					}
+
+					&:focus-visible {
+						background-color: var(--color-background-hover) !important;
+						box-shadow: inset 0 0 0 2px var(--color-primary-element) !important;
+						outline: none !important;
+					}
+
+					&:active,
+					&.active {
+						background-color: var(--color-primary-element);
+						color: var(--color-primary-element-text);
+					}
+
+					span {
+						padding-bottom: 0;
 						color: var(--color-main-text);
-						padding: 10px 8px;
-						box-sizing: border-box;
 						white-space: nowrap;
-						position: relative;
-						width: 100%;
-
-						&:hover {
-							background-color: var(--color-background-hover);
-						}
-
-						&:focus-visible {
-							background-color: var(--color-background-hover) !important;
-							box-shadow: inset 0 0 0 2px var(--color-primary-element) !important;
-							outline: none !important;
-						}
-
-						&:active,
-						&.active {
-							background-color: var(--color-primary-element);
-							color: var(--color-primary-element-text);
-						}
-
-						span {
-							padding-bottom: 0;
-							color: var(--color-main-text);
-							white-space: nowrap;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							max-width: 110px;
-						}
-
-						img {
-							width: 16px;
-							height: 16px;
-							margin-right: 10px;
-						}
-
-						img,
-						svg {
-							filter: var(--background-invert-if-dark);
-						}
+						overflow: hidden;
+						text-overflow: ellipsis;
+						max-width: 110px;
 					}
 
-					// Override global button styles
-					button {
-						background-color: transparent;
-						border: none;
-						font-weight: normal;
-						margin: 0;
+					img {
+						width: 16px;
+						height: 16px;
+						margin-right: 10px;
 					}
+
+					img,
+					svg {
+						filter: var(--background-invert-if-dark);
+					}
+				}
+
+				// Override global button styles
+				button {
+					background-color: transparent;
+					border: none;
+					font-weight: normal;
+					margin: 0;
 				}
 			}
 		}
