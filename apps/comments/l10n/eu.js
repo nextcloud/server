@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Ezabatu iruzkina",
     "Cancel edit" : "Utzi editatzeari",
     "Post comment" : "Argitaratu iruzkina",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" aipamenetarako, \":\" emojientzako, \"/\" hautatzaile adimentsurako",
     "No comments yet, start the conversation!" : "Oraindik ez dago iruzkinik, izan zaitez lehena zerbait esanez!",
     "No more messages" : "Ez da mezu gehiagorik",
     "Retry" : "Saiatu berriro",

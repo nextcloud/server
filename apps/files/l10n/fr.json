@@ -169,6 +169,8 @@
     "File Management" : "Gestion de fichiers",
     "Reload current directory" : "Rafraîchir le dossier courant",
     "Go to the \"{dir}\" directory" : "Aller au dossier \"{dir}\"",
+    "Drag and drop files here to upload" : "Glissez-déposez les fichiers ici pour les téléverser",
+    "Upload successful" : "Téléversement réussi",
     "Select the row for {displayName}" : "Sélectionner la ligne pour {displayName}",
     "Rename file" : "Renommer le fichier",
     "A long time ago" : "Il y a longtemps",

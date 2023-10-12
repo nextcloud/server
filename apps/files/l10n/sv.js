@@ -171,6 +171,8 @@ OC.L10N.register(
     "File Management" : "Filhantering",
     "Reload current directory" : "Ladda om nuvarande mapp",
     "Go to the \"{dir}\" directory" : "Gå till \"{dir}\" mappen",
+    "Drag and drop files here to upload" : "Dra och släpp filer här för att ladda upp",
+    "Upload successful" : "Uppladdningen lyckades",
     "Select the row for {displayName}" : "Välj raden för {displayName}",
     "Rename file" : "Byt namn på fil",
     "A long time ago" : "För länge sedan",
