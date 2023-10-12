@@ -48,36 +48,10 @@
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
-			<span class="files-list__row-icon" @click="execDefaultAction">
-				<template v-if="source.type === 'folder'">
-					<FolderOpenIcon v-if="dragover" />
-					<template v-else>
-						<FolderIcon />
-						<OverlayIcon :is="folderOverlay"
-							v-if="folderOverlay"
-							class="files-list__row-icon-overlay" />
-					</template>
-				</template>
-
-				<!-- Decorative image, should not be aria documented -->
-				<img v-else-if="previewUrl && backgroundFailed !== true"
-					ref="previewImg"
-					alt=""
-					class="files-list__row-icon-preview"
-					:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
-					:src="previewUrl"
-					@error="backgroundFailed = true"
-					@load="backgroundFailed = false">
-
-				<FileIcon v-else />
-
-				<!-- Favorite icon -->
-				<span v-if="isFavorite"
-					class="files-list__row-icon-favorite"
-					:aria-label="t('files', 'Favorite')">
-					<FavoriteIcon />
-				</span>
-			</span>
+			<FileEntryPreview ref="preview"
+				:source="source"
+				:dragover="dragover"
+				@click.native="execDefaultAction" />
 
 			<!-- Rename input -->
 			<form v-if="isRenaming"
@@ -189,28 +163,18 @@
 <script lang="ts">
 import type { PropType } from 'vue'
 
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { emit } from '@nextcloud/event-bus'
 import { extname, join } from 'path'
-import { generateUrl } from '@nextcloud/router'
 import { getFileActions, DefaultType, FileType, formatFileSize, Permission, Folder, File as NcFile, FileAction, NodeStatus, Node } from '@nextcloud/files'
 import { getUploader } from '@nextcloud/upload'
+import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import { Type as ShareType } from '@nextcloud/sharing'
 import { vOnClickOutside } from '@vueuse/components'
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
 import Vue from 'vue'
 
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
-import FileIcon from 'vue-material-design-icons/File.vue'
-import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import FolderOpenIcon from 'vue-material-design-icons/FolderOpen.vue'
-import KeyIcon from 'vue-material-design-icons/Key.vue'
-import TagIcon from 'vue-material-design-icons/Tag.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
-import NetworkIcon from 'vue-material-design-icons/Network.vue'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
@@ -229,11 +193,9 @@ import { useFilesStore } from '../store/files.ts'
 import { useKeyboardStore } from '../store/keyboard.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import { useUserConfigStore } from '../store/userconfig.ts'
 import CustomElementRender from './CustomElementRender.vue'
-import FavoriteIcon from './FavoriteIcon.vue'
+import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import logger from '../logger.js'
-import { loadState } from '@nextcloud/initial-state'
 
 // The registered actions list
 const actions = getFileActions()
@@ -246,23 +208,14 @@ export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
-		AccountGroupIcon,
-		AccountPlusIcon,
 		CustomElementRender,
-		FavoriteIcon,
-		FileIcon,
-		FolderIcon,
-		FolderOpenIcon,
-		KeyIcon,
-		LinkIcon,
+		FileEntryPreview,
 		NcActionButton,
 		NcActions,
 		NcCheckboxRadioSwitch,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NcTextField,
-		NetworkIcon,
-		TagIcon,
 	},
 
 	props: {
@@ -303,7 +256,6 @@ export default Vue.extend({
 		const keyboardStore = useKeyboardStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const userConfigStore = useUserConfigStore()
 		return {
 			actionsMenuStore,
 			draggingStore,
@@ -311,13 +263,11 @@ export default Vue.extend({
 			keyboardStore,
 			renamingStore,
 			selectionStore,
-			userConfigStore,
 		}
 	},
 
 	data() {
 		return {
-			backgroundFailed: undefined,
 			loading: '',
 			dragover: false,
 
@@ -326,9 +276,6 @@ export default Vue.extend({
 	},
 
 	computed: {
-		userConfig() {
-			return this.userConfigStore.userConfig
-		},
 
 		currentView() {
 			return this.$navigation.active
@@ -418,43 +365,6 @@ export default Vue.extend({
 			return ''
 		},
 
-		folderOverlay() {
-			if (this.source.type !== FileType.Folder) {
-				return null
-			}
-
-			// Encrypted folders
-			if (this.source?.attributes?.['is-encrypted'] === 1) {
-				return KeyIcon
-			}
-
-			// System tags
-			if (this.source?.attributes?.['is-tag']) {
-				return TagIcon
-			}
-
-			// Link and mail shared folders
-			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
-			if (shareTypes.some(type => type === ShareType.SHARE_TYPE_LINK || type === ShareType.SHARE_TYPE_EMAIL)) {
-				return LinkIcon
-			}
-
-			// Shared folders
-			if (shareTypes.length > 0) {
-				return AccountPlusIcon
-			}
-
-			switch (this.source?.attributes?.['mount-type']) {
-			case 'external':
-			case 'external-session':
-				return NetworkIcon
-			case 'group':
-				return AccountGroupIcon
-			}
-
-			return null
-		},
-
 		linkTo() {
 			if (this.source.attributes.failed) {
 				return {
@@ -493,38 +403,6 @@ export default Vue.extend({
 		},
 		isSelected() {
 			return this.selectedFiles.includes(this.fileid)
-		},
-
-		cropPreviews() {
-			return this.userConfig.crop_image_previews
-		},
-		previewUrl() {
-			if (this.source.type === FileType.Folder) {
-				return null
-			}
-
-			if (this.backgroundFailed === true) {
-				return null
-			}
-
-			try {
-				const previewUrl = this.source.attributes.previewUrl
-					|| generateUrl('/core/preview?fileId={fileid}', {
-						fileid: this.fileid,
-					})
-				const url = new URL(window.location.origin + previewUrl)
-
-				// Request tiny previews
-				url.searchParams.set('x', '32')
-				url.searchParams.set('y', '32')
-				url.searchParams.set('mimeFallback', 'true')
-
-				// Handle cropping
-				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
-				return url.href
-			} catch (e) {
-				return null
-			}
 		},
 
 		// Sorted actions that are enabled for this node
@@ -582,10 +460,6 @@ export default Vue.extend({
 
 		uniqueId() {
 			return hashCode(this.source.source)
-		},
-
-		isFavorite() {
-			return this.source.attributes.favorite === 1
 		},
 		isLoading() {
 			return this.source.status === NodeStatus.LOADING
@@ -675,11 +549,7 @@ export default Vue.extend({
 			// Reset loading state
 			this.loading = ''
 
-			// Reset background state
-			this.backgroundFailed = undefined
-			if (this.$refs.previewImg) {
-				this.$refs.previewImg.src = ''
-			}
+			this.$refs.preview.reset()
 
 			// Close menu
 			this.openedMenu = false
@@ -1065,22 +935,6 @@ tr {
 	&:focus {
 		background-color: var(--color-background-dark);
 	}
-}
-
-// Folder overlay
-.files-list__row-icon-overlay {
-	position: absolute;
-	max-height: 18px;
-	max-width: 18px;
-	color: var(--color-main-background);
-	// better alignment with the folder icon
-	margin-top: 2px;
-}
-
-/* Preview not loaded animation effect */
-.files-list__row-icon-preview:not(.files-list__row-icon-preview--loaded) {
-    background: var(--color-loading-dark);
-	// animation: preview-gradient-fade 1.2s ease-in-out infinite;
 }
 </style>
 

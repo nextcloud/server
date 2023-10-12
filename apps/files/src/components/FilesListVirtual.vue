@@ -465,16 +465,31 @@ export default Vue.extend({
 				width: var(--icon-preview-size);
 				height: var(--icon-preview-size);
 				border-radius: var(--border-radius);
-				background-repeat: no-repeat;
 				// Center and contain the preview
-				background-position: center;
-				background-size: contain;
+				object-fit: contain;
+				object-position: center;
+
+				/* Preview not loaded animation effect */
+				&:not(.files-list__row-icon-preview--loaded) {
+					background: var(--color-loading-dark);
+					// animation: preview-gradient-fade 1.2s ease-in-out infinite;
+				}
 			}
 
 			&-favorite {
 				position: absolute;
 				top: 0px;
 				right: -10px;
+			}
+
+			// Folder overlay
+			&-overlay {
+				position: absolute;
+				max-height: 18px;
+				max-width: 18px;
+				color: var(--color-main-background);
+				// better alignment with the folder icon
+				margin-top: 2px;
 			}
 		}
 
