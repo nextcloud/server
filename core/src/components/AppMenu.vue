@@ -20,7 +20,8 @@
   -->
 
 <template>
-	<nav class="app-menu">
+	<nav class="app-menu"
+		:aria-label="t('core', 'Applications menu')">
 		<ul class="app-menu-main">
 			<li v-for="app in mainAppList"
 				:key="app.id"
