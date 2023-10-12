@@ -61,4 +61,9 @@ interface IEntry extends JsonSerializable {
 	 * @return mixed the value of the property or null
 	 */
 	public function getProperty(string $key);
+
+	/**
+	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null}
+	 */
+	public function jsonSerialize(): array;
 }
