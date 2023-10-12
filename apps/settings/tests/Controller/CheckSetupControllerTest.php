@@ -537,7 +537,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
 				'is64bit' => false,
-				'recommendedPHPModules' => [],
 				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,

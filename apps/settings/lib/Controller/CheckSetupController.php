@@ -691,40 +691,6 @@ Raw output
 		return $appDirsWithDifferentOwner;
 	}
 
-	/**
-	 * Checks for potential PHP modules that would improve the instance
-	 *
-	 * @return string[] A list of PHP modules that is recommended
-	 */
-	protected function hasRecommendedPHPModules(): array {
-		$recommendedPHPModules = [];
-
-		if (!extension_loaded('intl')) {
-			$recommendedPHPModules[] = 'intl';
-		}
-
-		if (!extension_loaded('sysvsem')) {
-			// used to limit the usage of resources by preview generator
-			$recommendedPHPModules[] = 'sysvsem';
-		}
-
-		if (!extension_loaded('exif')) {
-			// used to extract metadata from images
-			// required for correct orientation of preview images
-			$recommendedPHPModules[] = 'exif';
-		}
-
-		if (!defined('PASSWORD_ARGON2I')) {
-			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
-			// on previous version argon2 wasn't part of the "standard" extension
-			// and RedHat disabled it so even installing php-sodium won't provide argon2i
-			// support in password_hash/password_verify.
-			$recommendedPHPModules[] = 'sodium';
-		}
-
-		return $recommendedPHPModules;
-	}
-
 	protected function isImagickEnabled(): bool {
 		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
 			if (!extension_loaded('imagick')) {
@@ -882,7 +848,6 @@ Raw output
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'is64bit' => $this->is64bit(),
-				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
