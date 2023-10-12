@@ -61,7 +61,7 @@ jobs:
           npm run stats --if-present
 
       - name: Send bundle stats to RelativeCI
-        uses: relative-ci/agent-action@e92b0c712e5ad0a039faf1026cbe438b8e7fed16 # v2
+        uses: relative-ci/agent-action@5a64b486a2d123f21dda6780236f2de9b18bf478 # v2
         with:
           webpackStatsFile: ./webpack-stats.json
           key: ${{ secrets.RELATIVE_CI_KEY }}
