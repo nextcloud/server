@@ -31,6 +31,7 @@
  */
 namespace OC\Memcache;
 
+use OCP\Cache\CappedMemoryCache;
 use OCP\Profiler\IProfiler;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -182,6 +183,10 @@ class Factory implements ICacheFactory {
 	 */
 	public function isAvailable(): bool {
 		return $this->distributedCacheClass !== self::NULL_CACHE;
+	}
+
+	public function createInMemory(int $capacity = 512): ICache {
+		return new CappedMemoryCache($capacity);
 	}
 
 	/**
