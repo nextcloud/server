@@ -137,9 +137,6 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
 
-
-
-
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
 
@@ -383,14 +380,14 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @psalm-param class-string<IReporter> $capability
+	 * @psalm-param class-string<IReporter> $reporterClass
 	 */
 	public function registerCrashReporter(string $appId, string $reporterClass): void {
 		$this->crashReporters[] = new ServiceRegistration($appId, $reporterClass);
 	}
 
 	/**
-	 * @psalm-param class-string<IWidget> $capability
+	 * @psalm-param class-string<IWidget> $panelClass
 	 */
 	public function registerDashboardPanel(string $appId, string $panelClass): void {
 		$this->dashboardPanels[] = new ServiceRegistration($appId, $panelClass);
@@ -565,9 +562,6 @@ class RegistrationContext {
 		}
 	}
 
-	/**
-	 * @param App[] $apps
-	 */
 	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
 		while (($panel = array_shift($this->dashboardPanels)) !== null) {
 			try {
