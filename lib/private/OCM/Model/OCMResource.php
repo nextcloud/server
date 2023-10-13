@@ -26,13 +26,12 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use JsonSerializable;
 use OCP\OCM\IOCMResource;
 
 /**
  * @since 28.0.0
  */
-class OCMResource implements IOCMResource, JsonSerializable {
+class OCMResource implements IOCMResource {
 	private string $name = '';
 	/** @var string[] */
 	private array $shareTypes = [];
@@ -42,9 +41,9 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	/**
 	 * @param string $name
 	 *
-	 * @return OCMResource
+	 * @return $this
 	 */
-	public function setName(string $name): self {
+	public function setName(string $name): static {
 		$this->name = $name;
 
 		return $this;
@@ -60,9 +59,9 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	/**
 	 * @param string[] $shareTypes
 	 *
-	 * @return OCMResource
+	 * @return $this
 	 */
-	public function setShareTypes(array $shareTypes): self {
+	public function setShareTypes(array $shareTypes): static {
 		$this->shareTypes = $shareTypes;
 
 		return $this;
@@ -80,7 +79,7 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setProtocols(array $protocols): self {
+	public function setProtocols(array $protocols): static {
 		$this->protocols = $protocols;
 
 		return $this;
@@ -98,17 +97,16 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	 *
 	 * @param array $data
 	 *
-	 * @return self
+	 * @return $this
 	 * @see self::jsonSerialize()
 	 */
-	public function import(array $data): self {
+	public function import(array $data): static {
 		return $this->setName((string)($data['name'] ?? ''))
 					->setShareTypes($data['shareTypes'] ?? [])
 					->setProtocols($data['protocols'] ?? []);
 	}
 
 	/**
-	 *
 	 * @return array{
 	 *     name: string,
 	 *     shareTypes: string[],
