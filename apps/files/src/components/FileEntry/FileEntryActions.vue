@@ -36,7 +36,7 @@
 			ref="actionsMenu"
 			:boundaries-element="getBoundariesElement()"
 			:container="getBoundariesElement()"
-			:disabled="isLoading"
+			:disabled="isLoading || loading !== ''"
 			:force-name="true"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { DefaultType, FileAction, Folder, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
+import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n';
 import Vue, { PropType } from 'vue'
@@ -113,6 +113,10 @@ export default Vue.extend({
 	},
 
 	computed: {
+		currentDir() {
+			// Remove any trailing slash but leave root slash
+			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
+		},
 		currentView(): View {
 			return this.$navigation.active as View
 		},

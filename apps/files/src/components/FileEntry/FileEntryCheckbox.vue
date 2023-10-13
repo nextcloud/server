@@ -21,8 +21,9 @@
   -->
 <template>
 	<td class="files-list__row-checkbox">
-		<NcLoadingIcon v-if="loading" />
-		<NcCheckboxRadioSwitch :aria-label="t('files', 'Select the row for {displayName}', { displayName })"
+		<NcLoadingIcon v-if="isLoading" />
+		<NcCheckboxRadioSwitch v-else
+			:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
 			:checked="isSelected"
 			@update:checked="onSelectionChange" />
 	</td>
@@ -57,7 +58,7 @@ export default Vue.extend({
 			type: String,
 			required: true,
 		},
-		loading: {
+		isLoading: {
 			type: Boolean,
 			default: false,
 		},
