@@ -11,7 +11,10 @@
 		</thead>
 
 		<!-- Body -->
-		<tbody :style="tbodyStyle" class="files-list__tbody" data-cy-files-list-tbody>
+		<tbody :style="tbodyStyle"
+			class="files-list__tbody"
+			:class="gridMode ? 'files-list__tbody--grid' : 'files-list__tbody--list'"
+			data-cy-files-list-tbody>
 			<component :is="dataComponent"
 				v-for="(item, i) in renderedItems"
 				:key="i"
@@ -23,7 +26,6 @@
 
 		<!-- Footer -->
 		<tfoot v-show="isReady"
-			ref="tfoot"
 			class="files-list__tfoot"
 			data-cy-files-list-tfoot>
 			<slot name="footer" />
@@ -32,15 +34,17 @@
 </template>
 
 <script lang="ts">
-import { File, Folder, debounce } from 'debounce'
-import Vue from 'vue'
-import logger from '../logger.js'
+import type { File, Folder } from '@nextcloud/files'
+import { debounce } from 'debounce'
+import Vue, { PropType } from 'vue'
 
-// Items to render before and after the visible area
-const bufferItems = 3
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import logger from '../logger.js'
 
 export default Vue.extend({
 	name: 'VirtualList',
+
+	mixins: [filesListWidthMixin],
 
 	props: {
 		dataComponent: {
@@ -52,26 +56,25 @@ export default Vue.extend({
 			required: true,
 		},
 		dataSources: {
-			type: Array as () => (File | Folder)[],
-			required: true,
-		},
-		itemHeight: {
-			type: Number,
+			type: Array as PropType<(File | Folder)[]>,
 			required: true,
 		},
 		extraProps: {
-			type: Object,
+			type: Object as PropType<Record<string, unknown>>,
 			default: () => ({}),
 		},
 		scrollToIndex: {
 			type: Number,
 			default: 0,
 		},
+		gridMode: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
 		return {
-			bufferItems,
 			index: this.scrollToIndex,
 			beforeHeight: 0,
 			headerHeight: 0,
@@ -86,11 +89,44 @@ export default Vue.extend({
 			return this.tableHeight > 0
 		},
 
+		// Items to render before and after the visible area
+		bufferItems() {
+			if (this.gridMode) {
+				return this.columnCount
+			}
+			return 3
+		},
+
+		itemHeight() {
+			// 160px + 44px (name) + 15px (grid gap)
+			return this.gridMode ? (160 + 44 + 15) : 56
+		},
+		// Grid mode only
+		itemWidth() {
+			// 160px + 15px grid gap
+			return 160 + 15
+		},
+
+		rowCount() {
+			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + (this.bufferItems / this.columnCount) * 2
+		},
+		columnCount() {
+			if (!this.gridMode) {
+				return 1
+			}
+			return Math.floor(this.filesListWidth / this.itemWidth)
+		},
+
 		startIndex() {
-			return Math.max(0, this.index - bufferItems)
+			return Math.max(0, this.index - this.bufferItems)
 		},
 		shownItems() {
-			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + bufferItems * 2
+			// If in grid mode, we need to multiply the number of rows by the number of columns
+			if (this.gridMode) {
+				return this.rowCount * this.columnCount
+			}
+
+			return this.rowCount
 		},
 		renderedItems(): (File | Folder)[] {
 			if (!this.isReady) {
@@ -100,11 +136,11 @@ export default Vue.extend({
 		},
 
 		tbodyStyle() {
-			const isOverScrolled = this.startIndex + this.shownItems > this.dataSources.length
+			const isOverScrolled = this.startIndex + this.rowCount > this.dataSources.length
 			const lastIndex = this.dataSources.length - this.startIndex - this.shownItems
-			const hiddenAfterItems = Math.min(this.dataSources.length - this.startIndex, lastIndex)
+			const hiddenAfterItems = Math.floor(Math.min(this.dataSources.length - this.startIndex, lastIndex) / this.columnCount)
 			return {
-				paddingTop: `${this.startIndex * this.itemHeight}px`,
+				paddingTop: `${Math.floor(this.startIndex / this.columnCount) * this.itemHeight}px`,
 				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
 			}
 		},
@@ -119,7 +155,6 @@ export default Vue.extend({
 	mounted() {
 		const before = this.$refs?.before as HTMLElement
 		const root = this.$el as HTMLElement
-		const tfoot = this.$refs?.tfoot as HTMLElement
 		const thead = this.$refs?.thead as HTMLElement
 
 		this.resizeObserver = new ResizeObserver(debounce(() => {
@@ -132,13 +167,12 @@ export default Vue.extend({
 
 		this.resizeObserver.observe(before)
 		this.resizeObserver.observe(root)
-		this.resizeObserver.observe(tfoot)
 		this.resizeObserver.observe(thead)
 
 		this.$el.addEventListener('scroll', this.onScroll)
 
 		if (this.scrollToIndex) {
-			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
+			this.$el.scrollTop = Math.floor((this.index * this.itemHeight) / this.rowCount) + this.beforeHeight
 		}
 	},
 
@@ -151,7 +185,7 @@ export default Vue.extend({
 	methods: {
 		onScroll() {
 			// Max 0 to prevent negative index
-			this.index = Math.max(0, Math.round((this.$el.scrollTop - this.beforeHeight) / this.itemHeight))
+			this.index = Math.max(0, Math.floor(Math.round((this.$el.scrollTop - this.beforeHeight) / this.itemHeight) * this.columnCount))
 			this.$emit('scroll')
 		},
 	},

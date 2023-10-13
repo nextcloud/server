@@ -105,6 +105,10 @@ export default Vue.extend({
 			type: Boolean,
 			default: false,
 		},
+		gridMode: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	setup() {
@@ -137,7 +141,7 @@ export default Vue.extend({
 
 		// Enabled action that are displayed inline
 		enabledInlineActions() {
-			if (this.filesListWidth < 768) {
+			if (this.filesListWidth < 768 || this.gridMode) {
 				return []
 			}
 			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
@@ -145,7 +149,7 @@ export default Vue.extend({
 
 		// Enabled action that are displayed inline with a custom render function
 		enabledRenderActions() {
-			if (!this.visible) {
+			if (!this.visible || this.gridMode) {
 				return []
 			}
 			return this.enabledActions.filter(action => typeof action.renderInline === 'function')

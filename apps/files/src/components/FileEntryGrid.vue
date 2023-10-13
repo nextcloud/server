@@ -47,59 +47,30 @@
 		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
 			<FileEntryPreview ref="preview"
-				:source="source"
 				:dragover="dragover"
+				:grid-mode="true"
+				:source="source"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
 				:display-name="displayName"
 				:extension="extension"
 				:files-list-width="filesListWidth"
+				:grid-mode="true"
 				:nodes="nodes"
 				:source="source"
 				@click="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
-		<FileEntryActions v-show="!isRenamingSmallScreen"
-			ref="actions"
+		<FileEntryActions ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
 			:files-list-width="filesListWidth"
+			:grid-mode="true"
 			:loading.sync="loading"
 			:opened.sync="openedMenu"
 			:source="source"
 			:visible="visible" />
-
-		<!-- Size -->
-		<td v-if="!compact && isSizeAvailable"
-			:style="sizeOpacity"
-			class="files-list__row-size"
-			data-cy-files-list-row-size
-			@click="openDetailsIfAvailable">
-			<span>{{ size }}</span>
-		</td>
-
-		<!-- Mtime -->
-		<td v-if="!compact && isMtimeAvailable"
-			:style="mtimeOpacity"
-			class="files-list__row-mtime"
-			data-cy-files-list-row-mtime
-			@click="openDetailsIfAvailable">
-			<span>{{ mtime }}</span>
-		</td>
-
-		<!-- View columns -->
-		<td v-for="column in columns"
-			:key="column.id"
-			:class="`files-list__row-${currentView?.id}-${column.id}`"
-			class="files-list__row-column-custom"
-			:data-cy-files-list-row-column-custom="column.id"
-			@click="openDetailsIfAvailable">
-			<CustomElementRender v-if="visible"
-				:current-view="currentView"
-				:render="column.render"
-				:source="source" />
-		</td>
 	</tr>
 </template>
 
@@ -107,12 +78,11 @@
 import type { PropType } from 'vue'
 
 import { extname, join } from 'path'
-import { FileType, formatFileSize, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
+import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
 import { getUploader } from '@nextcloud/upload'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
-import moment from '@nextcloud/moment'
 import Vue from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -125,7 +95,6 @@ import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
@@ -135,26 +104,18 @@ import logger from '../logger.js'
 Vue.directive('onClickOutside', vOnClickOutside)
 
 export default Vue.extend({
-	name: 'FileEntry',
+	name: 'FileEntryGrid',
 
 	components: {
-		CustomElementRender,
 		FileEntryActions,
 		FileEntryCheckbox,
 		FileEntryName,
 		FileEntryPreview,
 	},
 
+	inheritAttrs: false,
 	props: {
 		visible: {
-			type: Boolean,
-			default: false,
-		},
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		isSizeAvailable: {
 			type: Boolean,
 			default: false,
 		},
@@ -169,10 +130,6 @@ export default Vue.extend({
 		filesListWidth: {
 			type: Number,
 			default: 0,
-		},
-		compact: {
-			type: Boolean,
-			default: false,
 		},
 	},
 
@@ -201,13 +158,6 @@ export default Vue.extend({
 	computed: {
 		currentView(): View {
 			return this.$navigation.active as View
-		},
-		columns() {
-			// Hide columns if the list is too small
-			if (this.filesListWidth < 512 || this.compact) {
-				return []
-			}
-			return this.currentView?.columns || []
 		},
 
 		currentDir() {
@@ -242,57 +192,6 @@ export default Vue.extend({
 			return !ext ? name : name.slice(0, 0 - ext.length)
 		},
 
-		size() {
-			const size = parseInt(this.source.size, 10) || 0
-			if (typeof size !== 'number' || size < 0) {
-				return t('files', 'Pending')
-			}
-			return formatFileSize(size, true)
-		},
-		sizeOpacity() {
-			const maxOpacitySize = 10 * 1024 * 1024
-
-			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
-				return {}
-			}
-
-			const ratio = Math.round(Math.min(100, 100 * Math.pow((this.source.size / maxOpacitySize), 2)))
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
-		},
-
-		mtime() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).fromNow()
-			}
-			return t('files_trashbin', 'A long time ago')
-		},
-		mtimeOpacity() {
-			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
-
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
-				return {}
-			}
-
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
-		},
-		mtimeTitle() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).format('LLL')
-			}
-			return ''
-		},
-
 		draggingFiles() {
 			return this.draggingStore.dragging
 		},
@@ -305,9 +204,6 @@ export default Vue.extend({
 
 		isRenaming() {
 			return this.renamingStore.renamingNode === this.source
-		},
-		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
 		},
 
 		isActive() {
@@ -513,7 +409,6 @@ export default Vue.extend({
 		},
 
 		t,
-		formatFileSize,
 	},
 })
 </script>

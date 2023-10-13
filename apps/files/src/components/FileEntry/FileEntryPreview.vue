@@ -99,6 +99,10 @@ export default Vue.extend({
 			type: Boolean,
 			default: false,
 		},
+		gridMode: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	setup() {
@@ -146,8 +150,8 @@ export default Vue.extend({
 				const url = new URL(window.location.origin + previewUrl)
 
 				// Request tiny previews
-				url.searchParams.set('x', '32')
-				url.searchParams.set('y', '32')
+				url.searchParams.set('x', this.gridMode ? '128' : '32')
+				url.searchParams.set('y', this.gridMode ? '128' : '32')
 				url.searchParams.set('mimeFallback', 'true')
 
 				// Handle cropping

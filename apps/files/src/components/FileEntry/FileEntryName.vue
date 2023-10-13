@@ -23,7 +23,6 @@
 	<!-- Rename input -->
 	<form v-if="isRenaming"
 		v-on-click-outside="stopRenaming"
-		:aria-hidden="!isRenaming"
 		:aria-label="t('files', 'Rename file')"
 		class="files-list__row-rename"
 		@submit.prevent.stop="onRename">
@@ -97,6 +96,10 @@ export default Vue.extend({
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
+		},
+		gridMode: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
