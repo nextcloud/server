@@ -87,9 +87,9 @@ describe('Settings: Create and delete groups', () => {
 			expect(error.name).to.equal('AssertionError')
 			expect(error).to.have.property('node', '.modal-container')
 		})
-		// Make sure no confirmation modal is shown
+		// Make sure no confirmation modal is shown on top of the Remove group modal
 		cy.get('body').find('.modal-container').then(($modals) => {
-			if ($modals.length > 0) {
+			if ($modals.length > 1) {
 				cy.wrap($modals.first()).find('input[type="password"]').type(admin.password)
 				cy.wrap($modals.first()).find('button').contains('Confirm').click()
 			}
