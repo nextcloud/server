@@ -171,6 +171,8 @@ OC.L10N.register(
     "File Management" : "Správa souboru",
     "Reload current directory" : "Znovu načíst stávající složku",
     "Go to the \"{dir}\" directory" : "Přejít do složky „{dir}“",
+    "Drag and drop files here to upload" : "Soubory nahrajete jejich přetažením sem",
+    "Upload successful" : "Nahrání úspěšné",
     "Select the row for {displayName}" : "Vyberte řádek pro {displayName}",
     "Rename file" : "Přejmenovat soubor",
     "A long time ago" : "Před dlouhou dobou",

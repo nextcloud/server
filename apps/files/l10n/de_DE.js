@@ -171,7 +171,7 @@ OC.L10N.register(
     "File Management" : "Dateiverwaltung",
     "Reload current directory" : "Aktuelles Verzeichnis neu laden",
     "Go to the \"{dir}\" directory" : "In das Verzeichnis \"{dir}“ wechseln",
-    "Drag and drop files here to upload" : "Dateien hierher ziehen, um sie hochzuladen",
+    "Drag and drop files here to upload" : "Dateien zum Hochladen hierher ziehen und ablegen",
     "Upload successful" : "Hochladen erfolgreich",
     "Select the row for {displayName}" : "Zeile für {displayName} auswählen",
     "Rename file" : "Datei umbenennen",
