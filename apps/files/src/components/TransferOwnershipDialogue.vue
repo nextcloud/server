@@ -25,7 +25,9 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<NcButton v-if="directory === undefined" @click.prevent="start">
+				<NcButton v-if="directory === undefined" 
+					class="transfer-select-row__choose_button"
+					@click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
 				</NcButton>
 				<NcButton v-else @click.prevent="start">
@@ -225,10 +227,12 @@ p {
 }
 .new-owner-row {
 	display: flex;
+	flex-wrap: wrap;
 
 	label {
 		display: flex;
 		align-items: center;
+		margin-bottom: calc(var(--default-grid-baseline) * 2);
 
 		span {
 			margin-right: 8px;
@@ -243,6 +247,10 @@ p {
 .transfer-select-row {
 	span {
 		margin-right: 8px;
+	}
+
+	&__choose_button {
+		width: min(100%, 400px) !important;
 	}
 }
 </style>
