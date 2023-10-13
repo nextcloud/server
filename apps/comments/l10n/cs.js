@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Smazat komentář",
     "Cancel edit" : "Zrušit úpravu",
     "Post comment" : "Odeslat komentář",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@“ pro zmínění, „:“ pro emotikony, „/“ pro inteligentní výběr",
     "No comments yet, start the conversation!" : "Zatím bez komentářů, začněte konverzaci!",
     "No more messages" : "Žádné další zprávy",
     "Retry" : "Zkusit znovu",
