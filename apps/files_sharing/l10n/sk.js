@@ -127,7 +127,7 @@ OC.L10N.register(
     "Read only" : "Iba na čítanie",
     "Allow upload and editing" : "Povoliť nahrávanie a úpravy",
     "File drop (upload only)" : "Odovzdávanie súborov (len nahrávanie)",
-    "Custom permissions" : "Uživateľské oprávnenia",
+    "Custom permissions" : "Vlastné oprávnenia",
     "Read" : "Čítať",
     "Upload" : "Nahrať",
     "Edit" : "Upraviť",
