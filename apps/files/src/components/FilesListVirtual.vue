@@ -31,7 +31,7 @@
 			:data-component="FileEntry"
 			:data-key="'source'"
 			:data-sources="nodes"
-			:grid-mode="false"
+			:grid-mode="userConfig.grid_view"
 			:extra-props="{
 				isMtimeAvailable,
 				isSizeAvailable,
@@ -79,8 +79,9 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import type { Node as NcNode } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { UserConfig } from '../types.ts'
 
 import { Fragment } from 'vue-frag'
 import { getFileListHeaders, Folder, View, Permission } from '@nextcloud/files'
@@ -89,6 +90,7 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import Vue from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
 import DragAndDropNotice from './DragAndDropNotice.vue'
 import FileEntry from './FileEntryGrid.vue'
 import FilesListHeader from './FilesListHeader.vue'
@@ -129,6 +131,13 @@ export default Vue.extend({
 		},
 	},
 
+	setup() {
+		const userConfigStore = useUserConfigStore()
+		return {
+			userConfigStore,
+		}
+	},
+
 	data() {
 		return {
 			FileEntry,
@@ -140,6 +149,10 @@ export default Vue.extend({
 	},
 
 	computed: {
+		userConfig(): UserConfig {
+			return this.userConfigStore.userConfig
+		},
+
 		files() {
 			return this.nodes.filter(node => node.type === 'file')
 		},

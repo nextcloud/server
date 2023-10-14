@@ -47,6 +47,12 @@ class UserConfig {
 			'default' => true,
 			'allowed' => [true, false],
 		],
+		[
+			// Whether to show the files list in grid view or not
+			'key' => 'grid_view',
+			'default' => false,
+			'allowed' => [true, false],
+		],
 	];
 
 	protected IConfig $config;

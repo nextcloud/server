@@ -46,6 +46,17 @@
 				</template>
 			</BreadCrumbs>
 
+			<NcButton :aria-label="gridViewButtonLabel"
+				:title="gridViewButtonLabel"
+				class="files-list__header-grid-button"
+				type="tertiary"
+				@click="toggleGridView">
+				<template #icon>
+					<ListViewIcon v-if="userConfig.grid_view" />
+					<ViewGridIcon v-else />
+				</template>
+			</NcButton>
+
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 		</div>
@@ -99,13 +110,15 @@ import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
 import Vue from 'vue'
 
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -128,6 +141,7 @@ export default Vue.extend({
 		BreadCrumbs,
 		FilesListVirtual,
 		LinkIcon,
+		ListViewIcon,
 		NcAppContent,
 		NcButton,
 		NcEmptyContent,
@@ -135,6 +149,7 @@ export default Vue.extend({
 		NcLoadingIcon,
 		ShareVariantIcon,
 		UploadPicker,
+		ViewGridIcon,
 	},
 
 	mixins: [
@@ -296,6 +311,12 @@ export default Vue.extend({
 			return Type.SHARE_TYPE_USER
 		},
 
+		gridViewButtonLabel() {
+			return this.userConfig.grid_view
+				? this.t('files', 'Switch to list view')
+				: this.t('files', 'Switch to grid view')
+		},
+
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
@@ -430,6 +451,10 @@ export default Vue.extend({
 			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
 		},
 
+		toggleGridView() {
+			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
+		},
+
 		t: translate,
 		n: translatePlural,
 	},
@@ -452,7 +477,7 @@ $navigationToggleSize: 50px;
 .files-list {
 	&__header {
 		display: flex;
-		align-content: center;
+		align-items: center;
 		// Do not grow or shrink (vertically)
 		flex: 0 0;
 		// Align with the navigation toggle icon
