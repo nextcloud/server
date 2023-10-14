@@ -16,8 +16,8 @@
 			:class="gridMode ? 'files-list__tbody--grid' : 'files-list__tbody--list'"
 			data-cy-files-list-tbody>
 			<component :is="dataComponent"
-				v-for="(item, i) in renderedItems"
-				:key="i"
+				v-for="({key, item}, i) in renderedItems"
+				:key="key"
 				:visible="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
 				:source="item"
 				:index="i"
@@ -34,12 +34,17 @@
 </template>
 
 <script lang="ts">
-import type { File, Folder } from '@nextcloud/files'
+import type { File, Folder, Node } from '@nextcloud/files'
 import { debounce } from 'debounce'
 import Vue, { PropType } from 'vue'
 
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.js'
+
+interface RecycledPoolItem {
+	key: string,
+	item: Node,
+}
 
 export default Vue.extend({
 	name: 'VirtualList',
@@ -98,7 +103,8 @@ export default Vue.extend({
 		},
 
 		itemHeight() {
-			// 160px + 44px (name) + 15px (grid gap)
+			// Align with css in FilesListVirtual
+			// 138px + 44px (name) + 15px (grid gap)
 			return this.gridMode ? (160 + 44 + 15) : 56
 		},
 		// Grid mode only
@@ -128,11 +134,32 @@ export default Vue.extend({
 
 			return this.rowCount
 		},
-		renderedItems(): (File | Folder)[] {
+		renderedItems(): RecycledPoolItem[] {
 			if (!this.isReady) {
 				return []
 			}
-			return this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems)
+
+			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
+
+			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
+			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
+			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+
+			return items.map(item => {
+				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])
+				// If defined, let's keep the key
+				if (index !== -1) {
+					return {
+						key: Object.keys(this.$_recycledPool)[index],
+						item,
+					}
+				}
+
+				// Get and consume reusable key or generate a new one
+				const key = unusedKeys.pop() || Math.random().toString(36).substr(2)
+				this.$_recycledPool[key] = item[this.dataKey]
+				return { key, item }
+			})
 		},
 
 		tbodyStyle() {
@@ -174,6 +201,8 @@ export default Vue.extend({
 		if (this.scrollToIndex) {
 			this.$el.scrollTop = Math.floor((this.index * this.itemHeight) / this.rowCount) + this.beforeHeight
 		}
+
+		this.$_recycledPool = {} as Record<string, any>
 	},
 
 	beforeDestroy() {
