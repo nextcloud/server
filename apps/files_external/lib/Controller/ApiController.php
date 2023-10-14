@@ -101,6 +101,8 @@ class ApiController extends OCSController {
 	 * Get the mount points visible for this user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesExternalMount[], array{}>
+	 *
+	 * 200: User mounts returned
 	 */
 	public function getUserMounts(): DataResponse {
 		$entries = [];
@@ -124,6 +126,7 @@ class ApiController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 *
 	 * Ask for credentials using a browser's native basic auth prompt
 	 * Then returns it if provided

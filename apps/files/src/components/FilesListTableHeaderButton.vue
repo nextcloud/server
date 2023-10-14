@@ -22,6 +22,7 @@
 <template>
 	<NcButton :aria-label="sortAriaLabel(name)"
 		:class="{'files-list__column-sort-button--active': sortingMode === mode}"
+		:alignment="mode !== 'size' ? 'start-reverse' : 'center'"
 		class="files-list__column-sort-button"
 		type="tertiary"
 		@click.stop.prevent="toggleSortBy(mode)">
@@ -85,16 +86,6 @@ export default Vue.extend({
 .files-list__column-sort-button {
 	// Compensate for cells margin
 	margin: 0 calc(var(--cell-margin) * -1);
-	// Reverse padding
-	padding: 0 4px 0 16px !important;
-
-	// Icon after text
-	.button-vue__wrapper {
-		flex-direction: row-reverse;
-		// Take max inner width for text overflow ellipsis
-		// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-		width: 100%;
-	}
 
 	.button-vue__icon {
 		transition-timing-function: linear;

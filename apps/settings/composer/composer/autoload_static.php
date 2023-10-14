@@ -57,6 +57,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SubadminMiddleware.php',
         'OCA\\Settings\\Search\\AppSearch' => __DIR__ . '/..' . '/../lib/Search/AppSearch.php',
         'OCA\\Settings\\Search\\SectionSearch' => __DIR__ . '/..' . '/../lib/Search/SectionSearch.php',
+        'OCA\\Settings\\Search\\UserSearch' => __DIR__ . '/..' . '/../lib/Search/UserSearch.php',
         'OCA\\Settings\\Sections\\Admin\\Additional' => __DIR__ . '/..' . '/../lib/Sections/Admin/Additional.php',
         'OCA\\Settings\\Sections\\Admin\\ArtificialIntelligence' => __DIR__ . '/..' . '/../lib/Sections/Admin/ArtificialIntelligence.php',
         'OCA\\Settings\\Sections\\Admin\\Delegation' => __DIR__ . '/..' . '/../lib/Sections/Admin/Delegation.php',

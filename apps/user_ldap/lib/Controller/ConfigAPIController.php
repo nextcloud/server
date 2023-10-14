@@ -34,32 +34,22 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class ConfigAPIController extends OCSController {
-
-	/** @var Helper */
-	private $ldapHelper;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var ConnectionFactory */
-	private $connectionFactory;
-
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		CapabilitiesManager $capabilitiesManager,
 		IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
-		Helper $ldapHelper,
-		ILogger $logger,
-		ConnectionFactory $connectionFactory
+		private Helper $ldapHelper,
+		private LoggerInterface $logger,
+		private ConnectionFactory $connectionFactory
 	) {
 		parent::__construct(
 			$appName,
@@ -69,11 +59,6 @@ class ConfigAPIController extends OCSController {
 			$userManager,
 			$keyManager
 		);
-
-
-		$this->ldapHelper = $ldapHelper;
-		$this->logger = $logger;
-		$this->connectionFactory = $connectionFactory;
 	}
 
 	/**
@@ -82,6 +67,8 @@ class ConfigAPIController extends OCSController {
 	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @return DataResponse<Http::STATUS_OK, array{configID: string}, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Config created successfully
 	 */
 	public function create() {
 		try {
@@ -90,7 +77,7 @@ class ConfigAPIController extends OCSController {
 			$configHolder->ldapConfigurationActive = false;
 			$configHolder->saveConfiguration();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('An issue occurred when creating the new config.');
 		}
 		return new DataResponse(['configID' => $configPrefix]);
@@ -116,7 +103,7 @@ class ConfigAPIController extends OCSController {
 		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('An issue occurred when deleting the config.');
 		}
 
@@ -158,7 +145,7 @@ class ConfigAPIController extends OCSController {
 		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('An issue occurred when modifying the config.');
 		}
 
@@ -258,7 +245,7 @@ class ConfigAPIController extends OCSController {
 		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('An issue occurred when modifying the config.');
 		}
 
@@ -272,7 +259,7 @@ class ConfigAPIController extends OCSController {
 	 * @param string $configID
 	 * @throws OCSNotFoundException
 	 */
-	private function ensureConfigIDExists($configID) {
+	private function ensureConfigIDExists($configID): void {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
 		if (!in_array($configID, $prefixes, true)) {
 			throw new OCSNotFoundException('Config ID not found');

@@ -1364,7 +1364,7 @@ class DefaultShareProvider implements IShareProvider {
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			} elseif ($type === IShare::TYPE_GROUP) {
 				$gid = $row['share_with'];
@@ -1377,14 +1377,14 @@ class DefaultShareProvider implements IShareProvider {
 				$userList = $group->getUsers();
 				foreach ($userList as $user) {
 					$uid = $user->getUID();
-					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;
 				}
 			} elseif ($type === IShare::TYPE_LINK) {
 				$link = true;
 			} elseif ($type === IShare::TYPE_USERGROUP && $currentAccess === true) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			}
 		}

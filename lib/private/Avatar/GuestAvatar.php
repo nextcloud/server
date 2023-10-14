@@ -35,18 +35,15 @@ use Psr\Log\LoggerInterface;
  */
 class GuestAvatar extends Avatar {
 	/**
-	 * Holds the guest user display name.
-	 */
-	private string $userDisplayName;
-
-	/**
 	 * GuestAvatar constructor.
 	 *
 	 * @param string $userDisplayName The guest user display name
 	 */
-	public function __construct(string $userDisplayName, LoggerInterface $logger) {
+	public function __construct(
+		private string $userDisplayName,
+		LoggerInterface $logger,
+	) {
 		parent::__construct($logger);
-		$this->userDisplayName = $userDisplayName;
 	}
 
 	/**
@@ -68,7 +65,6 @@ class GuestAvatar extends Avatar {
 	 * Setting avatars isn't implemented for guests.
 	 *
 	 * @param \OCP\IImage|resource|string $data
-	 * @return void
 	 */
 	public function set($data): void {
 		// unimplemented for guest user avatars

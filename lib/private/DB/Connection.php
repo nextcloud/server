@@ -42,7 +42,6 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
@@ -600,10 +599,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this, $config, $dispatcher);
-		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this, $config, $dispatcher);
-		} elseif ($platform instanceof PostgreSQL94Platform) {
-			return new PostgreSqlMigrator($this, $config, $dispatcher);
 		} else {
 			return new Migrator($this, $config, $dispatcher);
 		}

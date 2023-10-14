@@ -34,11 +34,9 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
 class LoadSidebarScripts implements IEventListener {
-
-	private ICommentsManager $commentsManager;
-
-	public function __construct(ICommentsManager $commentsManager) {
-		$this->commentsManager = $commentsManager;
+	public function __construct(
+		private ICommentsManager $commentsManager,
+	) {
 	}
 
 	public function handle(Event $event): void {

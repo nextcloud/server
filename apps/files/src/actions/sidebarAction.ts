@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, type Node, View, registerFileAction, FileAction, FileType } from '@nextcloud/files'
+import { Permission, type Node, View, FileAction, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
@@ -73,5 +73,3 @@ export const action = new FileAction({
 
 	order: -50,
 })
-
-registerFileAction(action)

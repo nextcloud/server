@@ -32,6 +32,7 @@ namespace OC\Session;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function OCP\Log\logger;
 
 /**
  * Class CryptoSessionData
@@ -82,9 +83,14 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		try {
 			$this->sessionValues = json_decode(
 				$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
-				true
+				true,
+				512,
+				JSON_THROW_ON_ERROR,
 			);
 		} catch (\Exception $e) {
+			logger('core')->critical('Could not decrypt or decode encrypted session data', [
+				'exception' => $e,
+			]);
 			$this->sessionValues = [];
 			$this->regenerateId(true, false);
 		}

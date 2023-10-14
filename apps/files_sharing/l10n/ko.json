@@ -199,7 +199,9 @@
     "Expiration date" : "만료 날짜",
     "Hide download" : "Hide download",
     "Video verification" : "화상 인증",
+    "Allow download" : "다운로드 허용",
     "Note to recipient" : "받는이에게 메모",
+    "Enter a note for the share recipient" : "받는이를 위한 메모 입력",
     "Create" : "생성",
     "Update" : "업데이트",
     "Share" : "공유",
@@ -220,6 +222,7 @@
     "Open in Files" : "파일에서 열기",
     "_Reject share_::_Reject shares_" : ["공유 거절"],
     "_Restore share_::_Restore shares_" : ["공유 복원"],
+    "Shared" : "공유됨",
     "Link to a file" : "파일로 향한 링크",
     "Error creating the share: {errorMessage}" : "공유를 만드는 중 오류 발생: {errorMessage}",
     "Error creating the share" : "공유를 만드는 중 오류 발생",
@@ -228,7 +231,6 @@
     "File \"{path}\" has been unshared" : "\"{path}\" 파일의 공유가 취소됨",
     "Folder \"{path}\" has been unshared" : "\"{path}\" 폴더의 공유가 취소됨",
     "Share {propertyName} saved" : "{propertyName} 공유 저장됨",
-    "Shared" : "공유됨",
     "Shared by" : "공유한 사용자:",
     "Shared with" : "다음 사용자와 공유함",
     "Password created successfully" : "암호가 성공적으로 생성됨",
@@ -295,9 +297,7 @@
     "Allow deleting" : "삭제 수락",
     "Allow resharing" : "재공유 허용",
     "Expiration date enforced" : "만료 날짜 적용",
-    "Allow download" : "다운로드 허용",
     "Password protect" : "암호 보호",
-    "Enter a note for the share recipient" : "받는이를 위한 메모 입력",
     "Error generating password from password_policy" : "password_policy에서 암호 생성 중에 오류 발생"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

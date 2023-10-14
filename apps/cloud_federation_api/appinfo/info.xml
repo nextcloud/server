@@ -12,8 +12,8 @@
 	<types>
 		<filesystem/>
 	</types>
-	<category>files</category>
-	<bugs>https://github.com/nextcloud/cloud_federation/issues</bugs>
+	<category>integration</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>

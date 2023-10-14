@@ -57,13 +57,11 @@
     "Failed to delete tag" : "Produciuse un fallo ao eliminar a etiqueta",
     "This file has the tag {tag}" : "Este ficheiro ten a etiqueta {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Este ficheiro ten as etiquetas {firstTags} e {lastTag}",
+    "List of tags and their associated files and folders." : "Lista de etiquetas e os seus ficheiros e cartafoles asociados.",
+    "No tags found" : "Non se atoparon etiquetas",
+    "Tags you have created will show up here." : "As etiquetas que creou aparecerán aquí.",
     "Failed to load last used tags" : "Produciuse un fallo ao cargar as últimas etiquetas utilizadas",
     "Missing \"Content-Location\" header" : "Falta a cabeceira «Content-Location».",
-    "Tagged files" : "Ficheiros etiquetados",
-    "Select tags to filter by" : "Seleccionar etiquetas polas que filtrar",
-    "No tags found" : "Non se atoparon etiquetas",
-    "Please select tags to filter by" : "Seleccione as etiquetas polas que filtrar",
-    "No files found for the selected tags" : "Non se atoparon ficheiros para as etiquetas seleccionadas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "As etiquetas colaborativas están dispoñíbeis para todos os usuarios. As etiquetas restrinxidas son visíbeis para os usuarios, mais non poden ser asignadas por eles. As etiquetas invisíbeis son para uso interno, pois os usuarios non poden velas nin asignalas.",
     "Create a new tag" : "Crear unha nova etiqueta",
     "Name" : "Nome",
@@ -75,6 +73,10 @@
     "No files in here" : "Aquí non hai ficheiros",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "Tagged files" : "Ficheiros etiquetados",
+    "Select tags to filter by" : "Seleccionar etiquetas polas que filtrar",
+    "Please select tags to filter by" : "Seleccione as etiquetas polas que filtrar",
+    "No files found for the selected tags" : "Non se atoparon ficheiros para as etiquetas seleccionadas"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

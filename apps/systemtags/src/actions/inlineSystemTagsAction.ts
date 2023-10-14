@@ -50,6 +50,24 @@ export const action = new FileAction({
 	id: 'system-tags',
 	displayName: () => '',
 	iconSvgInline: () => '',
+
+	enabled(nodes: Node[]) {
+		// Only show the action on single nodes
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		const node = nodes[0]
+		const tags = getNodeSystemTags(node)
+
+		// Only show the action if the node has system tags
+		if (tags.length === 0) {
+			return false
+		}
+
+		return true
+	},
+
 	exec: async () => null,
 
 	async renderInline(node: Node) {

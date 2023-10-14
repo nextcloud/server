@@ -105,19 +105,6 @@ class Util {
 	}
 
 	/**
-	 * write a message in the log
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
-	 * @since 4.0.0
-	 * @deprecated 13.0.0 use log of \OCP\ILogger
-	 */
-	public static function writeLog($app, $message, $level) {
-		$context = ['app' => $app];
-		\OC::$server->getLogger()->log($level, $message, $context);
-	}
-
-	/**
 	 * check if sharing is disabled for the current user
 	 *
 	 * @return boolean

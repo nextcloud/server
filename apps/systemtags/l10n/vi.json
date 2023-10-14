@@ -46,11 +46,7 @@
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Chức năng gắn thẻ mang tính hợp tác, chia sẻ thẻ giữa những người dùng. Rất tuyệt đối với các nhóm.\n\t(Nếu bạn là người cung cấp có bản sao có nhiều người thuê, chúng tôi khuyên bạn vô hiệu hóa ứng dụng này vì các thẻ được chia sẻ.)",
     "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
-    "Tagged files" : "Các tệp được dán nhãn",
-    "Select tags to filter by" : "Chọn nhãn để lọc theo",
     "No tags found" : "Không tìm thấy nhãn",
-    "Please select tags to filter by" : "Vui lòng chọn các nhãn để lọc theo",
-    "No files found for the selected tags" : "Không tìm thấy tệp cho các nhãn đã chọn",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Các thẻ hợp tác là có sẵn cho tất cả người dùng. Các thẻ giới hạn có thể được người dùng nhìn thấy nhưng không thể được họ phân công. Các thẻ vô hình là dành cho việc sử dụng nội bộ, vì những người dùng không thể thấy hay phân công chúng.",
     "Create a new tag" : "Tạo một thẻ mới",
     "Name" : "Tên",
@@ -62,6 +58,10 @@
     "No files in here" : "Không có tệp ở đây",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi"
+    "Modified" : "Thay đổi",
+    "Tagged files" : "Các tệp được dán nhãn",
+    "Select tags to filter by" : "Chọn nhãn để lọc theo",
+    "Please select tags to filter by" : "Vui lòng chọn các nhãn để lọc theo",
+    "No files found for the selected tags" : "Không tìm thấy tệp cho các nhãn đã chọn"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

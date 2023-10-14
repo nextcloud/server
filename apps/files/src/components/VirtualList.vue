@@ -152,11 +152,8 @@ export default Vue.extend({
 		onScroll() {
 			// Max 0 to prevent negative index
 			this.index = Math.max(0, Math.round((this.$el.scrollTop - this.beforeHeight) / this.itemHeight))
+			this.$emit('scroll')
 		},
 	},
 })
 </script>
-
-<style scoped>
-
-</style>

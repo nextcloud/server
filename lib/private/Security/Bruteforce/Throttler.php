@@ -106,9 +106,6 @@ class Throttler implements IThrottler {
 
 	/**
 	 * Check if the IP is whitelisted
-	 *
-	 * @param string $ip
-	 * @return bool
 	 */
 	public function isBypassListed(string $ip): bool {
 		if (isset($this->ipIsWhitelisted[$ip])) {

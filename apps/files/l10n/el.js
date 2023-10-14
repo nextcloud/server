@@ -219,6 +219,8 @@ OC.L10N.register(
     "Blank" : "Κενό",
     "Unable to create new file from template" : "Δεν είναι δυνατή η δημιουργία νέου αρχείου από το πρότυπο",
     "Delete permanently" : "Διαγραφή οριστικά",
+    "Copy to {target}" : "Αντιγραφή σε {target}",
+    "Move to {target}" : "Μετακίνηση σε {target}",
     "Open folder {displayName}" : "Άνοιγμα φακέλου {displayName}",
     "Open details" : "Άνοιγμα λεπτομερειών",
     "Set up templates folder" : "Ρύθμιση φακέλου προτύπων",

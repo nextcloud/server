@@ -124,6 +124,8 @@ use OC\Metadata\Capabilities as MetadataCapabilities;
 use OC\Metadata\IMetadataManager;
 use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
+use OC\OCM\Model\OCMProvider;
+use OC\OCM\OCMDiscoveryService;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
@@ -142,6 +144,7 @@ use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
+use OC\Security\RateLimiting\Limiter;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
@@ -210,6 +213,7 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\INavigationManager;
+use OCP\IPhoneNumberUtil;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
@@ -228,6 +232,8 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\OCM\IOCMProvider;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -239,6 +245,7 @@ use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
+use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -1168,7 +1175,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getAppDataDir('theming'),
 					$c->get(IURLGenerator::class),
 					$this->get(ICacheFactory::class),
-					$this->get(ILogger::class),
+					$this->get(LoggerInterface::class),
 					$this->get(ITempManager::class)
 				);
 				return new ThemingDefaults(
@@ -1306,6 +1313,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IClientService::class)
 			);
 		});
+		$this->registerAlias(IOCMDiscoveryService::class, OCMDiscoveryService::class);
 
 		$this->registerService(ICloudIdManager::class, function (ContainerInterface $c) {
 			return new CloudIdManager(
@@ -1321,9 +1329,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(ICloudFederationProviderManager::class, function (ContainerInterface $c) {
 			return new CloudFederationProviderManager(
+				$c->get(\OCP\IConfig::class),
 				$c->get(IAppManager::class),
 				$c->get(IClientService::class),
 				$c->get(ICloudIdManager::class),
+				$c->get(IOCMDiscoveryService::class),
 				$c->get(LoggerInterface::class)
 			);
 		});
@@ -1413,6 +1423,12 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
 
 		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
+
+		$this->registerAlias(ILimiter::class, Limiter::class);
+
+		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
+
+		$this->registerAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->connectDispatcher();
 	}

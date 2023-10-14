@@ -105,8 +105,8 @@ switch ($action) {
 	}
 
 	case 'save':
-		$key = isset($_POST['cfgkey']) ? $_POST['cfgkey'] : false;
-		$val = isset($_POST['cfgval']) ? $_POST['cfgval'] : null;
+		$key = $_POST['cfgkey'] ?? false;
+		$val = $_POST['cfgval'] ?? null;
 		if ($key === false || is_null($val)) {
 			\OC_JSON::error(['message' => $l->t('No data specified')]);
 			exit;

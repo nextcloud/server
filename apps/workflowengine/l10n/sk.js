@@ -70,6 +70,7 @@ OC.L10N.register(
     "Add new flow" : "Pridať nový tok",
     "When" : "Keď",
     "and" : "a",
+    "Add a new filter" : "Pridať nový filter",
     "Cancel" : "Zrušiť",
     "Delete" : "Zmazať",
     "The configuration is invalid" : "Konfigurácia je neplatná",

@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v3
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
         with:
           submodules: true
 
@@ -49,13 +49,13 @@ jobs:
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:9
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Nextcloud
         run: |
+          composer install
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
@@ -70,7 +70,7 @@ jobs:
       - name: PHPUnit
         run: |
           echo "<?php return ['run' => true,'host' => 'localhost','user' => 'test','password' => 'test', 'root' => '${{ env.FTP_ROOT }}'];" > apps/${{ env.APP_NAME }}/tests/config.ftp.php
-          phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/FtpTest.php
+          composer run test:files_external apps/files_external/tests/Storage/FtpTest.php
       - name: ftpd logs
         if: always()
         run: |

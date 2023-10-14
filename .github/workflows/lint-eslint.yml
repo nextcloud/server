@@ -13,7 +13,7 @@ on:
     paths:
       - '.github/workflows/**'
       - 'src/**'
-      - 'apps/**/appinfo/info.xml'
+      - 'appinfo/info.xml'
       - 'package.json'
       - 'package-lock.json'
       - 'tsconfig.json'
@@ -38,17 +38,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v3.6.0
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.1
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: versions
         with:
-          fallbackNode: '^16'
-          fallbackNpm: '^7'
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -56,6 +56,8 @@ jobs:
         run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: npm ci
 
       - name: Lint

@@ -1410,6 +1410,8 @@ class ShareAPIController extends OCSController {
 	 * Get all shares that are still pending
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
+	 *
+	 * 200: Pending shares returned
 	 */
 	public function pendingShares(): DataResponse {
 		$pendingShares = [];

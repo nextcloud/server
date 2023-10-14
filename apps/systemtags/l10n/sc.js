@@ -47,11 +47,7 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among users." : "Funtzione de etichetas collaborativas chi cumpartzit etichetas tra is utentes.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funtzione de etichetas collaborativas chi cumpartzit etichetas tra is utentes. Bellu meda pro is grupos.\n\t(Si ses unu frunidore cun un'installatzione de multi-tenancy, est cussigiadu a disativare cust'aplicatzione cando is etichetas sunt cumpartzidas).",
     "Failed to load tags" : "No at fatu a carrigare is etichetas",
-    "Tagged files" : "Archìvios cun eticheta",
-    "Select tags to filter by" : "Seletziona etichetas pro filtrare",
     "No tags found" : "Peruna eticheta agatada",
-    "Please select tags to filter by" : "Seletziona etichetas pro filtrare",
-    "No files found for the selected tags" : "Perunu archìviu agatadu pro is etichetas seletzionadas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Is etichetas collaborativas sunt a disponimentu pro totu is utentes. Is etichetas limitadas podent èssere bidas dae is utentes, chi però no ddas podent assignare. Is etichetas visìbiles sunt pro un'impreu de intro, ca is utentes no ddas podent nen bìdere nen assignare.",
     "Create a new tag" : "Crea un'eticheta noa",
     "Name" : "Nùmene",
@@ -63,6 +59,10 @@ OC.L10N.register(
     "No files in here" : "Perunu archìviu",
     "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
     "Size" : "Mannària",
-    "Modified" : "Modificadu"
+    "Modified" : "Modificadu",
+    "Tagged files" : "Archìvios cun eticheta",
+    "Select tags to filter by" : "Seletziona etichetas pro filtrare",
+    "Please select tags to filter by" : "Seletziona etichetas pro filtrare",
+    "No files found for the selected tags" : "Perunu archìviu agatadu pro is etichetas seletzionadas"
 },
 "nplurals=2; plural=(n != 1);");

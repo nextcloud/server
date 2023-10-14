@@ -230,6 +230,8 @@ OC.L10N.register(
     "Blank" : "Üres",
     "Unable to create new file from template" : "Nem lehet új fájlt létrehozni a sablonból",
     "Delete permanently" : "Végleges törlés",
+    "Copy to {target}" : "Másolás ide: {target}",
+    "Move to {target}" : "Áthelyezés ide: {target}",
     "Open folder {displayName}" : "A(z) {displayName} mappa megnyitása",
     "Open details" : "Részletek megnyitása",
     "Set up templates folder" : "Személyes sablonmappa beállítása",

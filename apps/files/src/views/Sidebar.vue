@@ -91,6 +91,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { encodePath } from '@nextcloud/paths'
 import { File, Folder } from '@nextcloud/files'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import $ from 'jquery'
@@ -299,7 +300,7 @@ export default {
 		},
 
 		isSystemTagsEnabled() {
-			return OCA && 'SystemTags' in OCA
+			return getCapabilities()?.systemtags?.enabled === true
 		},
 	},
 	created() {

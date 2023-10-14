@@ -169,6 +169,7 @@ OC.L10N.register(
     "Hide download" : "הסתרת הורדה",
     "Video verification" : "אימות וידאו",
     "Note to recipient" : "מסר לנמען",
+    "Enter a note for the share recipient" : "נא להוסיף הערה למקבלי השיתוף",
     "Update" : "עדכון",
     "Share" : "שיתוף",
     "Others with access" : "נוספים עם גישה",
@@ -180,10 +181,10 @@ OC.L10N.register(
     "Expires {relativetime}" : "תפוגה: {relativetime}",
     "this share just expired." : "תוקף השיתוף פג זה עתה.",
     "Shared with you by {owner}" : "שותף אתך על ידי {owner}",
+    "Shared" : "משותף",
     "Link to a file" : "קישור לקובץ",
     "Error creating the share" : "יצירת השיתוף נכשלה",
     "Error updating the share" : "שגיאה בעדכון השיתוף",
-    "Shared" : "משותף",
     "Shared by" : "שותף על־ידי",
     "Shared with" : "משותף עם",
     "Shared with you and the group {group} by {owner}" : "שותף אתך ועם הקבוצה {group} על ידי {owner}",
@@ -234,7 +235,6 @@ OC.L10N.register(
     "Allow deleting" : "לאפשר מחיקה",
     "Allow resharing" : "לאפשר שיתוף מחדש",
     "Expiration date enforced" : "נאכף מועד תפוגה",
-    "Password protect" : "הגנה בססמה",
-    "Enter a note for the share recipient" : "נא להוסיף הערה למקבלי השיתוף"
+    "Password protect" : "הגנה בססמה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

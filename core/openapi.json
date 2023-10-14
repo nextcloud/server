@@ -45,7 +45,38 @@
                         "type": "string"
                     },
                     "status": {
-                        "type": "string"
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "required": [
+                                    "status",
+                                    "message",
+                                    "icon",
+                                    "clearAt"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "clearAt": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "subline": {
                         "type": "string"
@@ -858,7 +889,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Login flow init returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1289,6 +1320,111 @@
                 }
             }
         },
+        "/index.php/ocm-provider": {
+            "get": {
+                "operationId": "ocm-discovery",
+                "summary": "generate a OCMProvider with local data and send it as DataResponse. This replaces the old PHP file ocm-provider/index.php",
+                "tags": [
+                    "ocm"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OCM Provider details returned",
+                        "headers": {
+                            "X-NEXTCLOUD-OCM-PROVIDERS": {
+                                "schema": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "enabled",
+                                        "apiVersion",
+                                        "endPoint",
+                                        "resourceTypes"
+                                    ],
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean"
+                                        },
+                                        "apiVersion": {
+                                            "type": "string"
+                                        },
+                                        "endPoint": {
+                                            "type": "string"
+                                        },
+                                        "resourceTypes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "required": [
+                                                    "name",
+                                                    "shareTypes",
+                                                    "protocols"
+                                                ],
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "shareTypes": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "protocols": {
+                                                        "type": "object",
+                                                        "required": [
+                                                            "webdav"
+                                                        ],
+                                                        "properties": {
+                                                            "webdav": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "OCM not supported",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/cloud/capabilities": {
             "get": {
                 "operationId": "ocs-get-capabilities",
@@ -1309,16 +1445,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Capabilities returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1424,10 +1561,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1524,10 +1662,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1673,16 +1812,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Autocomplete results returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1736,10 +1876,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1868,10 +2009,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1936,10 +2078,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2014,10 +2157,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2092,10 +2236,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2169,10 +2314,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2285,10 +2431,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2386,10 +2533,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2519,10 +2667,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2661,10 +2810,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2803,10 +2953,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2937,10 +3088,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -3055,10 +3207,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -3208,16 +3361,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Reference returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3300,16 +3454,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "References returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3400,16 +3555,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "References returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3472,16 +3628,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Providers returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3554,16 +3711,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Provider touched",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3649,10 +3807,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -3746,16 +3905,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Providers returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3865,10 +4025,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -3956,16 +4117,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Supported languages returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4079,10 +4241,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4279,16 +4442,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Task types returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4403,10 +4567,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4558,10 +4723,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4710,10 +4876,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4872,10 +5039,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4988,6 +5156,10 @@
         {
             "name": "guest_avatar",
             "description": "This controller handles guest avatar requests."
+        },
+        {
+            "name": "ocm",
+            "description": "Controller about the endpoint /ocm-provider/"
         }
     ]
 }

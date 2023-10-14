@@ -42,37 +42,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MoveCalendar extends Command {
-	private IUserManager $userManager;
-	private IGroupManager $groupManager;
-	private IShareManager $shareManager;
-	private IConfig $config;
-	private IL10N $l10n;
 	private ?SymfonyStyle $io = null;
-	private CalDavBackend $calDav;
-	private LoggerInterface $logger;
 
 	public const URI_USERS = 'principals/users/';
 
 	public function __construct(
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IShareManager $shareManager,
-		IConfig $config,
-		IL10N $l10n,
-		CalDavBackend $calDav,
-		LoggerInterface $logger
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IShareManager $shareManager,
+		private IConfig $config,
+		private IL10N $l10n,
+		private CalDavBackend $calDav,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->shareManager = $shareManager;
-		$this->config = $config;
-		$this->l10n = $l10n;
-		$this->calDav = $calDav;
-		$this->logger = $logger;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:move-calendar')
 			->setDescription('Move a calendar from an user to another')
@@ -140,15 +126,11 @@ class MoveCalendar extends Command {
 		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination, $newName);
 
 		$this->io->success("Calendar <$name> was moved from user <$userOrigin> to <$userDestination>" . ($newName ? " as <$newName>" : ''));
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * Check if the calendar exists for user
-	 *
-	 * @param string $userDestination
-	 * @param string $name
-	 * @return bool
 	 */
 	protected function calendarExists(string $userDestination, string $name): bool {
 		return null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name);
@@ -156,11 +138,7 @@ class MoveCalendar extends Command {
 
 	/**
 	 * Try to find a suitable new calendar name that
-	 * doesn't exists for the provided user
-	 *
-	 * @param string $userDestination
-	 * @param string $name
-	 * @return string
+	 * doesn't exist for the provided user
 	 */
 	protected function getNewCalendarName(string $userDestination, string $name): string {
 		$increment = 1;
@@ -182,10 +160,6 @@ class MoveCalendar extends Command {
 	/**
 	 * Check that moving the calendar won't break shares
 	 *
-	 * @param array $calendar
-	 * @param string $userOrigin
-	 * @param string $userDestination
-	 * @param bool $force
 	 * @return bool had any shares or not
 	 * @throws \InvalidArgumentException
 	 */

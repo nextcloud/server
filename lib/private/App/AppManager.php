@@ -825,13 +825,27 @@ class AppManager implements IAppManager {
 	public function getDefaultAppForUser(?IUser $user = null): string {
 		// Set fallback to always-enabled files app
 		$appId = 'files';
-		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', ''));
+		$defaultApps = array_filter($defaultApps);
 
 		$user ??= $this->userSession->getUser();
 
 		if ($user !== null) {
 			$userDefaultApps = explode(',', $this->config->getUserValue($user->getUID(), 'core', 'defaultapp'));
 			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
+			if (empty($defaultApps)) {
+				/* Fallback on user defined apporder */
+				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
+				if (!empty($customOrders)) {
+					$customOrders = array_map('min', $customOrders);
+					asort($customOrders);
+					$defaultApps = array_keys($customOrders);
+				}
+			}
+		}
+
+		if (empty($defaultApps)) {
+			$defaultApps = ['dashboard','files'];
 		}
 
 		// Find the first app that is enabled for the current user

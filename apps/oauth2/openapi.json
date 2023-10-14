@@ -121,40 +121,50 @@
                         "name": "code",
                         "in": "query",
                         "description": "Code of the flow",
-                        "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
                         "name": "refresh_token",
                         "in": "query",
                         "description": "Refresh token",
-                        "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
                         "name": "client_id",
                         "in": "query",
                         "description": "Client ID",
-                        "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
                         "name": "client_secret",
                         "in": "query",
                         "description": "Client secret",
-                        "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "nullable": true
                         }
                     }
                 ],
                 "responses": {
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "Token returned",
                         "content": {

@@ -31,6 +31,7 @@ use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
@@ -69,7 +70,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 	private $crypto;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
-
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $timeFactory;
 
 	/** @var ClientFlowLoginController */
 	private $clientFlowLoginController;
@@ -95,6 +97,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->clientFlowLoginController = new ClientFlowLoginController(
 			'core',
@@ -109,7 +112,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 			$this->clientMapper,
 			$this->accessTokenMapper,
 			$this->crypto,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->timeFactory
 		);
 	}
 

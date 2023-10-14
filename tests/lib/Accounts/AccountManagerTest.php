@@ -26,6 +26,7 @@ namespace Test\Accounts;
 
 use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
+use OC\PhoneNumberUtil;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\UserUpdatedEvent;
@@ -34,6 +35,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -75,6 +77,8 @@ class AccountManagerTest extends TestCase {
 
 	/** @var IJobList|MockObject */
 	private $jobList;
+	/** @var IPhoneNumberUtil */
+	private $phoneNumberUtil;
 
 	/** accounts table name */
 	private string $table = 'accounts';
@@ -97,6 +101,7 @@ class AccountManagerTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->phoneNumberUtil = new PhoneNumberUtil();
 
 		$this->accountManager = new AccountManager(
 			$this->connection,
@@ -109,7 +114,8 @@ class AccountManagerTest extends TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->crypto
+			$this->crypto,
+			$this->phoneNumberUtil,
 		);
 	}
 
@@ -473,7 +479,8 @@ class AccountManagerTest extends TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->crypto
+				$this->crypto,
+				$this->phoneNumberUtil,
 			])
 			->onlyMethods($mockedMethods)
 			->getMock();

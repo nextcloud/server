@@ -176,6 +176,7 @@ OC.L10N.register(
     "Hide download" : "Cua iscarrigamentu",
     "Video verification" : "Verìfica vìdeu",
     "Note to recipient" : "Nota a sa persone destinatària",
+    "Enter a note for the share recipient" : "Inserta una nota pro sa persone destinatària",
     "Create" : "Crea",
     "Update" : "Agiorna",
     "Share" : "Cumpartzi",
@@ -188,12 +189,12 @@ OC.L10N.register(
     "Expires {relativetime}" : "Iscadit {relativetime}",
     "this share just expired." : "custa cumpartzidura est iscadida.",
     "Shared with you by {owner}" : "Cumpartzidu cun tegus dae {owner}",
+    "Shared" : "Cumpartzidu",
     "Link to a file" : "Ligòngiu a archìviu",
     "Error creating the share: {errorMessage}" : "Errore in sa creatzione de sa cumpartzidura: {errorMessage}",
     "Error creating the share" : "Errore in sa creatzione de sa cumpartzidura",
     "Error updating the share: {errorMessage}" : "Errore in s'agiornamentu de sa cumpartzidura: {errorMessage}",
     "Error updating the share" : "Errore in s'agiornamentu de sa cumpatzidura",
-    "Shared" : "Cumpartzidu",
     "Shared by" : "Cumpartzidu dae",
     "Shared with" : "Cumpartzidu cun",
     "Shared with you and the group {group} by {owner}" : "Cumpartzidu cun tegus e su grupu {group} dae {owner}",
@@ -244,7 +245,6 @@ OC.L10N.register(
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
     "Expiration date enforced" : "Data de iscadèntzia posta",
-    "Password protect" : "Bàrdia crae",
-    "Enter a note for the share recipient" : "Inserta una nota pro sa persone destinatària"
+    "Password protect" : "Bàrdia crae"
 },
 "nplurals=2; plural=(n != 1);");

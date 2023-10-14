@@ -79,6 +79,7 @@ OC.L10N.register(
     "No background" : "Без позадина",
     "Select a background from your files" : "Избери позадина од датотеките",
     "Select background" : "Избери позадина",
+    "No background has been selected" : "Нема избрано позадина",
     "Theme selection is enforced" : "Наметнат е избор на тема",
     "Select a custom color" : "Избери боја",
     "Reset to default" : "Ресетирај на стандардно",

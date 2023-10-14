@@ -664,7 +664,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
 				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' => 'Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
-				\OCA\Settings\SetupChecks\NeedsSystemAddressBookSync::class => ['pass' => true, 'description' => 'The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occured. Please run it manually by calling occ dav:sync-system-addressbook.', 'severity' => 'warning'],
+				\OCA\Settings\SetupChecks\NeedsSystemAddressBookSync::class => ['pass' => true, 'description' => 'The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling "occ dav:sync-system-addressbook".', 'severity' => 'warning'],
 				'isBruteforceThrottled' => false,
 				'bruteforceRemoteAddress' => '',
 			]

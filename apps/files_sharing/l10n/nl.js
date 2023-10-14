@@ -189,7 +189,9 @@ OC.L10N.register(
     "Expiration date" : "Vervaldatum",
     "Hide download" : "Verberg download",
     "Video verification" : "Video verificatie",
+    "Allow download" : "Downloaden toestaan",
     "Note to recipient" : "Notitie voor ontvanger",
+    "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger",
     "Create" : "Creëer",
     "Update" : "Update",
     "Share" : "Delen",
@@ -203,6 +205,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Vervalt {relativetime}",
     "this share just expired." : "deze share is net verlopen.",
     "Shared with you by {owner}" : "Met je gedeeld door {owner}",
+    "Shared" : "Gedeeld",
     "Link to a file" : "Link naar een bestand",
     "Error creating the share: {errorMessage}" : "Fout bij aanmaken share: {errorMessage}",
     "Error creating the share" : "Fout tijdens aanmaken share",
@@ -210,7 +213,6 @@ OC.L10N.register(
     "Error updating the share" : "Fout tijdens bijwerken share",
     "File \"{path}\" has been unshared" : "Bestand \"{path}\" is niet meer gedeeld",
     "Folder \"{path}\" has been unshared" : "Map \"{path}\" is niet meer gedeeld",
-    "Shared" : "Gedeeld",
     "Shared by" : "Gedeeld door",
     "Shared with" : "Gedeeld met",
     "Shared with you and the group {group} by {owner}" : "Met jou en de groep {group} gedeeld door {owner}",
@@ -261,8 +263,6 @@ OC.L10N.register(
     "Allow deleting" : "Toestaan verwijderen",
     "Allow resharing" : "Opnieuw delen toestaan",
     "Expiration date enforced" : "Vervaldatum afgedwongen",
-    "Allow download" : "Downloaden toestaan",
-    "Password protect" : "Beveiligen met wachtwoord",
-    "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger"
+    "Password protect" : "Beveiligen met wachtwoord"
 },
 "nplurals=2; plural=(n != 1);");

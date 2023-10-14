@@ -35,27 +35,18 @@ use OCP\ISession;
  * @package OC\Security\CSRF\TokenStorage
  */
 class SessionStorage {
-	/** @var ISession */
-	private $session;
-
-	/**
-	 * @param ISession $session
-	 */
-	public function __construct(ISession $session) {
-		$this->session = $session;
+	public function __construct(
+		private ISession $session,
+	) {
 	}
 
-	/**
-	 * @param ISession $session
-	 */
-	public function setSession(ISession $session) {
+	public function setSession(ISession $session): void {
 		$this->session = $session;
 	}
 
 	/**
 	 * Returns the current token or throws an exception if none is found.
 	 *
-	 * @return string
 	 * @throws \Exception
 	 */
 	public function getToken(): string {
@@ -69,23 +60,20 @@ class SessionStorage {
 
 	/**
 	 * Set the valid current token to $value.
-	 *
-	 * @param string $value
 	 */
-	public function setToken(string $value) {
+	public function setToken(string $value): void {
 		$this->session->set('requesttoken', $value);
 	}
 
 	/**
 	 * Removes the current token.
 	 */
-	public function removeToken() {
+	public function removeToken(): void {
 		$this->session->remove('requesttoken');
 	}
+
 	/**
 	 * Whether the storage has a storage.
-	 *
-	 * @return bool
 	 */
 	public function hasToken(): bool {
 		return $this->session->exists('requesttoken');

@@ -185,7 +185,9 @@ OC.L10N.register(
     "Expiration date" : "Ημερομηνία λήξης",
     "Hide download" : "Απόκρυψη λήψης",
     "Video verification" : "Επαλήθευση βίντεο",
+    "Allow download" : "Να επιτρέπεται η λήψη",
     "Note to recipient" : "Σημείωση προς τον παραλήπτη",
+    "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου",
     "Create" : "Δημιουργία",
     "Update" : "Ενημέρωση",
     "Share" : "Διαμοιρασμός",
@@ -198,12 +200,12 @@ OC.L10N.register(
     "Expires {relativetime}" : "Λήγει {relativetime}",
     "this share just expired." : "το κοινόχρηστο μόλις έληξε.",
     "Shared with you by {owner}" : "Διαμοιράστηκε με σας από τον {owner}",
+    "Shared" : "Κοινόχρηστα",
     "Link to a file" : "Σύνδεσμος σε αρχείο",
     "Error creating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
     "Error creating the share" : "Σφάλμα κατά την δημιουργία κοινόχρηστου",
     "Error updating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
-    "Shared" : "Κοινόχρηστα",
     "Shared by" : "Διαμοιράστηκε από",
     "Shared with" : "Διαμοιράστηκε με",
     "Password created successfully" : "Συνθηματικό δημιουργήθηκε με επιτυχία",
@@ -256,8 +258,6 @@ OC.L10N.register(
     "Allow deleting" : "Επιτρέπεται η διαγραφή",
     "Allow resharing" : "Επιτρέπεται ο επαναδιαμοιρασμός",
     "Expiration date enforced" : "Επεβλήθη ημερομηνία λήξης",
-    "Allow download" : "Να επιτρέπεται η λήψη",
-    "Password protect" : "Προστασία με συνθηματικό",
-    "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου"
+    "Password protect" : "Προστασία με συνθηματικό"
 },
 "nplurals=2; plural=(n != 1);");

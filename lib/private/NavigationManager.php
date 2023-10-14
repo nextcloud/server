@@ -101,7 +101,7 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$id = $entry['id'];
-		$entry['unread'] = isset($this->unreadCounters[$id]) ? $this->unreadCounters[$id] : 0;
+		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
 
 		$this->entries[$id] = $entry;
 	}
@@ -285,10 +285,14 @@ class NavigationManager implements INavigationManager {
 		}
 
 		if ($this->userSession->isLoggedIn()) {
-			$apps = $this->appManager->getEnabledAppsForUser($this->userSession->getUser());
+			$user = $this->userSession->getUser();
+			$apps = $this->appManager->getEnabledAppsForUser($user);
+			$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getInstalledApps();
+			$customOrders = [];
 		}
+
 
 		foreach ($apps as $app) {
 			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
@@ -309,16 +313,16 @@ class NavigationManager implements INavigationManager {
 				if (!isset($nav['route']) && $nav['type'] !== 'settings') {
 					continue;
 				}
-				$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
+				$role = $nav['@attributes']['role'] ?? 'all';
 				if ($role === 'admin' && !$this->isAdmin()) {
 					continue;
 				}
 				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
-				$order = isset($nav['order']) ? $nav['order'] : 100;
+				$order = $customOrders[$app][$key] ?? $nav['order'] ?? 100;
 				$type = $nav['type'];
 				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
-				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
+				$icon = $nav['icon'] ?? 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {
 						$icon = $this->urlGenerator->imagePath($app, $i);

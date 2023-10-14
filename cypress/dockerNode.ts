@@ -143,7 +143,21 @@ export const applyChangesToNextcloud = async function() {
 		'./dist',
 		'./lib',
 		'./ocs',
+		'./ocs-provider',
+		'./resources',
+		'./console.php',
+		'./cron.php',
+		'./index.php',
+		'./occ',
+		'./public.php',
+		'./remote.php',
+		'./status.php',
+		'./version.php',
 	]
+
+	folderPaths.forEach((path) => {
+		console.log(`├─ Copying ${path}`)
+	})
 
 	// Tar-streaming the above folders into the container
 	const serverTar = tar.c({ gzip: false }, folderPaths)

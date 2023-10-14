@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Kate Döen <kate.doeen@nextcloud.com>
  *
@@ -55,52 +56,19 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type CloudFederationApiError from ResponseDefinitions
  */
 class RequestHandlerController extends Controller {
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var Config */
-	private $config;
-
-	/** @var ICloudFederationFactory */
-	private $factory;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	public function __construct($appName,
-								IRequest $request,
-								LoggerInterface $logger,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								Config $config,
-								ICloudFederationFactory $factory,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IURLGenerator $urlGenerator,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private Config $config,
+		private ICloudFederationFactory $factory,
+		private ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
-
-		$this->logger = $logger;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->config = $config;
-		$this->factory = $factory;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -128,7 +96,6 @@ class RequestHandlerController extends Controller {
 	 * 501: Share type or the resource type is not supported
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -253,7 +220,6 @@ class RequestHandlerController extends Controller {
 	 * 501: The resource type is not supported
 	 */
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
-
 		// check if all required parameters are set
 		if ($notificationType === null ||
 			$resourceType === null ||
@@ -311,7 +277,7 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		return new JSONResponse($result,Http::STATUS_CREATED);
+		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
 	/**

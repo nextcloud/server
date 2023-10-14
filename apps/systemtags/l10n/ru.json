@@ -57,16 +57,16 @@
     "Failed to delete tag" : "Не удалось удалить тег",
     "This file has the tag {tag}" : "У этого файла есть тэг: {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}",
+    "List of tags and their associated files and folders." : "Список тегов и связанных с ними файлов и папок.",
+    "No tags found" : "Меток не найдено",
+    "Tags you have created will show up here." : "Здесь будут отображаться созданные вами теги.",
     "Failed to load last used tags" : "Не удалось загрузить последние использованные метки",
     "Missing \"Content-Location\" header" : "Отсутствует заголовок «Content-Location»",
-    "Tagged files" : "Помеченные файлы",
-    "Select tags to filter by" : "Выберите метки для отбора",
-    "No tags found" : "Меток не найдено",
-    "Please select tags to filter by" : "Выберите метки для отбора",
-    "No files found for the selected tags" : "Не найдено файлов с выбранными метками",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Совместные теги доступны для всех пользователей. Ограниченные теги видны пользователям, но не могут быть назначены ими. Невидимые теги предназначены для внутреннего использования, поскольку пользователи не могут их видеть или назначать.",
     "Create a new tag" : "Создать метку",
+    "Tag name" : "Название тэга",
     "Name" : "Имя",
+    "Tag level" : "Уровень тега",
     "Public" : "Общая",
     "Restricted" : "Ограниченная",
     "Invisible" : "Невидимая",
@@ -75,6 +75,10 @@
     "No files in here" : "Здесь нет файлов",
     "No entries found in this folder" : "В этой папке не найдено ни одной записи",
     "Size" : "Размер",
-    "Modified" : "Изменён"
+    "Modified" : "Изменён",
+    "Tagged files" : "Помеченные файлы",
+    "Select tags to filter by" : "Выберите метки для отбора",
+    "Please select tags to filter by" : "Выберите метки для отбора",
+    "No files found for the selected tags" : "Не найдено файлов с выбранными метками"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

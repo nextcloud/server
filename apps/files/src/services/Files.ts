@@ -22,13 +22,12 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
 
-import { cancelable, CancelablePromise } from 'cancelable-promise'
-import { File, Folder, davParsePermissions } from '@nextcloud/files'
+import { CancelablePromise } from 'cancelable-promise'
+import { File, Folder, davParsePermissions, davGetDefaultPropfind } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { getClient, rootPath } from './WebdavClient'
-import { getDefaultPropfind } from './DavProperties'
 import { hashCode } from '../utils/hashUtils'
 import logger from '../logger'
 
@@ -40,7 +39,7 @@ interface ResponseProps extends DAVResultResponseProps {
 	size: number,
 }
 
-const resultToNode = function(node: FileStat): File | Folder {
+export const resultToNode = function(node: FileStat): File | Folder {
 	const props = node.props as ResponseProps
 	const permissions = davParsePermissions(props?.permissions)
 	const owner = getCurrentUser()?.uid as string
@@ -76,7 +75,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 
 export const getContents = (path = '/'): Promise<ContentsWithRoot> => {
 	const controller = new AbortController()
-	const propfindPayload = getDefaultPropfind()
+	const propfindPayload = davGetDefaultPropfind()
 
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
 		onCancel(() => controller.abort())

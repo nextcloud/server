@@ -23,7 +23,7 @@ jobs:
           require: write
 
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.1
+        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -53,8 +53,14 @@ jobs:
     needs: init
 
     steps:
+      - name: Restore cached git repository
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        with:
+          path: .git
+          key: git-repo
+
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v3.6.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
@@ -66,14 +72,14 @@ jobs:
           git config --local user.name "nextcloud-command"
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.1
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: package-engines-versions
         with:
-          fallbackNode: '^16'
-          fallbackNpm: '^7'
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
@@ -82,6 +88,8 @@ jobs:
         run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
 
       - name: Install dependencies & build
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: |
           npm ci
           npm run build --if-present
@@ -108,7 +116,7 @@ jobs:
           git push --force origin ${{ needs.init.outputs.head_ref }}
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.1
+        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.2
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}

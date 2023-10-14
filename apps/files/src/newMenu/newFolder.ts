@@ -62,7 +62,7 @@ export const getUniqueName = (name: string, names: string[]): string => {
 	return newName
 }
 
-const entry = {
+export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
 	if: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
@@ -70,7 +70,7 @@ const entry = {
 	async handler(context: Folder, content: Node[]) {
 		const contentNames = content.map((node: Node) => node.basename)
 		const name = getUniqueName(t('files', 'New folder'), contentNames)
-		const { fileid, source } = await createNewFolder(context.source, name)
+		const { fileid, source } = await createNewFolder(context.encodedSource, encodeURIComponent(name))
 
 		// Create the folder in the store
 		const folder = new Folder({
@@ -92,5 +92,3 @@ const entry = {
 		emit('files:node:rename', folder)
 	},
 } as Entry
-
-addNewFileMenuEntry(entry)

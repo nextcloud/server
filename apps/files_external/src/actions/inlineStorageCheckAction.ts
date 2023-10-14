@@ -32,7 +32,7 @@ import '../css/fileEntryStatus.scss'
 import { getStatus, type StorageConfig } from '../services/externalStorage'
 import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils'
-import { registerFileAction, FileAction } from '@nextcloud/files'
+import { FileAction } from '@nextcloud/files'
 
 export const action = new FileAction({
 	id: 'check-external-storage',
@@ -92,5 +92,3 @@ export const action = new FileAction({
 
 	order: 10,
 })
-
-registerFileAction(action)

@@ -51,6 +51,8 @@ class LogSettingsController extends Controller {
 	 * @psalm-suppress MoreSpecificReturnType The value of Content-Disposition is not relevant
 	 * @psalm-suppress LessSpecificReturnStatement The value of Content-Disposition is not relevant
 	 * @return StreamResponse<Http::STATUS_OK, array{Content-Type: 'application/octet-stream', 'Content-Disposition': string}>
+	 *
+	 * 200: Logfile returned
 	 */
 	public function download() {
 		if (!$this->log instanceof Log) {

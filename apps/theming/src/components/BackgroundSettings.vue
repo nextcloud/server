@@ -346,7 +346,7 @@ export default {
 
 		&__default {
 			background-color: var(--color-primary-default);
-			background-image: var(--image-background-plain, var(--image-background-default));
+			background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.5), rgba(23, 23, 23, 0.5)), var(--image-background-plain, var(--image-background-default));
 		}
 
 		&__filepicker, &__default, &__color {

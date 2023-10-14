@@ -22,6 +22,7 @@ class ComposerStaticInitOAuth2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'OCA\\OAuth2\\BackgroundJob\\CleanupExpiredAuthorizationCode' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupExpiredAuthorizationCode.php',
         'OCA\\OAuth2\\Controller\\LoginRedirectorController' => __DIR__ . '/..' . '/../lib/Controller/LoginRedirectorController.php',
         'OCA\\OAuth2\\Controller\\OauthApiController' => __DIR__ . '/..' . '/../lib/Controller/OauthApiController.php',
         'OCA\\OAuth2\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
@@ -36,6 +37,7 @@ class ComposerStaticInitOAuth2
         'OCA\\OAuth2\\Migration\\Version010402Date20190107124745' => __DIR__ . '/..' . '/../lib/Migration/Version010402Date20190107124745.php',
         'OCA\\OAuth2\\Migration\\Version011601Date20230522143227' => __DIR__ . '/..' . '/../lib/Migration/Version011601Date20230522143227.php',
         'OCA\\OAuth2\\Migration\\Version011602Date20230613160650' => __DIR__ . '/..' . '/../lib/Migration/Version011602Date20230613160650.php',
+        'OCA\\OAuth2\\Migration\\Version011603Date20230620111039' => __DIR__ . '/..' . '/../lib/Migration/Version011603Date20230620111039.php',
         'OCA\\OAuth2\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
     );
 

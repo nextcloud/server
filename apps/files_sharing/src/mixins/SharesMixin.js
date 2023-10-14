@@ -135,6 +135,15 @@ export default {
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
 		},
+		isExpiryDateEnforced() {
+			if (this.isPublicShare) {
+				return this.config.isDefaultExpireDateEnforced
+			}
+			if (this.isRemoteShare) {
+			    return this.config.isDefaultRemoteExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+			}
+			return this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+		},
 		hasCustomPermissions() {
 			const bundledPermissions = [
 				BUNDLED_PERMISSIONS.ALL,

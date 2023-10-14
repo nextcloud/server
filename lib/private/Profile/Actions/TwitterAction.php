@@ -34,26 +34,13 @@ use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
 class TwitterAction implements ILinkAction {
-	/** @var string */
-	private $value;
-
-	/** @var IAccountManager */
-	private $accountManager;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IUrlGenerator */
-	private $urlGenerator;
+	private string $value = '';
 
 	public function __construct(
-		IAccountManager $accountManager,
-		IFactory $l10nFactory,
-		IURLGenerator $urlGenerator
+		private IAccountManager $accountManager,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->accountManager = $accountManager;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function preload(IUser $targetUser): void {

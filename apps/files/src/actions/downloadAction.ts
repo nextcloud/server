@@ -20,7 +20,7 @@
  *
  */
 import { generateUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
+import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -47,7 +47,19 @@ export const action = new FileAction({
 	iconSvgInline: () => ArrowDownSvg,
 
 	enabled(nodes: Node[]) {
-		return nodes.length > 0 && nodes
+		if (nodes.length === 0) {
+			return false
+		}
+
+		// We can download direct dav files. But if we have
+		// some folders, we need to use the /apps/files/ajax/download.php
+		// endpoint, which only supports user root folder.
+		if (nodes.some(node => node.type === FileType.Folder)
+			&& nodes.some(node => !node.root?.startsWith('/files'))) {
+			return false
+		}
+
+		return nodes
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.READ) !== 0)
 	},
@@ -74,5 +86,3 @@ export const action = new FileAction({
 
 	order: 30,
 })
-
-registerFileAction(action)

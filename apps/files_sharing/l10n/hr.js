@@ -177,6 +177,7 @@ OC.L10N.register(
     "Hide download" : "Sakrij preuzimanje",
     "Video verification" : "Provjera videozapisa",
     "Note to recipient" : "Obavijest primatelju",
+    "Enter a note for the share recipient" : "Unesite bilješku za primatelja dijeljenja",
     "Create" : "Stvori",
     "Update" : "Ažuriraj",
     "Share" : "Dijeli",
@@ -190,12 +191,12 @@ OC.L10N.register(
     "Expires {relativetime}" : "Istječe {relativetime}",
     "this share just expired." : "ovo dijeljenje je upravo isteklo.",
     "Shared with you by {owner}" : "S vama podijelio {owner}",
+    "Shared" : "Dijeljeno",
     "Link to a file" : "Poveži s datotekom",
     "Error creating the share: {errorMessage}" : "Pogreška pri stvaranju dijeljenja: {errorMessage}",
     "Error creating the share" : "Pogreška pri stvaranju dijeljenja",
     "Error updating the share: {errorMessage}" : "Pogreška pri ažuriranju dijeljenja: {errorMessage}",
     "Error updating the share" : "Pogreška pri ažuriranju dijeljenja",
-    "Shared" : "Dijeljeno",
     "Shared by" : "Podijeljeno od",
     "Shared with" : "Dijeljeno s",
     "Shared with you and the group {group} by {owner}" : "Dijeljeno s vama i grupom {group} vlasnika {owner}",
@@ -246,7 +247,6 @@ OC.L10N.register(
     "Allow deleting" : "Dopusti brisanje",
     "Allow resharing" : "Dopusti ponovno dijeljenje",
     "Expiration date enforced" : "Provodi se datum isteka",
-    "Password protect" : "Zaštita zaporkom",
-    "Enter a note for the share recipient" : "Unesite bilješku za primatelja dijeljenja"
+    "Password protect" : "Zaštita zaporkom"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

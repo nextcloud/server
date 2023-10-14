@@ -63,7 +63,7 @@
 			data-cy-files-content-empty>
 			<template #action>
 				<NcButton v-if="dir !== '/'"
-					aria-label="t('files', 'Go to the previous folder')"
+					:aria-label="t('files', 'Go to the previous folder')"
 					type="primary"
 					:to="toPreviousDir">
 					{{ t('files', 'Go back') }}
@@ -93,7 +93,7 @@ import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
-import { translate } from '@nextcloud/l10n'
+import { translate, translatePlural } from '@nextcloud/l10n'
 import { UploadPicker } from '@nextcloud/upload'
 import { Type } from '@nextcloud/sharing'
 import Vue from 'vue'
@@ -328,11 +328,20 @@ export default Vue.extend({
 		},
 	},
 
+	mounted() {
+		this.fetchContent()
+	},
+
 	methods: {
 		async fetchContent() {
 			this.loading = true
 			const dir = this.dir
 			const currentView = this.currentView
+
+			if (!currentView) {
+				logger.debug('The current view doesn\'t exists or is not ready.', { currentView })
+				return
+			}
 
 			// If we have a cancellable promise ongoing, cancel it
 			if (typeof this.promise?.cancel === 'function') {
@@ -416,6 +425,7 @@ export default Vue.extend({
 		},
 
 		t: translate,
+		n: translatePlural,
 	},
 })
 </script>
@@ -427,6 +437,7 @@ export default Vue.extend({
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
+	position: relative;
 }
 
 $margin: 4px;
