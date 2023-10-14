@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Elimina commento",
     "Cancel edit" : "Annulla modifica",
     "Post comment" : "Pubblica commento",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" per le menzioni, \":\" per gli emoji, \"/\" per il selettore intelligente",
     "No comments yet, start the conversation!" : "Ancora nessun commento, inizia la conversazione!",
     "No more messages" : "Non ci sono altri messaggi",
     "Retry" : "Riprova",
