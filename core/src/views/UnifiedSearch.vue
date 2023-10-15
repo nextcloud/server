@@ -367,7 +367,7 @@ export default {
 
 		document.addEventListener('keydown', (event) => {
 			// if not already opened, allows us to trigger default browser on second keydown
-			if (event.ctrlKey && event.key === 'f' && !this.open) {
+			if (event.ctrlKey && event.code === 'KeyF' && !this.open) {
 				event.preventDefault()
 				this.open = true
 			} else if (event.ctrlKey && event.key === 'f' && this.open) {
