@@ -67,6 +67,8 @@
     "a safe home for all your data" : "un llugar seguru pa los datos personales",
     "Application is not enabled" : "L'aplicación nun ta activada",
     "Please ask your server administrator to install the module." : "Pidi a l'alministración del sirvidor qu'instale'l módulu.",
-    "Full name" : "Nome completu"
+    "Full name" : "Nome completu",
+    "To fix this issue update your libxml2 version and restart your web server." : "Pa iguar esti problema, anueva la versión de libxml2 y reanicia'l sirvidor web.",
+    "Please upgrade your database version." : "Anueva la versión de la base de datos."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
