@@ -146,6 +146,8 @@ OC.L10N.register(
     "Profile information" : "Informácie o profile",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilový obrázok, celé meno, e-mail, telefónne číslo, adresa, webová stránka, Twitter, organizácia, rola, titulok, životopis a či je váš profil povolený",
     "Nextcloud settings" : "Nastavenia Nextcloud",
+    "Speech-To-Text" : "Reč na text",
+    "Text processing" : "Spracovanie textu",
     "Here you can decide which group can access certain sections of the administration settings." : "Tu sa môžete rozhodnúť, ktorá skupina má prístup k niektorým nastaveniam správcu.",
     "None" : "Žiadny",
     "Unable to modify setting" : "Nie je možné zmeniť nastavenie",
