@@ -113,11 +113,10 @@
 				</NcCheckboxRadioSwitch>
 				<NcDateTimePickerNative v-if="hasExpirationDate"
 					id="share-date-picker"
-					:value="new Date(share.expireDate)"
+					:value="new Date(share.expireDate ?? dateTomorrow)"
 					:min="dateTomorrow"
-					:max="dateMaxEnforced"
+					:max="maxExpirationDateEnforced"
 					:hide-label="true"
-					:disabled="isExpiryDateEnforced"
 					:placeholder="t('files_sharing', 'Expiration date')"
 					type="date"
 					@input="onExpirationChange" />
@@ -418,11 +417,16 @@ export default {
 		isFolder() {
 			return this.fileInfo.type === 'dir'
 		},
-		dateMaxEnforced() {
-			if (!this.isRemoteShare && this.config.isDefaultInternalExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultInternalExpireDate))
-			} else if (this.config.isDefaultRemoteExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultRemoteExpireDate))
+		maxExpirationDateEnforced() {
+			if (this.isPublicShare) {
+				return this.config.defaultExpirationDate
+			}
+			if (this.isRemoteShare) {
+				return this.config.defaultRemoteExpirationDateString
+			}
+			// If it get's here then it must be an internal share
+			if (this.isExpiryDateEnforced) {
+				return this.config.defaultInternalExpirationDate
 			}
 			return null
 		},
