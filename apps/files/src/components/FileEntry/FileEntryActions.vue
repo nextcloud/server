@@ -20,7 +20,8 @@
   -
   -->
 <template>
-	<td class="files-list__row-actions"
+	<td v-show="visible"
+		class="files-list__row-actions"
 		data-cy-files-list-row-actions>
 		<!-- Render actions -->
 		<CustomElementRender v-for="action in enabledRenderActions"

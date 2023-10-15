@@ -18,7 +18,7 @@
 			<component :is="dataComponent"
 				v-for="({key, item}, i) in renderedItems"
 				:key="key"
-				:visible="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
+				:visible="(i >= bufferItems - 1 || index <= bufferItems) && (i <= shownItems - bufferItems)"
 				:source="item"
 				:index="i"
 				v-bind="extraProps" />
@@ -114,7 +114,7 @@ export default Vue.extend({
 		},
 
 		rowCount() {
-			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + (this.bufferItems / this.columnCount) * 2
+			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + (this.bufferItems / this.columnCount) * 2 + 1
 		},
 		columnCount() {
 			if (!this.gridMode) {
@@ -173,9 +173,19 @@ export default Vue.extend({
 		},
 	},
 	watch: {
-		scrollToIndex() {
-			this.index = this.scrollToIndex
-			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
+		scrollToIndex(index) {
+			this.scrollTo(index)
+		},
+		columnCount(columnCount, oldColumnCount) {
+			if (oldColumnCount === 0) {
+				// We're initializing, the scroll position
+				// is handled on mounted
+				console.debug('VirtualList: columnCount is 0, skipping scroll')
+				return
+			}
+			// If the column count changes in grid view,
+			// update the scroll position again
+			this.scrollTo(this.index)
 		},
 	},
 
@@ -188,7 +198,7 @@ export default Vue.extend({
 			this.beforeHeight = before?.clientHeight ?? 0
 			this.headerHeight = thead?.clientHeight ?? 0
 			this.tableHeight = root?.clientHeight ?? 0
-			logger.debug('VirtualList resizeObserver updated')
+			logger.debug('VirtualList: resizeObserver updated')
 			this.onScroll()
 		}, 100, false))
 
@@ -196,11 +206,12 @@ export default Vue.extend({
 		this.resizeObserver.observe(root)
 		this.resizeObserver.observe(thead)
 
-		this.$el.addEventListener('scroll', this.onScroll)
-
 		if (this.scrollToIndex) {
-			this.$el.scrollTop = Math.floor((this.index * this.itemHeight) / this.rowCount) + this.beforeHeight
+			this.scrollTo(this.scrollToIndex)
 		}
+
+		// Adding scroll listener AFTER the initial scroll to index
+		this.$el.addEventListener('scroll', this.onScroll)
 
 		this.$_recycledPool = {} as Record<string, any>
 	},
@@ -212,9 +223,19 @@ export default Vue.extend({
 	},
 
 	methods: {
+		scrollTo(index: number) {
+			this.index = index
+			// Scroll to one row and a half before the index
+			const scrollTop = (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
+			logger.debug('VirtualList: scrolling to index ' + index, { scrollTop, columnCount: this.columnCount })
+			this.$el.scrollTop = scrollTop
+		},
+
 		onScroll() {
+			const topScroll = this.$el.scrollTop - this.beforeHeight
+			const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
 			// Max 0 to prevent negative index
-			this.index = Math.max(0, Math.floor(Math.round((this.$el.scrollTop - this.beforeHeight) / this.itemHeight) * this.columnCount))
+			this.index = Math.max(0, index)
 			this.$emit('scroll')
 		},
 	},

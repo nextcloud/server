@@ -28,7 +28,7 @@
 			:style="{ height: dndNoticeHeight }" />
 
 		<VirtualList ref="table"
-			:data-component="FileEntry"
+			:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 			:data-key="'source'"
 			:data-sources="nodes"
 			:grid-mode="userConfig.grid_view"
@@ -92,7 +92,8 @@ import Vue from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import DragAndDropNotice from './DragAndDropNotice.vue'
-import FileEntry from './FileEntryGrid.vue'
+import FileEntry from './FileEntry.vue'
+import FileEntryGrid from './FileEntryGrid.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
@@ -141,6 +142,7 @@ export default Vue.extend({
 	data() {
 		return {
 			FileEntry,
+			FileEntryGrid,
 			headers: getFileListHeaders(),
 			scrollToIndex: 0,
 			dragover: false,
