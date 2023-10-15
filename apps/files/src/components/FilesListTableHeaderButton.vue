@@ -68,12 +68,8 @@ export default Vue.extend({
 
 	methods: {
 		sortAriaLabel(column) {
-			const direction = this.isAscSorting
-				? this.t('files', 'ascending')
-				: this.t('files', 'descending')
-			return this.t('files', 'Sort list by {column} ({direction})', {
+			return this.t('files', 'Sort list by {column}', {
 				column,
-				direction,
 			})
 		},
 
