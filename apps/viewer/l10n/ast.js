@@ -1,14 +1,28 @@
 OC.L10N.register(
     "viewer",
     {
+    "Viewer" : "Visor",
+    "Your browser does not support audio." : "El restolador nun ye compatible col audiu.",
+    "Your browser does not support videos." : "El restolador nun ye compatible colos vídeos.",
     "Download" : "Baxar",
     "Delete" : "Desaniciar",
     "Name" : "Nome",
     "Loading …" : "Cargando…",
+    "Filters" : "Filtros",
+    "Watermark" : "Marca d'agua",
+    "Draw" : "Dibuxar",
+    "Resize" : "Redimensionar",
+    "Brightness" : "Brillu",
+    "Contrast" : "Contraste",
+    "Hue" : "Tonu",
+    "Saturation" : "Saturación",
     "Value" : "Valor",
     "Size" : "Tamañu",
+    "Opacity" : "Opacidá",
     "Position" : "Posición",
     "Extension" : "Estensión",
-    "Name is required." : "El nome ye obligatoriu"
+    "Name is required." : "El nome ye obligatoriu",
+    "Quality" : "Calidá",
+    "Actual size (100%)" : "Tamañu actual (100%)"
 },
 "nplurals=2; plural=(n != 1);");
