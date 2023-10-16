@@ -38,8 +38,7 @@ class CheckUserCertificates implements ISetupCheck {
 		private IL10N $l10n,
 		IConfig $config,
 	) {
-		$configValue = $config->getAppValue('files_external', 'user_certificate_scan', '');
-		$this->configValue = $configValue;
+		$this->configValue =  $config->getAppValue('files_external', 'user_certificate_scan', '');
 	}
 
 	public function getCategory(): string {
