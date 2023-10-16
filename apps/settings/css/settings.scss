@@ -120,6 +120,12 @@ select {
 	}
 }
 
+@media only screen and (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+	#personal-settings {
+		display: block;
+	}
+}
+
 
 // Button for 'Reasons to use Nextcloud in your organization'
 .development-notice {

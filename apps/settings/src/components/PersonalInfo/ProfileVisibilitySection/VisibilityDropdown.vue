@@ -149,7 +149,7 @@ export default {
 <style lang="scss" scoped>
 .visibility-container {
 	display: flex;
-	width: max-content;
+	flex-wrap: wrap;
 
 	&.disabled {
 		filter: grayscale(1);
