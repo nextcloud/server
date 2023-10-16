@@ -418,14 +418,14 @@ export default {
 			return this.fileInfo.type === 'dir'
 		},
 		maxExpirationDateEnforced() {
-			if (this.isPublicShare) {
-				return this.config.defaultExpirationDate
-			}
-			if (this.isRemoteShare) {
-				return this.config.defaultRemoteExpirationDateString
-			}
-			// If it get's here then it must be an internal share
 			if (this.isExpiryDateEnforced) {
+				if (this.isPublicShare) {
+					return this.config.defaultExpirationDate
+				}
+				if (this.isRemoteShare) {
+					return this.config.defaultRemoteExpirationDateString
+				}
+				// If it get's here then it must be an internal share
 				return this.config.defaultInternalExpirationDate
 			}
 			return null
