@@ -45,9 +45,9 @@ class PhpDefaultCharset implements ISetupCheck {
 
 	public function run(): SetupResult {
 		if (strtoupper(trim(ini_get('default_charset'))) === 'UTF-8') {
-			return new SetupResult(SetupResult::SUCCESS);
+			return SetupResult::success();
 		} else {
-			return new SetupResult(SetupResult::WARNING, $this->l10n->t('PHP configuration option default_charset should be UTF-8'));
+			return SetupResult::warning($this->l10n->t('PHP configuration option default_charset should be UTF-8'));
 		}
 	}
 }

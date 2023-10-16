@@ -38,14 +38,47 @@ class SetupResult implements \JsonSerializable {
 	public const ERROR = 'error';
 
 	/**
+	 * @brief Private constructor, use success()/info()/warning()/error() instead
 	 * @param self::SUCCESS|self::INFO|self::WARNING|self::ERROR $severity
 	 * @since 28.0.0
 	 */
-	public function __construct(
+	private function __construct(
 		private string $severity,
 		private ?string $description = null,
 		private ?string $linkToDoc = null,
 	) {
+	}
+
+	/**
+	 * @brief Create a success result object
+	 * @since 28.0.0
+	 */
+	public static function success(?string $description = null, ?string $linkToDoc = null): self {
+		return new self(self::SUCCESS, $description, $linkToDoc);
+	}
+
+	/**
+	 * @brief Create an info result object
+	 * @since 28.0.0
+	 */
+	public static function info(?string $description = null, ?string $linkToDoc = null): self {
+		return new self(self::INFO, $description, $linkToDoc);
+	}
+
+	/**
+	 * @brief Create a warning result object
+	 * @since 28.0.0
+	 */
+	public static function warning(?string $description = null, ?string $linkToDoc = null): self {
+		return new self(self::WARNING, $description, $linkToDoc);
+	}
+
+	/**
+	 * @brief Create an error result object
+	 * @since 28.0.0
+	 */
+	public static function error(?string $description = null, ?string $linkToDoc = null): self {
+		return new self(self::ERROR, $description, $linkToDoc);
 	}
 
 	/**

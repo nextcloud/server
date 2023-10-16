@@ -52,9 +52,9 @@ class LdapInvalidUuids implements ISetupCheck {
 	public function run(): SetupResult {
 		if (count($this->userMapping->getList(0, 1, true)) === 0
 			&& count($this->groupMapping->getList(0, 1, true)) === 0) {
-			return new SetupResult(SetupResult::SUCCESS);
+			return SetupResult::success();
 		} else {
-			return new SetupResult(SetupResult::WARNING, $this->l10n->t('Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.'));
+			return SetupResult::warning($this->l10n->t('Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.'));
 		}
 	}
 }

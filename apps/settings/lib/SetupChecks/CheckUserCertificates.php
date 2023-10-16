@@ -38,7 +38,7 @@ class CheckUserCertificates implements ISetupCheck {
 		private IL10N $l10n,
 		IConfig $config,
 	) {
-		$this->configValue =  $config->getAppValue('files_external', 'user_certificate_scan', '');
+		$this->configValue = $config->getAppValue('files_external', 'user_certificate_scan', '');
 	}
 
 	public function getCategory(): string {
@@ -52,11 +52,11 @@ class CheckUserCertificates implements ISetupCheck {
 	public function run(): SetupResult {
 		// all fine if neither "not-run-yet" nor a result
 		if ($this->configValue === '') {
-			return new SetupResult(SetupResult::SUCCESS);
+			return SetupResult::success();
 		}
 		if ($this->configValue === 'not-run-yet') {
-			return new SetupResult(SetupResult::INFO, $this->l10n->t('A background job is pending that checks for user imported SSL certificates. Please check back later.'));
+			return SetupResult::info($this->l10n->t('A background job is pending that checks for user imported SSL certificates. Please check back later.'));
 		}
-		return new SetupResult(SetupResult::ERROR, $this->l10n->t('There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.'));
+		return SetupResult::error($this->l10n->t('There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.'));
 	}
 }

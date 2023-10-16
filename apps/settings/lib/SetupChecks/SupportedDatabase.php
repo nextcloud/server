@@ -68,11 +68,11 @@ class SupportedDatabase implements ISetupCheck {
 
 				if (str_contains($version, 'mariadb')) {
 					if (version_compare($version, '10.2', '<')) {
-						return new SetupResult(SetupResult::WARNING, $this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $row['Value']));
+						return SetupResult::warning($this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $row['Value']));
 					}
 				} else {
 					if (version_compare($version, '8', '<')) {
-						return new SetupResult(SetupResult::WARNING, $this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $row['Value']));
+						return SetupResult::warning($this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $row['Value']));
 					}
 				}
 				break;
@@ -84,13 +84,13 @@ class SupportedDatabase implements ISetupCheck {
 				$result->execute();
 				$row = $result->fetch();
 				if (version_compare($row['server_version'], '9.6', '<')) {
-					return new SetupResult(SetupResult::WARNING, $this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $row['server_version']));
+					return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $row['server_version']));
 				}
 				break;
 			case OraclePlatform::class:
 				break;
 		}
 		// TODO still show db and version on success?
-		return new SetupResult(SetupResult::SUCCESS);
+		return SetupResult::success();
 	}
 }

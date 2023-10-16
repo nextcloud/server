@@ -47,9 +47,9 @@ class ReadOnlyConfig implements ISetupCheck {
 
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueBool('config_is_read_only', false)) {
-			return new SetupResult(SetupResult::INFO, $this->l10n->t('The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.'));
+			return SetupResult::info($this->l10n->t('The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.'));
 		} else {
-			return new SetupResult(SetupResult::SUCCESS, $this->l10n->t('Nextcloud configuration file is writable'));
+			return SetupResult::success($this->l10n->t('Nextcloud configuration file is writable'));
 		}
 	}
 }

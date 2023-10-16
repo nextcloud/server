@@ -46,9 +46,9 @@ class PhpOutputBuffering implements ISetupCheck {
 	public function run(): SetupResult {
 		$value = trim(ini_get('output_buffering'));
 		if ($value === '' || $value === '0') {
-			return new SetupResult(SetupResult::SUCCESS);
+			return SetupResult::success();
 		} else {
-			return new SetupResult(SetupResult::ERROR, $this->l10n->t('PHP configuration option output_buffering must be disabled'));
+			return SetupResult::error($this->l10n->t('PHP configuration option output_buffering must be disabled'));
 		}
 	}
 }

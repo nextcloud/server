@@ -57,7 +57,7 @@ class InternetConnectivity implements ISetupCheck {
 
 	public function run(): SetupResult {
 		if ($this->config->getSystemValue('has_internet_connection', true) === false) {
-			return new SetupResult(SetupResult::SUCCESS, $this->l10n->t('Internet connectivity is disabled in configuration file.'));
+			return SetupResult::success($this->l10n->t('Internet connectivity is disabled in configuration file.'));
 		}
 
 		$siteArray = $this->config->getSystemValue('connectivity_check_domains', [
@@ -66,10 +66,10 @@ class InternetConnectivity implements ISetupCheck {
 
 		foreach ($siteArray as $site) {
 			if ($this->isSiteReachable($site)) {
-				return new SetupResult(SetupResult::SUCCESS);
+				return SetupResult::success();
 			}
 		}
-		return new SetupResult(SetupResult::WARNING, $this->l10n->t('This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.'));
+		return SetupResult::warning($this->l10n->t('This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.'));
 	}
 
 	/**
