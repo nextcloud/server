@@ -30,12 +30,13 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Server;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\ISetupCheckManager;
+use Psr\Log\LoggerInterface;
 
 class SetupCheckManager implements ISetupCheckManager {
-	private Coordinator $coordinator;
-
-	public function __construct(Coordinator $coordinator) {
-		$this->coordinator = $coordinator;
+	public function __construct(
+		private Coordinator $coordinator,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function runAll(): array {
@@ -44,6 +45,7 @@ class SetupCheckManager implements ISetupCheckManager {
 		foreach ($setupChecks as $setupCheck) {
 			/** @var ISetupCheck $setupCheckObject */
 			$setupCheckObject = Server::get($setupCheck->getService());
+			$this->logger->debug('Running check '.get_class($setupCheckObject));
 			$setupResult = $setupCheckObject->run();
 			$category = $setupCheckObject->getCategory();
 			if (!isset($results[$category])) {
