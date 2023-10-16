@@ -46,6 +46,16 @@
 openapi.json            @provokateurin
 ResponseDefinitions.php @provokateurin
 
+# Talk team
+/lib/private/Comments               @nickvergessen
+/lib/private/Federation             @nickvergessen
+/lib/private/Talk                   @nickvergessen
+/lib/public/Comments                @nickvergessen
+/lib/public/Federation              @nickvergessen
+/lib/public/OCM                     @nickvergessen
+/lib/public/Talk                    @nickvergessen
+/lib/public/UserStatus              @nickvergessen
+
 # Personal interest
 */Activity/*                        @nickvergessen
 */Notifications/*                   @nickvergessen
