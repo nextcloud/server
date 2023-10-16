@@ -27,7 +27,7 @@ declare(strict_types=1);
 namespace OCP\TextToImage\Events;
 
 /**
- * @since 27.1.0
+ * @since 28.0.0
  */
 class TaskSuccessfulEvent extends AbstractTextToImageEvent {
 }
