@@ -47,12 +47,12 @@ use OCP\PreConditionNotMetException;
  */
 class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string                     $appName,
-		IRequest                   $request,
-		private IManager           $textToImageManager,
-		private IL10N              $l,
-		private ?string            $userId,
-		private AppData			   $appData,
+		string $appName,
+		IRequest $request,
+		private IManager $textToImageManager,
+		private IL10N $l,
+		private ?string $userId,
+		private AppData $appData,
 	) {
 		parent::__construct($appName, $request);
 	}
