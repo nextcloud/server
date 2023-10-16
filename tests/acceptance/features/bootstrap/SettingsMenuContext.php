@@ -49,7 +49,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function settingsMenu() {
-		return Locator::forThe()->css(".user-menu__nav")->
+		return Locator::forThe()->css("ul")->
 				descendantOf(self::settingsSectionInHeader())->
 				describedAs("Settings menu");
 	}
