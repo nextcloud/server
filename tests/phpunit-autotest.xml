@@ -8,7 +8,7 @@
 		 timeoutForLargeTests="900"
 		 convertDeprecationsToExceptions="true"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
-	<testsuite name="ownCloud">
+	<testsuite name="Nextcloud Server">
 		<directory suffix=".php">lib/</directory>
 		<directory suffix=".php">Core/</directory>
 		<directory suffix=".php">Test/</directory>
