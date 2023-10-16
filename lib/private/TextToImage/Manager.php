@@ -164,7 +164,7 @@ class Manager implements IManager {
 					if (isset($file)) {
 						$file->delete();
 					}
-				}catch(NotPermittedException $e) {
+				} catch(NotPermittedException $e) {
 					$this->logger->warning('Failed to clean up Text2Image result file after error', ['exception' => $e]);
 				}
 				$this->logger->info('Text2Image generation using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
@@ -176,7 +176,7 @@ class Manager implements IManager {
 				}
 				if ($e instanceof RuntimeException) {
 					throw $e;
-				}else {
+				} else {
 					throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
 				}
 			}
