@@ -19,6 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { getRootUrl } from '@nextcloud/router'
+
+const isNextcloudUrl = (url) => {
+	const nextcloudBaseUrl = window.location.protocol + '//' + window.location.host + getRootUrl()
+	// try with relative and absolute URL
+	return url.startsWith(nextcloudBaseUrl) || url.startsWith(getRootUrl())
+}
+
 /**
  * Intercept XMLHttpRequest and fetch API calls to add X-Requested-With header
  *
@@ -28,7 +36,7 @@ export const interceptRequests = () => {
 	XMLHttpRequest.prototype.open = (function(open) {
 		return function(method, url, async) {
 			open.apply(this, arguments)
-			if (!this.getResponseHeader('X-Requested-With')) {
+			if (isNextcloudUrl(url) && !this.getResponseHeader('X-Requested-With')) {
 				this.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
 			}
 		}
@@ -36,6 +44,9 @@ export const interceptRequests = () => {
 
 	window.fetch = (function(fetch) {
 		return (input, init) => {
+			if (!isNextcloudUrl(input.url)) {
+				return fetch(input, init)
+			}
 			if (!init) {
 				init = {}
 			}
