@@ -32,6 +32,7 @@ use OCP\IRequest;
 use OCP\Http\Client\IResponse;
 use OCP\Http\Client\IClient;
 use OCA\Files_Sharing\External\Manager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ExternalShareControllerTest
@@ -43,6 +44,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	private $request;
 	/** @var \OCA\Files_Sharing\External\Manager */
 	private $externalManager;
+	/** @var IConfig|MockObject */
+	private $config;
 	/** @var IClientService */
 	private $clientService;
 
