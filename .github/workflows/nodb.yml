@@ -83,7 +83,7 @@ jobs:
         run: ./occ app:enable admin_audit encryption federatedfilesharing federation files_sharing files_trashbin files_versions provisioning_api user_ldap
 
       - name: PHPUnit
-        run: composer run test -- --exclude-group DB,SLOWDB,PRIMARY-azure,PRIMARY-s3,PRIMARY-swift
+        run: composer run test -- --exclude-group DB,SLOWDB,PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis
 
   summary:
     runs-on: ubuntu-latest
