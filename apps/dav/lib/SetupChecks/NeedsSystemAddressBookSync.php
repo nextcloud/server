@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Settings\SetupChecks;
+namespace OCA\DAV\SetupChecks;
 
 use OCP\IConfig;
 use OCP\IL10N;
