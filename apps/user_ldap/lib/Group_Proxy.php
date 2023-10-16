@@ -392,4 +392,8 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		return $this->handleRequest($gid, 'searchInGroup', [$gid, $search, $limit, $offset]);
 	}
+
+	public function addRelationshipToCaches(string $uid, ?string $dnUser, string $gid): void {
+		$this->handleRequest($gid, 'addRelationshipToCaches', [$uid, $dnUser, $gid]);
+	}
 }

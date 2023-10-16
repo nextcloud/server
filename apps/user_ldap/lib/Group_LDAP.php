@@ -61,9 +61,9 @@ use function json_decode;
 class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
 	protected bool $enabled = false;
 
-	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
+	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of user DN with gid as key */
 	protected CappedMemoryCache $cachedGroupMembers;
-	/** @var CappedMemoryCache<array[]> $cachedGroupsByMember array of groups with uid as key */
+	/** @var CappedMemoryCache<array[]> $cachedGroupsByMember array of groups with user DN as key */
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
@@ -1412,5 +1412,36 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 */
 	public function dn2GroupName(string $dn): string|false {
 		return $this->access->dn2groupname($dn);
+	}
+
+	public function addRelationshipToCaches(string $uid, ?string $dnUser, string $gid): void {
+		$dnGroup = $this->access->groupname2dn($gid);
+		$dnUser ??= $this->access->username2dn($uid);
+		if ($dnUser === false || $dnGroup === false) {
+			return;
+		}
+		if (isset($this->cachedGroupMembers[$gid])) {
+			$this->cachedGroupMembers[$gid] = array_merge($this->cachedGroupMembers[$gid], [$dnUser]);
+		}
+		unset($this->cachedGroupsByMember[$dnUser]);
+		unset($this->cachedNestedGroups[$gid]);
+		$cacheKey = 'inGroup' . $uid . ':' . $gid;
+		$this->access->connection->writeToCache($cacheKey, true);
+		$cacheKeyMembers = 'inGroup-members:' . $gid;
+		if (!is_null($data = $this->access->connection->getFromCache($cacheKeyMembers))) {
+			$this->access->connection->writeToCache($cacheKeyMembers, array_merge($data, [$dnUser]));
+		}
+		$cacheKey = '_groupMembers' . $dnGroup;
+		if (!is_null($data = $this->access->connection->getFromCache($cacheKey))) {
+			$this->access->connection->writeToCache($cacheKey, array_merge($data, [$dnUser]));
+		}
+		$cacheKey = 'getUserGroups' . $uid;
+		if (!is_null($data = $this->access->connection->getFromCache($cacheKey))) {
+			$this->access->connection->writeToCache($cacheKey, array_merge($data, [$gid]));
+		}
+		// These cache keys cannot be easily updated:
+		// $cacheKey = 'usersInGroup-' . $gid . '-' . $search . '-' . $limit . '-' . $offset;
+		// $cacheKey = 'usersInGroup-' . $gid . '-' . $search;
+		// $cacheKey = 'countUsersInGroup-' . $gid . '-' . $search;
 	}
 }
