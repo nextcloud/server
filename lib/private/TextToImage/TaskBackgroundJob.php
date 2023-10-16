@@ -35,8 +35,8 @@ use OCP\TextToImage\IManager;
 
 class TaskBackgroundJob extends QueuedJob {
 	public function __construct(
-		ITimeFactory             $timeFactory,
-		private IManager         $text2imageManager,
+		ITimeFactory $timeFactory,
+		private IManager $text2imageManager,
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($timeFactory);
