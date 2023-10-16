@@ -29,6 +29,8 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextToImage\Db\Task as DbTask;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\TextToImage\Exception\TaskNotFoundException;
 use OCP\TextToImage\IManager;
@@ -100,6 +102,7 @@ class Manager implements IManager {
 	 * @inheritDoc
 	 */
 	public function runTask(Task $task): void {
+		$this->logger->debug('Running TextToImage Task');
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
 		}
@@ -107,42 +110,75 @@ class Manager implements IManager {
 
 		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
 		if ($json !== '') {
-			$className = json_decode($json, true);
-			$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
-			if ($provider !== false) {
-				$providers = [$provider];
+			try {
+				$className = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+				if ($provider !== false) {
+					$providers = [$provider];
+				}
+			} catch (\JsonException $e) {
+				$this->logger->warning('Failed to decode Text2Image setting `ai.text2image_provider`', ['exception' => $e]);
 			}
 		}
 
 		foreach ($providers as $provider) {
+			$this->logger->debug('Trying to run Text2Image provider '.$provider::class);
 			try {
 				$task->setStatus(Task::STATUS_RUNNING);
 				if ($task->getId() === null) {
+					$this->logger->debug('Inserting Text2Image task into DB');
 					$taskEntity = $this->taskMapper->insert(DbTask::fromPublicTask($task));
 					$task->setId($taskEntity->getId());
 				} else {
+					$this->logger->debug('Updating Text2Image task in DB');
 					$this->taskMapper->update(DbTask::fromPublicTask($task));
 				}
 				try {
 					$folder = $this->appData->getFolder('text2image');
-				} catch(\OCP\Files\NotFoundException $e) {
+				} catch(NotFoundException) {
+					$this->logger->debug('Creating folder in appdata for Text2Image results');
 					$folder = $this->appData->newFolder('text2image');
 				}
+				$this->logger->debug('Creating result file for Text2Image task');
 				$file = $folder->newFile((string) $task->getId());
-				$provider->generate($task->getInput(), $file->write());
+				$resource = $file->write();
+				if ($resource === false) {
+					throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: Couldn\'t open file to write.');
+				}
+				$this->logger->debug('Calling Text2Image provider\'s generate method');
+				$provider->generate($task->getInput(), $resource);
+				if (is_resource($resource)) {
+					// If $resource hasn't been closed yet, we'll do that here
+					fclose($resource);
+				}
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
+				$this->logger->debug('Updating Text2Image task in DB');
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				return;
-			} catch (\RuntimeException $e) {
+			} catch (\RuntimeException|\Throwable $e) {
+				if (isset($resource) && is_resource($resource)) {
+					// If $resource hasn't been closed yet, we'll do that here
+					fclose($resource);
+				}
+				try {
+					if (isset($file)) {
+						$file->delete();
+					}
+				}catch(NotPermittedException $e) {
+					$this->logger->warning('Failed to clean up Text2Image result file after error', ['exception' => $e]);
+				}
 				$this->logger->info('Text2Image generation using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(Task::STATUS_FAILED);
-				$this->taskMapper->update(DbTask::fromPublicTask($task));
-				throw $e;
-			} catch (\Throwable $e) {
-				$this->logger->info('Text2Image generation using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
-				$task->setStatus(Task::STATUS_FAILED);
-				$this->taskMapper->update(DbTask::fromPublicTask($task));
-				throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
+				try {
+					$this->taskMapper->update(DbTask::fromPublicTask($task));
+				} catch (Exception $e) {
+					$this->logger->warning('Failed to update database after Text2Image error', ['exception' => $e]);
+				}
+				if ($e instanceof RuntimeException) {
+					throw $e;
+				}else {
+					throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
+				}
 			}
 		}
 

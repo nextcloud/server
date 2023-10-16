@@ -45,7 +45,6 @@ class Version28000Date20230906104802 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$changed = false;
 		if (!$schema->hasTable('text2image_tasks')) {
 			$table = $schema->createTable('text2image_tasks');
 
@@ -76,11 +75,8 @@ class Version28000Date20230906104802 extends SimpleMigrationStep {
 				'length' => 255,
 				'default' => '',
 			]);
-			$table->addColumn('last_updated', Types::INTEGER, [
+			$table->addColumn('last_updated', Types::DATETIME, [
 				'notnull' => false,
-				'length' => 4,
-				'default' => 0,
-				'unsigned' => true,
 			]);
 
 			$table->setPrimaryKey(['id'], 't2i_tasks_id_index');
@@ -88,10 +84,6 @@ class Version28000Date20230906104802 extends SimpleMigrationStep {
 			$table->addIndex(['status'], 't2i_tasks_status');
 			$table->addIndex(['user_id', 'app_id', 'identifier'], 't2i_tasks_uid_appid_ident');
 
-			$changed = true;
-		}
-
-		if ($changed) {
 			return $schema;
 		}
 

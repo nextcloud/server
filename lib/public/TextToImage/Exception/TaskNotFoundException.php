@@ -24,5 +24,5 @@
 
 namespace OCP\TextToImage\Exception;
 
-class TaskNotFoundException extends Exception {
+class TaskNotFoundException extends TextToImageException {
 }

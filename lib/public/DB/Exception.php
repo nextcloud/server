@@ -139,7 +139,7 @@ class Exception extends BaseException {
 
 	/**
 	 * @return int|null
-	 * @psalm-return Exception::REASON_*
+	 * @psalm-return TextToImageException::REASON_*
 	 * @since 21.0.0
 	 */
 	public function getReason(): ?int {

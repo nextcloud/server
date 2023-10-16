@@ -58,12 +58,11 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 *
-	 * Check whether this feature is available
+	 * 	 * Check whether this feature is available
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{isAvailable: bool}, array{}>
 	 */
+	#[PublicPage]
 	public function isAvailable(): DataResponse {
 		return new DataResponse([
 			'isAvailable' => $this->textToImageManager->hasProviders(),
