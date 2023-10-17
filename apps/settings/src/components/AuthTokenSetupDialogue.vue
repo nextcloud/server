@@ -189,6 +189,8 @@ export default {
 	.app-password-row {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 
 		.icon {
 			background-size: 16px 16px;
@@ -203,8 +205,8 @@ export default {
 
 	.app-password-label {
 		display: table-cell;
-		padding-right: 1em;
-		text-align: right;
+		margin-right: 1em;
+		text-align: left;
 		vertical-align: middle;
 		width: 100px;
 	}
