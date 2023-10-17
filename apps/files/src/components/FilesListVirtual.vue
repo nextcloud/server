@@ -278,20 +278,9 @@ export default Vue.extend({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	display: block;
-	overflow: auto;
 	height: 100%;
 
 	&::v-deep {
-		// Table head, body and footer
-		tbody {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			// Necessary for virtual scrolling absolute
-			position: relative;
-		}
-
 		// Before table and thead
 		.files-list__before {
 			display: flex;
@@ -310,7 +299,6 @@ export default Vue.extend({
 		// Table header
 		.files-list__thead {
 			// Pinned on top when scrolling
-			position: sticky;
 			z-index: 10;
 			top: 0;
 		}

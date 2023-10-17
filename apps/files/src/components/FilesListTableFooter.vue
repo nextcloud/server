@@ -159,7 +159,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 // Scoped row
 tr {
-	padding-bottom: 300px;
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;

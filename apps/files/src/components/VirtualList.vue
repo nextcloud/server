@@ -7,37 +7,50 @@
 
 		<!-- Header -->
 		<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
-			<slot name="header" />
+			<slot name="header"></slot>
 		</thead>
 
 		<!-- Body -->
-		<tbody :style="tbodyStyle" class="files-list__tbody" data-cy-files-list-tbody>
-			<component :is="dataComponent"
-				v-for="(item, i) in renderedItems"
-				:key="i"
-				:visible="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
-				:source="item"
-				:index="i"
-				v-bind="extraProps" />
-		</tbody>
+		<RecycleScroller
+			class="files-list__recycler"
+			list-class="files-list__tbody"
+			:items="dataSources"
+			:buffer="bufferPixels"
+			:item-size="itemHeight"
+			:key-field="dataKey"
+		>
+			<template v-slot="{ item, index }">
+				<component :is="dataComponent"
+					:visible="true"
+					:source="item"
+					:index="index"
+					v-bind="extraProps" />
+			</template>
 
-		<!-- Footer -->
-		<tfoot v-show="isReady"
-			ref="tfoot"
-			class="files-list__tfoot"
-			data-cy-files-list-tfoot>
-			<slot name="footer" />
-		</tfoot>
+			<template #after>
+				<!-- Footer -->
+				<tfoot
+					ref="tfoot"
+					class="files-list__tfoot"
+					data-cy-files-list-tfoot>
+					<slot name="footer"></slot>
+				</tfoot>
+			</template>
+		</RecycleScroller>
 	</table>
 </template>
 
 <script lang="ts">
-import { File, Folder, debounce } from 'debounce'
+import { File, Folder } from '@nextcloud/files'
 import Vue from 'vue'
-import logger from '../logger.js'
 
-// Items to render before and after the visible area
-const bufferItems = 3
+import VueVirtualScroller from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+
+Vue.use(VueVirtualScroller);
+
+// Pixels to render before and after the visible area
+const bufferPixels = 400
 
 export default Vue.extend({
 	name: 'VirtualList',
@@ -71,81 +84,14 @@ export default Vue.extend({
 
 	data() {
 		return {
-			bufferItems,
-			index: this.scrollToIndex,
-			beforeHeight: 0,
-			headerHeight: 0,
-			tableHeight: 0,
-			resizeObserver: null as ResizeObserver | null,
+			bufferPixels,
 		}
 	},
 
-	computed: {
-		// Wait for measurements to be done before rendering
-		isReady() {
-			return this.tableHeight > 0
-		},
-
-		startIndex() {
-			return Math.max(0, this.index - bufferItems)
-		},
-		shownItems() {
-			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + bufferItems * 2
-		},
-		renderedItems(): (File | Folder)[] {
-			if (!this.isReady) {
-				return []
-			}
-			return this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems)
-		},
-
-		tbodyStyle() {
-			const isOverScrolled = this.startIndex + this.shownItems > this.dataSources.length
-			const lastIndex = this.dataSources.length - this.startIndex - this.shownItems
-			const hiddenAfterItems = Math.min(this.dataSources.length - this.startIndex, lastIndex)
-			return {
-				paddingTop: `${this.startIndex * this.itemHeight}px`,
-				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
-			}
-		},
-	},
 	watch: {
 		scrollToIndex() {
-			this.index = this.scrollToIndex
-			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
+
 		},
-	},
-
-	mounted() {
-		const before = this.$refs?.before as HTMLElement
-		const root = this.$el as HTMLElement
-		const tfoot = this.$refs?.tfoot as HTMLElement
-		const thead = this.$refs?.thead as HTMLElement
-
-		this.resizeObserver = new ResizeObserver(debounce(() => {
-			this.beforeHeight = before?.clientHeight ?? 0
-			this.headerHeight = thead?.clientHeight ?? 0
-			this.tableHeight = root?.clientHeight ?? 0
-			logger.debug('VirtualList resizeObserver updated')
-			this.onScroll()
-		}, 100, false))
-
-		this.resizeObserver.observe(before)
-		this.resizeObserver.observe(root)
-		this.resizeObserver.observe(tfoot)
-		this.resizeObserver.observe(thead)
-
-		this.$el.addEventListener('scroll', this.onScroll)
-
-		if (this.scrollToIndex) {
-			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
-		}
-	},
-
-	beforeDestroy() {
-		if (this.resizeObserver) {
-			this.resizeObserver.disconnect()
-		}
 	},
 
 	methods: {
@@ -157,3 +103,15 @@ export default Vue.extend({
 	},
 })
 </script>
+
+<style scoped lang="scss">
+.files-list {
+	display: flex;
+	flex-flow: column;
+	overflow: hidden;
+
+	&__recycler {
+		flex: 1;
+	}
+}
+</style>
