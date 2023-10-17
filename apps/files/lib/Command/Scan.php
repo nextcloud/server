@@ -37,6 +37,7 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\FilesMetadata\FilesMetadataManager;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Events\NodeRemovedFromCache;
@@ -69,6 +70,7 @@ class Scan extends Base {
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
 		private MetadataManager $metadataManager,
+		private FilesMetadataManager $filesMetadataManager,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
 	) {
@@ -140,6 +142,8 @@ class Scan extends Base {
 				if ($node instanceof File) {
 					$this->metadataManager->generateMetadata($node, false);
 				}
+
+				$this->filesMetadataManager->refreshMetadata($node);
 			}
 		});
 

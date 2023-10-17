@@ -214,6 +214,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceResetAttempts::class));
+
+	$application->add(\OCP\Server::get(\OC\Core\Command\FilesMetadata\Get::class));
 } else {
 	$application->add(\OC::$server->get(\OC\Core\Command\Maintenance\Install::class));
 }
