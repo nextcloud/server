@@ -44,7 +44,7 @@ export const interceptRequests = () => {
 
 	window.fetch = (function(fetch) {
 		return (input, init) => {
-			if (!isNextcloudUrl(input.url)) {
+			if (!isNextcloudUrl(input?.url ?? input)) {
 				return fetch(input, init)
 			}
 			if (!init) {
