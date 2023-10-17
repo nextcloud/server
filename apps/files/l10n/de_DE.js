@@ -198,6 +198,7 @@ OC.L10N.register(
     "Unselect all" : "Auswahl aufheben",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" ist bei einigen Elementen fehlgeschlagen",
     "\"{displayName}\" batch action executed successfully" : "Stapelaktion \"{displayName}\" erfolgreich ausgeführt",
+    "Sort list by {column}" : "Liste sortieren nach {column}",
     "List of files and folders." : "Liste der Dateien und Ordner.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} und {summaryFolder}",

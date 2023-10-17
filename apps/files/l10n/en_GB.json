@@ -196,6 +196,7 @@
     "Unselect all" : "Unselect all",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" failed on some elements ",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" batch action executed successfully",
+    "Sort list by {column}" : "Sort list by {column}",
     "List of files and folders." : "List of files and folders.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} and {summaryFolder}",

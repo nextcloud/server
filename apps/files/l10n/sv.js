@@ -198,6 +198,7 @@ OC.L10N.register(
     "Unselect all" : "Avmarkera alla",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" misslyckades med vissa element",
     "\"{displayName}\" batch action executed successfully" : "Batchåtgärden \"{displayName}\" har utförts",
+    "Sort list by {column}" : "Sortera lista efter {column}",
     "List of files and folders." : "Lista över filer och mappar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} och {summaryFolder}",
