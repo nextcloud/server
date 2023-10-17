@@ -89,7 +89,7 @@ class TaskMapper extends QBMapper {
 	 * @return array
 	 * @throws Exception
 	 */
-	public function findUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
+	public function findUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName)

@@ -88,11 +88,11 @@ interface IManager {
 	public function getUserTask(int $id, ?string $userId): Task;
 
 	/**
-	 * @param string $userId
+	 * @param ?string $userId
 	 * @param string $appId
 	 * @param string|null $identifier
 	 * @return Task[]
 	 * @since 28.0.0
 	 */
-	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array;
+	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array;
 }

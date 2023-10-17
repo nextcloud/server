@@ -267,7 +267,7 @@ class Manager implements IManager {
 	 * @param string|null $identifier
 	 * @return Task[]
 	 */
-	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
+	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
 			return array_map(static function (DbTask $taskEntity) {
