@@ -292,7 +292,7 @@ section {
 		justify-content: center;
 		align-items: center;
 		gap: 16px 0;
-		width: 300px;
+		width: min(100%, 300px);
 
 		span {
 			color: var(--color-text-lighter);
