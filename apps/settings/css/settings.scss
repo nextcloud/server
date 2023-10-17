@@ -89,7 +89,7 @@ select {
 	display: grid;
 	padding: 20px;
 	max-width: 1700px;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
 	grid-column-gap: 10px;
 
 	.section {
@@ -117,12 +117,6 @@ select {
 		background-position: 0px 2px;
 		padding-left: 30px;
 		opacity: 0.7;
-	}
-}
-
-@media only screen and (max-width: math.div(variables.$breakpoint-mobile, 2)) {
-	#personal-settings {
-		display: block;
 	}
 }
 
