@@ -21,6 +21,10 @@
 
 import { getRootUrl } from '@nextcloud/router'
 
+/**
+ * @param {string} url The URL to check
+ * @return {boolean} true if the URL points to this nextcloud instance
+ */
 const isNextcloudUrl = (url) => {
 	const nextcloudBaseUrl = window.location.protocol + '//' + window.location.host + getRootUrl()
 	// try with relative and absolute URL
@@ -43,24 +47,25 @@ export const interceptRequests = () => {
 	})(XMLHttpRequest.prototype.open)
 
 	window.fetch = (function(fetch) {
-		return (input, init) => {
-			if (!isNextcloudUrl(input.url)) {
-				return fetch(input, init)
+		return (resource, options) => {
+			// fetch allows the `input` to be either a Request object or any stringifyable value
+			if (!isNextcloudUrl(resource.url ?? resource.toString())) {
+				return fetch(resource, options)
 			}
-			if (!init) {
-				init = {}
+			if (!options) {
+				options = {}
 			}
-			if (!init.headers) {
-				init.headers = new Headers()
-			}
-
-			if (init.headers instanceof Headers && !init.headers.has('X-Requested-With')) {
-				init.headers.append('X-Requested-With', 'XMLHttpRequest')
-			} else if (init.headers instanceof Object && !init.headers['X-Requested-With']) {
-				init.headers['X-Requested-With'] = 'XMLHttpRequest'
+			if (!options.headers) {
+				options.headers = new Headers()
 			}
 
-			return fetch(input, init)
+			if (options.headers instanceof Headers && !options.headers.has('X-Requested-With')) {
+				options.headers.append('X-Requested-With', 'XMLHttpRequest')
+			} else if (options.headers instanceof Object && !options.headers['X-Requested-With']) {
+				options.headers['X-Requested-With'] = 'XMLHttpRequest'
+			}
+
+			return fetch(resource, options)
 		}
 	})(window.fetch)
 }
