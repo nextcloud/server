@@ -28,18 +28,23 @@ import { Permission, Folder } from '@nextcloud/files'
 import { showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
+
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
+
+import logger from '../logger'
 
 type createFolderResponse = {
 	fileid: number
 	source: string
 }
 
-const createNewFolder = async (root: string, name: string): Promise<createFolderResponse> => {
-	const source = root + '/' + name
+const createNewFolder = async (root: Folder, name: string): Promise<createFolderResponse> => {
+	const source = root.source + '/' + name
+	const encodedSource = root.encodedSource + '/' + encodeURIComponent(name)
+
 	const response = await axios({
 		method: 'MKCOL',
-		url: source,
+		url: encodedSource,
 		headers: {
 			Overwrite: 'F',
 		},
@@ -70,7 +75,7 @@ export const entry = {
 	async handler(context: Folder, content: Node[]) {
 		const contentNames = content.map((node: Node) => node.basename)
 		const name = getUniqueName(t('files', 'New folder'), contentNames)
-		const { fileid, source } = await createNewFolder(context.encodedSource, encodeURIComponent(name))
+		const { fileid, source } = await createNewFolder(context, name)
 
 		// Create the folder in the store
 		const folder = new Folder({
@@ -83,6 +88,7 @@ export const entry = {
 		})
 
 		showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
+		logger.debug('Created new folder', { folder, source })
 		emit('files:node:created', folder)
 		emit('files:node:rename', folder)
 	},
