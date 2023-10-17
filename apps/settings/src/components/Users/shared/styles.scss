@@ -52,7 +52,7 @@
 			&--avatar,
 			&--displayname {
 				position: sticky;
-				z-index: 10;
+				z-index: var(--sticky-column-z-index);
 				background-color: var(--color-main-background);
 			}
 
@@ -106,7 +106,7 @@
 		&--actions {
 			position: sticky;
 			right: 0;
-			z-index: 10;
+			z-index: var(--sticky-column-z-index);
 			display: flex;
 			flex-direction: row;
 			align-items: center;

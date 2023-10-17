@@ -123,6 +123,7 @@
 					:disabled="isLoadingField"
 					:loading="loading.groups"
 					:multiple="true"
+					:append-to-body="false"
 					:options="availableGroups"
 					:placeholder="t('settings', 'Add user to group')"
 					:taggable="settings.isAdmin"
@@ -152,6 +153,7 @@
 					:disabled="isLoadingField"
 					:loading="loading.subadmins"
 					label="name"
+					:append-to-body="false"
 					:multiple="true"
 					:no-wrap="true"
 					:options="subAdminsGroups"
@@ -177,6 +179,7 @@
 					:create-option="validateQuota"
 					:disabled="isLoadingField"
 					:loading="loading.quota"
+					:append-to-body="false"
 					:clearable="false"
 					:input-id="'quota' + uniqueId"
 					:options="quotaOptions"
@@ -208,6 +211,7 @@
 					:disabled="isLoadingField"
 					:loading="loading.languages"
 					:clearable="false"
+					:append-to-body="false"
 					:options="availableLanguages"
 					:placeholder="t('settings', 'No language set')"
 					:value="userLanguage"
@@ -249,6 +253,7 @@
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
 					:disabled="isLoadingField"
+					:append-to-body="false"
 					:loading="loadingPossibleManagers || loading.manager"
 					label="displayname"
 					:options="possibleManagers"
@@ -900,7 +905,6 @@ export default {
 
 .user-list__row {
 	@include row;
-	border-bottom: 1px solid var(--color-border);
 
 	&:hover {
 		background-color: var(--color-background-hover);
@@ -920,6 +924,8 @@ export default {
 	@include cell;
 
 	&__cell {
+		border-bottom: 1px solid var(--color-border);
+
 		:deep {
 			.input-field,
 			.input-field__main-wrapper,

@@ -168,6 +168,7 @@ export default Vue.extend({
 	--cell-width: 200px;
 	--cell-width-large: 300px;
 	--cell-min-width: calc(var(--cell-width) - (2 * var(--cell-padding)));
+	--sticky-column-z-index: calc(var(--vs-dropdown-z-index) + 1); // Keep the sticky column on top of the select dropdown
 
 	// Necessary for virtual scroll optimized rendering
 	display: block;
@@ -183,7 +184,7 @@ export default Vue.extend({
 
 	&__header {
 		top: 0;
-		z-index: 20;
+		z-index: calc(var(--sticky-column-z-index) + 1);
 	}
 
 	&__footer {
