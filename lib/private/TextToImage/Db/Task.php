@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OC\TextToImage\Db;
 
+use DateTime;
 use OCP\AppFramework\Db\Entity;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
@@ -33,8 +34,8 @@ use OCP\Image;
 use OCP\TextToImage\Task as OCPTask;
 
 /**
- * @method setLastUpdated(int $lastUpdated)
- * @method int getLastUpdated()
+ * @method setLastUpdated(DateTime $lastUpdated)
+ * @method DateTime getLastUpdated()
  * @method setInput(string $type)
  * @method string getInput()
  * @method setResultPath(string $resultPath)
@@ -71,7 +72,7 @@ class Task extends Entity {
 	public function __construct() {
 		// add types in constructor
 		$this->addType('id', 'integer');
-		$this->addType('lastUpdated', 'integer');
+		$this->addType('lastUpdated', 'datetime');
 		$this->addType('input', 'string');
 		$this->addType('status', 'integer');
 		$this->addType('userId', 'string');

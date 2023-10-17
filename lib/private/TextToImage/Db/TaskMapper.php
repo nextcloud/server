@@ -25,12 +25,14 @@ declare(strict_types=1);
 
 namespace OC\TextToImage\Db;
 
+use DateTime;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
@@ -101,18 +103,26 @@ class TaskMapper extends QBMapper {
 
 	/**
 	 * @param int $timeout
-	 * @return int the number of deleted tasks
+	 * @return Task[] the deleted tasks
 	 * @throws Exception
 	 */
-	public function deleteOlderThan(int $timeout): int {
+	public function deleteOlderThan(int $timeout): array {
+		$datetime = new DateTime();
+		$datetime->sub(new \DateInterval('PT'.$timeout.'S'));
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($datetime, IQueryBuilder::PARAM_DATE)));
+		$deletedTasks = $this->findEntities($qb);
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
-			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter(time() - $timeout)));
-		return $qb->executeStatement();
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($datetime, IQueryBuilder::PARAM_DATE)));
+		$qb->executeStatement();
+		return $deletedTasks;
 	}
 
 	public function update(Entity $entity): Entity {
-		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
+		$entity->setLastUpdated(DateTime::createFromImmutable($this->timeFactory->now()));
 		return parent::update($entity);
 	}
 }

@@ -30,18 +30,25 @@ use OC\TextToImage\Db\TaskMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {
 	public const MAX_TASK_AGE_SECONDS = 60 * 50 * 24 * 7; // 1 week
 
+	private IAppData $appData;
+
 	public function __construct(
 		ITimeFactory $timeFactory,
 		private TaskMapper $taskMapper,
 		private LoggerInterface $logger,
-
+		private IAppDataFactory $appDataFactory,
 	) {
 		parent::__construct($timeFactory);
+		$this->appData = $this->appDataFactory->get('core');
 		$this->setInterval(60 * 60 * 24);
 	}
 
@@ -51,9 +58,21 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 	 */
 	protected function run($argument) {
 		try {
-			$this->taskMapper->deleteOlderThan(self::MAX_TASK_AGE_SECONDS);
+			$deletedTasks = $this->taskMapper->deleteOlderThan(self::MAX_TASK_AGE_SECONDS);
+			$folder = $this->appData->getFolder('text2image');
+			foreach ($deletedTasks as $deletedTask) {
+				try {
+					$folder->getFile((string)$deletedTask->getId())->delete();
+				} catch (NotFoundException) {
+					// noop
+				} catch (NotPermittedException $e) {
+					$this->logger->warning('Failed to delete stale text to image task', ['exception' => $e]);
+				}
+			}
 		} catch (Exception $e) {
 			$this->logger->warning('Failed to delete stale text to image tasks', ['exception' => $e]);
+		} catch(NotFoundException) {
+			// noop
 		}
 	}
 }
