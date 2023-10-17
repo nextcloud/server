@@ -198,6 +198,7 @@ OC.L10N.register(
     "Unselect all" : "Anul·la tota la selecció",
     "\"{displayName}\" failed on some elements " : "S'ha produït un error en l'acció «{displayName}» per a alguns elements",
     "\"{displayName}\" batch action executed successfully" : "L'acció per lots «{displayName}» s'ha executat correctament",
+    "Sort list by {column}" : "Ordena la llista per {column}",
     "List of files and folders." : "Llista de fitxers i carpetes.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} i {summaryFolder}",
