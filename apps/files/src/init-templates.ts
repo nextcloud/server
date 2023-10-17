@@ -20,17 +20,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { Entry } from '@nextcloud/files'
 
-import { getLoggerBuilder } from '@nextcloud/logger'
-import { loadState } from '@nextcloud/initial-state'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { Folder, Node, Permission, addNewFileMenuEntry, removeNewFileMenuEntry } from '@nextcloud/files'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentDirectory } from './utils/davUtils.js'
+import { getLoggerBuilder } from '@nextcloud/logger'
+import { join } from 'path'
+import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
+import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
+
 import TemplatePickerView from './views/TemplatePicker.vue'
-import { showError } from '@nextcloud/dialogs'
+import { getUniqueName } from './newMenu/newFolder'
+import { getCurrentUser } from '@nextcloud/auth'
 
 // Set up logger
 const logger = getLoggerBuilder()
@@ -66,67 +72,59 @@ const TemplatePicker = new View({
 	},
 })
 TemplatePicker.$mount('#template-picker')
+if (!templatesPath) {
+	logger.debug('Templates folder not initialized')
+	addNewFileMenuEntry({
+		id: 'template-picker',
+		displayName: t('files', 'Create new templates folder'),
+		iconSvgInline: PlusSvg,
+		order: 10,
+		enabled(context: Folder): boolean {
+			// Allow creation on your own folders only
+			if (context.owner !== getCurrentUser()?.uid) {
+				return false
+			}
+			return (context.permissions & Permission.CREATE) !== 0
+		},
+		handler(context: Folder, content: Node[]) {
+			// Check for conflicts
+			const contentNames = content.map((node: Node) => node.basename)
+			const name = getUniqueName(t('files', 'Templates'), contentNames)
 
-// Init template engine after load to make sure it's the last injected entry
-window.addEventListener('DOMContentLoaded', function() {
-	if (!templatesPath) {
-		logger.debug('Templates folder not initialized')
-		const initTemplatesPlugin = {
-			attach(menu) {
-				// register the new menu entry
-				menu.addMenuEntry({
-					id: 'template-init',
-					displayName: t('files', 'Set up templates folder'),
-					templateName: t('files', 'Templates'),
-					iconClass: 'icon-template-add',
-					fileType: 'file',
-					actionLabel: t('files', 'Create new templates folder'),
-					actionHandler(name) {
-						initTemplatesFolder(name)
-						menu.removeMenuEntry('template-init')
-					},
-				})
-			},
-		}
-		OC.Plugins.register('OCA.Files.NewFileMenu', initTemplatesPlugin)
-	}
-})
+			// Create the template folder
+			initTemplatesFolder(context, name)
+
+			// Remove the menu entry
+			removeNewFileMenuEntry('template-picker')
+		},
+	} as Entry)
+}
 
 // Init template files menu
 templates.forEach((provider, index) => {
-	const newTemplatePlugin = {
-		attach(menu) {
-			const fileList = menu.fileList
-
-			// only attach to main file list, public view is not supported yet
-			if (fileList.id !== 'files' && fileList.id !== 'files.public') {
-				return
-			}
-
-			// register the new menu entry
-			menu.addMenuEntry({
-				id: `template-new-${provider.app}-${index}`,
-				displayName: provider.label,
-				templateName: provider.label + provider.extension,
-				iconClass: provider.iconClass || 'icon-file',
-				fileType: 'file',
-				actionLabel: provider.actionLabel,
-				actionHandler(name) {
-					TemplatePicker.open(name, provider)
-				},
-			})
+	addNewFileMenuEntry({
+		id: `template-new-${provider.app}-${index}`,
+		displayName: provider.label,
+		// TODO: migrate to inline svg
+		iconClass: provider.iconClass || 'icon-file',
+		enabled(context: Folder): boolean {
+			return (context.permissions & Permission.CREATE) !== 0
 		},
-	}
-	OC.Plugins.register('OCA.Files.NewFileMenu', newTemplatePlugin)
+		order: 11,
+		handler(context: Folder, content: Node[]) {
+			// Check for conflicts
+			const contentNames = content.map((node: Node) => node.basename)
+			const name = getUniqueName(provider.label + provider.extension, contentNames)
+
+			// Create the file
+			TemplatePicker.open(name, provider)
+		},
+	} as Entry)
 })
 
-/**
- * Init the template directory
- *
- * @param {string} name the templates folder name
- */
-const initTemplatesFolder = async function(name) {
-	const templatePath = (getCurrentDirectory() + `/${name}`).replace('//', '/')
+// Init template folder
+const initTemplatesFolder = async function(directory: Folder, name: string) {
+	const templatePath = join(directory.path, name)
 	try {
 		logger.debug('Initializing the templates directory', { templatePath })
 		const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/path'), {
@@ -135,7 +133,11 @@ const initTemplatesFolder = async function(name) {
 		})
 
 		// Go to template directory
-		OCA.Files.App.currentFileList.changeDirectory(templatePath, true, true)
+		window.OCP.Files.Router.goToRoute(
+			null, // use default route
+			{ view: 'files', fileid: undefined },
+			{ dir: templatePath },
+		)
 
 		templates = response.data.ocs.data.templates
 		templatesPath = response.data.ocs.data.template_path

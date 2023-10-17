@@ -21,15 +21,14 @@
  */
 import type { Entry, Node } from '@nextcloud/files'
 
-import { addNewFileMenuEntry, Permission, Folder } from '@nextcloud/files'
 import { basename, extname } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
+import { Permission, Folder } from '@nextcloud/files'
 import { showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
-import Vue from 'vue'
 
 type createFolderResponse = {
 	fileid: number
@@ -65,8 +64,9 @@ export const getUniqueName = (name: string, names: string[]): string => {
 export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
-	if: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
+	enabled: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
 	iconSvgInline: FolderPlusSvg,
+	order: 0,
 	async handler(context: Folder, content: Node[]) {
 		const contentNames = content.map((node: Node) => node.basename)
 		const name = getUniqueName(t('files', 'New folder'), contentNames)
@@ -81,11 +81,6 @@ export const entry = {
 			permissions: Permission.ALL,
 			root: context?.root || '/files/' + getCurrentUser()?.uid,
 		})
-
-		if (!context._children) {
-			Vue.set(context, '_children', [])
-		}
-		context._children.push(folder.fileid)
 
 		showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
 		emit('files:node:created', folder)

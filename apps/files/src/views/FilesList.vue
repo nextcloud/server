@@ -89,13 +89,14 @@ import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 
+import { emit } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
 import { translate, translatePlural } from '@nextcloud/l10n'
-import { UploadPicker } from '@nextcloud/upload'
 import { Type } from '@nextcloud/sharing'
+import { UploadPicker } from '@nextcloud/upload'
 import Vue from 'vue'
 
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
@@ -326,6 +327,11 @@ export default Vue.extend({
 				this.$refs.filesListVirtual.$el.scrollTop = 0
 			}
 		},
+
+		dirContents(contents) {
+			logger.debug('Directory contents changed', { view: this.currentView, folder: this.currentFolder, contents })
+			emit('files:list:updated', { view: this.currentView, folder: this.currentFolder, contents })
+		},
 	},
 
 	mounted() {
@@ -360,7 +366,7 @@ export default Vue.extend({
 
 				// Define current directory children
 				// TODO: make it more official
-				folder._children = contents.map(node => node.fileid)
+				Vue.set(folder, '_children', contents.map(node => node.fileid))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {

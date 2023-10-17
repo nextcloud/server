@@ -42,7 +42,7 @@ export const action = new FileAction({
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
 			{ view: 'files', fileid: node.fileid },
-			{ dir, fileid: node.fileid },
+			{ dir },
 		)
 		return null
 	},
