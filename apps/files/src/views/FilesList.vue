@@ -25,7 +25,7 @@
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent">
 				<template #actions>
-					<NcButton v-if="canShare"
+					<NcButton v-if="canShare && filesListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
@@ -485,6 +485,7 @@ $navigationToggleSize: 50px;
 		flex: 0 0;
 		// Align with the navigation toggle icon
 		margin: $margin $margin $margin $navigationToggleSize;
+		max-width: 100%;
 		> * {
 			// Do not grow or shrink (horizontally)
 			// Only the breadcrumbs shrinks
