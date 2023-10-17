@@ -196,6 +196,7 @@
     "Unselect all" : "إلغاء الاختيار للكل",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" فشل في بعض العناصر",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" حزمة الأوامر نُفّذت بنجاح",
+    "Sort list by {column}" : "ترتيب القائمة على أساس {column} ",
     "List of files and folders." : "قائمة الملفات و المجلدات",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "لم يتم عرض هذه القائمة بالكامل لأسباب تتعلق بالأداء. سيتم عرض الملفات تباعاً أثناء التنقل عبر القائمة.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} و {summaryFolder}",

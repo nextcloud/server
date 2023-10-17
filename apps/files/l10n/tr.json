@@ -196,6 +196,7 @@
     "Unselect all" : "Tümünü bırak",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" toplu işlemi bazı bileşenlerde tamamlanamadı",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" toplu işlemi tamamlandı",
+    "Sort list by {column}" : "{column} sütununa göre sırala",
     "List of files and folders." : "Dosya ve klasörlerin listesi.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} ve {summaryFolder}",
