@@ -46,7 +46,8 @@
 				</template>
 			</BreadCrumbs>
 
-			<NcButton :aria-label="gridViewButtonLabel"
+			<NcButton v-if="filesListWidth >= 512"
+				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
 				type="tertiary"
@@ -129,6 +130,7 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 
@@ -153,6 +155,7 @@ export default Vue.extend({
 	},
 
 	mixins: [
+		filesListWidthMixin,
 		filesSortingMixin,
 	],
 
