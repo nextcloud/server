@@ -198,6 +198,7 @@ OC.L10N.register(
     "Unselect all" : "取消全選",
     "\"{displayName}\" failed on some elements " : "“{displayName}” 在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "成功執行 “{displayName}” 批處理操作",
+    "Sort list by {column}" : "按 {column} 排序清單",
     "List of files and folders." : "檔案與資料夾清單。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} 及 {summaryFolder}",

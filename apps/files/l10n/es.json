@@ -196,6 +196,7 @@
     "Unselect all" : "Desmarrcar todos",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" fallo en algunos elementos",
     "\"{displayName}\" batch action executed successfully" : "la acción en lotes \"{displayName}\" se ejecutó exitósamente",
+    "Sort list by {column}" : "Ordenar lista por {column}",
     "List of files and folders." : "Lista de archivos y carpetas.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navega por la lista.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} y {summaryFolder}",
