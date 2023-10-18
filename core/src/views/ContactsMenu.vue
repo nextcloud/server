@@ -157,7 +157,6 @@ export default {
 		height: calc(100vh - 50px * 3);
 		max-height: calc(50px * 6 + 2px + 26px);
 		min-height: calc(50px * 3.5);
-		width: 350px;
 
 		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
