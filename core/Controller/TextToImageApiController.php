@@ -113,8 +113,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[PublicPage]
-	#[BruteForceProtection(action: 'not-found')]
-	#[BruteForceProtection(action: 'error')]
+	#[BruteForceProtection(action: 'text2image')]
 	public function getTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -126,12 +125,10 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (TaskNotFoundException) {
 			$res = new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-			$res->throttle(['action' => 'not-found']);
+			$res->throttle(['action' => 'text2image']);
 			return $res;
 		} catch (\RuntimeException) {
-			$res = new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-			$res->throttle(['action' => 'error']);
-			return $res;
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -146,8 +143,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task or image not found
 	 */
 	#[PublicPage]
-	#[BruteForceProtection(action: 'not-found')]
-	#[BruteForceProtection(action: 'error')]
+	#[BruteForceProtection(action: 'text2image')]
 	public function getImage(int $id): DataResponse|FileDisplayResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -162,15 +158,13 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			return new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => image_type_to_mime_type($info[2])]);
 		} catch (TaskNotFoundException) {
 			$res = new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-			$res->throttle(['action' => 'not-found']);
+			$res->throttle(['action' => 'text2image']);
 			return $res;
 		} catch (\RuntimeException) {
-			$res = new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-			$res->throttle(['action' => 'error']);
-			return $res;
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (NotFoundException) {
 			$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
-			$res->throttle(['action' => 'not-found']);
+			$res->throttle(['action' => 'text2image']);
 			return $res;
 		}
 	}
@@ -186,8 +180,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
-	#[BruteForceProtection(action: 'not-found')]
-	#[BruteForceProtection(action: 'error')]
+	#[BruteForceProtection(action: 'text2image')]
 	public function deleteTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -201,12 +194,10 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (TaskNotFoundException) {
 			$res = new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-			$res->throttle(['action' => 'not-found']);
+			$res->throttle(['action' => 'text2image']);
 			return $res;
 		} catch (\RuntimeException) {
-			$res = new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-			$res->throttle(['action' => 'error']);
-			return $res;
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
