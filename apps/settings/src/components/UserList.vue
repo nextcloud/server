@@ -45,7 +45,7 @@
 			:data-component="UserRow"
 			:data-sources="filteredUsers"
 			data-key="id"
-			data-test-id="userList"
+			data-cy-user-list
 			:item-height="rowHeight"
 			:style="style"
 			:extra-props="{
