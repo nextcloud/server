@@ -142,7 +142,7 @@
     "css-loader": "^6.8.1",
     "cypress": "^13.3.0",
     "cypress-wait-until": "^2.0.1",
-    "dockerode": "^3.3.5",
+    "dockerode": "^4.0.0",
     "eslint-plugin-cypress": "^2.14.0",
     "eslint-plugin-es": "^4.1.0",
     "exports-loader": "^4.0.0",

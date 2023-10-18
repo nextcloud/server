@@ -41,28 +41,38 @@ const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
 export const startNextcloud = async function(branch: string = getCurrentGitBranch()): Promise<any> {
 
 	try {
-		// Pulling images
-		console.log('\nPulling images... ⏳')
-		await new Promise((resolve, reject): any => docker.pull(SERVER_IMAGE, (err, stream) => {
-			if (err) {
-				reject(err)
-			}
-			// https://github.com/apocas/dockerode/issues/357
-			docker.modem.followProgress(stream, onFinished)
-
-			/**
-			 *
-			 * @param err
-			 */
-			function onFinished(err) {
-				if (!err) {
-					resolve(true)
+		try {
+			// Pulling images
+			console.log('\nPulling images... ⏳')
+			await new Promise((resolve, reject): any => docker.pull(SERVER_IMAGE, (err, stream) => {
+				if (err) {
+					reject(err)
+				}
+				if (stream === null) {
+					reject(new Error('Could not connect to docker, ensure docker is running.'))
 					return
 				}
-				reject(err)
-			}
-		}))
-		console.log('└─ Done')
+
+				// https://github.com/apocas/dockerode/issues/357
+				docker.modem.followProgress(stream, onFinished)
+
+				/**
+				 *
+				 * @param err
+				 */
+				function onFinished(err) {
+					if (!err) {
+						resolve(true)
+						return
+					}
+					reject(err)
+				}
+			}))
+			console.log('└─ Done')
+		} catch (e) {
+			console.log('└─ Failed to pull images')
+			throw e
+		}
 
 		// Remove old container if exists
 		console.log('\nChecking running containers... 🔍')
@@ -102,7 +112,7 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 		return ip
 	} catch (err) {
 		console.log('└─ Unable to start the container 🛑')
-		console.log(err)
+		console.log('\n', err, '\n')
 		stopNextcloud()
 		throw new Error('Unable to start the container')
 	}
@@ -191,7 +201,7 @@ export const stopNextcloud = async function() {
  * @param {Docker.Container} container the container to get the IP from
  */
 export const getContainerIP = async function(
-	container = docker.getContainer(CONTAINER_NAME)
+	container = docker.getContainer(CONTAINER_NAME),
 ): Promise<string> {
 	let ip = ''
 	let tries = 0
@@ -230,7 +240,7 @@ const runExec = async function(
 	container: Docker.Container,
 	command: string[],
 	verbose = false,
-	user = 'www-data'
+	user = 'www-data',
 ) {
 	const exec = await container.exec({
 		Cmd: command,
