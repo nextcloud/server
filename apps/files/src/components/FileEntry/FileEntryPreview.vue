@@ -22,9 +22,9 @@
 <template>
 	<span class="files-list__row-icon">
 		<template v-if="source.type === 'folder'">
-			<FolderOpenIcon v-if="dragover" />
+			<FolderOpenIcon v-once v-if="dragover" />
 			<template v-else>
-				<FolderIcon />
+				<FolderIcon v-once />
 				<OverlayIcon :is="folderOverlay"
 					v-if="folderOverlay"
 					class="files-list__row-icon-overlay" />
@@ -41,13 +41,13 @@
 			@error="backgroundFailed = true"
 			@load="backgroundFailed = false">
 
-		<FileIcon v-else />
+		<FileIcon v-once v-else />
 
 		<!-- Favorite icon -->
 		<span v-if="isFavorite"
 			class="files-list__row-icon-favorite"
 			:aria-label="t('files', 'Favorite')">
-			<FavoriteIcon />
+			<FavoriteIcon v-once />
 		</span>
 	</span>
 </template>

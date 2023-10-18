@@ -312,6 +312,8 @@ export default Vue.extend({
 	&::v-deep {
 		// Table head, body and footer
 		tbody {
+			will-change: scroll-position, padding;
+			contain: layout paint style;
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -320,6 +322,7 @@ export default Vue.extend({
 
 			/* Hover effect on tbody lines only */
 			tr {
+				contain: strict;
 				&:hover,
 				&:focus {
 					background-color: var(--color-background-dark);
@@ -329,6 +332,7 @@ export default Vue.extend({
 
 		// Before table and thead
 		.files-list__before {
+			contain: strict;
 			display: flex;
 			flex-direction: column;
 		}

@@ -18,7 +18,7 @@
 			<component :is="dataComponent"
 				v-for="({key, item}, i) in renderedItems"
 				:key="key"
-				:visible="(i >= bufferItems - 1 || index <= bufferItems) && (i <= shownItems - bufferItems)"
+				:visible="true"
 				:source="item"
 				:index="i"
 				v-bind="extraProps" />
@@ -211,7 +211,7 @@ export default Vue.extend({
 		}
 
 		// Adding scroll listener AFTER the initial scroll to index
-		this.$el.addEventListener('scroll', this.onScroll)
+		this.$el.addEventListener('scroll', this.onScroll, { passive: true })
 
 		this.$_recycledPool = {} as Record<string, any>
 	},
@@ -232,11 +232,14 @@ export default Vue.extend({
 		},
 
 		onScroll() {
-			const topScroll = this.$el.scrollTop - this.beforeHeight
-			const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
-			// Max 0 to prevent negative index
-			this.index = Math.max(0, index)
-			this.$emit('scroll')
+			this._onScrollHandle ??= requestAnimationFrame(() => {
+				this._onScrollHandle = null;
+				const topScroll = this.$el.scrollTop - this.beforeHeight
+				const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
+				// Max 0 to prevent negative index
+				this.index = Math.max(0, index)
+				this.$emit('scroll')
+			});
 		},
 	},
 })
