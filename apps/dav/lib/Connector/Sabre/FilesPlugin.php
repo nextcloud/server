@@ -34,7 +34,6 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
-use OC\Metadata\IMetadataManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
@@ -42,11 +41,9 @@ use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
-use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\ServerPlugin;
@@ -84,17 +81,7 @@ class FilesPlugin extends ServerPlugin {
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
-	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
-	public const FILE_METADATA_GPS = '{http://nextcloud.org/ns}file-metadata-gps';
-
-	public const ALL_METADATA_PROPS = [
-		self::FILE_METADATA_SIZE => 'size',
-		self::FILE_METADATA_GPS => 'gps',
-	];
-	public const METADATA_MIMETYPES = [
-		'size' => 'image',
-		'gps' => 'image',
-	];
+	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -398,6 +385,10 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
 				return $node->getName();
 			});
+
+			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
+				$propFind->handle(self::FILE_METADATA_PREFIX.$metadataKey, $metadataValue->getValueAny());
+			}
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
@@ -427,31 +418,6 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
 			});
-
-			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
-				foreach (self::ALL_METADATA_PROPS as $prop => $meta) {
-					$propFind->handle($prop, function () use ($node, $meta) {
-						if ($node->getFileInfo()->getMimePart() !== self::METADATA_MIMETYPES[$meta]) {
-							return [];
-						}
-
-						if ($node->hasMetadata($meta)) {
-							$metadata = $node->getMetadata($meta);
-						} else {
-							// This code path should not be called since we try to preload
-							// the metadata when loading the folder or the search results
-							// in one go
-							$metadataManager = \OC::$server->get(IMetadataManager::class);
-							$metadata = $metadataManager->fetchMetadataFor($meta, [$node->getId()])[$node->getId()];
-
-							// TODO would be nice to display this in the profiler...
-							\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
-						}
-
-						return $metadata->getValue();
-					});
-				}
-			}
 		}
 
 		if ($node instanceof Directory) {
@@ -464,39 +430,6 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$requestProperties = $propFind->getRequestedProperties();
-
-			$requestedMetaData = [];
-			foreach ($requestProperties as $requestProperty) {
-				if (isset(self::ALL_METADATA_PROPS[$requestProperty])) {
-					$requestedMetaData[] = self::ALL_METADATA_PROPS[$requestProperty];
-				}
-			}
-			if (
-				$this->config->getSystemValueBool('enable_file_metadata', true) &&
-				$propFind->getDepth() === 1 &&
-				$requestedMetaData
-			) {
-				$children = $node->getChildren();
-				// Preloading of the metadata
-
-				/** @var IMetaDataManager $metadataManager */
-				$metadataManager = \OC::$server->get(IMetadataManager::class);
-
-				foreach ($requestedMetaData as $requestedMeta) {
-					$relevantMimeType = self::METADATA_MIMETYPES[$requestedMeta];
-					$childrenForMeta = array_filter($children, function (INode $child) use ($relevantMimeType) {
-						return $child instanceof File && $child->getFileInfo()->getMimePart() === $relevantMimeType;
-					});
-					$fileIds = array_map(function (File $child) {
-						return $child->getFileInfo()->getId();
-					}, $childrenForMeta);
-					$preloadedMetadata = $metadataManager->fetchMetadataFor($requestedMeta, $fileIds);
-
-					foreach ($childrenForMeta as $child) {
-						$child->setMetadata($requestedMeta, $preloadedMetadata[$child->getFileInfo()->getId()]);
-					}
-				}
-			}
 
 			if (in_array(self::SUBFILE_COUNT_PROPERTYNAME, $requestProperties, true)
 				|| in_array(self::SUBFOLDER_COUNT_PROPERTYNAME, $requestProperties, true)) {
