@@ -32,6 +32,7 @@
  */
 namespace OC\Files;
 
+use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IHomeStorage;
@@ -415,5 +416,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function getParentId(): int {
 		return $this->data['parent'] ?? -1;
+	}
+
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? [];
 	}
 }

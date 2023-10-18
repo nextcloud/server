@@ -190,4 +190,8 @@ class TrashItem implements ITrashItem {
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
 	}
+
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
+	}
 }

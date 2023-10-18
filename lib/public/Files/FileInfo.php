@@ -308,4 +308,12 @@ interface FileInfo {
 	 * @since 28.0.0
 	 */
 	public function getParentId(): int;
+
+	/**
+	 * Get the metadata, if available
+	 *
+	 * @return array
+	 * @since 28.0.0
+	 */
+	public function getMetadata(): array;
 }

@@ -43,7 +43,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
-// FIXME: this class really should be abstract
+// FIXME: this class really should be abstract (+1)
 class Node implements INode {
 	/**
 	 * @var \OC\Files\View $view
@@ -489,5 +489,9 @@ class Node implements INode {
 
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
+	}
+
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
 	}
 }

@@ -574,4 +574,8 @@ class LazyFolder implements Folder {
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
+
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? $this->__call(__FUNCTION__, func_get_args());
+	}
 }
