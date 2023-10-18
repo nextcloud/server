@@ -755,8 +755,8 @@ export default {
 		padding-left: 10px;
 		display: flex;
 		justify-content: space-between;
-		width: 80%;
-		min-width: 80%;
+		flex: 1 0;
+		min-width: 0;
 
 	&__desc {
 		display: flex;
