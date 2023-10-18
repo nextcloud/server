@@ -66,18 +66,8 @@ describe('Settings: Change user properties', function() {
 			cy.get('input[data-test="displayNameField"]').should('have.value', 'John Doe')
 			cy.get('input[data-test="displayNameField"] ~ button').click()
 
-			// Ignore failure if modal is not shown
-			cy.once('fail', (error) => {
-				expect(error.name).to.equal('AssertionError')
-				expect(error).to.have.property('node', '.modal-container')
-			})
 			// Make sure no confirmation modal is shown
-			cy.root().closest('body').find('.modal-container').then(($modal) => {
-				if ($modal.length > 0) {
-					cy.wrap($modal).find('input[type="password"]').type(admin.password)
-					cy.wrap($modal).find('button').contains('Confirm').click()
-				}
-			})
+			handlePasswordConfirmation(admin.password)
 
 			// see that the display name cell is done loading
 			cy.get('.user-row-text-field.icon-loading-small').should('exist')
@@ -104,18 +94,8 @@ describe('Settings: Change user properties', function() {
 			cy.get('input[type="password"]').should('have.value', '123456')
 			cy.get('input[type="password"] ~ button').click()
 
-			// Ignore failure if modal is not shown
-			cy.once('fail', (error) => {
-				expect(error.name).to.equal('AssertionError')
-				expect(error).to.have.property('node', '.modal-container')
-			})
 			// Make sure no confirmation modal is shown
-			cy.root().closest('body').find('.modal-container').then(($modal) => {
-				if ($modal.length > 0) {
-					cy.wrap($modal).find('input[type="password"]').type(admin.password)
-					cy.wrap($modal).find('button').contains('Confirm').click()
-				}
-			})
+			handlePasswordConfirmation(admin.password)
 
 			// see that the password cell for user user0 is done loading
 			cy.get('.user-row-text-field.icon-loading-small').should('exist')

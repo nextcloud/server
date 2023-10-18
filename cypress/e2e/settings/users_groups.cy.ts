@@ -21,6 +21,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
+import { handlePasswordConfirmation } from './usersUtils'
 
 const admin = new User('admin', 'admin')
 
@@ -46,18 +47,8 @@ describe('Settings: Create and delete groups', () => {
 			cy.get('input[placeholder="Group name"] ~ button').click()
 		})
 
-		// Ignore failure if modal is not shown
-		cy.once('fail', (error) => {
-			expect(error.name).to.equal('AssertionError')
-			expect(error).to.have.property('node', '.modal-container')
-		})
 		// Make sure no confirmation modal is shown
-		cy.get('body').find('.modal-container').then(($modals) => {
-			if ($modals.length > 0) {
-				cy.wrap($modals.first()).find('input[type="password"]').type(admin.password)
-				cy.wrap($modals.first()).find('button').contains('Confirm').click()
-			}
-		})
+		handlePasswordConfirmation(admin.password)
 
 		// see that the created group is in the list
 		cy.get('ul.app-navigation__list').within(() => {
@@ -82,18 +73,13 @@ describe('Settings: Create and delete groups', () => {
 		// And confirmation dialog accepted
 		cy.get('.modal-container button').contains('Confirm').click()
 
-		// Ignore failure if modal is not shown
-		cy.once('fail', (error) => {
-			expect(error.name).to.equal('AssertionError')
-			expect(error).to.have.property('node', '.modal-container')
-		})
-		// Make sure no confirmation modal is shown on top of the Remove group modal
-		cy.get('body').find('.modal-container').then(($modals) => {
-			if ($modals.length > 1) {
-				cy.wrap($modals.first()).find('input[type="password"]').type(admin.password)
-				cy.wrap($modals.first()).find('button').contains('Confirm').click()
-			}
-		})
+		// Make sure no confirmation modal is shown
+		cy.get('body').contains('.modal-container', 'Confirm your password')
+			.if('visible')
+			.then(($modal) => {
+				cy.wrap($modal).find('input[type="password"]').type(admin.password)
+				cy.wrap($modal).find('button').contains('Confirm').click()
+			})
 
 		// deleted group is not shown anymore
 		cy.get('ul.app-navigation__list').within(() => {

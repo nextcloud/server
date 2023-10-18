@@ -31,3 +31,27 @@ export function assertNotExistOrNotVisible(element: JQuery<HTMLElement>) {
 
 	expect(doesNotExist || isNotVisible, 'does not exist or is not visible').to.be.true
 }
+
+/**
+ * Handle the confirm password dialog (if needed)
+ * @param adminPassword The admin password for the dialog
+ */
+export function handlePasswordConfirmation(adminPassword = 'admin') {
+	const handleModal = (context: Cypress.Chainable) => {
+		return context.contains('.modal-container', 'Confirm your password')
+			.if()
+			.if('visible')
+			.within(() => {
+				cy.get('input[type="password"]').type(adminPassword)
+				cy.get('button').contains('Confirm').click()
+			})
+	}
+
+	return cy.get('body')
+		.if()
+		.then(() => handleModal(cy.get('body')))
+		.else()
+		// Handle if inside a cy.within
+		.root().closest('body')
+		.then(($body) => handleModal(cy.wrap($body)))
+}

@@ -25,6 +25,7 @@ import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 
 // Add custom commands
+import 'cypress-if'
 import 'cypress-wait-until'
 addCommands()
 
