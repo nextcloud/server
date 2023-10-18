@@ -19,7 +19,6 @@
 
 namespace OC\Metadata;
 
-use OC\Metadata\Provider\ExifProvider;
 use OCP\Files\File;
 
 class MetadataManager implements IMetadataManager {
@@ -34,9 +33,6 @@ class MetadataManager implements IMetadataManager {
 		$this->providers = [];
 		$this->providerClasses = [];
 		$this->fileMetadataMapper = $fileMetadataMapper;
-
-		// TODO move to another place, where?
-		$this->registerProvider(ExifProvider::class);
 	}
 
 	/**
@@ -62,16 +58,16 @@ class MetadataManager implements IMetadataManager {
 			}
 		}
 
-		foreach ($this->providers as $supportedMimetype => $provider) {
-			if (preg_match($supportedMimetype, $file->getMimeType())) {
-				if (count(array_diff($provider::groupsProvided(), $existingMetadataGroups)) > 0) {
-					$metaDataGroup = $provider->execute($file);
-					foreach ($metaDataGroup as $group => $metadata) {
-						$this->fileMetadataMapper->insertOrUpdate($metadata);
-					}
-				}
-			}
-		}
+		// foreach ($this->providers as $supportedMimetype => $provider) {
+		// 	if (preg_match($supportedMimetype, $file->getMimeType())) {
+		// 		if (count(array_diff($provider::groupsProvided(), $existingMetadataGroups)) > 0) {
+		// 			$metaDataGroup = $provider->execute($file);
+		// 			foreach ($metaDataGroup as $group => $metadata) {
+		// 				$this->fileMetadataMapper->insertOrUpdate($metadata);
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	public function clearMetadata(int $fileId): void {
