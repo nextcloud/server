@@ -1961,7 +1961,7 @@ $CONFIG = [
 /**
  * Enforce the user theme. This will disable the user theming settings
  * This must be a valid ITheme ID.
- * E.g. light, dark, highcontrast, dark-highcontrast...
+ * E.g. dark, dark-highcontrast, default, light, light-highcontrast, opendyslexic
  */
 'enforce_theme' => '',
 
