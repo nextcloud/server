@@ -45,7 +45,7 @@ OC.L10N.register(
     "Tags" : "Štítky",
     "All tagged %s …" : "Všetky označené %s …",
     "tagged %s" : "označené %s",
-    "Collaborative tags" : "Značky pre spoluprácu",
+    "Collaborative tags" : "Štítky pre spoluprácu",
     "Collaborative tagging functionality which shares tags among users." : "Funkcie spoločného označovania, ktoré zdieľajú štítky medzi používateľmi.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcie spoločného označovania, ktoré zdieľajú štítky medzi používateľmi. Skvelé pre tímy.\n\t (Ak ste poskytovateľom inštalácie pre viacero subjektov, odporúča sa túto aplikáciu deaktivovať, pretože štítky sú zdieľané.)",
     "Search or create collaborative tags" : "Hľadajte alebo vytvorte kolaboratívne značky",
@@ -74,7 +74,7 @@ OC.L10N.register(
     "Size" : "Veľkosť",
     "Modified" : "Upravené",
     "Tagged files" : "Súbory so štítkom",
-    "Select tags to filter by" : "Vybrať štítky pre filter",
+    "Select tags to filter by" : "Vybrať štítky na filtrovanie",
     "Please select tags to filter by" : "Vyberte štítky pre filtrovanie",
     "No files found for the selected tags" : "Neboli nájdené žiadne súbory označené vybranými štítkami"
 },
