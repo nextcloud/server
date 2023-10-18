@@ -130,15 +130,14 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows checking the status and results of a task.
-	 * Tasks are removed 1 week after receiving their last update.
+	 * This endpoint allows downloading the resulting image of a task
 	 *
 	 * @param int $id The id of the task
 	 *
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{'Content-Type': string}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 * 200: Task returned
-	 * 404: Task not found
+	 * 200: Image returned
+	 * 404: Task or image not found
 	 */
 	#[PublicPage]
 	#[AnonRateLimit(limit: 5, period: 120)]
