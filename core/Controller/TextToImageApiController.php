@@ -30,6 +30,7 @@ use OC\Files\AppData\AppData;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
@@ -112,7 +113,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[PublicPage]
-	#[AnonRateLimit(limit: 5, period: 120)]
+	#[BruteForceProtection(action: 'not-found')]
+	#[BruteForceProtection(action: 'error')]
 	public function getTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -123,9 +125,13 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 				'task' => $json,
 			]);
 		} catch (TaskNotFoundException) {
-			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			$res = new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			$res->throttle(['action' => 'not-found']);
+			return $res;
 		} catch (\RuntimeException) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			$res = new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			$res->throttle(['action' => 'error']);
+			return $res;
 		}
 	}
 
@@ -140,7 +146,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task or image not found
 	 */
 	#[PublicPage]
-	#[AnonRateLimit(limit: 5, period: 120)]
+	#[BruteForceProtection(action: 'not-found')]
+	#[BruteForceProtection(action: 'error')]
 	public function getImage(int $id): DataResponse|FileDisplayResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -154,11 +161,17 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 
 			return new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => image_type_to_mime_type($info[2])]);
 		} catch (TaskNotFoundException) {
-			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			$res = new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			$res->throttle(['action' => 'not-found']);
+			return $res;
 		} catch (\RuntimeException) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			$res = new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			$res->throttle(['action' => 'error']);
+			return $res;
 		} catch (NotFoundException) {
-			return new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
+			$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
+			$res->throttle(['action' => 'not-found']);
+			return $res;
 		}
 	}
 
@@ -173,7 +186,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
-	#[AnonRateLimit(limit: 5, period: 120)]
+	#[BruteForceProtection(action: 'not-found')]
+	#[BruteForceProtection(action: 'error')]
 	public function deleteTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -186,9 +200,13 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 				'task' => $json,
 			]);
 		} catch (TaskNotFoundException) {
-			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			$res = new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			$res->throttle(['action' => 'not-found']);
+			return $res;
 		} catch (\RuntimeException) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			$res = new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			$res->throttle(['action' => 'error']);
+			return $res;
 		}
 	}
 
