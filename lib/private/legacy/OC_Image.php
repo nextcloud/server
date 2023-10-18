@@ -55,7 +55,7 @@ class OC_Image implements \OCP\IImage {
 	// Default quality for jpeg images
 	protected const DEFAULT_JPEG_QUALITY = 80;
 	protected const DEFAULT_WEBP_QUALITY = 80;
-	protected const DEFAULT_AVIF_QUALITY = 80;
+	protected const DEFAULT_AVIF_QUALITY = 50;
 
 	/** @var false|resource|\GdImage */
 	protected $resource = false; // tmp resource.
