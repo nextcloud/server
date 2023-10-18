@@ -34,8 +34,8 @@ interface ICloudFederationNotification {
 	 *
 	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
 	 * @param string $resourceType (e.g. file, calendar, contact,...)
-	 * @param $providerId id of the share
-	 * @param array $notification , payload of the notification
+	 * @param string $providerId id of the share
+	 * @param array $notification payload of the notification
 	 *
 	 * @since 14.0.0
 	 */
