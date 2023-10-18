@@ -151,7 +151,7 @@ namespace OCA\Core;
  *      userId: ?string,
  *      appId: string,
  *      input: string,
- *      identifier: string,
+ *      identifier: ?string,
  *  }
  */
 class ResponseDefinitions {

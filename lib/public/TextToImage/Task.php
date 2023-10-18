@@ -67,14 +67,14 @@ final class Task implements \JsonSerializable {
 	 * @param string $input
 	 * @param string $appId
 	 * @param string|null $userId
-	 * @param string $identifier An arbitrary identifier for this task. max length: 255 chars
+	 * @param null|string $identifier An arbitrary identifier for this task. max length: 255 chars
 	 * @since 28.0.0
 	 */
 	final public function __construct(
 		protected string $input,
 		protected string $appId,
 		protected ?string $userId,
-		protected string $identifier = '',
+		protected ?string $identifier = '',
 	) {
 	}
 
@@ -143,10 +143,10 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return string
+	 * @return null|string
 	 * @since 28.0.0
 	 */
-	final public function getIdentifier(): string {
+	final public function getIdentifier(): ?string {
 		return $this->identifier;
 	}
 
@@ -159,7 +159,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: string}
+	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string}
 	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
