@@ -266,6 +266,7 @@ class Manager implements IManager {
 	 * @param string $appId
 	 * @param string|null $identifier
 	 * @return Task[]
+	 * @throws RuntimeException
 	 */
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		try {

@@ -93,6 +93,7 @@ interface IManager {
 	 * @param string|null $identifier
 	 * @return Task[]
 	 * @since 28.0.0
+	 * @throws RuntimeException If the query failed
 	 */
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array;
 }
