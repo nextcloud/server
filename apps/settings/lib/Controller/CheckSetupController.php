@@ -74,6 +74,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
@@ -94,6 +95,8 @@ use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
+use function setcookie;
+use function time;
 
 #[IgnoreOpenAPI]
 class CheckSetupController extends Controller {
@@ -971,5 +974,20 @@ Raw output
 				NeedsSystemAddressBookSync::class => ['pass' => $needsSystemAddressBookSync->run(), 'description' => $needsSystemAddressBookSync->description(), 'severity' => $needsSystemAddressBookSync->severity()],
 			]
 		);
+	}
+
+	/**
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
+	 */
+	public function checkCookies(): JSONResponse {
+		$rand = $this->secureRandom->generate(32);
+		setcookie(
+			'nc_setup_check',
+			$rand,
+			time() + 60
+		);
+		return new JSONResponse([
+			'rand' => $rand,
+		]);
 	}
 }
