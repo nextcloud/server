@@ -908,7 +908,7 @@ interface IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param self::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter
@@ -936,7 +936,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param self::PARAM_* $type
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
