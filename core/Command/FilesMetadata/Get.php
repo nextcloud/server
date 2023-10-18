@@ -29,6 +29,7 @@ namespace OC\Core\Command\FilesMetadata;
 use OC\DB\ConnectionAdapter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -68,12 +69,6 @@ class Get extends Command {
 				 '',
 				 InputOption::VALUE_NONE,
 				 'refresh metadata from scratch'
-			 )
-			 ->addOption(
-				 'background',
-				 '',
-				 InputOption::VALUE_NONE,
-				 'emulate background jobs when refreshing metadata'
 			 );
 	}
 
@@ -82,9 +77,13 @@ class Get extends Command {
 		if ($input->getOption('refresh')) {
 			$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getById($fileId);
 			$file = $node[0];
+			if (null === $file) {
+				throw new NotFoundException();
+			}
+
 			$metadata = $this->filesMetadataManager->refreshMetadata(
 				$file,
-				$input->getOption('background'),
+				IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND,
 				$input->getOption('reset')
 			);
 		} else {

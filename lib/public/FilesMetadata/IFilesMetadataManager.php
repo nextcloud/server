@@ -10,9 +10,12 @@ use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\FilesMetadata\Model\IMetadataQuery;
 
 interface IFilesMetadataManager {
+	public const PROCESS_LIVE = 1;
+	public const PROCESS_BACKGROUND = 2;
+
 	public function refreshMetadata(
 		Node $node,
-		bool $asBackgroundJob = false,
+		int $process = self::PROCESS_LIVE,
 		bool $fromScratch = false
 	): IFilesMetadata;
 

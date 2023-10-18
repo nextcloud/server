@@ -32,6 +32,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 
 class UpdateSingleMetadata extends QueuedJob {
 	public function __construct(
@@ -50,7 +51,7 @@ class UpdateSingleMetadata extends QueuedJob {
 			$node = $this->rootFolder->getUserFolder($userId)->getById($fileId);
 			if (count($node) > 0) {
 				$file = array_shift($node);
-				$this->filesMetadataManager->refreshMetadata($file, true);
+				$this->filesMetadataManager->refreshMetadata($file, IFilesMetadataManager::PROCESS_BACKGROUND);
 			}
 		} catch (NotPermittedException |NoUserException $e) {
 		}

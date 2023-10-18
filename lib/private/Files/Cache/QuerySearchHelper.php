@@ -134,7 +134,7 @@ class QuerySearchHelper {
 		// TODO: use $searchQuery to improve the query
 
 		// init the thing
-		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($query, 'fc', 'fileid');
+		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($query, 'file', 'fileid');
 
 		// get metadata aside the files
 		$metadataQuery->retrieveMetadata();

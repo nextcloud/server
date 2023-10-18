@@ -38,17 +38,18 @@ use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\FilesMetadata\FilesMetadataManager;
+use OC\ForbiddenException;
+use OC\Metadata\MetadataManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\File;
-use OC\ForbiddenException;
-use OC\Metadata\MetadataManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -143,7 +144,10 @@ class Scan extends Base {
 					$this->metadataManager->generateMetadata($node, false);
 				}
 
-				$this->filesMetadataManager->refreshMetadata($node);
+				$this->filesMetadataManager->refreshMetadata(
+					$node,
+					IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
+				);
 			}
 		});
 

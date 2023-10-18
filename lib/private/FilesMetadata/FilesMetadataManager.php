@@ -50,8 +50,8 @@ class FilesMetadataManager implements IFilesMetadataManager {
 
 	public function refreshMetadata(
 		Node $node,
-		bool $asBackgroundJob = false,
-		bool $fromScratch = false
+		int $process = self::PROCESS_LIVE,
+		bool $fromScratch = false,
 	): IFilesMetadata {
 		$metadata = null;
 		if (!$fromScratch) {
@@ -65,17 +65,23 @@ class FilesMetadataManager implements IFilesMetadataManager {
 			$metadata = new FilesMetadata($node->getId(), true);
 		}
 
-		if ($asBackgroundJob) {
-			$event = new MetadataBackgroundEvent($node, $metadata);
-		} else {
+		// is $process is LIVE, we enforce LIVE
+		if ((self::PROCESS_LIVE & $process) !== 0) {
 			$event = new MetadataLiveEvent($node, $metadata);
+		} else {
+			$event = new MetadataBackgroundEvent($node, $metadata);
 		}
 
 		$this->eventDispatcher->dispatchTyped($event);
 		$this->saveMetadata($event->getMetadata());
 
 		// if requested, we add a new job for next cron to refresh metadata out of main thread
+		// if $process was set to LIVE+BACKGROUND, we run background process directly
 		if ($event instanceof MetadataLiveEvent && $event->isRunAsBackgroundJobRequested()) {
+			if ((self::PROCESS_BACKGROUND & $process) !== 0) {
+				return $this->refreshMetadata($node, self::PROCESS_BACKGROUND);
+			}
+
 			$this->jobList->add(UpdateSingleMetadata::class, [$node->getOwner()->getUID(), $node->getId()]);
 		}
 
