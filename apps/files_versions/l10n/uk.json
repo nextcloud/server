@@ -12,6 +12,8 @@
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Версії з назвами є постійними та їх виключено з автоматичного очищення після переповнення квоти у сховищі.",
     "Remove version name" : "Вилучити назву версії",
     "Save version name" : "Зберегти назву версії",
+    "Current version" : "Поточна версія",
+    "Initial version" : "Початкова версія",
     "Initial version restored" : "Початкову версію відновлено",
     "Version restored" : "Версію відновлено",
     "Could not restore version" : "Не вдалося відновити версію",

@@ -55,7 +55,7 @@ class DnsPinMiddleware {
 		$second = array_pop($labels);
 
 		$hostname = $second . '.' . $top;
-		$responses = dns_get_record($hostname, DNS_SOA);
+		$responses = $this->dnsGetRecord($hostname, DNS_SOA);
 
 		if ($responses === false || count($responses) === 0) {
 			return null;
@@ -81,7 +81,7 @@ class DnsPinMiddleware {
 				continue;
 			}
 
-			$dnsResponses = dns_get_record($target, $dnsType);
+			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
 			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
@@ -102,6 +102,13 @@ class DnsPinMiddleware {
 		}
 
 		return $targetIps;
+	}
+
+	/**
+	 * Wrapper for dns_get_record
+	 */
+	protected function dnsGetRecord(string $hostname, int $type): array|false {
+		return \dns_get_record($hostname, $type);
 	}
 
 	public function addDnsPinning() {
@@ -127,6 +134,10 @@ class DnsPinMiddleware {
 				}
 
 				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
+
+				if (empty($targetIps)) {
+					throw new LocalServerException('No DNS record found for ' . $hostName);
+				}
 
 				$curlResolves = [];
 

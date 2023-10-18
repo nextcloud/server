@@ -188,6 +188,8 @@ class DeletedShareAPIController extends OCSController {
 	 * Get a list of all deleted shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesSharingDeletedShare[], array{}>
+	 *
+	 * 200: Deleted shares returned
 	 */
 	public function index(): DataResponse {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);

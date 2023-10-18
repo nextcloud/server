@@ -115,6 +115,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
     "in %s" : "en %s",
+    "Folder name" : "Nombre de la carpeta",
     "Name cannot be empty" : "El nombre no puede estar en blanco",
     "Select all" : "Seleccionar todo",
     "File not found" : "Archivo no encontrado",
@@ -123,6 +124,8 @@ OC.L10N.register(
     "No files in here" : "No hay archivos aquí",
     "Upload some content or sync with your devices!" : "¡Carga algún contenido o sincroniza con tus dispositivos!",
     "Go back" : "Regresar",
+    "Shared by link" : "Compartido por liga",
+    "Shared" : "Compartido",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Additional settings" : "Configuraciones adicionales",
     "WebDAV" : "WebDAV",
@@ -146,7 +149,6 @@ OC.L10N.register(
     "Shares" : "Elementos compartidos",
     "Shared with others" : "Compartido con otros",
     "Shared with you" : "Compartido con usted",
-    "Shared by link" : "Compartido por liga",
     "Choose" : "Seleccionar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

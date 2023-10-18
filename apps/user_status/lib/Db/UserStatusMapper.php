@@ -75,8 +75,9 @@ class UserStatusMapper extends QBMapper {
 		$qb
 			->select('*')
 			->from($this->tableName)
-			->orderBy('status_timestamp', 'DESC')
+			->orderBy('status_message_timestamp', 'DESC')
 			->where($qb->expr()->andX(
+				$qb->expr()->neq('status_message_timestamp', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
 				$qb->expr()->orX(
 					$qb->expr()->notIn('status', $qb->createNamedParameter([IUserStatus::ONLINE, IUserStatus::AWAY, IUserStatus::OFFLINE], IQueryBuilder::PARAM_STR_ARRAY)),
 					$qb->expr()->isNotNull('message_id'),

@@ -49,6 +49,7 @@ namespace OCP;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -57,17 +58,11 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	/** @var \OCP\Share\IManager */
-	private static $shareManager;
+	private static ?IManager $shareManager = null;
 
-	/** @var array */
-	private static $scripts = [];
-
-	/** @var array */
-	private static $scriptDeps = [];
-
-	/** @var array */
-	private static $sortedScriptDeps = [];
+	private static array $scriptsInit = [];
+	private static array $scripts = [];
+	private static array $scriptDeps = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -110,19 +105,6 @@ class Util {
 	}
 
 	/**
-	 * write a message in the log
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
-	 * @since 4.0.0
-	 * @deprecated 13.0.0 use log of \OCP\ILogger
-	 */
-	public static function writeLog($app, $message, $level) {
-		$context = ['app' => $app];
-		\OC::$server->getLogger()->log($level, $message, $context);
-	}
-
-	/**
 	 * check if sharing is disabled for the current user
 	 *
 	 * @return boolean
@@ -161,6 +143,25 @@ class Util {
 	 */
 	public static function addStyle($application, $file = null) {
 		\OC_Util::addStyle($application, $file);
+	}
+
+	/**
+	 * Add a standalone init js file that is loaded for initialization
+	 *
+	 * Be careful loading scripts using this method as they are loaded early
+	 * and block the initial page rendering. They should not have dependencies
+	 * on any other scripts than core-common and core-main.
+	 *
+	 * @since 28.0.0
+	 */
+	public static function addInitScript(string $application, string $file): void {
+		if (!empty($application)) {
+			$path = "$application/js/$file";
+		} else {
+			$path = "js/$file";
+		}
+
+		self::$scriptsInit[] = $path;
 	}
 
 	/**
@@ -214,7 +215,8 @@ class Util {
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
-		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
+		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
+		$sortedScripts = array_merge(...array_values($sortedScripts));
 
 		// Override core-common and core-main order
 		if (in_array('core/js/main', $sortedScripts)) {

@@ -64,6 +64,8 @@ class UnifiedSearchController extends OCSController {
 	 *
 	 * @param string $from the url the user is currently at
 	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchProvider[], array{}>
+	 *
+	 * 200: Providers returned
 	 */
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
@@ -98,7 +100,7 @@ class UnifiedSearchController extends OCSController {
 						   ?int $limit = null,
 						   $cursor = null,
 						   string $from = ''): DataResponse {
-		if (empty(trim($term))) {
+		if (trim($term) === "") {
 			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
 		}
 		[$route, $routeParameters] = $this->getRouteInformation($from);

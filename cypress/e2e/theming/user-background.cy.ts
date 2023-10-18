@@ -38,7 +38,8 @@ describe('User default background settings', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	// Default cloud background is not rendered if admin theming background remains unchanged
@@ -49,6 +50,10 @@ describe('User default background settings', function() {
 	it('Default is selected on new users', function() {
 		cy.get('[data-user-theming-background-default]').should('be.visible')
 		cy.get('[data-user-theming-background-default]').should('have.class', 'background--active')
+	})
+
+	it('Default background has accessibility attribute set', function() {
+		cy.get('[data-user-theming-background-default]').should('have.attr', 'aria-pressed', 'true')
 	})
 })
 
@@ -61,7 +66,8 @@ describe('User select shipped backgrounds and remove background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a shipped background', function() {
@@ -70,6 +76,9 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Select background
 		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
+
+		// Set the accessibility state
+		cy.get(`[data-user-theming-background-shipped="${background}"]`).should('have.attr', 'aria-pressed', 'true')
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
@@ -83,9 +92,12 @@ describe('User select shipped backgrounds and remove background', function() {
 		// Select background
 		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
 
+		// Set the accessibility state
+		cy.get(`[data-user-theming-background-shipped="${background}"]`).should('have.attr', 'aria-pressed', 'true')
+
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', background, true))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', background))
 	})
 
 	it('Remove background', function() {
@@ -93,6 +105,9 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Clear background
 		cy.get('[data-user-theming-background-clear]').click()
+
+		// Set the accessibility state
+		cy.get('[data-user-theming-background-clear]').should('have.attr', 'aria-pressed', 'true')
 
 		// Validate clear background
 		cy.wait('@clearBackground')
@@ -109,7 +124,8 @@ describe('User select a custom color', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a custom color', function() {
@@ -135,7 +151,8 @@ describe('User select a bright custom color and remove background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Remove background', function() {
@@ -204,16 +221,24 @@ describe('User select a custom background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a custom background', function() {
 		cy.intercept('*/apps/theming/background/custom').as('setBackground')
 
+		cy.on('uncaught:exception', (err) => {
+			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
+			if (err.message.includes('ResizeObserver loop limit exceeded')) {
+			  return false
+			}
+		})
+
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
-		cy.get(`#picker-filestable tr[data-entryname="${image}"]`).click()
-		cy.get('#oc-dialog-filepicker-content ~ .oc-dialog-buttonrow button.primary').click()
+		cy.get('.file-picker__files tr').contains(image).click()
+		cy.get('.dialog__actions .button-vue--vue-primary').click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
@@ -236,16 +261,24 @@ describe('User changes settings and reload the page', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a custom background', function() {
 		cy.intercept('*/apps/theming/background/custom').as('setBackground')
 
+		cy.on('uncaught:exception', (err) => {
+			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
+			if (err.message.includes('ResizeObserver loop limit exceeded')) {
+			  return false
+			}
+		})
+
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
-		cy.get(`#picker-filestable tr[data-entryname="${image}"]`).click()
-		cy.get('#oc-dialog-filepicker-content ~ .oc-dialog-buttonrow button.primary').click()
+		cy.get('.file-picker__files tr').contains(image).click()
+		cy.get('.dialog__actions .button-vue--vue-primary').click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
@@ -269,5 +302,8 @@ describe('User changes settings and reload the page', function() {
 	it('Reload the page and validate persistent changes', function() {
 		cy.reload()
 		cy.waitUntil(() => validateBodyThemingCss(selectedColor, 'apps/theming/background?v='))
+
+		// validate accessibility state
+		cy.get('[data-user-theming-background-custom]').should('have.attr', 'aria-pressed', 'true')
 	})
 })

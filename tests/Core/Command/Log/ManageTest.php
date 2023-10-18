@@ -156,28 +156,25 @@ class ManageTest extends TestCase {
 	}
 
 	public function testGetConfiguration() {
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('log_type', 'file')
-			->willReturn('log_type_value');
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('loglevel', 2)
-			->willReturn(0);
-		$this->config->expects($this->at(2))
-			->method('getSystemValue')
-			->with('logtimezone', 'UTC')
-			->willReturn('logtimezone_value');
+			->withConsecutive(
+				['log_type', 'file'],
+				['loglevel', 2],
+				['logtimezone', 'UTC'],
+			)->willReturnOnConsecutiveCalls(
+				'log_type_value',
+				0,
+				'logtimezone_value'
+			);
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->with('Enabled logging backend: log_type_value');
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('Log level: Debug (0)');
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with('Log timezone: logtimezone_value');
+			->withConsecutive(
+				['Enabled logging backend: log_type_value'],
+				['Log level: Debug (0)'],
+				['Log timezone: logtimezone_value'],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

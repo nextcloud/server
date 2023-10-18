@@ -55,24 +55,16 @@ class LinkReferenceProvider implements IReferenceProvider {
 		'image/avif'
 	];
 
-	private IClientService $clientService;
-	private LoggerInterface $logger;
-	private SystemConfig $systemConfig;
-	private IAppDataFactory $appDataFactory;
-	private IURLGenerator $urlGenerator;
-	private Limiter $limiter;
-	private IUserSession $userSession;
-	private IRequest $request;
-
-	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator, Limiter $limiter, IUserSession $userSession, IRequest $request) {
-		$this->clientService = $clientService;
-		$this->logger = $logger;
-		$this->systemConfig = $systemConfig;
-		$this->appDataFactory = $appDataFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->limiter = $limiter;
-		$this->userSession = $userSession;
-		$this->request = $request;
+	public function __construct(
+		private IClientService $clientService,
+		private LoggerInterface $logger,
+		private SystemConfig $systemConfig,
+		private IAppDataFactory $appDataFactory,
+		private IURLGenerator $urlGenerator,
+		private Limiter $limiter,
+		private IUserSession $userSession,
+		private IRequest $request,
+	) {
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -120,7 +112,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 		$linkContentType = $headResponse->getHeader('Content-Type');
 		$expectedContentType = 'text/html';
 		$suffixedExpectedContentType = $expectedContentType . ';';
-		$startsWithSuffixed = substr($linkContentType, 0, strlen($suffixedExpectedContentType)) === $suffixedExpectedContentType;
+		$startsWithSuffixed = str_starts_with($linkContentType, $suffixedExpectedContentType);
 		// check the header begins with the expected content type
 		if ($linkContentType !== $expectedContentType && !$startsWithSuffixed) {
 			$this->logger->debug('Skip resolving links pointing to content type that is not "text/html"');

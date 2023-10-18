@@ -14,18 +14,19 @@
     "Delete comment" : "コメントを削除",
     "Cancel edit" : "編集をキャンセル",
     "Post comment" : "コメントを投稿",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "メンションには \"@\"、絵文字には \":\"、スマートピッカーには \"/\"",
     "No comments yet, start the conversation!" : "まだコメントはありません、会話を開始してください！",
     "No more messages" : "これ以上のメッセージはありません",
     "Retry" : "再試行",
     "Failed to mark comments as read" : "コメントを既読にすることができませんでした",
     "Unable to load the comments list" : "コメントリストを読み込めませんでした",
-    "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"],
     "_1 new comment_::_{unread} new comments_" : ["の未読のコメント {unread}"],
     "Comment" : "コメント",
     "An error occurred while trying to edit the comment" : "コメント編集中にエラーが発生しました",
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "%1$s commented" : "%1$s がコメントを追加"
+    "%1$s commented" : "%1$s がコメントを追加",
+    "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

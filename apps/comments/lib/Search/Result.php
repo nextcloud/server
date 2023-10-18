@@ -47,7 +47,7 @@ class Result extends BaseResult {
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $authorName;
+	public string $authorName;
 	/**
 	 * @deprecated 20.0.0
 	 */
@@ -61,14 +61,16 @@ class Result extends BaseResult {
 	 * @throws NotFoundException
 	 * @deprecated 20.0.0
 	 */
-	public function __construct(string $search,
-								IComment $comment,
-								string $authorName,
-								string $path) {
+	public function __construct(
+		string $search,
+		IComment $comment,
+		string $authorName,
+		string $path,
+	) {
 		parent::__construct(
 			$comment->getId(),
 			$comment->getMessage()
-		/* @todo , [link to file] */
+			/* @todo , [link to file] */
 		);
 
 		$this->comment = $this->getRelevantMessagePart($comment->getMessage(), $search);

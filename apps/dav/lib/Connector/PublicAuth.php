@@ -29,9 +29,9 @@
  */
 namespace OCA\DAV\Connector;
 
-use OC\Security\Bruteforce\Throttler;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -48,12 +48,12 @@ class PublicAuth extends AbstractBasic {
 	private IManager $shareManager;
 	private ISession $session;
 	private IRequest $request;
-	private Throttler $throttler;
+	private IThrottler $throttler;
 
 	public function __construct(IRequest $request,
 								IManager $shareManager,
 								ISession $session,
-								Throttler $throttler) {
+								IThrottler $throttler) {
 		$this->request = $request;
 		$this->shareManager = $shareManager;
 		$this->session = $session;

@@ -127,6 +127,7 @@
     "in %s" : "en %s",
     "File Management" : "Dosieradministrado",
     "File name" : "Dosiernomo",
+    "Folder name" : "Dosierujnomo",
     "Name cannot be empty" : "Nomo ne povas mapleni",
     "Select all" : "Elekti ĉion",
     "File not found" : "Netrovita dosiero",
@@ -136,6 +137,8 @@
     "No files in here" : "Neniu dosiero ĉi tie",
     "Upload some content or sync with your devices!" : "Alŝutu iom da enhavo aŭ sinkronigu kun viaj aparatoj!",
     "Go back" : "Reveni",
+    "Shared by link" : "Kunhavata per ligilo",
+    "Shared" : "Kunhavigita",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Additional settings" : "Plia agordo",
     "WebDAV" : "WebDAV",
@@ -167,7 +170,6 @@
     "Shares" : "Kunhavigoj",
     "Shared with others" : "Kunhavata kun aliaj",
     "Shared with you" : "Kunhavata kun vi",
-    "Shared by link" : "Kunhavata per ligilo",
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Choose" : "Elekti"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

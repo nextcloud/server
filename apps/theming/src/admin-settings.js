@@ -19,10 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
-import App from './AdminTheming.vue'
+
 import { refreshStyles } from './helpers/refreshStyles.js'
+import App from './AdminTheming.vue'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 Vue.prototype.OC = OC
 Vue.prototype.t = t

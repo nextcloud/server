@@ -26,7 +26,9 @@
 		<NcSettingsSection :name="t('theming', 'Appearance and accessibility')"
 			:limit-width="false"
 			class="theming">
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="description" />
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="descriptionDetail" />
 
 			<div class="theming__preview-list">
@@ -51,17 +53,6 @@
 			</div>
 		</NcSettingsSection>
 
-		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')">
-			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
-			<NcCheckboxRadioSwitch class="theming__preview-toggle"
-				:checked.sync="shortcutsDisabled"
-				name="shortcuts_disabled"
-				type="switch"
-				@change="changeShortcutsDisabled">
-				{{ t('theming', 'Disable all keyboard shortcuts') }}
-			</NcCheckboxRadioSwitch>
-		</NcSettingsSection>
-
 		<NcSettingsSection :name="t('theming', 'Background')"
 			class="background"
 			data-user-theming-background-disabled>
@@ -72,6 +63,17 @@
 				<p>{{ t('theming', 'Set a custom background') }}</p>
 				<BackgroundSettings class="background__grid" @update:background="refreshGlobalStyles" />
 			</template>
+		</NcSettingsSection>
+
+		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')">
+			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
+			<NcCheckboxRadioSwitch class="theming__preview-toggle"
+				:checked.sync="shortcutsDisabled"
+				name="shortcuts_disabled"
+				type="switch"
+				@change="changeShortcutsDisabled">
+				{{ t('theming', 'Disable all keyboard shortcuts') }}
+			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
 	</section>
 </template>
@@ -133,7 +135,7 @@ export default {
 			// using the `t` replace method escape html, we have to do it manually :/
 			return t(
 				'theming',
-				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.'
+				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.',
 			)
 				.replace('{guidelines}', this.guidelinesLink)
 				.replace('{linkend}', '</a>')
@@ -146,7 +148,7 @@ export default {
 		descriptionDetail() {
 			return t(
 				'theming',
-				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
+				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!',
 			)
 				.replace('{issuetracker}', this.issuetrackerLink)
 				.replace('{designteam}', this.designteamLink)

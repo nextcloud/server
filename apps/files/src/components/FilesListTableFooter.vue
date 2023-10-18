@@ -159,17 +159,16 @@ export default Vue.extend({
 <style scoped lang="scss">
 // Scoped row
 tr {
-	padding-bottom: 300px;
+	margin-bottom: 300px;
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;
 	border-bottom: none !important;
-}
 
-td {
-	user-select: none;
-	// Make sure the cell colors don't apply to column headers
-	color: var(--color-text-maxcontrast) !important;
+	td {
+		user-select: none;
+		// Make sure the cell colors don't apply to column headers
+		color: var(--color-text-maxcontrast) !important;
+	}
 }
-
 </style>

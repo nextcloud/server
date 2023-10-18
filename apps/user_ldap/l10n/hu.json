@@ -153,6 +153,8 @@
     "One User Base DN per line" : "Soronként egy felhasználói alap DN",
     "User Search Attributes" : "Felhasználókeresési attribútumok",
     "Optional; one attribute per line" : "Nem kötelező; soronként egy attribútum",
+    "Disable users missing from LDAP" : "Az LDAP-ból hiányzó felhasználók letiltása",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Ha engedélyezve van, az LDAP importálásból hiányzó felhasználók letiltásra kerülnek",
     "Group Display Name Field" : "A csoport megjelenítendő nevének mezője",
     "The LDAP attribute to use to generate the groups's display name." : "A csoport megjelenítendő nevének előállításához használandó LDAP attribútum.",
     "Base Group Tree" : "A csoportfa gyökere",

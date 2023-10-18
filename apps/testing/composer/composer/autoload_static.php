@@ -28,6 +28,8 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Controller\\LockingController' => __DIR__ . '/..' . '/../lib/Controller/LockingController.php',
         'OCA\\Testing\\Controller\\RateLimitTestController' => __DIR__ . '/..' . '/../lib/Controller/RateLimitTestController.php',
         'OCA\\Testing\\Locking\\FakeDBLockingProvider' => __DIR__ . '/..' . '/../lib/Locking/FakeDBLockingProvider.php',
+        'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProvider.php',
+        'OCA\\Testing\\Provider\\FakeTranslationProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTranslationProvider.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

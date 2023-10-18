@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -101,7 +102,7 @@ const mutations = {
 				id: gid,
 				name: displayName,
 			})
-			state.groups.push(group)
+			state.groups.unshift(group)
 			state.groups = orderGroups(state.groups, state.orderBy)
 		} catch (e) {
 			console.error('Can\'t create group', e)
@@ -169,6 +170,11 @@ const mutations = {
 	},
 	// update active/disabled counts, groups counts
 	updateUserCounts(state, { user, actionType }) {
+		// 0 is a special value
+		if (state.userCount === 0) {
+			return
+		}
+
 		const disabledGroup = state.groups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
@@ -322,6 +328,14 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
+
+		/**
+		 * Adding filters in the search bar such as in:files, in:users, etc.
+		 * collides with this particular search, so we need to remove them
+		 * here and leave only the original search query
+		 */
+		search = search.replace(/in:[^\s]+/g, '').trim()
+
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {

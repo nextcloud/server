@@ -123,7 +123,6 @@ const VALID_MIME_TYPES = ['image/png', 'image/jpeg']
 const picker = getFilePickerBuilder(t('settings', 'Choose your profile picture'))
 	.setMultiSelect(false)
 	.setMimeTypeFilter(VALID_MIME_TYPES)
-	.setModal(true)
 	.setType(1)
 	.allowDirectories(false)
 	.build()
@@ -293,7 +292,7 @@ section {
 		justify-content: center;
 		align-items: center;
 		gap: 16px 0;
-		width: 300px;
+		width: min(100%, 300px);
 
 		span {
 			color: var(--color-text-lighter);

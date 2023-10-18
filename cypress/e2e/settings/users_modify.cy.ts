@@ -34,7 +34,7 @@ describe('Settings: Change user properties', function() {
 	})
 
 	beforeEach(function() {
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// reset edit mode for the user jdoe
 			cy.get('td.row__cell--actions .action-items > button:first-of-type')
 				.invoke('attr', 'title')
@@ -51,14 +51,14 @@ describe('Settings: Change user properties', function() {
 	})
 
 	it('Can change the display name', function() {
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// toggle the edit mode for the user jdoe
 			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
 		})
 
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// set the display name
 			cy.get('input[data-test="displayNameField"]').should('exist').and('have.value', 'jdoe')
 			cy.get('input[data-test="displayNameField"]').clear()
@@ -88,14 +88,14 @@ describe('Settings: Change user properties', function() {
 	})
 
 	it('Can change the password', function() {
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// see that the list of users contains the user jdoe
 			cy.contains(jdoe.userId).should('exist')
 			// toggle the edit mode for the user jdoe
 			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
 		})
 
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
+		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
 			// see that the password of user0 is ""
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			// set the password for user0 to 123456

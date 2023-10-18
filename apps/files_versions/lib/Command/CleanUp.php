@@ -34,24 +34,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanUp extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/**
-	 * @param IRootFolder $rootFolder
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('versions:cleanup')
 			->setDescription('Delete versions')
@@ -76,7 +66,7 @@ class CleanUp extends Command {
 		if ($path) {
 			if (!preg_match('#^/([^/]+)/files(/.*)?$#', $path, $pathMatches)) {
 				$output->writeln("<error>Invalid path given</error>");
-				return 1;
+				return self::FAILURE;
 			}
 
 			$users = [ $pathMatches[1] ];
@@ -85,48 +75,47 @@ class CleanUp extends Command {
 
 		if (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Delete versions of   <info>$user</info>");
-					$this->deleteVersions($user, $path);
-				} else {
+				if (!$this->userManager->userExists($user)) {
 					$output->writeln("<error>Unknown user $user</error>");
-					return 1;
-				}
-			}
-		} else {
-			$output->writeln('Delete all versions');
-			foreach ($this->userManager->getBackends() as $backend) {
-				$name = get_class($backend);
-
-				if ($backend instanceof IUserBackend) {
-					$name = $backend->getBackendName();
+					return self::FAILURE;
 				}
 
-				$output->writeln("Delete versions for users on backend <info>$name</info>");
-
-				$limit = 500;
-				$offset = 0;
-				do {
-					$users = $backend->getUsers('', $limit, $offset);
-					foreach ($users as $user) {
-						$output->writeln("   <info>$user</info>");
-						$this->deleteVersions($user);
-					}
-					$offset += $limit;
-				} while (count($users) >= $limit);
+				$output->writeln("Delete versions of   <info>$user</info>");
+				$this->deleteVersions($user, $path);
 			}
+			return self::SUCCESS;
 		}
-		return 0;
+
+		$output->writeln('Delete all versions');
+		foreach ($this->userManager->getBackends() as $backend) {
+			$name = get_class($backend);
+
+			if ($backend instanceof IUserBackend) {
+				$name = $backend->getBackendName();
+			}
+
+			$output->writeln("Delete versions for users on backend <info>$name</info>");
+
+			$limit = 500;
+			$offset = 0;
+			do {
+				$users = $backend->getUsers('', $limit, $offset);
+				foreach ($users as $user) {
+					$output->writeln("   <info>$user</info>");
+					$this->deleteVersions($user);
+				}
+				$offset += $limit;
+			} while (count($users) >= $limit);
+		}
+
+		return self::SUCCESS;
 	}
 
 
 	/**
 	 * delete versions for the given user
-	 *
-	 * @param string      $user
-	 * @param string|null $path
 	 */
-	protected function deleteVersions(string $user, string $path = null): void {
+	protected function deleteVersions(string $user, ?string $path = null): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 

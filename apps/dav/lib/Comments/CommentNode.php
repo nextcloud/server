@@ -79,7 +79,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 		$methods = get_class_methods($this->comment);
 		$methods = array_filter($methods, function ($name) {
-			return strpos($name, 'get') === 0;
+			return str_starts_with($name, 'get');
 		});
 		foreach ($methods as $getter) {
 			if ($getter === 'getMentions') {

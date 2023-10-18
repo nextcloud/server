@@ -47,11 +47,7 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among users." : "Kunlabora etikedado por kunhavigi etikedojn inter uzantoj.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Kunlabora etikedado por kunhavigi etikedojn inter uzantoj. Taŭga por teamoj.\n\n(Se vi estas provizanto kun plurklienta instalado, oni konsilas malŝalti tiun aplikaĵon, alimaniere etikedoj estus kunhavigitaj inter ĉiuj klientoj.)",
     "Failed to load tags" : "Ŝargo de la etikedoj malsukcesis",
-    "Tagged files" : "Etikeditaj dosieroj",
-    "Select tags to filter by" : "Elekti etikedojn, per kiuj filtri",
     "No tags found" : "Neniu etikedo troviĝis ",
-    "Please select tags to filter by" : "Bonvolu elekti etikedojn, per kiuj filtri",
-    "No files found for the selected tags" : "Neniu dosiero troviĝis por la elektitaj etikedoj",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Kunlaboraj etikedoj disponeblas al ĉiuj uzantoj. Limigitaj etikedoj videblas de uzantoj, kiuj tamen ne povas atribui ilin. Nevideblaj etikedoj servas por interna uzo, ĉar uzantoj nek vidas nek povas atribui ilin.",
     "Create a new tag" : "Krei novan etikedon",
     "Name" : "Nomo",
@@ -63,6 +59,10 @@ OC.L10N.register(
     "No files in here" : "Neniu dosiero estas ĉi tie",
     "No entries found in this folder" : "Neniu elemento troviĝas en ĉi tiu dosierujo",
     "Size" : "Grando",
-    "Modified" : "Modifita"
+    "Modified" : "Modifita",
+    "Tagged files" : "Etikeditaj dosieroj",
+    "Select tags to filter by" : "Elekti etikedojn, per kiuj filtri",
+    "Please select tags to filter by" : "Bonvolu elekti etikedojn, per kiuj filtri",
+    "No files found for the selected tags" : "Neniu dosiero troviĝis por la elektitaj etikedoj"
 },
 "nplurals=2; plural=(n != 1);");

@@ -113,6 +113,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "ატვირთვა (მაქს. %s)",
     "Accept" : "მიღება",
     "in %s" : "%s-ში",
+    "Folder name" : "დირექტორიის სახელი",
     "Name cannot be empty" : "სახელი ვერ იქნება ცარიელი",
     "Select all" : "ყველას არჩევა",
     "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
@@ -121,6 +122,8 @@ OC.L10N.register(
     "No files in here" : "აქ ფაილები არაა",
     "Upload some content or sync with your devices!" : "ატვირთეთ რამე ან მოახდინეთ სინქრონიზაცია თქვენს მოწყობილობებთან!",
     "Go back" : "უკან დაბრუნება",
+    "Shared by link" : "გაზიარდა ბმულით",
+    "Shared" : "გაზიარებული",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "Additional settings" : "დამატებითი პარამეტრები",
     "WebDAV" : "WebDAV",
@@ -144,7 +147,6 @@ OC.L10N.register(
     "Shares" : "გაზიარებები",
     "Shared with others" : "გაზიარდა სხვებთან",
     "Shared with you" : "გაზიარდა თქვენთან",
-    "Shared by link" : "გაზიარდა ბმულით",
     "Choose" : "აირჩიეთ"
 },
 "nplurals=2; plural=(n!=1);");

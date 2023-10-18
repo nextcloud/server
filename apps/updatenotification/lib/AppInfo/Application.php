@@ -40,10 +40,10 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -56,11 +56,11 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IConfig $config,
-									 IUserSession $userSession,
-									 IAppManager $appManager,
-									 IGroupManager $groupManager,
-									 IAppContainer $appContainer,
-									 ILogger $logger) {
+			IUserSession $userSession,
+			IAppManager $appManager,
+			IGroupManager $groupManager,
+			IAppContainer $appContainer,
+			LoggerInterface $logger) {
 			if ($config->getSystemValue('updatechecker', true) !== true) {
 				// Updater check is disabled
 				return;
@@ -77,7 +77,7 @@ class Application extends App implements IBootstrap {
 				try {
 					$updateChecker = $appContainer->get(UpdateChecker::class);
 				} catch (QueryException $e) {
-					$logger->logException($e);
+					$logger->error($e->getMessage(), ['exception' => $e]);
 					return;
 				}
 

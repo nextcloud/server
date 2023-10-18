@@ -385,10 +385,10 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $reuse a combination of self::REUSE_*
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @param int $oldSize the size of the folder before (re)scanning the children
+	 * @param int|float $oldSize the size of the folder before (re)scanning the children
 	 * @return int|float the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int $oldSize) {
+	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float $oldSize) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
@@ -418,7 +418,10 @@ class Scanner extends BasicEmitter implements IScanner {
 		return $size;
 	}
 
-	private function handleChildren($path, $recursive, $reuse, $folderId, $lock, &$size) {
+	/**
+	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
+	 */
+	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size): array {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
@@ -436,7 +439,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$childQueue = [];
 		$newChildNames = [];
 		foreach ($newChildren as $fileMeta) {
-			$permissions = isset($fileMeta['scan_permissions']) ? $fileMeta['scan_permissions'] : $fileMeta['permissions'];
+			$permissions = $fileMeta['scan_permissions'] ?? $fileMeta['permissions'];
 			if ($permissions === 0) {
 				continue;
 			}
@@ -453,7 +456,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
-				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
+				$existingData = $existingChildren[$file] ?? false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {

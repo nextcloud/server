@@ -63,6 +63,8 @@ class PredefinedStatusController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @return DataResponse<Http::STATUS_OK, UserStatusPredefined[], array{}>
+	 *
+	 * 200: Predefined statuses returned
 	 */
 	public function findAll():DataResponse {
 		// Filtering out the invisible one, that should only be set by API

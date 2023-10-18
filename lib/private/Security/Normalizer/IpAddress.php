@@ -37,22 +37,16 @@ namespace OC\Security\Normalizer;
  * @package OC\Security\Normalizer
  */
 class IpAddress {
-	/** @var string */
-	private $ip;
-
 	/**
 	 * @param string $ip IP to normalized
 	 */
-	public function __construct(string $ip) {
-		$this->ip = $ip;
+	public function __construct(
+		private string $ip,
+	) {
 	}
 
 	/**
 	 * Return the given subnet for an IPv4 address and mask bits
-	 *
-	 * @param string $ip
-	 * @param int $maskBits
-	 * @return string
 	 */
 	private function getIPv4Subnet(string $ip, int $maskBits = 32): string {
 		$binary = \inet_pton($ip);
@@ -68,10 +62,6 @@ class IpAddress {
 
 	/**
 	 * Return the given subnet for an IPv6 address and mask bits
-	 *
-	 * @param string $ip
-	 * @param int $maskBits
-	 * @return string
 	 */
 	private function getIPv6Subnet(string $ip, int $maskBits = 48): string {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
@@ -126,8 +116,6 @@ class IpAddress {
 
 	/**
 	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
-	 *
-	 * @return string
 	 */
 	public function getSubnet(): string {
 		if (\preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $this->ip)) {
@@ -153,8 +141,6 @@ class IpAddress {
 
 	/**
 	 * Returns the specified IP address
-	 *
-	 * @return string
 	 */
 	public function __toString(): string {
 		return $this->ip;

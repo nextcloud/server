@@ -52,6 +52,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -172,7 +173,7 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @UseSession
-	 * 
+	 *
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
@@ -217,8 +218,8 @@ class ViewController extends Controller {
 		}
 
 		// Load the files we need
+		\OCP\Util::addInitScript('files', 'init');
 		\OCP\Util::addStyle('files', 'merged');
-		\OCP\Util::addScript('files', 'merged-index', 'files');
 		\OCP\Util::addScript('files', 'main');
 
 		$userId = $this->userSession->getUser()->getUID();
@@ -228,6 +229,21 @@ class ViewController extends Controller {
 			$favElements = $this->activityHelper->getFavoriteFilePaths($userId);
 		} catch (\RuntimeException $e) {
 			$favElements['folders'] = [];
+		}
+
+		// If the file doesn't exists in the folder and
+		// exists in only one occurrence, redirect to that file
+		// in the correct folder
+		if ($fileid && $dir !== '') {
+			$baseFolder = $this->rootFolder->getUserFolder($userId);
+			$nodes = $baseFolder->getById((int) $fileid);
+			$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
+			$relativePath = $nodePath ? dirname($nodePath) : '';
+			// If the requested path does not contain the file id
+			// or if the requested path is not the file id itself
+			if (count($nodes) === 1 && $relativePath !== $dir && $nodePath !== $dir) {
+				return $this->redirectToFile((int) $fileid);
+			}
 		}
 
 		try {
@@ -245,6 +261,11 @@ class ViewController extends Controller {
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
+
+		// Forbidden file characters
+		/** @var string[] */
+		$forbiddenCharacters = $this->config->getSystemValue('forbidden_chars', []);
+		$this->initialState->provideInitialState('forbiddenCharacters', Constants::FILENAME_INVALID_CHARS . implode('', $forbiddenCharacters));
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
@@ -374,7 +395,7 @@ class ViewController extends Controller {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$nodes = $baseFolder->getById($fileId);
-		$params = [];
+		$params = ['view' => 'files'];
 
 		try {
 			$this->redirectToFileIfInTrashbin($fileId);
@@ -392,7 +413,7 @@ class ViewController extends Controller {
 			}
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
 		}
-	
+
 		throw new NotFoundException();
 	}
 }

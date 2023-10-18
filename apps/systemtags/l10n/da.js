@@ -38,11 +38,9 @@ OC.L10N.register(
     "Tags" : "Mærker",
     "Collaborative tags" : "Kollaborativ tags",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
-    "Tagged files" : "Mærkede filer",
-    "Select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
+    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}",
     "No tags found" : "Ingen tags fundet",
-    "Please select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
-    "No files found for the selected tags" : "Der blev ikke fundet filer, som matcher de valgte mærker",
     "Create a new tag" : "Opret et nyt mærkat",
     "Name" : "Navn",
     "Public" : "Offentlig",
@@ -53,6 +51,10 @@ OC.L10N.register(
     "No files in here" : "Her er ingen filer",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Size" : "Størrelse",
-    "Modified" : "Ændret"
+    "Modified" : "Ændret",
+    "Tagged files" : "Mærkede filer",
+    "Select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
+    "Please select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
+    "No files found for the selected tags" : "Der blev ikke fundet filer, som matcher de valgte mærker"
 },
 "nplurals=2; plural=(n != 1);");

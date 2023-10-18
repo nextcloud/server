@@ -348,6 +348,8 @@ class ShareesAPIController extends OCSController {
 	 * @param string $itemType Limit to specific item types
 	 * @param int|int[]|null $shareType Limit to specific share types
 	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesRecommendedResult, array{}>
+	 *
+	 * 200: Recommended sharees returned
 	 */
 	public function findRecommended(string $itemType, $shareType = null): DataResponse {
 		$shareTypes = [

@@ -207,7 +207,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if ($includeMounts) {
 			$this->updateEntryfromSubMounts();
 
-			if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+			if ($this->isEncrypted() && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
 				return $this->data['unencrypted_size'];
 			} else {
 				return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
@@ -229,11 +229,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isEncrypted() {
-		return $this->data['encrypted'];
+		return $this->data['encrypted'] ?? false;
 	}
 
 	/**
-	 * Return the currently version used for the HMAC in the encryption app
+	 * Return the current version used for the HMAC in the encryption app
 	 */
 	public function getEncryptedVersion(): int {
 		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
@@ -243,11 +243,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getPermissions() {
-		$perms = (int) $this->data['permissions'];
-		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
-			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
-		}
-		return $perms;
+		return (int) $this->data['permissions'];
 	}
 
 	/**
@@ -415,5 +411,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function getUploadTime(): int {
 		return (int) $this->data['upload_time'];
+	}
+
+	public function getParentId(): int {
+		return $this->data['parent'] ?? -1;
 	}
 }

@@ -31,7 +31,7 @@
 use Psr\Log\LoggerInterface;
 
 // no php execution timeout for webdav
-if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
 }
 ignore_user_abort(true);

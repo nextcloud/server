@@ -104,6 +104,8 @@ class DashboardApiController extends OCSController {
 	 * @param int $limit Limit number of result items per widget
 	 * @param string[] $widgets Limit results to specific widgets
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItem[]>, array{}>
+	 *
+	 * 200: Widget items returned
 	 */
 	public function getWidgetItems(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
@@ -129,6 +131,8 @@ class DashboardApiController extends OCSController {
 	 * @param int $limit Limit number of result items per widget
 	 * @param string[] $widgets Limit results to specific widgets
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItems>, array{}>
+	 *
+	 * 200: Widget items returned
 	 */
 	public function getWidgetItemsV2(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
@@ -150,7 +154,9 @@ class DashboardApiController extends OCSController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse<Http::STATUS_OK, DashboardWidget[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidget>, array{}>
+	 *
+	 * 200: Widgets returned
 	 */
 	public function getWidgets(): DataResponse {
 		$widgets = $this->dashboardManager->getWidgets();

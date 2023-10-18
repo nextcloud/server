@@ -48,12 +48,10 @@ use OCA\WorkflowEngine\Service\RuleMatcher;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\Events\RegisterChecksEvent;
@@ -66,31 +64,14 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var IStorage */
-	protected $storage;
-
-	/** @var string */
-	protected $path;
-
-	/** @var object */
-	protected $entity;
-
 	/** @var array[] */
 	protected $operations = [];
 
 	/** @var array[] */
 	protected $checks = [];
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var IServerContainer|\OC\Server */
-	protected $container;
-
-	/** @var IL10N */
-	protected $l;
 
 	/** @var IEntity[] */
 	protected $registeredEntities = [];
@@ -101,41 +82,20 @@ class Manager implements IManager {
 	/** @var ICheck[] */
 	protected $registeredChecks = [];
 
-	/** @var ILogger */
-	protected $logger;
-
 	/** @var CappedMemoryCache<int[]> */
 	protected CappedMemoryCache $operationsByScope;
 
-	/** @var IUserSession */
-	protected $session;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IConfig */
-	private $config;
-	private ICacheFactory $cacheFactory;
-
 	public function __construct(
-		IDBConnection $connection,
-		IServerContainer $container,
-		IL10N $l,
-		ILogger $logger,
-		IUserSession $session,
-		IEventDispatcher $dispatcher,
-		IConfig $config,
-		ICacheFactory $cacheFactory,
+		protected IDBConnection $connection,
+		protected IServerContainer $container,
+		protected IL10N $l,
+		protected LoggerInterface $logger,
+		protected IUserSession $session,
+		private IEventDispatcher $dispatcher,
+		private IConfig $config,
+		private ICacheFactory $cacheFactory,
 	) {
-		$this->connection = $connection;
-		$this->container = $container;
-		$this->l = $l;
-		$this->logger = $logger;
 		$this->operationsByScope = new CappedMemoryCache(64);
-		$this->session = $session;
-		$this->dispatcher = $dispatcher;
-		$this->config = $config;
-		$this->cacheFactory = $cacheFactory;
 	}
 
 	public function getRuleMatcher(): IRuleMatcher {
@@ -730,7 +690,7 @@ class Manager implements IManager {
 				File::class => $this->container->query(File::class),
 			];
 		} catch (QueryException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}
@@ -744,7 +704,7 @@ class Manager implements IManager {
 				// None yet
 			];
 		} catch (QueryException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}
@@ -766,7 +726,7 @@ class Manager implements IManager {
 				$this->container->query(UserGroupMembership::class),
 			];
 		} catch (QueryException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}

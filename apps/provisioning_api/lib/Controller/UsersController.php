@@ -45,9 +45,6 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Authentication\Token\RemoteWipe;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -66,6 +63,7 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IPhoneNumberUtil;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -113,7 +111,8 @@ class UsersController extends AUserData {
 		ISecureRandom $secureRandom,
 		RemoteWipe $remoteWipe,
 		KnownUserService $knownUserService,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
 		parent::__construct(
 			$appName,
@@ -145,6 +144,8 @@ class UsersController extends AUserData {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 * @return DataResponse<Http::STATUS_OK, array{users: string[]}, array{}>
+	 *
+	 * 200: Users returned
 	 */
 	public function getUsers(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
@@ -184,6 +185,8 @@ class UsersController extends AUserData {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Users details returned
 	 */
 	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
@@ -208,10 +211,82 @@ class UsersController extends AUserData {
 			$users = array_merge(...$users);
 		}
 
-		/** @var array<string, ProvisioningApiUserDetails|array{id: string}> $usersDetails */
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
+			$userData = $this->getUserData($userId);
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Logged user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Get the list of disabled users and their details
+	 *
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Disabled users details returned
+	 */
+	public function getDisabledUsersDetails(?int $limit = null, int $offset = 0): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// Admin? Or SubAdmin?
+		$uid = $currentUser->getUID();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if ($this->groupManager->isAdmin($uid)) {
+			$users = $this->userManager->getDisabledUsers($limit, $offset);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+
+			$users = [];
+			/* We have to handle offset ourselve for correctness */
+			$tempLimit = ($limit === null ? null : $limit + $offset);
+			foreach ($subAdminOfGroups as $group) {
+				$users = array_merge(
+					$users,
+					array_map(
+						fn (IUser $user): string => $user->getUID(),
+						array_filter(
+							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
+							fn (IUser $user): bool => $user->isEnabled()
+						)
+					)
+				);
+				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+					break;
+				}
+			}
+			$users = array_slice($users, $offset);
+		}
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
 			$userData = $this->getUserData($userId);
 			// Do not insert empty entry
 			if ($userData !== null) {
@@ -243,9 +318,7 @@ class UsersController extends AUserData {
 	 * 400: Invalid location
 	 */
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
-		$phoneUtil = PhoneNumberUtil::getInstance();
-
-		if ($phoneUtil->getCountryCodeForRegion($location) === 0) {
+		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
 			// Not a valid region code
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -258,26 +331,18 @@ class UsersController extends AUserData {
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
-				try {
-					$phoneNumber = $phoneUtil->parse($phone, $location);
-					if ($phoneUtil->isValidNumber($phoneNumber)) {
-						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
-					}
-				} catch (NumberParseException $e) {
+				$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $location);
+				if ($normalizedNumber !== null) {
+					$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 				}
 
-				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && strpos($phone, '0') === 0) {
+				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && str_starts_with($phone, '0')) {
 					// If the number has a leading zero (no country code),
 					// we also check the default phone region of the instance,
 					// when it's different to the user's given region.
-					try {
-						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
-						if ($phoneUtil->isValidNumber($phoneNumber)) {
-							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
-						}
-					} catch (NumberParseException $e) {
+					$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $defaultPhoneRegion);
+					if ($normalizedNumber !== null) {
+						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 					}
 				}
 			}
@@ -548,6 +613,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiUserDetails, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User returned
 	 */
 	public function getUser(string $userId): DataResponse {
 		$includeScopes = false;
@@ -572,6 +639,8 @@ class UsersController extends AUserData {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiUserDetails, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Current user returned
 	 */
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
@@ -592,6 +661,8 @@ class UsersController extends AUserData {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Editable fields returned
 	 */
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -611,6 +682,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Editable fields for user returned
 	 */
 	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -677,6 +750,8 @@ class UsersController extends AUserData {
 	 * @param string $value New value for the key
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User values edited successfully
 	 */
 	public function editUserMultiValue(
 		string $userId,
@@ -776,6 +851,8 @@ class UsersController extends AUserData {
 	 * @param string $value New value for the key
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User value edited successfully
 	 */
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -847,7 +924,6 @@ class UsersController extends AUserData {
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
-
 			}
 		} else {
 			// Check if admin / subadmin
@@ -1087,6 +1163,8 @@ class UsersController extends AUserData {
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 *
 	 * @throws OCSException
+	 *
+	 * 200: Wiped all user devices successfully
 	 */
 	public function wipeUserDevices(string $userId): DataResponse {
 		/** @var IUser $currentLoggedInUser */
@@ -1122,6 +1200,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User deleted successfully
 	 */
 	public function deleteUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1159,6 +1239,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User disabled successfully
 	 */
 	public function disableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, false);
@@ -1173,6 +1255,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User enabled successfully
 	 */
 	public function enableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, true);
@@ -1212,6 +1296,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array{groups: string[]}, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Users groups returned
 	 */
 	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
@@ -1260,6 +1346,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User added to group successfully
 	 */
 	public function addToGroup(string $userId, string $groupid = ''): DataResponse {
 		if ($groupid === '') {
@@ -1297,6 +1385,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User removed from group successfully
 	 */
 	public function removeFromGroup(string $userId, string $groupid): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
@@ -1360,6 +1450,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User added as group subadmin successfully
 	 */
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
@@ -1398,6 +1490,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User removed as group subadmin successfully
 	 */
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
@@ -1428,6 +1522,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID if the user
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User subadmin groups returned
 	 */
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
@@ -1443,6 +1539,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID if the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Resent welcome message successfully
 	 */
 	public function resendWelcomeMessage(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();

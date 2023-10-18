@@ -43,7 +43,6 @@
 		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>
-		<directory name="ocm-provider"/>
 		<directory name="ocs"/>
 		<directory name="ocs-provider"/>
 		<file name="index.php"/>
@@ -69,6 +68,7 @@
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
 		<file name="build/stubs/IntlChar.php"/>
+		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
 		<file name="build/stubs/redis.php"/>
@@ -81,7 +81,7 @@
 		<file name="build/stubs/zip.php"/>
 		<file name="build/stubs/psr_container.php"/>
 		<file name="3rdparty/sabre/uri/lib/functions.php" />
-		<file name="build/stubs/app_ecosystem_v2.php" />
+		<file name="build/stubs/app_api.php" />
 	</stubs>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>

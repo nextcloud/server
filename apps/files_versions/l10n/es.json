@@ -12,6 +12,8 @@
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Las versiones nombradas son persistentes, y, son excluidas de las limpiezas automáticas cuando su cuota de almacenamiento está al límite.",
     "Remove version name" : "Nombre de versión remota",
     "Save version name" : "Guardar nombre de versión",
+    "Current version" : "Versión actual",
+    "Initial version" : "Versión inicial",
     "Initial version restored" : "Versión inicial restaurada",
     "Version restored" : "Versión restaurada",
     "Could not restore version" : "No se ha podido restaurar la versión",

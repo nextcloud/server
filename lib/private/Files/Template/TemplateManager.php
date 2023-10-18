@@ -240,7 +240,8 @@ class TemplateManager implements ITemplateManager {
 			'mime' => $file->getMimetype(),
 			'size' => $file->getSize(),
 			'type' => $file->getType(),
-			'hasPreview' => $this->previewManager->isAvailable($file)
+			'hasPreview' => $this->previewManager->isAvailable($file),
+			'permissions' => $file->getPermissions(),
 		];
 	}
 

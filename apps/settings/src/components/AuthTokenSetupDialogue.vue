@@ -22,12 +22,14 @@
 <template>
 	<div v-if="!adding" id="generate-app-token-section" class="row spacing">
 		<!-- Port to TextField component when available -->
-		<input v-model="deviceName"
+		<NcTextField :value.sync="deviceName"
 			type="text"
 			:maxlength="120"
 			:disabled="loading"
+			class="app-name-text-field"
+			:label="t('settings', 'App name')"
 			:placeholder="t('settings', 'App name')"
-			@keydown.enter="submit">
+			@keydown.enter="submit" />
 		<NcButton :disabled="loading || deviceName.length === 0"
 			type="primary"
 			@click="submit">
@@ -87,6 +89,7 @@ import '@nextcloud/password-confirmation/dist/style.css'
 import { showError } from '@nextcloud/dialogs'
 import { getRootUrl } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import Check from 'vue-material-design-icons/Check.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
@@ -98,6 +101,7 @@ export default {
 		ContentCopy,
 		NcButton,
 		QR,
+		NcTextField,
 	},
 	props: {
 		add: {
@@ -185,6 +189,8 @@ export default {
 	.app-password-row {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 
 		.icon {
 			background-size: 16px 16px;
@@ -199,15 +205,15 @@ export default {
 
 	.app-password-label {
 		display: table-cell;
-		padding-right: 1em;
-		text-align: right;
+		margin-right: 1em;
+		text-align: left;
 		vertical-align: middle;
 		width: 100px;
 	}
 
-	.row input {
+	.app-name-text-field {
 		height: 44px !important;
-		padding: 7px 12px;
+		padding-left: 12px;
 		margin-right: 12px;
 		width: 200px;
 	}

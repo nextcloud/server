@@ -49,7 +49,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function settingsMenu() {
-		return Locator::forThe()->css(".user-menu__nav")->
+		return Locator::forThe()->css("ul")->
 				descendantOf(self::settingsSectionInHeader())->
 				describedAs("Settings menu");
 	}
@@ -89,7 +89,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function settingsPanelFor($itemText) {
-		return Locator::forThe()->xpath("//div[@id = 'app-navigation' or contains(@class, 'app-navigation')]//ul//li[@class = 'app-navigation-caption' and normalize-space() = '$itemText']")->
+		return Locator::forThe()->xpath("//div[@id = 'app-navigation' or contains(@class, 'app-navigation')]//div[contains(@class, 'app-navigation-caption') and normalize-space() = '$itemText']")->
 		describedAs($itemText . " item in Settings panel");
 	}
 

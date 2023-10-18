@@ -162,12 +162,11 @@ class ImageExportPluginTest extends TestCase {
 				->with(1, 'card', $size, $card)
 				->willReturn($file);
 
-			$this->response->expects($this->exactly(5))
+			$this->response->expects($this->exactly(4))
 				->method('setHeader')
 				->withConsecutive(
 					['Cache-Control', 'private, max-age=3600, must-revalidate'],
 					['Etag', '"myEtag"'],
-					['Pragma', 'public'],
 					['Content-Type', 'image/jpeg'],
 					['Content-Disposition', 'attachment; filename=card.jpg'],
 				);
@@ -179,12 +178,11 @@ class ImageExportPluginTest extends TestCase {
 				->method('setBody')
 				->with('imgdata');
 		} else {
-			$this->response->expects($this->exactly(3))
+			$this->response->expects($this->exactly(2))
 				->method('setHeader')
 				->withConsecutive(
 					['Cache-Control', 'private, max-age=3600, must-revalidate'],
 					['Etag', '"myEtag"'],
-					['Pragma', 'public'],
 				);
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)

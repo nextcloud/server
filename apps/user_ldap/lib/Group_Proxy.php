@@ -29,26 +29,37 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\INamedBackend;
+use OCP\GroupInterface;
+use OCP\IConfig;
+use OCP\IUserManager;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend {
 	private $backends = [];
 	private ?Group_LDAP $refBackend = null;
 	private Helper $helper;
 	private GroupPluginManager $groupPluginManager;
 	private bool $isSetUp = false;
+	private IConfig $config;
+	private IUserManager $ncUserManager;
 
 	public function __construct(
 		Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
-		GroupPluginManager $groupPluginManager
+		GroupPluginManager $groupPluginManager,
+		IConfig $config,
+		IUserManager $ncUserManager,
 	) {
 		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
 		$this->groupPluginManager = $groupPluginManager;
+		$this->config = $config;
+		$this->ncUserManager = $ncUserManager;
 	}
 
 	protected function setup(): void {
@@ -59,7 +70,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager);
+				new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->config, $this->ncUserManager);
 			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
@@ -257,6 +268,21 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getGroupsDetails(array $gids): array {
+		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
+			throw new \Exception("Should not have been called");
+		}
+
+		$groupData = [];
+		foreach ($gids as $gid) {
+			$groupData[$gid] = $this->handleRequest($gid, 'getGroupDetails', [$gid]);
+		}
+		return $groupData;
+	}
+
+	/**
 	 * get a list of all groups
 	 *
 	 * @return string[] with group names
@@ -302,6 +328,16 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	public function dn2GroupName(string $dn): string|false {
 		$id = 'DN,' . $dn;
 		return $this->handleRequest($id, 'dn2GroupName', [$dn]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function groupsExists(array $gids): array {
+		return array_values(array_filter(
+			$gids,
+			fn (string $gid): bool => $this->handleRequest($gid, 'groupExists', [$gid]),
+		));
 	}
 
 	/**
@@ -355,5 +391,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		return $this->handleRequest($gid, 'searchInGroup', [$gid, $search, $limit, $offset]);
+	}
+
+	public function addRelationshipToCaches(string $uid, ?string $dnUser, string $gid): void {
+		$this->handleRequest($gid, 'addRelationshipToCaches', [$uid, $dnUser, $gid]);
 	}
 }

@@ -14,7 +14,6 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
-use OC\Security\Bruteforce\Throttler;
 use OC\Session\Memory;
 use OC\User\LoginException;
 use OC\User\Manager;
@@ -30,6 +29,7 @@ use OCP\IRequestId;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -47,7 +47,7 @@ class SessionTest extends \Test\TestCase {
 	private $tokenProvider;
 	/** @var IConfig|MockObject */
 	private $config;
-	/** @var Throttler|MockObject */
+	/** @var IThrottler|MockObject */
 	private $throttler;
 	/** @var ISecureRandom|MockObject */
 	private $random;
@@ -73,7 +73,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(10000);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->manager = $this->createMock(Manager::class);
 		$this->session = $this->createMock(ISession::class);

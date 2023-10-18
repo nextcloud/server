@@ -36,6 +36,8 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -73,6 +75,8 @@ class ApiTest extends TestCase {
 
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
+
+		Filesystem::getLoader()->removeStorageWrapper('sharing_mask');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';
@@ -959,10 +963,7 @@ class ApiTest extends TestCase {
 
 		$this->assertNotNull($share1->getAttributes());
 		$share1 = $this->shareManager->createShare($share1);
-		$this->assertNull($share1->getAttributes());
 		$this->assertEquals(19, $share1->getPermissions());
-		// attributes get cleared when empty
-		$this->assertNull($share1->getAttributes());
 
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node1)
@@ -1126,7 +1127,7 @@ class ApiTest extends TestCase {
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(1);
-		$share2 = $this->shareManager->createShare($share1);
+		$share2 = $this->shareManager->createShare($share2);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($share1->getId());

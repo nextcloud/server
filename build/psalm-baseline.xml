@@ -1178,11 +1178,6 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
-  <file src="apps/files_sharing/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files_sharing/lib/Listener/ShareInteractionListener.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
@@ -1430,12 +1425,6 @@
       <code><![CDATA[$share->getId()]]></code>
       <code>(int)$data['id']</code>
     </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code>$nodes[0]</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\File|\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
     <InvalidArgument>
@@ -1561,11 +1550,6 @@
     <TypeDoesNotContainNull>
       <code>isset($qb)</code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="apps/user_ldap/lib/Proxy.php">
-    <InvalidDocblock>
-      <code>protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {</code>
-    </InvalidDocblock>
   </file>
   <file src="apps/user_ldap/lib/User/Manager.php">
     <InvalidDocblock>
@@ -2253,30 +2237,6 @@
     <InvalidArgument>
       <code>$searchOptions</code>
     </InvalidArgument>
-    <InvalidNullableReturnType>
-      <code>IAddressBook</code>
-      <code>array</code>
-      <code>bool</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code>$addressBook</code>
-      <code>$addressBook</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/DB/Adapter.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$builder->execute()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>int</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/DB/AdapterMySQL.php">
     <InternalMethod>
@@ -2297,16 +2257,6 @@
       <code>$params['adapter']</code>
       <code>$params['tablePrefix']</code>
     </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->adapter->lastInsertId($seqName)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>string</code>
-    </InvalidReturnType>
-    <ParamNameMismatch>
-      <code>$seqName</code>
-      <code>$statement</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/DB/Exceptions/DbalException.php">
     <RedundantCondition>
@@ -2317,21 +2267,12 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/DB/MigrationService.php">
-    <InvalidOperand>
-      <code>$offset</code>
-      <code>$offset</code>
-    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>$s</code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code>IMigrationStep</code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/DB/OracleConnection.php">
-    <InvalidArrayAccess>
-      <code>$key[0]</code>
-    </InvalidArrayAccess>
   </file>
   <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php">
     <ImplicitToStringCast>
@@ -2911,16 +2852,6 @@
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Group/Database.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$this->groupCache[$gid]['displayname']]]></code>
-    </InvalidArrayOffset>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->groupCache]]></code>
-      <code><![CDATA[$this->groupCache]]></code>
-      <code><![CDATA[$this->groupCache]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/private/Group/DisplayNameCache.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
@@ -3135,11 +3066,6 @@
     <MissingTemplateParam>
       <code>\ArrayAccess</code>
     </MissingTemplateParam>
-  </file>
-  <file src="lib/private/NavigationManager.php">
-    <ParamNameMismatch>
-      <code>$id</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>

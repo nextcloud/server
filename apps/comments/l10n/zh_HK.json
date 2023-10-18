@@ -14,18 +14,19 @@
     "Delete comment" : "刪除留言",
     "Cancel edit" : "取消編輯",
     "Post comment" : "張貼留言",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "“@” 表示提及，“:” 表示表情符號，“/” 表示智慧型選擇器",
     "No comments yet, start the conversation!" : "尚無留言，開始討論吧！",
     "No more messages" : "沒有更多訊息",
     "Retry" : "重試",
     "Failed to mark comments as read" : "無法將評論標記為已讀",
     "Unable to load the comments list" : "無法載入留言清單",
-    "_%n unread comment_::_%n unread comments_" : ["%n 個未讀留言"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} 個新留言"],
     "Comment" : "留言",
     "An error occurred while trying to edit the comment" : "嘗試編輯此留言時錯誤",
     "Comment deleted" : "意見刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除此留言時錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤",
-    "%1$s commented" : "%1$s 個留言"
+    "%1$s commented" : "%1$s 個留言",
+    "_%n unread comment_::_%n unread comments_" : ["%n 個未讀留言"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

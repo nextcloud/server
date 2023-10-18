@@ -83,16 +83,23 @@ export const useFilesStore = function(...args) {
 			onDeletedNode(node: Node) {
 				this.deleteNodes([node])
 			},
+
+			onCreatedNode(node: Node) {
+				this.updateNodes([node])
+			},
+
+			onUpdatedNode(node: Node) {
+				this.updateNodes([node])
+			},
 		},
 	})
 
 	const fileStore = store(...args)
 	// Make sure we only register the listeners once
 	if (!fileStore._initialized) {
-		// subscribe('files:node:created', fileStore.onCreatedNode)
+		subscribe('files:node:created', fileStore.onCreatedNode)
 		subscribe('files:node:deleted', fileStore.onDeletedNode)
-		// subscribe('files:node:moved', fileStore.onMovedNode)
-		// subscribe('files:node:updated', fileStore.onUpdatedNode)
+		subscribe('files:node:updated', fileStore.onUpdatedNode)
 
 		fileStore._initialized = true
 	}

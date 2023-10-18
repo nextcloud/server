@@ -14,18 +14,19 @@
     "Delete comment" : "Elimina commento",
     "Cancel edit" : "Annulla modifica",
     "Post comment" : "Pubblica commento",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" per le menzioni, \":\" per gli emoji, \"/\" per il selettore intelligente",
     "No comments yet, start the conversation!" : "Ancora nessun commento, inizia la conversazione!",
     "No more messages" : "Non ci sono altri messaggi",
     "Retry" : "Riprova",
     "Failed to mark comments as read" : "Impossibile segnare i commenti come letti",
     "Unable to load the comments list" : "Impossibile caricare l'elenco dei commenti",
-    "_%n unread comment_::_%n unread comments_" : ["%n commento non letto","%n commenti non letti","%n commenti non letti"],
     "_1 new comment_::_{unread} new comments_" : ["1 nuovo commento","{unread} nuovi commenti","{unread} nuovi commenti"],
     "Comment" : "Commento",
     "An error occurred while trying to edit the comment" : "Si è verificato un errore durante il tentativo di modificare il commento",
     "Comment deleted" : "Commento eliminato",
     "An error occurred while trying to delete the comment" : "Si è verificato un errore durante il tentativo di eliminare il commento",
     "An error occurred while trying to create the comment" : "Si è verificato un errore durante il tentativo di creare il commento",
-    "%1$s commented" : "%1$s ha commentato"
+    "%1$s commented" : "%1$s ha commentato",
+    "_%n unread comment_::_%n unread comments_" : ["%n commento non letto","%n commenti non letti","%n commenti non letti"]
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -235,6 +235,12 @@ $CONFIG = [
 'knowledgebaseenabled' => true,
 
 /**
+ * ``true`` embeds the documentation in an iframe inside Nextcloud.
+ * ``false`` only shows buttons to the online documentation.
+ */
+'knowledgebase.embedded' => false,
+
+/**
  * ``true`` allows users to change their display names (on their Personal
  * pages), and ``false`` prevents them from changing their display names.
  */
@@ -1591,7 +1597,6 @@ $CONFIG = [
  * filesystem and encryption will cause severe overhead because key files need
  * to be fetched in addition to any requested file.
  *
- * One way to test is applying for a trystack account at http://trystack.org/
  */
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
@@ -1933,6 +1938,17 @@ $CONFIG = [
  * Defaults to ``array('.htaccess')``
  */
 'blacklisted_files' => ['.htaccess'],
+
+/**
+ * Blacklist characters from being used in filenames. This is useful if you
+ * have a filesystem or OS which does not support certain characters like windows.
+ *
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
+ * 
+ * Defaults to ``array()``
+ */
+'forbidden_chars' => [],
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.

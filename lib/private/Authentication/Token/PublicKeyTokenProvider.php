@@ -273,6 +273,12 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->mapper->invalidateOld($rememberThreshold, IToken::REMEMBER);
 	}
 
+	public function invalidateLastUsedBefore(string $uid, int $before): void {
+		$this->cache->clear();
+
+		$this->mapper->invalidateLastUsedBefore($uid, $before);
+	}
+
 	public function updateToken(IToken $token) {
 		$this->cache->clear();
 

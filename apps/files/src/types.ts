@@ -20,6 +20,7 @@
  *
  */
 import type { Folder, Node } from '@nextcloud/files'
+import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
 export type Service = string
@@ -99,4 +100,14 @@ export interface ViewConfigStore {
 export interface RenamingStore {
 	renamingNode?: Node
 	newName: string
+}
+
+// Uploader store
+export interface UploaderStore {
+	queue: Upload[]
+}
+
+// Drag and drop store
+export interface DragAndDropStore {
+	dragging: FileId[]
 }

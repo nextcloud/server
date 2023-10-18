@@ -94,15 +94,15 @@
 			<form class="version-label-modal"
 				@submit.prevent="setVersionLabel(formVersionLabelValue)">
 				<label>
-					<div class="version-label-modal__title">{{ t('photos', 'Version name') }}</div>
+					<div class="version-label-modal__title">{{ t('files_versions', 'Version name') }}</div>
 					<NcTextField ref="labelInput"
 						:value.sync="formVersionLabelValue"
-						:placeholder="t('photos', 'Version name')"
+						:placeholder="t('files_versions', 'Version name')"
 						:label-outside="true" />
 				</label>
 
 				<div class="version-label-modal__info">
-					{{ t('photos', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
+					{{ t('files_versions', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
 				</div>
 
 				<div class="version-label-modal__actions">
@@ -137,7 +137,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import moment from '@nextcloud/moment'
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
@@ -226,14 +226,14 @@ export default {
 
 			if (this.isCurrent) {
 				if (label === '') {
-					return translate('files_versions', 'Current version')
+					return t('files_versions', 'Current version')
 				} else {
-					return `${label} (${translate('files_versions', 'Current version')})`
+					return `${label} (${t('files_versions', 'Current version')})`
 				}
 			}
 
 			if (this.isFirstVersion && label === '') {
-				return translate('files_versions', 'Initial version')
+				return t('files_versions', 'Initial version')
 			}
 
 			return label
@@ -257,12 +257,12 @@ export default {
 
 		/** @return {boolean} */
 		enableLabeling() {
-			return this.capabilities.files.version_labeling === true && this.fileInfo.mountType !== 'group'
+			return this.capabilities.files.version_labeling === true
 		},
 
 		/** @return {boolean} */
 		enableDeletion() {
-			return this.capabilities.files.version_deletion === true && this.fileInfo.mountType !== 'group'
+			return this.capabilities.files.version_deletion === true
 		},
 	},
 	methods: {
@@ -301,6 +301,8 @@ export default {
 			}
 			this.$emit('compare', { version: this.version })
 		},
+
+		t,
 	},
 }
 </script>

@@ -419,7 +419,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $user
 	 * @param string $password
 	 * @param IRequest $request
-	 * @param OC\Security\Bruteforce\Throttler $throttler
+	 * @param IThrottler $throttler
 	 * @throws LoginException
 	 * @throws PasswordLoginForbiddenException
 	 * @return boolean
@@ -427,7 +427,7 @@ class Session implements IUserSession, Emitter {
 	public function logClientIn($user,
 								$password,
 								IRequest $request,
-								OC\Security\Bruteforce\Throttler $throttler) {
+								IThrottler $throttler) {
 		$remoteAddress = $request->getRemoteAddress();
 		$currentDelay = $throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 
@@ -572,11 +572,11 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @todo do not allow basic auth if the user is 2FA enforced
 	 * @param IRequest $request
-	 * @param OC\Security\Bruteforce\Throttler $throttler
+	 * @param IThrottler $throttler
 	 * @return boolean if the login was successful
 	 */
 	public function tryBasicAuthLogin(IRequest $request,
-									  OC\Security\Bruteforce\Throttler $throttler) {
+									  IThrottler $throttler) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
 			try {
 				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
@@ -783,6 +783,11 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
+			$this->logger->warning('Session token is invalid because it does not exist', [
+				'app' => 'core',
+				'user' => $user,
+				'exception' => $ex,
+			]);
 			return false;
 		}
 
@@ -794,12 +799,18 @@ class Session implements IUserSession, Emitter {
 			$this->logger->error('App token login name does not match', [
 				'tokenLoginName' => $dbToken->getLoginName(),
 				'sessionLoginName' => $user,
+				'app' => 'core',
+				'user' => $dbToken->getUID(),
 			]);
 
 			return false;
 		}
 
 		if (!$this->checkTokenCredentials($dbToken, $token)) {
+			$this->logger->warning('Session token credentials are invalid', [
+				'app' => 'core',
+				'user' => $user,
+			]);
 			return false;
 		}
 
@@ -875,9 +886,9 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in {uid} but could not verify token', [
+			$this->logger->info('Tried to log in but could not verify token', [
 				'app' => 'core',
-				'uid' => $uid,
+				'user' => $uid,
 			]);
 			return false;
 		}
@@ -885,18 +896,30 @@ class Session implements IUserSession, Emitter {
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = $this->random->generate(32);
 		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+		$this->logger->debug('Remember-me token replaced', [
+			'app' => 'core',
+			'user' => $uid,
+		]);
 
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$this->logger->debug('Session token replaced', [
+				'app' => 'core',
+				'user' => $uid,
+			]);
 		} catch (SessionNotAvailableException $ex) {
-			$this->logger->warning('Could not renew session token for {uid} because the session is unavailable', [
+			$this->logger->critical('Could not renew session token for {uid} because the session is unavailable', [
 				'app' => 'core',
 				'uid' => $uid,
+				'user' => $uid,
 			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
-			$this->logger->warning('Renewing session token failed', ['app' => 'core']);
+			$this->logger->error('Renewing session token failed', [
+				'app' => 'core',
+				'user' => $uid,
+			]);
 			return false;
 		}
 
@@ -935,10 +958,17 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'logout', [$user]);
 		if ($user !== null) {
 			try {
-				$this->tokenProvider->invalidateToken($this->session->getId());
+				$token = $this->session->getId();
+				$this->tokenProvider->invalidateToken($token);
+				$this->logger->debug('Session token invalidated before logout', [
+					'user' => $user->getUID(),
+				]);
 			} catch (SessionNotAvailableException $ex) {
 			}
 		}
+		$this->logger->debug('Logging out', [
+			'user' => $user === null ? null : $user->getUID(),
+		]);
 		$this->setUser(null);
 		$this->setLoginName(null);
 		$this->setToken(null);

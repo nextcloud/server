@@ -2,7 +2,8 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 @use 'variables';
-@import 'functions';
+@use 'sass:math';
+@import 'functions';	
 
 input {
 	&#openid, &#webdav {
@@ -88,7 +89,7 @@ select {
 	display: grid;
 	padding: 20px;
 	max-width: 1700px;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
 	grid-column-gap: 10px;
 
 	.section {
@@ -842,10 +843,6 @@ span.version {
 	overflow: hidden;
 }
 
-.app-name, .app-version, .app-score, .app-level {
-	display: inline-block;
-}
-
 .app-description-toggle-show, .app-description-toggle-hide {
 	clear: both;
 	padding: 7px 0;
@@ -918,7 +915,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
-			margin-top: $toolbar-height;
+			white-space: normal;
 		}
 
 		margin-bottom: 100px;
@@ -936,6 +933,13 @@ span.version {
 				border-bottom: 1px solid var(--color-border);
 				padding: 6px;
 				box-sizing: border-box;
+			}
+
+			> .actions {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: end;
 			}
 
 			&.selected {
@@ -1042,7 +1046,6 @@ span.version {
 
 	/* Bundle header */
 	.apps-header {
-		display: table-row;
 		position: relative;
 
 		div {
@@ -1051,11 +1054,9 @@ span.version {
 		}
 
 		h2 {
-			display: table-cell;
-			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
-
+			margin-bottom: 12px;
 			.enable {
 				position: relative;
 				top: -1px;
@@ -1066,6 +1067,13 @@ span.version {
 				margin-top: 50px;
 			}
 		}
+	}
+}
+
+// Display buttons above each other on mobile
+@media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+	.apps-list.installed .section > .actions {
+		display: table-cell;
 	}
 }
 
@@ -1148,6 +1156,10 @@ table.grid td.date {
 	.nocheckbox {
 		padding-left: 20px;
 	}
+
+	#s2id_linksExcludedGroups {
+		width: 200px !important;
+	}
 }
 
 #shareApiDefaultPermissionsSection label {
@@ -1191,6 +1203,15 @@ table.grid td.date {
 	select:nth-child(2),
 	input:not([type='button']) {
 		width: 143px;
+	}
+}
+
+@media (max-width: calc(variables.$breakpoint-mobile * 0.75)) {
+	.mail_settings p label:first-child {
+		width: unset;
+		text-align: left;
+		display: block;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 	}
 }
 
@@ -1295,6 +1316,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 	.extra-top-margin {
 		margin-top: 12px;
+	}
+}
+
+.security-warning__heading {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: calc(var(--default-grid-baseline) * 8);
+
+	> h2 {
+		margin-bottom: 0px;
+	}
+
+	> a {
+		width: 44px;
 	}
 }
 

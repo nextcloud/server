@@ -20,7 +20,7 @@
  *
  */
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node, View, registerFileAction, FileAction } from '@nextcloud/files'
+import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
@@ -31,7 +31,7 @@ export const action = new FileAction({
 	id: 'delete',
 	displayName(nodes: Node[], view: View) {
 		return view.id === 'trashbin'
-			? t('files_trashbin', 'Delete permanently')
+			? t('files', 'Delete permanently')
 			: t('files', 'Delete')
 	},
 	iconSvgInline: () => TrashCanSvg,
@@ -44,7 +44,7 @@ export const action = new FileAction({
 
 	async exec(node: Node) {
 		try {
-			await axios.delete(node.source)
+			await axios.delete(node.encodedSource)
 
 			// Let's delete even if it's moved to the trashbin
 			// since it has been removed from the current view
@@ -62,5 +62,3 @@ export const action = new FileAction({
 
 	order: 100,
 })
-
-registerFileAction(action)

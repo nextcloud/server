@@ -38,12 +38,12 @@ use OC\Files\Cache\Cache;
 use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -90,19 +90,19 @@ class DefaultShareProvider implements IShareProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var IConfig */
-	private $config;
+	private ITimeFactory $timeFactory;
 
 	public function __construct(
-			IDBConnection $connection,
-			IUserManager $userManager,
-			IGroupManager $groupManager,
-			IRootFolder $rootFolder,
-			IMailer $mailer,
-			Defaults $defaults,
-			IFactory $l10nFactory,
-			IURLGenerator $urlGenerator,
-			IConfig $config) {
+		IDBConnection $connection,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IMailer $mailer,
+		Defaults $defaults,
+		IFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		ITimeFactory $timeFactory,
+	) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -111,7 +111,7 @@ class DefaultShareProvider implements IShareProvider {
 		$this->defaults = $defaults;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -216,32 +216,22 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		// Set the time this share was created
-		$qb->setValue('stime', $qb->createNamedParameter(time()));
+		$shareTime = $this->timeFactory->now();
+		$qb->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
 
 		// insert the data and fetch the id of the share
-		$this->dbConn->beginTransaction();
-		$qb->execute();
-		$id = $this->dbConn->lastInsertId('*PREFIX*share');
+		$qb->executeStatement();
 
-		// Now fetch the inserted share and create a complete share object
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+		// Update mandatory data
+		$id = $qb->getLastInsertId();
+		$share->setId((string)$id);
+		$share->setProviderId($this->identifier());
 
-		$cursor = $qb->execute();
-		$data = $cursor->fetch();
-		$this->dbConn->commit();
-		$cursor->closeCursor();
-
-		if ($data === false) {
-			throw new ShareNotFound('Newly created share could not be found');
-		}
+		$share->setShareTime(\DateTime::createFromImmutable($shareTime));
 
 		$mailSendValue = $share->getMailSend();
-		$data['mail_send'] = ($mailSendValue === null) ? true : $mailSendValue;
+		$share->setMailSend(($mailSendValue === null) ? true : $mailSendValue);
 
-		$share = $this->createShare($data);
 		return $share;
 	}
 
@@ -1374,7 +1364,7 @@ class DefaultShareProvider implements IShareProvider {
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			} elseif ($type === IShare::TYPE_GROUP) {
 				$gid = $row['share_with'];
@@ -1387,14 +1377,14 @@ class DefaultShareProvider implements IShareProvider {
 				$userList = $group->getUsers();
 				foreach ($userList as $user) {
 					$uid = $user->getUID();
-					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;
 				}
 			} elseif ($type === IShare::TYPE_LINK) {
 				$link = true;
 			} elseif ($type === IShare::TYPE_USERGROUP && $currentAccess === true) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			}
 		}

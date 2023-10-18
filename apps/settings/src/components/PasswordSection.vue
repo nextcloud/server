@@ -21,7 +21,6 @@
 		<form id="passwordform" method="POST" @submit.prevent="changePassword">
 			<NcPasswordField id="old-pass"
 				:label="t('settings', 'Current password')"
-				:label-visible="true"
 				name="oldpassword"
 				:value.sync="oldPass"
 				autocomplete="current-password"
@@ -30,7 +29,6 @@
 
 			<NcPasswordField id="new-pass"
 				:label="t('settings', 'New password')"
-				:label-visible="true"
 				:value.sync="newPass"
 				:maxlength="469"
 				autocomplete="new-password"

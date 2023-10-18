@@ -31,6 +31,7 @@
  */
 namespace OC\Memcache;
 
+use OCP\Cache\CappedMemoryCache;
 use OCP\Profiler\IProfiler;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -184,13 +185,8 @@ class Factory implements ICacheFactory {
 		return $this->distributedCacheClass !== self::NULL_CACHE;
 	}
 
-	/**
-	 * @see \OC\Memcache\Factory::createLocal()
-	 * @param string $prefix
-	 * @return ICache
-	 */
-	public function createLowLatency(string $prefix = ''): ICache {
-		return $this->createLocal($prefix);
+	public function createInMemory(int $capacity = 512): ICache {
+		return new CappedMemoryCache($capacity);
 	}
 
 	/**

@@ -20,7 +20,7 @@
  *
  */
 import { join } from 'path'
-import { Permission, Node, FileType, View, registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { Permission, Node, FileType, View, FileAction, DefaultType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 
@@ -56,8 +56,8 @@ export const action = new FileAction({
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ view: view.id, fileid: undefined },
-			{ dir: join(dir, node.basename), fileid: undefined },
+			{ view: view.id, fileid: node.fileid },
+			{ dir: join(dir, node.basename) },
 		)
 		return null
 	},
@@ -66,5 +66,3 @@ export const action = new FileAction({
 	default: DefaultType.HIDDEN,
 	order: -100,
 })
-
-registerFileAction(action)

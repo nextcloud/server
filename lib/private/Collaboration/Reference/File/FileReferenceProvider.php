@@ -41,26 +41,18 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class FileReferenceProvider extends ADiscoverableReferenceProvider {
-	private IURLGenerator $urlGenerator;
-	private IRootFolder $rootFolder;
 	private ?string $userId;
-	private IPreview $previewManager;
-	private IMimeTypeDetector $mimeTypeDetector;
 	private IL10N $l10n;
 
 	public function __construct(
-		IURLGenerator $urlGenerator,
-		IRootFolder $rootFolder,
+		private IURLGenerator $urlGenerator,
+		private IRootFolder $rootFolder,
 		IUserSession $userSession,
-		IMimeTypeDetector $mimeTypeDetector,
-		IPreview $previewManager,
-		IFactory $l10n
+		private IMimeTypeDetector $mimeTypeDetector,
+		private IPreview $previewManager,
+		IFactory $l10n,
 	) {
-		$this->urlGenerator = $urlGenerator;
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
-		$this->previewManager = $previewManager;
-		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->userId = $userSession->getUser()?->getUID();
 		$this->l10n = $l10n->get('files');
 	}
 

@@ -46,28 +46,15 @@ class ContactInteractionListener implements IEventListener {
 
 	use TTransactional;
 
-	private RecentContactMapper $mapper;
-	private CardSearchDao $cardSearchDao;
-	private IUserManager $userManager;
-	private IDBConnection $dbConnection;
-	private ITimeFactory $timeFactory;
-	private IL10N $l10n;
-	private LoggerInterface $logger;
-
-	public function __construct(RecentContactMapper $mapper,
-								CardSearchDao $cardSearchDao,
-								IUserManager $userManager,
-								IDBConnection $connection,
-								ITimeFactory $timeFactory,
-								IL10N $l10nFactory,
-								LoggerInterface $logger) {
-		$this->mapper = $mapper;
-		$this->cardSearchDao = $cardSearchDao;
-		$this->userManager = $userManager;
-		$this->dbConnection = $connection;
-		$this->timeFactory = $timeFactory;
-		$this->l10n = $l10nFactory;
-		$this->logger = $logger;
+	public function __construct(
+		private RecentContactMapper $mapper,
+		private CardSearchDao $cardSearchDao,
+		private IUserManager $userManager,
+		private IDBConnection $dbConnection,
+		private ITimeFactory $timeFactory,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {
