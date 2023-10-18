@@ -67,6 +67,7 @@ OC.L10N.register(
     "Desktop client" : "Asztali kliens",
     "Thunderbird & Outlook addons" : "Thunderbird és Outlook kiegészítők",
     "Custom user agent" : "Egyéni felhasználói ügynök",
+    "Select a trigger" : "Válasszon feltételt",
     "At least one event must be selected" : "Legalább egy eseményt ki kell választani",
     "Add new flow" : "Új folyamat hozzáadása",
     "When" : "Mikor",
