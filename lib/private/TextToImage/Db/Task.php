@@ -47,7 +47,7 @@ use OCP\TextToImage\Task as OCPTask;
  * @method setAppId(string $type)
  * @method string getAppId()
  * @method setIdentifier(string $identifier)
- * @method string getIdentifier()
+ * @method string|null getIdentifier()
  */
 class Task extends Entity {
 	protected $lastUpdated;
