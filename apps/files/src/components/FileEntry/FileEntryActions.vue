@@ -20,8 +20,7 @@
   -
   -->
 <template>
-	<td v-show="visible"
-		class="files-list__row-actions"
+	<td class="files-list__row-actions"
 		data-cy-files-list-row-actions>
 		<!-- Render actions -->
 		<CustomElementRender v-for="action in enabledRenderActions"
@@ -33,8 +32,7 @@
 			class="files-list__row-action--inline" />
 
 		<!-- Menu actions -->
-		<NcActions v-if="visible"
-			ref="actionsMenu"
+		<NcActions ref="actionsMenu"
 			:boundaries-element="getBoundariesElement"
 			:container="getBoundariesElement"
 			:disabled="isLoading || loading !== ''"
@@ -71,7 +69,6 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import CustomElementRender from '../CustomElementRender.vue'
-
 import logger from '../../logger.js'
 
 // The registered actions list
@@ -104,10 +101,6 @@ export default Vue.extend({
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
-		},
-		visible: {
-			type: Boolean,
-			default: false,
 		},
 		gridMode: {
 			type: Boolean,
@@ -153,7 +146,7 @@ export default Vue.extend({
 
 		// Enabled action that are displayed inline with a custom render function
 		enabledRenderActions() {
-			if (!this.visible || this.gridMode) {
+			if (this.gridMode) {
 				return []
 			}
 			return this.enabledActions.filter(action => typeof action.renderInline === 'function')

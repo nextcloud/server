@@ -18,7 +18,6 @@
 			<component :is="dataComponent"
 				v-for="({key, item}, i) in renderedItems"
 				:key="key"
-				:visible="true"
 				:source="item"
 				:index="i"
 				v-bind="extraProps" />

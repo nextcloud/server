@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
+	<tr :class="{'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
@@ -37,8 +37,7 @@
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox v-if="visible"
-			:display-name="displayName"
+		<FileEntryCheckbox :display-name="displayName"
 			:fileid="fileid"
 			:is-loading="isLoading"
 			:nodes="nodes" />
@@ -67,8 +66,7 @@
 			:files-list-width="filesListWidth"
 			:loading.sync="loading"
 			:opened.sync="openedMenu"
-			:source="source"
-			:visible="visible" />
+			:source="source" />
 
 		<!-- Size -->
 		<td v-if="!compact && isSizeAvailable"
@@ -95,8 +93,7 @@
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
-			<CustomElementRender v-if="visible"
-				:current-view="currentView"
+			<CustomElementRender :current-view="currentView"
 				:render="column.render"
 				:source="source" />
 		</td>
@@ -146,10 +143,6 @@ export default Vue.extend({
 	},
 
 	props: {
-		visible: {
-			type: Boolean,
-			default: false,
-		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,

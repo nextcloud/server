@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
+	<tr :class="{'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
@@ -37,8 +37,7 @@
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox v-if="visible"
-			:display-name="displayName"
+		<FileEntryCheckbox :display-name="displayName"
 			:fileid="fileid"
 			:is-loading="isLoading"
 			:nodes="nodes" />
@@ -69,8 +68,7 @@
 			:grid-mode="true"
 			:loading.sync="loading"
 			:opened.sync="openedMenu"
-			:source="source"
-			:visible="visible" />
+			:source="source" />
 	</tr>
 </template>
 
@@ -115,10 +113,6 @@ export default Vue.extend({
 
 	inheritAttrs: false,
 	props: {
-		visible: {
-			type: Boolean,
-			default: false,
-		},
 		source: {
 			type: [Folder, NcFile, Node] as PropType<Node>,
 			required: true,
