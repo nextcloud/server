@@ -140,10 +140,6 @@ class Scan extends Base {
 			$this->abortIfInterrupted();
 			if ($scanMetadata) {
 				$node = $this->rootFolder->get($path);
-				if ($node instanceof File) {
-					$this->metadataManager->generateMetadata($node, false);
-				}
-
 				$this->filesMetadataManager->refreshMetadata(
 					$node,
 					IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND

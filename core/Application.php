@@ -44,7 +44,9 @@ use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Notification\CoreNotifier;
-use OC\Metadata\FileEventListener;
+use OC\FilesMetadata\Provider\ExifMetadataProvider;
+use OC\FilesMetadata\Provider\OriginalDateTimeMetadataProvider;
+use OC\FilesMetadata\Provider\SizeMetadataProvider;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
@@ -54,13 +56,10 @@ use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\Node\NodeDeletedEvent;
-use OCP\Files\Events\Node\NodeWrittenEvent;
-use OCP\Files\Events\NodeRemovedFromCache;
+use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
-use OCP\IConfig;
 
 /**
  * Class Application
@@ -332,16 +331,9 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 
 		// Metadata
-		/** @var IConfig $config */
-		$config = $container->get(IConfig::class);
-		if ($config->getSystemValueBool('enable_file_metadata', true)) {
-			/** @psalm-suppress InvalidArgument */
-			$eventDispatcher->addServiceListener(NodeDeletedEvent::class, FileEventListener::class);
-			/** @psalm-suppress InvalidArgument */
-			$eventDispatcher->addServiceListener(NodeRemovedFromCache::class, FileEventListener::class);
-			/** @psalm-suppress InvalidArgument */
-			$eventDispatcher->addServiceListener(NodeWrittenEvent::class, FileEventListener::class);
-		}
+		$eventDispatcher->addServiceListener(MetadataLiveEvent::class, ExifMetadataProvider::class, 1);
+		$eventDispatcher->addServiceListener(MetadataLiveEvent::class, SizeMetadataProvider::class);
+		$eventDispatcher->addServiceListener(MetadataLiveEvent::class, OriginalDateTimeMetadataProvider::class);
 
 		// Tags
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, TagManager::class);
