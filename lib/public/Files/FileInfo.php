@@ -28,6 +28,7 @@
  */
 namespace OCP\Files;
 
+use OC\FilesMetadata\Model\MetadataValueWrapper;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -312,7 +313,7 @@ interface FileInfo {
 	/**
 	 * Get the metadata, if available
 	 *
-	 * @return array
+	 * @return MetadataValueWrapper[]
 	 * @since 28.0.0
 	 */
 	public function getMetadata(): array;

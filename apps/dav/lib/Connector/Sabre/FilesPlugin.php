@@ -34,9 +34,11 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OC\FilesMetadata\Model\MetadataValueWrapper;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -516,6 +518,57 @@ class FilesPlugin extends ServerPlugin {
 			$node->setCreationTime((int) $time);
 			return true;
 		});
+
+
+		/** @var IFilesMetadataManager */
+		$filesMetadataManager = \OCP\Server::get(IFilesMetadataManager::class);
+		$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId());
+
+		foreach ($metadata->getKeys() as $metadataKey) {
+			$propPatch->handle(self::FILE_METADATA_PREFIX.$metadataKey, function (mixed $value) use ($metadata, $metadataKey, $filesMetadataManager) {
+				switch ($metadata->getType($metadataKey)) {
+					case MetadataValueWrapper::TYPE_STRING:
+						$metadata->set($metadataKey, $value);
+						break;
+					case MetadataValueWrapper::TYPE_INT:
+						$metadata->setInt($metadataKey, $value);
+						break;
+					case MetadataValueWrapper::TYPE_FLOAT:
+						$metadata->setFloat($metadataKey, $value);
+						break;
+					case MetadataValueWrapper::TYPE_BOOL:
+						$metadata->setBool($metadataKey, $value);
+						break;
+					case MetadataValueWrapper::TYPE_ARRAY:
+						$metadata->setArray($metadataKey, $value);
+						break;
+					case MetadataValueWrapper::TYPE_STRING_LIST:
+						$metadata->setStringList($metadataKey, $value);
+						break;
+					case MetadataValueWrapper::TYPE_INT_LIST:
+						$metadata->setIntList($metadataKey, $value);
+						break;
+				}
+
+				$filesMetadataManager->saveMetadata($metadata);
+				return true;
+			});
+		}
+
+		foreach ($propPatch->getRemainingMutations() as $mutation) {
+			if (!str_starts_with($mutation, self::FILE_METADATA_PREFIX)) {
+				continue;
+			}
+
+			$propPatch->handle($mutation, function ($value) use ($metadata, $mutation, $filesMetadataManager) {
+				$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
+				$metadata->set($metadataKey, $value);
+				$filesMetadataManager->saveMetadata($metadata);
+				return true;
+			});
+		}
+
+
 		/**
 		 * Disable modification of the displayname property for files and
 		 * folders via PROPPATCH. See PROPFIND for more information.
