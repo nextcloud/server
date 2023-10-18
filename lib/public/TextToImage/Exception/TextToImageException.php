@@ -24,5 +24,8 @@
 
 namespace OCP\TextToImage\Exception;
 
+/**
+ * @since 28.0.0
+ */
 class TextToImageException extends \Exception {
 }
