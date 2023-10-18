@@ -117,7 +117,7 @@ OC.L10N.register(
     "Available for" : "K dispozícii pre",
     "Click to recheck the configuration" : "Kliknite na opätovnú kontrolu konfigurácie",
     "Add storage" : "Pridať úložisko",
-    "All users" : "Všetci užívatelia",
+    "All users" : "Všetci používatelia",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
