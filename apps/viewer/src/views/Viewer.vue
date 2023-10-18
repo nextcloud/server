@@ -177,10 +177,10 @@
 </template>
 
 <script>
+import '@nextcloud/dialogs/style.css'
 import Vue from 'vue'
 
 import axios from '@nextcloud/axios'
-import '@nextcloud/dialogs/dist/index.css'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { registerFileAction, FileAction, Permission, DefaultType } from '@nextcloud/files'
