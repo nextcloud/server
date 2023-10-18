@@ -35,7 +35,6 @@
 					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
 					:disabled-tooltip="true"
 					:show-user-status="false"
 					:size="180" />
