@@ -26,7 +26,7 @@
 				:default-icon="weatherIcon"
 				:aria-hidden="true"
 				:aria-label="currentWeatherMessage"
-				:menu-title="currentWeatherMessage">
+				:menu-name="currentWeatherMessage">
 				<NcActionText v-if="gotWeather"
 					:aria-hidden="true"
 					:icon="futureWeatherIcon">
@@ -517,7 +517,7 @@ export default {
 				? weatherOptions[weatherCode].text(
 					Math.round(this.getLocalizedTemperature(temperature)),
 					this.temperatureUnit,
-					later
+					later,
 				)
 				: t('weather_status', 'Set location for weather')
 		},
