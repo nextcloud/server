@@ -33,7 +33,7 @@ p($theme->getTitle());
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login'): ?>
-					<header role="banner">
+					<header>
 						<div id="header">
 							<div class="logo"></div>
 						</div>
