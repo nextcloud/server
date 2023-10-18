@@ -15,6 +15,13 @@
     "This weekend" : "Ezen a héten",
     "Set reminder for this weekend" : "Emlékeztető beállítása erre a hétvégére",
     "Next week" : "Következő hét",
-    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre"
+    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre",
+    "Set reminder at custom date & time" : "Emlékeztető beállítása tetszőleges időpontra",
+    "Reminder set for \"{fileName}\"" : "Emlékeztető beállítva a következőhöz: {name}",
+    "Failed to set reminder" : "Nem sikerült beállítani az emlékeztetőt",
+    "Please choose a valid date & time" : "Adjon meg egy érvényes dátumot és időt",
+    "Reminder cleared" : "Emlékeztető törölve",
+    "Failed to clear reminder" : "Nem sikerült törölni az emlékeztetőt",
+    "Failed to load reminder" : "Nem sikerült betölteni az emlékeztetőt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

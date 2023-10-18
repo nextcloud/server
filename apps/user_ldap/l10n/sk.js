@@ -63,7 +63,7 @@ OC.L10N.register(
     "_%n group found_::_%n groups found_" : ["%n nájdená skupina","%n nájdené skupiny","%n nájdených skupín","%n nájdených skupín"],
     "> 1000 groups found" : "> 1000 nájdených skupín",
     "> 1000 users found" : "> 1000 nájdených užívateľov",
-    "_%n user found_::_%n users found_" : ["%n nájdený užívateľ","%n nájdený užívatelia","%n nájdených užívateľov","%n nájdených užívateľov"],
+    "_%n user found_::_%n users found_" : ["%n nájdený užívateľ","%n nájdený užívatelia","%n nájdených užívateľov","%n nájdených používateľov"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Nepodarilo sa zistiť atribút pre zobrazenie mena používateľa. Zadajte ho sami v rozšírených nastaveniach LDAP.",
     "Could not find the desired feature" : "Nemožno nájsť požadovanú funkciu",
     "Invalid Host" : "Neplatný hostiteľ",

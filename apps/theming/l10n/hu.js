@@ -81,6 +81,7 @@ OC.L10N.register(
     "Change color" : "Szín módosítása",
     "No background" : "Nincs háttér",
     "Select a background from your files" : "Válasszon hátteret a fájljai közül",
+    "Select background" : "Háttér választása",
     "Theme selection is enforced" : "A témaválasztás kényszerített",
     "Select a custom color" : "Válasszon egyéni színt",
     "Reset to default" : "Visszaállítás alapértelmezettre",
