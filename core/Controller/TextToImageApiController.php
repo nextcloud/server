@@ -35,6 +35,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\TextToImage\Exception\TaskNotFoundException;
@@ -111,6 +112,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[PublicPage]
+	#[AnonRateLimit(limit: 5, period: 120)]
 	public function getTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -139,12 +141,13 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[PublicPage]
+	#[AnonRateLimit(limit: 5, period: 120)]
 	public function getImage(int $id): DataResponse|FileDisplayResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
 			try {
 				$folder = $this->appData->getFolder('text2image');
-			} catch(\OCP\Files\NotFoundException) {
+			} catch(NotFoundException) {
 				$folder = $this->appData->newFolder('text2image');
 			}
 			$file = $folder->getFile((string)$task->getId());
@@ -155,7 +158,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
 		} catch (\RuntimeException) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-		} catch (\OCP\Files\NotFoundException) {
+		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
 		}
 	}
@@ -171,6 +174,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
+	#[AnonRateLimit(limit: 5, period: 120)]
 	public function deleteTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -201,6 +205,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 *  200: Task list returned
 	 */
 	#[NoAdminRequired]
+	#[AnonRateLimit(limit: 5, period: 120)]
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textToImageManager->getUserTasksByApp($this->userId, $appId, $identifier);
