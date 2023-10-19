@@ -18,8 +18,6 @@ jobs:
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
-    name: smb-kerberos-sso
-
     steps:
       - name: Checkout server
         uses: actions/checkout@v3
@@ -30,7 +28,7 @@ jobs:
         with:
           repository: nextcloud/user_saml
           path: apps/user_saml
-          ref: stable27
+          ref: stable-5.2
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
@@ -62,8 +60,6 @@ jobs:
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
-    name: smb-kerberos-sso
-
     steps:
       - name: Checkout server
         uses: actions/checkout@v3
@@ -74,7 +70,7 @@ jobs:
         with:
           repository: nextcloud/user_saml
           path: apps/user_saml
-          ref: event-dispatcher
+          ref: stable-5.2
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
@@ -86,6 +82,7 @@ jobs:
       - name: Setup AD-DC
         run: |
           DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          sleep 1
           apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD -v $PWD/apps/files_external/tests/sso-setup/apache-session.conf:/etc/apache2/sites-enabled/000-default.conf
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
       - name: Set up Nextcloud
@@ -106,8 +103,6 @@ jobs:
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
-    name: smb-kerberos-sso
-
     steps:
       - name: Checkout server
         uses: actions/checkout@v3
@@ -118,7 +113,7 @@ jobs:
         with:
           repository: nextcloud/user_saml
           path: apps/user_saml
-          ref: event-dispatcher
+          ref: stable-5.2
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
@@ -130,6 +125,7 @@ jobs:
       - name: Setup AD-DC
         run: |
           DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          sleep 1
           apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD -v $PWD/apps/files_external/tests/sso-setup/apache-session.conf:/etc/apache2/sites-enabled/000-default.conf
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
       - name: Set up Nextcloud
