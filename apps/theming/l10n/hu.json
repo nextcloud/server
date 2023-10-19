@@ -80,6 +80,7 @@
     "No background" : "Nincs háttér",
     "Select a background from your files" : "Válasszon hátteret a fájljai közül",
     "Select background" : "Háttér választása",
+    "No background has been selected" : "Nincs kiválasztott háttér",
     "Theme selection is enforced" : "A témaválasztás kényszerített",
     "Select a custom color" : "Válasszon egyéni színt",
     "Reset to default" : "Visszaállítás alapértelmezettre",
