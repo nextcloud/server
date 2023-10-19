@@ -27,4 +27,6 @@ docker run -dit --name dc -v /tmp/shared:/shared --hostname krb.domain.test --ca
 
 waitContainer dc
 
+sleep 5
+
 docker inspect dc --format '{{.NetworkSettings.IPAddress}}'
