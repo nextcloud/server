@@ -36,11 +36,12 @@
 				:user="user.id" />
 		</td>
 
-		<td class="row__cell row__cell--displayname">
+		<td class="row__cell row__cell--displayname" data-test-id="cell-displayname">
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
 				<NcTextField ref="displayNameField"
-					data-test="displayNameField"
 					class="user-row-text-field"
+					data-test-id="input-displayName"
+					:data-test-loading="`${loading.displayName}`"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{ 'icon-loading-small': loading.displayName }"
 					:show-trailing-button="true"
@@ -63,10 +64,13 @@
 			</template>
 		</td>
 
-		<td class="row__cell"
+		<td data-test-id="cell-password"
+			class="row__cell"
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
 			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
 				<NcTextField class="user-row-text-field"
+					data-test-id="input-password"
+					:data-test-loading="`${loading.password}`"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{'icon-loading-small': loading.password}"
 					:show-trailing-button="true"
@@ -89,7 +93,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell">
+		<td class="row__cell" data-test-id="cell-email">
 			<template v-if="editing">
 				<NcTextField class="user-row-text-field"
 					:class="{'icon-loading-small': loading.mailAddress}"
@@ -100,7 +104,7 @@
 					trailing-button-icon="arrowRight"
 					:value.sync="editedMail"
 					autocapitalize="off"
-					autocomplete="new-password"
+					autocomplete="email"
 					autocorrect="off"
 					spellcheck="false"
 					type="email"
@@ -112,7 +116,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--multiline">
+		<td class="row__cell row__cell--large row__cell--multiline" data-test-id="cell-groups">
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'groups' + uniqueId">
@@ -142,6 +146,7 @@
 		</td>
 
 		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+			data-test-id="cell-subadmins"
 			class="row__cell row__cell--large row__cell--multiline">
 			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
@@ -168,7 +173,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell">
+		<td class="row__cell" data-test-id="cell-quota">
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'quota' + uniqueId">
@@ -200,7 +205,7 @@
 
 		<td v-if="showConfig.showLanguages"
 			class="row__cell row__cell--large"
-			data-test="language">
+			data-test-id="cell-language">
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'language' + uniqueId">
@@ -224,6 +229,7 @@
 		</td>
 
 		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+			data-test-id="cell-storageLocation"
 			class="row__cell row__cell--large">
 			<template v-if="!isObfuscated">
 				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
@@ -238,11 +244,11 @@
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"
-			data-test="lastLogin">
+			data-test-id="cell-lastLogin">
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--fill">
+		<td class="row__cell row__cell--large row__cell--fill" data-test-id="cell-manager">
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'manager' + uniqueId">
@@ -268,7 +274,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--actions">
+		<td class="row__cell row__cell--actions" data-test-id="cell-actions">
 			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
 				:actions="userActions"
 				:disabled="isLoadingField"

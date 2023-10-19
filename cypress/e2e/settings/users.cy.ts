@@ -21,6 +21,7 @@
  */
 /// <reference types="cypress-if" />
 import { User } from '@nextcloud/cypress'
+import { getUserListRow, handlePasswordConfirmation } from './usersUtils'
 
 const admin = new User('admin', 'admin')
 const jdoe = new User('jdoe', 'jdoe')
@@ -106,10 +107,10 @@ describe('Settings: Create and delete users', function() {
 		handlePasswordConfirmation(admin.password)
 
 		// see that the created user is in the list
-		cy.get('tbody.user-list__body tr[data-test="john"]').within(() => {
+		getUserListRow('john')
 			// see that the list of users contains the user john
-			cy.contains('john').should('exist')
-		})
+			.contains('john')
+			.should('exist')
 	})
 
 	it('Can delete a user', function() {
