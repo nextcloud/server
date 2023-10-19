@@ -14,6 +14,8 @@ OC.L10N.register(
     "Remove version name" : "Odstrániť názov verzie",
     "Save version name" : "Uložiť názov verzie",
     "Current version" : "Aktuálna verzia",
+    "Initial version" : "Úvodná verzia",
+    "Initial version restored" : "Úvodná verzia bola obnovená",
     "Version restored" : "Verzia bola obnovená",
     "Could not restore version" : "Nepodarilo sa obnoviť verziu",
     "Could not delete version" : "Nepodarilo sa odstrániť verziu",
