@@ -24,7 +24,6 @@
 	<section>
 		<HeaderBar :input-id="inputId"
 			:readable="primaryEmail.readable"
-			:handle-scope-change="savePrimaryEmailScope"
 			:is-editable="true"
 			:is-multi-value-supported="true"
 			:is-valid-section="isValidSection"
@@ -69,7 +68,7 @@ import Email from './Email.vue'
 import HeaderBar from '../shared/HeaderBar.vue'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
+import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
 import { validateEmail } from '../../../utils/validate.js'
 import { handleError } from '../../../utils/handlers.js'
 
@@ -90,7 +89,6 @@ export default {
 			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
 			displayNameChangeSupported,
 			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
-			savePrimaryEmailScope,
 			notificationEmail,
 		}
 	},
