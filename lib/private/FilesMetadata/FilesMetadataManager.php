@@ -39,14 +39,22 @@ class FilesMetadataManager implements IFilesMetadataManager {
 
 	/**
 	 * @param int $fileId
+	 * @param bool $generate - returns an empty FilesMetadata if FilesMetadataNotFoundException
 	 *
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException
 	 */
-	public function getMetadata(int $fileId): IFilesMetadata {
-		return $this->metadataRequestService->getMetadataFromFileId($fileId);
-	}
+	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata {
+		try {
+			return $this->metadataRequestService->getMetadataFromFileId($fileId);
+		} catch (FilesMetadataNotFoundException $e) {
+			if ($generate) {
+				return new FilesMetadata($fileId, true);
+			}
 
+			throw $e;
+		}
+	}
 
 	public function refreshMetadata(
 		Node $node,

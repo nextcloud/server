@@ -169,6 +169,9 @@ class Cache implements ICache {
 		$data = $result->fetch();
 		$result->closeCursor();
 
+		// @Louis: use asArray()
+//		$data['metadata'] = $metadataQuery?->extractMetadata($data)?->asArray() ?? [];
+
 		//merge partial data
 		if (!$data && is_string($file) && isset($this->partial[$file])) {
 			return $this->partial[$file];

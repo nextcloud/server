@@ -76,5 +76,5 @@ interface IFilesMetadata extends JsonSerializable {
 	public function setArray(string $key, array $value): self;
 	public function setStringList(string $key, array $value): self;
 	public function setIntList(string $key, array $value): self;
-
+	public function asArray(): array;
 }

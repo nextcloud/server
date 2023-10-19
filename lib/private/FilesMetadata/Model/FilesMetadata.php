@@ -61,9 +61,9 @@ class FilesMetadata implements IFilesMetadata {
 		try {
 			return $this->import(
 				json_decode($data[$prefix . 'json'] ?? '[]',
-							true,
-							512,
-							JSON_THROW_ON_ERROR)
+					true,
+					512,
+					JSON_THROW_ON_ERROR)
 			);
 		} catch (JsonException $e) {
 			throw new FilesMetadataNotFoundException();
@@ -348,6 +348,27 @@ class FilesMetadata implements IFilesMetadata {
 
 
 	public function jsonSerialize(): array {
-		return $this->metadata;
+		$data = [];
+		foreach ($this->metadata as $metaKey => $metaValueWrapper) {
+			$data[$metaKey] = $metaValueWrapper->jsonSerialize();
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @return array<string, string|int|bool|float|string[]|int[]>
+	 */
+	public function asArray(): array {
+		$data = [];
+		foreach ($this->metadata as $metaKey => $metaValueWrapper) {
+			try {
+				$data[$metaKey] = $metaValueWrapper->getValueAny();
+			} catch (FilesMetadataNotFoundException $e) {
+				// ignore exception
+			}
+		}
+
+		return $data;
 	}
 }

@@ -35,7 +35,7 @@ use Psr\Log\LoggerInterface;
  * Query builder with commonly used helpers for filecache queries
  */
 class CacheQueryBuilder extends QueryBuilder {
-	private $alias = null;
+	private ?string $alias = null;
 
 	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
 		parent::__construct($connection, $systemConfig, $logger);

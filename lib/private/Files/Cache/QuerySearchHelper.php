@@ -194,7 +194,7 @@ class QuerySearchHelper {
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
 			// extract metadata from the result and convert it to array.
 			// TODO: using jsonSerialize() or another method that present each metadata as key => value ?
-			$data['metadata'] = $metadataQuery?->extractMetadata($data)?->jsonSerialize() ?? [];
+			$data['metadata'] = $metadataQuery?->extractMetadata($data)?->asArray() ?? [];
 			return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
 		}, $files);
 

@@ -266,6 +266,18 @@ class MetadataValueWrapper implements JsonSerializable {
 		return (array) $this->value;
 	}
 
+	/**
+	 * @return string|int|float|bool|array|string[]|int[]
+	 * @throws FilesMetadataNotFoundException
+	 */
+	public function getValueAny(): mixed {
+		if (null === $this->value) {
+			throw new FilesMetadataNotFoundException('value is not set');
+		}
+
+		return $this->value;
+	}
+
 
 	public function setIndexed(bool $indexed): self {
 		$this->indexed = $indexed;
