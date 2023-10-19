@@ -170,3 +170,58 @@ core/js/mimetypelist.js
 # Tests - cypress
 cypress/snapshots
 cypress/videos
+
+# Typescript built files
+/dist
+
+# Signature files
+signature.json
+
+# Ignore all admin docs except index.html
+/core/doc/admin/*
+!/core/doc/admin/index.html
+
+# Ignore all user docs except index.html
+/core/doc/user/*
+!/core/doc/user/index.html
+
+# Ignore all skeleton files except welcome.txt
+/core/skeleton/*
+!/core/skeleton/welcome.txt
+
+# Ignore compiled css files and their mappings
+*.css.map
+/core/css/apps.css
+/core/css/fixes.css
+/core/css/functions.css
+/core/css/global.css
+/core/css/guest.css
+/core/css/header.css
+/core/css/icons.css
+/core/css/inputs.css
+/core/css/mobile.css
+/core/css/public.css
+/core/css/server.css
+/core/css/styles.css
+/core/css/systemtags.css
+/core/css/toast.css
+/core/css/tooltip.css
+/core/css/variables.css
+/core/css/whatsnew.css
+/core/css/animations.css
+
+# Ignore core apps compiled css files
+/apps/dashboard/css/dashboard.css
+/apps/encryption/css/settings-personal.css
+/apps/files/css/detailsView.css
+/apps/files/css/files.css
+/apps/files/css/merged.css
+/apps/files/css/mobile.css
+/apps/files/css/upload.css
+/apps/files_external/css/settings.css
+/apps/files_sharing/css/icons.css
+/apps/files_sharing/css/mobile.css
+/apps/files_sharing/css/public.css
+/apps/files_sharing/css/publicView.css
+/apps/settings/css/settings.css
+/apps/user_status/css/user-status-menu.css
