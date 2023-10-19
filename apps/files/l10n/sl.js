@@ -32,6 +32,7 @@ OC.L10N.register(
     "Move" : "Premakni",
     "Copy" : "Kopiraj",
     "Choose target folder" : "Izbor ciljne mape",
+    "Set reminder" : "Nastavi opomnik",
     "Edit locally" : "Uredi krajevno",
     "Open" : "Odpri",
     "Delete file" : "Izbriši datoteko",
