@@ -47,7 +47,7 @@ p($theme->getTitle());
 				</main>
 			</div>
 		</div>
-		<footer role="contentinfo" class="guest-box">
+		<footer class="guest-box">
 			<p class="info">
 				<?php print_unescaped($theme->getLongFooter()); ?>
 			</p>
