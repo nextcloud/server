@@ -28,6 +28,20 @@ import { basename } from 'path'
 import 'cypress-wait-until'
 addCommands()
 
+// For cy.ocsRequest
+interface NCRequestOptions extends Partial<Cypress.RequestOptions> {
+	/**
+	 * User that requests on the OCS API
+	 */
+	user?: User
+
+	/**
+	 * OCS API version to use
+	 * @default 2
+	 */
+	version?: 1 | 2
+}
+
 // Register this file's custom commands types
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
@@ -64,6 +78,13 @@ declare global {
 			resetUserTheming(user?: User): Cypress.Chainable<void>,
 
 			/**
+			 * Send an OCS request
+			 * @param endpoint The OCS endpoint
+			 * @param options request options for setting API level, user, etc
+			 */
+			ocsRequest(endpoint: string, options?: NCRequestOptions): Cypress.Chainable<Cypress.Response<unknown>>,
+
+			/**
 			 * Run an occ command in the docker container.
 			 */
 			runOccCommand(command: string): Cypress.Chainable<void>,
@@ -73,6 +94,28 @@ declare global {
 
 const url = (Cypress.config('baseUrl') || '').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
+
+Cypress.Commands.add('ocsRequest', (endpoint: string, options: NCRequestOptions = {}) => {
+	const baseUrl = (Cypress.config('baseUrl') || '').replace(/\/index.php\/?$/g, '')
+
+	const cypressOptions = { ...options }
+	delete cypressOptions.user
+	delete cypressOptions.version
+
+	return cy.request({
+		method: 'GET',
+		...cypressOptions,
+		url: `${baseUrl}/ocs/v${options.version ?? '2'}.php/${endpoint}`,
+		auth: {
+			user: options.user?.userId ?? 'admin',
+			password: options.user?.password ?? 'admin',
+		},
+		headers: {
+			'OCS-ApiRequest': 'true',
+			...(options.headers || {}),
+		},
+	})
+})
 
 /**
  * Enable or disable a user
@@ -130,6 +173,7 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
  * @param {string} target the target of the file relative to the user root
  */
 Cypress.Commands.add('uploadContent', (user, blob, mimeType, target) => {
+	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	cy.clearCookies()
 		.then(async () => {
 			const fileName = basename(target)

@@ -804,31 +804,6 @@ trigger:
 
 ---
 kind: pipeline
-name: integration-ocs-v1
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: integration-ocs-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
-  commands:
-    - bash tests/drone-run-integration-tests.sh || exit 0
-    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
-    - cd build/integration
-    - ./run.sh features/ocs-v1.feature
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: integration-checksums-v1
 
 steps:
