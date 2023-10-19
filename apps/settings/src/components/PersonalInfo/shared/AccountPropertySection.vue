@@ -43,17 +43,17 @@
 				:placeholder="placeholder"
 				:type="type"
 				:value="value"
-				:aria-describedby="helperText ? `${name}-helper-text` : ''"
+				:aria-describedby="helperText ? `${name}-helper-text` : undefined"
 				autocapitalize="none"
 				spellcheck="false"
 				:autocomplete="autocomplete"
 				@input="onPropertyChange">
 
 			<div class="property__actions-container">
-				<transition name="fade">
+				<Transition name="fade">
 					<Check v-if="showCheckmarkIcon" :size="20" />
 					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
-				</transition>
+				</Transition>
 			</div>
 		</div>
 		<span v-else>
