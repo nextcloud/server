@@ -37,7 +37,7 @@
 				:label="usernameLabel"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off"
+				spellcheck="false"
 				pattern="[a-zA-Z0-9 _\.@\-']+"
 				required />
 			<NcTextField class="modal__item"
@@ -46,7 +46,7 @@
 				:label="t('settings', 'Display name')"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off" />
+				spellcheck="false" />
 			<span v-if="!settings.newUserRequireEmail"
 				id="password-email-hint"
 				class="modal__hint">
@@ -62,7 +62,7 @@
 				:label="newUser.mailAddress === '' ? t('settings', 'Password (required)') : t('settings', 'Password')"
 				autocapitalize="none"
 				autocomplete="new-password"
-				autocorrect="off"
+				spellcheck="false"
 				:required="newUser.mailAddress === ''" />
 			<NcTextField class="modal__item"
 				data-test="email"
@@ -72,7 +72,7 @@
 				:label="newUser.password === '' || settings.newUserRequireEmail ? t('settings', 'Email (required)') : t('settings', 'Email')"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off"
+				spellcheck="false"
 				:required="newUser.password === '' || settings.newUserRequireEmail" />
 			<div class="modal__item">
 				<!-- hidden input trick for vanilla html5 form validation -->

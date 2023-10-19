@@ -35,7 +35,7 @@
 				rows="8"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off"
+				spellcheck="false"
 				@input="onPropertyChange" />
 			<input v-else
 				:id="inputId"
@@ -45,7 +45,7 @@
 				:value="value"
 				:aria-describedby="helperText ? `${name}-helper-text` : ''"
 				autocapitalize="none"
-				autocorrect="off"
+				spellcheck="false"
 				:autocomplete="autocomplete"
 				@input="onPropertyChange">
 
