@@ -1424,6 +1424,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
 
+		$this->registerAlias(\OCP\TextToImage\IManager::class, \OC\TextToImage\Manager::class);
+
 		$this->registerAlias(ILimiter::class, Limiter::class);
 
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
