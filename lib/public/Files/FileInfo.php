@@ -313,7 +313,6 @@ interface FileInfo {
 	/**
 	 * Get the metadata, if available
 	 *
-	 * @return MetadataValueWrapper[]
 	 * @since 28.0.0
 	 */
 	public function getMetadata(): array;
