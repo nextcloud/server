@@ -70,7 +70,7 @@ class DefaultTheme implements ITheme {
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 
-		// Override default defaultPrimaryColor if set to improve accessibility
+		// Override primary colors (if set) to improve accessibility
 		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
 			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
 		}
