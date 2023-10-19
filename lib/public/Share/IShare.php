@@ -394,7 +394,7 @@ interface IShare {
 	/**
 	 * Get the expiration date
 	 *
-	 * @return \DateTime
+	 * @return null|\DateTime
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
