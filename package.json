@@ -141,6 +141,7 @@
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "css-loader": "^6.8.1",
     "cypress": "^13.3.0",
+    "cypress-if": "^1.10.5",
     "cypress-wait-until": "^2.0.1",
     "dockerode": "^4.0.0",
     "eslint-plugin-cypress": "^2.14.0",

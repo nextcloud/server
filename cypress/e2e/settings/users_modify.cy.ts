@@ -21,6 +21,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
+import { getUserListRow, handlePasswordConfirmation } from './usersUtils'
 
 const admin = new User('admin', 'admin')
 const jdoe = new User('jdoe', 'jdoe')
@@ -34,16 +35,14 @@ describe('Settings: Change user properties', function() {
 	})
 
 	beforeEach(function() {
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
-			// reset edit mode for the user jdoe
-			cy.get('td.row__cell--actions .action-items > button:first-of-type')
-				.invoke('attr', 'title')
-				.then((title) => {
-					if (title === 'Done') {
-						cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
-					}
-				})
-		})
+		// reset to read-only mode: try to find the edit button and click it if set to editing
+		getUserListRow(jdoe.userId)
+			.find('[data-test-id="cell-actions"]')
+			// replace with following (more error resilent) with nextcloud-vue 8
+			// find('[data-test-id="button-toggleEdit"][data-test="true"]')
+			.find('button[aria-label="Done"]')
+			.if()
+			.click({ force: true })
 	})
 
 	after(() => {
@@ -51,51 +50,45 @@ describe('Settings: Change user properties', function() {
 	})
 
 	it('Can change the display name', function() {
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
-			// see that the list of users contains the user jdoe
-			cy.contains(jdoe.userId).should('exist')
+		// see that the list of users contains the user jdoe
+		getUserListRow(jdoe.userId).should('exist')
 			// toggle the edit mode for the user jdoe
-			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
-		})
+			.find('[data-test-id="cell-actions"]')
+			.find('button[aria-label="Edit"]')
+			// replace with following (more error resilent) with nextcloud-vue 8
+			// find('[data-test-id="button-toggleEdit"]')
+			.click({ force: true })
 
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
+		getUserListRow(jdoe.userId).within(() => {
 			// set the display name
-			cy.get('input[data-test="displayNameField"]').should('exist').and('have.value', 'jdoe')
-			cy.get('input[data-test="displayNameField"]').clear()
-			cy.get('input[data-test="displayNameField"]').type('John Doe')
-			cy.get('input[data-test="displayNameField"]').should('have.value', 'John Doe')
-			cy.get('input[data-test="displayNameField"] ~ button').click()
+			cy.get('input[data-test-id="input-displayName"]').should('exist').and('have.value', 'jdoe')
+			cy.get('input[data-test-id="input-displayName"]').clear()
+			cy.get('input[data-test-id="input-displayName"]').type('John Doe')
+			cy.get('input[data-test-id="input-displayName"]').should('have.value', 'John Doe')
+			cy.get('input[data-test-id="input-displayName"] ~ button').click()
 
-			// Ignore failure if modal is not shown
-			cy.once('fail', (error) => {
-				expect(error.name).to.equal('AssertionError')
-				expect(error).to.have.property('node', '.modal-container')
-			})
 			// Make sure no confirmation modal is shown
-			cy.root().closest('body').find('.modal-container').then(($modal) => {
-				if ($modal.length > 0) {
-					cy.wrap($modal).find('input[type="password"]').type(admin.password)
-					cy.wrap($modal).find('button').contains('Confirm').click()
-				}
-			})
+			handlePasswordConfirmation(admin.password)
 
 			// see that the display name cell is done loading
-			cy.get('.user-row-text-field.icon-loading-small').should('exist')
-			cy.waitUntil(() => cy.get('.user-row-text-field.icon-loading-small').should('not.exist'), { timeout: 10000 })
+			cy.get('[data-test-id="input-displayName"]').should('have.attr', 'data-test-loading', 'true')
+			cy.waitUntil(() => cy.get('[data-test-id="input-displayName"]').should('have.attr', 'data-test-loading', 'false'), { timeout: 10000 })
 		})
 		// Success message is shown
 		cy.get('.toastify.toast-success').contains(/Display.+name.+was.+successfully.+changed/i).should('exist')
 	})
 
 	it('Can change the password', function() {
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
-			// see that the list of users contains the user jdoe
-			cy.contains(jdoe.userId).should('exist')
+		// see that the list of users contains the user jdoe
+		getUserListRow(jdoe.userId).should('exist')
 			// toggle the edit mode for the user jdoe
-			cy.get('td.row__cell--actions .action-items > button:first-of-type').click()
-		})
+			.find('[data-test-id="cell-actions"]')
+			.find('button[aria-label="Edit"]')
+			// replace with following (more error resilent) with nextcloud-vue 8
+			// find('[data-test-id="button-toggleEdit"]')
+			.click({ force: true })
 
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
+		getUserListRow(jdoe.userId).within(() => {
 			// see that the password of user0 is ""
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			// set the password for user0 to 123456
@@ -104,24 +97,14 @@ describe('Settings: Change user properties', function() {
 			cy.get('input[type="password"]').should('have.value', '123456')
 			cy.get('input[type="password"] ~ button').click()
 
-			// Ignore failure if modal is not shown
-			cy.once('fail', (error) => {
-				expect(error.name).to.equal('AssertionError')
-				expect(error).to.have.property('node', '.modal-container')
-			})
 			// Make sure no confirmation modal is shown
-			cy.root().closest('body').find('.modal-container').then(($modal) => {
-				if ($modal.length > 0) {
-					cy.wrap($modal).find('input[type="password"]').type(admin.password)
-					cy.wrap($modal).find('button').contains('Confirm').click()
-				}
-			})
+			handlePasswordConfirmation(admin.password)
 
 			// see that the password cell for user user0 is done loading
-			cy.get('.user-row-text-field.icon-loading-small').should('exist')
-			cy.waitUntil(() => cy.get('.user-row-text-field.icon-loading-small').should('not.exist'), { timeout: 10000 })
+			cy.get('[data-test-id="input-password"]').should('have.attr', 'data-test-loading', 'true')
+			cy.waitUntil(() => cy.get('[data-test-id="input-password"]').should('have.attr', 'data-test-loading', 'false'), { timeout: 10000 })
 			// password input is emptied on change
-			cy.get('input[type="password"]').should('have.value', '')
+			cy.get('[data-test-id="input-password"]').should('have.value', '')
 		})
 		// Success message is shown
 		cy.get('.toastify.toast-success').contains(/Password.+successfully.+changed/i).should('exist')
