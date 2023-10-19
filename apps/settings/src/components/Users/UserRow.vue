@@ -51,7 +51,6 @@
 					:value.sync="editedDisplayName"
 					autocapitalize="off"
 					autocomplete="off"
-					autocorrect="off"
 					spellcheck="false"
 					@trailing-button-click="updateDisplayName" />
 			</template>
@@ -82,7 +81,6 @@
 					:value.sync="editedPassword"
 					autocapitalize="off"
 					autocomplete="new-password"
-					autocorrect="off"
 					required
 					spellcheck="false"
 					type="password"
@@ -105,7 +103,6 @@
 					:value.sync="editedMail"
 					autocapitalize="off"
 					autocomplete="email"
-					autocorrect="off"
 					spellcheck="false"
 					type="email"
 					@trailing-button-click="updateEmail" />

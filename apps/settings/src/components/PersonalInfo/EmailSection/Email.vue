@@ -31,7 +31,7 @@
 				:value="email"
 				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
 				autocapitalize="none"
-				autocorrect="off"
+				spellcheck="false"
 				@input="onEmailChange">
 
 			<div class="email__actions-container">
