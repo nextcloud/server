@@ -32,7 +32,8 @@
 			@add-additional="onAddAdditionalEmail" />
 
 		<template v-if="displayNameChangeSupported">
-			<Email :primary="true"
+			<Email :input-id="inputId"
+				:primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				:active-notification-email.sync="notificationEmail"
