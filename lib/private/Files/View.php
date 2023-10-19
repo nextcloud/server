@@ -1525,7 +1525,7 @@ class View {
 						$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 						// if sharing was disabled for the user we remove the share permissions
-						if (\OCP\Util::isSharingDisabledForUser()) {
+						if ($sharingDisabled) {
 							$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 						}
 
