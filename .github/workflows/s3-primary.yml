@@ -1,6 +1,16 @@
 name: S3 primary storage
 on:
   pull_request:
+    paths:
+      - '.github/workflows/**'
+      - '3rdparty/**'
+      - '**/*.php'
+      - '**/lib/**'
+      - '**/tests/**'
+      - '**/vendor-bin/**'
+      - '.php-cs-fixer.dist.php'
+      - 'composer.json'
+      - 'composer.lock'
   push:
     branches:
       - master
