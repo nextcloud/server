@@ -320,6 +320,8 @@ class ViewController extends Controller {
 		);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
+		// Allow preview service worker
+		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
 		$this->provideInitialState($dir, $openfile);
