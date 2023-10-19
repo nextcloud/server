@@ -75,6 +75,8 @@
 				{{ t('theming', 'Disable all keyboard shortcuts') }}
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
+
+		<UserAppMenuSection />
 	</section>
 </template>
 
@@ -87,14 +89,13 @@ import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.
 
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
+import UserAppMenuSection from './components/UserAppMenuSection.vue'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
-
-console.debug('Available themes', availableThemes)
 
 export default {
 	name: 'UserThemes',
@@ -104,6 +105,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 		BackgroundSettings,
+		UserAppMenuSection,
 	},
 
 	data() {

@@ -26,23 +26,34 @@ declare(strict_types=1);
 namespace OCA\Theming\Listener;
 
 use OCA\Theming\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
 class BeforePreferenceListener implements IEventListener {
+	public function __construct(
+		private IAppManager $appManager,
+	) {
+	}
+
 	public function handle(Event $event): void {
 		if (!$event instanceof BeforePreferenceSetEvent
 			&& !$event instanceof BeforePreferenceDeletedEvent) {
+			// Invalid event type
 			return;
 		}
 
-		if ($event->getAppId() !== Application::APP_ID) {
-			return;
+		switch ($event->getAppId()) {
+			case Application::APP_ID: $this->handleThemingValues($event); break;
+			case 'core': $this->handleCoreValues($event); break;
 		}
+	}
 
+	private function handleThemingValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
 		if ($event->getConfigKey() !== 'shortcuts_disabled') {
+			// Not allowed config key
 			return;
 		}
 
@@ -51,6 +62,29 @@ class BeforePreferenceListener implements IEventListener {
 			return;
 		}
 
+		$event->setValid(true);
+	}
+
+	private function handleCoreValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
+		if ($event->getConfigKey() !== 'apporder') {
+			// Not allowed config key
+			return;
+		}
+
+		if ($event instanceof BeforePreferenceDeletedEvent) {
+			$event->setValid(true);
+			return;
+		}
+
+		$value = json_decode($event->getConfigValue(), true, flags:JSON_THROW_ON_ERROR);
+		if (is_array(($value))) {
+			foreach ($value as $appName => $order) {
+				if (!$this->appManager->isEnabledForUser($appName) || !is_array($order) || empty($order) || !is_numeric($order[key($order)])) {
+					// Invalid config value, refuse the change
+					return;
+				}
+			}
+		}
 		$event->setValid(true);
 	}
 }

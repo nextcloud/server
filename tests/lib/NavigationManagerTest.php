@@ -95,7 +95,7 @@ class NavigationManagerTest extends TestCase {
 					//'icon'	=> 'optional',
 					'href' => 'url',
 					'active' => true,
-					'unread' => 0
+					'unread' => 0,
 				],
 				'entry id2' => [
 					'id' => 'entry id',
@@ -106,7 +106,8 @@ class NavigationManagerTest extends TestCase {
 					'active' => false,
 					'type' => 'link',
 					'classes' => '',
-					'unread' => 0
+					'unread' => 0,
+					'default' => true,
 				]
 			]
 		];
@@ -349,7 +350,10 @@ class NavigationManagerTest extends TestCase {
 						'active' => false,
 						'type' => 'link',
 						'classes' => '',
-						'unread' => 0
+						'unread' => 0,
+						'default' => true,
+						'app' => 'test',
+						'key' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -372,7 +376,7 @@ class NavigationManagerTest extends TestCase {
 						'active' => false,
 						'type' => 'settings',
 						'classes' => '',
-						'unread' => 0
+						'unread' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -380,6 +384,47 @@ class NavigationManagerTest extends TestCase {
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
 					],
+				]]
+			],
+			'with-multiple' => [
+				array_merge(
+					['accessibility_settings' => $defaults['accessibility_settings']],
+					['settings' => $defaults['settings']],
+					['test' => [
+						'id' => 'test',
+						'order' => 100,
+						'href' => '/apps/test/',
+						'icon' => '/apps/test/img/app.svg',
+						'name' => 'Test',
+						'active' => false,
+						'type' => 'link',
+						'classes' => '',
+						'unread' => 0,
+						'default' => false,
+						'app' => 'test',
+						'key' => 0,
+					],
+						'test1' => [
+							'id' => 'test1',
+							'order' => 50,
+							'href' => '/apps/test/',
+							'icon' => '/apps/test/img/app.svg',
+							'name' => 'Other test',
+							'active' => false,
+							'type' => 'link',
+							'classes' => '',
+							'unread' => 0,
+							'default' => true, // because of order
+							'app' => 'test',
+							'key' => 1,
+						]],
+					['logout' => $defaults['logout']]
+				),
+				['navigations' => [
+					'navigation' => [
+						['route' => 'test.page.index', 'name' => 'Test'],
+						['route' => 'test.page.index', 'name' => 'Other test', 'order' => 50],
+					]
 				]]
 			],
 			'admin' => [
@@ -395,7 +440,10 @@ class NavigationManagerTest extends TestCase {
 						'active' => false,
 						'type' => 'link',
 						'classes' => '',
-						'unread' => 0
+						'unread' => 0,
+						'default' => true,
+						'app' => 'test',
+						'key' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -448,6 +496,9 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'classes' => '',
 				'unread' => 0,
+				'default' => true,
+				'app' => 'test',
+				'key' => 0,
 			],
 		];
 		$navigation = ['navigations' => [

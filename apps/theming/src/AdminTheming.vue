@@ -106,6 +106,7 @@
 				</a>
 			</div>
 		</NcSettingsSection>
+		<AppMenuSection :default-apps.sync="defaultApps" />
 	</section>
 </template>
 
@@ -118,6 +119,7 @@ import CheckboxField from './components/admin/CheckboxField.vue'
 import ColorPickerField from './components/admin/ColorPickerField.vue'
 import FileInputField from './components/admin/FileInputField.vue'
 import TextField from './components/admin/TextField.vue'
+import AppMenuSection from './components/admin/AppMenuSection.vue'
 
 const {
 	backgroundMime,
@@ -136,6 +138,7 @@ const {
 	slogan,
 	url,
 	userThemingDisabled,
+	defaultApps,
 } = loadState('theming', 'adminThemingParameters')
 
 const textFields = [
@@ -247,6 +250,7 @@ export default {
 	name: 'AdminTheming',
 
 	components: {
+		AppMenuSection,
 		CheckboxField,
 		ColorPickerField,
 		FileInputField,
@@ -259,6 +263,8 @@ export default {
 		'update:theming',
 	],
 
+	textFields,
+
 	data() {
 		return {
 			textFields,
@@ -267,6 +273,7 @@ export default {
 			advancedTextFields,
 			advancedFileInputFields,
 			userThemingField,
+			defaultApps,
 
 			canThemeIcons,
 			docUrl,
