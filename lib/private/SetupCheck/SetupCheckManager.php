@@ -48,9 +48,7 @@ class SetupCheckManager implements ISetupCheckManager {
 			$this->logger->debug('Running check '.get_class($setupCheckObject));
 			$setupResult = $setupCheckObject->run();
 			$category = $setupCheckObject->getCategory();
-			if (!isset($results[$category])) {
-				$results[$category] = [];
-			}
+			$results[$category] ??= [];
 			$results[$category][$setupCheckObject->getName()] = $setupResult;
 		}
 		return $results;
