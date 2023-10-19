@@ -1168,11 +1168,6 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
-  <file src="apps/files_sharing/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files_sharing/lib/Listener/ShareInteractionListener.php">
     <MissingTemplateParam>
       <code>IEventListener</code>
