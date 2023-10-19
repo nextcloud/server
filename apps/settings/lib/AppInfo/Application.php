@@ -48,6 +48,15 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
+use OCA\Settings\SetupChecks\InternetConnectivity;
+use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
+use OCA\Settings\SetupChecks\PhpDefaultCharset;
+use OCA\Settings\SetupChecks\PhpOutdated;
+use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
@@ -137,6 +146,15 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+		$context->registerSetupCheck(CheckUserCertificates::class);
+		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
+		$context->registerSetupCheck(InternetConnectivity::class);
+		$context->registerSetupCheck(LegacySSEKeyFormat::class);
+		$context->registerSetupCheck(PhpDefaultCharset::class);
+		$context->registerSetupCheck(PhpOutdated::class);
+		$context->registerSetupCheck(PhpOutputBuffering::class);
+		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(SupportedDatabase::class);
 
 		$context->registerUserMigrator(AccountMigrator::class);
 	}

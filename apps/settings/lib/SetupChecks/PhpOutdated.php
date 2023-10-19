@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Daniel Kesselberg <mail@danielkesselberg.de>
+ * @copyright Copyright (c) 2022 Carl Schwan <carl@carlschwan.eu>
  *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,31 +24,31 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
-class PhpDefaultCharset implements ISetupCheck {
+class PhpOutdated implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
 	) {
 	}
 
-	public function getName(): string {
-		return $this->l10n->t('Checking for PHP default charset');
+	public function getCategory(): string {
+		return 'security';
 	}
 
-	public function getCategory(): string {
-		return 'php';
+	public function getName(): string {
+		return $this->l10n->t('Checking for PHP version');
 	}
 
 	public function run(): SetupResult {
-		if (strtoupper(trim(ini_get('default_charset'))) === 'UTF-8') {
-			return SetupResult::success();
-		} else {
-			return SetupResult::warning($this->l10n->t('PHP configuration option default_charset should be UTF-8'));
+		if (PHP_VERSION_ID < 80100) {
+			return SetupResult::warning($this->l10n->t('You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.', [PHP_VERSION]), 'https://secure.php.net/supported-versions.php');
 		}
+		return SetupResult::success($this->l10n->t('You are currently running PHP %s.', [PHP_VERSION]));
 	}
 }

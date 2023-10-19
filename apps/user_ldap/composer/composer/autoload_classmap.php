@@ -82,6 +82,7 @@ return array(
     'OCA\\User_LDAP\\Service\\UpdateGroupsService' => $baseDir . '/../lib/Service/UpdateGroupsService.php',
     'OCA\\User_LDAP\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\User_LDAP\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
+    'OCA\\User_LDAP\\SetupChecks\\LdapInvalidUuids' => $baseDir . '/../lib/SetupChecks/LdapInvalidUuids.php',
     'OCA\\User_LDAP\\UserPluginManager' => $baseDir . '/../lib/UserPluginManager.php',
     'OCA\\User_LDAP\\User\\DeletedUsersIndex' => $baseDir . '/../lib/User/DeletedUsersIndex.php',
     'OCA\\User_LDAP\\User\\Manager' => $baseDir . '/../lib/User/Manager.php',

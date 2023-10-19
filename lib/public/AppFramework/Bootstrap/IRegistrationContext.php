@@ -371,4 +371,13 @@ interface IRegistrationContext {
 	 * @since 26.0.0
 	 */
 	public function registerPublicShareTemplateProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\SetupCheck\ISetupCheck that
+	 * will handle the implementation of a setup check
+	 *
+	 * @param class-string<\OCP\SetupCheck\ISetupCheck> $setupCheckClass
+	 * @since 28.0.0
+	 */
+	public function registerSetupCheck(string $setupCheckClass): void;
 }
