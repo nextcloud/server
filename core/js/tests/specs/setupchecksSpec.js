@@ -233,7 +233,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: true,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -256,22 +255,32 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "warning",
+								description: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
-						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-					}, {
 						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					}]);
+					},
+					{
+						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					},
+				]);
 				done();
 			});
 		});
@@ -295,7 +304,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: true,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -318,23 +326,32 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "warning",
+								description: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
+						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
+						type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					},
+					{
 						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
-					{
-						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					}]);
+				]);
 				done();
 			});
 		});
@@ -358,7 +375,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -381,10 +397,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "warning",
+								description: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -419,7 +443,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: false,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -442,10 +465,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -478,7 +509,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
@@ -501,10 +531,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -537,7 +575,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -560,10 +597,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -596,7 +641,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -619,10 +663,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -655,7 +707,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -678,10 +729,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -714,7 +773,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -739,10 +797,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -774,7 +840,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -798,10 +863,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -835,7 +908,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isBruteforceThrottled: true,
 					bruteforceRemoteAddress: '::1',
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -859,10 +931,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -894,7 +974,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -918,10 +997,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -953,7 +1040,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -977,10 +1063,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1033,10 +1127,8 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
-					phpSupported: {eol: true, version: '5.4.0'},
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -1057,16 +1149,31 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+						security: {
+							"Checking for PHP version": {
+								severity: "warning",
+								description: "You are currently running PHP 8.0.30. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.",
+								linkToDoc: "https://secure.php.net/supported-versions.php"
+							}
+						},
+					},
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'You are currently running PHP 5.4.0. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group ↗</a> as soon as your distribution supports it.',
+					msg: 'You are currently running PHP 8.0.30. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -1093,7 +1200,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1116,10 +1222,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1152,7 +1266,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1175,10 +1288,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1211,7 +1332,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1234,10 +1354,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1274,7 +1402,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1297,11 +1424,19 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1334,7 +1469,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1357,11 +1491,19 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1391,7 +1533,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1414,10 +1555,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1451,7 +1600,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1474,10 +1622,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1511,7 +1667,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1534,10 +1689,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1570,7 +1733,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1593,10 +1755,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1629,7 +1799,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1652,16 +1821,31 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+						config: {
+							"Checking for default phone region": {
+								severity: "info",
+								description: "Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add \"default_phone_region\" with the respective ISO 3166-1 code of the region to your config file.",
+								linkToDoc: "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements"
+							},
+						},
+					},
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO 3166-1 code ↗</a> of the region to your config file.',
+					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective ISO 3166-1 code of the region to your config file. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -1688,7 +1872,6 @@ describe('OC.SetupChecks tests', function() {
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1711,10 +1894,18 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: false,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
