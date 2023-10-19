@@ -32,19 +32,23 @@ use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\Search\IProvider;
+use OCP\Search\FilterDefinition;
+use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
-class ContactsSearchProvider implements IProvider {
+class ContactsSearchProvider implements IFilteringProvider {
+	private static array $searchPropertiesRestricted = [
+		'N',
+		'FN',
+		'NICKNAME',
+		'EMAIL',
+	];
 
-	/**
-	 * @var string[]
-	 */
-	private static $searchProperties = [
+	private static array $searchProperties = [
 		'N',
 		'FN',
 		'NICKNAME',
@@ -78,9 +82,6 @@ class ContactsSearchProvider implements IProvider {
 		return $this->l10n->t('Contacts');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'contacts.Page.index') {
 			return -1;
@@ -88,9 +89,6 @@ class ContactsSearchProvider implements IProvider {
 		return 25;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('contacts', $user)) {
 			return SearchResult::complete($this->getName(), []);
@@ -106,13 +104,15 @@ class ContactsSearchProvider implements IProvider {
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
 			$query->getFilter('term')?->get() ?? '',
-			self::$searchProperties,
+			$query->getFilter('title-only')?->get() ? self::$searchPropertiesRestricted : self::$searchProperties,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
 				'since' => $query->getFilter('since'),
 				'until' => $query->getFilter('until'),
-			]
+				'person' => $query->getFilter('person'),
+				'company' => $query->getFilter('company'),
+			],
 		);
 		$formattedResults = \array_map(function (array $contactRow) use ($addressBooksById):SearchResultEntry {
 			$addressBook = $addressBooksById[$contactRow['addressbookid']];
@@ -165,9 +165,6 @@ class ContactsSearchProvider implements IProvider {
 		);
 	}
 
-	/**
-	 * @param VCard $vCard
-	 */
 	protected function generateSubline(VCard $vCard): string {
 		$emailAddresses = $vCard->select('EMAIL');
 		if (!is_array($emailAddresses) || empty($emailAddresses)) {
@@ -175,5 +172,25 @@ class ContactsSearchProvider implements IProvider {
 		}
 
 		return (string)$emailAddresses[0];
+	}
+
+	public function getSupportedFilters(): array {
+		return [
+			'term',
+			'since',
+			'until',
+			'person',
+			'title-only',
+		];
+	}
+
+	public function getAlternateIds(): array {
+		return [];
+	}
+
+	public function getCustomFilters(): array {
+		return [
+			new FilterDefinition('company'),
+		];
 	}
 }
