@@ -20,8 +20,7 @@
   -
   -->
 <template>
-	<td v-show="visible"
-		class="files-list__row-actions"
+	<td class="files-list__row-actions"
 		data-cy-files-list-row-actions>
 		<!-- Render actions -->
 		<CustomElementRender v-for="action in enabledRenderActions"
@@ -33,10 +32,9 @@
 			class="files-list__row-action--inline" />
 
 		<!-- Menu actions -->
-		<NcActions v-if="visible"
-			ref="actionsMenu"
-			:boundaries-element="getBoundariesElement()"
-			:container="getBoundariesElement()"
+		<NcActions ref="actionsMenu"
+			:boundaries-element="getBoundariesElement"
+			:container="getBoundariesElement"
 			:disabled="isLoading || loading !== ''"
 			:force-name="true"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
@@ -70,6 +68,7 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
+import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'
 
 // The registered actions list
@@ -83,6 +82,7 @@ export default Vue.extend({
 		NcActions,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
+		CustomElementRender,
 	},
 
 	props: {
@@ -101,10 +101,6 @@ export default Vue.extend({
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
-		},
-		visible: {
-			type: Boolean,
-			default: false,
 		},
 		gridMode: {
 			type: Boolean,
@@ -150,7 +146,7 @@ export default Vue.extend({
 
 		// Enabled action that are displayed inline with a custom render function
 		enabledRenderActions() {
-			if (!this.visible || this.gridMode) {
+			if (this.gridMode) {
 				return []
 			}
 			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
@@ -182,9 +178,7 @@ export default Vue.extend({
 				this.$emit('update:opened', value)
 			},
 		},
-	},
 
-	methods: {
 		/**
 		 * Making this a function in case the files-list
 		 * reference changes in the future. That way we're
@@ -193,7 +187,9 @@ export default Vue.extend({
 		getBoundariesElement() {
 			return document.querySelector('.app-content > table.files-list')
 		},
+	},
 
+	methods: {
 		actionDisplayName(action: FileAction) {
 			if (this.filesListWidth < 768 && action.inline && typeof action.title === 'function') {
 				// if an inline action is rendered in the menu for

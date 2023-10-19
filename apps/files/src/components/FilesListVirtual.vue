@@ -259,18 +259,17 @@ export default Vue.extend({
 			event.preventDefault()
 			event.stopPropagation()
 
-			// If reaching top, scroll up
-			const firstVisible = this.$refs.table?.$el?.querySelector('.files-list__row--visible') as HTMLElement
-			const firstSibling = firstVisible?.previousElementSibling as HTMLElement
-			if ([firstVisible, firstSibling].some(elmt => elmt?.contains(event.target as Node))) {
+			const tableTop = this.$refs.table.$el.getBoundingClientRect().top
+			const tableBottom = tableTop + this.$refs.table.$el.getBoundingClientRect().height
+
+			// If reaching top, scroll up. Using 100 because of the floating header
+			if (event.clientY < tableTop + 100) {
 				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop - 25
 				return
 			}
 
 			// If reaching bottom, scroll down
-			const lastVisible = [...(this.$refs.table?.$el?.querySelectorAll('.files-list__row--visible') || [])].pop() as HTMLElement
-			const nextSibling = lastVisible?.nextElementSibling as HTMLElement
-			if ([lastVisible, nextSibling].some(elmt => elmt?.contains(event.target as Node))) {
+			if (event.clientY > tableBottom - 50) {
 				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop + 25
 			}
 		},
@@ -312,6 +311,8 @@ export default Vue.extend({
 	&::v-deep {
 		// Table head, body and footer
 		tbody {
+			will-change: scroll-position, padding;
+			contain: layout paint style;
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -320,6 +321,7 @@ export default Vue.extend({
 
 			/* Hover effect on tbody lines only */
 			tr {
+				contain: strict;
 				&:hover,
 				&:focus {
 					background-color: var(--color-background-dark);
@@ -329,6 +331,7 @@ export default Vue.extend({
 
 		// Before table and thead
 		.files-list__before {
+			contain: strict;
 			display: flex;
 			flex-direction: column;
 		}
