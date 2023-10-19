@@ -60,9 +60,11 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * 	 * Check whether this feature is available
+	 * Check whether this feature is available
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{isAvailable: bool}, array{}>
+	 *
+	 * 200: Returns availability status
 	 */
 	#[PublicPage]
 	public function isAvailable(): DataResponse {
@@ -86,7 +88,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	#[PublicPage]
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
-	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
+	public function schedule(string $input, string $appId, string $identifier = ''): DataResponse {
 		$task = new Task($input, $appId, $this->userId, $identifier);
 		try {
 			$this->textToImageManager->scheduleTask($task);
