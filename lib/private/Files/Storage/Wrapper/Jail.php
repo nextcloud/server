@@ -396,10 +396,7 @@ class Jail extends Wrapper {
 	 * @return \OC\Files\Cache\Cache
 	 */
 	public function getCache($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this->getWrapperStorage();
-		}
-		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path), $storage);
+		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path));
 		return new CacheJail($sourceCache, $this->rootPath);
 	}
 
