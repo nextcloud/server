@@ -386,45 +386,6 @@ trigger:
 
 ---
 kind: pipeline
-name: mysql8.0-php8.0
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: mysql-php8.0
-  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
-  commands:
-    - bash tests/drone-run-php-tests.sh || exit 0
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: cache
-  image: ghcr.io/nextcloud/continuous-integration-redis:latest
-- name: mysql
-  image: ghcr.io/nextcloud/continuous-integration-mysql-8.0:mysql-8.0
-  command:
-    - --default-authentication-plugin=mysql_native_password
-    - --sql-mode=ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: postgres10-php8.0
 
 steps:
