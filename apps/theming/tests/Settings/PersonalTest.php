@@ -116,6 +116,11 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('admin', 'core', 'apporder')
+			->willReturn('[]');
+
 		$this->appManager->expects($this->once())
 			->method('getDefaultAppForUser')
 			->willReturn('forcedapp');
@@ -126,7 +131,7 @@ class PersonalTest extends TestCase {
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],
-				['enforcedDefaultApp', 'forcedapp'],
+				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
 			);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');
