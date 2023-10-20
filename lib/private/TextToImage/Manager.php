@@ -187,12 +187,12 @@ class Manager implements IManager {
 
 	/**
 	 * @inheritDoc
-	 * @throws Exception
 	 */
 	public function scheduleTask(Task $task): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
 		}
+		$this->logger->warning('Scheduling Text2Image Task');
 		$task->setStatus(Task::STATUS_SCHEDULED);
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->insert($taskEntity);
@@ -200,6 +200,36 @@ class Manager implements IManager {
 		$this->jobList->add(TaskBackgroundJob::class, [
 			'taskId' => $task->getId()
 		]);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function runOrScheduleTask(Task $task) : void {
+		if (!$this->hasProviders()) {
+			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
+		}
+		$providers = $this->getProviders();
+
+		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
+		if ($json !== '') {
+			try {
+				$className = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+				if ($provider !== false) {
+					$providers = [$provider];
+				}
+			} catch (\JsonException $e) {
+				$this->logger->warning('Failed to decode Text2Image setting `ai.text2image_provider`', ['exception' => $e]);
+			}
+		}
+		$maxExecutionTime = (int) ini_get('max_execution_time');
+		// Offload the tttttttask to a background job if the expected runtime of the likely provider is longer than 80% of our max execution time
+		if ($providers[0]->getExpectedRuntime() > $maxExecutionTime * 0.8) {
+			$this->scheduleTask($task);
+			return;
+		}
+		$this->runTask($task);
 	}
 
 	/**

@@ -49,4 +49,10 @@ interface IProvider {
 	 * @throws RuntimeException If the text could not be processed
 	 */
 	public function generate(string $prompt, $resource): void;
+
+	/**
+	 * The expected runtime for one task with this provider in seconds
+	 * @since 28.0.0
+	 */
+	public function getExpectedRuntime(): int;
 }

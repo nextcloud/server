@@ -36,6 +36,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -91,7 +92,11 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	public function schedule(string $input, string $appId, string $identifier = ''): DataResponse {
 		$task = new Task($input, $appId, $this->userId, $identifier);
 		try {
-			$this->textToImageManager->scheduleTask($task);
+			try {
+				$this->textToImageManager->runOrScheduleTask($task);
+			} catch (\RuntimeException) {
+				// noop
+			}
 
 			$json = $task->jsonSerialize();
 
@@ -100,6 +105,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l->t('No text to image provider is available')], Http::STATUS_PRECONDITION_FAILED);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 

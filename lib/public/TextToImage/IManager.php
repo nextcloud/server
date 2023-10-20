@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\TextToImage;
 
+use OCP\DB\Exception;
 use OCP\PreConditionNotMetException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
 use RuntimeException;
@@ -55,10 +56,18 @@ interface IManager {
 	 * If inference fails a \OCP\TextToImage\Events\TaskFailedEvent will be dispatched instead
 	 *
 	 * @param Task $task The task to schedule
-	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
+	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
+	 * @throws Exception If there was a problem inserting the task into the database
 	 * @since 28.0.0
 	 */
 	public function scheduleTask(Task $task) : void;
+
+	/**
+	 * @throws Exception if there was a problem inserting the task into the database
+	 * @throws PreConditionNotMetException if no provider is registered
+	 * @throws RuntimeException If the task run fail
+	 */
+	public function runOrScheduleTask(Task $task) : void;
 
 	/**
 	 * Delete a task that has been scheduled before
