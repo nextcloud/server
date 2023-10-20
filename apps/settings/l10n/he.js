@@ -116,6 +116,7 @@ OC.L10N.register(
     "A background job is pending that checks for user imported SSL certificates. Please check back later." : "משימת רקע שבודקת את אישורי ה־SSL בייבוא המשתמש ממתינה. נא לדגום את הדף הזה שוב בהמשך.",
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "יש כמה אישורי SSL מיובאים קיימים שאינם בשימוש עוד ב־Nextcloud 21. אפשר לייבא אותם בשורת הפקודה עם הפקודה „occ security:certificates:import”. הנתיבים שלהם בתור תיקיית הנתונים מופיעים להלן.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "תצורת ההצפנה מצד השרת המיושנת מופעלת. אנו ממליצים להשבית אותה.",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "הופעלה תצורה לקריאה בלבד. מצב זה מונע את הגדרת חלק מההגדרות דרך מנשק דפדפן. יתרה מכך, יש להפוך את הקובץ למורשה לכתיבה ידנית בכל עדכון מחדש.",
     "Nextcloud settings" : "הגדרות Nextcloud",
     "None" : "כלום",
     "Two-Factor Authentication" : "אימות דו־שלבי",

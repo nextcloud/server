@@ -76,6 +76,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "از کار انداختن تمامی میان‌برهای صفحه‌کلید",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی جهانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می‌کنیم و دقیت می‌کنیم تا همه چیز بدون موش‌واره و نرم‌افزارهای کمکی مانند صفحه‌خوان‌ها نیز قابل استفاده باشند. هدف ما این است که مطابق با دستورالعمل {guidelines}راهنماهای دسترس‌پذیری محتوا تحت وب{linkend} نسخه 2.1 در سطح AA، و حتی با زمینه کنتراست بالا در سطح AAA باشیم.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!",
+    "Move up" : "Move up",
+    "Move down" : "حرکت به پایین",
     "Custom background" : "Custom background",
     "Default background" : "Default background",
     "Change color" : "تغییر رنگ",

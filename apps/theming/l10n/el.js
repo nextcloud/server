@@ -69,6 +69,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Απενεργοποίηση των συντομεύσεων πληκτρολογίου",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Η  πρόσβαση από όλους είναι πολύ σημαντική για εμάς. Ακολουθούμε τα πρότυπα του διαδικτύου και ελέγχουμε ότι τα πάντα μπορούν να χρησιμοποιηθούν χωρίς ποντίκι και βοηθητικό λογισμικό όπως προγράμματα ανάγνωσης οθόνης. Στόχος μας είναι να συμμορφωνόμαστε με τις {guidelines}Προδιαγραφές πρόσβασης περιεχομένου Ιστού{linkend} 2.1 σε επίπεδο AA, με το θέμα υψηλής αντίθεσης ακόμη και σε επίπεδο ΑΑΑ.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Εάν εντοπίσετε οποιοδήποτε πρόβλημα, μη διστάσετε να το αναφέρετε στον {issuetracker}ιχνηλάτη ζητημάτων μας{linkend}. Και εάν θέλετε να συμμετέχετε, ελάτε στην {designteam}ομάδα σχεδιασμού μας{linkend}!",
+    "Move up" : "Μετακίνηση επάνω",
+    "Move down" : "Μετακίνηση Κάτω",
     "Change color" : "Αλλαγή χρώματος",
     "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος",
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",

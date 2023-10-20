@@ -60,6 +60,7 @@ OC.L10N.register(
     "Your password will expire today." : "Je wachtwoord vervalt vandaag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Je wachtwoord verloopt binnen %n dag.","Je wachtwoord vervalt over %n dagen."],
     "LDAP/AD integration" : "LDAP/AD integratie",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Er zijn ongeldige UUID's van LDAP-gebruikers of -groepen gevonden. Controleer de instellingen voor \"UUID-detectie overschrijven\" in het Expert-gedeelte van de LDAP-configuratie en gebruik \"occ ldap:update-uuid\" om ze bij te werken.",
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Kon het weergavenaam attribuut van de gebruiker niet vinden. Geef het zelf op in de geavanceerde LDAP instellingen.",
     "Could not find the desired feature" : "Kon de gewenste functie niet vinden",
     "Invalid Host" : "Ongeldige server",
