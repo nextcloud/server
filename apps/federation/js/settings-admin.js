@@ -45,8 +45,8 @@
 
         $btnAddServer.on('click', function() {
             $btnAddServer.addClass('hidden');
+            $wrapper.find(".serverUrl").removeClass('hidden');
             $inpServerUrl
-                .removeClass('hidden')
                 .focus();
         });
 

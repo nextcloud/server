@@ -28,5 +28,13 @@
 }
 
 #ocFederationAddServer #serverUrl {
-	width: 300px;
+	width: 270px;
+}
+
+.serverUrl-block {
+	max-width: 310px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 }
