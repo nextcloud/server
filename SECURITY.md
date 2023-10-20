@@ -11,7 +11,6 @@ Please review our [threat model and accepted risks](https://nextcloud.com/securi
 is currently considered a security vulnerability versus expected behavior. And review what is considered 
 [in scope or bounty eligible](https://hackerone.com/nextcloud/policy_scopes).
 
-You can expect a response within 24 hours in most cases.
 
 ## Reporting a Vulnerability
 
@@ -33,9 +32,9 @@ Your report should include:
 You should receive an initial acknowledgement within 24 hours in most cases.
 
 A member of the security team will confirm the vulnerability, determine its impact, follow-up with any questions, 
-and coordinate a fix.
+and coordinate the fix and publication.
 
-The fix will be applied to the `master` branch, tested, and packaged in the next security release.
+The fix will be applied to all applicable and still supported stable branches, tested, and packaged in the next security release.
 The vulnerability will be publicly announced after the release. Finally, your name will be added
 to the [hall of fame](https://hackerone.com/nextcloud/thanks) as a thank you from the entire Nextcloud 
 community. 
@@ -47,13 +46,13 @@ on past bounty ranges can be found at [hackerone.com/nextcloud](https://hackeron
 
 ## Existing Security Advisories
 
-Past advisories can be viewed at
+Published security advisories for the Nextcloud Server, Clients and Apps can be viewed at
 [https://github.com/nextcloud/security-advisories/security/advisories](https://github.com/nextcloud/security-advisories/security/advisories
 ).
 
 ## Supported Versions
 
-The latest three major release versions of Nextcloud are currently being supported with security updates.
+Nextcloud Server major release versions are being supported with security updates for 1 year after their initial release.
 Please visit https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule for further details.
 
 ## Additional Information
