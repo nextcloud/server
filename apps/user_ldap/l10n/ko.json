@@ -58,6 +58,7 @@
     "Your password will expire today." : "내 암호가 오늘 만료됩니다.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["내 암호가 %n일 후 만료됩니다."],
     "LDAP/AD integration" : "LDAP/AD 통합",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "잘못된 LDAP 사용자 또는 그룹 UUID를 발견했습니다. LDAP 설정의 '전문가' 부분에서 \"Override UUID detection\"을 재확인하시고, \"occ ldap:update-uuid\" 명령어를 통해 이를 갱신하십시오.",
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "사용자 표시 이름 속성을 찾을 수 없습니다. 고급 LDAP 설정에서 직접 지정하십시오.",
     "Could not find the desired feature" : "필요한 기능을 찾을 수 없음",
     "Invalid Host" : "잘못된 호스트",

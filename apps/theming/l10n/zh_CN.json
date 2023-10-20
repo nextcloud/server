@@ -73,6 +73,8 @@
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "某些情况下，键盘快捷键会干扰无障碍浏览工具。该设置可禁用所有键盘快捷键，以便您控制这些工具的焦点。启用该设置将同时禁用所有应用中的快捷键。",
     "Disable all keyboard shortcuts" : "禁用所有键盘快捷键",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "无障碍访问对我们非常重要。 我们遵循网络标准，并进行检查以确保所有内容都可以在没有鼠标或辅助软件（例如屏幕阅读器）的情况下使用。 我们的目标是达到 {guidelines} Web 内容可访问性指南 {linkend} 2.1 中的 AA 级别，并另外通过高对比度主题达到 AAA 级别。",
+    "Move up" : "上移",
+    "Move down" : "下移",
     "Custom background" : "自定义背景",
     "Default background" : "默认背景",
     "Change color" : "更改颜色",

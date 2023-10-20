@@ -109,6 +109,7 @@
     "Unlimited" : "Didermenet",
     "Verifying" : "O gwiriañ",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Stumm ar sifrañ kostez ar servijour kozh a zo aotreet. Aliet eo hen disaotreañ.",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Aotreet a zo bet ar stumm lenn-nemetken. Ampechiñ a ra cheñch stummoù dre an etrefas-web. Ouzhpenn-se, ar restr en deus ezhomm bezañ adlakaet da  vezañ embannapl dre dorn evit pep adneveziñ.",
     "Nextcloud settings" : "Stummoù Nextcloud",
     "None" : "Hini ebet",
     "Two-Factor Authentication" : "Dilesa daou-elfenn",

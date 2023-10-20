@@ -68,6 +68,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Vypnúť všetky klávesové skratky",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Univerzálny prístup je pre nás veľmi dôležitý. Dodržiavame webové štandardy a kontrolujeme, aby bolo všetko použiteľné aj bez myši a pomocného softvéru, ako sú čítačky obrazovky. Naším cieľom je byť v súlade s {guidelines}pokynmi pre prístup k webovému obsahu {linkend} 2.1 na úrovni AA,  v režime vysokého kontrastu dokonca na úrovni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ak nájdete nejaké problémy, neváhajte ich nahlásiť v {issuetracker}našom nástroji na sledovanie problémov{linkend}. A ak sa chcete zapojiť, pridajte sa k {designteam}nášmu tímu dizajnérov{linkend}!",
+    "Move up" : "Presunúť hore",
+    "Move down" : "Presunúť dole",
     "Change color" : "Zmeniť farbu",
     "Theme selection is enforced" : "Vynucuje sa výber témy",
     "Select a custom color" : "Vyberte vlastnú farbu",
