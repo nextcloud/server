@@ -458,7 +458,8 @@
                     "userId",
                     "appId",
                     "input",
-                    "identifier"
+                    "identifier",
+                    "numberOfImages"
                 ],
                 "properties": {
                     "id": {
@@ -483,6 +484,10 @@
                     "identifier": {
                         "type": "string",
                         "nullable": true
+                    },
+                    "numberOfImages": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },
@@ -5281,6 +5286,16 @@
                         }
                     },
                     {
+                        "name": "numberOfImages",
+                        "in": "query",
+                        "description": "The number of images to generate",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 8
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -5332,6 +5347,44 @@
                     },
                     "412": {
                         "description": "Scheduling task is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5680,7 +5733,7 @@
                 }
             }
         },
-        "/ocs/v2.php/text2image/task/{id}/image": {
+        "/ocs/v2.php/text2image/task/{id}/image/{index}": {
             "get": {
                 "operationId": "text_to_image_api-get-image",
                 "summary": "This endpoint allows downloading the resulting image of a task",
@@ -5701,6 +5754,16 @@
                         "name": "id",
                         "in": "path",
                         "description": "The id of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "index",
+                        "in": "path",
+                        "description": "The index of the image to retrieve",
                         "required": true,
                         "schema": {
                             "type": "integer",
