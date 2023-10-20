@@ -66,6 +66,7 @@ interface IManager {
 	 * @throws Exception if there was a problem inserting the task into the database
 	 * @throws PreConditionNotMetException if no provider is registered
 	 * @throws RuntimeException If the task run fail
+	 * @since 28.0.0
 	 */
 	public function runOrScheduleTask(Task $task) : void;
 
