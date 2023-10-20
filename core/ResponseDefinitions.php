@@ -152,7 +152,8 @@ namespace OCA\Core;
  *      appId: string,
  *      input: string,
  *      identifier: ?string,
- *      numberOfImages: int
+ *      numberOfImages: int,
+ *      completionExpectedAt: int,
  *  }
  */
 class ResponseDefinitions {

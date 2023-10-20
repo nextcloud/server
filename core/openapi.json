@@ -459,7 +459,8 @@
                     "appId",
                     "input",
                     "identifier",
-                    "numberOfImages"
+                    "numberOfImages",
+                    "completionExpectedAt"
                 ],
                 "properties": {
                     "id": {
@@ -486,6 +487,10 @@
                         "nullable": true
                     },
                     "numberOfImages": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "completionExpectedAt": {
                         "type": "integer",
                         "format": "int64"
                     }

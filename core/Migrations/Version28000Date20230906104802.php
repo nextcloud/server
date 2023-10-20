@@ -82,6 +82,9 @@ class Version28000Date20230906104802 extends SimpleMigrationStep {
 			$table->addColumn('last_updated', Types::DATETIME, [
 				'notnull' => false,
 			]);
+			$table->addColumn('completion_expeted_at', Types::DATETIME, [
+				'notnull' => false,
+			]);
 
 			$table->setPrimaryKey(['id'], 't2i_tasks_id_index');
 			$table->addIndex(['last_updated'], 't2i_tasks_updated');

@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCP\TextToImage;
 
+use DateTime;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -38,6 +39,8 @@ use OCP\Image;
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
+
+	protected DateTime $completionExpectedAt;
 
 	/**
 	 * @since 28.0.0
@@ -125,6 +128,22 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
+	 * @param DateTime $at
+	 * @since 28.0.0
+	 */
+	final public function setCompletionExpectedAt(DateTime $at): void {
+		$this->completionExpectedAt = $at;
+	}
+
+	/**
+	 * @return DateTime
+	 * @since 28.0.0
+	 */
+	final public function getCompletionExpectedAt(): DateTime {
+		return $this->completionExpectedAt;
+	}
+
+	/**
 	 * @return int|null
 	 * @since 28.0.0
 	 */
@@ -173,7 +192,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int}
+	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: int}
 	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
@@ -185,6 +204,7 @@ final class Task implements \JsonSerializable {
 			'numberOfImages' => $this->getNumberOfImages(),
 			'input' => $this->getInput(),
 			'identifier' => $this->getIdentifier(),
+			'completionExpectedAt' => $this->getCompletionExpectedAt()->getTimestamp(),
 		];
 	}
 }

@@ -46,6 +46,8 @@ use OCP\TextToImage\Task as OCPTask;
  * @method string|null getIdentifier()
  * @method setNumberOfImages(int $numberOfImages)
  * @method int getNumberOfImages()
+ * @method setCompletionExpectedAt(DateTime $at)
+ * @method DateTime getCompletionExpectedAt()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -56,16 +58,17 @@ class Task extends Entity {
 	protected $appId;
 	protected $identifier;
 	protected $numberOfImages;
+	protected $completionExpectedAt;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images'];
+	public static array $columns = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages'];
+	public static array $fields = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
 
 
 	public function __construct() {
@@ -78,6 +81,7 @@ class Task extends Entity {
 		$this->addType('appId', 'string');
 		$this->addType('identifier', 'string');
 		$this->addType('numberOfImages', 'integer');
+		$this->addType('completionExpectedAt', 'datetime');
 	}
 
 	public function toRow(): array {
@@ -97,6 +101,7 @@ class Task extends Entity {
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
 			'identifier' => $task->getIdentifier(),
+			'completionExpectedAt' => $task->getCompletionExpectedAt(),
 		]);
 		return $dbTask;
 	}
@@ -105,6 +110,7 @@ class Task extends Entity {
 		$task = new OCPTask($this->getInput(), $this->getAppId(), $this->getNumberOfImages(), $this->getuserId(), $this->getIdentifier());
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
+		$task->setCompletionExpectedAt($this->getCompletionExpectedAt());
 		return $task;
 	}
 }
