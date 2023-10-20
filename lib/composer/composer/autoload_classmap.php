@@ -113,6 +113,7 @@ return array(
     'OCP\\Authentication\\LoginCredentials\\ICredentials' => $baseDir . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
     'OCP\\Authentication\\LoginCredentials\\IStore' => $baseDir . '/lib/public/Authentication/LoginCredentials/IStore.php',
     'OCP\\Authentication\\Token\\IProvider' => $baseDir . '/lib/public/Authentication/Token/IProvider.php',
+    'OCP\\Authentication\\Token\\IToken' => $baseDir . '/lib/public/Authentication/Token/IToken.php',
     'OCP\\Authentication\\TwoFactorAuth\\ALoginSetupController' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/ALoginSetupController.php',
     'OCP\\Authentication\\TwoFactorAuth\\IActivatableAtLogin' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IActivatableAtLogin.php',
     'OCP\\Authentication\\TwoFactorAuth\\IActivatableByAdmin' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IActivatableByAdmin.php',
