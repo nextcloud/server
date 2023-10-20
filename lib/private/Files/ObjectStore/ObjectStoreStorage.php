@@ -47,6 +47,7 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
+use OCP\ILogger;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
@@ -55,13 +56,15 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	protected string $id;
 	private string $objectPrefix = 'urn:oid:';
 
-	private $logger;
+	private ILogger $logger;
 
 	private bool $handleCopiesAsOwned;
+	protected bool $validateWrites = true;
 
-	/** @var bool */
-	protected $validateWrites = true;
-
+	/**
+	 * @param array $params
+	 * @throws \Exception
+	 */
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
