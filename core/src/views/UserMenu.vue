@@ -36,8 +36,12 @@
 		</template>
 		<ul>
 			<UserMenuEntry v-for="entry in settingsNavEntries"
-				v-bind="entry"
-				:key="entry.id" />
+				:id="entry.id"
+				:key="entry.id"
+				:name="entry.name"
+				:href="entry.href"
+				:active="entry.active"
+				:icon="entry.icon" />
 		</ul>
 	</NcHeaderMenu>
 </template>
@@ -58,6 +62,20 @@ import UserMenuEntry from '../components/UserMenu/UserMenuEntry.vue'
 
 import logger from '../logger.js'
 
+/**
+ * @typedef SettingNavEntry
+ * @property {string} id - id of the entry, used as HTML ID, for example, "settings"
+ * @property {string} name - Label of the entry, for example, "Personal Settings"
+ * @property {string} icon - Icon of the entry, for example, "/apps/settings/img/personal.svg"
+ * @property {'settings'|'link'|'guest'} type - Type of the entry
+ * @property {string} href - Link of the entry, for example, "/settings/user"
+ * @property {boolean} active - Whether the entry is active
+ * @property {number} order - Order of the entry
+ * @property {number} unread - Number of unread pf this items
+ * @property {string} classes - Classes for custom styling
+ */
+
+/** @type {SettingNavEntry[]} */
 const settingsNavEntries = loadState('core', 'settingsNavEntries', [])
 
 const translateStatus = (status) => {
