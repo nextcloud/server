@@ -61,6 +61,7 @@ jobs:
         include:
           - php-versions: '8.3'
             postgres-versions: '15'
+            coverage: true
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -93,7 +94,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, pgsql, pdo_pgsql
-          coverage: none
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,13 +102,7 @@ jobs:
       - name: Set up dependencies
         run: composer i
 
-      - name: Wait for pgsql
-        id: check_pgsql_up
-        run: |
-          apps/files_external/tests/env/wait-for-connection localhost 4444 30
-
       - name: Set up Nextcloud
-        if: steps.check_pgsql_up.outcome == 'success'
         env:
           DB_PORT: 4444
         run: |
@@ -117,12 +112,17 @@ jobs:
           ./occ maintenance:install --verbose --database=pgsql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
-      - name: PHPUnit
-        if: steps.check_pgsql_up.outcome == 'success'
-        run: composer run test:db
+      - name: PHPUnit database tests
+        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+  
+      - name: Upload db code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.db.xml
+          flags: phpunit-postgres
 
       - name: Run repair steps
-        if: steps.check_pgsql_up.outcome == 'success'
         run: |
           ./occ maintenance:repair --include-expensive
 

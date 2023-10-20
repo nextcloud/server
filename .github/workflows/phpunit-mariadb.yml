@@ -60,6 +60,7 @@ jobs:
         include:
           - php-versions: '8.3'
             mariadb-versions: '10.6'
+            coverage: true
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -93,7 +94,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, mysql, pdo_mysql
-          coverage: none
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,19 +102,12 @@ jobs:
       - name: Set up dependencies
         run: composer i
 
-      - name: Wait for MariaDB
-        id: check_mariadb_up
-        run: |
-          apps/files_external/tests/env/wait-for-connection localhost 4444 30
-
       - name: Enable ONLY_FULL_GROUP_BY MySQL option
-        if: steps.check_mariadb_up.outcome == 'success'
         run: |
           echo "SET GLOBAL sql_mode=(SELECT CONCAT(@@sql_mode,',ONLY_FULL_GROUP_BY'));" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
           echo "SELECT @@sql_mode;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
 
       - name: Set up Nextcloud
-        if: steps.check_mariadb_up.outcome == 'success'
         env:
           DB_PORT: 4444
         run: |
@@ -124,8 +118,14 @@ jobs:
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
-        if: steps.check_mariadb_up.outcome == 'success'
-        run: composer run test:db
+        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+
+      - name: Upload db code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.db.xml
+          flags: phpunit-mariadb
 
       - name: Print logs
         if: always()

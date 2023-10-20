@@ -56,12 +56,11 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.0', '8.1', '8.2', '8.3']
-        database-only: [true]
         include:
-          - php-versions: '8.2'
-            database-only: false
+          - php-versions: '8.1'
+            coverage: true
 
-    name: SQLite (PHP ${{ matrix.php-versions }}) - ${{ matrix.database-only && 'database' || 'all' }} tests
+    name: SQLite (PHP ${{ matrix.php-versions }})
 
     services:
       cache:
@@ -77,12 +76,12 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@7fdd3ece872ec7ec4c098ae5ab7637d5e0a96067 # v2
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite ${{ matrix.database-only && '' || ', imagick' }}
-          coverage: none
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,13 +97,18 @@ jobs:
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
-      - name: PHPUnit database tests
-        if: ${{ matrix.database-only }}
-        run: composer run test:db
+      - name: Nextcloud debug information
+        run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
-      - name: PHPUnit full testsuite
-        if: ${{ ! matrix.database-only }}
-        run: composer run test
+      - name: PHPUnit database tests
+        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+
+      - name: Upload db code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.db.xml
+          flags: phpunit-sqlite
 
       - name: Print logs
         if: always()
