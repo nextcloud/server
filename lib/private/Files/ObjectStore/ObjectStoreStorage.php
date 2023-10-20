@@ -51,20 +51,9 @@ use OCP\Files\Storage\IStorage;
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
 
-	/**
-	 * @var \OCP\Files\ObjectStore\IObjectStore $objectStore
-	 */
-	protected $objectStore;
-	/**
-	 * @var string $id
-	 */
-	protected $id;
-	/**
-	 * @var \OC\User\User $user
-	 */
-	protected $user;
-
-	private $objectPrefix = 'urn:oid:';
+	protected IObjectStore $objectStore;
+	protected string $id;
+	private string $objectPrefix = 'urn:oid:';
 
 	private $logger;
 

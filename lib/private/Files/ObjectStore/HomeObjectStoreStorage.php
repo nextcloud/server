@@ -7,6 +7,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -29,6 +30,8 @@ use OCP\Files\IHomeStorage;
 use OCP\IUser;
 
 class HomeObjectStoreStorage extends ObjectStoreStorage implements IHomeStorage {
+	protected IUser $user;
+
 	/**
 	 * The home user storage requires a user object to create a unique storage id
 	 * @param array $params
