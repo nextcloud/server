@@ -61,6 +61,10 @@ class Version28000Date20230906104802 extends SimpleMigrationStep {
 				'length' => 6,
 				'default' => 0,
 			]);
+			$table->addColumn('number_of_images', Types::INTEGER, [
+				'notnull' => true,
+				'default' => 1,
+			]);
 			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
