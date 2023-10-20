@@ -11,8 +11,7 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 ## 🏗 Development setup
 1. ☁ Clone this app into the `apps` folder of your Nextcloud: `git clone https://github.com/nextcloud/viewer.git`
 2. 👩‍💻 In the folder of the app, install dependencies with `npm ci` and build the Javascript with `npm run build`.
-3. ✅ Enable the app through the app management of your Nextcloud
-4. 🎉 Partytime!
+3. 🎉 Partytime!
 
 ### 🧙 Advanced development stuff
 To build the Javascript whenever you make changes, you can also run `npm run dev` for development builds.
