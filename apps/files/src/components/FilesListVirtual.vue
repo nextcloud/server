@@ -332,7 +332,7 @@ export default Vue.extend({
 
 		// Before table and thead
 		.files-list__before {
-			contain: strict;
+			contain: style paint layout;
 			display: flex;
 			flex-direction: column;
 		}
