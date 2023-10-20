@@ -73,6 +73,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Оневозможи ги сите кратенки преку тастатурата",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзалниот пристап е многу важен за нас. Ние ги следиме веб-стандардите и ги имплементираме за да го направиме користењето попристапно, како користење без маус, и помошни апликации за читање на екранот. Наша цел е да бидеме во согласност со {guidelines} {linkend}2.1 на ниво АА, со висока контрастна тема дури и на ниво на ААА.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Доколку наидете на некој проблем, не се двоумете и пријавете го на {issuetracker} {linkend}. И доколку сакате можете да се приклучите кон нашиот {designteam} {linkend}!",
+    "Move up" : "Помести горе",
+    "Move down" : "Помести доле",
     "Custom background" : "Сопствена позадина",
     "Default background" : "Стандардна позадина",
     "Change color" : "Промени боја",

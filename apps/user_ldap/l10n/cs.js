@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "Platnost hesla dnes končí.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Platnost hesla skončí za %n den.","Platnost hesla skončí za %n dny.","Platnost hesla skončí za %n dnů.","Platnost hesla skončí za %n dny."],
     "LDAP/AD integration" : "Napojení na LDAP/AD",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Nalezeny neplatné UUID identifikátory uživatelů nebo skupin. Zkontrolujte svá nastavení „Přebít zjišťování UUID identifikátorů“ v části pro odborníky nastavení pro LDAP a identifikátory pak zaktualizujte příkazem „ldap:update-uuid“.",
     "_%n group found_::_%n groups found_" : ["nalezena %n skupina","nalezeny %n skupiny","nalezeno %n skupin","nalezeny %n skupiny"],
     "> 1000 groups found" : "nalezeno více než 1 000 skupin",
     "> 1000 users found" : "nalezeno více než 1 000 uživatelů",

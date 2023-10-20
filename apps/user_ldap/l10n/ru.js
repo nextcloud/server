@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "Сегодня истекает срок действия пароля.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Срок действия пароля истекает через %n день.","Срок действия пароля истекает через %n дня.","Срок действия пароля истекает через %n дней.","Срок действия пароля истекает через %n день."],
     "LDAP/AD integration" : "LDAP/AD интеграция",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Обнаружены некорректные идентификаторы UUID пользователей или групп LDAP. Для их обновления обратите внимание на параметр «Переопределять определение UUID» в разделе экспертных настроек протокола LDAP и запустите в консоли команду «occ ldap:update-uuid».",
     "_%n group found_::_%n groups found_" : ["Найдена %n группа","Найдено %n группы","Найдено %n групп","Найдено %n группы"],
     "> 1000 groups found" : "Найдено более 1000 групп",
     "> 1000 users found" : "Найдено более 1000 пользователей",

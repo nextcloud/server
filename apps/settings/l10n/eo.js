@@ -106,6 +106,7 @@ OC.L10N.register(
     "Delete" : "Forigi",
     "Unlimited" : "Senlima",
     "Verifying" : "Kontrolado",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "La nurlega agordodosiero estis ebligita. Tio baras modifon de kelkaj agordoj per la reta fasado. Plie, la dosiero bezonos esti markita mane kiel legebla dum ĉiu ĝisdatigo.",
     "Nextcloud settings" : "Nextcloud-agordoj",
     "None" : "Nenio",
     "Two-Factor Authentication" : "Dufaza aŭtentigo",

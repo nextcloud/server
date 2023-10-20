@@ -101,6 +101,7 @@
     "Reshare" : "Partilhar novamente",
     "Unlimited" : "Ilimitado",
     "Verifying" : "A verificar",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "A configuração Só-de-Leitura foi ativada. Isto evita definir algumas configurações através da interface da Web. Além disso, o ficheiro precisa de ser definido gravável manualmente para cada atualização.",
     "Profile information" : "Informação de perfil",
     "Nextcloud settings" : "Definições Nextcloud",
     "None" : "Nenhum",

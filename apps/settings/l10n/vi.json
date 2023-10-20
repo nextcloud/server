@@ -115,6 +115,8 @@
     "Delete" : "Xóa",
     "Unlimited" : "Không giới hạn",
     "Verifying" : "Đang xác minh",
+    "This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features." : "Máy chủ này không có kết nối internet hoạt động: Không thể truy cập nhiều điểm cuối. Điều này có nghĩa là một số tính năng như gắn bộ nhớ ngoài, thông báo về bản cập nhật hoặc cài đặt ứng dụng của bên thứ ba sẽ không hoạt động. Truy cập tệp từ xa và gửi email thông báo cũng có thể không hoạt động. Thiết lập kết nối từ máy chủ này với internet để tận hưởng tất cả các tính năng.",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Cấu hình chỉ đọc đã được bật. Điều này ngăn thiết lập một số cấu hình thông qua giao diện web. Hơn nữa, tệp cần được ghi theo cách thủ công cho mỗi lần cập nhật.",
     "None" : "Không gì cả",
     "Enforce two-factor authentication" : "Thực thi xác thực hai yếu tố",
     "Limit to groups" : "Giới hạn nhóm",

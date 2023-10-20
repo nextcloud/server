@@ -48,6 +48,7 @@ OC.L10N.register(
     "Change" : "Mainīt",
     "Delete" : "Dzēst",
     "Unlimited" : "Neierobežota",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Ir iespējots tikai lasāma konfigurācija. Tas neatļauj iestatīt un mainīt dažas konfigurācijas caur tīmekļa interfeisu. Šī datne būs manuāli jāpārveido par rakstāmu, pirms katra atjauninājuma instalēšanas.",
     "Nextcloud settings" : "Nextcloud iestatījumi",
     "None" : "Nav",
     "Limit to groups" : "Grupu ierobežojums",

@@ -70,6 +70,8 @@ OC.L10N.register(
     "Keyboard shortcuts" : "Pikanäppäimet",
     "Disable all keyboard shortcuts" : "Poista käytöstä kaikki pikanäppäimet",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Saavutettavuus on erittäin tärkeää meille. Seuraamme verkkostandardeja ja varmistamme, että kaikki on käytettävissä ilman hiirtä sekä avustavien ohjelmistojen kuten ruudunlukijoiden avulla. Pyrimme olemaan yhteensopivia {guidelines}Web Content Accessibility Guidelines{linkend} -ohjeistuksen version 2.1 AA-tason kanssa, suuren kontrastin teemalla pyrimme jopa AAA-tasoon.",
+    "Move up" : "Siirrä ylös",
+    "Move down" : "Siirrä alas",
     "Custom background" : "Mukautettu taustakuva",
     "Default background" : "Oletustausta",
     "Change color" : "Vaihda väriä",

@@ -74,6 +74,7 @@
     "Reshare" : "Repartir",
     "Unlimited" : "Illimitat",
     "Verifying" : "Verificacion",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "La configuracion lectura-sola es estada activada. Aquò empacha de configurar d’unes paramètres via l’interfàcia web. Pasmens, òm deu far venir lo fichièr modificable manualament per cada mesa a jorn.",
     "Nextcloud settings" : "Paramètres Nextcloud",
     "None" : "Pas cap",
     "Two-Factor Authentication" : "Autentificacion dos factors",
