@@ -90,7 +90,7 @@ class Task extends Entity {
 		/** @var Task $dbTask */
 		$dbTask = Task::fromParams([
 			'id' => $task->getId(),
-			'lastUpdated' => time(),
+			'lastUpdated' => new DateTime('now'),
 			'status' => $task->getStatus(),
 			'numberOfImages' => $task->getNumberOfImages(),
 			'input' => $task->getInput(),
