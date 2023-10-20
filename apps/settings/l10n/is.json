@@ -105,6 +105,8 @@
     "Delete" : "Eyða",
     "Unlimited" : "ótakmörkuðu",
     "Verifying" : "Sannreyni",
+    "This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features." : "Þessi þjónn er ekki með virka internettengingu: ekki náðis tenging við fjölmarga endapunkta. Þetta þýðir að sumir eiginleikar eins og að virkja ytri gagnageymslu, tilkynningar um uppfærslur eða uppsetningu á forritum þriðja aðila, mun ekki virka. Fjartengdur aðgangur að skrám og sending tilkynninga í tölvupósti virka líklega ekki heldur. Við leggjum til að internettenging sé virkjuð fyrir þennan vefþjón ef þú vilt hafa alla eiginleika tiltæka.",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Skrifvarða stillingaskráin hefur verið virkjuð. Þetta kemur í veg fyrir að hægt sé að sýsla með sumar stillingar í gegnum vefviðmótið. Að auki þarf þessi skrá að vera skrifanleg við hverja uppfærslu.",
     "Nextcloud settings" : "Stillingar Nextcloud",
     "None" : "Ekkert",
     "Two-Factor Authentication" : "Tveggja-þrepa auðkenning",

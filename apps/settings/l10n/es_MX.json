@@ -95,6 +95,7 @@
     "Delete" : "Borrar",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Se ha activado la configuración de solo lectura. Esto evita cambiar ciertas configuraciones vía la interfaz web. Además, el archivo debe hacerse escribible de manera manual para cada actualización.",
     "None" : "Ninguno",
     "Limit to groups" : "Limitar a grupos",
     "Save changes" : "Guardar cambios",

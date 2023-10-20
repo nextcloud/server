@@ -59,6 +59,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "모든 키보드 단축키 비활성화",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "보편적 접근성은 매우 중요합니다. 저희는 웹 표준을 준수하며, 마우스 혹은 스크린리더와 같은 보조 소프트웨어 없이도 정상적인 사용이 가능한지에 대해 확인하고 있습니다. 또한, {guidelines}웹 콘텐츠 접근성 가이드라인{linkend} 2.1을 AA 수준 및 AAA 수준의 고대비 테마에서 준수하기 위해 노력하고 있습니다. ",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "사용 중 문제가 발생했을 경우, {issuetracker}이슈 트래커{linkend}에 보고해주시기 바랍니다. 또한 디자인 부분에 참여하고 싶다면, {designteam}저희 디자인 팀{linkend}과 함께해주세요!",
+    "Move up" : "위로 이동",
+    "Move down" : "아래로 이동",
     "Change color" : "색깔 바꾸기",
     "Theme selection is enforced" : "테마가 강제로 선택됨",
     "Reset to default" : "기본값으로 초기화",

@@ -58,6 +58,7 @@
     "Your password will expire today." : "Дія вашого пароля завершується сьогодні.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Дія вашого пароля завершується через %n день.","Дія вашого пароля завершується через %n дні.","Дія вашого пароля завершується через %n днів.","Дія вашого пароля завершується через %n днів."],
     "LDAP/AD integration" : "Інтеграція LDAP/AD",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Знайдено недійсні UUID користувачів або груп LDAP. Будь ласка, перегляньте свої параметри «Перевизначити виявлення UUID» у експертній частині конфігурації LDAP і використовуйте «occ ldap:update-uuid», щоб оновити їх.",
     "_%n group found_::_%n groups found_" : ["знайдена група %n","знайдено груп %n","знайдено груп %n","знайдено груп %n "],
     "> 1000 groups found" : "> 1000 груп знайдено",
     "> 1000 users found" : "> 1000 користувачів знайдено",

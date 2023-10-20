@@ -119,6 +119,7 @@
     "A background job is pending that checks for user imported SSL certificates. Please check back later." : "Un'atividade in segundu pianu est in isetu pro controllare is tzertificados SSL importados dae s'utente. Torra a controllare prus a tardu.",
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "B'at tzertificados SSL importados dae utentes chi non s'impreant prus cun Nextcloud 21. Si podent importare in sa lìnia de cumandu tràmite su cumandu \"occ security:certificates:import\". Is percursos issoro in sa cartella de is datos sunt mustrados in fatu.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Su formadu betzu de tzifradura ladu serbidore est ativu. Racumandamus de ddu disativare. ",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Sa cunfinguratzione de letura isceti est istètia ativada. Custu evitat de pònere cunfiguratziones cun sa interfache-web. In prus, s'archìviu depet èssere produidu pro èssere iscritu a manu a cada agiornamentu.",
     "Nextcloud settings" : "Impostatziones de Nextcloud",
     "None" : "Perunu",
     "Two-Factor Authentication" : "Autenticatzione a duos fatores",

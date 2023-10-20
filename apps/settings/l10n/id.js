@@ -121,6 +121,7 @@ OC.L10N.register(
     "Unlimited" : "Tak terbatas",
     "Verifying" : "Memverifikasi",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Format enkripsi sisi server lama diaktifkan. Kami menyarankan untuk menonaktifkan ini.",
+    "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Konfigurasi baca-saja telah diaktifkan. Hal ini mencegah penyetelan beberapa konfigurasi via antarmuka web. Pada setiap proses pembaruan berikutnya, secara manual berkas tersebut perlu dibuat agar dapat ditulis.",
     "Profile information" : "Informasi profil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Gambar profil, nama lengkap, surel, nomor telepon, alamat, situs web, Twitter, organisasi, peran, judul, biografi, dan apakah profilmu diaktifkan",
     "Nextcloud settings" : "Pengaturan Nextcloud",

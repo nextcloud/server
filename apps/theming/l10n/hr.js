@@ -52,6 +52,8 @@ OC.L10N.register(
     "Background" : "Pozadina",
     "Keyboard shortcuts" : "Tipkovni prečaci",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Nama je vrlo važno osigurati univerzalan pristup. Pratimo sve internetske i mrežne standarde i provjeravamo je li sustav upotrebljiv bez miša i pomoćnog softvera, kao što je čitač zaslona. Naš je cilj postići sukladnost sa {guidelines}Smjernicama pristupačnosti web-sadržaja{linkend} 2.1 na razini AA s temom jakog kontrasta na razini AAA.",
+    "Move up" : "Premjesti gore",
+    "Move down" : "Premjesti dolje",
     "Change color" : "Promijeni boju",
     "Reset to default" : "Vrati na zadanu postavku",
     "Upload" : "Otpremi",

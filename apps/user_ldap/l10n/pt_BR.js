@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "Sua senha vai expirar hoje.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Sua senha vai expirar dentro de%n dia.","Sua senha vai expirar dentro de%ndias.","Sua senha vai expirar dentro de%ndias."],
     "LDAP/AD integration" : "LDAP/AD integração",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "UUIDs inválidos de usuários ou grupos LDAP foram encontrados. Revise suas configurações de \"Substituir detecção de UUID\" na parte Expert da configuração LDAP e use \"occ ldap:update-uuid\" para atualizá-las.",
     "_%n group found_::_%n groups found_" : ["%n  grupo encontrado","%n grupo encontrado","%n grupos encontrados"],
     "> 1000 groups found" : ">1000 grupos encontrados",
     "> 1000 users found" : ">1000 usuários encontrados",
