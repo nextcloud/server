@@ -148,6 +148,7 @@ export const applyChangesToNextcloud = async function() {
 
 	const htmlPath = '/var/www/html'
 	const folderPaths = [
+		'./3rdparty',
 		'./apps',
 		'./core',
 		'./dist',
