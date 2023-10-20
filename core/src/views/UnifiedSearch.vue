@@ -74,7 +74,7 @@
 				<!-- Search filters -->
 				<NcActions v-if="availableFilters.length > 1"
 					class="unified-search__filters"
-					placement="bottom"
+					placement="bottom-end"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
 					<NcActionButton v-for="filter in availableFilters"
