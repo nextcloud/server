@@ -147,8 +147,11 @@ class Manager implements IManager {
 				}
 				$this->logger->debug('Creating result files for Text2Image task');
 				$resources = [];
+				$files = [];
 				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
-					$resources[] = $folder->newFile((string) $i)->write();
+					$file = $folder->newFile((string) $i);
+					$files[] = $file;
+					$resources[] = $file->write();
 					if ($resource[count($resources) - 1] === false) {
 						throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: Couldn\'t open file to write.');
 					}
@@ -158,7 +161,7 @@ class Manager implements IManager {
 				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
 					if (is_resource($resources[$i])) {
 						// If $resource hasn't been closed yet, we'll do that here
-						fclose($resource[$i]);
+						fclose($resources[$i]);
 					}
 				}
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
@@ -166,17 +169,20 @@ class Manager implements IManager {
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				return;
 			} catch (\RuntimeException|\Throwable $e) {
-				if (isset($resource) && is_resource($resource)) {
-					// If $resource hasn't been closed yet, we'll do that here
-					fclose($resource);
-				}
-				try {
-					if (isset($file)) {
-						$file->delete();
+				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
+					if (isset($resources[$i]) && is_resource($resources[$i])) {
+						// If $resource hasn't been closed yet, we'll do that here
+						fclose($resources[$i]);
 					}
-				} catch(NotPermittedException $e) {
-					$this->logger->warning('Failed to clean up Text2Image result file after error', ['exception' => $e]);
+					if (isset($files, $files[$i])) {
+						try {
+							$files[$i]->delete();
+						} catch(NotPermittedException $e) {
+							$this->logger->warning('Failed to clean up Text2Image result file after error', ['exception' => $e]);
+						}
+					}
 				}
+
 				$this->logger->info('Text2Image generation using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(Task::STATUS_FAILED);
 				try {
