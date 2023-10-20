@@ -156,33 +156,37 @@ class Scanner extends PublicEmitter {
 	public function backgroundScan($dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
-			$storage = $mount->getStorage();
-			if (is_null($storage)) {
-				continue;
+			try {
+				$storage = $mount->getStorage();
+				if (is_null($storage)) {
+					continue;
+				}
+
+				// don't bother scanning failed storages (shortcut for same result)
+				if ($storage->instanceOfStorage(FailedStorage::class)) {
+					continue;
+				}
+
+				$scanner = $storage->getScanner();
+				$this->attachListener($mount);
+
+				$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
+					$this->triggerPropagator($storage, $path);
+				});
+				$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
+					$this->triggerPropagator($storage, $path);
+				});
+				$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+					$this->triggerPropagator($storage, $path);
+				});
+
+				$propagator = $storage->getPropagator();
+				$propagator->beginBatch();
+				$scanner->backgroundScan();
+				$propagator->commitBatch();
+			} catch (\Exception $e) {
+				$this->logger->error("Error while trying to scan mount as {$mount->getMountPoint()}:" . $e->getMessage(), ['exception' => $e, 'app' => 'files']);
 			}
-
-			// don't bother scanning failed storages (shortcut for same result)
-			if ($storage->instanceOfStorage(FailedStorage::class)) {
-				continue;
-			}
-
-			$scanner = $storage->getScanner();
-			$this->attachListener($mount);
-
-			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
-				$this->triggerPropagator($storage, $path);
-			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
-				$this->triggerPropagator($storage, $path);
-			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
-				$this->triggerPropagator($storage, $path);
-			});
-
-			$propagator = $storage->getPropagator();
-			$propagator->beginBatch();
-			$scanner->backgroundScan();
-			$propagator->commitBatch();
 		}
 	}
 
