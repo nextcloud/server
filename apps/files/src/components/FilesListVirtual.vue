@@ -307,11 +307,12 @@ export default Vue.extend({
 	display: block;
 	overflow: auto;
 	height: 100%;
+	will-change: scroll-position;
 
 	&::v-deep {
 		// Table head, body and footer
 		tbody {
-			will-change: scroll-position, padding;
+			will-change: padding;
 			contain: layout paint style;
 			display: flex;
 			flex-direction: column;
