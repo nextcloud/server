@@ -1119,6 +1119,7 @@ class Trashbin {
 					return false;
 				}
 			}
+			closedir($dh);
 		}
 		return true;
 	}

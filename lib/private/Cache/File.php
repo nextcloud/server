@@ -156,14 +156,15 @@ class File implements ICache {
 	 */
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
-		if ($storage and $storage->is_dir('/')) {
+		if ($storage && $storage->is_dir('/')) {
 			$dh = $storage->opendir('/');
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if ($file != '.' and $file != '..' and ($prefix === '' || str_starts_with($file, $prefix))) {
+					if ($file != '.' && $file != '..' && ($prefix === '' || str_starts_with($file, $prefix))) {
 						$storage->unlink('/' . $file);
 					}
 				}
+				closedir($dh);
 			}
 		}
 		return true;
@@ -184,7 +185,7 @@ class File implements ICache {
 				return null;
 			}
 			while (($file = readdir($dh)) !== false) {
-				if ($file != '.' and $file != '..') {
+				if ($file != '.' && $file != '..') {
 					try {
 						$mtime = $storage->filemtime('/' . $file);
 						if ($mtime < $now) {
@@ -200,6 +201,7 @@ class File implements ICache {
 					}
 				}
 			}
+			closedir($dh);
 		}
 	}
 

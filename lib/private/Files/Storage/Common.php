@@ -294,6 +294,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 					}
 				}
 			}
+			closedir($dh);
 		}
 	}
 
@@ -317,8 +318,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 					$files = array_merge($files, $this->searchInDir($query, $dir . '/' . $item));
 				}
 			}
+			closedir($dh);
 		}
-		closedir($dh);
 		return $files;
 	}
 
@@ -626,6 +627,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file);
 					}
 				}
+				closedir($dh);
 			}
 		} else {
 			$source = $sourceStorage->fopen($sourceInternalPath, 'r');
@@ -905,6 +907,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 					}
 				}
 			}
+			closedir($dh);
 		}
 	}
 }

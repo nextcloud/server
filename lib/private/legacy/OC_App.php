@@ -523,10 +523,11 @@ class OC_App {
 
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if ($file[0] != '.' and is_dir($apps_dir['path'] . '/' . $file) and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
+					if ($file[0] != '.' && is_dir($apps_dir['path'] . '/' . $file) && is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
 						$apps[] = $file;
 					}
 				}
+				closedir($dh);
 			}
 		}
 

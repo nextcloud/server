@@ -824,11 +824,12 @@ class Encryption extends Wrapper {
 				$result = true;
 			}
 			if (is_resource($dh)) {
-				while ($result and ($file = readdir($dh)) !== false) {
+				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
 						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename);
 					}
 				}
+				closedir($dh);
 			}
 		} else {
 			try {

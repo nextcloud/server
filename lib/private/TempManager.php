@@ -189,7 +189,7 @@ class TempManager implements ITempManager {
 		$cutOfTime = time() - 3600;
 		$files = [];
 		$dh = opendir($this->tmpBaseDir);
-		if ($dh) {
+		if (is_resource($dh)) {
 			while (($file = readdir($dh)) !== false) {
 				if (substr($file, 0, 7) === self::TMP_PREFIX) {
 					$path = $this->tmpBaseDir . '/' . $file;
@@ -199,6 +199,7 @@ class TempManager implements ITempManager {
 					}
 				}
 			}
+			closedir($dh);
 		}
 		return $files;
 	}

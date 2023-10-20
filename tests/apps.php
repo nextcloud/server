@@ -31,6 +31,7 @@ function loadDirectory($path): void {
 			require_once $file;
 		}
 	}
+	closedir($dh);
 }
 
 function getSubclasses($parentClassName): array {

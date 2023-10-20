@@ -82,10 +82,11 @@ abstract class Storage extends \Test\TestCase {
 		$dh = $this->instance->opendir('/');
 		$content = [];
 		while ($file = readdir($dh)) {
-			if ($file != '.' and $file != '..') {
+			if ($file != '.' && $file != '..') {
 				$content[] = $file;
 			}
 		}
+		closedir($dh);
 		$this->assertEquals([$directory], $content);
 
 		$content = iterator_to_array($this->instance->getDirectoryContent('/'));
@@ -114,10 +115,11 @@ abstract class Storage extends \Test\TestCase {
 		$dh = $this->instance->opendir('/');
 		$content = [];
 		while ($file = readdir($dh)) {
-			if ($file != '.' and $file != '..') {
+			if ($file != '.' && $file != '..') {
 				$content[] = $file;
 			}
 		}
+		closedir($dh);
 		$this->assertEquals([], $content);
 	}
 
@@ -455,10 +457,11 @@ abstract class Storage extends \Test\TestCase {
 		$dh = $this->instance->opendir('#foo');
 		$content = [];
 		while ($file = readdir($dh)) {
-			if ($file != '.' and $file != '..') {
+			if ($file != '.' && $file != '..') {
 				$content[] = $file;
 			}
 		}
+		closedir($dh);
 
 		$this->assertEquals(['test.txt'], $content);
 	}

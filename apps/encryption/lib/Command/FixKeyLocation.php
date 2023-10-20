@@ -366,6 +366,7 @@ class FixKeyLocation extends Command {
 					}
 				}
 			}
+			closedir($dh);
 		}
 	}
 

@@ -120,6 +120,7 @@ abstract class Archive {
 					$this->addFile($path.'/'.$file, $source.'/'.$file);
 				}
 			}
+			closedir($dh);
 		}
 	}
 }

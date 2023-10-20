@@ -33,6 +33,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 				$contents[] = $file;
 			}
 		}
+		closedir($dh);
 		$this->assertEquals(['foo'], $contents);
 		$this->sourceStorage->cleanUp();
 		parent::tearDown();
