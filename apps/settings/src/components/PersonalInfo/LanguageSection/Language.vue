@@ -22,9 +22,7 @@
 
 <template>
 	<div class="language">
-		<select :id="inputId"
-			:placeholder="t('settings', 'Language')"
-			@change="onLanguageChange">
+		<select :id="inputId" @change="onLanguageChange">
 			<option v-for="commonLanguage in commonLanguages"
 				:key="commonLanguage.code"
 				:selected="language.code === commonLanguage.code"

@@ -23,13 +23,14 @@
 <template>
 	<div>
 		<div class="email">
-			<input :id="inputId"
+			<input :id="inputIdWithDefault"
 				ref="email"
 				type="email"
 				autocomplete="email"
+				:aria-label="inputPlaceholder"
 				:placeholder="inputPlaceholder"
 				:value="email"
-				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
+				:aria-describedby="helperText ? `${inputIdWithDefault}-helper-text` : undefined"
 				autocapitalize="none"
 				spellcheck="false"
 				@input="onEmailChange">
@@ -73,7 +74,7 @@
 		</div>
 
 		<p v-if="helperText"
-			:id="`${inputId}-helper-text`"
+			:id="`${inputIdWithDefault}-helper-text`"
 			class="email__helper-text-message email__helper-text-message--error">
 			<AlertCircle class="email__helper-text-message__icon" :size="18" />
 			{{ helperText }}
@@ -144,6 +145,11 @@ export default {
 			type: Number,
 			default: VERIFICATION_ENUM.NOT_VERIFIED,
 		},
+		inputId: {
+			type: String,
+			required: false,
+			default: '',
+		},
 	},
 
 	data() {
@@ -194,18 +200,13 @@ export default {
 			return !this.initialEmail
 		},
 
-		inputId() {
-			if (this.primary) {
-				return 'email'
-			}
-			return `email-${this.index}`
+		inputIdWithDefault() {
+			return this.inputId || `account-property-email--${this.index}`
 		},
 
 		inputPlaceholder() {
-			if (this.primary) {
-				return t('settings', 'Your email address')
-			}
-			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
+			// Primary email has implicit linked <label>
+			return !this.primary ? t('settings', 'Additional email address {index}', { index: this.index + 1 }) : undefined
 		},
 
 		isNotificationEmail() {

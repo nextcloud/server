@@ -35,8 +35,7 @@
 					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
-					:disabled-tooltip="true"
+					:disable-tooltip="true"
 					:show-user-status="false"
 					:size="180" />
 				<div v-else class="icon-loading" />
