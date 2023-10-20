@@ -152,6 +152,7 @@ namespace OCA\Core;
  *      appId: string,
  *      input: string,
  *      identifier: ?string,
+ *      numberOfImages: int
  *  }
  */
 class ResponseDefinitions {

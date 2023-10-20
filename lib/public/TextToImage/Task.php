@@ -25,7 +25,11 @@ declare(strict_types=1);
 
 namespace OCP\TextToImage;
 
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IImage;
+use OCP\Image;
 
 /**
  * This is a text to image task
@@ -34,8 +38,6 @@ use OCP\IImage;
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
-
-	private ?IImage $image = null;
 
 	/**
 	 * @since 28.0.0
@@ -66,6 +68,7 @@ final class Task implements \JsonSerializable {
 	/**
 	 * @param string $input
 	 * @param string $appId
+	 * @param int $numberOfImages
 	 * @param string|null $userId
 	 * @param null|string $identifier An arbitrary identifier for this task. max length: 255 chars
 	 * @since 28.0.0
@@ -73,25 +76,36 @@ final class Task implements \JsonSerializable {
 	final public function __construct(
 		protected string $input,
 		protected string $appId,
+		protected int $numberOfImages,
 		protected ?string $userId,
 		protected ?string $identifier = '',
 	) {
 	}
 
 	/**
-	 * @return IImage|null
+	 * @return IImage[]|null
 	 * @since 28.0.0
 	 */
-	final public function getOutputImage(): ?IImage {
-		return $this->image;
+	final public function getOutputImages(): ?array {
+		$appData = \OC::$server->get(IAppDataFactory::class)->get('core');
+		try {
+			$folder = $appData->getFolder('text2image')->getFolder((string)$this->getId());
+			$images = [];
+			for ($i = 0; $i < $this->getNumberOfImages(); $i++) {
+				$images[] = new Image(base64_encode($folder->getFile((string) $i)->getContent()));
+			}
+			return $images;
+		} catch (NotFoundException|NotPermittedException) {
+			return null;
+		}
 	}
 
 	/**
-	 * @param IImage|null $image
+	 * @return int
 	 * @since 28.0.0
 	 */
-	final public function setOutputImage(?IImage $image): void {
-		$this->image = $image;
+	final public function getNumberOfImages(): int {
+		return $this->numberOfImages;
 	}
 
 	/**
@@ -159,7 +173,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string}
+	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int}
 	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
@@ -168,6 +182,7 @@ final class Task implements \JsonSerializable {
 			'status' => $this->getStatus(),
 			'userId' => $this->getUserId(),
 			'appId' => $this->getAppId(),
+			'numberOfImages' => $this->getNumberOfImages(),
 			'input' => $this->getInput(),
 			'identifier' => $this->getIdentifier(),
 		];

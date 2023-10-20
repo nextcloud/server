@@ -43,12 +43,12 @@ interface IProvider {
 	 * Processes a text
 	 *
 	 * @param string $prompt The input text
-	 * @param resource $resource The file resource to write the image to
+	 * @param resource[] $resources The file resources to write the images to
 	 * @return void
 	 * @since 28.0.0
 	 * @throws RuntimeException If the text could not be processed
 	 */
-	public function generate(string $prompt, $resource): void;
+	public function generate(string $prompt, array $resources): void;
 
 	/**
 	 * The expected runtime for one task with this provider in seconds

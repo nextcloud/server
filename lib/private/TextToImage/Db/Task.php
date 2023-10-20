@@ -27,10 +27,6 @@ namespace OC\TextToImage\Db;
 
 use DateTime;
 use OCP\AppFramework\Db\Entity;
-use OCP\Files\AppData\IAppDataFactory;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\Image;
 use OCP\TextToImage\Task as OCPTask;
 
 /**
@@ -48,6 +44,8 @@ use OCP\TextToImage\Task as OCPTask;
  * @method string getAppId()
  * @method setIdentifier(string $identifier)
  * @method string|null getIdentifier()
+ * @method setNumberOfImages(int $numberOfImages)
+ * @method int getNumberOfImages()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -57,16 +55,17 @@ class Task extends Entity {
 	protected $userId;
 	protected $appId;
 	protected $identifier;
+	protected $numberOfImages;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier'];
+	public static array $columns = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier'];
+	public static array $fields = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages'];
 
 
 	public function __construct() {
@@ -78,6 +77,7 @@ class Task extends Entity {
 		$this->addType('userId', 'string');
 		$this->addType('appId', 'string');
 		$this->addType('identifier', 'string');
+		$this->addType('numberOfImages', 'integer');
 	}
 
 	public function toRow(): array {
@@ -92,6 +92,7 @@ class Task extends Entity {
 			'id' => $task->getId(),
 			'lastUpdated' => time(),
 			'status' => $task->getStatus(),
+			'numberOfImages' => $task->getNumberOfImages(),
 			'input' => $task->getInput(),
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
@@ -101,20 +102,9 @@ class Task extends Entity {
 	}
 
 	public function toPublicTask(): OCPTask {
-		$task = new OCPTask($this->getInput(), $this->getAppId(), $this->getuserId(), $this->getIdentifier());
+		$task = new OCPTask($this->getInput(), $this->getAppId(), $this->getNumberOfImages(), $this->getuserId(), $this->getIdentifier());
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
-		$appData = \OC::$server->get(IAppDataFactory::class)->get('core');
-		try {
-			try {
-				$folder = $appData->getFolder('text2image');
-			} catch(NotFoundException) {
-				$folder = $appData->newFolder('text2image');
-			}
-			$task->setOutputImage(new Image(base64_encode($folder->getFile((string)$task->getId())->getContent())));
-		} catch (NotFoundException|NotPermittedException) {
-			// noop
-		}
 		return $task;
 	}
 }

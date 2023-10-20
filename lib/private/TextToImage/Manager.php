@@ -139,17 +139,27 @@ class Manager implements IManager {
 					$this->logger->debug('Creating folder in appdata for Text2Image results');
 					$folder = $this->appData->newFolder('text2image');
 				}
-				$this->logger->debug('Creating result file for Text2Image task');
-				$file = $folder->newFile((string) $task->getId());
-				$resource = $file->write();
-				if ($resource === false) {
-					throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: Couldn\'t open file to write.');
+				try {
+					$folder = $folder->getFolder((string) $task->getId());
+				} catch(NotFoundException) {
+					$this->logger->debug('Creating new folder in appdata Text2Image results folder');
+					$folder = $this->appData->newFolder((string) $task->getId());
+				}
+				$this->logger->debug('Creating result files for Text2Image task');
+				$resources = [];
+				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
+					$resources[] = $folder->newFile((string) $i)->write();
+					if ($resource[count($resources) - 1] === false) {
+						throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: Couldn\'t open file to write.');
+					}
 				}
 				$this->logger->debug('Calling Text2Image provider\'s generate method');
-				$provider->generate($task->getInput(), $resource);
-				if (is_resource($resource)) {
-					// If $resource hasn't been closed yet, we'll do that here
-					fclose($resource);
+				$provider->generate($task->getInput(), $resources);
+				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
+					if (is_resource($resources[$i])) {
+						// If $resource hasn't been closed yet, we'll do that here
+						fclose($resource[$i]);
+					}
 				}
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
 				$this->logger->debug('Updating Text2Image task in DB');

@@ -80,6 +80,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $input Input text
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
+	 * @param int $numberOfImages The number of images to generate
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextToImageTask}, array{}>|DataResponse<Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
 	 *
@@ -89,8 +90,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	#[PublicPage]
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
-	public function schedule(string $input, string $appId, string $identifier = ''): DataResponse {
-		$task = new Task($input, $appId, $this->userId, $identifier);
+	public function schedule(string $input, string $appId, string $identifier = '', int $numberOfImages = 8): DataResponse {
+		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
 		try {
 			try {
 				$this->textToImageManager->runOrScheduleTask($task);
@@ -145,6 +146,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * This endpoint allows downloading the resulting image of a task
 	 *
 	 * @param int $id The id of the task
+	 * @param int $index The index of the image to retrieve
 	 *
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{'Content-Type': string}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
@@ -153,15 +155,17 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[PublicPage]
 	#[BruteForceProtection(action: 'text2image')]
-	public function getImage(int $id): DataResponse|FileDisplayResponse {
+	public function getImage(int $id, int $index): DataResponse|FileDisplayResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
 			try {
 				$folder = $this->appData->getFolder('text2image');
 			} catch(NotFoundException) {
-				$folder = $this->appData->newFolder('text2image');
+				$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
+				$res->throttle(['action' => 'text2image']);
+				return $res;
 			}
-			$file = $folder->getFile((string)$task->getId());
+			$file = $folder->getFolder((string) $task->getId())->getFile((string) $index);
 			$info = getimagesizefromstring($file->getContent());
 
 			return new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => image_type_to_mime_type($info[2])]);
