@@ -1,7 +1,6 @@
 name: PHPUnit oci
 
-on:
-  pull_request:
+on: pull_request
 
 permissions:
   contents: read
@@ -26,36 +25,51 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
+              - '**/appinfo/**'
               - '**/lib/**'
+              - '**/templates/**'
               - '**/tests/**'
-              - '**/vendor-bin/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
               - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
               - '**.php'
 
   phpunit-oci:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       matrix:
-        php-versions: ['8.0', '8.1', '8.2']
+        oracle-versions: ['11']
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
+        include:
+          - php-versions: '8.3'
+            coverage: true
+
+    name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
     services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
       oracle:
-        image: ghcr.io/gvenzl/oracle-xe:11
+        image: ghcr.io/gvenzl/oracle-xe:${{ matrix.oracle-versions }}
 
         # Provide passwords and other environment variables to container
         env:
           ORACLE_RANDOM_PASSWORD: true
-          APP_USER: autotest
-          APP_USER_PASSWORD: owncloud
+          APP_USER: oc_autotest
+          APP_USER_PASSWORD: nextcloud
 
         # Forward Oracle port
         ports:
-          - 1521:1521/tcp
+          - 4444:1521/tcp
 
         # Provide healthcheck script options for startup
         options: >-
@@ -71,24 +85,38 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, oci8, openssl, pcntl, pdo_sqlite, posix, sqlite, xml, zip
-          coverage: none
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up dependencies
+        run: composer i
+
       - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
         run: |
-          composer install
           mkdir data
-          ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=autotest --database-pass=owncloud --admin-user admin --admin-pass admin
-          php -f index.php
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
+          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
-        run: composer run test:db
+        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+
+      - name: Upload db code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.db.xml
+          flags: phpunit-oci
 
       - name: Run repair steps
         run: |
