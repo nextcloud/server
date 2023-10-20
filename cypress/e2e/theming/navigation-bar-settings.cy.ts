@@ -210,3 +210,44 @@ describe('User theming set app order with default app', () => {
 		})
 	})
 })
+
+describe('User theming app order list accessibility', () => {
+	let user: User
+
+	before(() => {
+		cy.resetAdminTheming()
+		// Create random user for this test
+		cy.createRandomUser().then(($user) => {
+			user = $user
+			cy.login($user)
+		})
+	})
+
+	after(() => {
+		cy.deleteUser(user)
+	})
+
+	it('See the app order settings', () => {
+		cy.visit('/settings/user/theming')
+		cy.get('[data-cy-app-order]').scrollIntoView()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').should('have.length', 2)
+	})
+
+	it('click the first button', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]:first-of-type [data-cy-app-order-button="down"]').should('be.visible').click()
+	})
+
+	it('see the same app kept the focus', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]:first-of-type [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]:last-of-type [data-cy-app-order-button="up"]').should('have.focus')
+	})
+
+	it('click the last button', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]:last-of-type [data-cy-app-order-button="up"]').should('be.visible').click()
+	})
+
+	it('see the same app kept the focus', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]:first-of-type [data-cy-app-order-button="down"]').should('have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]:last-of-type [data-cy-app-order-button="up"]').should('not.have.focus')
+	})
+})
