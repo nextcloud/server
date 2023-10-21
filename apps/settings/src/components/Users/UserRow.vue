@@ -150,7 +150,7 @@
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set user as admin for') }}
 				</label>
-				<NcSelect :id="'subadmins' + uniqueId"
+				<NcSelect :input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
 					:loading="loading.subadmins"
@@ -406,7 +406,7 @@ export default {
 		},
 
 		uniqueId() {
-			return this.user.id + this.rand
+			return encodeURIComponent(this.user.id + this.rand)
 		},
 
 		userGroupsLabels() {

@@ -26,7 +26,6 @@
 			<NcAppNavigation>
 				<NcAppNavigationNew button-id="new-user-button"
 					:text="t('settings','New user')"
-					button-class="icon-add"
 					@click="showNewUserMenu"
 					@keyup.enter="showNewUserMenu"
 					@keyup.space="showNewUserMenu">
