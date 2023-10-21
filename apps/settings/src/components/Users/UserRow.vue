@@ -190,8 +190,8 @@
 					@option:selected="setUserQuota" />
 			</template>
 			<template v-else-if="!isObfuscated">
-				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
-				<NcProgressBar :id="'quota-progress' + uniqueId"
+				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
+				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId"
 					class="row__progress"
 					:class="{
 						'row__progress--warn': usedQuota > 80,
