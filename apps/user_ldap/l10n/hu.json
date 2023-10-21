@@ -59,6 +59,7 @@
     "Your password will expire today." : "A jelszava ma lejár.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["A jelszava %n nap múlva lejár.","A jelszava %n nap múlva lejár."],
     "LDAP/AD integration" : "LDAP/AD integráció",
+    "Checking for invalid LDAP UUIDs" : "Érvénytelen LDAP UUID-k ellenőrzése",
     "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Felhasználók vagy csoportok érvénytelen UUID azonosítói találhatók. Nézze át a „UUID észlelés felülbírálása” beállítást az LDAP beállítások Szakértő részében, majd a frissítésükhöz használja az „occ ldap:update-uuid” parancsot.",
     "_%n group found_::_%n groups found_" : ["%n csoport található","%n csoport található"],
     "> 1000 groups found" : "> 1000 csoport található",
