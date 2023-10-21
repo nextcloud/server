@@ -73,6 +73,9 @@ class EncryptAllTest extends TestCase {
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
 	protected $l;
 
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | IFactory */
+	protected $l10nFactory;
+
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
 	protected $questionHelper;
 
@@ -119,7 +122,10 @@ class EncryptAllTest extends TestCase {
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 
-		/* We need format method to return a string */
+		/**
+		 * We need format method to return a string
+		 * @var OutputFormatterInterface|\PHPUnit\Framework\MockObject\MockObject
+		*/
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
 		$outputFormatter->method('isDecorated')->willReturn(false);
 		$outputFormatter->method('format')->willReturnArgument(0);
