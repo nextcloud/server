@@ -146,6 +146,8 @@
     "Completed on %s" : "Befejezve: %s",
     "Due on %s by %s" : "Esedékesség: %s, %s által",
     "Due on %s" : "Esedékesség: %s",
+    "Checking for DAV system address book" : "A DAV rendszer címjegyzékének ellenőrzése",
+    "No outstanding DAV system address book sync." : "Nincs kiemelkedő DAV rendszer címjegyzék szinkronizálás.",
     "Migrated calendar (%1$s)" : "Átköltöztetett naptár (%1$s)",
     "Calendars including events, details and attendees" : "Naptárak eseményekkel, részletekkel és résztvevőkkel",
     "Contacts and groups" : "Névjegyek és csoportok",
