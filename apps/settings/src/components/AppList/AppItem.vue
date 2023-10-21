@@ -44,7 +44,7 @@
 					class="app-icon" />
 			</svg>
 
-			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" width="100%">
+			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" alt="">
 		</component>
 		<component :is="dataItemTag"
 			class="app-name"
@@ -210,7 +210,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.app-icon {
-		filter: var(--background-invert-if-bright);
-	}
+.app-icon {
+	filter: var(--background-invert-if-bright);
+}
+
+.app-image img {
+	width: 100%;
+}
 </style>
