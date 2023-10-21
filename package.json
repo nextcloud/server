@@ -145,7 +145,7 @@
     "cypress-if": "^1.10.5",
     "cypress-wait-until": "^2.0.1",
     "dockerode": "^4.0.0",
-    "eslint-plugin-cypress": "^2.14.0",
+    "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-es": "^4.1.0",
     "exports-loader": "^4.0.0",
     "file-loader": "^6.2.0",
