@@ -30,7 +30,7 @@ jobs:
         id: comment-branch
 
       - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           fetch-depth: 0
           token: ${{ secrets.COMMAND_BOT_PAT }}

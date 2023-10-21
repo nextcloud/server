@@ -60,7 +60,7 @@ jobs:
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v3.6.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v3.6.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
