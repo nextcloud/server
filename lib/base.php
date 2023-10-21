@@ -1121,7 +1121,7 @@ class OC {
 			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
-				$l->t('404'),
+				'404',
 				$l->t('The page could not be found on the server.'),
 				404
 			);
