@@ -607,6 +607,7 @@ class Configuration {
 	 * Returns TRUE if the ldapHost variable starts with 'ldapi://'
 	 */
 	public function usesLdapi(): bool {
-		return (substr($this->config['ldapHost'], 0, strlen('ldapi://')) === 'ldapi://');
+		$host = $this->config['ldapHost'];
+		return is_string($host) && (substr($host, 0, strlen('ldapi://')) === 'ldapi://');
 	}
 }
