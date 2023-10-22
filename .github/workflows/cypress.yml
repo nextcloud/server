@@ -72,15 +72,11 @@ jobs:
       fail-fast: false
       matrix:
         # Run multiple copies of the current job in parallel
-        # Please increase the number or runners as your tests suite grows
-        containers: ["component", 1, 2]
-        # Only use cypress cloud for PRs
-        use-cypress-cloud:
-          - ${{ !!github.head_ref }}
-        # Only use one container if we are not using the cypress cloud.
-        exclude:
-          - use-cypress-cloud: false
-            containers: 2
+        # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
+        containers: ["component", 0, 1, 2]
+        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
+        # Always aling this number with the total of e2e runners (max. index + 1)
+        total-containers: [3]
 
     name: runner ${{ matrix.containers }}
 
@@ -103,9 +99,6 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@59810ebfa5a5ac6fcfdcfdf036d1cd4d083a88f2 # v6.5.0
         with:
-          record: ${{ !!matrix.use-cypress-cloud }}
-          parallel: ${{ !!matrix.use-cypress-cloud }}
-          # cypress run type
           component: ${{ matrix.containers == 'component' }}
           group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
@@ -120,6 +113,8 @@ jobs:
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          SPLIT: ${{ matrix.total-containers }}
+          SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
