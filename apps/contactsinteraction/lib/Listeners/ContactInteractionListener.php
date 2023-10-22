@@ -89,15 +89,25 @@ class ContactInteractionListener implements IEventListener {
 			$uid = $event->getUid();
 			$email = $event->getEmail();
 			$federatedCloudId = $event->getFederatedCloudId();
-			$existing = $this->mapper->findMatch(
+		
+			$existingContact = $this->cardSearchDao->findExisting(
+				$event->getActor(),
+				$uid,
+				$email,
+				$federatedCloudId);
+			if ($existingContact !== null) {
+				return;
+			}
+
+			$existingRecentlyContacted = $this->mapper->findMatch(
 				$event->getActor(),
 				$uid,
 				$email,
 				$federatedCloudId
 			);
-			if (!empty($existing)) {
+			if (!empty($existingRecentlyContacted)) {
 				$now = $this->timeFactory->getTime();
-				foreach ($existing as $c) {
+				foreach ($existingRecentlyContacted as $c) {
 					$c->setLastContact($now);
 					$this->mapper->update($c);
 				}
@@ -117,29 +127,8 @@ class ContactInteractionListener implements IEventListener {
 				$contact->setFederatedCloudId($federatedCloudId);
 			}
 			$contact->setLastContact($this->timeFactory->getTime());
+			$contact->setCard($this->generateCard($contact));
 
-			$copy = $this->cardSearchDao->findExisting(
-				$event->getActor(),
-				$uid,
-				$email,
-				$federatedCloudId
-			);
-			if ($copy !== null) {
-				try {
-					$parsed = Reader::read($copy, Reader::OPTION_FORGIVING);
-					$parsed->CATEGORIES = $this->l10n->t('Recently contacted');
-					$contact->setCard($parsed->serialize());
-				} catch (Throwable $e) {
-					$this->logger->warning(
-						'Could not parse card to add recent category: ' . $e->getMessage(),
-						[
-							'exception' => $e,
-						]);
-					$contact->setCard($copy);
-				}
-			} else {
-				$contact->setCard($this->generateCard($contact));
-			}
 			$this->mapper->insert($contact);
 		}, $this->dbConnection);
 	}
