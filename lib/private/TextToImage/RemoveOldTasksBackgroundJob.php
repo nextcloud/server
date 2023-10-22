@@ -62,11 +62,11 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 			$folder = $this->appData->getFolder('text2image');
 			foreach ($deletedTasks as $deletedTask) {
 				try {
-					$folder->getFile((string)$deletedTask->getId())->delete();
+					$folder->getFolder((string)$deletedTask->getId())->delete();
 				} catch (NotFoundException) {
 					// noop
 				} catch (NotPermittedException $e) {
-					$this->logger->warning('Failed to delete stale text to image task', ['exception' => $e]);
+					$this->logger->warning('Failed to delete stale text to image task files', ['exception' => $e]);
 				}
 			}
 		} catch (Exception $e) {
