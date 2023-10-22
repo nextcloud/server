@@ -6,7 +6,6 @@
     "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Falta l'aplicació %1$s o té una versió no compatible amb aquest servidor. Comproveu la carpeta d'aplicacions.",
     "Sample configuration detected" : "S'ha detectat una configuració d'exemple",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "S'ha detectat que s'ha copiat la configuració d'exemple. Això no s'admet i pot malmetre la instal·lació. Llegiu la documentació abans d'aplicar cap canvi al fitxer config.php",
-    "404" : "404",
     "The page could not be found on the server." : "No s'ha pogut trobar la pàgina en el servidor.",
     "%s email verification" : "Verificació de l'adreça electrònica del %s",
     "Email verification" : "Verificació de l'adreça electrònica",
@@ -275,6 +274,7 @@
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Cal almenys libxml2 2.7.0. Actualment s'ha instal·lat %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Per a resoldre aquest problema, actualitzeu la versió de libxml2 i reinicieu el servidor web.",
     "PostgreSQL >= 9 required." : "Cal el PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Actualitzeu la versió de la base de dades."
+    "Please upgrade your database version." : "Actualitzeu la versió de la base de dades.",
+    "404" : "404"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

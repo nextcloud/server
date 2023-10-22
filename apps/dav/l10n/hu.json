@@ -148,6 +148,7 @@
     "Due on %s" : "Esedékesség: %s",
     "Checking for DAV system address book" : "A DAV rendszer címjegyzékének ellenőrzése",
     "No outstanding DAV system address book sync." : "Nincs kiemelkedő DAV rendszer címjegyzék szinkronizálás.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "A DAV rendszer címjegyzék szinkronizációja még nem futott le, mert több, mint 1000 felhasználó található vagy hiba történt. Kérem futtasa manuálisan a következő paranccsal: \"occ dav:sync-system-addressbook\".",
     "Migrated calendar (%1$s)" : "Átköltöztetett naptár (%1$s)",
     "Calendars including events, details and attendees" : "Naptárak eseményekkel, részletekkel és résztvevőkkel",
     "Contacts and groups" : "Névjegyek és csoportok",

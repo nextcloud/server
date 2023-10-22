@@ -294,7 +294,7 @@ OC.L10N.register(
     "Shares" : "Zdieľania",
     "Shared with others" : "Sprístupnené ostatným",
     "Shared with you" : "Vám sprístupnené",
-    "Deleted shares" : "Zmazané sprístupnenia",
+    "Deleted shares" : "Odstránené sprístupnenia",
     "Pending shares" : "Čakajúce prístupy",
     "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}",
