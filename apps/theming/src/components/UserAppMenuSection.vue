@@ -3,13 +3,27 @@
 		<p>
 			{{ t('theming', 'You can configure the app order used for the navigation bar. The first entry will be the default app, opened after login or when clicking on the logo.') }}
 		</p>
-		<NcNoteCard v-if="!!appOrder[0]?.default" type="info">
+		<NcNoteCard v-if="enforcedDefaultApp" :id="elementIdEnforcedDefaultApp" type="info">
 			{{ t('theming', 'The default app can not be changed because it was configured by the administrator.') }}
 		</NcNoteCard>
-		<NcNoteCard v-if="hasAppOrderChanged" type="info">
+		<NcNoteCard v-if="hasAppOrderChanged" :id="elementIdAppOrderChanged" type="info">
 			{{ t('theming', 'The app order was changed, to see it in action you have to reload the page.') }}
 		</NcNoteCard>
-		<AppOrderSelector class="user-app-menu-order" :value.sync="appOrder" />
+
+		<AppOrderSelector class="user-app-menu-order"
+			:aria-details="ariaDetailsAppOrder"
+			:value="appOrder"
+			@update:value="updateAppOrder" />
+
+		<NcButton data-test-id="btn-apporder-reset"
+			:disabled="!hasCustomAppOrder"
+			type="tertiary"
+			@click="resetAppOrder">
+			<template #icon>
+				<IconUndo :size="20" />
+			</template>
+			{{ t('theming', 'Reset default app order') }}
+		</NcButton>
 	</NcSettingsSection>
 </template>
 
@@ -21,7 +35,9 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { computed, defineComponent, ref } from 'vue'
 
 import axios from '@nextcloud/axios'
-import AppOrderSelector from './AppOrderSelector.vue'
+import AppOrderSelector, { IApp } from './AppOrderSelector.vue'
+import IconUndo from 'vue-material-design-icons/Undo.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 
@@ -47,53 +63,109 @@ interface INavigationEntry {
 	key: number
 }
 
+/** The app order user setting */
+type IAppOrder = Record<string, Record<number, number>>
+
+/** OCS responses */
+interface IOCSResponse<T> {
+	ocs: {
+		meta: unknown
+		data: T
+	}
+}
+
 export default defineComponent({
 	name: 'UserAppMenuSection',
 	components: {
 		AppOrderSelector,
+		IconUndo,
+		NcButton,
 		NcNoteCard,
 		NcSettingsSection,
 	},
 	setup() {
-		/**
-		 * Track if the app order has changed, so the user can be informed to reload
-		 */
-		const hasAppOrderChanged = ref(false)
-
-		/** The enforced default app set by the administrator (if any) */
-		const enforcedDefaultApp = loadState<string|null>('theming', 'enforcedDefaultApp', null)
+		const {
+			/** The app order currently defined by the user */
+			userAppOrder,
+			/** The enforced default app set by the administrator (if any) */
+			enforcedDefaultApp,
+		} = loadState<{ userAppOrder: IAppOrder, enforcedDefaultApp: string }>('theming', 'navigationBar')
 
 		/**
 		 * Array of all available apps, it is set by a core controller for the app menu, so it is always available
 		 */
-		const allApps = ref(
-			Object.values(loadState<Record<string, INavigationEntry>>('core', 'apps'))
-				.filter(({ type }) => type === 'link')
-				.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp })),
-		)
+		 const initialAppOrder = Object.values(loadState<Record<string, INavigationEntry>>('core', 'apps'))
+			.filter(({ type }) => type === 'link')
+			.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp }))
 
 		/**
-		 * Wrapper around the sortedApps list with a setter for saving any changes
+		 * Check if a custom app order is used or the default is shown
 		 */
-		const appOrder = computed({
-			get: () => allApps.value,
-			set: (value) => {
-				const order = {} as Record<string, Record<number, number>>
-				value.forEach(({ app, key }, index) => {
-					order[app] = { ...order[app], [key]: index }
-				})
+		const hasCustomAppOrder = ref(!Array.isArray(userAppOrder) || Object.values(userAppOrder).length > 0)
 
-				saveSetting('apporder', order)
-					.then(() => {
-						allApps.value = value
-						hasAppOrderChanged.value = true
-					})
-					.catch((error) => {
-						console.warn('Could not set the app order', error)
-						showError(t('theming', 'Could not set the app order'))
-					})
-			},
-		})
+		/**
+		 * Track if the app order has changed, so the user can be informed to reload
+		 */
+		const hasAppOrderChanged = computed(() => initialAppOrder.some(({ id }, index) => id !== appOrder.value[index].id))
+
+		/** ID of the "app order has changed" NcNodeCard, used for the aria-details of the apporder */
+		const elementIdAppOrderChanged = 'theming-apporder-changed-infocard'
+
+		/** ID of the "you can not change the default app" NcNodeCard, used for the aria-details of the apporder */
+		const elementIdEnforcedDefaultApp = 'theming-apporder-changed-infocard'
+
+		/**
+		 * The aria-details value of the app order selector
+		 * contains the space separated list of element ids of NcNoteCards
+		 */
+		const ariaDetailsAppOrder = computed(() => (hasAppOrderChanged.value ? `${elementIdAppOrderChanged} ` : '') + (enforcedDefaultApp ? elementIdEnforcedDefaultApp : ''))
+
+		/**
+		 * The current apporder (sorted by user)
+		 */
+		const appOrder = ref([...initialAppOrder])
+
+		/**
+		 * Update the app order, called when the user sorts entries
+		 * @param value The new app order value
+		 */
+		const updateAppOrder = (value: IApp[]) => {
+			const order: IAppOrder = {}
+			value.forEach(({ app, key }, index) => {
+				order[app] = { ...order[app], [key]: index }
+			})
+
+			saveSetting('apporder', order)
+				.then(() => {
+					appOrder.value = value as never
+					hasCustomAppOrder.value = true
+				})
+				.catch((error) => {
+					console.warn('Could not set the app order', error)
+					showError(t('theming', 'Could not set the app order'))
+				})
+		}
+
+		/**
+		 * Reset the app order to the default
+		 */
+		const resetAppOrder = async () => {
+			try {
+				await saveSetting('apporder', [])
+				hasCustomAppOrder.value = false
+
+				// Reset our app order list
+				const { data } = await axios.get<IOCSResponse<INavigationEntry[]>>(generateOcsUrl('/core/navigation/apps'), {
+					headers: {
+						'OCS-APIRequest': 'true',
+					},
+				})
+				appOrder.value = data.ocs.data.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp }))
+			} catch (error) {
+				console.warn(error)
+				showError(t('theming', 'Could not reset the app order'))
+			}
+		}
 
 		const saveSetting = async (key: string, value: unknown) => {
 			const url = generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
@@ -107,7 +179,16 @@ export default defineComponent({
 
 		return {
 			appOrder,
+			updateAppOrder,
+			resetAppOrder,
+
+			enforcedDefaultApp,
 			hasAppOrderChanged,
+			hasCustomAppOrder,
+
+			ariaDetailsAppOrder,
+			elementIdAppOrderChanged,
+			elementIdEnforcedDefaultApp,
 
 			t,
 		}

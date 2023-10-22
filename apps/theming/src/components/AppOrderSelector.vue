@@ -18,11 +18,13 @@ import { PropType, computed, defineComponent, ref } from 'vue'
 
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
 
-interface IApp {
+export interface IApp {
 	id: string // app id
 	icon: string // path to the icon svg
-	label?: string // display name
+	label: string // display name
 	default?: boolean // force app as default app
+	app: string
+	key: number
 }
 
 export default defineComponent({
