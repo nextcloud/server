@@ -27,11 +27,11 @@ namespace OCA\Provisioning_API;
 
 /**
  * @psalm-type ProvisioningApiUserDetailsQuota = array{
- *     free?: float,
+ *     free?: float|int,
  *     quota?: float|int|string,
- *     relative?: float,
- *     total?: float,
- *     used?: float,
+ *     relative?: float|int,
+ *     total?: float|int,
+ *     used?: float|int,
  * }
  *
  * @psalm-type ProvisioningApiUserDetails = array{
