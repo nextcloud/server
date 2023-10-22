@@ -149,7 +149,7 @@ class Manager implements IManager {
 					$folder = $folder->getFolder((string) $task->getId());
 				} catch(NotFoundException) {
 					$this->logger->debug('Creating new folder in appdata Text2Image results folder');
-					$folder = $this->appData->newFolder((string) $task->getId());
+					$folder = $folder->newFolder((string) $task->getId());
 				}
 				$this->logger->debug('Creating result files for Text2Image task');
 				$resources = [];
@@ -159,7 +159,7 @@ class Manager implements IManager {
 					$files[] = $file;
 					$resources[] = $file->write();
 					if ($resources[count($resources) - 1] === false) {
-						throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: Couldn\'t open file to write.');
+						throw new RuntimeException('Text2Image generation using provider "' . $provider->getName() . '" failed: Couldn\'t open file to write.');
 					}
 				}
 				$this->logger->debug('Calling Text2Image provider\'s generate method');
@@ -176,10 +176,6 @@ class Manager implements IManager {
 				return;
 			} catch (\RuntimeException|\Throwable $e) {
 				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
-					if (isset($resources[$i]) && is_resource($resources[$i])) {
-						// If $resource hasn't been closed yet, we'll do that here
-						fclose($resources[$i]);
-					}
 					if (isset($files, $files[$i])) {
 						try {
 							$files[$i]->delete();
@@ -189,7 +185,7 @@ class Manager implements IManager {
 					}
 				}
 
-				$this->logger->info('Text2Image generation using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
+				$this->logger->info('Text2Image generation using provider "' . $provider->getName() . '" failed', ['exception' => $e]);
 				$task->setStatus(Task::STATUS_FAILED);
 				try {
 					$this->taskMapper->update(DbTask::fromPublicTask($task));
@@ -199,7 +195,7 @@ class Manager implements IManager {
 				if ($e instanceof RuntimeException) {
 					throw $e;
 				} else {
-					throw new RuntimeException('Text2Image generation using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
+					throw new RuntimeException('Text2Image generation using provider "' . $provider->getName() . '" failed: ' . $e->getMessage(), 0, $e);
 				}
 			}
 		}
