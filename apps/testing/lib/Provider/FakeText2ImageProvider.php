@@ -34,6 +34,7 @@ class FakeText2ImageProvider implements IProvider {
 		foreach ($resources as $resource) {
 			$read = fopen(__DIR__ . '/../../img/logo.png', 'r');
 			stream_copy_to_stream($read, $resource);
+			fclose($read);
 		}
 	}
 
