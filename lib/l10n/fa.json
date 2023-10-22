@@ -6,7 +6,6 @@
     "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.",
     "Sample configuration detected" : "فایل پیکربندی نمونه پیدا شد",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "تشخیص داده شده است که پیکربندی نمونه کپی شده است. این می تواند نصب شما را خراب کند و پشتیبانی نمی شود. لطفاً قبل از انجام تغییرات در config.php ، اسناد را بخوانید",
-    "404" : "۴۰۴",
     "The page could not be found on the server." : "The page could not be found on the server.",
     "%s email verification" : "%s email verification",
     "Email verification" : "Email verification",
@@ -274,6 +273,7 @@
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 حداقل مورد نیاز است. در حال حاضر %sنصب شده است",
     "To fix this issue update your libxml2 version and restart your web server." : "برای رفع این مشکل نسخه libxml2 خود را به روز کنید و سرور وب خود را مجدداً راه اندازی کنید.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 required.",
-    "Please upgrade your database version." : "Please upgrade your database version."
+    "Please upgrade your database version." : "Please upgrade your database version.",
+    "404" : "۴۰۴"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
