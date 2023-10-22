@@ -5,7 +5,6 @@
     "See %s" : "查看 %s",
     "Sample configuration detected" : "示例配置检测",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "您似乎直接把 config.php 的样例文件直接复制使用。这可能会破坏您的安装。在对 config.php 进行修改之前请先阅读相关文档。",
-    "404" : "404",
     "The page could not be found on the server." : "无法在服务器上找到此页面",
     "%s email verification" : "%s 电子邮件验证",
     "Email verification" : "电子邮件验证",
@@ -263,6 +262,7 @@
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "至少需要 libxml2 2.7.0. 当前安装 %s。",
     "To fix this issue update your libxml2 version and restart your web server." : "升级您的libxml2版本然后重启Web服务器以解决该问题。",
     "PostgreSQL >= 9 required." : "需要 PostgreSQL >= 9。",
-    "Please upgrade your database version." : "请升级您的数据库版本。"
+    "Please upgrade your database version." : "请升级您的数据库版本。",
+    "404" : "404"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
