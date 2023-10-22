@@ -37,14 +37,14 @@
 			</template>
 		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Image generation')"
-							 :description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
+			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in text2imageProviders">
 				<NcCheckboxRadioSwitch :key="provider.class"
-										 :checked.sync="settings['ai.text2image_provider']"
-										 :value="provider.class"
-										 name="text2image_provider"
-										 type="radio"
-										 @update:checked="saveChanges">
+					:checked.sync="settings['ai.text2image_provider']"
+					:value="provider.class"
+					name="text2image_provider"
+					type="radio"
+					@update:checked="saveChanges">
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>
@@ -106,7 +106,7 @@ export default {
 		DragVerticalIcon,
 		ArrowDownIcon,
 		ArrowUpIcon,
-		NcButton
+		NcButton,
 	},
 	data() {
 		return {
@@ -134,14 +134,14 @@ export default {
 		},
 		hasText2ImageProviders() {
 		  return this.text2imageProviders.length > 0
-		}
+		},
 	},
 	methods: {
 	  moveUp(i) {
 			this.settings['ai.translation_provider_preferences'].splice(
 			  Math.min(i - 1, 0),
 				0,
-				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},
@@ -149,7 +149,7 @@ export default {
 			this.settings['ai.translation_provider_preferences'].splice(
 				i + 1,
 				0,
-				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},
