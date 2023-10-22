@@ -64,6 +64,9 @@ class Manager implements IManager {
 		$this->appData = $this->appDataFactory->get('core');
 	}
 
+	/**
+	 * @inerhitDocs
+	 */
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -90,6 +93,9 @@ class Manager implements IManager {
 		return $this->providers;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {

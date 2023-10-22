@@ -43,6 +43,12 @@ interface IManager {
 	public function hasProviders(): bool;
 
 	/**
+	 * @since 28.0.0
+	 * @return IProvider[]
+	 */
+	public function getProviders(): array;
+
+	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @throws RuntimeException If something else failed
