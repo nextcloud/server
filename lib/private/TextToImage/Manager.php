@@ -158,7 +158,7 @@ class Manager implements IManager {
 					$file = $folder->newFile((string) $i);
 					$files[] = $file;
 					$resources[] = $file->write();
-					if ($resources[count($resources) - 1] === false) {
+					if (!is_resource($resources[count($resources) - 1])) {
 						throw new RuntimeException('Text2Image generation using provider "' . $provider->getName() . '" failed: Couldn\'t open file to write.');
 					}
 				}
