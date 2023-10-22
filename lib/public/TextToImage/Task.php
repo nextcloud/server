@@ -40,7 +40,7 @@ use OCP\Image;
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
 
-	protected DateTime $completionExpectedAt;
+	protected ?DateTime $completionExpectedAt = null;
 
 	/**
 	 * @since 28.0.0
@@ -95,7 +95,9 @@ final class Task implements \JsonSerializable {
 			$folder = $appData->getFolder('text2image')->getFolder((string)$this->getId());
 			$images = [];
 			for ($i = 0; $i < $this->getNumberOfImages(); $i++) {
-				$images[] = new Image(base64_encode($folder->getFile((string) $i)->getContent()));
+				$image = new Image();
+				$image->loadFromFileHandle($folder->getFile((string) $i)->read());
+				$images[] = $image;
 			}
 			return $images;
 		} catch (NotFoundException|NotPermittedException) {
@@ -128,18 +130,18 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @param DateTime $at
+	 * @param ?DateTime $at
 	 * @since 28.0.0
 	 */
-	final public function setCompletionExpectedAt(DateTime $at): void {
+	final public function setCompletionExpectedAt(?DateTime $at): void {
 		$this->completionExpectedAt = $at;
 	}
 
 	/**
-	 * @return DateTime
+	 * @return ?DateTime
 	 * @since 28.0.0
 	 */
-	final public function getCompletionExpectedAt(): DateTime {
+	final public function getCompletionExpectedAt(): ?DateTime {
 		return $this->completionExpectedAt;
 	}
 
@@ -192,7 +194,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: int}
+	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: ?int}
 	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
