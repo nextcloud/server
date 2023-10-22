@@ -48,7 +48,7 @@
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>
-			<template v-if="!hasStt">
+			<template v-if="!hasText2ImageProviders">
 				<NcCheckboxRadioSwitch disabled type="radio">
 					{{ t('settings', 'None of your currently installed apps provide image generation functionality') }}
 				</NcCheckboxRadioSwitch>
