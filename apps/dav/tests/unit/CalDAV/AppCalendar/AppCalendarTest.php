@@ -25,7 +25,7 @@ use OCP\Constants;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-use function Safe\rewind;
+use function rewind;
 
 class AppCalendarTest extends TestCase {
 	private $principal = 'principals/users/foo';
@@ -35,7 +35,7 @@ class AppCalendarTest extends TestCase {
 
 	private ICalendar|MockObject $calendar;
 	private ICalendar|MockObject $writeableCalendar;
-	
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -115,7 +115,7 @@ class AppCalendarTest extends TestCase {
 			'principal' => $this->principal,
 			'protected' => true,
 		];
-		
+
 		// Check that the correct ACL is returned (default be only readable)
 		$this->assertEquals($expectedRO, $this->appCalendar->getACL());
 		$this->assertEquals($expectedRW, $this->writeableAppCalendar->getACL());

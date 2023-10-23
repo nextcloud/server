@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Profile\Actions;
 
-use function Safe\substr;
+use function substr;
 use OCP\Accounts\IAccountManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
