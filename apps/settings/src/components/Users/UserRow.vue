@@ -150,7 +150,7 @@
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set user as admin for') }}
 				</label>
-				<NcSelect :id="'subadmins' + uniqueId"
+				<NcSelect :input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
 					:loading="loading.subadmins"
@@ -190,8 +190,8 @@
 					@option:selected="setUserQuota" />
 			</template>
 			<template v-else-if="!isObfuscated">
-				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
-				<NcProgressBar :id="'quota-progress' + uniqueId"
+				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
+				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId"
 					class="row__progress"
 					:class="{
 						'row__progress--warn': usedQuota > 80,
@@ -406,7 +406,7 @@ export default {
 		},
 
 		uniqueId() {
-			return this.user.id + this.rand
+			return encodeURIComponent(this.user.id + this.rand)
 		},
 
 		userGroupsLabels() {
