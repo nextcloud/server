@@ -26,10 +26,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Db;
 
+use OCP\Profile\IProfileManager;
 use function Safe\json_decode;
 use function Safe\json_encode;
 use \JsonSerializable;
-use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Db\Entity;
 use OCP\Profile\ParameterDoesNotExistException;
 
@@ -44,48 +44,41 @@ class ProfileConfig extends Entity implements JsonSerializable {
 	 * Visible to users, guests, and public access
 	 *
 	 * @since 23.0.0
+	 * @deprecated 28.0.0 Use {@see IProfileManager::VISIBILITY_SHOW} instead
 	 */
-	public const VISIBILITY_SHOW = 'show';
+	public const VISIBILITY_SHOW = IProfileManager::VISIBILITY_SHOW;
 
 	/**
 	 * Visible to users and guests
 	 *
 	 * @since 23.0.0
+	 * @deprecated 28.0.0 Use {@see IProfileManager::VISIBILITY_SHOW_USERS_ONLY} instead
 	 */
-	public const VISIBILITY_SHOW_USERS_ONLY = 'show_users_only';
+	public const VISIBILITY_SHOW_USERS_ONLY = IProfileManager::VISIBILITY_SHOW_USERS_ONLY;
 
 	/**
 	 * Visible to nobody
 	 *
 	 * @since 23.0.0
+	 * @deprecated 28.0.0 Use {@see IProfileManager::VISIBILITY_HIDE} instead
 	 */
-	public const VISIBILITY_HIDE = 'hide';
+	public const VISIBILITY_HIDE = IProfileManager::VISIBILITY_HIDE;
 
 	/**
 	 * Default account property visibility
 	 *
 	 * @since 23.0.0
+	 * @deprecated 28.0.0 Use {@see IProfileManager::DEFAULT_PROPERTY_VISIBILITY} instead
 	 */
-	public const DEFAULT_PROPERTY_VISIBILITY = [
-		IAccountManager::PROPERTY_ADDRESS => self::VISIBILITY_SHOW_USERS_ONLY,
-		IAccountManager::PROPERTY_AVATAR => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_BIOGRAPHY => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_DISPLAYNAME => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_HEADLINE => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_ORGANISATION => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_ROLE => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW_USERS_ONLY,
-		IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW_USERS_ONLY,
-		IAccountManager::PROPERTY_TWITTER => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_WEBSITE => self::VISIBILITY_SHOW,
-	];
+	public const DEFAULT_PROPERTY_VISIBILITY = IProfileManager::DEFAULT_PROPERTY_VISIBILITY;
 
 	/**
 	 * Default visibility
 	 *
 	 * @since 23.0.0
+	 * @deprecated 28.0.0 Use {@see IProfileManager::DEFAULT_VISIBILITY} instead
 	 */
-	public const DEFAULT_VISIBILITY = self::VISIBILITY_SHOW_USERS_ONLY;
+	public const DEFAULT_VISIBILITY = IProfileManager::DEFAULT_VISIBILITY;
 
 	/** @var string */
 	protected $userId;

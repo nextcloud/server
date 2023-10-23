@@ -101,7 +101,7 @@ class ProfilePageController extends Controller {
 
 		$this->initialStateService->provideInitialState(
 			'profileParameters',
-			$this->profileManager->getProfileParams($targetUser, $visitingUser),
+			$this->profileManager->getProfileFields($targetUser, $visitingUser),
 		);
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));

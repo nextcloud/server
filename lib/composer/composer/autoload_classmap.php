@@ -552,6 +552,7 @@ return array(
     'OCP\\Preview\\IVersionedPreviewFile' => $baseDir . '/lib/public/Preview/IVersionedPreviewFile.php',
     'OCP\\Profile\\BeforeTemplateRenderedEvent' => $baseDir . '/lib/public/Profile/BeforeTemplateRenderedEvent.php',
     'OCP\\Profile\\ILinkAction' => $baseDir . '/lib/public/Profile/ILinkAction.php',
+    'OCP\\Profile\\IProfileManager' => $baseDir . '/lib/public/Profile/IProfileManager.php',
     'OCP\\Profile\\ParameterDoesNotExistException' => $baseDir . '/lib/public/Profile/ParameterDoesNotExistException.php',
     'OCP\\Profiler\\IProfile' => $baseDir . '/lib/public/Profiler/IProfile.php',
     'OCP\\Profiler\\IProfiler' => $baseDir . '/lib/public/Profiler/IProfiler.php',
