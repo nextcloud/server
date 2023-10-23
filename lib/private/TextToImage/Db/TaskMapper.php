@@ -122,7 +122,7 @@ class TaskMapper extends QBMapper {
 	}
 
 	public function update(Entity $entity): Entity {
-		$entity->setLastUpdated(DateTime::createFromImmutable($this->timeFactory->now()));
+		$entity->setLastUpdated($this->timeFactory->getDateTime());
 		return parent::update($entity);
 	}
 }
