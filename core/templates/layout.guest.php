@@ -33,7 +33,7 @@ p($theme->getTitle());
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login'): ?>
-					<header role="banner">
+					<header>
 						<div id="header">
 							<div class="logo"></div>
 						</div>
@@ -47,7 +47,7 @@ p($theme->getTitle());
 				</main>
 			</div>
 		</div>
-		<footer role="contentinfo" class="guest-box">
+		<footer class="guest-box">
 			<p class="info">
 				<?php print_unescaped($theme->getLongFooter()); ?>
 			</p>
