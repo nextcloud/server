@@ -20,7 +20,7 @@
 					class="panel">
 					<div class="panel--header">
 						<h2>
-							<div :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="apiWidgets[panels[panelId].id].icon_class"
 								role="img" />
@@ -39,7 +39,7 @@
 				<div v-else :key="panels[panelId].id" class="panel">
 					<div class="panel--header">
 						<h2>
-							<div :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="panels[panelId].iconClass"
 								role="img" />
@@ -74,7 +74,7 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<div :class="statusInfo[status].icon" aria-hidden="true" role="img" />
+							<span :class="statusInfo[status].icon" aria-hidden="true" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -92,7 +92,7 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<div :class="panel.iconClass" aria-hidden="true" role="img" />
+							<span :class="panel.iconClass" aria-hidden="true" />
 							{{ panel.title }}
 						</label>
 					</li>
@@ -540,7 +540,7 @@ export default {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			cursor: grab;
-			div {
+			span {
 				background-size: 32px;
 				width: 32px;
 				height: 32px;
@@ -633,7 +633,7 @@ export default {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 
-			div {
+			span {
 				position: absolute;
 				top: 16px;
 				width: 24px;
@@ -647,7 +647,7 @@ export default {
 		}
 
 		// Do not invert status icons
-		&:not(.panel-status) label div {
+		&:not(.panel-status) label span {
 			filter: var(--background-invert-if-dark);
 		}
 
