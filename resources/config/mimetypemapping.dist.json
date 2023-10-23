@@ -85,6 +85,7 @@
 	"jpeg": ["image/jpeg"],
 	"jpg": ["image/jpeg"],
 	"jps": ["image/jpeg"],
+	"jxl": ["image/jxl"],
 	"js": ["application/javascript", "text/plain"],
 	"json": ["application/json", "text/plain"],
 	"k25": ["image/x-dcraw"],

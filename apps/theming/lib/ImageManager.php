@@ -254,6 +254,10 @@ class ImageManager {
 					if (!imagejpeg($outputImage, $newTmpFile, 90)) {
 						throw new \Exception('Could not recompress background image as JPEG');
 					}
+				} else if (str_contains($detectedMimeType, 'image/jxl')) {
+					if (!imagejxl($outputImage, $newTmpFile, 90)) {
+						throw new \Exception('Could not recompress background image as JPEG XL');
+					}
 				} else {
 					if (!imagepng($outputImage, $newTmpFile, 8)) {
 						throw new \Exception('Could not recompress background image as PNG');

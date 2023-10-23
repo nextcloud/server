@@ -1500,6 +1500,7 @@ return array(
     'OC\\Preview\\Image' => $baseDir . '/lib/private/Preview/Image.php',
     'OC\\Preview\\Imaginary' => $baseDir . '/lib/private/Preview/Imaginary.php',
     'OC\\Preview\\JPEG' => $baseDir . '/lib/private/Preview/JPEG.php',
+    'OC\\Preview\\JXL' => $baseDir . '/lib/private/Preview/JXL.php',
     'OC\\Preview\\Krita' => $baseDir . '/lib/private/Preview/Krita.php',
     'OC\\Preview\\MP3' => $baseDir . '/lib/private/Preview/MP3.php',
     'OC\\Preview\\MSOffice2003' => $baseDir . '/lib/private/Preview/MSOffice2003.php',

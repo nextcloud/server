@@ -47,6 +47,7 @@ class PhotoCache {
 	public const ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',
+		'image/jxl' => 'jxl',
 		'image/gif' => 'gif',
 		'image/vnd.microsoft.icon' => 'ico',
 	];

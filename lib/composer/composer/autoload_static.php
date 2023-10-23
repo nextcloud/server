@@ -11,7 +11,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -20,15 +20,15 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -1533,6 +1533,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Image' => __DIR__ . '/../../..' . '/lib/private/Preview/Image.php',
         'OC\\Preview\\Imaginary' => __DIR__ . '/../../..' . '/lib/private/Preview/Imaginary.php',
         'OC\\Preview\\JPEG' => __DIR__ . '/../../..' . '/lib/private/Preview/JPEG.php',
+        'OC\\Preview\\JXL' => __DIR__ . '/../../..' . '/lib/private/Preview/JXL.php',
         'OC\\Preview\\Krita' => __DIR__ . '/../../..' . '/lib/private/Preview/Krita.php',
         'OC\\Preview\\MP3' => __DIR__ . '/../../..' . '/lib/private/Preview/MP3.php',
         'OC\\Preview\\MSOffice2003' => __DIR__ . '/../../..' . '/lib/private/Preview/MSOffice2003.php',

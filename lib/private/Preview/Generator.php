@@ -615,6 +615,8 @@ class Generator {
 				return 'png';
 			case 'image/jpeg':
 				return 'jpg';
+			case 'image/jxl':
+				return 'jxl';
 			case 'image/webp':
 				return 'webp';
 			case 'image/gif':

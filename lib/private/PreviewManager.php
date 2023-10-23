@@ -276,6 +276,7 @@ class PreviewManager implements IPreview {
 	 * The following providers are enabled by default:
 	 *  - OC\Preview\PNG
 	 *  - OC\Preview\JPEG
+	 *  - OC\Preview\JXL
 	 *  - OC\Preview\GIF
 	 *  - OC\Preview\BMP
 	 *  - OC\Preview\XBitmap
@@ -309,6 +310,7 @@ class PreviewManager implements IPreview {
 		$imageProviders = [
 			Preview\PNG::class,
 			Preview\JPEG::class,
+			Preview\JXL::class,
 			Preview\GIF::class,
 			Preview\BMP::class,
 			Preview\XBitmap::class,
@@ -357,6 +359,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\MarkDown::class, '/text\/(x-)?markdown/');
 		$this->registerCoreProvider(Preview\PNG::class, '/image\/png/');
 		$this->registerCoreProvider(Preview\JPEG::class, '/image\/jpeg/');
+		$this->registerCoreProvider(Preview\JXL::class, '/image\/jxl/');
 		$this->registerCoreProvider(Preview\GIF::class, '/image\/gif/');
 		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
@@ -379,6 +382,7 @@ class PreviewManager implements IPreview {
 				'HEIC' => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
 				'TGA' => ['mimetype' => '/image\/t(ar)?ga/', 'class' => Preview\TGA::class],
 				'SGI' => ['mimetype' => '/image\/sgi/', 'class' => Preview\SGI::class],
+				'JXL' => ['mimetype' => '/image\/jxl/', 'class' => Preview\JXL::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {

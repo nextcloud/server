@@ -57,7 +57,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
+		return '/(image\/(bmp|x-bitmap|png|jpeg|jxl|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
@@ -89,6 +89,9 @@ class Imaginary extends ProviderV2 {
 				// Autorotate seems to be broken for Heic so disable for that
 				$autorotate = false;
 				$mimeType = 'jpeg';
+				break;
+			case 'image/jxl':
+				$mimeType = 'jxl';
 				break;
 			case 'image/gif':
 			case 'image/png':

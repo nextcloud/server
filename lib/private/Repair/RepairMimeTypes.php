@@ -118,6 +118,7 @@ class RepairMimeTypes implements IRepairStep {
 	private function introduceImageTypes() {
 		$updatedMimetypes = [
 			'jp2' => 'image/jp2',
+			'jxl' => 'image/jxl',
 			'webp' => 'image/webp',
 		];
 

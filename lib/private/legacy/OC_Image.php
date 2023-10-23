@@ -273,6 +273,9 @@ class OC_Image implements \OCP\IImage {
 				case 'image/jpeg':
 					$imageType = IMAGETYPE_JPEG;
 					break;
+				case 'image/jxl':
+					$imageType = IMAGETYPE_JXL;
+					break;
 				case 'image/png':
 					$imageType = IMAGETYPE_PNG;
 					break;
@@ -296,6 +299,9 @@ class OC_Image implements \OCP\IImage {
 				/** @psalm-suppress InvalidScalarArgument */
 				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
+				break;
+			case IMAGETYPE_JXL:
+				$retVal = imagejxl($this->resource, $filePath, $this->getJxlQuality());
 				break;
 			case IMAGETYPE_PNG:
 				$retVal = imagepng($this->resource, $filePath);
@@ -363,6 +369,7 @@ class OC_Image implements \OCP\IImage {
 		switch ($this->mimeType) {
 			case 'image/png':
 			case 'image/jpeg':
+			case 'image/jxl':
 			case 'image/gif':
 				return $this->mimeType;
 			default:
@@ -387,6 +394,10 @@ class OC_Image implements \OCP\IImage {
 				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$quality = $this->getJpegQuality();
 				$res = imagejpeg($this->resource, null, $quality);
+				break;
+			case "image/jxl":
+				$quality = $this->getJxlQuality();
+				$res = imagejxl($this->resource, null, $quality);
 				break;
 			case "image/gif":
 				$res = imagegif($this->resource);
