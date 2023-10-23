@@ -157,8 +157,10 @@ class Manager implements IManager {
 				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
 					$file = $folder->newFile((string) $i);
 					$files[] = $file;
-					$resources[] = $file->write();
-					if (!is_resource($resources[count($resources) - 1])) {
+					$resource = $file->write();
+					if ($resource !== false && $resource !== true && is_resource($resource)) {
+						$resources[] = $resource;
+					} else {
 						throw new RuntimeException('Text2Image generation using provider "' . $provider->getName() . '" failed: Couldn\'t open file to write.');
 					}
 				}
