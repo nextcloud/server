@@ -61,7 +61,7 @@ class AvatarNode extends File {
 		ob_start();
 		if ($this->ext === 'png') {
 			imagepng($res);
-		} else if ($this->ext === 'jxl') {
+		} elseif ($this->ext === 'jxl') {
 			imagejxl($res);
 		} else {
 			imagejpeg($res);
