@@ -59,9 +59,9 @@ class Manager implements IManager {
 		private IJobList $jobList,
 		private TaskMapper $taskMapper,
 		private IConfig $config,
-		private IAppDataFactory $appDataFactory,
+		IAppDataFactory $appDataFactory,
 	) {
-		$this->appData = $this->appDataFactory->get('core');
+		$this->appData = $appDataFactory->get('core');
 	}
 
 	/**
