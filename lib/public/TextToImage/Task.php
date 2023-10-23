@@ -194,7 +194,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: ?int}
+	 * @psalm-return array{id: ?int, status: self::STATUS_*, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: ?int}
 	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
