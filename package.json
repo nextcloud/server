@@ -56,7 +56,7 @@
     "@nextcloud/router": "^2.1.2",
     "@nextcloud/sharing": "^0.1.0",
     "@nextcloud/upload": "^1.0.0-beta.18",
-    "@nextcloud/vue": "^8.0.0-beta.8",
+    "@nextcloud/vue": "^8.0.0-beta.9",
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^10.4.1",
     "@vueuse/integrations": "^10.4.1",
