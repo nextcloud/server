@@ -139,6 +139,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Aktualizácia bola neúspešná. Oznámte prosím tento problém <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">komunite Nextcloud</a>.",
     "Continue to {productName}" : "Pokračovať na {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Aktualizácia prebehla úspešne. O %n sekundu budete presmerovaní na {productName}.","Aktualizácia prebehla úspešne. O %n sekundy budete presmerovaní na {productName}.","Aktualizácia prebehla úspešne. O %n sekúnd budete presmerovaní na {productName}.","Aktualizácia prebehla úspešne. O %n sekúnd budete presmerovaní na {productName}."],
+    "Applications menu" : "Ponuka aplikácií",
     "More apps" : "Viac aplikácií",
     "Currently open" : "V súčasnosti otvorené",
     "_{count} notification_::_{count} notifications_" : ["{count} upozornenie","{count} upozornenia","{count} upozornení","{count} upozornenia"],

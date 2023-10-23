@@ -196,6 +196,7 @@ OC.L10N.register(
     "Total rows summary" : "Súčet všetkých riadkov",
     "Select all" : "Vybrať všetko",
     "Unselect all" : "Zrušiť výber",
+    "\"{displayName}\" batch action executed successfully" : "Hromadná operácia \"{displayName}\" bola úspešne vykonaná",
     "List of files and folders." : "Zoznam súborov a adresárov.",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} a {summaryFolder}",
     "File not found" : "Súbor nenájdený",
