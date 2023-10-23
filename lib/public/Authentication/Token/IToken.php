@@ -32,10 +32,25 @@ use JsonSerializable;
  * @since 28.0.0
  */
 interface IToken extends JsonSerializable {
+	/**
+	 * @since 28.0.0
+	 */
 	public const TEMPORARY_TOKEN = 0;
+	/**
+	 * @since 28.0.0
+	 */
 	public const PERMANENT_TOKEN = 1;
+	/**
+	 * @since 28.0.0
+	 */
 	public const WIPE_TOKEN = 2;
+	/**
+	 * @since 28.0.0
+	 */
 	public const DO_NOT_REMEMBER = 0;
+	/**
+	 * @since 28.0.0
+	 */
 	public const REMEMBER = 1;
 
 	/**

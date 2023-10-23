@@ -28,5 +28,8 @@ namespace OC\Authentication\Token;
 
 use OCP\Authentication\Token\IToken as OCPIToken;
 
+/**
+ * @deprecated 28.0.0 use {@see \OCP\Authentication\Token\IToken} instead
+ */
 interface IToken extends OCPIToken {
 }

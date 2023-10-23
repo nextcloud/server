@@ -28,7 +28,7 @@ namespace OC\Authentication\Exceptions;
 use OC\Authentication\Token\IToken;
 
 /**
- * @deprecated 28.0.0 use OCP version instead
+ * @deprecated 28.0.0 use {@see \OCP\Authentication\Exceptions\ExpiredTokenException} instead
  */
 class ExpiredTokenException extends \OCP\Authentication\Exceptions\ExpiredTokenException {
 	public function __construct(

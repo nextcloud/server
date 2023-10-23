@@ -27,7 +27,7 @@ namespace OCP\Authentication\Exceptions;
 use Exception;
 
 /**
- * @since 28.0
+ * @since 28.0.0
  */
 class InvalidTokenException extends Exception {
 }
