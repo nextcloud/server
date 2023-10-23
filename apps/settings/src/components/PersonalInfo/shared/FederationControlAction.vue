@@ -21,8 +21,7 @@
 -->
 
 <template>
-	<NcActionButton :aria-label="isSupportedScope ? tooltip : tooltipDisabled"
-		class="federation-actions__btn"
+	<NcActionButton class="federation-actions__btn"
 		:class="{ 'federation-actions__btn--active': activeScope === name }"
 		:close-after-click="true"
 		:disabled="!isSupportedScope"
