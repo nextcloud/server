@@ -205,7 +205,7 @@ class ProfileManager implements IProfileManager {
 		$visibility = $this->getProfileConfig($targetUser, $visitingUser)[$profileField]['visibility'];
 		// Handle profile visibility and account property scope
 
-		if ($visibility === ProfileConfig::VISIBILITY_SHOW_USERS_ONLY) {
+		if ($visibility === self::VISIBILITY_SHOW_USERS_ONLY) {
 			if (empty($scope)) {
 				return $visitingUser !== null;
 			}
@@ -219,7 +219,7 @@ class ProfileManager implements IProfileManager {
 			};
 		}
 
-		if ($visibility === ProfileConfig::VISIBILITY_SHOW) {
+		if ($visibility === self::VISIBILITY_SHOW) {
 			if (empty($scope)) {
 				return true;
 			}
@@ -318,12 +318,12 @@ class ProfileManager implements IProfileManager {
 		// Construct the default config for actions
 		$actionsConfig = [];
 		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
-			$actionsConfig[$action->getId()] = ['visibility' => ProfileConfig::DEFAULT_VISIBILITY];
+			$actionsConfig[$action->getId()] = ['visibility' => self::DEFAULT_VISIBILITY];
 		}
 
 		// Construct the default config for account properties
 		$propertiesConfig = [];
-		foreach (ProfileConfig::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
+		foreach (self::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
 			$propertiesConfig[$property] = ['visibility' => $visibility];
 		}
 

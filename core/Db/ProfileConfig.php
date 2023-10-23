@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Db;
 
-use OCP\Profile\IProfileManager;
 use function Safe\json_decode;
 use function Safe\json_encode;
 use \JsonSerializable;
@@ -40,46 +39,6 @@ use OCP\Profile\ParameterDoesNotExistException;
  * @method void setConfig(string $config)
  */
 class ProfileConfig extends Entity implements JsonSerializable {
-	/**
-	 * Visible to users, guests, and public access
-	 *
-	 * @since 23.0.0
-	 * @deprecated 28.0.0 Use {@see IProfileManager::VISIBILITY_SHOW} instead
-	 */
-	public const VISIBILITY_SHOW = IProfileManager::VISIBILITY_SHOW;
-
-	/**
-	 * Visible to users and guests
-	 *
-	 * @since 23.0.0
-	 * @deprecated 28.0.0 Use {@see IProfileManager::VISIBILITY_SHOW_USERS_ONLY} instead
-	 */
-	public const VISIBILITY_SHOW_USERS_ONLY = IProfileManager::VISIBILITY_SHOW_USERS_ONLY;
-
-	/**
-	 * Visible to nobody
-	 *
-	 * @since 23.0.0
-	 * @deprecated 28.0.0 Use {@see IProfileManager::VISIBILITY_HIDE} instead
-	 */
-	public const VISIBILITY_HIDE = IProfileManager::VISIBILITY_HIDE;
-
-	/**
-	 * Default account property visibility
-	 *
-	 * @since 23.0.0
-	 * @deprecated 28.0.0 Use {@see IProfileManager::DEFAULT_PROPERTY_VISIBILITY} instead
-	 */
-	public const DEFAULT_PROPERTY_VISIBILITY = IProfileManager::DEFAULT_PROPERTY_VISIBILITY;
-
-	/**
-	 * Default visibility
-	 *
-	 * @since 23.0.0
-	 * @deprecated 28.0.0 Use {@see IProfileManager::DEFAULT_VISIBILITY} instead
-	 */
-	public const DEFAULT_VISIBILITY = IProfileManager::DEFAULT_VISIBILITY;
-
 	/** @var string */
 	protected $userId;
 
