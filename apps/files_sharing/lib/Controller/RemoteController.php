@@ -35,7 +35,7 @@ use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type FilesSharingRemoteShare from ResponseDefinitions
+ * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
  */
 class RemoteController extends OCSController {
 	/**
@@ -61,7 +61,7 @@ class RemoteController extends OCSController {
 	 *
 	 * Get list of pending remote shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingRemoteShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
 	 *
 	 * 200: Pending remote shares returned
 	 */
@@ -139,7 +139,7 @@ class RemoteController extends OCSController {
 	 *
 	 * Get a list of accepted remote shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingRemoteShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
 	 *
 	 * 200: Accepted remote shares returned
 	 */
@@ -156,7 +156,7 @@ class RemoteController extends OCSController {
 	 * Get info of a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingRemoteShare, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share returned

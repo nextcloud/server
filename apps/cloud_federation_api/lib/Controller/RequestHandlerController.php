@@ -51,9 +51,9 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\CloudFederationAPI\Controller
  *
- * @psalm-import-type CloudFederationApiAddShare from ResponseDefinitions
- * @psalm-import-type CloudFederationApiValidationError from ResponseDefinitions
- * @psalm-import-type CloudFederationApiError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIAddShare from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIValidationError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIError from ResponseDefinitions
  */
 class RequestHandlerController extends Controller {
 	public function __construct(
@@ -90,7 +90,7 @@ class RequestHandlerController extends Controller {
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
-	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationApiAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationApiValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationApiError, array{}>
+	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
 	 * 501: Share type or the resource type is not supported
@@ -213,7 +213,7 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $providerId ID of the share
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
 	 *
-	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationApiValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationApiError, array{}>
+	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 * 201: The notification was successfully received
 	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
 	 * 403: Getting resource is not allowed

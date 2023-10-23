@@ -52,8 +52,8 @@ use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type ProvisioningApiGroupDetails from ResponseDefinitions
- * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIGroupDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
 class GroupsController extends AUserData {
 
@@ -113,7 +113,7 @@ class GroupsController extends AUserData {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{groups: ProvisioningApiGroupDetails[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{groups: Provisioning_APIGroupDetails[]}, array{}>
 	 *
 	 * 200: Groups details returned
 	 */
@@ -204,7 +204,7 @@ class GroupsController extends AUserData {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Group users details returned

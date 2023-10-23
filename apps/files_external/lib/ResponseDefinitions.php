@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace OCA\Files_External;
 
 /**
- * @psalm-type FilesExternalStorageConfig = array{
+ * @psalm-type Files_ExternalStorageConfig = array{
  *     applicableGroups?: string[],
  *     applicableUsers?: string[],
  *     authMechanism: string,
@@ -42,7 +42,7 @@ namespace OCA\Files_External;
  *     userProvided: bool,
  * }
  *
- * @psalm-type FilesExternalMount = array{
+ * @psalm-type Files_ExternalMount = array{
  *     name: string,
  *     path: string,
  *     type: 'dir',
@@ -51,7 +51,7 @@ namespace OCA\Files_External;
  *     permissions: int,
  *     id: int,
  *     class: string,
- *     config: FilesExternalStorageConfig,
+ *     config: Files_ExternalStorageConfig,
  * }
  */
 class ResponseDefinitions {

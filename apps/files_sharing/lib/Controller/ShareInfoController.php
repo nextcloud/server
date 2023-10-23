@@ -38,7 +38,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 /**
- * @psalm-import-type FilesSharingShareInfo from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareInfo from ResponseDefinitions
  */
 class ShareInfoController extends ApiController {
 
@@ -71,7 +71,7 @@ class ShareInfoController extends ApiController {
 	 * @param string|null $password Password of the share
 	 * @param string|null $dir Subdirectory to get info about
 	 * @param int $depth Maximum depth to get info about
-	 * @return JSONResponse<Http::STATUS_OK, FilesSharingShareInfo, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, Files_SharingShareInfo, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
 	 *
 	 * 200: Share info returned
 	 * 403: Getting share info is not allowed
@@ -112,7 +112,7 @@ class ShareInfoController extends ApiController {
 	}
 
 	/**
-	 * @return FilesSharingShareInfo
+	 * @return Files_SharingShareInfo
 	 */
 	private function parseNode(Node $node, int $permissionMask, int $depth): array {
 		if ($node instanceof File) {
@@ -123,14 +123,14 @@ class ShareInfoController extends ApiController {
 	}
 
 	/**
-	 * @return FilesSharingShareInfo
+	 * @return Files_SharingShareInfo
 	 */
 	private function parseFile(File $file, int $permissionMask): array {
 		return $this->format($file, $permissionMask);
 	}
 
 	/**
-	 * @return FilesSharingShareInfo
+	 * @return Files_SharingShareInfo
 	 */
 	private function parseFolder(Folder $folder, int $permissionMask, int $depth): array {
 		$data = $this->format($folder, $permissionMask);
@@ -150,7 +150,7 @@ class ShareInfoController extends ApiController {
 	}
 
 	/**
-	 * @return FilesSharingShareInfo
+	 * @return Files_SharingShareInfo
 	 */
 	private function format(Node $node, int $permissionMask): array {
 		$entry = [];

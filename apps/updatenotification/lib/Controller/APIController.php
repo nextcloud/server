@@ -39,7 +39,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 /**
- * @psalm-import-type UpdatenotificationApp from ResponseDefinitions
+ * @psalm-import-type UpdateNotificationApp from ResponseDefinitions
  */
 class APIController extends OCSController {
 
@@ -94,7 +94,7 @@ class APIController extends OCSController {
 	 *
 	 * @param string $newVersion Server version to check updates for
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{missing: UpdatenotificationApp[], available: UpdatenotificationApp[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{missing: UpdateNotificationApp[], available: UpdateNotificationApp[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
 	 *
 	 * 200: Apps returned
 	 * 404: New versions not found
@@ -167,7 +167,7 @@ class APIController extends OCSController {
 	 * Get translated app name
 	 *
 	 * @param string $appId
-	 * @return UpdatenotificationApp
+	 * @return UpdateNotificationApp
 	 */
 	protected function getAppDetails(string $appId): array {
 		$app = $this->appManager->getAppInfo($appId, false, $this->language);
