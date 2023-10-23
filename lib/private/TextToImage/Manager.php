@@ -212,7 +212,7 @@ class Manager implements IManager {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
 		}
-		$this->logger->warning('Scheduling Text2Image Task');
+		$this->logger->debug('Scheduling Text2Image Task');
 		$task->setStatus(Task::STATUS_SCHEDULED);
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->insert($taskEntity);

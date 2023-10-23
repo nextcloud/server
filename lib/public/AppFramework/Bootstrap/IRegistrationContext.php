@@ -237,7 +237,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $providerClass
 	 * @psalm-param class-string<ITextToImageProvider> $providerClass
-	 * @since 27.1.0
+	 * @since 28.0.0
 	 */
 	public function registerTextToImageProvider(string $providerClass): void;
 
