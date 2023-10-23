@@ -82,7 +82,7 @@ class Version28000Date20230906104802 extends SimpleMigrationStep {
 			$table->addColumn('last_updated', Types::DATETIME, [
 				'notnull' => false,
 			]);
-			$table->addColumn('completion_expeted_at', Types::DATETIME, [
+			$table->addColumn('completion_expected_at', Types::DATETIME, [
 				'notnull' => false,
 			]);
 
