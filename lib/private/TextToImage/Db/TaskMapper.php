@@ -107,7 +107,7 @@ class TaskMapper extends QBMapper {
 	 * @throws Exception
 	 */
 	public function deleteOlderThan(int $timeout): array {
-		$datetime = new DateTime();
+		$datetime = $this->timeFactory->getDateTime();
 		$datetime->sub(new \DateInterval('PT'.$timeout.'S'));
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
