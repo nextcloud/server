@@ -550,18 +550,20 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		];
 
 		try {
-			if (!$this->file_exists($path)) {
-				$mimeType = $this->mimeDetector->detectPath($path);
-				$this->getConnection()->putObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata,
-					'Body' => '',
-					'ContentType' => $mimeType,
-					'MetadataDirective' => 'REPLACE',
-				]);
-				$this->testTimeout();
+			if ($this->file_exists($path)) {
+				return false;
 			}
+
+			$mimeType = $this->mimeDetector->detectPath($path);
+			$this->getConnection()->putObject([
+				'Bucket' => $this->bucket,
+				'Key' => $this->cleanKey($path),
+				'Metadata' => $metadata,
+				'Body' => '',
+				'ContentType' => $mimeType,
+				'MetadataDirective' => 'REPLACE',
+			]);
+			$this->testTimeout();
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
 				'app' => 'files_external',
