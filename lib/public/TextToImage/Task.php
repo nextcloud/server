@@ -90,7 +90,7 @@ final class Task implements \JsonSerializable {
 	 * @since 28.0.0
 	 */
 	final public function getOutputImages(): ?array {
-		$appData = \OC::$server->get(IAppDataFactory::class)->get('core');
+		$appData = \OCP\Server::get(IAppDataFactory::class)->get('core');
 		try {
 			$folder = $appData->getFolder('text2image')->getFolder((string)$this->getId());
 			$images = [];
