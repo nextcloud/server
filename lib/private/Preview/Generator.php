@@ -37,6 +37,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
@@ -44,6 +45,7 @@ use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
+use kornrunner\Blurhash\Blurhash;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
@@ -65,7 +67,8 @@ class Generator {
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		private IFilesMetadataManager $filesMetadataManager,
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
@@ -191,6 +194,9 @@ class Generator {
 					}
 
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+					if ($width === 256) {
+						$this->saveBlurhash($file->getId(), $width, $height, $preview->getContent(), $crop);
+					}
 					// New file, augment our array
 					$previewFiles[] = $preview;
 				}
@@ -621,6 +627,29 @@ class Generator {
 				return 'gif';
 			default:
 				throw new \InvalidArgumentException('Not a valid mimetype: "' . $mimeType . '"');
+		}
+	}
+
+	private function saveBlurhash(int $fileId, int $width, int $height, string $content, bool $crop): void {
+		$image = imagecreatefromstring($content);
+
+		$pixels = [];
+		for ($y = 0; $y < $height; ++$y) {
+			$row = [];
+			for ($x = 0; $x < $width; ++$x) {
+				$index = imagecolorat($image, $x, $y);
+				$colors = imagecolorsforindex($image, $index);
+
+				$row[] = [$colors['red'], $colors['green'], $colors['blue']];
+			}
+			$pixels[] = $row;
+		}
+
+		$metadata = $this->filesMetadataManager->getMetadata($fileId);
+		if ($crop) {
+			$metadata->set('files-blurhash-crop', Blurhash::encode($pixels, 4, 3), true);
+		} else {
+			$metadata->set('files-blurhash', Blurhash::encode($pixels, 4, 3), true);
 		}
 	}
 }

@@ -344,7 +344,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(Coordinator::class),
 				$c->get(IServerContainer::class),
 				$c->get(IBinaryFinder::class),
-				$c->get(IMagickSupport::class)
+				$c->get(IMagickSupport::class),
+				$c->get(IFilesMetadataManager::class),
 			);
 		});
 		/** @deprecated 19.0.0 */

@@ -41,6 +41,7 @@ use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IPreview;
@@ -75,16 +76,17 @@ class PreviewManager implements IPreview {
 	private IMagickSupport $imagickSupport;
 
 	public function __construct(
-		IConfig                  $config,
-		IRootFolder              $rootFolder,
-		IAppData                 $appData,
-		IEventDispatcher 		 $eventDispatcher,
-		GeneratorHelper          $helper,
-		?string                  $userId,
-		Coordinator              $bootstrapCoordinator,
-		IServerContainer         $container,
-		IBinaryFinder            $binaryFinder,
-		IMagickSupport           $imagickSupport
+		IConfig                       $config,
+		IRootFolder                   $rootFolder,
+		IAppData                      $appData,
+		IEventDispatcher              $eventDispatcher,
+		GeneratorHelper               $helper,
+		?string                       $userId,
+		Coordinator                   $bootstrapCoordinator,
+		IServerContainer              $container,
+		IBinaryFinder                 $binaryFinder,
+		IMagickSupport                $imagickSupport,
+		private IFilesMetadataManager $filesMetadataManager
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -157,7 +159,8 @@ class PreviewManager implements IPreview {
 					$this->rootFolder,
 					$this->config
 				),
-				$this->eventDispatcher
+				$this->eventDispatcher,
+				$this->filesMetadataManager,
 			);
 		}
 		return $this->generator;
