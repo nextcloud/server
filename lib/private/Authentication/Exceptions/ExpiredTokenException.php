@@ -25,8 +25,21 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Exceptions;
 
+use OC\Authentication\Token\IToken;
+
 /**
  * @deprecated 28.0.0 use OCP version instead
  */
 class ExpiredTokenException extends \OCP\Authentication\Exceptions\ExpiredTokenException {
+	public function __construct(
+		IToken $token,
+	) {
+		parent::__construct($token);
+	}
+
+	public function getToken(): IToken {
+		$token = parent::getToken();
+		/** @var IToken $token We know that we passed OC interface from constructor */
+		return $token;
+	}
 }
