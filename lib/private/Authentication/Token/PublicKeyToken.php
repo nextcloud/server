@@ -187,11 +187,11 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return $scope;
 	}
 
-	public function setScope(mixed $scope): void {
+	public function setScope(string|array $scope): void {
 		if (is_array($scope)) {
 			parent::setScope(json_encode($scope));
 		} else {
-			parent::setScope((string)$scope);
+			parent::setScope($scope);
 		}
 	}
 
