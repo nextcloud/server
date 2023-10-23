@@ -27,6 +27,7 @@ namespace OC\TextToImage\Db;
 
 use DateTime;
 use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\TextToImage\Task as OCPTask;
 
 /**
@@ -94,7 +95,7 @@ class Task extends Entity {
 		/** @var Task $dbTask */
 		$dbTask = Task::fromParams([
 			'id' => $task->getId(),
-			'lastUpdated' => new DateTime('now'),
+			'lastUpdated' => \OCP\Server::get(ITimeFactory::class)->getDateTime(),
 			'status' => $task->getStatus(),
 			'numberOfImages' => $task->getNumberOfImages(),
 			'input' => $task->getInput(),
