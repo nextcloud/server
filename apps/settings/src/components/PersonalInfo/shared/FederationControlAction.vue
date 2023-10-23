@@ -26,7 +26,7 @@
 		:close-after-click="true"
 		:disabled="!isSupportedScope"
 		:icon="iconClass"
-		:title="displayName"
+		:name="displayName"
 		@click.stop.prevent="updateScope">
 		{{ isSupportedScope ? tooltip : tooltipDisabled }}
 	</NcActionButton>
