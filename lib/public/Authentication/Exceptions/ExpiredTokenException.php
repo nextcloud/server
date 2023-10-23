@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -23,10 +23,18 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Authentication\Exceptions;
+namespace OCP\Authentication\Exceptions;
 
-/**
- * @deprecated 28.0.0 use OCP version instead
- */
-class WipeTokenException extends \OCP\Authentication\Exceptions\WipeTokenException {
+use OCP\Authentication\Token\IToken;
+
+class ExpiredTokenException extends InvalidTokenException {
+	public function __construct(
+		private IToken $token,
+	) {
+		parent::__construct();
+	}
+
+	public function getToken(): IToken {
+		return $this->token;
+	}
 }

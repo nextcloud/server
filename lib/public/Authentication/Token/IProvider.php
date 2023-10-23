@@ -24,6 +24,10 @@ declare(strict_types=1);
  */
 namespace OCP\Authentication\Token;
 
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+
 /**
  * @since 24.0.8
  */

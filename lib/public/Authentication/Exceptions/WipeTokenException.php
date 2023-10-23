@@ -23,10 +23,18 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Authentication\Exceptions;
+namespace OCP\Authentication\Exceptions;
 
-/**
- * @deprecated 28.0.0 use OCP version instead
- */
-class WipeTokenException extends \OCP\Authentication\Exceptions\WipeTokenException {
+use OCP\Authentication\Token\IToken;
+
+class WipeTokenException extends InvalidTokenException {
+	public function __construct(
+		private IToken $token,
+	) {
+		parent::__construct();
+	}
+
+	public function getToken(): IToken {
+		return $this->token;
+	}
 }

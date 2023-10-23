@@ -22,10 +22,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Authentication\Exceptions;
+namespace OCP\Authentication\Exceptions;
 
-/**
- * @deprecated 28.0.0 use OCP version instead
- */
-class InvalidTokenException extends \OCP\Authentication\Exceptions\InvalidTokenException {
+use Exception;
+
+class InvalidTokenException extends Exception {
 }
