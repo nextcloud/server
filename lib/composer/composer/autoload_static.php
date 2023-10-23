@@ -585,6 +585,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Preview\\IVersionedPreviewFile' => __DIR__ . '/../../..' . '/lib/public/Preview/IVersionedPreviewFile.php',
         'OCP\\Profile\\BeforeTemplateRenderedEvent' => __DIR__ . '/../../..' . '/lib/public/Profile/BeforeTemplateRenderedEvent.php',
         'OCP\\Profile\\ILinkAction' => __DIR__ . '/../../..' . '/lib/public/Profile/ILinkAction.php',
+        'OCP\\Profile\\IProfileManager' => __DIR__ . '/../../..' . '/lib/public/Profile/IProfileManager.php',
         'OCP\\Profile\\ParameterDoesNotExistException' => __DIR__ . '/../../..' . '/lib/public/Profile/ParameterDoesNotExistException.php',
         'OCP\\Profiler\\IProfile' => __DIR__ . '/../../..' . '/lib/public/Profiler/IProfile.php',
         'OCP\\Profiler\\IProfiler' => __DIR__ . '/../../..' . '/lib/public/Profiler/IProfiler.php',
