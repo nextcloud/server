@@ -20,11 +20,11 @@
   -->
 
 <template>
-	<component :is="elementTag">
-		<div class="user-status-menu-item">
+	<component :is="inline ? 'div' : 'li'">
+		<!-- User Menu Entries -->
+		<div v-if="!inline" class="user-status-menu-item">
 			<!-- Username display -->
-			<a v-if="!inline"
-				class="user-status-menu-item__header"
+			<a class="user-status-menu-item__header"
 				:href="profilePageLink"
 				@click.exact="loadProfilePage">
 				<div class="user-status-menu-item__header-content">
@@ -37,20 +37,25 @@
 				</div>
 			</a>
 
-			<!-- Status modal toggle -->
-			<toggle :is="inline ? 'button' : 'a'"
-				:class="{'user-status-menu-item__toggle--inline': inline}"
-				class="user-status-menu-item__toggle"
-				href="#"
-				@click.prevent.stop="openModal">
-				<span aria-hidden="true" :class="statusIcon" class="user-status-menu-item__toggle-icon" />
+			<!-- User Status = Status modal toggle -->
+			<button class="user-status-menu-item__toggle" @click.stop="openModal">
+				<span aria-hidden="true" :class="statusIcon" class="user-status-icon" />
 				{{ visibleMessage }}
-			</toggle>
+			</button>
 		</div>
 
+		<!-- Dashboard Status -->
+		<NcButton v-else
+			:icon="statusIcon"
+			@click.stop="openModal">
+			<template #icon>
+				<span aria-hidden="true" :class="statusIcon" class="user-status-icon" />
+			</template>
+			{{ visibleMessage }}
+		</NcButton>
+
 		<!-- Status management modal -->
-		<SetStatusModal v-if="isModalOpen"
-			@close="closeModal" />
+		<SetStatusModal v-if="isModalOpen" @close="closeModal" />
 	</component>
 </template>
 
@@ -59,6 +64,7 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService.js'
@@ -70,11 +76,17 @@ export default {
 	name: 'UserStatus',
 
 	components: {
+		NcButton,
 		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
 	mixins: [OnlineStatusMixin],
 
 	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
 		inline: {
 			type: Boolean,
 			default: false,
@@ -94,13 +106,10 @@ export default {
 		}
 	},
 	computed: {
-		elementTag() {
-			return this.inline ? 'div' : 'li'
-		},
 		/**
 		 * The profile page link
 		 *
-		 * @return {string | null}
+		 * @return {string | undefined}
 		 */
 		profilePageLink() {
 			if (this.profileEnabled) {
@@ -109,7 +118,7 @@ export default {
 			// Since an anchor element is used rather than a button,
 			// this hack removes href if the profile is disabled so that disabling pointer-events is not needed to prevent a click from opening a page
 			// and to allow the hover event for styling
-			return null
+			return undefined
 		},
 	},
 
@@ -272,45 +281,37 @@ export default {
 	}
 
 	&__toggle {
-		&-icon {
-			width: 16px;
-			height: 16px;
-			margin-right: 10px;
-			opacity: 1 !important;
-			background-size: 16px;
-			vertical-align: middle !important;
+		width: auto;
+		min-width: 44px;
+		height: 44px;
+		margin: 0;
+		border: 0;
+		border-radius: var(--border-radius-pill);
+		background-color: var(--color-main-background-blur);
+		font-size: inherit;
+		font-weight: normal;
+
+		-webkit-backdrop-filter: var(--background-blur);
+		backdrop-filter: var(--background-blur);
+
+		&:active,
+		&:hover,
+		&:focus {
+			background-color: var(--color-background-hover);
 		}
-
-		// In dashboard
-		&--inline {
-			width: auto;
-			min-width: 44px;
-			height: 44px;
-			margin: 0;
-			border: 0;
-			border-radius: var(--border-radius-pill);
-			background-color: var(--color-main-background-blur);
-			font-size: inherit;
-			font-weight: normal;
-
-			-webkit-backdrop-filter: var(--background-blur);
-			backdrop-filter: var(--background-blur);
-
-			&:active,
-			&:hover,
-			&:focus {
-				background-color: var(--color-background-hover);
-			}
-			&:focus-visible {
-				box-shadow: 0 0 0 4px var(--color-main-background) !important;
-				outline: 2px solid var(--color-main-text) !important;
-			}
+		&:focus-visible {
+			box-shadow: 0 0 0 4px var(--color-main-background) !important;
+			outline: 2px solid var(--color-main-text) !important;
 		}
 	}
 }
 
-li {
-	list-style-type: none;
+.user-status-icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	opacity: 1 !important;
+	background-size: 16px;
+	vertical-align: middle !important;
 }
-
 </style>
