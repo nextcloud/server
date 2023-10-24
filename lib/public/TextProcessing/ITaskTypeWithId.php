@@ -23,40 +23,15 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 namespace OCP\TextProcessing;
 
-use RuntimeException;
-
 /**
- * This is the interface that is implemented by apps that
- * implement a text processing provider
- * @template T of ITaskType
- * @since 27.1.0
+ * @since 28.0.0
  */
-interface IProvider {
+interface ITaskTypeWithId {
 	/**
-	 * The localized name of this provider
-	 * @since 27.1.0
+	 * The id of this provider
+	 * @since 28.0.0
 	 */
-	public function getName(): string;
-
-	/**
-	 * Processes a text
-	 *
-	 * @param string $prompt The input text
-	 * @return string the output text
-	 * @since 27.1.0
-	 * @throws RuntimeException If the text could not be processed
-	 */
-	public function process(string $prompt): string;
-
-	/**
-	 * Returns the task type class string of the task type, that this
-	 * provider handles
-	 *
-	 * @since 27.1.0
-	 * @return class-string<T>|string
-	 */
-	public function getTaskType(): string;
+	public function getId(): string;
 }

@@ -28,6 +28,7 @@ namespace OC\TextProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
 use OCP\IConfig;
+use OCP\TextProcessing\IProviderWithId;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\Task as OCPTask;
 use OC\TextProcessing\Db\TaskMapper;
@@ -120,7 +121,12 @@ class Manager implements IManager {
 			$preferences = json_decode($json, true);
 			if (isset($preferences[$task->getType()])) {
 				// If a preference for this task type is set, move the preferred provider to the start
-				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $preferences[$task->getType()]));
+				$provider = current(array_filter($providers, function ($provider) use ($preferences, $task) {
+					if ($provider instanceof IProviderWithId) {
+						return $provider->getId() === $preferences[$task->getType()];
+					}
+					return $provider::class === $preferences[$task->getType()];
+				}));
 				if ($provider !== false) {
 					$providers = array_filter($providers, fn ($p) => $p !== $provider);
 					array_unshift($providers, $provider);

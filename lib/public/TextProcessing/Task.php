@@ -29,8 +29,8 @@ namespace OCP\TextProcessing;
  * This is a text processing task
  * @since 27.1.0
  * @psalm-template T of ITaskType
- * @psalm-template S as class-string<T>
- * @psalm-template P as IProvider<T>
+ * @psalm-template S as class-string<T> | string
+ * @psalm-template P as IProvider<T> | IProvider
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
