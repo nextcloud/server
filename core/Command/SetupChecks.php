@@ -66,12 +66,15 @@ class SetupChecks extends Base {
 							'error' => '❌',
 							default => 'ℹ',
 						};
+						$verbosity = ($check->getSeverity() === 'error' ? OutputInterface::VERBOSITY_QUIET : OutputInterface::VERBOSITY_NORMAL);
+						$description = $check->getDescription();
 						$output->writeln(
 							"\t\t<{$styleTag}>".
 							"{$emoji} ".
 							$title.
-							($check->getDescription() !== null ? ': '.$check->getDescription() : '').
-							"</{$styleTag}>"
+							($description !== null ? ': '.$description : '').
+							"</{$styleTag}>",
+							$verbosity
 						);
 					}
 				}
@@ -79,10 +82,10 @@ class SetupChecks extends Base {
 		foreach ($results as $category => $checks) {
 			foreach ($checks as $title => $check) {
 				if ($check->getSeverity() !== 'success') {
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }
