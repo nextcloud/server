@@ -2,9 +2,9 @@
 
 namespace OC\Files\Storage\Wrapper;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Storage\IStorage;
-use Psr\Clock\ClockInterface;
 
 /**
  * Wrapper that overwrites the mtime return by stat/getMetaData if the returned value
@@ -14,7 +14,7 @@ use Psr\Clock\ClockInterface;
  */
 class KnownMtime extends Wrapper {
 	private CappedMemoryCache $knowMtimes;
-	private ClockInterface $clock;
+	private ITimeFactory $clock;
 
 	public function __construct($arguments) {
 		parent::__construct($arguments);
@@ -25,8 +25,7 @@ class KnownMtime extends Wrapper {
 	public function file_put_contents($path, $data) {
 		$result = parent::file_put_contents($path, $data);
 		if ($result) {
-			$now = $this->clock->now()->getTimestamp();
-			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -62,7 +61,7 @@ class KnownMtime extends Wrapper {
 	public function mkdir($path) {
 		$result = parent::mkdir($path);
 		if ($result) {
-			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -70,7 +69,7 @@ class KnownMtime extends Wrapper {
 	public function rmdir($path) {
 		$result = parent::rmdir($path);
 		if ($result) {
-			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -78,7 +77,7 @@ class KnownMtime extends Wrapper {
 	public function unlink($path) {
 		$result = parent::unlink($path);
 		if ($result) {
-			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -86,8 +85,8 @@ class KnownMtime extends Wrapper {
 	public function rename($source, $target) {
 		$result = parent::rename($source, $target);
 		if ($result) {
-			$this->knowMtimes->set($target, $this->clock->now()->getTimestamp());
-			$this->knowMtimes->set($source, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($target, $this->clock->getTime());
+			$this->knowMtimes->set($source, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -95,7 +94,7 @@ class KnownMtime extends Wrapper {
 	public function copy($source, $target) {
 		$result = parent::copy($source, $target);
 		if ($result) {
-			$this->knowMtimes->set($target, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($target, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -103,7 +102,7 @@ class KnownMtime extends Wrapper {
 	public function fopen($path, $mode) {
 		$result = parent::fopen($path, $mode);
 		if ($result && $mode === 'w') {
-			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -111,7 +110,7 @@ class KnownMtime extends Wrapper {
 	public function touch($path, $mtime = null) {
 		$result = parent::touch($path, $mtime);
 		if ($result) {
-			$this->knowMtimes->set($path, $mtime ?? $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $mtime ?? $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -119,7 +118,7 @@ class KnownMtime extends Wrapper {
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		$result = parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
-			$this->knowMtimes->set($targetInternalPath, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($targetInternalPath, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -127,7 +126,7 @@ class KnownMtime extends Wrapper {
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		$result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
-			$this->knowMtimes->set($targetInternalPath, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($targetInternalPath, $this->clock->getTime());
 		}
 		return $result;
 	}
@@ -135,7 +134,7 @@ class KnownMtime extends Wrapper {
 	public function writeStream(string $path, $stream, int $size = null): int {
 		$result = parent::writeStream($path, $stream, $size);
 		if ($result) {
-			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($path, $this->clock->getTime());
 		}
 		return $result;
 	}

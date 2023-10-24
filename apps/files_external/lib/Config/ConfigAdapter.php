@@ -36,12 +36,12 @@ use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
-use Psr\Clock\ClockInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -50,7 +50,7 @@ class ConfigAdapter implements IMountProvider {
 	public function __construct(
 		private UserStoragesService $userStoragesService,
 		private UserGlobalStoragesService $userGlobalStoragesService,
-		private ClockInterface $clock,
+		private ITimeFactory $clock,
 	) {}
 
 	/**

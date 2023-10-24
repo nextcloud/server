@@ -10,8 +10,8 @@ namespace lib\Files\Storage\Wrapper;
 
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\KnownMtime;
+use OCP\AppFramework\Utility\ITimeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Clock\ClockInterface;
 use Test\Files\Storage\Storage;
 
 /**
@@ -21,7 +21,7 @@ class KnownMtimeTest extends Storage {
 	/** @var Temporary */
 	private $sourceStorage;
 
-	/** @var ClockInterface|MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $clock;
 	private int $fakeTime = 0;
 
@@ -29,13 +29,9 @@ class KnownMtimeTest extends Storage {
 		parent::setUp();
 		$this->fakeTime = 0;
 		$this->sourceStorage = new Temporary([]);
-		$this->clock = $this->createMock(ClockInterface::class);
-		$this->clock->method('now')->willReturnCallback(function () {
-			if ($this->fakeTime) {
-				return new \DateTimeImmutable("@{$this->fakeTime}");
-			} else {
-				return new \DateTimeImmutable();
-			}
+		$this->clock = $this->createMock(ITimeFactory::class);
+		$this->clock->method('getTime')->willReturnCallback(function () {
+			return $this->fakeTime;
 		});
 		$this->instance = $this->getWrappedStorage();
 	}
