@@ -134,9 +134,6 @@
 				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
 					{{ t('files_sharing', 'Allow download') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
-					{{ t('file_sharing', 'Allow download') }}
-				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
 					{{ t('files_sharing', 'Note to recipient') }}
 				</NcCheckboxRadioSwitch>
