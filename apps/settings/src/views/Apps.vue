@@ -22,11 +22,9 @@
 
 <template>
 	<NcContent app-name="settings"
-		:class="{ 'with-app-sidebar': app}"
-		:content-class="{ 'icon-loading': loadingList }"
-		:navigation-class="{ 'icon-loading': loading }">
+		:class="{ 'with-app-sidebar': app}">
 		<!-- Categories & filters -->
-		<NcAppNavigation>
+		<NcAppNavigation :class="{ 'icon-loading': loading }">
 			<template #list>
 				<NcAppNavigationItem id="app-category-your-apps"
 					:to="{ name: 'apps' }"
