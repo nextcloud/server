@@ -48,7 +48,7 @@ interface IManager {
 	public function getProviders(): array;
 
 	/**
-	 * @return class-string<ITaskType>[]
+	 * @return string[]
 	 * @since 27.1.0
 	 */
 	public function getAvailableTaskTypes(): array;
