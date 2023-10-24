@@ -17,7 +17,6 @@ default:
         - FileListContext
         - FilesAppContext
         - FilesAppSharingContext
-        - LoginPageContext
         - NotificationsContext
         - PublicShareContext
         - SearchContext
@@ -46,7 +45,6 @@ default:
         - FileListContext
         - FilesAppContext
         - FilesAppSharingContext
-        - LoginPageContext
         - NotificationsContext
         - PublicShareContext
         - SearchContext
