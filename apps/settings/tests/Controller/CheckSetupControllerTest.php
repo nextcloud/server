@@ -209,7 +209,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
 				'is64bit',
-				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
@@ -443,11 +442,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('is64bit')
 			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasRecommendedPHPModules')
-			->willReturn([]);
 
 		$this->checkSetupController
 			->expects($this->once())
