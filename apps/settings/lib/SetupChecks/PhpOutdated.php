@@ -42,7 +42,7 @@ class PhpOutdated implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for PHP version');
+		return $this->l10n->t('PHP version');
 	}
 
 	public function run(): SetupResult {

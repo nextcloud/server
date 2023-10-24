@@ -27,13 +27,9 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-use Doctrine\DBAL\Platforms\MariaDb1027Platform;
-use Doctrine\DBAL\Platforms\MySQL57Platform;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -52,45 +48,43 @@ class SupportedDatabase implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for database version');
+		return $this->l10n->t('Database version');
 	}
 
 	public function run(): SetupResult {
-		switch (get_class($this->connection->getDatabasePlatform())) {
-			case MySQL80Platform::class: # extends MySQL57Platform
-			case MySQL57Platform::class: # extends MySQLPlatform
-			case MariaDb1027Platform::class: # extends MySQLPlatform
-			case MySQLPlatform::class:
-				$result = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
-				$result->execute();
-				$row = $result->fetch();
-				$version = strtolower($row['Value']);
+		$version = null;
+		$databasePlatform = $this->connection->getDatabasePlatform();
+		if ($databasePlatform instanceof MySQLPlatform) {
+			$result = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result->execute();
+			$row = $result->fetch();
+			$version = $row['Value'];
+			$versionlc = strtolower($version);
 
-				if (str_contains($version, 'mariadb')) {
-					if (version_compare($version, '10.2', '<')) {
-						return SetupResult::warning($this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $row['Value']));
-					}
-				} else {
-					if (version_compare($version, '8', '<')) {
-						return SetupResult::warning($this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $row['Value']));
-					}
+			if (str_contains($versionlc, 'mariadb')) {
+				if (version_compare($versionlc, '10.2', '<')) {
+					return SetupResult::warning($this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $version));
 				}
-				break;
-			case SqlitePlatform::class:
-				break;
-			case PostgreSQL100Platform::class: # extends PostgreSQL94Platform
-			case PostgreSQL94Platform::class:
-				$result = $this->connection->prepare('SHOW server_version;');
-				$result->execute();
-				$row = $result->fetch();
-				if (version_compare($row['server_version'], '9.6', '<')) {
-					return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $row['server_version']));
+			} else {
+				if (version_compare($versionlc, '8', '<')) {
+					return SetupResult::warning($this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $version));
 				}
-				break;
-			case OraclePlatform::class:
-				break;
+			}
+		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
+			$result = $this->connection->prepare('SHOW server_version;');
+			$result->execute();
+			$row = $result->fetch();
+			$version = $row['server_version'];
+			if (version_compare(strtolower($version), '9.6', '<')) {
+				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $version));
+			}
+		} elseif ($databasePlatform instanceof OraclePlatform) {
+			$version = 'Oracle';
+		} elseif ($databasePlatform instanceof SqlitePlatform) {
+			$version = 'Sqlite';
+		} else {
+			return SetupResult::error($this->l10n->t('Unknown database plaform'));
 		}
-		// TODO still show db and version on success?
-		return SetupResult::success();
+		return SetupResult::success($version);
 	}
 }
