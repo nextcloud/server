@@ -1059,6 +1059,7 @@ return array(
     'OC\\Core\\Command\\Security\\ImportCertificate' => $baseDir . '/core/Command/Security/ImportCertificate.php',
     'OC\\Core\\Command\\Security\\ListCertificates' => $baseDir . '/core/Command/Security/ListCertificates.php',
     'OC\\Core\\Command\\Security\\RemoveCertificate' => $baseDir . '/core/Command/Security/RemoveCertificate.php',
+    'OC\\Core\\Command\\SetupChecks' => $baseDir . '/core/Command/SetupChecks.php',
     'OC\\Core\\Command\\Status' => $baseDir . '/core/Command/Status.php',
     'OC\\Core\\Command\\SystemTag\\Add' => $baseDir . '/core/Command/SystemTag/Add.php',
     'OC\\Core\\Command\\SystemTag\\Delete' => $baseDir . '/core/Command/SystemTag/Delete.php',
