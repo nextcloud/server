@@ -606,6 +606,10 @@ class Manager {
 			$this->logger->error('Mount point to remove share not found', ['mountPoint' => $mountPoint]);
 			return false;
 		}
+		if (!$mountPointObj instanceof Mount) {
+			$this->logger->error('Mount point to remove share is not an external share, share probably doesn\'t exist', ['mountPoint' => $mountPoint]);
+			return false;
+		}
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
 		$mountPoint = $this->stripPath($mountPoint);
