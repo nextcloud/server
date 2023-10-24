@@ -23,14 +23,24 @@
 	},
 	"require": {
 		"php": "^8.0",
+		"ext-ctype": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-fileinfo": "*",
+		"ext-gd": "*",
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
 		"ext-openssl": "*",
 		"ext-pdo": "*",
+		"ext-posix": "*",
+		"ext-session": "*",
 		"ext-simplexml": "*",
+		"ext-xml": "*",
 		"ext-xmlreader": "*",
-		"ext-zip": "*"
+		"ext-xmlwriter": "*",
+		"ext-zip": "*",
+		"ext-zlib": "*"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"
