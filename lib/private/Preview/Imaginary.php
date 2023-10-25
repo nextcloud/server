@@ -78,6 +78,9 @@ class Imaginary extends ProviderV2 {
 
 		// Object store
 		$stream = $file->fopen('r');
+		if (!$stream || !is_resource($stream) || feof($stream)) {
+			return null;
+		}
 
 		$httpClient = $this->service->newClient();
 
