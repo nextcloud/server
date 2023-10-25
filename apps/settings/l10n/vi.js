@@ -212,6 +212,7 @@ OC.L10N.register(
     "Email" : "Email",
     "Quota" : "Hạn ngạch",
     "Language" : "Ngôn ngữ",
+    "Total rows summary" : "Tóm tắt tổng số hàng",
     "Avatar" : "Hình đại diện",
     "Group admin for" : "Quản trị viên nhóm",
     "User backend" : "Trang cài đặt người dùng",
