@@ -111,6 +111,7 @@ use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\LDAP\NullLDAPProviderFactory;
 use OC\KnownUser\KnownUserService;
+use OC\Location\LocationManager;
 use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
@@ -230,6 +231,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\ILDAPProviderFactory;
+use OCP\Location\ILocationManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
@@ -1439,6 +1441,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
 		$this->registerAlias(IProfileManager::class, ProfileManager::class);
+
+		$this->registerAlias(ILocationManager::class, LocationManager::class);
 
 		$this->connectDispatcher();
 	}

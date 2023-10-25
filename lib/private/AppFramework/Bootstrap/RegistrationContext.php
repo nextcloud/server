@@ -33,6 +33,7 @@ use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Location\ILocationProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Talk\ITalkBackend;
@@ -125,6 +126,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ITranslationProvider>[] */
 	private $translationProviders = [];
+
+	/** @var ServiceRegistration<ILocationProvider>[] */
+	private array $locationProviders = [];
 
 	/** @var ServiceRegistration<INotifier>[] */
 	private $notifierServices = [];
@@ -295,6 +299,13 @@ class RegistrationContext {
 
 			public function registerTranslationProvider(string $providerClass): void {
 				$this->context->registerTranslationProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
+			public function registerLocationProvider(string $providerClass): void {
+				$this->context->registerLocationProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -473,6 +484,10 @@ class RegistrationContext {
 
 	public function registerTranslationProvider(string $appId, string $class): void {
 		$this->translationProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerLocationProvider(string $appId, string $class): void {
+		$this->locationProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerNotifierService(string $appId, string $class): void {
@@ -775,6 +790,10 @@ class RegistrationContext {
 	 */
 	public function getTranslationProviders(): array {
 		return $this->translationProviders;
+	}
+
+	public function getLocationProviders(): array {
+		return $this->locationProviders;
 	}
 
 	/**
