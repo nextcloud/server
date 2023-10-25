@@ -63,39 +63,3 @@ registerRecentView()
 
 // Register preview service worker
 registerPreviewServiceWorker()
-
-registerFileAction(new FileAction({
-	id: 'menu',
-	displayName: () => 'Menu',
-	iconSvgInline: () => MenuIcon,
-	exec: async () => true,
-}))
-
-registerFileAction(new FileAction({
-	id: 'submenu1',
-	displayName: () => 'Submenu 1',
-	iconSvgInline: () => MenuIcon,
-	exec: async () => alert('Hello 1'),
-	parent: 'menu',
-}))
-registerFileAction(new FileAction({
-	id: 'submenu2',
-	displayName: () => 'Submenu 2',
-	iconSvgInline: () => MenuIcon,
-	exec: async () => alert('Hello 2'),
-	parent: 'menu',
-}))
-registerFileAction(new FileAction({
-	id: 'submenu3',
-	displayName: () => 'Submenu 3',
-	iconSvgInline: () => MenuIcon,
-	exec: async () => alert('Hello 3'),
-	parent: 'menu',
-}))
-registerFileAction(new FileAction({
-	id: 'submenu4',
-	displayName: () => 'Submenu 4',
-	iconSvgInline: () => MenuIcon,
-	exec: async () => alert('Hello 4'),
-	parent: 'menu',
-}))

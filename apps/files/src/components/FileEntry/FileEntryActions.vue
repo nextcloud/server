@@ -51,11 +51,11 @@
 					}"
 					:close-after-click="!isMenu(action.id)"
 					:data-cy-files-list-row-action="action.id"
+					:is-menu="isMenu(action.id)"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
 					<template #icon>
-						<ChevronRightIcon v-if="isMenu(action.id)" />
-						<NcLoadingIcon v-else-if="loading === action.id" :size="18" />
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
 						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
@@ -63,22 +63,22 @@
 			</template>
 
 			<!-- Submenu actions list-->
-			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu]">
+			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
 				<!-- Back to top-level button -->
-				<NcActionButton class="files-list__row-action-back" @click="openedSubmenu = ''">
+				<NcActionButton class="files-list__row-action-back" @click="openedSubmenu = null">
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
-					{{ t('files', 'Back') }}
+					{{ actionDisplayName(openedSubmenu) }}
 				</NcActionButton>
 				<NcActionSeparator />
 
 				<!-- Submenu actions -->
-				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu]"
+				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					:close-after-click="true"
+					:close-after-click="false /* never close submenu, just go back */"
 					:data-cy-files-list-row-action="action.id"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
@@ -152,7 +152,7 @@ export default Vue.extend({
 
 	data() {
 		return {
-			openedSubmenu: '',
+			openedSubmenu: null as FileAction | null,
 		}
 	},
 
@@ -267,10 +267,10 @@ export default Vue.extend({
 			return action.displayName([this.source], this.currentView)
 		},
 
-		async onActionClick(action) {
+		async onActionClick(action, isSubmenu = false) {
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
-				this.openedSubmenu = action.id
+				this.openedSubmenu = action
 				return
 			}
 
@@ -299,6 +299,11 @@ export default Vue.extend({
 				// Reset the loading marker
 				this.$emit('update:loading', '')
 				Vue.set(this.source, 'status', undefined)
+
+				// If that was a submenu, we just go back after the action
+				if (isSubmenu) {
+					this.openedSubmenu = null
+				}
 			}
 		},
 		execDefaultAction(event) {

@@ -1,13 +1,9 @@
-<?php
-
-declare(strict_types=1);
-
 /**
  * @copyright 2023 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,30 +19,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { registerFileAction } from '@nextcloud/files'
+import { action as menuAction } from './actions/setReminderMenuAction'
+import { actions as suggestionActions } from './actions/setReminderSuggestionActions'
+import { action as customAction } from './actions/setReminderCustomAction'
 
-namespace OCA\FilesReminders\Listener;
-
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\FilesReminders\AppInfo\Application;
-use OCP\App\IAppManager;
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventListener;
-use OCP\Util;
-
-class LoadAdditionalScriptsListener implements IEventListener {
-	public function __construct(
-		private IAppManager $appManager,
-	) {}
-
-	public function handle(Event $event): void {
-		if (!($event instanceof LoadAdditionalScriptsEvent)) {
-			return;
-		}
-
-		if (!$this->appManager->isEnabledForUser('notifications')) {
-			return;
-		}
-
-		Util::addInitScript(Application::APP_ID, 'init');
-	}
-}
+registerFileAction(menuAction)
+registerFileAction(customAction)
+suggestionActions.forEach((action) => registerFileAction(action))
