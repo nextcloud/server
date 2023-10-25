@@ -112,7 +112,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 		parent::__construct([
 			'storage' => null,
-			'root' => null,
+			'root' => '',
 		]);
 	}
 
@@ -292,12 +292,16 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			case 'xb':
 			case 'a':
 			case 'ab':
-				$creatable = $this->isCreatable(dirname($path));
+				$parent = dirname($path);
+				if ($parent === '.') {
+					$parent = '';
+				}
+				$creatable = $this->isCreatable($parent);
 				$updatable = $this->isUpdatable($path);
 				// if neither permissions given, no need to continue
 				if (!$creatable && !$updatable) {
 					if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
-						$updatable = $this->isUpdatable(dirname($path));
+						$updatable = $this->isUpdatable($parent);
 					}
 
 					if (!$updatable) {

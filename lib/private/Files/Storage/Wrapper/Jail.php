@@ -30,7 +30,6 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
-use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
@@ -42,9 +41,9 @@ use OCP\Lock\ILockingProvider;
  */
 class Jail extends Wrapper {
 	/**
-	 * @var string
+	 * Root of the jail, without trailing slash
 	 */
-	protected $rootPath;
+	protected string $rootPath;
 
 	/**
 	 * @param array $arguments ['storage' => $storage, 'root' => $root]
@@ -54,11 +53,18 @@ class Jail extends Wrapper {
 	 */
 	public function __construct($arguments) {
 		parent::__construct($arguments);
-		$this->rootPath = $arguments['root'];
+		$this->rootPath = trim($arguments['root'], '/');
 	}
 
 	public function getUnjailedPath($path) {
-		return trim(Filesystem::normalizePath($this->rootPath . '/' . $path), '/');
+		$path = trim($path, '/');
+		if ($this->rootPath === '') {
+			return $path;
+		} elseif ($path === '') {
+			return $this->rootPath;
+		} else {
+			return $this->rootPath . '/' . $path;
+		}
 	}
 
 	/**
@@ -70,9 +76,7 @@ class Jail extends Wrapper {
 
 
 	public function getJailedPath($path) {
-		$root = rtrim($this->rootPath, '/') . '/';
-
-		if ($path !== $this->rootPath && !str_starts_with($path, $root)) {
+		if ($path !== $this->rootPath && !str_starts_with($path, $this->rootPath . '/')) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->rootPath));

@@ -491,7 +491,7 @@ class OC_Helper {
 		if (!$view) {
 			throw new \OCP\Files\NotFoundException();
 		}
-		$fullPath = Filesystem::normalizePath($view->getAbsolutePath($path));
+		$fullPath = rtrim($view->getAbsolutePath($path), '/');
 
 		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
 		if ($useCache) {

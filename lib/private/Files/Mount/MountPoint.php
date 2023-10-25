@@ -246,7 +246,7 @@ class MountPoint implements IMountPoint {
 	 * @return string
 	 */
 	private function formatPath($path) {
-		$path = Filesystem::normalizePath($path);
+		$path = '/' . trim($path, '/');
 		if (strlen($path) > 1) {
 			$path .= '/';
 		}
