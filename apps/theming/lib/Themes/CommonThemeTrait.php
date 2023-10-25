@@ -64,7 +64,7 @@ trait CommonThemeTrait {
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 81),
+			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 82),
 			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
 			// mostly used for disabled states
 			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 6),
