@@ -104,7 +104,7 @@ class DefaultTheme implements ITheme {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
 		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
-		$colorTextMaxcontrast = '#707070'; // 4.54 : 1 for hover background
+		$colorTextMaxcontrast = '#6b6b6b'; // 4.5 : 1 for hover background and background dark
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
@@ -151,7 +151,7 @@ class DefaultTheme implements ITheme {
 			'--color-warning' => $colorWarning,
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
 			'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
-			'--color-warning-text' => $this->util->darken($colorWarning, 8),
+			'--color-warning-text' => $this->util->darken($colorWarning, 10),
 			'--color-success' => $colorSuccess,
 			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
 			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 78),

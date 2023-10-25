@@ -2,23 +2,19 @@
 import style from '!raw-loader!../css/default.css'
 
 const testCases = {
-	'Generic combinations': {
+	'Main text': {
 		foregroundColors: [
 			'color-main-text',
 			// 'color-text-light', deprecated
 			// 'color-text-lighter', deprecated
 			'color-text-maxcontrast',
 			'color-text-maxcontrast-default',
-			'color-error-text',
-			'color-warning-text',
-			'color-success-text',
-			'color-info-text',
 		],
 		backgroundColors: [
 			'color-background-main',
 			'color-background-hover',
 			'color-background-dark',
-			'color-background-darker',
+			// 'color-background-darker', this should only be used for elements not for text
 		],
 	},
 	Primary: {
@@ -26,9 +22,9 @@ const testCases = {
 			'color-primary-text',
 		],
 		backgroundColors: [
-			'color-primary-default',
+			// 'color-primary-default', this should only be used for elements not for text!
+			// 'color-primary-hover', this should only be used for elements and not for text!
 			'color-primary',
-			'color-primary-hover',
 		],
 	},
 	'Primary light': {
@@ -59,15 +55,19 @@ const testCases = {
 			'color-primary-element-light-hover',
 		],
 	},
+	'Servity information texts': {
+		foregroundColors: [
+			'color-error-text',
+			'color-warning-text',
+			'color-success-text',
+			'color-info-text',
+		],
+		backgroundColors: [
+			'color-background-main',
+			'color-background-hover',
+		],
+	},
 }
-
-before(() => {
-	cy.injectAxe()
-
-	const el = document.createElement('style')
-	el.innerText = style
-	document.head.appendChild(el)
-})
 
 /**
  * Create a wrapper element with color and background set
@@ -85,32 +85,44 @@ function createTestCase(foreground: string, background: string) {
 	return wrapper
 }
 
-for (const [name, { backgroundColors, foregroundColors }] of Object.entries(testCases)) {
-	describe(`Accessibility of CSS color variables for ${name}`, () => {
-		afterEach(() => {
-			cy.document().then(doc => {
-				const root = doc.querySelector('[data-cy-root]')
-				if (root === null) {
-					throw new Error('No test root found')
-				}
-				for (const child of root.children) {
-					root.removeChild(child)
-				}
-			})
-		})
+describe('Accessibility of Nextcloud theming', () => {
+	before(() => {
+		cy.injectAxe()
 
-		for (const foreground of foregroundColors) {
-			for (const background of backgroundColors) {
-				it(`color contrast of ${foreground} on ${background}`, () => {
-					const element = createTestCase(foreground, background)
-					cy.document().then(doc => {
-						const root = doc.querySelector('[data-cy-root]')
-						console.warn(root)
-						root?.appendChild(element)
-						cy.checkA11y('[data-cy-testcase]')
-					})
-				})
-			}
-		}
+		const el = document.createElement('style')
+		el.innerText = style
+		document.head.appendChild(el)
 	})
-}
+
+	beforeEach(() => {
+		cy.document().then(doc => {
+			const root = doc.querySelector('[data-cy-root]')
+			if (root === null) {
+				throw new Error('No test root found')
+			}
+			for (const child of root.children) {
+				root.removeChild(child)
+			}
+		})
+	})
+
+	for (const [name, { backgroundColors, foregroundColors }] of Object.entries(testCases)) {
+		context(`Accessibility of CSS color variables for ${name}`, () => {
+			for (const foreground of foregroundColors) {
+				for (const background of backgroundColors) {
+					it(`color contrast of ${foreground} on ${background}`, () => {
+						const element = createTestCase(foreground, background)
+						cy.document().then(doc => {
+							const root = doc.querySelector('[data-cy-root]')
+							// eslint-disable-next-line no-unused-expressions
+							expect(root).not.to.be.undefined
+							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+							root!.appendChild(element)
+							cy.checkA11y('[data-cy-testcase]')
+						})
+					})
+				}
+			}
+		})
+	}
+})
