@@ -24,8 +24,8 @@ declare(strict_types=1);
 namespace OC\Files;
 
 use OC\Files\Config\MountProviderCollection;
+use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Mount\MountPoint;
-use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Storage;
@@ -39,7 +39,10 @@ use OC\Share20\ShareDisableChecker;
 use OC_App;
 use OC_Hook;
 use OC_Util;
-use OCA\Files_Sharing\ISharedStorage;
+use OCA\Files_External\Config\ConfigAdapter;
+use OCA\Files_Sharing\External\Mount;
+use OCA\Files_Sharing\ISharedMountPoint;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -117,7 +120,7 @@ class SetupManager {
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($storage->instanceOfStorage(Common::class)) {
+			if ($mount->getOptions() && $storage->instanceOfStorage(Common::class)) {
 				$storage->setMountOptions($mount->getOptions());
 			}
 			return $storage;
@@ -130,7 +133,7 @@ class SetupManager {
 			'sharing_mask',
 			function ($mountPoint, IStorage $storage, IMountPoint $mount) use ($reSharingEnabled, $sharingEnabledForUser) {
 				$sharingEnabledForMount = $mount->getOption('enable_sharing', true);
-				$isShared = $storage->instanceOfStorage(ISharedStorage::class);
+				$isShared = $mount instanceof ISharedMountPoint;
 				if (!$sharingEnabledForMount || !$sharingEnabledForUser || (!$reSharingEnabled && $isShared)) {
 					return new PermissionsMask([
 						'storage' => $storage,
@@ -142,35 +145,30 @@ class SetupManager {
 		);
 
 		// install storage availability wrapper, before most other wrappers
-		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage) {
-			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
+		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
+			$externalMount = $mount instanceof ConfigAdapter || $mount instanceof Mount;
+			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
 		Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof SharedMount) {
 				return new Encoding(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
 		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
-		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) use ($quotaIncludeExternal) {
+		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
 			// set up quota for home storages, even for other users
 			// which can happen when using sharing
-
-			/**
-			 * @var Storage $storage
-			 */
-			if ($storage->instanceOfStorage(HomeObjectStoreStorage::class) || $storage->instanceOfStorage(Home::class)) {
-				if (is_object($storage->getUser())) {
-					$user = $storage->getUser();
-					return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-						return OC_Util::getUserQuota($user);
-					}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
-				}
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return OC_Util::getUserQuota($user);
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 			}
 
 			return $storage;

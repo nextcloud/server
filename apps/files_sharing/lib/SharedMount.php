@@ -44,7 +44,7 @@ use OCP\Share\Events\VerifyMountPointEvent;
 /**
  * Shared mount points can be moved by the user
  */
-class SharedMount extends MountPoint implements MoveableMount {
+class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	/**
 	 * @var \OCA\Files_Sharing\SharedStorage $storage
 	 */
