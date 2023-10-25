@@ -137,7 +137,7 @@ describe('Login', () => {
 		cy.url().should('match', /apps\/dashboard(\/|$)/)
 
 		// When click logout
-		cy.get('#user-menu button').should('exist').click()
+		cy.get('#user-menu > button').should('exist').click()
 		cy.get('#logout a').should('contain.text', 'Log out').click()
 
 		// Then I see that the current page is the Login page
