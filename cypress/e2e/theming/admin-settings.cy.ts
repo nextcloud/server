@@ -36,7 +36,8 @@ describe('Admin theming settings visibility check', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('See the default settings', function() {
@@ -58,7 +59,8 @@ describe('Change the primary color and reset it', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Change the primary color', function() {
@@ -97,7 +99,8 @@ describe('Remove the default background and restore it', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Remove the default background', function() {
@@ -141,14 +144,15 @@ describe('Remove the default background with a custom primary color', function()
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Change the primary color', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
 
 		pickRandomColor('[data-admin-theming-setting-primary-color-picker]')
-			.then(color => selectedColor = color)
+			.then((color) => { selectedColor = color })
 
 		cy.wait('@setColor')
 		cy.waitUntil(() => validateBodyThemingCss(selectedColor, defaultBackground))
@@ -189,7 +193,8 @@ describe('Remove the default background with a bright color', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Remove the default background', function() {
@@ -235,7 +240,8 @@ describe('Change the login fields then reset them', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Change the name field', function() {
@@ -244,35 +250,40 @@ describe('Change the login fields then reset them', function() {
 		// Name
 		cy.get('[data-admin-theming-setting-field="name"] input[type="text"]')
 			.scrollIntoView()
-			.type('{selectall}')
-			.type(name)
-			.type('{enter}')
+		cy.get('[data-admin-theming-setting-field="name"] input[type="text"]')
+			.type(`{selectall}${name}{enter}`)
 		cy.wait('@updateFields')
 
 		// Url
 		cy.get('[data-admin-theming-setting-field="url"] input[type="url"]')
 			.scrollIntoView()
-			.type('{selectall}')
-			.type(url)
-			.type('{enter}')
+		cy.get('[data-admin-theming-setting-field="url"] input[type="url"]')
+			.type(`{selectall}${url}{enter}`)
 		cy.wait('@updateFields')
 
 		// Slogan
 		cy.get('[data-admin-theming-setting-field="slogan"] input[type="text"]')
 			.scrollIntoView()
-			.type('{selectall}')
-			.type(slogan)
-			.type('{enter}')
+		cy.get('[data-admin-theming-setting-field="slogan"] input[type="text"]')
+			.type(`{selectall}${slogan}{enter}`)
 		cy.wait('@updateFields')
 	})
 
 	it('Ensure undo button presence', function() {
 		cy.get('[data-admin-theming-setting-field="name"] .input-field__clear-button')
-			.scrollIntoView().should('be.visible')
+			.scrollIntoView()
+		cy.get('[data-admin-theming-setting-field="name"] .input-field__clear-button')
+			.should('be.visible')
+
 		cy.get('[data-admin-theming-setting-field="url"] .input-field__clear-button')
-			.scrollIntoView().should('be.visible')
+			.scrollIntoView()
+		cy.get('[data-admin-theming-setting-field="url"] .input-field__clear-button')
+			.should('be.visible')
+
 		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__clear-button')
-			.scrollIntoView().should('be.visible')
+			.scrollIntoView()
+		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__clear-button')
+			.should('be.visible')
 	})
 
 	it('Validate login screen changes', function() {
@@ -308,14 +319,17 @@ describe('Disable user theming and enable it back', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Disable user background theming', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('disableUserTheming')
 
 		cy.get('[data-admin-theming-setting-disable-user-theming]')
-			.scrollIntoView().should('be.visible')
+			.scrollIntoView()
+		cy.get('[data-admin-theming-setting-disable-user-theming]')
+			.should('be.visible')
 		cy.get('[data-admin-theming-setting-disable-user-theming] input[type="checkbox"]').check({ force: true })
 		cy.get('[data-admin-theming-setting-disable-user-theming] input[type="checkbox"]').should('be.checked')
 
@@ -331,7 +345,8 @@ describe('Disable user theming and enable it back', function() {
 
 	it('User cannot not change background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-disabled]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-disabled]').scrollIntoView()
+		cy.get('[data-user-theming-background-disabled]').should('be.visible')
 	})
 })
 
@@ -350,7 +365,8 @@ describe('The user default background settings reflect the admin theming setting
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Change the primary color', function() {
@@ -360,8 +376,8 @@ describe('The user default background settings reflect the admin theming setting
 			.then(color => { selectedColor = color })
 
 		cy.wait('@setColor')
-		cy.waitUntil(() => cy.window().then((win) => {
-			const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary-default')
+		cy.waitUntil(() => cy.window().then(($window) => {
+			const primary = $window.getComputedStyle($window.document.body).getPropertyValue('--color-primary-default')
 			return colord(primary).isEqual(selectedColor)
 		}))
 	})
@@ -394,7 +410,8 @@ describe('The user default background settings reflect the admin theming setting
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Default user background settings should match admin theming settings', function() {
@@ -418,7 +435,8 @@ describe('The user default background settings reflect the admin theming setting
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
 	})
 
 	it('Remove the default background', function() {
@@ -445,7 +463,8 @@ describe('The user default background settings reflect the admin theming setting
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Default user background settings should match admin theming settings', function() {
