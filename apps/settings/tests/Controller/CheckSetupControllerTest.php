@@ -196,7 +196,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
-				'is64bit',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
@@ -373,11 +372,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->checkSetupController
 			->expects($this->once())
-			->method('is64bit')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
 			->method('hasBigIntConversionPendingColumns')
 			->willReturn([]);
 
@@ -449,7 +443,6 @@ class CheckSetupControllerTest extends TestCase {
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
-				'is64bit' => false,
 				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,

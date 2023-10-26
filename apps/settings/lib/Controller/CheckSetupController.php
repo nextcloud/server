@@ -632,14 +632,6 @@ Raw output
 		return true;
 	}
 
-	protected function is64bit(): bool {
-		if (PHP_INT_SIZE < 8) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	protected function isMysqlUsedWithoutUTF8MB4(): bool {
 		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
 	}
@@ -755,7 +747,6 @@ Raw output
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'is64bit' => $this->is64bit(),
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),

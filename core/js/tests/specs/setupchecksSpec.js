@@ -240,7 +240,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -295,7 +294,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -350,7 +348,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -405,7 +402,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -460,7 +456,6 @@ describe('OC.SetupChecks tests', function() {
 					],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -514,7 +509,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -570,7 +564,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -624,7 +617,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -678,7 +670,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -751,7 +742,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -811,7 +801,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -864,7 +853,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -921,7 +909,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -975,7 +962,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1026,7 +1012,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
@@ -1080,7 +1065,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: false,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1134,7 +1118,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1156,59 +1139,6 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
-		it('should return an error for 32bit instances', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: false,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});
@@ -1240,7 +1170,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1300,7 +1229,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,

@@ -90,6 +90,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\RandomnessSecure' => $baseDir . '/../lib/SetupChecks/RandomnessSecure.php',
     'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => $baseDir . '/../lib/SetupChecks/ReadOnlyConfig.php',
     'OCA\\Settings\\SetupChecks\\SupportedDatabase' => $baseDir . '/../lib/SetupChecks/SupportedDatabase.php',
+    'OCA\\Settings\\SetupChecks\\SystemIs64bit' => $baseDir . '/../lib/SetupChecks/SystemIs64bit.php',
     'OCA\\Settings\\SetupChecks\\TransactionIsolation' => $baseDir . '/../lib/SetupChecks/TransactionIsolation.php',
     'OCA\\Settings\\UserMigration\\AccountMigrator' => $baseDir . '/../lib/UserMigration/AccountMigrator.php',
     'OCA\\Settings\\UserMigration\\AccountMigratorException' => $baseDir . '/../lib/UserMigration/AccountMigratorException.php',
