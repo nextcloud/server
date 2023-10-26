@@ -26,9 +26,20 @@
 		<table v-if="clients.length > 0" class="grid">
 			<thead>
 				<tr>
-					<th id="headerContent" />
-					<th id="headerRemove">
-&nbsp;
+					<th>
+						{{ t('oauth2', 'Name') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Redirection URI') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Client Identifier') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Secret key') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Delete client') }}
 					</th>
 				</tr>
 			</thead>
@@ -121,7 +132,7 @@ export default {
 				{
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri,
-				}
+				},
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)
