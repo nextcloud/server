@@ -199,6 +199,12 @@ class Manager implements IManager {
 			}
 		}
 
+		$task->setStatus(Task::STATUS_FAILED);
+		try {
+			$this->taskMapper->update(DbTask::fromPublicTask($task));
+		} catch (Exception $e) {
+			$this->logger->warning('Failed to update database after Text2Image error', ['exception' => $e]);
+		}
 		throw new TaskFailureException('Could not run task');
 	}
 
