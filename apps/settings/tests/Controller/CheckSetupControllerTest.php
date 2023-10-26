@@ -494,7 +494,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'isGetenvServerWorking' => true,
 				'isReadOnlyConfig' => false,
 				'wasEmailTestSuccessful' => false,
 				'hasValidTransactionIsolationLevel' => true,

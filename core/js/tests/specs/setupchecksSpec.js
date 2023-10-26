@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -294,7 +293,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -364,7 +362,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -430,7 +427,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -495,7 +491,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -560,7 +555,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: false,
 					hasWorkingFileLocking: true,
@@ -625,7 +619,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: false,
@@ -690,7 +683,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -755,7 +747,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -822,7 +813,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -887,7 +877,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -954,7 +943,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1019,7 +1007,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1104,7 +1091,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1176,7 +1162,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1241,7 +1226,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1306,7 +1290,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1375,7 +1358,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1441,7 +1423,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1504,7 +1485,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1570,7 +1550,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1636,7 +1615,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1701,7 +1679,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1766,7 +1743,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
@@ -1838,7 +1814,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
 					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,

@@ -58,8 +58,8 @@ use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
-use OC\Lock\NoopLockingProvider;
 use OC\Lock\DBLockingProvider;
+use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -131,27 +131,27 @@ class CheckSetupController extends Controller {
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
-								IRequest $request,
-								IConfig $config,
-								IClientService $clientService,
-								IURLGenerator $urlGenerator,
-								IL10N $l10n,
-								Checker $checker,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher,
-								Connection $db,
-								ILockingProvider $lockingProvider,
-								IDateTimeFormatter $dateTimeFormatter,
-								MemoryInfo $memoryInfo,
-								ISecureRandom $secureRandom,
-								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection,
-								IThrottler $throttler,
-								ITempManager $tempManager,
-								IManager $manager,
-								IAppManager $appManager,
-								IServerContainer $serverContainer,
-								ISetupCheckManager $setupCheckManager,
+		IRequest $request,
+		IConfig $config,
+		IClientService $clientService,
+		IURLGenerator $urlGenerator,
+		IL10N $l10n,
+		Checker $checker,
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher,
+		Connection $db,
+		ILockingProvider $lockingProvider,
+		IDateTimeFormatter $dateTimeFormatter,
+		MemoryInfo $memoryInfo,
+		ISecureRandom $secureRandom,
+		IniGetWrapper $iniGetWrapper,
+		IDBConnection $connection,
+		IThrottler $throttler,
+		ITempManager $tempManager,
+		IManager $manager,
+		IAppManager $appManager,
+		IServerContainer $serverContainer,
+		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
@@ -817,7 +817,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'isGetenvServerWorking' => !empty(getenv('PATH')),
 				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
 				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
 				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),

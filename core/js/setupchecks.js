@@ -180,15 +180,6 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (!data.isGetenvServerWorking) {
-						messages.push({
-							msg: t('core', 'PHP does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.') + ' ' +
-								t('core', 'Please check the {linkstart}installation documentation ↗{linkend} for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.')
-									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm') + '">')
-									.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if (data.isReadOnlyConfig) {
 						messages.push({
 							msg: t('core', 'The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.'),

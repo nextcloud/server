@@ -54,6 +54,7 @@ use OCA\Settings\SetupChecks\InternetConnectivity;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpModules;
+use OCA\Settings\SetupChecks\PhpGetEnv;
 use OCA\Settings\SetupChecks\PhpOutdated;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
@@ -153,6 +154,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
 		$context->registerSetupCheck(PhpDefaultCharset::class);
 		$context->registerSetupCheck(PhpModules::class);
+		$context->registerSetupCheck(PhpGetEnv::class);
 		$context->registerSetupCheck(PhpOutdated::class);
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
