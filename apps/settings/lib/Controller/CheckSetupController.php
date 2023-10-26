@@ -47,8 +47,6 @@ namespace OCA\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\TransactionIsolationLevel;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
@@ -564,20 +562,6 @@ Raw output
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
-	protected function hasValidTransactionIsolationLevel(): bool {
-		try {
-			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
-				return true;
-			}
-
-			return $this->db->getTransactionIsolation() === TransactionIsolationLevel::READ_COMMITTED;
-		} catch (Exception $e) {
-			// ignore
-		}
-
-		return true;
-	}
-
 	protected function hasFileinfoInstalled(): bool {
 		return \OC_Util::fileInfoLoaded();
 	}
@@ -799,7 +783,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'hasDBFileLocking' => $this->hasDBFileLocking(),

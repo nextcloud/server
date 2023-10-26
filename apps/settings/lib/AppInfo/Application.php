@@ -60,6 +60,7 @@ use OCA\Settings\SetupChecks\PhpOutdated;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
+use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
@@ -161,6 +162,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
+		$context->registerSetupCheck(TransactionIsolation::class);
 
 		$context->registerUserMigrator(AccountMigrator::class);
 	}
