@@ -190,6 +190,11 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	private function isFairUseOfFreePushService(): bool {
+		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
+		if ($rateLimitReached >= (time() - 7 * 24 * 3600)) {
+			// Notifications app is showing a message already
+			return true;
+		}
 		return $this->manager->isFairUseOfFreePushService();
 	}
 
