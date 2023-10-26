@@ -64,6 +64,7 @@ class SetupChecks extends Base {
 						$emoji = match ($check->getSeverity()) {
 							'success' => '✓',
 							'error' => '❌',
+							'warning' => '⚠',
 							default => 'ℹ',
 						};
 						$verbosity = ($check->getSeverity() === 'error' ? OutputInterface::VERBOSITY_QUIET : OutputInterface::VERBOSITY_NORMAL);
