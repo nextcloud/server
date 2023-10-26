@@ -276,6 +276,17 @@ class NavigationManagerTest extends TestCase {
 			]
 		];
 		$defaults = [
+			'profile' => [
+				'type' => 'settings',
+				'id' => 'profile',
+				'order' => 1,
+				'href' => '/apps/test/',
+				'name' => 'View profile',
+				'icon' => '',
+				'active' => false,
+				'classes' => '',
+				'unread' => 0,
+			],
 			'accessibility_settings' => [
 				'type' => 'settings',
 				'id' => 'accessibility_settings',
@@ -339,6 +350,7 @@ class NavigationManagerTest extends TestCase {
 		return [
 			'minimalistic' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -365,6 +377,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'minimalistic-settings' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -388,6 +401,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'with-multiple' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -429,6 +443,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'admin' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					$adminSettings,
 					$apps,
 					['test' => [
@@ -456,6 +471,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'no name' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					$adminSettings,
 					$apps,
 					['logout' => $defaults['logout']]
