@@ -454,14 +454,6 @@ Raw output
 		return $recommendations;
 	}
 
-	/**
-	 * Check if the required FreeType functions are present
-	 * @return bool
-	 */
-	protected function hasFreeTypeSupport() {
-		return function_exists('imagettfbbox') && function_exists('imagettftext');
-	}
-
 	protected function hasMissingIndexes(): array {
 		$indexInfo = new MissingIndexInformation();
 
@@ -754,7 +746,6 @@ Raw output
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
 				'missingIndexes' => $this->hasMissingIndexes(),
 				'missingColumns' => $this->hasMissingColumns(),

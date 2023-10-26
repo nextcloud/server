@@ -264,12 +264,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if (!data.hasFreeTypeSupport) {
-						messages.push({
-							msg: t('core', 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if (data.missingIndexes.length > 0) {
 						var listOfMissingIndexes = "";
 						data.missingIndexes.forEach(function(element){

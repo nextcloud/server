@@ -229,7 +229,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -285,7 +284,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -341,7 +339,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -397,7 +394,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: false,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -451,7 +447,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -508,7 +503,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -565,7 +559,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -620,7 +613,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: false,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -675,7 +667,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -749,7 +740,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -810,7 +800,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -849,60 +838,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an info if server has no FreeType support', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: false,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if the php version is no longer supported', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -918,7 +853,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -976,7 +910,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1031,7 +964,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1083,7 +1015,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1138,7 +1069,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1193,7 +1123,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1247,7 +1176,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1301,7 +1229,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1362,7 +1289,6 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],

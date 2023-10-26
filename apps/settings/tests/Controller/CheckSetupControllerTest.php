@@ -189,7 +189,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'getOpcacheSetupRecommendations',
-				'hasFreeTypeSupport',
 				'hasMissingIndexes',
 				'hasMissingPrimaryKeys',
 				'isSqliteUsed',
@@ -329,9 +328,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getOpcacheSetupRecommendations')
 			->willReturn(['recommendation1', 'recommendation2']);
 		$this->checkSetupController
-			->method('hasFreeTypeSupport')
-			->willReturn(false);
-		$this->checkSetupController
 			->method('hasMissingIndexes')
 			->willReturn([]);
 		$this->checkSetupController
@@ -444,7 +440,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
-				'hasFreeTypeSupport' => false,
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
