@@ -52,7 +52,7 @@ interface IManager {
 	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws TaskFailureException If something else failed
+	 * @throws TaskFailureException If something else failed. When this is thrown task status was already set to failure.
 	 * @since 28.0.0
 	 */
 	public function runTask(Task $task): void;
