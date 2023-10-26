@@ -63,7 +63,7 @@ class SetupChecks extends Base {
 						};
 						$emoji = match ($check->getSeverity()) {
 							'success' => '✓',
-							'error' => '❌',
+							'error' => '✗',
 							'warning' => '⚠',
 							default => 'ℹ',
 						};
