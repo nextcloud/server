@@ -39,9 +39,9 @@
 		<NcSettingsSection :name="t('settings', 'Image generation')"
 			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in text2imageProviders">
-				<NcCheckboxRadioSwitch :key="provider.class"
+				<NcCheckboxRadioSwitch :key="provider.id"
 					:checked.sync="settings['ai.text2image_provider']"
-					:value="provider.class"
+					:value="provider.id"
 					name="text2image_provider"
 					type="radio"
 					@update:checked="saveChanges">

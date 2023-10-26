@@ -105,7 +105,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		$text2imageProviders = [];
 		foreach ($this->text2imageManager->getProviders() as $provider) {
 			$text2imageProviders[] = [
-				'class' => $provider::class,
+				'id' => $provider->getId(),
 				'name' => $provider->getName(),
 			];
 		}

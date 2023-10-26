@@ -231,8 +231,8 @@ class Manager implements IManager {
 		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
 		if ($json !== '') {
 			try {
-				$className = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+				$id = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+				$provider = current(array_filter($providers, fn ($provider) => $provider->getId() === $id));
 				if ($provider !== false) {
 					$providers = [$provider];
 				}
