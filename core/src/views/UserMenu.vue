@@ -80,7 +80,7 @@ import logger from '../logger.js'
  * @property {string} classes - Classes for custom styling
  */
 
-/** @type {SettingNavEntry[]} */
+/** @type {Record<string, SettingNavEntry>} */
 const settingsNavEntries = loadState('core', 'settingsNavEntries', [])
 const { profile: profileEntry, ...otherEntries } = settingsNavEntries
 
