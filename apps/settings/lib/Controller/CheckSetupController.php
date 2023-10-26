@@ -406,8 +406,6 @@ Raw output
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
-				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
-				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),

@@ -79,6 +79,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\AppDirsWithDifferentOwner' => $baseDir . '/../lib/SetupChecks/AppDirsWithDifferentOwner.php',
     'OCA\\Settings\\SetupChecks\\BruteForceThrottler' => $baseDir . '/../lib/SetupChecks/BruteForceThrottler.php',
     'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => $baseDir . '/../lib/SetupChecks/CheckUserCertificates.php',
+    'OCA\\Settings\\SetupChecks\\CodeIntegrity' => $baseDir . '/../lib/SetupChecks/CodeIntegrity.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingColumns' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingColumns.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingIndices' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingIndices.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingPrimaryKeys' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingPrimaryKeys.php',

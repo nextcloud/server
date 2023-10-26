@@ -226,7 +226,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -272,7 +271,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -318,7 +316,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -364,7 +361,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -409,7 +405,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: false,
 					cronErrors: [],
 					cronInfo: {
@@ -454,7 +449,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -530,7 +524,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -581,7 +574,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -629,7 +621,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -674,7 +665,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -716,7 +706,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -748,7 +737,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -761,7 +749,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -805,7 +792,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -856,7 +842,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
