@@ -667,6 +667,7 @@ return array(
     'OCP\\TextToImage\\Events\\AbstractTextToImageEvent' => $baseDir . '/lib/public/TextToImage/Events/AbstractTextToImageEvent.php',
     'OCP\\TextToImage\\Events\\TaskFailedEvent' => $baseDir . '/lib/public/TextToImage/Events/TaskFailedEvent.php',
     'OCP\\TextToImage\\Events\\TaskSuccessfulEvent' => $baseDir . '/lib/public/TextToImage/Events/TaskSuccessfulEvent.php',
+    'OCP\\TextToImage\\Exception\\TaskFailureException' => $baseDir . '/lib/public/TextToImage/Exception/TaskFailureException.php',
     'OCP\\TextToImage\\Exception\\TaskNotFoundException' => $baseDir . '/lib/public/TextToImage/Exception/TaskNotFoundException.php',
     'OCP\\TextToImage\\Exception\\TextToImageException' => $baseDir . '/lib/public/TextToImage/Exception/TextToImageException.php',
     'OCP\\TextToImage\\IManager' => $baseDir . '/lib/public/TextToImage/IManager.php',

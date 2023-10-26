@@ -700,6 +700,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TextToImage\\Events\\AbstractTextToImageEvent' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Events/AbstractTextToImageEvent.php',
         'OCP\\TextToImage\\Events\\TaskFailedEvent' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Events/TaskFailedEvent.php',
         'OCP\\TextToImage\\Events\\TaskSuccessfulEvent' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Events/TaskSuccessfulEvent.php',
+        'OCP\\TextToImage\\Exception\\TaskFailureException' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Exception/TaskFailureException.php',
         'OCP\\TextToImage\\Exception\\TaskNotFoundException' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Exception/TaskNotFoundException.php',
         'OCP\\TextToImage\\Exception\\TextToImageException' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Exception/TextToImageException.php',
         'OCP\\TextToImage\\IManager' => __DIR__ . '/../../..' . '/lib/public/TextToImage/IManager.php',
