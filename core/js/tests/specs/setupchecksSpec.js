@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -282,7 +281,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -340,7 +338,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -388,63 +385,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if /dev/urandom is not accessible', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: false,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/myDocs.html">documentation ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if the wrong memcache PHP module is installed', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -455,8 +395,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
@@ -512,8 +450,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -571,7 +507,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -628,7 +563,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					isBruteforceThrottled: true,
 					bruteforceRemoteAddress: '::1',
@@ -687,7 +621,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -744,7 +677,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -821,8 +753,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -885,8 +815,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -942,8 +870,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -999,8 +925,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1060,8 +984,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1118,8 +1040,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1173,8 +1093,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1231,8 +1149,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1289,8 +1205,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1346,8 +1260,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1403,8 +1315,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1467,8 +1377,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,

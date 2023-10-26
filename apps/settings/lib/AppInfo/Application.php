@@ -60,6 +60,7 @@ use OCA\Settings\SetupChecks\PhpModules;
 use OCA\Settings\SetupChecks\PhpGetEnv;
 use OCA\Settings\SetupChecks\PhpOutdated;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\TransactionIsolation;
@@ -164,6 +165,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpGetEnv::class);
 		$context->registerSetupCheck(PhpOutdated::class);
 		$context->registerSetupCheck(PhpOutputBuffering::class);
+		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(TransactionIsolation::class);

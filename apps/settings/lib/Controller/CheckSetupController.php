@@ -80,7 +80,6 @@ use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
-use OCP\Security\ISecureRandom;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
@@ -108,8 +107,6 @@ class CheckSetupController extends Controller {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo */
 	private $memoryInfo;
-	/** @var ISecureRandom */
-	private $secureRandom;
 	/** @var IniGetWrapper */
 	private $iniGetWrapper;
 	/** @var IDBConnection */
@@ -139,7 +136,6 @@ class CheckSetupController extends Controller {
 		ILockingProvider $lockingProvider,
 		IDateTimeFormatter $dateTimeFormatter,
 		MemoryInfo $memoryInfo,
-		ISecureRandom $secureRandom,
 		IniGetWrapper $iniGetWrapper,
 		IDBConnection $connection,
 		IThrottler $throttler,
@@ -162,7 +158,6 @@ class CheckSetupController extends Controller {
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
-		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
 		$this->tempManager = $tempManager;
@@ -192,20 +187,6 @@ class CheckSetupController extends Controller {
 			return true;
 		}
 		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Whether PHP can generate "secure" pseudorandom integers
-	 *
-	 * @return bool
-	 */
-	private function isRandomnessSecure() {
-		try {
-			$this->secureRandom->generate(1);
-		} catch (\Exception $ex) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -767,8 +748,6 @@ Raw output
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
 				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
-				'isRandomnessSecure' => $this->isRandomnessSecure(),
-				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),

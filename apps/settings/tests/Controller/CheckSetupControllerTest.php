@@ -40,7 +40,6 @@ use OC;
 use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
 use OC\MemoryInfo;
-use OC\Security\SecureRandom;
 use OCA\Settings\Controller\CheckSetupController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -100,8 +99,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo|MockObject */
 	private $memoryInfo;
-	/** @var SecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
 	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $iniGetWrapper;
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
@@ -154,7 +151,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
 			->setMethods(['isMemoryLimitSufficient',])
 			->getMock();
-		$this->secureRandom = $this->getMockBuilder(SecureRandom::class)->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
@@ -178,7 +174,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
-				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->throttler,
@@ -443,8 +438,6 @@ class CheckSetupControllerTest extends TestCase {
 					'backgroundJobsUrl' => 'https://example.org',
 				],
 				'cronErrors' => [],
-				'isRandomnessSecure' => self::invokePrivate($this->checkSetupController, 'isRandomnessSecure'),
-				'securityDocs' => 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',
 				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
@@ -495,7 +488,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
-				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->throttler,
@@ -1224,7 +1216,6 @@ Array
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->memoryInfo,
-			$this->secureRandom,
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->throttler,
@@ -1280,7 +1271,6 @@ Array
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->memoryInfo,
-			$this->secureRandom,
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->throttler,
