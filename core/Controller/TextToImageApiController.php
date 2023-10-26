@@ -97,7 +97,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			try {
 				$this->textToImageManager->runOrScheduleTask($task);
 			} catch (TaskFailureException) {
-				// noop
+				// Task status was already updated by the manager, nothing to do here
 			}
 
 			$json = $task->jsonSerialize();
