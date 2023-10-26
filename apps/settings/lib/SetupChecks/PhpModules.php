@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
@@ -57,6 +58,7 @@ class PhpModules implements ISetupCheck {
 
 	public function __construct(
 		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -72,9 +74,15 @@ class PhpModules implements ISetupCheck {
 		$missingRecommendedModules = $this->getMissingModules(self::RECOMMENDED_MODULES);
 		$missingRequiredModules = $this->getMissingModules(self::REQUIRED_MODULES);
 		if (!empty($missingRequiredModules)) {
-			return SetupResult::error($this->l10n->t('This instance is missing some required PHP modules. It is required to install them: %s', implode(', ', $missingRequiredModules)));
+			return SetupResult::error(
+				$this->l10n->t('This instance is missing some required PHP modules. It is required to install them: %s', implode(', ', $missingRequiredModules)),
+				$this->urlGenerator->linkToDocs('admin-php-modules')
+			);
 		} elseif (!empty($missingRecommendedModules)) {
-			return SetupResult::info($this->l10n->t('This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s', implode(', ', $missingRecommendedModules)));
+			return SetupResult::info(
+				$this->l10n->t('This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s', implode(', ', $missingRecommendedModules)),
+				$this->urlGenerator->linkToDocs('admin-php-modules')
+			);
 		} else {
 			return SetupResult::success();
 		}
