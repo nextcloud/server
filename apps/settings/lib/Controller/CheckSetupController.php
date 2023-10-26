@@ -56,8 +56,6 @@ use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
-use OC\Lock\DBLockingProvider;
-use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -562,14 +560,6 @@ Raw output
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
-	protected function hasWorkingFileLocking(): bool {
-		return !($this->lockingProvider instanceof NoopLockingProvider);
-	}
-
-	protected function hasDBFileLocking(): bool {
-		return ($this->lockingProvider instanceof DBLockingProvider);
-	}
-
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -779,8 +769,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
-				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),

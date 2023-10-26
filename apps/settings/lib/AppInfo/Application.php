@@ -51,6 +51,7 @@ use OCA\Settings\Search\UserSearch;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
+use OCA\Settings\SetupChecks\FileLocking;
 use OCA\Settings\SetupChecks\InternetConnectivity;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
@@ -153,6 +154,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(CheckUserCertificates::class);
 		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
 		$context->registerSetupCheck(EmailTestSuccessful::class);
+		$context->registerSetupCheck(FileLocking::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
 		$context->registerSetupCheck(PhpDefaultCharset::class);

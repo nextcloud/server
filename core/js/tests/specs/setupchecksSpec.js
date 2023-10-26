@@ -223,8 +223,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -288,8 +286,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -353,8 +349,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -414,8 +408,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: false,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -474,8 +466,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -525,126 +515,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an info if transactional file locking is not set up', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasWorkingFileLocking: false,
-					hasDBFileLocking: false,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
-		it('should return an info if database file locking is used', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -654,8 +524,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -716,8 +584,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -776,8 +642,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -838,8 +702,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -898,8 +760,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
@@ -978,8 +838,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1045,8 +903,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1105,8 +961,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1165,8 +1019,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1229,8 +1081,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1290,8 +1140,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1348,8 +1196,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1409,8 +1255,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1470,8 +1314,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1530,8 +1372,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1590,8 +1430,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
@@ -1657,8 +1495,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.nextcloud.com/myDocs.html',

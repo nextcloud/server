@@ -180,40 +180,12 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (!data.hasValidTransactionIsolationLevel) {
-						messages.push({
-							msg: t('core', 'Your database does not run with "READ COMMITTED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.hasFileinfoInstalled) {
-						messages.push({
-							msg: t('core', 'The PHP module "fileinfo" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
 					if (data.isBruteforceThrottled) {
 						messages.push({
 							msg: t('core', 'Your remote address was identified as "{remoteAddress}" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}.', { remoteAddress: data.bruteforceRemoteAddress })
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.hasWorkingFileLocking) {
-						messages.push({
-							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the {linkstart}documentation ↗{linkend} for more information.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(data.hasDBFileLocking) {
-						messages.push({
-							msg: t('core', 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if (data.suggestedOverwriteCliURL !== '') {
