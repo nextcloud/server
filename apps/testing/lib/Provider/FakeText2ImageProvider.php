@@ -1,9 +1,6 @@
 <?php
-
-declare(strict_types=1);
-
 /**
- * @copyright 2023 Marcel Klehr <mklehr@gmx.net>
+ * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
  *
  * @author Marcel Klehr <mklehr@gmx.net>
  *
@@ -21,29 +18,31 @@ declare(strict_types=1);
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
-namespace OC\Repair;
 
-use OC\TextProcessing\RemoveOldTasksBackgroundJob as RemoveOldTextProcessingTasksBackgroundJob;
-use OC\TextToImage\RemoveOldTasksBackgroundJob as RemoveOldTextToImageTasksBackgroundJob;
-use OCP\BackgroundJob\IJobList;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+namespace OCA\Testing\Provider;
 
-class AddRemoveOldTasksBackgroundJob implements IRepairStep {
-	private IJobList $jobList;
+use OCP\TextToImage\IProvider;
 
-	public function __construct(IJobList $jobList) {
-		$this->jobList = $jobList;
-	}
+class FakeText2ImageProvider implements IProvider {
 
 	public function getName(): string {
-		return 'Add AI tasks cleanup job';
+		return 'Fake Text2Image provider';
 	}
 
-	public function run(IOutput $output) {
-		$this->jobList->add(RemoveOldTextProcessingTasksBackgroundJob::class);
-		$this->jobList->add(RemoveOldTextToImageTasksBackgroundJob::class);
+	public function generate(string $prompt, array $resources): void {
+		foreach ($resources as $resource) {
+			$read = fopen(__DIR__ . '/../../img/logo.png', 'r');
+			stream_copy_to_stream($read, $resource);
+			fclose($read);
+		}
+	}
+
+	public function getExpectedRuntime(): int {
+		return 1;
+	}
+
+	public function getId(): string {
+		return 'testing-fake-text2image-provider';
 	}
 }

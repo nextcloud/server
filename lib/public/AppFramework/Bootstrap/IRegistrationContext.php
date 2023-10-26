@@ -38,6 +38,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\TextToImage\IProvider as ITextToImageProvider;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
 use OCP\SpeechToText\ISpeechToTextProvider;
@@ -229,6 +230,16 @@ interface IRegistrationContext {
 	 * @since 27.1.0
 	 */
 	public function registerTextProcessingProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom text2image provider class that provides the possibility to generate images
+	 * through the OCP\TextToImage APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITextToImageProvider> $providerClass
+	 * @since 28.0.0
+	 */
+	public function registerTextToImageProvider(string $providerClass): void;
 
 	/**
 	 * Register a custom template provider class that is able to inject custom templates
