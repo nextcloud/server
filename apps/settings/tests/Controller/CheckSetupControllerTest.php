@@ -222,34 +222,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->dirsToRemove = [];
 	}
 
-	public function testIsMemcacheConfiguredFalse() {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('memcache.local', null)
-			->willReturn(null);
-
-		$this->assertFalse(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'isMemcacheConfigured'
-			)
-		);
-	}
-
-	public function testIsMemcacheConfiguredTrue() {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('memcache.local', null)
-			->willReturn('SomeProvider');
-
-		$this->assertTrue(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'isMemcacheConfigured'
-			)
-		);
-	}
-
 	/**
 	 * @dataProvider dataForwardedForHeadersWorking
 	 *
@@ -471,8 +443,6 @@ class CheckSetupControllerTest extends TestCase {
 					'backgroundJobsUrl' => 'https://example.org',
 				],
 				'cronErrors' => [],
-				'isMemcacheConfigured' => true,
-				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
 				'isRandomnessSecure' => self::invokePrivate($this->checkSetupController, 'isRandomnessSecure'),
 				'securityDocs' => 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',

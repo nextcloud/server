@@ -195,14 +195,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks whether a local memcache is installed or not
-	 * @return bool
-	 */
-	private function isMemcacheConfigured() {
-		return $this->config->getSystemValue('memcache.local', null) !== null;
-	}
-
-	/**
 	 * Whether PHP can generate "secure" pseudorandom integers
 	 *
 	 * @return bool
@@ -775,8 +767,6 @@ Raw output
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
 				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
-				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
-				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
 				'isRandomnessSecure' => $this->isRandomnessSecure(),
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),

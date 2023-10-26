@@ -54,6 +54,7 @@ use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
 use OCA\Settings\SetupChecks\InternetConnectivity;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
+use OCA\Settings\SetupChecks\MemcacheConfigured;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpModules;
 use OCA\Settings\SetupChecks\PhpGetEnv;
@@ -157,6 +158,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(FileLocking::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
+		$context->registerSetupCheck(MemcacheConfigured::class);
 		$context->registerSetupCheck(PhpDefaultCharset::class);
 		$context->registerSetupCheck(PhpModules::class);
 		$context->registerSetupCheck(PhpGetEnv::class);

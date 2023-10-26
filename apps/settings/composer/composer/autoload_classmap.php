@@ -79,6 +79,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\FileLocking' => $baseDir . '/../lib/SetupChecks/FileLocking.php',
     'OCA\\Settings\\SetupChecks\\InternetConnectivity' => $baseDir . '/../lib/SetupChecks/InternetConnectivity.php',
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
+    'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => $baseDir . '/../lib/SetupChecks/MemcacheConfigured.php',
     'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => $baseDir . '/../lib/SetupChecks/PhpDefaultCharset.php',
     'OCA\\Settings\\SetupChecks\\PhpGetEnv' => $baseDir . '/../lib/SetupChecks/PhpGetEnv.php',
     'OCA\\Settings\\SetupChecks\\PhpModules' => $baseDir . '/../lib/SetupChecks/PhpModules.php',
