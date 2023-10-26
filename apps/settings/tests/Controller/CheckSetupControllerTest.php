@@ -234,8 +234,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isUsedTlsLibOutdated' => '',
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
-				'hasPassedCodeIntegrityCheck' => true,
-				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isSettimelimitAvailable' => true,
 				'areWebauthnExtensionsEnabled' => false,
 				'isMysqlUsedWithoutUTF8MB4' => false,
