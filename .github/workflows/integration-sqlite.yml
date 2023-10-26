@@ -1,0 +1,157 @@
+name: Integration sqlite
+
+on:
+  pull_request:
+    paths:
+      # Only running on PR for this file to save CI time (otherwise pgsql only)
+      - '.github/workflows/integration-sqlite.yml'
+
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integration-sqlite-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      # FIXME src: ${{ steps.changes.outputs.src}}
+      src: 'true'
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/*.php'
+              - '**/lib/**'
+              - '**/tests/**'
+              - '**/vendor-bin/**'
+              - 'build/integration/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+
+  integration-sqlite:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        test-suite:
+          - 'capabilities_features'
+          - 'collaboration_features'
+          - 'comments_features'
+          - 'dav_features'
+          - 'features'
+          - 'federation_features'
+          - 'files_features'
+          - 'filesdrop_features'
+          #- 'ldap_features'
+          - 'remoteapi_features'
+          - 'setup_features'
+          - 'sharees_features'
+          - 'sharing_features'
+          #- 'videoverification_features'
+
+        php-versions: ['8.2']
+#        server-versions: ['master']
+#        guests-versions: ['master']
+#        call-summary-bot-versions: ['main']
+#        notifications-versions: ['master']
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          submodules: true
+
+#      - name: Checkout call_summary_bot app
+#        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+#        with:
+#          repository: nextcloud/call_summary_bot
+#          path: apps/call_summary_bot
+#          ref: ${{ matrix.call-summary-bot-versions }}
+#
+#      - name: Checkout guests app
+#        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+#        with:
+#          repository: nextcloud/guests
+#          path: apps/guests
+#          ref: ${{ matrix.guests-versions }}
+#
+#      - name: Checkout notifications app
+#        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+#        with:
+#          repository: nextcloud/notifications
+#          path: apps/notifications
+#          ref: ${{ matrix.notifications-versions }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d # v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: none
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up production dependencies
+        run: composer i --no-dev
+
+      - name: Set up behat dependencies
+        working-directory: build/integration
+        run: composer i
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          ./occ config:system:set hashing_default_password --value=true --type=boolean
+#          ./occ app:enable --force ${{ env.APP_NAME }}
+#          ./occ app:enable --force call_summary_bot
+#          ./occ app:enable --force guests
+#          ./occ app:enable --force notifications
+
+      - name: Run integration
+        working-directory: build/integration
+        run: bash run.sh ${{ matrix.test-suite }}
+
+      - name: Print logs
+        if: always()
+        run: |
+          cat data/nextcloud.log
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: [changes, integration-sqlite]
+
+    if: always()
+
+    name: integration-sqlite-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.integration-sqlite.result != 'success' }}; then exit 1; fi

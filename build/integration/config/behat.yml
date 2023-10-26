@@ -29,6 +29,52 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+    comments:
+      paths:
+        - "%paths.base%/../comments_features"
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommentsContext:
+            baseUrl: http://localhost:8080
+        - TagsContext:
+            baseUrl: http://localhost:8080
+        - CardDavContext:
+            baseUrl: http://localhost:8080
+        - CalDavContext:
+            baseUrl: http://localhost:8080
+        - ChecksumsContext:
+            baseUrl: http://localhost:8080
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
+    dav:
+      paths:
+        - "%paths.base%/../dav_features"
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommentsContext:
+            baseUrl: http://localhost:8080
+        - TagsContext:
+            baseUrl: http://localhost:8080
+        - CardDavContext:
+            baseUrl: http://localhost:8080
+        - CalDavContext:
+            baseUrl: http://localhost:8080
+        - ChecksumsContext:
+            baseUrl: http://localhost:8080
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
     federation:
       paths:
         - "%paths.base%/../federation_features"
@@ -39,6 +85,29 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    files:
+      paths:
+        - "%paths.base%/../files_features"
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommentsContext:
+            baseUrl: http://localhost:8080
+        - TagsContext:
+            baseUrl: http://localhost:8080
+        - CardDavContext:
+            baseUrl: http://localhost:8080
+        - CalDavContext:
+            baseUrl: http://localhost:8080
+        - ChecksumsContext:
+            baseUrl: http://localhost:8080
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
     capabilities:
       paths:
         - "%paths.base%/../capabilities_features"
@@ -72,6 +141,17 @@ default:
     sharing:
       paths:
         - "%paths.base%/../sharing_features"
+      contexts:
+        - SharingContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - TalkContext
+    videoverification:
+      paths:
+        - "%paths.base%/../videoverification_features"
       contexts:
         - SharingContext:
             baseUrl:  http://localhost:8080/ocs/
