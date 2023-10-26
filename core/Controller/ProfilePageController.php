@@ -40,6 +40,7 @@ use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\INavigationManager;
 
 #[IgnoreOpenAPI]
 class ProfilePageController extends Controller {
@@ -52,6 +53,7 @@ class ProfilePageController extends Controller {
 		private IUserManager $userManager,
 		private IUserSession $userSession,
 		private IUserStatusManager $userStatusManager,
+		private INavigationManager $navigationManager,
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
@@ -103,6 +105,8 @@ class ProfilePageController extends Controller {
 			'profileParameters',
 			$this->profileManager->getProfileFields($targetUser, $visitingUser),
 		);
+
+		$this->navigationManager->setActiveEntry('profile');
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 
