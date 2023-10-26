@@ -120,7 +120,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			'ai.stt_provider' => count($sttProviders) > 0 ? $sttProviders[0]['class'] : null,
 			'ai.textprocessing_provider_preferences' => $textProcessingSettings,
 			'ai.translation_provider_preferences' => $translationPreferences,
-			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['class'] : null,
+			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
