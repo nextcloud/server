@@ -42,7 +42,7 @@ OC.L10N.register(
     "Disconnect storage" : "Bộ lưu trữ đã ngắt kết nối",
     "Leave this share" : "Rời khỏi mục chia sẻ này‎",
     "Could not load info for file \"{file}\"" : "Không thể tải thông tin cho tệp \"{file}\"",
-    "Files" : "Tập tin",
+    "Files" : "Tệp tin",
     "Details" : "Chi tiết",
     "Please select tag(s) to add to the selection" : "Vui lòng chọn (các) thẻ để thêm vào lựa chọn",
     "Apply tag(s) to selection" : "Áp dụng (các) thẻ cho lựa chọn",
