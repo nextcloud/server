@@ -189,7 +189,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->setupCheckManager,
 			])
 			->setMethods([
-				'wasEmailTestSuccessful',
 				'hasValidTransactionIsolationLevel',
 				'hasFileinfoInstalled',
 				'hasWorkingFileLocking',
@@ -380,10 +379,6 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(false);
 		$this->checkSetupController
 			->expects($this->once())
-			->method('wasEmailTestSuccessful')
-			->willReturn(false);
-		$this->checkSetupController
-			->expects($this->once())
 			->method('hasValidTransactionIsolationLevel')
 			->willReturn(true);
 		$this->checkSetupController
@@ -489,7 +484,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'wasEmailTestSuccessful' => false,
 				'hasValidTransactionIsolationLevel' => true,
 				'hasFileinfoInstalled' => true,
 				'hasWorkingFileLocking' => true,

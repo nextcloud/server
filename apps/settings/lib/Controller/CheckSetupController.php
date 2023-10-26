@@ -564,20 +564,6 @@ Raw output
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
-	protected function wasEmailTestSuccessful(): bool {
-		// Handle the case that the configuration was set before the check was introduced or it was only set via command line and not from the UI
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '' && $this->config->getSystemValue('mail_domain', '') === '') {
-			return false;
-		}
-
-		// The mail test was unsuccessful or the config was changed using the UI without verifying with a testmail, hence return false
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '0') {
-			return false;
-		}
-
-		return true;
-	}
-
 	protected function hasValidTransactionIsolationLevel(): bool {
 		try {
 			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
@@ -814,7 +800,6 @@ Raw output
 		return new DataResponse(
 			[
 				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
-				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'hasDBFileLocking' => $this->hasDBFileLocking(),
