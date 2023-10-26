@@ -189,7 +189,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->setupCheckManager,
 			])
 			->setMethods([
-				'hasFileinfoInstalled',
 				'hasWorkingFileLocking',
 				'hasDBFileLocking',
 				'getLastCronInfo',
@@ -378,10 +377,6 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(false);
 		$this->checkSetupController
 			->expects($this->once())
-			->method('hasFileinfoInstalled')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
 			->method('hasWorkingFileLocking')
 			->willReturn(true);
 		$this->checkSetupController
@@ -479,7 +474,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'hasFileinfoInstalled' => true,
 				'hasWorkingFileLocking' => true,
 				'hasDBFileLocking' => true,
 				'suggestedOverwriteCliURL' => '',

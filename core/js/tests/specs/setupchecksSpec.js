@@ -223,7 +223,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -289,7 +288,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -355,7 +353,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -417,7 +414,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -478,7 +474,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -539,7 +534,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: false,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -600,7 +594,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: true,
 					suggestedOverwriteCliURL: '',
@@ -661,7 +654,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -724,7 +716,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -785,7 +776,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -848,7 +838,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -909,7 +898,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -990,7 +978,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1058,7 +1045,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1119,7 +1105,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1180,7 +1165,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1245,7 +1229,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1307,7 +1290,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1366,7 +1348,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1428,7 +1409,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1490,7 +1470,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1551,7 +1530,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1612,7 +1590,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',
@@ -1680,7 +1657,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
 					suggestedOverwriteCliURL: '',

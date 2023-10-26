@@ -562,10 +562,6 @@ Raw output
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
-	protected function hasFileinfoInstalled(): bool {
-		return \OC_Util::fileInfoLoaded();
-	}
-
 	protected function hasWorkingFileLocking(): bool {
 		return !($this->lockingProvider instanceof NoopLockingProvider);
 	}
@@ -783,7 +779,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
