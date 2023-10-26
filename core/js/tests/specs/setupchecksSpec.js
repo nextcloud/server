@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -293,7 +292,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -362,7 +360,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -427,7 +424,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -491,7 +487,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -555,7 +550,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: false,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -619,7 +613,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: false,
 					hasDBFileLocking: false,
@@ -683,7 +676,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: true,
@@ -747,7 +739,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -813,7 +804,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -877,7 +867,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -943,7 +932,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1007,7 +995,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1091,7 +1078,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1162,7 +1148,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1226,7 +1211,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1290,7 +1274,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1358,7 +1341,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1423,7 +1405,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1485,7 +1466,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1550,7 +1530,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1615,7 +1594,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1679,7 +1657,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1743,7 +1720,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,
@@ -1814,7 +1790,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					hasFileinfoInstalled: true,
-					isReadOnlyConfig: false,
 					wasEmailTestSuccessful: true,
 					hasWorkingFileLocking: true,
 					hasDBFileLocking: false,

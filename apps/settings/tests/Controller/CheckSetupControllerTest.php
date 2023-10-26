@@ -189,7 +189,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->setupCheckManager,
 			])
 			->setMethods([
-				'isReadOnlyConfig',
 				'wasEmailTestSuccessful',
 				'hasValidTransactionIsolationLevel',
 				'hasFileinfoInstalled',
@@ -381,10 +380,6 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(false);
 		$this->checkSetupController
 			->expects($this->once())
-			->method('isReadOnlyConfig')
-			->willReturn(false);
-		$this->checkSetupController
-			->expects($this->once())
 			->method('wasEmailTestSuccessful')
 			->willReturn(false);
 		$this->checkSetupController
@@ -494,7 +489,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'isReadOnlyConfig' => false,
 				'wasEmailTestSuccessful' => false,
 				'hasValidTransactionIsolationLevel' => true,
 				'hasFileinfoInstalled' => true,

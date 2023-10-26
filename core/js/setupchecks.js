@@ -180,12 +180,6 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (data.isReadOnlyConfig) {
-						messages.push({
-							msg: t('core', 'The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
 					if (!data.wasEmailTestSuccessful) {
 						messages.push({
 							msg: t('core', 'You have not set or verified your email server configuration, yet. Please head over to the {mailSettingsStart}Basic settings{mailSettingsEnd} in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',)

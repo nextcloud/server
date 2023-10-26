@@ -564,10 +564,6 @@ Raw output
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
 
-	protected function isReadOnlyConfig(): bool {
-		return \OC_Helper::isReadOnlyConfigEnabled();
-	}
-
 	protected function wasEmailTestSuccessful(): bool {
 		// Handle the case that the configuration was set before the check was introduced or it was only set via command line and not from the UI
 		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '' && $this->config->getSystemValue('mail_domain', '') === '') {
@@ -817,7 +813,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
 				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
 				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
