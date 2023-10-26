@@ -28,6 +28,7 @@ namespace OCP\TextToImage;
 
 use OCP\DB\Exception;
 use OCP\PreConditionNotMetException;
+use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
 use RuntimeException;
 
@@ -51,7 +52,7 @@ interface IManager {
 	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws RuntimeException If something else failed
+	 * @throws TaskFailureException If something else failed
 	 * @since 28.0.0
 	 */
 	public function runTask(Task $task): void;
@@ -71,7 +72,7 @@ interface IManager {
 	/**
 	 * @throws Exception if there was a problem inserting the task into the database
 	 * @throws PreConditionNotMetException if no provider is registered
-	 * @throws RuntimeException If the task run fail
+	 * @throws TaskFailureException If the task run failed
 	 * @since 28.0.0
 	 */
 	public function runOrScheduleTask(Task $task) : void;

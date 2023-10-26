@@ -40,6 +40,7 @@ use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
 use OCP\TextToImage\Task;
 use OCP\TextToImage\IManager;
@@ -95,7 +96,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 		try {
 			try {
 				$this->textToImageManager->runOrScheduleTask($task);
-			} catch (\RuntimeException) {
+			} catch (TaskFailureException) {
 				// noop
 			}
 

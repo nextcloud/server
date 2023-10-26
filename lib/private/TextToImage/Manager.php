@@ -32,6 +32,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
 use OCP\TextToImage\IManager;
 use OCP\TextToImage\Task;
@@ -194,15 +195,11 @@ class Manager implements IManager {
 				} catch (Exception $e) {
 					$this->logger->warning('Failed to update database after Text2Image error', ['exception' => $e]);
 				}
-				if ($e instanceof RuntimeException) {
-					throw $e;
-				} else {
-					throw new RuntimeException('Text2Image generation using provider "' . $provider->getName() . '" failed: ' . $e->getMessage(), 0, $e);
-				}
+				throw new TaskFailureException('Text2Image generation using provider "' . $provider->getName() . '" failed: ' . $e->getMessage(), 0, $e);
 			}
 		}
 
-		throw new RuntimeException('Could not run task');
+		throw new TaskFailureException('Could not run task');
 	}
 
 	/**
