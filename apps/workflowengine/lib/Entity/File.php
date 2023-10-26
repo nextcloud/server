@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Jonas Meurer <jonas@freesources.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,6 +27,8 @@ declare(strict_types=1);
  */
 namespace OCA\WorkflowEngine\Entity;
 
+use OC\Files\Config\UserMountCache;
+use OC\Files\Mount\Manager as MountManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\InvalidPathException;
@@ -38,7 +41,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share\IManager as ShareManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
@@ -65,8 +67,6 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	protected $eventName;
 	/** @var Event */
 	protected $event;
-	/** @var ShareManager */
-	private $shareManager;
 	/** @var IUserSession */
 	private $userSession;
 	/** @var ISystemTagManager */
@@ -77,25 +77,31 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	private $actingUser = null;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var UserMountCache */
+	private $userMountCache;
+	/** @var MountManager */
+	private $mountManager;
 
 	public function __construct(
 		IL10N $l10n,
 		IURLGenerator $urlGenerator,
 		IRootFolder $root,
 		ILogger $logger,
-		ShareManager $shareManager,
 		IUserSession $userSession,
 		ISystemTagManager $tagManager,
-		IUserManager $userManager
+		IUserManager $userManager,
+		UserMountCache $userMountCache,
+		MountManager $mountManager
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 		$this->root = $root;
 		$this->logger = $logger;
-		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->tagManager = $tagManager;
 		$this->userManager = $userManager;
+		$this->userMountCache = $userMountCache;
+		$this->mountManager = $mountManager;
 	}
 
 	public function getName(): string {
@@ -140,8 +146,22 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 			if ($node->getOwner()->getUID() === $uid) {
 				return true;
 			}
-			$acl = $this->shareManager->getAccessList($node, true, true);
-			return isset($acl['users']) && array_key_exists($uid, $acl['users']);
+
+			if ($this->eventName === self::EVENT_NAMESPACE . 'postDelete') {
+				// At postDelete, the file no longer exists. Check for parent folder instead.
+				$fileId = $node->getParent()->getId();
+			} else {
+				$fileId = $node->getId();
+			}
+
+			$mountInfos = $this->userMountCache->getMountsForFileId($fileId, $uid);
+			foreach ($mountInfos as $mountInfo) {
+				$mount = $this->mountManager->getMountFromMountInfo($mountInfo);
+				if ($mount && $mount->getStorage() && !empty($mount->getStorage()->getCache()->get($fileId))) {
+					return true;
+				}
+			}
+			return false;
 		} catch (NotFoundException $e) {
 			return false;
 		}
