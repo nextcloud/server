@@ -80,8 +80,10 @@ class AvatarNode extends File {
 	public function getContentType() {
 		if ($this->ext === 'png') {
 			return 'image/png';
+		} elseif ($this->ext === 'jxl') {
+			return 'image/jxl';
 		}
-		return 'image/jpeg';
+	return 'image/jpeg';
 	}
 
 	public function getETag() {
