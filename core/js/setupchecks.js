@@ -246,16 +246,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if(!data.hasPassedCodeIntegrityCheck) {
-						messages.push({
-							msg: t('core', 'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})')
-								.replace('{linkstart1}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.codeIntegrityCheckerDocumentation + '">')
-								.replace('{linkstart2}', '<a href="' + OC.generateUrl('/settings/integrity/failed') + '">')
-								.replace('{linkstart3}', '<a href="' + OC.generateUrl('/settings/integrity/rescan?requesttoken={requesttoken}', {'requesttoken': OC.requestToken}) + '">')
-								.replace(/{linkend}/g, '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
 					if(data.OpcacheSetupRecommendations.length > 0) {
 						var listOfOPcacheRecommendations = "";
 						data.OpcacheSetupRecommendations.forEach(function(element){
