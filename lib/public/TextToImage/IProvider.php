@@ -34,7 +34,7 @@ use RuntimeException;
  */
 interface IProvider {
 	/**
-	 * The ID of this provider
+	 * An arbitrary unique text string identifying this provider
 	 * @since 28.0.0
 	 */
 	public function getId(): string;
