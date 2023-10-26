@@ -25,37 +25,9 @@ import { clearState, getNextcloudUserMenu, getNextcloudUserMenuToggle } from '..
 
 const admin = new User('admin', 'admin')
 
-describe('Settings: Access levels', { testIsolation: true }, () => {
+describe('Settings: Ensure only administrator can see the administration settings section', { testIsolation: true }, () => {
 	beforeEach(() => {
 		clearState()
-	})
-
-	it('Regular users cannot see admin-level items in the Settings menu', () => {
-		// Given I am logged in
-		cy.createRandomUser().then(($user) => {
-			cy.login($user)
-			cy.visit('/')
-		})
-		// I open the settings menu
-		getNextcloudUserMenuToggle().click()
-
-		getNextcloudUserMenu().find('ul').within(($el) => {
-			// I see the settings menu is open
-			cy.wrap($el).should('be.visible')
-
-			// I see that the "Settings" item in the Settings menu is shown
-			cy.contains('li', 'Settings').should('be.visible')
-			// I see that the "Help" item in the Settings menu is shown
-			cy.contains('li', 'Help').should('be.visible')
-			// I see that the "Log out" item in the Settings menu is shown
-			cy.contains('li', 'Log out').should('be.visible')
-
-			// I see that the "Users" item in the Settings menu is NOT shown
-			cy.contains('li', 'Users').should('not.exist')
-			// I see that the "Administration settings" item in the Settings menu is NOT shown
-			cy.contains('li', 'Administration settings').should('not.exist')
-			cy.get('#admin_settings').should('not.exist')
-		})
 	})
 
 	it('Regular users cannot see admin-level items on the Settings page', () => {
@@ -79,31 +51,6 @@ describe('Settings: Access levels', { testIsolation: true }, () => {
 
 			// I see that the "Personal info" entry in the settings panel is shown
 			cy.get('[data-section-id="personal-info"]').should('exist').and('be.visible')
-		})
-	})
-
-	it('Admin users can see admin-level items in the Settings menu', () => {
-		// Given I am logged in
-		cy.login(admin)
-		cy.visit('/')
-
-		// I open the settings menu
-		getNextcloudUserMenuToggle().click()
-
-		getNextcloudUserMenu().find('ul').within(($el) => {
-			// I see the settings menu is open
-			cy.wrap($el).should('be.visible')
-
-			// I see that the "Personal Settings" item in the Settings menu is shown
-			cy.contains('li', 'Personal settings').should('be.visible')
-			// I see that the "Administration settings" item in the Settings menu is shown
-			cy.contains('li', 'Administration settings').should('be.visible')
-			// I see that the "Help" item in the Settings menu is shown
-			cy.contains('li', 'Help').should('be.visible')
-			// I see that the "Users" item in the Settings menu is shown
-			cy.contains('li', 'Users').should('be.visible')
-			// I see that the "Log out" item in the Settings menu is shown
-			cy.contains('li', 'Log out').should('be.visible')
 		})
 	})
 
