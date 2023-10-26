@@ -41,4 +41,8 @@ class FakeText2ImageProvider implements IProvider {
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
+
+	public function getId(): string {
+		return 'testing-fake-text2image-provider';
+	}
 }
