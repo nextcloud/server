@@ -35,7 +35,11 @@
 				:preloaded-user-status="userStatus" />
 		</template>
 		<ul>
-			<UserMenuEntry v-for="entry in settingsNavEntries"
+			<ProfileUserMenuEntry :id="profileEntry.id"
+				:name="profileEntry.name"
+				:href="profileEntry.href"
+				:active="profileEntry.active" />
+			<UserMenuEntry v-for="entry in otherEntries"
 				:id="entry.id"
 				:key="entry.id"
 				:name="entry.name"
@@ -58,6 +62,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
 
 import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
+import ProfileUserMenuEntry from '../components/UserMenu/ProfileUserMenuEntry.vue'
 import UserMenuEntry from '../components/UserMenu/UserMenuEntry.vue'
 
 import logger from '../logger.js'
@@ -77,6 +82,7 @@ import logger from '../logger.js'
 
 /** @type {SettingNavEntry[]} */
 const settingsNavEntries = loadState('core', 'settingsNavEntries', [])
+const { profile: profileEntry, ...otherEntries } = settingsNavEntries
 
 const translateStatus = (status) => {
 	const statusMap = Object.fromEntries(
@@ -95,12 +101,14 @@ export default {
 	components: {
 		NcAvatar,
 		NcHeaderMenu,
+		ProfileUserMenuEntry,
 		UserMenuEntry,
 	},
 
 	data() {
 		return {
-			settingsNavEntries,
+			profileEntry,
+			otherEntries,
 			displayName: getCurrentUser()?.displayName,
 			userId: getCurrentUser()?.uid,
 			isLoadingUserStatus: true,
