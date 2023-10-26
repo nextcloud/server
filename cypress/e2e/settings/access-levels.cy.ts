@@ -21,8 +21,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { clearState } from './usersUtils'
-import { getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils'
+import { clearState, getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils'
 
 const admin = new User('admin', 'admin')
 

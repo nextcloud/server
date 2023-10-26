@@ -36,22 +36,6 @@ export function assertNotExistOrNotVisible(element: JQuery<HTMLElement>) {
 }
 
 /**
- * Helper function ensure users and groups in this tests have a clean state
- */
-export function clearState() {
-	// cleanup ignoring any failures
-	cy.runOccCommand('group:list --output=json').then(($result) => {
-		const groups = Object.keys(JSON.parse($result.stdout)).filter((name) => name !== 'admin')
-		groups.forEach((groupID) => cy.runOccCommand(`group:delete '${groupID}'`))
-	})
-
-	cy.runOccCommand('user:list --output=json').then(($result) => {
-		const users = Object.keys(JSON.parse($result.stdout)).filter((name) => name !== 'admin')
-		users.forEach((userID) => cy.runOccCommand(`user:delete '${userID}'`))
-	})
-}
-
-/**
  * Get the settings users list
  * @return Cypress chainable object
  */
