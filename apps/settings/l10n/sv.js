@@ -172,6 +172,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Tal-till-text",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Tal-till-text kan implementeras av olika appar. Här kan du ställa in vilken app som ska användas.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Ingen av dina installerade appar tillhandahåller tal-till-text-funktionalitet",
+    "Image generation" : "Bildgenerering",
     "Text processing" : "Textbehandling",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Textbearbetningsuppgifter kan implementeras av olika appar. Här kan du ställa in vilken app som ska användas för vilken uppgift.",
     "Task:" : "Uppgift:",

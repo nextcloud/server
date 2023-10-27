@@ -156,6 +156,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Dictado a texto",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "El dictado a texto puede estar implementada por diferentes apps. Aquí puede definir cual de ellas debería utilizarse.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Ninguna de las aplicaciones que tiene actualmente instaladas proveen la funcionalidad de dictado a texto",
+    "Image generation" : "Generación de imágenes",
     "Text processing" : "Procesamiento de texto",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Las tareas de procesamiento de texto pueden estar implementadas por diferentes apps. Aquí puede definir cual app debe utilizarse para cada tarea.",
     "Task:" : "Tarea:",

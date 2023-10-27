@@ -172,6 +172,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Говор-у-текст",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Говор-у-текст могу да имплементирају разне апликације. Овде можете да подесите која ће се користити.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Ниједна од ваших тренутно инсталираних апликација не пружа услуагу претварања Говора-у-текст",
+    "Image generation" : "Генерисање слике",
     "Text processing" : "Обрада текста",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Задатке обраде текста могу да имплементирају разне апликације. Овде можете да подесите која ће се користити за који задатак.",
     "Task:" : "Задатак:",
