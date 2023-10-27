@@ -2,6 +2,8 @@ default:
   autoload:
     '': "%paths.base%/../features/bootstrap"
   formatters:
+    junit:
+      output_path: '%paths.base%/../output'
     pretty:
       output_styles:
         comment: [ 'bright-blue' ]
@@ -202,7 +204,3 @@ default:
             regular_user_password: 123456
         - RemoteContext:
             remote:  http://localhost:8080
-  extensions:
-      jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-          filename: report.xml
-          outputDir: "%paths.base%/../output/"
