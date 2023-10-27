@@ -249,6 +249,7 @@ OC.L10N.register(
     "Unable to create new file from template" : "Uutta tiedostoa mallipohjasta ei voi luoda",
     "Delete permanently" : "Poista pysyvästi",
     "Destination is not a folder" : "Kohde ei ole kansio",
+    "This file/folder is already in that directory" : "Tämä tiedosto/kansio on jo kyseisessä kansiossa",
     "A file or folder with that name already exists in this folder" : "Tiedosto tai kansio tällä nimellä on jo olemassa tässä kansiossa",
     "The file does not exist anymore" : "Tiedostoa ei ole enää olemassa",
     "Chose destination" : "Valitse kohde",

@@ -172,6 +172,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Beszédbőlfelismerés",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "A beszédfelismerés különböző alkalmazásokkal is megvalósítható. Itt állítható be, hogy melyik alkalmazás legyen használva.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Egyik jelenleg telepített alkalmazás sem támogatja a Beszédfelismerés funkciót",
+    "Image generation" : "Kép generálás",
     "Text processing" : "Szöveg feldolgozás",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "A szövegfeldolgozás különböző alkalmazásokkal is megvalósítható. Itt állítható be, hogy melyik alkalmazás legyen használva.",
     "Task:" : "Feladat:",

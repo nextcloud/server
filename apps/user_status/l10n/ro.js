@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Lucru la distanță",
     "In a call" : "Într-un apel",
     "User status" : "Statusul utilizatorului",
-    "View profile" : "Vezi profilul",
     "What is your status?" : "Care este statusul dumneavoastră?",
     "Set status" : "Setează status",
     "Online status" : "Status online",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 ore",
     "Mute all notifications" : "Dezactivați toate notificările",
     "Appear offline" : "Apari deconectat",
+    "View profile" : "Vezi profilul",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
