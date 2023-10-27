@@ -84,8 +84,8 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 2),
-				'--color-text-light' => $this->util->darken($colorMainText, 10),
-				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
+				'--color-text-light' => 'var(--color-main-text)', // deprecated
+				'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),

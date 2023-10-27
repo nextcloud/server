@@ -22,7 +22,7 @@
 import { colord } from 'colord'
 
 export const defaultPrimary = '#0082c9'
-export const defaultAccessiblePrimary = '#006aa3'
+export const defaultAccessiblePrimary = '#00679e'
 export const defaultBackground = 'kamil-porembinski-clouds.jpg'
 
 /**

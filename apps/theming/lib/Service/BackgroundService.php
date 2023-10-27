@@ -46,7 +46,7 @@ class BackgroundService {
 	// true when the background is bright and need dark icons
 	public const THEMING_MODE_DARK = 'dark';
 	public const DEFAULT_COLOR = '#0082c9';
-	public const DEFAULT_ACCESSIBLE_COLOR = '#006aa3';
+	public const DEFAULT_ACCESSIBLE_COLOR = '#00679e';
 
 	public const BACKGROUND_SHIPPED = 'shipped';
 	public const BACKGROUND_CUSTOM = 'custom';
