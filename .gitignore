@@ -129,6 +129,8 @@ nbproject
 /build/bin
 /build/lib/
 /build/jsdocs/
+/build/integration/output/
+/build/integration/phpserver.log
 /npm-debug.log
 /PhantomJS_*
 
