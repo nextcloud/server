@@ -63,7 +63,7 @@ jobs:
           - 'federation_features'
           - '--tags ~@large files_features'
           - 'filesdrop_features'
-          #- 'ldap_features'
+          - 'ldap_features'
           - 'remoteapi_features'
           - 'setup_features'
           - 'sharees_features'
@@ -72,6 +72,24 @@ jobs:
 
         php-versions: ['8.2']
         spreed-versions: ['main']
+
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+      openldap:
+        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
+        env:
+          SLAPD_DOMAIN: nextcloud.ci
+          SLAPD_ORGANIZATION: Nextcloud
+          SLAPD_PASSWORD: admin
+          SLAPD_ADDITIONAL_MODULES: memberof
 
     steps:
       - name: Checkout server
@@ -92,7 +110,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, ldap, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
         env:
@@ -117,6 +135,15 @@ jobs:
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           ./occ config:system:set hashing_default_password --value=true --type=boolean
+
+      - name: Configure caching
+        if: ${{ matrix.test-suite == 'ldap_features' }}
+        run: |
+          ./occ config:system:set redis host --value=localhost
+          ./occ config:system:set redis port --value=6379 --type=integer
+          ./occ config:system:set redis timeout --value=0 --type=integer
+          ./occ config:system:set memcache.local --value='\OC\Memcache\Redis'
+          ./occ config:system:set memcache.distributed --value='\OC\Memcache\Redis'
 
       - name: Run integration
         working-directory: build/integration
