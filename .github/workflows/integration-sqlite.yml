@@ -120,7 +120,7 @@ jobs:
 
       - name: Run integration
         working-directory: build/integration
-        run: bash run.sh ${{ matrix.test-suite }}
+        run: bash run.sh ${{ matrix.test-suite }} no-tail-log
 
       - name: Print logs
         if: always()
