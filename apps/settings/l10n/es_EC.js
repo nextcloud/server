@@ -149,6 +149,7 @@ OC.L10N.register(
     "Profile information" : "Información del perfil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Foto de perfil, nombre completo, correo electrónico, número de teléfono, dirección, sitio web, Twitter, organización, cargo, titular, biografía y si tu perfil está habilitado",
     "Nextcloud settings" : "Configuración de Nextcloud",
+    "Image generation" : "Generación de imágenes",
     "Here you can decide which group can access certain sections of the administration settings." : "Aquí puedes decidir qué grupo puede acceder a determinadas secciones de la configuración de administración.",
     "None" : "Ninguno",
     "Unable to modify setting" : "No se pudo modificar la configuración",

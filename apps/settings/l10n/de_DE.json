@@ -170,6 +170,7 @@
     "Speech-To-Text" : "Sprache-zu-Text",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Sprache-zu-Text kann mittels verschiedener Apps implementiert werden. Hier können Sie einstellen, welche App verwendet werden soll.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Keine Ihrer derzeit installierten Apps bietet Sprache-zu-Text-Funktionalität",
+    "Image generation" : "Bilderstellung",
     "Text processing" : "Textverarbeitung",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Textverarbeitungsaufgaben können mittels verschiedener Apps umgesetzt werden. Hier können Sie einstellen, welche App für welche Aufgabe verwendet werden soll.",
     "Task:" : "Aufgaben:",

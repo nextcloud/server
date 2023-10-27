@@ -156,6 +156,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Conversión de voz a texto",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Speech-To-Text pódese realizar mediante diferentes aplicacións. Aquí pode definir que aplicación debe usar.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Ningunha das aplicacións instaladas neste momento ofrece funcións de conversión de voz a texto",
+    "Image generation" : "Xeración de imaxes",
     "Text processing" : "Procesamento de texto",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "As tarefas de procesamento de texto poden ser realizadas por diferentes aplicacións. Aquí pode definir que aplicación debe usarse para que tarefa.",
     "Task:" : "Tarefa:",

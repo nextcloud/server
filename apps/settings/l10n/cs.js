@@ -172,6 +172,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Převod řeči na text",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Převod řeči na text je možné implementovat různými aplikacemi. Zde je možné nastavit, která z nich má být používána.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Žádná z v tuto chvíli nainstalovaných aplikací neposkytuje funkci převodu řeči na text",
+    "Image generation" : "Vytváření obrázků",
     "Text processing" : "Zpracování textu",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Úlohy zpracovávání textu je možné implementovat různými aplikacemi. Zde je možné nastavit, která z nich má být používána který typ úlohy.",
     "Task:" : "Úloha:",

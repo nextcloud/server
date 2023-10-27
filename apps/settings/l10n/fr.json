@@ -170,6 +170,7 @@
     "Speech-To-Text" : "Synthèse vocale",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "La reconnaissance vocale peut être implémentée par différentes applications. Vous pouvez définir ici quelle application doit être utilisée.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Aucune des applications actuellement installées ne fournit la fonctionnalité de reconnaissance vocale.",
+    "Image generation" : "Génération d'image",
     "Text processing" : "Traitement de texte",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Les tâches de reconnaissance de texte peuvent être implémentées par différentes applications. Vous pouvez définir ici quelle application doit être utilisée pour ces tâches.",
     "Task:" : "Tâche : ",

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Pracuje na dálku",
     "In a call" : "Má hovor",
     "User status" : "Stav uživatele",
-    "View profile" : "Zobrazit profil ",
     "Clear status after" : "Vyčistit stav po uplynutí",
     "Emoji for your status message" : "Emotikona pro vaší stavovou zprávu",
     "What is your status?" : "Jaký je váš stav?",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "4 hours" : "4 hodiny",
     "Mute all notifications" : "Ztlumit veškerá upozornění",
     "Appear offline" : "Jevit se offline",
+    "View profile" : "Zobrazit profil ",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
