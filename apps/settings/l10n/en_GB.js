@@ -172,6 +172,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Speech-To-Text",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Speech-To-Text can be implemented by different apps. Here you can set which app should be used.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "None of your currently installed apps provide Speech-To-Text functionality",
+    "Image generation" : "Image generation",
     "Text processing" : "Text processing",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.",
     "Task:" : "Task:",

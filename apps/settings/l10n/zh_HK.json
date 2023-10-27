@@ -170,6 +170,7 @@
     "Speech-To-Text" : "語音轉文字",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "語音轉文本可以由不同的應用程式實現。您可以在此處設置應使用哪個應用程式。",
     "None of your currently installed apps provide Speech-To-Text functionality" : "您當前安裝的應用程式均不提供語音轉文字功能",
+    "Image generation" : "圖像產生",
     "Text processing" : "正在處理文字",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "文字處理任務可以由不同的應用程式來實現。 您可以在此處設置哪個應用程式應用於哪個任務。",
     "Task:" : "任務︰",

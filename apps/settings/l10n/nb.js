@@ -138,6 +138,7 @@ OC.L10N.register(
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Ikke skrivbar konfigurasjon er aktivert. Dette hindrer endring av konfigurasjon via web-grensesnitt. Filen må gjøres skrivbar manuelt for hver oppdatering.",
     "Profile information" : "Profil-informasjon",
     "Nextcloud settings" : "Nextcloud innstillinger",
+    "Image generation" : "Bildegenerering",
     "None" : "Ingen",
     "Unable to modify setting" : "Kan ikke endre innstilling",
     "Two-Factor Authentication" : "Tofaktor-autentisering",

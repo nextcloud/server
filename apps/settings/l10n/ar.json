@@ -170,6 +170,7 @@
     "Speech-To-Text" : "تحويل الكلام إلى نص",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "يمكن تنفيذ تحويل الكلام إلى نص بواسطة تطبيقات مختلفة. هنا يمكنك تعيين التطبيق الذي يجب استخدامه.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "لا توفر أي من تطبيقاتك المثبتة حاليًا وظيفة تحويل الكلام إلى نص",
+    "Image generation" : "توليد الصورة",
     "Text processing" : "معالجة النصوص",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "يمكن تنفيذ مهام معالجة النصوص بواسطة تطبيقات مختلفة. هنا يمكنك تعيين التطبيق الذي يجب استخدامه لأي مهمة",
     "Task:" : "المُهِمّة:",

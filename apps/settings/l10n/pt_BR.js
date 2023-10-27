@@ -155,6 +155,7 @@ OC.L10N.register(
     "Speech-To-Text" : "Fala-para-texto",
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "O Fala-Para-Texto pode ser implementado por diferentes aplicativos. Aqui você pode definir qual aplicativo deve ser usado.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Nenhum dos seus aplicativos atualmente instalados fornece a funcionalidade Fala-Para-Texto",
+    "Image generation" : "Geração de imagem",
     "Text processing" : "Processamento de texto",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Tarefas de processamento de texto podem ser implementadas por diferentes aplicativos. Aqui você pode definir qual aplicativo deve ser usado para qual tarefa.",
     "Task:" : "Tarefa:",
