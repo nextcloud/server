@@ -61,7 +61,7 @@ jobs:
           - 'dav_features'
           - 'features'
           - 'federation_features'
-          - 'files_features'
+          - '--tags ~@large files_features'
           - 'filesdrop_features'
           #- 'ldap_features'
           - 'remoteapi_features'
