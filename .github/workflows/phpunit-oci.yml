@@ -1,6 +1,7 @@
 name: PHPUnit oci
 
-on: pull_request
+on:
+  pull_request:
 
 permissions:
   contents: read
@@ -10,6 +11,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/lib/**'
+              - '**/tests/**'
+              - '**/vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
   phpunit-oci:
     runs-on: ubuntu-20.04
 
@@ -74,7 +98,7 @@ jobs:
     permissions:
       contents: none
     runs-on: ubuntu-latest
-    needs: phpunit-oci
+    needs: [changes, phpunit-oci]
 
     if: always()
 
@@ -82,4 +106,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.phpunit-oci.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-oci.result != 'success' }}; then exit 1; fi

@@ -8,10 +8,37 @@ on:
       - stable*
 
 jobs:
-  versions:
+  changes:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '**/__tests__/**'
+              - '**/__mocks__/**'
+              - '**/src/**'
+              - '**/appinfo/info.xml'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'tsconfig.json'
+              - '**.js'
+              - '**.ts'
+              - '**.vue'
+              - '**.handlebars'
+
+  versions:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
 
     outputs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
@@ -25,12 +52,14 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1
         id: versions
         with:
-          fallbackNode: '^16'
-          fallbackNpm: '^7'
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
 
   test:
     runs-on: ubuntu-latest
-    needs: versions
+    needs: [versions, changes]
+
+    if: ${{ needs.versions.result != 'failure' && needs.changes.outputs.src != 'false' }}
 
     env:
       CYPRESS_INSTALL_BINARY: 0
@@ -63,7 +92,9 @@ jobs:
 
   jsunit:
     runs-on: ubuntu-latest
-    needs: versions
+    needs: [versions, changes]
+
+    if: ${{ needs.versions.result != 'failure' && needs.changes.outputs.src != 'false' }}
 
     env:
       CYPRESS_INSTALL_BINARY: 0
@@ -91,7 +122,9 @@ jobs:
 
   handlebars:
     runs-on: ubuntu-latest
-    needs: versions
+    needs: [versions, changes]
+
+    if: ${{ needs.versions.result != 'failure' && needs.changes.outputs.src != 'false' }}
 
     env:
       CYPRESS_INSTALL_BINARY: 0
@@ -116,3 +149,17 @@ jobs:
 
       - name: Run compile
         run: ./build/compile-handlebars-templates.sh
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: [changes, test, jsunit, handlebars]
+
+    if: always()
+
+    name: node-test-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.test.result != 'success' && needs.jsunit.result != 'success' && needs.handlebars.result != 'success' }}; then exit 1; fi
