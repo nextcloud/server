@@ -152,6 +152,7 @@ OC.L10N.register(
     "The old server-side-encryption format is enabled. We recommend disabling this." : "A régi kiszolgálóoldali titkosítási formátum engedélyezett. Javasoljuk ennek letiltását.",
     "Checking for PHP default charset" : "Alapértelmezett PHP karakterkészlet ellenőrzése",
     "PHP configuration option default_charset should be UTF-8" : "A PHP konfigurációs beállítása default_charset UTF-8 legyen",
+    "PHP modules" : "PHP modulok",
     "Checking for PHP version" : "PHP verzió ellenőrzése",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "A jelenlegi PHP verzió PHP %s. A PHP 8.0 már elavult a Nextcloud 27-ben. A Nextcloud 28-hoz legalább PHP 8.1 szükséges. Frissítsen az egyik hivatalosan támogatott PHP verzióra, melyet a PHP Group biztosít.",
     "You are currently running PHP %s." : "A jelenlegi PHP verzió: %s.",

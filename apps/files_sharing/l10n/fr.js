@@ -210,7 +210,7 @@ OC.L10N.register(
     "Update" : "Mise à jour",
     "Share" : "Partager",
     "Delete share" : "Supprimer le partage",
-    "Share with " : "Partager avec",
+    "Share with " : "Partager avec ",
     "Save share" : "Enregistrer le partage",
     "Update share" : "Mettre à jour le partage",
     "Others with access" : "Autres utilisateurs ayant accès",

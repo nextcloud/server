@@ -43,6 +43,8 @@ OC.L10N.register(
     "Necessary language model provider is not available" : "Le fournisseur de modèle de langage nécessaire n'est pas disponible",
     "Task not found" : "Tâche non trouvée",
     "Internal error" : "Erreur interne",
+    "No text to image provider is available" : "Aucun fournisseur de texte vers image n'est disponible",
+    "Image not found" : "Image non trouvée",
     "No translation provider available" : "Aucun fournisseur de traduction n'est disponible",
     "Could not detect language" : "Impossible de détecter la langue",
     "Unable to translate" : "Impossible de traduire",
