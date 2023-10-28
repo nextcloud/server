@@ -1,0 +1,133 @@
+name: Object storage azure
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - '3rdparty/**'
+      - '**/*.php'
+      - '**/lib/**'
+      - '**/tests/**'
+      - '**/vendor-bin/**'
+      - '.php-cs-fixer.dist.php'
+      - 'composer.json'
+      - 'composer.lock'
+
+concurrency:
+  group: object-storage-azure-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - '**/tests/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
+  azure-primary-tests:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+
+    strategy:
+      matrix:
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
+        include:
+          - php-versions: '8.3'
+            coverage: true
+
+    name: php${{ matrix.php-versions }}-azure
+
+    services:
+      azurite:
+        image: mcr.microsoft.com/azure-storage/azurite
+        env:
+          AZURITE_ACCOUNTS: nextcloud:bmV4dGNsb3Vk
+        ports:
+          - 10000:10000
+        options: --health-cmd="nc 127.0.0.1 10000 -z" --health-interval=1s --health-retries=30
+
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        env:
+          OBJECT_STORE: azure
+          OBJECT_STORE_KEY: nextcloud
+          OBJECT_STORE_SECRET: bmV4dGNsb3Vk
+        run: |
+          composer install
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+
+      - name: PHPUnit
+        env:
+          OBJECT_STORE: azure
+          OBJECT_STORE_KEY: nextcloud
+          OBJECT_STORE_SECRET: bmV4dGNsb3Vk
+        run: composer run test -- --group PRIMARY-azure ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+
+      - name: Upload code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.xml
+          flags: phpunit-azure
+
+      - name: Azurite logs
+        if: always()
+        run: |
+          docker ps -a
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
+
+  azure-primary-summary:
+    runs-on: ubuntu-latest
+    needs: [changes, azure-primary-tests]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.azure-primary-tests.result != 'success' }}; then exit 1; fi
