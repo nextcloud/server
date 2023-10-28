@@ -28,6 +28,7 @@ import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
 import { registerFileAction, FileAction } from '../services/FileAction.ts'
 import logger from '../logger.js'
 import type { Navigation } from '../services/Navigation.ts'
+import { encodePath } from '@nextcloud/paths';
 
 registerFileAction(new FileAction({
 	id: 'delete',
@@ -45,8 +46,11 @@ registerFileAction(new FileAction({
 	},
 
 	async exec(node: Node) {
+		const { origin } = new URL(node.source)
+		const encodedSource = origin + encodePath(node.source.slice(origin.length))
+
 		try {
-			await axios.delete(node.source)
+			await axios.delete(encodedSource)
 
 			// Let's delete even if it's moved to the trashbin
 			// since it has been removed from the current view
