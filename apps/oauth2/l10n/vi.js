@@ -8,13 +8,13 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Ứng dụng OAuth2 cho phép các quản trị viên thiết lập dòng chảy công việc xác thực để cũng cho phép xác thực tương thích với OAuth2 từ các ứng dụng web khác.",
     "OAuth 2.0 clients" : "kết nối OAuth 2.0",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 cho phép các dịch vụ ở ngoài yêu cầu quyền truy cập vào {instanceName}.",
-    "Add client" : "Thêm kết nối",
     "Name" : "Tên",
     "Redirection URI" : "Liên kết chuyển tiếp",
-    "Add" : "Thêm",
     "Client Identifier" : "Mã định danh ứng dụng khách",
-    "Secret" : "Mật khẩu",
+    "Add client" : "Thêm kết nối",
+    "Add" : "Thêm",
     "Show client secret" : "Hiện bí mật ứng dụng khách",
-    "Delete" : "Xóa"
+    "Delete" : "Xóa",
+    "Secret" : "Mật khẩu"
 },
 "nplurals=1; plural=0;");
