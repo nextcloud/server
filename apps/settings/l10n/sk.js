@@ -367,6 +367,7 @@ OC.L10N.register(
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "V prípade straty zariadenia alebo napr. odchodu z firmy to môže na daľku vymazať údaje Nextcloud zo všetkých zariadení priradených k {userid}. Funguje iba vtedy, ak sú zariadenia pripojené k internetu.",
     "Remote wipe of devices" : "Vymazať obsah zariadení na diaľku",
     "Wipe {userid}'s devices" : "Vymazať obsah zariadení {userid}",
+    "Failed to update user manager" : "Nepodarilo sa aktualizovať správcu používateľov",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Úplne odstráiť účet používateľa {userid} vrátane všetkých osobných súborov, údajov aplikácií atď.",
     "Account deletion" : "Zmazanie účtu",
     "Delete {userid}'s account" : "Vymazať účet {userid}",

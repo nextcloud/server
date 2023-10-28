@@ -8,13 +8,14 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 應用程式讓管理員可以設定內建的身份驗證工作流程，以讓其他網路應用程式可以進行相容於 OAuth2 的身份驗證。",
     "OAuth 2.0 clients" : "OAuth 2.0 客戶端",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 讓外部服務請求存取 {instanceName}。",
-    "Add client" : "新增客戶端",
     "Name" : "名稱",
     "Redirection URI" : "重新導向 URI",
-    "Add" : "新增",
     "Client Identifier" : "客戶端識別",
-    "Secret" : "密碼",
+    "Secret key" : "私鑰",
+    "Add client" : "新增客戶端",
+    "Add" : "新增",
     "Show client secret" : "顯示客戶端密碼",
-    "Delete" : "刪除"
+    "Delete" : "刪除",
+    "Secret" : "密碼"
 },
 "nplurals=1; plural=0;");
