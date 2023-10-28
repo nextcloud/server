@@ -43,6 +43,8 @@ OC.L10N.register(
     "Necessary language model provider is not available" : "Gerekli dil modeli sağlayıcısı kullanılamıyor",
     "Task not found" : "Görev bulunamadı",
     "Internal error" : "İçeride bir sorun çıktı",
+    "No text to image provider is available" : "Kullanılabilecek bir yazıdan görsel oluşturma hizmet sağlayıcısı yok",
+    "Image not found" : "Görsel bulunamadı",
     "No translation provider available" : "Kullanılabilecek bir çeviri hizmeti sağlayıcı yok",
     "Could not detect language" : "Dil algılanamadı",
     "Unable to translate" : "Çevrilemedi",

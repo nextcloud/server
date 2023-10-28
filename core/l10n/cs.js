@@ -43,6 +43,8 @@ OC.L10N.register(
     "Necessary language model provider is not available" : "Nezbytný poskytovatel jazykového modelu není k dsipozici",
     "Task not found" : "Úkol nenalezen",
     "Internal error" : "Vnitřní chyba",
+    "No text to image provider is available" : "Není k dispozici žádný poskytovatel převodu textu na obrázek",
+    "Image not found" : "Obrázek nenalezen",
     "No translation provider available" : "Není k dispozici žádný poskytovatel překladu",
     "Could not detect language" : "Nepodařilo se zjistit jazyk",
     "Unable to translate" : "Nedaří se přeložit",

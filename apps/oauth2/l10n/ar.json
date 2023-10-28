@@ -6,13 +6,14 @@
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "التطبيق OAuth2 يسمح للمشرفين بتهيئة الأجراء الأساسي للتحقّق من الهويّةبحيث يسمح بالتحقّق من الهويّة عن طريق تطبيقات وب أخرى متوافقة مع OAuth2.",
     "OAuth 2.0 clients" : "عملاء OAuth2,0",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "يسمح OAuth2.0 لخدمات خارجية بطلب الوصول إلى {instanceName}",
-    "Add client" : "إضافة عميل",
     "Name" : "الاسم",
     "Redirection URI" : "رابط إعادة التوجيه",
-    "Add" : "إضافة",
     "Client Identifier" : "مُعرِّف العميل",
-    "Secret" : "السر",
+    "Secret key" : "المفتاح السّرّي",
+    "Add client" : "إضافة عميل",
+    "Add" : "إضافة",
     "Show client secret" : "عرض كلمة سر العميل",
-    "Delete" : "حذف"
+    "Delete" : "حذف",
+    "Secret" : "السر"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

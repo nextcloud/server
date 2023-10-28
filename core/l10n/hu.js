@@ -43,6 +43,7 @@ OC.L10N.register(
     "Necessary language model provider is not available" : "A szükséges nyelvimodell-szolgáltató nem érhető el",
     "Task not found" : "A feladat nem található",
     "Internal error" : "Belső hiba",
+    "Image not found" : "A kép nem található",
     "No translation provider available" : "Nem érhető el fordítási szolgáltató",
     "Could not detect language" : "Nem sikerült észlelni a nyelvet",
     "Unable to translate" : "Nem fordítható le",
