@@ -106,6 +106,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	public function assertNoUpload($objectUrn) {
+		/** @var \OC\Files\ObjectStore\S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([
@@ -119,7 +120,7 @@ class S3Test extends ObjectStoreTest {
 		$s3 = $this->getInstance();
 
 		$emptyStream = fopen("php://memory", "r");
-		fwrite($emptyStream, null);
+		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
 
