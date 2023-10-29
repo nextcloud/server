@@ -2,10 +2,6 @@ name: Integration sqlite
 
 on:
   pull_request:
-    paths:
-      # Only running on PR for this file to save CI time (otherwise pgsql only)
-      - '.github/workflows/integration-sqlite.yml'
-
   push:
     branches:
       - main
@@ -63,6 +59,8 @@ jobs:
           - 'federation_features'
           - '--tags ~@large files_features'
           - 'filesdrop_features'
+          - 'openldap_features'
+          - 'openldap_numerical_features'
           - 'ldap_features'
           - 'remoteapi_features'
           - 'setup_features'
@@ -85,6 +83,8 @@ jobs:
           - 6379:6379
       openldap:
         image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
+        ports:
+          - 389:389
         env:
           SLAPD_DOMAIN: nextcloud.ci
           SLAPD_ORGANIZATION: Nextcloud
@@ -129,15 +129,13 @@ jobs:
         run: composer i --no-dev
 
       - name: Set up Nextcloud
-        env:
-          DB_PORT: 4444
         run: |
           mkdir data
-          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          ./occ maintenance:install --verbose ${{ contains(matrix.test-suite,'ldap') && '--data-dir=/dev/shm/nc_int' || '' }} --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           ./occ config:system:set hashing_default_password --value=true --type=boolean
 
       - name: Configure caching
-        if: ${{ matrix.test-suite == 'ldap_features' }}
+        if: ${{ contains(matrix.test-suite,'ldap') }}
         run: |
           ./occ config:system:set redis host --value=localhost
           ./occ config:system:set redis port --value=6379 --type=integer
@@ -147,12 +145,16 @@ jobs:
 
       - name: Run integration
         working-directory: build/integration
+        env:
+          LDAP_HOST: localhost
         run: bash run.sh ${{ matrix.test-suite }} no-tail-log
 
       - name: Print logs
         if: always()
         run: |
           cat data/nextcloud.log
+          docker ps -a
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
   summary:
     permissions:

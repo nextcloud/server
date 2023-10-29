@@ -192,6 +192,26 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    openldap_numerical:
+      paths:
+        - "%paths.base%/../openldap_numerical_features"
+      contexts:
+        - LDAPContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    openldap:
+      paths:
+        - "%paths.base%/../openldap_features"
+      contexts:
+        - LDAPContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
     remoteapi:
       paths:
         - "%paths.base%/../remoteapi_features"
