@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "URL pro přesměrování",
     "Client Identifier" : "Identifikátor klienta",
     "Secret key" : "Tajný klíč",
+    "Delete client" : "Smazat klienta",
     "Add client" : "Přidat klienta",
     "Add" : "Přidat",
     "Show client secret" : "Zobrazit klientské tajemství",
