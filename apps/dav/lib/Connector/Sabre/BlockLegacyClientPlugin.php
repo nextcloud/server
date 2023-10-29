@@ -66,9 +66,11 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 		}
 
 		$minimumSupportedDesktopVersion = $this->config->getSystemValue('minimum.supported.desktop.version', '2.3.0');
+		$maximumSupportedDesktopVersion = $this->config->getSystemValue('maximum.supported.desktop.version', '3.10.1');
 		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
 		if (isset($versionMatches[1]) &&
-			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
+			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1 ||
+			version_compare($versionMatches[1], $maximumSupportedDesktopVersion) === 1) {
 			throw new \Sabre\DAV\Exception\Forbidden('Unsupported client version.');
 		}
 	}
