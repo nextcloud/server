@@ -820,7 +820,10 @@
                                                         {
                                                             "$ref": "#/components/schemas/Private"
                                                         },
-                                                        {}
+                                                        {
+                                                            "type": "array",
+                                                            "maxLength": 0
+                                                        }
                                                     ]
                                                 }
                                             }
