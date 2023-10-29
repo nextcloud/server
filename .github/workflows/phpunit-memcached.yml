@@ -1,0 +1,124 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: PHPUnit memcached
+
+on:
+  pull_request:
+  push:
+    branches:
+      - stable*
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phpunit-memcached-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - '**/tests/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
+  phpunit-memcached:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    strategy:
+      matrix:
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
+        include:
+          - php-versions: '8.2'
+            coverage: true
+
+    name: Memcached (PHP ${{ matrix.php-versions }})
+
+    services:
+      memcached:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        ports:
+          - 11212:11212/tcp
+          - 11212:11212/udp
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@7fdd3ece872ec7ec4c098ae5ab7637d5e0a96067 # v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up dependencies
+        run: composer i
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+
+      - name: PHPUnit memcached tests
+        run: composer run test -- --group Memcache,Memcached ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
+
+      - name: Upload code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.xml
+          flags: phpunit-memcached
+
+      - name: Print logs
+        if: always()
+        run: |
+          cat data/nextcloud.log
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: [changes, phpunit-memcached]
+
+    if: always()
+
+    name: phpunit-memcached-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-memcached.result != 'success' }}; then exit 1; fi
