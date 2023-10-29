@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "Yönlendirme adresi",
     "Client Identifier" : "İstemci belirteci",
     "Secret key" : "Gizli anahtar",
+    "Delete client" : "İstemciyi sil",
     "Add client" : "İstemci ekle",
     "Add" : "Ekle",
     "Show client secret" : "İstemci parolasını görüntüle",
