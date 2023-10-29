@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "رابط إعادة التوجيه",
     "Client Identifier" : "مُعرِّف العميل",
     "Secret key" : "المفتاح السّرّي",
+    "Delete client" : "حذف عميل ",
     "Add client" : "إضافة عميل",
     "Add" : "إضافة",
     "Show client secret" : "عرض كلمة سر العميل",

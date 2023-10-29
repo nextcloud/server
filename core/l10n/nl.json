@@ -41,6 +41,7 @@
     "Necessary language model provider is not available" : "De nodige taalmodel provider is niet beschikbaar",
     "Task not found" : "Taak niet gevonden",
     "Internal error" : "Interne fout",
+    "Image not found" : "Afbeelding niet gevonden",
     "No translation provider available" : "Geen provider voor vertaling beschikbaar",
     "Could not detect language" : "Kan taal niet detecteren",
     "Unable to translate" : "Niet mogelijk te vertalen",

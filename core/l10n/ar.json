@@ -41,6 +41,8 @@
     "Necessary language model provider is not available" : "مزود نموذج اللغة language model provider ضروري لكنه غير متوفر",
     "Task not found" : "تعذّر العثور على المُهِمَّة",
     "Internal error" : "خطأ داخلي",
+    "No text to image provider is available" : "لا يوجد أي مٌزوِّد لتحويل النصوص إلى صور",
+    "Image not found" : "الصورة غير موجودة",
     "No translation provider available" : "لا توجد خدمة للترجمة",
     "Could not detect language" : "لم يُمكن اكتشاف اللغة",
     "Unable to translate" : "لم يُمكن الترجمة",
