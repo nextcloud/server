@@ -7,6 +7,10 @@ on:
       - master
       - stable*
 
+concurrency:
+  group: openapi-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   openapi:
     runs-on: ubuntu-latest

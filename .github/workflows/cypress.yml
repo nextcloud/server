@@ -8,6 +8,10 @@ on:
       - master
       - stable*
 
+concurrency:
+  group: cypress-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 env:
   # Adjust APP_NAME if your repository name is different
   APP_NAME: ${{ github.event.repository.name }}

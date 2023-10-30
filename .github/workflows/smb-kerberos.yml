@@ -12,6 +12,10 @@ on:
       - 'apps/files_external/**'
       - '.github/workflows/smb-kerberos.yml'
 
+concurrency:
+  group: smb-kerberos-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   smb-kerberos-tests:
     runs-on: ubuntu-latest

@@ -12,6 +12,10 @@ on:
       - '.github/**'
       - 'apps/files_external/**'
 
+concurrency:
+  group: ftp-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 env:
   APP_NAME: files_external
 

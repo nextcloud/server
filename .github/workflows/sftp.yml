@@ -13,6 +13,10 @@ on:
 env:
   APP_NAME: files_external
 
+concurrency:
+  group: sftp-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   sftp-tests:
     runs-on: ubuntu-latest
