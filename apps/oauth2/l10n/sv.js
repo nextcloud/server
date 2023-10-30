@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "Omdirigerings-URI",
     "Client Identifier" : "Klientidentifierare",
     "Secret key" : "Hemlig nyckel",
+    "Delete client" : "Ta bort klient",
     "Add client" : "Lägg till klient",
     "Add" : "Lägg till",
     "Show client secret" : "Visa klienthemlighet",
