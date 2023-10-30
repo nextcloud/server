@@ -783,7 +783,7 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
-			$this->logger->warning('Session token is invalid because it does not exist', [
+			$this->logger->debug('Session token is invalid because it does not exist', [
 				'app' => 'core',
 				'user' => $user,
 				'exception' => $ex,
@@ -802,12 +802,11 @@ class Session implements IUserSession, Emitter {
 				'app' => 'core',
 				'user' => $dbToken->getUID(),
 			]);
-
 			return false;
 		}
 
 		if (!$this->checkTokenCredentials($dbToken, $token)) {
-			$this->logger->warning('Session token credentials are invalid', [
+			$this->logger->debug('Session token credentials are invalid', [
 				'app' => 'core',
 				'user' => $user,
 			]);
