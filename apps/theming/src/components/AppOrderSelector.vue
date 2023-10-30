@@ -1,21 +1,34 @@
 <template>
-	<ol ref="listElement" data-cy-app-order class="order-selector">
-		<AppOrderSelectorElement v-for="app,index in appList"
-			:key="`${app.id}${renderCount}`"
-			ref="selectorElements"
-			:app="app"
-			:is-first="index === 0 || !!appList[index - 1].default"
-			:is-last="index === value.length - 1"
-			v-on="app.default ? {} : {
-				'move:up': () => moveUp(index),
-				'move:down': () => moveDown(index),
-			}" />
-	</ol>
+	<Fragment>
+		<div :id="statusInfoId"
+			aria-live="polite"
+			class="hidden-visually"
+			role="status">
+			{{ statusInfo }}
+		</div>
+		<ol ref="listElement" data-cy-app-order class="order-selector">
+			<AppOrderSelectorElement v-for="app,index in appList"
+				:key="`${app.id}${renderCount}`"
+				ref="selectorElements"
+				:app="app"
+				:aria-details="ariaDetails"
+				:aria-describedby="statusInfoId"
+				:is-first="index === 0 || !!appList[index - 1].default"
+				:is-last="index === value.length - 1"
+				v-on="app.default ? {} : {
+					'move:up': () => moveUp(index),
+					'move:down': () => moveDown(index),
+					'update:focus': () => updateStatusInfo(index),
+				}" />
+		</ol>
+	</Fragment>
 </template>
 
 <script lang="ts">
+import { translate as t } from '@nextcloud/l10n'
 import { useSortable } from '@vueuse/integrations/useSortable'
 import { PropType, computed, defineComponent, onUpdated, ref } from 'vue'
+import { Fragment } from 'vue-frag'
 
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
 
@@ -32,8 +45,16 @@ export default defineComponent({
 	name: 'AppOrderSelector',
 	components: {
 		AppOrderSelectorElement,
+		Fragment,
 	},
 	props: {
+		/**
+		 * Details like status information that need to be forwarded to the interactive elements
+		 */
+		ariaDetails: {
+			type: String,
+			default: null,
+		},
 		/**
 		 * List of apps to reorder
 		 */
@@ -125,12 +146,38 @@ export default defineComponent({
 			emit('update:value', [...before, props.value[index], ...after])
 		}
 
+		/**
+		 * Additional status information to show to screen reader users for accessibility
+		 */
+		const statusInfo = ref('')
+
+		/**
+		 * ID to be used on the status info element
+		 */
+		const statusInfoId = `sorting-status-info-${(Math.random() + 1).toString(36).substring(7)}`
+
+		/**
+		 * Update the status information for the currently selected app
+		 * @param index Index of the app that is currently selected
+		 */
+		const updateStatusInfo = (index: number) => {
+			statusInfo.value = t('theming', 'Current selected app: {app}, position {position} of {total}', {
+				app: props.value[index].label,
+				position: index + 1,
+				total: props.value.length,
+			})
+		}
+
 		return {
 			appList,
 			listElement,
 
 			moveDown,
 			moveUp,
+
+			statusInfoId,
+			statusInfo,
+			updateStatusInfo,
 
 			renderCount,
 			selectorElements,
