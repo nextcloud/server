@@ -150,6 +150,9 @@
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Det gamla krypteringsformatet på servern är aktiverat. Vi rekommenderar att du inaktiverar detta.",
     "Checking for PHP default charset" : "Söker efter standardteckenuppsättning för PHP",
     "PHP configuration option default_charset should be UTF-8" : "PHP-konfigurationsalternativ default_charset ska vara UTF-8",
+    "PHP modules" : "PHP-moduler",
+    "This instance is missing some required PHP modules. It is required to install them: %s" : "Den här instansen saknar några nödvändiga PHP-moduler. Det är nödvändigt att installera dem: %s",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s" : "Den här instansen saknar några rekommenderade PHP-moduler. För förbättrad prestanda och bättre kompatibilitet rekommenderas starkt att du installerar dem: %s",
     "Checking for PHP version" : "Söker efter PHP-version",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Du kör för närvarande PHP %s. PHP 8.0 är nu föråldrat i Nextcloud 27. Nextcloud 28 kan kräva minst PHP 8.1. Vänligen uppgradera till en av de officiellt stödda PHP-versionerna som tillhandahålls av PHP Group så snart som möjligt.",
     "You are currently running PHP %s." : "Du kör för närvarande PHP %s.",
@@ -171,6 +174,8 @@
     "Speech-To-Text can be implemented by different apps. Here you can set which app should be used." : "Tal-till-text kan implementeras av olika appar. Här kan du ställa in vilken app som ska användas.",
     "None of your currently installed apps provide Speech-To-Text functionality" : "Ingen av dina installerade appar tillhandahåller tal-till-text-funktionalitet",
     "Image generation" : "Bildgenerering",
+    "Image generation can be implemented by different apps. Here you can set which app should be used." : "Bildgenerering kan implementeras av olika appar. Här kan du ställa in vilken app som ska användas.",
+    "None of your currently installed apps provide image generation functionality" : "Ingen av dina för närvarande installerade appar tillhandahåller bildgenereringsfunktioner",
     "Text processing" : "Textbehandling",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Textbearbetningsuppgifter kan implementeras av olika appar. Här kan du ställa in vilken app som ska användas för vilken uppgift.",
     "Task:" : "Uppgift:",
@@ -558,6 +563,8 @@
     "Restrict users to only share with users in their groups" : "Begränsa användare till att enbart kunna dela med användare i deras grupper",
     "Exclude groups from sharing" : "Exkludera grupp från att dela",
     "These groups will still be able to receive shares, but not to initiate them." : "Dessa grupper kommer fortfarande kunna ta emot delningar, men inte skapa delningar.",
+    "Allow username autocompletion in share dialog and allow access to the system address book" : "Tillåt autokomplettering av användarnamn i delningsdialogen och tillåt åtkomst till systemets adressbok",
+    "Allow username autocompletion to users within the same groups and limit system address books to users in the same groups" : "Tillåt autokomplettering av användarnamn för användare inom samma grupper och begränsa systemadressböcker till användare i samma grupper",
     "Allow username autocompletion to users based on phone number integration" : "Tillåt autokomplettering av användarnamn till användare baserad på telefonnummerintegration",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Om komplettering för \"samma grupp\" och \"telefonnummerintegration\" är aktiverade räcker det med en matchning i en av dem för att visa användaren.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tillåt autokomplettering när du anger hela namnet eller e-postadressen (ignorera saknad telefonboksmatchning och att vara i samma grupp)",
@@ -608,6 +615,7 @@
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occured. Please run it manually by calling occ dav:sync-system-addressbook." : "DAV-systemets adressbokssynkronisering har inte körts ännu eftersom din instans har fler än 1000 användare eller för att ett fel uppstod. Kör det manuellt genom att anropa occ dav:sync-system-addressbook.",
     "Edit display name" : "Ändra visningsnamn",
     "Select manager" : "Välj chef",
+    "User's table" : "Användartabell",
     "Select user manager" : "Välj användaradministratör"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
