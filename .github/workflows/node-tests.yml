@@ -2,10 +2,8 @@ name: Node tests
 
 on:
   pull_request:
-  push:
-    branches:
-      - master
-      - stable*
+  schedule:
+    - cron: "5 2 * * *"
 
 concurrency:
   group: node-tests-${{ github.head_ref || github.run_id }}
