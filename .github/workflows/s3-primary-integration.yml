@@ -11,10 +11,6 @@ on:
       - '.php-cs-fixer.dist.php'
       - 'composer.json'
       - 'composer.lock'
-  push:
-    branches:
-      - master
-      - stable*
 
 concurrency:
   group: s3-external-integration-${{ github.head_ref || github.run_id }}

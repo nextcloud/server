@@ -1,12 +1,5 @@
 name: Samba Kerberos SSO
 on:
-  push:
-    branches:
-      - master
-      - stable*
-    paths:
-      - 'apps/files_external/**'
-      - '.github/workflows/smb-kerberos.yml'
   pull_request:
     paths:
       - 'apps/files_external/**'

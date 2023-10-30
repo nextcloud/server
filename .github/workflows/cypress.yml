@@ -1,12 +1,6 @@
 name: Cypress
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
+on: pull_request
 
 concurrency:
   group: cypress-${{ github.head_ref || github.run_id }}

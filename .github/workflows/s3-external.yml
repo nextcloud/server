@@ -1,11 +1,5 @@
 name: S3 External storage
 on:
-  push:
-    branches:
-      - master
-      - stable*
-    paths:
-      - 'apps/files_external/**'
   pull_request:
     paths:
       - 'apps/files_external/**'

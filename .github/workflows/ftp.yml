@@ -1,12 +1,5 @@
 name: FTP unit tests
 on:
-  push:
-    branches:
-      - master
-      - stable*
-    paths:
-      - '.github/**'
-      - 'apps/files_external/**'
   pull_request:
     paths:
       - '.github/**'
