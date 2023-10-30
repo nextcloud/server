@@ -1,12 +1,10 @@
 name: Cypress
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
+on: pull_request
+
+concurrency:
+  group: cypress-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 env:
   # Adjust APP_NAME if your repository name is different

@@ -2,10 +2,10 @@ name: OpenAPI
 
 on:
   pull_request:
-  push:
-    branches:
-      - master
-      - stable*
+
+concurrency:
+  group: openapi-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   openapi:

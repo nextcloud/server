@@ -2,6 +2,10 @@ name: Performance testing
 on:
   pull_request:
 
+concurrency:
+  group: performance-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   performance-testing:
     runs-on: ubuntu-latest
