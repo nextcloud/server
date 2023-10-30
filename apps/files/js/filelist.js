@@ -764,13 +764,6 @@
 		 */
 		_onShow: function(e) {
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
-			if (e.itemId === this.id) {
-				this._setCurrentDir('/', false);
-			}
-			// Only reload if we don't navigate to a different directory
-			if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
-				this.reload();
-			}
 		},
 
 		/**
