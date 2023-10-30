@@ -167,7 +167,7 @@
     "karma-spec-reporter": "^0.0.36",
     "karma-viewport": "^1.0.9",
     "node-polyfill-webpack-plugin": "^2.0.1",
-    "puppeteer": "^21.0.3",
+    "puppeteer": "^21.4.1",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.66.1",
