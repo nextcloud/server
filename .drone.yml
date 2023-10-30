@@ -1241,7 +1241,7 @@ steps:
   commands:
     # JavaScript files are not used in integration tests, so it is not needed to
     # build them.
-    - git clone --depth 1 --branch master https://github.com/nextcloud/spreed apps/spreed
+    - git clone --depth 1 --branch main https://github.com/nextcloud/spreed apps/spreed
     - cd apps/spreed
     - composer --version
     - composer self-update --2
