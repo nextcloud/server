@@ -152,6 +152,7 @@ OC.L10N.register(
     "Toggle list of others with access to this directory" : "Vis/skjul liste over andre med adgang til denne mappe",
     "Toggle list of others with access to this file" : "Vis/skjul liste over andre med adgang til denne fil",
     "Shared with you by {owner}" : "Delt med dig {owner}",
+    "Open in Files" : "Vis i filer",
     "Shared" : "Delt",
     "Error creating the share" : "Fejl ved skabelse af delt drev",
     "Shared by" : "Delt af",
