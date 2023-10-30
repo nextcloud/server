@@ -66,7 +66,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 		}
 
 		$minimumSupportedDesktopVersion = $this->config->getSystemValue('minimum.supported.desktop.version', '2.3.0');
-		$maximumSupportedDesktopVersion = $this->config->getSystemValue('maximum.supported.desktop.version', '');
+		$maximumSupportedDesktopVersion = $this->config->getSystemValueString('maximum.supported.desktop.version', '');
 		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
 		if (isset($versionMatches[1]) &&
 			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1 ||
