@@ -2,6 +2,7 @@
 	<ol ref="listElement" data-cy-app-order class="order-selector">
 		<AppOrderSelectorElement v-for="app,index in appList"
 			:key="`${app.id}${renderCount}`"
+			ref="selectorElements"
 			:app="app"
 			:is-first="index === 0 || !!appList[index - 1].default"
 			:is-last="index === value.length - 1"
@@ -14,7 +15,7 @@
 
 <script lang="ts">
 import { useSortable } from '@vueuse/integrations/useSortable'
-import { PropType, computed, defineComponent, ref } from 'vue'
+import { PropType, computed, defineComponent, onUpdated, ref } from 'vue'
 
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
 
@@ -82,6 +83,19 @@ export default defineComponent({
 		useSortable(listElement, appList, { filter: '.order-selector-element--disabled' })
 
 		/**
+		 * Array of all AppOrderSelectorElement components used to for keeping the focus after button click
+		 */
+		const selectorElements = ref<InstanceType<typeof AppOrderSelectorElement>[]>([])
+
+		/**
+		 * We use the updated hook here to verify all selector elements keep the focus on the last pressed button
+		 * This is needed to be done in this component to make sure Sortable.JS has finished sorting the elements before focussing an element
+		 */
+		onUpdated(() => {
+			selectorElements.value.forEach(element => element.keepFocus())
+		})
+
+		/**
 		 * Handle element is moved up
 		 * @param index The index of the element that is moved
 		 */
@@ -119,6 +133,7 @@ export default defineComponent({
 			moveUp,
 
 			renderCount,
+			selectorElements,
 		}
 	},
 })
