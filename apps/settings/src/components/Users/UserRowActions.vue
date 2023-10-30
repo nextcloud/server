@@ -25,7 +25,8 @@
 	<NcActions :aria-label="t('settings', 'Toggle user actions menu')"
 		:disabled="disabled"
 		:inline="1">
-		<NcActionButton :disabled="disabled"
+		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"
+			:disabled="disabled"
 			@click="toggleEdit">
 			{{ edit ? t('settings', 'Done') : t('settings', 'Edit') }}
 			<template #icon>

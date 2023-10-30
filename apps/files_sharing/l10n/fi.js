@@ -191,7 +191,9 @@ OC.L10N.register(
     "Expiration date" : "Vanhenemispäivä",
     "Hide download" : "Piilota lataus",
     "Video verification" : "Videovarmistus",
+    "Allow download" : "Salli lataus",
     "Note to recipient" : "Huomio vastaanottajalle",
+    "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle",
     "Create" : "Luo",
     "Update" : "Päivitä",
     "Share" : "Jaa",
@@ -281,8 +283,6 @@ OC.L10N.register(
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
     "Expiration date enforced" : "Vanhenemispäivä pakotettu",
-    "Allow download" : "Salli lataus",
-    "Password protect" : "Suojaa salasanalla",
-    "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle"
+    "Password protect" : "Suojaa salasanalla"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,7 +6,6 @@
     "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Appen %1$s finns inte eller har en icke-kompatibel version med denna server. Kontrollera appkatalogen.",
     "Sample configuration detected" : "Exempel-konfiguration detekterad",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Det har upptäckts att provkonfigurationen har kopierats. Detta kan bryta din installation och stöds inte. Läs dokumentationen innan du utför ändringar på config.php",
-    "404" : "404",
     "The page could not be found on the server." : "Sidan kunde inte hittas på servern.",
     "%s email verification" : "%s e-postverifikation",
     "Email verification" : "E-postverifikation",
@@ -273,6 +272,7 @@
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 är det minsta som krävs. För närvarande är %s installerat.",
     "To fix this issue update your libxml2 version and restart your web server." : "För att åtgärda detta problem uppdatera libxml2 versionen och starta om din webbserver.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 krävs.",
-    "Please upgrade your database version." : "Uppgradera din databasversion."
+    "Please upgrade your database version." : "Uppgradera din databasversion.",
+    "404" : "404"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

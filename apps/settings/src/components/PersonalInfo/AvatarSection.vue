@@ -35,8 +35,7 @@
 					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
-					:disabled-tooltip="true"
+					:disable-tooltip="true"
 					:show-user-status="false"
 					:size="180" />
 				<div v-else class="icon-loading" />
@@ -292,7 +291,7 @@ section {
 		justify-content: center;
 		align-items: center;
 		gap: 16px 0;
-		width: 300px;
+		width: min(100%, 300px);
 
 		span {
 			color: var(--color-text-lighter);

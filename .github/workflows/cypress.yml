@@ -22,8 +22,11 @@ jobs:
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     steps:
-      - name: Checkout app
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v3.5.2
+      - name: Checkout server
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        with:
+          # We need to checkout submodules for 3rdparty
+          submodules: true
 
       - name: Check composer.json
         id: check_composer
@@ -39,8 +42,8 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: versions
         with:
-          fallbackNode: "^14"
-          fallbackNpm: "^7"
+          fallbackNode: "^20"
+          fallbackNpm: "^9"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
@@ -72,8 +75,11 @@ jobs:
       fail-fast: false
       matrix:
         # Run multiple copies of the current job in parallel
-        # Please increase the number or runners as your tests suite grows
-        containers: ["component", 1, 2]
+        # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
+        containers: ["component", 0, 1, 2]
+        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
+        # Always aling this number with the total of e2e runners (max. index + 1)
+        total-containers: [3]
 
     name: runner ${{ matrix.containers }}
 
@@ -96,14 +102,11 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@59810ebfa5a5ac6fcfdcfdf036d1cd4d083a88f2 # v6.5.0
         with:
-          record: true
-          parallel: true
-          # cypress run type
           component: ${{ matrix.containers == 'component' }}
-          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
+          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
-          ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ github.event_name }}
+          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
+          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -113,6 +116,8 @@ jobs:
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          SPLIT: ${{ matrix.total-containers }}
+          SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3

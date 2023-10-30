@@ -507,8 +507,16 @@
                 "type": "object",
                 "properties": {
                     "free": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "quota": {
                         "oneOf": [
@@ -526,16 +534,40 @@
                         ]
                     },
                     "relative": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "total": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "used": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     }
                 }
             }
@@ -1971,6 +2003,113 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "type": "object",
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/disabled": {
+            "get": {
+                "operationId": "users-get-disabled-users-details",
+                "summary": "Get the list of disabled users and their details",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of users returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Disabled users details returned",
                         "content": {
                             "application/json": {
                                 "schema": {

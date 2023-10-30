@@ -19,11 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+/// <reference types="cypress-if" />
 import { User } from '@nextcloud/cypress'
+import { getUserListRow, handlePasswordConfirmation } from './usersUtils'
 
 const admin = new User('admin', 'admin')
-const jdoe = new User('jdoe', 'jdoe')
 const john = new User('john', '123456')
 
 describe('Settings: Create and delete users', function() {
@@ -37,7 +37,7 @@ describe('Settings: Create and delete users', function() {
 		cy.login(admin)
 		cy.listUsers().then((users) => {
 			cy.login(admin)
-			if (users.includes('john')) {
+			if ((users as string[]).includes(john.userId)) {
 				// ensure created user is deleted
 				cy.deleteUser(john).login(admin)
 				// ensure deleted user is not present
@@ -54,37 +54,26 @@ describe('Settings: Create and delete users', function() {
 			// see that the username is ""
 			cy.get('input[data-test="username"]').should('exist').and('have.value', '')
 			// set the username to john
-			cy.get('input[data-test="username"]').type('john')
+			cy.get('input[data-test="username"]').type(john.userId)
 			// see that the username is john
-			cy.get('input[data-test="username"]').should('have.value', 'john')
+			cy.get('input[data-test="username"]').should('have.value', john.userId)
 			// see that the password is ""
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			// set the password to 123456
-			cy.get('input[type="password"]').type('123456')
+			cy.get('input[type="password"]').type(john.password)
 			// see that the password is 123456
-			cy.get('input[type="password"]').should('have.value', '123456')
+			cy.get('input[type="password"]').should('have.value', john.password)
 			// submit the new user form
 			cy.get('button[type="submit"]').click()
 		})
 
-		// Ignore failure if modal is not shown
-		cy.once('fail', (error) => {
-			expect(error.name).to.equal('AssertionError')
-			expect(error).to.have.property('node', '.modal-container')
-		})
-		// Make sure no confirmation modal is shown on top of the New user modal
-		cy.get('body').find('.modal-container').then(($modals) => {
-			if ($modals.length > 1) {
-				cy.wrap($modals.first()).find('input[type="password"]').type(admin.password)
-				cy.wrap($modals.first()).find('button').contains('Confirm').click()
-			}
-		})
+		// Make sure no confirmation modal is shown
+		handlePasswordConfirmation(admin.password)
 
 		// see that the created user is in the list
-		cy.get(`tbody.user-list__body tr td[data-test="john"]`).parents('tr').within(() => {
+		getUserListRow(john.userId)
 			// see that the list of users contains the user john
-			cy.contains('john').should('exist')
-		})
+			.contains(john.userId).should('exist')
 	})
 
 	it('Can create a user with additional field data', function() {
@@ -94,8 +83,8 @@ describe('Settings: Create and delete users', function() {
 		cy.get('form[data-test="form"]').within(() => {
 			// set the username
 			cy.get('input[data-test="username"]').should('exist').and('have.value', '')
-			cy.get('input[data-test="username"]').type('john')
-			cy.get('input[data-test="username"]').should('have.value', 'john')
+			cy.get('input[data-test="username"]').type(john.userId)
+			cy.get('input[data-test="username"]').should('have.value', john.userId)
 			// set the display name
 			cy.get('input[data-test="displayName"]').should('exist').and('have.value', '')
 			cy.get('input[data-test="displayName"]').type('John Smith')
@@ -106,65 +95,52 @@ describe('Settings: Create and delete users', function() {
 			cy.get('input[data-test="email"]').should('have.value', 'john@example.org')
 			// set the password
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
-			cy.get('input[type="password"]').type('123456')
-			cy.get('input[type="password"]').should('have.value', '123456')
+			cy.get('input[type="password"]').type(john.password)
+			cy.get('input[type="password"]').should('have.value', john.password)
 			// submit the new user form
 			cy.get('button[type="submit"]').click()
 		})
 
-		// Ignore failure if modal is not shown
-		cy.once('fail', (error) => {
-			expect(error.name).to.equal('AssertionError')
-			expect(error).to.have.property('node', '.modal-container')
-		})
-		// Make sure no confirmation modal is shown on top of the New user modal
-		cy.get('body').find('.modal-container').then(($modals) => {
-			if ($modals.length > 1) {
-				cy.wrap($modals.first()).find('input[type="password"]').type(admin.password)
-				cy.wrap($modals.first()).find('button').contains('Confirm').click()
-			}
-		})
+		// Make sure no confirmation modal is shown
+		handlePasswordConfirmation(admin.password)
 
 		// see that the created user is in the list
-		cy.get(`tbody.user-list__body tr td[data-test="john"]`).parents('tr').within(() => {
+		getUserListRow(john.userId)
 			// see that the list of users contains the user john
-			cy.contains('john').should('exist')
-		})
+			.contains(john.userId)
+			.should('exist')
 	})
 
 	it('Can delete a user', function() {
+		let testUser
 		// create user
-		cy.createUser(jdoe).login(admin)
+		cy.createRandomUser()
+			.then(($user) => {
+				testUser = $user
+			})
+		cy.login(admin)
 		// ensure created user is present
-		cy.reload().login(admin)
+		cy.reload().then(() => {
+			// see that the user is in the list
+			getUserListRow(testUser.userId).within(() => {
+				// see that the list of users contains the user testUser
+				cy.contains(testUser.userId).should('exist')
+				// open the actions menu for the user
+				cy.get('[data-cy-user-list-cell-actions]')
+					.find('button.action-item__menutoggle')
+					.click({ force: true })
+			})
 
-		// see that the user is in the list
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').within(() => {
-			// see that the list of users contains the user jdoe
-			cy.contains(jdoe.userId).should('exist')
-			// open the actions menu for the user
-			cy.get('td.row__cell--actions button.action-item__menutoggle').click()
+			// The "Delete user" action in the actions menu is shown and clicked
+			cy.get('.action-item__popper .action').contains('Delete user').should('exist').click({ force: true })
+			// And confirmation dialog accepted
+			cy.get('.oc-dialog button').contains(`Delete ${testUser.userId}`).click({ force: true })
+
+			// Make sure no confirmation modal is shown
+			handlePasswordConfirmation(admin.password)
+
+			// deleted clicked the user is not shown anymore
+			getUserListRow(testUser.userId).should('not.exist')
 		})
-
-		// The "Delete user" action in the actions menu is shown and clicked
-		cy.get('.action-item__popper .action').contains('Delete user').should('exist').click()
-		// And confirmation dialog accepted
-		cy.get('.oc-dialog button').contains(`Delete ${jdoe.userId}`).click()
-
-		// Ignore failure if modal is not shown
-		cy.once('fail', (error) => {
-			expect(error.name).to.equal('AssertionError')
-			expect(error).to.have.property('node', '.modal-container')
-		})
-		// Make sure no confirmation modal is shown
-		cy.get('body').find('.modal-container').then(($modal) => {
-			if ($modal.length > 0) {
-				cy.wrap($modal).find('input[type="password"]').type(admin.password)
-				cy.wrap($modal).find('button').contains('Confirm').click()
-			}
-		})
-
-		// deleted clicked the user is not shown anymore
-		cy.get(`tbody.user-list__body tr td[data-test="${jdoe.userId}"]`).parents('tr').should('not.be.visible')
 	})
 })

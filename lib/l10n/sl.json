@@ -6,7 +6,6 @@
     "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "Program %1$s ni na voljo ali pa je nameščena neskladna različica za ta strežnik. Preverite mapo programov.",
     "Sample configuration detected" : "Zaznana je neustrezna vzorčna nastavitev",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "V sistem je bila kopirana datoteka s vzorčnimi nastavitvami. To lahko vpliva na namestitev in zato možnost ni podprta. Pred spremembami datoteke config.php si natančno preberite dokumentacijo.",
-    "404" : "404",
     "The page could not be found on the server." : "Strani na strežniku ni mogoče najti.",
     "Email verification" : "Overjanje elektronskega naslova",
     "Click the following link to confirm your email." : "Kliknite na povezavo za potrditev elektronskega naslova.",
@@ -256,6 +255,7 @@
     "Full name" : "Polno ime",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V uporabniškem imenu je dovoljeno uporabiti le znake: »a–z«, »A–Z«, »0–9« in »_.@-«\".",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Različica knjižnice libxml2 mora biti 2.7.0 ali višja. Trenutno je nameščena %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Za rešitev te težave je treba posodobiti knjižnico libxml2 in nato ponovno zagnati spletni strežnik."
+    "To fix this issue update your libxml2 version and restart your web server." : "Za rešitev te težave je treba posodobiti knjižnico libxml2 in nato ponovno zagnati spletni strežnik.",
+    "404" : "404"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

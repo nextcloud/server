@@ -176,6 +176,7 @@ OC.L10N.register(
     "Hide download" : "Cua iscarrigamentu",
     "Video verification" : "Verìfica vìdeu",
     "Note to recipient" : "Nota a sa persone destinatària",
+    "Enter a note for the share recipient" : "Inserta una nota pro sa persone destinatària",
     "Create" : "Crea",
     "Update" : "Agiorna",
     "Share" : "Cumpartzi",
@@ -244,7 +245,6 @@ OC.L10N.register(
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
     "Expiration date enforced" : "Data de iscadèntzia posta",
-    "Password protect" : "Bàrdia crae",
-    "Enter a note for the share recipient" : "Inserta una nota pro sa persone destinatària"
+    "Password protect" : "Bàrdia crae"
 },
 "nplurals=2; plural=(n != 1);");

@@ -146,6 +146,7 @@
     "Completed on %s" : "Завершено %s",
     "Due on %s by %s" : "До %s з боку %s",
     "Due on %s" : "До %s",
+    "Checking for DAV system address book" : "Перевірка системної адресної книги DAV",
     "Migrated calendar (%1$s)" : "Перенесений календар (%1$s)",
     "Calendars including events, details and attendees" : "Календарі, включаючи події, деталі та відвідувачів",
     "Contacts and groups" : "Контакти та групи",

@@ -28,18 +28,17 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationAPI;
 
-use OC\OCM\Model\OCMProvider;
-use OC\OCM\Model\OCMResource;
 use OCP\Capabilities\ICapability;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMArgumentException;
+use OCP\OCM\IOCMProvider;
 
 class Capabilities implements ICapability {
-
 	public const API_VERSION = '1.0-proposal1';
 
 	public function __construct(
 		private IURLGenerator $urlGenerator,
+		private IOCMProvider $provider,
 	) {
 	}
 
@@ -63,24 +62,23 @@ class Capabilities implements ICapability {
 	public function getCapabilities() {
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
 
-		$provider = new OCMProvider();
-		$provider->setEnabled(true);
-		$provider->setApiVersion(self::API_VERSION);
+		$this->provider->setEnabled(true);
+		$this->provider->setApiVersion(self::API_VERSION);
 
 		$pos = strrpos($url, '/');
 		if (false === $pos) {
 			throw new OCMArgumentException('generated route should contains a slash character');
 		}
 
-		$provider->setEndPoint(substr($url, 0, $pos));
+		$this->provider->setEndPoint(substr($url, 0, $pos));
 
-		$resource = new OCMResource();
+		$resource = $this->provider->createNewResourceType();
 		$resource->setName('file')
 				 ->setShareTypes(['user', 'group'])
 				 ->setProtocols(['webdav' => '/public.php/webdav/']);
 
-		$provider->setResourceTypes([$resource]);
+		$this->provider->addResourceType($resource);
 
-		return ['ocm' => $provider->jsonSerialize()];
+		return ['ocm' => $this->provider->jsonSerialize()];
 	}
 }

@@ -185,7 +185,9 @@ OC.L10N.register(
     "Expiration date" : "Ημερομηνία λήξης",
     "Hide download" : "Απόκρυψη λήψης",
     "Video verification" : "Επαλήθευση βίντεο",
+    "Allow download" : "Να επιτρέπεται η λήψη",
     "Note to recipient" : "Σημείωση προς τον παραλήπτη",
+    "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου",
     "Create" : "Δημιουργία",
     "Update" : "Ενημέρωση",
     "Share" : "Διαμοιρασμός",
@@ -256,8 +258,6 @@ OC.L10N.register(
     "Allow deleting" : "Επιτρέπεται η διαγραφή",
     "Allow resharing" : "Επιτρέπεται ο επαναδιαμοιρασμός",
     "Expiration date enforced" : "Επεβλήθη ημερομηνία λήξης",
-    "Allow download" : "Να επιτρέπεται η λήψη",
-    "Password protect" : "Προστασία με συνθηματικό",
-    "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου"
+    "Password protect" : "Προστασία με συνθηματικό"
 },
 "nplurals=2; plural=(n != 1);");

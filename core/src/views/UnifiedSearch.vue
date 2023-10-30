@@ -74,7 +74,7 @@
 				<!-- Search filters -->
 				<NcActions v-if="availableFilters.length > 1"
 					class="unified-search__filters"
-					placement="bottom"
+					placement="bottom-end"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
 					<NcActionButton v-for="filter in availableFilters"
@@ -367,9 +367,12 @@ export default {
 
 		document.addEventListener('keydown', (event) => {
 			// if not already opened, allows us to trigger default browser on second keydown
-			if (event.ctrlKey && event.key === 'f' && !this.open) {
+			if (event.ctrlKey && event.code === 'KeyF' && !this.open) {
 				event.preventDefault()
 				this.open = true
+			} else if (event.ctrlKey && event.key === 'f' && this.open) {
+				// User wants to use the native browser search, so we close ours again
+				this.open = false
 			}
 
 			// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus

@@ -43,31 +43,16 @@ use OCP\Notification\IManager;
  */
 #[IgnoreOpenAPI]
 class NotificationsController extends Controller {
-
-	protected IRootFolder $rootFolder;
-	protected ICommentsManager $commentsManager;
-	protected IURLGenerator $urlGenerator;
-	protected IManager $notificationManager;
-	protected IUserSession $userSession;
-
-	/**
-	 * NotificationsController constructor.
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ICommentsManager $commentsManager,
-		IRootFolder $rootFolder,
-		IURLGenerator $urlGenerator,
-		IManager $notificationManager,
-		IUserSession $userSession
+		protected ICommentsManager $commentsManager,
+		protected IRootFolder $rootFolder,
+		protected IURLGenerator $urlGenerator,
+		protected IManager $notificationManager,
+		protected IUserSession $userSession
 	) {
 		parent::__construct($appName, $request);
-		$this->commentsManager = $commentsManager;
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
-		$this->notificationManager = $notificationManager;
-		$this->userSession = $userSession;
 	}
 
 	/**

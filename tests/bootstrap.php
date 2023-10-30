@@ -17,4 +17,8 @@ require_once __DIR__ . '/../lib/base.php';
 
 OC_Hook::clear();
 
-set_include_path(get_include_path() . PATH_SEPARATOR . '/usr/share/php');
+set_include_path(
+	get_include_path() . PATH_SEPARATOR
+	. '/usr/share/php' . PATH_SEPARATOR
+	. __DIR__ . '/..'
+);

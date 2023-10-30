@@ -25,6 +25,7 @@ import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 
 // Add custom commands
+import 'cypress-if'
 import 'cypress-wait-until'
 addCommands()
 
@@ -66,7 +67,7 @@ declare global {
 			/**
 			 * Run an occ command in the docker container.
 			 */
-			runOccCommand(command: string): Cypress.Chainable<void>,
+			runOccCommand(command: string, options?: Partial<Cypress.ExecOptions>): Cypress.Chainable<Cypress.Exec>,
 		}
 	}
 }
@@ -130,6 +131,7 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
  * @param {string} target the target of the file relative to the user root
  */
 Cypress.Commands.add('uploadContent', (user, blob, mimeType, target) => {
+	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	cy.clearCookies()
 		.then(async () => {
 			const fileName = basename(target)
@@ -215,6 +217,6 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 	}
 })
 
-Cypress.Commands.add('runOccCommand', (command: string) => {
-	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server php ./occ ${command}`)
+Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
+	return cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server php ./occ ${command}`, options)
 })

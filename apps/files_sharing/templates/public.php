@@ -2,7 +2,7 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 ?>
-<div id="app-content" tabindex="0">
+<div id="app-content">
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
 	<link rel="image_src" href="<?php p($_['previewImage']); ?>" />
 <?php endif; ?>

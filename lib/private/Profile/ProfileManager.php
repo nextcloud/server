@@ -26,8 +26,9 @@ declare(strict_types=1);
 
 namespace OC\Profile;
 
-use function Safe\array_flip;
-use function Safe\usort;
+use OCP\Profile\IProfileManager;
+use function array_flip;
+use function usort;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Core\Db\ProfileConfig;
 use OC\Core\Db\ProfileConfigMapper;
@@ -49,7 +50,7 @@ use OCP\Cache\CappedMemoryCache;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-class ProfileManager {
+class ProfileManager implements IProfileManager {
 	/** @var ILinkAction[] */
 	private array $actions = [];
 
@@ -101,7 +102,7 @@ class ProfileManager {
 	/**
 	 * If no user is passed as an argument return whether profile is enabled globally in `config.php`
 	 */
-	public function isProfileEnabled(?IUser $user = null): ?bool {
+	public function isProfileEnabled(?IUser $user = null): bool {
 		$profileEnabledGlobally = $this->config->getSystemValueBool('profile.enabled', true);
 
 		if (empty($user) || !$profileEnabledGlobally) {
@@ -109,7 +110,7 @@ class ProfileManager {
 		}
 
 		$account = $this->accountManager->getAccount($user);
-		return filter_var(
+		return (bool) filter_var(
 			$account->getProperty(IAccountManager::PROPERTY_PROFILE_ENABLED)->getValue(),
 			FILTER_VALIDATE_BOOLEAN,
 			FILTER_NULL_ON_FAILURE,
@@ -193,18 +194,18 @@ class ProfileManager {
 	 * Return whether the profile parameter of the target user
 	 * is visible to the visiting user
 	 */
-	private function isParameterVisible(string $paramId, IUser $targetUser, ?IUser $visitingUser): bool {
+	public function isProfileFieldVisible(string $profileField, IUser $targetUser, ?IUser $visitingUser): bool {
 		try {
 			$account = $this->accountManager->getAccount($targetUser);
-			$scope = $account->getProperty($paramId)->getScope();
+			$scope = $account->getProperty($profileField)->getScope();
 		} catch (PropertyDoesNotExistException $e) {
 			// Allow the exception as not all profile parameters are account properties
 		}
 
-		$visibility = $this->getProfileConfig($targetUser, $visitingUser)[$paramId]['visibility'];
+		$visibility = $this->getProfileConfig($targetUser, $visitingUser)[$profileField]['visibility'];
 		// Handle profile visibility and account property scope
 
-		if ($visibility === ProfileConfig::VISIBILITY_SHOW_USERS_ONLY) {
+		if ($visibility === self::VISIBILITY_SHOW_USERS_ONLY) {
 			if (empty($scope)) {
 				return $visitingUser !== null;
 			}
@@ -218,10 +219,10 @@ class ProfileManager {
 			};
 		}
 
-		if ($visibility === ProfileConfig::VISIBILITY_SHOW) {
+		if ($visibility === self::VISIBILITY_SHOW) {
 			if (empty($scope)) {
 				return true;
-			};
+			}
 
 			return match ($scope) {
 				IAccountManager::SCOPE_PRIVATE => $visitingUser !== null && $this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID()),
@@ -238,8 +239,9 @@ class ProfileManager {
 	/**
 	 * Return the profile parameters of the target user that are visible to the visiting user
 	 * in an associative array
+	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
 	 */
-	public function getProfileParams(IUser $targetUser, ?IUser $visitingUser): array {
+	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
 
 		// Initialize associative array of profile parameters
@@ -257,14 +259,14 @@ class ProfileManager {
 				case IAccountManager::PROPERTY_ORGANISATION:
 				case IAccountManager::PROPERTY_ROLE:
 					$profileParameters[$property] =
-						$this->isParameterVisible($property, $targetUser, $visitingUser)
+						$this->isProfileFieldVisible($property, $targetUser, $visitingUser)
 						// Explicitly set to null when value is empty string
 						? ($account->getProperty($property)->getValue() ?: null)
 						: null;
 					break;
 				case IAccountManager::PROPERTY_AVATAR:
 					// Add avatar visibility
-					$profileParameters['isUserAvatarVisible'] = $this->isParameterVisible($property, $targetUser, $visitingUser);
+					$profileParameters['isUserAvatarVisible'] = $this->isProfileFieldVisible($property, $targetUser, $visitingUser);
 					break;
 			}
 		}
@@ -284,7 +286,7 @@ class ProfileManager {
 				array_filter(
 					$this->getActions($targetUser, $visitingUser),
 					function (ILinkAction $action) use ($targetUser, $visitingUser) {
-						return $this->isParameterVisible($action->getId(), $targetUser, $visitingUser);
+						return $this->isProfileFieldVisible($action->getId(), $targetUser, $visitingUser);
 					}
 				),
 			)
@@ -316,12 +318,12 @@ class ProfileManager {
 		// Construct the default config for actions
 		$actionsConfig = [];
 		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
-			$actionsConfig[$action->getId()] = ['visibility' => ProfileConfig::DEFAULT_VISIBILITY];
+			$actionsConfig[$action->getId()] = ['visibility' => self::DEFAULT_VISIBILITY];
 		}
 
 		// Construct the default config for account properties
 		$propertiesConfig = [];
-		foreach (ProfileConfig::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
+		foreach (self::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
 			$propertiesConfig[$property] = ['visibility' => $visibility];
 		}
 

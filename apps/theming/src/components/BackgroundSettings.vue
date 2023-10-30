@@ -26,8 +26,12 @@
 <template>
 	<div class="background-selector" data-user-theming-background-settings>
 		<!-- Custom background -->
-		<button class="background background__filepicker"
-			:class="{ 'icon-loading': loading === 'custom', 'background--active': backgroundImage === 'custom' }"
+		<button :aria-pressed="backgroundImage === 'custom'"
+			:class="{
+				'icon-loading': loading === 'custom',
+				'background background__filepicker': true,
+				'background--active': backgroundImage === 'custom'
+			}"
 			:data-color-bright="invertTextColor(Theming.color)"
 			data-user-theming-background-custom
 			tabindex="0"
@@ -38,8 +42,12 @@
 		</button>
 
 		<!-- Default background -->
-		<button class="background background__default"
-			:class="{ 'icon-loading': loading === 'default', 'background--active': backgroundImage === 'default' }"
+		<button :aria-pressed="backgroundImage === 'default'"
+			:class="{
+				'icon-loading': loading === 'default',
+				'background background__default': true,
+				'background--active': backgroundImage === 'default'
+			}"
 			:data-color-bright="invertTextColor(Theming.defaultColor)"
 			:style="{ '--border-color': Theming.defaultColor }"
 			data-user-theming-background-default
@@ -62,8 +70,11 @@
 		</NcColorPicker>
 
 		<!-- Remove background -->
-		<button class="background background__delete"
-			:class="{ 'background--active': isBackgroundDisabled }"
+		<button :aria-pressed="isBackgroundDisabled"
+			:class="{
+				'background background__delete': true,
+				'background--active': isBackgroundDisabled
+			}"
 			data-user-theming-background-clear
 			tabindex="0"
 			@click="removeBackground">
@@ -77,11 +88,15 @@
 			:key="shippedBackground.name"
 			:title="shippedBackground.details.attribution"
 			:aria-label="shippedBackground.details.attribution"
-			:class="{ 'icon-loading': loading === shippedBackground.name, 'background--active': backgroundImage === shippedBackground.name }"
+			:aria-pressed="backgroundImage === shippedBackground.name"
+			:class="{
+				'background background__shipped': true,
+				'icon-loading': loading === shippedBackground.name,
+				'background--active': backgroundImage === shippedBackground.name
+			}"
 			:data-color-bright="shippedBackground.details.theming === 'dark'"
 			:data-user-theming-background-shipped="shippedBackground.name"
 			:style="{ backgroundImage: 'url(' + shippedBackground.preview + ')', '--border-color': shippedBackground.details.primary_color }"
-			class="background background__shipped"
 			tabindex="0"
 			@click="setShipped(shippedBackground.name)">
 			<Check :size="44" />
@@ -346,7 +361,7 @@ export default {
 
 		&__default {
 			background-color: var(--color-primary-default);
-			background-image: var(--image-background-plain, var(--image-background-default));
+			background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.5), rgba(23, 23, 23, 0.5)), var(--image-background-plain, var(--image-background-default));
 		}
 
 		&__filepicker, &__default, &__color {
@@ -372,8 +387,8 @@ export default {
 		&--active,
 		&:hover,
 		&:focus {
-			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
+			outline: 2px solid var(--color-main-text) !important;
+			border-color: var(--color-main-background) !important;
 		}
 
 		// Icon

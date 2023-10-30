@@ -165,7 +165,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 					: $status->getStatus(),
 				'icon' => $status->getCustomIcon(),
 				'message' => $status->getCustomMessage(),
-				'timestamp' => $status->getStatusTimestamp(),
+				'timestamp' => $status->getStatusMessageTimestamp(),
 			];
 		}, $recentStatusUpdates);
 	}

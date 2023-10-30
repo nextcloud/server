@@ -124,7 +124,12 @@ namespace OCA\Core;
  *     label: string,
  *     icon: string,
  *     source: string,
- *     status: string,
+ *     status: array{
+ *       status: string,
+ *       message: ?string,
+ *       icon: ?string,
+ *       clearAt: ?int,
+ *     }|string,
  *     subline: string,
  *     shareWithDisplayNameUnique: string,
  * }
@@ -139,6 +144,17 @@ namespace OCA\Core;
  *     output: ?string,
  *     identifier: string,
  * }
+ *
+ * @psalm-type CoreTextToImageTask = array{
+ *      id: ?int,
+ *      status: 0|1|2|3|4,
+ *      userId: ?string,
+ *      appId: string,
+ *      input: string,
+ *      identifier: ?string,
+ *      numberOfImages: int,
+ *      completionExpectedAt: ?int,
+ *  }
  */
 class ResponseDefinitions {
 }

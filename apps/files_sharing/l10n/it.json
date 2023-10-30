@@ -201,7 +201,9 @@
     "Expiration date" : "Data di scadenza",
     "Hide download" : "Nascondi scaricamento",
     "Video verification" : "Verifica video",
+    "Allow download" : "Consenti download",
     "Note to recipient" : "Nota al destinatario",
+    "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Create" : "Crea",
     "Update" : "Aggiorna",
     "Share" : "Condividi",
@@ -223,6 +225,7 @@
     "_Reject share_::_Reject shares_" : ["Rifiuta condivisione","Rifiuta condivisioni","Rifiuta condivisioni"],
     "_Restore share_::_Restore shares_" : ["Ripristina condivisione","Ripristina condivisioni","Ripristina condivisioni"],
     "Shared" : "Condiviso",
+    "Shared by {ownerDisplayName}" : "Condiviso da {ownerDisplayName}",
     "Link to a file" : "Collega a un file",
     "Error creating the share: {errorMessage}" : "Errore durante la creazione della condivisione: {errorMessage}",
     "Error creating the share" : "Errore durante la creazione della condivisione",
@@ -297,9 +300,7 @@
     "Allow deleting" : "Consenti l'eliminazione",
     "Allow resharing" : "Consenti la ri-condivisione",
     "Expiration date enforced" : "Data di scadenza applicata",
-    "Allow download" : "Consenti download",
     "Password protect" : "Proteggi con password",
-    "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Errore: la password non rispetta i criteri stabiliti"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

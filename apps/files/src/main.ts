@@ -1,6 +1,3 @@
-import './templates.js'
-import './legacy/filelistSearch.js'
-
 import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import { getNavigation } from '@nextcloud/files'

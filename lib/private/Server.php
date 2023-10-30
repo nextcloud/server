@@ -124,11 +124,13 @@ use OC\Metadata\Capabilities as MetadataCapabilities;
 use OC\Metadata\IMetadataManager;
 use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
+use OC\OCM\Model\OCMProvider;
 use OC\OCM\OCMDiscoveryService;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
 use OC\Preview\MimeIconProvider;
+use OC\Profile\ProfileManager;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
@@ -148,6 +150,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
+use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareDisableChecker;
 use OC\Share20\ShareHelper;
@@ -232,6 +235,8 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\OCM\IOCMProvider;
+use OCP\Profile\IProfileManager;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -245,6 +250,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IShareHelper;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
@@ -1422,9 +1428,17 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\TextProcessing\IManager::class, \OC\TextProcessing\Manager::class);
 
+		$this->registerAlias(\OCP\TextToImage\IManager::class, \OC\TextToImage\Manager::class);
+
 		$this->registerAlias(ILimiter::class, Limiter::class);
 
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
+
+		$this->registerAlias(IOCMProvider::class, OCMProvider::class);
+
+		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
+
+		$this->registerAlias(IProfileManager::class, ProfileManager::class);
 
 		$this->connectDispatcher();
 	}

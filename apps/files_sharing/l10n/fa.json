@@ -198,7 +198,9 @@
     "Expiration date" : "تاریخ انقضا",
     "Hide download" : "پنهان کردن بارگیری",
     "Video verification" : "تأیید صحت ویدیو",
+    "Allow download" : "Allow download",
     "Note to recipient" : "یادداشت برای گیرنده",
+    "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Create" : "ایجاد",
     "Update" : "به‌روز رسانی",
     "Share" : "هم‌رسانی",
@@ -290,9 +292,7 @@
     "Allow deleting" : "اجازه حذف",
     "Allow resharing" : "مجوز اشتراک گذاری مجدد",
     "Expiration date enforced" : "تاریخ انقضا اجرا شده است",
-    "Allow download" : "Allow download",
     "Password protect" : "محافظت با گذرواژه",
-    "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Science Mesh" : "Science Mesh",
     "Error generating password from password_policy" : "Error generating password from password_policy"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

@@ -22,89 +22,162 @@
 
 <template>
 	<NcHeaderMenu id="contactsmenu"
+		class="contactsmenu"
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
 		<template #trigger>
 			<Contacts :size="20" />
 		</template>
-		<div id="contactsmenu-menu" />
+		<div class="contactsmenu__menu">
+			<label for="contactsmenu__menu__search">{{ t('core', 'Search contacts') }}</label>
+			<input id="contactsmenu__menu__search"
+				v-model="searchTerm"
+				class="contactsmenu__menu__search"
+				type="search"
+				:placeholder="t('core', 'Search contacts …')"
+				@input="onInputDebounced">
+			<NcEmptyContent v-if="error" :name="t('core', 'Could not load your contacts')">
+				<template #icon>
+					<Magnify />
+				</template>
+			</NcEmptyContent>
+			<NcEmptyContent v-else-if="loadingText" :name="loadingText">
+				<template #icon>
+					<NcLoadingIcon />
+				</template>
+			</NcEmptyContent>
+			<NcEmptyContent v-else-if="contacts.length === 0" :name="t('core', 'No contacts found')">
+				<template #icon>
+					<Magnify />
+				</template>
+			</NcEmptyContent>
+			<div v-else class="contactsmenu__menu__content">
+				<div id="contactsmenu-contacts">
+					<ul>
+						<Contact v-for="contact in contacts" :key="contact.id" :contact="contact" />
+					</ul>
+				</div>
+				<div v-if="contactsAppEnabled" class="contactsmenu__menu__content__footer">
+					<a :href="contactsAppURL">{{ t('core', 'Show all contacts …') }}</a>
+				</div>
+				<div v-else-if="canInstallApp" class="contactsmenu__menu__content__footer">
+					<a :href="contactsAppMgmtURL">{{ t('core', 'Install the Contacts app') }}</a>
+				</div>
+			</div>
+		</div>
 	</NcHeaderMenu>
 </template>
 
 <script>
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-
+import axios from '@nextcloud/axios'
 import Contacts from 'vue-material-design-icons/Contacts.vue'
+import debounce from 'debounce'
+import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
+import Magnify from 'vue-material-design-icons/Magnify.vue'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import { translate as t } from '@nextcloud/l10n'
 
-import OC from '../OC/index.js'
+import Contact from '../components/ContactsMenu/Contact.vue'
+import logger from '../logger.js'
+import Nextcloud from '../mixins/Nextcloud.js'
 
 export default {
 	name: 'ContactsMenu',
 
 	components: {
+		Contact,
 		Contacts,
+		Magnify,
+		NcEmptyContent,
 		NcHeaderMenu,
+		NcLoadingIcon,
 	},
 
+	mixins: [Nextcloud],
+
 	data() {
+		const user = getCurrentUser()
 		return {
-			contactsMenu: null,
+			contactsAppEnabled: false,
+			contactsAppURL: generateUrl('/apps/contacts'),
+			contactsAppMgmtURL: generateUrl('/settings/apps/social/contacts'),
+			canInstallApp: user.isAdmin,
+			contacts: [],
+			loadingText: undefined,
+			error: false,
+			searchTerm: '',
 		}
 	},
 
-	mounted() {
-		// eslint-disable-next-line no-new
-		this.contactsMenu = new OC.ContactsMenu({
-			el: '#contactsmenu-menu',
-		})
-	},
-
 	methods: {
-		handleOpen() {
-			this.contactsMenu?.loadContacts()
+		async handleOpen() {
+			await this.getContacts('')
 		},
+		async getContacts(searchTerm) {
+			if (searchTerm === '') {
+				this.loadingText = t('core', 'Loading your contacts …')
+			} else {
+				this.loadingText = t('core', 'Looking for {term} …', {
+					term: searchTerm,
+				})
+			}
+
+			// Let the user try a different query if the previous one failed
+			this.error = false
+
+			try {
+				const { data: { contacts, contactsAppEnabled } } = await axios.post(generateUrl('/contactsmenu/contacts'), {
+					filter: searchTerm,
+				})
+				this.contacts = contacts
+				this.contactsAppEnabled = contactsAppEnabled
+				this.loadingText = undefined
+			} catch (error) {
+				logger.error('could not load contacts', {
+					error,
+					searchTerm,
+				})
+				this.error = true
+			}
+		},
+		onInputDebounced: debounce(function() {
+			this.getContacts(this.searchTerm)
+		}, 500),
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-#contactsmenu-menu {
-	/* show 2.5 to 4.5 entries depending on the screen height */
-	height: calc(100vh - 50px * 3);
-	max-height: calc(50px * 6 + 2px + 26px);
-	min-height: calc(50px * 3.5);
-	width: 350px;
+.contactsmenu {
+	&__menu {
+		/* show 2.5 to 4.5 entries depending on the screen height */
+		height: calc(100vh - 50px * 3);
+		max-height: calc(50px * 6 + 2px + 26px);
+		min-height: calc(50px * 3.5);
 
-	&:deep {
-		.emptycontent {
-			margin-top: 5vh !important;
-			margin-bottom: 1.5vh;
-			.icon-loading,
-			.icon-search {
-				display: inline-block;
-			}
-		}
-
-		label[for="contactsmenu-search"] {
+		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 22px;
+			margin-left: 13px;
 		}
 
-		#contactsmenu-search {
-			width: calc(100% - 16px);
-			margin: 8px;
+		&__search {
+			width: 100%;
 			height: 34px;
+			margin: 8px 0;
 		}
 
-		.content {
+		&__content {
 			/* fixed max height of the parent container without the search input */
-			height: calc(100vh - 50px * 3 - 50px);
+			height: calc(100vh - 50px * 3 - 60px);
 			max-height: calc(50px * 5);
 			min-height: calc(50px * 3.5 - 50px);
 			overflow-y: auto;
 
-			.footer {
+			&__footer {
 				text-align: center;
 
 				a {
@@ -117,82 +190,8 @@ export default {
 		}
 
 		a {
-			padding: 2px;
-
 			&:focus-visible {
 				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
-			}
-		}
-
-		.contact {
-			display: flex;
-			position: relative;
-			align-items: center;
-			padding: 3px 3px 3px 10px;
-
-			.avatar {
-				height: 32px;
-				width: 32px;
-				display: inline-block;
-			}
-
-			.body {
-				flex-grow: 1;
-				padding-left: 8px;
-				min-width: 0;
-
-				div {
-					position: relative;
-					width: 100%;
-					overflow-x: hidden;
-					text-overflow: ellipsis;
-				}
-
-				.last-message, .email-address {
-					color: var(--color-text-maxcontrast);
-				}
-			}
-
-			.top-action, .second-action, .other-actions {
-				width: 16px;
-				height: 16px;
-				opacity: .5;
-				cursor: pointer;
-
-				&:not(button) {
-					padding: 14px;
-				}
-				img {
-					filter: var(--background-invert-if-dark);
-				}
-
-				&:hover,
-				&:active,
-				&:focus {
-					opacity: 1;
-				}
-			}
-
-			button.other-actions {
-				width: 44px;
-
-				&:focus {
-					border-color: transparent;
-					box-shadow: 0 0 0 2px var(--color-main-text);
-				}
-
-				&:focus-visible {
-					border-radius: var(--border-radius-pill);
-				}
-			}
-
-			/* actions menu */
-			.menu {
-				top: 47px;
-				margin-right: 13px;
-			}
-			.popovermenu::after {
-				right: 2px;
 			}
 		}
 	}

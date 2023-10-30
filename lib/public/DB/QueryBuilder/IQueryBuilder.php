@@ -27,6 +27,7 @@
  */
 namespace OCP\DB\QueryBuilder;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use OCP\DB\Exception;
@@ -72,11 +73,11 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
+	public const PARAM_INT_ARRAY = ArrayParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
+	public const PARAM_STR_ARRAY = ArrayParameterType::STRING;
 
 	/**
 	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
@@ -907,7 +908,7 @@ interface IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param self::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter
@@ -935,7 +936,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param self::PARAM_* $type
 	 *
 	 * @return IParameter
 	 * @since 8.2.0

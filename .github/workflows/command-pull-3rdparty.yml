@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.1
+        uses: peter-evans/create-or-update-comment@23ff15729ef2fc348714a3bb66d2f655ca9066f2 # v3.0.1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -30,7 +30,7 @@ jobs:
         id: comment-branch
 
       - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           fetch-depth: 0
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -51,7 +51,7 @@ jobs:
           git push
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@c6c9a1a66007646a28c153e2a8580a5bad27bcfa # v3.0.1
+        uses: peter-evans/create-or-update-comment@23ff15729ef2fc348714a3bb66d2f655ca9066f2 # v3.0.1
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}

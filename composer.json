@@ -23,14 +23,24 @@
 	},
 	"require": {
 		"php": "^8.0",
+		"ext-ctype": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-fileinfo": "*",
+		"ext-gd": "*",
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
 		"ext-openssl": "*",
 		"ext-pdo": "*",
+		"ext-posix": "*",
+		"ext-session": "*",
 		"ext-simplexml": "*",
+		"ext-xml": "*",
 		"ext-xmlreader": "*",
-		"ext-zip": "*"
+		"ext-xmlwriter": "*",
+		"ext-zip": "*",
+		"ext-zlib": "*"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"
@@ -49,6 +59,9 @@
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
 		"psalm": "psalm --no-cache --threads=$(nproc)",
 		"psalm:ci": "psalm --no-cache --threads=1",
-		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline"
+		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
+		"test": "phpunit --configuration tests/phpunit-autotest.xml",
+		"test:db": "@composer run test -- --group DB,SLOWDB",
+		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"
 	}
 }

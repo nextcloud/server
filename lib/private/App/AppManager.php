@@ -38,6 +38,7 @@
  */
 namespace OC\App;
 
+use InvalidArgumentException;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\ServerNotAvailableException;
@@ -822,16 +823,30 @@ class AppManager implements IAppManager {
 		return $this->defaultEnabled;
 	}
 
-	public function getDefaultAppForUser(?IUser $user = null): string {
+	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string {
 		// Set fallback to always-enabled files app
-		$appId = 'files';
-		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+		$appId = $withFallbacks ? 'files' : '';
+		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', ''));
+		$defaultApps = array_filter($defaultApps);
 
 		$user ??= $this->userSession->getUser();
 
 		if ($user !== null) {
 			$userDefaultApps = explode(',', $this->config->getUserValue($user->getUID(), 'core', 'defaultapp'));
 			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
+			if (empty($defaultApps) && $withFallbacks) {
+				/* Fallback on user defined apporder */
+				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
+				if (!empty($customOrders)) {
+					$customOrders = array_map('min', $customOrders);
+					asort($customOrders);
+					$defaultApps = array_keys($customOrders);
+				}
+			}
+		}
+
+		if (empty($defaultApps) && $withFallbacks) {
+			$defaultApps = ['dashboard','files'];
 		}
 
 		// Find the first app that is enabled for the current user
@@ -844,5 +859,20 @@ class AppManager implements IAppManager {
 		}
 
 		return $appId;
+	}
+
+	public function getDefaultApps(): array {
+		return explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+	}
+
+	public function setDefaultApps(array $defaultApps): void {
+		foreach ($defaultApps as $app) {
+			if (!$this->isInstalled($app)) {
+				$this->logger->debug('Can not set not installed app as default app', ['missing_app' => $app]);
+				throw new InvalidArgumentException('App is not installed');
+			}
+		}
+
+		$this->config->setSystemValue('defaultapp', join(',', $defaultApps));
 	}
 }

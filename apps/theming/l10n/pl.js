@@ -76,6 +76,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Wyłącz wszystkie skróty klawiaturowe",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uniwersalny dostęp jest dla nas bardzo ważny. Przestrzegamy standardów internetowych i sprawdzamy, aby wszystko było użyteczne również bez myszy i oprogramowania pomocniczego, takiego jak czytniki ekranu. Naszym celem jest zgodność z {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na poziomie AA, z motywem o wysokim kontraście nawet na poziomie AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Jeśli znajdziesz jakieś problemy, nie wahaj się zgłosić je na {issuetracker}listę błędów{linkend}. A jeśli chcesz się zaangażować, dołącz do {designteam}naszego zespołu projektowego{linkend}!",
+    "Move up" : "Przenieś wyżej",
+    "Move down" : "Przenieś niżej",
     "Custom background" : "Tło niestandardowe",
     "Default background" : "Tło domyślne",
     "Change color" : "Zmień kolor",

@@ -5,7 +5,6 @@
     "See %s" : "Pozri %s",
     "Sample configuration detected" : "Detekovaná bola vzorová konfigurácia",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Zistilo sa, že konfigurácia bola skopírovaná zo vzorových súborov. Takáto konfigurácia nie je podporovaná a môže poškodiť vašu inštaláciu. Prečítajte si dokumentáciu pred vykonaním zmien v config.php",
-    "404" : "404",
     "The page could not be found on the server." : "Stránka nebola nájdená na serveri.",
     "%s email verification" : "%s overenie e-mailu",
     "Email verification" : "Overenie e-mailu",
@@ -55,6 +54,7 @@
     "Avatar image is not square" : "Obrázok avatara nie je štvorcový",
     "Files" : "Súbory",
     "View profile" : "Zobraziť profil",
+    "Local time: %s" : "Miestny čas: %s",
     "today" : "dnes",
     "tomorrow" : "zajtra",
     "yesterday" : "včera",
@@ -110,7 +110,8 @@
     "Address" : "Adresa",
     "Profile picture" : "Profilový obrázok",
     "About" : "O aplikácii",
-    "Headline" : "Titulok",
+    "Display name" : "Zobrazované meno",
+    "Headline" : "Titul",
     "Organisation" : "Organizácia",
     "Role" : "Rola",
     "Unknown user" : "Neznámy používateľ",
@@ -262,6 +263,7 @@
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vyžadovaná verzia libxml2 je 2.7.0 a vyššia. Momentálne je nainštalovaná verzia %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Pre vyriešenie tohto problému aktualizujte prosím verziu libxml2 a reštartujte webový server.",
     "PostgreSQL >= 9 required." : "Vyžadované PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Prosím, aktualizujte verziu svojej databázy."
+    "Please upgrade your database version." : "Prosím, aktualizujte verziu svojej databázy.",
+    "404" : "404"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

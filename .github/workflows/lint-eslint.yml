@@ -10,18 +10,6 @@ name: Lint eslint
 
 on:
   pull_request:
-    paths:
-      - '.github/workflows/**'
-      - 'src/**'
-      - 'appinfo/info.xml'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'tsconfig.json'
-      - '.eslintrc.*'
-      - '.eslintignore'
-      - '**.js'
-      - '**.ts'
-      - '**.vue'
 
 permissions:
   contents: read
@@ -31,14 +19,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '**/src/**'
+              - '**/appinfo/info.xml'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'tsconfig.json'
+              - '.eslintrc.*'
+              - '.eslintignore'
+              - '**.js'
+              - '**.ts'
+              - '**.vue'
+
   lint:
     runs-on: ubuntu-latest
 
-    name: eslint
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    name: NPM lint
 
     steps:
       - name: Checkout
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
@@ -62,3 +78,18 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: [changes, lint]
+
+    if: always()
+
+    # This is the summary, we just avoid to rename it so that branch protection rules still match
+    name: eslint
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.lint.result != 'success' }}; then exit 1; fi

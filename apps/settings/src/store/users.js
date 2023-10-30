@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -29,6 +30,7 @@
 import api from './api.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
+import { getCapabilities } from '@nextcloud/capabilities'
 import logger from '../logger.js'
 
 const orderGroups = function(groups, orderBy) {
@@ -101,7 +103,7 @@ const mutations = {
 				id: gid,
 				name: displayName,
 			})
-			state.groups.push(group)
+			state.groups.unshift(group)
 			state.groups = orderGroups(state.groups, state.orderBy)
 		} catch (e) {
 			console.error('Can\'t create group', e)
@@ -327,6 +329,14 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
+
+		/**
+		 * Adding filters in the search bar such as in:files, in:users, etc.
+		 * collides with this particular search, so we need to remove them
+		 * here and leave only the original search query
+		 */
+		search = search.replace(/in:[^\s]+/g, '').trim()
+
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
@@ -419,9 +429,9 @@ const actions = {
 	},
 
 	getPasswordPolicyMinLength(context) {
-		if (OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
-			context.commit('setPasswordPolicyMinLength', OC.getCapabilities().password_policy.minLength)
-			return OC.getCapabilities().password_policy.minLength
+		if (getCapabilities().password_policy && getCapabilities().password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', getCapabilities().password_policy.minLength)
+			return getCapabilities().password_policy.minLength
 		}
 		return false
 	},

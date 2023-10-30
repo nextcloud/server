@@ -31,13 +31,13 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class Config extends Base {
-	protected GlobalStoragesService $globalService;
-
-	public function __construct(GlobalStoragesService $globalService) {
+	public function __construct(
+		protected GlobalStoragesService $globalService,
+	) {
 		parent::__construct();
-		$this->globalService = $globalService;
 	}
 
 	protected function configure(): void {
@@ -67,7 +67,7 @@ class Config extends Base {
 			$mount = $this->globalService->getStorage($mountId);
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts"</error>');
-			return 404;
+			return Response::HTTP_NOT_FOUND;
 		}
 
 		$value = $input->getArgument('value');
@@ -76,15 +76,13 @@ class Config extends Base {
 		} else {
 			$this->getOption($mount, $key, $output);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
-	 * @param StorageConfig $mount
 	 * @param string $key
-	 * @param OutputInterface $output
 	 */
-	protected function getOption(StorageConfig $mount, $key, OutputInterface $output) {
+	protected function getOption(StorageConfig $mount, $key, OutputInterface $output): void {
 		if ($key === 'mountpoint' || $key === 'mount_point') {
 			$value = $mount->getMountPoint();
 		} else {
@@ -97,12 +95,10 @@ class Config extends Base {
 	}
 
 	/**
-	 * @param StorageConfig $mount
 	 * @param string $key
 	 * @param string $value
-	 * @param OutputInterface $output
 	 */
-	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output) {
+	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output): void {
 		$decoded = json_decode($value, true);
 		if (!is_null($decoded) && json_encode($decoded) === $value) {
 			$value = $decoded;

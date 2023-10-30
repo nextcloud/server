@@ -19,7 +19,7 @@ jobs:
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           ref: ${{ matrix.branches }}
           submodules: true

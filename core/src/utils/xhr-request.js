@@ -19,6 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { getRootUrl } from '@nextcloud/router'
+
+/**
+ * @param {string} url The URL to check
+ * @return {boolean} true if the URL points to this nextcloud instance
+ */
+const isNextcloudUrl = (url) => {
+	const nextcloudBaseUrl = window.location.protocol + '//' + window.location.host + getRootUrl()
+	// try with relative and absolute URL
+	return url.startsWith(nextcloudBaseUrl) || url.startsWith(getRootUrl())
+}
+
 /**
  * Intercept XMLHttpRequest and fetch API calls to add X-Requested-With header
  *
@@ -28,28 +40,32 @@ export const interceptRequests = () => {
 	XMLHttpRequest.prototype.open = (function(open) {
 		return function(method, url, async) {
 			open.apply(this, arguments)
-			if (!this.getResponseHeader('X-Requested-With')) {
+			if (isNextcloudUrl(url) && !this.getResponseHeader('X-Requested-With')) {
 				this.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
 			}
 		}
 	})(XMLHttpRequest.prototype.open)
 
 	window.fetch = (function(fetch) {
-		return (input, init) => {
-			if (!init) {
-				init = {}
+		return (resource, options) => {
+			// fetch allows the `input` to be either a Request object or any stringifyable value
+			if (!isNextcloudUrl(resource.url ?? resource.toString())) {
+				return fetch(resource, options)
 			}
-			if (!init.headers) {
-				init.headers = new Headers()
+			if (!options) {
+				options = {}
 			}
-
-			if (init.headers instanceof Headers && !init.headers.has('X-Requested-With')) {
-				init.headers.append('X-Requested-With', 'XMLHttpRequest')
-			} else if (init.headers instanceof Object && !init.headers['X-Requested-With']) {
-				init.headers['X-Requested-With'] = 'XMLHttpRequest'
+			if (!options.headers) {
+				options.headers = new Headers()
 			}
 
-			return fetch(input, init)
+			if (options.headers instanceof Headers && !options.headers.has('X-Requested-With')) {
+				options.headers.append('X-Requested-With', 'XMLHttpRequest')
+			} else if (options.headers instanceof Object && !options.headers['X-Requested-With']) {
+				options.headers['X-Requested-With'] = 'XMLHttpRequest'
+			}
+
+			return fetch(resource, options)
 		}
 	})(window.fetch)
 }

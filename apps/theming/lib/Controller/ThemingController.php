@@ -38,6 +38,7 @@
  */
 namespace OCA\Theming\Controller;
 
+use InvalidArgumentException;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
@@ -156,7 +157,7 @@ class ThemingController extends Controller {
 				}
 				break;
 			case 'disable-user-theming':
-				if ($value !== "yes" && $value !== "no") {
+				if ($value !== 'yes' && $value !== 'no') {
 					$error = $this->l10n->t('Disable-user-theming should be true or false');
 				}
 				break;
@@ -171,6 +172,47 @@ class ThemingController extends Controller {
 		}
 
 		$this->themingDefaults->set($setting, $value);
+
+		return new DataResponse([
+			'data' => [
+				'message' => $this->l10n->t('Saved'),
+			],
+			'status' => 'success'
+		]);
+	}
+
+	/**
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
+	 * @param string $setting
+	 * @param mixed $value
+	 * @return DataResponse
+	 * @throws NotPermittedException
+	 */
+	public function updateAppMenu($setting, $value) {
+		$error = null;
+		switch ($setting) {
+			case 'defaultApps':
+				if (is_array($value)) {
+					try {
+						$this->appManager->setDefaultApps($value);
+					} catch (InvalidArgumentException $e) {
+						$error = $this->l10n->t('Invalid app given');
+					}
+				} else {
+					$error = $this->l10n->t('Invalid type for setting "defaultApp" given');
+				}
+				break;
+			default:
+				$error = $this->l10n->t('Invalid setting key');
+		}
+		if ($error !== null) {
+			return new DataResponse([
+				'data' => [
+					'message' => $error,
+				],
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
+		}
 
 		return new DataResponse([
 			'data' => [
@@ -299,6 +341,7 @@ class ThemingController extends Controller {
 	 */
 	public function undoAll(): DataResponse {
 		$this->themingDefaults->undoAll();
+		$this->appManager->setDefaultApps([]);
 
 		return new DataResponse(
 			[

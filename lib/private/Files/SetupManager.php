@@ -337,11 +337,12 @@ class SetupManager {
 		if ($this->rootSetup) {
 			return;
 		}
+
+		$this->setupBuiltinWrappers();
+
 		$this->rootSetup = true;
 
 		$this->eventLogger->start('fs:setup:root', 'Setup root filesystem');
-
-		$this->setupBuiltinWrappers();
 
 		$rootMounts = $this->mountProviderCollection->getRootMounts();
 		foreach ($rootMounts as $rootMountProvider) {

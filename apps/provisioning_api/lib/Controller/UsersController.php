@@ -211,10 +211,82 @@ class UsersController extends AUserData {
 			$users = array_merge(...$users);
 		}
 
-		/** @var array<string, ProvisioningApiUserDetails|array{id: string}> $usersDetails */
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
+			$userData = $this->getUserData($userId);
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Logged user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Get the list of disabled users and their details
+	 *
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Disabled users details returned
+	 */
+	public function getDisabledUsersDetails(?int $limit = null, int $offset = 0): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// Admin? Or SubAdmin?
+		$uid = $currentUser->getUID();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if ($this->groupManager->isAdmin($uid)) {
+			$users = $this->userManager->getDisabledUsers($limit, $offset);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+
+			$users = [];
+			/* We have to handle offset ourselve for correctness */
+			$tempLimit = ($limit === null ? null : $limit + $offset);
+			foreach ($subAdminOfGroups as $group) {
+				$users = array_merge(
+					$users,
+					array_map(
+						fn (IUser $user): string => $user->getUID(),
+						array_filter(
+							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
+							fn (IUser $user): bool => $user->isEnabled()
+						)
+					)
+				);
+				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+					break;
+				}
+			}
+			$users = array_slice($users, $offset);
+		}
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
 			$userData = $this->getUserData($userId);
 			// Do not insert empty entry
 			if ($userData !== null) {
@@ -852,7 +924,6 @@ class UsersController extends AUserData {
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
-
 			}
 		} else {
 			// Check if admin / subadmin

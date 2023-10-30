@@ -21,25 +21,21 @@
   -->
 <template>
 	<tr>
+		<td>{{ name }}</td>
+		<td>{{ redirectUri }}</td>
+		<td><code>{{ clientId }}</code></td>
 		<td>
-			<table class="inline">
-				<tr>
-					<td>{{ t('oauth2', 'Name') }}</td>
-					<td>{{ name }}</td>
-				</tr>
-				<tr>
-					<td>{{ t('oauth2', 'Redirection URI') }}</td>
-					<td>{{ redirectUri }}</td>
-				</tr>
-				<tr>
-					<td>{{ t('oauth2', 'Client Identifier') }}</td>
-					<td><code>{{ clientId }}</code></td>
-				</tr>
-				<tr>
-					<td>{{ t('oauth2', 'Secret') }}</td>
-					<td><code>{{ renderedSecret }}</code><a class="icon-toggle has-tooltip" :title="t('oauth2', 'Show client secret')" @click="toggleSecret" /></td>
-				</tr>
-			</table>
+			<div class="action-secret">
+				<code>{{ renderedSecret }}</code>
+				<NcButton type="tertiary-no-background"
+					:aria-label="t('oauth2', 'Show client secret')"
+					@click="toggleSecret">
+					<template #icon>
+						<EyeOutline :size="20"
+							:title="t('oauth2', 'Show client secret')" />
+					</template>
+				</NcButton>
+			</div>
 		</td>
 		<td class="action-column">
 			<NcButton type="tertiary-no-background"
@@ -57,6 +53,7 @@
 <script>
 
 import Delete from 'vue-material-design-icons/Delete.vue'
+import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
@@ -64,6 +61,7 @@ export default {
 	components: {
 		Delete,
 		NcButton,
+		EyeOutline,
 	},
 	props: {
 		client: {
@@ -99,13 +97,12 @@ export default {
 </script>
 
 <style scoped>
-	.icon-toggle,
-	.icon-delete {
-		display: inline-block;
-		width: 16px;
-		height: 16px;
-		padding: 10px;
-		vertical-align: middle;
+	.action-secret {
+		display: flex;
+		align-items: center;
+	}
+	.action-secret code {
+		padding-top: 5px;
 	}
 	td code {
 		display: inline-block;
@@ -114,5 +111,11 @@ export default {
 	table.inline td {
 		border: none;
 		padding: 5px;
+	}
+
+	.action-column {
+		display: flex;
+		justify-content: flex-end;
+		padding-right: 0;
 	}
 </style>

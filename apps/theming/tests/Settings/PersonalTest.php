@@ -54,6 +54,7 @@ class PersonalTest extends TestCase {
 	private ThemesService $themesService;
 	private IInitialState $initialStateService;
 	private ThemingDefaults $themingDefaults;
+	private IAppManager $appManager;
 	private Personal $admin;
 
 	/** @var ITheme[] */
@@ -65,6 +66,7 @@ class PersonalTest extends TestCase {
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->initThemes();
 
@@ -75,10 +77,12 @@ class PersonalTest extends TestCase {
 
 		$this->admin = new Personal(
 			Application::APP_ID,
+			'admin',
 			$this->config,
 			$this->themesService,
 			$this->initialStateService,
 			$this->themingDefaults,
+			$this->appManager,
 		);
 	}
 
@@ -112,12 +116,22 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->initialStateService->expects($this->exactly(3))
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('admin', 'core', 'apporder')
+			->willReturn('[]');
+
+		$this->appManager->expects($this->once())
+			->method('getDefaultAppForUser')
+			->willReturn('forcedapp');
+
+		$this->initialStateService->expects($this->exactly(4))
 			->method('provideInitialState')
 			->withConsecutive(
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
-				['isUserThemingDisabled', false]
+				['isUserThemingDisabled', false],
+				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
 			);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');

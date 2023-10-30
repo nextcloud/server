@@ -21,10 +21,8 @@
  */
 import { User } from '@nextcloud/cypress'
 
-import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
+import { defaultPrimary, defaultBackground, pickRandomColor, validateBodyThemingCss } from './themingUtils'
 
-const defaultPrimary = '#006aa3'
-const defaultBackground = 'kamil-porembinski-clouds.jpg'
 const admin = new User('admin', 'admin')
 
 describe('User default background settings', function() {
@@ -38,7 +36,8 @@ describe('User default background settings', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	// Default cloud background is not rendered if admin theming background remains unchanged
@@ -49,6 +48,10 @@ describe('User default background settings', function() {
 	it('Default is selected on new users', function() {
 		cy.get('[data-user-theming-background-default]').should('be.visible')
 		cy.get('[data-user-theming-background-default]').should('have.class', 'background--active')
+	})
+
+	it('Default background has accessibility attribute set', function() {
+		cy.get('[data-user-theming-background-default]').should('have.attr', 'aria-pressed', 'true')
 	})
 })
 
@@ -61,7 +64,8 @@ describe('User select shipped backgrounds and remove background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a shipped background', function() {
@@ -70,6 +74,9 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Select background
 		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
+
+		// Set the accessibility state
+		cy.get(`[data-user-theming-background-shipped="${background}"]`).should('have.attr', 'aria-pressed', 'true')
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
@@ -83,9 +90,12 @@ describe('User select shipped backgrounds and remove background', function() {
 		// Select background
 		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
 
+		// Set the accessibility state
+		cy.get(`[data-user-theming-background-shipped="${background}"]`).should('have.attr', 'aria-pressed', 'true')
+
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', background, true))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', background))
 	})
 
 	it('Remove background', function() {
@@ -94,9 +104,12 @@ describe('User select shipped backgrounds and remove background', function() {
 		// Clear background
 		cy.get('[data-user-theming-background-clear]').click()
 
+		// Set the accessibility state
+		cy.get('[data-user-theming-background-clear]').should('have.attr', 'aria-pressed', 'true')
+
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', ''))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', null))
 	})
 })
 
@@ -109,7 +122,8 @@ describe('User select a custom color', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a custom color', function() {
@@ -121,7 +135,7 @@ describe('User select a custom color', function() {
 		cy.wait('@setColor')
 		cy.waitUntil(() => cy.window().then((win) => {
 			const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
-			return primary !== defaultPrimary
+			return primary !== defaultPrimary && primary !== defaultPrimary
 		}))
 	})
 })
@@ -135,7 +149,8 @@ describe('User select a bright custom color and remove background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Remove background', function() {
@@ -146,7 +161,7 @@ describe('User select a bright custom color and remove background', function() {
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss(undefined, ''))
+		cy.waitUntil(() => validateBodyThemingCss(undefined, null))
 	})
 
 	it('Select a custom color', function() {
@@ -170,7 +185,7 @@ describe('User select a bright custom color and remove background', function() {
 		}))
 	})
 
-	it('Select a shipped background', function() {
+	it('Select another but non-bright shipped background', function() {
 		const background = 'anatoly-mikhaltsov-butterfly-wing-scale.jpg'
 		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
 
@@ -182,7 +197,7 @@ describe('User select a bright custom color and remove background', function() {
 		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
 	})
 
-	it('See the header NOT being inverted', function() {
+	it('See the header NOT being inverted this time', function() {
 		cy.waitUntil(() => cy.window().then((win) => {
 			const firstEntry = win.document.querySelector('.app-menu-main li')
 			if (!firstEntry) {
@@ -204,7 +219,8 @@ describe('User select a custom background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a custom background', function() {
@@ -243,7 +259,8 @@ describe('User changes settings and reload the page', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView()
+		cy.get('[data-user-theming-background-settings]').should('be.visible')
 	})
 
 	it('Select a custom background', function() {
@@ -283,5 +300,8 @@ describe('User changes settings and reload the page', function() {
 	it('Reload the page and validate persistent changes', function() {
 		cy.reload()
 		cy.waitUntil(() => validateBodyThemingCss(selectedColor, 'apps/theming/background?v='))
+
+		// validate accessibility state
+		cy.get('[data-user-theming-background-custom]').should('have.attr', 'aria-pressed', 'true')
 	})
 })

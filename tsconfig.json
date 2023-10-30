@@ -2,7 +2,7 @@
 	"extends": "@vue/tsconfig/tsconfig.json",
 	"include": ["./apps/**/*.ts", "./core/**/*.ts", "./*.d.ts"],
 	"compilerOptions": {
-		"types": ["cypress", "jest", "node", "vue"],
+		"types": ["cypress", "cypress-axe", "jest", "node", "vue"],
 		"outDir": "./dist/",
 		"target": "ESNext",
 		"module": "esnext",

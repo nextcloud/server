@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\OCM;
 
 use JsonException;
-use OC\OCM\Model\OCMProvider;
 use OCP\AppFramework\Http;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
@@ -54,7 +53,8 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		ICacheFactory $cacheFactory,
 		private IClientService $clientService,
 		private IConfig $config,
-		private LoggerInterface $logger
+		private IOCMProvider $provider,
+		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
 	}
@@ -69,13 +69,12 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
-		$provider = new OCMProvider();
 
 		if (!$skipCache) {
 			try {
-				$provider->import(json_decode($this->cache->get($remote) ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				if ($this->supportedAPIVersion($provider->getApiVersion())) {
-					return $provider; // if cache looks valid, we use it
+				$this->provider->import(json_decode($this->cache->get($remote) ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
+				if ($this->supportedAPIVersion($this->provider->getApiVersion())) {
+					return $this->provider; // if cache looks valid, we use it
 				}
 			} catch (JsonException|OCMProviderException $e) {
 				// we ignore cache on issues
@@ -96,7 +95,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$body = $response->getBody();
 				// update provider with data returned by the request
-				$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
+				$this->provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
 				$this->cache->set($remote, $body, 60 * 60 * 24);
 			}
 		} catch (JsonException|OCMProviderException $e) {
@@ -109,11 +108,11 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			throw new OCMProviderException('error while requesting remote ocm provider');
 		}
 
-		if (!$this->supportedAPIVersion($provider->getApiVersion())) {
+		if (!$this->supportedAPIVersion($this->provider->getApiVersion())) {
 			throw new OCMProviderException('API version not supported');
 		}
 
-		return $provider;
+		return $this->provider;
 	}
 
 	/**

@@ -2,6 +2,7 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 @use 'variables';
+@use 'sass:math';
 @import 'functions';
 
 input {
@@ -88,7 +89,7 @@ select {
 	display: grid;
 	padding: 20px;
 	max-width: 1700px;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
 	grid-column-gap: 10px;
 
 	.section {
@@ -477,18 +478,15 @@ table.grid {
 
 	th {
 		height: 2em;
-		color: #999;
+		padding: 0 1em 0 0;
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
 		text-align: left;
 		font-weight: normal;
 	}
 
 	td {
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
+		padding: 0 1em 0 0;
 		text-align: left;
 		font-weight: normal;
 	}
@@ -914,6 +912,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
+			white-space: normal;
 		}
 
 		margin-bottom: 100px;
@@ -931,6 +930,13 @@ span.version {
 				border-bottom: 1px solid var(--color-border);
 				padding: 6px;
 				box-sizing: border-box;
+			}
+
+			> .actions {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: end;
 			}
 
 			&.selected {
@@ -1061,6 +1067,13 @@ span.version {
 	}
 }
 
+// Display buttons above each other on mobile
+@media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+	.apps-list.installed .section > .actions {
+		display: table-cell;
+	}
+}
+
 #apps-list-search {
 	.section {
 		h2 {
@@ -1140,6 +1153,10 @@ table.grid td.date {
 	.nocheckbox {
 		padding-left: 20px;
 	}
+
+	#s2id_linksExcludedGroups {
+		width: 200px !important;
+	}
 }
 
 #shareApiDefaultPermissionsSection label {
@@ -1183,6 +1200,15 @@ table.grid td.date {
 	select:nth-child(2),
 	input:not([type='button']) {
 		width: 143px;
+	}
+}
+
+@media (max-width: calc(variables.$breakpoint-mobile * 0.75)) {
+	.mail_settings p label:first-child {
+		width: unset;
+		text-align: left;
+		display: block;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 	}
 }
 
@@ -1287,6 +1313,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 	.extra-top-margin {
 		margin-top: 12px;
+	}
+}
+
+.security-warning__heading {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: calc(var(--default-grid-baseline) * 8);
+
+	> h2 {
+		margin-bottom: 0px;
+	}
+
+	> a {
+		width: 44px;
 	}
 }
 

@@ -68,6 +68,7 @@
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
 		<file name="build/stubs/IntlChar.php"/>
+		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
 		<file name="build/stubs/redis.php"/>

@@ -607,22 +607,98 @@ class AppManagerTest extends TestCase {
 			// none specified, default to files
 			[
 				'',
+				'',
+				'{}',
+				true,
 				'files',
+			],
+			// none specified, without fallback
+			[
+				'',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
+				'',
+				'{}',
+				true,
 				'files',
+			],
+			// unexisting or inaccessible app specified, without fallbacks
+			[
+				'unexist',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// non-standard app
 			[
 				'settings',
+				'',
+				'{}',
+				true,
+				'settings',
+			],
+			// non-standard app, without fallback
+			[
+				'settings',
+				'',
+				'{}',
+				false,
 				'settings',
 			],
 			// non-standard app with fallback
 			[
 				'unexist,settings',
+				'',
+				'{}',
+				true,
 				'settings',
+			],
+			// user-customized defaultapp
+			[
+				'',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with systemwide
+			[
+				'unexist,settings',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with system wide and apporder
+			[
+				'unexist,settings',
+				'files',
+				'{"settings":[1],"files":[2]}',
+				true,
+				'files',
+			],
+			// user-customized apporder fallback
+			[
+				'',
+				'',
+				'{"settings":[1],"files":[2]}',
+				true,
+				'settings',
+			],
+			// user-customized apporder, but called without fallback
+			[
+				'',
+				'',
+				'{"settings":[1],"files":[2]}',
+				false,
+				'',
 			],
 		];
 	}
@@ -630,7 +706,7 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider provideDefaultApps
 	 */
-	public function testGetDefaultAppForUser($defaultApps, $expectedApp) {
+	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
 		$user = $this->newUser('user1');
 
 		$this->userSession->expects($this->once())
@@ -642,11 +718,13 @@ class AppManagerTest extends TestCase {
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->atLeastOnce())
 			->method('getUserValue')
-			->with('user1', 'core', 'defaultapp')
-			->willReturn('');
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', $userDefaultApps],
+				['user1', 'core', 'apporder', '[]', $userApporder],
+			]);
 
-		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
 }

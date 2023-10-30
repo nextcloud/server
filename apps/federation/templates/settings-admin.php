@@ -31,9 +31,14 @@ style('federation', 'settings-admin')
 	</ul>
 	<p id="ocFederationAddServer">
 		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add trusted server')); ?></button>
-		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('Trusted server')); ?>" name="server_url"/>
-		<button id="ocFederationSubmit" class="hidden"><?php p($l->t('Add')); ?></button>
-		<span class="msg"></span>
+		<div class="serverUrl hidden">
+			<div class="serverUrl-block">
+				<label for="serverUrl"><?php p($l->t('Trusted server')); ?></label>
+				<input id="serverUrl" type="text" value="" placeholder="<?php p($l->t('Trusted server')); ?>" name="server_url"/>
+				<button id="ocFederationSubmit" class="hidden"><?php p($l->t('Add')); ?></button>
+			</div>
+			<span class="msg"></span>
+		</div>
 	</p>
 
 </div>

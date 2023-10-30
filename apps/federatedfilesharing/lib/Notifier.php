@@ -202,9 +202,9 @@ class Notifier implements INotifier {
 	protected function getDisplayName(ICloudId $cloudId): string {
 		$server = $cloudId->getRemote();
 		$user = $cloudId->getUser();
-		if (strpos($server, 'http://') === 0) {
+		if (str_starts_with($server, 'http://')) {
 			$server = substr($server, strlen('http://'));
-		} elseif (strpos($server, 'https://') === 0) {
+		} elseif (str_starts_with($server, 'https://')) {
 			$server = substr($server, strlen('https://'));
 		}
 

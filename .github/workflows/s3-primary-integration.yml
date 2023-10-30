@@ -1,6 +1,16 @@
 name: S3 primary storage integration tests
 on:
   pull_request:
+    paths:
+      - '.github/workflows/**'
+      - '3rdparty/**'
+      - '**/*.php'
+      - '**/lib/**'
+      - '**/tests/**'
+      - '**/vendor-bin/**'
+      - '.php-cs-fixer.dist.php'
+      - 'composer.json'
+      - 'composer.lock'
   push:
     branches:
       - master
@@ -36,7 +46,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           submodules: true
 
@@ -44,7 +54,6 @@ jobs:
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:9
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd, redis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

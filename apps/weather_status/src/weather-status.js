@@ -36,10 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	OCA.Dashboard.registerStatus('weather', (el) => {
 		const Dashboard = Vue.extend(App)
-		return new Dashboard({
-			propsData: {
-				inline: true,
-			},
-		}).$mount(el)
+		return new Dashboard().$mount(el)
 	})
 })

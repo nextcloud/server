@@ -2080,7 +2080,7 @@
       <code>$trySession</code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/Authentication/Token/IToken.php">
+  <file src="lib/public/Authentication/Token/IToken.php">
     <AmbiguousConstantInheritance>
       <code>DO_NOT_REMEMBER</code>
       <code>PERMANENT_TOKEN</code>

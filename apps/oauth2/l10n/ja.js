@@ -8,13 +8,14 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2アプリは、他のWebサービスからOAuth2互換の認証に接続し、管理者が認証の流れを設定できるようにするものです。",
     "OAuth 2.0 clients" : "OAuth 2.0クライアント",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0により {instanceName} へのアクセス要求を外部サービスに許可します。",
-    "Add client" : "クライアントの追加",
     "Name" : "名前",
     "Redirection URI" : "リダイレクトURI",
-    "Add" : "追加",
     "Client Identifier" : "クライアントID",
-    "Secret" : "シークレットキー",
+    "Secret key" : "シークレットキー",
+    "Add client" : "クライアントの追加",
+    "Add" : "追加",
     "Show client secret" : "クライアントシークレットキーを表示",
-    "Delete" : "削除"
+    "Delete" : "削除",
+    "Secret" : "シークレットキー"
 },
 "nplurals=1; plural=0;");

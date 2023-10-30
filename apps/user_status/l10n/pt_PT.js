@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "A trabalhar à distância",
     "In a call" : "Numa chamada",
     "User status" : "Estado do utilizador",
-    "View profile" : "Visualizar perfil",
     "Clear status after" : "Limpar mensagem de estado após",
     "What is your status?" : "Qual é o seu estado?",
     "Set status" : "Definir estado",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 horas",
     "Mute all notifications" : "Desativar todas as notificações",
     "Appear offline" : "Aparecer offline",
+    "View profile" : "Visualizar perfil",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
