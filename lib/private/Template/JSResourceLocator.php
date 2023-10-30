@@ -60,8 +60,13 @@ class JSResourceLocator extends ResourceLocator {
 			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script);
 			$found += $this->appendScriptIfExist($this->serverroot, $script);
 			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$script);
-			$found += $this->appendScriptIfExist($this->serverroot, 'apps/'.$script);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script);
+
+			foreach (\OC::$APPSROOTS as $appRoot) {
+				$dirName = basename($appRoot['path']);
+				$rootPath = dirname($appRoot['path']);
+				$found += $this->appendScriptIfExist($rootPath, $dirName.'/'.$script);
+				$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$dirName.'/'.$script);
+			}
 
 			if ($found) {
 				return;
