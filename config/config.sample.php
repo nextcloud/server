@@ -2006,9 +2006,9 @@ $CONFIG = [
  * client version at the time of release of this server version.
  *
  *
- * Defaults to ``3.10.1``
+ * Defaults to empty
  */
-'maximum.supported.desktop.version' => '3.10.1',
+'maximum.supported.desktop.version' => '',
 
 /**
  * Option to allow local storage to contain symlinks.
