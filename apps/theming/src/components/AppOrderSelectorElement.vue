@@ -52,7 +52,7 @@
 import type { PropType } from 'vue'
 
 import { translate as t } from '@nextcloud/l10n'
-import { defineComponent, nextTick, onUpdated, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 
 import IconArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import IconArrowUp from 'vue-material-design-icons/ArrowUp.vue'
@@ -116,10 +116,12 @@ export default defineComponent({
 		}
 
 		/**
-		 * onUpdated hook is used to reset the focus on the last used button (if requested)
+		 * Reset the focus on the last used button.
 		 * If the button is now visible anymore (because this element is the first/last) then the opposite button is focussed
+		 *
+		 * This function is exposed to the "AppOrderSelector" component which triggers this when the list was successfully rerendered
 		 */
-		onUpdated(() => {
+		const keepFocus = () => {
 			if (needsFocus !== 0) {
 				// focus requested
 				if ((needsFocus === 1 || props.isLast) && !props.isFirst) {
@@ -130,7 +132,7 @@ export default defineComponent({
 				}
 			}
 			needsFocus = 0
-		})
+		}
 
 		return {
 			buttonUp,
@@ -138,6 +140,8 @@ export default defineComponent({
 
 			moveUp,
 			moveDown,
+
+			keepFocus,
 
 			t,
 		}
