@@ -228,16 +228,20 @@ export default {
 		 * Coming from the legacy files app.
 		 * TODO: remove when all views are migrated.
 		 *
-		 * @param {Navigation} view the new active view
+		 * @param {object} payload the payload
+		 * @param {string} [payload.id='files'] the view id
+		 * @param {boolean} [payload.silent=false] if true, the view will not be shown immediately
 		 */
-		onLegacyNavigationChanged({ id } = { id: 'files' }) {
+		onLegacyNavigationChanged({ id = 'files', silent = false } = {}) {
 			const view = this.Navigation.views.find(view => view.id === id)
 			if (view && view.legacy && view.id !== this.currentView.id) {
 				// Force update the current route as the request comes
 				// from the legacy files app router
 				this.$router.replace({ ...this.$route, params: { view: view.id } })
-				this.Navigation.setActive(view)
-				this.showView(view)
+				if (!silent) {
+					this.Navigation.setActive(view)
+					this.showView(view)
+				}
 			}
 		},
 
