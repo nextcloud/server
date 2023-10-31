@@ -479,6 +479,7 @@ interface ICommentsManager {
 	 * Load the Comments app into the page
 	 *
 	 * @since 21.0.0
+	 * @deprecated 28.0.0 - Method is no-op because comments feature was moved to the activity app
 	 */
 	public function load(): void;
 
