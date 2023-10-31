@@ -45,19 +45,22 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	private ThemeInjectionService $themeInjectionService;
 	private IUserSession $userSession;
 	private IConfig $config;
+	private BackgroundService $backgroundService;
 
 	public function __construct(
 		IInitialState $initialState,
 		ContainerInterface $container,
 		ThemeInjectionService $themeInjectionService,
 		IUserSession $userSession,
-		IConfig $config
+		IConfig $config,
+		BackgroundService $backgroundService,
 	) {
 		$this->initialState = $initialState;
 		$this->container = $container;
 		$this->themeInjectionService = $themeInjectionService;
 		$this->userSession = $userSession;
 		$this->config = $config;
+		$this->backgroundService = $backgroundService;
 	}
 
 	public function handle(Event $event): void {
@@ -112,7 +115,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			/** List of all shipped backgrounds */
 			$this->initialState->provideInitialState(
 				'shippedBackgrounds',
-				 BackgroundService::SHIPPED_BACKGROUNDS,
+				$this->backgroundService->getShippedBackgrounds(),
 			);
 		}
 

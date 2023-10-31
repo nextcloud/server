@@ -31,6 +31,13 @@ use OCA\Theming\Service\BackgroundService;
 
 trait CommonThemeTrait {
 	public Util $util;
+	private BackgroundService $backgroundService;
+
+	public function __construct(
+		BackgroundService $backgroundService,
+	) {
+		$this->backgroundService = $backgroundService;
+	}
 
 	/**
 	 * Generate primary-related variables
@@ -162,7 +169,7 @@ trait CommonThemeTrait {
 			}
 
 			// The user picked a shipped background
-			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
+			if (isset($this->backgroundService->getShippedBackgrounds()[$backgroundImage])) {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
