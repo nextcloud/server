@@ -41,6 +41,10 @@ class SimpleOutput implements IOutput {
 		$this->appName = $appName;
 	}
 
+	public function debug(string $message): void {
+		$this->logger->debug($message, ['app' => $this->appName]);
+	}
+
 	/**
 	 * @param string $message
 	 * @since 9.1.0

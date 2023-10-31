@@ -32,7 +32,9 @@ namespace OC\Core\Command\Maintenance;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use InvalidArgumentException;
+use OC\Console\TimestampFormatter;
 use OC\Installer;
+use OC\Migration\ConsoleOutput;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
@@ -98,8 +100,17 @@ class Install extends Command {
 		// validate user input
 		$options = $this->validateInput($input, $output, array_keys($sysInfo['databases']));
 
+		if ($output->isVerbose()) {
+			// Prepend each line with a little timestamp
+			$timestampFormatter = new TimestampFormatter(null, $output->getFormatter());
+			$output->setFormatter($timestampFormatter);
+			$migrationOutput = new ConsoleOutput($output);
+		} else {
+			$migrationOutput = null;
+		}
+
 		// perform installation
-		$errors = $setupHelper->install($options);
+		$errors = $setupHelper->install($options, $migrationOutput);
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
 			return 1;
