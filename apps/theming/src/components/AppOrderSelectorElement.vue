@@ -3,7 +3,8 @@
 		:class="{
 			'order-selector-element': true,
 			'order-selector-element--disabled': app.default
-		}">
+		}"
+		@focusin="$emit('update:focus')">
 		<svg width="20"
 			height="20"
 			viewBox="0 0 20 20"
@@ -25,6 +26,8 @@
 			<NcButton v-show="!isFirst && !app.default"
 				ref="buttonUp"
 				:aria-label="t('settings', 'Move up')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
 				data-cy-app-order-button="up"
 				type="tertiary-no-background"
 				@click="moveUp">
@@ -36,6 +39,8 @@
 			<NcButton v-show="!isLast && !app.default"
 				ref="buttonDown"
 				:aria-label="t('settings', 'Move down')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
 				data-cy-app-order-button="down"
 				type="tertiary-no-background"
 				@click="moveDown">
@@ -73,6 +78,17 @@ export default defineComponent({
 		NcButton,
 	},
 	props: {
+		/**
+		 * Needs to be forwarded to the buttons (as interactive elements)
+		 */
+		ariaDescribedby: {
+			type: String,
+			default: null,
+		},
+		ariaDetails: {
+			type: String,
+			default: null,
+		},
 		app: {
 			type: Object as PropType<IApp>,
 			required: true,
@@ -89,6 +105,10 @@ export default defineComponent({
 	emits: {
 		'move:up': () => true,
 		'move:down': () => true,
+		/**
+		 * We need this as Sortable.js removes all native focus event listeners
+		 */
+		'update:focus': () => true,
 	},
 	setup(props, { emit }) {
 		const buttonUp = ref()
