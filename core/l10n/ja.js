@@ -43,6 +43,8 @@ OC.L10N.register(
     "Necessary language model provider is not available" : "必要な言語モデルプロバイダーが利用できません",
     "Task not found" : "タスクは見つかりません",
     "Internal error" : "内部エラー",
+    "No text to image provider is available" : "テキストを画像に変換するプロバイダーはありません",
+    "Image not found" : "画像が見つかりません",
     "No translation provider available" : "利用可能な翻訳プロバイダーがありません",
     "Could not detect language" : "言語を検出できませんでした",
     "Unable to translate" : "翻訳できませんでした",
