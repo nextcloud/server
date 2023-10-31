@@ -219,10 +219,12 @@
 		/**
 		 * Sets the currently active view
 		 * @param viewId view id
+		 * @param {Object} options options
+		 * @param {boolean} [options.silent=false] if true, the view will not be shown immediately
 		 */
-		setActiveView: function(viewId) {
+		setActiveView: function (viewId, { silent = false } = {}) {
 			// The Navigation API will handle the final event
-			window._nc_event_bus.emit('files:legacy-navigation:changed', { id: viewId })
+			window._nc_event_bus.emit('files:legacy-navigation:changed', { id: viewId, silent })
 		},
 
 		/**
