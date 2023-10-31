@@ -250,6 +250,9 @@ class Repair implements IOutput {
 		return $steps;
 	}
 
+	public function debug(string $message): void {
+	}
+
 	/**
 	 * @param string $message
 	 */
