@@ -113,11 +113,7 @@ export default {
 			width: 20px;
 			height: 20px;
 			padding: 12px;
-			opacity: 0.5;
-
-			&:hover {
-				opacity: 1;
-			}
+			filter: var(--background-invert-if-dark);
 		}
 	}
 
@@ -151,17 +147,10 @@ export default {
 	.other-actions {
 		width: 16px;
 		height: 16px;
-		opacity: .5;
 		cursor: pointer;
 
 		img {
 			filter: var(--background-invert-if-dark);
-		}
-
-		&:hover,
-		&:active,
-		&:focus {
-			opacity: 1;
 		}
 	}
 
