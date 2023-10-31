@@ -46,7 +46,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\Settings\\AdminSection' => __DIR__ . '/..' . '/../lib/Settings/AdminSection.php',
         'OCA\\Theming\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\Theming\\Settings\\PersonalSection' => __DIR__ . '/..' . '/../lib/Settings/PersonalSection.php',
-        'OCA\\Theming\\Themes\\CommonTheme' => __DIR__ . '/..' . '/../lib/Themes/CommonTheme.php',
+        'OCA\\Theming\\Themes\\CommonThemeTrait' => __DIR__ . '/..' . '/../lib/Themes/CommonThemeTrait.php',
         'OCA\\Theming\\Themes\\DarkHighContrastTheme' => __DIR__ . '/..' . '/../lib/Themes/DarkHighContrastTheme.php',
         'OCA\\Theming\\Themes\\DarkTheme' => __DIR__ . '/..' . '/../lib/Themes/DarkTheme.php',
         'OCA\\Theming\\Themes\\DefaultTheme' => __DIR__ . '/..' . '/../lib/Themes/DefaultTheme.php',

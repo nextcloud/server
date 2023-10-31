@@ -34,9 +34,9 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use CommonTheme;
 
 class DefaultTheme implements ITheme {
+	use CommonThemeTrait;
 
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
