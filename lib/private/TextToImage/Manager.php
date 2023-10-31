@@ -113,20 +113,7 @@ class Manager implements IManager {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
 		}
-		$providers = $this->getProviders();
-
-		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
-		if ($json !== '') {
-			try {
-				$className = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
-				if ($provider !== false) {
-					$providers = [$provider];
-				}
-			} catch (\JsonException $e) {
-				$this->logger->warning('Failed to decode Text2Image setting `ai.text2image_provider`', ['exception' => $e]);
-			}
-		}
+		$providers = $this->getPreferredProviders();
 
 		foreach ($providers as $provider) {
 			$this->logger->debug('Trying to run Text2Image provider '.$provider::class);
@@ -232,22 +219,9 @@ class Manager implements IManager {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
 		}
-		$providers = $this->getProviders();
-
-		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
-		if ($json !== '') {
-			try {
-				$id = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-				$provider = current(array_filter($providers, fn ($provider) => $provider->getId() === $id));
-				if ($provider !== false) {
-					$providers = [$provider];
-				}
-			} catch (\JsonException $e) {
-				$this->logger->warning('Failed to decode Text2Image setting `ai.text2image_provider`', ['exception' => $e]);
-			}
-		}
+		$providers = $this->getPreferredProviders();
 		$maxExecutionTime = (int) ini_get('max_execution_time');
-		// Offload the tttttttask to a background job if the expected runtime of the likely provider is longer than 80% of our max execution time
+		// Offload the task to a background job if the expected runtime of the likely provider is longer than 80% of our max execution time
 		if ($providers[0]->getExpectedRuntime() > $maxExecutionTime * 0.8) {
 			$this->scheduleTask($task);
 			return;
@@ -330,5 +304,26 @@ class Manager implements IManager {
 		} catch (Exception $e) {
 			throw new RuntimeException('Failure while trying to find tasks by appId and identifier: ' . $e->getMessage(), 0, $e);
 		}
+	}
+
+	/**
+	 * @return IProvider[]
+	 */
+	private function getPreferredProviders() {
+		$providers = $this->getProviders();
+		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
+		if ($json !== '') {
+			try {
+				$id = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+				$provider = current(array_filter($providers, fn ($provider) => $provider->getId() === $id));
+				if ($provider !== false && $provider !== null) {
+					$providers = [$provider];
+				}
+			} catch (\JsonException $e) {
+				$this->logger->warning('Failed to decode Text2Image setting `ai.text2image_provider`', ['exception' => $e]);
+			}
+		}
+
+		return $providers;
 	}
 }
