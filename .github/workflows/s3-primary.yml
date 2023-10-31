@@ -11,10 +11,10 @@ on:
       - '.php-cs-fixer.dist.php'
       - 'composer.json'
       - 'composer.lock'
-  push:
-    branches:
-      - master
-      - stable*
+
+concurrency:
+  group: s3-primary-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   s3-primary-tests-minio:

@@ -7,11 +7,6 @@ name: Lint php
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
 
 permissions:
   contents: read
