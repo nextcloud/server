@@ -29,7 +29,7 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 
-trait CommonThemeTrait {
+class CommonTheme {
 	public Util $util;
 	private BackgroundService $backgroundService;
 
