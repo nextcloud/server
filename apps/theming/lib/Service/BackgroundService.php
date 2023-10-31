@@ -110,11 +110,11 @@ class BackgroundService {
 	}
 
 	public function setShippedBackground($fileName): void {
-		if (!array_key_exists($fileName, $this->backgroundService->getShippedBackgrounds())) {
+		if (!array_key_exists($fileName, $this->getShippedBackgrounds())) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', $fileName);
-		$this->setColorBackground($this->backgroundService->getShippedBackgrounds()[$fileName]['primary_color']);
+		$this->setColorBackground($this->getShippedBackgrounds()[$fileName]['primary_color']);
 	}
 
 	public function setColorBackground(string $color): void {
