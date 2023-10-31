@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "重新導向 URI",
     "Client Identifier" : "客戶端識別",
     "Secret key" : "私鑰",
+    "Delete client" : "刪除用戶端",
     "Add client" : "新增客戶端",
     "Add" : "新增",
     "Show client secret" : "顯示客戶端密碼",
