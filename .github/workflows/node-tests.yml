@@ -65,6 +65,7 @@ jobs:
 
     env:
       CYPRESS_INSTALL_BINARY: 0
+      PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
       - name: Checkout
@@ -130,6 +131,7 @@ jobs:
 
     env:
       CYPRESS_INSTALL_BINARY: 0
+      PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
       - name: Checkout
