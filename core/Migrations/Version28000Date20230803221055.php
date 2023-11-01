@@ -52,7 +52,9 @@ class Version28000Date20230803221055 extends SimpleMigrationStep {
 			$column = $table->getColumn('user_id');
 			$column->setNotnull(false);
 
-			$table->addIndex(['user_id', 'app_id', 'identifier'], 'tp_tasks_uid_appid_ident');
+			if (!$table->hasIndex('tp_tasks_uid_appid_ident')) {
+				$table->addIndex(['user_id', 'app_id', 'identifier'], 'tp_tasks_uid_appid_ident');
+			}
 
 			$changed = true;
 		}
