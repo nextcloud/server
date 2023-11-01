@@ -74,7 +74,7 @@
     "_in %n minute_::_in %n minutes_" : ["om %n minut","om %n minutter"],
     "_%n minute ago_::_%n minutes ago_" : ["%n minut siden","%n minutter siden"],
     "in a few seconds" : "om få sekunder",
-    "seconds ago" : "sekunder siden",
+    "seconds ago" : "få sekunder siden",
     "Empty file" : "Tom fil",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Modulet med ID: %s eksisterer ikke. Aktiver det venligst i dine indstillinger eller kontakt din administrator.",
     "File already exists" : "Filen findes allerede",
