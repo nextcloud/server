@@ -57,7 +57,6 @@ class PersonalTest extends TestCase {
 	private ThemingDefaults $themingDefaults;
 	private IAppManager $appManager;
 	private Personal $admin;
-	private BackgroundService $backgroundService;
 
 	/** @var ITheme[] */
 	private $themes;
@@ -69,7 +68,6 @@ class PersonalTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->initThemes();
 
@@ -158,6 +156,7 @@ class PersonalTest extends TestCase {
 		$config = $this->createMock(IConfig::class);
 		$l10n = $this->createMock(IL10N::class);
 		$appManager = $this->createMock(IAppManager::class);
+		$backgroundService = $this->createMock(BackgroundService::class)
 
 		$themingDefaults->expects($this->any())
 			->method('getColorPrimary')

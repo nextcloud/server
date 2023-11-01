@@ -54,8 +54,6 @@ class ThemesServiceTest extends TestCase {
 	private $config;
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
-	/** @var BackgroundService|MockObject */
-	private $backgroundService;
 
 	/** @var ITheme[] */
 	private $themes;
@@ -64,7 +62,6 @@ class ThemesServiceTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->themingDefaults->expects($this->any())
 			->method('getColorPrimary')
@@ -283,6 +280,7 @@ class ThemesServiceTest extends TestCase {
 		$imageManager = $this->createMock(ImageManager::class);
 		$l10n = $this->createMock(IL10N::class);
 		$appManager = $this->createMock(IAppManager::class);
+		$backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->themes = [
 			'default' => new DefaultTheme(
