@@ -118,7 +118,7 @@
   },
   "devDependencies": {
     "@babel/node": "^7.22.10",
-    "@babel/preset-typescript": "^7.22.11",
+    "@babel/preset-typescript": "^7.23.2",
     "@cypress/vue2": "^2.0.1",
     "@cypress/webpack-preprocessor": "^6.0.0",
     "@jest/globals": "^29.7.0",
