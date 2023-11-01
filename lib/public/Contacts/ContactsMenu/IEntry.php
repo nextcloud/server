@@ -54,6 +54,19 @@ interface IEntry extends JsonSerializable {
 	public function addAction(IAction $action): void;
 
 	/**
+	 * Set the (system) contact's user status
+	 *
+	 * @since 28.0
+	 * @param string $status
+	 * @param string $statusMessage
+	 * @param string|null $icon
+	 * @return void
+	 */
+	public function setStatus(string $status,
+		string $statusMessage = null,
+		string $icon = null): void;
+
+	/**
 	 * Get an arbitrary property from the contact
 	 *
 	 * @since 12.0

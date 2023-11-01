@@ -58,10 +58,10 @@
 					</ul>
 				</div>
 				<div v-if="contactsAppEnabled" class="contactsmenu__menu__content__footer">
-					<a :href="contactsAppURL">{{ t('core', 'Show all contacts …') }}</a>
+					<NcButton type="tertiary" :href="contactsAppURL">{{ t('core', 'Show all contacts') }}</NcButton>
 				</div>
 				<div v-else-if="canInstallApp" class="contactsmenu__menu__content__footer">
-					<a :href="contactsAppMgmtURL">{{ t('core', 'Install the Contacts app') }}</a>
+					<NcButton type="tertiary" :href="contactsAppMgmtURL">{{ t('core', 'Install the Contacts app') }}</NcButton>
 				</div>
 			</div>
 		</div>
@@ -75,6 +75,7 @@ import debounce from 'debounce'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -91,6 +92,7 @@ export default {
 		Contact,
 		Contacts,
 		Magnify,
+		NcButton,
 		NcEmptyContent,
 		NcHeaderMenu,
 		NcLoadingIcon,
@@ -178,14 +180,9 @@ export default {
 			overflow-y: auto;
 
 			&__footer {
-				text-align: center;
-
-				a {
-					display: block;
-					width: 100%;
-					padding: 12px 0;
-					opacity: .5;
-				}
+				display: flex;
+				flex-direction: column;
+				align-items: center;
 			}
 		}
 
