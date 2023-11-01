@@ -162,11 +162,11 @@ trait CommonThemeTrait {
 			}
 
 			// The user picked a shipped background
-			if (isset($this->backgroundService->getShippedBackgrounds()[$backgroundImage])) {
+			if (isset($backgroundService->getShippedBackgrounds()[$backgroundImage])) {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
-					'--background-image-invert-if-bright' => $this->backgroundService->getShippedBackgrounds()[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
+					'--background-image-invert-if-bright' => $backgroundService->getShippedBackgrounds()[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
 				];
 			}
 		}
