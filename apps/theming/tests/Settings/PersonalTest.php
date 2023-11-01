@@ -29,6 +29,7 @@ namespace OCA\Theming\Tests\Settings;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
 use OCA\Theming\Themes\DarkHighContrastTheme;
@@ -56,6 +57,7 @@ class PersonalTest extends TestCase {
 	private ThemingDefaults $themingDefaults;
 	private IAppManager $appManager;
 	private Personal $admin;
+	private BackgroundService $backgroundService;
 
 	/** @var ITheme[] */
 	private $themes;
@@ -67,6 +69,7 @@ class PersonalTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->initThemes();
 
@@ -174,6 +177,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				$backgroundService,
 			),
 			'light' => new LightTheme(
 				$util,

@@ -46,6 +46,7 @@ class DefaultTheme implements ITheme {
 	public IConfig $config;
 	public IL10N $l;
 	public IAppManager $appManager;
+	public BackgroundService $backgroundService;
 
 	public string $defaultPrimaryColor;
 	public string $primaryColor;
@@ -57,7 +58,8 @@ class DefaultTheme implements ITheme {
 								ImageManager $imageManager,
 								IConfig $config,
 								IL10N $l,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								BackgroundService $backgroundService) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
 		$this->userSession = $userSession;
@@ -66,6 +68,7 @@ class DefaultTheme implements ITheme {
 		$this->config = $config;
 		$this->l = $l;
 		$this->appManager = $appManager;
+		$this->backgroundService = $backgroundService;
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
@@ -210,7 +213,7 @@ class DefaultTheme implements ITheme {
 		// Primary variables
 		$variables = array_merge($variables, $this->generatePrimaryVariables($colorMainBackground, $colorMainText));
 		$variables = array_merge($variables, $this->generateGlobalBackgroundVariables());
-		$variables = array_merge($variables, $this->generateUserBackgroundVariables());
+		$variables = array_merge($variables, $this->generateUserBackgroundVariables($this->backgroundService));
 
 		return $variables;
 	}

@@ -53,6 +53,8 @@ class DefaultThemeTest extends TestCase {
 	private $l10n;
 	/** @var IAppManager|MockObject */
 	private $appManager;
+	/** @var BackgroundService|MockObject */
+	private $backgroundService;
 
 	private DefaultTheme $defaultTheme;
 
@@ -64,6 +66,7 @@ class DefaultThemeTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$util = new Util(
 			$this->config,
@@ -110,6 +113,7 @@ class DefaultThemeTest extends TestCase {
 			$this->config,
 			$this->l10n,
 			$this->appManager,
+			$this->backgroundService,
 		);
 
 		parent::setUp();

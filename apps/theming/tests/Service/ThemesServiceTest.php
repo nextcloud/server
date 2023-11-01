@@ -25,6 +25,7 @@ namespace OCA\Theming\Tests\Service;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
@@ -53,6 +54,8 @@ class ThemesServiceTest extends TestCase {
 	private $config;
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
+	/** @var BackgroundService|MockObject */
+	private $backgroundService;
 
 	/** @var ITheme[] */
 	private $themes;
@@ -61,6 +64,7 @@ class ThemesServiceTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->themingDefaults->expects($this->any())
 			->method('getColorPrimary')
@@ -290,6 +294,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				$backgroundService,
 			),
 			'light' => new LightTheme(
 				$util,

@@ -31,13 +31,6 @@ use OCA\Theming\Service\BackgroundService;
 
 trait CommonThemeTrait {
 	public Util $util;
-	private BackgroundService $backgroundService;
-
-	public function __construct(
-		BackgroundService $backgroundService,
-	) {
-		$this->backgroundService = $backgroundService;
-	}
 
 	/**
 	 * Generate primary-related variables
@@ -129,7 +122,7 @@ trait CommonThemeTrait {
 	/**
 	 * Generate user theming background-related variables
 	 */
-	protected function generateUserBackgroundVariables(): array {
+	protected function generateUserBackgroundVariables(BackgroundService $backgroundService): array {
 		$user = $this->userSession->getUser();
 		if ($user !== null
 			&& !$this->themingDefaults->isUserThemingDisabled()
