@@ -156,7 +156,7 @@ class PersonalTest extends TestCase {
 		$config = $this->createMock(IConfig::class);
 		$l10n = $this->createMock(IL10N::class);
 		$appManager = $this->createMock(IAppManager::class);
-		$backgroundService = $this->createMock(BackgroundService::class)
+		$backgroundService = $this->createMock(BackgroundService::class);
 
 		$themingDefaults->expects($this->any())
 			->method('getColorPrimary')
