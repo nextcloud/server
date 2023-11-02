@@ -208,6 +208,7 @@ OC.L10N.register(
     "Delete {userid}'s account" : "ลบบัญชีของ {userid}",
     "Welcome mail sent!" : "ส่งอีเมลยินดีต้อนรับแล้ว!",
     "Toggle user actions menu" : "เปิด-ปิด เมนูการกระทำผู้ใช้",
+    "Edit" : "แก้ไข",
     "Show user backend" : "แสดงแบ็กเอนด์ของผู้ใช้",
     "Show storage path" : "แสดงเส้นทางจัดเก็บข้อมูล",
     "Show last login" : "แสดงการเข้าสู่ระบบล่าสุด",
