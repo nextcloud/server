@@ -292,24 +292,31 @@ export default {
 
 	computed: {
 		title() {
-			let title = t('files_sharing', 'Shared with') + ' ';
+			// TRANSLATORS: "shared with XX"
+			let shareWith = t('files_sharing', 'user');
 			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER) {
-				title = title + this.share.shareWithDisplayName
+				shareWith = this.share.shareWithDisplayName
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK) {
-				title = t('files_sharing', 'Share link')
+				// TRANSLATORS: "shared with XX"
+				shareWith = t('files_sharing', 'Share link')
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
-				title += ` (${t('files_sharing', 'group')})`
+				// TRANSLATORS: "shared with XX"
+				shareWith = t('files_sharing', 'group')
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
-				title += ` (${t('files_sharing', 'conversation')})`
+				// TRANSLATORS: "shared with XX"
+				shareWith = t('files_sharing', 'conversation')
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
-				title += ` (${t('files_sharing', 'remote')})`
+				// TRANSLATORS: "shared with XX"
+				shareWith = t('files_sharing', 'remote')
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
-				title += ` (${t('files_sharing', 'remote group')})`
+				// TRANSLATORS: "shared with XX"
+				shareWith = t('files_sharing', 'remote group')
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
-				title += ` (${t('files_sharing', 'guest')})`
+				// TRANSLATORS: "shared with XX"
+				shareWith = t('files_sharing', 'guest')
 			}
 
-			return title
+			return t('files_sharing', 'Shared with {sharedWith}', { shareWith })
 		},
 		/**
 		 * Can the sharee edit the shared file ?
