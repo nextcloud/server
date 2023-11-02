@@ -471,9 +471,6 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetColorPrimaryWithCustomBackground() {
-		$backgroundIndex = 2;
-		$background = array_values(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex];
-
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -486,7 +483,7 @@ class ThemingDefaultsTest extends TestCase {
 			->expects($this->once())
 			->method('getUserValue')
 			->with('user', 'theming', 'background_color', '')
-			->willReturn($background['primary_color']);
+			->willReturn('#04577e');
 
 		$this->config
 			->expects($this->exactly(2))
@@ -496,7 +493,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'disable-user-theming', 'no', 'no'],
 			]);
 
-		$this->assertEquals($background['primary_color'], $this->template->getColorPrimary());
+		$this->assertEquals('#04577e', $this->template->getColorPrimary());
 	}
 
 	public function testGetColorPrimaryWithCustomBackgroundColor() {

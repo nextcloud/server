@@ -210,7 +210,7 @@ class DefaultTheme implements ITheme {
 		// Primary variables
 		$variables = array_merge($variables, $this->generatePrimaryVariables($colorMainBackground, $colorMainText));
 		$variables = array_merge($variables, $this->generateGlobalBackgroundVariables());
-		$variables = array_merge($variables, $this->generateUserBackgroundVariables());
+		$variables = array_merge($variables, $this->generateUserBackgroundVariables($this->l));
 
 		return $variables;
 	}

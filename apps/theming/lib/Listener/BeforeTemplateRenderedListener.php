@@ -29,12 +29,14 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\JSDataService;
 use OCA\Theming\Service\ThemeInjectionService;
+use OCA\Theming\Themes\CommonThemeTrait;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 
@@ -45,19 +47,25 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	private ThemeInjectionService $themeInjectionService;
 	private IUserSession $userSession;
 	private IConfig $config;
+	private CommonThemeTrait $commonThemeTrait;
+	private IL10N $l10n;
 
 	public function __construct(
 		IInitialState $initialState,
 		ContainerInterface $container,
 		ThemeInjectionService $themeInjectionService,
 		IUserSession $userSession,
-		IConfig $config
+		IConfig $config,
+		CommonThemeTrait $commonThemeTrait,
+		IL10N $l10n,
 	) {
 		$this->initialState = $initialState;
 		$this->container = $container;
 		$this->themeInjectionService = $themeInjectionService;
 		$this->userSession = $userSession;
 		$this->config = $config;
+		$this->commonThemeTrait = $commonThemeTrait;
+		$this->l10n = $l10n;
 	}
 
 	public function handle(Event $event): void {
@@ -112,7 +120,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			/** List of all shipped backgrounds */
 			$this->initialState->provideInitialState(
 				'shippedBackgrounds',
-				 BackgroundService::SHIPPED_BACKGROUNDS,
+				$this->commonThemeTrait->getShippedBackgrounds($this->l10n),
 			);
 		}
 

@@ -28,6 +28,7 @@ use OCA\Theming\Util;
 use OCA\Theming\ImageManager;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
+use OCP\IL10N;
 
 trait CommonThemeTrait {
 	public Util $util;
@@ -122,7 +123,7 @@ trait CommonThemeTrait {
 	/**
 	 * Generate user theming background-related variables
 	 */
-	protected function generateUserBackgroundVariables(): array {
+	protected function generateUserBackgroundVariables(IL10N $l10n): array {
 		$user = $this->userSession->getUser();
 		if ($user !== null
 			&& !$this->themingDefaults->isUserThemingDisabled()
@@ -162,15 +163,140 @@ trait CommonThemeTrait {
 			}
 
 			// The user picked a shipped background
-			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
+			if (isset($this->getShippedBackgrounds($l10n)[$backgroundImage])) {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
-					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
+					'--background-image-invert-if-bright' => $this->getShippedBackgrounds($l10n)[backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
 				];
 			}
 		}
 
 		return [];
+
+		public function getShippedBackgrounds(IL10N $l10n): array {
+			return [
+				'hannah-maclean-soft-floral.jpg' => [
+					'attribution' => $l10n->t('Soft floral (Hannah MacLean, CC0)'),
+					'description' => $l10n->t('Abstract picture in yellow and white color whith a flower on it'),
+					'attribution_url' => 'https://stocksnap.io/photo/soft-floral-XOYWCCW5PA',
+					'theming' => BackgroundService::THEMING_MODE_DARK,
+					'primary_color' => '#9f652f',
+				],
+				'ted-moravec-morning-fog.jpg' => [
+					'attribution' => $l10n->t('Morning fog (Ted Moravec, Public Domain)'),
+					'description' => $l10n->t('Picture of a forest shrouded in fog'),
+					'attribution_url' => 'https://flickr.com/photos/tmoravec/52392410261',
+					'theming' => BackgroundService::THEMING_MODE_DARK,
+					'primary_color' => '#114c3b',
+				],
+				'stefanus-martanto-setyo-husodo-underwater-ocean.jpg' => [
+					'attribution' => $l10n->t('Underwater ocean (Stefanus Martanto Setyo Husodo, CC0)'),
+					'description' => $l10n->t('Picture of an underwater ocean'),
+					'attribution_url' => 'https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS',
+					'primary_color' => '#04577e',
+				],
+				'zoltan-voros-rhythm-and-blues.jpg' => [
+					'attribution' => $l10n->t('Rhythm and blues (Zoltán Vörös, CC BY)'),
+					'description' => $l10n->t('Abstract picture of sand dunes during night'),
+					'attribution_url' => 'https://flickr.com/photos/v923z/51634409289/',
+					'primary_color' => '#1c243c',
+				],
+				'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
+					'attribution' => $l10n->t('Butterfly wing scale (Anatoly Mikhaltsov, CC BY-SA)'),
+					'description' => $l10n->t('Picture of a red-ish butterfly wing under microscope'),
+					'attribution_url' => 'https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%88%D1%83%D0%B9%D0%BA%D0%B8_%D0%BA%D1%80%D1%8B%D0%BB%D0%B0_%D0%B1%D0%B0%D0%B1%D0%BE%D1%87%D0%BA%D0%B8.jpg',
+					'primary_color' => '#a53c17',
+				],
+				'bernie-cetonia-aurata-take-off-composition.jpg' => [
+					'attribution' => $l10n->t('Cetonia aurata take off composition (Bernie, Public Domain)'),
+					'description' => $l10n->t('Montage of a cetonia aurata bug that takes off with white background'),
+					'attribution_url' => 'https://commons.wikimedia.org/wiki/File:Cetonia_aurata_take_off_composition_05172009.jpg',
+					'theming' => BackgroundService::THEMING_MODE_DARK,
+					'primary_color' => '#56633d',
+				],
+				'dejan-krsmanovic-ribbed-red-metal.jpg' => [
+					'attribution' => $l10n->t('Ribbed red metal (Dejan Krsmanovic, CC BY)'),
+					'description' => $l10n->t('Abstract picture of red ribbed metal with two horizontal white elements on top of it'),
+					'attribution_url' => 'https://www.flickr.com/photos/dejankrsmanovic/42971456774/',
+					'primary_color' => '#9c4236',
+				],
+				'eduardo-neves-pedra-azul.jpg' => [
+					'attribution' => $l10n->t('Pedra azul milky way (Eduardo Neves, CC BY-SA)'),
+					'description' => $l10n->t('Picture of the milky way during night with a mountain in front of it'),
+					'attribution_url' => 'https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg',
+					'primary_color' => '#4f6071',
+				],
+				'european-space-agency-barents-bloom.jpg' => [
+					'attribution' => $l10n->t('Barents bloom (European Space Agency, CC BY-SA)'),
+					'description' => $l10n->t('Abstract picture of blooming barents in blue and green colors'),
+					'attribution_url' => 'https://www.esa.int/ESA_Multimedia/Images/2016/08/Barents_bloom',
+					'primary_color' => '#396475',
+				],
+				'hannes-fritz-flippity-floppity.jpg' => [
+					'attribution' => $l10n->t('Flippity floppity (Hannes Fritz, CC BY-SA)'),
+					'description' => $l10n->t('Abstract picture of many pairs of flip flops hanging on a wall in multiple colors'),
+					'attribution_url' => 'http://hannes.photos/flippity-floppity',
+					'primary_color' => '#98415a',
+				],
+				'hannes-fritz-roulette.jpg' => [
+					'attribution' => $l10n->t('Roulette (Hannes Fritz, CC BY-SA)'),
+					'description' => $l10n->t('Picture of a rotating giant wheel during night'),
+					'attribution_url' => 'http://hannes.photos/roulette',
+					'primary_color' => '#845334',
+				],
+				'hannes-fritz-sea-spray.jpg' => [
+					'attribution' => $l10n->t('Sea spray (Hannes Fritz, CC BY-SA)'),
+					'description' => $l10n->t('Picture of a stone coast with fog and sea behind it'),
+					'attribution_url' => 'http://hannes.photos/sea-spray',
+					'primary_color' => '#4f6071',
+				],
+				'kamil-porembinski-clouds.jpg' => [
+					'attribution' => $l10n->t('Clouds (Kamil Porembiński, CC BY-SA)'),
+					'description' => $l10n->t('Picture of white clouds on in front of a blue sky'),
+					'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
+					'primary_color' => BackgroundService::DEFAULT_COLOR,
+				],
+				'bernard-spragg-new-zealand-fern.jpg' => [
+					'attribution' => $l10n->t('New zealand fern (Bernard Spragg, CC0)'),
+					'description' => $l10n->t('Abstract picture of fern leafes'),
+					'attribution_url' => 'https://commons.wikimedia.org/wiki/File:NZ_Fern.(Blechnum_chambersii)_(11263534936).jpg',
+					'primary_color' => '#316b26',
+				],
+				'rawpixel-pink-tapioca-bubbles.jpg' => [
+					'attribution' => $l10n->t('Pink tapioca bubbles (Rawpixel, CC BY)'),
+					'description' => $l10n->t('Abstract picture of pink tapioca bubbles'),
+					'attribution_url' => 'https://www.flickr.com/photos/byrawpixel/27665140298/in/photostream/',
+					'theming' => BackgroundService::THEMING_MODE_DARK,
+					'primary_color' => '#7b4e7e',
+				],
+				'nasa-waxing-crescent-moon.jpg' => [
+					'attribution' => $l10n->t('Waxing crescent moon (NASA, Public Domain)'),
+					'description' => $l10n->t('Picture of glowing earth in foreground and moon in the background'),
+					'attribution_url' => 'https://www.nasa.gov/image-feature/a-waxing-crescent-moon',
+					'primary_color' => '#005ac1',
+				],
+				'tommy-chau-already.jpg' => [
+					'attribution' => $l10n->t('Cityscape (Tommy Chau, CC BY)'),
+					'description' => $l10n->t('Picture of a skyscraper city during night'),
+					'attribution_url' => 'https://www.flickr.com/photos/90975693@N05/16910999368',
+					'primary_color' => '#6a2af4',
+				],
+				'tommy-chau-lion-rock-hill.jpg' => [
+					'attribution' => $l10n->t('Lion rock hill (Tommy Chau, CC BY)'),
+					'description' => $l10n->t('Picture of mountains during sunset or sunrise'),
+					'attribution_url' => 'https://www.flickr.com/photos/90975693@N05/17136440246',
+					'theming' => BackgroundService::THEMING_MODE_DARK,
+					'primary_color' => '#7f4f70',
+				],
+				'lali-masriera-yellow-bricks.jpg' => [
+					'attribution' => $l10n->t('Yellow bricks (Lali Masriera, CC BY)'),
+					'description' => $l10n->t('Picture of yellow bricks with some yellow tubes'),
+					'attribution_url' => 'https://www.flickr.com/photos/visualpanic/3982464447',
+					'theming' => BackgroundService::THEMING_MODE_DARK,
+					'primary_color' => '#7f5700',
+				],
+			];
+		}
 	}
 }
