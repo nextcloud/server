@@ -30,7 +30,7 @@ import { execSync } from 'child_process'
 
 export const docker = new Docker()
 
-const CONTAINER_NAME = 'nextcloud-cypress-tests-server'
+const CONTAINER_NAME = process.env.NEXTCLOUD_CONTAINER ?? 'nextcloud-cypress-tests-server'
 const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
 
 /**
@@ -39,6 +39,10 @@ const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
  * @param {string} branch the branch of your current work
  */
 export const startNextcloud = async function(branch: string = getCurrentGitBranch()): Promise<any> {
+	if (process.env.NEXTCLOUD_HOST) {
+		console.log('\nRunning on CI skipping pulling images')
+		return process.env.NEXTCLOUD_HOST
+	}
 
 	try {
 		try {
@@ -204,6 +208,11 @@ export const stopNextcloud = async function() {
 export const getContainerIP = async function(
 	container = docker.getContainer(CONTAINER_NAME),
 ): Promise<string> {
+
+	if (process.env.NEXTCLOUD_HOST) {
+		return process.env.NEXTCLOUD_HOST
+	}
+
 	let ip = ''
 	let tries = 0
 	while (ip === '' && tries < 10) {
