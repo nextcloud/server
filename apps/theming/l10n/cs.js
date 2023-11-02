@@ -79,6 +79,7 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Vypnout veškeré klávesové zkratky",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Přístupnost pro všechny je pro nás velmi důležitá. Splňujeme webové standardy a zajišťujeme, aby všechno bylo použitelné i bez myši a s asistenčním software, jako například čtečkami obrazovky. Máme za cíl být v souladu s doporučeními {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na úrovni AA, při použití motivu vzhledu s vysokým kontrastem dokonce na úrovni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Pokud naleznete jakékoli problémy, neváhejte s jejich nahlášením do {issuetracker}našeho systému pro správu hlášení{linkend}. A pokud se chcete zapojit, přidejte se k {designteam}týmu našich designérů{linkend}!",
+    "Current selected app: {app}, position {position} of {total}" : "Nyní vybraná aplikace: {app}, pozice {position} z {total}",
     "Move up" : "Přesunout výše",
     "Move down" : "Přesunout dolů",
     "Custom background" : "Uživatelsky určený obrázek na pozadí",
