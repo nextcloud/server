@@ -23,14 +23,24 @@
 	},
 	"require": {
 		"php": "^8.0",
+		"ext-ctype": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-fileinfo": "*",
+		"ext-gd": "*",
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
 		"ext-openssl": "*",
 		"ext-pdo": "*",
+		"ext-posix": "*",
+		"ext-session": "*",
 		"ext-simplexml": "*",
+		"ext-xml": "*",
 		"ext-xmlreader": "*",
-		"ext-zip": "*"
+		"ext-xmlwriter": "*",
+		"ext-zip": "*",
+		"ext-zlib": "*"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"
@@ -50,6 +60,10 @@
 		"psalm": "psalm --no-cache --threads=$(nproc)",
 		"psalm:ci": "psalm --no-cache --threads=1",
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
+		"serve": [
+			"Composer\\Config::disableProcessTimeout",
+			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
+		],
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
 		"test:db": "@composer run test -- --group DB,SLOWDB",
 		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"

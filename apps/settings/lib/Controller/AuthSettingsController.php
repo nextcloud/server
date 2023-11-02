@@ -53,14 +53,13 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-
 	/** @var IProvider */
 	private $tokenProvider;
 
 	/** @var ISession */
 	private $session;
 
-	/** IUserSession */
+	/** @var IUserSession */
 	private $userSession;
 
 	/** @var string */

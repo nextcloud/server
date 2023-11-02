@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 @use 'variables';
 @use 'sass:math';
-@import 'functions';	
+@import 'functions';
 
 input {
 	&#openid, &#webdav {
@@ -478,18 +478,15 @@ table.grid {
 
 	th {
 		height: 2em;
-		color: #999;
+		padding: 0 1em 0 0;
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
 		text-align: left;
 		font-weight: normal;
 	}
 
 	td {
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
+		padding: 0 1em 0 0;
 		text-align: left;
 		font-weight: normal;
 	}

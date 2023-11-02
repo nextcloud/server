@@ -1241,7 +1241,7 @@ steps:
   commands:
     # JavaScript files are not used in integration tests, so it is not needed to
     # build them.
-    - git clone --depth 1 --branch master https://github.com/nextcloud/spreed apps/spreed
+    - git clone --depth 1 --branch main https://github.com/nextcloud/spreed apps/spreed
     - cd apps/spreed
     - composer --version
     - composer self-update --2
@@ -1604,66 +1604,6 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
-
-services:
-- name: selenium
-  image: ghcr.io/nextcloud/continuous-integration-selenium:3.141.59
-  environment:
-    # Reduce default log level for Selenium server (INFO) as it is too
-    # verbose.
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: acceptance-login
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: acceptance-login
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
-  commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
-
-services:
-- name: selenium
-  image: ghcr.io/nextcloud/continuous-integration-selenium:3.141.59
-  environment:
-    # Reduce default log level for Selenium server (INFO) as it is too
-    # verbose.
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: acceptance-users
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: acceptance-users
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
-  commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
 
 services:
 - name: selenium

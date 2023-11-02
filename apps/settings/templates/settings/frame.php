@@ -34,7 +34,7 @@ script('files', 'jquery.fileupload');
 		<div id="app-navigation-caption-personal" class="app-navigation-caption"><?php p($l->t('Personal')); ?></div>
 	<?php endif; ?>
 	<nav class="app-navigation-personal" aria-labelledby="app-navigation-caption-personal">
-		<ul tabindex="0">
+		<ul>
 			<?php foreach ($_['forms']['personal'] as $form) {
 				if (isset($form['anchor'])) {
 					$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
@@ -61,7 +61,7 @@ script('files', 'jquery.fileupload');
 		<div id="app-navigation-caption-administration" class="app-navigation-caption"><?php p($l->t('Administration')); ?></div>
 	<?php endif; ?>
 	<nav class="app-navigation-administration" aria-labelledby="app-navigation-caption-administration">
-		<ul tabindex="0">
+		<ul>
 			<?php foreach ($_['forms']['admin'] as $form) {
 				if (isset($form['anchor'])) {
 					$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
@@ -84,6 +84,6 @@ script('files', 'jquery.fileupload');
 		</ul>
 	</nav>
 </div>
-<div id="app-content" tabindex="0" data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>">
+<div id="app-content" data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>">
 	<?php print_unescaped($_['content']); ?>
 </div>

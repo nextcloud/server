@@ -155,6 +155,13 @@ $application->registerRoutes($this, [
 		['root' => '/textprocessing', 'name' => 'TextProcessingApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
 		['root' => '/textprocessing', 'name' => 'TextProcessingApi#deleteTask', 'url' => '/task/{id}', 'verb' => 'DELETE'],
 		['root' => '/textprocessing', 'name' => 'TextProcessingApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
+
+		['root' => '/text2image', 'name' => 'TextToImageApi#isAvailable', 'url' => '/is_available', 'verb' => 'GET'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#schedule', 'url' => '/schedule', 'verb' => 'POST'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#getImage', 'url' => '/task/{id}/image/{index}', 'verb' => 'GET'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#deleteTask', 'url' => '/task/{id}', 'verb' => 'DELETE'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
 	],
 ]);
 

@@ -2,6 +2,10 @@ name: Performance testing
 on:
   pull_request:
 
+concurrency:
+  group: performance-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   performance-testing:
     runs-on: ubuntu-latest
@@ -17,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout server before PR
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}

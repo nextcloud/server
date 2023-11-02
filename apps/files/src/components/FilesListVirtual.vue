@@ -332,7 +332,6 @@ export default Vue.extend({
 
 		// Before table and thead
 		.files-list__before {
-			contain: style paint layout;
 			display: flex;
 			flex-direction: column;
 		}
@@ -366,6 +365,7 @@ export default Vue.extend({
 			width: 100%;
 			user-select: none;
 			border-bottom: 1px solid var(--color-border);
+			box-sizing: border-box;
 			user-select: none;
 			height: var(--row-height);
 		}

@@ -385,19 +385,7 @@ export default {
 		 */
 		hasExpirationDate: {
 			get() {
-				const isDefaultExpireDateEnabled = this.config.isDefaultExpireDateEnabled
-				const hasExistingExpirationDate = !!this.share.expireDate || isDefaultExpireDateEnabled
-				const isDefaultInternalExpireDateEnabled = this.config.isDefaultInternalExpireDateEnabled
-				const isDefaultRemoteExpireDateEnabled = this.config.isDefaultRemoteExpireDateEnabled
-				if (this.isPublicShare) {
-					return hasExistingExpirationDate
-				}
-
-				if (this.isRemoteShare) {
-					return hasExistingExpirationDate || isDefaultRemoteExpireDateEnabled
-				}
-
-				return hasExistingExpirationDate || isDefaultInternalExpireDateEnabled
+				return this.isValidShareAttribute(this.share.expireDate)
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
@@ -430,14 +418,14 @@ export default {
 			return this.fileInfo.type === 'dir'
 		},
 		maxExpirationDateEnforced() {
-			if (this.isPublicShare) {
-				return this.config.defaultExpirationDate
-			}
-			if (this.isRemoteShare) {
-				return this.config.defaultRemoteExpirationDateString
-			}
-			// If it get's here then it must be an internal share
 			if (this.isExpiryDateEnforced) {
+				if (this.isPublicShare) {
+					return this.config.defaultExpirationDate
+				}
+				if (this.isRemoteShare) {
+					return this.config.defaultRemoteExpirationDateString
+				}
+				// If it get's here then it must be an internal share
 				return this.config.defaultInternalExpirationDate
 			}
 			return null
@@ -715,10 +703,19 @@ export default {
 					this.share.newPassword = await GeneratePassword()
 					this.advancedSectionAccordionExpanded = true
 				}
-				if (this.hasExpirationDate) {
-					this.share.expireDate = this.defaultExpiryDate
+				/* Set default expiration dates if configured */
+				if (this.isPublicShare && this.config.isDefaultExpireDateEnabled) {
+					this.share.expireDate = this.config.defaultExpirationDate.toDateString()
+				} else if (this.isRemoteShare && this.config.isDefaultRemoteExpireDateEnabled) {
+					this.share.expireDate = this.config.defaultRemoteExpirationDateString.toDateString()
+				} else if (this.config.isDefaultInternalExpireDateEnabled) {
+					this.share.expireDate = this.config.defaultInternalExpirationDate.toDateString()
+				}
+
+				if (this.isValidShareAttribute(this.share.expireDate)) {
 					this.advancedSectionAccordionExpanded = true
 				}
+
 				return
 			}
 

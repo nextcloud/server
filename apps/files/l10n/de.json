@@ -241,6 +241,7 @@
     "Blank" : "Leer",
     "Unable to create new file from template" : "Neue Datei konnte nicht aus Vorlage erstellt werden",
     "Delete permanently" : "Endgültig löschen",
+    "You cannot move a file/folder onto itself or into a subfolder of itself" : "Eine Datei oder ein Ordner kann nicht auf sich selbst oder in einen Unterordner von sich selbst verschoben werden.",
     "Open folder {displayName}" : "Ordner {displayName} öffnen",
     "Open in Files" : "In App \"Dateien\" öffnen",
     "Open details" : "Details öffnen",

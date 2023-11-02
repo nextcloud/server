@@ -140,9 +140,9 @@ export default {
 				return this.config.isDefaultExpireDateEnforced
 			}
 			if (this.isRemoteShare) {
-			    return this.config.isDefaultRemoteExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+			    return this.config.isDefaultRemoteExpireDateEnforced
 			}
-			return this.config.isDefaultInternalExpireDateEnforced || this.config.isDefaultExpireDateEnforced
+			return this.config.isDefaultInternalExpireDateEnforced
 		},
 		hasCustomPermissions() {
 			const bundledPermissions = [

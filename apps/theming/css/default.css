@@ -6,16 +6,20 @@
   --filter-background-blur: blur(25px);
   --gradient-main-background: var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%;
   --color-background-hover: #f5f5f5;
+  /** Can be used e.g. to colorize selected table rows */
   --color-background-dark: #ededed;
+  /** This should only be used for elements, not as a text background! Otherwise it will not work for accessibility. */
   --color-background-darker: #dbdbdb;
   --color-placeholder-light: #e6e6e6;
   --color-placeholder-dark: #cccccc;
   --color-main-text: #222222;
-  --color-text-maxcontrast: #767676;
-  --color-text-maxcontrast-default: #767676;
-  --color-text-maxcontrast-background-blur: #646464;
-  --color-text-light: #222222;
-  --color-text-lighter: #767676;
+  --color-text-maxcontrast: #6b6b6b;
+  --color-text-maxcontrast-default: #6b6b6b;
+  --color-text-maxcontrast-background-blur: #595959;
+  /** @deprecated use ` --color-main-text` instead */
+  --color-text-light: var(--color-main-text);
+  /** @deprecated use `--color-text-maxcontrast` instead */
+  --color-text-lighter: var(--color-text-maxcontrast);
   --color-scrollbar: rgba(34,34,34, .15);
   --color-error: #d91812;
   --color-error-rgb: 217,24,18;
@@ -24,7 +28,7 @@
   --color-warning: #c28900;
   --color-warning-rgb: 194,137,0;
   --color-warning-hover: #cea032;
-  --color-warning-text: #996c00;
+  --color-warning-text: #8f6500;
   --color-success: #2d7b41;
   --color-success-rgb: 45,123,65;
   --color-success-hover: #448955;
@@ -64,20 +68,20 @@
   --background-invert-if-bright: invert(100%);
   --background-image-invert-if-bright: no;
   --primary-invert-if-bright: no;
-  --color-primary: #006aa3;
+  --color-primary: #00679e;
   --color-primary-default: #0082c9;
   --color-primary-text: #ffffff;
-  --color-primary-hover: #3287b5;
-  --color-primary-light: #e5f0f5;
-  --color-primary-light-text: #002a41;
-  --color-primary-light-hover: #dbe5ea;
-  --color-primary-element: #006aa3;
-  --color-primary-element-hover: #1f7cae;
+  --color-primary-hover: #3285b1;
+  --color-primary-light: #e5eff5;
+  --color-primary-light-text: #00293f;
+  --color-primary-light-hover: #dbe4ea;
+  --color-primary-element: #00679e;
+  --color-primary-element-hover: #1674a6;
   --color-primary-element-text: #ffffff;
-  --color-primary-element-light: #e5f0f5;
-  --color-primary-element-light-hover: #dbe5ea;
-  --color-primary-element-light-text: #002a41;
-  --color-primary-element-text-dark: #ededed;
+  --color-primary-element-text-dark: #f0f0f0;
+  --color-primary-element-light: #e5eff5;
+  --color-primary-element-light-hover: #dbe4ea;
+  --color-primary-element-light-text: #00293f;
   --gradient-primary-background: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   --image-background-default: url('/apps/theming/img/background/kamil-porembinski-clouds.jpg');
   --color-background-plain: #0082c9;

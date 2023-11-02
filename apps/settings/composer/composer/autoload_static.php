@@ -93,6 +93,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\InternetConnectivity' => __DIR__ . '/..' . '/../lib/SetupChecks/InternetConnectivity.php',
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
+        'OCA\\Settings\\SetupChecks\\PhpModules' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpModules.php',
         'OCA\\Settings\\SetupChecks\\PhpOutdated' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutdated.php',
         'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutputBuffering.php',
         'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ReadOnlyConfig.php',

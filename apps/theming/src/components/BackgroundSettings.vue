@@ -387,8 +387,8 @@ export default {
 		&--active,
 		&:hover,
 		&:focus {
-			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
+			outline: 2px solid var(--color-main-text) !important;
+			border-color: var(--color-main-background) !important;
 		}
 
 		// Icon

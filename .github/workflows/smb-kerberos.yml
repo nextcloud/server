@@ -1,16 +1,13 @@
 name: Samba Kerberos SSO
 on:
-  push:
-    branches:
-      - master
-      - stable*
-    paths:
-      - 'apps/files_external/**'
-      - '.github/workflows/smb-kerberos.yml'
   pull_request:
     paths:
       - 'apps/files_external/**'
       - '.github/workflows/smb-kerberos.yml'
+
+concurrency:
+  group: smb-kerberos-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   smb-kerberos-tests:
@@ -22,11 +19,11 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           submodules: true
       - name: Checkout user_saml
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           repository: nextcloud/user_saml
           path: apps/user_saml

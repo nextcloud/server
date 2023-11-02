@@ -383,16 +383,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.recommendedPHPModules.length > 0) {
-						var listOfRecommendedPHPModules = "";
-						data.recommendedPHPModules.forEach(function(element){
-							listOfRecommendedPHPModules += '<li>' + element + '</li>';
-						});
-						messages.push({
-							msg: t('core', 'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.') + '<ul><code>' + listOfRecommendedPHPModules + '</code></ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if (!data.isImagickEnabled) {
 						messages.push({
 							msg: t(

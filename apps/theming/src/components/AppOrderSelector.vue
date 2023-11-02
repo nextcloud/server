@@ -1,36 +1,60 @@
 <template>
-	<ol ref="listElement" data-cy-app-order class="order-selector">
-		<AppOrderSelectorElement v-for="app,index in appList"
-			:key="`${app.id}${renderCount}`"
-			:app="app"
-			:is-first="index === 0 || !!appList[index - 1].default"
-			:is-last="index === value.length - 1"
-			v-on="app.default ? {} : {
-				'move:up': () => moveUp(index),
-				'move:down': () => moveDown(index),
-			}" />
-	</ol>
+	<Fragment>
+		<div :id="statusInfoId"
+			aria-live="polite"
+			class="hidden-visually"
+			role="status">
+			{{ statusInfo }}
+		</div>
+		<ol ref="listElement" data-cy-app-order class="order-selector">
+			<AppOrderSelectorElement v-for="app,index in appList"
+				:key="`${app.id}${renderCount}`"
+				ref="selectorElements"
+				:app="app"
+				:aria-details="ariaDetails"
+				:aria-describedby="statusInfoId"
+				:is-first="index === 0 || !!appList[index - 1].default"
+				:is-last="index === value.length - 1"
+				v-on="app.default ? {} : {
+					'move:up': () => moveUp(index),
+					'move:down': () => moveDown(index),
+					'update:focus': () => updateStatusInfo(index),
+				}" />
+		</ol>
+	</Fragment>
 </template>
 
 <script lang="ts">
+import { translate as t } from '@nextcloud/l10n'
 import { useSortable } from '@vueuse/integrations/useSortable'
-import { PropType, computed, defineComponent, ref } from 'vue'
+import { PropType, computed, defineComponent, onUpdated, ref } from 'vue'
+import { Fragment } from 'vue-frag'
 
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
 
-interface IApp {
+export interface IApp {
 	id: string // app id
 	icon: string // path to the icon svg
-	label?: string // display name
+	label: string // display name
 	default?: boolean // force app as default app
+	app: string
+	key: number
 }
 
 export default defineComponent({
 	name: 'AppOrderSelector',
 	components: {
 		AppOrderSelectorElement,
+		Fragment,
 	},
 	props: {
+		/**
+		 * Details like status information that need to be forwarded to the interactive elements
+		 */
+		ariaDetails: {
+			type: String,
+			default: null,
+		},
 		/**
 		 * List of apps to reorder
 		 */
@@ -80,6 +104,19 @@ export default defineComponent({
 		useSortable(listElement, appList, { filter: '.order-selector-element--disabled' })
 
 		/**
+		 * Array of all AppOrderSelectorElement components used to for keeping the focus after button click
+		 */
+		const selectorElements = ref<InstanceType<typeof AppOrderSelectorElement>[]>([])
+
+		/**
+		 * We use the updated hook here to verify all selector elements keep the focus on the last pressed button
+		 * This is needed to be done in this component to make sure Sortable.JS has finished sorting the elements before focussing an element
+		 */
+		onUpdated(() => {
+			selectorElements.value.forEach(element => element.keepFocus())
+		})
+
+		/**
 		 * Handle element is moved up
 		 * @param index The index of the element that is moved
 		 */
@@ -109,6 +146,28 @@ export default defineComponent({
 			emit('update:value', [...before, props.value[index], ...after])
 		}
 
+		/**
+		 * Additional status information to show to screen reader users for accessibility
+		 */
+		const statusInfo = ref('')
+
+		/**
+		 * ID to be used on the status info element
+		 */
+		const statusInfoId = `sorting-status-info-${(Math.random() + 1).toString(36).substring(7)}`
+
+		/**
+		 * Update the status information for the currently selected app
+		 * @param index Index of the app that is currently selected
+		 */
+		const updateStatusInfo = (index: number) => {
+			statusInfo.value = t('theming', 'Current selected app: {app}, position {position} of {total}', {
+				app: props.value[index].label,
+				position: index + 1,
+				total: props.value.length,
+			})
+		}
+
 		return {
 			appList,
 			listElement,
@@ -116,7 +175,12 @@ export default defineComponent({
 			moveDown,
 			moveUp,
 
+			statusInfoId,
+			statusInfo,
+			updateStatusInfo,
+
 			renderCount,
+			selectorElements,
 		}
 	},
 })

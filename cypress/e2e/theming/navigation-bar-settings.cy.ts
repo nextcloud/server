@@ -94,15 +94,18 @@ describe('Admin theming set default apps', () => {
 })
 
 describe('User theming set app order', () => {
+	let user: User
+
 	before(() => {
 		cy.resetAdminTheming()
 		// Create random user for this test
-		cy.createRandomUser().then((user) => {
-			cy.login(user)
+		cy.createRandomUser().then(($user) => {
+			user = $user
+			cy.login($user)
 		})
 	})
 
-	after(() => cy.logout())
+	after(() => cy.deleteUser(user))
 
 	it('See the app order settings', () => {
 		cy.visit('/settings/user/theming')
@@ -144,6 +147,8 @@ describe('User theming set app order', () => {
 })
 
 describe('User theming set app order with default app', () => {
+	let user: User
+
 	before(() => {
 		cy.resetAdminTheming()
 		// install a third app
@@ -152,13 +157,14 @@ describe('User theming set app order with default app', () => {
 		cy.runOccCommand('config:system:set --value "calendar,files" defaultapp')
 
 		// Create random user for this test
-		cy.createRandomUser().then((user) => {
-			cy.login(user)
+		cy.createRandomUser().then(($user) => {
+			user = $user
+			cy.login($user)
 		})
 	})
 
 	after(() => {
-		cy.logout()
+		cy.deleteUser(user)
 		cy.runOccCommand('app:remove calendar')
 	})
 
@@ -186,11 +192,12 @@ describe('User theming set app order with default app', () => {
 
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('not.be.visible')
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.be.visible')
+
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.be.visible')
 	})
 
-	it('Change the other apps order', () => {
+	it('Change the order of the other apps', () => {
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
 
@@ -208,5 +215,122 @@ describe('User theming set app order with default app', () => {
 			else if (idx === 1) cy.wrap($el).should('have.attr', 'data-app-id', 'files')
 			else cy.wrap($el).should('have.attr', 'data-app-id', 'dashboard')
 		})
+	})
+})
+
+describe('User theming app order list accessibility', () => {
+	let user: User
+
+	before(() => {
+		cy.resetAdminTheming()
+		// Create random user for this test
+		cy.createRandomUser().then(($user) => {
+			user = $user
+			cy.login($user)
+		})
+	})
+
+	after(() => {
+		cy.deleteUser(user)
+	})
+
+	it('See the app order settings', () => {
+		cy.visit('/settings/user/theming')
+		cy.get('[data-cy-app-order]').scrollIntoView()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').should('have.length', 2)
+	})
+
+	it('click the first button', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('be.visible').focus()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').click()
+	})
+
+	it('see the same app kept the focus', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('have.focus')
+	})
+
+	it('click the last button', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('be.visible').focus()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').click()
+	})
+
+	it('see the same app kept the focus', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('have.focus')
+	})
+})
+
+describe('User theming reset app order', () => {
+	let user: User
+
+	before(() => {
+		cy.resetAdminTheming()
+		// Create random user for this test
+		cy.createRandomUser().then(($user) => {
+			user = $user
+			cy.login($user)
+		})
+	})
+
+	after(() => cy.deleteUser(user))
+
+	it('See the app order settings', () => {
+		cy.visit('/settings/user/theming')
+
+		cy.get('.settings-section').contains('Navigation bar settings').should('exist')
+		cy.get('[data-cy-app-order]').scrollIntoView()
+	})
+
+	it('See that the dashboard app is the first one', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
+			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+		})
+
+		cy.get('.app-menu-main .app-menu-entry').each(($el, idx) => {
+			if (idx === 0) cy.wrap($el).should('have.attr', 'data-app-id', 'dashboard')
+			else cy.wrap($el).should('have.attr', 'data-app-id', 'files')
+		})
+	})
+
+	it('See the reset button is disabled', () => {
+		cy.get('[data-test-id="btn-apporder-reset"]').scrollIntoView()
+		cy.get('[data-test-id="btn-apporder-reset"]').should('be.visible').and('have.attr', 'disabled')
+	})
+
+	it('Change the app order', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
+
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
+			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+		})
+	})
+
+	it('See the reset button is no longer disabled', () => {
+		cy.get('[data-test-id="btn-apporder-reset"]').scrollIntoView()
+		cy.get('[data-test-id="btn-apporder-reset"]').should('be.visible').and('not.have.attr', 'disabled')
+	})
+
+	it('Reset the app order', () => {
+		cy.get('[data-test-id="btn-apporder-reset"]').click({ force: true })
+	})
+
+	it('See the app order is restored', () => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
+			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+		})
+	})
+
+	it('See the reset button is disabled again', () => {
+		cy.get('[data-test-id="btn-apporder-reset"]').should('be.visible').and('have.attr', 'disabled')
 	})
 })

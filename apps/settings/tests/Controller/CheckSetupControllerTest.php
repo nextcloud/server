@@ -209,7 +209,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
 				'is64bit',
-				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
@@ -446,11 +445,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->checkSetupController
 			->expects($this->once())
-			->method('hasRecommendedPHPModules')
-			->willReturn([]);
-
-		$this->checkSetupController
-			->expects($this->once())
 			->method('hasBigIntConversionPendingColumns')
 			->willReturn([]);
 
@@ -537,7 +531,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
 				'is64bit' => false,
-				'recommendedPHPModules' => [],
 				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,

@@ -138,6 +138,12 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
 
+	/** @var ServiceRegistration<\OCP\TextToImage\IProvider>[] */
+	private $textToImageProviders = [];
+
+
+
+
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
 
@@ -268,6 +274,13 @@ class RegistrationContext {
 			}
 			public function registerTextProcessingProvider(string $providerClass): void {
 				$this->context->registerTextProcessingProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
+			public function registerTextToImageProvider(string $providerClass): void {
+				$this->context->registerTextToImageProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -448,6 +461,10 @@ class RegistrationContext {
 
 	public function registerTextProcessingProvider(string $appId, string $class): void {
 		$this->textProcessingProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTextToImageProvider(string $appId, string $class): void {
+		$this->textToImageProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerTemplateProvider(string $appId, string $class): void {
@@ -737,6 +754,13 @@ class RegistrationContext {
 	 */
 	public function getTextProcessingProviders(): array {
 		return $this->textProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TextToImage\IProvider>[]
+	 */
+	public function getTextToImageProviders(): array {
+		return $this->textToImageProviders;
 	}
 
 	/**

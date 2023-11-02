@@ -17,7 +17,6 @@ default:
         - FileListContext
         - FilesAppContext
         - FilesAppSharingContext
-        - LoginPageContext
         - NotificationsContext
         - PublicShareContext
         - SearchContext
@@ -25,7 +24,6 @@ default:
         - SettingsMenuContext
         - ThemingAppContext
         - ToastContext
-        - UsersSettingsContext
       filters:
         tags: "~@apache"
     apache:
@@ -46,7 +44,6 @@ default:
         - FileListContext
         - FilesAppContext
         - FilesAppSharingContext
-        - LoginPageContext
         - NotificationsContext
         - PublicShareContext
         - SearchContext
@@ -54,7 +51,6 @@ default:
         - SettingsMenuContext
         - ThemingAppContext
         - ToastContext
-        - UsersSettingsContext
       filters:
         tags: "@apache"
   extensions:

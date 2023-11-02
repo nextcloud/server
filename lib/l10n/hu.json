@@ -6,7 +6,6 @@
     "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "A(z) %1$s alkalmazás nincs jelen, vagy a verziója nem kompatibilis ezzel a kiszolgálóval. Ellenőrizze az alkalmazástárat.",
     "Sample configuration detected" : "Példabeállítások észlelve",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Úgy tűnik, hogy a példakonfigurációt másolta le. Ez működésképtelenné teheti a telepítést, és nem támogatott. Olvassa el a dokumentációt, mielőtt módosításokat véget a config.php fájlban.",
-    "404" : "404",
     "The page could not be found on the server." : "Az oldal nem található a kiszolgálón.",
     "%s email verification" : "%s e-mail ellenőrzés",
     "Email verification" : "E-mail ellenőrzés",
@@ -275,6 +274,7 @@
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Legalább libxml2 2.7.0 szükséges. Jelenleg telepített: %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "A probléma javításához frissítse a libxml2 verziót, és indítsa újra a webkiszolgálót.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 szükséges.",
-    "Please upgrade your database version." : "Frissítse az adatbázis verzióját."
+    "Please upgrade your database version." : "Frissítse az adatbázis verzióját.",
+    "404" : "404"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -6,6 +6,7 @@
     "The update server could not be reached since %d days to check for new updates." : "Aktualizačný server je nedostupný %d dní pre kontrolu aktualizácií.",
     "Please check the Nextcloud and server log files for errors." : "Chyby skontrolujte prosím v logoch Nextcloud a webového servera",
     "Update to %1$s is available." : "Je dostupná aktualizácia na verziu %1$s.",
+    "Update to {serverAndVersion} is available." : "Je dostupná aktualizácia na {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Pre {app} je dostupná aktualizácia na verziu %s.",
     "Update notification" : "Aktualizovať hlásenie",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornenie na aktualizáciu pre Nextcloud a poskytuje zjednotené prihlasovanie pre aktualizátor.",

@@ -8,13 +8,15 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications.",
     "OAuth 2.0 clients" : "OAuth 2.0 clients",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 allows external services to request access to {instanceName}.",
-    "Add client" : "Add client",
     "Name" : "Name",
     "Redirection URI" : "Redirection URI",
-    "Add" : "Add",
     "Client Identifier" : "Client Identifier",
-    "Secret" : "Secret",
+    "Secret key" : "Secret key",
+    "Delete client" : "Delete client",
+    "Add client" : "Add client",
+    "Add" : "Add",
     "Show client secret" : "Show client secret",
-    "Delete" : "Delete"
+    "Delete" : "Delete",
+    "Secret" : "Secret"
 },
 "nplurals=2; plural=(n != 1);");

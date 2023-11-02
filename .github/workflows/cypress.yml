@@ -1,12 +1,10 @@
 name: Cypress
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
+on: pull_request
+
+concurrency:
+  group: cypress-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 env:
   # Adjust APP_NAME if your repository name is different
@@ -21,9 +19,15 @@ jobs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
+
     steps:
-      - name: Checkout app
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v3.5.2
+      - name: Checkout server
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          # We need to checkout submodules for 3rdparty
+          submodules: true
 
       - name: Check composer.json
         id: check_composer
@@ -39,11 +43,11 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: versions
         with:
-          fallbackNode: "^14"
-          fallbackNpm: "^7"
+          fallbackNode: "^20"
+          fallbackNpm: "^9"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -72,15 +76,11 @@ jobs:
       fail-fast: false
       matrix:
         # Run multiple copies of the current job in parallel
-        # Please increase the number or runners as your tests suite grows
-        containers: ["component", 1, 2]
-        # Only use cypress cloud for PRs
-        use-cypress-cloud:
-          - ${{ !!github.head_ref }}
-        # Only use one container if we are not using the cypress cloud.
-        exclude:
-          - use-cypress-cloud: false
-            containers: 2
+        # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
+        containers: ["component", 0, 1, 2]
+        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
+        # Always aling this number with the total of e2e runners (max. index + 1)
+        total-containers: [3]
 
     name: runner ${{ matrix.containers }}
 
@@ -93,7 +93,7 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
@@ -103,9 +103,6 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@59810ebfa5a5ac6fcfdcfdf036d1cd4d083a88f2 # v6.5.0
         with:
-          record: ${{ !!matrix.use-cypress-cloud }}
-          parallel: ${{ !!matrix.use-cypress-cloud }}
-          # cypress run type
           component: ${{ matrix.containers == 'component' }}
           group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
@@ -120,6 +117,8 @@ jobs:
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          SPLIT: ${{ matrix.total-containers }}
+          SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3

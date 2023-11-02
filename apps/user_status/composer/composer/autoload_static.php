@@ -27,6 +27,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\UserStatus\\Connector\\UserStatus' => __DIR__ . '/..' . '/../lib/Connector/UserStatus.php',
         'OCA\\UserStatus\\Connector\\UserStatusProvider' => __DIR__ . '/..' . '/../lib/Connector/UserStatusProvider.php',
+        'OCA\\UserStatus\\ContactsMenu\\StatusProvider' => __DIR__ . '/..' . '/../lib/ContactsMenu/StatusProvider.php',
         'OCA\\UserStatus\\Controller\\HeartbeatController' => __DIR__ . '/..' . '/../lib/Controller/HeartbeatController.php',
         'OCA\\UserStatus\\Controller\\PredefinedStatusController' => __DIR__ . '/..' . '/../lib/Controller/PredefinedStatusController.php',
         'OCA\\UserStatus\\Controller\\StatusesController' => __DIR__ . '/..' . '/../lib/Controller/StatusesController.php',

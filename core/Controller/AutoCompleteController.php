@@ -35,6 +35,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
+use OCP\Collaboration\AutoComplete\AutoCompleteFilterEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -86,6 +87,18 @@ class AutoCompleteController extends OCSController {
 			'limit' => $limit,
 		]);
 		$this->dispatcher->dispatch(IManager::class . '::filterResults', $event);
+		$results = $event->getResults();
+
+		$event = new AutoCompleteFilterEvent(
+			$results,
+			$search,
+			$itemType,
+			$itemId,
+			$sorter,
+			$shareTypes,
+			$limit,
+		);
+		$this->dispatcher->dispatchTyped($event);
 		$results = $event->getResults();
 
 		$exactMatches = $results['exact'];

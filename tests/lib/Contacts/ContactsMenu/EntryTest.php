@@ -103,6 +103,11 @@ class EntryTest extends TestCase {
 			'emailAddresses' => ['user@example.com'],
 			'profileTitle' => null,
 			'profileUrl' => null,
+			'status' => null,
+			'statusMessage' => null,
+			'statusIcon' => null,
+			'isUser' => false,
+			'uid' => null,
 		];
 
 		$this->entry->setId(123);

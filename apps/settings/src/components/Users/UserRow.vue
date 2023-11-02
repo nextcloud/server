@@ -25,8 +25,8 @@
 
 <template>
 	<tr class="user-list__row"
-		:data-test="user.id">
-		<td class="row__cell row__cell--avatar">
+		:data-cy-user-row="user.id">
+		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
 			<NcLoadingIcon v-if="isLoadingUser"
 				:name="t('settings', 'Loading user …')"
 				:size="32" />
@@ -36,12 +36,12 @@
 				:user="user.id" />
 		</td>
 
-		<td class="row__cell row__cell--displayname" data-test-id="cell-displayname">
+		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
 				<NcTextField ref="displayNameField"
 					class="user-row-text-field"
-					data-test-id="input-displayName"
-					:data-test-loading="`${loading.displayName}`"
+					data-cy-user-list-input-displayname
+					:data-loading="loading.displayName || undefined"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{ 'icon-loading-small': loading.displayName }"
 					:show-trailing-button="true"
@@ -63,13 +63,13 @@
 			</template>
 		</td>
 
-		<td data-test-id="cell-password"
+		<td data-cy-user-list-cell-password
 			class="row__cell"
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
 			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
 				<NcTextField class="user-row-text-field"
-					data-test-id="input-password"
-					:data-test-loading="`${loading.password}`"
+					data-cy-user-list-input-password
+					:data-loading="loading.password || undefined"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{'icon-loading-small': loading.password}"
 					:show-trailing-button="true"
@@ -91,10 +91,12 @@
 			</span>
 		</td>
 
-		<td class="row__cell" data-test-id="cell-email">
+		<td class="row__cell" data-cy-user-list-cell-email>
 			<template v-if="editing">
 				<NcTextField class="user-row-text-field"
 					:class="{'icon-loading-small': loading.mailAddress}"
+					data-cy-user-list-input-email
+					:data-loading="loading.mailAddress || undefined"
 					:show-trailing-button="true"
 					:trailing-button-label="t('settings', 'Submit')"
 					:label="t('settings', 'Set new email address')"
@@ -113,13 +115,15 @@
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--multiline" data-test-id="cell-groups">
+		<td class="row__cell row__cell--large row__cell--multiline" data-cy-user-list-cell-groups>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'groups' + uniqueId">
 					{{ t('settings', 'Add user to group') }}
 				</label>
-				<NcSelect :input-id="'groups' + uniqueId"
+				<NcSelect data-cy-user-list-input-groups
+					:data-loading="loading.groups || undefined"
+					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
 					:loading="loading.groups"
@@ -143,14 +147,16 @@
 		</td>
 
 		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
-			data-test-id="cell-subadmins"
+			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
 			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set user as admin for') }}
 				</label>
-				<NcSelect :id="'subadmins' + uniqueId"
+				<NcSelect data-cy-user-list-input-subadmins
+					:data-loading="loading.subadmins || undefined"
+					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
 					:loading="loading.subadmins"
@@ -170,7 +176,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell" data-test-id="cell-quota">
+		<td class="row__cell" data-cy-user-list-cell-quota>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'quota' + uniqueId">
@@ -179,6 +185,8 @@
 				<NcSelect v-model="editedUserQuota"
 					:close-on-select="true"
 					:create-option="validateQuota"
+					data-cy-user-list-input-quota
+					:data-loading="loading.quota || undefined"
 					:disabled="isLoadingField"
 					:loading="loading.quota"
 					:append-to-body="false"
@@ -190,8 +198,8 @@
 					@option:selected="setUserQuota" />
 			</template>
 			<template v-else-if="!isObfuscated">
-				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
-				<NcProgressBar :id="'quota-progress' + uniqueId"
+				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
+				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId"
 					class="row__progress"
 					:class="{
 						'row__progress--warn': usedQuota > 80,
@@ -202,13 +210,15 @@
 
 		<td v-if="showConfig.showLanguages"
 			class="row__cell row__cell--large"
-			data-test-id="cell-language">
+			data-cy-user-list-cell-language>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'language' + uniqueId">
 					{{ t('settings', 'Set the language') }}
 				</label>
 				<NcSelect :id="'language' + uniqueId"
+					data-cy-user-list-input-language
+					:data-loading="loading.languages || undefined"
 					:allow-empty="false"
 					:disabled="isLoadingField"
 					:loading="loading.languages"
@@ -226,7 +236,7 @@
 		</td>
 
 		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-			data-test-id="cell-storageLocation"
+			data-cy-user-list-cell-storage-location
 			class="row__cell row__cell--large">
 			<template v-if="!isObfuscated">
 				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
@@ -241,11 +251,11 @@
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"
-			data-test-id="cell-lastLogin">
+			data-cy-user-list-cell-last-login>
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--fill" data-test-id="cell-manager">
+		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'manager' + uniqueId">
@@ -253,6 +263,8 @@
 				</label>
 				<NcSelect v-model="currentManager"
 					class="select--fill"
+					data-cy-user-list-input-manager
+					:data-loading="loading.manager || undefined"
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
 					:disabled="isLoadingField"
@@ -271,7 +283,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--actions" data-test-id="cell-actions">
+		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
 			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
 				:actions="userActions"
 				:disabled="isLoadingField"
@@ -406,7 +418,7 @@ export default {
 		},
 
 		uniqueId() {
-			return this.user.id + this.rand
+			return encodeURIComponent(this.user.id + this.rand)
 		},
 
 		userGroupsLabels() {

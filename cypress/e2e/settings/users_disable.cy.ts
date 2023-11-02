@@ -21,61 +21,67 @@
  */
 
 import { User } from '@nextcloud/cypress'
+import { clearState, getUserListRow } from './usersUtils'
 
 const admin = new User('admin', 'admin')
-const jdoe = new User('jdoe', 'jdoe')
 
 describe('Settings: Disable and enable users', function() {
-	before(function() {
-		cy.createUser(jdoe)
+	let testUser: User
+
+	beforeEach(function() {
+		clearState()
+		cy.createRandomUser().then(($user) => {
+			testUser = $user
+		})
 		cy.login(admin)
 		// open the User settings
 		cy.visit('/settings/users')
 	})
 
+	// Not guranteed to run but would be nice to cleanup
 	after(() => {
-		cy.deleteUser(jdoe)
+		cy.deleteUser(testUser)
 	})
 
 	it('Can disable the user', function() {
 		// ensure user is enabled
-		cy.enableUser(jdoe)
+		cy.enableUser(testUser)
 
 		// see that the user is in the list of active users
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
-			// see that the list of users contains the user jdoe
-			cy.contains(jdoe.userId).should('exist')
+		getUserListRow(testUser.userId).within(() => {
+			// see that the list of users contains the user testUser
+			cy.contains(testUser.userId).should('exist')
 			// open the actions menu for the user
-			cy.get('td.row__cell--actions button.action-item__menutoggle').click({ scrollBehavior: 'center' })
+			cy.get('[data-cy-user-list-cell-actions] button.action-item__menutoggle').click({ scrollBehavior: 'center' })
 		})
 
 		// The "Disable user" action in the actions menu is shown and clicked
 		cy.get('.action-item__popper .action').contains('Disable user').should('exist').click()
 		// When clicked the section is not shown anymore
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).should('not.exist')
+		getUserListRow(testUser.userId).should('not.exist')
 		// But the disabled user section now exists
 		cy.get('#disabled').should('exist')
 		// Open disabled users section
 		cy.get('#disabled a').click()
 		cy.url().should('match', /\/disabled/)
 		// The list of disabled users should now contain the user
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).should('exist')
+		getUserListRow(testUser.userId).should('exist')
 	})
 
 	it('Can enable the user', function() {
 		// ensure user is disabled
-		cy.enableUser(jdoe, false)
+		cy.enableUser(testUser, false).reload()
 
 		// Open disabled users section
 		cy.get('#disabled a').click()
 		cy.url().should('match', /\/disabled/)
 
 		// see that the user is in the list of active users
-		cy.get(`tbody.user-list__body tr[data-test="${jdoe.userId}"]`).within(() => {
-			// see that the list of disabled users contains the user jdoe
-			cy.contains(jdoe.userId).should('exist')
+		getUserListRow(testUser.userId).within(() => {
+			// see that the list of disabled users contains the user testUser
+			cy.contains(testUser.userId).should('exist')
 			// open the actions menu for the user
-			cy.get('td.row__cell--actions button.action-item__menutoggle').click({ scrollBehavior: 'center' })
+			cy.get('[data-cy-user-list-cell-actions] button.action-item__menutoggle').click({ scrollBehavior: 'center' })
 		})
 
 		// The "Enable user" action in the actions menu is shown and clicked

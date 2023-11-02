@@ -219,6 +219,18 @@ class NavigationManager implements INavigationManager {
 		}
 
 		if ($this->userSession->isLoggedIn()) {
+			// Profile
+			$this->add([
+				'type' => 'settings',
+				'id' => 'profile',
+				'order' => 1,
+				'href' => $this->urlGenerator->linkToRoute(
+					'core.ProfilePage.index',
+					['targetUserId' => $this->userSession->getUser()->getUID()],
+				),
+				'name' => $l->t('View profile'),
+			]);
+
 			// Accessibility settings
 			if ($this->appManager->isEnabledForUser('theming', $this->userSession->getUser())) {
 				$this->add([
@@ -230,6 +242,7 @@ class NavigationManager implements INavigationManager {
 					'icon' => $this->urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
 				]);
 			}
+
 			if ($this->isAdmin()) {
 				// App management
 				$this->add([

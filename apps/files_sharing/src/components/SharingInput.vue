@@ -560,7 +560,7 @@ export default {
 			background-repeat: no-repeat;
 			background-position: center;
 			background-color: var(--color-text-maxcontrast) !important;
-			div {
+			.avatardiv__initials-wrapper {
 				display: none;
 			}
 		}

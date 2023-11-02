@@ -3,7 +3,8 @@
 		:class="{
 			'order-selector-element': true,
 			'order-selector-element--disabled': app.default
-		}">
+		}"
+		@focusin="$emit('update:focus')">
 		<svg width="20"
 			height="20"
 			viewBox="0 0 20 20"
@@ -23,20 +24,26 @@
 
 		<div class="order-selector-element__actions">
 			<NcButton v-show="!isFirst && !app.default"
+				ref="buttonUp"
 				:aria-label="t('settings', 'Move up')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
 				data-cy-app-order-button="up"
 				type="tertiary-no-background"
-				@click="$emit('move:up')">
+				@click="moveUp">
 				<template #icon>
 					<IconArrowUp :size="20" />
 				</template>
 			</NcButton>
 			<div v-show="isFirst || !!app.default" aria-hidden="true" class="order-selector-element__placeholder" />
 			<NcButton v-show="!isLast && !app.default"
+				ref="buttonDown"
 				:aria-label="t('settings', 'Move down')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
 				data-cy-app-order-button="down"
 				type="tertiary-no-background"
-				@click="$emit('move:down')">
+				@click="moveDown">
 				<template #icon>
 					<IconArrowDown :size="20" />
 				</template>
@@ -47,8 +54,10 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { translate as t } from '@nextcloud/l10n'
-import { PropType, defineComponent } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 
 import IconArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import IconArrowUp from 'vue-material-design-icons/ArrowUp.vue'
@@ -69,6 +78,17 @@ export default defineComponent({
 		NcButton,
 	},
 	props: {
+		/**
+		 * Needs to be forwarded to the buttons (as interactive elements)
+		 */
+		ariaDescribedby: {
+			type: String,
+			default: null,
+		},
+		ariaDetails: {
+			type: String,
+			default: null,
+		},
 		app: {
 			type: Object as PropType<IApp>,
 			required: true,
@@ -85,9 +105,64 @@ export default defineComponent({
 	emits: {
 		'move:up': () => true,
 		'move:down': () => true,
+		/**
+		 * We need this as Sortable.js removes all native focus event listeners
+		 */
+		'update:focus': () => true,
 	},
-	setup() {
+	setup(props, { emit }) {
+		const buttonUp = ref()
+		const buttonDown = ref()
+
+		/**
+		 * Used to decide if we need to trigger focus() an a button on update
+		 */
+		let needsFocus = 0
+
+		/**
+		 * Handle move up, ensure focus is kept on the button
+		 */
+		const moveUp = () => {
+			emit('move:up')
+			needsFocus = 1 // request focus on buttonUp
+		}
+
+		/**
+		 * Handle move down, ensure focus is kept on the button
+		 */
+		 const moveDown = () => {
+			emit('move:down')
+			needsFocus = -1 // request focus on buttonDown
+		}
+
+		/**
+		 * Reset the focus on the last used button.
+		 * If the button is now visible anymore (because this element is the first/last) then the opposite button is focussed
+		 *
+		 * This function is exposed to the "AppOrderSelector" component which triggers this when the list was successfully rerendered
+		 */
+		const keepFocus = () => {
+			if (needsFocus !== 0) {
+				// focus requested
+				if ((needsFocus === 1 || props.isLast) && !props.isFirst) {
+					// either requested to btn up and it is not the first, or it was requested to btn down but it is the last
+					nextTick(() => buttonUp.value.$el.focus())
+				} else {
+					nextTick(() => buttonDown.value.$el.focus())
+				}
+			}
+			needsFocus = 0
+		}
+
 		return {
+			buttonUp,
+			buttonDown,
+
+			moveUp,
+			moveDown,
+
+			keepFocus,
+
 			t,
 		}
 	},

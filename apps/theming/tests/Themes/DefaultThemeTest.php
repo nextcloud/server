@@ -157,6 +157,8 @@ class DefaultThemeTest extends TestCase {
 
 		$css = ":root {" . PHP_EOL . "$variables}" . PHP_EOL;
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
+		// Remove comments
+		$fallbackCss = preg_replace('/\s*\/\*[\s\S]*?\*\//m', '', $fallbackCss);
 
 		$this->assertEquals($css, $fallbackCss);
 	}
