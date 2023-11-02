@@ -202,6 +202,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Capabilities\\IInitialStateExcludedCapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/IInitialStateExcludedCapability.php',
         'OCP\\Capabilities\\IPublicCapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/IPublicCapability.php',
         'OCP\\Collaboration\\AutoComplete\\AutoCompleteEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/AutoCompleteEvent.php',
+        'OCP\\Collaboration\\AutoComplete\\AutoCompleteFilterEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/AutoCompleteFilterEvent.php',
         'OCP\\Collaboration\\AutoComplete\\IManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/IManager.php',
         'OCP\\Collaboration\\AutoComplete\\ISorter' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/ISorter.php',
         'OCP\\Collaboration\\Collaborators\\ISearch' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Collaborators/ISearch.php',

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
  *
@@ -25,76 +25,83 @@ declare(strict_types=1);
  */
 namespace OCP\Collaboration\AutoComplete;
 
-use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\Event;
 
 /**
- * @since 16.0.0
- * @deprecated Use {@see AutoCompleteFilterEvent} instead
+ * @since 28.0.0
  */
-class AutoCompleteEvent extends GenericEvent {
+class AutoCompleteFilterEvent extends Event {
 	/**
-	 * @param array $arguments
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
-	public function __construct(array $arguments) {
-		parent::__construct(null, $arguments);
+	public function __construct(
+		protected array $results,
+		protected string $search,
+		protected ?string $itemType,
+		protected ?string $itemId,
+		protected ?string $sorter,
+		protected array $shareTypes,
+		protected int $limit,
+	) {
+		parent::__construct();
 	}
 
 	/**
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
 	public function getResults(): array {
-		return $this->getArgument('results');
+		return $this->results;
 	}
 
 	/**
 	 * @param array $results
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
 	public function setResults(array $results): void {
-		$this->setArgument('results', $results);
+		$this->results = $results;
 	}
 
 	/**
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
 	public function getSearchTerm(): string {
-		return $this->getArgument('search');
+		return $this->search;
 	}
 
 	/**
-	 * @return int[]
-	 * @since 16.0.0
+	 * @return int[] List of `\OCP\Share\IShare::TYPE_*` constants
+	 * @since 28.0.0
 	 */
 	public function getShareTypes(): array {
-		return $this->getArgument('shareTypes');
+		return $this->shareTypes;
 	}
 
 	/**
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
-	public function getItemType(): string {
-		return $this->getArgument('itemType');
+	public function getItemType(): ?string {
+		return $this->itemType;
 	}
 
 	/**
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
-	public function getItemId(): string {
-		return $this->getArgument('itemId');
+	public function getItemId(): ?string {
+		return $this->itemId;
 	}
 
 	/**
-	 * @since 16.0.0
+	 * @return ?string List of desired sort identifiers, top priority first. When multiple are given they are joined with a pipe: `commenters|share-recipients`
+	 * @since 28.0.0
 	 */
-	public function getSorter(): string {
-		return $this->getArgument('sorter');
+	public function getSorter(): ?string {
+		return $this->sorter;
 	}
 
 	/**
-	 * @since 16.0.0
+	 * @since 28.0.0
 	 */
 	public function getLimit(): int {
-		return $this->getArgument('limit');
+		return $this->limit;
 	}
 }
