@@ -87,6 +87,8 @@
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "分享",
     "Show hidden files" : "顯示隱藏的檔案",
+    "Case sensitive file system" : "區分大小寫檔案系統",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "停用其將允許使用不區分大小寫的檔案系統，但會帶來效能損失",
     "Verify ACL access when listing files" : "列出檔案時驗證 ACL 存取權",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "檢查目錄中每個檔案或資料夾的 ACL，以過濾掉使用者沒有讀取權限的項目，但可能會影響效能",
     "Timeout" : "逾時",
