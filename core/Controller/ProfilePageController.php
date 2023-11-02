@@ -106,7 +106,9 @@ class ProfilePageController extends Controller {
 			$this->profileManager->getProfileFields($targetUser, $visitingUser),
 		);
 
-		$this->navigationManager->setActiveEntry('profile');
+		if ($targetUser === $visitingUser) {
+			$this->navigationManager->setActiveEntry('profile');
+		}
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 
