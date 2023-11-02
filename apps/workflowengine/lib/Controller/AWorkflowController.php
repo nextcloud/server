@@ -99,6 +99,7 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
@@ -127,6 +128,7 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
@@ -155,6 +157,7 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
+	 * @PasswordConfirmationRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
