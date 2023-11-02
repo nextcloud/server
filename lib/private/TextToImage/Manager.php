@@ -119,6 +119,9 @@ class Manager implements IManager {
 			$this->logger->debug('Trying to run Text2Image provider '.$provider::class);
 			try {
 				$task->setStatus(Task::STATUS_RUNNING);
+				$completionExpectedAt = new \DateTime('now');
+				$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
+				$task->setCompletionExpectedAt($completionExpectedAt);
 				if ($task->getId() === null) {
 					$this->logger->debug('Inserting Text2Image task into DB');
 					$taskEntity = $this->taskMapper->insert(DbTask::fromPublicTask($task));
@@ -204,6 +207,9 @@ class Manager implements IManager {
 		}
 		$this->logger->debug('Scheduling Text2Image Task');
 		$task->setStatus(Task::STATUS_SCHEDULED);
+		$completionExpectedAt = new \DateTime('now');
+		$completionExpectedAt->add(new \DateInterval('PT'.$this->getPreferredProviders()[0]->getExpectedRuntime().'S'));
+		$task->setCompletionExpectedAt($completionExpectedAt);
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->insert($taskEntity);
 		$task->setId($taskEntity->getId());
