@@ -311,7 +311,7 @@ class Generator {
 	 *
 	 * @param int $semId
 	 * @param int $concurrency
-	 * @return false|resource the semaphore on success or false on failure
+	 * @return false|\SysvSemaphore the semaphore on success or false on failure
 	 */
 	public static function guardWithSemaphore(int $semId, int $concurrency) {
 		if (!extension_loaded('sysvsem')) {
@@ -330,11 +330,11 @@ class Generator {
 	/**
 	 * Releases the semaphore acquired from {@see Generator::guardWithSemaphore()}.
 	 *
-	 * @param resource|bool $semId the semaphore identifier returned by guardWithSemaphore
+	 * @param false|\SysvSemaphore $semId the semaphore identifier returned by guardWithSemaphore
 	 * @return bool
 	 */
-	public static function unguardWithSemaphore($semId): bool {
-		if (!is_resource($semId) || !extension_loaded('sysvsem')) {
+	public static function unguardWithSemaphore(false|\SysvSemaphore $semId): bool {
+		if ($semId === false || !($semId instanceof \SysvSemaphore)) {
 			return false;
 		}
 		return sem_release($semId);

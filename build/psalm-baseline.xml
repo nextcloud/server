@@ -1159,7 +1159,6 @@
     </InvalidPropertyAssignmentValue>
     <InvalidScalarArgument occurrences="1">
       <code>0</code>
-      <code>0</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/updatenotification/lib/Notification/Notifier.php">
@@ -1516,7 +1515,6 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
-      <code>$this</code>
       <code>$this</code>
     </InvalidScope>
   </file>
@@ -2173,7 +2171,6 @@
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>string</code>
-      <code>string</code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Node/Folder.php">
@@ -2479,7 +2476,6 @@
       <code>$lastChunkPos</code>
       <code>$newUnencryptedSize</code>
       <code>$size</code>
-      <code>$size</code>
       <code>$sourceStorage-&gt;filemtime($sourceInternalPath)</code>
     </InvalidScalarArgument>
   </file>
@@ -2534,7 +2530,6 @@
       <code>$mtime</code>
     </InvalidScalarArgument>
     <NullableReturnStatement occurrences="3">
-      <code>null</code>
       <code>null</code>
       <code>null</code>
       <code>null</code>
@@ -2749,10 +2744,17 @@
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Preview/Generator.php">
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="3">
       <code>$maxPreviewImage</code>
+      <code>$semId</code>
       <code>IPreview::EVENT</code>
     </InvalidArgument>
+    <InvalidReturnStatement occurrences="1">
+      <code>$sem</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>false|\SysvSemaphore</code>
+    </InvalidReturnType>
     <MismatchingDocblockParamType occurrences="1">
       <code>ISimpleFile</code>
     </MismatchingDocblockParamType>
