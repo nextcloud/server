@@ -105,6 +105,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					try {
 						return $this->query($resolveName);
 					} catch (QueryException $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
+						}
+
 						// don't lose the error we got while trying to query by type
 						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
 					}

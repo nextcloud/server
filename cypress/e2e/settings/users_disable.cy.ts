@@ -21,7 +21,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { clearState, getUserListRow } from './usersUtils'
+import { getUserListRow } from './usersUtils'
+import { clearState } from '../../support/commonUtils'
 
 const admin = new User('admin', 'admin')
 

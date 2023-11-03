@@ -233,7 +233,15 @@ export const getContainerIP = async function(
 // https://github.com/cypress-io/cypress/issues/22676
 export const waitOnNextcloud = async function(ip: string) {
 	console.log('├─ Waiting for Nextcloud to be ready... ⏳')
-	await waitOn({ resources: [`http://${ip}/index.php`] })
+	await waitOn({
+		resources: [`http://${ip}/index.php`],
+		// wait for nextcloud to  be up and return any non error status
+		validateStatus: (status) => status >= 200 && status < 400,
+		// timout in ms
+		timeout: 5 * 60 * 1000,
+		// timeout for a single HTTP request
+		httpTimeout: 60 * 1000,
+	})
 	console.log('└─ Done')
 }
 

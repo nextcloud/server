@@ -43,6 +43,8 @@ OC.L10N.register(
     "Necessary language model provider is not available" : "无必要的语言模型提供程序",
     "Task not found" : "找不到任务",
     "Internal error" : "内部错误",
+    "No text to image provider is available" : "没有可用的文字转图像提供者",
+    "Image not found" : "未找到图像",
     "No translation provider available" : "没有可用的翻译提供程序",
     "Could not detect language" : "无法检测语言",
     "Unable to translate" : "无法翻译",
