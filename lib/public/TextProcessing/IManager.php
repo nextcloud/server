@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCP\TextProcessing;
 
 use OCP\Common\Exception\NotFoundException;
+use OCP\DB\Exception;
 use OCP\PreConditionNotMetException;
 use RuntimeException;
 
@@ -68,9 +69,24 @@ interface IManager {
 	 *
 	 * @param Task $task The task to schedule
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
+	 * @throws Exception storing the task in the database failed
 	 * @since 27.1.0
 	 */
 	public function scheduleTask(Task $task) : void;
+
+	/**
+	 * If the designated provider for the passed task provides an expected average runtime, we check if the runtime fits into the
+	 * max execution time of this php process and run it synchronously if it does, if it doesn't fit (or the provider doesn't provide that information)
+	 * execution is deferred to a background job
+	 *
+	 * @param Task $task The task to schedule
+	 * @returns bool A boolean indicating whether the task was run synchronously (`true`) or offloaded to a background job (`false`)
+	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
+	 * @throws RuntimeException If running the task failed
+	 * @throws Exception storing the task in the database failed
+	 * @since 28.0.0
+	 */
+	public function runOrScheduleTask(Task $task): bool;
 
 	/**
 	 * Delete a task that has been scheduled before
