@@ -42,25 +42,23 @@
 			:open.sync="openedMenu"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
-			<template>
-				<NcActionButton v-for="action in enabledMenuActions"
-					:key="action.id"
-					:class="{
-						[`files-list__row-action-${action.id}`]: true,
-						[`files-list__row-action--menu`]: isMenu(action.id)
-					}"
-					:close-after-click="!isMenu(action.id)"
-					:data-cy-files-list-row-action="action.id"
-					:is-menu="isMenu(action.id)"
-					:title="action.title?.([source], currentView)"
-					@click="onActionClick(action)">
-					<template #icon>
-						<NcLoadingIcon v-if="loading === action.id" :size="18" />
-						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
-					</template>
-					{{ actionDisplayName(action) }}
-				</NcActionButton>
-			</template>
+			<NcActionButton v-for="action in enabledMenuActions"
+				:key="action.id"
+				:class="{
+					[`files-list__row-action-${action.id}`]: true,
+					[`files-list__row-action--menu`]: isMenu(action.id)
+				}"
+				:close-after-click="!isMenu(action.id)"
+				:data-cy-files-list-row-action="action.id"
+				:is-menu="isMenu(action.id)"
+				:title="action.title?.([source], currentView)"
+				@click="onActionClick(action)">
+				<template #icon>
+					<NcLoadingIcon v-if="loading === action.id" :size="18" />
+					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
+				</template>
+				{{ actionDisplayName(action) }}
+			</NcActionButton>
 
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">

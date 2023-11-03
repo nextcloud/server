@@ -37,8 +37,6 @@ const CustomReminderModal = new View({
 })
 
 export const pickCustomDate = async (node: Node): Promise<void> => {
-	console.debug('CustomReminderModal', mount, CustomReminderModal)
-
 	CustomReminderModal.open(node)
 
 	// Wait for the modal to close

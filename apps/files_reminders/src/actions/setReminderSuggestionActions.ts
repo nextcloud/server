@@ -63,8 +63,13 @@ const nextWeek: ReminderOption = {
 	ariaLabel: t('files_reminders', 'Set reminder for next week'),
 }
 
-// Generate the default preset actions
-export const actions = [laterToday, tomorrow, thisWeekend, nextWeek].map((option): FileAction|null => {
+/**
+ * Generate a file action for the given option
+ *
+ * @param option The option to generate the action for
+ * @return The file action or null if the option should not be shown
+ */
+const generateFileAction = (option): FileAction|null => {
 	const dateTime = getDateTime(option.dateTimePreset)
 	if (!dateTime) {
 		return null
@@ -72,7 +77,7 @@ export const actions = [laterToday, tomorrow, thisWeekend, nextWeek].map((option
 
 	return new FileAction({
 		id: `set-reminder-${option.dateTimePreset}`,
-		displayName: () => `${option.label} - ${getDateString(dateTime)}`,
+		displayName: () => `${option.label} – ${getDateString(dateTime)}`,
 		title: () => `${option.ariaLabel} – ${getVerboseDateString(dateTime)}`,
 
 		// Empty svg to hide the icon
@@ -103,4 +108,9 @@ export const actions = [laterToday, tomorrow, thisWeekend, nextWeek].map((option
 
 		order: 21,
 	})
-}).filter(Boolean) as FileAction[]
+}
+
+// Generate the default preset actions
+export const actions = [laterToday, tomorrow, thisWeekend, nextWeek]
+	.map(generateFileAction)
+	.filter(Boolean) as FileAction[]

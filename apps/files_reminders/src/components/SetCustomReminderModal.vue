@@ -148,8 +148,8 @@ export default Vue.extend({
 		},
 
 		async setCustom(): Promise<void> {
-			// Handle input cleared
-			if (this.customDueDate === '') {
+			// Handle input cleared or invalid date
+			if (!(this.customDueDate instanceof Date) || isNaN(this.customDueDate)) {
 				showError(t('files_reminders', 'Please choose a valid date & time'))
 				return
 			}
