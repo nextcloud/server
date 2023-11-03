@@ -309,6 +309,7 @@ OC.L10N.register(
     "Email" : "Email",
     "Quota" : "Σύνολο Χώρου",
     "Language" : "Γλώσσα",
+    "Total rows summary" : "Συνολική σύνοψη γραμμών",
     "Avatar" : "Εικόνα προφίλ",
     "Group admin for" : "Ομαδα διαχειριστή για",
     "User backend" : "Σύστημα υποστήριξης χρήστη",
