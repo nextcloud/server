@@ -244,7 +244,7 @@ class Generator {
 	 * @return bool
 	 */
 	public static function unguardWithSemaphore($semId): bool {
-		if (!is_resource($semId) || !extension_loaded('sysvsem')) {
+		if ($semId === false || get_class($semId) !== 'SysvSemaphore' || !extension_loaded('sysvsem')) {
 			return false;
 		}
 		return sem_release($semId);
