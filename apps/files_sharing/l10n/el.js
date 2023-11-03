@@ -200,6 +200,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Λήγει {relativetime}",
     "this share just expired." : "το κοινόχρηστο μόλις έληξε.",
     "Shared with you by {owner}" : "Διαμοιράστηκε με σας από τον {owner}",
+    "Open in Files" : "Άνοιγμα στα Αρχεία",
     "Shared" : "Κοινόχρηστα",
     "Link to a file" : "Σύνδεσμος σε αρχείο",
     "Error creating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
