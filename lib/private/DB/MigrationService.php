@@ -399,7 +399,7 @@ class MigrationService {
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		foreach ($toBeExecuted as $version) {
 			try {
-				$this->executeStep($version, $schemaOnly);
+				$this->executeStep($version);
 			} catch (\Exception $e) {
 				// The exception itself does not contain the name of the migration,
 				// so we wrap it here, to make debugging easier.
@@ -420,13 +420,16 @@ class MigrationService {
 			return;
 		}
 
-		$toSchema = null;
+		$toSchema = $beforeSchema = null;
 		foreach ($toBeExecuted as $version) {
 			$this->output->debug('- Reading ' . $version);
 			$instance = $this->createInstance($version);
 
-			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema): ISchemaWrapper {
-				return $toSchema ?: new SchemaWrapper($this->connection);
+			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema, &$beforeSchema): ISchemaWrapper {
+				if ($toSchema === null) {
+					$beforeSchema ??= $this->connection->createSchema();
+				}
+				return $toSchema ?: new SchemaWrapper($this->connection, $beforeSchema);
 			}, ['tablePrefix' => $this->connection->getPrefix()]) ?: $toSchema;
 		}
 
@@ -435,12 +438,12 @@ class MigrationService {
 			$targetSchema = $toSchema->getWrappedSchema();
 			$this->ensureUniqueNamesConstraints($targetSchema);
 			if ($this->checkOracle) {
-				$beforeSchema = $this->connection->createSchema();
+				$beforeSchema ??= $this->connection->createSchema();
 				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
 
 			$this->output->debug('- Migrate database schema');
-			$this->connection->migrateToSchema($targetSchema);
+			$this->connection->migrateToSchema($targetSchema, false, $beforeSchema);
 			$toSchema->performDropTableCalls();
 		}
 
@@ -496,38 +499,37 @@ class MigrationService {
 	 * Executes one explicit version
 	 *
 	 * @param string $version
-	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function executeStep($version, $schemaOnly = false) {
+	public function executeStep($version) {
 		$instance = $this->createInstance($version);
 
-		if (!$schemaOnly) {
-			$instance->preSchemaChange($this->output, function (): ISchemaWrapper {
-				return new SchemaWrapper($this->connection);
-			}, ['tablePrefix' => $this->connection->getPrefix()]);
-		}
-
-		$toSchema = $instance->changeSchema($this->output, function (): ISchemaWrapper {
+		$beforeSchema = null;
+		$instance->preSchemaChange($this->output, function () use (&$beforeSchema): ISchemaWrapper {
+			$beforeSchema = $this->connection->createSchema();
 			return new SchemaWrapper($this->connection);
+		}, ['tablePrefix' => $this->connection->getPrefix()]);
+
+		$toSchema = $instance->changeSchema($this->output, function () use (&$beforeSchema): ISchemaWrapper {
+			$beforeSchema ??= $this->connection->createSchema();
+			return new SchemaWrapper($this->connection, $beforeSchema);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
 			$this->ensureUniqueNamesConstraints($targetSchema);
 			if ($this->checkOracle) {
-				$sourceSchema = $this->connection->createSchema();
-				$this->ensureOracleConstraints($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
+				$beforeSchema ??= $this->connection->createSchema();
+				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
-		if (!$schemaOnly) {
-			$instance->postSchemaChange($this->output, function (): ISchemaWrapper {
-				return new SchemaWrapper($this->connection);
-			}, ['tablePrefix' => $this->connection->getPrefix()]);
-		}
+		$instance->postSchemaChange($this->output, function () use (&$beforeSchema): ISchemaWrapper {
+			$beforeSchema ??= $this->connection->createSchema();
+			return new SchemaWrapper($this->connection, $beforeSchema);
+		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		$this->markAsExecuted($version);
 	}
