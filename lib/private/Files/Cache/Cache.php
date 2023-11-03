@@ -612,9 +612,12 @@ class Cache implements ICache {
 			}
 
 			/** @var ICacheEntry[] $childFolders */
-			$childFolders = array_filter($children, function ($child) {
-				return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
-			});
+			$childFolders = [];
+			foreach ($children as $child) {
+				if ($child->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
+					$childFolders[] = $child;
+				}
+			}
 			foreach ($childFolders as $folder) {
 				$parentIds[] = $folder->getId();
 				$queue[] = $folder->getId();
