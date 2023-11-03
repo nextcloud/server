@@ -28,6 +28,7 @@ OC.L10N.register(
     "Bad Signature" : "Tanda salah",
     "Missing Signature" : "Tanda hilang",
     "one-time password for server-side-encryption" : "Kata sandi sekali pakai untuk server-side-encryption",
+    "Encryption password" : "Sandi enkripsi",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat mendekripsi file ini, mungkin ini adalah file bersama. Harap minta pemilik file untuk membagikan ulang file dengan Anda.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat membaca file ini, mungkin ini adalah file bersama. Harap minta pemilik file untuk membagikan ulang file dengan Anda.",
     "Default encryption module" : "Modul bawaan enkripsi",
