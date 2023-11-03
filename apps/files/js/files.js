@@ -70,8 +70,13 @@
 			if (response === undefined) {
 				return;
 			}
+
+			if (response.data !== undefined && response.data.free !== undefined) {
+				$('#free_space').val(response.data.free);
+				OCA.Files.App.fileList._updateDirectoryPermissions();
+			}
+
 			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
-				$('#free_space').val(response.data.freeSpace);
 				$('#upload.button').attr('title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
 				$('#usedSpacePercent').data('mount-type', response.data.mountType);
