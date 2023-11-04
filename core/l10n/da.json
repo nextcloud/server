@@ -41,6 +41,7 @@
     "Necessary language model provider is not available" : "Nødvendig sprogmodeludbyder er ikke tilgængelig",
     "Task not found" : "Opgaven blev ikke fundet",
     "Internal error" : "Intern fejl",
+    "No text to image provider is available" : "Ingen tilgængelig tekst-til-billede funktionalitet",
     "Image not found" : "Billede ikke fundet",
     "No translation provider available" : "Ingen tilgængelig oversættelsesudbyder",
     "Could not detect language" : "Kunne ikke finde sprog",
