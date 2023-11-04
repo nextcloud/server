@@ -208,7 +208,7 @@ OC.L10N.register(
     "Update" : "Aktualizovať",
     "Share" : "Sprístupniť",
     "Delete share" : "Odstrániť zdieľanie",
-    "Share with " : "Zdieľať s",
+    "Share with " : "Zdieľať s ",
     "Save share" : "Uložiť zdieľanie",
     "Others with access" : "Ďalší, ktorí majú prístup",
     "No other users with access found" : "Neboli nájdení ďalší používatelia s prístupom",
