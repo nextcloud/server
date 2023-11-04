@@ -57,7 +57,7 @@ OC.L10N.register(
     "Failed to delete tag" : "Nepodarilo sa vymazať štítok",
     "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}",
-    "List of tags and their associated files and folders." : "Zoznam štítkov a ich priradené súbory a adresáre",
+    "List of tags and their associated files and folders." : "Zoznam štítkov a ich priradené súbory a priečinky.",
     "No tags found" : "Štítky sa nenašli",
     "Tags you have created will show up here." : "Štítky, ktoré ste vytvorili sa zobrazia tu.",
     "Failed to load last used tags" : "Nepodarilo sa načítať posledné použité štítky",
