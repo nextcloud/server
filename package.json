@@ -90,7 +90,7 @@
     "p-limit": "^4.0.0",
     "p-queue": "^7.4.1",
     "path": "^0.12.7",
-    "pinia": "^2.0.30",
+    "pinia": "^2.1.7",
     "query-string": "^8.1.0",
     "regenerator-runtime": "^0.13.9",
     "select2": "3.5.1",
