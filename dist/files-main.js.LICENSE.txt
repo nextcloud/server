@@ -6,7 +6,7 @@
  */
 
 /*!
- * pinia v2.1.6
+ * pinia v2.1.7
  * (c) 2023 Eduardo San Martin Morote
  * @license MIT
  */
