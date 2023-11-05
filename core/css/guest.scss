@@ -107,7 +107,7 @@ body {
 .wrapper {
 	width: 100%;
 	max-width: 700px;
-	margin-top: 10vh;
+	margin-block: 10vh auto;
 }
 
 /* Default FORM */
@@ -736,7 +736,6 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 /* FOOTER */
 footer {
-	margin-top: auto;
 	.info .entity-name {
 		font-weight: bold;
 	}

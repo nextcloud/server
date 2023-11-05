@@ -87,6 +87,8 @@
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Element compartit",
     "Show hidden files" : "Mostra els fitxers ocults",
+    "Case sensitive file system" : "Sistema de fitxers amb distinció entre majúscules i minúscules",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Si ho inhabiliteu, podreu utilitzar un sistema de fitxers sense distinció entre majúscules i minúscules, però amb una penalització de rendiment",
     "Verify ACL access when listing files" : "Comprova l'accés ACL quan s'enumerin els fitxers",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprova els ACL de cada fitxer o carpeta d'una carpeta per a filtrar els elements per als quals l'usuari no té permís  de lectura; provoca una disminució del rendiment",
     "Timeout" : "Temps d'espera",

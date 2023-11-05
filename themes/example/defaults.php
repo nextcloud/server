@@ -81,8 +81,16 @@ class OC_Theme {
 	 * @return string short footer
 	 */
 	public function getShortFooter(): string {
-		$footer = '© ' . date('Y') . ' <a href="' . $this->getBaseUrl() . '" target="_blank">' . $this->getEntity() . '</a>' .
-			'<br/>' . $this->getSlogan();
+		$entity = $this->getEntity();
+
+		$footer = '© ' . date('Y');
+
+		// Add link if entity name is not empty
+		if ($entity !== '') {
+			$footer .= ' <a href="' . $this->getBaseUrl() . '" target="_blank">' . $entity . '</a>' . '<br/>';
+		}
+
+		$footer .= $this->getSlogan();
 
 		return $footer;
 	}

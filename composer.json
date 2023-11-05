@@ -60,6 +60,10 @@
 		"psalm": "psalm --no-cache --threads=$(nproc)",
 		"psalm:ci": "psalm --no-cache --threads=1",
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
+		"serve": [
+			"Composer\\Config::disableProcessTimeout",
+			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
+		],
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
 		"test:db": "@composer run test -- --group DB,SLOWDB",
 		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"

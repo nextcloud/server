@@ -241,21 +241,27 @@ describe('User theming app order list accessibility', () => {
 	})
 
 	it('click the first button', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]:first-of-type [data-cy-app-order-button="down"]').should('be.visible').click()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('be.visible').focus()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').click()
 	})
 
 	it('see the same app kept the focus', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]:first-of-type [data-cy-app-order-button="down"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]:last-of-type [data-cy-app-order-button="up"]').should('have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('have.focus')
 	})
 
 	it('click the last button', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]:last-of-type [data-cy-app-order-button="up"]').should('be.visible').click()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('be.visible').focus()
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').click()
 	})
 
 	it('see the same app kept the focus', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]:first-of-type [data-cy-app-order-button="down"]').should('have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]:last-of-type [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('not.have.focus')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('have.focus')
 	})
 })
 

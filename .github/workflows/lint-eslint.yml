@@ -74,6 +74,7 @@ jobs:
       - name: Install dependencies
         env:
           CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
         run: npm ci
 
       - name: Lint

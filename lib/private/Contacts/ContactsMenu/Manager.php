@@ -28,7 +28,9 @@ namespace OC\Contacts\ContactsMenu;
 use Exception;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\Contacts\ContactsMenu\IBulkProvider;
 use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IConfig;
 use OCP\IUser;
 
@@ -92,9 +94,14 @@ class Manager {
 	 */
 	private function processEntries(array $entries, IUser $user): void {
 		$providers = $this->actionProviderStore->getProviders($user);
-		foreach ($entries as $entry) {
-			foreach ($providers as $provider) {
-				$provider->process($entry);
+
+		foreach ($providers as $provider) {
+			if ($provider instanceof IBulkProvider && !($provider instanceof IProvider)) {
+				$provider->process($entries);
+			} elseif ($provider instanceof IProvider && !($provider instanceof IBulkProvider)) {
+				foreach ($entries as $entry) {
+					$provider->process($entry);
+				}
 			}
 		}
 	}

@@ -33,6 +33,7 @@ use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
 use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\AppFramework\QueryException;
+use OCP\Contacts\ContactsMenu\IBulkProvider;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -47,18 +48,26 @@ class ActionProviderStore {
 	}
 
 	/**
-	 * @return IProvider[]
+	 * @return list<IProvider|IBulkProvider>
 	 * @throws Exception
 	 */
 	public function getProviders(IUser $user): array {
 		$appClasses = $this->getAppProviderClasses($user);
 		$providerClasses = $this->getServerProviderClasses();
 		$allClasses = array_merge($providerClasses, $appClasses);
+		/** @var list<IProvider|IBulkProvider> $providers */
 		$providers = [];
 
 		foreach ($allClasses as $class) {
 			try {
-				$providers[] = $this->serverContainer->get($class);
+				$provider = $this->serverContainer->get($class);
+				if ($provider instanceof IProvider || $provider instanceof IBulkProvider) {
+					$providers[] = $provider;
+				} else {
+					$this->logger->warning('Ignoring invalid contacts menu provider', [
+						'class' => $class,
+					]);
+				}
 			} catch (QueryException $ex) {
 				$this->logger->error(
 					'Could not load contacts menu action provider ' . $class,

@@ -916,9 +916,10 @@ class Session implements IUserSession, Emitter {
 			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
-			$this->logger->error('Renewing session token failed', [
+			$this->logger->error('Renewing session token failed: ' . $ex->getMessage(), [
 				'app' => 'core',
 				'user' => $uid,
+				'exception' => $ex,
 			]);
 			return false;
 		}

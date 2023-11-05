@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "Адреса за преусмеравање",
     "Client Identifier" : "Идентификација клијента",
     "Secret key" : "Тајни кључ ",
+    "Delete client" : "Обриши клијента",
     "Add client" : "Додај клијента",
     "Add" : "Додај",
     "Show client secret" : "Прикажи клијентску лозинку",
