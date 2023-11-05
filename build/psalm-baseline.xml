@@ -3075,14 +3075,7 @@
   <file src="lib/private/Preview/Generator.php">
     <InvalidArgument>
       <code>$maxPreviewImage</code>
-      <code>$semId</code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code>$sem</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>false|resource</code>
-    </InvalidReturnType>
     <LessSpecificReturnType>
       <code>null|string</code>
     </LessSpecificReturnType>
