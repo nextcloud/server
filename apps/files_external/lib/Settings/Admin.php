@@ -68,6 +68,7 @@ class Admin implements ISettings {
 			'authMechanisms' => $this->backendService->getAuthMechanisms(),
 			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
+			'allowUserUnmounting' => $this->backendService->isUserUnmountingAllowed(),
 			'globalCredentials' => $this->globalAuth->getAuth(''),
 			'globalCredentialsUid' => '',
 		];

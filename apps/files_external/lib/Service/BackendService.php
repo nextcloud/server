@@ -24,11 +24,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
-
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
@@ -52,40 +52,34 @@ class BackendService {
 	/** Priority constants for PriorityTrait */
 	public const PRIORITY_DEFAULT = 100;
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var bool */
-	private $userMountingAllowed = true;
+	private bool $userMountingAllowed = true;
 
 	/** @var string[] */
-	private $userMountingBackends = [];
+	private array $userMountingBackends;
 
 	/** @var Backend[] */
-	private $backends = [];
+	private array $backends = [];
 
 	/** @var IBackendProvider[] */
-	private $backendProviders = [];
+	private array $backendProviders = [];
 
 	/** @var AuthMechanism[] */
-	private $authMechanisms = [];
+	private array $authMechanisms = [];
 
 	/** @var IAuthMechanismProvider[] */
-	private $authMechanismProviders = [];
+	private array $authMechanismProviders = [];
 
 	/** @var callable[] */
-	private $configHandlerLoaders = [];
+	private array $configHandlerLoaders = [];
 
-	private $configHandlers = [];
+	private array $configHandlers = [];
 
 	/**
 	 * @param IConfig $config
 	 */
 	public function __construct(
-		IConfig $config
+		protected IConfig $config
 	) {
-		$this->config = $config;
-
 		// Load config values
 		if ($this->config->getAppValue('files_external', 'allow_user_mounting', 'yes') !== 'yes') {
 			$this->userMountingAllowed = false;
@@ -276,8 +270,16 @@ class BackendService {
 	/**
 	 * @return bool
 	 */
-	public function isUserMountingAllowed() {
+	public function isUserMountingAllowed(): bool {
 		return $this->userMountingAllowed;
+	}
+
+	public function isUserUnmountingAllowed(): bool {
+		return ('yes' === $this->config->getAppValue(
+				'files_external',
+				'allow_user_unmounting',
+				'yes'
+			));
 	}
 
 	/**
