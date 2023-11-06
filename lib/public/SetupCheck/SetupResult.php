@@ -38,6 +38,11 @@ class SetupResult implements \JsonSerializable {
 	public const ERROR = 'error';
 
 	/**
+	 * @param string $name Translated name to display to the user
+	 */
+	private ?string $name = null;
+
+	/**
 	 * @brief Private constructor, use success()/info()/warning()/error() instead
 	 * @param self::SUCCESS|self::INFO|self::WARNING|self::ERROR $severity
 	 * @since 28.0.0
@@ -51,6 +56,8 @@ class SetupResult implements \JsonSerializable {
 
 	/**
 	 * @brief Create a success result object
+	 * @param ?string $description Translated detailed description to display to the user
+	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
 	 * @since 28.0.0
 	 */
 	public static function success(?string $description = null, ?string $linkToDoc = null): self {
@@ -59,6 +66,8 @@ class SetupResult implements \JsonSerializable {
 
 	/**
 	 * @brief Create an info result object
+	 * @param ?string $description Translated detailed description to display to the user
+	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
 	 * @since 28.0.0
 	 */
 	public static function info(?string $description = null, ?string $linkToDoc = null): self {
@@ -67,6 +76,8 @@ class SetupResult implements \JsonSerializable {
 
 	/**
 	 * @brief Create a warning result object
+	 * @param ?string $description Translated detailed description to display to the user
+	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
 	 * @since 28.0.0
 	 */
 	public static function warning(?string $description = null, ?string $linkToDoc = null): self {
@@ -75,6 +86,8 @@ class SetupResult implements \JsonSerializable {
 
 	/**
 	 * @brief Create an error result object
+	 * @param ?string $description Translated detailed description to display to the user
+	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
 	 * @since 28.0.0
 	 */
 	public static function error(?string $description = null, ?string $linkToDoc = null): self {
@@ -101,6 +114,24 @@ class SetupResult implements \JsonSerializable {
 	}
 
 	/**
+	 * @brief Get the name for the setup check
+	 *
+	 * @since 28.0.0
+	 */
+	public function getName(): ?string {
+		return $this->name;
+	}
+
+	/**
+	 * @brief Set the name from the setup check
+	 *
+	 * @since 28.0.0
+	 */
+	public function setName(string $name): void {
+		$this->name = $name;
+	}
+
+	/**
 	 * @brief Get a link to the doc for the explanation.
 	 *
 	 * @since 28.0.0
@@ -116,6 +147,7 @@ class SetupResult implements \JsonSerializable {
 	 */
 	public function jsonSerialize(): array {
 		return [
+			'name' => $this->name,
 			'severity' => $this->severity,
 			'description' => $this->description,
 			'linkToDoc' => $this->linkToDoc,
