@@ -22,7 +22,6 @@ default:
         - SearchContext
         - SettingsContext
         - SettingsMenuContext
-        - ThemingAppContext
         - ToastContext
       filters:
         tags: "~@apache"
@@ -49,7 +48,6 @@ default:
         - SearchContext
         - SettingsContext
         - SettingsMenuContext
-        - ThemingAppContext
         - ToastContext
       filters:
         tags: "@apache"
