@@ -501,19 +501,41 @@
                 "type": "object",
                 "required": [
                     "id",
+                    "appId",
                     "name",
-                    "order"
+                    "icon",
+                    "order",
+                    "triggers",
+                    "filters"
                 ],
                 "properties": {
                     "id": {
                         "type": "string"
                     },
+                    "appId": {
+                        "type": "string"
+                    },
                     "name": {
+                        "type": "string"
+                    },
+                    "icon": {
                         "type": "string"
                     },
                     "order": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "triggers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "filters": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -4000,7 +4022,8 @@
         "/ocs/v2.php/search/providers/{providerId}/search": {
             "get": {
                 "operationId": "unified_search-search",
-                "summary": "Search",
+                "summary": "Launch a search for a specific search provider.",
+                "description": "Additional filters are available for each provider. Send a request to /providers endpoint to list providers with their available filters.",
                 "tags": [
                     "unified_search"
                 ],
@@ -4132,7 +4155,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "nullable": true
+                                                    "type": "string"
                                                 }
                                             }
                                         }
