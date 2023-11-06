@@ -193,7 +193,7 @@ OC.L10N.register(
     "Search contacts …" : "Kontakte suchen …",
     "Could not load your contacts" : "Deine Kontakte konnten nicht geladen werden",
     "No contacts found" : "Keine Kontakte gefunden",
-    "Show all contacts" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE). ",
+    "Show all contacts" : "Alle Kontakte anzeigen",
     "Install the Contacts app" : "Kontakte-App installieren",
     "Loading your contacts …" : "Lade deine Kontakte …",
     "Looking for {term} …" : "Suche nach {term} …",

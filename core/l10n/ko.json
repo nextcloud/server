@@ -418,7 +418,7 @@
     "{newName} already exists" : "{newName}이(가) 이미 존재함",
     "Error loading file picker template: {error}" : "파일 선택 템플릿을 불러오는 중 오류 발생: {error}",
     "Show list view" : "리스트 보기",
-    "Show grid view" : "모눈 보기",
+    "Show grid view" : "바둑판식 보기",
     "Pending" : "보류 중",
     "Home" : "홈",
     "Copy to {folder}" : "{folder}에 복사",

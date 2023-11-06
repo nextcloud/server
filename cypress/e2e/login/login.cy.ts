@@ -1,4 +1,5 @@
 import type { User } from '@nextcloud/cypress'
+import { getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils'
 
 describe('Login', () => {
 	let user: User
@@ -137,8 +138,8 @@ describe('Login', () => {
 		cy.url().should('match', /apps\/dashboard(\/|$)/)
 
 		// When click logout
-		cy.get('#user-menu > button').should('exist').click()
-		cy.get('#logout a').should('contain.text', 'Log out').click()
+		getNextcloudUserMenuToggle().should('exist').click()
+		getNextcloudUserMenu().contains('a', 'Log out').click()
 
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)

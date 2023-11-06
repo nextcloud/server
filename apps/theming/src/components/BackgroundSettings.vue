@@ -87,7 +87,7 @@
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			:title="shippedBackground.details.attribution"
-			:aria-label="shippedBackground.details.attribution"
+			:aria-label="shippedBackground.details.description"
 			:aria-pressed="backgroundImage === shippedBackground.name"
 			:class="{
 				'background background__shipped': true,

@@ -169,6 +169,7 @@ return array(
     'OCP\\Capabilities\\IInitialStateExcludedCapability' => $baseDir . '/lib/public/Capabilities/IInitialStateExcludedCapability.php',
     'OCP\\Capabilities\\IPublicCapability' => $baseDir . '/lib/public/Capabilities/IPublicCapability.php',
     'OCP\\Collaboration\\AutoComplete\\AutoCompleteEvent' => $baseDir . '/lib/public/Collaboration/AutoComplete/AutoCompleteEvent.php',
+    'OCP\\Collaboration\\AutoComplete\\AutoCompleteFilterEvent' => $baseDir . '/lib/public/Collaboration/AutoComplete/AutoCompleteFilterEvent.php',
     'OCP\\Collaboration\\AutoComplete\\IManager' => $baseDir . '/lib/public/Collaboration/AutoComplete/IManager.php',
     'OCP\\Collaboration\\AutoComplete\\ISorter' => $baseDir . '/lib/public/Collaboration/AutoComplete/ISorter.php',
     'OCP\\Collaboration\\Collaborators\\ISearch' => $baseDir . '/lib/public/Collaboration/Collaborators/ISearch.php',
