@@ -64,7 +64,7 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 - [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
 - [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
 
-#### Helpful bots at gitHub :robot:
+#### Helpful bots at GitHub :robot:
 
 - Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
 
