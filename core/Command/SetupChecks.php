@@ -59,7 +59,8 @@ class SetupChecks extends Base {
 						$styleTag = match ($check->getSeverity()) {
 							'success' => 'info',
 							'error' => 'error',
-							default => 'comment',
+							'warning' => 'comment',
+							default => null,
 						};
 						$emoji = match ($check->getSeverity()) {
 							'success' => '✓',
@@ -70,11 +71,12 @@ class SetupChecks extends Base {
 						$verbosity = ($check->getSeverity() === 'error' ? OutputInterface::VERBOSITY_QUIET : OutputInterface::VERBOSITY_NORMAL);
 						$description = $check->getDescription();
 						$output->writeln(
-							"\t\t<{$styleTag}>".
+							"\t\t".
+							($styleTag !== null ? "<{$styleTag}>" : '').
 							"{$emoji} ".
 							$title.
 							($description !== null ? ': '.$description : '').
-							"</{$styleTag}>",
+							($styleTag !== null ? "</{$styleTag}>" : ''),
 							$verbosity
 						);
 					}
