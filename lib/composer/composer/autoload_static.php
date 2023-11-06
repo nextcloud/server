@@ -1092,6 +1092,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Security\\ImportCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/ImportCertificate.php',
         'OC\\Core\\Command\\Security\\ListCertificates' => __DIR__ . '/../../..' . '/core/Command/Security/ListCertificates.php',
         'OC\\Core\\Command\\Security\\RemoveCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/RemoveCertificate.php',
+        'OC\\Core\\Command\\SetupChecks' => __DIR__ . '/../../..' . '/core/Command/SetupChecks.php',
         'OC\\Core\\Command\\Status' => __DIR__ . '/../../..' . '/core/Command/Status.php',
         'OC\\Core\\Command\\SystemTag\\Add' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Add.php',
         'OC\\Core\\Command\\SystemTag\\Delete' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Delete.php',

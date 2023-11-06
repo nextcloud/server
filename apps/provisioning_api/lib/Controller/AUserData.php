@@ -54,8 +54,8 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
 /**
- * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
- * @psalm-import-type ProvisioningApiUserDetailsQuota from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
  */
 abstract class AUserData extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
@@ -104,7 +104,7 @@ abstract class AUserData extends OCSController {
 	 *
 	 * @param string $userId
 	 * @param bool $includeScopes
-	 * @return ProvisioningApiUserDetails|null
+	 * @return Provisioning_APIUserDetails|null
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
@@ -252,7 +252,7 @@ abstract class AUserData extends OCSController {
 
 	/**
 	 * @param string $userId
-	 * @return ProvisioningApiUserDetailsQuota
+	 * @return Provisioning_APIUserDetailsQuota
 	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {
