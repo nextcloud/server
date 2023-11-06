@@ -48,11 +48,12 @@ class Version28000Date20231103104802 extends SimpleMigrationStep {
 		if ($schema->hasTable('textprocessing_tasks')) {
 			$table = $schema->getTable('textprocessing_tasks');
 
-			$table->addColumn('completion_expected_at', Types::DATETIME, [
-				'notnull' => false,
-			]);
-
-			return $schema;
+			if (!$table->hasColumn('completion_expected_at')) {
+				$table->addColumn('completion_expected_at', Types::DATETIME, [
+					'notnull' => false,
+				]);
+				return $schema;
+			}
 		}
 
 		return null;
