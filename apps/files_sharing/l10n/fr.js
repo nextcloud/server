@@ -126,7 +126,7 @@ OC.L10N.register(
     "Unknown error" : "Erreur inconnue",
     "Allow editing" : "Autoriser la modification",
     "Read only" : "Lecture seule",
-    "Allow upload and editing" : "Autoriser l’ajout et la modification",
+    "Allow upload and editing" : "Autoriser le téléversement et la modification",
     "File drop (upload only)" : "Dépôt de fichier (envoi uniquement)",
     "Custom permissions" : "Personnaliser les permissions",
     "Read" : "Lecture",

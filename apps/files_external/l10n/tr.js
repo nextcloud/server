@@ -89,6 +89,8 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Paylaş",
     "Show hidden files" : "Gizli dosyaları görüntüle",
+    "Case sensitive file system" : "Büyük/küçük harfe duyarlı dosya sistemi",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Bu seçeneği kapatmak, büyük/küçük harfe duyarlı olmayan bir dosya sisteminin kullanılmasını sağlar, ancak başarım kaybına yol açar",
     "Verify ACL access when listing files" : "Dosyalar listelenirken EDL denetlensin",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Tüm dosya ve klasörler için Erişim Denetimi Listesine bakılarak kullanıcının okuma yetkisi olmayan ögeler görüntülenmez. Bu özelliğin kullanılması başarımı düşürür",
     "Timeout" : "Zaman aşımı",
