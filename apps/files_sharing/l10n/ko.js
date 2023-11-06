@@ -148,7 +148,7 @@ OC.L10N.register(
     "Internal link" : "내부 링크",
     "Cannot copy, please copy the link manually" : "복사할 수 없습니다, 링크를 수동으로 복사하세요.",
     "Copy internal link to clipboard" : "내부 링크를 클립보드에 복사",
-    "Only works for users with access to this folder" : "이 폴더에 액세스하는 사용자에게만 해당됩니다.",
+    "Only works for users with access to this folder" : "이 폴더의 접근 권한이 있는 사용자만 사용 가능",
     "Only works for users with access to this file" : "이 파일에 접근할 수 있는 사용자에게만 작동",
     "Link copied" : "링크 복사됨",
     "Please enter the following required information before creating the share" : "공유를 하기 전에 다음 필수 정보를 입력하세요.",
