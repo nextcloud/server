@@ -73,4 +73,11 @@ class TimeFactory implements ITimeFactory {
 
 		return $clone;
 	}
+
+	public function getTimeZone(?string $timezone = null): \DateTimeZone {
+		if ($timezone !== null) {
+			return new \DateTimeZone($timezone);
+		}
+		return $this->timezone;
+	}
 }
