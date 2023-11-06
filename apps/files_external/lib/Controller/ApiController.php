@@ -40,7 +40,7 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 /**
- * @psalm-import-type FilesExternalMount from ResponseDefinitions
+ * @psalm-import-type Files_ExternalMount from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -64,7 +64,7 @@ class ApiController extends OCSController {
 	 * @param string $mountPoint mount point name, relative to the data dir
 	 * @param StorageConfig $mountConfig mount config to format
 	 *
-	 * @return FilesExternalMount
+	 * @return Files_ExternalMount
 	 */
 	private function formatMount(string $mountPoint, StorageConfig $mountConfig): array {
 		// split path from mount point
@@ -100,7 +100,7 @@ class ApiController extends OCSController {
 	 *
 	 * Get the mount points visible for this user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesExternalMount[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_ExternalMount[], array{}>
 	 *
 	 * 200: User mounts returned
 	 */

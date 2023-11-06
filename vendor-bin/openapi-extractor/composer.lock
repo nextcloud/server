@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "538743a8d61ce8440a0bfdfa7473aa33",
+    "content-hash": "143725e36726d6a8e8fc092c8b44a4ee",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -82,12 +82,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud/openapi-extractor.git",
-                "reference": "c0c80648c1d7ede03537460dfbc472ff7146f294"
+                "reference": "d99e9c0fbaa6502a704d53d4ca8b7566566ab4be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/c0c80648c1d7ede03537460dfbc472ff7146f294",
-                "reference": "c0c80648c1d7ede03537460dfbc472ff7146f294",
+                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/d99e9c0fbaa6502a704d53d4ca8b7566566ab4be",
+                "reference": "d99e9c0fbaa6502a704d53d4ca8b7566566ab4be",
                 "shasum": ""
             },
             "require": {
@@ -112,7 +112,7 @@
                 "source": "https://github.com/nextcloud/openapi-extractor/tree/main",
                 "issues": "https://github.com/nextcloud/openapi-extractor/issues"
             },
-            "time": "2023-09-27T06:18:31+00:00"
+            "time": "2023-10-29T16:42:12+00:00"
         },
         {
             "name": "nikic/php-parser",

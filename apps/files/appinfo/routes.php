@@ -94,11 +94,6 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'Api#getViewConfig',
-				'url' => '/api/v1/views/{view}',
-				'verb' => 'GET'
-			],
-			[
 				'name' => 'Api#setConfig',
 				'url' => '/api/v1/config/{key}',
 				'verb' => 'PUT'
