@@ -224,11 +224,20 @@ final class Task implements \JsonSerializable {
 		];
 	}
 
-final public function setCompletionExpectedAt(\DateTime $completionExpectedAt): void {
-	$this->completionExpectedAt = $completionExpectedAt;
-}
+	/**
+	 * @param null|\DateTime $completionExpectedAt
+	 * @return void
+	 * @since 28.0.0
+	 */
+	final public function setCompletionExpectedAt(?\DateTime $completionExpectedAt): void {
+		$this->completionExpectedAt = $completionExpectedAt;
+	}
 
-final public function getCompletionExpectedAt(): ?\DateTime {
-	return $this->completionExpectedAt;
-}
+	/**
+	 * @return \DateTime|null
+	 * @since 28.0.0
+	 */
+	final public function getCompletionExpectedAt(): ?\DateTime {
+		return $this->completionExpectedAt;
+	}
 }
