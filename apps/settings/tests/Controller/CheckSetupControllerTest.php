@@ -432,6 +432,8 @@ class CheckSetupControllerTest extends TestCase {
 				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
+				'hasPassedCodeIntegrityCheck' => true,
+				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
 				'isSqliteUsed' => false,
