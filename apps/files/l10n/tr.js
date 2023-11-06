@@ -224,7 +224,7 @@ OC.L10N.register(
     "Loading current folder" : "Geçerli klasör yükleniyor",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
-    "Go to the previous folder" : "Önceki klasör git",
+    "Go to the previous folder" : "Önceki klasöre git",
     "Go back" : "Geri dön",
     "Share" : "Paylaş",
     "Shared by link" : "Bağlantı ile paylaşılmış",
