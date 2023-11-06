@@ -29,6 +29,7 @@ namespace OCP\TextProcessing;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\PreConditionNotMetException;
+use OCP\TextProcessing\Exception\TaskFailureException;
 use RuntimeException;
 
 /**
@@ -57,7 +58,7 @@ interface IManager {
 	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws RuntimeException If something else failed
+	 * @throws TaskFailureException If running the task failed
 	 * @since 27.1.0
 	 */
 	public function runTask(Task $task): string;
@@ -82,7 +83,7 @@ interface IManager {
 	 * @param Task $task The task to schedule
 	 * @returns bool A boolean indicating whether the task was run synchronously (`true`) or offloaded to a background job (`false`)
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws RuntimeException If running the task failed
+	 * @throws TaskFailureException If running the task failed
 	 * @throws Exception storing the task in the database failed
 	 * @since 28.0.0
 	 */

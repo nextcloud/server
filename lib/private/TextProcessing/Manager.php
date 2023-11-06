@@ -28,6 +28,7 @@ namespace OC\TextProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
 use OCP\IConfig;
+use OCP\TextProcessing\Exception\TaskFailureException;
 use OCP\TextProcessing\IProvider2;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\Task as OCPTask;
@@ -139,22 +140,17 @@ class Manager implements IManager {
 				$task->setStatus(OCPTask::STATUS_SUCCESSFUL);
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				return $output;
-			} catch (\RuntimeException $e) {
-				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
-				$task->setStatus(OCPTask::STATUS_FAILED);
-				$this->taskMapper->update(DbTask::fromPublicTask($task));
-				throw $e;
 			} catch (\Throwable $e) {
 				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(OCPTask::STATUS_FAILED);
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
-				throw new RuntimeException('LanguageModel call using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
+				throw new TaskFailureException('LanguageModel call using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);
 			}
 		}
 
 		$task->setStatus(OCPTask::STATUS_FAILED);
 		$this->taskMapper->update(DbTask::fromPublicTask($task));
-		throw new RuntimeException('Could not run task');
+		throw new TaskFailureException('Could not run task');
 	}
 
 	/**

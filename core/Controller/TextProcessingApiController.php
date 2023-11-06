@@ -38,6 +38,7 @@ use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\TextProcessing\Exception\TaskFailureException;
 use OCP\TextProcessing\ITaskType;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\IManager;
@@ -121,7 +122,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			try {
 				$this->textProcessingManager->runOrScheduleTask($task);
-			} catch(\RuntimeException) {
+			} catch(TaskFailureException) {
 				// noop, because the task object has the failure status set already, we just return the task json
 			}
 
