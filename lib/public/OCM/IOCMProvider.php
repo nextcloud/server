@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\OCM;
 
-use OC\OCM\Model\OCMResource;
+use JsonSerializable;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 
@@ -35,16 +35,16 @@ use OCP\OCM\Exceptions\OCMProviderException;
  * @link https://github.com/cs3org/OCM-API/
  * @since 28.0.0
  */
-interface IOCMProvider {
+interface IOCMProvider extends JsonSerializable {
 	/**
 	 * enable OCM
 	 *
 	 * @param bool $enabled
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setEnabled(bool $enabled): self;
+	public function setEnabled(bool $enabled): static;
 
 	/**
 	 * is set as enabled ?
@@ -59,10 +59,10 @@ interface IOCMProvider {
 	 *
 	 * @param string $apiVersion
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setApiVersion(string $apiVersion): self;
+	public function setApiVersion(string $apiVersion): static;
 
 	/**
 	 * returns API version
@@ -77,10 +77,10 @@ interface IOCMProvider {
 	 *
 	 * @param string $endPoint
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setEndPoint(string $endPoint): self;
+	public function setEndPoint(string $endPoint): static;
 
 	/**
 	 * get configured endpoint
@@ -93,22 +93,22 @@ interface IOCMProvider {
 	/**
 	 * add a single resource to the object
 	 *
-	 * @param OCMResource $resource
+	 * @param IOCMResource $resource
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function addResourceType(OCMResource $resource): self;
+	public function addResourceType(IOCMResource $resource): static;
 
 	/**
 	 * set resources
 	 *
-	 * @param OCMResource[] $resourceTypes
+	 * @param IOCMResource[] $resourceTypes
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setResourceTypes(array $resourceTypes): self;
+	public function setResourceTypes(array $resourceTypes): static;
 
 	/**
 	 * get all set resources
@@ -135,9 +135,24 @@ interface IOCMProvider {
 	 *
 	 * @param array<string, int|string|bool|array> $data
 	 *
-	 * @return self
+	 * @return $this
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
 	 * @since 28.0.0
 	 */
-	public function import(array $data): self;
+	public function import(array $data): static;
+
+	/**
+	 * @return array{
+	 *     enabled: bool,
+	 *     apiVersion: string,
+	 *     endPoint: string,
+	 *     resourceTypes: array{
+	 *         name: string,
+	 *         shareTypes: string[],
+	 *         protocols: array<string, string>
+	 *     }[]
+	 * }
+	 * @since 28.0.0
+	 */
+	public function jsonSerialize(): array;
 }

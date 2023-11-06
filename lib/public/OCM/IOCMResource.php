@@ -26,22 +26,24 @@ declare(strict_types=1);
 
 namespace OCP\OCM;
 
+use JsonSerializable;
+
 /**
  * Model based on the Open Cloud Mesh Discovery API
  *
  * @link https://github.com/cs3org/OCM-API/
  * @since 28.0.0
  */
-interface IOCMResource {
+interface IOCMResource extends JsonSerializable {
 	/**
 	 * set name of the resource
 	 *
 	 * @param string $name
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setName(string $name): self;
+	public function setName(string $name): static;
 
 	/**
 	 * get name of the resource
@@ -56,10 +58,10 @@ interface IOCMResource {
 	 *
 	 * @param string[] $shareTypes
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setShareTypes(array $shareTypes): self;
+	public function setShareTypes(array $shareTypes): static;
 
 	/**
 	 * get share types
@@ -74,10 +76,10 @@ interface IOCMResource {
 	 *
 	 * @param array<string, string> $protocols
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function setProtocols(array $protocols): self;
+	public function setProtocols(array $protocols): static;
 
 	/**
 	 * get configured protocols
@@ -92,8 +94,18 @@ interface IOCMResource {
 	 *
 	 * @param array $data
 	 *
-	 * @return self
+	 * @return $this
 	 * @since 28.0.0
 	 */
-	public function import(array $data): self;
+	public function import(array $data): static;
+
+	/**
+	 * @return array{
+	 *     name: string,
+	 *     shareTypes: string[],
+	 *     protocols: array<string, string>
+	 * }
+	 * @since 28.0.0
+	 */
+	public function jsonSerialize(): array;
 }
