@@ -76,7 +76,7 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
 class UsersController extends AUserData {
 	/** @var IURLGenerator */
@@ -184,7 +184,7 @@ class UsersController extends AUserData {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Users details returned
 	 */
@@ -237,7 +237,7 @@ class UsersController extends AUserData {
 	 *
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Disabled users details returned
 	 */
@@ -611,7 +611,7 @@ class UsersController extends AUserData {
 	 * Get the details of a user
 	 *
 	 * @param string $userId ID of the user
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiUserDetails, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: User returned
@@ -637,7 +637,7 @@ class UsersController extends AUserData {
 	 *
 	 * Get the details of the current user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiUserDetails, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Current user returned
@@ -645,7 +645,7 @@ class UsersController extends AUserData {
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			/** @var ProvisioningApiUserDetails $data */
+			/** @var Provisioning_APIUserDetails $data */
 			$data = $this->getUserData($user->getUID(), true);
 			return new DataResponse($data);
 		}

@@ -31,9 +31,7 @@ return [
 		'AuthSettings' => ['url' => '/settings/personal/authtokens' , 'root' => ''],
 	],
 	'routes' => [
-		['name' => 'AuthorizedGroup#create', 'url' => '/settings/authorizedgroups', 'verb' => 'POST'],
 		['name' => 'AuthorizedGroup#saveSettings', 'url' => '/settings/authorizedgroups/saveSettings', 'verb' => 'POST'],
-		['name' => 'AuthorizedGroup#destroy', 'url' => '/settings/authorizedgroups', 'verb' => 'DELETE'],
 
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
 
@@ -62,8 +60,6 @@ return [
 		['name' => 'Users#usersList', 'url' => '/settings/users', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'Users#usersListByGroup', 'url' => '/settings/users/{group}', 'verb' => 'GET', 'requirements' => ['group' => '.+'] , 'root' => ''],
 		['name' => 'Users#setPreference', 'url' => '/settings/users/preferences/{key}', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'LogSettings#setLogLevel', 'url' => '/settings/admin/log/level', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'LogSettings#getEntries', 'url' => '/settings/admin/log/entries', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'LogSettings#download', 'url' => '/settings/admin/log/download', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'CheckSetup#setupCheckManager', 'url' => '/settings/setupcheck', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'CheckSetup#check', 'url' => '/settings/ajax/checksetup', 'verb' => 'GET' , 'root' => ''],

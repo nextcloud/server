@@ -36,7 +36,7 @@ use OCA\Files_External\ResponseDefinitions;
 /**
  * External storage configuration
  *
- * @psalm-import-type FilesExternalStorageConfig from ResponseDefinitions
+ * @psalm-import-type Files_ExternalStorageConfig from ResponseDefinitions
  */
 class StorageConfig implements \JsonSerializable {
 	public const MOUNT_TYPE_ADMIN = 1;
@@ -399,7 +399,7 @@ class StorageConfig implements \JsonSerializable {
 
 	/**
 	 * Serialize config to JSON
-	 * @return FilesExternalStorageConfig
+	 * @return Files_ExternalStorageConfig
 	 */
 	public function jsonSerialize(bool $obfuscate = false): array {
 		$result = [];
