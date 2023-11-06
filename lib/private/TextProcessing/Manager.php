@@ -119,9 +119,6 @@ class Manager implements IManager {
 		$providers = $this->getPreferredProviders($task);
 
 		foreach ($providers as $provider) {
-			if (!$task->canUseProvider($provider)) {
-				continue;
-			}
 			try {
 				$task->setStatus(OCPTask::STATUS_RUNNING);
 				if ($provider instanceof IProvider2) {
@@ -288,6 +285,7 @@ class Manager implements IManager {
 				}
 			}
 		}
+		$providers = array_filter($providers, fn (IProvider $provider) => $task->canUseProvider($provider));
 		return $providers;
 	}
 }
