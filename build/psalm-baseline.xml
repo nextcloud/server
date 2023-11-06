@@ -3164,15 +3164,8 @@
   <file src="lib/private/Preview/Generator.php">
     <InvalidArgument>
       <code>$maxPreviewImage</code>
-      <code>$semId</code>
       <code>IPreview::EVENT</code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code>$sem</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>false|resource</code>
-    </InvalidReturnType>
     <MismatchingDocblockParamType>
       <code>ISimpleFile</code>
     </MismatchingDocblockParamType>
