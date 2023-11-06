@@ -2,11 +2,11 @@
 	<NcSettingsSection :name="$t('dav', 'Availability')"
 		:description="$t('dav', 'If you configure your working hours, other users will see when you are out of office when they book a meeting.')">
 		<div class="time-zone">
-			<strong class="time-zone__heading">
+			<label :for="`vs${timeZonePickerId}__combobox`" class="time-zone__heading">
 				{{ $t('dav', 'Time zone:') }}
-			</strong>
+			</label>
 			<span class="time-zone-text">
-				<NcTimezonePicker v-model="timezone" />
+				<NcTimezonePicker v-model="timezone" :uid="timeZonePickerId" />
 			</span>
 		</div>
 
@@ -77,6 +77,11 @@ export default {
 			slots: getEmptySlots(),
 			automated: loadState('dav', 'user_status_automation') === 'yes',
 		}
+	},
+	computed: {
+		timeZonePickerId() {
+			return `tz-${(Math.random() + 1).toString(36).substring(7)}`
+		},
 	},
 	async mounted() {
 		try {
@@ -156,12 +161,13 @@ export default {
 }
 .time-zone {
 	padding: 32px 12px 12px 0;
-    display: flex;
-    flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 
 	&__heading {
 		margin-right: calc(var(--default-grid-baseline) * 2);
 		line-height: var(--default-clickable-area);
+		font-weight: bold;
 	}
 }
 .grid-table {
