@@ -64,9 +64,11 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="expandCustomPermissions">
-					<DotsHorizontalIcon :size="20" />
-					<span>{{ t('files_sharing', 'Custom permissions') }}</span>
-					<small>{{ t('files_sharing', customPermissionsList) }}</small>
+					{{ t('files_sharing', 'Custom permissions') }}
+					<small>{{ customPermissionsList }}</small>
+					<template #icon>
+						<DotsHorizontalIcon :size="20" />
+					</template>
 				</NcCheckboxRadioSwitch>
 			</div>
 		</div>
@@ -194,6 +196,8 @@
 </template>
 
 <script>
+import { getLanguage } from '@nextcloud/l10n'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
@@ -611,26 +615,21 @@ export default {
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
 		},
 		customPermissionsList() {
-			const perms = []
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.READ)) {
-				perms.push('read')
+			// Key order will be different, because ATOMIC_PERMISSIONS are numbers
+			const translatedPermissions = {
+				[ATOMIC_PERMISSIONS.READ]: this.t('files_sharing', 'Read'),
+				[ATOMIC_PERMISSIONS.CREATE]: this.t('files_sharing', 'Create'),
+				[ATOMIC_PERMISSIONS.UPDATE]: this.t('files_sharing', 'Update'),
+				[ATOMIC_PERMISSIONS.SHARE]: this.t('files_sharing', 'Share'),
+				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.CREATE)) {
-				perms.push('create')
-			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.UPDATE)) {
-				perms.push('update')
-			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.DELETE)) {
-				perms.push('delete')
-			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.SHARE)) {
-				perms.push('share')
-			}
-			const capitalizeFirstAndJoin = array => array.map((item, index) => index === 0 ? item[0].toUpperCase() + item.substring(1) : item).join(', ')
 
-			return capitalizeFirstAndJoin(perms)
-
+			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ATOMIC_PERMISSIONS.SHARE, ATOMIC_PERMISSIONS.DELETE]
+				.filter((permission) => hasPermissions(this.share.permissions, permission))
+				.map((permission, index) => index === 0
+					? translatedPermissions[permission]
+					: translatedPermissions[permission].toLocaleLowerCase(getLanguage()))
+				.join(', ')
 		},
 	},
 	watch: {
