@@ -86,7 +86,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 	}
 
 	const relativePath = join(destination.path, node.basename)
-	const destinationUrl = generateRemoteUrl(encodePath(`dav/files/${getCurrentUser()?.uid}${relativePath}`))
+	const destinationUrl = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}${relativePath}`)
 	logger.debug(`${method} ${node.basename} to ${destinationUrl}`)
 
 	// Set loading state
