@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -35,7 +36,7 @@ use Psr\Log\LoggerInterface;
  * Query builder with commonly used helpers for filecache queries
  */
 class CacheQueryBuilder extends QueryBuilder {
-	private $alias = null;
+	private ?string $alias = null;
 
 	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
 		parent::__construct($connection, $systemConfig, $logger);

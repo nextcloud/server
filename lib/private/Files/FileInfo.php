@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr M <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -415,5 +416,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function getParentId(): int {
 		return $this->data['parent'] ?? -1;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? [];
 	}
 }

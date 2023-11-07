@@ -252,6 +252,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($order) {
 			usort($files, function (FileInfo $a, FileInfo $b) use ($order) {
 				foreach ($order as $orderField) {
+					// needed !?
+					// if ($orderField->isExtra()) { continue; }
 					$cmp = $orderField->sortFileInfo($a, $b);
 					if ($cmp !== 0) {
 						return $cmp;
