@@ -26,6 +26,14 @@ module.exports = {
 			// allows custom xxxx:xxx events formats
 			ignores: ['/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u'],
 		}],
+		'no-restricted-syntax': [
+			'warn',
+			'WithStatement',
+			{
+				'message': 'substr() is deprecated, use slice() or substring() instead',
+				'selector': "MemberExpression > Identifier[name='substr']"
+			}
+		],
 	},
 	settings: {
 		jsdoc: {
