@@ -181,6 +181,10 @@ class Local extends \OC\Files\Storage\Common {
 		return is_file($this->getSourcePath($path));
 	}
 
+	public function is_link($path) {
+		return is_link($this->getSourcePath($path));
+	}
+
 	public function stat($path) {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
@@ -340,7 +344,7 @@ class Local extends \OC\Files\Storage\Common {
 	public function unlink($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} elseif ($this->is_file($path)) {
+		} elseif ($this->is_file($path) || $this->is_link($path)) {
 			return unlink($this->getSourcePath($path));
 		} else {
 			return false;
