@@ -121,6 +121,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->filetype($path) === 'file';
 	}
 
+	public function is_link($path) {
+		return $this->filetype($path) === 'link';
+	}
+
 	public function filesize($path): false|int|float {
 		if ($this->is_dir($path)) {
 			return 0; //by definition

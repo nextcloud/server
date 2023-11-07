@@ -411,6 +411,33 @@ class View {
 	}
 
 	/**
+	 * Return symlink target of given symlink
+	 *
+	 * @param string $path
+	 * @return mixed
+	 * @throws LockedException
+	 * @throws InvalidPathException
+	 */
+	public function readlink($path) {
+		$this->assertPathLength($path);
+		return $this->basicOperation('readlink', $path, ['read']);
+	}
+
+	/**
+	 * Create symlink at given path to the specified target
+	 *
+	 * @param string $target
+	 * @param string $path
+	 * @return mixed
+	 * @throws LockedException
+	 * @throws InvalidPathException
+	 */
+	public function symlink($target, $path) {
+		$this->assertPathLength($path);
+		return $this->basicOperation('symlink', $path, ['create', 'write'], $target);
+	}
+
+	/**
 	 * @param string $path
 	 * @param int $from
 	 * @param int $to
