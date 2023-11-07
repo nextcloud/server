@@ -762,6 +762,12 @@ $input-padding: 6px;
 
 	&__form-input {
 		margin: 0 !important;
+		&:focus,
+		&:focus-visible,
+		&:active {
+			border-color: 2px solid var(--color-main-text) !important;
+			box-shadow: 0 0 0 2px var(--color-main-background) !important;
+		}
 	}
 
 	&__input-row {
