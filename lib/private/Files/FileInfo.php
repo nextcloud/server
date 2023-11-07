@@ -242,7 +242,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	/**
-	 * @return string \OCP\Files\FileInfo::TYPE_FILE|\OCP\Files\FileInfo::TYPE_FOLDER
+	 * @return string \OCP\Files\FileInfo::TYPE_FILE|
+	 *                \OCP\Files\FileInfo::TYPE_FOLDER
+	 *                \OCP\Files\FileInfo::TYPE_SYMLINK
 	 */
 	public function getType() {
 		if (!isset($this->data['type'])) {

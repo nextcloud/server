@@ -225,7 +225,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			$storage->getUpdater()->update($internalPath);
 			$newEtag = $storage->getETag($internalPath);
 			$infoData = [
-				'type' => FileInfo::TYPE_FILE,
+				'type' => FileInfo::TYPE_SYMLINK,
 				'etag' => $newEtag,
 			];
 			$path = \OC\Files\Filesystem::normalizePath($this->path . '/' . $name);

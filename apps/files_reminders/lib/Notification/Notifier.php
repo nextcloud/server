@@ -105,6 +105,7 @@ class Notifier implements INotifier {
 				$label = match ($node->getType()) {
 					FileInfo::TYPE_FILE => $l->t('View file'),
 					FileInfo::TYPE_FOLDER => $l->t('View folder'),
+					FileInfo::TYPE_SYMLINK => $l->t('View symlink'),
 				};
 
 				$this->addActionButton($notification, $label);

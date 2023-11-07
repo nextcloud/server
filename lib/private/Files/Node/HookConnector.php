@@ -229,7 +229,7 @@ class HookConnector {
 				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
 			}
 		}
-		if ($info->getType() === FileInfo::TYPE_FILE) {
+		if ($info->getType() === FileInfo::TYPE_FILE || $info->getType() === FileInfo::TYPE_SYMLINK) {
 			return new File($this->root, $this->view, $info->getPath(), $info);
 		} else {
 			return new Folder($this->root, $this->view, $info->getPath(), $info);

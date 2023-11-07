@@ -94,7 +94,7 @@ class DavUtil {
 			if ($isWritable) {
 				$p .= 'W';
 			}
-		} else {
+		} elseif ($info->getType() === FileInfo::TYPE_FOLDER) {
 			if ($permissions & Constants::PERMISSION_CREATE) {
 				$p .= 'CK';
 			}
