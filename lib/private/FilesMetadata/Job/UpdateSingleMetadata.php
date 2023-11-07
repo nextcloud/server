@@ -26,11 +26,9 @@ declare(strict_types=1);
 namespace OC\FilesMetadata\Job;
 
 use OC\FilesMetadata\FilesMetadataManager;
-use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use Psr\Log\LoggerInterface;
