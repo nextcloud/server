@@ -36,11 +36,13 @@ namespace OCP\SetupCheck;
 interface ISetupCheck {
 	/**
 	 * @since 28.0.0
+	 * @return string Category id, one of security/system/accounts, or a custom one which will be merged in system
 	 */
 	public function getCategory(): string;
 
 	/**
 	 * @since 28.0.0
+	 * @return string Translated name to display to the user
 	 */
 	public function getName(): string;
 
