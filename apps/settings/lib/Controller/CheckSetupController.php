@@ -47,8 +47,6 @@ namespace OCA\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\TransactionIsolationLevel;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
@@ -58,8 +56,6 @@ use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
-use OC\Lock\NoopLockingProvider;
-use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -84,7 +80,6 @@ use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
-use OCP\Security\ISecureRandom;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
@@ -112,8 +107,6 @@ class CheckSetupController extends Controller {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo */
 	private $memoryInfo;
-	/** @var ISecureRandom */
-	private $secureRandom;
 	/** @var IniGetWrapper */
 	private $iniGetWrapper;
 	/** @var IDBConnection */
@@ -131,27 +124,26 @@ class CheckSetupController extends Controller {
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
-								IRequest $request,
-								IConfig $config,
-								IClientService $clientService,
-								IURLGenerator $urlGenerator,
-								IL10N $l10n,
-								Checker $checker,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher,
-								Connection $db,
-								ILockingProvider $lockingProvider,
-								IDateTimeFormatter $dateTimeFormatter,
-								MemoryInfo $memoryInfo,
-								ISecureRandom $secureRandom,
-								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection,
-								IThrottler $throttler,
-								ITempManager $tempManager,
-								IManager $manager,
-								IAppManager $appManager,
-								IServerContainer $serverContainer,
-								ISetupCheckManager $setupCheckManager,
+		IRequest $request,
+		IConfig $config,
+		IClientService $clientService,
+		IURLGenerator $urlGenerator,
+		IL10N $l10n,
+		Checker $checker,
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher,
+		Connection $db,
+		ILockingProvider $lockingProvider,
+		IDateTimeFormatter $dateTimeFormatter,
+		MemoryInfo $memoryInfo,
+		IniGetWrapper $iniGetWrapper,
+		IDBConnection $connection,
+		IThrottler $throttler,
+		ITempManager $tempManager,
+		IManager $manager,
+		IAppManager $appManager,
+		IServerContainer $serverContainer,
+		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
@@ -166,7 +158,6 @@ class CheckSetupController extends Controller {
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
-		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
 		$this->tempManager = $tempManager;
@@ -196,28 +187,6 @@ class CheckSetupController extends Controller {
 			return true;
 		}
 		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Checks whether a local memcache is installed or not
-	 * @return bool
-	 */
-	private function isMemcacheConfigured() {
-		return $this->config->getSystemValue('memcache.local', null) !== null;
-	}
-
-	/**
-	 * Whether PHP can generate "secure" pseudorandom integers
-	 *
-	 * @return bool
-	 */
-	private function isRandomnessSecure() {
-		try {
-			$this->secureRandom->generate(1);
-		} catch (\Exception $ex) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -485,14 +454,6 @@ Raw output
 		return $recommendations;
 	}
 
-	/**
-	 * Check if the required FreeType functions are present
-	 * @return bool
-	 */
-	protected function hasFreeTypeSupport() {
-		return function_exists('imagettfbbox') && function_exists('imagettftext');
-	}
-
 	protected function hasMissingIndexes(): array {
 		$indexInfo = new MissingIndexInformation();
 
@@ -562,50 +523,6 @@ Raw output
 
 	protected function isSqliteUsed() {
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
-	}
-
-	protected function isReadOnlyConfig(): bool {
-		return \OC_Helper::isReadOnlyConfigEnabled();
-	}
-
-	protected function wasEmailTestSuccessful(): bool {
-		// Handle the case that the configuration was set before the check was introduced or it was only set via command line and not from the UI
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '' && $this->config->getSystemValue('mail_domain', '') === '') {
-			return false;
-		}
-
-		// The mail test was unsuccessful or the config was changed using the UI without verifying with a testmail, hence return false
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '0') {
-			return false;
-		}
-
-		return true;
-	}
-
-	protected function hasValidTransactionIsolationLevel(): bool {
-		try {
-			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
-				return true;
-			}
-
-			return $this->db->getTransactionIsolation() === TransactionIsolationLevel::READ_COMMITTED;
-		} catch (Exception $e) {
-			// ignore
-		}
-
-		return true;
-	}
-
-	protected function hasFileinfoInstalled(): bool {
-		return \OC_Util::fileInfoLoaded();
-	}
-
-	protected function hasWorkingFileLocking(): bool {
-		return !($this->lockingProvider instanceof NoopLockingProvider);
-	}
-
-	protected function hasDBFileLocking(): bool {
-		return ($this->lockingProvider instanceof DBLockingProvider);
 	}
 
 	protected function getSuggestedOverwriteCliURL(): string {
@@ -715,14 +632,6 @@ Raw output
 		return true;
 	}
 
-	protected function is64bit(): bool {
-		if (PHP_INT_SIZE < 8) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	protected function isMysqlUsedWithoutUTF8MB4(): bool {
 		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
 	}
@@ -817,23 +726,12 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'isGetenvServerWorking' => !empty(getenv('PATH')),
-				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
-				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
-				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
-				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
-				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
-				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
 				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
-				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
-				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
-				'isRandomnessSecure' => $this->isRandomnessSecure(),
-				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
@@ -842,7 +740,6 @@ Raw output
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
 				'missingIndexes' => $this->hasMissingIndexes(),
 				'missingColumns' => $this->hasMissingColumns(),
@@ -852,7 +749,6 @@ Raw output
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'is64bit' => $this->is64bit(),
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),

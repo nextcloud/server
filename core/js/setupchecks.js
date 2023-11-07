@@ -180,63 +180,12 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (!data.isGetenvServerWorking) {
-						messages.push({
-							msg: t('core', 'PHP does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.') + ' ' +
-								t('core', 'Please check the {linkstart}installation documentation ↗{linkend} for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.')
-									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm') + '">')
-									.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if (data.isReadOnlyConfig) {
-						messages.push({
-							msg: t('core', 'The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
-					if (!data.wasEmailTestSuccessful) {
-						messages.push({
-							msg: t('core', 'You have not set or verified your email server configuration, yet. Please head over to the {mailSettingsStart}Basic settings{mailSettingsEnd} in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',)
-							.replace('{mailSettingsStart}', '<a href="' + OC.generateUrl('/settings/admin') + '">')
-							.replace('{mailSettingsEnd}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
-					if (!data.hasValidTransactionIsolationLevel) {
-						messages.push({
-							msg: t('core', 'Your database does not run with "READ COMMITTED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.hasFileinfoInstalled) {
-						messages.push({
-							msg: t('core', 'The PHP module "fileinfo" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
 					if (data.isBruteforceThrottled) {
 						messages.push({
 							msg: t('core', 'Your remote address was identified as "{remoteAddress}" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}.', { remoteAddress: data.bruteforceRemoteAddress })
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.hasWorkingFileLocking) {
-						messages.push({
-							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the {linkstart}documentation ↗{linkend} for more information.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(data.hasDBFileLocking) {
-						messages.push({
-							msg: t('core', 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if (data.suggestedOverwriteCliURL !== '') {
@@ -271,22 +220,6 @@
 						messages.push({
 							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications are limited to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at {linkstart}https://nextcloud.com/enterprise{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://nextcloud.com/enterprise">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.isMemcacheConfigured) {
-						messages.push({
-							msg: t('core', 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the {linkstart}documentation ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.memcacheDocs + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
-					if(!data.isRandomnessSecure) {
-						messages.push({
-							msg: t('core', 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the {linkstart}documentation ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.securityDocs + '">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
@@ -341,12 +274,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if (!data.hasFreeTypeSupport) {
-						messages.push({
-							msg: t('core', 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if (data.missingIndexes.length > 0) {
 						var listOfMissingIndexes = "";
 						data.missingIndexes.forEach(function(element){
@@ -399,17 +326,6 @@
 								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
 							),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-					if (!data.is64bit) {
-						messages.push({
-							msg: t(
-								'core',
-								'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this.'
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-system-requirements') + '">')
-								.replace('{linkend}', '</a>'),
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
 					if (data.imageMagickLacksSVGSupport) {
