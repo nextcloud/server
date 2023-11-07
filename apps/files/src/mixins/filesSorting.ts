@@ -19,11 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { Navigation, View } from '@nextcloud/files'
 import Vue from 'vue'
 
 import { mapState } from 'pinia'
 import { useViewConfigStore } from '../store/viewConfig'
-import { Navigation, View } from '@nextcloud/files'
 
 export default Vue.extend({
 	computed: {
@@ -46,7 +46,8 @@ export default Vue.extend({
 		 * Get the sorting direction for the current view
 		 */
 		isAscSorting(): boolean {
-			const sortingDirection = this.getConfig(this.currentView.id)?.sorting_direction
+			const sortingDirection = this.getConfig(this.currentView.id)?.sorting_direction as string
+			|| 'asc'
 			return sortingDirection === 'asc'
 		},
 	},

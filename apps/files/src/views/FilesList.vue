@@ -127,7 +127,6 @@ import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
@@ -165,14 +164,12 @@ export default Vue.extend({
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
-		const viewConfigStore = useViewConfigStore()
 		return {
 			filesStore,
 			pathsStore,
 			selectionStore,
 			uploaderStore,
 			userConfigStore,
-			viewConfigStore,
 		}
 	},
 
