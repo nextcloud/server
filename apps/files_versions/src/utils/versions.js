@@ -108,7 +108,7 @@ function formatVersion(version, fileInfo) {
 		})
 	} else {
 		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
+			file: fileInfo.path,
 			fileVersion: version.basename,
 		})
 	}

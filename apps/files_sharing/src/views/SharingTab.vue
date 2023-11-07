@@ -196,7 +196,7 @@ export default {
 				const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 				const format = 'json'
 				// TODO: replace with proper getFUllpath implementation of our own FileInfo model
-				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
+				const path = (this.fileInfo.path).replace('//', '/')
 
 				// fetch shares
 				const fetchShares = axios.get(shareUrl, {

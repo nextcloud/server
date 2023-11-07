@@ -20,27 +20,22 @@
  *
  */
 
-import axios from '@nextcloud/axios'
-import { davGetDefaultPropfind } from '@nextcloud/files'
+// import axios from '@nextcloud/axios'
+import { davGetDefaultPropfind, davGetClient, davResultToNode } from '@nextcloud/files'
 
 /**
- * @param {any} url -
+ * @param {string} url -
  */
 export default async function(url) {
-	const response = await axios({
-		method: 'PROPFIND',
-		url,
-		data: davGetDefaultPropfind(),
-	})
+	const { origin, pathname } = new URL(url)
+	const response = await davGetClient(origin).stat(decodeURI(pathname), { details: true, data: davGetDefaultPropfind() })
+	const node = davResultToNode(response.data)
 
-	// TODO: create new parser or use cdav-lib when available
-	const file = OC.Files.getClient()._client.parseMultiStatus(response.data)
-	// TODO: create new parser or use cdav-lib when available
-	const fileInfo = OC.Files.getClient()._parseFileInfo(file[0])
+	node.id = node.fileid
+	node.isDirectory = () => {
+		console.warn('isDirectory is deprecated, check node.type === "folder"')
+		return node.type === 'folder'
+	}
 
-	// TODO remove when no more legacy backbone is used
-	fileInfo.get = (key) => fileInfo[key]
-	fileInfo.isDirectory = () => fileInfo.mimetype === 'httpd/unix-directory'
-
-	return fileInfo
+	return node
 }
