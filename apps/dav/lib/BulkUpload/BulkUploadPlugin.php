@@ -27,7 +27,9 @@ use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 use OCP\AppFramework\Http;
 use OCP\Files\DavUtil;
 use OCP\Files\Folder;
+use Exception;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -36,6 +38,13 @@ use Sabre\HTTP\ResponseInterface;
 class BulkUploadPlugin extends ServerPlugin {
 	private Folder $userFolder;
 	private LoggerInterface $logger;
+
+	/**
+	 * Reference to main server object
+	 *
+	 * @var Server
+	 */
+	private $server;
 
 	public function __construct(
 		Folder $userFolder,
@@ -49,6 +58,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	 * Register listener on POST requests with the httpPost method.
 	 */
 	public function initialize(Server $server): void {
+		$this->server = $server;
 		$server->on('method:POST', [$this, 'httpPost'], 10);
 	}
 
@@ -87,6 +97,26 @@ class BulkUploadPlugin extends ServerPlugin {
 					$mtime = MtimeSanitizer::sanitizeMtime($headers['x-oc-mtime']);
 				} else {
 					$mtime = null;
+				}
+
+				if (isset($headers['oc-file-type']) && $headers['oc-file-type'] == 1) {
+					// TODO: store default value in global location
+					$allowSymlinks = \OC::$server->get(\OC\AllConfig::class)->getSystemValueBool(
+						'localstorage.allowsymlinks', false);
+					if (!$allowSymlinks) {
+						throw new Forbidden("Server does not allow the creation of symlinks!");
+					}
+					$symlinkPath = $headers['x-file-path'];
+					$parentNode = $this->server->tree->getNodeForPath(dirname($symlinkPath));
+					if(!$parentNode instanceof \OCA\DAV\Connector\Sabre\Directory) {
+						throw new Exception("Unable to upload '$symlinkPath' because the remote directory does not support symlink creation!");
+					}
+					$etag = $parentNode->createSymlink(basename($symlinkPath), $content);
+					$writtenFiles[$headers['x-file-path']] = [
+						"error" => false,
+						"etag" => $etag,
+					];
+					continue;
 				}
 
 				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
