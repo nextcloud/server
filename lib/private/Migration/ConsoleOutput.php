@@ -44,6 +44,10 @@ class ConsoleOutput implements IOutput {
 		$this->output = $output;
 	}
 
+	public function debug(string $message): void {
+		$this->output->writeln($message, OutputInterface::VERBOSITY_VERBOSE);
+	}
+
 	/**
 	 * @param string $message
 	 */
