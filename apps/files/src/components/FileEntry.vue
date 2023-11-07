@@ -20,7 +20,7 @@
   -
   -->
 
-<template>
+  <template>
 	<tr :class="{'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
@@ -83,7 +83,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<span>{{ mtime }}</span>
+			<NcDateTime :timestamp="mDateTime"/>
 		</td>
 
 		<!-- View columns -->
@@ -122,6 +122,7 @@ import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
@@ -140,6 +141,7 @@ export default Vue.extend({
 		FileEntryCheckbox,
 		FileEntryName,
 		FileEntryPreview,
+		NcDateTime,
 	},
 
 	props: {
@@ -259,6 +261,12 @@ export default Vue.extend({
 		mtime() {
 			if (this.source.mtime) {
 				return moment(this.source.mtime).fromNow()
+			}
+			return t('files_trashbin', 'A long time ago')
+		},
+		mDateTime() {
+			if (this.source.mtime) {
+				return moment(this.source.mtime)
 			}
 			return t('files_trashbin', 'A long time ago')
 		},
