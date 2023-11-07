@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
@@ -39,30 +41,30 @@ class SearchComparison implements ISearchComparison {
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getField() {
+	public function getField(): string {
 		return $this->field;
 	}
 
 	/**
 	 * @return \DateTime|int|string
 	 */
-	public function getValue() {
+	public function getValue(): string|int|\DateTime {
 		return $this->value;
 	}
 
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
 	public function getExtra(): string {
 		return $this->extra;
-	}
-
-	public function isExtra(): bool {
-		return ($this->extra !== '');
 	}
 
 	public function getQueryHint(string $name, $default) {

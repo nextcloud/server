@@ -38,10 +38,9 @@ use OCP\FilesMetadata\Model\IMetadataQuery;
  * @since 28.0.0
  */
 interface IFilesMetadataManager {
-	/**
-	 * @since 28.0.0
-	 */
+	/** @since 28.0.0 */
 	public const PROCESS_LIVE = 1;
+	/** @since 28.0.0 */
 	public const PROCESS_BACKGROUND = 2;
 
 	/**
@@ -128,10 +127,13 @@ interface IFilesMetadataManager {
 	/**
 	 * initiate a metadata key with its type.
 	 * The call is mandatory before using the metadata property in a webdav request.
+	 * It is not needed to only use this method when the app is enabled: the method can be
+	 * called each time during the app loading as the metadata will only be initiated if not known
 	 *
 	 * @param string $key metadata key
 	 * @param string $type metadata type
+	 * @param bool $indexed TRUE if metadata can be search
 	 * @since 28.0.0
 	 */
-	public function initMetadataIndex(string $key, string $type): void;
+	public function initMetadata(string $key, string $type, bool $indexed): void;
 }

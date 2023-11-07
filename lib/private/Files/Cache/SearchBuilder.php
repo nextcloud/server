@@ -78,7 +78,7 @@ class SearchBuilder {
 			return array_reduce($operator->getArguments(), function (array $fields, ISearchOperator $operator) {
 				return array_unique(array_merge($fields, $this->extractRequestedFields($operator)));
 			}, []);
-		} elseif ($operator instanceof ISearchComparison && !$operator->isExtra()) {
+		} elseif ($operator instanceof ISearchComparison && !$operator->getExtra()) {
 			return [$operator->getField()];
 		}
 		return [];

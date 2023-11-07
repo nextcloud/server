@@ -31,6 +31,7 @@ namespace OCP\FilesMetadata\Model;
  * @since 28.0.0
  */
 interface IMetadataQuery {
+	/** @since 28.0.0 */
 	public const EXTRA = 'metadata';
 
 	/**

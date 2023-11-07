@@ -48,12 +48,12 @@ class SearchOrder implements ISearchOrder {
 		return $this->field;
 	}
 
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
 	public function getExtra(): string {
 		return $this->extra;
-	}
-
-	public function isExtra(): bool {
-		return ($this->extra !== '');
 	}
 
 	public function sortFileInfo(FileInfo $a, FileInfo $b): int {

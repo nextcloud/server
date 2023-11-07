@@ -51,7 +51,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	}
 
 	public function processOperator(ISearchOperator &$operator) {
-		if (!$this->useHashEq && $operator instanceof ISearchComparison && !$operator->isExtra() && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
+		if (!$this->useHashEq && $operator instanceof ISearchComparison && !$operator->getExtra() && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 			$operator->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, false);
 		}
 
@@ -72,7 +72,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	private function operatorPairIsPathPrefix(ISearchOperator $like, ISearchOperator $equal): bool {
 		return (
 			$like instanceof ISearchComparison && $equal instanceof ISearchComparison &&
-			!$like->isExtra() && !$equal->isExtra() && $like->getField() === 'path' && $equal->getField() === 'path' &&
+			!$like->getExtra() && !$equal->getExtra() && $like->getField() === 'path' && $equal->getField() === 'path' &&
 			$like->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $equal->getType() === ISearchComparison::COMPARE_EQUAL
 			&& $like->getValue() === SearchComparison::escapeLikeParameter($equal->getValue()) . '/%'
 		);

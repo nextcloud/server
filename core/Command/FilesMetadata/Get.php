@@ -91,7 +91,7 @@ class Get extends Command {
 		if ($input->getOption('reset')) {
 			$this->filesMetadataManager->deleteMetadata($fileId);
 			if (!$input->getOption('refresh')) {
-				return 0;
+				return self::SUCCESS;
 			}
 		}
 
@@ -114,6 +114,6 @@ class Get extends Command {
 			$output->writeln(json_encode($metadata, JSON_PRETTY_PRINT));
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

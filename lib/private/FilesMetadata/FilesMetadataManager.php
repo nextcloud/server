@@ -242,6 +242,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	/**
 	 * @param string $key metadata key
 	 * @param string $type metadata type
+	 * @param bool $indexed TRUE if metadata can be search
 	 *
 	 * @inheritDoc
 	 * @since 28.0.0
@@ -253,17 +254,17 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @see IMetadataValueWrapper::TYPE_INT_LIST
 	 * @see IMetadataValueWrapper::TYPE_STRING
 	 */
-	public function initMetadataIndex(string $key, string $type): void {
+	public function initMetadata(string $key, string $type, bool $indexed): void {
 		$current = $this->getKnownMetadata();
 		try {
-			if ($current->getType($key) === $type && $current->isIndex($key)) {
-				return; // if key exists, with same type and is already indexed, we do nothing.
+			if ($current->getType($key) === $type && $indexed === $current->isIndex($key)) {
+				return; // if key exists, with same type and indexed, we do nothing.
 			}
 		} catch (FilesMetadataNotFoundException) {
 			// if value does not exist, we keep on the writing of course
 		}
 
-		$current->import([$key => ['type' => $type, 'indexed' => true]]);
+		$current->import([$key => ['type' => $type, 'indexed' => $indexed]]);
 		$this->config->setAppValue('core', self::CONFIG_KEY, json_encode($current));
 	}
 

@@ -33,6 +33,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Simple background job, created when requested by an app during the
@@ -47,6 +48,7 @@ class UpdateSingleMetadata extends QueuedJob {
 		ITimeFactory $time,
 		private IRootFolder $rootFolder,
 		private FilesMetadataManager $filesMetadataManager,
+		private LoggerInterface $logger
 	) {
 		parent::__construct($time);
 	}
@@ -60,7 +62,8 @@ class UpdateSingleMetadata extends QueuedJob {
 				$file = array_shift($node);
 				$this->filesMetadataManager->refreshMetadata($file, IFilesMetadataManager::PROCESS_BACKGROUND);
 			}
-		} catch (NotPermittedException|NoUserException $e) {
+		} catch (\Exception $e) {
+			$this->logger->warning('issue while running UpdateSingleMetadata', ['exception' => $e, 'userId' => $userId, 'fileId' => $fileId]);
 		}
 	}
 }

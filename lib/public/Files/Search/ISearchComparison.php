@@ -44,7 +44,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getType();
+	public function getType(): string;
 
 	/**
 	 * Get the name of the field to compare with
@@ -54,8 +54,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getField();
-
+	public function getField(): string;
 
 	/**
 	 * extra means data are not related to the main files table
@@ -66,18 +65,10 @@ interface ISearchComparison extends ISearchOperator {
 	public function getExtra(): string;
 
 	/**
-	 * returns if data are 'extra' or not
-	 *
-	 * @return bool
-	 * @since 28.0.0
-	 */
-	public function isExtra(): bool;
-
-	/**
 	 * Get the value to compare the field with
 	 *
 	 * @return string|integer|\DateTime
 	 * @since 12.0.0
 	 */
-	public function getValue();
+	public function getValue(): string|int|\DateTime;
 }

@@ -58,15 +58,6 @@ interface ISearchOrder {
 	public function getExtra(): string;
 
 	/**
-	 * returns if data are 'extra' or not
-	 *
-	 * @return bool
-	 * @since 28.0.0
-	 */
-	public function isExtra(): bool;
-
-
-	/**
 	 * Apply the sorting on 2 FileInfo objects
 	 *
 	 * @param FileInfo $a

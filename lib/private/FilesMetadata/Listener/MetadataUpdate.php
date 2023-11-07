@@ -31,6 +31,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Handle file creation/modification events and initiate a new event related to the created/edited file.
@@ -42,6 +43,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 class MetadataUpdate implements IEventListener {
 	public function __construct(
 		private IFilesMetadataManager $filesMetadataManager,
+		private LoggerInterface $logger
 	) {
 	}
 
@@ -56,6 +58,7 @@ class MetadataUpdate implements IEventListener {
 		try {
 			$this->filesMetadataManager->refreshMetadata($event->getNode());
 		} catch (Exception $e) {
+			$this->logger->warning('issue while running MetadataUpdate', ['exception' => $e]);
 		}
 	}
 }

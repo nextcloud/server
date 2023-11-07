@@ -30,6 +30,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Handle file deletion event and remove stored metadata related to the deleted file
@@ -39,6 +40,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 class MetadataDelete implements IEventListener {
 	public function __construct(
 		private IFilesMetadataManager $filesMetadataManager,
+		private LoggerInterface $logger
 	) {
 	}
 
@@ -56,6 +58,7 @@ class MetadataDelete implements IEventListener {
 				$this->filesMetadataManager->deleteMetadata($nodeId);
 			}
 		} catch (Exception $e) {
+			$this->logger->warning('issue while running MetadataDelete', ['exception' => $e]);
 		}
 	}
 }
