@@ -33,7 +33,6 @@ namespace OCP\TextProcessing;
  * @template-extends IProvider<T>
  */
 interface IProviderWithExpectedRuntime extends IProvider {
-
 	/**
 	 * @return int The expected average runtime of a task in seconds
 	 * @since 28.0.0
