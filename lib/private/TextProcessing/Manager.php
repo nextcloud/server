@@ -29,7 +29,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
 use OCP\IConfig;
 use OCP\TextProcessing\Exception\TaskFailureException;
-use OCP\TextProcessing\IProvider2;
+use OCP\TextProcessing\IProviderWithExpectedRuntime;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\Task as OCPTask;
 use OC\TextProcessing\Db\TaskMapper;
@@ -121,7 +121,7 @@ class Manager implements IManager {
 		foreach ($providers as $provider) {
 			try {
 				$task->setStatus(OCPTask::STATUS_RUNNING);
-				if ($provider instanceof IProvider2) {
+				if ($provider instanceof IProviderWithExpectedRuntime) {
 					$completionExpectedAt = new \DateTime('now');
 					$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
 					$task->setCompletionExpectedAt($completionExpectedAt);
@@ -159,7 +159,7 @@ class Manager implements IManager {
 		}
 		$task->setStatus(OCPTask::STATUS_SCHEDULED);
 		[$provider, ] = $this->getPreferredProviders($task);
-		if ($provider instanceof IProvider2) {
+		if ($provider instanceof IProviderWithExpectedRuntime) {
 			$completionExpectedAt = new \DateTime('now');
 			$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
 			$task->setCompletionExpectedAt($completionExpectedAt);
@@ -183,7 +183,7 @@ class Manager implements IManager {
 		$maxExecutionTime = (int) ini_get('max_execution_time');
 		// Offload the task to a background job if the expected runtime of the likely provider is longer than 80% of our max execution time
 		// or if the provider doesn't provide a getExpectedRuntime() method
-		if (!$provider instanceof IProvider2 || $provider->getExpectedRuntime() > $maxExecutionTime * 0.8) {
+		if (!$provider instanceof IProviderWithExpectedRuntime || $provider->getExpectedRuntime() > $maxExecutionTime * 0.8) {
 			$this->scheduleTask($task);
 			return false;
 		}

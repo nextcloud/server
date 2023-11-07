@@ -93,13 +93,13 @@ final class Task implements \JsonSerializable {
 
 	/**
 	 * @psalm-param P $provider
-	 * @param IProvider|IProvider2 $provider
+	 * @param IProvider $provider
 	 * @return string
 	 * @since 27.1.0
 	 */
-	public function visitProvider(IProvider|IProvider2 $provider): string {
+	public function visitProvider(IProvider $provider): string {
 		if ($this->canUseProvider($provider)) {
-			if ($provider instanceof IProvider2) {
+			if ($provider instanceof IProviderWithUserId) {
 				$provider->setUserId($this->getUserId());
 			}
 			return $provider->process($this->getInput());

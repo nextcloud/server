@@ -27,18 +27,12 @@ declare(strict_types=1);
 namespace OCP\TextProcessing;
 
 /**
- * This interface supersedes IProvider. It allows the system to learn
- * the provider's expected runtime and lets the provider know which user is running a task
+ * This interface  allows the system to learn the provider's expected runtime
  * @since 28.0.0
  * @template T of ITaskType
  * @template-extends IProvider<T>
  */
-interface IProvider2 extends IProvider {
-	/**
-	 * @param ?string $userId the current user's id
-	 * @since 28.0.0
-	 */
-	public function setUserId(?string $userId): string;
+interface IProviderWithExpectedRuntime extends IProvider {
 
 	/**
 	 * @return int The expected average runtime of a task in seconds
