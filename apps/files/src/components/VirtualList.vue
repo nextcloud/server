@@ -155,7 +155,7 @@ export default Vue.extend({
 				}
 
 				// Get and consume reusable key or generate a new one
-				const key = unusedKeys.pop() || Math.random().toString(36).substr(2)
+				const key = unusedKeys.pop() || Math.random().toString(36).slice(2)
 				this.$_recycledPool[key] = item[this.dataKey]
 				return { key, item }
 			})

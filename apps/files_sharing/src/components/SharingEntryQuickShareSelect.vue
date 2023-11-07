@@ -121,7 +121,7 @@ export default {
 		},
 		dropdownId() {
 			// Generate a unique ID for ARIA attributes
-			return `dropdown-${Math.random().toString(36).substr(2, 9)}`
+			return `dropdown-${Math.random().toString(36).slice(2, 11)}`
 		},
 	},
 	watch: {
