@@ -404,4 +404,23 @@ class ScannerTest extends TestCase {
 			['/sub/folder/foo.txt', false],
 		];
 	}
+
+	public function testNoETagUnscannedFolder() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+
+		$oldFolderEntry = $this->cache->get('folder');
+		// create a new file in a folder by keeping the mtime unchanged, but mark the folder as unscanned
+		$this->storage->file_put_contents('folder/new.txt', 'foo');
+		$this->storage->touch('folder', $oldFolderEntry->getMTime());
+		$this->cache->update($oldFolderEntry->getId(), ['size' => -1]);
+
+		$this->scanner->scan('');
+
+		$this->cache->inCache('folder/new.txt');
+
+		$newFolderEntry = $this->cache->get('folder');
+		$this->assertNotEquals($newFolderEntry->getEtag(), $oldFolderEntry->getEtag());
+	}
 }
