@@ -341,6 +341,17 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
+	/**
+	 * create symlink
+	 *
+	 * @param string $path
+	 * @param string $target
+	 * @return bool
+	 */
+	public function symlink($target, $path) {
+		return symlink($target, $this->getSourcePath($path));
+	}
+
 	public function unlink($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
