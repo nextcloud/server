@@ -41,6 +41,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUser;
 use OCP\Share\IManager;
 use SearchDAV\Backend\SearchPropertyDefinition;
@@ -114,7 +115,9 @@ class FileSearchBackendTest extends TestCase {
 			->method('get')
 			->willReturn($this->searchFolder);
 
-		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view);
+		$filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
+
+		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
 	}
 
 	public function testSearchFilename(): void {

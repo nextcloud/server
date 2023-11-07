@@ -7,6 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Jobst <mjobst+github@tecratech.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -49,8 +50,8 @@ use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
-use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -84,6 +85,7 @@ class FilesPlugin extends ServerPlugin {
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
+	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
 	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
 	public const FILE_METADATA_GPS = '{http://nextcloud.org/ns}file-metadata-gps';
 
@@ -389,6 +391,11 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
+
+			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
+				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, $metadataValue);
+			}
+
 			/**
 			 * Return file/folder name as displayname. The primary reason to
 			 * implement it this way is to avoid costly fallback to
