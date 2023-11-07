@@ -113,6 +113,26 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
+	/**
+	 * Default implementation to ensure backwards compatibility.
+	 * Should be overwritten by any storage class that can provide this operation.
+	 *
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function readlink($path) {
+		throw new \OCP\Files\NotPermittedException("Storage does not provide an implementation for 'readlink'");
+	}
+
+	/**
+	 * Default implementation to ensure backwards compatibility.
+	 * Should be overwritten by any storage class that can provide this operation.
+	 *
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function symlink($target, $link) {
+		throw new \OCP\Files\NotPermittedException("Storage does not provide an implementation for 'symlink'");
+	}
+
 	public function is_dir($path) {
 		return $this->filetype($path) === 'dir';
 	}
