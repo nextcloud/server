@@ -494,7 +494,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$filter = $this->prepareFilterForUsersHasGidNumber($groupDN, $search);
 			$users = $this->access->fetchListOfUsers(
 				$filter,
-				[$this->access->connection->ldapUserDisplayName, 'dn'],
+				$this->access->userManager->getAttributes(true),
 				$limit,
 				$offset
 			);
@@ -617,7 +617,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
 			$users = $this->access->fetchListOfUsers(
 				$filter,
-				[$this->access->connection->ldapUserDisplayName, 'dn'],
+				$this->access->userManager->getAttributes(true),
 				$limit,
 				$offset
 			);
