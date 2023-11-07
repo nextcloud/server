@@ -288,6 +288,7 @@ export default Vue.extend({
 					url: oldEncodedSource,
 					headers: {
 						Destination: this.source.encodedSource,
+						Overwrite: 'F',
 					},
 				})
 
