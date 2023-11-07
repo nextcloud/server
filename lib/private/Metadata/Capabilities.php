@@ -26,15 +26,13 @@ use OCP\Capabilities\IPublicCapability;
 use OCP\IConfig;
 
 class Capabilities implements IPublicCapability {
-	private IMetadataManager $manager;
-	private IConfig $config;
-
-	public function __construct(IMetadataManager $manager, IConfig $config) {
-		$this->manager = $manager;
-		$this->config = $config;
+	public function __construct(
+		private IMetadataManager $manager,
+		private IConfig $config,
+	) {
 	}
 
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
 			return ['metadataAvailable' => $this->manager->getCapabilities()];
 		}

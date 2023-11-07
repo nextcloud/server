@@ -24,17 +24,12 @@ use OCP\Files\File;
 
 class MetadataManager implements IMetadataManager {
 	/** @var array<string, IMetadataProvider> */
-	private array $providers;
-	private array $providerClasses;
-	private FileMetadataMapper $fileMetadataMapper;
+	private array $providers = [];
+	private array $providerClasses = [];
 
 	public function __construct(
-		FileMetadataMapper $fileMetadataMapper
+		private FileMetadataMapper $fileMetadataMapper,
 	) {
-		$this->providers = [];
-		$this->providerClasses = [];
-		$this->fileMetadataMapper = $fileMetadataMapper;
-
 		// TODO move to another place, where?
 		$this->registerProvider(ExifProvider::class);
 	}

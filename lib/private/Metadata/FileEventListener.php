@@ -39,12 +39,10 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<NodeWrittenEvent>
  */
 class FileEventListener implements IEventListener {
-	private IMetadataManager $manager;
-	private LoggerInterface $logger;
-
-	public function __construct(IMetadataManager $manager, LoggerInterface $logger) {
-		$this->manager = $manager;
-		$this->logger = $logger;
+	public function __construct(
+		private IMetadataManager $manager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	private function shouldExtractMetadata(Node $node): bool {
