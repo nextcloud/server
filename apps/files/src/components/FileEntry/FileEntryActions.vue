@@ -191,7 +191,7 @@ export default Vue.extend({
 
 	methods: {
 		actionDisplayName(action: FileAction) {
-			if (this.filesListWidth < 768 && action.inline && typeof action.title === 'function') {
+			if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
 				// if an inline action is rendered in the menu for
 				// lack of space we use the title first if defined
 				const title = action.title([this.source], this.currentView)
