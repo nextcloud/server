@@ -45,6 +45,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\PreconditionFailed;
@@ -146,6 +147,25 @@ class ChunkingV2Plugin extends ServerPlugin {
 	}
 
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
+		if ($request->getHeader('OC-File-Type') == 1) {
+			// TODO: store default value in global location
+			$allowSymlinks = \OC::$server->get(\OC\AllConfig::class)->getSystemValueBool(
+				'localstorage.allowsymlinks', false);
+			if (!$allowSymlinks) {
+				throw new Forbidden("Server does not allow the creation of symlinks!");
+			}
+			$symlinkPath = $request->getPath();
+			$symlinkTarget = $request->getBodyAsString();
+			$parentNode = $this->server->tree->getNodeForPath(dirname($symlinkPath));
+			if(!$parentNode instanceof \OCA\DAV\Connector\Sabre\Directory) {
+				throw new Exception("Unable to upload '$symlinkPath' because the remote directory does not support symlink creation!");
+			}
+			$etag = $parentNode->createSymlink(basename($symlinkPath), $symlinkTarget);
+			$response->setHeader("OC-ETag", $etag);
+			$response->setStatus(201);
+			$this->server->sapi->sendResponse($response);
+			return false;
+		}
 		try {
 			$this->prepareUpload(dirname($request->getPath()));
 			$this->checkPrerequisites();
