@@ -65,6 +65,8 @@ class NavigationManager implements INavigationManager {
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
+	/** The default app for the current user (cached for the `add` function) */
+	private ?string $defaultApp;
 
 	public function __construct(IAppManager $appManager,
 						 IURLGenerator $urlGenerator,
@@ -78,6 +80,8 @@ class NavigationManager implements INavigationManager {
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->config = $config;
+
+		$this->defaultApp = null;
 	}
 
 	/**
@@ -102,6 +106,8 @@ class NavigationManager implements INavigationManager {
 
 		$id = $entry['id'];
 		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
+		// This is the default app that will always be shown first
+		$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
 
 		$this->entries[$id] = $entry;
 	}
@@ -222,6 +228,8 @@ class NavigationManager implements INavigationManager {
 			return;
 		}
 
+		$this->defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
+
 		if ($this->userSession->isLoggedIn()) {
 			// Profile
 			$this->add([
@@ -324,9 +332,6 @@ class NavigationManager implements INavigationManager {
 			$customOrders = [];
 		}
 
-		// The default app of the current user without fallbacks
-		$defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
-
 		foreach ($apps as $app) {
 			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
 				continue;
@@ -382,12 +387,8 @@ class NavigationManager implements INavigationManager {
 					// Localized name of the navigation entry
 					'name' => $l->t($nav['name']),
 				], $type === 'link' ? [
-					// This is the default app that will always be shown first
-					'default' => $defaultApp === $id,
 					// App that registered this navigation entry (not necessarly the same as the id)
 					'app' => $app,
-					// The key used to identify this entry in the navigations entries
-					'key' => $key,
 				] : []
 				));
 			}
