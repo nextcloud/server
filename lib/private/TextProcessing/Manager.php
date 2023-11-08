@@ -158,7 +158,7 @@ class Manager implements IManager {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
 		$task->setStatus(OCPTask::STATUS_SCHEDULED);
-		[$provider, ] = $this->getPreferredProviders($task);
+		[$provider,] = $this->getPreferredProviders($task);
 		if ($provider instanceof IProviderWithExpectedRuntime) {
 			$completionExpectedAt = new \DateTime('now');
 			$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
