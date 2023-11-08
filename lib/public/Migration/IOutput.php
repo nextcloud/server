@@ -32,7 +32,7 @@ interface IOutput {
 	/**
 	 * @param string $message
 	 * @return void
-	 * @since 28.0.0
+	 * @since 27.1.4
 	 */
 	public function debug(string $message): void;
 
