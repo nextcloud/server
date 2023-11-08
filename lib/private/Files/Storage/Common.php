@@ -48,6 +48,7 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
+use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
@@ -276,9 +277,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function getMimeType($path) {
 		if ($this->is_dir($path)) {
-			return 'httpd/unix-directory';
+			return FileInfo::MIMETYPE_FOLDER;
+		} elseif ($this->is_link($path)) {
+			return FileInfo::MIMETYPE_SYMLINK;
 		} elseif ($this->file_exists($path)) {
-			return \OC::$server->getMimeTypeDetector()->detectPath($path);
+			return \OC::$server->get(IMimeTypeDetector::class)->detectPath($path);
 		} else {
 			return false;
 		}

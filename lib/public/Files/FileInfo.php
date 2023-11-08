@@ -70,6 +70,10 @@ interface FileInfo {
 	 * @since 9.1.0
 	 */
 	public const MIMETYPE_FOLDER = 'httpd/unix-directory';
+	/**
+	 * @since TODO
+	 */
+	public const MIMETYPE_SYMLINK = 'inode/symlink';
 
 	/**
 	 * @const \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX Return regular expression to test filenames against (blacklisting)

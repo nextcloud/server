@@ -1539,7 +1539,9 @@ class View {
 						}
 					} else { //mountpoint in this folder, add an entry for it
 						$rootEntry['name'] = $relativePath;
-						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+						$rootEntry['type'] = $rootEntry['mimetype'] === FileInfo::MIMETYPE_FOLDER ?
+							FileInfo::TYPE_FOLDER : ($rootEntry['mimetype'] === FileInfo::MIMETYPE_SYMLINK ?
+							FileInfo::TYPE_SYMLINK : FileInfo::TYPE_FILE);
 						$permissions = $rootEntry['permissions'];
 						// do not allow renaming/deleting the mount point if they are not shared files/folders
 						// for shared files/folders we use the permissions given by the owner

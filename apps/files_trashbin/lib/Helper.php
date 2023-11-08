@@ -32,7 +32,6 @@ namespace OCA\Files_Trashbin;
 
 use OC\Files\FileInfo;
 use OCP\Constants;
-use OCP\Files\Cache\ICacheEntry;
 
 class Helper {
 	/**
@@ -82,11 +81,20 @@ class Helper {
 					$originalPath = substr($originalPath, 0, -1);
 				}
 			}
-			$type = $entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE ? 'dir' : 'file';
+			if ($entry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+				$type = FileInfo::TYPE_FOLDER;
+				$mimetype = FileInfo::MIMETYPE_FOLDER;
+			} elseif ($entry->getMimeType() === FileInfo::MIMETYPE_SYMLINK) {
+				$type = FileInfo::TYPE_SYMLINK;
+				$mimetype = FileInfo::MIMETYPE_SYMLINK;
+			} else {
+				$type = FileInfo::TYPE_FILE;
+				$mimetype = \OC::$server->get(IMimeTypeDetector::class)->detectPath($name);
+			}
 			$i = [
 				'name' => $name,
 				'mtime' => $timestamp,
-				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($name),
+				'mimetype' => $mimetype,
 				'type' => $type,
 				'directory' => ($dir === '/') ? '' : $dir,
 				'size' => $entry->getSize(),
