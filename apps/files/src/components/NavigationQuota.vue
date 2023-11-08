@@ -89,7 +89,7 @@ export default {
 
 	mounted() {
 		// Warn the user if the available storage is 0 on page load
-		if (this.storageStats?.free === 0) {
+		if (this.storageStats?.free <= 0) {
 			this.showStorageFullWarning()
 		}
 	},
@@ -123,7 +123,7 @@ export default {
 				}
 
 				// Warn the user if the available storage changed from > 0 to 0
-				if (this.storageStats?.free !== 0 && response.data.data?.free === 0) {
+				if (this.storageStats?.free > 0 && response.data.data?.free <= 0) {
 					this.showStorageFullWarning()
 				}
 
