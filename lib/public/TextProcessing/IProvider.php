@@ -56,7 +56,7 @@ interface IProvider {
 	 * provider handles
 	 *
 	 * @since 27.1.0
-	 * @return class-string<T>|string
+	 * @return class-string<T>
 	 */
 	public function getTaskType(): string;
 }

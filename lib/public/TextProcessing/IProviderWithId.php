@@ -27,7 +27,8 @@ namespace OCP\TextProcessing;
 
 /**
  * @since 28.0.0
- * @extends IProvider<ITaskType>
+ * @extends IProvider<T>
+ * @template T of ITaskType
  */
 interface IProviderWithId extends IProvider {
 
