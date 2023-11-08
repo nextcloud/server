@@ -24,7 +24,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ServerTagWithId, Tag, TagWithId } from '../types.js'
 
 import { davClient } from './davClient.js'
-import { createTag, fetchTagsBody } from './api.js'
+import { createTag, fetchTagsPayload } from './api.js'
 import { formatTag, parseTags } from '../utils.js'
 import { logger } from '../logger.js'
 
@@ -32,7 +32,7 @@ export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => 
 	const path = '/systemtags-relations/files/' + fileId
 	try {
 		const { data: tags } = await davClient.getDirectoryContents(path, {
-			data: fetchTagsBody,
+			data: fetchTagsPayload,
 			details: true,
 			glob: '/systemtags-relations/files/*/*', // Filter out first empty tag
 		}) as ResponseDataDetailed<Required<FileStat>[]>

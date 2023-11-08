@@ -35,7 +35,7 @@ export const defaultBaseTag: BaseTag = {
 export const parseTags = (tags: { props: DAVResultResponseProps }[]): TagWithId[] => {
 	return tags.map(({ props }) => Object.fromEntries(
 		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), value]),
+			.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]),
 	)) as TagWithId[]
 }
 

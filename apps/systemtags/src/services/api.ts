@@ -31,7 +31,7 @@ import { davClient } from './davClient.js'
 import { formatTag, parseIdFromLocation, parseTags } from '../utils'
 import { logger } from '../logger.js'
 
-export const fetchTagsBody = `<?xml version="1.0"?>
+export const fetchTagsPayload = `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
 	<d:prop>
 		<oc:id />
@@ -46,7 +46,7 @@ export const fetchTags = async (): Promise<TagWithId[]> => {
 	const path = '/systemtags'
 	try {
 		const { data: tags } = await davClient.getDirectoryContents(path, {
-			data: fetchTagsBody,
+			data: fetchTagsPayload,
 			details: true,
 			glob: '/systemtags/*', // Filter out first empty tag
 		}) as ResponseDataDetailed<Required<FileStat>[]>
