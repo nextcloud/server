@@ -27,6 +27,7 @@ import { showError } from '@nextcloud/dialogs'
 import { subscribe } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
+
 import ChartPie from 'vue-material-design-icons/ChartPie.vue'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
@@ -86,6 +87,13 @@ export default {
 		subscribe('files:node:updated', this.throttleUpdateStorageStats)
 	},
 
+	mounted() {
+		// Warn the user if the available storage is 0 on page load
+		if (this.storageStats?.free === 0) {
+			this.showStorageFullWarning()
+		}
+	},
+
 	methods: {
 		// From user input
 		debounceUpdateStorageStats: debounce(200, function(event) {
@@ -113,6 +121,12 @@ export default {
 				if (!response?.data?.data) {
 					throw new Error('Invalid storage stats')
 				}
+
+				// Warn the user if the available storage changed from > 0 to 0
+				if (this.storageStats?.free !== 0 && response.data.data?.free === 0) {
+					this.showStorageFullWarning()
+				}
+
 				this.storageStats = response.data.data
 			} catch (error) {
 				logger.error('Could not refresh storage stats', { error })
@@ -123,6 +137,10 @@ export default {
 			} finally {
 				this.loadingStorageStats = false
 			}
+		},
+
+		showStorageFullWarning() {
+			showError(this.t('files', 'Your storage is full, files can not be updated or synced anymore!'))
 		},
 
 		t: translate,
