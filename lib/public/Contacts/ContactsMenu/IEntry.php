@@ -64,6 +64,7 @@ interface IEntry extends JsonSerializable {
 	 */
 	public function setStatus(string $status,
 		string $statusMessage = null,
+		int $statusMessageTimestamp = null,
 		string $icon = null): void;
 
 	/**
