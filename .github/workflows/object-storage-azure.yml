@@ -1,16 +1,8 @@
 name: Object storage azure
 on:
   pull_request:
-    paths:
-      - '.github/workflows/**'
-      - '3rdparty/**'
-      - '**/*.php'
-      - '**/lib/**'
-      - '**/tests/**'
-      - '**/vendor-bin/**'
-      - '.php-cs-fixer.dist.php'
-      - 'composer.json'
-      - 'composer.lock'
+  schedule:
+    - cron: "15 2 * * *"
 
 concurrency:
   group: object-storage-azure-${{ github.head_ref || github.run_id }}

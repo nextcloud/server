@@ -1,6 +1,9 @@
 name: PHPUnit oci
 
-on: pull_request
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
 
 permissions:
   contents: read
@@ -14,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      src: ${{ steps.changes.outputs.src}}
+      src: ${{ steps.changes.outputs.src }}
 
     steps:
       - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1

@@ -7,9 +7,8 @@ name: PHPUnit memcached
 
 on:
   pull_request:
-  push:
-    branches:
-      - stable*
+  schedule:
+    - cron: "5 2 * * *"
 
 permissions:
   contents: read
