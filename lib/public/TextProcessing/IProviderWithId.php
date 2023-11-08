@@ -31,7 +31,6 @@ namespace OCP\TextProcessing;
  * @template T of ITaskType
  */
 interface IProviderWithId extends IProvider {
-
 	/**
 	 * The id of this provider
 	 * @since 28.0.0
