@@ -29,5 +29,5 @@ export function initLivePhotos(): void {
  * @param {Node} node - The node
  */
 export function isLivePhoto(node: Node): boolean {
-	return node.attributes['metadata-files-live-photo'] !== null
+	return node.attributes['metadata-files-live-photo'] !== undefined
 }
