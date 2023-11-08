@@ -37,5 +37,5 @@ interface IProviderWithUserId extends IProvider {
 	 * @param ?string $userId the current user's id
 	 * @since 28.0.0
 	 */
-	public function setUserId(?string $userId): string;
+	public function setUserId(?string $userId): void;
 }
