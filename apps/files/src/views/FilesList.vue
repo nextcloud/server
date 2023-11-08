@@ -58,6 +58,7 @@
 						:destination="currentFolder"
 						:multiple="true"
 						class="files-list__header-upload-button"
+						@failed="onUploadFail"
 						@uploaded="onUpload" />
 				</template>
 			</BreadCrumbs>
@@ -126,6 +127,8 @@ import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
+import { Parser } from 'xml2js'
+import { showError } from '@nextcloud/dialogs'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
@@ -523,6 +526,39 @@ export default defineComponent({
 				// fetchContent will cancel the previous ongoing promise
 				this.fetchContent()
 			}
+		},
+
+		async onUploadFail(upload: Upload) {
+			const status = upload.response?.status || 0
+
+			// Check known status codes
+			if (status === 507) {
+				showError(this.t('files', 'Not enough free space'))
+				return
+			} else if (status === 404 || status === 409) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			} else if (status === 403) {
+				showError(this.t('files', 'Operation is blocked by access control'))
+				return
+			} else if (status !== 0) {
+				showError(this.t('files', 'Error when assembling chunks, status code {status}', { status }))
+				return
+			}
+
+			// Else we try to parse the response error message
+			try {
+				const parser = new Parser({ trim: true, explicitRoot: false })
+				const response = await parser.parseStringPromise(upload.response?.data)
+				const message = response['s:message'][0] as string
+				if (typeof message === 'string' && message.trim() !== '') {
+					// Unfortunatly, the server message is not translated
+					showError(this.t('files', 'Error during upload: {message}', { message }))
+					return
+				}
+			} catch (error) {}
+
+			showError(this.t('files', 'Unknown error during upload'))
 		},
 
 		/**

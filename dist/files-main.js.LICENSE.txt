@@ -10,6 +10,8 @@
  * @license MIT
  */
 
+/*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
+
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
