@@ -87,6 +87,7 @@ class FilesPlugin extends ServerPlugin {
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
 	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
+	public const HIDDEN_PROPERTYNAME = '{http://nextcloud.org/ns}hidden';
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -385,6 +386,12 @@ class FilesPlugin extends ServerPlugin {
 			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
 				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, $metadataValue);
 			}
+
+			$propFind->handle(self::HIDDEN_PROPERTYNAME, function () use ($node) {
+				$filesMetadataManager = \OCP\Server::get(IFilesMetadataManager::class);
+				$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
+				return $metadata->hasKey('files-live-photo') && $node->getFileInfo()->getMimetype() === 'video/quicktime' ? 'true' : 'false';
+			});
 
 			/**
 			 * Return file/folder name as displayname. The primary reason to
