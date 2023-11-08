@@ -67,6 +67,8 @@ class NavigationManager implements INavigationManager {
 	private $config;
 	/** The default app for the current user (cached for the `add` function) */
 	private ?string $defaultApp;
+	/** User defined app order (cached for the `add` function) */
+	private array $customAppOrder;
 
 	public function __construct(IAppManager $appManager,
 						 IURLGenerator $urlGenerator,
@@ -106,8 +108,12 @@ class NavigationManager implements INavigationManager {
 
 		$id = $entry['id'];
 		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
-		// This is the default app that will always be shown first
-		$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
+		if ($entry['type'] === 'link') {
+			// This is the default app that will always be shown first
+			$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
+			// Set order from user defined app order
+			$entry['order'] = $this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100;
+		}
 
 		$this->entries[$id] = $entry;
 	}
@@ -326,10 +332,10 @@ class NavigationManager implements INavigationManager {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
-			$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
+			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getInstalledApps();
-			$customOrders = [];
+			$this->customAppOrder = [];
 		}
 
 		foreach ($apps as $app) {
@@ -357,7 +363,7 @@ class NavigationManager implements INavigationManager {
 				}
 				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
-				$order = $customOrders[$app][$key] ?? $nav['order'] ?? 100;
+				$order = $nav['order'] ?? 100;
 				$type = $nav['type'];
 				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = $nav['icon'] ?? 'app.svg';

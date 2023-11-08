@@ -680,7 +680,7 @@ class AppManagerTest extends TestCase {
 			[
 				'unexist,settings',
 				'files',
-				'{"settings":[1],"files":[2]}',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
 				true,
 				'files',
 			],
@@ -688,7 +688,7 @@ class AppManagerTest extends TestCase {
 			[
 				'',
 				'',
-				'{"settings":[1],"files":[2]}',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
 				true,
 				'settings',
 			],
@@ -696,7 +696,7 @@ class AppManagerTest extends TestCase {
 			[
 				'',
 				'',
-				'{"settings":[1],"files":[2]}',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
 				false,
 				'',
 			],

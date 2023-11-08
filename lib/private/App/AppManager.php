@@ -838,8 +838,9 @@ class AppManager implements IAppManager {
 				/* Fallback on user defined apporder */
 				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 				if (!empty($customOrders)) {
-					$customOrders = array_map('min', $customOrders);
-					asort($customOrders);
+					uasort($customOrders, function ($a, $b) {
+						return $a['order'] - $b['order'];
+					});
 					$defaultApps = array_keys($customOrders);
 				}
 			}
