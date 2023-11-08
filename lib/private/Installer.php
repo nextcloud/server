@@ -52,6 +52,7 @@ use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\Migration\IOutput;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -535,7 +536,10 @@ class Installer {
 	 *                         working ownCloud at the end instead of an aborted update.
 	 * @return array Array of error messages (appid => Exception)
 	 */
-	public static function installShippedApps($softErrors = false) {
+	public static function installShippedApps($softErrors = false, ?IOutput $output = null) {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing shipped apps');
+		}
 		$appManager = \OC::$server->getAppManager();
 		$config = \OC::$server->getConfig();
 		$errors = [];
@@ -550,7 +554,7 @@ class Installer {
 									  && $config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
-											Installer::installShippedApp($filename);
+											Installer::installShippedApp($filename, $output);
 										} catch (HintException $e) {
 											if ($e->getPrevious() instanceof TableExistsException) {
 												$errors[$filename] = $e;
@@ -559,7 +563,7 @@ class Installer {
 											throw $e;
 										}
 									} else {
-										Installer::installShippedApp($filename);
+										Installer::installShippedApp($filename, $output);
 									}
 									$config->setAppValue($filename, 'enabled', 'yes');
 								}
@@ -577,9 +581,12 @@ class Installer {
 	/**
 	 * install an app already placed in the app folder
 	 * @param string $app id of the app to install
-	 * @return integer
+	 * @return string
 	 */
-	public static function installShippedApp($app) {
+	public static function installShippedApp($app, ?IOutput $output = null) {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing ' . $app);
+		}
 		//install the database
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
@@ -587,6 +594,9 @@ class Installer {
 		$config = \OC::$server->getConfig();
 
 		$ms = new MigrationService($app, \OC::$server->get(Connection::class));
+		if ($output instanceof IOutput) {
+			$ms->setOutput($output);
+		}
 		$previousVersion = $config->getAppValue($app, 'installed_version', false);
 		$ms->migrate('latest', !$previousVersion);
 
@@ -596,6 +606,9 @@ class Installer {
 		$info = OC_App::getAppInfo($app);
 		if (is_null($info)) {
 			return false;
+		}
+		if ($output instanceof IOutput) {
+			$output->debug('Registering tasks of ' . $app);
 		}
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 

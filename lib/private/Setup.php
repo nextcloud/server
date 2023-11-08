@@ -60,6 +60,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -275,7 +276,7 @@ class Setup {
 	 * @param $options
 	 * @return array
 	 */
-	public function install($options) {
+	public function install($options, ?IOutput $output = null) {
 		$l = $this->l10n;
 
 		$error = [];
@@ -349,6 +350,7 @@ class Setup {
 
 		$this->config->setValues($newConfigValues);
 
+		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {
 			$dbSetup->setupDatabase($username);
@@ -367,9 +369,11 @@ class Setup {
 			];
 			return $error;
 		}
+
+		$this->outputDebug($output, 'Run server migrations');
 		try {
 			// apply necessary migrations
-			$dbSetup->runMigrations();
+			$dbSetup->runMigrations($output);
 		} catch (Exception $e) {
 			$error[] = [
 				'error' => 'Error while trying to initialise the database: ' . $e->getMessage(),
@@ -379,6 +383,7 @@ class Setup {
 			return $error;
 		}
 
+		$this->outputDebug($output, 'Create admin user');
 		//create the user and group
 		$user = null;
 		try {
@@ -407,16 +412,19 @@ class Setup {
 			}
 
 			// Install shipped apps and specified app bundles
-			Installer::installShippedApps();
+			$this->outputDebug($output, 'Install default apps');
+			Installer::installShippedApps(false, $output);
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
+			$this->outputDebug($output, 'Setup data directory');
 			file_put_contents($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 			// Update .htaccess files
 			self::updateHtaccess();
 			self::protectDataDirectory();
 
+			$this->outputDebug($output, 'Install background jobs');
 			self::installBackgroundJobs();
 
 			//and we are done
@@ -615,5 +623,11 @@ class Setup {
 	 */
 	public function canInstallFileExists() {
 		return is_file(\OC::$configDir.'/CAN_INSTALL');
+	}
+
+	protected function outputDebug(?IOutput $output, string $message): void {
+		if ($output instanceof IOutput) {
+			$output->debug($message);
+		}
 	}
 }
