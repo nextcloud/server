@@ -62,7 +62,8 @@ class QuerySearchHelper {
 		return new CacheQueryBuilder(
 			$this->connection,
 			$this->systemConfig,
-			$this->logger
+			$this->logger,
+			$this->filesMetadataManager,
 		);
 	}
 
@@ -133,20 +134,6 @@ class QuerySearchHelper {
 			));
 	}
 
-
-	/**
-	 * left join metadata and its indexes to the filecache table
-	 *
-	 * @param CacheQueryBuilder $query
-	 *
-	 * @return IMetadataQuery
-	 */
-	protected function equipQueryForMetadata(CacheQueryBuilder $query): IMetadataQuery {
-		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($query, 'file', 'fileid');
-		$metadataQuery->retrieveMetadata();
-		return $metadataQuery;
-	}
-
 	/**
 	 * Perform a file system search in multiple caches
 	 *
@@ -186,7 +173,8 @@ class QuerySearchHelper {
 			$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
 		}
 
-		$metadataQuery = $this->equipQueryForMetadata($query);
+		$metadataQuery = $query->selectMetadata();
+
 		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
 
 		$result = $query->execute();

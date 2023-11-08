@@ -133,7 +133,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
-	public function get(string $key): string {
+	public function getString(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
 		}
@@ -276,10 +276,10 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
-	public function set(string $key, string $value, bool $index = false): IFilesMetadata {
+	public function setString(string $key, string $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
-			if ($this->get($key) === $value && $index === $this->isIndex($key)) {
+			if ($this->getString($key) === $value && $index === $this->isIndex($key)) {
 				return $this; // we ignore if value and index have not changed
 			}
 		} catch (FilesMetadataNotFoundException|FilesMetadataTypeException $e) {
@@ -506,7 +506,7 @@ class FilesMetadata implements IFilesMetadata {
 			return;
 		}
 
-		throw new FilesMetadataKeyFormatException('key can only contains alphanumerical characters, and dash (-)');
+		throw new FilesMetadataKeyFormatException('key can only contains alphanumerical characters, and dash (-, _)');
 	}
 
 	/**

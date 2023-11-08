@@ -120,7 +120,7 @@ interface IFilesMetadata extends JsonSerializable {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
-	public function get(string $key): string;
+	public function getString(string $key): string;
 
 	/**
 	 * returns int value for a metadata key
@@ -222,7 +222,7 @@ interface IFilesMetadata extends JsonSerializable {
 	 * @return self
 	 * @since 28.0.0
 	 */
-	public function set(string $key, string $value, bool $index = false): self;
+	public function setString(string $key, string $value, bool $index = false): self;
 
 	/**
 	 * set a metadata key/value pair for int value

@@ -40,12 +40,10 @@ use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
-use OC\Metadata\MetadataManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Events\NodeRemovedFromCache;
-use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -71,7 +69,6 @@ class Scan extends Base {
 	public function __construct(
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
-		private MetadataManager $metadataManager,
 		private FilesMetadataManager $filesMetadataManager,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
@@ -141,10 +138,6 @@ class Scan extends Base {
 			$this->abortIfInterrupted();
 			if ($scanMetadata) {
 				$node = $this->rootFolder->get($path);
-				if ($node instanceof File) {
-					$this->metadataManager->generateMetadata($node, false);
-				}
-
 				$this->filesMetadataManager->refreshMetadata(
 					$node,
 					IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND

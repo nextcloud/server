@@ -69,12 +69,13 @@ interface IFilesMetadataManager {
 	 * returns metadata from a file id
 	 *
 	 * @param int $fileId file id
+	 * @param boolean $generate Generate if metadata does not exist
 	 *
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 28.0.0
 	 */
-	public function getMetadata(int $fileId): IFilesMetadata;
+	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata;
 
 	/**
 	 * save metadata to database and refresh indexes.
