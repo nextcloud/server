@@ -218,6 +218,10 @@ class NavigationManager implements INavigationManager {
 			]);
 		}
 
+		if ($this->appManager === 'null') {
+			return;
+		}
+
 		if ($this->userSession->isLoggedIn()) {
 			// Profile
 			$this->add([
@@ -309,10 +313,6 @@ class NavigationManager implements INavigationManager {
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
 				]);
 			}
-		}
-
-		if ($this->appManager === 'null') {
-			return;
 		}
 
 		if ($this->userSession->isLoggedIn()) {
