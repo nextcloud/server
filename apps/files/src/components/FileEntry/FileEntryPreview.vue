@@ -37,6 +37,7 @@
 			alt=""
 			class="files-list__row-icon-preview"
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
+			loading="lazy"
 			:src="previewUrl"
 			@error="backgroundFailed = true"
 			@load="backgroundFailed = false">

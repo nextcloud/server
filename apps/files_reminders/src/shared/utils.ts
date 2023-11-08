@@ -24,10 +24,10 @@ import moment from '@nextcloud/moment'
 import { getCanonicalLocale } from '@nextcloud/l10n'
 
 export enum DateTimePreset {
-	LaterToday,
-	Tomorrow,
-	ThisWeekend,
-	NextWeek,
+	LaterToday = 'later-today',
+	Tomorrow = 'tomorrow',
+	ThisWeekend = 'this-weekend',
+	NextWeek = 'next-week',
 }
 
 export const getDateTime = (dateTime: DateTimePreset): null | Date => {

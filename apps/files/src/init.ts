@@ -19,7 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { addNewFileMenuEntry, registerFileAction } from '@nextcloud/files'
+import MenuIcon from '@mdi/svg/svg/sun-compass.svg?raw'
+import { FileAction, addNewFileMenuEntry, registerFileAction } from '@nextcloud/files'
 
 import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
