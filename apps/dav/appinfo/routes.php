@@ -4,6 +4,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,7 +29,9 @@ return [
 		['name' => 'invitation_response#accept', 'url' => '/invitation/accept/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#decline', 'url' => '/invitation/decline/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#options', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'GET'],
-		['name' => 'invitation_response#processMoreOptionsResult', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'POST']
+		['name' => 'invitation_response#processMoreOptionsResult', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'POST'],
+		['name' => 'availability_settings#updateAbsence', 'url' => '/settings/absence', 'verb' => 'POST'],
+		['name' => 'availability_settings#clearAbsence', 'url' => '/settings/absence', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
 		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],

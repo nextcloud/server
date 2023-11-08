@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -573,5 +574,13 @@ class LazyFolder implements Folder {
 			return $this->data['parent'];
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? $this->__call(__FUNCTION__, func_get_args());
 	}
 }

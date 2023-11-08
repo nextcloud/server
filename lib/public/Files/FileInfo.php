@@ -6,6 +6,7 @@
  * @author Felix Heidecke <felix@heidecke.me>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -308,4 +309,12 @@ interface FileInfo {
 	 * @since 28.0.0
 	 */
 	public function getParentId(): int;
+
+	/**
+	 * Get the metadata, if available
+	 *
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 * @since 28.0.0
+	 */
+	public function getMetadata(): array;
 }

@@ -223,23 +223,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -251,7 +241,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -271,10 +260,6 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
-					{
-						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					},
 					{
 						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
@@ -293,23 +278,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -321,7 +296,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -342,10 +316,6 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					},
-					{
 						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
@@ -363,23 +333,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -391,7 +351,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -420,71 +379,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if /dev/urandom is not accessible', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: false,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/myDocs.html">documentation ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if the wrong memcache PHP module is installed', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -494,24 +388,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -523,7 +406,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -550,201 +432,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an info if the mail server config was not set or verified, yet', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: false,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'You have not set or verified your email server configuration, yet. Please head over to the <a href="http://localhost/index.php/settings/admin">Basic settings</a> in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
-		it('should return an info if transactional file locking is not set up', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: false,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
-		it('should return an info if database file locking is used', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-transactional-locking">documentation ↗</a> for more information.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
 		it('should return a warning if there are app directories with wrong permissions', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -754,24 +441,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -785,7 +461,6 @@ describe('OC.SetupChecks tests', function() {
 					],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -821,24 +496,14 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -850,7 +515,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -886,26 +550,16 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
 					isBruteforceThrottled: true,
 					bruteforceRemoteAddress: '::1',
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -917,7 +571,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -953,24 +606,14 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: false,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -982,7 +625,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1018,24 +660,14 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1047,7 +679,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1103,24 +734,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1132,7 +752,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1175,24 +794,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1204,7 +812,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1231,71 +838,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an info if server has no FreeType support', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: false,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if the php version is no longer supported', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1305,24 +847,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1334,7 +865,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1374,24 +904,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1403,7 +922,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1440,24 +958,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1469,7 +976,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1503,24 +1009,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1532,7 +1027,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
@@ -1569,24 +1063,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1598,7 +1081,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: false,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1635,24 +1117,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1664,7 +1135,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1691,71 +1161,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error for 32bit instances', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: false,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
 		it('should return an info if there is no default phone region', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1765,24 +1170,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1794,7 +1188,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -1837,24 +1230,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasDBFileLocking: false,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1866,7 +1248,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,

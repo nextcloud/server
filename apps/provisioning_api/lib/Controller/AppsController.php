@@ -40,7 +40,7 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 /**
- * @psalm-import-type ProvisioningApiAppInfo from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIAppInfo from ResponseDefinitions
  */
 class AppsController extends OCSController {
 	/** @var IAppManager */
@@ -94,7 +94,7 @@ class AppsController extends OCSController {
 	 * Get the app info for an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiAppInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIAppInfo, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: App info returned

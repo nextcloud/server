@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -38,7 +39,7 @@ interface ISearchOrder {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getDirection();
+	public function getDirection(): string;
 
 	/**
 	 * The field to sort on
@@ -46,7 +47,15 @@ interface ISearchOrder {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getField();
+	public function getField(): string;
+
+	/**
+	 * extra means data are not related to the main files table
+	 *
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getExtra(): string;
 
 	/**
 	 * Apply the sorting on 2 FileInfo objects

@@ -39,12 +39,18 @@
 			:force-name="true"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
-			:open.sync="openedMenu">
+			:open.sync="openedMenu"
+			@close="openedSubmenu = null">
+			<!-- Default actions list-->
 			<NcActionButton v-for="action in enabledMenuActions"
 				:key="action.id"
-				:class="'files-list__row-action-' + action.id"
-				:close-after-click="true"
+				:class="{
+					[`files-list__row-action-${action.id}`]: true,
+					[`files-list__row-action--menu`]: isMenu(action.id)
+				}"
+				:close-after-click="!isMenu(action.id)"
 				:data-cy-files-list-row-action="action.id"
+				:is-menu="isMenu(action.id)"
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
@@ -53,6 +59,34 @@
 				</template>
 				{{ actionDisplayName(action) }}
 			</NcActionButton>
+
+			<!-- Submenu actions list-->
+			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
+				<!-- Back to top-level button -->
+				<NcActionButton class="files-list__row-action-back" @click="openedSubmenu = null">
+					<template #icon>
+						<ArrowLeftIcon />
+					</template>
+					{{ actionDisplayName(openedSubmenu) }}
+				</NcActionButton>
+				<NcActionSeparator />
+
+				<!-- Submenu actions -->
+				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
+					:key="action.id"
+					:class="`files-list__row-action-${action.id}`"
+					class="files-list__row-action--submenu"
+					:close-after-click="false /* never close submenu, just go back */"
+					:data-cy-files-list-row-action="action.id"
+					:title="action.title?.([source], currentView)"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
+					</template>
+					{{ actionDisplayName(action) }}
+				</NcActionButton>
+			</template>
 		</NcActions>
 	</td>
 </template>
@@ -63,8 +97,11 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n';
 import Vue, { PropType } from 'vue'
 
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
@@ -78,11 +115,14 @@ export default Vue.extend({
 	name: 'FileEntryActions',
 
 	components: {
+		ArrowLeftIcon,
+		ChevronRightIcon,
+		CustomElementRender,
 		NcActionButton,
 		NcActions,
+		NcActionSeparator,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		CustomElementRender,
 	},
 
 	props: {
@@ -108,8 +148,9 @@ export default Vue.extend({
 		},
 	},
 
-	setup() {
+	data() {
 		return {
+			openedSubmenu: null as FileAction | null,
 		}
 	},
 
@@ -159,7 +200,13 @@ export default Vue.extend({
 
 		// Actions shown in the menu
 		enabledMenuActions() {
-			return [
+			// If we're in a submenu, only render the inline
+			// actions before the filtered submenu
+			if (this.openedSubmenu) {
+				return this.enabledInlineActions
+			}
+
+			const actions = [
 				// Showing inline first for the NcActions inline prop
 				...this.enabledInlineActions,
 				// Then the rest
@@ -168,6 +215,24 @@ export default Vue.extend({
 				// Then we filter duplicates to prevent inline actions to be shown twice
 				return index === self.findIndex(action => action.id === value.id)
 			})
+
+			// Generate list of all top-level actions ids
+			const topActionsIds = actions.filter(action => !action.parent).map(action => action.id) as string[]
+
+			// Filter actions that are not top-level AND have a valid parent
+			return actions.filter(action => !(action.parent && topActionsIds.includes(action.parent)))
+		},
+
+		enabledSubmenuActions() {
+			return this.enabledActions
+				.filter(action => action.parent)
+				.reduce((arr, action) => {
+					if (!arr[action.parent]) {
+						arr[action.parent] = []
+					}
+					arr[action.parent].push(action)
+					return arr
+				}, {} as Record<string, FileAction>)
 		},
 
 		openedMenu: {
@@ -191,7 +256,7 @@ export default Vue.extend({
 
 	methods: {
 		actionDisplayName(action: FileAction) {
-			if (this.filesListWidth < 768 && action.inline && typeof action.title === 'function') {
+			if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
 				// if an inline action is rendered in the menu for
 				// lack of space we use the title first if defined
 				const title = action.title([this.source], this.currentView)
@@ -200,7 +265,13 @@ export default Vue.extend({
 			return action.displayName([this.source], this.currentView)
 		},
 
-		async onActionClick(action) {
+		async onActionClick(action, isSubmenu = false) {
+			// If the action is a submenu, we open it
+			if (this.enabledSubmenuActions[action.id]) {
+				this.openedSubmenu = action
+				return
+			}
+
 			const displayName = action.displayName([this.source], this.currentView)
 			try {
 				// Set the loading marker
@@ -226,6 +297,11 @@ export default Vue.extend({
 				// Reset the loading marker
 				this.$emit('update:loading', '')
 				Vue.set(this.source, 'status', undefined)
+
+				// If that was a submenu, we just go back after the action
+				if (isSubmenu) {
+					this.openedSubmenu = null
+				}
 			}
 		},
 		execDefaultAction(event) {
@@ -235,6 +311,10 @@ export default Vue.extend({
 				// Execute the first default action if any
 				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.currentDir)
 			}
+		},
+
+		isMenu(id: string) {
+			return this.enabledSubmenuActions[id]?.length > 0
 		},
 
 		t,

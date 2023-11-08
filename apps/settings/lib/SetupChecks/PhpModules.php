@@ -75,12 +75,12 @@ class PhpModules implements ISetupCheck {
 		$missingRequiredModules = $this->getMissingModules(self::REQUIRED_MODULES);
 		if (!empty($missingRequiredModules)) {
 			return SetupResult::error(
-				$this->l10n->t('This instance is missing some required PHP modules. It is required to install them: %s', implode(', ', $missingRequiredModules)),
+				$this->l10n->t('This instance is missing some required PHP modules. It is required to install them: %s.', implode(', ', $missingRequiredModules)),
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
 		} elseif (!empty($missingRecommendedModules)) {
 			return SetupResult::info(
-				$this->l10n->t('This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s', implode(', ', $missingRecommendedModules)),
+				$this->l10n->t('This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s.', implode(', ', $missingRecommendedModules)),
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
 		} else {

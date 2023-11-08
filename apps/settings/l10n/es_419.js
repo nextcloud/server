@@ -83,6 +83,8 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
+    "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP no parece estar configurado correctamente para consultar las variables de ambiente. La prueba con getenv(\"PATH\") sólo regresa una respuesta vacía.",
+    "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tu base de datos no puede correr con el nivel de aislamiento de transacción de \"READ COMMITTED\".  Puede causar problemas cuando mútiples acciones sean ejecutadas en paralelo.",
     "None" : "Ninguno",
     "Two-Factor Authentication" : "Autenticación de dos factores",
     "Enforce two-factor authentication" : "Forzar autenticación de dos factores",

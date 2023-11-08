@@ -81,6 +81,8 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
+    "Disabled" : "Deshabilitado",
+    "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Su base de datos no puede correr con el nivel de aislamiento de transacción de \"READ COMMITTED\".  Puede causar problemas cuando mútiples acciones sean ejecutadas en paralelo.",
     "None" : "Ninguno",
     "Limit to groups" : "Limitar a grupos",
     "Save changes" : "Guardar cambios",

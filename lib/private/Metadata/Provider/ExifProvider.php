@@ -28,12 +28,9 @@ use OCP\Files\File;
 use Psr\Log\LoggerInterface;
 
 class ExifProvider implements IMetadataProvider {
-	private LoggerInterface $logger;
-
 	public function __construct(
-		LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
-		$this->logger = $logger;
 	}
 
 	public static function groupsProvided(): array {

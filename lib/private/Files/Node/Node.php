@@ -7,6 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -43,7 +44,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
-// FIXME: this class really should be abstract
+// FIXME: this class really should be abstract (+1)
 class Node implements INode {
 	/**
 	 * @var \OC\Files\View $view
@@ -489,5 +490,13 @@ class Node implements INode {
 
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
 	}
 }

@@ -15,7 +15,7 @@ done
 
 if [ $changed = true ]
 then
-	git diff
+	git --no-pager diff
     echo "The OpenAPI specifications are not up to date"
     echo "Please run: bash build/openapi-checker.sh"
     echo "And commit the result"
