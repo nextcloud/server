@@ -73,7 +73,7 @@ class IndexRequestService {
 		try {
 			$this->dropIndex($fileId, $key);
 			match ($metadataType) {
-				IMetadataValueWrapper::TYPE_STRING => $this->insertIndexString($fileId, $key, $filesMetadata->get($key)),
+				IMetadataValueWrapper::TYPE_STRING => $this->insertIndexString($fileId, $key, $filesMetadata->getString($key)),
 				IMetadataValueWrapper::TYPE_INT => $this->insertIndexInt($fileId, $key, $filesMetadata->getInt($key)),
 				IMetadataValueWrapper::TYPE_BOOL => $this->insertIndexBool($fileId, $key, $filesMetadata->getBool($key)),
 				IMetadataValueWrapper::TYPE_STRING_LIST => $this->insertIndexStringList($fileId, $key, $filesMetadata->getStringList($key)),

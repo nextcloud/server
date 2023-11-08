@@ -38,7 +38,6 @@ use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
@@ -124,14 +123,23 @@ class FilesMetadataManager implements IFilesMetadataManager {
 
 	/**
 	 * @param int $fileId file id
+	 * @param boolean $generate Generate if metadata does not exists
 	 *
 	 * @inheritDoc
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 28.0.0
 	 */
-	public function getMetadata(int $fileId): IFilesMetadata {
-		return $this->metadataRequestService->getMetadataFromFileId($fileId);
+	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata {
+		try {
+			return $this->metadataRequestService->getMetadataFromFileId($fileId);
+		} catch (FilesMetadataNotFoundException $ex) {
+			if ($generate) {
+				return new FilesMetadata($fileId);
+			}
+
+			throw $ex;
+		}
 	}
 
 	/**
@@ -274,7 +282,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
-		$eventDispatcher->addServiceListener(NodeCreatedEvent::class, MetadataUpdate::class);
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
 		$eventDispatcher->addServiceListener(NodeDeletedEvent::class, MetadataDelete::class);
 	}
