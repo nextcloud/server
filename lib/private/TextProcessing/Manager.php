@@ -175,7 +175,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function runOrScheduleTask(OCPTask $task) : bool {
+	public function runOrScheduleTask(OCPTask $task): bool {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
