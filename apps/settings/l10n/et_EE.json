@@ -93,6 +93,8 @@
     "Delete" : "Kustuta",
     "Unlimited" : "Piiramatult",
     "Verifying" : "Kontrollin",
+    "Disabled" : "Keelatud",
+    "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP ei tundu olevat süsteemsete keskkonnamuutujate pärimiseks korrektselt seadistatud. Test getenv(\"PATH\") abil tagastab tühja vastuse.",
     "Nextcloud settings" : "Nextcloud seaded",
     "None" : "Pole",
     "Limit to groups" : "Luba gruppidele",
