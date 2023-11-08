@@ -25,6 +25,7 @@
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent">
 				<template #actions>
+					<!-- Sharing button -->
 					<NcButton v-if="canShare && filesListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
@@ -37,11 +38,26 @@
 							<ShareVariantIcon v-else :size="20" />
 						</template>
 					</NcButton>
+
+					<!-- Disabled upload button -->
+					<NcButton v-if="!canUpload || isQuotaExceeded"
+						:aria-label="cantUploadLabel"
+						:title="cantUploadLabel"
+						class="files-list__header-upload-button--disabled"
+						:disabled="true"
+						type="secondary">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('files', 'Add') }}
+					</NcButton>
+
 					<!-- Uploader -->
-					<UploadPicker v-if="currentFolder && canUpload"
+					<UploadPicker v-else-if="currentFolder"
 						:content="dirContents"
 						:destination="currentFolder"
 						:multiple="true"
+						class="files-list__header-upload-button"
 						@uploaded="onUpload" />
 				</template>
 			</BreadCrumbs>
@@ -123,6 +139,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
@@ -156,6 +173,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
+		PlusIcon,
 		ShareVariantIcon,
 		UploadPicker,
 		ViewGridIcon,
@@ -364,6 +382,15 @@ export default defineComponent({
 		 */
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
+		},
+		isQuotaExceeded() {
+			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+		cantUploadLabel() {
+			if (this.isQuotaExceeded) {
+				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
+			}
+			return this.t('files', 'You don’t have permission to upload or create files here')
 		},
 
 		/**
