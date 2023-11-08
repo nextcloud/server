@@ -45,6 +45,7 @@
 			<!-- Default actions list-->
 			<NcActionButton v-for="action in enabledMenuActions"
 				:key="action.id"
+				:ref="`action-${action.id}`"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
 					[`files-list__row-action--menu`]: isMenu(action.id)
@@ -64,7 +65,7 @@
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
 				<!-- Back to top-level button -->
-				<NcActionButton class="files-list__row-action-back" @click="openedSubmenu = null">
+				<NcActionButton class="files-list__row-action-back" @click="onBackToMenuClick(openedSubmenu)">
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
@@ -320,6 +321,21 @@ export default Vue.extend({
 
 		isMenu(id: string) {
 			return this.enabledSubmenuActions[id]?.length > 0
+		},
+
+		async onBackToMenuClick(action: FileAction) {
+			this.openedSubmenu = null
+			// Wait for first render
+			await this.$nextTick()
+
+			// Focus the previous menu action button
+			this.$nextTick(() => {
+				// Focus the action button
+				const menuAction = this.$refs[`action-${action.id}`][0]
+				if (menuAction) {
+					menuAction.$el.querySelector('button')?.focus()
+				}
+			})
 		},
 
 		t,
