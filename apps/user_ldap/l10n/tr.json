@@ -59,6 +59,8 @@
     "Your password will expire today." : "Parolanızın geçerlilik süresi bugün dolacak.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Parolanızın süresi %n gün içinde dolacak.","Parolanızın süresi %n gün içinde dolacak."],
     "LDAP/AD integration" : "LDAP/AD bütünleştirmesi",
+    "Invalid LDAP UUIDs" : "LDAP UUID değerleri geçersiz",
+    "None found" : "Herhangi bir şey bulunamadı",
     "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP kullanıcıları ya da grupları için geçersiz UUID değerleri bulundu. Lütfen LDAP yapılandırmasının Uzman bölümündeki \"UUID algılaması değiştirilsin\" seçeneğini gözden geçirin ve bunları güncellemek için \"occ ldap:update-uuid\" komutunu kullanın.",
     "_%n group found_::_%n groups found_" : ["%n grup bulundu","%n grup bulundu"],
     "> 1000 groups found" : "> 1000 grup bulundu",
