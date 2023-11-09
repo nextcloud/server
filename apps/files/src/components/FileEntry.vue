@@ -20,7 +20,7 @@
   -
   -->
 
-  <template>
+<template>
 	<tr :class="{'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
@@ -83,7 +83,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime :timestamp="mDateTime"/>
+			<NcDateTime :timestamp="this.source.mtime" :ignore-seconds="true" />
 		</td>
 
 		<!-- View columns -->
@@ -256,19 +256,6 @@ export default Vue.extend({
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
-		},
-
-		mtime() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).fromNow()
-			}
-			return t('files_trashbin', 'A long time ago')
-		},
-		mDateTime() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime)
-			}
-			return t('files_trashbin', 'A long time ago')
 		},
 		mtimeOpacity() {
 			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
