@@ -132,7 +132,14 @@ class Node implements INode {
 			if (method_exists($this->root, 'emit')) {
 				$this->root->emit('\OC\Files', $hook, $args);
 			}
-			$dispatcher->dispatch('\OCP\Files::' . $hook, new GenericEvent($args));
+
+			if (in_array($hook, ['preWrite', 'postWrite', 'preCreate', 'postCreate', 'preTouch', 'postTouch', 'preDelete', 'postDelete'], true)) {
+				$event = new GenericEvent($args[0]);
+			} else {
+				$event = new GenericEvent($args);
+			}
+
+			$dispatcher->dispatch('\OCP\Files::' . $hook, $event);
 		}
 	}
 
