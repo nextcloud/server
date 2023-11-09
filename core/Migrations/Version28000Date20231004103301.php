@@ -42,12 +42,16 @@ class Version28000Date20231004103301 extends SimpleMigrationStep {
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 15,
-				'unsigned' => true,
+				'length' => 20,
 			]);
-			$table->addColumn('file_id', Types::BIGINT, ['notnull' => false, 'length' => 15,]);
+			$table->addColumn('file_id', Types::BIGINT, [
+				'notnull' => true,
+				'length' => 20,
+			]);
 			$table->addColumn('json', Types::TEXT);
-			$table->addColumn('sync_token', Types::STRING, ['length' => 15]);
+			$table->addColumn('sync_token', Types::STRING, [
+				'length' => 15,
+			]);
 			$table->addColumn('last_update', Types::DATETIME);
 
 			$table->setPrimaryKey(['id']);
@@ -60,13 +64,24 @@ class Version28000Date20231004103301 extends SimpleMigrationStep {
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 15,
-				'unsigned' => true,
+				'length' => 20,
 			]);
-			$table->addColumn('file_id', Types::BIGINT, ['notnull' => false, 'length' => 15]);
-			$table->addColumn('meta_key', Types::STRING, ['notnull' => false, 'length' => 31]);
-			$table->addColumn('meta_value_string', Types::STRING, ['notnull' => false, 'length' => 63]);
-			$table->addColumn('meta_value_int', Types::BIGINT, ['notnull' => false, 'length' => 11]);
+			$table->addColumn('file_id', Types::BIGINT, [
+				'notnull' => true,
+				'length' => 20,
+			]);
+			$table->addColumn('meta_key', Types::STRING, [
+				'notnull' => false,
+				'length' => 31,
+			]);
+			$table->addColumn('meta_value_string', Types::STRING, [
+				'notnull' => false,
+				'length' => 63,
+			]);
+			$table->addColumn('meta_value_int', Types::BIGINT, [
+				'notnull' => false,
+				'length' => 11,
+			]);
 
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['file_id', 'meta_key', 'meta_value_string'], 'f_meta_index');

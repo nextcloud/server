@@ -21,7 +21,9 @@
 			:l10n-thursday="$t('dav', 'Thursday')"
 			:l10n-friday="$t('dav', 'Friday')"
 			:l10n-saturday="$t('dav', 'Saturday')"
-			:l10n-sunday="$t('dav', 'Sunday')" />
+			:l10n-sunday="$t('dav', 'Sunday')"
+			:l10n-start-picker-label="(dayName) => $t('dav', 'Pick a start time for {dayName}', { dayName })"
+			:l10n-end-picker-label="(dayName) => $t('dav', 'Pick a end time for {dayName}', { dayName })" />
 
 		<NcCheckboxRadioSwitch :checked.sync="automated">
 			{{ $t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}

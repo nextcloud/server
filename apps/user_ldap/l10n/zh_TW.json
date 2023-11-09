@@ -59,6 +59,8 @@
     "Your password will expire today." : "您的密碼將於今天到期。",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["您的密碼將於%n天後到期。"],
     "LDAP/AD integration" : "LDAP/AD 整合",
+    "Invalid LDAP UUIDs" : "無效的 LDAP UUID",
+    "None found" : "找不到",
     "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "找到無效的 LDAP 使用者或群組 UUID。請審閱您在 LDAP 專家設定中的「覆寫 UUID 偵測」設定，並使用「occ ldap:update-uuid」來更新它們。",
     "_%n group found_::_%n groups found_" : ["找到 %n 個群組"],
     "> 1000 groups found" : "找到 > 1000 個群組",

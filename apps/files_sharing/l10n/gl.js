@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Restaurar a compartición","Restaurar as comparticións"],
     "Shared" : "Compartido",
     "Shared by {ownerDisplayName}" : "Compartido por {ownerDisplayName}",
+    "Show sharing options" : "Amosar as opcións de compartición",
     "Link to a file" : "Ligazón a un ficheiro",
     "Error creating the share: {errorMessage}" : "Produciuse un erro ao crear a compartición: {errorMessage}",
     "Error creating the share" : "Produciuse un erro ao crear a compartición",

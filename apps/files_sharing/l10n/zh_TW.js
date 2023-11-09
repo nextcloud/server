@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["還原分享"],
     "Shared" : "已分享",
     "Shared by {ownerDisplayName}" : "由 {ownerDisplayName} 分享",
+    "Show sharing options" : "顯示分享選項",
     "Link to a file" : "檔案連結",
     "Error creating the share: {errorMessage}" : "建立分享時發生錯誤：{errorMessage}",
     "Error creating the share" : "建立分享時發生錯誤",

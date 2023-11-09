@@ -29,6 +29,8 @@ namespace OC\Files\Cache;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\Model\IMetadataQuery;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -38,7 +40,12 @@ use Psr\Log\LoggerInterface;
 class CacheQueryBuilder extends QueryBuilder {
 	private ?string $alias = null;
 
-	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
+	public function __construct(
+		IDBConnection $connection,
+		SystemConfig $systemConfig,
+		LoggerInterface $logger,
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
 		parent::__construct($connection, $systemConfig, $logger);
 	}
 
@@ -126,5 +133,11 @@ class CacheQueryBuilder extends QueryBuilder {
 		$this->andWhere($this->expr()->in("{$alias}parent", $this->createParameter($parameter)));
 
 		return $this;
+	}
+
+	public function selectMetadata(): IMetadataQuery {
+		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
+		$metadataQuery->retrieveMetadata();
+		return $metadataQuery;
 	}
 }

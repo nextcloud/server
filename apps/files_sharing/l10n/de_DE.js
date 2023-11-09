@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Freigabe wiederherstellen","Freigaben wiederherstellen"],
     "Shared" : "Geteilt",
     "Shared by {ownerDisplayName}" : "Geteilt von {ownerDisplayName}",
+    "Show sharing options" : "Freigabeoptionen anzeigen",
     "Link to a file" : "Mit einer Datei verknüpfen",
     "Error creating the share: {errorMessage}" : "Fehler beim Erstellen der Freigabe: {errorMessage}",
     "Error creating the share" : "Fehler beim Erstellen der Freigabe",

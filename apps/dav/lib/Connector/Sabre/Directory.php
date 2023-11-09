@@ -34,7 +34,6 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
-use OC\Metadata\FileMetadata;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
@@ -69,9 +68,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	/** Cached quota info */
 	private ?array $quotaInfo = null;
 	private ?CachingTree $tree = null;
-
-	/** @var array<string, array<int, FileMetadata>> */
-	private array $metadata = [];
 
 	/**
 	 * Sets up the node, expects a full path name

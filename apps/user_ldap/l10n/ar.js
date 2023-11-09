@@ -61,6 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "كلمة مرورك تنتهي صلاحيتها اليوم.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %n أيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nيوم.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام."],
     "LDAP/AD integration" : "مُكاملة LDAP/AD ",
+    "Invalid LDAP UUIDs" : "مُعرِّفات UUID الخاصة بـ LDAP غير صحيحة",
+    "None found" : "لم يُمكن العثور على أي شيء",
     "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "المُعرّف الفريد الشامل UUID لمستخدمي و مجموعات LDAP الموجود غير صحيح. الرجاء مراجعة إعدادات \"تجاوز اكتشاف UUID\"ـ Override UUID detection  في القسم المتقدم Expert part من تكوين LDAP واستخدم \"occ ldap: update-uuid\" لتحديثها.",
     "_%n group found_::_%n groups found_" : ["تم العثور على %n مجموعات","تم العثور على %n مجموعة","تم العثور على %n مجموعات","تم العثور على %n مجموعات","تم العثور على %n مجموعات","تم العثور على %n مجموعات"],
     "> 1000 groups found" : "> 1000 مجموعة موجودة",

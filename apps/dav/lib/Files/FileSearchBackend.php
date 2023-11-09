@@ -31,7 +31,6 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
-use OC\Metadata\IMetadataManager;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
@@ -115,7 +114,6 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, true, false, false),
 			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, true, false, false),
 			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
-			new SearchPropertyDefinition(FilesPlugin::FILE_METADATA_SIZE, true, false, false, SearchPropertyDefinition::DATATYPE_STRING),
 			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 		];
 
@@ -152,27 +150,6 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param string[] $requestProperties
 	 */
 	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
-		if (in_array(FilesPlugin::FILE_METADATA_SIZE, $requestProperties, true)) {
-			// Preloading of the metadata
-			$fileIds = [];
-			foreach ($nodes as $node) {
-				/** @var \OCP\Files\Node|\OCA\DAV\Connector\Sabre\Node $node */
-				if (str_starts_with($node->getFileInfo()->getMimeType(), 'image/')) {
-					/** @var \OCA\DAV\Connector\Sabre\File $node */
-					$fileIds[] = $node->getFileInfo()->getId();
-				}
-			}
-			/** @var IMetaDataManager $metadataManager */
-			$metadataManager = \OC::$server->get(IMetadataManager::class);
-			$preloadedMetadata = $metadataManager->fetchMetadataFor('size', $fileIds);
-			foreach ($nodes as $node) {
-				/** @var \OCP\Files\Node|\OCA\DAV\Connector\Sabre\Node $node */
-				if (str_starts_with($node->getFileInfo()->getMimeType(), 'image/')) {
-					/** @var \OCA\DAV\Connector\Sabre\File $node */
-					$node->setMetadata('size', $preloadedMetadata[$node->getFileInfo()->getId()]);
-				}
-			}
-		}
 	}
 
 	/**

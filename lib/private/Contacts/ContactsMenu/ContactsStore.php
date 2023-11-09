@@ -33,6 +33,8 @@ namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
+use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
@@ -42,10 +44,17 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
+use function array_column;
+use function array_fill_keys;
+use function array_filter;
+use function array_key_exists;
+use function array_merge;
+use function count;
 
 class ContactsStore implements IContactsStore {
 	public function __construct(
 		private IManager $contactsManager,
+		private ?StatusService $userStatusService,
 		private IConfig $config,
 		private ProfileManager $profileManager,
 		private IUserManager $userManager,
@@ -70,15 +79,75 @@ class ContactsStore implements IContactsStore {
 		if ($offset !== null) {
 			$options['offset'] = $offset;
 		}
+		// Status integration only works without pagination and filters
+		if ($offset === null && ($filter === null || $filter === '')) {
+			$recentStatuses = $this->userStatusService?->findAllRecentStatusChanges($limit, $offset) ?? [];
+		} else {
+			$recentStatuses = [];
+		}
 
-		$allContacts = $this->contactsManager->search(
-			$filter ?? '',
-			[
-				'FN',
-				'EMAIL'
-			],
-			$options
-		);
+		// Search by status if there is no filter and statuses are available
+		if (!empty($recentStatuses)) {
+			$allContacts = array_filter(array_map(function (UserStatus $userStatus) use ($options) {
+				// UID is ambiguous with federation. We have to use the federated cloud ID to an exact match of
+				// A local user
+				$user = $this->userManager->get($userStatus->getUserId());
+				if ($user === null) {
+					return null;
+				}
+
+				$contact = $this->contactsManager->search(
+					$user->getCloudId(),
+					[
+						'CLOUD',
+					],
+					array_merge(
+						$options,
+						[
+							'limit' => 1,
+							'offset' => 0,
+						],
+					),
+				)[0] ?? null;
+				if ($contact !== null) {
+					$contact[Entry::PROPERTY_STATUS_MESSAGE_TIMESTAMP] = $userStatus->getStatusMessageTimestamp();
+				}
+				return $contact;
+			}, $recentStatuses));
+			if ($limit !== null && count($allContacts) < $limit) {
+				// More contacts were requested
+				$fromContacts = $this->contactsManager->search(
+					$filter ?? '',
+					[
+						'FN',
+						'EMAIL'
+					],
+					array_merge(
+						$options,
+						[
+							'limit' => $limit - count($allContacts),
+						],
+					),
+				);
+
+				// Create hash map of all status contacts
+				$existing = array_fill_keys(array_column($allContacts, 'URI'), null);
+				// Append the ones that are new
+				$allContacts = array_merge(
+					$allContacts,
+					array_filter($fromContacts, fn (array $contact): bool => !array_key_exists($contact['URI'], $existing))
+				);
+			}
+		} else {
+			$allContacts = $this->contactsManager->search(
+				$filter ?? '',
+				[
+					'FN',
+					'EMAIL'
+				],
+				$options
+			);
+		}
 
 		$userId = $user->getUID();
 		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
