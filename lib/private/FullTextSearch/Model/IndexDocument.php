@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
+use OCP\FullTextSearch\Exceptions\FullTextSearchIndexNotAvailableException;
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\IIndexDocument;
@@ -51,7 +52,7 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 
 	protected DocumentAccess $access;
 
-	protected IIndex $index;
+	protected ?IIndex $index = null;
 
 	protected int $modifiedTime = 0;
 
@@ -136,9 +137,14 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	/**
 	 * Get the Index.
 	 *
+	 * @throws FullTextSearchIndexNotAvailableException
 	 * @since 15.0.0
 	 */
 	final public function getIndex(): IIndex {
+		if ($this->index === null) {
+			throw new FullTextSearchIndexNotAvailableException('No IIndex generated');
+		}
+
 		return $this->index;
 	}
 
@@ -148,7 +154,7 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @since 16.0.0
 	 */
 	final public function hasIndex(): bool {
-		return isset($this->index);
+		return $this->index !== null;
 	}
 
 	/**
