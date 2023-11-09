@@ -38,7 +38,7 @@
 			:disabled="disabled"
 			:aria-label="text"
 			:icon="icon"
-			@click="action">
+			@click="(event) => action(event, { ...user })">
 			{{ text }}
 		</NcActionButton>
 	</NcActions>
@@ -54,7 +54,7 @@ import SvgCheck from '@mdi/svg/svg/check.svg?raw'
 import SvgPencil from '@mdi/svg/svg/pencil.svg?raw'
 
 interface UserAction {
-	action: (event: MouseEvent) => void,
+	action: (event: MouseEvent, user: Record<string, unknown>) => void,
 	icon: string,
 	text: string
 }
@@ -88,6 +88,14 @@ export default defineComponent({
 		 */
 		edit: {
 			type: Boolean,
+			required: true,
+		},
+
+		/**
+		 * Target of this actions
+		 */
+		user: {
+			type: Object,
 			required: true,
 		},
 	},
