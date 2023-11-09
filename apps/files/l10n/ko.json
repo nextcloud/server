@@ -78,7 +78,7 @@
     "_including %n hidden_::_including %n hidden_" : ["%n개의 숨겨진 파일 포함"],
     "You do not have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다.",
     "_Uploading %n file_::_Uploading %n files_" : ["파일 %n개 업로드 중"],
-    "New" : "새로 만들기",
+    "New" : "새 파일",
     "New file/folder menu" : "새 파일/폴더 메뉴",
     "Select file range" : "파일 범위 선택",
     "{used}%" : "{used}%",
