@@ -660,6 +660,17 @@ class AppManagerTest extends TestCase {
 				true,
 				'settings',
 			],
+			// system default app and user apporder
+			[
+				// system default is settings
+				'unexist,settings',
+				'',
+				// apporder says default app is files (order is lower)
+				'{"files_id":{"app":"files","order":1},"settings_id":{"app":"settings","order":2}}',
+				true,
+				// system default should override apporder
+				'settings'
+			],
 			// user-customized defaultapp
 			[
 				'',
@@ -680,7 +691,7 @@ class AppManagerTest extends TestCase {
 			[
 				'unexist,settings',
 				'files',
-				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				'{"settings_id":{"app":"settings","order":1},"files_id":{"app":"files","order":2}}',
 				true,
 				'files',
 			],
@@ -688,9 +699,17 @@ class AppManagerTest extends TestCase {
 			[
 				'',
 				'',
-				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				'{"settings_id":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
 				true,
 				'settings',
+			],
+			// user-customized apporder fallback with missing app key (entries added by closures does not always have an app key set (Nextcloud 27 spreed app for example))
+			[
+				'',
+				'',
+				'{"spreed":{"order":1},"files":{"app":"files","order":2}}',
+				true,
+				'files',
 			],
 			// user-customized apporder, but called without fallback
 			[
@@ -699,6 +718,14 @@ class AppManagerTest extends TestCase {
 				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
 				false,
 				'',
+			],
+			// user-customized apporder with an app that has multiple routes
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"settings_id_2":{"app":"settings","order":3},"id_files":{"app":"files","order":2}}',
+				true,
+				'settings',
 			],
 		];
 	}
