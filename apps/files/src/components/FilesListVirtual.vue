@@ -510,14 +510,26 @@ export default Vue.extend({
 				right: -10px;
 			}
 
-			// Folder overlay
+			// File and folder overlay
 			&-overlay {
 				position: absolute;
 				max-height: calc(var(--icon-preview-size) * 0.5);
 				max-width: calc(var(--icon-preview-size) * 0.5);
-				color: var(--color-main-background);
+				color: var(--color-main-text);
 				// better alignment with the folder icon
 				margin-top: 2px;
+
+				svg {
+					border-radius: 100%;
+
+					// Sow a border around the icon for better contrast
+					path {
+						stroke: var(--color-main-background);
+						stroke-width: 8px;
+						stroke-linejoin: round;
+						paint-order: stroke;
+					}
+				}
 			}
 		}
 
