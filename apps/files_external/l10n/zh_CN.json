@@ -87,6 +87,7 @@
     "SMB/CIFS" : "SMB/CIFS  ",
     "Share" : "共享",
     "Show hidden files" : "显示隐藏文件",
+    "Case sensitive file system" : "大小写敏感文件系统",
     "Verify ACL access when listing files" : "列出文件时验证 ACL 访问",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "检查目录中每个文件或文件夹的 ACL，以过滤掉用户没有读取权限的项目，这会带来性能损失",
     "Timeout" : "超时",

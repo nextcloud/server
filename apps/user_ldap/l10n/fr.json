@@ -59,6 +59,8 @@
     "Your password will expire today." : "Votre mot de passe va expirer aujourd'hui.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Votre mot de passe va expirer dans %n jour.","Votre mot de passe va expirer dans %n jours.","Votre mot de passe va expirer dans %n jours."],
     "LDAP/AD integration" : "Intégration LDAP/AD",
+    "Invalid LDAP UUIDs" : "UUID LDAP invalides",
+    "None found" : "Aucun trouvé",
     "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Des UUID invalides pour les utilisateurs LDAP ont été trouvés. Merci de vérifier votre paramètre « Passer outre la détection des UUID » dans la partie Expert de la configuration LDAP puis utiliser « occ ldap:update-uuid » pour les mettre à jour.",
     "_%n group found_::_%n groups found_" : ["%n groupe trouvé","%n groupes trouvés","%n groupes trouvés"],
     "> 1000 groups found" : "> 1000 groupes trouvés",

@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Paylaşımı geri yükle","Paylaşımları geri yükle"],
     "Shared" : "Paylaşılan",
     "Shared by {ownerDisplayName}" : "{ownerDisplayName} tarafından paylaşılmış",
+    "Show sharing options" : "Paylaşım seçeneklerini görüntüle",
     "Link to a file" : "Bir dosya bağlantısı",
     "Error creating the share: {errorMessage}" : "Paylaşım oluşturulurken sorun çıktı: {errorMessage}",
     "Error creating the share" : "Paylaşım oluşturulurken sorun çıktı",
