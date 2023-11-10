@@ -93,6 +93,7 @@ OC.L10N.register(
     "Decline" : "کاهش می یابد",
     "More options …" : "More options …",
     "More options at %s" : "More options at %s",
+    "In a meeting" : "در جلسه",
     "Contacts" : "مخاطبین",
     "{actor} created address book {addressbook}" : "{actor} created address book {addressbook}",
     "You created address book {addressbook}" : "You created address book {addressbook}",
