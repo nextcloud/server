@@ -93,6 +93,7 @@ OC.L10N.register(
     "Decline" : "Uko egin",
     "More options …" : "Aukera gehiago …",
     "More options at %s" : "Aukera gehiago hemen %s ",
+    "In a meeting" : "Bilera batean",
     "Contacts" : "Kontaktuak",
     "{actor} created address book {addressbook}" : "{actor}-(e)k {addressbook} helbide-liburua sortu du ",
     "You created address book {addressbook}" : "{addressbook} helbide-liburua sortu duzu",

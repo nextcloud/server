@@ -65,6 +65,7 @@ OC.L10N.register(
     "Accept" : "Priimti",
     "Decline" : "Atmesti",
     "More options …" : "Daugiau parinkčių…",
+    "In a meeting" : "Susitikime",
     "Contacts" : "Adresatai",
     "{actor} created address book {addressbook}" : "{actor} sukūrė adresų knygą {addressbook}",
     "You created address book {addressbook}" : "Jūs sukūrėte adresų knygą {addressbook}",
