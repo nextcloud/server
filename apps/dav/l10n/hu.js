@@ -93,6 +93,7 @@ OC.L10N.register(
     "Decline" : "Elutasítás",
     "More options …" : "További lehetőségek…",
     "More options at %s" : "További lehetőségek itt: %s",
+    "In a meeting" : "Találkozón",
     "Contacts" : "Névjegyek",
     "{actor} created address book {addressbook}" : "{actor} létrehozta a következő címjegyzéket: {addressbook}",
     "You created address book {addressbook}" : "Létrehozta a következő címjegyzéket: {addressbook}",

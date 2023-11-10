@@ -78,6 +78,7 @@ OC.L10N.register(
     "Decline" : "Afwijzen",
     "More options …" : "Meer opties …",
     "More options at %s" : "Meer opties op %s",
+    "In a meeting" : "In een vergadering",
     "Contacts" : "Contactpersonen",
     "{actor} created address book {addressbook}" : "{actor} creëerde adresboek {addressbook}",
     "You created address book {addressbook}" : "Je creëerde adresboek  {addressbook}",

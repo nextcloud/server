@@ -72,6 +72,7 @@ OC.L10N.register(
     "Decline" : "Kieltäydy",
     "More options …" : "Lisää valintoja…",
     "More options at %s" : "Lisää valintoja kohteessa %s",
+    "In a meeting" : "Tapaamisessa",
     "Contacts" : "Yhteystiedot",
     "{actor} created address book {addressbook}" : "{actor} loi osoitekirjan {addressbook}",
     "You created address book {addressbook}" : "Loit osoitekirjan {addressbook}",
