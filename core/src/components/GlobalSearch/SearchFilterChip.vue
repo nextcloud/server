@@ -47,7 +47,6 @@ export default {
         display: flex;
         align-items: center;
         padding-right: 5px;
-        filter: grayscale(100%) invert(100%);
 
         img {
             width: 20px;

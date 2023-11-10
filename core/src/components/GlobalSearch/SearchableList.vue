@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<NcPopover>
+	<NcPopover :shown="opened">
 		<template #trigger>
 			<slot name="trigger" />
 		</template>
@@ -35,17 +35,17 @@
 			</NcTextField>
 			<ul v-if="filteredList.length > 0" class="searchable-list__list">
 				<li v-for="element in filteredList"
-					:key="element"
-					:title="element"
+					:key="element.id"
+					:title="element.displayName"
 					role="button">
 					<NcButton alignment="start"
 						type="tertiary"
 						:wide="true"
-						@click="$emit(element)">
+						@click="itemSelected(element)">
 						<template #icon>
-							<NcAvatar :display-name="element" :hide-favorite="false" />
+							<NcAvatar :user="element.user" :show-user-status="false" :hide-favorite="false" />
 						</template>
-						{{ element }}
+						{{ element.displayName }}
 					</NcButton>
 				</li>
 			</ul>
@@ -98,6 +98,7 @@ export default {
 
 	data() {
 		return {
+			opened: false,
 			error: false,
 			searchTerm: '',
 		}
@@ -106,7 +107,10 @@ export default {
 	computed: {
 		filteredList() {
 			return this.searchList.filter((element) => {
-				return element.toLowerCase().includes(this.searchTerm.toLowerCase())
+				if (!this.searchTerm.toLowerCase().length) {
+					return true
+				}
+				return ['displayName'].some(prop => element[prop].toLowerCase().includes(this.searchTerm.toLowerCase()))
 			})
 		},
 	},
@@ -115,12 +119,16 @@ export default {
 		clearSearch() {
 			this.searchTerm = ''
 		},
+		itemSelected(element) {
+			this.$emit('item-selected', element)
+			this.clearSearch()
+			this.opened = false
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-
 .searchable-list {
 	&__wrapper {
 		padding: calc(var(--default-grid-baseline) * 3);

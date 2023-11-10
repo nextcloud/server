@@ -52,10 +52,19 @@
 						{{ t('core', 'Custom date range') }}
 					</NcActionButton>
 				</NcActions>
-				<NcSelect v-bind="peopleSeclectProps"
-					v-model="peopleSeclectProps.value"
-					@search="filterContacts"
-					@option:selected="applyPersonFilter" />
+				<SearchableList :label-text="t('core', 'Search people')"
+					:search-list="userContacts"
+					:empty-content-text="t('core', 'Not found')"
+					@item-selected="applyPersonFilter">
+					<template #trigger>
+						<NcButton>
+							<template #icon>
+								<AccountGroup :size="20" />
+							</template>
+							{{ t('core', 'People') }}
+						</NcButton>
+					</template>
+				</SearchableList>
 			</div>
 			<div class="global-search-modal__filters-applied">
 				<FilterChip v-for="filter in filters"
@@ -64,7 +73,10 @@
 					:pretext="''"
 					@delete="removeFilter(filter)">
 					<template #icon>
-						<AccountIcon v-if="filter.type === 'person'" />
+						<NcAvatar v-if="filter.type === 'person'"
+							:user="filter.user"
+							:show-user-status="false"
+							:hide-favorite="false" />
 						<CalendarRangeIcon v-else-if="filter.type === 'date'" />
 						<img v-else :src="filter.icon" alt="">
 					</template>
@@ -130,7 +142,7 @@
 
 <script>
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import AccountIcon from 'vue-material-design-icons/AccountCircle.vue'
+import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
 import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModal.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
@@ -138,13 +150,14 @@ import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
+import SearchableList from '../components/GlobalSearch/SearchableList.vue'
 
 import debounce from 'debounce'
 import { getProviders, search as globalSearch, getContacts } from '../services/GlobalSearchService.js'
@@ -152,8 +165,8 @@ import { getProviders, search as globalSearch, getContacts } from '../services/G
 export default {
 	name: 'GlobalSearchModal',
 	components: {
-		AccountIcon,
 		ArrowRight,
+		AccountGroup,
 		CalendarRangeIcon,
 		CustomDateRangeModal,
 		DotsHorizontalIcon,
@@ -161,13 +174,14 @@ export default {
 		ListBox,
 		NcActions,
 		NcActionButton,
+		NcAvatar,
 		NcButton,
 		NcEmptyContent,
 		NcModal,
 		NcListItem,
-		NcSelect,
 		NcInputField,
 		MagnifyIcon,
+		SearchableList,
 	},
 	props: {
 		isVisible: {
@@ -182,7 +196,7 @@ export default {
 			dateActionMenuIsOpen: false,
 			providerResultLimit: 5,
 			dateFilter: { id: 'date', type: 'date', text: '', startFrom: null, endAt: null },
-			personFilter: { id: 'person', type: 'person', text: '' },
+			personFilter: { id: 'person', type: 'person', name: '' },
 			dateFilterIsApplied: false,
 			personFilterIsApplied: false,
 			filteredProviders: [],
@@ -198,17 +212,9 @@ export default {
 	},
 
 	computed: {
-		peopleSeclectProps: {
+		userContacts: {
 			get() {
-				return {
-					// inputId: getRandomId(),
-					userSelect: true,
-					label: t('core', 'People filter'),
-					placeholder: t('core', 'Search people'),
-					placement: 'top',
-					options: this.contacts,
-					value: null,
-				}
+				return this.contacts
 			},
 
 		},
@@ -258,7 +264,7 @@ export default {
 					}
 				}
 
-			    if (this.providerResultLimit > 5) {
+				if (this.providerResultLimit > 5) {
 					params.limit = this.providerResultLimit
 				}
 
@@ -345,7 +351,18 @@ export default {
 		},
 		applyPersonFilter(person) {
 			this.personFilterIsApplied = true
-			this.personFilter.id = person.id
+			const existingPersonFilter = this.filters.findIndex(filter => filter.id === person.id)
+			if (existingPersonFilter === -1) {
+				this.personFilter.id = person.id
+				this.personFilter.user = person.user
+				this.personFilter.name = person.displayName
+				this.filters.push(this.personFilter)
+			} else {
+				this.filters[existingPersonFilter].id = person.id
+				this.filters[existingPersonFilter].user = person.user
+				this.filters[existingPersonFilter].name = person.displayName
+			}
+
 			this.debouncedFind(this.searchQuery)
 			console.debug('Person filter applied', person)
 		},
@@ -504,39 +521,19 @@ $margin: 10px;
 	&__filters {
 		display: flex;
 		padding-top: 5px;
-		align-items: center;
 		justify-content: space-between;
 
-		/* Overwrite NcSelect styles */
-		::v-deep div.v-select {
-			min-width: 0; // reset NcSelect min width
+		>*:not(:last-child) {
+			// flex: 1;
+			margin-right: 0.5m;
+		}
 
-			div.vs__dropdown-toggle {
-				height: 44px; // Overwrite height of NcSelect component to match button
+		>* {
+			button {
+				min-width: 160px;
 			}
 		}
 
-		::v-deep>* {
-			min-width: auto;
-			/* Reset hard set min widths */
-			min-height: 0;
-			/* Reset any min heights */
-			display: flex;
-			align-items: center;
-			flex: 1;
-
-			>* {
-				flex: 1;
-				min-width: auto;
-				/* Reset hard set min widths */
-				min-height: 0;
-			}
-
-		}
-
-		::v-deep>*:not(:last-child) {
-			margin: 0 2px;
-		}
 	}
 
 	&__filters-applied {
@@ -641,9 +638,9 @@ div.v-popper__wrapper {
 				img {
 					width: 24px;
 					margin: 0 4px;
-					// filter: invert(100%) grayscale(1) contrast(100) brightness(1);
-					filter: grayscale(100%);
+					filter: var(--background-invert-if-bright);
 				}
+
 			}
 		}
 	}
