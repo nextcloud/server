@@ -2395,4 +2395,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'reference_opengraph' => true,
+
+/**
+ * Enable use of old unified search
+ *
+ * Defaults to ``false``
+ */
+'unified_search.enabled' => false,
 ];

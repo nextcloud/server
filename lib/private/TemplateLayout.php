@@ -106,11 +106,18 @@ class TemplateLayout extends \OC_Template {
 
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 			$this->initialState->provideInitialState('core', 'apps', $this->navigationManager->getAll());
-			$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-			$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
-			$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
-			Util::addScript('core', 'unified-search', 'core');
-
+			/*
+			 * NB : Unified search enabled, defaults to true since new advanced search is
+			 * unstable. Once we think otherwise, the default should be false.
+			 */
+			if ($this->config->getSystemValueBool('unified_search.enabled', true)) {
+				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
+				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
+				$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
+				Util::addScript('core', 'unified-search', 'core');
+			} else {
+				Util::addScript('core', 'global-search', 'core');
+			}
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
 			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
