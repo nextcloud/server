@@ -1945,7 +1945,7 @@ $CONFIG = [
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
- * 
+ *
  * Defaults to ``array()``
  */
 'forbidden_chars' => [],
@@ -2399,7 +2399,7 @@ $CONFIG = [
 /**
  * Enable use of old unified search
  *
- * Defaults to ``false``
+ * Defaults to ``true``
  */
-'unified_search.enabled' => false,
+'unified_search.enabled' => true,
 ];
