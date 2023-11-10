@@ -75,6 +75,8 @@
 					<template #icon>
 						<NcAvatar v-if="filter.type === 'person'"
 							:user="filter.user"
+							:size="24"
+							:disable-menu="true"
 							:show-user-status="false"
 							:hide-favorite="false" />
 						<CalendarRangeIcon v-else-if="filter.type === 'date'" />
@@ -82,7 +84,7 @@
 					</template>
 				</FilterChip>
 			</div>
-			<div v-if="searchQuery.length === 0">
+			<div v-if="searchQuery.length === 0" class="global-search-modal__no-search">
 				<NcEmptyContent :name="t('core', 'Start typing in search')">
 					<template #icon>
 						<MagnifyIcon />
@@ -257,7 +259,7 @@ export default {
 
 				if (filters.personFilterIsApplied) {
 					if (provider.filters.person) {
-						params.person = this.personFilter.id
+						params.person = this.personFilter.user
 					} else {
 						// Person filter is applied but provider does not support it, no need to search provider
 						return
@@ -378,7 +380,7 @@ export default {
 			this.providerActionMenuIsOpen = false
 			const existingFilter = this.filteredProviders.find(existing => existing.id === providerFilter.id)
 			if (!existingFilter) {
-				this.filteredProviders.push({ id: providerFilter.id, name: providerFilter.name, icon: providerFilter.icon, type: 'provider' })
+				this.filteredProviders.push({ id: providerFilter.id, name: providerFilter.name, icon: providerFilter.icon, type: 'provider', filters: providerFilter.filters })
 			}
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			console.debug('Search filters (newly added)', this.filters)
@@ -397,9 +399,13 @@ export default {
 
 			} else {
 				for (let i = 0; i < this.filters.length; i++) {
-					if (this.filters[i].id === 'date') {
+					// Remove date and person filter
+					if (this.filters[i].id === 'date' || this.filters[i].id === filter.id) {
 						this.dateFilterIsApplied = false
 						this.filters.splice(i, 1)
+						if (filter.type === 'person') {
+							this.personFilterIsApplied = false
+						}
 						break
 					}
 				}
@@ -520,25 +526,26 @@ $margin: 10px;
 
 	&__filters {
 		display: flex;
-		padding-top: 5px;
-		justify-content: space-between;
-
-		>*:not(:last-child) {
-			// flex: 1;
-			margin-right: 0.5m;
-		}
+		padding-top: 4px;
+		justify-content: left;
 
 		>* {
-			button {
-				min-width: 160px;
-			}
+			margin-right: 4px;
+
 		}
 
 	}
 
 	&__filters-applied {
+		padding-top: 4px;
 		display: flex;
 		flex-wrap: wrap;
+	}
+
+	&__no-search {
+		display: flex;
+		align-items: center;
+		height: 100%;
 	}
 
 	&__results {
