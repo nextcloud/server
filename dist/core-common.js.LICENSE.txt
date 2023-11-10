@@ -74,8 +74,6 @@
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
-/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
 /**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
