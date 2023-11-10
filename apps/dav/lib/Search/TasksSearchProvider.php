@@ -41,7 +41,6 @@ use Sabre\VObject\Component;
  * @package OCA\DAV\Search
  */
 class TasksSearchProvider extends ACalendarSearchProvider {
-
 	/**
 	 * @var string[]
 	 */
@@ -88,8 +87,10 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function search(IUser $user,
-						   ISearchQuery $query): SearchResult {
+	public function search(
+		IUser $user,
+		ISearchQuery $query,
+	): SearchResult {
 		if (!$this->appManager->isEnabledForUser('tasks', $user)) {
 			return SearchResult::complete($this->getName(), []);
 		}
@@ -100,13 +101,15 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
-			$query->getTerm(),
+			$query->getFilter('term')?->get() ?? '',
 			[self::$componentType],
 			self::$searchProperties,
 			self::$searchParameters,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
+				'since' => $query->getFilter('since'),
+				'until' => $query->getFilter('until'),
 			]
 		);
 		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
@@ -131,13 +134,10 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	/**
-	 * @param string $calendarUri
-	 * @param string $taskUri
-	 * @return string
-	 */
-	protected function getDeepLinkToTasksApp(string $calendarUri,
-											 string $taskUri): string {
+	protected function getDeepLinkToTasksApp(
+		string $calendarUri,
+		string $taskUri,
+	): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->linkToRoute('tasks.page.index')
 			. '#/calendars/'
@@ -147,10 +147,6 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	/**
-	 * @param Component $taskComponent
-	 * @return string
-	 */
 	protected function generateSubline(Component $taskComponent): string {
 		if ($taskComponent->COMPLETED) {
 			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTimeInterface::ATOM));

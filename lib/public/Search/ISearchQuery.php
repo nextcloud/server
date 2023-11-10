@@ -48,8 +48,23 @@ interface ISearchQuery {
 	 *
 	 * @return string the search term
 	 * @since 20.0.0
+	 * @deprecated 28.0.0
 	 */
 	public function getTerm(): string;
+
+	/**
+	 * Get a single request filter
+	 *
+	 * @since 28.0.0
+	 */
+	public function getFilter(string $name): ?IFilter;
+
+	/**
+	 * Get request filters
+	 *
+	 * @since 28.0.0
+	 */
+	public function getFilters(): IFilterCollection;
 
 	/**
 	 * Get the sort order of results as defined as SORT_* constants on this interface

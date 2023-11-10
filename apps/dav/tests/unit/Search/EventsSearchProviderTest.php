@@ -328,10 +328,10 @@ class EventsSearchProviderTest extends TestCase {
 			]);
 		$this->backend->expects($this->once())
 			->method('searchPrincipalUri')
-			->with('principals/users/john.doe', 'search term', ['VEVENT'],
+			->with('principals/users/john.doe', '', ['VEVENT'],
 				['SUMMARY', 'LOCATION', 'DESCRIPTION', 'ATTENDEE', 'ORGANIZER', 'CATEGORIES'],
 				['ATTENDEE' => ['CN'], 'ORGANIZER' => ['CN']],
-				['limit' => 5, 'offset' => 20])
+				['limit' => 5, 'offset' => 20, 'timerange' => ['start' => null, 'end' => null]])
 			->willReturn([
 				[
 					'calendarid' => 99,
