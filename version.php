@@ -33,7 +33,7 @@
 $OC_Version = [28, 0, 0, 4];
 
 // The human-readable string
-$OC_VersionString = '28.0.0 beta 1';
+$OC_VersionString = '28.0.0 beta 2';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
