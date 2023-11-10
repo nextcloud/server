@@ -142,6 +142,8 @@ OC.L10N.register(
     "Logging in …" : "Acceder…",
     "Server side authentication failed!" : "A autenticación fracasou do lado do servidor!",
     "Please contact your administrator." : "Contacte coa administración desta instancia.",
+    "Temporary error" : "Erro temporal",
+    "Please try again." : "Ténteo de novo",
     "An internal error occurred." : "Produciuse un erro interno",
     "Please try again or contact your administrator." : "Ténteo de novo ou póñase en contacto coa administración desta instancia.",
     "Account name or email" : "Nome da conta ou correo-e",

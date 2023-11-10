@@ -142,6 +142,8 @@ OC.L10N.register(
     "Logging in …" : "Пријављивање …",
     "Server side authentication failed!" : "Потврда идентитета на серверу није успела!",
     "Please contact your administrator." : "Контактирајте вашег администратора.",
+    "Temporary error" : "Привремена грешка",
+    "Please try again." : "Молимо вас покушајте поново.",
     "An internal error occurred." : "Догодила се унутрашња грешка. ",
     "Please try again or contact your administrator." : "Покушајте поново или контактирајте вашег администратора.",
     "Account name or email" : "Име налога или е-адреса",

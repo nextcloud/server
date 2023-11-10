@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Відновити спільний ресурс","Відновити спільні ресурси","Відновити спільні ресурси","Відновити спільні ресурси"],
     "Shared" : "Спільні",
     "Shared by {ownerDisplayName}" : "{ownerDisplayName} надав(-ла) доступ",
+    "Show sharing options" : "Показати налаштування спільного доступу",
     "Link to a file" : "Посилання на файл",
     "Error creating the share: {errorMessage}" : "Помилка під час створення спільного ресурсу: {errorMessage}",
     "Error creating the share" : "Помилка під час створення спільного ресурсу",
