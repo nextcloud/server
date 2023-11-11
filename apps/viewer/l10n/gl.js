@@ -103,7 +103,7 @@ OC.L10N.register(
     "Stroke" : "Contorno",
     "Save image as" : "Gardar a imaxe como",
     "Extension" : "Extensión",
-    "Name is required." : "Precisase  o nome.",
+    "Name is required." : "Precisase do nome.",
     "Quality" : "Calidade",
     "Saved image size (width x height)" : "Tamaño da imaxe gardada (largo x alto)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Teña en conta que a área de recorte seleccionada é inferior ao cambio de tamaño aplicado, o que pode provocar unha diminución da calidade",
