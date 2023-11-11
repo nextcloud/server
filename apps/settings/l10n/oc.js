@@ -211,7 +211,6 @@ OC.L10N.register(
     "Organisation" : "Organizacion",
     "Phone number" : "Numèro de telefòn",
     "Role" : "Ròtle",
-    "Twitter" : "Twitter",
     "Website" : "Site web",
     "Profile visibility" : "Visibilitat perfil",
     "Locale" : "Varianta lingüistica",
@@ -257,6 +256,7 @@ OC.L10N.register(
     "Enter group name" : "Picatz un nom de grop",
     "Add group" : "Apondre grop",
     "Show Languages" : "Veire las lengas",
+    "Twitter" : "Twitter",
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS"
 },
