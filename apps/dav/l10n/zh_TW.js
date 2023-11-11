@@ -177,6 +177,8 @@ OC.L10N.register(
     "Friday" : "週五",
     "Saturday" : "週六",
     "Sunday" : "週日",
+    "Pick a start time for {dayName}" : "為 {dayName} 挑選開始時間",
+    "Pick a end time for {dayName}" : "為 {dayName} 挑選結束時間",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "在忙碌時，自動將使用者狀態設定為「請勿打擾」以靜音所有通知。",
     "Failed to load availability" : "載入可用性失敗",
     "Saved availability" : "已儲存可用性",

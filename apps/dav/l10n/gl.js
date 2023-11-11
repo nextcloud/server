@@ -177,6 +177,8 @@ OC.L10N.register(
     "Friday" : "venres",
     "Saturday" : "sábado",
     "Sunday" : "domingo",
+    "Pick a start time for {dayName}" : "Escolla unha hora de inicio para {dayName}",
+    "Pick a end time for {dayName}" : "Escolla unha hora de finalización para {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Estabelecer automaticamente o estado do usuario en «Non molestar» fóra de dispoñibilidade para silenciar todas as notificacións.",
     "Failed to load availability" : "Produciuse un erro ao cargar a dispoñibilidade",
     "Saved availability" : "Dispoñibilidade gardada",
