@@ -162,6 +162,11 @@ $application->registerRoutes($this, [
 		['root' => '/text2image', 'name' => 'TextToImageApi#getImage', 'url' => '/task/{id}/image/{index}', 'verb' => 'GET'],
 		['root' => '/text2image', 'name' => 'TextToImageApi#deleteTask', 'url' => '/task/{id}', 'verb' => 'DELETE'],
 		['root' => '/text2image', 'name' => 'TextToImageApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
+
+		['root' => '/location', 'name' => 'LocationApi#config', 'url' => '/config', 'verb' => 'GET'],
+		['root' => '/location', 'name' => 'LocationApi#search', 'url' => '/search', 'verb' => 'POST'],
+		['root' => '/location', 'name' => 'LocationApi#geocode', 'url' => '/geocode', 'verb' => 'POST'],
+		['root' => '/location', 'name' => 'LocationApi#autocomplete', 'url' => '/autocomplete', 'verb' => 'POST'],
 	],
 ]);
 

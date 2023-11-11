@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>nominatim</id>
+	<name>Nominatim OpenStreetMap</name>
+	<summary>Location provider for the Nominatim OpenStreetMap backend</summary>
+	<description><![CDATA[A location provider based on the Nominatim OpenStreetMap service. This provider does not allow for autocomplete. The nominatim server endpoint can be configured by admins.]]></description>
+	<version>0.1.0</version>
+	<licence>agpl</licence>
+	<author mail="nextcloud@tcit.fr">Thomas Citharel</author>
+	<namespace>Nominatim</namespace>
+	<category>integration</category>
+	<category>location</category>
+	<bugs>https://github.com/nextcloud/server</bugs>
+	<dependencies>
+		<nextcloud min-version="28" max-version="28"/>
+	</dependencies>
+</info>
