@@ -159,7 +159,7 @@ class ContactsSearchProviderTest extends TestCase {
 			]);
 		$this->backend->expects($this->once())
 			->method('searchPrincipalUri')
-			->with('principals/users/john.doe', 'search term',
+			->with('principals/users/john.doe', '',
 				[
 					'N',
 					'FN',
@@ -171,7 +171,7 @@ class ContactsSearchProviderTest extends TestCase {
 					'ORG',
 					'NOTE',
 				],
-				['limit' => 5, 'offset' => 20])
+				['limit' => 5, 'offset' => 20, 'since' => null, 'until' => null,  'person' => null, 'company' => null])
 			->willReturn([
 				[
 					'addressbookid' => 99,

@@ -11,6 +11,7 @@
  * @author Joel S <joel.devbox@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author martin.mattel@diemattels.at <martin.mattel@diemattels.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -37,17 +38,17 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\FilesMetadata\FilesMetadataManager;
+use OC\ForbiddenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Events\NodeRemovedFromCache;
-use OCP\Files\File;
-use OC\ForbiddenException;
-use OC\Metadata\MetadataManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -68,7 +69,7 @@ class Scan extends Base {
 	public function __construct(
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
-		private MetadataManager $metadataManager,
+		private FilesMetadataManager $filesMetadataManager,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
 	) {
@@ -137,9 +138,10 @@ class Scan extends Base {
 			$this->abortIfInterrupted();
 			if ($scanMetadata) {
 				$node = $this->rootFolder->get($path);
-				if ($node instanceof File) {
-					$this->metadataManager->generateMetadata($node, false);
-				}
+				$this->filesMetadataManager->refreshMetadata(
+					$node,
+					IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
+				);
 			}
 		});
 

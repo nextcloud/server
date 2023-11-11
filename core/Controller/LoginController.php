@@ -64,6 +64,7 @@ use OCP\Util;
 class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
+	public const LOGIN_MSG_CSRFCHECKFAILED = 'csrfCheckFailed';
 
 	public function __construct(
 		?string $appName,
@@ -291,7 +292,7 @@ class LoginController extends Controller {
 				$user,
 				$user,
 				$redirect_url,
-				$this->l10n->t('Please try again')
+				self::LOGIN_MSG_CSRFCHECKFAILED
 			);
 		}
 

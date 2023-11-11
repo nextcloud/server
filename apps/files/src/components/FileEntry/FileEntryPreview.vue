@@ -37,6 +37,7 @@
 			alt=""
 			class="files-list__row-icon-preview"
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
+			loading="lazy"
 			:src="previewUrl"
 			@error="backgroundFailed = true"
 			@load="backgroundFailed = false">
@@ -49,6 +50,10 @@
 			:aria-label="t('files', 'Favorite')">
 			<FavoriteIcon v-once />
 		</span>
+
+		<OverlayIcon :is="fileOverlay"
+			v-if="fileOverlay"
+			class="files-list__row-icon-overlay" />
 	</span>
 </template>
 
@@ -70,9 +75,11 @@ import KeyIcon from 'vue-material-design-icons/Key.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
+import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import { useUserConfigStore } from '../../store/userconfig.ts'
 import FavoriteIcon from './FavoriteIcon.vue'
+import { isLivePhoto } from '../../services/LivePhotos'
 
 export default Vue.extend({
 	name: 'FileEntryPreview',
@@ -160,6 +167,14 @@ export default Vue.extend({
 			} catch (e) {
 				return null
 			}
+		},
+
+		fileOverlay() {
+			if (isLivePhoto(this.source)) {
+				return PlayCircleIcon
+			}
+
+			return null
 		},
 
 		folderOverlay() {

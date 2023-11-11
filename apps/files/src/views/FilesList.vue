@@ -256,7 +256,10 @@ export default Vue.extend({
 		},
 
 		dirContents(): Node[] {
-			return (this.currentFolder?._children || []).map(this.getNode).filter(file => file)
+			return (this.currentFolder?._children || [])
+				.map(this.getNode)
+				.filter(file => file)
+				.filter(file => file?.attributes?.hidden !== true)
 		},
 
 		/**

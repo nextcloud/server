@@ -58,10 +58,14 @@
 					</ul>
 				</div>
 				<div v-if="contactsAppEnabled" class="contactsmenu__menu__content__footer">
-					<NcButton type="tertiary" :href="contactsAppURL">{{ t('core', 'Show all contacts') }}</NcButton>
+					<NcButton type="tertiary" :href="contactsAppURL">
+						{{ t('core', 'Show all contacts') }}
+					</NcButton>
 				</div>
 				<div v-else-if="canInstallApp" class="contactsmenu__menu__content__footer">
-					<NcButton type="tertiary" :href="contactsAppMgmtURL">{{ t('core', 'Install the Contacts app') }}</NcButton>
+					<NcButton type="tertiary" :href="contactsAppMgmtURL">
+						{{ t('core', 'Install the Contacts app') }}
+					</NcButton>
 				</div>
 			</div>
 		</div>
@@ -170,6 +174,13 @@ export default {
 			width: 100%;
 			height: 34px;
 			margin: 8px 0;
+
+			&:focus,
+			&:focus-visible,
+			&:active {
+				border-color: 2px solid var(--color-main-text) !important;
+				box-shadow: 0 0 0 2px var(--color-main-background) !important;
+			}
 		}
 
 		&__content {

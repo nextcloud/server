@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,6 +24,7 @@
 namespace OCA\Files_Trashbin\Trash;
 
 use OCP\Files\FileInfo;
+use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\IUser;
 
 class TrashItem implements ITrashItem {
@@ -189,5 +191,13 @@ class TrashItem implements ITrashItem {
 
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
 	}
 }

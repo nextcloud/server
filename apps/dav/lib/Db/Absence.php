@@ -26,8 +26,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Db;
 
+use DateTimeImmutable;
+use InvalidArgumentException;
 use JsonSerializable;
+use OC\User\OutOfOfficeData;
 use OCP\AppFramework\Db\Entity;
+use OCP\IUser;
+use OCP\User\IOutOfOfficeData;
 
 /**
  * @method string getUserId()
@@ -43,8 +48,13 @@ use OCP\AppFramework\Db\Entity;
  */
 class Absence extends Entity implements JsonSerializable {
 	protected string $userId = '';
+
+	/** Inclusive, formatted as YYYY-MM-DD */
 	protected string $firstDay = '';
+
+	/** Inclusive, formatted as YYYY-MM-DD */
 	protected string $lastDay = '';
+
 	protected string $status = '';
 	protected string $message = '';
 
@@ -54,6 +64,24 @@ class Absence extends Entity implements JsonSerializable {
 		$this->addType('lastDay', 'string');
 		$this->addType('status', 'string');
 		$this->addType('message', 'string');
+	}
+
+	public function toOutOufOfficeData(IUser $user): IOutOfOfficeData {
+		if ($user->getUID() !== $this->getUserId()) {
+			throw new InvalidArgumentException("The user doesn't match the user id of this absence! Expected " . $this->getUserId() . ", got " . $user->getUID());
+		}
+
+		//$user = $userManager->get($this->getUserId());
+		$startDate = new DateTimeImmutable($this->getFirstDay());
+		$endDate = new DateTimeImmutable($this->getLastDay());
+		return new OutOfOfficeData(
+			(string)$this->getId(),
+			$user,
+			$startDate->getTimestamp(),
+			$endDate->getTimestamp(),
+			$this->getStatus(),
+			$this->getMessage(),
+		);
 	}
 
 	public function jsonSerialize(): array {

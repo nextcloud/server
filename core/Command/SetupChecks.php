@@ -55,7 +55,7 @@ class SetupChecks extends Base {
 			default:
 				foreach ($results as $category => $checks) {
 					$output->writeln("\t{$category}:");
-					foreach ($checks as $title => $check) {
+					foreach ($checks as $check) {
 						$styleTag = match ($check->getSeverity()) {
 							'success' => 'info',
 							'error' => 'error',
@@ -74,7 +74,7 @@ class SetupChecks extends Base {
 							"\t\t".
 							($styleTag !== null ? "<{$styleTag}>" : '').
 							"{$emoji} ".
-							$title.
+							($check->getName() ?? $check::class).
 							($description !== null ? ': '.$description : '').
 							($styleTag !== null ? "</{$styleTag}>" : ''),
 							$verbosity
@@ -83,7 +83,7 @@ class SetupChecks extends Base {
 				}
 		}
 		foreach ($results as $category => $checks) {
-			foreach ($checks as $title => $check) {
+			foreach ($checks as $check) {
 				if ($check->getSeverity() !== 'success') {
 					return self::FAILURE;
 				}
