@@ -209,7 +209,6 @@
     "Organisation" : "Organizacion",
     "Phone number" : "Numèro de telefòn",
     "Role" : "Ròtle",
-    "Twitter" : "Twitter",
     "Website" : "Site web",
     "Profile visibility" : "Visibilitat perfil",
     "Locale" : "Varianta lingüistica",
@@ -255,6 +254,7 @@
     "Enter group name" : "Picatz un nom de grop",
     "Add group" : "Apondre grop",
     "Show Languages" : "Veire las lengas",
+    "Twitter" : "Twitter",
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Återställ delning","Återställ delningar"],
     "Shared" : "Delad",
     "Shared by {ownerDisplayName}" : "Delad av {ownerDisplayName}",
+    "Show sharing options" : "Visa delningsalternativ",
     "Link to a file" : "Länka till en fil",
     "Error creating the share: {errorMessage}" : "Kunde inte skapa delningen: {errorMessage}",
     "Error creating the share" : "Kunde inte skapa delning",

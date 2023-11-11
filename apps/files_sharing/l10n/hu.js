@@ -228,6 +228,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Megosztás visszaállítása","Megosztások visszaállítása"],
     "Shared" : "Megosztva",
     "Shared by {ownerDisplayName}" : "Megosztotta: {ownerDisplayName}",
+    "Show sharing options" : "Megosztási beállítások mutatása",
     "Link to a file" : "Hivatkozás egy fájlhoz",
     "Error creating the share: {errorMessage}" : "Hiba történt a megosztás létrehozása során: {errorMessage}",
     "Error creating the share" : "Megosztás létrehozása sikertelen",
