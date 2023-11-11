@@ -175,6 +175,8 @@
     "Friday" : "الجمعة",
     "Saturday" : "السبت",
     "Sunday" : "الأحد",
+    "Pick a start time for {dayName}" : "إختَر وقت البدء ليوم {dayName}",
+    "Pick a end time for {dayName}" : "إختَر وقت الانتهاء ليوم {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "قم بتعيين حالة المستخدم تلقائيًا على \"عدم الإزعاج\" خارج نطاق أوقات التوافر لكتم جميع الإشعارات",
     "Failed to load availability" : "إخفاق في تحميل أوقات التوافر",
     "Saved availability" : "تمّ حفظ أوقات التوافر",

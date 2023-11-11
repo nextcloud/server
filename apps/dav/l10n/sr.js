@@ -177,6 +177,8 @@ OC.L10N.register(
     "Friday" : "Петак",
     "Saturday" : "Субота",
     "Sunday" : "Недеља",
+    "Pick a start time for {dayName}" : "Изаберите време почетка за {dayName}",
+    "Pick a end time for {dayName}" : "Изаберите време завршетка за {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Аутоматски поставља статус кориниска на „Не узнемиравај” како би се ван доступности пригушила сва обавештења.",
     "Failed to load availability" : "Доступност није могла да се учита",
     "Saved availability" : "Доступност је сачувана",
