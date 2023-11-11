@@ -69,6 +69,8 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCA\DAV\Listener\GroupChangeListener;
+use OCA\DAV\Listener\UserChangeListener;
 use OCP\Accounts\UserUpdatedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
@@ -102,6 +104,10 @@ use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Group\Events\BeforeGroupChangedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IUser;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -195,6 +201,12 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
 		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 
+		$context->registerEventListener(BeforeGroupChangedEvent::class, GroupChangeListener::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupChangeListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserChangeListener::class);
+		$context->registerEventListener(UserUpdatedEvent::class, UserChangeListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, UserChangeListener::class);
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
@@ -226,13 +238,6 @@ class Application extends App implements IBootstrap {
 				$hm->firstLogin($event->getSubject());
 			}
 		});
-
-		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container) {
-			/** @var SyncService $syncService */
-			$syncService = \OCP\Server::get(SyncService::class);
-			$syncService->updateUser($event->getUser());
-		});
-
 
 		$dispatcher->addListener(CalendarShareUpdatedEvent::class, function (CalendarShareUpdatedEvent $event) use ($container) {
 			/** @var Backend $backend */

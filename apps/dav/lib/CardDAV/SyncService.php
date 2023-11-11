@@ -30,7 +30,6 @@
  */
 namespace OCA\DAV\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
 use OCP\IDBConnection;
@@ -42,6 +41,7 @@ use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
+use Sabre\Xml\ParseException;
 use function is_null;
 
 class SyncService {
@@ -181,6 +181,9 @@ class SyncService {
 		return $client->request('GET', $resourcePath);
 	}
 
+	/**
+	 * @throws \DOMException
+	 */
 	private function buildSyncCollectionRequestBody(?string $syncToken): string {
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
@@ -201,9 +204,9 @@ class SyncService {
 	/**
 	 * @param string $body
 	 * @return array
-	 * @throws \Sabre\Xml\ParseException
+	 * @throws ParseException
 	 */
-	private function parseMultiStatus($body) {
+	private function parseMultiStatus(string $body): array {
 		$xml = new Service();
 
 		/** @var MultiStatus $multiStatus */
@@ -217,9 +220,6 @@ class SyncService {
 		return ['response' => $result, 'token' => $multiStatus->getSyncToken()];
 	}
 
-	/**
-	 * @param IUser $user
-	 */
 	public function updateUser(IUser $user): void {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
@@ -228,13 +228,12 @@ class SyncService {
 		if ($user->isEnabled()) {
 			$this->atomic(function() use ($addressBookId, $cardId, $user) {
 				$card = $this->backend->getCard($addressBookId, $cardId);
+				$vCard = $this->converter->createCardFromUser($user);
 				if ($card === false) {
-					$vCard = $this->converter->createCardFromUser($user);
 					if ($vCard !== null) {
 						$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
 					}
 				} else {
-					$vCard = $this->converter->createCardFromUser($user);
 					if (is_null($vCard)) {
 						$this->backend->deleteCard($addressBookId, $cardId);
 					} else {
@@ -247,10 +246,7 @@ class SyncService {
 		}
 	}
 
-	/**
-	 * @param IUser|string $userOrCardId
-	 */
-	public function deleteUser($userOrCardId) {
+	public function deleteUser(IUser|string $userOrCardId): void {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		if ($userOrCardId instanceof IUser) {
 			$userOrCardId = self::getCardUri($userOrCardId);
@@ -258,10 +254,7 @@ class SyncService {
 		$this->backend->deleteCard($systemAddressBook['id'], $userOrCardId);
 	}
 
-	/**
-	 * @return array|null
-	 */
-	public function getLocalSystemAddressBook() {
+	public function getLocalSystemAddressBook(): ?array {
 		if (is_null($this->localSystemAddressBook)) {
 			$systemPrincipal = "principals/system/system";
 			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
@@ -272,7 +265,7 @@ class SyncService {
 		return $this->localSystemAddressBook;
 	}
 
-	public function syncInstance(\Closure $progressCallback = null) {
+	public function syncInstance(\Closure $progressCallback = null): void {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);

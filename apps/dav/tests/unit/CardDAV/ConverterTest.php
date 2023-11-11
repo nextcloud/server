@@ -30,39 +30,45 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CardDAV;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\Converter;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\IConfig;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IImage;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
-
-	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $accountManager;
-	/** @var IUserManager|(IUserManager&MockObject)|MockObject */
+	private IAccountManager|MockObject $accountManager;
 	private IUserManager|MockObject $userManager;
+	private IGroupManager|MockObject $groupManager;
+	private IURLGenerator|MockObject $urlGenerator;
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private IConfig|MockObject $config;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	/**
 	 * @return IAccountProperty|MockObject
 	 */
-	protected function getAccountPropertyMock(string $name, ?string $value, string $scope) {
+	protected function getAccountPropertyMock(string $name, ?string $value, string $scope): IAccountProperty|MockObject {
 		$property = $this->createMock(IAccountProperty::class);
 		$property->expects($this->any())
 			->method('getName')
@@ -108,10 +114,10 @@ class ConverterTest extends TestCase {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($accountManager, $this->userManager, $this->groupManager, $this->urlGenerator, $this->config);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
-			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
+			$this->assertInstanceOf(VCard::class, $vCard);
 			$cardData = $vCard->jsonSerialize();
 			$this->compareData($expectedVCard, $cardData);
 		} else {
@@ -129,7 +135,7 @@ class ConverterTest extends TestCase {
 			->willReturn('Manager');
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($accountManager, $this->userManager, $this->groupManager, $this->urlGenerator, $this->config);
 		$vCard = $converter->createCardFromUser($user);
 
 		$this->compareData(
@@ -142,7 +148,7 @@ class ConverterTest extends TestCase {
 		);
 	}
 
-	protected function compareData($expected, $data) {
+	protected function compareData($expected, $data): void {
 		foreach ($expected as $key => $value) {
 			$found = false;
 			foreach ($data[1] as $d) {
@@ -152,12 +158,12 @@ class ConverterTest extends TestCase {
 				}
 			}
 			if (!$found) {
-				$this->assertTrue(false, 'Expected data: ' . $key . ' not found.');
+				$this->fail('Expected data: ' . $key . ' not found.');
 			}
 		}
 	}
 
-	public function providesNewUsers() {
+	public function providesNewUsers(): array {
 		return [
 			[
 				null
@@ -213,17 +219,15 @@ class ConverterTest extends TestCase {
 
 	/**
 	 * @dataProvider providesNames
-	 * @param $expected
-	 * @param $fullName
 	 */
-	public function testNameSplitter($expected, $fullName): void {
-		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator);
+	public function testNameSplitter(string $expected, string $fullName): void {
+		$converter = new Converter($this->accountManager, $this->userManager, $this->groupManager, $this->urlGenerator, $this->config);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);
 	}
 
-	public function providesNames() {
+	public function providesNames(): array {
 		return [
 			['Sauron;;;;', 'Sauron'],
 			['Baggins;Bilbo;;;', 'Bilbo Baggins'],
@@ -231,13 +235,7 @@ class ConverterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param $displayName
-	 * @param $eMailAddress
-	 * @param $cloudId
-	 * @return IUser | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected function getUserMock(string $displayName, ?string $eMailAddress, ?string $cloudId) {
+	protected function getUserMock(string $displayName, ?string $eMailAddress, ?string $cloudId): IUser|MockObject {
 		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();
 		$image0->method('mimeType')->willReturn('image/jpeg');
 		$image0->method('data')->willReturn('123456789');
@@ -248,5 +246,51 @@ class ConverterTest extends TestCase {
 		$user->method('getCloudId')->willReturn($cloudId);
 		$user->method('getAvatarImage')->willReturn($image0);
 		return $user;
+	}
+
+	/**
+	 * @dataProvider dataForTestExposeGroups
+	 */
+	public function testExposeGroups(bool $exposeGroups, array $groups, string $groupsToInclude, string $groupsToIgnore, ?string $result): void {
+		$user = $this->getUserMock("user", "user@domain.tld", "user@cloud.domain.tld");
+		$this->config->expects($exposeGroups ? $this->exactly(3) :$this->once())->method('getAppValue')->withConsecutive(
+			[Application::APP_ID, 'system_addressbook_expose_groups', 'no'],
+			[Application::APP_ID, 'system_addressbook_groups_to_include', ''],
+			[Application::APP_ID, 'system_addressbook_groups_to_ignore', '']
+		)->willReturnOnConsecutiveCalls(
+			$exposeGroups ? 'yes' : 'no',
+			$groupsToInclude,
+			$groupsToIgnore
+		);
+
+		$ignoredGroups = explode(',', $groupsToIgnore);
+		$includedGroups = explode(',', $groupsToInclude);
+
+		$this->groupManager->expects($exposeGroups ? $this->once() : $this->never())->method('getUserGroups')->with($user)->willReturn(array_map(function ($groupName) use ($groups, $exposeGroups, $includedGroups, $ignoredGroups) {
+			$group = $this->createMock(IGroup::class);
+			$group->expects($exposeGroups ? $this->once() : $this->never())->method('getGID')->willReturn($groupName);
+			$group->expects($exposeGroups && !in_array($groupName, $ignoredGroups, true) && (empty($includedGroups) || in_array($groupName, $includedGroups, true)) ? $this->once() : $this->never())->method('getDisplayName')->willReturn($groupName);
+			return $group;
+		}, $groups));
+		$accountManager = $this->getAccountManager($user);
+
+		$converter = new Converter($accountManager, $this->userManager, $this->groupManager, $this->urlGenerator, $this->config);
+		$vCard = $converter->createCardFromUser($user);
+
+		$parsed = Reader::read($vCard->serialize(), Reader::OPTION_FORGIVING);
+
+		$this->assertEquals((string) $parsed->CATEGORIES, $result);
+	}
+
+	public function dataForTestExposeGroups(): array {
+		return [
+			[false, ['myGroup1'], '', '', null],
+			[true, ['myGroup1'], '', '', 'myGroup1'],
+			[true, ['myGroup1', 'myGroup2'], '', '', 'myGroup1,myGroup2'],
+			[true, ['myGroup1', 'myGroup2'], '', 'myGroup2,myGroup3', 'myGroup1'],
+			[true, ['myGroup1', 'myGroup2', 'myGroup3', 'myGroup4'], '', 'myGroup2,myGroup3', 'myGroup1,myGroup4'],
+			[true, ['myGroup1', 'myGroup2', 'myGroup3', 'myGroup4'], 'myGroup1, myGroup5', 'myGroup2,myGroup3', 'myGroup1'],
+			[true, ['myGroup1', 'myGroup2'], '', 'myGroup2,myGroup3', 'myGroup1']
+		];
 	}
 }
