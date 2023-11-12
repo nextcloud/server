@@ -505,6 +505,7 @@ OC.L10N.register(
     "Organisation" : "Organisation",
     "Phone number" : "Telefonnummer",
     "Role" : "Roll",
+    "X (formerly Twitter)" : "X (tidigare Twitter)",
     "Fediverse (e.g. Mastodon)" : "Fediverse (t.ex. Mastodon)",
     "Website" : "Webbplats",
     "Profile visibility" : "Profilsynlighet",
