@@ -1567,6 +1567,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\BackgroundCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Preview/BackgroundCleanupJob.php',
         'OC\\Preview\\Bitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/Bitmap.php',
         'OC\\Preview\\Bundled' => __DIR__ . '/../../..' . '/lib/private/Preview/Bundled.php',
+        'OC\\Preview\\EMF' => __DIR__ . '/../../..' . '/lib/private/Preview/EMF.php',
         'OC\\Preview\\Font' => __DIR__ . '/../../..' . '/lib/private/Preview/Font.php',
         'OC\\Preview\\GIF' => __DIR__ . '/../../..' . '/lib/private/Preview/GIF.php',
         'OC\\Preview\\Generator' => __DIR__ . '/../../..' . '/lib/private/Preview/Generator.php',

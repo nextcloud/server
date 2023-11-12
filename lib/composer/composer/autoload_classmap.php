@@ -1534,6 +1534,7 @@ return array(
     'OC\\Preview\\BackgroundCleanupJob' => $baseDir . '/lib/private/Preview/BackgroundCleanupJob.php',
     'OC\\Preview\\Bitmap' => $baseDir . '/lib/private/Preview/Bitmap.php',
     'OC\\Preview\\Bundled' => $baseDir . '/lib/private/Preview/Bundled.php',
+    'OC\\Preview\\EMF' => $baseDir . '/lib/private/Preview/EMF.php',
     'OC\\Preview\\Font' => $baseDir . '/lib/private/Preview/Font.php',
     'OC\\Preview\\GIF' => $baseDir . '/lib/private/Preview/GIF.php',
     'OC\\Preview\\Generator' => $baseDir . '/lib/private/Preview/Generator.php',

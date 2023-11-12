@@ -1285,6 +1285,7 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
+ *  - ``OC\Preview\EMF``
  *
  *
  * Defaults to the following providers:
@@ -1945,7 +1946,7 @@ $CONFIG = [
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
- * 
+ *
  * Defaults to ``array()``
  */
 'forbidden_chars' => [],

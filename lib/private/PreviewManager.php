@@ -408,6 +408,7 @@ class PreviewManager implements IPreview {
 					$this->registerCoreProvider(Preview\MSOffice2007::class, '/application\/vnd.openxmlformats-officedocument.*/', ["officeBinary" => $officeBinary]);
 					$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/', ["officeBinary" => $officeBinary]);
 					$this->registerCoreProvider(Preview\StarOffice::class, '/application\/vnd.sun.xml.*/', ["officeBinary" => $officeBinary]);
+					$this->registerCoreProvider(Preview\EMF::class, '/image\/emf/', ['officeBinary' => $officeBinary]);
 				}
 			}
 		}
