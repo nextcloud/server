@@ -19,6 +19,7 @@ declare(strict_types=1);
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Patrik Kernstock <info@pkern.at>
@@ -215,6 +216,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceResetAttempts::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\SetupChecks::class));
+	$application->add(\OCP\Server::get(\OC\Core\Command\FilesMetadata\Get::class));
 } else {
 	$application->add(\OC::$server->get(\OC\Core\Command\Maintenance\Install::class));
 }

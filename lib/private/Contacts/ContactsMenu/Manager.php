@@ -82,8 +82,19 @@ class Manager {
 	 * @return IEntry[]
 	 */
 	private function sortEntries(array $entries): array {
-		usort($entries, function (IEntry $entryA, IEntry $entryB) {
-			return strcasecmp($entryA->getFullName(), $entryB->getFullName());
+		usort($entries, function (Entry $entryA, Entry $entryB) {
+			$aStatusTimestamp = $entryA->getProperty(Entry::PROPERTY_STATUS_MESSAGE_TIMESTAMP);
+			$bStatusTimestamp = $entryB->getProperty(Entry::PROPERTY_STATUS_MESSAGE_TIMESTAMP);
+			if (!$aStatusTimestamp && !$bStatusTimestamp) {
+				return strcasecmp($entryA->getFullName(), $entryB->getFullName());
+			}
+			if ($aStatusTimestamp === null) {
+				return 1;
+			}
+			if ($bStatusTimestamp === null) {
+				return -1;
+			}
+			return $bStatusTimestamp - $aStatusTimestamp;
 		});
 		return $entries;
 	}

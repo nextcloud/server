@@ -40,7 +40,6 @@ use OC;
 use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
 use OC\MemoryInfo;
-use OC\Security\SecureRandom;
 use OCA\Settings\Controller\CheckSetupController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -100,8 +99,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo|MockObject */
 	private $memoryInfo;
-	/** @var SecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
 	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $iniGetWrapper;
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
@@ -154,7 +151,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
 			->setMethods(['isMemoryLimitSufficient',])
 			->getMock();
-		$this->secureRandom = $this->getMockBuilder(SecureRandom::class)->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
@@ -178,7 +174,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
-				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->throttler,
@@ -189,18 +184,11 @@ class CheckSetupControllerTest extends TestCase {
 				$this->setupCheckManager,
 			])
 			->setMethods([
-				'isReadOnlyConfig',
-				'wasEmailTestSuccessful',
-				'hasValidTransactionIsolationLevel',
-				'hasFileinfoInstalled',
-				'hasWorkingFileLocking',
-				'hasDBFileLocking',
 				'getLastCronInfo',
 				'getSuggestedOverwriteCliURL',
 				'getCurlVersion',
 				'isPhpOutdated',
 				'getOpcacheSetupRecommendations',
-				'hasFreeTypeSupport',
 				'hasMissingIndexes',
 				'hasMissingPrimaryKeys',
 				'isSqliteUsed',
@@ -208,7 +196,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
-				'is64bit',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
@@ -226,34 +213,6 @@ class CheckSetupControllerTest extends TestCase {
 			rmdir($dirToRemove);
 		}
 		$this->dirsToRemove = [];
-	}
-
-	public function testIsMemcacheConfiguredFalse() {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('memcache.local', null)
-			->willReturn(null);
-
-		$this->assertFalse(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'isMemcacheConfigured'
-			)
-		);
-	}
-
-	public function testIsMemcacheConfiguredTrue() {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('memcache.local', null)
-			->willReturn('SomeProvider');
-
-		$this->assertTrue(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'isMemcacheConfigured'
-			)
-		);
 	}
 
 	/**
@@ -368,9 +327,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getOpcacheSetupRecommendations')
 			->willReturn(['recommendation1', 'recommendation2']);
 		$this->checkSetupController
-			->method('hasFreeTypeSupport')
-			->willReturn(false);
-		$this->checkSetupController
 			->method('hasMissingIndexes')
 			->willReturn([]);
 		$this->checkSetupController
@@ -379,30 +335,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isReadOnlyConfig')
-			->willReturn(false);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('wasEmailTestSuccessful')
-			->willReturn(false);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasValidTransactionIsolationLevel')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasFileinfoInstalled')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasWorkingFileLocking')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasDBFileLocking')
-			->willReturn(true);
 		$this->checkSetupController
 			->expects($this->once())
 			->method('getSuggestedOverwriteCliURL')
@@ -436,11 +368,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checkSetupController
 			->expects($this->once())
 			->method('areWebauthnExtensionsEnabled')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('is64bit')
 			->willReturn(false);
 
 		$this->checkSetupController
@@ -494,13 +421,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'isGetenvServerWorking' => true,
-				'isReadOnlyConfig' => false,
-				'wasEmailTestSuccessful' => false,
-				'hasValidTransactionIsolationLevel' => true,
-				'hasFileinfoInstalled' => true,
-				'hasWorkingFileLocking' => true,
-				'hasDBFileLocking' => true,
 				'suggestedOverwriteCliURL' => '',
 				'cronInfo' => [
 					'diffInSeconds' => 123,
@@ -508,10 +428,6 @@ class CheckSetupControllerTest extends TestCase {
 					'backgroundJobsUrl' => 'https://example.org',
 				],
 				'cronErrors' => [],
-				'isMemcacheConfigured' => true,
-				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
-				'isRandomnessSecure' => self::invokePrivate($this->checkSetupController, 'isRandomnessSecure'),
-				'securityDocs' => 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',
 				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
@@ -520,7 +436,6 @@ class CheckSetupControllerTest extends TestCase {
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
-				'hasFreeTypeSupport' => false,
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
@@ -530,7 +445,6 @@ class CheckSetupControllerTest extends TestCase {
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
-				'is64bit' => false,
 				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
@@ -562,7 +476,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
-				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->throttler,
@@ -1291,7 +1204,6 @@ Array
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->memoryInfo,
-			$this->secureRandom,
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->throttler,
@@ -1347,7 +1259,6 @@ Array
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->memoryInfo,
-			$this->secureRandom,
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->throttler,

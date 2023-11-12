@@ -66,7 +66,7 @@ export const action = new FileAction({
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
 		}
 
-		return ''
+		return t('files_sharing', 'Show sharing options')
 	},
 
 	iconSvgInline(nodes: Node[]) {

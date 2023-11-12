@@ -44,6 +44,7 @@ class StatusProvider implements IBulkProvider {
 		);
 
 		$statuses = $this->statusService->findByUserIds($uids);
+		/** @var array<string, UserStatus> $indexed */
 		$indexed = array_combine(
 			array_map(fn(UserStatus $status) => $status->getUserId(), $statuses),
 			$statuses
@@ -56,6 +57,7 @@ class StatusProvider implements IBulkProvider {
 				$entry->setStatus(
 					$status->getStatus(),
 					$status->getCustomMessage(),
+					$status->getStatusMessageTimestamp(),
 					$status->getCustomIcon(),
 				);
 			}

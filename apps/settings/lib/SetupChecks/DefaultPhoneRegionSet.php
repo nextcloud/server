@@ -38,7 +38,7 @@ class DefaultPhoneRegionSet implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for default phone region');
+		return $this->l10n->t('Default phone region');
 	}
 
 	public function getCategory(): string {

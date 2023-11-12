@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr M <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -32,9 +33,10 @@
  */
 namespace OC\Files;
 
-use OCA\Files_Sharing\ISharedStorage;
+use OC\Files\Mount\HomeMountPoint;
+use OCA\Files_Sharing\External\Mount;
+use OCA\Files_Sharing\ISharedMountPoint;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\IHomeStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
@@ -311,13 +313,12 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isShared() {
-		$storage = $this->getStorage();
-		return $storage->instanceOfStorage(ISharedStorage::class);
+		return $this->mount instanceof ISharedMountPoint;
 	}
 
 	public function isMounted() {
-		$storage = $this->getStorage();
-		return !($storage->instanceOfStorage(IHomeStorage::class) || $storage->instanceOfStorage(ISharedStorage::class));
+		$isHome = $this->mount instanceof HomeMountPoint;
+		return !$isHome && !$this->isShared();
 	}
 
 	/**
@@ -415,5 +416,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function getParentId(): int {
 		return $this->data['parent'] ?? -1;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? [];
 	}
 }

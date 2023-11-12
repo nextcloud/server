@@ -390,6 +390,7 @@ class MigrationService {
 	 */
 	public function migrate(string $to = 'latest', bool $schemaOnly = false): void {
 		if ($schemaOnly) {
+			$this->output->debug('Migrating schema only');
 			$this->migrateSchemaOnly($to);
 			return;
 		}
@@ -421,6 +422,7 @@ class MigrationService {
 
 		$toSchema = null;
 		foreach ($toBeExecuted as $version) {
+			$this->output->debug('- Reading ' . $version);
 			$instance = $this->createInstance($version);
 
 			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema): ISchemaWrapper {
@@ -429,16 +431,20 @@ class MigrationService {
 		}
 
 		if ($toSchema instanceof SchemaWrapper) {
+			$this->output->debug('- Checking target database schema');
 			$targetSchema = $toSchema->getWrappedSchema();
 			$this->ensureUniqueNamesConstraints($targetSchema);
 			if ($this->checkOracle) {
 				$beforeSchema = $this->connection->createSchema();
 				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
+
+			$this->output->debug('- Migrate database schema');
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
+		$this->output->debug('- Mark migrations as executed');
 		foreach ($toBeExecuted as $version) {
 			$this->markAsExecuted($version);
 		}

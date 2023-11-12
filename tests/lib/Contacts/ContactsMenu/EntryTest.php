@@ -105,6 +105,7 @@ class EntryTest extends TestCase {
 			'profileUrl' => null,
 			'status' => null,
 			'statusMessage' => null,
+			'statusMessageTimestamp' => null,
 			'statusIcon' => null,
 			'isUser' => false,
 			'uid' => null,

@@ -246,7 +246,8 @@ textarea {
 	text-overflow: ellipsis;
 	cursor: pointer;
 	&:not(:disabled):hover, &:not(:disabled):focus, &:not(:disabled):active {
-		border-color: var(--color-primary-element);
+		border-color: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 2px var(--color-main-background);
 	}
 	&:not(:disabled):focus {
 		cursor: text;

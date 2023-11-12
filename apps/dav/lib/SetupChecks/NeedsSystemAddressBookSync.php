@@ -40,7 +40,7 @@ class NeedsSystemAddressBookSync implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for DAV system address book');
+		return $this->l10n->t('DAV system address book');
 	}
 
 	public function getCategory(): string {

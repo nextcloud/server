@@ -102,6 +102,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Files\Template\TemplateManager;
 use OC\Files\Type\Loader;
 use OC\Files\View;
+use OC\FilesMetadata\FilesMetadataManager;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
 use OC\Http\Client\NegativeDnsCache;
@@ -120,9 +121,6 @@ use OC\Log\PsrLoggerAdapter;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
-use OC\Metadata\Capabilities as MetadataCapabilities;
-use OC\Metadata\IMetadataManager;
-use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
 use OC\OCM\Model\OCMProvider;
 use OC\OCM\OCMDiscoveryService;
@@ -196,6 +194,7 @@ use OCP\Files\Lock\ILockManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
 use OCP\Group\ISubAdmin;
@@ -1134,9 +1133,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerCapability(function () use ($c) {
 				return $c->get(\OC\Security\Bruteforce\Capabilities::class);
 			});
-			$manager->registerCapability(function () use ($c) {
-				return $c->get(MetadataCapabilities::class);
-			});
 			return $manager;
 		});
 		/** @deprecated 19.0.0 */
@@ -1401,6 +1397,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Dashboard\IManager::class, \OC\Dashboard\Manager::class);
 
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
+		$this->registerAlias(IFilesMetadataManager::class, FilesMetadataManager::class);
 
 		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
 
@@ -1411,8 +1408,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\UserStatus\IManager::class, \OC\UserStatus\Manager::class);
 
 		$this->registerAlias(IBroker::class, Broker::class);
-
-		$this->registerAlias(IMetadataManager::class, MetadataManager::class);
 
 		$this->registerAlias(\OCP\Files\AppData\IAppDataFactory::class, \OC\Files\AppData\Factory::class);
 
@@ -1480,6 +1475,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
+
+		FilesMetadataManager::loadListeners($eventDispatcher);
 	}
 
 	/**

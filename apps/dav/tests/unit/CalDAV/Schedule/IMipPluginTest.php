@@ -45,6 +45,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Property;
 use Test\TestCase;
 use function array_merge;
 
@@ -183,6 +184,13 @@ class IMipPluginTest extends TestCase {
 			'meeting_title' => 'Fellowship meeting without (!) Boromir',
 			'attendee_name' => 'frodo@hobb.it'
 		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
@@ -194,6 +202,14 @@ class IMipPluginTest extends TestCase {
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
 		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, $oldVEvent)
@@ -231,6 +247,91 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
+
+	public function testAttendeeIsResource(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'the-shire@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'The Shire', 'CUTYPE' => 'ROOM']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'the-shire@hobb.it';
+		// save the old copy in the plugin
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'the-shire@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'The Shire', 'CUTYPE' => 'ROOM']);
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
+		$oldVCalendar->add($oldVEvent);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$room = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$room = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn('1496912700');
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('the-shire@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($room);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($room)
+			->willReturn(true);
+		$this->service->expects(self::never())
+			->method('buildBodyData');
+		$this->userManager->expects(self::never())
+			->method('getDisplayName');
+		$this->service->expects(self::never())
+			->method('getFrom');
+		$this->service->expects(self::never())
+			->method('addSubjectAndHeading');
+		$this->service->expects(self::never())
+			->method('addBulletList');
+		$this->service->expects(self::never())
+			->method('getAttendeeRsvpOrReqForParticipant');
+		$this->config->expects(self::never())
+			->method('getAppValue');
+		$this->service->expects(self::never())
+			->method('createInvitationToken');
+		$this->service->expects(self::never())
+			->method('addResponseButtons');
+		$this->service->expects(self::never())
+			->method('addMoreOptionsButton');
+		$this->mailer->expects(self::never())
+			->method('send');
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0', $message->getScheduleStatus());
+	}
+
 
 	public function testParsingRecurrence(): void {
 		$message = new Message();
@@ -274,6 +375,13 @@ class IMipPluginTest extends TestCase {
 			'meeting_title' => 'Elevenses',
 			'attendee_name' => 'frodo@hobb.it'
 		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
@@ -285,6 +393,14 @@ class IMipPluginTest extends TestCase {
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
 		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, null)
@@ -384,6 +500,13 @@ class IMipPluginTest extends TestCase {
 			'meeting_title' => 'Fellowship meeting without (!) Boromir',
 			'attendee_name' => 'frodo@hobb.it'
 		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
 		$this->plugin->setVCalendar($oldVcalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
@@ -395,6 +518,14 @@ class IMipPluginTest extends TestCase {
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
 		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, null)
@@ -458,7 +589,13 @@ class IMipPluginTest extends TestCase {
 			'meeting_title' => 'Fellowship meeting',
 			'attendee_name' => 'frodo@hobb.it'
 		];
-
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn('1496912700');
@@ -470,6 +607,14 @@ class IMipPluginTest extends TestCase {
 			->method('findModified')
 			->with($newVCalendar, null)
 			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
 		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, null)
@@ -530,7 +675,13 @@ class IMipPluginTest extends TestCase {
 			'meeting_title' => 'Fellowship meeting',
 			'attendee_name' => 'frodo@hobb.it'
 		];
-
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn('1496912700');
@@ -542,6 +693,14 @@ class IMipPluginTest extends TestCase {
 			->method('findModified')
 			->with($newVCalendar, null)
 			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
 		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, null)

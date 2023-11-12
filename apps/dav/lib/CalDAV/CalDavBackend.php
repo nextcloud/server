@@ -208,36 +208,22 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	protected array $userDisplayNames;
 
-	private IDBConnection $db;
 	private Backend $calendarSharingBackend;
-	private Principal $principalBackend;
-	private IUserManager $userManager;
-	private ISecureRandom $random;
-	private LoggerInterface $logger;
-	private IEventDispatcher $dispatcher;
-	private IConfig $config;
-	private bool $legacyEndpoint;
 	private string $dbObjectPropertiesTable = 'calendarobjects_props';
 	private array $cachedObjects = [];
 
-	public function __construct(IDBConnection $db,
-								Principal $principalBackend,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								ISecureRandom $random,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher,
-								IConfig $config,
-								bool $legacyEndpoint = false) {
-		$this->db = $db;
-		$this->principalBackend = $principalBackend;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IDBConnection $db,
+		private Principal $principalBackend,
+		private IUserManager $userManager,
+		IGroupManager $groupManager,
+		private ISecureRandom $random,
+		private LoggerInterface $logger,
+		private IEventDispatcher $dispatcher,
+		private IConfig $config,
+		private bool $legacyEndpoint = false,
+	) {
 		$this->calendarSharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'calendar');
-		$this->random = $random;
-		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
-		$this->config = $config;
-		$this->legacyEndpoint = $legacyEndpoint;
 	}
 
 	/**
@@ -1855,8 +1841,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @return array
 	 */
-	public function search(array $calendarInfo, $pattern, array $searchProperties,
-						   array $options, $limit, $offset) {
+	public function search(
+		array $calendarInfo,
+		$pattern,
+		array $searchProperties,
+		array $options,
+		$limit,
+		$offset
+	) {
 		$outerQuery = $this->db->getQueryBuilder();
 		$innerQuery = $this->db->getQueryBuilder();
 
@@ -2074,11 +2066,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function searchPrincipalUri(string $principalUri,
-									   string $pattern,
-									   array $componentTypes,
-									   array $searchProperties,
-									   array $searchParameters,
-									   array $options = []): array {
+		string $pattern,
+		array $componentTypes,
+		array $searchProperties,
+		array $searchParameters,
+		array $options = []
+	): array {
 		return $this->atomic(function () use ($principalUri, $pattern, $componentTypes, $searchProperties, $searchParameters, $options) {
 			$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
 
@@ -2159,6 +2152,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 			if (isset($options['offset'])) {
 				$calendarObjectIdQuery->setFirstResult($options['offset']);
+			}
+			if (isset($options['timerange'])) {
+				if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
+					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->gt(
+						'lastoccurence',
+						$calendarObjectIdQuery->createNamedParameter($options['timerange']['start']->getTimeStamp()),
+					));
+				}
+				if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
+					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->lt(
+						'firstoccurence',
+						$calendarObjectIdQuery->createNamedParameter($options['timerange']['end']->getTimeStamp()),
+					));
+				}
 			}
 
 			$result = $calendarObjectIdQuery->executeQuery();
@@ -3187,7 +3194,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$maxId = (int) $result->fetchOne();
 		$result->closeCursor();
 		if (!$maxId || $maxId < $keep) {
-		    return 0;
+			return 0;
 		}
 
 		$query = $this->db->getQueryBuilder();

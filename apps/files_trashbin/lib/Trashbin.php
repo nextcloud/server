@@ -59,6 +59,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -993,7 +994,8 @@ class Trashbin {
 		$query = new CacheQueryBuilder(
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getSystemConfig(),
-			\OC::$server->get(LoggerInterface::class)
+			\OC::$server->get(LoggerInterface::class),
+			\OC::$server->get(IFilesMetadataManager::class),
 		);
 		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/'. $filename)), '/');
 		$parentId = $cache->getId($normalizedParentPath);

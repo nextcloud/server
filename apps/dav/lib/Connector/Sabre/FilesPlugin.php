@@ -7,6 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Jobst <mjobst+github@tecratech.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -34,23 +35,24 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
-use OC\Metadata\IMetadataManager;
+use OC\FilesMetadata\Model\MetadataValueWrapper;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
-use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
-use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -84,17 +86,8 @@ class FilesPlugin extends ServerPlugin {
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
-	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
-	public const FILE_METADATA_GPS = '{http://nextcloud.org/ns}file-metadata-gps';
-
-	public const ALL_METADATA_PROPS = [
-		self::FILE_METADATA_SIZE => 'size',
-		self::FILE_METADATA_GPS => 'gps',
-	];
-	public const METADATA_MIMETYPES = [
-		'size' => 'image',
-		'gps' => 'image',
-	];
+	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
+	public const HIDDEN_PROPERTYNAME = '{http://nextcloud.org/ns}hidden';
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -389,6 +382,17 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
+
+			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
+				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, $metadataValue);
+			}
+
+			$propFind->handle(self::HIDDEN_PROPERTYNAME, function () use ($node) {
+				$filesMetadataManager = \OCP\Server::get(IFilesMetadataManager::class);
+				$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
+				return $metadata->hasKey('files-live-photo') && $node->getFileInfo()->getMimetype() === 'video/quicktime' ? 'true' : 'false';
+			});
+
 			/**
 			 * Return file/folder name as displayname. The primary reason to
 			 * implement it this way is to avoid costly fallback to
@@ -427,31 +431,6 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
 			});
-
-			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
-				foreach (self::ALL_METADATA_PROPS as $prop => $meta) {
-					$propFind->handle($prop, function () use ($node, $meta) {
-						if ($node->getFileInfo()->getMimePart() !== self::METADATA_MIMETYPES[$meta]) {
-							return [];
-						}
-
-						if ($node->hasMetadata($meta)) {
-							$metadata = $node->getMetadata($meta);
-						} else {
-							// This code path should not be called since we try to preload
-							// the metadata when loading the folder or the search results
-							// in one go
-							$metadataManager = \OC::$server->get(IMetadataManager::class);
-							$metadata = $metadataManager->fetchMetadataFor($meta, [$node->getId()])[$node->getId()];
-
-							// TODO would be nice to display this in the profiler...
-							\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
-						}
-
-						return $metadata->getValue();
-					});
-				}
-			}
 		}
 
 		if ($node instanceof Directory) {
@@ -464,39 +443,6 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$requestProperties = $propFind->getRequestedProperties();
-
-			$requestedMetaData = [];
-			foreach ($requestProperties as $requestProperty) {
-				if (isset(self::ALL_METADATA_PROPS[$requestProperty])) {
-					$requestedMetaData[] = self::ALL_METADATA_PROPS[$requestProperty];
-				}
-			}
-			if (
-				$this->config->getSystemValueBool('enable_file_metadata', true) &&
-				$propFind->getDepth() === 1 &&
-				$requestedMetaData
-			) {
-				$children = $node->getChildren();
-				// Preloading of the metadata
-
-				/** @var IMetaDataManager $metadataManager */
-				$metadataManager = \OC::$server->get(IMetadataManager::class);
-
-				foreach ($requestedMetaData as $requestedMeta) {
-					$relevantMimeType = self::METADATA_MIMETYPES[$requestedMeta];
-					$childrenForMeta = array_filter($children, function (INode $child) use ($relevantMimeType) {
-						return $child instanceof File && $child->getFileInfo()->getMimePart() === $relevantMimeType;
-					});
-					$fileIds = array_map(function (File $child) {
-						return $child->getFileInfo()->getId();
-					}, $childrenForMeta);
-					$preloadedMetadata = $metadataManager->fetchMetadataFor($requestedMeta, $fileIds);
-
-					foreach ($childrenForMeta as $child) {
-						$child->setMetadata($requestedMeta, $preloadedMetadata[$child->getFileInfo()->getId()]);
-					}
-				}
-			}
 
 			if (in_array(self::SUBFILE_COUNT_PROPERTYNAME, $requestProperties, true)
 				|| in_array(self::SUBFOLDER_COUNT_PROPERTYNAME, $requestProperties, true)) {
@@ -583,6 +529,57 @@ class FilesPlugin extends ServerPlugin {
 			$node->setCreationTime((int) $time);
 			return true;
 		});
+
+
+		/** @var IFilesMetadataManager */
+		$filesMetadataManager = \OCP\Server::get(IFilesMetadataManager::class);
+		$knownMetadata = $filesMetadataManager->getKnownMetadata();
+
+		foreach ($propPatch->getRemainingMutations() as $mutation) {
+			if (!str_starts_with($mutation, self::FILE_METADATA_PREFIX)) {
+				continue;
+			}
+
+			$propPatch->handle($mutation, function (mixed $value) use ($knownMetadata, $node, $mutation, $filesMetadataManager): bool {
+				$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
+				$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
+
+				// If the metadata is unknown, it defaults to string.
+				try {
+					$type = $knownMetadata->getType($metadataKey);
+				} catch (FilesMetadataNotFoundException) {
+					$type = IMetadataValueWrapper::TYPE_STRING;
+				}
+
+				switch ($type) {
+					case IMetadataValueWrapper::TYPE_STRING:
+						$metadata->setString($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+						break;
+					case IMetadataValueWrapper::TYPE_INT:
+						$metadata->setInt($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+						break;
+					case IMetadataValueWrapper::TYPE_FLOAT:
+						$metadata->setFloat($metadataKey, $value);
+						break;
+					case IMetadataValueWrapper::TYPE_BOOL:
+						$metadata->setBool($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+						break;
+					case IMetadataValueWrapper::TYPE_ARRAY:
+						$metadata->setArray($metadataKey, $value);
+						break;
+					case IMetadataValueWrapper::TYPE_STRING_LIST:
+						$metadata->setStringList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+						break;
+					case IMetadataValueWrapper::TYPE_INT_LIST:
+						$metadata->setIntList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+						break;
+				}
+
+				$filesMetadataManager->saveMetadata($metadata);
+				return true;
+			});
+		}
+
 		/**
 		 * Disable modification of the displayname property for files and
 		 * folders via PROPPATCH. See PROPFIND for more information.

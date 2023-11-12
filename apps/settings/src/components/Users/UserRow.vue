@@ -288,6 +288,7 @@
 				:actions="userActions"
 				:disabled="isLoadingField"
 				:edit="editing"
+				:user="user"
 				@update:edit="toggleEdit" />
 		</td>
 	</tr>

@@ -226,6 +226,7 @@
     "_Restore share_::_Restore shares_" : ["استعادة المشاركات","استعادة المشاركة","استعادة المشاركات","استعادة المشاركات","استعادة المشاركات","إستعادة المشاركات"],
     "Shared" : "مُشارَكة",
     "Shared by {ownerDisplayName}" : "تمّت مشاركته من قِبَل {ownerDisplayName}",
+    "Show sharing options" : "أعرُض خيارات المشاركة",
     "Link to a file" : "رابط إلى ملف",
     "Error creating the share: {errorMessage}" : "خطأ في إنشاء المشاركة: {errorMessage}",
     "Error creating the share" : "خطأ في إنشاء المشاركة",

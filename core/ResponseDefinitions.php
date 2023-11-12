@@ -98,8 +98,12 @@ namespace OCA\Core;
  *
  * @psalm-type CoreUnifiedSearchProvider = array{
  *     id: string,
+ *     appId: string,
  *     name: string,
+ *     icon: string,
  *     order: int,
+ *     triggers: string[],
+ *     filters: array<string, string>,
  * }
  *
  * @psalm-type CoreUnifiedSearchResultEntry = array{

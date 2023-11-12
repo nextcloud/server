@@ -46,7 +46,7 @@ class CheckUserCertificates implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for old user imported certificate');
+		return $this->l10n->t('Old user imported certificates');
 	}
 
 	public function run(): SetupResult {

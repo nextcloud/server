@@ -202,6 +202,8 @@ class PredefinedStatusService {
 			self::REMOTE_WORK,
 			IUserStatus::MESSAGE_CALL,
 			IUserStatus::MESSAGE_AVAILABILITY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE,
 		], true);
 	}
 }

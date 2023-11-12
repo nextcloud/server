@@ -74,7 +74,12 @@
     "Reshare" : "Repartir",
     "Unlimited" : "Illimitat",
     "Verifying" : "Verificacion",
+    "Disabled" : "Desactivat",
+    "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Vòstre PHP prend pas en carga FreeType, çò que causa lo rompement dels imatges de perfil e de l’interfàcia de paramètres.",
+    "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP sembla corrèctament configurat per interpretar las variablas d’environament del sistèma. La pròva amb getenv(\"PATH\") a pas tornar una responda voida.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "La configuracion lectura-sola es estada activada. Aquò empacha de configurar d’unes paramètres via l’interfàcia web. Pasmens, òm deu far venir lo fichièr modificable manualament per cada mesa a jorn.",
+    "Architecture" : "Arquitectura",
+    "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Vòstra basa de donada s’executa pas amb la transaccion de nivèl d’isolacion « READ COMMITTED ». Aquò pòt causar problèmas quand mantuna accion s’executan en parallèl.",
     "Nextcloud settings" : "Paramètres Nextcloud",
     "None" : "Pas cap",
     "Two-Factor Authentication" : "Autentificacion dos factors",
@@ -204,7 +209,6 @@
     "Organisation" : "Organizacion",
     "Phone number" : "Numèro de telefòn",
     "Role" : "Ròtle",
-    "Twitter" : "Twitter",
     "Website" : "Site web",
     "Profile visibility" : "Visibilitat perfil",
     "Locale" : "Varianta lingüistica",
@@ -250,6 +254,7 @@
     "Enter group name" : "Picatz un nom de grop",
     "Add group" : "Apondre grop",
     "Show Languages" : "Veire las lengas",
+    "Twitter" : "Twitter",
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
