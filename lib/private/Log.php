@@ -344,7 +344,7 @@ class Log implements ILogger, IDataLogger {
 		unset($data['app']);
 		unset($data['level']);
 		$data = array_merge($serializer->serializeException($exception), $data);
-		$data = $this->interpolateMessage($data, $context['message'] ?? '--', 'CustomMessage');
+		$data = $this->interpolateMessage($data, isset($context['message']) && $context['message'] !== '' ? $context['message'] : ('Exception thrown: ' . get_class($exception)), 'CustomMessage');
 
 
 		array_walk($context, [$this->normalizer, 'format']);
