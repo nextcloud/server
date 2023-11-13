@@ -504,7 +504,6 @@ class StatusService {
 		if ($predefinedMessage !== null) {
 			$status->setCustomMessage($predefinedMessage['message']);
 			$status->setCustomIcon($predefinedMessage['icon']);
-			$status->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 		}
 	}
 
