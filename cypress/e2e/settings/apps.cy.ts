@@ -125,7 +125,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 
 	it('View app details', () => {
 		// When I click on the "QA testing" app
-		cy.get('#apps-list').contains('tr', 'QA testing').click({ force: true })
+		cy.get('#apps-list').contains('a', 'QA testing').click({ force: true })
 		// I see that the app details are shown
 		cy.get('#app-sidebar-vue')
 			.should('be.visible')
