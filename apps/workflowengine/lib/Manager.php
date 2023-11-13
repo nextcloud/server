@@ -333,7 +333,7 @@ class Manager implements IManager {
 			->where($qb->expr()->eq('s.type', $qb->createParameter('scope')));
 
 		if ($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
-			$qb->where($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
+			$qb->andWhere($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
 		}
 
 		$qb->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
