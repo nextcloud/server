@@ -15,169 +15,173 @@
 				<h1>{{ title }}</h1>
 			</span>
 		</div>
-		<div class="sharingTabDetailsView__quick-permissions">
-			<div>
-				<NcCheckboxRadioSwitch :button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="bundledPermissions.READ_ONLY.toString()"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
-					<ViewIcon :size="20" />
-					<span>{{ t('files_sharing', 'View only') }}</span>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="bundledPermissions.ALL.toString()"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
-					<EditIcon :size="20" />
-					<template v-if="allowsFileDrop">
-						<span>{{ t('files_sharing', 'Allow upload and editing') }}</span>
-					</template>
-					<template v-else>
-						<span>{{ t('files_sharing', 'Allow editing') }}</span>
-					</template>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="allowsFileDrop"
-					:button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="bundledPermissions.FILE_DROP.toString()"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
-					<UploadIcon :size="20" />
-					<span>{{ t('files_sharing', 'File drop') }}</span>
-					<small>{{ t('files_sharing', 'Upload only') }}</small>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="'custom'"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="expandCustomPermissions">
-					<DotsHorizontalIcon :size="20" />
-					<span>{{ t('files_sharing', 'Custom permissions') }}</span>
-					<small>{{ customPermissionsList }}</small>
-				</NcCheckboxRadioSwitch>
+		<div class="sharingTabDetailsView__wrapper">
+			<div class="sharingTabDetailsView__quick-permissions">
+				<div>
+					<NcCheckboxRadioSwitch :button-variant="true"
+						:checked.sync="sharingPermission"
+						:value="bundledPermissions.READ_ONLY.toString()"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="toggleCustomPermissions">
+						<ViewIcon :size="20" />
+						<span>{{ t('files_sharing', 'View only') }}</span>
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch :button-variant="true"
+						:checked.sync="sharingPermission"
+						:value="bundledPermissions.ALL.toString()"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="toggleCustomPermissions">
+						<EditIcon :size="20" />
+						<template v-if="allowsFileDrop">
+							<span>{{ t('files_sharing', 'Allow upload and editing') }}</span>
+						</template>
+						<template v-else>
+							<span>{{ t('files_sharing', 'Allow editing') }}</span>
+						</template>
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch v-if="allowsFileDrop"
+						:button-variant="true"
+						:checked.sync="sharingPermission"
+						:value="bundledPermissions.FILE_DROP.toString()"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="toggleCustomPermissions">
+						<UploadIcon :size="20" />
+						<span>{{ t('files_sharing', 'File drop') }}</span>
+						<small>{{ t('files_sharing', 'Upload only') }}</small>
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch :button-variant="true"
+						:checked.sync="sharingPermission"
+						:value="'custom'"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="expandCustomPermissions">
+						<DotsHorizontalIcon :size="20" />
+						<span>{{ t('files_sharing', 'Custom permissions') }}</span>
+						<small>{{ customPermissionsList }}</small>
+					</NcCheckboxRadioSwitch>
+				</div>
 			</div>
-		</div>
-		<div class="sharingTabDetailsView__advanced-control">
-			<NcButton type="tertiary"
-				alignment="end-reverse"
-				@click="advancedSectionAccordionExpanded = !advancedSectionAccordionExpanded">
-				{{ t('files_sharing', 'Advanced settings') }}
-				<template #icon>
-					<MenuDownIcon />
-				</template>
-			</NcButton>
-		</div>
-		<div v-if="advancedSectionAccordionExpanded" class="sharingTabDetailsView__advanced">
-			<section>
-				<NcInputField v-if="isPublicShare"
-					:value.sync="share.label"
-					type="text"
-					:label="t('files_sharing', 'Share label')" />
-				<template v-if="isPublicShare">
-					<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
-						{{ t('files_sharing', 'Set password') }}
-					</NcCheckboxRadioSwitch>
-					<NcInputField v-if="isPasswordProtected"
-						:type="hasUnsavedPassword ? 'text' : 'password'"
-						:value="hasUnsavedPassword ? share.newPassword : '***************'"
-						:error="passwordError"
-						:required="isPasswordEnforced"
-						:label="t('files_sharing', 'Password')"
-						@update:value="onPasswordChange" />
+			<div class="sharingTabDetailsView__advanced-control">
+				<NcButton type="tertiary"
+					alignment="end-reverse"
+					@click="advancedSectionAccordionExpanded = !advancedSectionAccordionExpanded">
+					{{ t('files_sharing', 'Advanced settings') }}
+					<template #icon>
+						<MenuDownIcon />
+					</template>
+				</NcButton>
+			</div>
+			<div v-if="advancedSectionAccordionExpanded" class="sharingTabDetailsView__advanced">
+				<section>
+					<NcInputField v-if="isPublicShare"
+						:value.sync="share.label"
+						type="text"
+						:label="t('files_sharing', 'Share label')" />
+					<template v-if="isPublicShare">
+						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
+							{{ t('files_sharing', 'Set password') }}
+						</NcCheckboxRadioSwitch>
+						<NcInputField v-if="isPasswordProtected"
+							:type="hasUnsavedPassword ? 'text' : 'password'"
+							:value="hasUnsavedPassword ? share.newPassword : '***************'"
+							:error="passwordError"
+							:required="isPasswordEnforced"
+							:label="t('files_sharing', 'Password')"
+							@update:value="onPasswordChange" />
 
-					<!-- Migrate icons and remote -> icon="icon-info"-->
-					<span v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
-						{{ t('files_sharing', 'Password expires {passwordExpirationTime}', { passwordExpirationTime }) }}
-					</span>
-					<span v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
-						{{ t('files_sharing', 'Password expired') }}
-					</span>
-				</template>
-				<NcCheckboxRadioSwitch :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
-					{{ isExpiryDateEnforced
-						? t('files_sharing', 'Expiration date (enforced)')
-						: t('files_sharing', 'Set expiration date') }}
-				</NcCheckboxRadioSwitch>
-				<NcDateTimePickerNative v-if="hasExpirationDate"
-					id="share-date-picker"
-					:value="new Date(share.expireDate ?? dateTomorrow)"
-					:min="dateTomorrow"
-					:max="maxExpirationDateEnforced"
-					:hide-label="true"
-					:placeholder="t('files_sharing', 'Expiration date')"
-					type="date"
-					@input="onExpirationChange" />
-				<NcCheckboxRadioSwitch v-if="isPublicShare"
-					:disabled="canChangeHideDownload"
-					:checked.sync="share.hideDownload"
-					@update:checked="queueUpdate('hideDownload')">
-					{{ t('files_sharing', 'Hide download') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
-					:checked.sync="isPasswordProtectedByTalk"
-					@update:checked="onPasswordProtectedByTalkChange">
-					{{ t('files_sharing', 'Video verification') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
-					{{ t('files_sharing', 'Allow download') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
-					{{ t('files_sharing', 'Note to recipient') }}
-				</NcCheckboxRadioSwitch>
-				<template v-if="writeNoteToRecipientIsChecked">
-					<label for="share-note-textarea">
-						{{ t('files_sharing', 'Enter a note for the share recipient') }}
-					</label>
-					<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
-				</template>
-				<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
-					{{ t('files_sharing', 'Custom permissions') }}
-				</NcCheckboxRadioSwitch>
-				<section v-if="setCustomPermissions" class="custom-permissions-group">
-					<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
-						:checked.sync="hasRead">
-						{{ t('files_sharing', 'Read') }}
+						<!-- Migrate icons and remote -> icon="icon-info"-->
+						<span v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
+							{{ t('files_sharing', 'Password expires {passwordExpirationTime}', { passwordExpirationTime }) }}
+						</span>
+						<span v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
+							{{ t('files_sharing', 'Password expired') }}
+						</span>
+					</template>
+					<NcCheckboxRadioSwitch :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
+						{{ isExpiryDateEnforced
+							? t('files_sharing', 'Expiration date (enforced)')
+							: t('files_sharing', 'Set expiration date') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
-						{{ t('files_sharing', 'Create') }}
+					<NcDateTimePickerNative v-if="hasExpirationDate"
+						id="share-date-picker"
+						:value="new Date(share.expireDate ?? dateTomorrow)"
+						:min="dateTomorrow"
+						:max="maxExpirationDateEnforced"
+						:hide-label="true"
+						:placeholder="t('files_sharing', 'Expiration date')"
+						type="date"
+						@input="onExpirationChange" />
+					<NcCheckboxRadioSwitch v-if="isPublicShare"
+						:disabled="canChangeHideDownload"
+						:checked.sync="share.hideDownload"
+						@update:checked="queueUpdate('hideDownload')">
+						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
-						{{ t('files_sharing', 'Edit') }}
+					<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
+						:checked.sync="isPasswordProtectedByTalk"
+						@update:checked="onPasswordProtectedByTalkChange">
+						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
-						:disabled="!canSetReshare"
-						:checked.sync="canReshare">
-						{{ t('files_sharing', 'Share') }}
+					<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
+						{{ t('files_sharing', 'Allow download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
-						{{ t('files_sharing', 'Delete') }}
+					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
+						{{ t('files_sharing', 'Note to recipient') }}
 					</NcCheckboxRadioSwitch>
+					<template v-if="writeNoteToRecipientIsChecked">
+						<label for="share-note-textarea">
+							{{ t('files_sharing', 'Enter a note for the share recipient') }}
+						</label>
+						<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
+					</template>
+					<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
+						{{ t('files_sharing', 'Custom permissions') }}
+					</NcCheckboxRadioSwitch>
+					<section v-if="setCustomPermissions" class="custom-permissions-group">
+						<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
+							:checked.sync="hasRead">
+							{{ t('files_sharing', 'Read') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
+							{{ t('files_sharing', 'Create') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
+							{{ t('files_sharing', 'Update') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
+							:disabled="!canSetReshare"
+							:checked.sync="canReshare">
+							{{ t('files_sharing', 'Share') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
+							{{ t('files_sharing', 'Delete') }}
+						</NcCheckboxRadioSwitch>
+					</section>
 				</section>
-			</section>
+			</div>
 		</div>
 
 		<div class="sharingTabDetailsView__footer">
-			<NcButton v-if="!isNewShare"
-				:aria-label="t('files_sharing', 'Delete share')"
-				:disabled="false"
-				:readonly="false"
-				type="tertiary"
-				@click.prevent="removeShare">
-				<template #icon>
-					<CloseIcon :size="16" />
-				</template>
-				{{ t('files_sharing', 'Delete share') }}
-			</NcButton>
+			<div class="sharingTabDetailsView__delete">
+				<NcButton v-if="!isNewShare"
+					:aria-label="t('files_sharing', 'Delete share')"
+					:disabled="false"
+					:readonly="false"
+					type="tertiary"
+					@click.prevent="removeShare">
+					<template #icon>
+						<CloseIcon :size="16" />
+					</template>
+					{{ t('files_sharing', 'Delete share') }}
+				</NcButton>
+			</div>
 			<div class="button-group">
 				<NcButton @click="$emit('close-sharing-details')">
 					{{ t('files_sharing', 'Cancel') }}
@@ -901,9 +905,11 @@ export default {
 .sharingTabDetailsView {
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
-	width: 96%;
+	width: 100%;
 	margin: 0 auto;
+	position: relative;
+	height: 100%;
+	overflow: hidden;
 
 	&__header {
 		display: flex;
@@ -923,10 +929,16 @@ export default {
 		}
 	}
 
+	&__wrapper {
+		overflow: scroll;
+		flex-shrink: 1;
+		padding: 4px;
+		padding-right: 12px;
+	}
+
 	&__quick-permissions {
 		display: flex;
 		justify-content: center;
-		margin-bottom: 0.2em;
 		width: 100%;
 		margin: 0 auto;
 		border-radius: 0;
@@ -995,6 +1007,7 @@ export default {
 
 			textarea {
 				height: 80px;
+				margin: 0;
 			}
 
 			/*
