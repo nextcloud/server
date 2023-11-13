@@ -146,7 +146,7 @@ class Imaginary extends ProviderV2 {
 					'timeout' => 120,
 					'connect_timeout' => 3,
 				]);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->logger->error('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);
