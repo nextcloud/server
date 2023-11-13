@@ -53,7 +53,7 @@
 
 		<OverlayIcon :is="fileOverlay"
 			v-if="fileOverlay"
-			class="files-list__row-icon-overlay" />
+			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
 	</span>
 </template>
 
