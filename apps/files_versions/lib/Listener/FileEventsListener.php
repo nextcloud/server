@@ -354,14 +354,20 @@ class FileEventsListener implements IEventListener {
 	 * If no user is connected, use the node's owner.
 	 */
 	private function getPathForNode(Node $node): ?string {
-		try {
+		$user = \OC_User::getUser();
+		$owner = $node->getOwner()?->getUid();
+
+		if (!empty($user)) {
 			return $this->rootFolder
-				->getUserFolder(\OC_User::getUser())
-				->getRelativePath($node->getPath());
-		} catch (\Throwable $ex) {
-			return $this->rootFolder
-				->getUserFolder($node->getOwner()->getUid())
+				->getUserFolder($user)
 				->getRelativePath($node->getPath());
 		}
+		if (!empty($owner)) {
+			return $this->rootFolder
+				->getUserFolder($owner)
+				->getRelativePath($node->getPath());
+		}
+
+		return null;
 	}
 }
