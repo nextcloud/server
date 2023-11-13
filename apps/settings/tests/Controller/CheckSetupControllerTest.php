@@ -415,7 +415,6 @@ class CheckSetupControllerTest extends TestCase {
 				],
 				'cronErrors' => [],
 				'isUsedTlsLibOutdated' => '',
-				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,

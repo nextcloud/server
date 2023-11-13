@@ -225,7 +225,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -279,7 +278,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -333,7 +331,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -387,7 +384,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -439,7 +435,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -482,59 +477,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if the forwarded for headers are not working', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: false,
-					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">documentation ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if set_time_limit is unavailable', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -546,7 +488,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
@@ -599,7 +540,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
@@ -684,7 +624,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -743,7 +682,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
@@ -795,7 +733,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -851,7 +788,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -904,7 +840,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -954,7 +889,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -1007,7 +941,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -1060,7 +993,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -1112,7 +1044,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
@@ -1171,7 +1102,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
-					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
