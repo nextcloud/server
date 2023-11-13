@@ -204,87 +204,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->dirsToRemove = [];
 	}
 
-	/**
-	 * @dataProvider dataForwardedForHeadersWorking
-	 *
-	 * @param array $trustedProxies
-	 * @param string $remoteAddrNotForwarded
-	 * @param string $remoteAddr
-	 * @param bool $result
-	 */
-	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn($trustedProxies);
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', $remoteAddrNotForwarded],
-				['X-Forwarded-Host', '']
-			]);
-		$this->request->expects($this->any())
-			->method('getRemoteAddress')
-			->willReturn($remoteAddr);
-
-		$this->assertEquals(
-			$result,
-			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
-		);
-	}
-
-	public function dataForwardedForHeadersWorking(): array {
-		return [
-			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
-			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', true],
-			'trusted proxy, remote addr not trusted proxy' => [['1.1.1.1'], '2.2.2.2', '2.2.2.2', true],
-			'trusted proxy, remote addr is trusted proxy, x-forwarded-for working' => [['1.1.1.1'], '1.1.1.1', '2.2.2.2', true],
-			'trusted proxy, remote addr is trusted proxy, x-forwarded-for not set' => [['1.1.1.1'], '1.1.1.1', '1.1.1.1', false],
-		];
-	}
-
-	public function testForwardedHostPresentButTrustedProxiesNotAnArray(): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn('1.1.1.1');
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', '1.1.1.1'],
-				['X-Forwarded-Host', 'nextcloud.test']
-			]);
-		$this->request->expects($this->any())
-			->method('getRemoteAddress')
-			->willReturn('1.1.1.1');
-
-		$this->assertEquals(
-			false,
-			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
-		);
-	}
-
-	public function testForwardedHostPresentButTrustedProxiesEmpty(): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn([]);
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', '1.1.1.1'],
-				['X-Forwarded-Host', 'nextcloud.test']
-			]);
-		$this->request->expects($this->any())
-			->method('getRemoteAddress')
-			->willReturn('1.1.1.1');
-
-		$this->assertEquals(
-			false,
-			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
-		);
-	}
-
 	public function testCheck() {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -302,13 +221,8 @@ class CheckSetupControllerTest extends TestCase {
 				['appstoreenabled', true, false],
 			]);
 
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', '4.3.2.1'],
-				['X-Forwarded-Host', '']
-			]);
-
+		$this->request->expects($this->never())
+			->method('getHeader');
 		$this->clientService->expects($this->never())
 			->method('newClient');
 		$this->checkSetupController
