@@ -21,7 +21,9 @@
 -->
 
 <template>
-	<NcPopover :shown="opened">
+	<NcPopover :shown="opened"
+		@show="opened = true"
+		@hide="opened = false">
 		<template #trigger>
 			<slot name="trigger" />
 		</template>
