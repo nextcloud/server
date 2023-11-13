@@ -27,11 +27,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Service;
 
 use InvalidArgumentException;
+use OCA\DAV\BackgroundJob\OutOfOfficeEventDispatcherJob;
+use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IUserManager;
+use OCP\IUser;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
@@ -40,7 +43,8 @@ class AbsenceService {
 	public function __construct(
 		private AbsenceMapper $absenceMapper,
 		private IEventDispatcher $eventDispatcher,
-		private IUserManager $userManager,
+		private IJobList $jobList,
+		private TimezoneService $timezoneService,
 	) {
 	}
 
@@ -52,61 +56,76 @@ class AbsenceService {
 	 * @throws InvalidArgumentException If no user with the given user id exists.
 	 */
 	public function createOrUpdateAbsence(
-		string $userId,
+		IUser $user,
 		string $firstDay,
 		string $lastDay,
 		string $status,
 		string $message,
 	): Absence {
 		try {
-			$absence = $this->absenceMapper->findByUserId($userId);
+			$absence = $this->absenceMapper->findByUserId($user->getUID());
 		} catch (DoesNotExistException) {
 			$absence = new Absence();
 		}
 
-		$absence->setUserId($userId);
+		$absence->setUserId($user->getUID());
 		$absence->setFirstDay($firstDay);
 		$absence->setLastDay($lastDay);
 		$absence->setStatus($status);
 		$absence->setMessage($message);
 
-		// TODO: this method should probably just take a IUser instance
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			throw new InvalidArgumentException("User $userId does not exist");
-		}
-
 		if ($absence->getId() === null) {
-			$persistedAbsence = $this->absenceMapper->insert($absence);
-			$this->eventDispatcher->dispatchTyped(new OutOfOfficeScheduledEvent(
-				$persistedAbsence->toOutOufOfficeData($user)
-			));
-			return $persistedAbsence;
+			$absence = $this->absenceMapper->insert($absence);
+			$eventData = $absence->toOutOufOfficeData(
+				$user,
+				$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
+			);
+			$this->eventDispatcher->dispatchTyped(new OutOfOfficeScheduledEvent($eventData));
+		} else {
+			$absence = $this->absenceMapper->update($absence);
+			$eventData = $absence->toOutOufOfficeData(
+				$user,
+				$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
+			);
+			$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent($eventData));
 		}
 
-		$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent(
-			$absence->toOutOufOfficeData($user)
-		));
-		return $this->absenceMapper->update($absence);
+		$this->jobList->scheduleAfter(
+			OutOfOfficeEventDispatcherJob::class,
+			$eventData->getStartDate(),
+			[
+				'id' => $absence->getId(),
+				'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+			],
+		);
+		$this->jobList->scheduleAfter(
+			OutOfOfficeEventDispatcherJob::class,
+			$eventData->getEndDate(),
+			[
+				'id' => $absence->getId(),
+				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+			],
+		);
+
+		return $absence;
 	}
 
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function clearAbsence(string $userId): void {
+	public function clearAbsence(IUser $user): void {
 		try {
-			$absence = $this->absenceMapper->findByUserId($userId);
+			$absence = $this->absenceMapper->findByUserId($user->getUID());
 		} catch (DoesNotExistException $e) {
 			// Nothing to clear
 			return;
 		}
 		$this->absenceMapper->delete($absence);
-		// TODO: this method should probably just take a IUser instance
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			throw new InvalidArgumentException("User $userId does not exist");
-		}
-		$eventData = $absence->toOutOufOfficeData($user);
+		$this->jobList->remove(OutOfOfficeEventDispatcherJob::class);
+		$eventData = $absence->toOutOufOfficeData(
+			$user,
+			$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
+		);
 		$this->eventDispatcher->dispatchTyped(new OutOfOfficeClearedEvent($eventData));
 	}
 }

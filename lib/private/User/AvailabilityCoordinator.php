@@ -28,6 +28,7 @@ namespace OC\User;
 
 use JsonException;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\ICache;
@@ -46,6 +47,7 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 		private AbsenceMapper $absenceMapper,
 		private IConfig $config,
 		private LoggerInterface $logger,
+		private TimezoneService $timezoneService,
 	) {
 		$this->cache = $cacheFactory->createLocal('OutOfOfficeData');
 	}
@@ -115,7 +117,10 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 			return null;
 		}
 
-		$data = $absenceData->toOutOufOfficeData($user);
+		$data = $absenceData->toOutOufOfficeData(
+			$user,
+			$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
+		);
 		$this->setCachedOutOfOfficeData($data);
 		return $data;
 	}
