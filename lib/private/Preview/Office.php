@@ -33,7 +33,6 @@ use OCP\Files\FileInfo;
 use OCP\IImage;
 use OCP\ITempManager;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
 
 abstract class Office extends ProviderV2 {
 	/**
@@ -93,30 +92,18 @@ abstract class Office extends ProviderV2 {
 			return null;
 		}
 
-		try {
-			$filename = $outdir . pathinfo($absPath, PATHINFO_FILENAME) . '.png';
-
-			$png = new \Imagick($filename . '[0]');
-			$png->setImageFormat('jpg');
-		} catch (\Exception $e) {
-			$this->cleanTmpFiles();
-			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
-				'exception' => $e,
-				'app' => 'core',
-			]);
-			return null;
-		}
+		$preview = $outdir . pathinfo($absPath, PATHINFO_FILENAME) . '.png';
 
 		$image = new \OCP\Image();
-		$image->loadFromData((string) $png);
+		$image->loadFromFile($preview);
 
 		$this->cleanTmpFiles();
 
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);
-
 			return $image;
 		}
+
 		return null;
 	}
 }
