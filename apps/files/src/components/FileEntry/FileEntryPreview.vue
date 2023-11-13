@@ -217,11 +217,11 @@ export default Vue.extend({
 
 	methods: {
 		reset() {
-			// Reset background state
-			this.backgroundFailed = undefined
-			if (this.$refs.previewImg) {
+			if (this.backgroundFailed === true && this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
+			// Reset background state
+			this.backgroundFailed = undefined
 		},
 
 		t,
