@@ -35,11 +35,12 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class AvailabilitySettingsController extends Controller {
 	public function __construct(
 		IRequest $request,
-		private ?string $userId,
+		private ?IUserSession $userSession,
 		private AbsenceService $absenceService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
@@ -56,8 +57,8 @@ class AvailabilitySettingsController extends Controller {
 		string $status,
 		string $message,
 	): Response {
-		$userId = $this->userId;
-		if ($userId === null) {
+		$user = $this->userSession?->getUser();
+		if ($user === null) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -68,7 +69,7 @@ class AvailabilitySettingsController extends Controller {
 		}
 
 		$absence = $this->absenceService->createOrUpdateAbsence(
-			$userId,
+			$user,
 			$firstDay,
 			$lastDay,
 			$status,
@@ -82,12 +83,12 @@ class AvailabilitySettingsController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function clearAbsence(): Response {
-		$userId = $this->userId;
-		if ($userId === null) {
+		$user = $this->userSession?->getUser();
+		if ($user === null) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$this->absenceService->clearAbsence($userId);
+		$this->absenceService->clearAbsence($user);
 		return new JSONResponse([]);
 	}
 
