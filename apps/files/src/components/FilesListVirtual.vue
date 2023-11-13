@@ -519,16 +519,11 @@ export default Vue.extend({
 				// better alignment with the folder icon
 				margin-top: 2px;
 
-				svg {
+				// Improve icon contrast with a background for files
+				&--file {
+					color: var(--color-main-text);
+					background: var(--color-main-background);
 					border-radius: 100%;
-
-					// Sow a border around the icon for better contrast
-					path {
-						stroke: var(--color-main-background);
-						stroke-width: 8px;
-						stroke-linejoin: round;
-						paint-order: stroke;
-					}
 				}
 			}
 		}
