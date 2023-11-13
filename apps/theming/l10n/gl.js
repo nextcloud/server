@@ -86,6 +86,7 @@ OC.L10N.register(
     "Select background" : "Seleccione o fondo",
     "No background has been selected" : "Non foi seleccionado ningún fondo",
     "Theme selection is enforced" : "Imponse a selección de temas",
+    "Navigation bar settings" : "Axustes da barra de navegación",
     "Default app" : "Aplicación predeterminada",
     "Select a custom color" : "Seleccione unha cor personalizada",
     "Reset to default" : "Restabelecer os valores predeterminados",
