@@ -147,6 +147,7 @@ namespace OCA\Core;
  *     input: string,
  *     output: ?string,
  *     identifier: string,
+ *     completionExpectedAt: ?int
  * }
  *
  * @psalm-type CoreTextToImageTask = array{

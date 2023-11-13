@@ -52,6 +52,7 @@ class StatusServiceTest extends TestCase {
 	private InvitationResponseServer|MockObject $server;
 	private IL10N|MockObject $l10n;
 	private FreeBusyGenerator|MockObject $generator;
+	private StatusService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
