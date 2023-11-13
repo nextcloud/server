@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div :class="{ 'icon-loading': loading }">
+	<div class="sharingTab" :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
@@ -87,13 +87,11 @@
 		</template>
 
 		<!-- share details -->
-		<div v-else>
-			<SharingDetailsTab :file-info="shareDetailsData.fileInfo"
-				:share="shareDetailsData.share"
-				@close-sharing-details="toggleShareDetailsView"
-				@add:share="addShare"
-				@remove:share="removeShare" />
-		</div>
+		<SharingDetailsTab v-else :file-info="shareDetailsData.fileInfo"
+			:share="shareDetailsData.share"
+			@close-sharing-details="toggleShareDetailsView"
+			@add:share="addShare"
+			@remove:share="removeShare" />
 	</div>
 </template>
 
@@ -406,6 +404,9 @@ export default {
 }
 
 .sharingTab {
+	position: relative;
+	height: 100%;
+
 	&__content {
 		padding: 0 6px;
 	}
