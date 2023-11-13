@@ -23,7 +23,9 @@ declare(strict_types=1);
  *
  */
 
-namespace OCP\FilesMetadata\Model;
+namespace OCP\FilesMetadata;
+
+use OCP\FilesMetadata\Model\IFilesMetadata;
 
 /**
  * Model that help building queries with metadata and metadata indexes

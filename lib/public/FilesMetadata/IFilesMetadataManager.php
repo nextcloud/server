@@ -30,7 +30,6 @@ use OCP\Files\Node;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\Model\IFilesMetadata;
-use OCP\FilesMetadata\Model\IMetadataQuery;
 
 /**
  * Manager for FilesMetadata; manage files' metadata.

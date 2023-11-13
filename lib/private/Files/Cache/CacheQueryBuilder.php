@@ -30,7 +30,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\FilesMetadata\Model\IMetadataQuery;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 

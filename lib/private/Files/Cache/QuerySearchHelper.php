@@ -39,7 +39,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\FilesMetadata\Model\IMetadataQuery;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
