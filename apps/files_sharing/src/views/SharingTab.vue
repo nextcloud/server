@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div :class="{ 'icon-loading': loading }" style="height: 100%">
+	<div class="sharingTab" :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
@@ -405,6 +405,8 @@ export default {
 }
 
 .sharingTab {
+	height: 100%;
+
 	&__content {
 		padding: 0 6px;
 	}
