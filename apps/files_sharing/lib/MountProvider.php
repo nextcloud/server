@@ -37,6 +37,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
@@ -52,7 +53,8 @@ class MountProvider implements IMountProvider {
 		protected IManager $shareManager,
 		protected LoggerInterface $logger,
 		protected IEventDispatcher $eventDispatcher,
-		protected ICacheFactory $cacheFactory
+		protected ICacheFactory $cacheFactory,
+		protected IUserManager $userManager,
 	) {
 	}
 
@@ -97,9 +99,15 @@ class MountProvider implements IMountProvider {
 					continue;
 				}
 
-				$owner = $parentShare->getShareOwner();
-				if (!isset($ownerViews[$owner])) {
-					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
+				$ownerUid = $parentShare->getShareOwner();
+				$owner = $this->userManager->get($ownerUid);
+
+				if (!$owner || !$owner->isEnabled()) {
+					continue;
+				}
+
+				if (!isset($ownerViews[$ownerUid])) {
+					$ownerViews[$ownerUid] = new View('/' . $ownerUid . '/files');
 				}
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
@@ -110,7 +118,7 @@ class MountProvider implements IMountProvider {
 						'superShare' => $parentShare,
 						// children/component of the superShare
 						'groupedShares' => $share[1],
-						'ownerView' => $ownerViews[$owner],
+						'ownerView' => $ownerViews[$ownerUid],
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$loader,
