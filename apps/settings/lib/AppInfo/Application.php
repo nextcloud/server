@@ -50,6 +50,7 @@ use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\DatabaseHasMissingColumns;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
@@ -160,6 +161,7 @@ class Application extends App implements IBootstrap {
 		});
 		$context->registerSetupCheck(BruteForceThrottler::class);
 		$context->registerSetupCheck(CheckUserCertificates::class);
+		$context->registerSetupCheck(DatabaseHasMissingColumns::class);
 		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
 		$context->registerSetupCheck(EmailTestSuccessful::class);
 		$context->registerSetupCheck(FileLocking::class);

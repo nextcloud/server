@@ -339,7 +339,6 @@ class CheckSetupControllerTest extends TestCase {
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
 				'missingPrimaryKeys' => [],
-				'missingColumns' => [],
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
