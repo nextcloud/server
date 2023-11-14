@@ -226,6 +226,7 @@
     "_Restore share_::_Restore shares_" : ["共有を復元する"],
     "Shared" : "共有中",
     "Shared by {ownerDisplayName}" : "{ownerDisplayName} が共有済み",
+    "Show sharing options" : "共有オプションを表示",
     "Link to a file" : "ファイルへリンク",
     "Error creating the share: {errorMessage}" : "共有の作成中にエラーが発生しました: {errorMessage}",
     "Error creating the share" : "共有の作成中にエラーが発生しました",
