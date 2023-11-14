@@ -33,6 +33,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
 use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
@@ -110,7 +111,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 				'offset' => $query->getCursor(),
 				'since' => $query->getFilter('since'),
 				'until' => $query->getFilter('until'),
-				'person' => $query->getFilter('person'),
+				'person' => $this->getPersonDisplayName($query->getFilter('person')),
 				'company' => $query->getFilter('company'),
 			],
 		);
@@ -136,6 +137,13 @@ class ContactsSearchProvider implements IFilteringProvider {
 			$formattedResults,
 			$query->getCursor() + count($formattedResults)
 		);
+	}
+	private function getPersonDisplayName(?IFilter $person): ?string {
+		$user = $person?->get();
+		if ($user instanceof IUser) {
+			return $user->getDisplayName();
+		}
+		return null;
 	}
 
 	protected function getDavUrlForContact(

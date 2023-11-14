@@ -1118,6 +1118,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *   wildcard?: bool,
 	 *   since?: DateTimeFilter|null,
 	 *   until?: DateTimeFilter|null,
+	 *   person?: string
 	 * } $options
 	 * @return array
 	 */
@@ -1182,6 +1183,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query2->setFirstResult($options['offset']);
 		}
 
+		if (isset($options['person'])) {
+			$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($options['person']) . '%')));
+		}
 		if (isset($options['since']) || isset($options['until'])) {
 			$query2->join('cp', $this->dbCardsPropertiesTable, 'cp_bday', 'cp.cardid = cp_bday.cardid');
 			$query2->andWhere($query2->expr()->eq('cp_bday.name', $query2->createNamedParameter('BDAY')));
