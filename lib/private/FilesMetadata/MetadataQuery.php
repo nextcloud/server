@@ -104,7 +104,7 @@ class MetadataQuery implements IMetadataQuery {
 		$andX->add($expr->eq($this->getMetadataKeyField($metadataKey), $this->queryBuilder->createNamedParameter($metadataKey)));
 
 		if ($enforce) {
-			$this->queryBuilder->rightJoin(
+			$this->queryBuilder->innerJoin(
 				$this->fileTableAlias,
 				IndexRequestService::TABLE_METADATA_INDEX,
 				$aliasIndex,
@@ -125,7 +125,7 @@ class MetadataQuery implements IMetadataQuery {
 	/**
 	 * @throws FilesMetadataNotFoundException
 	 */
-	public function joinedTableAlias(string $metadataKey): string {
+	private function joinedTableAlias(string $metadataKey): string {
 		if (!array_key_exists($metadataKey, $this->knownJoinedIndex)) {
 			throw new FilesMetadataNotFoundException('table related to ' . $metadataKey . ' not initiated, you need to use leftJoin() first.');
 		}

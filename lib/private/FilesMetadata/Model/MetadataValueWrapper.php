@@ -39,6 +39,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	/** @var string|int|float|bool|array|string[]|int[] */
 	private mixed $value = null;
 	private bool $indexed = false;
+	private int $editPermission = self::EDIT_FORBIDDEN;
 
 	/**
 	 * @param string $type value type
@@ -372,6 +373,28 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	}
 
 	/**
+	 * @param int $permission edit permission
+	 *
+	 * @inheritDoc
+	 * @return self
+	 * @since 28.0.0
+	 */
+	public function setEditPermission(int $permission): self {
+		$this->editPermission = $permission;
+
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return int edit permission
+	 * @since 28.0.0
+	 */
+	public function getEditPermission(): int {
+		return $this->editPermission;
+	}
+
+	/**
 	 * @param array $data serialized version of the object
 	 *
 	 * @inheritDoc
@@ -383,7 +406,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 		$this->value = $data['value'] ?? null;
 		$this->type = $data['type'] ?? '';
 		$this->setIndexed($data['indexed'] ?? false);
-
+		$this->setEditPermission($data['editPermission'] ?? self::EDIT_FORBIDDEN);
 		return $this;
 	}
 
@@ -391,7 +414,8 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 		return [
 			'value' => ($emptyValues) ? null : $this->value,
 			'type' => $this->getType(),
-			'indexed' => $this->isIndexed()
+			'indexed' => $this->isIndexed(),
+			'editPermission' => $this->getEditPermission()
 		];
 	}
 }
