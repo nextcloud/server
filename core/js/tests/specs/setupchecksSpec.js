@@ -229,7 +229,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -281,7 +280,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -333,7 +331,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -385,7 +382,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -435,7 +431,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -488,7 +483,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: false,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -539,7 +533,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -621,7 +614,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -678,7 +670,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -728,7 +719,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -782,7 +772,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -833,7 +822,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -881,7 +869,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -932,7 +919,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -983,7 +969,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -1033,7 +1018,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
@@ -1090,7 +1074,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
 					missingPrimaryKeys: [],
 					cronErrors: [],
 					cronInfo: {
