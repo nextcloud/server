@@ -82,11 +82,8 @@
 </template>
 
 <script>
-import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import axios from '@nextcloud/axios'
+import { translate as t } from '@nextcloud/l10n'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 import VueObserveVisibility from 'vue-observe-visibility'
@@ -101,6 +98,7 @@ import Comment from '../components/Comment.vue'
 import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
 import cancelableRequest from '../utils/cancelableRequest.js'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
+import CommentView from '../mixins/CommentView'
 
 Vue.use(VTooltip)
 Vue.use(VueObserveVisibility)
@@ -109,7 +107,6 @@ export default {
 	name: 'Comments',
 
 	components: {
-		// Avatar,
 		Comment,
 		NcEmptyContent,
 		NcButton,
@@ -117,6 +114,8 @@ export default {
 		MessageReplyTextIcon,
 		AlertCircleOutlineIcon,
 	},
+
+	mixins: [CommentView],
 
 	data() {
 		return {
@@ -129,12 +128,6 @@ export default {
 			comments: [],
 
 			cancelRequest: () => {},
-
-			editorData: {
-				actorDisplayName: getCurrentUser().displayName,
-				actorId: getCurrentUser().uid,
-				key: 'editor',
-			},
 
 			Comment,
 			userData: {},
@@ -151,6 +144,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		async onVisibilityChange(isVisible) {
 			if (isVisible) {
 				try {
@@ -186,28 +181,6 @@ export default {
 				return
 			}
 			this.getComments()
-		},
-
-		/**
-		 * Make sure we have all mentions as Array of objects
-		 *
-		 * @param {any[]} mentions the mentions list
-		 * @return {Record<string, object>}
-		 */
-		genMentionsData(mentions) {
-			Object.values(mentions)
-				.flat()
-				.forEach(mention => {
-					this.userData[mention.mentionId] = {
-						// TODO: support groups
-						icon: 'icon-user',
-						id: mention.mentionId,
-						label: mention.mentionDisplayName,
-						source: 'users',
-						primary: getCurrentUser().uid === mention.mentionId,
-					}
-				})
-			return this.userData
 		},
 
 		/**
@@ -253,27 +226,6 @@ export default {
 			} finally {
 				this.loading = false
 			}
-		},
-
-		/**
-		 * Autocomplete @mentions
-		 *
-		 * @param {string} search the query
-		 * @param {Function} callback the callback to process the results with
-		 */
-		async autoComplete(search, callback) {
-			const results = await axios.get(generateOcsUrl('core/autocomplete/get'), {
-				params: {
-					search,
-					itemType: 'files',
-					itemId: this.ressourceId,
-					sorter: 'commenters|share-recipients',
-					limit: loadState('comments', 'maxAutoCompleteResults'),
-				},
-			})
-			// Save user data so it can be used by the editor to replace mentions
-			results.data.ocs.data.forEach(user => { this.userData[user.id] = user })
-			return callback(Object.values(this.userData))
 		},
 
 		/**
