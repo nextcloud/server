@@ -23,15 +23,16 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\FilesMetadata\Model;
+namespace OC\FilesMetadata;
 
+use OC\FilesMetadata\Model\FilesMetadata;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataTypeException;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
-use OCP\FilesMetadata\Model\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 
 /**
