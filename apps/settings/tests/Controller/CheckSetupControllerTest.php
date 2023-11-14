@@ -178,7 +178,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'getOpcacheSetupRecommendations',
-				'hasMissingPrimaryKeys',
 				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'getAppDirsWithDifferentOwner',
@@ -228,9 +227,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getOpcacheSetupRecommendations')
 			->willReturn(['recommendation1', 'recommendation2']);
-		$this->checkSetupController
-			->method('hasMissingPrimaryKeys')
-			->willReturn([]);
 		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);

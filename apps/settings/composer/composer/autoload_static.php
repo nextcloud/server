@@ -92,6 +92,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckUserCertificates.php',
         'OCA\\Settings\\SetupChecks\\DatabaseHasMissingColumns' => __DIR__ . '/..' . '/../lib/SetupChecks/DatabaseHasMissingColumns.php',
         'OCA\\Settings\\SetupChecks\\DatabaseHasMissingIndices' => __DIR__ . '/..' . '/../lib/SetupChecks/DatabaseHasMissingIndices.php',
+        'OCA\\Settings\\SetupChecks\\DatabaseHasMissingPrimaryKeys' => __DIR__ . '/..' . '/../lib/SetupChecks/DatabaseHasMissingPrimaryKeys.php',
         'OCA\\Settings\\SetupChecks\\DefaultPhoneRegionSet' => __DIR__ . '/..' . '/../lib/SetupChecks/DefaultPhoneRegionSet.php',
         'OCA\\Settings\\SetupChecks\\EmailTestSuccessful' => __DIR__ . '/..' . '/../lib/SetupChecks/EmailTestSuccessful.php',
         'OCA\\Settings\\SetupChecks\\FileLocking' => __DIR__ . '/..' . '/../lib/SetupChecks/FileLocking.php',

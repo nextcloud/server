@@ -77,6 +77,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => $baseDir . '/../lib/SetupChecks/CheckUserCertificates.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingColumns' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingColumns.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingIndices' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingIndices.php',
+    'OCA\\Settings\\SetupChecks\\DatabaseHasMissingPrimaryKeys' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingPrimaryKeys.php',
     'OCA\\Settings\\SetupChecks\\DefaultPhoneRegionSet' => $baseDir . '/../lib/SetupChecks/DefaultPhoneRegionSet.php',
     'OCA\\Settings\\SetupChecks\\EmailTestSuccessful' => $baseDir . '/../lib/SetupChecks/EmailTestSuccessful.php',
     'OCA\\Settings\\SetupChecks\\FileLocking' => $baseDir . '/../lib/SetupChecks/FileLocking.php',

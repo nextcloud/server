@@ -258,18 +258,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if (data.missingPrimaryKeys.length > 0) {
-						var listOfMissingPrimaryKeys = "";
-						data.missingPrimaryKeys.forEach(function(element){
-							listOfMissingPrimaryKeys += '<li>';
-							listOfMissingPrimaryKeys += t('core', 'Missing primary key on table "{tableName}".', element);
-							listOfMissingPrimaryKeys += '</li>';
-						});
-						messages.push({
-							msg: t('core', 'The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running "occ db:add-missing-primary-keys" those missing primary keys could be added manually while the instance keeps running.') + '<ul>' + listOfMissingPrimaryKeys + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if (!data.isImagickEnabled) {
 						messages.push({
 							msg: t(
