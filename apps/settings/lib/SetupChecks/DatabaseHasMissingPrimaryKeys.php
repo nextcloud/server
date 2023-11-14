@@ -62,7 +62,7 @@ class DatabaseHasMissingPrimaryKeys implements ISetupCheck {
 			foreach ($missingPrimaryKeys as $missingPrimaryKey) {
 				if ($schema->hasTable($missingPrimaryKey['tableName'])) {
 					$table = $schema->getTable($missingPrimaryKey['tableName']);
-					if (!$table->hasPrimaryKey()) {
+					if ($table->getPrimaryKey() === null) {
 						$primaryKeyInfo->addHintForMissingPrimaryKey($missingPrimaryKey['tableName']);
 					}
 				}
