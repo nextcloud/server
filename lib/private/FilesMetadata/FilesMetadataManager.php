@@ -213,7 +213,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param string $fileIdField alias of the field that contains file ids
 	 *
 	 * @inheritDoc
-	 * @return IMetadataQuery
+	 * @return IMetadataQuery|null
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
@@ -221,7 +221,11 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		IQueryBuilder $qb,
 		string $fileTableAlias,
 		string $fileIdField
-	): IMetadataQuery {
+	): ?IMetadataQuery {
+		// we don't want to join metadata table if never filled
+		if ($this->config->getAppValue('core', self::CONFIG_KEY, '') === '') {
+			return null;
+		}
 		return new MetadataQuery($qb, $this->getKnownMetadata(), $fileTableAlias, $fileIdField);
 	}
 

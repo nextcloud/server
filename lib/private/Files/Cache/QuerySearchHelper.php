@@ -67,6 +67,12 @@ class QuerySearchHelper {
 		);
 	}
 
+	/**
+	 * @param CacheQueryBuilder $query
+	 * @param ISearchQuery $searchQuery
+	 * @param array $caches
+	 * @param IMetadataQuery|null $metadataQuery
+	 */
 	protected function applySearchConstraints(
 		CacheQueryBuilder $query,
 		ISearchQuery $searchQuery,
@@ -189,7 +195,12 @@ class QuerySearchHelper {
 		$files = $result->fetchAll();
 
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
-			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
+			// migrate to null safe ...
+			if ($metadataQuery === null) {
+				$data['metadata'] = [];
+			} else {
+				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
+			}
 			return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
 		}, $files);
 
