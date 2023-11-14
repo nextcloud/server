@@ -30,6 +30,7 @@ use OCP\Files\Node;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\Model\IFilesMetadata;
+use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 
 /**
  * Manager for FilesMetadata; manage files' metadata.
@@ -133,7 +134,20 @@ interface IFilesMetadataManager {
 	 * @param string $key metadata key
 	 * @param string $type metadata type
 	 * @param bool $indexed TRUE if metadata can be search
+	 * @param int $editPermission remote edit permission via Webdav PROPPATCH
+	 *
+	 * @see IMetadataValueWrapper::TYPE_INT
+	 * @see IMetadataValueWrapper::TYPE_FLOAT
+	 * @see IMetadataValueWrapper::TYPE_BOOL
+	 * @see IMetadataValueWrapper::TYPE_ARRAY
+	 * @see IMetadataValueWrapper::TYPE_STRING_LIST
+	 * @see IMetadataValueWrapper::TYPE_INT_LIST
+	 * @see IMetadataValueWrapper::TYPE_STRING
+	 * @see IMetadataValueWrapper::EDIT_FORBIDDEN
+	 * @see IMetadataValueWrapper::EDIT_REQ_OWNERSHIP
+	 * @see IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION
+	 * @see IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION
 	 * @since 28.0.0
 	 */
-	public function initMetadata(string $key, string $type, bool $indexed): void;
+	public function initMetadata(string $key, string $type, bool $indexed, int $editPermission): void;
 }
