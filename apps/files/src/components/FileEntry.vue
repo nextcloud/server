@@ -83,7 +83,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime :timestamp="this.source.mtime" :ignore-seconds="true" />
+			<NcDateTime :timestamp="source.mtime" :ignore-seconds="true" />
 		</td>
 
 		<!-- View columns -->
