@@ -645,6 +645,15 @@
                         }
                     },
                     {
+                        "name": "isUserDefined",
+                        "in": "query",
+                        "description": "If the custom message was set by the user or an automation",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",

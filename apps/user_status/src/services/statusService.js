@@ -82,14 +82,16 @@ const setPredefinedMessage = async (messageId, clearAt = null) => {
  * @param {string} message The user-defined message
  * @param {string | null} statusIcon The user-defined icon
  * @param {number | null} clearAt When to automatically clean the status
+ * @param {boolean} isUserDefined Whether the message was set by a user or not
  * @return {Promise<void>}
  */
-const setCustomMessage = async (message, statusIcon = null, clearAt = null) => {
+const setCustomMessage = async (message, statusIcon = null, clearAt = null, isUserDefined = false) => {
 	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message/custom?format=json')
 	await HttpClient.put(url, {
 		message,
 		statusIcon,
 		clearAt,
+		isUserDefined,
 	})
 }
 

@@ -93,6 +93,9 @@ interface IUserStatus {
 	 */
 	public const MESSAGE_CALENDAR_BUSY_TENTATIVE = 'busy-tentative';
 
+	public const HOLIDAY_ICON = '🌴';
+	public const MEETING_ICON = '📅';
+
 	/**
 	 * Get the user this status is connected to
 	 *

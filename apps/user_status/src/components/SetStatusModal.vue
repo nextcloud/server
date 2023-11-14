@@ -198,6 +198,7 @@ export default {
 				message: this.message,
 				icon,
 				clearAt: this.clearAt,
+				isUserDefined: true,
 			})
 			this.$nextTick(() => {
 				this.$refs.customMessageInput.focus()
@@ -251,6 +252,7 @@ export default {
 						message: this.editedMessage,
 						icon: this.icon,
 						clearAt: this.clearAt,
+						isUserDefined: true,
 					})
 				}
 			} catch (err) {

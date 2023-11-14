@@ -48,4 +48,11 @@ interface IAvailabilityCoordinator {
 	 * @since 28.0.0
 	 */
 	public function getCurrentOutOfOfficeData(IUser $user): ?IOutOfOfficeData;
+
+	/**
+	 * Reset the absence cache to null
+	 *
+	 * @since 28.0.0
+	 */
+	public function clearCache(string $userId): void;
 }

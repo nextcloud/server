@@ -62,7 +62,6 @@ class UserLiveStatusListener implements IEventListener {
 			// Unrelated
 			return;
 		}
-
 		$user = $event->getUser();
 		try {
 			$userStatus = $this->statusService->findByUserId($user->getUID());
@@ -76,36 +75,8 @@ class UserLiveStatusListener implements IEventListener {
 
 		// If the status is user-defined and one of the persistent status, we
 		// will not override it.
-		if ($userStatus->getIsUserDefined() &&
-			\in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
-			return;
-		}
-
-		$needsUpdate = false;
-
-		// If the current status is older than 5 minutes,
-		// treat it as outdated and update
-		if ($userStatus->getStatusTimestamp() < ($this->timeFactory->getTime() - StatusService::INVALIDATE_STATUS_THRESHOLD)) {
-			$needsUpdate = true;
-		}
-
-		// If the emitted status is more important than the current status
-		// treat it as outdated and update
-		if (array_search($event->getStatus(), StatusService::PRIORITY_ORDERED_STATUSES) < array_search($userStatus->getStatus(), StatusService::PRIORITY_ORDERED_STATUSES)) {
-			$needsUpdate = true;
-		}
-
-		if ($needsUpdate) {
-			$userStatus->setStatus($event->getStatus());
-			$userStatus->setStatusTimestamp($event->getTimestamp());
-			$userStatus->setIsUserDefined(false);
-
-			if ($userStatus->getId() === null) {
-				$this->mapper->insert($userStatus);
-			} else {
-				$this->mapper->update($userStatus);
-			}
-		}
+		// The "online vs away" stuff will need to be reimplemented
+		// the Status Listerner should only update the status, but not touch the messages
 
 		$event->setUserStatus(new ConnectorUserStatus($userStatus));
 	}

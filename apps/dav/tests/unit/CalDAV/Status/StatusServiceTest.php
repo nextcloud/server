@@ -846,7 +846,7 @@ END:VCALENDAR');
 			->willReturn($result);
 
 		$status = $this->service->processCalendarAvailability($user, $availability->serialize());
-		$this->assertEquals(new Status(IUserStatus::ONLINE), $status);
+		$this->assertEquals(new Status(IUserStatus::ONLINE, IUserStatus::ONLINE), $status);
 	}
 
 	public function testAvailabilityAndSearchCalendarsStatusBusyNoFBType(): void {
@@ -970,7 +970,7 @@ END:VCALENDAR');
 			->willReturn($result);
 
 		$status = $this->service->processCalendarAvailability($user, $availability->serialize());
-		$this->assertEquals(new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY), $status);
+		$this->assertEquals(new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, customEmoji: IUserStatus::MEETING_ICON), $status);
 	}
 
 	public function testAvailabilityAndSearchCalendarsStatusBusy(): void {
@@ -1098,7 +1098,7 @@ END:VCALENDAR');
 			->willReturn('In a meeting');
 
 		$status = $this->service->processCalendarAvailability($user, $availability->serialize());
-		$this->assertEquals(new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, 'In a meeting'), $status);
+		$this->assertEquals(new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, 'In a meeting', customEmoji: IUserStatus::MEETING_ICON), $status);
 	}
 
 	public function testAvailabilityAndSearchCalendarsStatusBusyUnavailable(): void {

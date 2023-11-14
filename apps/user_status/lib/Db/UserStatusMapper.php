@@ -169,11 +169,11 @@ class UserStatusMapper extends QBMapper {
 	 * @param string $messageId
 	 * @return bool True if an entry was deleted
 	 */
-	public function deleteCurrentStatusToRestoreBackup(string $userId, string $messageId): bool {
+	public function deleteCurrentStatusToRestoreBackup(string $userId): bool {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($messageId)))
+//			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($messageId)))
 			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 		return $qb->executeStatement() > 0;
 	}

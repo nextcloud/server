@@ -28,9 +28,12 @@ namespace OCA\UserStatus\Tests\Service;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
+use OC\User\OutOfOfficeData;
 use OC\User\User;
 use OCA\DAV\CalDAV\Status\Status;
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
+use OCA\DAV\Db\Absence;
+use OCA\DAV\Service\AbsenceService;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -49,6 +52,7 @@ use OCP\IEmojiHelper;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IUserStatus;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -76,7 +80,14 @@ class StatusServiceTest extends TestCase {
 	/** @var CalendarStatusService|MockObject  */
 	private $calendarStatusService;
 
+	/** @var AbsenceService|MockObject */
+	private $availabilityCoordinator;
+
 	private StatusService $service;
+	/**
+	 * @var IUser|MockObject
+	 */
+	private MockObject|IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -87,6 +98,7 @@ class StatusServiceTest extends TestCase {
 		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->calendarStatusService = $this->createMock(CalendarStatusService::class);
+		$this->availabilityCoordinator = $this->createMock(IAvailabilityCoordinator::class);
 
 		$this->config = $this->createMock(IConfig::class);
 
@@ -103,7 +115,13 @@ class StatusServiceTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->calendarStatusService,
+			$this->availabilityCoordinator,
 		);
+
+		$this->user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'john.doe',
+			'getEMailAddress' => 'test@test.com',
+		]);
 	}
 
 	public function testFindAll(): void {
@@ -160,6 +178,7 @@ class StatusServiceTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->calendarStatusService,
+			$this->availabilityCoordinator,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -180,6 +199,7 @@ class StatusServiceTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->calendarStatusService,
+			$this->availabilityCoordinator,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -193,70 +213,6 @@ class StatusServiceTest extends TestCase {
 
 		$this->expectException(DoesNotExistException::class);
 		$this->service->findByUserId('john.doe');
-	}
-
-	public function testFindAllAddDefaultMessage(): void {
-		$status = new UserStatus();
-		$status->setMessageId('commuting');
-
-		$this->predefinedStatusService->expects($this->once())
-			->method('getDefaultStatusById')
-			->with('commuting')
-			->willReturn([
-				'id' => 'commuting',
-				'icon' => '🚌',
-				'message' => 'Commuting',
-				'clearAt' => [
-					'type' => 'period',
-					'time' => 1800,
-				],
-			]);
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('john.doe')
-			->willReturn($status);
-
-		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
-		$this->assertEquals('🚌', $status->getCustomIcon());
-		$this->assertEquals('Commuting', $status->getCustomMessage());
-	}
-
-	public function testFindAllClearStatus(): void {
-		$status = new UserStatus();
-		$status->setStatus('online');
-		$status->setStatusTimestamp(1000);
-		$status->setIsUserDefined(true);
-
-		$this->timeFactory->method('getTime')
-			->willReturn(2600);
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('john.doe')
-			->willReturn($status);
-
-		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
-		$this->assertEquals('offline', $status->getStatus());
-		$this->assertEquals(2600, $status->getStatusTimestamp());
-		$this->assertFalse($status->getIsUserDefined());
-	}
-
-	public function testFindAllClearMessage(): void {
-		$status = new UserStatus();
-		$status->setClearAt(50);
-		$status->setMessageId('commuting');
-		$status->setStatusTimestamp(60);
-
-		$this->timeFactory->method('getTime')
-			->willReturn(60);
-		$this->predefinedStatusService->expects($this->never())
-			->method('getDefaultStatusById');
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('john.doe')
-			->willReturn($status);
-		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
-		$this->assertNull($status->getClearAt());
-		$this->assertNull($status->getMessageId());
 	}
 
 	/**
@@ -420,7 +376,6 @@ class StatusServiceTest extends TestCase {
 			$userStatus->setUserId($userId);
 			$userStatus->setStatus('offline');
 			$userStatus->setStatusTimestamp(0);
-			$userStatus->setIsUserDefined(false);
 			$userStatus->setCustomIcon('😀');
 			$userStatus->setCustomMessage('Foo');
 
@@ -467,7 +422,7 @@ class StatusServiceTest extends TestCase {
 			$this->assertEquals('john.doe', $actual->getUserId());
 			$this->assertEquals('offline', $actual->getStatus());
 			$this->assertEquals(0, $actual->getStatusTimestamp());
-			$this->assertEquals(false, $actual->getIsUserDefined());
+			$this->assertEquals(true, $actual->getIsUserDefined());
 			$this->assertEquals($messageId, $actual->getMessageId());
 			$this->assertNull($actual->getCustomIcon());
 			$this->assertNull($actual->getCustomMessage());
@@ -840,31 +795,12 @@ class StatusServiceTest extends TestCase {
 		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
 	}
 
-	public function testCalendarAvailabilityNoUser(): void {
-		$userId = 'admin';
-
-		$this->userManager->expects(self::once())
-			->method('get')
-			->with($userId)
-			->willReturn(null);
-		$this->mapper->expects(self::never())
-			->method('getAvailabilityFromPropertiesTable');
-		$this->calendarStatusService->expects(self::never())
-			->method('processCalendarAvailability');
-
-		$this->service->getCalendarStatus($userId);
-	}
-
 	public function testCalendarAvailabilityNoVavailablility(): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'admin',
 			'getEMailAddress' => 'test@test.com',
 		]);
 
-		$this->userManager->expects(self::once())
-			->method('get')
-			->with($user->getUID())
-			->willReturn($user);
 		$this->mapper->expects(self::once())
 			->method('getAvailabilityFromPropertiesTable')
 			->willReturn('');
@@ -873,7 +809,7 @@ class StatusServiceTest extends TestCase {
 			->with($user, '')
 			->willReturn(null);
 
-		$this->service->getCalendarStatus($user->getUID());
+		$this->service->getCalendarStatus($user);
 	}
 
 	public function testCalendarAvailabilityVavailablilityAvailable(): void {
@@ -913,10 +849,6 @@ END:VAVAILABILITY
 END:VCALENDAR
 EOF;
 		$status = new Status(IUserStatus::AWAY);
-		$this->userManager->expects(self::once())
-			->method('get')
-			->with($user->getUID())
-			->willReturn($user);
 		$this->mapper->expects(self::once())
 			->method('getAvailabilityFromPropertiesTable')
 			->willReturn($vavailability);
@@ -925,7 +857,7 @@ EOF;
 			->with($user, $vavailability)
 			->willReturn($status);
 
-		$this->service->getCalendarStatus($user->getUID());
+		$this->service->getCalendarStatus($user);
 	}
 
 	public function testCalendarAvailabilityVavailablilityUpdate(): void {
@@ -964,10 +896,7 @@ END:AVAILABLE
 END:VAVAILABILITY
 END:VCALENDAR
 EOF;
-		$this->userManager->expects(self::once())
-			->method('get')
-			->with($user->getUID())
-			->willReturn($user);
+
 		$this->mapper->expects(self::once())
 			->method('getAvailabilityFromPropertiesTable')
 			->willReturn($vavailability);
@@ -976,188 +905,6 @@ EOF;
 			->with($user, $vavailability)
 			->willReturn($calDavStatus);
 
-		$this->service->getCalendarStatus($user->getUID());
-	}
-
-	public function testFindByUserIdUserDefinedAndPersistent(): void {
-		$status = new UserStatus();
-		$status->setIsUserDefined(true);
-		$status->setStatus(IUserStatus::DND);
-
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('admin')
-			->willReturn($status);
-		$this->mapper->expects(self::never())
-			->method('getAvailabilityFromPropertiesTable');
-		$this->calendarStatusService->expects(self::never())
-			->method('processCalendarAvailability');
-
-		$this->assertEquals($status, $this->service->findByUserId('admin'));
-	}
-
-	public function testFindByUserIdUserDefinedNoCalStatus(): void {
-		$user = $this->createConfiguredMock(IUser::class, [
-			'getUID' => 'admin',
-			'getEMailAddress' => 'test@test.com',
-		]);
-		$status = new UserStatus();
-		$status->setIsUserDefined(true);
-		$status->setStatus(IUserStatus::ONLINE);
-
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with($user->getUID())
-			->willReturn($status);
-		$this->userManager->expects(self::once())
-			->method('get')
-			->willReturn($user);
-		$this->mapper->expects(self::once())
-			->method('getAvailabilityFromPropertiesTable')
-			->willReturn('');
-		$this->calendarStatusService->expects(self::once())
-			->method('processCalendarAvailability')
-			->with($user, '')
-			->willReturn(null);
-
-		$this->assertEquals($status, $this->service->findByUserId('admin'));
-	}
-
-	public function testFindByUserIdUserDefinedCalStatusIdentical(): void {
-		$user = $this->createConfiguredMock(IUser::class, [
-			'getUID' => 'admin',
-			'getEMailAddress' => 'test@test.com',
-		]);
-		$calDavStatus = new Status(IUserStatus::ONLINE);
-		$userStatus = new UserStatus();
-		$userStatus->setStatus(IUserStatus::ONLINE);
-		$userStatus->setIsUserDefined(true);
-		$userStatus->setCustomMessage('Test');
-
-		$this->mapper->expects(self::once())
-			->method('findByUserId')
-			->with($user->getUID())
-			->willReturn($userStatus);
-		$this->userManager->expects(self::once())
-			->method('get')
-			->willReturn($user);
-		$this->mapper->expects(self::once())
-			->method('getAvailabilityFromPropertiesTable')
-			->willReturn('');
-		$this->calendarStatusService->expects(self::once())
-			->method('processCalendarAvailability')
-			->with($user, '')
-			->willReturn($calDavStatus);
-
-		$this->assertEquals($userStatus, $this->service->findByUserId('admin'));
-	}
-
-	public function testFindByUserIdUserDefinedCalStatusUpdate(): void {
-		$user = $this->createConfiguredMock(IUser::class, [
-			'getUID' => 'admin',
-			'getEMailAddress' => 'test@test.com',
-		]);
-		$calDavStatus = new Status(IUserStatus::BUSY, 'meeting', 'In a meeting');
-
-		$oldStatus = new UserStatus();
-		$oldStatus->setId(42);
-		$oldStatus->setUserId($user->getUID());
-		$oldStatus->setStatus(IUserStatus::ONLINE);
-		$oldStatus->setStatusTimestamp(0);
-		$oldStatus->setIsUserDefined(true);
-
-		$expected = new UserStatus();
-		$expected->setUserId($user->getUID());
-		$expected->setStatus(IUserStatus::BUSY);
-		$expected->setStatusTimestamp(0);
-		$expected->setIsUserDefined(true);
-		$expected->setIsBackup(false);
-
-		$this->mapper->expects(self::once())
-			->method('findByUserId')
-			->with($user->getUID())
-			->willReturn($oldStatus);
-		$this->userManager->expects(self::once())
-			->method('get')
-			->willReturn($user);
-		$this->mapper->expects(self::once())
-			->method('getAvailabilityFromPropertiesTable')
-			->willReturn('');
-		$this->mapper->expects(self::once())
-			->method('createBackupStatus')
-			->with($user->getUID())
-			->willReturn(true);
-		$this->calendarStatusService->expects(self::once())
-			->method('processCalendarAvailability')
-			->with($user, '')
-			->willReturn($calDavStatus);
-		$this->predefinedStatusService->expects(self::once())
-			->method('isValidId')
-			->with($calDavStatus->getMessage())
-			->willReturn(true);
-		$this->mapper->expects(self::once())
-			->method('insert')
-			->willReturn($expected);
-
-		$actual = $this->service->findByUserId('admin');
-		$this->assertEquals($expected->getStatus(), $actual->getStatus());
-		$this->assertEquals($expected->getCustomMessage(), $actual->getCustomMessage());
-	}
-
-	public function testFindByUserIdSystemDefined(): void {
-		$user = $this->createConfiguredMock(IUser::class, [
-			'getUID' => 'admin',
-			'getEMailAddress' => 'test@test.com',
-		]);
-		$status = new UserStatus();
-		$status->setIsUserDefined(false);
-		$status->setStatus(IUserStatus::ONLINE);
-
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with($user->getUID())
-			->willReturn($status);
-		$this->userManager->expects(self::once())
-			->method('get')
-			->willReturn($user);
-		$this->mapper->expects(self::once())
-			->method('getAvailabilityFromPropertiesTable')
-			->willReturn('');
-		$this->calendarStatusService->expects(self::once())
-			->method('processCalendarAvailability')
-			->with($user, '')
-			->willReturn(null);
-
-		$this->assertEquals($status, $this->service->findByUserId('admin'));
-	}
-
-	public function testSetStatusWithoutMessage(): void {
-		$this->predefinedStatusService->expects(self::once())
-			->method('isValidId')
-			->with(IUserStatus::MESSAGE_AVAILABILITY)
-			->willReturn(true);
-		$this->timeFactory
-			->method('getTime')
-			->willReturn(1234);
-		$status = new UserStatus();
-		$status->setUserId('admin');
-		$status->setStatusTimestamp(1234);
-		$status->setIsUserDefined(true);
-		$status->setStatus(IUserStatus::DND);
-		$status->setIsBackup(false);
-		$status->setMessageId(IUserStatus::MESSAGE_AVAILABILITY);
-		$this->mapper->expects(self::once())
-			->method('insert')
-			->with($this->equalTo($status))
-			->willReturnArgument(0);
-
-		$result = $this->service->setUserStatus(
-			'admin',
-			IUserStatus::DND,
-			IUserStatus::MESSAGE_AVAILABILITY,
-			true,
-		);
-
-		self::assertNotNull($result);
+		$this->service->getCalendarStatus($user);
 	}
 }

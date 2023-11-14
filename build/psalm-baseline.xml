@@ -759,11 +759,6 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
-  <file src="apps/dav/lib/Listener/UserPreferenceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
       <code>$arguments</code>

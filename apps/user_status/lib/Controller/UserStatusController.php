@@ -137,6 +137,7 @@ class UserStatusController extends OCSController {
 	 * @param string|null $statusIcon Icon of the status
 	 * @param string|null $message Message of the status
 	 * @param int|null $clearAt When the message should be cleared
+	 * @param bool $isUserDefined If the custom message was set by the user or an automation
 	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
 	 * @throws OCSBadRequestException The clearAt or icon is invalid or the message is too long
 	 *
@@ -144,10 +145,11 @@ class UserStatusController extends OCSController {
 	 */
 	public function setCustomMessage(?string $statusIcon,
 									 ?string $message,
-									 ?int $clearAt): DataResponse {
+									 ?int $clearAt,
+									 bool $isUserDefined = false): DataResponse {
 		try {
 			if (($message !== null && $message !== '') || ($clearAt !== null && $clearAt !== 0)) {
-				$status = $this->service->setCustomMessage($this->userId, $statusIcon, $message, $clearAt);
+				$status = $this->service->setCustomMessage($this->userId, $statusIcon, $message, $clearAt, $isUserDefined);
 			} else {
 				$this->service->clearMessage($this->userId);
 				$status = $this->service->findByUserId($this->userId);
@@ -192,7 +194,7 @@ class UserStatusController extends OCSController {
 	 * 200: Status reverted
 	 */
 	public function revertStatus(string $messageId): DataResponse {
-		$backupStatus = $this->service->revertUserStatus($this->userId, $messageId, true);
+		$backupStatus = $this->service->revertUserStatus($this->userId, true);
 		if ($backupStatus) {
 			return new DataResponse($this->formatStatus($backupStatus));
 		}

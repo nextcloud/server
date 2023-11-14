@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Service;
 
+use OC\User\AvailabilityCoordinator;
 use OCA\DAV\CalDAV\Status\Status as CalendarStatus;
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Db\UserStatus;
@@ -42,7 +43,9 @@ use OCP\Calendar\ISchedulingInformation;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IUserStatus;
 use function in_array;
 
@@ -91,7 +94,8 @@ class StatusService {
 								private IEmojiHelper $emojiHelper,
 								private IConfig $config,
 								private IUserManager $userManager,
-								private CalendarStatusService $calendarStatusService) {
+								private CalendarStatusService $calendarStatusService,
+								public IAvailabilityCoordinator $coordinator) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -139,36 +143,51 @@ class StatusService {
 	 * @throws DoesNotExistException
 	 */
 	public function findByUserId(string $userId): UserStatus {
+		// User definied status (but not message!) comes first.
+		// Automation will not set a user defined status
 		$userStatus = $this->mapper->findByUserId($userId);
-		// If the status is user-defined and one of the persistent status, we
-		// will not override it.
-		if ($userStatus->getIsUserDefined() && \in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
-			return $this->processStatus($userStatus);
+		// this is only true if the user has a '_' in front of their username
+		if($userStatus->getIsBackup()) {
+			return $userStatus;
 		}
 
-		$calendarStatus = $this->getCalendarStatus($userId);
-		// We found no status from the calendar, proceed with the existing status
+		$persistentStatus = null;
+		if($userStatus->getIsUserDefined() && \in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
+			// Don't change DND or others, so pass that on to the calendar automation if neccessary
+			$persistentStatus = $userStatus->getStatus();
+		}
+
+		$user = $this->userManager->get($userId);
+		if($user === null) {
+			throw new DoesNotExistException('Could not find user');
+		}
+
+		// It doesn't matter if we have calendar events if an absence is registered
+		// A user can be OOO while not having declined a calendar event during that time
+		$absenceStatus = $this->coordinator->getCurrentOutOfOfficeData($user);
+		if(!empty($absenceStatus)) {
+			$this->backupCurrentStatus($userId);
+			$this->setStatus($userId, IUserStatus::DND, $this->timeFactory->getTime(), false);
+			$status = $this->setCustomMessage($userId, IUserStatus::HOLIDAY_ICON, $absenceStatus->getShortMessage(), $absenceStatus->getEndDate());
+			return $this->processStatus($status);
+		}
+
+		$calendarStatus = $this->getCalendarStatus($user);
+		// We found no status from the calendar, try and restore the backup status
 		if($calendarStatus === null) {
-			return $this->processStatus($userStatus);
+			$backup = $this->revertUserStatus($userId);
+			return $this->processStatus($backup ?? $userStatus);
 		}
+		// This is a workaround
+		// We actually need to check if there's an existing backup of the
+		// calendar status.
+		// If there is, we have a more up- to- date userDefined status which should take precedence.
+		$this->backupCurrentStatus($userId);
+		// @todo - when a user has the option set to set the status to DND outside of office hours, we should respect that
+		$this->setStatus($userId, $persistentStatus ?? $calendarStatus->getStatus(), null, false);
+		$newUserStatus = $this->setCustomMessage($userId, $calendarStatus->getCustomEmoji() ?? $userStatus->getCustomIcon(), $calendarStatus->getCustomMessage() ?? $userStatus->getCustomMessage(), null);
 
-		// if we have the same status result for the calendar and the current status,
-		// and a custom message to boot, we leave the existing status alone
-		// as to not overwrite a custom message / emoji
-		if($userStatus->getIsUserDefined()
-			&& $calendarStatus->getStatus() === $userStatus->getStatus()
-			&& !empty($userStatus->getCustomMessage())) {
-			return $this->processStatus($userStatus);
-		}
-
-		// If the new status is null, there's already an identical status in place
-		$newUserStatus = $this->setUserStatus($userId,
-			$calendarStatus->getStatus(),
-			$calendarStatus->getMessage() ?? IUserStatus::MESSAGE_AVAILABILITY,
-			true,
-			$calendarStatus->getCustomMessage() ?? '');
-
-		return $newUserStatus === null ? $this->processStatus($userStatus) : $this->processStatus($newUserStatus);
+		return $this->processStatus($newUserStatus);
 	}
 
 	/**
@@ -205,8 +224,6 @@ class StatusService {
 			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
 		}
 
-
-
 		if ($statusTimestamp === null) {
 			$statusTimestamp = $this->timeFactory->getTime();
 		}
@@ -241,7 +258,7 @@ class StatusService {
 			$userStatus->setUserId($userId);
 			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
-			$userStatus->setIsUserDefined(false);
+			$userStatus->setIsUserDefined(true); // all predefined messages are by default set by the user
 			$userStatus->setIsBackup(false);
 		}
 
@@ -259,6 +276,7 @@ class StatusService {
 		$userStatus->setCustomMessage(null);
 		$userStatus->setClearAt($clearAt);
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
+		$userStatus->setIsUserDefined(true);
 
 		if ($userStatus->getId() === null) {
 			return $this->mapper->insert($userStatus);
@@ -333,6 +351,7 @@ class StatusService {
 	 * @param string|null $statusIcon
 	 * @param string|null $message
 	 * @param int|null $clearAt
+	 * @param bool $isUserDefined
 	 * @return UserStatus
 	 * @throws InvalidClearAtException
 	 * @throws InvalidStatusIconException
@@ -341,7 +360,8 @@ class StatusService {
 	public function setCustomMessage(string $userId,
 									 ?string $statusIcon,
 									 ?string $message,
-									 ?int $clearAt): UserStatus {
+									 ?int $clearAt,
+									bool $isUserDefined = false): UserStatus {
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
 		} catch (DoesNotExistException $ex) {
@@ -349,7 +369,7 @@ class StatusService {
 			$userStatus->setUserId($userId);
 			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
-			$userStatus->setIsUserDefined(false);
+			$userStatus->setIsUserDefined($isUserDefined);
 		}
 
 		// Check if statusIcon contains only one character
@@ -370,6 +390,7 @@ class StatusService {
 		$userStatus->setCustomMessage($message);
 		$userStatus->setClearAt($clearAt);
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
+		$userStatus->setIsUserDefined($isUserDefined);
 
 		if ($userStatus->getId() === null) {
 			return $this->mapper->insert($userStatus);
@@ -528,7 +549,7 @@ class StatusService {
 		}
 	}
 
-	public function revertUserStatus(string $userId, string $messageId, bool $revertedManually = false): ?UserStatus {
+	public function revertUserStatus(string $userId, bool $revertedManually = false): ?UserStatus {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
@@ -537,7 +558,7 @@ class StatusService {
 			return null;
 		}
 
-		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
+		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId);
 		if (!$deleted) {
 			// Another status is set automatically or no status, do nothing
 			return null;
@@ -608,14 +629,8 @@ class StatusService {
 	 * @param string $userId
 	 * @return CalendarStatus|null
 	 */
-	public function getCalendarStatus(string $userId): ?CalendarStatus {
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			return null;
-		}
-
-		$availability = $this->mapper->getAvailabilityFromPropertiesTable($userId);
-
+	public function getCalendarStatus(IUser $user): ?CalendarStatus {
+		$availability = $this->mapper->getAvailabilityFromPropertiesTable($user->getUID());
 		return $this->calendarStatusService->processCalendarAvailability($user, $availability);
 	}
 }

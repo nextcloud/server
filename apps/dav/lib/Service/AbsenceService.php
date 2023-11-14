@@ -27,20 +27,33 @@ declare(strict_types=1);
 namespace OCA\DAV\Service;
 
 use InvalidArgumentException;
+use OC\User\OutOfOfficeData;
+use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VTimeZone;
+use Sabre\VObject\Reader;
 
 class AbsenceService {
 	public function __construct(
 		private AbsenceMapper $absenceMapper,
 		private IEventDispatcher $eventDispatcher,
 		private IUserManager $userManager,
+		private ITimeFactory $timeFactory,
+		private IConfig $appConfig,
+		private IManager $calendarManager,
 	) {
 	}
 
@@ -78,14 +91,17 @@ class AbsenceService {
 
 		if ($absence->getId() === null) {
 			$persistedAbsence = $this->absenceMapper->insert($absence);
+			$timezone = $this->getAbsenceTimezone($userId);
 			$this->eventDispatcher->dispatchTyped(new OutOfOfficeScheduledEvent(
-				$persistedAbsence->toOutOufOfficeData($user)
+				$persistedAbsence->toOutOufOfficeData($user, $timezone)
 			));
 			return $persistedAbsence;
 		}
 
+		$timezone = $this->getAbsenceTimezone($userId);
+
 		$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent(
-			$absence->toOutOufOfficeData($user)
+			$absence->toOutOufOfficeData($user, $timezone)
 		));
 		return $this->absenceMapper->update($absence);
 	}
@@ -106,8 +122,74 @@ class AbsenceService {
 		if ($user === null) {
 			throw new InvalidArgumentException("User $userId does not exist");
 		}
-		$eventData = $absence->toOutOufOfficeData($user);
+		$timezone = $this->getAbsenceTimezone($userId);
+		$eventData = $absence->toOutOufOfficeData($user, $timezone);
 		$this->eventDispatcher->dispatchTyped(new OutOfOfficeClearedEvent($eventData));
+	}
+
+	public function getAbsence(string $userId): ?Absence {
+		try {
+			return $this->absenceMapper->findByUserId($userId);
+		} catch (DoesNotExistException $e) {
+			return null;
+		}
+	}
+
+	public function isInEffect(OutOfOfficeData $absence): bool {
+		$now = $this->timeFactory->getTime();
+		return $absence->getStartDate() <= $now && $absence->getEndDate() >= $now;
+	}
+
+	/**
+	 * Get a users calendar timezone or null if no calendar timezones exist
+	 *
+	 * @param string $userId
+	 * @return string|null
+	 */
+	public function getAbsenceTimezone(string $userId): ?string {
+		$availability = $this->absenceMapper->getAvailability($userId);
+		if(!empty($availability)) {
+			/** @var VCalendar $vCalendar */
+			$vCalendar = Reader::read($availability);
+			/** @var VTimeZone $vTimezone */
+			$vTimezone = $vCalendar->VTIMEZONE;
+			// Sabre has a fallback to date_default_timezone_get
+			return $vTimezone->getTimeZone()->getName();
+		}
+
+		$principal = 'principals/users/' . $userId;
+		$uri = $this->appConfig->getUserValue($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
+		$calendars = $this->calendarManager->getCalendarsForPrincipal($principal);
+
+		$tz = null;
+		$personal = array_filter($calendars, function (ICalendar $calendar) use ($uri) {
+			return $calendar->getUri() === $uri && $calendar->isDeleted() === false;
+		});
+
+		if(!empty($personal)) {
+			$personal = array_pop($personal);
+			$tz = $personal instanceof CalendarImpl ? $personal->getSchedulingTimezone() : null;
+		}
+
+		if($tz !== null) {
+			return $tz->getTimeZone()->getName();
+		}
+
+		// No timezone in the personal calendar or no personal calendar
+		// Loop through all calendars until we find a timezone.
+		/** @var CalendarImpl $calendar */
+		foreach ($calendars as $calendar) {
+			if($calendar->isDeleted() === true) {
+				continue;
+			}
+			$tz = $calendar->getSchedulingTimezone();
+			if($tz !== null) {
+				break;
+			}
+		}
+
+		return $tz?->getTimeZone()->getName();
+
 	}
 }
 

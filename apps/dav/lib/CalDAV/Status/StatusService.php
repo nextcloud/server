@@ -205,14 +205,16 @@ class StatusService {
 		// If there is no FreeBusy property, the time-range is empty and available
 		// so set the status to online as otherwise we will never recover from a BUSY status
 		if (count($freeBusyProperties) === 0) {
-			return new Status(IUserStatus::ONLINE);
+			return new Status(IUserStatus::ONLINE, IUserStatus::ONLINE);
 		}
 
 		/** @var Property $freeBusyProperty */
 		$freeBusyProperty = $freeBusyProperties[0];
 		if (!$freeBusyProperty->offsetExists('FBTYPE')) {
 			// If there is no FBTYPE, it means it's busy from a regular event
-			return new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			$status =  new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			$status->setCustomEmoji(IUserStatus::MEETING_ICON);
+			return $status;
 		}
 
 		// If we can't deal with the FBTYPE (custom properties are a possibility)
@@ -224,8 +226,11 @@ class StatusService {
 		$fbType = $fbTypeParameter->getValue();
 		switch ($fbType) {
 			case 'BUSY':
-				return new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, $this->l10n->t('In a meeting'));
+				$status = new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, $this->l10n->t('In a meeting'));
+				$status->setCustomEmoji(IUserStatus::MEETING_ICON);
+				return $status;
 			case 'BUSY-UNAVAILABLE':
+				// @todo - the user could also have set the option to set a DND status
 				return new Status(IUserStatus::AWAY, IUserStatus::MESSAGE_AVAILABILITY);
 			case 'BUSY-TENTATIVE':
 				return new Status(IUserStatus::AWAY, IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE);

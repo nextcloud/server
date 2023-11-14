@@ -30,6 +30,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\ServerFactory;
+use OCA\UserStatus\Service\StatusService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
@@ -37,6 +38,7 @@ use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
 use OCP\User\IOutOfOfficeData;
+use OCP\UserStatus\IUserStatus;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\VObject\Component\VCalendar;
@@ -52,9 +54,12 @@ use function rewind;
  * @template-implements IEventListener<OutOfOfficeScheduledEvent|OutOfOfficeChangedEvent|OutOfOfficeClearedEvent>
  */
 class OutOfOfficeListener implements IEventListener {
-	public function __construct(private ServerFactory $serverFactory,
-	private IConfig $appConfig,
-	private LoggerInterface $logger) {
+	public function __construct(
+		private ServerFactory $serverFactory,
+		private IConfig $appConfig,
+		private LoggerInterface $logger,
+		private StatusService $statusService,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -121,7 +126,10 @@ class OutOfOfficeListener implements IEventListener {
 				$oldEvent->delete();
 			} catch (NotFound) {
 				// The user must have deleted it or the default calendar changed -> ignore
+				return;
 			}
+
+			$this->statusService->revertUserStatus($userId);
 		}
 	}
 

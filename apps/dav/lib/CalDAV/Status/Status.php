@@ -26,8 +26,7 @@
 namespace OCA\DAV\CalDAV\Status;
 
 class Status {
-
-	public function __construct(private string $status = '', private ?string $message = null, private ?string $customMessage = null){}
+	public function __construct(private string $status = '', private ?string $message = null, private ?string $customMessage = null, private ?int $timestamp = null, private ?string $customEmoji = null){}
 
 	public function getStatus(): string {
 		return $this->status;
@@ -53,5 +52,19 @@ class Status {
 		$this->customMessage = $customMessage;
 	}
 
+	public function setEndTime(?int $timestamp): void {
+		$this->timestamp = $timestamp;
+	}
 
+	public function getEndTime(): ?int {
+		return $this->timestamp;
+	}
+
+	public function getCustomEmoji(): ?string {
+		return $this->customEmoji;
+	}
+
+	public function setCustomEmoji(?string $emoji): void {
+		$this->customEmoji = $emoji;
+	}
 }

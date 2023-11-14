@@ -28,6 +28,7 @@ namespace OCA\UserStatus\Connector;
 use OCA\UserStatus\Service\StatusService;
 use OCP\UserStatus\IProvider;
 use OC\UserStatus\ISettableProvider;
+use OCP\UserStatus\IUserStatus;
 
 class UserStatusProvider implements IProvider, ISettableProvider {
 
@@ -58,11 +59,18 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 	}
 
 	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup): void {
-		$this->service->setUserStatus($userId, $status, $messageId, $createBackup);
+		// setUserStatus will always set isUserDefined to true, which is not what we want.
+		// Don't touch the "In a call" logic as that will only explode in our faces
+		if($messageId === IUserStatus::MESSAGE_CALL) {
+			$this->service->setUserStatus($userId, $status, $messageId, $createBackup);
+			return;
+		}
+		$this->service->setStatus($userId, $status, null, false);
+		$this->service->setCustomMessage($userId, '', $messageId, null);
 	}
 
-	public function revertUserStatus(string $userId, string $messageId, string $status): void {
-		$this->service->revertUserStatus($userId, $messageId);
+	public function revertUserStatus(string $userId, string $status): void {
+		$this->service->revertUserStatus($userId);
 	}
 
 	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {

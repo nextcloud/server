@@ -43,6 +43,8 @@ const state = {
 	icon: null,
 	// When to automatically clean the status
 	clearAt: null,
+	// is the status user defined
+	isUserDefined: false,
 	// Whether the message is predefined
 	// (and can automatically be translated by Nextcloud)
 	messageIsPredefined: null,
@@ -92,13 +94,14 @@ const mutations = {
 	 * @param {string} data.icon The icon
 	 * @param {number} data.clearAt When to automatically clear the status
 	 */
-	setCustomMessage(state, { message, icon, clearAt }) {
+	setCustomMessage(state, { message, icon, clearAt, isUserDefined = false }) {
 		state.messageId = null
 		state.messageIsPredefined = false
 
 		state.message = message
 		state.icon = icon
 		state.clearAt = clearAt
+		state.isUserDefined = isUserDefined
 	},
 
 	/**
@@ -232,10 +235,10 @@ const actions = {
 	 * @param {object | null} data.clearAt When to automatically clear the status
 	 * @return {Promise<void>}
 	 */
-	async setCustomMessage({ commit, state }, { message, icon, clearAt }) {
+	async setCustomMessage({ commit, state }, { message, icon, clearAt, isUserDefined = false }) {
 		const resolvedClearAt = getTimestampForClearAt(clearAt)
 
-		await setCustomMessage(message, icon, resolvedClearAt)
+		await setCustomMessage(message, icon, resolvedClearAt, isUserDefined)
 		commit('setCustomMessage', { message, icon, clearAt: resolvedClearAt })
 		emit('user_status:status.updated', {
 			status: state.status,

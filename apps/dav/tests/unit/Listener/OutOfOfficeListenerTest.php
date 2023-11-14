@@ -33,6 +33,7 @@ use OCA\DAV\CalDAV\Plugin;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Listener\OutOfOfficeListener;
 use OCA\DAV\ServerFactory;
+use OCA\UserStatus\Service\StatusService;
 use OCP\EventDispatcher\Event;
 use OCP\IConfig;
 use OCP\IUser;
@@ -55,6 +56,7 @@ class OutOfOfficeListenerTest extends TestCase {
 	private IConfig|MockObject $appConfig;
 	private LoggerInterface|MockObject $loggerInterface;
 	private OutOfOfficeListener $listener;
+	private StatusService|MockObject $statusService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,11 +64,13 @@ class OutOfOfficeListenerTest extends TestCase {
 		$this->serverFactory = $this->createMock(ServerFactory::class);
 		$this->appConfig = $this->createMock(IConfig::class);
 		$this->loggerInterface = $this->createMock(LoggerInterface::class);
+		$this->statusService = $this->createMock(StatusService::class);
 
 		$this->listener = new OutOfOfficeListener(
 			$this->serverFactory,
 			$this->appConfig,
 			$this->loggerInterface,
+			$this->statusService,
 		);
 	}
 
@@ -389,6 +393,8 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getPlugin')
 			->with('caldav')
 			->willReturn($caldavPlugin);
+		$this->statusService->expects(self::never())
+			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -417,6 +423,8 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getNodeForPath')
 			->with('/home/calendar')
 			->willThrowException(new NotFound('nope'));
+		$this->statusService->expects(self::never())
+			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -454,6 +462,8 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getChild')
 			->with('personal-1')
 			->willThrowException(new NotFound('nope'));
+		$this->statusService->expects(self::never())
+			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -495,6 +505,8 @@ class OutOfOfficeListenerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('getChild')
 			->willThrowException(new NotFound());
+		$this->statusService->expects(self::never())
+			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -539,6 +551,8 @@ class OutOfOfficeListenerTest extends TestCase {
 			->willReturn($eventNode);
 		$eventNode->expects(self::once())
 			->method('delete');
+		$this->statusService->expects(self::once())
+			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
