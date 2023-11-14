@@ -329,8 +329,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isSettimelimitAvailable' => true,
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
-				'missingIndexes' => [],
-				'missingPrimaryKeys' => [],
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
