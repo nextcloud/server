@@ -51,7 +51,6 @@ use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
-use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OCP\App\IAppManager;
@@ -60,7 +59,6 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
@@ -415,28 +413,6 @@ Raw output
 		return $recommendations;
 	}
 
-	protected function hasMissingPrimaryKeys(): array {
-		$info = new MissingPrimaryKeyInformation();
-		// Dispatch event so apps can also hint for pending key updates if needed
-		$event = new AddMissingPrimaryKeyEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingKeys = $event->getMissingPrimaryKeys();
-
-		if (!empty($missingKeys)) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingKeys as $missingKey) {
-				if ($schema->hasTable($missingKey['tableName'])) {
-					$table = $schema->getTable($missingKey['tableName']);
-					if (!$table->hasPrimaryKey()) {
-						$info->addHintForMissingSubject($missingKey['tableName']);
-					}
-				}
-			}
-		}
-
-		return $info->getListOfMissingPrimaryKeys();
-	}
-
 	protected function isSqliteUsed() {
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
@@ -653,7 +629,6 @@ Raw output
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
