@@ -258,18 +258,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if (data.missingIndexes.length > 0) {
-						var listOfMissingIndexes = "";
-						data.missingIndexes.forEach(function(element){
-							listOfMissingIndexes += '<li>';
-							listOfMissingIndexes += t('core', 'Missing index "{indexName}" in table "{tableName}".', element);
-							listOfMissingIndexes += '</li>';
-						});
-						messages.push({
-							msg: t('core', 'The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running "occ db:add-missing-indices" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.') + '<ul>' + listOfMissingIndexes + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if (data.missingPrimaryKeys.length > 0) {
 						var listOfMissingPrimaryKeys = "";
 						data.missingPrimaryKeys.forEach(function(element){

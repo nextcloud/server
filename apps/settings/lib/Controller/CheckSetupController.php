@@ -51,7 +51,6 @@ use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
-use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
@@ -61,7 +60,6 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -417,29 +415,6 @@ Raw output
 		return $recommendations;
 	}
 
-	protected function hasMissingIndexes(): array {
-		$indexInfo = new MissingIndexInformation();
-
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new AddMissingIndicesEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingIndices = $event->getMissingIndices();
-
-		if ($missingIndices !== []) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingIndices as $missingIndex) {
-				if ($schema->hasTable($missingIndex['tableName'])) {
-					$table = $schema->getTable($missingIndex['tableName']);
-					if (!$table->hasIndex($missingIndex['indexName'])) {
-						$indexInfo->addHintForMissingSubject($missingIndex['tableName'], $missingIndex['indexName']);
-					}
-				}
-			}
-		}
-
-		return $indexInfo->getListOfMissingIndexes();
-	}
-
 	protected function hasMissingPrimaryKeys(): array {
 		$info = new MissingPrimaryKeyInformation();
 		// Dispatch event so apps can also hint for pending key updates if needed
@@ -679,7 +654,6 @@ Raw output
 				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
-				'missingIndexes' => $this->hasMissingIndexes(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
