@@ -105,7 +105,7 @@ interface IFilesMetadataManager {
 	 * @param string $fileTableAlias alias of the table that contains data about files
 	 * @param string $fileIdField alias of the field that contains file ids
 	 *
-	 * @return IMetadataQuery
+	 * @return IMetadataQuery|null NULL if table are not set yet or never used
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
@@ -113,7 +113,7 @@ interface IFilesMetadataManager {
 		IQueryBuilder $qb,
 		string $fileTableAlias,
 		string $fileIdField
-	): IMetadataQuery;
+	): ?IMetadataQuery;
 
 	/**
 	 * returns all type of metadata currently available.

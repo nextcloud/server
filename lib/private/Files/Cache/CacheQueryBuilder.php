@@ -135,9 +135,14 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function selectMetadata(): IMetadataQuery {
+	/**
+	 * join metadata to current query builder and returns an helper
+	 *
+	 * @return IMetadataQuery|null NULL if no metadata have never been generated
+	 */
+	public function selectMetadata(): ?IMetadataQuery {
 		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
-		$metadataQuery->retrieveMetadata();
+		$metadataQuery?->retrieveMetadata();
 		return $metadataQuery;
 	}
 }
