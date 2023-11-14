@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Db;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use InvalidArgumentException;
 use JsonSerializable;
 use OC\User\OutOfOfficeData;
@@ -71,9 +72,9 @@ class Absence extends Entity implements JsonSerializable {
 			throw new InvalidArgumentException("The user doesn't match the user id of this absence! Expected " . $this->getUserId() . ", got " . $user->getUID());
 		}
 
-		//$user = $userManager->get($this->getUserId());
-		$startDate = new DateTimeImmutable($this->getFirstDay());
-		$endDate = new DateTimeImmutable($this->getLastDay());
+		$utc = new DateTimeZone('UTC');
+		$startDate = new DateTimeImmutable($this->getFirstDay(), $utc);
+		$endDate = new DateTimeImmutable($this->getLastDay(), $utc);
 		return new OutOfOfficeData(
 			(string)$this->getId(),
 			$user,

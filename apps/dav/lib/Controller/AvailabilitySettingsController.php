@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Service\AbsenceService;
 use OCP\AppFramework\Controller;
@@ -46,6 +47,9 @@ class AvailabilitySettingsController extends Controller {
 	}
 
 	/**
+	 * @param string $firstDay Assume UTC as the time zone if none is specified
+	 * @param string $lastDay Assume UTC as the time zone if none is specified
+	 *
 	 * @throws \OCP\DB\Exception
 	 * @throws \Exception
 	 */
@@ -61,8 +65,9 @@ class AvailabilitySettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$parsedFirstDay = new DateTimeImmutable($firstDay);
-		$parsedLastDay = new DateTimeImmutable($lastDay);
+		$utc = new DateTimeZone('UTC');
+		$parsedFirstDay = new DateTimeImmutable($firstDay, $utc);
+		$parsedLastDay = new DateTimeImmutable($lastDay, $utc);
 		if ($parsedFirstDay->getTimestamp() >= $parsedLastDay->getTimestamp()) {
 			throw new \Exception('First day is on or after last day');
 		}
