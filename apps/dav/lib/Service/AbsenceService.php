@@ -75,14 +75,18 @@ class AbsenceService {
 		if ($user === null) {
 			throw new InvalidArgumentException("User $userId does not exist");
 		}
-		$eventData = $absence->toOutOufOfficeData($user);
 
 		if ($absence->getId() === null) {
-			$this->eventDispatcher->dispatchTyped(new OutOfOfficeScheduledEvent($eventData));
-			return $this->absenceMapper->insert($absence);
+			$persistedAbsence = $this->absenceMapper->insert($absence);
+			$this->eventDispatcher->dispatchTyped(new OutOfOfficeScheduledEvent(
+				$persistedAbsence->toOutOufOfficeData($user)
+			));
+			return $persistedAbsence;
 		}
 
-		$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent($eventData));
+		$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent(
+			$absence->toOutOufOfficeData($user)
+		));
 		return $this->absenceMapper->update($absence);
 	}
 
