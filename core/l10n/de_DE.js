@@ -138,7 +138,7 @@ OC.L10N.register(
     "More apps" : "Weitere Apps",
     "Currently open" : "Derzeit geöffnet",
     "_{count} notification_::_{count} notifications_" : ["{count} Benachrichtigung","{count} Benachrichtigungen"],
-    "Date range filter" : "Datumsbereichfilter",
+    "Date range filter" : "Datumbereichsfilter",
     "Pick start date" : "Startdatum wählen",
     "Pick end date" : "Enddatum wählen",
     "Apply range" : "Bereich anwenden",
