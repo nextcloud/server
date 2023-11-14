@@ -66,11 +66,12 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobs = $this->jobList->getJobsIterator($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
-		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
-			$output->writeln("Output is currently limited to first " .  $input->getOption('limit') . " jobs. Specify `-l, --limit[=LIMIT]` to override.");
+		$limit = (int)$input->getOption('limit');
+		$jobsInfo = $this->formatJobs($this->jobList->getJobsIterator($input->getOption('class'), $limit, (int)$input->getOption('offset')));
+		$this->writeTableInOutputFormat($input, $output, $jobsInfo);
+		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN && count($jobsInfo) >= $limit) {
+			$output->writeln("\n<comment>Output is currently limited to first " .  $limit . " jobs. Specify `-l, --limit[=LIMIT]` to override.</comment>");
 		}
-		$this->writeTableInOutputFormat($input, $output, $this->formatJobs($jobs));
 		return 0;
 	}
 
