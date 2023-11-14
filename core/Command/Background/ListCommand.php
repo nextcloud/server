@@ -53,7 +53,7 @@ class ListCommand extends Base {
 				'l',
 				InputOption::VALUE_OPTIONAL,
 				'Number of jobs to retrieve',
-				'100'
+				'500'
 			)->addOption(
 				'offset',
 				'o',
