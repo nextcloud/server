@@ -39,7 +39,6 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC;
 use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
-use OC\MemoryInfo;
 use OCA\Settings\Controller\CheckSetupController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -97,8 +96,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
-	/** @var MemoryInfo|MockObject */
-	private $memoryInfo;
 	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $iniGetWrapper;
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
@@ -148,9 +145,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
-		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
-			->setMethods(['isMemoryLimitSufficient',])
-			->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
@@ -173,7 +167,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
-				$this->memoryInfo,
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->throttler,
@@ -351,9 +344,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('hasPassedCheck')
 			->willReturn(true);
-		$this->memoryInfo
-			->method('isMemoryLimitSufficient')
-			->willReturn(true);
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -441,7 +431,6 @@ class CheckSetupControllerTest extends TestCase {
 				'missingIndexes' => [],
 				'missingPrimaryKeys' => [],
 				'missingColumns' => [],
-				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
@@ -475,7 +464,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
-				$this->memoryInfo,
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->throttler,
@@ -1203,7 +1191,6 @@ Array
 			$this->db,
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
-			$this->memoryInfo,
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->throttler,
@@ -1258,7 +1245,6 @@ Array
 			$this->db,
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
-			$this->memoryInfo,
 			$this->iniGetWrapper,
 			$this->connection,
 			$this->throttler,

@@ -98,6 +98,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpFreetypeSupport.php',
         'OCA\\Settings\\SetupChecks\\PhpGetEnv' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpGetEnv.php',
+        'OCA\\Settings\\SetupChecks\\PhpMemoryLimit' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpMemoryLimit.php',
         'OCA\\Settings\\SetupChecks\\PhpModules' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpModules.php',
         'OCA\\Settings\\SetupChecks\\PhpOutdated' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutdated.php',
         'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutputBuffering.php',
