@@ -35,9 +35,7 @@
 namespace OCA\Settings\Tests\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC;
-use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Controller\CheckSetupController;
 use OCP\App\IAppManager;
@@ -49,7 +47,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
@@ -88,16 +85,12 @@ class CheckSetupControllerTest extends TestCase {
 	private $checker;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
-	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
-	private $db;
 	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
 	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $iniGetWrapper;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $connection;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -138,13 +131,9 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->db = $this->getMockBuilder(Connection::class)
-			->disableOriginalConstructor()->getMock();
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
-		$this->connection = $this->getMockBuilder(IDBConnection::class)
-			->disableOriginalConstructor()->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -161,11 +150,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger,
 				$this->dispatcher,
-				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->iniGetWrapper,
-				$this->connection,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -183,7 +170,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
-				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
@@ -264,11 +250,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->checkSetupController
 			->expects($this->once())
-			->method('hasBigIntConversionPendingColumns')
-			->willReturn([]);
-
-		$this->checkSetupController
-			->expects($this->once())
 			->method('isMysqlUsedWithoutUTF8MB4')
 			->willReturn(false);
 
@@ -307,9 +288,6 @@ class CheckSetupControllerTest extends TestCase {
 				}
 				return '';
 			});
-		$sqlitePlatform = $this->getMockBuilder(SqlitePlatform::class)->getMock();
-		$this->connection->method('getDatabasePlatform')
-			->willReturn($sqlitePlatform);
 
 		$expected = new DataResponse(
 			[
@@ -332,7 +310,6 @@ class CheckSetupControllerTest extends TestCase {
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
-				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
@@ -357,11 +334,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger,
 				$this->dispatcher,
-				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->iniGetWrapper,
-				$this->connection,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -1083,11 +1058,9 @@ Array
 			$this->checker,
 			$this->logger,
 			$this->dispatcher,
-			$this->db,
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->iniGetWrapper,
-			$this->connection,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,
@@ -1136,11 +1109,9 @@ Array
 			$this->checker,
 			$this->logger,
 			$this->dispatcher,
-			$this->db,
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->iniGetWrapper,
-			$this->connection,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,

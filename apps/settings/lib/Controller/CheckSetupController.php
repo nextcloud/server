@@ -50,8 +50,6 @@ use DirectoryIterator;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
-use OC\DB\Connection;
-use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -59,12 +57,10 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
@@ -91,16 +87,12 @@ class CheckSetupController extends Controller {
 	private $logger;
 	/** @var IEventDispatcher */
 	private $dispatcher;
-	/** @var Connection */
-	private $db;
 	/** @var ILockingProvider */
 	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
 	/** @var IniGetWrapper */
 	private $iniGetWrapper;
-	/** @var IDBConnection */
-	private $connection;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
@@ -120,11 +112,9 @@ class CheckSetupController extends Controller {
 		Checker $checker,
 		LoggerInterface $logger,
 		IEventDispatcher $dispatcher,
-		Connection $db,
 		ILockingProvider $lockingProvider,
 		IDateTimeFormatter $dateTimeFormatter,
 		IniGetWrapper $iniGetWrapper,
-		IDBConnection $connection,
 		ITempManager $tempManager,
 		IManager $manager,
 		IAppManager $appManager,
@@ -139,11 +129,9 @@ class CheckSetupController extends Controller {
 		$this->checker = $checker;
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
-		$this->db = $db;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->iniGetWrapper = $iniGetWrapper;
-		$this->connection = $connection;
 		$this->tempManager = $tempManager;
 		$this->manager = $manager;
 		$this->appManager = $appManager;
@@ -528,49 +516,6 @@ Raw output
 		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
 	}
 
-	protected function hasBigIntConversionPendingColumns(): array {
-		// copy of ConvertFilecacheBigInt::getColumnsByTable()
-		$tables = [
-			'activity' => ['activity_id', 'object_id'],
-			'activity_mq' => ['mail_id'],
-			'authtoken' => ['id'],
-			'bruteforce_attempts' => ['id'],
-			'federated_reshares' => ['share_id'],
-			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
-			'filecache_extended' => ['fileid'],
-			'files_trash' => ['auto_id'],
-			'file_locks' => ['id'],
-			'file_metadata' => ['id'],
-			'jobs' => ['id'],
-			'mimetypes' => ['id'],
-			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
-			'share_external' => ['id', 'parent'],
-			'storages' => ['numeric_id'],
-		];
-
-		$schema = new SchemaWrapper($this->db);
-		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
-		$pendingColumns = [];
-
-		foreach ($tables as $tableName => $columns) {
-			if (!$schema->hasTable($tableName)) {
-				continue;
-			}
-
-			$table = $schema->getTable($tableName);
-			foreach ($columns as $columnName) {
-				$column = $table->getColumn($columnName);
-				$isAutoIncrement = $column->getAutoincrement();
-				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
-					$pendingColumns[] = $tableName . '.' . $columnName;
-				}
-			}
-		}
-
-		return $pendingColumns;
-	}
-
 	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
 		$objectStore = $this->config->getSystemValue('objectstore', null);
 		$objectStoreMultibucket = $this->config->getSystemValue('objectstore_multibucket', null);
@@ -634,7 +579,6 @@ Raw output
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
