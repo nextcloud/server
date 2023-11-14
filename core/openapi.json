@@ -512,7 +512,8 @@
                     "icon",
                     "order",
                     "triggers",
-                    "filters"
+                    "filters",
+                    "inAppSearch"
                 ],
                 "properties": {
                     "id": {
@@ -542,6 +543,9 @@
                         "additionalProperties": {
                             "type": "string"
                         }
+                    },
+                    "inAppSearch": {
+                        "type": "boolean"
                     }
                 }
             },

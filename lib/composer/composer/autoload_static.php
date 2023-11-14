@@ -626,6 +626,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Search\\IFilter' => __DIR__ . '/../../..' . '/lib/public/Search/IFilter.php',
         'OCP\\Search\\IFilterCollection' => __DIR__ . '/../../..' . '/lib/public/Search/IFilterCollection.php',
         'OCP\\Search\\IFilteringProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IFilteringProvider.php',
+        'OCP\\Search\\IInAppSearch' => __DIR__ . '/../../..' . '/lib/public/Search/IInAppSearch.php',
         'OCP\\Search\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IProvider.php',
         'OCP\\Search\\ISearchQuery' => __DIR__ . '/../../..' . '/lib/public/Search/ISearchQuery.php',
         'OCP\\Search\\PagedProvider' => __DIR__ . '/../../..' . '/lib/public/Search/PagedProvider.php',

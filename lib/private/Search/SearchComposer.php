@@ -31,6 +31,7 @@ use InvalidArgumentException;
 use OCP\IURLGenerator;
 use OCP\Search\FilterDefinition;
 use OCP\Search\IFilteringProvider;
+use OCP\Search\IInAppSearch;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IUser;
 use OCP\Search\IFilter;
@@ -199,6 +200,7 @@ class SearchComposer {
 					'order' => $provider->getOrder($route, $routeParameters),
 					'triggers' => $triggers,
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
+					'inAppSearch' => $provider instanceof IInAppSearch,
 				];
 			},
 			$this->providers,

@@ -593,6 +593,7 @@ return array(
     'OCP\\Search\\IFilter' => $baseDir . '/lib/public/Search/IFilter.php',
     'OCP\\Search\\IFilterCollection' => $baseDir . '/lib/public/Search/IFilterCollection.php',
     'OCP\\Search\\IFilteringProvider' => $baseDir . '/lib/public/Search/IFilteringProvider.php',
+    'OCP\\Search\\IInAppSearch' => $baseDir . '/lib/public/Search/IInAppSearch.php',
     'OCP\\Search\\IProvider' => $baseDir . '/lib/public/Search/IProvider.php',
     'OCP\\Search\\ISearchQuery' => $baseDir . '/lib/public/Search/ISearchQuery.php',
     'OCP\\Search\\PagedProvider' => $baseDir . '/lib/public/Search/PagedProvider.php',
