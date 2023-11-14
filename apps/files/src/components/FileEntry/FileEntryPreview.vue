@@ -78,6 +78,7 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 import { isLivePhoto } from '../../services/LivePhotos'
 
@@ -87,6 +88,7 @@ export default Vue.extend({
 	components: {
 		AccountGroupIcon,
 		AccountPlusIcon,
+		CollectivesIcon,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
@@ -209,6 +211,8 @@ export default Vue.extend({
 				return NetworkIcon
 			case 'group':
 				return AccountGroupIcon
+			case 'collective':
+				return CollectivesIcon
 			}
 
 			return null
