@@ -51,7 +51,6 @@ use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
-use OC\DB\MissingColumnInformation;
 use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
@@ -62,7 +61,6 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
@@ -464,28 +462,6 @@ Raw output
 		return $info->getListOfMissingPrimaryKeys();
 	}
 
-	protected function hasMissingColumns(): array {
-		$columnInfo = new MissingColumnInformation();
-		// Dispatch event so apps can also hint for pending column updates if needed
-		$event = new AddMissingColumnsEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingColumns = $event->getMissingColumns();
-
-		if (!empty($missingColumns)) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingColumns as $missingColumn) {
-				if ($schema->hasTable($missingColumn['tableName'])) {
-					$table = $schema->getTable($missingColumn['tableName']);
-					if (!$table->hasColumn($missingColumn['columnName'])) {
-						$columnInfo->addHintForMissingColumn($missingColumn['tableName'], $missingColumn['columnName']);
-					}
-				}
-			}
-		}
-
-		return $columnInfo->getListOfMissingColumns();
-	}
-
 	protected function isSqliteUsed() {
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
@@ -704,7 +680,6 @@ Raw output
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
 				'missingIndexes' => $this->hasMissingIndexes(),
-				'missingColumns' => $this->hasMissingColumns(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),

@@ -231,7 +231,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -284,7 +283,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -337,7 +335,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -390,7 +387,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -441,7 +437,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -495,7 +490,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: false,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -547,7 +541,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -630,7 +623,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -688,7 +680,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -739,7 +730,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -794,7 +784,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -846,7 +835,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -895,7 +883,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -947,7 +934,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -999,7 +985,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -1050,7 +1035,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -1108,7 +1092,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0

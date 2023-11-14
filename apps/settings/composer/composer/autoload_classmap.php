@@ -75,6 +75,7 @@ return array(
     'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => $baseDir . '/../lib/Settings/Personal/ServerDevNotice.php',
     'OCA\\Settings\\SetupChecks\\BruteForceThrottler' => $baseDir . '/../lib/SetupChecks/BruteForceThrottler.php',
     'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => $baseDir . '/../lib/SetupChecks/CheckUserCertificates.php',
+    'OCA\\Settings\\SetupChecks\\DatabaseHasMissingColumns' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingColumns.php',
     'OCA\\Settings\\SetupChecks\\DefaultPhoneRegionSet' => $baseDir . '/../lib/SetupChecks/DefaultPhoneRegionSet.php',
     'OCA\\Settings\\SetupChecks\\EmailTestSuccessful' => $baseDir . '/../lib/SetupChecks/EmailTestSuccessful.php',
     'OCA\\Settings\\SetupChecks\\FileLocking' => $baseDir . '/../lib/SetupChecks/FileLocking.php',
