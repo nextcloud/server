@@ -20,10 +20,11 @@
  *
  */
 
+import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
 import NewComment from '../services/NewComment.js'
 import DeleteComment from '../services/DeleteComment.js'
 import EditComment from '../services/EditComment.js'
-import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
+import logger from '../logger.js'
 
 export default {
 	props: {
@@ -46,6 +47,7 @@ export default {
 			deleted: false,
 			editing: false,
 			loading: false,
+			commentsType: 'files',
 		}
 	},
 
@@ -63,7 +65,7 @@ export default {
 			this.loading = true
 			try {
 				await EditComment(this.commentsType, this.ressourceId, this.id, message)
-				this.logger.debug('Comment edited', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id, message })
+				logger.debug('Comment edited', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id, message })
 				this.$emit('update:message', message)
 				this.editing = false
 			} catch (error) {
@@ -86,7 +88,7 @@ export default {
 		async onDelete() {
 			try {
 				await DeleteComment(this.commentsType, this.ressourceId, this.id)
-				this.logger.debug('Comment deleted', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id })
+				logger.debug('Comment deleted', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id })
 				this.$emit('delete', this.id)
 			} catch (error) {
 				showError(t('comments', 'An error occurred while trying to delete the comment'))
@@ -100,7 +102,7 @@ export default {
 			this.loading = true
 			try {
 				const newComment = await NewComment(this.commentsType, this.ressourceId, message)
-				this.logger.debug('New comment posted', { commentsType: this.commentsType, ressourceId: this.ressourceId, newComment })
+				logger.debug('New comment posted', { commentsType: this.commentsType, ressourceId: this.ressourceId, newComment })
 				this.$emit('new', newComment)
 
 				// Clear old content

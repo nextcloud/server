@@ -22,40 +22,80 @@
 
 // eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
+import { getRequestToken } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
+import Vue from 'vue'
+import logger from './logger.js'
 
-// Init Comments tab component
-let TabInstance = null
-const commentTab = new OCA.Files.Sidebar.Tab({
-	id: 'comments',
-	name: t('comments', 'Comments'),
-	iconSvg: MessageReplyText,
+// @ts-expect-error __webpack_nonce__ is injected by webpack
+__webpack_nonce__ = btoa(getRequestToken())
 
-	async mount(el, fileInfo, context) {
-		if (TabInstance) {
-			TabInstance.$destroy()
-		}
-		TabInstance = new OCA.Comments.View('files', {
-			// Better integration with vue parent component
-			parent: context,
+if (loadState('comments', 'activityEnabled', true) && OCA?.Activity?.registerSidebarAction !== undefined) {
+	let ActivityTabPluginView
+	let ActivityTabPluginInstance
+
+	// Do mount own tab but mount into activity
+	window.addEventListener('DOMContentLoaded', function() {
+		OCA.Activity.registerSidebarAction({
+			mount: async (el, { context, fileInfo, reload }) => {
+				if (!ActivityTabPluginView) {
+					const { default: ActivityCommmentAction } = await import('./views/ActivityCommentAction.vue')
+					ActivityTabPluginView = Vue.extend(ActivityCommmentAction)
+				}
+				ActivityTabPluginInstance = new ActivityTabPluginView({
+					parent: context,
+					propsData: {
+						reloadCallback: reload,
+						ressourceId: fileInfo.id,
+					},
+				})
+				ActivityTabPluginInstance.$mount(el)
+				logger.info('Comments plugin mounted in Activity sidebar action', { fileInfo })
+			},
+			unmount: () => {
+				// destroy previous instance if available
+				if (ActivityTabPluginInstance) {
+					ActivityTabPluginInstance.$destroy()
+				}
+			},
 		})
-		// Only mount after we have all the info we need
-		await TabInstance.update(fileInfo.id)
-		TabInstance.$mount(el)
-	},
-	update(fileInfo) {
-		TabInstance.update(fileInfo.id)
-	},
-	destroy() {
-		TabInstance.$destroy()
-		TabInstance = null
-	},
-	scrollBottomReached() {
-		TabInstance.onScrollBottomReached()
-	},
-})
+		logger.info('Comments plugin registered for Activity sidebar action')
+	})
+} else {
+	// Init Comments tab component
+	let TabInstance = null
+	const commentTab = new OCA.Files.Sidebar.Tab({
+		id: 'comments',
+		name: t('comments', 'Comments'),
+		iconSvg: MessageReplyText,
 
-window.addEventListener('DOMContentLoaded', function() {
-	if (OCA.Files && OCA.Files.Sidebar) {
-		OCA.Files.Sidebar.registerTab(commentTab)
-	}
-})
+		async mount(el, fileInfo, context) {
+			if (TabInstance) {
+				TabInstance.$destroy()
+			}
+			TabInstance = new OCA.Comments.View('files', {
+				// Better integration with vue parent component
+				parent: context,
+			})
+			// Only mount after we have all the info we need
+			await TabInstance.update(fileInfo.id)
+			TabInstance.$mount(el)
+		},
+		update(fileInfo) {
+			TabInstance.update(fileInfo.id)
+		},
+		destroy() {
+			TabInstance.$destroy()
+			TabInstance = null
+		},
+		scrollBottomReached() {
+			TabInstance.onScrollBottomReached()
+		},
+	})
+
+	window.addEventListener('DOMContentLoaded', function() {
+		if (OCA.Files && OCA.Files.Sidebar) {
+			OCA.Files.Sidebar.registerTab(commentTab)
+		}
+	})
+}

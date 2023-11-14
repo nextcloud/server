@@ -111,6 +111,7 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
+import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -235,6 +236,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Update local Message on outer change
 		 *
