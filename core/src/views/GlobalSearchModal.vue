@@ -124,13 +124,13 @@
 					</ul>
 					<div class="result-footer">
 						<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult.id)">
-							Load more results
+							{{ t('core', 'Load more results') }}
 							<template #icon>
 								<DotsHorizontalIcon :size="20" />
 							</template>
 						</NcButton>
-						<NcButton alignment="end-reverse" type="tertiary-no-background">
-							Search in {{ providerResult.provider }}
+						<NcButton v-if="providerResult.inAppSearch" alignment="end-reverse" type="tertiary-no-background">
+							{{ t('core', 'Search in') }} {{ providerResult.provider }}
 							<template #icon>
 								<ArrowRight :size="20" />
 							</template>
@@ -288,6 +288,7 @@ export default {
 					newResults.push({
 						id: provider.id,
 						provider: provider.name,
+						inAppSearch: provider.inAppSearch,
 						results: response.data.ocs.data.entries,
 					})
 
