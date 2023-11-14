@@ -243,11 +243,7 @@ class SearchBuilder {
 	}
 
 
-	private function getExtraOperatorField(ISearchComparison $operator, ?IMetadataQuery $metadataQuery): array {
-		if (null === $metadataQuery) {
-			throw new \InvalidArgumentException('IMetadataQuery is null while calling getExtraOperatorField');
-		}
-
+	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
