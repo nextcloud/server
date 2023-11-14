@@ -84,10 +84,10 @@
 					</template>
 				</FilterChip>
 			</div>
-			<div v-if="searchQuery.length === 0" class="global-search-modal__no-search">
-				<NcEmptyContent :name="t('core', 'Start typing in search')">
+			<div v-if="noContentInfo.show" class="global-search-modal__no-content">
+				<NcEmptyContent :name="noContentInfo.text">
 					<template #icon>
-						<MagnifyIcon />
+						<component :is="noContentInfo.icon" />
 					</template>
 				</NcEmptyContent>
 			</div>
@@ -149,6 +149,7 @@ import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
 import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModal.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
+import FlaskEmpty from 'vue-material-design-icons/FlaskEmpty.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -173,6 +174,7 @@ export default {
 		CustomDateRangeModal,
 		DotsHorizontalIcon,
 		FilterChip,
+		FlaskEmpty,
 		ListBox,
 		NcActions,
 		NcActionButton,
@@ -218,9 +220,19 @@ export default {
 			get() {
 				return this.contacts
 			},
-
 		},
+		noContentInfo: {
+			get() {
+				const isEmptySearch = this.searchQuery.length === 0
+				const hasNoResults = this.searchQuery.length > 0 && this.results.length === 0
 
+				return {
+					show: isEmptySearch || hasNoResults,
+					text: isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results'),
+					icon: isEmptySearch ? MagnifyIcon : FlaskEmpty,
+				}
+			},
+		},
 	},
 	mounted() {
 		getProviders().then((providers) => {
@@ -542,7 +554,7 @@ $margin: 10px;
 		flex-wrap: wrap;
 	}
 
-	&__no-search {
+	&__no-content {
 		display: flex;
 		align-items: center;
 		height: 100%;
