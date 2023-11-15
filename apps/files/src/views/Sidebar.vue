@@ -28,7 +28,6 @@
 		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
-		@update:starred="toggleStarred"
 		@[defaultActionListener].stop.prevent="onDefaultAction"
 		@opening="handleOpening"
 		@opened="handleOpened"
@@ -50,6 +49,16 @@
 
 		<!-- Actions menu -->
 		<template v-if="fileInfo" #secondary-actions>
+			<NcActionButton :close-after-click="true"
+				@click="toggleStarred(!fileInfo.isFavourited)">
+				<template v-if="fileInfo.isFavourited" #icon>
+					<StarOutline :size="20" />
+				</template>
+				<template v-else #icon>
+					<Star :size="20" />
+				</template>
+				{{ fileInfo.isFavourited ? t('files', 'Add to favorites') : t('files', 'Remove from favorites') }}
+			</NcActionButton>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
 			<NcActionButton v-if="isSystemTagsEnabled"
@@ -98,6 +107,9 @@ import $ from 'jquery'
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
 
+import Star from 'vue-material-design-icons/Star.vue'
+import StarOutline from 'vue-material-design-icons/StarOutline.vue'
+
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
@@ -117,6 +129,8 @@ export default {
 		NcEmptyContent,
 		SidebarTab,
 		SystemTags,
+		Star,
+		StarOutline,
 	},
 
 	data() {
@@ -246,7 +260,6 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					starred: this.fileInfo.isFavourited,
 					subname: this.subtitle,
 					subtitle: this.fullTime,
 					name: this.fileInfo.name,
