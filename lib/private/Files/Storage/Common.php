@@ -753,7 +753,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if ($data['mtime'] === false) {
 			$data['mtime'] = time();
 		}
-		if ($data['mimetype'] == 'httpd/unix-directory') {
+		if ($data['mimetype'] == 'httpd/unix-directory') { // TODO(taminob): handle size of symlinks?
 			$data['size'] = -1; //unknown
 		} else {
 			$data['size'] = $this->filesize($path);

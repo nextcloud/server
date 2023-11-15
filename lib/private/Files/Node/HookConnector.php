@@ -229,6 +229,7 @@ class HookConnector {
 				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
 			}
 		}
+		// TODO(taminob): create symlink node instead of file here
 		if ($info->getType() === FileInfo::TYPE_FILE || $info->getType() === FileInfo::TYPE_SYMLINK) {
 			return new File($this->root, $this->view, $info->getPath(), $info);
 		} else {

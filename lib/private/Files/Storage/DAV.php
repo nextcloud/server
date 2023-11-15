@@ -622,6 +622,8 @@ class DAV extends Common {
 		$type = (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
 		if ($type === 'dir') {
 			$mimeType = 'httpd/unix-directory';
+		} elseif ($type === 'symlink') { // TODO(taminob): This type cannot occur at the moment
+			$mimeType = FileInfo::MIMETYPE_SYMLINK;
 		} elseif (isset($response['{DAV:}getcontenttype'])) {
 			$mimeType = $response['{DAV:}getcontenttype'];
 		} else {

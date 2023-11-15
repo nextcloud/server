@@ -175,6 +175,7 @@ class ObjectTree extends CachingTree {
 		if ($info->getType() === 'dir') {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this);
 		} else {
+			// TODO(taminob): create symlink node here instead?
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
 		}
 

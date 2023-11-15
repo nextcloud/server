@@ -75,6 +75,7 @@ class TrashRoot implements ICollection {
 		$entries = $this->trashManager->listTrashRoot($this->user);
 
 		$children = array_map(function (ITrashItem $entry) {
+			// TODO(taminob): probably not necessary, but check if TrashSymlink is required
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 				return new TrashFolder($this->trashManager, $entry);
 			}

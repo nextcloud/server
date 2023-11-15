@@ -141,6 +141,7 @@ class ServerFactory {
 			if ($rootInfo->getType() === 'dir') {
 				$root = new \OCA\DAV\Connector\Sabre\Directory($view, $rootInfo, $objectTree);
 			} else {
+				// TODO(taminob): create symlink node here instead?
 				$root = new \OCA\DAV\Connector\Sabre\File($view, $rootInfo);
 			}
 			$objectTree->init($root, $view, $this->mountManager);

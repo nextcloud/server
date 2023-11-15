@@ -120,6 +120,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($isDir) {
 			return new Folder($this->root, $this->view, $path, $info, $parent, $infoHasSubMountsIncluded);
 		} else {
+			// TODO(taminob): create symlink here instead of file?
 			return new File($this->root, $this->view, $path, $info, $parent);
 		}
 	}
