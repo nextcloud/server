@@ -27,10 +27,12 @@ declare(strict_types=1);
 namespace OC\User;
 
 use JsonException;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\User\IOutOfOfficeData;
@@ -42,9 +44,18 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 	public function __construct(
 		ICacheFactory $cacheFactory,
 		private AbsenceMapper $absenceMapper,
+		private IConfig $config,
 		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createLocal('OutOfOfficeData');
+	}
+
+	public function isEnabled(): bool {
+		return $this->config->getAppValue(
+			Application::APP_ID,
+			'hide_absence_settings',
+			'no',
+		) === 'no';
 	}
 
 	private function getCachedOutOfOfficeData(IUser $user): ?OutOfOfficeData {

@@ -34,6 +34,15 @@ use OCP\IUser;
  */
 interface IAvailabilityCoordinator {
 	/**
+	 * Check if the feature is enabled on this instance
+	 *
+	 * @return bool
+	 *
+	 * @since 28.0.0
+	 */
+	public function isEnabled(): bool;
+
+	/**
 	 * Get the user's out-of-office message, if any
 	 *
 	 * @since 28.0.0
