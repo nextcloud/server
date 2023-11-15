@@ -1,8 +1,6 @@
-<?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
  *
- * @author Joas Schilling <coding@schilljs.com>
  * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0-or-later
@@ -21,6 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
 
-<div id="systemtags" />
+import Vue from 'vue'
+import AdminSettings from './components/AdminSettings.vue'
+
+export default new Vue({
+	el: '#systemtags',
+	render: (h) => h(AdminSettings),
+})
