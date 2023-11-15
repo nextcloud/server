@@ -22,10 +22,13 @@
 
 // eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
-import { getRequestToken } from '@nextcloud/auth'
+// eslint-disable-next-line import/no-unresolved
+import trashbinSVG from '@mdi/svg/svg/trash-can.svg?raw'
+import { getCurrentUser, getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 import logger from './logger.js'
+import deleteComment from './services/DeleteComment.js'
 
 // @ts-expect-error __webpack_nonce__ is injected by webpack
 __webpack_nonce__ = btoa(getRequestToken())
@@ -58,6 +61,21 @@ if (loadState('comments', 'activityEnabled', true) && OCA?.Activity?.registerSid
 					ActivityTabPluginInstance.$destroy()
 				}
 			},
+		})
+
+		OCA.Activity.registerAction('comments', ({ activity, reload }) => {
+			const actions = []
+			if (activity.user === getCurrentUser()?.uid) {
+				actions.push({
+					label: t('comments', 'Delete comment'),
+					icon: trashbinSVG,
+					handler: async (activity) => {
+						await deleteComment(...activity.link.split('/').slice(-3))
+						reload()
+					},
+				})
+			}
+			return actions
 		})
 		logger.info('Comments plugin registered for Activity sidebar action')
 	})
