@@ -47,6 +47,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte',
+		ISearchComparison::COMPARE_DEFINED => 'isNotNull',
 	];
 
 	protected static $searchOperatorNegativeMap = [
@@ -57,6 +58,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'gt',
+		ISearchComparison::COMPARE_DEFINED => 'isNull',
 	];
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
