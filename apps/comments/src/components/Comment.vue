@@ -92,7 +92,7 @@
 					</div>
 				</div>
 				<div id="tab-comments__editor-description" class="comment__editor-description">
-					{{ t('comments', '"@" for mentions, ":" for emoji, "/" for smart picker') }}
+					{{ t('comments', '@ for mentions, : for emoji, / for smart picker') }}
 				</div>
 			</form>
 
