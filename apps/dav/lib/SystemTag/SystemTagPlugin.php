@@ -303,9 +303,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$fileIds = [$node->getId()];
 
 			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $node->getNode()->getDirectoryListing();
+			$folderContent = $node->getChildren();
 			foreach ($folderContent as $info) {
-				$fileIds[] = $info->getId();
+				if ($info instanceof Node) {
+					$fileIds[] = $info->getId();
+				}
 			}
 
 			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
