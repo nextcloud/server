@@ -1228,6 +1228,10 @@
 			if (this.$table.hasClass('multiselect')) {
 				return;
 			}
+
+			// Ensure the url does not change
+			e.preventDefault();
+	
 			var $target = $(e.target);
 			var sort;
 			if (!$target.is('a')) {
