@@ -148,20 +148,15 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
 		if ($request->getHeader('OC-File-Type') == 1) {
-			// TODO: store default value in global location
-			$allowSymlinks = \OC::$server->get(\OC\AllConfig::class)->getSystemValueBool(
-				'localstorage.allowsymlinks', false);
-			if (!$allowSymlinks) {
-				throw new Forbidden("Server does not allow the creation of symlinks!");
-			}
 			$symlinkPath = $request->getPath();
 			$symlinkTarget = $request->getBodyAsString();
-			$parentNode = $this->server->tree->getNodeForPath(dirname($symlinkPath));
-			if(!$parentNode instanceof \OCA\DAV\Connector\Sabre\Directory) {
-				throw new Exception("Unable to upload '$symlinkPath' because the remote directory does not support symlink creation!");
-			}
-			$etag = $parentNode->createSymlink(basename($symlinkPath), $symlinkTarget);
-			$response->setHeader("OC-ETag", $etag);
+			$newEtag = "'$symlinkPath'->'$symlinkTarget'";
+			$infoData = [
+				'type' => \OC\Files\FileInfo::TYPE_SYMLINK,
+				'etag' => $newEtag,
+			];
+			\OC\Files\Filesystem::getView()->putFileInfo($symlinkPath, $infoData);
+			$response->setHeader("OC-ETag", $newEtag);
 			$response->setStatus(201);
 			$this->server->sapi->sendResponse($response);
 			return false;

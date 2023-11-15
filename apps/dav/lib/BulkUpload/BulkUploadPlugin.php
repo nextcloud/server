@@ -100,21 +100,16 @@ class BulkUploadPlugin extends ServerPlugin {
 				}
 
 				if (isset($headers['oc-file-type']) && $headers['oc-file-type'] == 1) {
-					// TODO: store default value in global location
-					$allowSymlinks = \OC::$server->get(\OC\AllConfig::class)->getSystemValueBool(
-						'localstorage.allowsymlinks', false);
-					if (!$allowSymlinks) {
-						throw new Forbidden("Server does not allow the creation of symlinks!");
-					}
 					$symlinkPath = $headers['x-file-path'];
-					$parentNode = $this->server->tree->getNodeForPath(dirname($symlinkPath));
-					if(!$parentNode instanceof \OCA\DAV\Connector\Sabre\Directory) {
-						throw new Exception("Unable to upload '$symlinkPath' because the remote directory does not support symlink creation!");
-					}
-					$etag = $parentNode->createSymlink(basename($symlinkPath), $content);
-					$writtenFiles[$headers['x-file-path']] = [
+					$newEtag = "'$symlinkPath'->'$content'";
+					$infoData = [
+						'type' => \OC\Files\FileInfo::TYPE_SYMLINK,
+						'etag' => $newEtag,
+					];
+					\OC\Files\Filesystem::getView()->putFileInfo($symlinkPath, $infoData);
+					$writtenFiles[$symlinkPath] = [
 						"error" => false,
-						"etag" => $etag,
+						"etag" => $newEtag,
 					];
 					continue;
 				}

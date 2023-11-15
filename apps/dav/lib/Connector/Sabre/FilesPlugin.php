@@ -227,17 +227,18 @@ class FilesPlugin extends ServerPlugin {
 
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// only handle symlinks
-		// TODO(taminob): does not work if not in cache (which it is currently not because the path here is /files/root/path/to/symlink (request path) and the path in cache is only /root/files/path/to/symlink (internal path)); to make it work without cache, e.g. \Sabre\DAV\Server::getResourceTypeForNode would have to be extended to handle symlinks
-		$node = $this->tree->getNodeForPath($request->getPath());
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\File)) {
+		$symlinkPath = $request->getPath();
+		$fileInfo = \OC\Files\Filesystem::getView()->getFileInfo($symlinkPath);
+		if (!$fileInfo || $fileInfo->getType() !== \OC\Files\FileInfo::TYPE_SYMLINK) {
 			return;
 		}
-		if ($node->getFileInfo()->getType() !== \OCP\Files\FileInfo::TYPE_SYMLINK) {
-			return;
+		$symlinkTarget = $fileInfo->getMetadata()['symlinkTarget'];
+		if (isset($symlinkTarget)) {
+			throw new NotFound("Symlink has no target!");
 		}
 
 		$response->addHeader('OC-File-Type', '1');
-		$response->setBody($node->readlink());
+		$response->setBody($symlinkTarget);
 		// do not continue processing this request
 		return false;
 	}
