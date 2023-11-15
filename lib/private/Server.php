@@ -158,6 +158,7 @@ use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
 use OC\Template\JSCombiner;
 use OC\Translation\TranslationManager;
+use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
@@ -265,6 +266,7 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
+use OCP\User\IAvailabilityCoordinator;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -1434,6 +1436,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
 		$this->registerAlias(IProfileManager::class, ProfileManager::class);
+
+		$this->registerAlias(IAvailabilityCoordinator::class, AvailabilityCoordinator::class);
 
 		$this->connectDispatcher();
 	}
