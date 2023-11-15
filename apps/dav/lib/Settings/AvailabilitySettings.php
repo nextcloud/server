@@ -33,6 +33,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
+use OCP\User\IAvailabilityCoordinator;
 use Psr\Log\LoggerInterface;
 
 class AvailabilitySettings implements ISettings {
@@ -44,6 +45,7 @@ class AvailabilitySettings implements ISettings {
 								IInitialState $initialState,
 								?string $userId,
 								private LoggerInterface $logger,
+								private IAvailabilityCoordinator $coordinator,
 								private AbsenceMapper $absenceMapper) {
 		$this->config = $config;
 		$this->initialState = $initialState;
@@ -60,11 +62,7 @@ class AvailabilitySettings implements ISettings {
 				'no'
 			)
 		);
-		$hideAbsenceSettings = $this->config->getAppValue(
-			Application::APP_ID,
-			'hide_absence_settings',
-			'yes',
-		) === 'yes';
+		$hideAbsenceSettings = !$this->coordinator->isEnabled();
 		$this->initialState->provideInitialState('hide_absence_settings', $hideAbsenceSettings);
 		if (!$hideAbsenceSettings) {
 			try {
