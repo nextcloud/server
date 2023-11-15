@@ -554,26 +554,6 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * Return symlink target of the file
-	 *
-	 * @return string|null
-	 * @throws NotFound
-	 * @throws Forbidden
-	 * @throws FileLocked
-	 */
-	public function readlink() {
-		if (!$this->info->isReadable()) {
-			throw new NotFound();
-		}
-
-		try {
-			return $this->fileView->readlink($this->path);
-		} catch (\Exception $e) {
-			$this->convertToSabreException($e);
-		}
-	}
-
-	/**
 	 * Returns the mime-type for a file
 	 *
 	 * If null is returned, we'll assume application/octet-stream

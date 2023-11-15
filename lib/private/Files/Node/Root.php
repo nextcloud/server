@@ -510,7 +510,6 @@ class Root extends Folder implements IRootFolder {
 		if ($isDir) {
 			return new Folder($this, $view, $path, $info, $parent);
 		} else {
-			// TODO(taminob): create symlink node here instead?
 			return new File($this, $view, $path, $info, $parent);
 		}
 	}

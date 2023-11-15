@@ -48,7 +48,6 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
-use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
@@ -107,31 +106,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	protected function remove($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} elseif ($this->is_file($path) || $this->is_link($path)) {
+		} elseif ($this->is_file($path)) {
 			return $this->unlink($path);
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Default implementation to ensure backwards compatibility.
-	 * Should be overwritten by any storage class that can provide this operation.
-	 *
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function readlink($path) {
-		throw new \OCP\Files\NotPermittedException("Storage does not provide an implementation for 'readlink'");
-	}
-
-	/**
-	 * Default implementation to ensure backwards compatibility.
-	 * Should be overwritten by any storage class that can provide this operation.
-	 *
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function symlink($target, $link) {
-		throw new \OCP\Files\NotPermittedException("Storage does not provide an implementation for 'symlink'");
 	}
 
 	public function is_dir($path) {
@@ -140,10 +119,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function is_file($path) {
 		return $this->filetype($path) === 'file';
-	}
-
-	public function is_link($path) {
-		return $this->filetype($path) === 'link';
 	}
 
 	public function filesize($path): false|int|float {
@@ -277,11 +252,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function getMimeType($path) {
 		if ($this->is_dir($path)) {
-			return FileInfo::MIMETYPE_FOLDER;
-		} elseif ($this->is_link($path)) {
-			return FileInfo::MIMETYPE_SYMLINK;
+			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
-			return \OC::$server->get(IMimeTypeDetector::class)->detectPath($path);
+			return \OC::$server->getMimeTypeDetector()->detectPath($path);
 		} else {
 			return false;
 		}
@@ -753,7 +726,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if ($data['mtime'] === false) {
 			$data['mtime'] = time();
 		}
-		if ($data['mimetype'] == 'httpd/unix-directory') { // TODO(taminob): handle size of symlinks?
+		if ($data['mimetype'] == 'httpd/unix-directory') {
 			$data['size'] = -1; //unknown
 		} else {
 			$data['size'] = $this->filesize($path);

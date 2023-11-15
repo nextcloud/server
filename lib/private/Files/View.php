@@ -411,33 +411,6 @@ class View {
 	}
 
 	/**
-	 * Return symlink target of given symlink
-	 *
-	 * @param string $path
-	 * @return mixed
-	 * @throws LockedException
-	 * @throws InvalidPathException
-	 */
-	public function readlink($path) {
-		$this->assertPathLength($path);
-		return $this->basicOperation('readlink', $path, ['read']);
-	}
-
-	/**
-	 * Create symlink at given path to the specified target
-	 *
-	 * @param string $target
-	 * @param string $path
-	 * @return mixed
-	 * @throws LockedException
-	 * @throws InvalidPathException
-	 */
-	public function symlink($target, $path) {
-		$this->assertPathLength($path);
-		return $this->basicOperation('symlink', $path, ['create', 'write'], $target);
-	}
-
-	/**
 	 * @param string $path
 	 * @param int $from
 	 * @param int $to
@@ -1539,9 +1512,7 @@ class View {
 						}
 					} else { //mountpoint in this folder, add an entry for it
 						$rootEntry['name'] = $relativePath;
-						$rootEntry['type'] = $rootEntry['mimetype'] === FileInfo::MIMETYPE_FOLDER ?
-							FileInfo::TYPE_FOLDER : ($rootEntry['mimetype'] === FileInfo::MIMETYPE_SYMLINK ?
-							FileInfo::TYPE_SYMLINK : FileInfo::TYPE_FILE);
+						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 						$permissions = $rootEntry['permissions'];
 						// do not allow renaming/deleting the mount point if they are not shared files/folders
 						// for shared files/folders we use the permissions given by the owner

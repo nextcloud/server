@@ -109,15 +109,6 @@ interface IStorage {
 	public function is_file($path);
 
 	/**
-	 * see https://www.php.net/manual/en/function.is-link.php
-	 *
-	 * @param string $path
-	 * @return bool
-	 * @since TODO
-	 */
-	public function is_link($path);
-
-	/**
 	 * see https://www.php.net/manual/en/function.stat.php
 	 * only the following keys are required in the result: size and mtime
 	 *
@@ -246,25 +237,6 @@ interface IStorage {
 	 * @since 9.0.0
 	 */
 	public function unlink($path);
-
-	/**
-	 * see https://www.php.net/manual/en/function.symlink.php
-	 *
-	 * @param string $target
-	 * @param string $link
-	 * @return bool
-	 * @since TODO
-	 */
-	public function symlink($target, $link);
-
-	/**
-	 * see https://www.php.net/manual/en/function.readlink.php
-	 *
-	 * @param string $path
-	 * @return string|false
-	 * @since TODO
-	 */
-	public function readlink($path);
 
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php

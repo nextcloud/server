@@ -169,7 +169,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			try {
 				if ($data) {
 					// pre-emit only if it was a file. By that we avoid counting/treating folders as files
-					if ($data['mimetype'] !== 'httpd/unix-directory') { // TODO(taminob): maybe also check for symlink?
+					if ($data['mimetype'] !== 'httpd/unix-directory') {
 						$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);
 						\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', ['path' => $file, 'storage' => $this->storageId]);
 					}

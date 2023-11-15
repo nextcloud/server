@@ -154,7 +154,6 @@ class Util {
 
 	/**
 	 * go recursively through a dir and collect all files and sub files.
-	 * the resulting list will not contain symlinks
 	 *
 	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
@@ -168,9 +167,9 @@ class Util {
 			$content = $this->rootView->getDirectoryContent($dir);
 
 			foreach ($content as $c) {
-				if ($c->getType() === \OCP\Files\FileInfo::TYPE_FOLDER) {
+				if ($c->getType() === 'dir') {
 					$dirList[] = $c->getPath();
-				} elseif($c->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+				} else {
 					$result[] = $c->getPath();
 				}
 			}

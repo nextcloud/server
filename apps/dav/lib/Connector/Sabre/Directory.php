@@ -210,7 +210,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 
-			// TODO: check if symlink target leaves data dir
 			$this->fileView->verifyPath($this->path, $name);
 
 			[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
@@ -219,7 +218,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			}
 
 			$internalPath = $internalPath . '/' . $name;
-			// TODO: use View::unlink instead and create View::symlink?
 			$storage->unlink($internalPath);
 			if (!$storage->symlink($target, $internalPath)) {
 				throw new \Sabre\DAV\Exception\Forbidden("Could not create symlink '$name'!");
@@ -227,8 +225,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			$storage->getUpdater()->update($internalPath);
 			$newEtag = $storage->getETag($internalPath);
 			$infoData = [
-				'type' => FileInfo::TYPE_SYMLINK,
-				'mimetype' => FileInfo::MIMETYPE_SYMLINK,
+				'type' => FileInfo::TYPE_FILE,
 				'etag' => $newEtag,
 			];
 			$path = \OC\Files\Filesystem::normalizePath($this->path . '/' . $name);
@@ -282,7 +279,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
-			// TODO(taminob): create SymlinkNode here instead?
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager, $request, $l10n);
 		}
 		if ($this->tree) {

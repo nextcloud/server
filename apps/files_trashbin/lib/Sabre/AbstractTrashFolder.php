@@ -36,7 +36,6 @@ abstract class AbstractTrashFolder extends AbstractTrash implements ICollection,
 		$entries = $this->trashManager->listTrashFolder($this->data);
 
 		$children = array_map(function (ITrashItem $entry) {
-			// TODO(taminob): probably not necessary, but check if TrashFolderSymlink is required
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 				return new TrashFolderFolder($this->trashManager, $entry);
 			}

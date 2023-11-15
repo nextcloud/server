@@ -45,10 +45,6 @@ interface FileInfo {
 	 * @since 7.0.0
 	 */
 	public const TYPE_FOLDER = 'dir';
-	/**
-	 * @since TODO
-	 */
-	public const TYPE_SYMLINK = 'symlink';
 
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_NOT_COMPUTED Return value for a not computed space value
@@ -70,10 +66,6 @@ interface FileInfo {
 	 * @since 9.1.0
 	 */
 	public const MIMETYPE_FOLDER = 'httpd/unix-directory';
-	/**
-	 * @since TODO
-	 */
-	public const MIMETYPE_SYMLINK = 'inode/symlink';
 
 	/**
 	 * @const \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX Return regular expression to test filenames against (blacklisting)
@@ -187,9 +179,7 @@ interface FileInfo {
 	/**
 	 * Check whether this is a file or a folder
 	 *
-	 * @return string \OCP\Files\FileInfo::TYPE_FILE|
-	 *                \OCP\Files\FileInfo::TYPE_FOLDER|
-	 *                \OCP\Files\FileInfo::TYPE_SYMLINK
+	 * @return string \OCP\Files\FileInfo::TYPE_FILE|\OCP\Files\FileInfo::TYPE_FOLDER
 	 * @since 7.0.0
 	 */
 	public function getType();

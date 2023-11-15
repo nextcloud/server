@@ -105,26 +105,6 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	}
 
 	/**
-	 * see https://www.php.net/manual/en/function.symlink.php
-	 *
-	 * @param string $path
-	 * @return string|false
-	 */
-	public function symlink($target, $link) {
-		return $this->getWrapperStorage()->symlink($target, $link);
-	}
-
-	/**
-	 * see https://www.php.net/manual/en/function.readlink.php
-	 *
-	 * @param string $path
-	 * @return string|false
-	 */
-	public function readlink($path) {
-		return $this->getWrapperStorage()->readlink($path);
-	}
-
-	/**
 	 * see https://www.php.net/manual/en/function.is_dir.php
 	 *
 	 * @param string $path
@@ -142,16 +122,6 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 */
 	public function is_file($path) {
 		return $this->getWrapperStorage()->is_file($path);
-	}
-
-	/**
-	 * see https://www.php.net/manual/en/function.is_link.php
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	public function is_link($path) {
-		return $this->getWrapperStorage()->is_link($path);
 	}
 
 	/**

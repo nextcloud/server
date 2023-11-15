@@ -228,9 +228,7 @@ class Detection implements IMimeTypeDetector {
 
 		if (@is_dir($path)) {
 			// directories are easy
-			return \OCP\Files\FileInfo::MIMETYPE_FOLDER;
-		} elseif (@is_link($path)) {
-			return \OCP\Files\FileInfo::MIMETYPE_SYMLINK;
+			return 'httpd/unix-directory';
 		}
 
 		if (function_exists('finfo_open')

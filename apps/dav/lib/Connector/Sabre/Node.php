@@ -113,7 +113,6 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
 			$this->node = new Folder($root, $rootView, $this->path, $this->info);
 		} else {
-			// TODO(taminob): create symlink node here instead?
 			$this->node = new File($root, $rootView, $this->path, $this->info);
 		}
 	}
