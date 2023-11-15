@@ -25,7 +25,7 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats?dir={dir}', {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats?dir={dir}', {
 				dir: currentDir,
 			}), function(response) {
 				state.dir = null;
@@ -39,7 +39,7 @@
 		},
 		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats'), function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats'), function(response) {
 				Files.updateQuota(response);
 			});
 		},
@@ -70,8 +70,13 @@
 			if (response === undefined) {
 				return;
 			}
+
+			if (response.data !== undefined && response.data.free !== undefined) {
+				$('#free_space').val(response.data.free);
+				OCA.Files.App.fileList._updateDirectoryPermissions();
+			}
+
 			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
-				$('#free_space').val(response.data.freeSpace);
 				$('#upload.button').attr('title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
 				$('#usedSpacePercent').data('mount-type', response.data.mountType);
