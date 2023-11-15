@@ -25,8 +25,6 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\TwoFactorAuth\Db;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use function array_map;
 
@@ -70,25 +68,24 @@ class ProviderUserAssignmentDao {
 	 * Persist a new/updated (provider_id, uid, enabled) tuple
 	 */
 	public function persist(string $providerId, string $uid, int $enabled) {
-		$qb = $this->conn->getQueryBuilder();
+		$conn = $this->conn;
 
-		try {
-			// Insert a new entry
-			$insertQuery = $qb->insert(self::TABLE_NAME)->values([
-				'provider_id' => $qb->createNamedParameter($providerId),
-				'uid' => $qb->createNamedParameter($uid),
-				'enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_INT),
-			]);
-
-			$insertQuery->execute();
-		} catch (UniqueConstraintViolationException $ex) {
-			// There is already an entry -> update it
-			$updateQuery = $qb->update(self::TABLE_NAME)
-				->set('enabled', $qb->createNamedParameter($enabled))
-				->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
-				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-			$updateQuery->execute();
+		// Insert a new entry
+		if ($conn->insertIgnoreConflict(self::TABLE_NAME, [
+			'provider_id' => $providerId,
+			'uid' => $uid,
+			'enabled' => $enabled,
+		])) {
+			return;
 		}
+
+		// There is already an entry -> update it
+		$qb = $conn->getQueryBuilder();
+		$updateQuery = $qb->update(self::TABLE_NAME)
+			->set('enabled', $qb->createNamedParameter($enabled))
+			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
+		$updateQuery->executeStatement();
 	}
 
 	/**
