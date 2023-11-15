@@ -61,7 +61,7 @@ import { showError } from '@nextcloud/dialogs'
 
 import {
 	createTag,
-	deleteTag,
+	deselectTag,
 	fetchLastUsedTagIds,
 	fetchSelectedTags,
 	fetchTags,
@@ -201,10 +201,10 @@ export default Vue.extend({
 		async handleCreate(tag: Tag) {
 			this.loading = true
 			try {
-				const id = await createTag(this.fileId, tag)
-				const createdTag = { ...tag, id }
-				this.sortedTags.unshift(createdTag)
-				this.selectedTags.push(createdTag)
+				tag = await createTag(tag)
+				await selectTag(this.fileId, tag)
+				this.sortedTags.unshift(tag)
+				this.selectedTags.push(tag)
 			} catch (error) {
 				showError(t('systemtags', 'Failed to create tag'))
 			}
@@ -214,7 +214,7 @@ export default Vue.extend({
 		async handleDeselect(tag: Tag) {
 			this.loading = true
 			try {
-				await deleteTag(this.fileId, tag)
+				await deselectTag(this.fileId, tag)
 			} catch (error) {
 				showError(t('systemtags', 'Failed to delete tag'))
 			}

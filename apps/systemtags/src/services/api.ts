@@ -20,7 +20,7 @@
  *
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import type { ServerTag, Tag, TagWithId } from '../types.js'
+import type { Tag, TagWithId } from '../types.js'
 
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -31,7 +31,7 @@ import { formatTag, parseIdFromLocation, parseTags } from '../utils'
 import { logger } from '../logger.js'
 
 const fetchTagsBody = `<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
 	<d:prop>
 		<oc:id />
 		<oc:display-name />
@@ -40,6 +40,15 @@ const fetchTagsBody = `<?xml version="1.0"?>
 		<oc:can-assign />
 	</d:prop>
 </d:propfind>`
+
+const proppatchBody = (name: string) => `<?xml version="1.0" encoding="utf-8"?> 
+<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+	<d:set> 
+		<d:prop> 
+			<oc:display-name>${name}</oc:display-name> 
+		</d:prop> 
+	</d:set> 
+</d:propertyupdate>`
 
 export const fetchTags = async (): Promise<TagWithId[]> => {
 	const path = '/systemtags'
@@ -82,7 +91,12 @@ export const fetchSelectedTags = async (fileId: number): Promise<TagWithId[]> =>
 	}
 }
 
-export const selectTag = async (fileId: number, tag: Tag | ServerTag): Promise<void> => {
+/**
+ * Add a tag to a file
+ * @param fileId The file where to add the tag
+ * @param tag The tag to add
+ */
+export const selectTag = async (fileId: number, tag: TagWithId): Promise<void> => {
 	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
 	const tagToPut = formatTag(tag)
 	try {
@@ -97,39 +111,67 @@ export const selectTag = async (fileId: number, tag: Tag | ServerTag): Promise<v
 }
 
 /**
- * @return created tag id
+ * Remove a tag from a file
+ * @param fileId The file where to remove the tag
+ * @param tag The tag to remove
  */
-export const createTag = async (fileId: number, tag: Tag): Promise<number> => {
-	const path = '/systemtags'
-	const tagToPost = formatTag(tag)
-	try {
-		const { headers } = await davClient.customRequest(path, {
-			method: 'POST',
-			data: tagToPost,
-		})
-		const contentLocation = headers.get('content-location')
-		if (contentLocation) {
-			const tagToPut = {
-				...tagToPost,
-				id: parseIdFromLocation(contentLocation),
-			}
-			await selectTag(fileId, tagToPut)
-			return tagToPut.id
-		}
-		logger.error(t('systemtags', 'Missing "Content-Location" header'))
-		throw new Error(t('systemtags', 'Missing "Content-Location" header'))
-	} catch (error) {
-		logger.error(t('systemtags', 'Failed to create tag'), { error })
-		throw new Error(t('systemtags', 'Failed to create tag'))
-	}
-}
-
-export const deleteTag = async (fileId: number, tag: Tag): Promise<void> => {
+export const deselectTag = async (fileId: number, tag: TagWithId): Promise<void> => {
 	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
 	try {
 		await davClient.deleteFile(path)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to delete tag'), { error })
 		throw new Error(t('systemtags', 'Failed to delete tag'))
+	}
+}
+
+/**
+ * Create a new tag and yield the tag with the new ID set
+ * @param tag the tag to create (without an ID)
+ * @throws When there was an error creating a tag
+ */
+export const createTag = async (tag: Tag): Promise<Tag> => {
+	const path = '/systemtags'
+	const tagToPost = formatTag(tag)
+
+	const { headers } = await davClient.customRequest(path, {
+		method: 'POST',
+		data: tagToPost,
+	})
+	const contentLocation = headers.get('content-location')
+	if (contentLocation) {
+		return { ...tag, id: parseIdFromLocation(contentLocation) }
+	}
+
+	logger.debug('Missing "Content-Location" header')
+	throw new Error(t('systemtags', 'Missing "Content-Location" header'))
+}
+
+/**
+ * Delete a system tag from server
+ * @param tag The tag to delete (must have an ID)
+ */
+export const deleteTag = async (tag: TagWithId): Promise<void> => {
+	try {
+		await davClient.deleteFile(`systemtags/${tag.id}`)
+	} catch (error) {
+		logger.error(error as Error)
+		throw error
+	}
+}
+
+/**
+ * Rename a system tag
+ * @param tag The tag with the new name set
+ */
+export const renameTag = async (tag: TagWithId): Promise<void> => {
+	try {
+		await davClient.customRequest(`systemtags/${tag.id}`, {
+			method: 'PROPPATCH',
+			data: proppatchBody(tag.displayName),
+		})
+	} catch (error) {
+		logger.error(error as Error)
+		throw error
 	}
 }

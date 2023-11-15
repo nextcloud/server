@@ -56,12 +56,27 @@ export const parseIdFromLocation = (url: string): number => {
 }
 
 export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
-	const tag: any = { ...initialTag }
-	if (tag.name && !tag.displayName) {
-		return tag
+	if ('name' in initialTag) {
+		return initialTag
 	}
-	tag.name = tag.displayName
-	delete tag.displayName
 
-	return tag
+	const tag = { ...initialTag } as Record<string, unknown>
+	tag.name = initialTag.displayName
+	delete tag.displayName
+	return tag as never as ServerTag
+}
+
+/**
+ * Make sure a tag has Tag semantics
+ * @param initialTag A tag or server tag
+ */
+export const convertTag = (initialTag: Tag | ServerTag): Tag => {
+	if ('displayName' in initialTag) {
+		return { ...initialTag }
+	}
+
+	const tag = { ...initialTag } as Record<string, unknown>
+	tag.displayName = initialTag.name
+	delete tag.name
+	return tag as never as Tag
 }
