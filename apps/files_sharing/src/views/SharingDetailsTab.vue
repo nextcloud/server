@@ -177,24 +177,24 @@
 							{{ t('files_sharing', 'Delete') }}
 						</NcCheckboxRadioSwitch>
 					</section>
+					<div class="sharingTabDetailsView__delete">
+						<NcButton v-if="!isNewShare"
+							:aria-label="t('files_sharing', 'Delete share')"
+							:disabled="false"
+							:readonly="false"
+							type="tertiary"
+							@click.prevent="removeShare">
+							<template #icon>
+								<CloseIcon :size="16" />
+							</template>
+							{{ t('files_sharing', 'Delete share') }}
+						</NcButton>
+					</div>
 				</section>
 			</div>
 		</div>
 
 		<div class="sharingTabDetailsView__footer">
-			<div class="sharingTabDetailsView__delete">
-				<NcButton v-if="!isNewShare"
-					:aria-label="t('files_sharing', 'Delete share')"
-					:disabled="false"
-					:readonly="false"
-					type="tertiary"
-					@click.prevent="removeShare">
-					<template #icon>
-						<CloseIcon :size="16" />
-					</template>
-					{{ t('files_sharing', 'Delete share') }}
-				</NcButton>
-			</div>
 			<div class="button-group">
 				<NcButton @click="$emit('close-sharing-details')">
 					{{ t('files_sharing', 'Cancel') }}
