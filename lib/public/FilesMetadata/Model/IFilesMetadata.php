@@ -37,12 +37,14 @@ use OCP\FilesMetadata\Exceptions\FilesMetadataTypeException;
  *   "mymeta": {
  *     "value": "this is a test",
  *     "type": "string",
- *     "indexed": false
+ *     "indexed": false,
+ *     "editPermission": 1
  *   },
  *   "myapp-anothermeta": {
  *     "value": 42,
  *     "type": "int",
- *     "indexed": true
+ *     "indexed": true,
+ *     "editPermission": 0
  *   }
  * }
  *
@@ -109,6 +111,28 @@ interface IFilesMetadata extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public function isIndex(string $key): bool;
+
+	/**
+	 * set remote edit permission
+	 * (Webdav PROPPATCH)
+	 *
+	 * @param string $key metadata key
+	 * @param int $permission remote edit permission
+	 *
+	 * @since 28.0.0
+	 */
+	public function setEditPermission(string $key, int $permission): void;
+
+	/**
+	 * returns remote edit permission
+	 * (Webdav PROPPATCH)
+	 *
+	 * @param string $key metadata key
+	 *
+	 * @return int
+	 * @since 28.0.0
+	 */
+	public function getEditPermission(string $key): int;
 
 	/**
 	 * returns string value for a metadata key

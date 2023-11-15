@@ -1106,7 +1106,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * @param array $addressBookIds
+	 * @param int[] $addressBookIds
 	 * @param string $pattern
 	 * @param array $searchProperties
 	 * @param array $options
@@ -1118,6 +1118,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *   wildcard?: bool,
 	 *   since?: DateTimeFilter|null,
 	 *   until?: DateTimeFilter|null,
+	 *   person?: string
 	 * } $options
 	 * @return array
 	 */
@@ -1125,19 +1126,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 											string $pattern,
 											array $searchProperties,
 											array $options = []): array {
-		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
-		$useWildcards = !\array_key_exists('wildcard', $options) || $options['wildcard'] !== false;
-
-		$query2 = $this->db->getQueryBuilder();
-
-		$addressBookOr = $query2->expr()->orX();
-		foreach ($addressBookIds as $addressBookId) {
-			$addressBookOr->add($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)));
-		}
-
-		if ($addressBookOr->count() === 0) {
+		if (empty($addressBookIds)) {
 			return [];
 		}
+		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
+		$useWildcards = !\array_key_exists('wildcard', $options) || $options['wildcard'] !== false;
 
 		if ($escapePattern) {
 			$searchProperties = array_filter($searchProperties, function ($property) use ($pattern) {
@@ -1160,9 +1153,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return [];
 		}
 
+		$query2 = $this->db->getQueryBuilder();
 		$query2->selectDistinct('cp.cardid')
 			->from($this->dbCardsPropertiesTable, 'cp')
-			->andWhere($addressBookOr)
+			->where($query2->expr()->in('cp.addressbookid', $query2->createNamedParameter($addressBookIds, IQueryBuilder::PARAM_INT_ARRAY), IQueryBuilder::PARAM_INT_ARRAY))
 			->andWhere($query2->expr()->in('cp.name', $query2->createNamedParameter($searchProperties, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		// No need for like when the pattern is empty
@@ -1182,6 +1176,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query2->setFirstResult($options['offset']);
 		}
 
+		if (isset($options['person'])) {
+			$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($options['person']) . '%')));
+		}
 		if (isset($options['since']) || isset($options['until'])) {
 			$query2->join('cp', $this->dbCardsPropertiesTable, 'cp_bday', 'cp.cardid = cp_bday.cardid');
 			$query2->andWhere($query2->expr()->eq('cp_bday.name', $query2->createNamedParameter('BDAY')));

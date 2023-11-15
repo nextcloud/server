@@ -31,6 +31,7 @@ use InvalidArgumentException;
 use OCP\IURLGenerator;
 use OCP\Search\FilterDefinition;
 use OCP\Search\IFilteringProvider;
+use OCP\Search\IInAppSearch;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IUser;
 use OCP\Search\IFilter;
@@ -199,6 +200,7 @@ class SearchComposer {
 					'order' => $provider->getOrder($route, $routeParameters),
 					'triggers' => $triggers,
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
+					'inAppSearch' => $provider instanceof IInAppSearch,
 				];
 			},
 			$this->providers,
@@ -221,6 +223,12 @@ class SearchComposer {
 			[$appId, 'app.svg'],
 			['core', 'places/default-app-icon.svg'],
 		];
+		if ($appId === 'settings' && $providerId === 'users') {
+			// Conflict:
+			// the file /apps/settings/users.svg is already used in black version by top right user menu
+			// Override icon name here
+			$icons = [['settings', 'users-white.svg']];
+		}
 		foreach ($icons as $i => $icon) {
 			try {
 				return $this->urlGenerator->imagePath(... $icon);

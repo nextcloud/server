@@ -58,13 +58,11 @@ interface INavigationEntry {
 	/** Whether this is the default app */
 	default?: boolean
 	/** App that registered this navigation entry (not necessarly the same as the id) */
-	app: string
-	/** The key used to identify this entry in the navigations entries */
-	key: number
+	app?: string
 }
 
 /** The app order user setting */
-type IAppOrder = Record<string, Record<number, number>>
+type IAppOrder = Record<string, { order: number, app?: string }>
 
 /** OCS responses */
 interface IOCSResponse<T> {
@@ -131,8 +129,8 @@ export default defineComponent({
 		 */
 		const updateAppOrder = (value: IApp[]) => {
 			const order: IAppOrder = {}
-			value.forEach(({ app, key }, index) => {
-				order[app] = { ...order[app], [key]: index }
+			value.forEach(({ app, id }, index) => {
+				order[id] = { order: index, app }
 			})
 
 			saveSetting('apporder', order)

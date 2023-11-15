@@ -75,6 +75,8 @@
 					<template #icon>
 						<NcAvatar v-if="filter.type === 'person'"
 							:user="filter.user"
+							:size="24"
+							:disable-menu="true"
 							:show-user-status="false"
 							:hide-favorite="false" />
 						<CalendarRangeIcon v-else-if="filter.type === 'date'" />
@@ -82,10 +84,10 @@
 					</template>
 				</FilterChip>
 			</div>
-			<div v-if="searchQuery.length === 0">
-				<NcEmptyContent :name="t('core', 'Start typing in search')">
+			<div v-if="noContentInfo.show" class="global-search-modal__no-content">
+				<NcEmptyContent :name="noContentInfo.text">
 					<template #icon>
-						<MagnifyIcon />
+						<component :is="noContentInfo.icon" />
 					</template>
 				</NcEmptyContent>
 			</div>
@@ -122,13 +124,13 @@
 					</ul>
 					<div class="result-footer">
 						<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult.id)">
-							Load more results
+							{{ t('core', 'Load more results') }}
 							<template #icon>
 								<DotsHorizontalIcon :size="20" />
 							</template>
 						</NcButton>
-						<NcButton alignment="end-reverse" type="tertiary-no-background">
-							Search in {{ providerResult.provider }}
+						<NcButton v-if="providerResult.inAppSearch" alignment="end-reverse" type="tertiary-no-background">
+							{{ t('core', 'Search in') }} {{ providerResult.provider }}
 							<template #icon>
 								<ArrowRight :size="20" />
 							</template>
@@ -147,6 +149,7 @@ import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
 import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModal.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
+import FlaskEmpty from 'vue-material-design-icons/FlaskEmpty.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -171,6 +174,7 @@ export default {
 		CustomDateRangeModal,
 		DotsHorizontalIcon,
 		FilterChip,
+		FlaskEmpty,
 		ListBox,
 		NcActions,
 		NcActionButton,
@@ -216,9 +220,19 @@ export default {
 			get() {
 				return this.contacts
 			},
-
 		},
+		noContentInfo: {
+			get() {
+				const isEmptySearch = this.searchQuery.length === 0
+				const hasNoResults = this.searchQuery.length > 0 && this.results.length === 0
 
+				return {
+					show: isEmptySearch || hasNoResults,
+					text: isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results'),
+					icon: isEmptySearch ? MagnifyIcon : FlaskEmpty,
+				}
+			},
+		},
 	},
 	mounted() {
 		getProviders().then((providers) => {
@@ -257,7 +271,7 @@ export default {
 
 				if (filters.personFilterIsApplied) {
 					if (provider.filters.person) {
-						params.person = this.personFilter.id
+						params.person = this.personFilter.user
 					} else {
 						// Person filter is applied but provider does not support it, no need to search provider
 						return
@@ -274,6 +288,7 @@ export default {
 					newResults.push({
 						id: provider.id,
 						provider: provider.name,
+						inAppSearch: provider.inAppSearch,
 						results: response.data.ocs.data.entries,
 					})
 
@@ -378,7 +393,7 @@ export default {
 			this.providerActionMenuIsOpen = false
 			const existingFilter = this.filteredProviders.find(existing => existing.id === providerFilter.id)
 			if (!existingFilter) {
-				this.filteredProviders.push({ id: providerFilter.id, name: providerFilter.name, icon: providerFilter.icon, type: 'provider' })
+				this.filteredProviders.push({ id: providerFilter.id, name: providerFilter.name, icon: providerFilter.icon, type: 'provider', filters: providerFilter.filters })
 			}
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			console.debug('Search filters (newly added)', this.filters)
@@ -397,9 +412,13 @@ export default {
 
 			} else {
 				for (let i = 0; i < this.filters.length; i++) {
-					if (this.filters[i].id === 'date') {
+					// Remove date and person filter
+					if (this.filters[i].id === 'date' || this.filters[i].id === filter.id) {
 						this.dateFilterIsApplied = false
 						this.filters.splice(i, 1)
+						if (filter.type === 'person') {
+							this.personFilterIsApplied = false
+						}
 						break
 					}
 				}
@@ -520,25 +539,26 @@ $margin: 10px;
 
 	&__filters {
 		display: flex;
-		padding-top: 5px;
-		justify-content: space-between;
-
-		>*:not(:last-child) {
-			// flex: 1;
-			margin-right: 0.5m;
-		}
+		padding-top: 4px;
+		justify-content: left;
 
 		>* {
-			button {
-				min-width: 160px;
-			}
+			margin-right: 4px;
+
 		}
 
 	}
 
 	&__filters-applied {
+		padding-top: 4px;
 		display: flex;
 		flex-wrap: wrap;
+	}
+
+	&__no-content {
+		display: flex;
+		align-items: center;
+		height: 100%;
 	}
 
 	&__results {

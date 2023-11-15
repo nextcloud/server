@@ -191,6 +191,11 @@ trait S3ObjectTrait {
 	}
 
 	public function copyObject($from, $to, array $options = []) {
+		$sourceMetadata = $this->getConnection()->headObject([
+			'Bucket' => $this->getBucket(),
+			'Key' => $from,
+		] + $this->getSSECParameters());
+
 		$copy = new MultipartCopy($this->getConnection(), [
 			"source_bucket" => $this->getBucket(),
 			"source_key" => $from
@@ -198,7 +203,8 @@ trait S3ObjectTrait {
 			"bucket" => $this->getBucket(),
 			"key" => $to,
 			"acl" => "private",
-			"params" => $this->getSSECParameters() + $this->getSSECParameters(true)
+			"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
+			"source_metadata" => $sourceMetadata
 		], $options));
 		$copy->copy();
 	}

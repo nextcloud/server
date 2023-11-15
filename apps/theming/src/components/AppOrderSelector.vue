@@ -37,8 +37,7 @@ export interface IApp {
 	icon: string // path to the icon svg
 	label: string // display name
 	default?: boolean // force app as default app
-	app: string
-	key: number
+	app?: string
 }
 
 export default defineComponent({

@@ -355,12 +355,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (!data.isMemoryLimitSufficient) {
-						messages.push({
-							msg: t('core', 'The PHP memory limit is below the recommended value of 512MB.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						})
-					}
 
 					if(data.appDirsWithDifferentOwner && data.appDirsWithDifferentOwner.length > 0) {
 						var appDirsWithDifferentOwner = data.appDirsWithDifferentOwner.reduce(

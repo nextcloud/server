@@ -270,19 +270,19 @@ describe('Change the login fields then reset them', function() {
 	})
 
 	it('Ensure undo button presence', function() {
-		cy.get('[data-admin-theming-setting-field="name"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="name"] .input-field__trailing-button')
 			.scrollIntoView()
-		cy.get('[data-admin-theming-setting-field="name"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="name"] .input-field__trailing-button')
 			.should('be.visible')
 
-		cy.get('[data-admin-theming-setting-field="url"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="url"] .input-field__trailing-button')
 			.scrollIntoView()
-		cy.get('[data-admin-theming-setting-field="url"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="url"] .input-field__trailing-button')
 			.should('be.visible')
 
-		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__trailing-button')
 			.scrollIntoView()
-		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__trailing-button')
 			.should('be.visible')
 	})
 

@@ -43,7 +43,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\FilesMetadata\Model\IMetadataQuery;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IUser;
 use OCP\Share\IManager;

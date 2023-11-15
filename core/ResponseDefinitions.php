@@ -104,6 +104,7 @@ namespace OCA\Core;
  *     order: int,
  *     triggers: string[],
  *     filters: array<string, string>,
+ *     inAppSearch: bool,
  * }
  *
  * @psalm-type CoreUnifiedSearchResultEntry = array{

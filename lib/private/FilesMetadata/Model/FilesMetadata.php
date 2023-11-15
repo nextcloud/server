@@ -128,6 +128,38 @@ class FilesMetadata implements IFilesMetadata {
 	 * @param string $key metadata key
 	 *
 	 * @inheritDoc
+	 * @return int edit permission
+	 * @throws FilesMetadataNotFoundException
+	 * @since 28.0.0
+	 */
+	public function getEditPermission(string $key): int {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		return $this->metadata[$key]->getEditPermission();
+	}
+
+	/**
+	 * @param string $key metadata key
+	 * @param int $permission edit permission
+	 *
+	 * @inheritDoc
+	 * @throws FilesMetadataNotFoundException
+	 * @since 28.0.0
+	 */
+	public function setEditPermission(string $key, int $permission): void {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		$this->metadata[$key]->setEditPermission($permission);
+	}
+
+	/**
+	 * @param string $key metadata key
+	 *
+	 * @inheritDoc
 	 * @return string metadata value
 	 * @throws FilesMetadataNotFoundException
 	 * @throws FilesMetadataTypeException
@@ -582,7 +614,7 @@ class FilesMetadata implements IFilesMetadata {
 					JSON_THROW_ON_ERROR
 				)
 			);
-		} catch (JsonException $e) {
+		} catch (JsonException) {
 			throw new FilesMetadataNotFoundException();
 		}
 	}

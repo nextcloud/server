@@ -30,7 +30,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\FilesMetadata\Model\IMetadataQuery;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -135,9 +135,14 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function selectMetadata(): IMetadataQuery {
+	/**
+	 * join metadata to current query builder and returns an helper
+	 *
+	 * @return IMetadataQuery|null NULL if no metadata have never been generated
+	 */
+	public function selectMetadata(): ?IMetadataQuery {
 		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
-		$metadataQuery->retrieveMetadata();
+		$metadataQuery?->retrieveMetadata();
 		return $metadataQuery;
 	}
 }

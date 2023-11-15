@@ -33,7 +33,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
-use OCP\FilesMetadata\Model\IMetadataQuery;
+use OCP\FilesMetadata\IMetadataQuery;
 
 /**
  * Tools for transforming search queries into database queries

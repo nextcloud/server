@@ -30,7 +30,6 @@ use OC\FilesMetadata\Job\UpdateSingleMetadata;
 use OC\FilesMetadata\Listener\MetadataDelete;
 use OC\FilesMetadata\Listener\MetadataUpdate;
 use OC\FilesMetadata\Model\FilesMetadata;
-use OC\FilesMetadata\Model\MetadataQuery;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\BackgroundJob\IJobList;
@@ -48,8 +47,8 @@ use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
-use OCP\FilesMetadata\Model\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -214,7 +213,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param string $fileIdField alias of the field that contains file ids
 	 *
 	 * @inheritDoc
-	 * @return IMetadataQuery
+	 * @return IMetadataQuery|null
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
@@ -222,7 +221,11 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		IQueryBuilder $qb,
 		string $fileTableAlias,
 		string $fileIdField
-	): IMetadataQuery {
+	): ?IMetadataQuery {
+		// we don't want to join metadata table if never filled
+		if ($this->config->getAppValue('core', self::CONFIG_KEY, '') === '') {
+			return null;
+		}
 		return new MetadataQuery($qb, $this->getKnownMetadata(), $fileTableAlias, $fileIdField);
 	}
 
@@ -251,6 +254,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param string $key metadata key
 	 * @param string $type metadata type
 	 * @param bool $indexed TRUE if metadata can be search
+	 * @param int $editPermission remote edit permission via Webdav PROPPATCH
 	 *
 	 * @inheritDoc
 	 * @since 28.0.0
@@ -261,19 +265,31 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @see IMetadataValueWrapper::TYPE_STRING_LIST
 	 * @see IMetadataValueWrapper::TYPE_INT_LIST
 	 * @see IMetadataValueWrapper::TYPE_STRING
+	 * @see IMetadataValueWrapper::EDIT_FORBIDDEN
+	 * @see IMetadataValueWrapper::EDIT_REQ_OWNERSHIP
+	 * @see IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION
+	 * @see IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION
 	 */
-	public function initMetadata(string $key, string $type, bool $indexed): void {
+	public function initMetadata(
+		string $key,
+		string $type,
+		bool $indexed = false,
+		int $editPermission = IMetadataValueWrapper::EDIT_FORBIDDEN
+	): void {
 		$current = $this->getKnownMetadata();
 		try {
-			if ($current->getType($key) === $type && $indexed === $current->isIndex($key)) {
+			if ($current->getType($key) === $type
+				&& $indexed === $current->isIndex($key)
+				&& $editPermission === $current->getEditPermission($key)) {
 				return; // if key exists, with same type and indexed, we do nothing.
 			}
 		} catch (FilesMetadataNotFoundException) {
 			// if value does not exist, we keep on the writing of course
 		}
 
-		$current->import([$key => ['type' => $type, 'indexed' => $indexed]]);
+		$current->import([$key => ['type' => $type, 'indexed' => $indexed, 'editPermission' => $editPermission]]);
 		$this->config->setAppValue('core', self::CONFIG_KEY, json_encode($current));
+		$this->all = $current;
 	}
 
 	/**
