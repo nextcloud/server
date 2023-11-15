@@ -29,7 +29,7 @@ import type { ServerTag, Tag, TagWithId } from './types.js'
 export const parseTags = (tags: { props: DAVResultResponseProps }[]): TagWithId[] => {
 	return tags.map(({ props }) => Object.fromEntries(
 		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), value]),
+			.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? `${value}` : value]),
 	)) as TagWithId[]
 }
 
