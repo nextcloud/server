@@ -866,7 +866,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function where(...$predicates) {
 		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
-			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call whereAnd() or whereOr() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
+			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 

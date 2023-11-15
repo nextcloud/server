@@ -52,6 +52,7 @@ export default {
             width: 20px;
             padding: 2px;
             border-radius: 20px;
+            filter: var(--background-invert-if-bright);
         }
     }
 
@@ -63,8 +64,7 @@ export default {
         cursor: pointer;
 
         :hover {
-            border-radius: 4px;
-            padding: 1px;
+            filter: invert(20%);
         }
     }
 }

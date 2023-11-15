@@ -56,7 +56,6 @@ use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
-use OC\MemoryInfo;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
@@ -105,8 +104,6 @@ class CheckSetupController extends Controller {
 	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var MemoryInfo */
-	private $memoryInfo;
 	/** @var IniGetWrapper */
 	private $iniGetWrapper;
 	/** @var IDBConnection */
@@ -135,7 +132,6 @@ class CheckSetupController extends Controller {
 		Connection $db,
 		ILockingProvider $lockingProvider,
 		IDateTimeFormatter $dateTimeFormatter,
-		MemoryInfo $memoryInfo,
 		IniGetWrapper $iniGetWrapper,
 		IDBConnection $connection,
 		IThrottler $throttler,
@@ -157,7 +153,6 @@ class CheckSetupController extends Controller {
 		$this->throttler = $throttler;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->memoryInfo = $memoryInfo;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
 		$this->tempManager = $tempManager;
@@ -745,7 +740,6 @@ Raw output
 				'missingColumns' => $this->hasMissingColumns(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
-				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),

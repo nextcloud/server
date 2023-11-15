@@ -53,7 +53,7 @@
 
 		<OverlayIcon :is="fileOverlay"
 			v-if="fileOverlay"
-			class="files-list__row-icon-overlay" />
+			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
 	</span>
 </template>
 
@@ -78,6 +78,7 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 import { isLivePhoto } from '../../services/LivePhotos'
 
@@ -87,6 +88,7 @@ export default Vue.extend({
 	components: {
 		AccountGroupIcon,
 		AccountPlusIcon,
+		CollectivesIcon,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
@@ -209,6 +211,8 @@ export default Vue.extend({
 				return NetworkIcon
 			case 'group':
 				return AccountGroupIcon
+			case 'collective':
+				return CollectivesIcon
 			}
 
 			return null
@@ -217,11 +221,11 @@ export default Vue.extend({
 
 	methods: {
 		reset() {
-			// Reset background state
-			this.backgroundFailed = undefined
-			if (this.$refs.previewImg) {
+			if (this.backgroundFailed === true && this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
+			// Reset background state
+			this.backgroundFailed = undefined
 		},
 
 		t,

@@ -21,9 +21,11 @@
 -->
 
 <template>
-	<NcPopover :shown="opened">
+	<NcPopover :shown="opened"
+		@show="opened = true"
+		@hide="opened = false">
 		<template #trigger>
-			<slot name="trigger" />
+			<slot ref="popoverTrigger" name="trigger" />
 		</template>
 		<div class="searchable-list__wrapper">
 			<NcTextField :value.sync="searchTerm"

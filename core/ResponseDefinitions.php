@@ -104,6 +104,7 @@ namespace OCA\Core;
  *     order: int,
  *     triggers: string[],
  *     filters: array<string, string>,
+ *     inAppSearch: bool,
  * }
  *
  * @psalm-type CoreUnifiedSearchResultEntry = array{
@@ -147,6 +148,7 @@ namespace OCA\Core;
  *     input: string,
  *     output: ?string,
  *     identifier: string,
+ *     completionExpectedAt: ?int
  * }
  *
  * @psalm-type CoreTextToImageTask = array{
