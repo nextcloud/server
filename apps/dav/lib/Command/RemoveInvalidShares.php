@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Command;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Cache\CappedMemoryCache;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,44 +38,95 @@ use Symfony\Component\Console\Output\OutputInterface;
  * have no matching principal. Happened because of a bug in the calendar app.
  */
 class RemoveInvalidShares extends Command {
+	private CappedMemoryCache $cache;
+
 	public function __construct(
 		private IDBConnection $connection,
 		private Principal $principalBackend,
 	) {
 		parent::__construct();
+
+		$this->cache = new CappedMemoryCache();
 	}
 
 	protected function configure(): void {
 		$this
 			->setName('dav:remove-invalid-shares')
-			->setDescription('Remove invalid dav shares');
+			->setDescription('Remove invalid dav shares')
+			->addOption('dry-run', 'Check but don\'t delete');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$query = $this->connection->getQueryBuilder();
-		$result = $query->selectDistinct('principaluri')
+		$dryRun = $input->getOption('dry-run');
+		$recipientQb = $this->connection->getQueryBuilder();
+		$result = $recipientQb->selectDistinct('principaluri')
 			->from('dav_shares')
-			->execute();
-
+			->executeQuery();
 		while ($row = $result->fetch()) {
 			$principaluri = $row['principaluri'];
-			$p = $this->principalBackend->getPrincipalByPath($principaluri);
-			if ($p === null) {
-				$this->deleteSharesForPrincipal($principaluri);
+			if (!isset($this->cache[$principaluri])) {
+				$exists = $this->cache[$principaluri] = $this->principalBackend->getPrincipalByPath($principaluri) !== null;
+			} else {
+				$exists = $this->cache[$principaluri];
+			}
+			if (!$exists) {
+				$output->writeln("Principal URI $principaluri is an invalid share recipient", OutputInterface::VERBOSITY_VERBOSE);
+				$this->cache[$principaluri] = false;
+				if (!$dryRun) {
+					$this->deleteSharesForPrincipal($principaluri);
+				}
 			}
 		}
-
 		$result->closeCursor();
+
+		$sharerQb = $this->connection->getQueryBuilder();
+		$result = $sharerQb->select('s.id', 'a.principaluri', 'c.principaluri')
+			->selectAlias('a.principaluri', 'a_principaluri')
+			->selectAlias('c.principaluri', 'c_principaluri')
+			->from('dav_shares', 's')
+			->leftJoin('s', 'addressbooks', 'a', $sharerQb->expr()->andX(
+				$sharerQb->expr()->eq('s.type', $sharerQb->createNamedParameter('addressbook')),
+				$sharerQb->expr()->eq('s.resourceid', 'a.id'),
+			))
+			->leftJoin('s', 'calendars', 'c', $sharerQb->expr()->andX(
+				$sharerQb->expr()->eq('s.type', $sharerQb->createNamedParameter('calendar')),
+				$sharerQb->expr()->eq('s.resourceid', 'c.id'),
+			))
+			->executeQuery();
+		while ($row = $result->fetch()) {
+			$principaluri = $row['a_principaluri'] ?? $row['c_principaluri'];
+			if ($principaluri === null) {
+				// Different resource type, ignore
+				continue;
+			}
+			if (!isset($this->cache[$principaluri])) {
+				$exists = $this->cache[$principaluri] = $this->principalBackend->getPrincipalByPath($principaluri) !== null;
+			} else {
+				$exists = $this->cache[$principaluri];
+			}
+			if (!$exists) {
+				$output->writeln("Principal URI $principaluri is an invalid sharer", OutputInterface::VERBOSITY_VERBOSE);
+				if (!$dryRun) {
+					$this->deleteShareById($row['id']);
+				}
+			}
+		}
+		$result->closeCursor();
+
 		return self::SUCCESS;
 	}
 
-	/**
-	 * @param string $principaluri
-	 */
-	private function deleteSharesForPrincipal($principaluri): void {
+	private function deleteSharesForPrincipal(string $principaluri): void {
 		$delete = $this->connection->getQueryBuilder();
 		$delete->delete('dav_shares')
 			->where($delete->expr()->eq('principaluri', $delete->createNamedParameter($principaluri)));
-		$delete->execute();
+		$delete->executeStatement();
+	}
+
+	private function deleteShareById(int $id): void {
+		$delete = $this->connection->getQueryBuilder();
+		$delete->delete('dav_shares')
+			->where($delete->expr()->eq('id', $delete->createNamedParameter($id)));
+		$delete->executeStatement();
 	}
 }
