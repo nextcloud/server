@@ -462,35 +462,36 @@ export default {
 		applyQuickDateRange(range) {
 			this.dateActionMenuIsOpen = false
 			const today = new Date()
-			let endDate = today
 			let startDate
+			let endDate
+
 			switch (range) {
 			case 'today':
 				// For 'Today', both start and end are set to today
-				startDate = today
+				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'Today')
 				break
 			case '7days':
 				// For 'Last 7 days', start date is 7 days ago, end is today
-				startDate = new Date(today)
-				startDate.setDate(today.getDate() - 7)
+				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6, 0, 0, 0, 0)
 				this.dateFilter.text = t('core', 'Last 7 days')
 				break
 			case '30days':
 				// For 'Last 30 days', start date is 30 days ago, end is today
-				startDate = new Date(today)
-				startDate.setDate(today.getDate() - 30)
+				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29, 0, 0, 0, 0)
 				this.dateFilter.text = t('core', 'Last 30 days')
 				break
 			case 'thisyear':
-				// For 'This year', start date is the first day of the year, end is today
-				startDate = new Date(today.getFullYear(), 0, 1)
+				// For 'This year', start date is the first day of the year, end is the last day of the year
+				startDate = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'This year')
 				break
 			case 'lastyear':
 				// For 'Last year', start date is the first day of the previous year, end is the last day of the previous year
-				startDate = new Date(today.getFullYear() - 1, 0, 1)
-				endDate = new Date(today.getFullYear() - 1, 11, 31)
+				startDate = new Date(today.getFullYear() - 1, 0, 1, 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear() - 1, 11, 31, 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'Last year')
 				break
 			case 'custom':
@@ -498,7 +499,6 @@ export default {
 				return
 			default:
 				return
-
 			}
 			this.dateFilter.startFrom = startDate
 			this.dateFilter.endAt = endDate

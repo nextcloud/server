@@ -1,33 +1,33 @@
 <template>
 	<NcModal v-if="isModalOpen"
 		id="global-search"
-		:name="t('core', 'Date range filter')"
+		:name="t('core', 'Custom date range')"
 		:show.sync="isModalOpen"
 		:size="'small'"
 		:clear-view-delay="0"
-		:title="t('Date range filter')"
+		:title="t('Custom date range')"
 		@close="closeModal">
 		<!-- Custom date range -->
 		<div class="global-search-custom-date-modal">
-			<h1>{{ t('core', 'Date range filter') }}</h1>
+			<h1>{{ t('core', 'Custom date range') }}</h1>
 			<div class="global-search-custom-date-modal__pickers">
 				<NcDateTimePicker :id="'globalsearch-custom-date-range-start'"
 					v-model="dateFilter.startFrom"
-					:max="new Date()"
-					:label="t('core', 'Pick a start date')"
+					:label="t('core', 'Pick start date')"
 					type="date" />
 				<NcDateTimePicker :id="'globalsearch-custom-date-range-end'"
 					v-model="dateFilter.endAt"
-					:max="new Date()"
-					:label="t('core', 'Pick an end date')"
+					:label="t('core', 'Pick end date')"
 					type="date" />
 			</div>
-			<NcButton @click="applyCustomRange">
-				{{ t('core', 'Apply range') }}
-				<template #icon>
-					<CalendarRangeIcon :size="20" />
-				</template>
-			</NcButton>
+			<div class="global-search-custom-date-modal__footer">
+				<NcButton @click="applyCustomRange">
+					{{ t('core', 'Search in date range') }}
+					<template #icon>
+						<CalendarRangeIcon :size="20" />
+					</template>
+				</NcButton>
+			</div>
 		</div>
 	</NcModal>
 </template>
@@ -92,6 +92,11 @@ export default {
 	&__pickers {
 		display: flex;
 		flex-direction: column;
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: end;
 	}
 
 }
