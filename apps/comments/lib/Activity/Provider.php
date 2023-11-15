@@ -166,6 +166,8 @@ class Provider implements IProvider {
 
 		$commentId = $messageParameters['commentId'] ?? $messageParameters[0];
 
+		$event->setLink($this->url->linkTo('dav', join('/', ['comments', 'files', $event->getSubjectParameters()['fileId'] ?? $event->getObjectId(), $commentId])));
+
 		try {
 			$comment = $this->commentsManager->get((string) $commentId);
 			$message = $comment->getMessage();
