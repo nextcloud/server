@@ -66,24 +66,21 @@
 		</div>
 
 		<div class="system-tag-form__row">
-			<NcButton v-if="isCreating"
+			<NcButton type="primary"
 				native-type="submit"
 				:disabled="isCreateDisabled || loading">
-				{{ t('systemtags', 'Create') }}
+				{{ isCreating ? t('systemtags', 'Create') : t('systemtags', 'Update') }}
 			</NcButton>
-			<template v-else>
-				<NcButton native-type="submit"
-					:disabled="isUpdateDisabled || loading">
-					{{ t('systemtags', 'Update') }}
-				</NcButton>
-				<NcButton :disabled="loading"
-					@click="handleDelete">
-					{{ t('systemtags', 'Delete') }}
-				</NcButton>
-			</template>
-			<NcButton native-type="reset"
+			<NcButton type="tertiary"
+				native-type="reset"
 				:disabled="isResetDisabled || loading">
 				{{ t('systemtags', 'Reset') }}
+			</NcButton>
+			<NcButton v-show="!isCreating"
+				type="error"
+				:disabled="loading"
+				@click="handleDelete">
+				{{ t('systemtags', 'Delete') }}
 			</NcButton>
 			<NcLoadingIcon v-if="loading"
 				:name="t('systemtags', 'Loading …')"
@@ -320,7 +317,8 @@ export default Vue.extend({
 	&__row {
 		margin-top: 8px;
 		display: flex;
-		gap: 0 4px;
+		flex-wrap: wrap;
+		gap: 8px;
 	}
 }
 </style>

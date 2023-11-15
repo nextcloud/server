@@ -21,7 +21,8 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('systemtags', 'Collaborative tags')"
+	<NcSettingsSection data-cy-systemtags-section
+		:name="t('systemtags', 'Collaborative tags')"
 		:description="t('systemtags', 'Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.')">
 		<NcLoadingIcon v-if="loadingTags"
 			:name="t('systemtags', 'Loading collaborative tags …')"
@@ -36,22 +37,17 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable */
-import Vue from 'vue'
+import type { TagWithId } from '../types.js'
+import { translate as t } from '@nextcloud/l10n'
+import { showError } from '@nextcloud/dialogs'
+import { defineComponent } from 'vue'
+import { fetchTags } from '../services/api.js'
 
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-
-import { translate as t } from '@nextcloud/l10n'
-import { showError } from '@nextcloud/dialogs'
-
 import SystemTagForm from '../components/SystemTagForm.vue'
 
-import { fetchTags } from '../services/api.js'
-
-import type { TagWithId } from '../types.js'
-
-export default Vue.extend({
+export default defineComponent({
 	name: 'SystemTagsSection',
 
 	components: {
