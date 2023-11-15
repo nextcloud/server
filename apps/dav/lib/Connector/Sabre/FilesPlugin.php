@@ -159,7 +159,8 @@ class FilesPlugin extends ServerPlugin {
 		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$this->server->on('afterBind', [$this, 'sendFileIdHeader']);
 		$this->server->on('afterWriteContent', [$this, 'sendFileIdHeader']);
-		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('method:GET', [$this,'httpGet']);
+		$this->server->on('afterMethod:GET', [$this,'afterHttpGet']);
 		$this->server->on('afterMethod:GET', [$this, 'handleDownloadToken']);
 		$this->server->on('afterResponse', function ($request, ResponseInterface $response) {
 			$body = $response->getBody();
@@ -224,13 +225,31 @@ class FilesPlugin extends ServerPlugin {
 		}
 	}
 
+	public function httpGet(RequestInterface $request, ResponseInterface $response) {
+		// only handle symlinks
+		// TODO(taminob): does not work if not in cache (which it is currently not because the path here is /files/root/path/to/symlink (request path) and the path in cache is only /root/files/path/to/symlink (internal path)); to make it work without cache, e.g. \Sabre\DAV\Server::getResourceTypeForNode would have to be extended to handle symlinks
+		$node = $this->tree->getNodeForPath($request->getPath());
+		if (!($node instanceof \OCA\DAV\Connector\Sabre\File)) {
+			return;
+		}
+		if ($node->getFileInfo()->getType() !== \OCP\Files\FileInfo::TYPE_SYMLINK) {
+			return;
+		}
+
+		$response->addHeader('OC-File-Type', '1');
+		$response->setBody($node->readlink());
+		// do not continue processing this request
+		return false;
+	}
+
+
 	/**
 	 * Add headers to file download
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
-	public function httpGet(RequestInterface $request, ResponseInterface $response) {
+	public function afterHttpGet(RequestInterface $request, ResponseInterface $response) {
 		// Only handle valid files
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) {
