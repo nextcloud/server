@@ -33,18 +33,18 @@ export const DEFAULT_LIMIT = 20
  * Retrieve the comments list
  *
  * @param {object} data destructuring object
- * @param {string} data.commentsType the ressource type
- * @param {number} data.ressourceId the ressource ID
+ * @param {string} data.resourceType the resource type
+ * @param {number} data.resourceId the resource ID
  * @param {object} [options] optional options for axios
  * @param {number} [options.offset] the pagination offset
  * @param {number} [options.limit] the pagination limit, defaults to 20
  * @param {Date} [options.datetime] optional date to query
  * @return {{data: object[]}} the comments list
  */
-export const getComments = async function({ commentsType, ressourceId }, options: { offset: number, limit?: number, datetime?: Date }) {
-	const ressourcePath = ['', commentsType, ressourceId].join('/')
+export const getComments = async function({ resourceType, resourceId }, options: { offset: number, limit?: number, datetime?: Date }) {
+	const resourcePath = ['', resourceType, resourceId].join('/')
 	const datetime = options.datetime ? `<oc:datetime>${options.datetime.toISOString()}</oc:datetime>` : ''
-	const response = await client.customRequest(ressourcePath, Object.assign({
+	const response = await client.customRequest(resourcePath, Object.assign({
 		method: 'REPORT',
 		data: `<?xml version="1.0"?>
 			<oc:filter-comments

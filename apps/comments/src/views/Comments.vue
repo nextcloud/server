@@ -28,9 +28,10 @@
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
-			:user-data="userData"
+			:comments-type="resourceType"
 			:editor="true"
-			:ressource-id="ressourceId"
+			:user-data="userData"
+			:resource-id="resourceId"
 			class="comments__writer"
 			@new="onNewComment" />
 
@@ -49,8 +50,9 @@
 					tag="li"
 					v-bind="comment.props"
 					:auto-complete="autoComplete"
+					:comments-type="resourceType"
 					:message.sync="comment.props.message"
-					:ressource-id="ressourceId"
+					:resource-id="resourceId"
 					:user-data="genMentionsData(comment.props.mentions)"
 					class="comments__list"
 					@delete="onDelete" />
@@ -123,7 +125,7 @@ export default {
 			loading: false,
 			done: false,
 
-			ressourceId: null,
+			resourceId: null,
 			offset: 0,
 			comments: [],
 
@@ -149,7 +151,7 @@ export default {
 		async onVisibilityChange(isVisible) {
 			if (isVisible) {
 				try {
-					await markCommentsAsRead(this.commentsType, this.ressourceId, new Date())
+					await markCommentsAsRead(this.resourceType, this.resourceId, new Date())
 				} catch (e) {
 					showError(e.message || t('comments', 'Failed to mark comments as read'))
 				}
@@ -157,12 +159,12 @@ export default {
 		},
 
 		/**
-		 * Update current ressourceId and fetch new data
+		 * Update current resourceId and fetch new data
 		 *
-		 * @param {number} ressourceId the current ressourceId (fileId...)
+		 * @param {number} resourceId the current resourceId (fileId...)
 		 */
-		async update(ressourceId) {
-			this.ressourceId = ressourceId
+		async update(resourceId) {
+			this.resourceId = resourceId
 			this.resetState()
 			this.getComments()
 		},
@@ -200,8 +202,8 @@ export default {
 
 				// Fetch comments
 				const { data: comments } = await request({
-					commentsType: this.commentsType,
-					ressourceId: this.ressourceId,
+					resourceType: this.resourceType,
+					resourceId: this.resourceId,
 				}, { offset: this.offset }) || { data: [] }
 
 				this.logger.debug(`Processed ${comments.length} comments`, { comments })

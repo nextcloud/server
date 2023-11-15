@@ -41,7 +41,7 @@ export function registerCommentsPlugins() {
 				parent: context,
 				propsData: {
 					reloadCallback: reload,
-					ressourceId: fileInfo.id,
+					resourceId: fileInfo.id,
 				},
 			})
 			ActivityTabPluginInstance.$mount(el)
@@ -56,7 +56,7 @@ export function registerCommentsPlugins() {
 	})
 
 	window.OCA.Activity.registerSidebarEntries(async ({ fileInfo, limit, offset }) => {
-		const { data: comments } = await getComments({ commentsType: 'files', ressourceId: fileInfo.id }, { limit, offset })
+		const { data: comments } = await getComments({ resourceType: 'files', resourceId: fileInfo.id }, { limit, offset })
 		logger.debug('Loaded comments', { fileInfo, comments })
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
 		const CommentsViewObject = Vue.extend(CommentView)
@@ -68,7 +68,7 @@ export function registerCommentsPlugins() {
 					parent: context,
 					propsData: {
 						comment,
-						ressourceId: fileInfo.id,
+						resourceId: fileInfo.id,
 						reloadCallback: reload,
 					},
 				})

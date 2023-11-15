@@ -6,9 +6,13 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
 	props: {
-		ressourceId: {
+		resourceId: {
 			type: Number,
 			required: true,
+		},
+		resourceType: {
+			type: String,
+			default: 'files',
 		},
 	},
 	data() {
@@ -33,7 +37,7 @@ export default defineComponent({
 				params: {
 					search,
 					itemType: 'files',
-					itemId: this.ressourceId,
+					itemId: this.resourceId,
 					sorter: 'commenters|share-recipients',
 					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},

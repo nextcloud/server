@@ -25,8 +25,9 @@
 		tag="li"
 		v-bind="comment.props"
 		:auto-complete="autoComplete"
+		:comments-type="resourceType"
 		:message="commentMessage"
-		:ressource-id="ressourceId"
+		:resource-id="resourceId"
 		:user-data="genMentionsData(comment.props.mentions)"
 		class="comments-activity"
 		@delete="reloadCallback()" />

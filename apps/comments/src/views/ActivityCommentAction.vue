@@ -23,9 +23,10 @@
 <template>
 	<Comment v-bind="editorData"
 		:auto-complete="autoComplete"
-		:user-data="userData"
+		:comments-type="resourceType"
 		:editor="true"
-		:ressource-id="ressourceId"
+		:user-data="userData"
+		:resource-id="resourceId"
 		class="comments-action"
 		@new="onNewComment" />
 </template>
