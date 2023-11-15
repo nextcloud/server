@@ -203,7 +203,8 @@ export default {
 		 * @return {string}
 		 */
 		subtitle() {
-			return `${this.size}, ${this.time}`
+			const starredIndicator = this.fileInfo.isFavourited ? '★ ' : ''
+			return `${starredIndicator} ${this.size}, ${this.time}`
 		},
 
 		/**
