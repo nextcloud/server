@@ -35,6 +35,7 @@ const previewSupportedMimes = [
 	'image/heif',
 	'image/tiff',
 	'image/x-xbitmap',
+	'image/emf',
 ]
 
 /**
