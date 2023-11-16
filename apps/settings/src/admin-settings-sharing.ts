@@ -1,4 +1,3 @@
-<?php
 /**
  * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
  *
@@ -20,6 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
 
-<div id="vue-admin-settings-sharing"></div>
+import Vue from 'vue'
+import AdminSettingsSharing from './views/AdminSettingsSharing.vue'
+
+export default new Vue({
+	name: 'AdminSettingsSharingSection',
+	el: '#vue-admin-settings-sharing',
+	render: (h) => h(AdminSettingsSharing),
+})
