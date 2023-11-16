@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ServerTag, Tag, TagWithId } from '../types.js'
 
@@ -30,7 +31,7 @@ import { davClient } from './davClient.js'
 import { formatTag, parseIdFromLocation, parseTags } from '../utils'
 import { logger } from '../logger.js'
 
-const fetchTagsBody = `<?xml version="1.0"?>
+export const fetchTagsPayload = `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
 	<d:prop>
 		<oc:id />
@@ -45,7 +46,7 @@ export const fetchTags = async (): Promise<TagWithId[]> => {
 	const path = '/systemtags'
 	try {
 		const { data: tags } = await davClient.getDirectoryContents(path, {
-			data: fetchTagsBody,
+			data: fetchTagsPayload,
 			details: true,
 			glob: '/systemtags/*', // Filter out first empty tag
 		}) as ResponseDataDetailed<Required<FileStat>[]>
@@ -67,39 +68,10 @@ export const fetchLastUsedTagIds = async (): Promise<number[]> => {
 	}
 }
 
-export const fetchSelectedTags = async (fileId: number): Promise<TagWithId[]> => {
-	const path = '/systemtags-relations/files/' + fileId
-	try {
-		const { data: tags } = await davClient.getDirectoryContents(path, {
-			data: fetchTagsBody,
-			details: true,
-			glob: '/systemtags-relations/files/*/*', // Filter out first empty tag
-		}) as ResponseDataDetailed<Required<FileStat>[]>
-		return parseTags(tags)
-	} catch (error) {
-		logger.error(t('systemtags', 'Failed to load selected tags'), { error })
-		throw new Error(t('systemtags', 'Failed to load selected tags'))
-	}
-}
-
-export const selectTag = async (fileId: number, tag: Tag | ServerTag): Promise<void> => {
-	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
-	const tagToPut = formatTag(tag)
-	try {
-		await davClient.customRequest(path, {
-			method: 'PUT',
-			data: tagToPut,
-		})
-	} catch (error) {
-		logger.error(t('systemtags', 'Failed to select tag'), { error })
-		throw new Error(t('systemtags', 'Failed to select tag'))
-	}
-}
-
 /**
  * @return created tag id
  */
-export const createTag = async (fileId: number, tag: Tag): Promise<number> => {
+export const createTag = async (tag: Tag | ServerTag): Promise<number> => {
 	const path = '/systemtags'
 	const tagToPost = formatTag(tag)
 	try {
@@ -109,12 +81,7 @@ export const createTag = async (fileId: number, tag: Tag): Promise<number> => {
 		})
 		const contentLocation = headers.get('content-location')
 		if (contentLocation) {
-			const tagToPut = {
-				...tagToPost,
-				id: parseIdFromLocation(contentLocation),
-			}
-			await selectTag(fileId, tagToPut)
-			return tagToPut.id
+			return parseIdFromLocation(contentLocation)
 		}
 		logger.error(t('systemtags', 'Missing "Content-Location" header'))
 		throw new Error(t('systemtags', 'Missing "Content-Location" header'))
@@ -124,8 +91,32 @@ export const createTag = async (fileId: number, tag: Tag): Promise<number> => {
 	}
 }
 
-export const deleteTag = async (fileId: number, tag: Tag): Promise<void> => {
-	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
+export const updateTag = async (tag: TagWithId): Promise<void> => {
+	const path = '/systemtags/' + tag.id
+	const data = `<?xml version="1.0"?>
+	<d:propertyupdate  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+		<d:set>
+			<d:prop>
+				<oc:display-name>${tag.displayName}</oc:display-name>
+				<oc:user-visible>${tag.userVisible}</oc:user-visible>
+				<oc:user-assignable>${tag.userAssignable}</oc:user-assignable>
+			</d:prop>
+		</d:set>
+	</d:propertyupdate>`
+
+	try {
+		await davClient.customRequest(path, {
+			method: 'PROPPATCH',
+			data,
+		})
+	} catch (error) {
+		logger.error(t('systemtags', 'Failed to update tag'), { error })
+		throw new Error(t('systemtags', 'Failed to update tag'))
+	}
+}
+
+export const deleteTag = async (tag: TagWithId): Promise<void> => {
+	const path = '/systemtags/' + tag.id
 	try {
 		await davClient.deleteFile(path)
 	} catch (error) {
