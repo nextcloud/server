@@ -349,7 +349,7 @@ class FileEventsListener implements IEventListener {
 
 	/**
 	 * Retrieve the path relative to the current user root folder.
-	 * If no user is connected, use the node's owner.
+	 * If no user is connected, try to use the node's owner.
 	 */
 	private function getPathForNode(Node $node): ?string {
 		try {
@@ -357,8 +357,12 @@ class FileEventsListener implements IEventListener {
 				->getUserFolder(\OC_User::getUser())
 				->getRelativePath($node->getPath());
 		} catch (\Throwable $ex) {
+			$owner = $node->getOwner();
+			if ($owner === null) {
+				return null;
+			}
 			return $this->rootFolder
-				->getUserFolder($node->getOwner()->getUid())
+				->getUserFolder($owner->getUid())
 				->getRelativePath($node->getPath());
 		}
 	}
