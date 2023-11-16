@@ -47,25 +47,20 @@ namespace OCA\Settings\Controller;
 
 use DirectoryIterator;
 use GuzzleHttp\Exception\ClientException;
-use OC;
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
@@ -84,20 +79,12 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var ILockingProvider */
-	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
 	private $manager;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IServerContainer */
-	private $serverContainer;
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
@@ -108,13 +95,9 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		IEventDispatcher $dispatcher,
-		ILockingProvider $lockingProvider,
 		IDateTimeFormatter $dateTimeFormatter,
 		ITempManager $tempManager,
 		IManager $manager,
-		IAppManager $appManager,
-		IServerContainer $serverContainer,
 		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
@@ -124,13 +107,9 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
-		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->tempManager = $tempManager;
 		$this->manager = $manager;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
 		$this->setupCheckManager = $setupCheckManager;
 	}
 
@@ -374,7 +353,7 @@ Raw output
 		$currentUser = posix_getuid();
 		$appDirsWithDifferentOwner = [[]];
 
-		foreach (OC::$APPSROOTS as $appRoot) {
+		foreach (\OC::$APPSROOTS as $appRoot) {
 			if ($appRoot['writable'] === true) {
 				$appDirsWithDifferentOwner[] = $this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot);
 			}
