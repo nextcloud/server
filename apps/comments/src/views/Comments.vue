@@ -28,7 +28,7 @@
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
-			:comments-type="resourceType"
+			:resource-type="resourceType"
 			:editor="true"
 			:user-data="userData"
 			:resource-id="resourceId"
@@ -50,7 +50,7 @@
 					tag="li"
 					v-bind="comment.props"
 					:auto-complete="autoComplete"
-					:comments-type="resourceType"
+					:resource-type="resourceType"
 					:message.sync="comment.props.message"
 					:resource-id="resourceId"
 					:user-data="genMentionsData(comment.props.mentions)"

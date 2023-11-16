@@ -23,7 +23,7 @@
 <template>
 	<Comment v-bind="editorData"
 		:auto-complete="autoComplete"
-		:comments-type="resourceType"
+		:resource-type="resourceType"
 		:editor="true"
 		:user-data="userData"
 		:resource-id="resourceId"
