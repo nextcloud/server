@@ -121,7 +121,7 @@ OC.L10N.register(
     "Personal" : "Persönlich",
     "Administration" : "Verwaltung",
     "Additional settings" : "Zusätzliche Einstellungen",
-    "Artificial Intelligence" : "Künstiche Intelligenz",
+    "Artificial Intelligence" : "Künstliche Intelligenz",
     "Administration privileges" : "Administratorrechte",
     "Groupware" : "Groupware",
     "Overview" : "Übersicht",

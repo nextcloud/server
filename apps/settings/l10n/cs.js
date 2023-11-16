@@ -167,6 +167,8 @@ OC.L10N.register(
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Vámi využívaná verze PHP nepodporuje FreeType, což bude mít za následky vizuální nedostatky u obrázků profilů a v rozhraní pro nastavování.",
     "PHP getenv" : "PHP getenv",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Zdá se, že PHP není správně nastaveno pro dotazování proměnných prostředí systému. Test s příkazem getenv(\"PATH\") vrátí pouze prázdnou odpověď.",
+    "PHP memory limit" : "PHP limit paměti",
+    "The PHP memory limit is below the recommended value of %s." : "Limit paměti pro PHP je nastaven na níže než doporučenou hodnotu %s.",
     "PHP modules" : "PHP moduly",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Tato instance postrádá některé potřebné PHP moduly. Je třeba je nainstalovat: %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Této instanci chybí některé doporučené moduly pro PHP. V zájmu lepšího výkonu a kompatibility, je důrazně doporučeno je nainstalovat: %s.",
