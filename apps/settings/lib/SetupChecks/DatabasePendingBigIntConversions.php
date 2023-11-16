@@ -25,10 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
+use Doctrine\DBAL\Types\BigIntType;
 use OC\Core\Command\Db\ConvertFilecacheBigInt;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
-use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -71,7 +71,7 @@ class DatabasePendingBigIntConversions implements ISetupCheck {
 				$column = $table->getColumn($columnName);
 				$isAutoIncrement = $column->getAutoincrement();
 				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
+				if (!($column->getType() instanceof BigIntType) && !$isAutoIncrementOnSqlite) {
 					$pendingColumns[] = $tableName . '.' . $columnName;
 				}
 			}
