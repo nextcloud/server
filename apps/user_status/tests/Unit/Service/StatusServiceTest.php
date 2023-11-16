@@ -1130,4 +1130,34 @@ EOF;
 
 		$this->assertEquals($status, $this->service->findByUserId('admin'));
 	}
+
+	public function testSetStatusWithoutMessage(): void {
+		$this->predefinedStatusService->expects(self::once())
+			->method('isValidId')
+			->with(IUserStatus::MESSAGE_AVAILABILITY)
+			->willReturn(true);
+		$this->timeFactory
+			->method('getTime')
+			->willReturn(1234);
+		$status = new UserStatus();
+		$status->setUserId('admin');
+		$status->setStatusTimestamp(1234);
+		$status->setIsUserDefined(true);
+		$status->setStatus(IUserStatus::DND);
+		$status->setIsBackup(false);
+		$status->setMessageId(IUserStatus::MESSAGE_AVAILABILITY);
+		$this->mapper->expects(self::once())
+			->method('insert')
+			->with($this->equalTo($status))
+			->willReturnArgument(0);
+
+		$result = $this->service->setUserStatus(
+			'admin',
+			IUserStatus::DND,
+			IUserStatus::MESSAGE_AVAILABILITY,
+			true,
+		);
+
+		self::assertNotNull($result);
+	}
 }
