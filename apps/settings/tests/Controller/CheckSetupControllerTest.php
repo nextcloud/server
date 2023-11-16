@@ -37,21 +37,17 @@ namespace OCA\Settings\Tests\Controller;
 use OC;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Controller\CheckSetupController;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -82,20 +78,12 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $dispatcher;
-	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var IServerContainer|MockObject */
-	private $serverContainer;
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
 
@@ -124,16 +112,12 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
@@ -145,13 +129,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dispatcher,
-				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->tempManager,
 				$this->notificationManager,
-				$this->appManager,
-				$this->serverContainer,
 				$this->setupCheckManager,
 			])
 			->setMethods([
@@ -316,13 +296,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dispatcher,
-				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->tempManager,
 				$this->notificationManager,
-				$this->appManager,
-				$this->serverContainer,
 				$this->setupCheckManager,
 			])
 			->setMethods(null)->getMock();
@@ -1039,13 +1015,9 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dispatcher,
-			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->tempManager,
 			$this->notificationManager,
-			$this->appManager,
-			$this->serverContainer,
 			$this->setupCheckManager,
 		);
 
@@ -1089,13 +1061,9 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dispatcher,
-			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->tempManager,
 			$this->notificationManager,
-			$this->appManager,
-			$this->serverContainer,
 			$this->setupCheckManager,
 		);
 
