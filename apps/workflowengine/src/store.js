@@ -88,7 +88,8 @@ const store = new Store({
 				context.commit('addRule', rule)
 			})
 		},
-		createNewRule(context, rule) {
+		async createNewRule(context, rule) {
+			await confirmPassword()
 			let entity = null
 			let events = []
 			if (rule.isComplex === false && rule.fixedEntity === '') {
@@ -119,9 +120,7 @@ const store = new Store({
 			context.commit('removeRule', rule)
 		},
 		async pushUpdateRule(context, rule) {
-			if (context.state.scope === 0) {
-				await confirmPassword()
-			}
+			await confirmPassword()
 			let result
 			if (rule.id < 0) {
 				result = await axios.post(getApiUrl(''), rule)

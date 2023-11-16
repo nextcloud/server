@@ -81,6 +81,7 @@ class UserWorkflowsController extends AWorkflowController {
 
 	/**
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
@@ -90,6 +91,7 @@ class UserWorkflowsController extends AWorkflowController {
 
 	/**
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
@@ -99,6 +101,7 @@ class UserWorkflowsController extends AWorkflowController {
 
 	/**
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 * @throws OCSForbiddenException
 	 */
 	public function destroy(int $id): DataResponse {
