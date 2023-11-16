@@ -386,7 +386,7 @@ class FileSearchBackend implements ISearchBackend {
 				}
 
 				return new SearchComparison(
-					ISearchComparison::COMPARE_DEFINED,
+					$trimmedType,
 					$field,
 					$this->castValue($property, $value ?? ''),
 					$extra ?? ''
