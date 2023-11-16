@@ -38,10 +38,11 @@ class GroupFilter implements IFilter {
 		string $value,
 		IGroupManager $groupManager,
 	) {
-		$this->group = $groupManager->get($value);
-		if ($this->group === null) {
+		$group = $groupManager->get($value);
+		if ($group === null) {
 			throw new InvalidArgumentException('Group '.$value.' not found');
 		}
+		$this->group = $group;
 	}
 
 	public function get(): IGroup {

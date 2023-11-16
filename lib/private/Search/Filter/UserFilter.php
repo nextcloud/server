@@ -38,10 +38,11 @@ class UserFilter implements IFilter {
 		string $value,
 		IUserManager $userManager,
 	) {
-		$this->user = $userManager->get($value);
-		if ($this->user === null) {
+		$user = $userManager->get($value);
+		if ($user === null) {
 			throw new InvalidArgumentException('User '.$value.' not found');
 		}
+		$this->user = $user;
 	}
 
 	public function get(): IUser {
