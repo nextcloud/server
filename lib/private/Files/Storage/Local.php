@@ -73,6 +73,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	protected bool $unlinkOnTruncate;
 
+	protected bool $caseInsensitive = false;
+
 	public function __construct($arguments) {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -92,6 +94,7 @@ class Local extends \OC\Files\Storage\Common {
 		$this->config = \OC::$server->get(IConfig::class);
 		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
+		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
@@ -155,6 +158,9 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function is_dir($path) {
+		if ($this->caseInsensitive && !$this->file_exists($path)) {
+			return false;
+		}
 		if (substr($path, -1) == '/') {
 			$path = substr($path, 0, -1);
 		}
@@ -162,6 +168,9 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function is_file($path) {
+		if ($this->caseInsensitive && !$this->file_exists($path)) {
+			return false;
+		}
 		return is_file($this->getSourcePath($path));
 	}
 
@@ -264,7 +273,13 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_exists($path) {
-		return file_exists($this->getSourcePath($path));
+		if ($this->caseInsensitive) {
+			$fullPath = $this->getSourcePath($path);
+			$content = scandir(dirname($fullPath), SCANDIR_SORT_NONE);
+			return is_array($content) && array_search(basename($fullPath), $content) !== false;
+		} else {
+			return file_exists($this->getSourcePath($path));
+		}
 	}
 
 	public function filemtime($path) {
@@ -375,7 +390,16 @@ class Local extends \OC\Files\Storage\Common {
 			$this->checkTreeForForbiddenItems($this->getSourcePath($source));
 		}
 
-		return rename($this->getSourcePath($source), $this->getSourcePath($target));
+		if (rename($this->getSourcePath($source), $this->getSourcePath($target))) {
+			if ($this->caseInsensitive) {
+				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
 	}
 
 	public function copy($source, $target) {
@@ -388,6 +412,11 @@ class Local extends \OC\Files\Storage\Common {
 			}
 			$result = copy($this->getSourcePath($source), $this->getSourcePath($target));
 			umask($oldMask);
+			if ($this->caseInsensitive) {
+				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
+					return false;
+				}
+			}
 			return $result;
 		}
 	}
