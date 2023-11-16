@@ -1329,9 +1329,6 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <ParamNameMismatch occurrences="1">
-      <code>$uid</code>
-    </ParamNameMismatch>
   </file>
   <file src="apps/workflowengine/lib/Manager.php">
     <InvalidArgument occurrences="3">
