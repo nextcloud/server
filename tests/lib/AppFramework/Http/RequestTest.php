@@ -481,7 +481,33 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
+		$this->assertSame('10.4.0.4', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithMultipleTrustedRemotes() {
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->willReturnMap([
+				['trusted_proxies', [], ['10.0.0.2', '::1']],
+				['forwarded_for_headers', ['HTTP_X_FORWARDED_FOR'], ['HTTP_X_FORWARDED']],
+			]);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '10.0.0.2',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4, ::1',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('10.4.0.4', $request->getRemoteAddress());
 	}
 
 	public function testGetRemoteAddressIPv6WithSingleTrustedRemote() {
@@ -510,7 +536,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
+		$this->assertSame('10.4.0.4', $request->getRemoteAddress());
 	}
 
 	public function testGetRemoteAddressVerifyPriorityHeader() {
@@ -524,9 +550,9 @@ class RequestTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('forwarded_for_headers')
 			->willReturn([
-				'HTTP_CLIENT_IP',
+				'HTTP_X_FORWARDED',
 				'HTTP_X_FORWARDED_FOR',
-				'HTTP_X_FORWARDED'
+				'HTTP_CLIENT_IP',
 			]);
 
 		$request = new Request(
@@ -557,9 +583,9 @@ class RequestTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('forwarded_for_headers')
 			->willReturn([
-				'HTTP_CLIENT_IP',
+				'HTTP_X_FORWARDED',
 				'HTTP_X_FORWARDED_FOR',
-				'HTTP_X_FORWARDED'
+				'HTTP_CLIENT_IP'
 			]);
 
 		$request = new Request(
