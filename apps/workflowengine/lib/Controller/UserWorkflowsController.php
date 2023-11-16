@@ -29,6 +29,7 @@ namespace OCA\WorkflowEngine\Controller;
 
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -84,6 +85,7 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
+	#[PasswordConfirmationRequired]
 	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::create($class, $name, $checks, $operation, $entity, $events);
 	}
@@ -93,6 +95,7 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
+	#[PasswordConfirmationRequired]
 	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::update($id, $name, $checks, $operation, $entity, $events);
 	}
@@ -101,6 +104,7 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @NoAdminRequired
 	 * @throws OCSForbiddenException
 	 */
+	#[PasswordConfirmationRequired]
 	public function destroy(int $id): DataResponse {
 		return parent::destroy($id);
 	}
