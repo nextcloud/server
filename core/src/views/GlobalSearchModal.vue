@@ -104,17 +104,17 @@
 							:bold="false"
 							@click="openResult(result)">
 							<template #icon>
-								<div v-if="result.icon"
-									class="result-items__item-icon"
+								<div class="result-items__item-icon"
 									:class="{
-										'result-items__item-icon--no-preview': !isValidUrl(result.thumbnailUrl),
-										'result-items__item-icon--with-thumbnail': isValidUrl(result.thumbnailUrl),
-										[result.icon]: !isValidUrl(result.icon),
+										'result-items__item-icon--rounded': result.rounded,
+										'result-items__item-icon--no-preview': !isValidIconOrPreviewUrl(result.thumbnailUrl),
+										'result-items__item-icon--with-thumbnail': isValidIconOrPreviewUrl(result.thumbnailUrl),
+										[result.icon]: !isValidIconOrPreviewUrl(result.icon),
 									}"
 									:style="{
-										backgroundImage: isValidUrl(result.icon) ? `url(${result.icon})` : '',
+										backgroundImage: isValidIconOrPreviewUrl(result.icon) ? `url(${result.icon})` : '',
 									}">
-									<img v-if="result.thumbnailUrl" :src="result.thumbnailUrl" class="">
+									<img v-if="isValidIconOrPreviewUrl(result.thumbnailUrl)" :src="result.thumbnailUrl" class="">
 								</div>
 							</template>
 							<template #subname>
@@ -512,8 +512,8 @@ export default {
 			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
 			this.updateDateFilter()
 		},
-		isValidUrl(icon) {
-			return /^https?:\/\//.test(icon) || icon.startsWith('//')
+		isValidIconOrPreviewUrl(url) {
+			return /^https?:\/\//.test(url) || url.startsWith('/')
 		},
 		closeModal() {
 			this.searchQuery = ''
