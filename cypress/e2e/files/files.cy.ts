@@ -19,21 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-describe('Login with a new user and open the files app', function() {
-	before(function() {
+describe('Files', { testIsolation: true }, () => {
+	beforeEach(() => {
 		cy.createRandomUser().then((user) => {
 			cy.login(user)
 		})
 	})
 
-	after(function() {
-		cy.logout()
-	})
-
-	it('See the default file welcome.txt in the files list', function() {
+	it('Login with a user and open the files app', () => {
 		cy.visit('/apps/files')
 		cy.get('[data-cy-files-list] [data-cy-files-list-row-name="welcome.txt"]').should('be.visible')
-		// eslint-disable-next-line cypress/no-unnecessary-waiting -- Wait for all to finish loading
-		cy.wait(500)
 	})
 })
