@@ -67,6 +67,7 @@ use OCA\Settings\SetupChecks\PhpFreetypeSupport;
 use OCA\Settings\SetupChecks\PhpGetEnv;
 use OCA\Settings\SetupChecks\PhpMemoryLimit;
 use OCA\Settings\SetupChecks\PhpModules;
+use OCA\Settings\SetupChecks\PhpOpcacheSetup;
 use OCA\Settings\SetupChecks\PhpOutdated;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\RandomnessSecure;
@@ -182,6 +183,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpGetEnv::class);
 		$context->registerSetupCheck(PhpMemoryLimit::class);
 		$context->registerSetupCheck(PhpModules::class);
+		$context->registerSetupCheck(PhpOpcacheSetup::class);
 		$context->registerSetupCheck(PhpOutdated::class);
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(RandomnessSecure::class);

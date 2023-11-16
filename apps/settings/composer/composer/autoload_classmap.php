@@ -95,6 +95,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\PhpGetEnv' => $baseDir . '/../lib/SetupChecks/PhpGetEnv.php',
     'OCA\\Settings\\SetupChecks\\PhpMemoryLimit' => $baseDir . '/../lib/SetupChecks/PhpMemoryLimit.php',
     'OCA\\Settings\\SetupChecks\\PhpModules' => $baseDir . '/../lib/SetupChecks/PhpModules.php',
+    'OCA\\Settings\\SetupChecks\\PhpOpcacheSetup' => $baseDir . '/../lib/SetupChecks/PhpOpcacheSetup.php',
     'OCA\\Settings\\SetupChecks\\PhpOutdated' => $baseDir . '/../lib/SetupChecks/PhpOutdated.php',
     'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => $baseDir . '/../lib/SetupChecks/PhpOutputBuffering.php',
     'OCA\\Settings\\SetupChecks\\RandomnessSecure' => $baseDir . '/../lib/SetupChecks/RandomnessSecure.php',
