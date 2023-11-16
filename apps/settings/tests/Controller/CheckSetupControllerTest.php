@@ -165,7 +165,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'getOpcacheSetupRecommendations',
-				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
@@ -213,9 +212,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getOpcacheSetupRecommendations')
 			->willReturn(['recommendation1', 'recommendation2']);
-		$this->checkSetupController
-			->method('isSqliteUsed')
-			->willReturn(false);
 		$this->checkSetupController
 			->expects($this->once())
 			->method('getSuggestedOverwriteCliURL')
@@ -305,8 +301,6 @@ class CheckSetupControllerTest extends TestCase {
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
-				'isSqliteUsed' => false,
-				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
