@@ -32,6 +32,8 @@
  */
 namespace OC\Files;
 
+use OC\Files\Mount\HomeMountPoint;
+use OCA\Files_Sharing\ISharedMountPoint;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
@@ -309,27 +311,12 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isShared() {
-		$sid = $this->getStorage()->getId();
-		if (!is_null($sid)) {
-			$sid = explode(':', $sid);
-			return ($sid[0] === 'shared');
-		}
-
-		return false;
+		return $this->mount instanceof ISharedMountPoint;
 	}
 
 	public function isMounted() {
-		$storage = $this->getStorage();
-		if ($storage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
-			return false;
-		}
-		$sid = $storage->getId();
-		if (!is_null($sid)) {
-			$sid = explode(':', $sid);
-			return ($sid[0] !== 'home' and $sid[0] !== 'shared');
-		}
-
-		return false;
+		$isHome = $this->mount instanceof HomeMountPoint;
+		return !$isHome && !$this->isShared();
 	}
 
 	/**
