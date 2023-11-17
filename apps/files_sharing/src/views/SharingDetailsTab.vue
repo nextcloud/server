@@ -1,6 +1,7 @@
 <template>
 	<div class="sharingTabDetailsView">
-		<div class="sharingTabDetailsView__header">
+		<div class="sharingTabDetailsView__wrapper">
+			<div class="sharingTabDetailsView__header">
 			<span>
 				<NcAvatar v-if="isUserShare"
 					class="sharing-entry__avatar"
@@ -14,8 +15,7 @@
 			<span>
 				<h1>{{ title }}</h1>
 			</span>
-		</div>
-		<div class="sharingTabDetailsView__wrapper">
+			</div>
 			<div class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
@@ -933,9 +933,15 @@ export default {
 	flex-direction: column;
 	width: 100%;
 	margin: 0 auto;
-	position: relative;
+	max-height: 100%;
 	height: 100%;
-	overflow: hidden;
+
+	&__wrapper {
+		flex: 1 0;
+		overflow-y: auto;
+		padding: 4px;
+		padding-right: 12px;
+	}
 
 	&__header {
 		display: flex;
@@ -953,13 +959,6 @@ export default {
 			}
 
 		}
-	}
-
-	&__wrapper {
-		overflow: scroll;
-		flex-shrink: 1;
-		padding: 4px;
-		padding-right: 12px;
 	}
 
 	&__quick-permissions {
@@ -1053,7 +1052,6 @@ export default {
 	&__footer {
 		width: 100%;
 		display: flex;
-		position: sticky;
 		bottom: 0;
 		flex-direction: column;
 		justify-content: space-between;
