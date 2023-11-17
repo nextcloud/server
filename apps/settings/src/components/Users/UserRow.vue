@@ -943,22 +943,6 @@ export default {
 		border-bottom: 1px solid var(--color-border);
 
 		:deep {
-			.input-field,
-			.input-field__main-wrapper,
-			.input-field__input {
-				height: 48px !important;
-			}
-
-			.input-field__input {
-				&:placeholder-shown:not(:focus) + .input-field__label {
-					inset-block-start: 16px !important;
-				}
-			}
-
-			.button-vue--icon-only {
-				height: 44px !important;
-			}
-
 			.v-select.select {
 				min-width: var(--cell-min-width);
 			}
