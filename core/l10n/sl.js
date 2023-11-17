@@ -130,6 +130,8 @@ OC.L10N.register(
     "More apps" : "Več programov",
     "Currently open" : "Trenutno odprto",
     "_{count} notification_::_{count} notifications_" : ["{count} obvestilo","{count} obvestili","{count} obvestila","{count} obvestil"],
+    "Pick a start date" : "Izbor datuma začetka",
+    "Pick an end date" : "Izbor datuma konca",
     "Log in" : "Prijava",
     "Logging in …" : "Poteka prijavljanje ...",
     "Server side authentication failed!" : "Overitev na strani strežnika je spodletela!",

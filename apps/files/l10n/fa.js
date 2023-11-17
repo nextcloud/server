@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "نمی‌توان نام «{oldName}» را تغییر داد، دیگر وجود ندارد",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "نام \"{newName}\" در پوشه \"{dir}\" به کار رفته است.\nلطفا نام دیگری برگزینید.",
     "Could not rename \"{oldName}\"" : "تغییر نام \"{oldName}\" ممکن نیست",
-    "A long time ago" : "مدت ها پیش",
     "Total rows summary" : "خلاصه کل ردیف ها",
     "Select all" : "انتخاب همه",
     "Unselect all" : "همه را لغو انتخاب کنید",

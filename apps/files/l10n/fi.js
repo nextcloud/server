@@ -186,7 +186,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Kohdetta \"{oldName}\" ei voitu nimetä uudelleen, koska sitä ei ole enää olemassa",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Nimi \"{newName}\" on jo käytössä kansiossa \"{dir}\". Valitse toinen nimi.",
     "Could not rename \"{oldName}\"" : "Ei voitu nimetä uudelleen \"{oldName}\"",
-    "A long time ago" : "Kauan aikaa sitten",
     "Could not copy {file}. {message}" : "Tiedostoa {file} ei voitu kopioida. {message}",
     "Could not move {file}. {message}" : "Tiedostoa {file} ei voitu siirtää. {message}",
     "Select all" : "Valitse kaikki",

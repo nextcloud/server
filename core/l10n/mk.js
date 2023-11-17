@@ -114,6 +114,8 @@ OC.L10N.register(
     "More apps" : "Повеќе апликации",
     "Currently open" : "Моментално отворено",
     "_{count} notification_::_{count} notifications_" : ["Едно исзестување","{count} известувања"],
+    "Pick a start date" : "Избери почетен датум",
+    "Pick an end date" : "Избери краен датум",
     "Log in" : "Најава",
     "Logging in …" : "Најава ...",
     "Server side authentication failed!" : "Автентификацијата на серверската страна е неуспешна!",

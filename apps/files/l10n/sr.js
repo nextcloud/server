@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Не може да се промени име фајла „{fileName}” јер фајл више не постоји",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Назив „{targetName}” се већ користи у директоријуму „{dir}”. Молимо вас да изаберете неко друго име.",
     "Could not rename \"{oldName}\"" : "Не може да се промени име фајла „{fileName}”",
-    "A long time ago" : "Пре доста времена",
     "Could not copy {file}. {message}" : "{file} не може да се копира. {message}",
     "Could not move {file}. {message}" : "{file} не може да се премести. {message}",
     "Total rows summary" : "Резиме укупног броја редова",

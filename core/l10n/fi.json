@@ -109,6 +109,8 @@
     "More apps" : "Lisää sovelluksia",
     "Currently open" : "Parhaillaan avoinna",
     "_{count} notification_::_{count} notifications_" : ["{count} ilmoitus","{count} ilmoitusta"],
+    "Pick a start date" : "Valitse aloituspäivä",
+    "Pick an end date" : "Valitse päättymispäivä",
     "Log in" : "Kirjaudu sisään",
     "Logging in …" : "Kirjaudutaan sisään...",
     "Server side authentication failed!" : "Palvelimen puoleinen tunnistautuminen epäonnistui!",

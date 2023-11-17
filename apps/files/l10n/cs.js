@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Není možné přejmenovat „{oldName}“ – už neexistuje",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Název „{newtName}“ je už použitý ve složce „{dir}“. Zvolte jiný název.",
     "Could not rename \"{oldName}\"" : "„{oldName}“ se nepodařilo přejmenovat",
-    "A long time ago" : "Před dlouhou dobou",
     "Could not copy {file}. {message}" : "Nepodařilo se zkopírovat {file}. {message}",
     "Could not move {file}. {message}" : "Nepodařilo se přesunout {file}. {message}",
     "Total rows summary" : "Celkový souhrn řádek",

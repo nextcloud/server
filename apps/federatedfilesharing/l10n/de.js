@@ -41,7 +41,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
     "Share it so your friends can share files with you:" : "Teile es, so dass deine Freunde Dateien mit dir teilen können:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
+    "Twitter" : "X",
     "Diaspora" : "Diaspora",
     "Add to your website" : "Zu deiner Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
