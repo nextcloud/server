@@ -7,3 +7,4 @@
 <!-- config hints for javascript -->
 <input type="hidden" name="filesApp" id="filesApp" value="1" />
 <input type="hidden" name="fileNotFound" id="fileNotFound" value="<?php p($_['fileNotFound']); ?>" />
+<input type="hidden" name="disableEditLocally" id="disableEditLocally" value="<?php p($_['disableEditLocally']); ?>" />

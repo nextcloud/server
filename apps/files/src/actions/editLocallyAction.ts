@@ -51,6 +51,10 @@ export const action = new FileAction({
 
 	// Only works on single files
 	enabled(nodes: Node[]) {
+		if ($('#disableEditLocally').val() === "1") {
+			return false
+		}
+
 		// Only works on single node
 		if (nodes.length !== 1) {
 			return false
