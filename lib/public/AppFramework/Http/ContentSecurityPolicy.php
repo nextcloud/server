@@ -49,7 +49,7 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether strict-dynamic should be set */
 	protected $strictDynamicAllowed = false;
 	/** @var bool Whether strict-dynamic should be set for 'script-src-elem' */
-	protected $strictDynamicAllowedOnScripts = false;
+	protected $strictDynamicAllowedOnScripts = true;
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = [
 		'\'self\'',
