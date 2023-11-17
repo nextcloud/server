@@ -5,6 +5,11 @@
 			<slot name="before" />
 		</div>
 
+		<!-- Accessibility table caption for screen readers -->
+		<caption v-if="caption" class="hidden-visually">
+			{{ caption }}
+		</caption>
+
 		<!-- Header -->
 		<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
 			<slot name="header" />
@@ -74,6 +79,13 @@ export default Vue.extend({
 		gridMode: {
 			type: Boolean,
 			default: false,
+		},
+		/**
+		 * Visually hidden caption for the table accesibility
+		 */
+		caption: {
+			type: String,
+			default: '',
 		},
 	},
 
