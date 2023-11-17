@@ -961,6 +961,7 @@ export default {
 	}
 
 	&__wrapper {
+		position: relative;
 		overflow: scroll;
 		flex-shrink: 1;
 		padding: 4px;
