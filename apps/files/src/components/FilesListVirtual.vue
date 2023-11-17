@@ -39,15 +39,9 @@
 				filesListWidth,
 			}"
 			:scroll-to-index="scrollToIndex"
+			:caption="caption"
 			@scroll="onScroll">
-			<!-- Accessibility description and headers -->
 			<template #before>
-				<!-- Accessibility description -->
-				<caption class="hidden-visually">
-					{{ currentView.caption || t('files', 'List of files and folders.') }}
-					{{ t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.') }}
-				</caption>
-
 				<!-- Headers -->
 				<FilesListHeader v-for="header in sortedHeaders"
 					:key="header.id"
@@ -200,6 +194,13 @@ export default Vue.extend({
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
+		caption() {
+			const defaultCaption = t('files', 'List of files and folders.')
+			const viewCaption = this.currentView.caption || defaultCaption
+			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
+			return viewCaption + '\n' + virtualListNote
+		},
 	},
 
 	watch: {
@@ -304,12 +305,11 @@ export default Vue.extend({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	display: block;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
 
-	&::v-deep {
+	& :deep() {
 		// Table head, body and footer
 		tbody {
 			will-change: padding;
@@ -334,6 +334,10 @@ export default Vue.extend({
 		.files-list__before {
 			display: flex;
 			flex-direction: column;
+		}
+
+		.files-list__table {
+			display: block;
 		}
 
 		.files-list__thead,

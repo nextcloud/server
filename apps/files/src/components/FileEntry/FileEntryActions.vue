@@ -251,7 +251,7 @@ export default Vue.extend({
 		 * sure there is one at the time we call it.
 		 */
 		getBoundariesElement() {
-			return document.querySelector('.app-content > table.files-list')
+			return document.querySelector('.app-content > .files-list')
 		},
 	},
 
