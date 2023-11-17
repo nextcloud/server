@@ -134,6 +134,8 @@
     "More apps" : "برنامه های بیشتر",
     "Currently open" : "Currently open",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications"],
+    "Pick a start date" : "Pick a start date",
+    "Pick an end date" : "Pick an end date",
     "Log in" : "ورود",
     "Logging in …" : "ورود به سیستم ...",
     "Server side authentication failed!" : "تأیید هویت از سوی سرور انجام نشد!",

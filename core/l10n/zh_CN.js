@@ -137,6 +137,8 @@ OC.L10N.register(
     "More apps" : "更多的应用程序",
     "Currently open" : "当前打开",
     "_{count} notification_::_{count} notifications_" : ["{count} 条通知"],
+    "Pick a start date" : "选择开始时间",
+    "Pick an end date" : "选择结束时间",
     "Log in" : "登录",
     "Logging in …" : "正在登录……",
     "Server side authentication failed!" : "服务端认证失败！",

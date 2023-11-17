@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" の名前を変更できませんでした、それは既に存在しません。",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" という名前は \"{dir}\" フォルダですでに使用されています。別の名前を選択してください。",
     "Could not rename \"{oldName}\"" : "\"{oldName}\" の名前を変更できませんでした。",
-    "A long time ago" : "ずっと以前に",
     "Could not copy {file}. {message}" : "{file} をコピーできませんでした。 {message}",
     "Could not move {file}. {message}" : "{file} を移動できませんでした。 {message}",
     "Total rows summary" : "総行数のサマリー",

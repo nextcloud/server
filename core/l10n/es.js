@@ -137,6 +137,8 @@ OC.L10N.register(
     "More apps" : "Más aplicaciones",
     "Currently open" : "Actualmente abierto",
     "_{count} notification_::_{count} notifications_" : ["{count} notificación","{count} notificaciones","{count} notificaciones"],
+    "Pick a start date" : "Escoja una fecha de inicio",
+    "Pick an end date" : "Escoja una fecha fin",
     "Log in" : "Iniciar sesión",
     "Logging in …" : "Iniciando sesión ...",
     "Server side authentication failed!" : "La autenticación ha fallado en el servidor.",

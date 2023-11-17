@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" adı artık olmadığından değiştirilemedi. ",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" adı \"{dir}\" klasöründe zaten kullanılmış. Lütfen başka bir ad seçin.",
     "Could not rename \"{oldName}\"" : "\"{oldName}\" adı değiştirilemedi",
-    "A long time ago" : "Uzun süre önce",
     "Could not copy {file}. {message}" : "{file} dosyası kopyalanamadı. {message}",
     "Could not move {file}. {message}" : "{file} dosyası taşınamadı. {message}",
     "Total rows summary" : "Toplam satır özeti",

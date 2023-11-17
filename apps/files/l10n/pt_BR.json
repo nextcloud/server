@@ -188,7 +188,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "Não foi possível renomear \"{oldName}\", ele não existe mais",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "O nome \"{newName}\" já é utilizado na pasta \"{dir}\". Escolha um nome diferente.",
     "Could not rename \"{oldName}\"" : "Não foi possível renomear \"{oldName}\"",
-    "A long time ago" : "A muito tempo atrás",
     "Could not copy {file}. {message}" : "Não foi possível copiar {file}. {message}",
     "Could not move {file}. {message}" : "Não foi possível mover {file}. {message}",
     "Total rows summary" : "Resumo total de linhas",

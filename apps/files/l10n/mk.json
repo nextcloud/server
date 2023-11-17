@@ -185,7 +185,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "Неможе да се преименува \"{oldName}\", не постои повеќе",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Името \"{newName}\" веќе се користи во папката \"{dir}\". Ве молиме изберете друго име.",
     "Could not rename \"{oldName}\"" : "Неможе да се преименува \"{oldName}\"",
-    "A long time ago" : "Многу одамна",
     "Total rows summary" : "Резиме на вкупно редови",
     "Select all" : "Избери се",
     "Unselect all" : "Од-означи се",

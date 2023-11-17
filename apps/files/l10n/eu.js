@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Ezin izan da \"{oldName}\" berrizendatu, ez da existitzen dagoeneko",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" izena \"{dir}\" karpetan dagoeneko erabiltzen da. Mesedez aukeratu beste izen bat.",
     "Could not rename \"{oldName}\"" : "Ezin izan da \"{oldName}\" berrizendatu ",
-    "A long time ago" : "Orain dela denbora asko",
     "Could not copy {file}. {message}" : "Ezin izan da {file} kopiatu. {message}",
     "Could not move {file}. {message}" : "Ezin izan da {file} mugitu. {message}",
     "Total rows summary" : "Errenkaden guztirako laburpena",

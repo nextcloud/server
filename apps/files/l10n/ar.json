@@ -188,7 +188,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "تعذر إعادة تسمية \"{oldName}\"، لم يعد موجودًا",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "الاسم \"{newName}\" مُستعمَلٌ سلفاً في المجلّد\"{dir}\". إختَر اسماً آخر رجاءً.",
     "Could not rename \"{oldName}\"" : "تعذرت إعادة تسمية \"{oldName}\"",
-    "A long time ago" : "منذ وقت طويل",
     "Could not copy {file}. {message}" : "تعذّر نسخ {file}. {message}",
     "Could not move {file}. {message}" : "تعذّر نقل {file}. {message}",
     "Total rows summary" : "ملخص مجموع الأسطر",

@@ -128,6 +128,8 @@ OC.L10N.register(
     "More apps" : "Още приложения",
     "Currently open" : "В момента са отворени",
     "_{count} notification_::_{count} notifications_" : ["{count} известие","{count} известия"],
+    "Pick a start date" : "Избор на начална дата",
+    "Pick an end date" : "Избор на крайна дата",
     "Log in" : "Вписване",
     "Logging in …" : "Вписване ...",
     "Server side authentication failed!" : "Неуспешно удостоверяването от страна на сървъра!",
