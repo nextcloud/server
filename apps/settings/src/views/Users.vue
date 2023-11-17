@@ -97,6 +97,7 @@
 								{{ t('settings', 'Create group') }}
 							</NcActionText>
 							<NcActionInput :label="t('settings', 'Group name')"
+								data-cy-settings-new-group-name
 								:label-outside="false"
 								:disabled="loadingAddGroup"
 								:value.sync="newGroupName"
