@@ -305,12 +305,11 @@ export default Vue.extend({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	display: block;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
 
-	&::v-deep {
+	& :deep() {
 		// Table head, body and footer
 		tbody {
 			will-change: padding;
@@ -335,6 +334,10 @@ export default Vue.extend({
 		.files-list__before {
 			display: flex;
 			flex-direction: column;
+		}
+
+		.files-list__table {
+			display: block;
 		}
 
 		.files-list__thead,
