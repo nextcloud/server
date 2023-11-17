@@ -41,6 +41,8 @@ class EmptyContentSecurityPolicy {
 	protected $useJsNonce = null;
 	/** @var bool Whether strict-dynamic should be used */
 	protected $strictDynamicAllowed = null;
+	/** @var bool Whether strict-dynamic should be used on script-src-elem */
+	protected $strictDynamicAllowedOnScripts = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
 	 * TODO: Disallow per default
@@ -90,6 +92,18 @@ class EmptyContentSecurityPolicy {
 	 */
 	public function useStrictDynamic(bool $state = false): self {
 		$this->strictDynamicAllowed = $state;
+		return $this;
+	}
+
+	/**
+	 * In contrast to `useStrictDynamic` this only sets strict-dynamic on script-src-elem
+	 * Meaning only grants trust to all imports of scripts that were loaded in `<script>` tags, and thus weakens less the CSP.
+	 * @param bool $state
+	 * @return EmptyContentSecurityPolicy
+	 * @since 28.0.0
+	 */
+	public function useStrictDynamicOnScripts(bool $state = false): self {
+		$this->strictDynamicAllowedOnScripts = $state;
 		return $this;
 	}
 
@@ -448,27 +462,35 @@ class EmptyContentSecurityPolicy {
 
 		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed || $this->evalWasmAllowed) {
 			$policy .= 'script-src ';
+			$scriptSrc = '';
 			if (is_string($this->useJsNonce)) {
 				if ($this->strictDynamicAllowed) {
-					$policy .= '\'strict-dynamic\' ';
+					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
+				$scriptSrc .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
 				if (count($allowedScriptDomains) !== 0) {
-					$policy .= ' ';
+					$scriptSrc .= ' ';
 				}
 			}
 			if (is_array($this->allowedScriptDomains)) {
-				$policy .= implode(' ', $this->allowedScriptDomains);
+				$scriptSrc .= implode(' ', $this->allowedScriptDomains);
 			}
 			if ($this->evalScriptAllowed) {
-				$policy .= ' \'unsafe-eval\'';
+				$scriptSrc .= ' \'unsafe-eval\'';
 			}
 			if ($this->evalWasmAllowed) {
-				$policy .= ' \'wasm-unsafe-eval\'';
+				$scriptSrc .= ' \'wasm-unsafe-eval\'';
 			}
+			$policy .= $scriptSrc . ';';
+		}
+
+		// We only need to set this if 'strictDynamicAllowed' is not set because otherwise we can simply fall back to script-src
+		if ($this->strictDynamicAllowedOnScripts && !(is_string($this->useJsNonce) && $this->strictDynamicAllowed)) {
+			$policy .= 'script-src-elem \'strict-dynamic\' ';
+			$policy .= $scriptSrc ?? '';
 			$policy .= ';';
 		}
 
