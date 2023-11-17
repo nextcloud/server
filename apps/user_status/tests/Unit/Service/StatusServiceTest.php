@@ -1091,7 +1091,7 @@ EOF;
 			->willReturn($calDavStatus);
 		$this->predefinedStatusService->expects(self::once())
 			->method('isValidId')
-			->with($calDavStatus->getMessage())
+			->with($calDavStatus->getMessageId())
 			->willReturn(true);
 		$this->mapper->expects(self::once())
 			->method('insert')

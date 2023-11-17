@@ -200,9 +200,8 @@ class StatusService {
 		$freeBusyComponent = $result->VFREEBUSY;
 		$freeBusyProperties = $freeBusyComponent->select('FREEBUSY');
 		// If there is no FreeBusy property, the time-range is empty and available
-		// so set the status to online as otherwise we will never recover from a BUSY status
 		if (count($freeBusyProperties) === 0) {
-			return new Status(IUserStatus::ONLINE);
+			return null;
 		}
 
 		/** @var Property $freeBusyProperty */
@@ -222,10 +221,6 @@ class StatusService {
 		switch ($fbType) {
 			case 'BUSY':
 				return new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, $this->l10n->t('In a meeting'));
-			case 'BUSY-UNAVAILABLE':
-				return new Status(IUserStatus::AWAY, IUserStatus::MESSAGE_AVAILABILITY);
-			case 'BUSY-TENTATIVE':
-				return new Status(IUserStatus::AWAY, IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE);
 			default:
 				return null;
 		}

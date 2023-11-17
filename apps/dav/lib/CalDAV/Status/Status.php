@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * *
  *  * Dav App
@@ -27,7 +30,7 @@ namespace OCA\DAV\CalDAV\Status;
 
 class Status {
 
-	public function __construct(private string $status = '', private ?string $message = null, private ?string $customMessage = null) {
+	public function __construct(private string $status, private ?string $messageId, private ?string $customMessage = null) {
 	}
 
 	public function getStatus(): string {
@@ -38,12 +41,12 @@ class Status {
 		$this->status = $status;
 	}
 
-	public function getMessage(): ?string {
-		return $this->message;
+	public function getMessageId(): string {
+		return $this->messageId;
 	}
 
-	public function setMessage(?string $message): void {
-		$this->message = $message;
+	public function setMessageId(string $messageId): void {
+		$this->messageId = $messageId;
 	}
 
 	public function getCustomMessage(): ?string {
