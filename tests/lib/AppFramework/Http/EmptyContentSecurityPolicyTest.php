@@ -455,7 +455,7 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 	}
 
 	public function testGetPolicyWithStrictDynamicOnScripts() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src-elem 'strict-dynamic' ;frame-ancestors 'none'";
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());

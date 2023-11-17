@@ -37,8 +37,8 @@ namespace OCP\AppFramework\Http;
  * @since 9.0.0
  */
 class EmptyContentSecurityPolicy {
-	/** @var string Whether JS nonces should be used */
-	protected $useJsNonce = null;
+	/** @var string JS nonce to be used */
+	protected $jsNonce = null;
 	/** @var bool Whether strict-dynamic should be used */
 	protected $strictDynamicAllowed = null;
 	/** @var bool Whether strict-dynamic should be used on script-src-elem */
@@ -116,7 +116,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 11.0.0
 	 */
 	public function useJsNonce($nonce) {
-		$this->useJsNonce = $nonce;
+		$this->jsNonce = $nonce;
 		return $this;
 	}
 
@@ -463,11 +463,11 @@ class EmptyContentSecurityPolicy {
 		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed || $this->evalWasmAllowed) {
 			$policy .= 'script-src ';
 			$scriptSrc = '';
-			if (is_string($this->useJsNonce)) {
+			if (is_string($this->jsNonce)) {
 				if ($this->strictDynamicAllowed) {
 					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$scriptSrc .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
+				$scriptSrc .= '\'nonce-'.base64_encode($this->jsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
@@ -488,7 +488,7 @@ class EmptyContentSecurityPolicy {
 		}
 
 		// We only need to set this if 'strictDynamicAllowed' is not set because otherwise we can simply fall back to script-src
-		if ($this->strictDynamicAllowedOnScripts && !(is_string($this->useJsNonce) && $this->strictDynamicAllowed)) {
+		if ($this->strictDynamicAllowedOnScripts && is_string($this->jsNonce) && !$this->strictDynamicAllowed) {
 			$policy .= 'script-src-elem \'strict-dynamic\' ';
 			$policy .= $scriptSrc ?? '';
 			$policy .= ';';
