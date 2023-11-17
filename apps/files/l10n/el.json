@@ -188,7 +188,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "Δεν ήταν δυνατή η μετονομασία του \"{oldName}\", δεν υπάρχει πλέον",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Το όνομα \"{newName}\" χρησιμοποιείται ήδη στον φάκελο \"{dir}\". Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.",
     "Could not rename \"{oldName}\"" : "Δεν ήταν δυνατή η μετονομασία του \"{oldName}\"",
-    "A long time ago" : "Πριν αρκετό καιρό",
     "Could not copy {file}. {message}" : "Δεν ήταν δυνατή η αντιγραφή του {file}. {message}",
     "Could not move {file}. {message}" : "Δεν ήταν δυνατή η μετακίνηση του {file}. {message}",
     "Total rows summary" : "Συνολική σύνοψη γραμμών",

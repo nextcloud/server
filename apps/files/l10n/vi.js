@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Không thể đổi tên \"{oldName}\", tệp tin không còn tồn tại",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Tên \"{newName}\" đã được sử dụng trong thư mục \"{dir}\". Vui lòng chọn một tên khác.",
     "Could not rename \"{oldName}\"" : "Could not rename \"{oldName}\"",
-    "A long time ago" : "Một khoảng thời gian trước",
     "Could not copy {file}. {message}" : "Không thể sao chép {tệp}. {tin nhắn}",
     "Could not move {file}. {message}" : "Không thể di chuyển {tệp}. {tin nhắn}",
     "Total rows summary" : "Tóm tắt tổng số hàng",

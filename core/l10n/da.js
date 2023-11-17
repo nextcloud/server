@@ -137,6 +137,8 @@ OC.L10N.register(
     "More apps" : "Flere apps",
     "Currently open" : "I øjeblikket åben",
     "_{count} notification_::_{count} notifications_" : ["{count} underretning","{count} underretninger"],
+    "Pick a start date" : "Vælg en startdato",
+    "Pick an end date" : "Vælg en slutdato",
     "Log in" : "Log ind",
     "Logging in …" : "Logger ind …",
     "Server side authentication failed!" : "Server side godkendelse mislykkedes!",

@@ -130,6 +130,8 @@ OC.L10N.register(
     "More apps" : "Viac aplikácií",
     "Currently open" : "V súčasnosti otvorené",
     "_{count} notification_::_{count} notifications_" : ["{count} upozornenie","{count} upozornenia","{count} upozornení","{count} upozornenia"],
+    "Pick a start date" : "Vyberte počiatočný dátum",
+    "Pick an end date" : "Vyberte konečný dátum",
     "Log in" : "Prihlásiť sa",
     "Logging in …" : "Prihlasujem ...",
     "Server side authentication failed!" : "Autentifikácia na serveri zlyhala!",

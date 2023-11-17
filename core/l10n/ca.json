@@ -131,6 +131,8 @@
     "More apps" : "Més aplicacions",
     "Currently open" : "Oberta actualment",
     "_{count} notification_::_{count} notifications_" : ["{count} notificació","{count} notificacions"],
+    "Pick a start date" : "Tria una data d'inici",
+    "Pick an end date" : "Tria una data de fi",
     "Log in" : "Inicia la sessió",
     "Logging in …" : "S'està iniciant la sessió…",
     "Server side authentication failed!" : "S'ha produït un error en l'autenticació del servidor!",

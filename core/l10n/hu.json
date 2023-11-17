@@ -135,6 +135,8 @@
     "More apps" : "További alkalmazások",
     "Currently open" : "Jelenleg nyitva",
     "_{count} notification_::_{count} notifications_" : ["{count} értesítés","{count} értesítés"],
+    "Pick a start date" : "Válasszon kezdési dátumot",
+    "Pick an end date" : "Válasszon befejezési dátumot",
     "Log in" : "Bejelentkezés",
     "Logging in …" : "Bejelentkezés…",
     "Server side authentication failed!" : "A kiszolgálóoldali hitelesítés sikertelen.",

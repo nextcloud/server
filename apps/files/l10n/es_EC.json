@@ -180,7 +180,6 @@
     "Renamed \"{oldName}\" to \"{newName}\"" : "Cambiaste el nombre de \"{oldName}\" a \"{newName}\".",
     "Could not rename \"{oldName}\", it does not exist any more" : "No se pudo cambiar el nombre de \"{oldName}\", ya no existe.",
     "Could not rename \"{oldName}\"" : "No se pudo cambiar el nombre de \"{oldName}\".",
-    "A long time ago" : "Hace mucho tiempo.",
     "Total rows summary" : "Resumen total de filas.",
     "Select all" : "Seleccionar todo",
     "Unselect all" : "Desmarcar todo.",

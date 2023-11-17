@@ -550,7 +550,7 @@ OC.L10N.register(
     "Server address" : "Адреса сервера",
     "Port" : "Порт",
     "Authentication" : "Авторизація",
-    "Authentication required" : "Потрібно авторизуватися",
+    "Authentication required" : "Потрібна авторизація",
     "Credentials" : "Облікові дані",
     "SMTP Username" : "Ім'я користувача SMTP",
     "SMTP Password" : "Пароль SMTP",
