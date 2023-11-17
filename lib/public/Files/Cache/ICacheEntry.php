@@ -123,8 +123,8 @@ interface ICacheEntry extends ArrayAccess {
 	public function getEtag();
 
 	/**
-	 * Get the permissions for the file stored as bitwise combination of \OCP\PERMISSION_READ, \OCP\PERMISSION_CREATE
-	 * \OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
+	 * Get the permissions for the file stored as bitwise combination of \OCP\Constants::PERMISSION_READ, \OCP\Constants::PERMISSION_CREATE
+	 * \OCP\Constants::PERMISSION_UPDATE, \OCP\Constants::PERMISSION_DELETE and \OCP\Constants::PERMISSION_SHARE
 	 *
 	 * @return int
 	 * @since 9.0.0
