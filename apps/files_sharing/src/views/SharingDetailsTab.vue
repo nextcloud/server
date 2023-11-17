@@ -16,7 +16,8 @@
 			</span>
 		</div>
 		<div class="sharingTabDetailsView__wrapper">
-			<div class="sharingTabDetailsView__quick-permissions">
+			<div ref="quickPermissions"
+				class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
 						:checked.sync="sharingPermission"
@@ -645,6 +646,10 @@ export default {
 		this.initializeAttributes()
 		console.debug('shareSentIn', this.share)
 		console.debug('config', this.config)
+	},
+
+	mounted() {
+		this.$refs.quickPermissions?.querySelector('input:checked')?.focus()
 	},
 
 	methods: {
