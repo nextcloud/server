@@ -51,6 +51,7 @@
 	"dot": ["application/msword"],
 	"dotx": ["application/vnd.openxmlformats-officedocument.wordprocessingml.template"],
 	"dv": ["video/dv"],
+	"emf": ["image/emf"],
 	"eot": ["application/vnd.ms-fontobject"],
 	"eps": ["application/postscript"],
 	"epub": ["application/epub+zip"],

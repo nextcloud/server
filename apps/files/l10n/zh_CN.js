@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "无法重命名“{fileName}”，此文件已经不存在",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "此名称「{newName}」在这个文件夹「{dir}」已经被使用。请选择其他名称。",
     "Could not rename \"{oldName}\"" : "无法重命名“{fileName}”",
-    "A long time ago" : "很久以前",
     "Could not copy {file}. {message}" : "无法复制 {file}。{message}",
     "Could not move {file}. {message}" : "无法移动 {file}。{message}",
     "Total rows summary" : "总行摘要",

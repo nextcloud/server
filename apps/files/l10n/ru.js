@@ -188,7 +188,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Не удалось переименовать \"{oldName}\", его больше не существует",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Имя \"{newName}\" уже используется в каталоге \"{dir}\". Выберите другое имя.",
     "Could not rename \"{oldName}\"" : "Не удалось переименовать «{oldName}»",
-    "A long time ago" : "Очень давно",
     "Could not copy {file}. {message}" : "Ошибка копирования «{file}». {message}",
     "Could not move {file}. {message}" : "Ошибка перемещения «{file}». {message}",
     "Total rows summary" : "Количество строк в общем",

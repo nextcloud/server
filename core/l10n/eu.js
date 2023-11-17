@@ -134,6 +134,8 @@ OC.L10N.register(
     "More apps" : "Aplikazio gehiago",
     "Currently open" : "Irekita une honetan",
     "_{count} notification_::_{count} notifications_" : ["Jakinarazpen {count}","{count} jakinarazpenak"],
+    "Pick a start date" : "Aukeratu hasiera-data",
+    "Pick an end date" : "Aukeratu amaiera-data",
     "Log in" : "Hasi saioa",
     "Logging in …" : "Saioa hasten...",
     "Server side authentication failed!" : "Zerbitzari aldeko autentifikazioak huts egin du!",

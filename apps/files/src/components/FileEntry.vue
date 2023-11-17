@@ -83,7 +83,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<span>{{ mtime }}</span>
+			<NcDateTime :timestamp="source.mtime" :ignore-seconds="true" />
 		</td>
 
 		<!-- View columns -->
@@ -122,6 +122,7 @@ import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
@@ -140,6 +141,7 @@ export default Vue.extend({
 		FileEntryCheckbox,
 		FileEntryName,
 		FileEntryPreview,
+		NcDateTime,
 	},
 
 	props: {
@@ -254,13 +256,6 @@ export default Vue.extend({
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
-		},
-
-		mtime() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).fromNow()
-			}
-			return t('files_trashbin', 'A long time ago')
 		},
 		mtimeOpacity() {
 			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days

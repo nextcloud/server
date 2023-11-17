@@ -135,6 +135,8 @@
     "More apps" : "更多應用程式",
     "Currently open" : "目前開啟",
     "_{count} notification_::_{count} notifications_" : ["{count} 個通知"],
+    "Pick a start date" : "挑選開始日期",
+    "Pick an end date" : "挑選結束日期",
     "Log in" : "登入",
     "Logging in …" : "正在登入…",
     "Server side authentication failed!" : "伺服器端認證失敗！",

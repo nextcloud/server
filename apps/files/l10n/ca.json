@@ -188,7 +188,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "No s'ha pogut canviar el nom de «{oldName}», ja no existeix",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "El nom «{newName}» ja està en ús en la carpeta «{dir}». Trieu un nom diferent.",
     "Could not rename \"{oldName}\"" : "No s'ha pogut canviar el nom de «{oldName}»",
-    "A long time ago" : "Fa molt de temps",
     "Could not copy {file}. {message}" : "No s'ha pogut copiar {file}. {message}",
     "Could not move {file}. {message}" : "No s'ha pogut moure {file}. {message}",
     "Total rows summary" : "Resum de totes les files",

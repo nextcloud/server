@@ -81,13 +81,13 @@ class SearchComposer {
 		private LoggerInterface $logger
 	) {
 		$this->commonFilters = [
-			'term' => new FilterDefinition('term', FilterDefinition::TYPE_STRING),
-			'since' => new FilterDefinition('since', FilterDefinition::TYPE_DATETIME),
-			'until' => new FilterDefinition('until', FilterDefinition::TYPE_DATETIME),
-			'title-only' => new FilterDefinition('title-only', FilterDefinition::TYPE_BOOL, false),
-			'person' => new FilterDefinition('person', FilterDefinition::TYPE_PERSON),
-			'places' => new FilterDefinition('places', FilterDefinition::TYPE_STRINGS, false),
-			'provider' => new FilterDefinition('provider', FilterDefinition::TYPE_STRING, false),
+			IFilter::BUILTIN_TERM => new FilterDefinition(IFilter::BUILTIN_TERM, FilterDefinition::TYPE_STRING),
+			IFilter::BUILTIN_SINCE => new FilterDefinition(IFilter::BUILTIN_SINCE, FilterDefinition::TYPE_DATETIME),
+			IFilter::BUILTIN_UNTIL => new FilterDefinition(IFilter::BUILTIN_UNTIL, FilterDefinition::TYPE_DATETIME),
+			IFilter::BUILTIN_TITLE_ONLY => new FilterDefinition(IFilter::BUILTIN_TITLE_ONLY, FilterDefinition::TYPE_BOOL, false),
+			IFilter::BUILTIN_PERSON => new FilterDefinition(IFilter::BUILTIN_PERSON, FilterDefinition::TYPE_PERSON),
+			IFilter::BUILTIN_PLACES => new FilterDefinition(IFilter::BUILTIN_PLACES, FilterDefinition::TYPE_STRINGS, false),
+			IFilter::BUILTIN_PROVIDER => new FilterDefinition(IFilter::BUILTIN_PROVIDER, FilterDefinition::TYPE_STRING, false),
 		];
 	}
 
@@ -189,7 +189,7 @@ class SearchComposer {
 					$triggers += $provider->getAlternateIds();
 					$filters = $provider->getSupportedFilters();
 				} else {
-					$filters = ['term'];
+					$filters = [IFilter::BUILTIN_TERM];
 				}
 
 				return [
@@ -310,7 +310,7 @@ class SearchComposer {
 		$provider = $this->providers[$providerId]['provider'];
 		$supportedFilters = $provider instanceof IFilteringProvider
 			? $provider->getSupportedFilters()
-			: ['term'];
+			: [IFilter::BUILTIN_TERM];
 
 		return in_array($filterDefinition->name(), $supportedFilters, true);
 	}

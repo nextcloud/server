@@ -103,6 +103,7 @@ module.exports = {
 	},
 	systemtags: {
 		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
+		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),
 	},
 	theming: {
 		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
