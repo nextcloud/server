@@ -188,7 +188,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "Kunde inte byta namn på \"{oldName}\", den finns inte längre",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Namnet \"{newName}\" används redan i mappen \"{dir}\". Välj ett annat namn.",
     "Could not rename \"{oldName}\"" : "Kunde inte byta namn på \"{oldName}\"",
-    "A long time ago" : "För länge sedan",
     "Could not copy {file}. {message}" : "Kunde inte kopiera {file}. {message}",
     "Could not move {file}. {message}" : "Kunde inte flytta {file}. {message}",
     "Total rows summary" : "Sammanfattning antal rader",

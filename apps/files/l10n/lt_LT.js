@@ -167,7 +167,6 @@ OC.L10N.register(
     "Download file {name}" : "Atsisiųsti failą {name}",
     "{newName} already exists." : "{newName} jau yra.",
     "Name cannot be empty" : "Pavadinimas negali būti tuščias",
-    "A long time ago" : "Prieš ilgą laiką",
     "Could not copy {file}. {message}" : "Nepavyko nukopijuoti {file}. {message}",
     "Could not move {file}. {message}" : "Nepavyko perkelti {file}. {message}",
     "Select all" : "Pažymėti viską",

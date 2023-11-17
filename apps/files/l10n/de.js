@@ -186,7 +186,6 @@ OC.L10N.register(
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" in \"{newName}\" umbenannt",
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" konnte nicht umbenannt werden, da es nicht mehr existiert.",
     "Could not rename \"{oldName}\"" : "\"{oldName}\" konnte nicht umbenannt werden.",
-    "A long time ago" : "Vor langer Zeit",
     "Total rows summary" : "Zusammenfassung aller Zeilen",
     "Select all" : "Alle auswählen",
     "Unselect all" : "Auswahl aufheben",

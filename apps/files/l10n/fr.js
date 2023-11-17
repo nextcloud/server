@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "Impossible de renommer \"{oldName}\", il n'existe plus.",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Le nom \"{newName}\" est déjà utilisé dans le dossier \"{dir}\". Veuillez choisir un autre nom.",
     "Could not rename \"{oldName}\"" : "Impossible de renommer \"{oldName}\"",
-    "A long time ago" : "Il y a longtemps",
     "Could not copy {file}. {message}" : "Impossible de copier {file}. {message}",
     "Could not move {file}. {message}" : "Impossible de déplacer {file}. {message}",
     "Total rows summary" : "Récapitulatif du nombre total de lignes",

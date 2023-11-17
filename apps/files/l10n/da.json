@@ -188,7 +188,6 @@
     "Could not rename \"{oldName}\", it does not exist any more" : "Kunne ikke omdøbe \"{oldName}\", da den findes ikke længere",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Navnet \"{newName}\" bruges allerede i mappen \"{dir}\". Vælg et andet navn.",
     "Could not rename \"{oldName}\"" : "Kunne ikke omdøbe \"{oldName}\"",
-    "A long time ago" : "For lang tid siden",
     "Could not copy {file}. {message}" : "Kunne ikke kopierer {file}. {message}",
     "Could not move {file}. {message}" : "Kunne ikke flytte {file}. {message}",
     "Total rows summary" : "Samlet række antal",

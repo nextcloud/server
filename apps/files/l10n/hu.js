@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" átnevezése nem lehetséges, mert már nem létezik",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "A név \"{newName}\" már használatban van a(z) \"{dir}\" mappában. Kérem használjon másik nevet.",
     "Could not rename \"{oldName}\"" : "\"{oldName}\" átnevezése nem lehetséges",
-    "A long time ago" : "Réges régen",
     "Could not copy {file}. {message}" : "{file} másolása nem lehetséges. {message}",
     "Could not move {file}. {message}" : "{file} mozgatása nem lehetséges. {message}",
     "Total rows summary" : "Összes sor összegzése",

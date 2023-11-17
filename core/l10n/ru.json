@@ -132,6 +132,8 @@
     "More apps" : "Ещё приложения",
     "Currently open" : "Сейчас открыто",
     "_{count} notification_::_{count} notifications_" : ["{count} уведомление","{count} уведомлений","{count} уведомлений","{count} уведомлений"],
+    "Pick a start date" : "Выберите дату начала",
+    "Pick an end date" : "Выберите дату окончания",
     "Log in" : "Войти",
     "Logging in …" : "Вход в систему…",
     "Server side authentication failed!" : "Ошибка аутентификации на стороне сервера!",
