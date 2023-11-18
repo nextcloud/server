@@ -200,7 +200,7 @@ OC.L10N.register(
     "Modified" : "Geändert",
     "Today" : "Heute",
     "Last 7 days" : "Die letzten 7 Tage",
-    "Last 30 days" : "Die letzten 30 Tqage",
+    "Last 30 days" : "Die letzten 30 Tage",
     "This year" : "Dieses Jahr",
     "Last year" : "Letztes Jahr",
     "Custom date range" : "Benutzerdefinierter Zeitbereich",
