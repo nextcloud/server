@@ -60,10 +60,10 @@ describe(`Download ${fileName} in viewer`, function() {
 			cy.visit('/apps/files')
 			cy.getFile('Photos').clickAction('details')
 			cy.get('aside.app-sidebar').should('be.visible')
-			cy.get('[data-id="sharing"] label').click()
+			cy.get('[role="tablist"]').contains('[role="tab"]', 'Sharing').click()
 
 			// Open the share menu
-			cy.get(`.sharing-link-list > .sharing-entry > .action-item[href*='/s/${token}'] + .sharing-entry__actions .action-item__menutoggle`).click()
+			cy.get('.sharing-link-list > .sharing-entry [aria-label*=\'Actions for "Share link"\']').click()
 			cy.get('.action-button:contains(\'Customize link\')').click()
 			cy.get('label:contains(\'Hide download\')').as('hideDownloadBtn').click()
 			cy.get('@hideDownloadBtn').prev('input[type=checkbox]').should('be.checked')
