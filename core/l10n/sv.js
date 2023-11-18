@@ -124,6 +124,8 @@ OC.L10N.register(
     "Currently open" : "För närvarande öppen",
     "_{count} notification_::_{count} notifications_" : ["{count} meddelande","{count} meddelanden"],
     "Date range filter" : "Filter för datumintervall",
+    "Pick a start date" : "Välj ett startdatum",
+    "Pick an end date" : "Välj ett slutdatum",
     "Apply range" : "Använd intervall",
     "Log in" : "Logga in",
     "Logging in …" : "Loggar in ...",
