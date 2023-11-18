@@ -780,9 +780,8 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 			if ($expireDate !== '') {
-				if ($expireDate instanceof \DateTime) {
-					$expireDate = $expireDate->format('Y-m-d');
-				}
+				/** @var string $expireDate */
+				$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 				try {
 					$expireDate = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDate);
@@ -804,9 +803,8 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 			if ($expireDate !== '') {
-				if ($expireDate instanceof \DateTime) {
-					$expireDate = $expireDate->format('Y-m-d');
-				}
+				/** @var string $expireDate */
+				$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 				try {
 					$expireDate = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDate);
@@ -851,9 +849,8 @@ class ShareAPIController extends OCSController {
 
 		//Expire date
 		if ($expireDate !== '') {
-			if ($expireDate instanceof \DateTime) {
-				$expireDate = $expireDate->format('Y-m-d');
-			}
+			/** @var string $expireDate */
+			$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 			try {
 				$expireDate = $this->parseDate($expireDate);
 				$share->setExpirationDate($expireDate);
@@ -1393,9 +1390,8 @@ class ShareAPIController extends OCSController {
 		if ($expireDate === '') {
 			$share->setExpirationDate(null);
 		} elseif ($expireDate !== null) {
-			if ($expireDate instanceof \DateTime) {
-				$expireDate = $expireDate->format('Y-m-d');
-			}
+			/** @var string $expireDate */
+			$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 			try {
 				$expireDate = $this->parseDate($expireDate);
 			} catch (\Exception $e) {
