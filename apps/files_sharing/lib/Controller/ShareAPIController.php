@@ -780,8 +780,6 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 			if ($expireDate !== '') {
-				/** @var string $expireDate */
-				$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 				try {
 					$expireDate = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDate);
@@ -803,8 +801,6 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 			if ($expireDate !== '') {
-				/** @var string $expireDate */
-				$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 				try {
 					$expireDate = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDate);
@@ -849,8 +845,6 @@ class ShareAPIController extends OCSController {
 
 		//Expire date
 		if ($expireDate !== '') {
-			/** @var string $expireDate */
-			$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 			try {
 				$expireDate = $this->parseDate($expireDate);
 				$share->setExpirationDate($expireDate);
@@ -1390,8 +1384,6 @@ class ShareAPIController extends OCSController {
 		if ($expireDate === '') {
 			$share->setExpirationDate(null);
 		} elseif ($expireDate !== null) {
-			/** @var string $expireDate */
-			$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 			try {
 				$expireDate = $this->parseDate($expireDate);
 			} catch (\Exception $e) {
@@ -1707,12 +1699,11 @@ class ShareAPIController extends OCSController {
 	 * So YYYY-MM-DD
 	 * If not throw an exception
 	 *
-	 * @param string $expireDate
-	 *
 	 * @throws \Exception
 	 * @return \DateTime
 	 */
-	private function parseDate(string $expireDate): \DateTime {
+	private function parseDate($expireDate): \DateTime {
+		$expireDate = $expireDate instanceof \DateTime ? $expireDate->format('Y-m-d') : $expireDate;
 		try {
 			$date = new \DateTime(trim($expireDate, "\""));
 		} catch (\Exception $e) {
