@@ -97,30 +97,7 @@
 						<span>{{ providerResult.provider }}</span>
 					</div>
 					<ul class="result-items">
-						<NcListItem v-for="(result, index) in providerResult.results"
-							:key="index"
-							class="result-items__item"
-							:name="result.title ?? ''"
-							:bold="false"
-							@click="openResult(result)">
-							<template #icon>
-								<div class="result-items__item-icon"
-									:class="{
-										'result-items__item-icon--rounded': result.rounded,
-										'result-items__item-icon--no-preview': !isValidIconOrPreviewUrl(result.thumbnailUrl),
-										'result-items__item-icon--with-thumbnail': isValidIconOrPreviewUrl(result.thumbnailUrl),
-										[result.icon]: !isValidIconOrPreviewUrl(result.icon),
-									}"
-									:style="{
-										backgroundImage: isValidIconOrPreviewUrl(result.icon) ? `url(${result.icon})` : '',
-									}">
-									<img v-if="isValidIconOrPreviewUrl(result.thumbnailUrl)" :src="result.thumbnailUrl" class="">
-								</div>
-							</template>
-							<template #subname>
-								{{ result.subline }}
-							</template>
-						</NcListItem>
+						<SearchResult v-for="(result, index) in providerResult.results" :key="index" v-bind="result" />
 					</ul>
 					<div class="result-footer">
 						<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult.id)">
@@ -158,9 +135,9 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 import SearchableList from '../components/GlobalSearch/SearchableList.vue'
+import SearchResult from '../components/GlobalSearch/SearchResult.vue'
 
 import debounce from 'debounce'
 import { getProviders, search as globalSearch, getContacts } from '../services/GlobalSearchService.js'
@@ -182,10 +159,10 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		NcModal,
-		NcListItem,
 		NcInputField,
 		MagnifyIcon,
 		SearchableList,
+		SearchResult,
 	},
 	props: {
 		isVisible: {
@@ -512,9 +489,6 @@ export default {
 			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
 			this.updateDateFilter()
 		},
-		isValidIconOrPreviewUrl(url) {
-			return /^https?:\/\//.test(url) || url.startsWith('/')
-		},
 		closeModal() {
 			this.searchQuery = ''
 		},
@@ -523,10 +497,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use "sass:math";
-$clickable-area: 44px;
-$margin: 10px;
-
 .global-search-modal {
 	padding: 10px 20px 10px 20px;
 	height: 60%;
@@ -571,71 +541,6 @@ $margin: 10px;
 					color: var(--color-primary-element);
 					font-weight: bolder;
 					font-size: 16px;
-				}
-			}
-
-			.result-items {
-				::v-deep &__item {
-					a {
-						border-radius: 12px;
-						border: 2px solid transparent;
-						border-radius: var(--border-radius-large) !important;
-
-						&--focused {
-							background-color: var(--color-background-hover);
-						}
-
-						&:active,
-						&:hover,
-						&:focus {
-							background-color: var(--color-background-hover);
-							border: 2px solid var(--color-border-maxcontrast);
-						}
-
-						* {
-							cursor: pointer;
-						}
-
-					}
-
-					&-icon {
-						overflow: hidden;
-						width: $clickable-area;
-						height: $clickable-area;
-						border-radius: var(--border-radius);
-						background-repeat: no-repeat;
-						background-position: center center;
-						background-size: 32px;
-
-						&--rounded {
-							border-radius: math.div($clickable-area, 2);
-						}
-
-						&--no-preview {
-							background-size: 32px;
-						}
-
-						&--with-thumbnail {
-							background-size: cover;
-						}
-
-						&--with-thumbnail:not(&--rounded) {
-							// compensate for border
-							max-width: $clickable-area - 2px;
-							max-height: $clickable-area - 2px;
-							border: 1px solid var(--color-border);
-						}
-
-						img {
-							// Make sure to keep ratio
-							width: 100%;
-							height: 100%;
-
-							object-fit: cover;
-							object-position: center;
-						}
-					}
-
 				}
 			}
 

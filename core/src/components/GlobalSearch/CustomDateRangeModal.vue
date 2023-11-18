@@ -5,7 +5,7 @@
 		:show.sync="isModalOpen"
 		:size="'small'"
 		:clear-view-delay="0"
-		:title="t('Custom date range')"
+		:title="t('core', 'Custom date range')"
 		@close="closeModal">
 		<!-- Custom date range -->
 		<div class="global-search-custom-date-modal">
