@@ -17,6 +17,7 @@ OC.L10N.register(
     "Cancel edit" : "إلغاء التعديل",
     "Post comment" : "أضف تعليق",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" للإشارات, \":\" للإيموجي, \"/\" للاقط الذكي",
+    "Could not reload comments" : "تعذّرت إعادة تحميل الملاحظات",
     "No comments yet, start the conversation!" : "لا يوجد تعليقات, ابدأ النقاش الآن!",
     "No more messages" : "لامزيد من الرسائل",
     "Retry" : "أعد المحاولة",
