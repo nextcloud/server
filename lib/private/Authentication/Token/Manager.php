@@ -32,9 +32,9 @@ use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IProvider as OCPIProvider;
 
-class Manager implements IProvider {
-
+class Manager implements IProvider, OCPIProvider {
 	/** @var PublicKeyTokenProvider */
 	private $publicKeyTokenProvider;
 
@@ -204,6 +204,10 @@ class Manager implements IProvider {
 		$this->publicKeyTokenProvider->invalidateOldTokens();
 	}
 
+	public function invalidateLastUsedBefore(string $uid, int $before): void {
+		$this->publicKeyTokenProvider->invalidateLastUsedBefore($uid, $before);
+	}
+
 	/**
 	 * @param IToken $token
 	 * @param string $oldTokenId
@@ -239,5 +243,14 @@ class Manager implements IProvider {
 
 	public function updatePasswords(string $uid, string $password) {
 		$this->publicKeyTokenProvider->updatePasswords($uid, $password);
+	}
+
+	public function invalidateTokensOfUser(string $uid, ?string $clientName) {
+		$tokens = $this->getTokenByUser($uid);
+		foreach ($tokens as $token) {
+			if ($clientName === null || ($token->getName() === $clientName)) {
+				$this->invalidateTokenById($uid, $token->getId());
+			}
+		}
 	}
 }

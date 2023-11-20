@@ -13,6 +13,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -42,6 +43,7 @@ use OC_App;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -53,6 +55,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
+#[IgnoreOpenAPI]
 class AppSettingsController extends Controller {
 
 	/** @var \OCP\IL10N */
@@ -136,7 +139,7 @@ class AppSettingsController extends Controller {
 		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params]);
+		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params, 'pageTitle' => $this->l10n->t('Apps')]);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 		$templateResponse->setContentSecurityPolicy($policy);
@@ -187,7 +190,7 @@ class AppSettingsController extends Controller {
 			$formattedCategories[] = [
 				'id' => $category['id'],
 				'ident' => $category['id'],
-				'displayName' => isset($category['translations'][$currentLanguage]['name']) ? $category['translations'][$currentLanguage]['name'] : $category['translations']['en']['name'],
+				'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
 			];
 		}
 
@@ -370,9 +373,9 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
-				'name' => isset($app['translations'][$currentLanguage]['name']) ? $app['translations'][$currentLanguage]['name'] : $app['translations']['en']['name'],
-				'description' => isset($app['translations'][$currentLanguage]['description']) ? $app['translations'][$currentLanguage]['description'] : $app['translations']['en']['description'],
-				'summary' => isset($app['translations'][$currentLanguage]['summary']) ? $app['translations'][$currentLanguage]['summary'] : $app['translations']['en']['summary'],
+				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
+				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
+				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => false,

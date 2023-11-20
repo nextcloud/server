@@ -72,19 +72,19 @@ class CalendarImplTest extends \Test\TestCase {
 	}
 
 
-	public function testGetKey() {
+	public function testGetKey(): void {
 		$this->assertEquals($this->calendarImpl->getKey(), 'fancy_id_123');
 	}
 
-	public function testGetDisplayname() {
+	public function testGetDisplayname(): void {
 		$this->assertEquals($this->calendarImpl->getDisplayName(), 'user readable name 123');
 	}
 
-	public function testGetDisplayColor() {
+	public function testGetDisplayColor(): void {
 		$this->assertEquals($this->calendarImpl->getDisplayColor(), '#AABBCC');
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$this->backend->expects($this->once())
 			->method('search')
 			->with($this->calendarInfo, 'abc', ['def'], ['ghi'], 42, 1337)
@@ -94,7 +94,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals($result, ['SEARCHRESULTS']);
 	}
 
-	public function testGetPermissionRead() {
+	public function testGetPermissionRead(): void {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
@@ -105,7 +105,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals(1, $this->calendarImpl->getPermissions());
 	}
 
-	public function testGetPermissionWrite() {
+	public function testGetPermissionWrite(): void {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
@@ -116,7 +116,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals(6, $this->calendarImpl->getPermissions());
 	}
 
-	public function testGetPermissionReadWrite() {
+	public function testGetPermissionReadWrite(): void {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
@@ -128,7 +128,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals(7, $this->calendarImpl->getPermissions());
 	}
 
-	public function testGetPermissionAll() {
+	public function testGetPermissionAll(): void {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()

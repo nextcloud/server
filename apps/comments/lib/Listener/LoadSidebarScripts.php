@@ -28,17 +28,19 @@ namespace OCA\Comments\Listener;
 
 use OCA\Comments\AppInfo\Application;
 use OCA\Files\Event\LoadSidebar;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
 class LoadSidebarScripts implements IEventListener {
-
-	private ICommentsManager $commentsManager;
-
-	public function __construct(ICommentsManager $commentsManager) {
-		$this->commentsManager = $commentsManager;
+	public function __construct(
+		private ICommentsManager $commentsManager,
+		private IInitialState $initialState,
+		private IAppManager $appManager,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -47,6 +49,8 @@ class LoadSidebarScripts implements IEventListener {
 		}
 
 		$this->commentsManager->load();
+
+		$this->initialState->provideInitialState('activityEnabled', $this->appManager->isEnabledForUser('activity'));
 
 		// TODO: make sure to only include the sidebar script when
 		// we properly split it between files list and sidebar

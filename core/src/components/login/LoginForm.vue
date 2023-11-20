@@ -32,6 +32,11 @@
 				type="warning">
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
+			<NcNoteCard v-if="csrfCheckFailed"
+				:heading="t('core', 'Temporary error')"
+				type="error">
+				{{ t('core', 'Please try again.') }}
+			</NcNoteCard>
 			<NcNoteCard v-if="messages.length > 0">
 				<div v-for="(message, index) in messages"
 					:key="index">
@@ -56,7 +61,6 @@
 			<NcTextField id="user"
 				ref="user"
 				:label="t('core', 'Account name or email')"
-				:label-visible="true"
 				name="user"
 				:value.sync="user"
 				:class="{shake: invalidPassword}"
@@ -70,7 +74,6 @@
 			<NcPasswordField id="password"
 				ref="password"
 				name="password"
-				:label-visible="true"
 				:class="{shake: invalidPassword}"
 				:value.sync="password"
 				:spellchecking="false"
@@ -186,6 +189,9 @@ export default {
 		apacheAuthFailed() {
 			return this.errors.indexOf('apacheAuthFailed') !== -1
 		},
+		csrfCheckFailed() {
+			return this.errors.indexOf('csrfCheckFailed') !== -1
+		},
 		internalException() {
 			return this.errors.indexOf('internalexception') !== -1
 		},
@@ -238,6 +244,7 @@ export default {
 
 	&__headline {
 		text-align: center;
+		overflow-wrap: anywhere;
 	}
 }
 </style>

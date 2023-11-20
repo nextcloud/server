@@ -39,7 +39,6 @@ use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
-
 	/** @var CompareVersion */
 	private $compareVersion;
 
@@ -100,7 +99,7 @@ class AppFetcher extends Fetcher {
 			foreach ($app['releases'] as $release) {
 				// Exclude all nightly and pre-releases if required
 				if (($allowNightly || $release['isNightly'] === false)
-					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
+					&& ($allowPreReleases || !str_contains($release['version'], '-'))) {
 					// Exclude all versions not compatible with the current version
 					try {
 						$versionParser = new VersionParser();
@@ -117,15 +116,15 @@ class AppFetcher extends Fetcher {
 							$minPhpVersion = $phpVersion->getMinimumVersion();
 							$maxPhpVersion = $phpVersion->getMaximumVersion();
 							$minPhpFulfilled = $minPhpVersion === '' || $this->compareVersion->isCompatible(
-									PHP_VERSION,
-									$minPhpVersion,
-									'>='
-								);
+								PHP_VERSION,
+								$minPhpVersion,
+								'>='
+							);
 							$maxPhpFulfilled = $maxPhpVersion === '' || $this->compareVersion->isCompatible(
-									PHP_VERSION,
-									$maxPhpVersion,
-									'<='
-								);
+								PHP_VERSION,
+								$maxPhpVersion,
+								'<='
+							);
 
 							$isPhpCompatible = $minPhpFulfilled && $maxPhpFulfilled;
 						}

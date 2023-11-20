@@ -82,9 +82,11 @@ class Delegation implements ISettings {
 				$settings = array_merge(
 					$settings,
 					array_map(function (IDelegatedSettings $setting) use ($section) {
+						$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
 						return [
 							'class' => get_class($setting),
-							'sectionName' => $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : ''),
+							'sectionName' => $sectionName,
+							'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
 							'priority' => $section->getPriority(),
 						];
 					}, $sectionSettings)

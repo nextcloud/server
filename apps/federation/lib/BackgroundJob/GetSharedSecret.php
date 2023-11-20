@@ -118,7 +118,7 @@ class GetSharedSecret extends Job {
 		}
 
 		$endPoints = $this->ocsDiscoveryService->discover($target, 'FEDERATED_SHARING');
-		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
+		$endPoint = $endPoints['shared-secret'] ?? $this->defaultEndPoint;
 
 		// make sure that we have a well formatted url
 		$url = rtrim($target, '/') . '/' . trim($endPoint, '/');

@@ -37,14 +37,13 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Throwable;
 
 class UserStatusControllerTest extends TestCase {
-
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
@@ -58,7 +57,7 @@ class UserStatusControllerTest extends TestCase {
 
 		$request = $this->createMock(IRequest::class);
 		$userId = 'john.doe';
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->service = $this->createMock(StatusService::class);
 
 		$this->controller = new UserStatusController('user_status', $request, $userId, $this->logger, $this->service);
@@ -324,15 +323,6 @@ class UserStatusControllerTest extends TestCase {
 			['👨🏽‍💻', 'Busy developing the status feature', 500, false, true, new StatusMessageTooLongException('Original exception message'), true,
 				'New user-status for "john.doe" was rejected due to a too long status message.'],
 		];
-	}
-
-	public function testClearStatus(): void {
-		$this->service->expects($this->once())
-			->method('clearStatus')
-			->with('john.doe');
-
-		$response = $this->controller->clearStatus();
-		$this->assertEquals([], $response->getData());
 	}
 
 	public function testClearMessage(): void {

@@ -41,15 +41,13 @@ use Psr\Log\LoggerInterface;
  * @package OC\Migration
  */
 class BackgroundRepair extends TimedJob {
-	private IJobList $jobList;
-	private LoggerInterface $logger;
-	private IEventDispatcher $dispatcher;
-
-	public function __construct(IEventDispatcher $dispatcher, ITimeFactory $time, LoggerInterface $logger, IJobList $jobList) {
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		ITimeFactory $time,
+		private LoggerInterface $logger,
+		private IJobList $jobList,
+	) {
 		parent::__construct($time);
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
-		$this->jobList = $jobList;
 		$this->setInterval(15 * 60);
 	}
 
@@ -58,7 +56,7 @@ class BackgroundRepair extends TimedJob {
 	 * @throws \Exception
 	 * @throws \OC\NeedsUpdateException
 	 */
-	protected function run($argument) {
+	protected function run($argument): void {
 		if (!isset($argument['app']) || !isset($argument['step'])) {
 			// remove the job - we can never execute it
 			$this->jobList->remove($this, $this->argument);
@@ -101,7 +99,7 @@ class BackgroundRepair extends TimedJob {
 	 * @param $app
 	 * @throws NeedsUpdateException
 	 */
-	protected function loadApp($app) {
+	protected function loadApp($app): void {
 		OC_App::loadApp($app);
 	}
 }

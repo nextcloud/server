@@ -19,7 +19,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class SetupTest extends \Test\TestCase {
-
 	/** @var SystemConfig|MockObject */
 	protected $config;
 	/** @var \bantu\IniGetWrapper\IniGetWrapper|MockObject */

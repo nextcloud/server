@@ -34,7 +34,6 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IURLGenerator;
 
 class TwoFactorCommand extends ALoginCommand {
-
 	/** @var Manager */
 	private $twoFactorManager;
 

@@ -33,7 +33,6 @@ use OCP\IConfig;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
-use Psr\Log\LoggerInterface;
 
 class ExpireTrashTest extends TestCase {
 	/** @var IConfig|MockObject */
@@ -61,7 +60,7 @@ class ExpireTrashTest extends TestCase {
 
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
-			->willReturn(99999999999);
+			->willReturn(999999999);
 
 		$this->jobList->expects($this->once())
 			->method('setLastRun');

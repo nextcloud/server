@@ -37,7 +37,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 
 class RemoteWipe {
-
 	/** @var IProvider */
 	private $tokenProvider;
 

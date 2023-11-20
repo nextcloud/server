@@ -3,7 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "Майстерня",
     "Dashboard app" : "Застосунок з панеллю віджетів ",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Почніть свій день інформовано \nІнформаційна панель Nextcloud — це ваша початкова точка дня, яка дає вам змогу огляд ваших майбутніх зустрічей, термінових електронних листів, повідомлень чату, вхідні квитки, останні твіти та багато іншого! Користувачі можуть додавати віджети вони люблять і змінюють фон на свій смак.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Почніть свій день поінформовано\n\nІнформаційна панель Nextcloud - це ваша відправна точка дня, яка дає вам огляд майбутніх зустрічей, термінових електронних листів, повідомлень в чаті, призначених завдань, останніх твітів і багато іншого! Користувачі можуть додавати віджети, які їм подобаються, і змінювати фон на свій смак.",
+    "\"{title} icon\"" : "\"{title} \"іконка\"",
     "Customize" : "Редагувати",
     "Edit widgets" : "Редагувати віджети",
     "Get more widgets from the App Store" : "Більше віджетів у каталозі застосунків",
@@ -22,10 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрий вечір, {name}",
     "Hello" : "Привіт",
     "Hello, {name}" : "Привіт, {name}",
-    "Change background image" : "Змінити зображення тла",
-    "Pick from Files" : "Виберіть із файлів",
-    "Default images" : "Типові зображення",
-    "Plain background" : "Однокольорове тло",
-    "Insert from {productName}" : "Вставка з {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Почніть свій день інформовано \nІнформаційна панель Nextcloud — це ваша початкова точка дня, яка дає вам змогу огляд ваших майбутніх зустрічей, термінових електронних листів, повідомлень чату, вхідні квитки, останні твіти та багато іншого! Користувачі можуть додавати віджети вони люблять і змінюють фон на свій смак."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

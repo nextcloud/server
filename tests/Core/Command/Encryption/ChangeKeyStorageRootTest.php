@@ -34,7 +34,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ChangeKeyStorageRootTest extends TestCase {
-
 	/** @var ChangeKeyStorageRoot */
 	protected $changeKeyStorageRoot;
 
@@ -76,6 +75,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
 		$outputFormatter->method('format')->willReturnArgument(0);
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')
@@ -147,7 +147,6 @@ class ChangeKeyStorageRootTest extends TestCase {
 	}
 
 	public function testMoveAllKeys() {
-
 		/** @var \OC\Core\Command\Encryption\ChangeKeyStorageRoot $changeKeyStorageRoot */
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
@@ -160,9 +159,9 @@ class ChangeKeyStorageRootTest extends TestCase {
 				]
 			)->setMethods(['prepareNewRoot', 'moveSystemKeys', 'moveUserKeys'])->getMock();
 
-		$changeKeyStorageRoot->expects($this->at(0))->method('prepareNewRoot')->with('newRoot');
-		$changeKeyStorageRoot->expects($this->at(1))->method('moveSystemKeys')->with('oldRoot', 'newRoot');
-		$changeKeyStorageRoot->expects($this->at(2))->method('moveUserKeys')->with('oldRoot', 'newRoot', $this->outputInterface);
+		$changeKeyStorageRoot->expects($this->once())->method('prepareNewRoot')->with('newRoot');
+		$changeKeyStorageRoot->expects($this->once())->method('moveSystemKeys')->with('oldRoot', 'newRoot');
+		$changeKeyStorageRoot->expects($this->once())->method('moveUserKeys')->with('oldRoot', 'newRoot', $this->outputInterface);
 
 		$this->invokePrivate($changeKeyStorageRoot, 'moveAllKeys', ['oldRoot', 'newRoot', $this->outputInterface]);
 	}

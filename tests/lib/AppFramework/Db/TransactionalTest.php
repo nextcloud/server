@@ -31,7 +31,6 @@ use RuntimeException;
 use Test\TestCase;
 
 class TransactionalTest extends TestCase {
-
 	/** @var IDBConnection|MockObject */
 	private IDBConnection $db;
 

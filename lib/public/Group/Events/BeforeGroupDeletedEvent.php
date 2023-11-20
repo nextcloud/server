@@ -32,7 +32,6 @@ use OCP\IGroup;
  * @since 18.0.0
  */
 class BeforeGroupDeletedEvent extends Event {
-
 	/** @var IGroup */
 	private $group;
 

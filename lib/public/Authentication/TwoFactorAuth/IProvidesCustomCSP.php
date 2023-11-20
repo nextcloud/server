@@ -32,7 +32,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
  * @since 13.0.0
  */
 interface IProvidesCustomCSP {
-
 	/**
 	 * @return ContentSecurityPolicy
 	 *

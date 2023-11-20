@@ -13,8 +13,6 @@
     "Accept" : "אישור",
     "Decline" : "סירוב",
     "Federated Cloud Sharing" : "ענן שיתוף מאוגד",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי, ניתן לראות %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי",
     "Sharing" : "שיתוף",
     "Allow users on this server to receive shares from other servers" : "מאפשר למשתמשים בשרת זה לקבל שיתופים משרתים אחרים",
     "Federated Cloud" : "ענן מאוגד",
@@ -23,12 +21,14 @@
     "Add to your website" : "הוספה לאתר האינטרנט שלך",
     "Share with me via Nextcloud" : "שיתוף איתי באמצעות Nextcloud",
     "HTML Code:" : "קוד HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי",
     "Copy to clipboard" : "העתקה ללוח הגזירים",
-    "Copy" : "העתק",
     "Copied!" : "הועתק!",
+    "Copy" : "העתק",
     "Not supported!" : "אין תמיכה!",
     "Press ⌘-C to copy." : "‎⌘-C להעתקה.",
     "Press Ctrl-C to copy." : "Ctrl-C להעתקה.",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי, ניתן לראות %s",
     "Open documentation" : "תיעוד פתוח"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

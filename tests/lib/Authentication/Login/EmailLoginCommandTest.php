@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class EmailLoginCommandTest extends ALoginCommandTest {
-
 	/** @var IUserManager|MockObject */
 	private $userManager;
 

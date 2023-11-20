@@ -31,7 +31,6 @@ namespace OCP;
  * @since 8.0.0
  */
 interface IUserBackend {
-
 	/**
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown

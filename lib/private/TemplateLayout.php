@@ -79,7 +79,6 @@ class TemplateLayout extends \OC_Template {
 	 * @param string $appId application id
 	 */
 	public function __construct($renderAs, $appId = '') {
-
 		/** @var IConfig */
 		$this->config = \OC::$server->get(IConfig::class);
 
@@ -107,11 +106,18 @@ class TemplateLayout extends \OC_Template {
 
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 			$this->initialState->provideInitialState('core', 'apps', $this->navigationManager->getAll());
-			$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-			$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
-			$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
-			Util::addScript('core', 'unified-search', 'core');
-
+			/*
+			 * NB : Unified search enabled, defaults to true since new advanced search is
+			 * unstable. Once we think otherwise, the default should be false.
+			 */
+			if ($this->config->getSystemValueBool('unified_search.enabled', true)) {
+				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
+				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
+				$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
+				Util::addScript('core', 'unified-search', 'core');
+			} else {
+				Util::addScript('core', 'global-search', 'core');
+			}
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
 			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
@@ -120,9 +126,15 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
 
-			// set logo link target
+			// Set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
 			$this->assign('logoUrl', $logoUrl);
+
+			// Set default app name
+			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
+			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
+			$l10n = \OC::$server->getL10NFactory()->get($defaultApp);
+			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
 
 			// Add navigation entry
 			$this->assign('application', '');
@@ -131,7 +143,7 @@ class TemplateLayout extends \OC_Template {
 			$navigation = $this->navigationManager->getAll();
 			$this->assign('navigation', $navigation);
 			$settingsNavigation = $this->navigationManager->getAll('settings');
-			$this->assign('settingsnavigation', $settingsNavigation);
+			$this->initialState->provideInitialState('core', 'settingsNavEntries', $settingsNavigation);
 
 			foreach ($navigation as $entry) {
 				if ($entry['active']) {
@@ -184,8 +196,12 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
 
+			// Set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
+
 			/** @var IRegistry $subscription */
-			$subscription = \OC::$server->query(IRegistry::class);
+			$subscription = \OCP\Server::get(IRegistry::class);
 			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
 			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
 				$showSimpleSignup = false;
@@ -216,12 +232,12 @@ class TemplateLayout extends \OC_Template {
 		// TODO: remove deprecated OC_Util injection
 		$jsFiles = self::findJavascriptFiles(array_merge(\OC_Util::$scripts, Util::getScripts()));
 		$this->assign('jsfiles', []);
-		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
+		if ($this->config->getSystemValueBool('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
 				\OC::$server->getL10N('lib'),
-				\OC::$server->query(Defaults::class),
+				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),
 				\OC::$server->getSession(),
 				\OC::$server->getUserSession()->getUser(),
@@ -230,7 +246,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),
 				\OC::$server->getCapabilitiesManager(),
-				\OC::$server->query(IInitialStateService::class)
+				\OCP\Server::get(IInitialStateService::class)
 			);
 			$config = $jsConfigHelper->getConfig();
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
@@ -269,17 +285,17 @@ class TemplateLayout extends \OC_Template {
 
 		$this->assign('cssfiles', []);
 		$this->assign('printcssfiles', []);
-		$this->assign('versionHash', self::$versionHash);
+		$this->initialState->provideInitialState('core', 'versionHash', self::$versionHash);
 		foreach ($cssFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
 
-			if (substr($file, -strlen('print.css')) === 'print.css') {
+			if (str_ends_with($file, 'print.css')) {
 				$this->append('printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 			} else {
 				$suffix = $this->getVersionHashSuffix($web, $file);
 
-				if (strpos($file, '?v=') == false) {
+				if (!str_contains($file, '?v=')) {
 					$this->append('cssfiles', $web.'/'.$file . $suffix);
 				} else {
 					$this->append('cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));
@@ -299,14 +315,14 @@ class TemplateLayout extends \OC_Template {
 	 * @return string
 	 */
 	protected function getVersionHashSuffix($path = false, $file = false) {
-		if ($this->config->getSystemValue('debug', false)) {
+		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return "";
 		}
 		$themingSuffix = '';
 		$v = [];
 
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			if (\OC::$server->getAppManager()->isInstalled('theming')) {
 				$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
 			}

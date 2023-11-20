@@ -8,13 +8,14 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2-appen gir administratorer mulighet til å konfigurere den innebygde arbeidsflyten for autentisering til å også tillate OAuth2-kompatibel autentisering fra andre nett-applikasjoner.",
     "OAuth 2.0 clients" : "OAuth 2.0-klienter",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 gir eksterne tjenester tillatelse til å be om tilgang til {instanceName}.",
-    "Add client" : "Legg til klient",
     "Name" : "Navn",
     "Redirection URI" : "Videresendings-URI",
-    "Add" : "Legg til",
     "Client Identifier" : "Klient-identifikator",
-    "Secret" : "Hemmelighet",
+    "Secret key" : "Hemmelig nøkkel",
+    "Add client" : "Legg til klient",
+    "Add" : "Legg til",
     "Show client secret" : "Vis klients hemmelighet",
-    "Delete" : "Slett"
+    "Delete" : "Slett",
+    "Secret" : "Hemmelighet"
 },
 "nplurals=2; plural=(n != 1);");

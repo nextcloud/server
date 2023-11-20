@@ -23,7 +23,7 @@
 import Vue from 'vue'
 import DashboardApp from './DashboardApp.vue'
 import { translate as t } from '@nextcloud/l10n'
-import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import { getRequestToken } from '@nextcloud/auth'
 
 // eslint-disable-next-line camelcase

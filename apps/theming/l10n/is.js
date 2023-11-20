@@ -49,9 +49,11 @@ OC.L10N.register(
     "Favicon" : "Veftákn",
     "Upload new favicon" : "Senda inn nýja táknmynd",
     "User settings" : "Notandastillingar",
-    "Keyboard shortcuts" : "Flýtileiðir á lyklaborði",
     "Background" : "Background",
+    "Keyboard shortcuts" : "Flýtileiðir á lyklaborði",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Aðgengi fyrir alla er okkur mikilvægt. Við fylgjum vefstöðlum oggöngum úr skugga um að allt sé nothæft án þess að nota tölvumús, auk þess að hjálpartæki á borð við skjálesara virki. Við miðum að samhæfni við {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 á stigi AA, og höfum meira að segja háskerpuþemað miðað við stig AAA.",
+    "Move up" : "Færa upp",
+    "Move down" : "Færa niður",
     "Change color" : "Breyta lit",
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Upload" : "Senda inn",
@@ -59,11 +61,10 @@ OC.L10N.register(
     "Loading preview…" : "Hleð inn forskoðun...",
     "Admin" : "Stjórnandi",
     "Name cannot be empty" : "Heiti má ekki vera tómt",
+    "Custom color" : "Sérsniðinn litur",
     "Open documentation" : "Opna hjálparskjöl",
     "https://…" : "https://…",
-    "Login image" : "Innskráningarmynd",
     "Upload new login background" : "Senda inn nýjan bakgrunn innskráningar",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit.",
-    "Custom color" : "Sérsniðinn litur"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

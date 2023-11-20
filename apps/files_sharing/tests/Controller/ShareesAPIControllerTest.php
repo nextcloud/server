@@ -340,8 +340,8 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $message
 	 */
 	public function testSearchInvalid($getData, $message) {
-		$page = isset($getData['page']) ? $getData['page'] : 1;
-		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
+		$page = $getData['page'] ?? 1;
+		$perPage = $getData['perPage'] ?? 200;
 
 		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);

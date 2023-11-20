@@ -34,7 +34,6 @@ use Psr\Log\LoggerInterface;
 use function is_resource;
 
 class MoveAvatarsBackgroundJob extends QueuedJob {
-
 	/** @var IUserManager */
 	private $userManager;
 

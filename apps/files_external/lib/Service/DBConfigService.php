@@ -277,14 +277,17 @@ class DBConfigService {
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_config')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_options')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();

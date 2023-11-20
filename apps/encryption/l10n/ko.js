@@ -6,7 +6,7 @@ OC.L10N.register(
     "Repeated recovery key password does not match the provided recovery key password" : "입력한 복구 키 암호가 서로 다릅니다",
     "Recovery key successfully enabled" : "복구 키가 성공적으로 활성화되었습니다",
     "Could not enable recovery key. Please check your recovery key password!" : "복구 키를 활성화할 수 없습니다. 복구 키의 암호를 확인해 주십시오!",
-    "Recovery key successfully disabled" : "복구 키가 성공적으로 비활성화되었습니다",
+    "Recovery key successfully disabled" : "복구 키가 성공적으로 비활성화되었습니다.",
     "Could not disable recovery key. Please check your recovery key password!" : "복구 키를 비활성화할 수 없습니다. 복구 키의 암호를 확인해 주십시오!",
     "Missing parameters" : "인자 부족함",
     "Please provide the old recovery password" : "이전 복구 암호를 입력하십시오",
@@ -23,7 +23,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "개인 키 암호가 성공적으로 업데이트되었습니다.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "암호화 앱이 활성화되었으나 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오.",
-    "Please enable server side encryption in the admin settings in order to use the encryption module." : "암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화 기능을 활성화해야 합니다",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화 기능을 활성화해야 합니다.",
     "Encryption app is enabled and ready" : "암호화 앱이 활성화되었고 준비됨",
     "Bad Signature" : "잘못된 서명",
     "Missing Signature" : "서명 없음",
@@ -32,9 +32,6 @@ OC.L10N.register(
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 읽을 수 없습니다. 공유된 파일이라면 파일 소유자에게 연락하여 다시 공유해 달라고 요청하십시오.",
     "Default encryption module" : "기본 암호화 모듈",
     "Default encryption module for server-side encryption" : "서버 측 암호화용 기본 암호화 모듈",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "이 암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화를 사용해야 합니다.\n\t\t서버 측 암호화를 활성화하면 이 모듈에서 모든 파일을 투명하게 암호화합니다.\n\t\t암호화는 AES 256 키로 진행됩니다. 이 모듈에서는 기존 파일은 암호화하지 않으며,\n\t\t서버 측 암호화를 활성화한 이후 새로 업로드한 파일만 암호화합니다. 한 번 암호화를\n\t\t활성화하면 암호화를 비활성화하고 암호화를 사용하지 않았던 상태로 돌아갈 수\n\t\t없습니다. 서버 측 암호화를 활성화하기 전에 문서를 참조하여 모든 조건과\n\t\t제약 사항을 확인하십시오.",
-    "The share will expire on %s." : "이 공유는 %s에 만료됩니다.",
-    "Cheers!" : "감사합니다!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Encrypt the home storage" : "홈 저장소 암호화",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "이 옵션을 사용하면 주 저장소에 있는 모드 파일을 암호화하며, 사용하지 않으면 외부 저장소의 파일만 암호화합니다",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화"
+    "Disabled" : "비활성화",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "이 암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화를 사용해야 합니다.\n\t\t서버 측 암호화를 활성화하면 이 모듈에서 모든 파일을 투명하게 암호화합니다.\n\t\t암호화는 AES 256 키로 진행됩니다. 이 모듈에서는 기존 파일은 암호화하지 않으며,\n\t\t서버 측 암호화를 활성화한 이후 새로 업로드한 파일만 암호화합니다. 한 번 암호화를\n\t\t활성화하면 암호화를 비활성화하고 암호화를 사용하지 않았던 상태로 돌아갈 수\n\t\t없습니다. 서버 측 암호화를 활성화하기 전에 문서를 참조하여 모든 조건과\n\t\t제약 사항을 확인하십시오.",
+    "The share will expire on %s." : "이 공유는 %s에 만료됩니다.",
+    "Cheers!" : "감사합니다!"
 },
 "nplurals=1; plural=0;");

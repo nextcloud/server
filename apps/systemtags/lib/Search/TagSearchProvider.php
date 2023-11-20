@@ -113,12 +113,14 @@ class TagSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
+		$matchingTags = $this->tagManager->getAllTags(true, $query->getTerm());
+		if (count($matchingTags) === 0) {
+			return SearchResult::complete($this->l10n->t('Tags'), []);
+		}
+
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$fileQuery = new SearchQuery(
-			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_OR, [
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'tagname', '%' . $query->getTerm() . '%'),
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
-			]),
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
 			$query->getLimit(),
 			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [
@@ -133,7 +135,6 @@ class TagSearchProvider implements IProvider {
 			return $node->getId();
 		}, $searchResults);
 		$matchedTags = $this->objectMapper->getTagIdsForObjects($resultIds, 'files');
-		$relevantTags =  $this->tagManager->getTagsByIds(array_unique($this->flattenArray($matchedTags)));
 
 		// prepare direct tag results
 		$tagResults = array_map(function(ISystemTag $tag) {
@@ -149,9 +150,7 @@ class TagSearchProvider implements IProvider {
 				'icon-tag'
 			);
 			return $searchResultEntry;
-		}, array_filter($relevantTags, function($tag) use ($query) {
-			return $tag->isUserVisible() && strpos($tag->getName(), $query->getTerm()) !== false;
-		}));
+		}, $matchingTags);
 
 		// prepare files results
 		return SearchResult::paginated(

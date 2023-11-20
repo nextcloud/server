@@ -32,11 +32,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
-	protected IJobList $jobList;
-
-	public function __construct(IJobList $jobList) {
+	public function __construct(
+		protected IJobList $jobList,
+	) {
 		parent::__construct();
-		$this->jobList = $jobList;
 	}
 
 	protected function configure(): void {
@@ -54,7 +53,7 @@ class ListCommand extends Base {
 				'l',
 				InputOption::VALUE_OPTIONAL,
 				'Number of jobs to retrieve',
-				'10'
+				'500'
 			)->addOption(
 				'offset',
 				'o',
@@ -67,8 +66,12 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobs = $this->jobList->getJobsIterator($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
-		$this->writeTableInOutputFormat($input, $output, $this->formatJobs($jobs));
+		$limit = (int)$input->getOption('limit');
+		$jobsInfo = $this->formatJobs($this->jobList->getJobsIterator($input->getOption('class'), $limit, (int)$input->getOption('offset')));
+		$this->writeTableInOutputFormat($input, $output, $jobsInfo);
+		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN && count($jobsInfo) >= $limit) {
+			$output->writeln("\n<comment>Output is currently limited to " .  $limit . " jobs. Specify `-l, --limit[=LIMIT]` to override.</comment>");
+		}
 		return 0;
 	}
 

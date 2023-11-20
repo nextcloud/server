@@ -28,9 +28,6 @@
     "one-time password for server-side-encryption" : "palavra-passe de utilização única para a encriptação do lado do servidor",
     "Default encryption module" : "Módulo de cifra padrão",
     "Default encryption module for server-side encryption" : "Módulo de encriptação predefinido para encriptação do lado do servidor",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Para usar este módulo de encriptação, você precisa ativar a encriptação do lado do servidor\n\t\t nas configurações de administrador. Uma vez ativado, este módulo encriptará\n\t\t todos os seus ficheiros de forma transparente. A encriptação é baseada em chaves AES 256.\n\t\t O módulo não tocará nos ficheiros existentes, apenas os novos serão encriptados\n\t\t depois da encriptação do lado do servidor ser ativada. Também não é possível\n\t\t desativar a encriptação novamente e voltar para um sistema não encriptado.\n\t\tPor favor leia a documentação para conhecer todas as implicações antes de decidir\n\t\tativar a encriptação no servidor.",
-    "The share will expire on %s." : "Esta partilha irá expirar em %s.",
-    "Cheers!" : "Parabéns!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicação de cifra está activa, mas as suas chaves não estão inicializaras. Por favor, faça logout e autentique-se novamente.",
     "Encrypt the home storage" : "Encriptar o armazenamento do início",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ativando esta opção todos os ficheiros armazenados no armazenamento principal serão encriptados, senão serão encriptados todos os ficheiros no armazenamento externo",
@@ -54,6 +51,9 @@
     "Enable password recovery:" : "Ativar a recuperação da palavra-passe:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao ativar esta opção, irá fazer com que volte a obter o acesso aos seus ficheiros encriptados, se perder a palavra-passe",
     "Enabled" : "Ativada",
-    "Disabled" : "Desativada"
+    "Disabled" : "Desativada",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Para usar este módulo de encriptação, você precisa ativar a encriptação do lado do servidor\n\t\t nas configurações de administrador. Uma vez ativado, este módulo encriptará\n\t\t todos os seus ficheiros de forma transparente. A encriptação é baseada em chaves AES 256.\n\t\t O módulo não tocará nos ficheiros existentes, apenas os novos serão encriptados\n\t\t depois da encriptação do lado do servidor ser ativada. Também não é possível\n\t\t desativar a encriptação novamente e voltar para um sistema não encriptado.\n\t\tPor favor leia a documentação para conhecer todas as implicações antes de decidir\n\t\tativar a encriptação no servidor.",
+    "The share will expire on %s." : "Esta partilha irá expirar em %s.",
+    "Cheers!" : "Parabéns!"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

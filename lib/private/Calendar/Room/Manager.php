@@ -33,10 +33,6 @@ use OCP\Calendar\Room\IManager;
 use OCP\IServerContainer;
 
 class Manager implements IManager {
-	private Coordinator $bootstrapCoordinator;
-
-	private IServerContainer $server;
-
 	private bool $bootstrapBackendsLoaded = false;
 
 	/**
@@ -48,20 +44,18 @@ class Manager implements IManager {
 	/** @var IBackend[] holds all backends that have been initialized already */
 	private array $initializedBackends = [];
 
-	public function __construct(Coordinator $bootstrapCoordinator,
-								IServerContainer $server) {
-		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->server = $server;
+	public function __construct(
+		private Coordinator $bootstrapCoordinator,
+		private IServerContainer $server,
+	) {
 	}
 
 	/**
 	 * Registers a resource backend
 	 *
-	 * @param string $backendClass
-	 * @return void
 	 * @since 14.0.0
 	 */
-	public function registerBackend(string $backendClass) {
+	public function registerBackend(string $backendClass): void {
 		$this->backends[$backendClass] = $backendClass;
 	}
 
@@ -69,10 +63,9 @@ class Manager implements IManager {
 	 * Unregisters a resource backend
 	 *
 	 * @param string $backendClass
-	 * @return void
 	 * @since 14.0.0
 	 */
-	public function unregisterBackend(string $backendClass) {
+	public function unregisterBackend(string $backendClass): void {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
 
@@ -120,9 +113,8 @@ class Manager implements IManager {
 	/**
 	 * @param string $backendId
 	 * @throws \OCP\AppFramework\QueryException
-	 * @return IBackend|null
 	 */
-	public function getBackend($backendId) {
+	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
@@ -135,10 +127,10 @@ class Manager implements IManager {
 
 	/**
 	 * removes all registered backend instances
-	 * @return void
+	 *
 	 * @since 14.0.0
 	 */
-	public function clear() {
+	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];
 	}

@@ -32,7 +32,6 @@ use OCP\IURLGenerator;
  * @package OC\OCS
  */
 class CoreCapabilities implements ICapability {
-
 	/** @var IConfig */
 	private $config;
 
@@ -45,8 +44,6 @@ class CoreCapabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
-	 *
-	 * @return array
 	 */
 	public function getCapabilities() {
 		return [

@@ -33,7 +33,6 @@ use OCP\UserStatus\IUserStatus;
  * @since 20.0.0
  */
 class UserLiveStatusEvent extends Event {
-
 	/**
 	 * @var string
 	 * @since 20.0.0

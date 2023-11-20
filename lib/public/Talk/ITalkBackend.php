@@ -37,7 +37,6 @@ use OCP\IUser;
  * @since 24.0.0
  */
 interface ITalkBackend {
-
 	/**
 	 * @param string $name
 	 * @param IUser[] $moderators

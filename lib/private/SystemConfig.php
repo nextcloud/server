@@ -34,7 +34,6 @@ use OCP\IConfig;
  * fixes cyclic DI: AllConfig needs AppConfig needs Database needs AllConfig
  */
 class SystemConfig {
-
 	/** @var array */
 	protected $sensitiveValues = [
 		'instanceid' => true,
@@ -118,6 +117,9 @@ class SystemConfig {
 					'password' => true,
 				],
 			],
+		],
+		'onlyoffice' => [
+			'jwt_secret' => true,
 		],
 	];
 

@@ -29,7 +29,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class PgSqlExpressionBuilder extends ExpressionBuilder {
-
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *

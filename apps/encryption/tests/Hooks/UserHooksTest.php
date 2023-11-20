@@ -34,7 +34,7 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -160,7 +160,6 @@ class UserHooksTest extends TestCase {
 	 * @dataProvider dataTestPreSetPassphrase
 	 */
 	public function testPreSetPassphrase($canChange) {
-
 		/** @var UserHooks | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
@@ -332,7 +331,7 @@ class UserHooksTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->loggerMock = $this->createMock(ILogger::class);
+		$this->loggerMock = $this->createMock(LoggerInterface::class);
 		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()
 			->getMock();

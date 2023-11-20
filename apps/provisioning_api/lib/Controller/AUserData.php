@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -35,6 +36,7 @@ use OC\Group\Manager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
+use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
@@ -51,6 +53,10 @@ use OCP\L10N\IFactory;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
+/**
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
+ */
 abstract class AUserData extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
 
@@ -59,13 +65,14 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_LOCALE = 'locale';
 	public const USER_FIELD_PASSWORD = 'password';
 	public const USER_FIELD_QUOTA = 'quota';
+	public const USER_FIELD_MANAGER = 'manager';
 	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
 
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var IConfig */
 	protected $config;
-	/** @var IGroupManager|Manager */ // FIXME Requires a method that is not on the interface
+	/** @var Manager */
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;
@@ -97,12 +104,12 @@ abstract class AUserData extends OCSController {
 	 *
 	 * @param string $userId
 	 * @param bool $includeScopes
-	 * @return array
+	 * @return Provisioning_APIUserDetails|null
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
 	 */
-	protected function getUserData(string $userId, bool $includeScopes = false): array {
+	protected function getUserData(string $userId, bool $includeScopes = false): ?array {
 		$currentLoggedInUser = $this->userSession->getUser();
 		assert($currentLoggedInUser !== null, 'No user logged in');
 
@@ -121,7 +128,7 @@ abstract class AUserData extends OCSController {
 		} else {
 			// Check they are looking up themselves
 			if ($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
-				return $data;
+				return null;
 			}
 		}
 
@@ -150,6 +157,8 @@ abstract class AUserData extends OCSController {
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
+		$managerUids = $targetUserObject->getManagerUids();
+		$data[self::USER_FIELD_MANAGER] = empty($managerUids) ? '' : $managerUids[0];
 
 		try {
 			if ($includeScopes) {
@@ -175,6 +184,7 @@ abstract class AUserData extends OCSController {
 			}
 
 			$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
+			$data[IAccountManager::PROPERTY_DISPLAYNAME_LEGACY] = $data[IAccountManager::PROPERTY_DISPLAYNAME];
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
 			}
@@ -220,7 +230,7 @@ abstract class AUserData extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return array
+	 * @return string[]
 	 * @throws OCSException
 	 */
 	protected function getUserSubAdminGroupsData(string $userId): array {
@@ -242,7 +252,7 @@ abstract class AUserData extends OCSController {
 
 	/**
 	 * @param string $userId
-	 * @return array
+	 * @return Provisioning_APIUserDetailsQuota
 	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {

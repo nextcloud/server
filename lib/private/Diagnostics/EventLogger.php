@@ -31,7 +31,6 @@ use OCP\Diagnostics\IEventLogger;
 use Psr\Log\LoggerInterface;
 
 class EventLogger implements IEventLogger {
-
 	/** @var Event[] */
 	private $events = [];
 

@@ -42,29 +42,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCalendar extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IGroupManager $groupManager */
-	private $groupManager;
-
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IDBConnection $dbConnection
-	 */
-	public function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
+	public function __construct(
+		protected IUserManager $userManager,
+		private IGroupManager $groupManager,
+		protected IDBConnection $dbConnection,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->dbConnection = $dbConnection;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:create-calendar')
 			->setDescription('Create a dav calendar')
@@ -110,6 +96,6 @@ class CreateCalendar extends Command {
 			$config
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
-		return 0;
+		return self::SUCCESS;
 	}
 }

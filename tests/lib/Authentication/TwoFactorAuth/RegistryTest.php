@@ -32,13 +32,15 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderDisabled;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderUserDeleted;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-
 	/** @var ProviderUserAssignmentDao|MockObject */
 	private $dao;
 
@@ -86,6 +88,12 @@ class RegistryTest extends TestCase {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new TwoFactorProviderForUserRegistered(
+				$user,
+				$provider,
+			));
 
 		$this->registry->enableProviderFor($provider, $user);
 	}
@@ -107,6 +115,12 @@ class RegistryTest extends TestCase {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new TwoFactorProviderForUserUnregistered(
+				$user,
+				$provider,
+			));
 
 		$this->registry->disableProviderFor($provider, $user);
 	}
@@ -122,9 +136,12 @@ class RegistryTest extends TestCase {
 					'provider_id' => 'twofactor_u2f',
 				]
 			]);
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with(new TwoFactorProviderDisabled('twofactor_u2f'));
+			->withConsecutive(
+				[new TwoFactorProviderDisabled('twofactor_u2f')],
+				[new TwoFactorProviderUserDeleted($user, 'twofactor_u2f')],
+			);
 
 		$this->registry->deleteUserData($user);
 	}

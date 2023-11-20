@@ -171,36 +171,8 @@ class ChangePasswordController extends Controller {
 
 		if ($this->appManager->isEnabledForUser('encryption')) {
 			//handle the recovery case
-			$crypt = new \OCA\Encryption\Crypto\Crypt(
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getL10N('encryption'));
-			$keyStorage = \OC::$server->getEncryptionKeyStorage();
-			$util = new \OCA\Encryption\Util(
-				new \OC\Files\View(),
-				$crypt,
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getUserManager());
-			$keyManager = new \OCA\Encryption\KeyManager(
-				$keyStorage,
-				$crypt,
-				\OC::$server->getConfig(),
-				\OC::$server->getUserSession(),
-				new \OCA\Encryption\Session(\OC::$server->getSession()),
-				\OC::$server->getLogger(),
-				$util,
-				\OC::$server->getLockingProvider()
-			);
-			$recovery = new \OCA\Encryption\Recovery(
-				\OC::$server->getUserSession(),
-				$crypt,
-				$keyManager,
-				\OC::$server->getConfig(),
-				\OC::$server->getEncryptionFilesHelper(),
-				new \OC\Files\View());
+			$keyManager = \OCP\Server::get(\OCA\Encryption\KeyManager::class);
+			$recovery = \OCP\Server::get(\OCA\Encryption\Recovery::class);
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;

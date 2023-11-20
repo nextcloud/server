@@ -30,6 +30,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
 use OCP\Files\Storage;
+use OCP\Files\StorageAuthException;
 use OCP\IL10N;
 use OCP\IUser;
 
@@ -55,6 +56,14 @@ class SessionCredentials extends AuthMechanism {
 			$credentials = $this->credentialsStore->getLoginCredentials();
 		} catch (CredentialsUnavailableException $e) {
 			throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');
+		}
+
+		if ($user === null) {
+			throw new StorageAuthException('Session unavailable');
+		}
+
+		if ($credentials->getUID() !== $user->getUID()) {
+			throw new StorageAuthException('Session credentials for storage owner not available');
 		}
 
 		$storage->setBackendOption('user', $credentials->getLoginName());

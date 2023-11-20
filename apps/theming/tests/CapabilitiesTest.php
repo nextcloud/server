@@ -36,6 +36,7 @@ use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use Test\TestCase;
 
 /**
@@ -56,6 +57,8 @@ class CapabilitiesTest extends TestCase {
 	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
+	protected IUserSession $userSession;
+
 	/** @var Capabilities */
 	protected $capabilities;
 
@@ -66,7 +69,8 @@ class CapabilitiesTest extends TestCase {
 		$this->url = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->config = $this->createMock(IConfig::class);
 		$this->util = $this->createMock(Util::class);
-		$this->capabilities = new Capabilities($this->theming, $this->util, $this->url, $this->config);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->capabilities = new Capabilities($this->theming, $this->util, $this->url, $this->config, $this->userSession);
 	}
 
 	public function dataGetCapabilities() {
@@ -77,8 +81,8 @@ class CapabilitiesTest extends TestCase {
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
-				'color-element' => '#aaaaaa',
-				'color-element-bright' => '#aaaaaa',
+				'color-element' => '#b3b3b3',
+				'color-element-bright' => '#b3b3b3',
 				'color-element-dark' => '#FFFFFF',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
@@ -109,9 +113,9 @@ class CapabilitiesTest extends TestCase {
 				'slogan' => 'slogan3',
 				'color' => '#000000',
 				'color-text' => '#ffffff',
-				'color-element' => '#000000',
-				'color-element-bright' => '#000000',
-				'color-element-dark' => '#555555',
+				'color-element' => '#4d4d4d',
+				'color-element-bright' => '#4d4d4d',
+				'color-element-dark' => '#4d4d4d',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 				'background-plain' => true,
@@ -125,9 +129,9 @@ class CapabilitiesTest extends TestCase {
 				'slogan' => 'slogan3',
 				'color' => '#000000',
 				'color-text' => '#ffffff',
-				'color-element' => '#000000',
-				'color-element-bright' => '#000000',
-				'color-element-dark' => '#555555',
+				'color-element' => '#4d4d4d',
+				'color-element-bright' => '#4d4d4d',
+				'color-element-dark' => '#4d4d4d',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 				'background-plain' => true,
@@ -165,20 +169,20 @@ class CapabilitiesTest extends TestCase {
 			->method('getSlogan')
 			->willReturn($slogan);
 		$this->theming->expects($this->atLeast(1))
-			->method('getColorPrimary')
+			->method('getDefaultColorPrimary')
 			->willReturn($color);
 		$this->theming->expects($this->exactly(3))
 			->method('getLogo')
 			->willReturn($logo);
 		$this->theming->expects($this->once())
-			->method('getTextColorPrimary')
+			->method('getDefaultTextColorPrimary')
 			->willReturn($textColor);
 
 		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
 		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)
-			->willReturnCallback(static function (string $color, bool $brightBackground = true) use ($util) {
+			->willReturnCallback(static function (string $color, ?bool $brightBackground = null) use ($util) {
 				return $util->elementColor($color, $brightBackground);
 			});
 

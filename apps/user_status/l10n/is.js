@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Nýlegar stöður",
+    "No recent status changes" : "Engar nýlegar breytingar á stöðu",
     "In a meeting" : "Á fundi",
     "Commuting" : "Á ferðinni",
     "Out sick" : "Veikindi",
@@ -17,14 +18,12 @@ OC.L10N.register(
     "Set status message" : "Setja stöðuskilaboð",
     "There was an error saving the status" : "Það kom upp villa við að vista stöðuna",
     "There was an error clearing the status" : "Það kom upp villa við að hreinsa stöðuna",
-    "No recent status changes" : "Engar nýlegar breytingar á stöðu",
-    "Away" : "Fjarverandi",
-    "Do not disturb" : "Ónáðið ekki",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Ekki hreinsa",
     "Today" : "Í dag",
     "This week" : "Í þessari viku",
     "Online" : "Á netinu",
+    "Away" : "Fjarverandi",
+    "Do not disturb" : "Ónáðið ekki",
     "Invisible" : "Ósýnilegt",
     "Offline" : "Ótengt neti",
     "There was an error saving the new status" : "Það kom upp villa við að vista nýju stöðuna",
@@ -33,6 +32,6 @@ OC.L10N.register(
     "4 hours" : "4 klukkustundir",
     "Mute all notifications" : "Þagga allar tilkynningar",
     "Appear offline" : "Birtast ótengt",
-    "Clear status message after" : "Hreinsa stöðuskilaboð eftir"
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

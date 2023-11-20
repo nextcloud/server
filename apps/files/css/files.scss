@@ -10,7 +10,8 @@
 
 /* FILE MENU */
 .actions {
-	padding: 5px;
+	// (50px - 44px) / 2
+	padding: 3px;
 	height: 100%;
 	display: inline-block;
 	float: left;
@@ -22,7 +23,7 @@
 	background-color: var(--color-background-hover);
 }
 .actions .button a:active {
-	background-color: var(--color-primary-light);
+	background-color: var(--color-primary-element-light);
 }
 
 .actions.creatable {
@@ -31,6 +32,12 @@
 	flex: 1 1;
 	.button:not(:last-child) {
 		margin-right: 3px;
+		width: unset;
+		gap: 14px;
+		background-color: var(--color-primary-element-light);
+		color: var(--color-primary-element-light-text);
+		border: unset;
+		padding: 0px 20px;
 	}
 }
 
@@ -93,7 +100,7 @@
 		}
 
 		// Deactivates the possiblility to checkmark or click on the encrypted folder
-		tr[data-e2eencrypted="true"] {
+		tr[data-e2eencrypted="true"] .selection {
 			pointer-events: none;
 		}
 	}
@@ -113,10 +120,12 @@
 	// force  the width to be the full width to not go bigger than the screen
 	// flex will grow for the mobile view if necessary
 	width: calc(100% - 300px);
+	// disable overflow-anchor which causes undesired behaviour on Firefox
+	overflow-anchor: none;
 }
 
 .file-drag, .file-drag .files-filestable tbody tr, .file-drag .files-filestable tbody tr:hover {
-	background-color: var(--color-primary-light) !important;
+	background-color: var(--color-primary-element-light) !important;
 }
 
 .app-files #app-content.dir-drop {
@@ -128,47 +137,9 @@
 }
 
 .app-files #app-content.dir-drop .files-filestable tbody tr.dropping-to-dir{
-	background-color: var(--color-primary-light) !important;
+	background-color: var(--color-primary-element-light) !important;
 }
 
-/* icons for sidebar */
-.nav-icon-files {
-	@include icon-color('folder', 'files', variables.$color-black);
-}
-.nav-icon-recent {
-	@include icon-color('recent', 'files', variables.$color-black);
-}
-.nav-icon-favorites {
-	@include icon-color('starred', 'actions', variables.$color-black, 2, true);
-}
-.nav-icon-sharingin,
-.nav-icon-sharingout,
-.nav-icon-pendingshares,
-.nav-icon-shareoverview {
-	@include icon-color('share', 'files', variables.$color-black);
-}
-.nav-icon-sharinglinks {
-	@include icon-color('public', 'files', variables.$color-black);
-}
-.nav-icon-extstoragemounts {
-	@include icon-color('external', 'files', variables.$color-black);
-}
-.nav-icon-trashbin {
-	@include icon-color('delete', 'files', variables.$color-black);
-}
-.nav-icon-trashbin-starred {
-	@include icon-color('delete', 'files', #ff0000);
-}
-.nav-icon-deletedshares {
-	@include icon-color('unshare', 'files', variables.$color-black);
-}
-.nav-icon-favorites-starred {
-	@include icon-color('starred', 'actions', variables.$color-yellow, 2, true);
-}
-
-#app-navigation .nav-files a.nav-icon-files {
-	width: auto;
-}
 /* button needs overrides due to navigation styles */
 #app-navigation .nav-files a.new {
 	width: 40px;
@@ -201,7 +172,7 @@ table tr.mouseOver td {
 .files-filestable tbody tr.highlighted .name:focus,
 .files-filestable tbody tr.selected,
 .files-filestable tbody tr.searchresult {
-	background-color: var(--color-primary-light);
+	background-color: var(--color-primary-element-light);
 }
 
 tbody a { color: var(--color-main-text); }
@@ -440,7 +411,7 @@ table {
 
 .hide-hidden-files .files-filestable .files-fileList tr.hidden-file,
 .hide-hidden-files .files-filestable .files-fileList tr.hidden-file.dragging {
-	display: none;
+	display: none !important;
 }
 
 .files-fileList tr.animate-opacity {
@@ -515,7 +486,7 @@ table td.selection {
 		background-color: var(--color-background-hover);
 		border-radius: var(--border-radius-pill);
 		outline: none !important;
-		border: 2px solid var(--color-primary) !important;
+		border: 2px solid var(--color-primary-element) !important;
 		padding: 14px;
 	}
 }
@@ -547,10 +518,25 @@ table td.selection {
 .files-fileList tr td.filename .favorite-mark {
 	position: absolute;
 	display: block;
-	top: -6px;
-	right: -6px;
+	top: -8px;
+	right: -8px;
 	line-height: 100%;
 	text-align: center;
+	&.permanent {
+		// Create background around the favorite marker to ensure there is enough contrast
+		background-color: var(--color-main-background);
+		mask: var(--icon-star-rounded-white) no-repeat;
+		mask-size: 22px 22px;
+
+		width: 22px;
+		height: 22px;
+		display: flex;
+		align-content: center;
+		justify-content: center;
+	}
+}
+.files-fileList tr:hover td.filename .favorite-mark.permanent {
+	background-color: var(--color-background-hover);
 }
 
 #uploadsize-message,#delete-confirm { display:none; }
@@ -603,8 +589,11 @@ a.action > img {
 	vertical-align: text-bottom;
 }
 
-a.action.action-editlocally img.icon {
-	filter: var(--background-invert-if-dark);
+a.action.action-editlocally,
+a.action.action-setreminder {
+	img.icon {
+		filter: var(--background-invert-if-dark);
+	}
 }
 
 /* Actions for selected files */
@@ -817,7 +806,7 @@ table.dragshadow td.size {
 
 	/* Center triangle */
 	&::after {
-		left: 61px !important;
+		left: 84px !important;
 	}
 }
 
@@ -826,7 +815,7 @@ table.dragshadow td.size {
 	box-sizing: border-box;
 	position: -webkit-sticky;
 	position: sticky;
-	height: 54px;
+	height: 50px; /* height of the nav toggle button; */
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background-translucent);
@@ -837,7 +826,7 @@ table.dragshadow td.size {
 	user-select: none;
 	display: flex;
 	top: 0;
-	padding-top: 3px;
+	padding-left: 50px; /* width of the nav toggle button; */
 
 	.actions {
 		> div,
@@ -900,6 +889,12 @@ table.dragshadow td.size {
 
 .app-files .actions .button.new {
 	position: relative;
+	width: unset;
+	gap: 14px;
+	background-color: var(--color-primary-element-light);
+	color: var(--color-primary-element-light-text);
+	border: unset;
+	padding: 0px 20px;
 }
 
 .breadcrumb {
@@ -1045,10 +1040,9 @@ table.dragshadow td.size {
 						 * Position is inherited from the selection while in grid view
 						 */
 						.favorite-mark {
-							padding: $grid-pad;
 							left: auto;
-							top: -22px; // center in corner of thumbnail
-							right: -22px; // center in corner of thumbnail
+							top: -11px; // center in corner of thumbnail
+							right: -11px; // center in corner of thumbnail
 						}
 					}
 				}
@@ -1108,6 +1102,11 @@ table.dragshadow td.size {
 						.extension {
 							display: none;
 						}
+					}
+
+					/* System tags */
+					.system-tags {
+						display: none;
 					}
 
 					.fileactions {
@@ -1178,10 +1177,7 @@ table.dragshadow td.size {
 				top: -8px; // half the checkbox width, center on corner of thumbnail
 				left: -8px; // half the checkbox width, center on corner of thumbnail
 				display: flex;
-				width: 44px;
-				height: 44px;
 				z-index: 10;
-				background: transparent;
 
 				label {
 					width: 44px;
@@ -1243,15 +1239,16 @@ table.dragshadow td.size {
 
 /* Grid view toggle */
 #view-toggle {
-	background-color: transparent;
+	background-color: var(--color-main-background-translucent);
 	border: none;
 	margin: 0;
 	padding: 22px;
 	opacity: .5;
 	float: right;
-	right: calc(var(--default-grid-baseline) * 4);
-	top: calc(var(--header-height) + var(--default-grid-baseline));
+	right: var(--default-grid-baseline);
+	top: var(--default-grid-baseline);
 	z-index: 100;
+	position: sticky;
 
 	&:hover,
 	&:focus,
@@ -1261,7 +1258,7 @@ table.dragshadow td.size {
 
 	&:focus-visible,
 	#showgridview:focus-visible + & {
-		box-shadow: inset 0 0 0 2px var(--color-primary) !important;
+		box-shadow: inset 0 0 0 2px var(--color-primary-element) !important;
 	}
 }
 

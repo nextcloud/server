@@ -35,7 +35,6 @@ namespace OCP\Dashboard;
  * @since 26.0.0
  */
 interface IConditionalWidget extends IWidget {
-
 	/**
 	 * @return bool Whether the widget is enabled and should be registered
 	 * @since 26.0.0

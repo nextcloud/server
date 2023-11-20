@@ -34,6 +34,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OC\Memcache\WithLocalCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
@@ -51,10 +52,10 @@ use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -87,9 +88,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	/** @var IConfig */
 	private $config;
 
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
 	/** @var ICache */
 	private $cache;
 
@@ -99,12 +97,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	private DisplayNameCache $displayNameCache;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $oldDispatcher,
 								ICacheFactory $cacheFactory,
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
-		$this->dispatcher = $oldDispatcher;
-		$this->cache = $cacheFactory->createDistributed('user_backend_map');
+		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			/** @var \OC\User\User $user */
@@ -201,7 +197,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param bool $cacheUser If false the newly created user object will not be cached
 	 * @return \OC\User\User
 	 */
-	protected function getUserObject($uid, $backend, $cacheUser = true) {
+	public function getUserObject($uid, $backend, $cacheUser = true) {
 		if ($backend instanceof IGetRealUIDBackend) {
 			$uid = $backend->getRealUID($uid);
 		}
@@ -210,7 +206,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->eventDispatcher, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
@@ -292,12 +288,13 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * search by user id
+	 * Search by user id
 	 *
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
+	 * @deprecated since 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
@@ -305,28 +302,24 @@ class Manager extends PublicEmitter implements IUserManager {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[$uid] = $this->getUserObject($uid, $backend);
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}
 			}
 		}
 
-		uasort($users, function ($a, $b) {
-			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
-			 */
+		uasort($users, function (IUser $a, IUser $b) {
 			return strcasecmp($a->getUID(), $b->getUID());
 		});
 		return $users;
 	}
 
 	/**
-	 * search by displayName
+	 * Search by displayName
 	 *
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
@@ -334,19 +327,44 @@ class Manager extends PublicEmitter implements IUserManager {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = $this->getUserObject($uid, $backend);
+					$users[] = new LazyUser($uid, $this, $displayName, $backend);
 				}
 			}
 		}
 
-		usort($users, function ($a, $b) {
-			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
-			 */
+		usort($users, function (IUser $a, IUser $b) {
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
 		return $users;
+	}
+
+	/**
+	 * @return IUser[]
+	 */
+	public function getDisabledUsers(?int $limit = null, int $offset = 0): array {
+		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
+		$users = array_combine(
+			$users,
+			array_map(
+				fn (string $uid): IUser => new LazyUser($uid, $this),
+				$users
+			)
+		);
+
+		$tempLimit = ($limit === null ? null : $limit + $offset);
+		foreach ($this->backends as $backend) {
+			if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+				break;
+			}
+			if ($backend instanceof IProvideEnabledStateBackend) {
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				foreach ($backendUsers as $uid) {
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
+				}
+			}
+		}
+
+		return array_slice($users, $offset, $limit);
 	}
 
 	/**

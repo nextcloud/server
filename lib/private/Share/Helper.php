@@ -26,7 +26,6 @@
 namespace OC\Share;
 
 class Helper extends \OC\Share\Constants {
-
 	/**
 	 * get default expire settings defined by the admin
 	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
@@ -128,14 +127,14 @@ class Helper extends \OC\Share\Constants {
 		if (rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/')) {
 			// FIXME this should be a method in the user management instead
 			\OCP\Util::emitHook(
-					'\OCA\Files_Sharing\API\Server2Server',
-					'preLoginNameUsedAsUserName',
-					['uid' => &$user1]
+				'\OCA\Files_Sharing\API\Server2Server',
+				'preLoginNameUsedAsUserName',
+				['uid' => &$user1]
 			);
 			\OCP\Util::emitHook(
-					'\OCA\Files_Sharing\API\Server2Server',
-					'preLoginNameUsedAsUserName',
-					['uid' => &$user2]
+				'\OCA\Files_Sharing\API\Server2Server',
+				'preLoginNameUsedAsUserName',
+				['uid' => &$user2]
 			);
 
 			if ($user1 === $user2) {

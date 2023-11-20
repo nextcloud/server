@@ -33,6 +33,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "<strong>Dagatali</strong> var breytt",
     "A calendar <strong>event</strong> was modified" : "<strong>Atburði</strong> dagatals var breytt",
     "Contact birthdays" : "Afmælisdagar tengiliðar",
+    "Untitled calendar" : "Ónefnt dagatal",
     "Calendar:" : "Dagatal:",
     "Date:" : "Dagsetning:",
     "Where:" : "Hvar:",
@@ -49,8 +50,6 @@ OC.L10N.register(
     "Description: %s" : "Lýsing: %s",
     "Where: %s" : "Hvar: %s",
     "%1$s via %2$s" : "%1$s með %2$s",
-    "Invitation canceled" : "Hætt við boð",
-    "Invitation updated" : "Boð uppfært",
     "Time:" : "Tími:",
     "Location:" : "Staðsetning:",
     "Link:" : "Tengill:",
@@ -100,6 +99,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Þú leystir verkefnið {todo} á listanum {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} opnaði aftur verkefnið {todo} á listanum {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Þú opnaðir aftur verkefnið {todo} á listanum {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "<strong>Verkefnalista</strong> dagatals var breytt"
+    "A calendar <strong>todo</strong> was modified" : "<strong>Verkefnalista</strong> dagatals var breytt",
+    "Invitation canceled" : "Hætt við boð",
+    "Invitation updated" : "Boð uppfært"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

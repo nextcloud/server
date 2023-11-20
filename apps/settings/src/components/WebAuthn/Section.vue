@@ -50,12 +50,12 @@
 <script>
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
-import sortBy from 'lodash/fp/sortBy'
+import sortBy from 'lodash/fp/sortBy.js'
 
-import AddDevice from './AddDevice'
-import Device from './Device'
-import logger from '../../logger'
-import { removeRegistration } from '../../service/WebAuthnRegistrationSerice'
+import AddDevice from './AddDevice.vue'
+import Device from './Device.vue'
+import logger from '../../logger.js'
+import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
 
 const sortByName = sortBy('name')
 

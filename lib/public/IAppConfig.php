@@ -62,7 +62,7 @@ interface IAppConfig {
 
 	/**
 	 * Get all apps using the config
-	 * @return array an array of app ids
+	 * @return string[] an array of app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.

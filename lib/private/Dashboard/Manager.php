@@ -37,12 +37,11 @@ use Throwable;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var array */
 	private $lazyWidgets = [];
 
-	/** @var IWidget[] */
-	private $widgets = [];
+	/** @var array<string, IWidget> */
+	private array $widgets = [];
 
 	private ContainerInterface $serverContainer;
 	private ?IAppManager $appManager = null;
@@ -135,6 +134,9 @@ class Manager implements IManager {
 		$this->lazyWidgets = [];
 	}
 
+	/**
+	 * @return array<string, IWidget>
+	 */
 	public function getWidgets(): array {
 		$this->loadLazyPanels();
 		return $this->widgets;

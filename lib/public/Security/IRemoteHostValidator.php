@@ -31,7 +31,6 @@ namespace OCP\Security;
  * @since 26.0.0
  */
 interface IRemoteHostValidator {
-
 	/**
 	 * Validate if a host may be connected to
 	 *

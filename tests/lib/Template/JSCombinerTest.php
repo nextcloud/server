@@ -435,11 +435,11 @@ var b = \'world\';
 			->expects($this->once())
 			->method('putContent')
 			->with($this->callback(
-			function ($content) {
-				$deps = json_decode($content, true);
-				return array_key_exists(__DIR__ . '/data//1.js', $deps)
-					&& array_key_exists(__DIR__ . '/data//2.js', $deps);
-			}))
+				function ($content) {
+					$deps = json_decode($content, true);
+					return array_key_exists(__DIR__ . '/data//1.js', $deps)
+						&& array_key_exists(__DIR__ . '/data//2.js', $deps);
+				}))
 			->willThrowException(new NotPermittedException());
 
 		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);

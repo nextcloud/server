@@ -25,6 +25,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«.",
     "Password to access »%s«" : "Geslo za dostop do »%s«",
     "It is protected with the following password:" : "Zaščiten je z geslom:",
+    "This password will expire at %s" : "Geslo bo poteklo %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",

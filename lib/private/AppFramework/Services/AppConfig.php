@@ -30,7 +30,6 @@ use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
 
 class AppConfig implements IAppConfig {
-
 	/** @var IConfig */
 	private $config;
 

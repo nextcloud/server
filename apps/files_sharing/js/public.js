@@ -217,7 +217,7 @@ OCA.Sharing.PublicApp = {
 					// Remove the link. This means that files without a default action fail hard
 					$tr.find('a.name').attr('href', '#');
 
-					this.fileActions.actions.all = {};
+					delete this.fileActions.actions.all.Download;
 				}
 				return $tr;
 			};

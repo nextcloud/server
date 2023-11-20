@@ -94,7 +94,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 				}
 				if (_.isFunction(fileData.canDownload) && !fileData.canDownload()) {
 					delete fileActions.actions.all.Download
-					if (fileData.permissions & OC.PERMISSION_UPDATE === 0) {
+					if ((fileData.permissions & OC.PERMISSION_UPDATE) === 0) {
 						// neither move nor copy is allowed, remove the action completely
 						delete fileActions.actions.all.MoveCopy
 					}
@@ -200,6 +200,8 @@ import { getCapabilities } from '@nextcloud/capabilities'
 							} else if (shareType === ShareTypes.SHARE_TYPE_ROOM) {
 								hasShares = true
 							} else if (shareType === ShareTypes.SHARE_TYPE_DECK) {
+								hasShares = true
+							} else if (shareType === ShareTypes.SHARE_TYPE_SCIENCEMESH) {
 								hasShares = true
 							}
 						})
@@ -330,7 +332,11 @@ import { getCapabilities } from '@nextcloud/capabilities'
 			var iconClass = 'icon-shared'
 			action.removeClass('shared-style')
 			// update folder icon
-			if (type === 'dir' && (hasShares || hasLink || ownerId)) {
+			var isEncrypted = $tr.attr('data-e2eencrypted')
+			if (type === 'dir' && isEncrypted === 'true') {
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-encrypted')
+				$tr.attr('data-icon', shareFolderIcon)
+			} else if (type === 'dir' && (hasShares || hasLink || ownerId)) {
 				if (typeof mountType !== 'undefined' && mountType !== 'shared-root' && mountType !== 'shared') {
 					shareFolderIcon = OC.MimeType.getIconUrl('dir-' + mountType)
 				} else if (hasLink) {
@@ -341,13 +347,9 @@ import { getCapabilities } from '@nextcloud/capabilities'
 				$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')')
 				$tr.attr('data-icon', shareFolderIcon)
 			} else if (type === 'dir') {
-				var isEncrypted = $tr.attr('data-e2eencrypted')
 				// FIXME: duplicate of FileList._createRow logic for external folder,
 				// need to refactor the icon logic into a single code path eventually
-				if (isEncrypted === 'true') {
-					shareFolderIcon = OC.MimeType.getIconUrl('dir-encrypted')
-					$tr.attr('data-icon', shareFolderIcon)
-				} else if (mountType && mountType.indexOf('external') === 0) {
+				if (mountType && mountType.indexOf('external') === 0) {
 					shareFolderIcon = OC.MimeType.getIconUrl('dir-external')
 					$tr.attr('data-icon', shareFolderIcon)
 				} else {

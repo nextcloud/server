@@ -122,7 +122,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		];
 
 		foreach ($expected as $expectedChange) {
-			$this->assertContains($expectedChange, $changes, 'Actual changes are:' . PHP_EOL . print_r($expected, true), false, false); // dont check object identity
+			$this->assertTrue(in_array($expectedChange, $changes), 'Actual changes are:' . PHP_EOL . print_r($changes, true) . PHP_EOL . 'Expected to find: ' . PHP_EOL . print_r($expectedChange, true));
 		}
 	}
 

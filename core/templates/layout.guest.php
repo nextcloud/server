@@ -9,8 +9,8 @@
 		<title>
 			<?php
 				p(!empty($_['pageTitle']) ? $_['pageTitle'] . ' – ' : '');
-				p($theme->getTitle());
-			?>
+p($theme->getTitle());
+?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 		<?php if ($theme->getiTunesAppId() !== '') { ?>
@@ -33,7 +33,7 @@
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login'): ?>
-					<header role="banner">
+					<header>
 						<div id="header">
 							<div class="logo"></div>
 						</div>
@@ -47,9 +47,14 @@
 				</main>
 			</div>
 		</div>
-		<footer role="contentinfo">
+		<?php
+		$longFooter = $theme->getLongFooter();
+?>
+		<footer class="guest-box <?php if ($longFooter === '') {
+			p('hidden');
+		} ?>">
 			<p class="info">
-				<?php print_unescaped($theme->getLongFooter()); ?>
+				<?php print_unescaped($longFooter); ?>
 			</p>
 		</footer>
 	</body>

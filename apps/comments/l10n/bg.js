@@ -20,13 +20,13 @@ OC.L10N.register(
     "No more messages" : " Няма повече съобщения",
     "Retry" : "Опитай отново",
     "Unable to load the comments list" : "Списъкът с коментари не може да се зареди",
-    "_%n unread comment_::_%n unread comments_" : ["%n непрочетен коментар","%n непрочетени коментари"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} нови коментари","{unread} нови коментари"],
     "Comment" : "Коментар",
     "An error occurred while trying to edit the comment" : "Възникна грешка при опит за редактиране на коментара",
     "Comment deleted" : " Изтрит е коментар",
     "An error occurred while trying to delete the comment" : "Възникна грешка при опит за изтриване на коментара",
     "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар",
-    "%1$s commented" : "%1$s коментира"
+    "%1$s commented" : "%1$s коментира",
+    "_%n unread comment_::_%n unread comments_" : ["%n непрочетен коментар","%n непрочетени коментари"]
 },
 "nplurals=2; plural=(n != 1);");

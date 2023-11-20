@@ -10,6 +10,7 @@ module.exports = {
 			'@babel/preset-env',
 			{
 				useBuiltIns: false,
+				modules: 'auto',
 			},
 		],
 	],

@@ -56,7 +56,6 @@ use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
 class Manager {
-
 	/** @var CredentialRepository */
 	private $repository;
 

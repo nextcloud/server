@@ -30,6 +30,7 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Controller;
 
+use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
@@ -38,32 +39,27 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 class SettingsController extends Controller {
-	/** @var ClientMapper */
-	private $clientMapper;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var AccessTokenMapper  */
-	private $accessTokenMapper;
-	/** @var IL10N */
-	private $l;
 
 	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-	public function __construct(string $appName,
-								IRequest $request,
-								ClientMapper $clientMapper,
-								ISecureRandom $secureRandom,
-								AccessTokenMapper $accessTokenMapper,
-								IL10N $l
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ClientMapper $clientMapper,
+		private ISecureRandom $secureRandom,
+		private AccessTokenMapper $accessTokenMapper,
+		private IL10N $l,
+		private IAuthTokenProvider $tokenProvider,
+		private IUserManager $userManager,
+		private ICrypto $crypto
 	) {
 		parent::__construct($appName, $request);
-		$this->secureRandom = $secureRandom;
-		$this->clientMapper = $clientMapper;
-		$this->accessTokenMapper = $accessTokenMapper;
-		$this->l = $l;
 	}
 
 	public function addClient(string $name,
@@ -75,7 +71,9 @@ class SettingsController extends Controller {
 		$client = new Client();
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);
-		$client->setSecret($this->secureRandom->generate(64, self::validChars));
+		$secret = $this->secureRandom->generate(64, self::validChars);
+		$encryptedSecret = $this->crypto->encrypt($secret);
+		$client->setSecret($encryptedSecret);
 		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
 		$client = $this->clientMapper->insert($client);
 
@@ -84,7 +82,7 @@ class SettingsController extends Controller {
 			'name' => $client->getName(),
 			'redirectUri' => $client->getRedirectUri(),
 			'clientId' => $client->getClientIdentifier(),
-			'clientSecret' => $client->getSecret(),
+			'clientSecret' => $secret,
 		];
 
 		return new JSONResponse($result);
@@ -92,6 +90,11 @@ class SettingsController extends Controller {
 
 	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
+
+		$this->userManager->callForAllUsers(function (IUser $user) use ($client) {
+			$this->tokenProvider->invalidateTokensOfUser($user->getUID(), $client->getName());
+		});
+
 		$this->accessTokenMapper->deleteByClientId($id);
 		$this->clientMapper->delete($client);
 		return new JSONResponse([]);

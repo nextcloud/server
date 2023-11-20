@@ -25,7 +25,6 @@ use OC\Diagnostics\QueryLogger;
 use Test\TestCase;
 
 class QueryLoggerTest extends TestCase {
-
 	/** @var \OC\Diagnostics\QueryLogger */
 	private $logger;
 	

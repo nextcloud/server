@@ -14,6 +14,7 @@ return array(
     'OCA\\UpdateNotification\\Notification\\BackgroundJob' => $baseDir . '/../lib/Notification/BackgroundJob.php',
     'OCA\\UpdateNotification\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\UpdateNotification\\ResetTokenBackgroundJob' => $baseDir . '/../lib/ResetTokenBackgroundJob.php',
+    'OCA\\UpdateNotification\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\UpdateNotification\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\UpdateNotification\\UpdateChecker' => $baseDir . '/../lib/UpdateChecker.php',
 );

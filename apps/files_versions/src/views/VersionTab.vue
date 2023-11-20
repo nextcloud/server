@@ -16,92 +16,118 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-	<div>
-		<ul>
-			<NcListItem v-for="version in versions"
-				:key="version.mtime"
-				class="version"
-				:title="version.title"
-				:href="version.url">
-				<template #icon>
-					<img lazy="true"
-						:src="version.preview"
-						alt=""
-						height="256"
-						width="256"
-						class="version__image">
-				</template>
-				<template #subtitle>
-					<div class="version__info">
-						<span>{{ version.mtime | humanDateFromNow }}</span>
-						<!-- Separate dot to improve alignement -->
-						<span class="version__info__size">•</span>
-						<span class="version__info__size">{{ version.size | humanReadableSize }}</span>
-					</div>
-				</template>
-				<template v-if="!version.isCurrent" #actions>
-					<NcActionLink :href="version.url"
-						:download="version.url">
-						<template #icon>
-							<Download :size="22" />
-						</template>
-						{{ t('files_versions', 'Download version') }}
-					</NcActionLink>
-					<NcActionButton @click="restoreVersion(version)">
-						<template #icon>
-							<BackupRestore :size="22" />
-						</template>
-						{{ t('files_versions', 'Restore version') }}
-					</NcActionButton>
-				</template>
-			</NcListItem>
-			<NcEmptyContent v-if="!loading && versions.length === 1"
-				:title="t('files_version', 'No versions yet')">
-				<!-- length === 1, since we don't want to show versions if there is only the current file -->
-				<template #icon>
-					<BackupRestore />
-				</template>
-			</NcEmptyContent>
-		</ul>
-	</div>
+	<ul data-files-versions-versions-list>
+		<Version v-for="version in orderedVersions"
+			:key="version.mtime"
+			:can-view="canView"
+			:can-compare="canCompare"
+			:load-preview="isActive"
+			:version="version"
+			:file-info="fileInfo"
+			:is-current="version.mtime === fileInfo.mtime"
+			:is-first-version="version.mtime === initialVersionMtime"
+			@click="openVersion"
+			@compare="compareVersion"
+			@restore="handleRestore"
+			@label-update="handleLabelUpdate"
+			@delete="handleDelete" />
+	</ul>
 </template>
 
 <script>
-import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
-import Download from 'vue-material-design-icons/Download.vue'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import path from 'path'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { fetchVersions, restoreVersion } from '../utils/versions.js'
-import moment from '@nextcloud/moment'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
+
+import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.js'
+import Version from '../components/Version.vue'
 
 export default {
 	name: 'VersionTab',
 	components: {
-		NcEmptyContent,
-		NcActionLink,
-		NcActionButton,
-		NcListItem,
-		BackupRestore,
-		Download,
+		Version,
 	},
-	filters: {
-		humanReadableSize(bytes) {
-			return OC.Util.humanFileSize(bytes)
-		},
-		humanDateFromNow(timestamp) {
-			return moment(timestamp * 1000).fromNow()
-		},
-	},
+	mixins: [
+		isMobile,
+	],
 	data() {
 		return {
 			fileInfo: null,
+			isActive: false,
 			/** @type {import('../utils/versions.js').Version[]} */
 			versions: [],
 			loading: false,
 		}
+	},
+	mounted() {
+		subscribe('files_versions:restore:restored', this.fetchVersions)
+	},
+	beforeUnmount() {
+		unsubscribe('files_versions:restore:restored', this.fetchVersions)
+	},
+	computed: {
+		/**
+		 * Order versions by mtime.
+		 * Put the current version at the top.
+		 *
+		 * @return {import('../utils/versions.js').Version[]}
+		 */
+		orderedVersions() {
+			return [...this.versions].sort((a, b) => {
+				if (a.mtime === this.fileInfo.mtime) {
+					return -1
+				} else if (b.mtime === this.fileInfo.mtime) {
+					return 1
+				} else {
+					return b.mtime - a.mtime
+				}
+			})
+		},
+
+		/**
+		 * Return the mtime of the first version to display "Initial version" label
+		 *
+		 * @return {number}
+		 */
+		initialVersionMtime() {
+			return this.versions
+				.map(version => version.mtime)
+				.reduce((a, b) => Math.min(a, b))
+		},
+
+		viewerFileInfo() {
+			// We need to remap bitmask to dav permissions as the file info we have is converted through client.js
+			let davPermissions = ''
+			if (this.fileInfo.permissions & 1) {
+				davPermissions += 'R'
+			}
+			if (this.fileInfo.permissions & 2) {
+				davPermissions += 'W'
+			}
+			if (this.fileInfo.permissions & 8) {
+				davPermissions += 'D'
+			}
+			return {
+				...this.fileInfo,
+				mime: this.fileInfo.mimetype,
+				basename: this.fileInfo.name,
+				filename: this.fileInfo.path + '/' + this.fileInfo.name,
+				permissions: davPermissions,
+				fileid: this.fileInfo.id,
+			}
+		},
+
+		/** @return {boolean} */
+		canView() {
+			return window.OCA.Viewer?.mimetypesCompare?.includes(this.fileInfo.mimetype)
+		},
+
+		canCompare() {
+			return !this.isMobile
+		},
 	},
 	methods: {
 		/**
@@ -113,6 +139,13 @@ export default {
 			this.fileInfo = fileInfo
 			this.resetState()
 			this.fetchVersions()
+		},
+
+		/**
+		 * @param {boolean} isActive whether the tab is active
+		 */
+		async setIsActive(isActive) {
+			this.isActive = isActive
 		},
 
 		/**
@@ -128,20 +161,79 @@ export default {
 		},
 
 		/**
-		 * Restore the given version
+		 * Handle restored event from Version.vue
 		 *
-		 * @param version
+		 * @param {import('../utils/versions.js').Version} version
 		 */
-		async restoreVersion(version) {
+		async handleRestore(version) {
+			// Update local copy of fileInfo as rendering depends on it.
+			const oldFileInfo = this.fileInfo
+			this.fileInfo = {
+				...this.fileInfo,
+				size: version.size,
+				mtime: version.mtime,
+			}
+
+			const restoreStartedEventState = {
+				preventDefault: false,
+				fileInfo: this.fileInfo,
+				version,
+			}
+			emit('files_versions:restore:requested', restoreStartedEventState)
+			if (restoreStartedEventState.preventDefault) {
+				return
+			}
+
 			try {
-				await restoreVersion(version, this.fileInfo)
-				// File info is not updated so we manually update its size and mtime if the restoration went fine.
-				this.fileInfo.size = version.size
-				this.fileInfo.mtime = version.lastmod
-				showSuccess(t('files_versions', 'Version restored'))
-				await this.fetchVersions()
+				await restoreVersion(version)
+				if (version.label !== '') {
+					showSuccess(t('files_versions', `${version.label} restored`))
+				} else if (version.mtime === this.initialVersionMtime) {
+					showSuccess(t('files_versions', 'Initial version restored'))
+				} else {
+					showSuccess(t('files_versions', 'Version restored'))
+				}
+				emit('files_versions:restore:restored', version)
 			} catch (exception) {
+				this.fileInfo = oldFileInfo
 				showError(t('files_versions', 'Could not restore version'))
+				emit('files_versions:restore:failed', version)
+			}
+		},
+
+		/**
+		 * Handle label-updated event from Version.vue
+		 *
+		 * @param {import('../utils/versions.js').Version} version
+		 * @param {string} newName
+		 */
+		async handleLabelUpdate(version, newName) {
+			const oldLabel = version.label
+			version.label = newName
+
+			try {
+				await setVersionLabel(version, newName)
+			} catch (exception) {
+				version.label = oldLabel
+				showError(t('files_versions', 'Could not set version name'))
+			}
+		},
+
+		/**
+		 * Handle deleted event from Version.vue
+		 *
+		 * @param {import('../utils/versions.js').Version} version
+		 * @param {string} newName
+		 */
+		async handleDelete(version) {
+			const index = this.versions.indexOf(version)
+			this.versions.splice(index, 1)
+
+			try {
+				await deleteVersion(version)
+			} catch (exception) {
+				this.versions.push(version)
+				showError(t('files_versions', 'Could not delete version'))
 			}
 		},
 
@@ -149,34 +241,37 @@ export default {
 		 * Reset the current view to its default state
 		 */
 		resetState() {
-			this.versions = []
+			this.$set(this, 'versions', [])
+		},
+
+		openVersion({ version }) {
+			// Open current file view instead of read only
+			if (version.mtime === this.fileInfo.mtime) {
+				OCA.Viewer.open({ fileInfo: this.viewerFileInfo })
+				return
+			}
+
+			// Versions previews are too small for our use case, so we override hasPreview and previewUrl
+			// which makes the viewer render the original file.
+			// We also point to the original filename if the version is the current one.
+			const versions = this.versions.map(version => ({
+				...version,
+				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', this.fileInfo.path, this.fileInfo.name) : version.filename,
+				hasPreview: false,
+				previewUrl: undefined,
+			}))
+
+			OCA.Viewer.open({
+				fileInfo: versions.find(v => v.source === version.source),
+				enableSidebar: false,
+			})
+		},
+
+		compareVersion({ version }) {
+			const versions = this.versions.map(version => ({ ...version, hasPreview: false, previewUrl: undefined }))
+
+			OCA.Viewer.compare(this.viewerFileInfo, versions.find(v => v.source === version.source))
 		},
 	},
 }
 </script>
-
-<style scopped lang="scss">
-.version {
-	display: flex;
-	flex-direction: row;
-
-	&__info {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 0.5rem;
-
-		&__size {
-			color: var(--color-text-lighter);
-		}
-	}
-
-	&__image {
-		width: 3rem;
-		height: 3rem;
-		border: 1px solid var(--color-border);
-		margin-right: 1rem;
-		border-radius: var(--border-radius-large);
-	}
-}
-</style>

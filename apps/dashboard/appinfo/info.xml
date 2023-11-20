@@ -6,11 +6,9 @@
 	<summary>Dashboard app</summary>
 	<description><![CDATA[Start your day informed
 
-The Nextcloud Dashboard is your starting point of the day, giving you an
-overview of your upcoming appointments, urgent emails, chat messages,
-incoming tickets, latest tweets and much more! Users can add the widgets
-they like and change the background to their liking.]]></description>
-	<version>7.6.0</version>
+The Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking.]]>
+	</description>
+	<version>7.8.0</version>
 	<licence>agpl</licence>
 	<author>Julius Härtl</author>
 	<namespace>Dashboard</namespace>
@@ -20,7 +18,7 @@ they like and change the background to their liking.]]></description>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="26" max-version="26"/>
+		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 
 	<navigations>

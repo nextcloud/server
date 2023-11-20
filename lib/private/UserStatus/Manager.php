@@ -32,7 +32,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var IServerContainer */
 	private $container;
 

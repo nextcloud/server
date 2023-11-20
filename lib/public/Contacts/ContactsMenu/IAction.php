@@ -30,7 +30,6 @@ use JsonSerializable;
  * @since 12.0
  */
 interface IAction extends JsonSerializable {
-
 	/**
 	 * @param string $icon absolute URI to an icon
 	 * @since 12.0

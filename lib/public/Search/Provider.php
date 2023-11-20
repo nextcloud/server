@@ -32,7 +32,6 @@ namespace OCP\Search;
  * @deprecated 20.0.0
  */
 abstract class Provider {
-
 	/**
 	 * @since 8.0.0
 	 * @deprecated 20.0.0

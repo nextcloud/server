@@ -29,13 +29,17 @@
  *
  */
 require_once __DIR__ . '/lib/versioncheck.php';
+use Psr\Log\LoggerInterface;
 
 try {
 	require_once __DIR__ . '/lib/base.php';
 
 	OC::handleRequest();
 } catch (\OC\ServiceUnavailableException $ex) {
-	\OC::$server->getLogger()->logException($ex, ['app' => 'index']);
+	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+		'app' => 'index',
+		'exception' => $ex,
+	]);
 
 	//show the user a detailed error page
 	OC_Template::printExceptionErrorPage($ex, 503);
@@ -44,8 +48,14 @@ try {
 		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), 503);
 	} catch (Exception $ex2) {
 		try {
-			\OC::$server->getLogger()->logException($ex, ['app' => 'index']);
-			\OC::$server->getLogger()->logException($ex2, ['app' => 'index']);
+			\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+				'app' => 'index',
+				'exception' => $ex,
+			]);
+			\OC::$server->get(LoggerInterface::class)->error($ex2->getMessage(), [
+				'app' => 'index',
+				'exception' => $ex2,
+			]);
 		} catch (Throwable $e) {
 			// no way to log it properly - but to avoid a white page of death we try harder and ignore this one here
 		}
@@ -68,13 +78,19 @@ try {
 	}
 	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
 } catch (Exception $ex) {
-	\OC::$server->getLogger()->logException($ex, ['app' => 'index']);
+	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+		'app' => 'index',
+		'exception' => $ex,
+	]);
 
 	//show the user a detailed error page
 	OC_Template::printExceptionErrorPage($ex, 500);
 } catch (Error $ex) {
 	try {
-		\OC::$server->getLogger()->logException($ex, ['app' => 'index']);
+		\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
+			'app' => 'index',
+			'exception' => $ex,
+		]);
 	} catch (Error $e) {
 		http_response_code(500);
 		header('Content-Type: text/plain; charset=utf-8');

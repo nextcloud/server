@@ -36,7 +36,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  * @since 9.0.0
  */
 interface IShareProvider {
-
 	/**
 	 * Return the identifier of this provider.
 	 *

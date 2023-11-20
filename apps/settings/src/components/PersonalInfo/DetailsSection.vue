@@ -22,14 +22,16 @@
 
 <template>
 	<section>
-		<HeaderBar :readable="t('settings', 'Details')" />
+		<HeaderBar :is-heading="true" :readable="t('settings', 'Details')" />
 
 		<div class="details">
 			<div class="details__groups">
 				<Account :size="20" />
 				<div class="details__groups-info">
 					<p>{{ t('settings', 'You are a member of the following groups:') }}</p>
-					<p class="details__groups-list">{{ groups.join(', ') }}</p>
+					<p class="details__groups-list">
+						{{ groups.join(', ') }}
+					</p>
 				</div>
 			</div>
 			<div class="details__quota">
@@ -47,10 +49,10 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar'
+import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 
-import Account from 'vue-material-design-icons/Account'
-import CircleSlice from 'vue-material-design-icons/CircleSlice3'
+import Account from 'vue-material-design-icons/Account.vue'
+import CircleSlice from 'vue-material-design-icons/CircleSlice3.vue'
 
 import HeaderBar from './shared/HeaderBar.vue'
 
@@ -69,6 +71,13 @@ export default {
 		NcProgressBar,
 	},
 
+	data() {
+		return {
+			groups,
+			usageRelative,
+		}
+	},
+
 	computed: {
 		quotaText() {
 			if (quota === SPACE_UNLIMITED) {
@@ -79,14 +88,7 @@ export default {
 				'You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)',
 				{ usage, totalSpace, usageRelative },
 			)
-		}
-	},
-
-	data() {
-		return {
-			groups,
-			usageRelative,
-		}
+		},
 	},
 }
 </script>

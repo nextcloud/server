@@ -31,7 +31,6 @@ use OCP\DB\ISchemaWrapper;
  * @since 13.0.0
  */
 abstract class BigIntMigration extends SimpleMigrationStep {
-
 	/**
 	 * @return array Returns an array with the following structure
 	 * ['table1' => ['column1', 'column2'], ...]

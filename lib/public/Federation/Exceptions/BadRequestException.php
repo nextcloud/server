@@ -32,6 +32,9 @@ use OCP\HintException;
  * @since 14.0.0
  */
 class BadRequestException extends HintException {
+	/**
+	 * @var string[] $parameterList
+	 */
 	private $parameterList;
 
 	/**
@@ -55,7 +58,7 @@ class BadRequestException extends HintException {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @return array
+	 * @return array{message: string, validationErrors: array{message: string, name: string}[]}
 	 */
 	public function getReturnMessage() {
 		$result = [
@@ -65,7 +68,7 @@ class BadRequestException extends HintException {
 		];
 
 		foreach ($this->parameterList as $missingParameter) {
-			$result['validationErrors'] = [
+			$result['validationErrors'][] = [
 				'name' => $missingParameter,
 				'message' => 'NOT_FOUND'
 			];

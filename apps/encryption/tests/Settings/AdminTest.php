@@ -29,7 +29,7 @@ use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -40,7 +40,7 @@ class AdminTest extends TestCase {
 	private $admin;
 	/** @var IL10N */
 	private $l;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IUserSession */
 	private $userSession;
@@ -55,7 +55,7 @@ class AdminTest extends TestCase {
 		parent::setUp();
 
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();

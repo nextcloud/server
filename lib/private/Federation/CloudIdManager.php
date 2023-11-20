@@ -81,7 +81,7 @@ class CloudIdManager implements ICloudIdManager {
 		if ($event instanceof CardUpdatedEvent) {
 			$data = $event->getCardData()['carddata'];
 			foreach (explode("\r\n", $data) as $line) {
-				if (strpos($line, "CLOUD;") === 0) {
+				if (str_starts_with($line, "CLOUD;")) {
 					$parts = explode(':', $line, 2);
 					if (isset($parts[1])) {
 						$key = $parts[1];
@@ -209,11 +209,12 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $url
 	 * @return string
 	 */
-	private function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
-			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
+	public function removeProtocolFromUrl(string $url): string {
+		if (str_starts_with($url, 'https://')) {
+			return substr($url, 8);
+		}
+		if (str_starts_with($url, 'http://')) {
+			return substr($url, 7);
 		}
 
 		return $url;
@@ -246,6 +247,6 @@ class CloudIdManager implements ICloudIdManager {
 	 * @return bool
 	 */
 	public function isValidCloudId(string $cloudId): bool {
-		return strpos($cloudId, '@') !== false;
+		return str_contains($cloudId, '@');
 	}
 }

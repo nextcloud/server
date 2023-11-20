@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -28,6 +29,8 @@ namespace OC\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
@@ -40,21 +43,18 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
+#[IgnoreOpenAPI]
 class TwoFactorChallengeController extends Controller {
-	private Manager $twoFactorManager;
-	private IUserSession $userSession;
-	private ISession $session;
-	private LoggerInterface $logger;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct($appName, IRequest $request, Manager $twoFactorManager, IUserSession $userSession,
-		ISession $session, IURLGenerator $urlGenerator, LoggerInterface $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Manager $twoFactorManager,
+		private IUserSession $userSession,
+		private ISession $session,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
-		$this->twoFactorManager = $twoFactorManager;
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -110,13 +110,13 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @UseSession
 	 * @TwoFactorSetUpDoneRequired
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse|RedirectResponse
 	 */
+	#[UseSession]
 	public function showChallenge($challengeProviderId, $redirect_url) {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
@@ -161,7 +161,6 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @UseSession
 	 * @TwoFactorSetUpDoneRequired
 	 *
 	 * @UserRateThrottle(limit=5, period=100)
@@ -171,6 +170,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @param string $redirect_url
 	 * @return RedirectResponse
 	 */
+	#[UseSession]
 	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);

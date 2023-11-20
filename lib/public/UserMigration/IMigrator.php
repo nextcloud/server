@@ -34,7 +34,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @since 24.0.0
  */
 interface IMigrator {
-
 	/**
 	 * Export user data
 	 *

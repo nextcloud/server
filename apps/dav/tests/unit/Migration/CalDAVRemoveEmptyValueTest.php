@@ -99,7 +99,7 @@ END:VCALENDAR';
 		$this->output = $this->createMock(IOutput::class);
 	}
 
-	public function testRunAllValid() {
+	public function testRunAllValid(): void {
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
@@ -123,7 +123,7 @@ END:VCALENDAR';
 		$step->run($this->output);
 	}
 
-	public function testRunInvalid() {
+	public function testRunInvalid(): void {
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
@@ -166,7 +166,7 @@ END:VCALENDAR';
 		$step->run($this->output);
 	}
 
-	public function testRunValid() {
+	public function testRunValid(): void {
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
@@ -208,7 +208,7 @@ END:VCALENDAR';
 		$step->run($this->output);
 	}
 
-	public function testRunStillInvalid() {
+	public function testRunStillInvalid(): void {
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([

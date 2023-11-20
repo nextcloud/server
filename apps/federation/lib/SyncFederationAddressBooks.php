@@ -60,7 +60,7 @@ class SyncFederationAddressBooks {
 			$syncToken = $trustedServer['sync_token'];
 
 			$endPoints = $this->ocsDiscoveryService->discover($url, 'FEDERATED_SHARING');
-			$cardDavUser = isset($endPoints['carddav-user']) ? $endPoints['carddav-user'] : 'system';
+			$cardDavUser = $endPoints['carddav-user'] ?? 'system';
 			$addressBookUrl = isset($endPoints['system-address-book']) ? trim($endPoints['system-address-book'], '/') : 'remote.php/dav/addressbooks/system/system/system';
 
 			if (is_null($sharedSecret)) {
@@ -82,10 +82,14 @@ class SyncFederationAddressBooks {
 			} catch (\Exception $ex) {
 				if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_ACCESS_REVOKED);
-					$this->logger->error("Server sync for $url failed because of revoked access.");
+					$this->logger->error("Server sync for $url failed because of revoked access.", [
+						'exception' => $ex,
+					]);
 				} else {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_FAILURE);
-					$this->logger->error("Server sync for $url failed.");
+					$this->logger->error("Server sync for $url failed.", [
+						'exception' => $ex,
+					]);
 				}
 				$callback($url, $ex);
 			}

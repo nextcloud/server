@@ -23,6 +23,8 @@
  */
 namespace OCP\AppFramework;
 
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
@@ -70,6 +72,8 @@ abstract class ApiController extends Controller {
 	 * @PublicPage
 	 * @since 7.0.0
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function preflightedCors() {
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$origin = $this->request->server['HTTP_ORIGIN'];

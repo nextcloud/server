@@ -30,7 +30,6 @@ namespace OC\AppFramework\Bootstrap;
  * @template-extends ServiceRegistration<\OCP\EventDispatcher\IEventListener>
  */
 class EventListenerRegistration extends ServiceRegistration {
-
 	/** @var string */
 	private $event;
 

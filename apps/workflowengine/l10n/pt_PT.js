@@ -33,6 +33,9 @@ OC.L10N.register(
     "Entity %s is invalid" : "Entidade %s é inválida",
     "No events are chosen." : "Não são escolhidos eventos.",
     "Entity %s has no event %s" : "Entidade %s não tem evento %s",
+    "Operation %s is invalid" : "Operação %s é inválida",
+    "Check %s does not exist" : "Validação %s não existe",
+    "Check %s is invalid" : "Validação %s é inválida",
     "Check %s is invalid or does not exist" : "Verifique%sé inválido ou não existe",
     "Flow" : "Fluxo",
     "Nextcloud workflow engine" : "Motor de fluxo de trabalho da Nextcloud",
@@ -40,7 +43,6 @@ OC.L10N.register(
     "Select a comparator" : "Selecionar um comparador",
     "Folder" : "Pasta",
     "Images" : "Imagens",
-    "Predefined URLs" : "URLs Predefinidos",
     "Files WebDAV" : "Ficheiros WebDAV",
     "Android client" : "Cliente de Android",
     "iOS client" : "Cliente de iOS",
@@ -73,10 +75,9 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "fora de",
     "Request user agent" : "Solicitar agente de utilizador",
+    "User group membership" : "Grupos do utilizador",
     "is member of" : "é membro de",
     "is not member of" : "não é um membro de",
-    "No results" : "Sem resultados",
-    "%s (invisible)" : "%s (invisível)",
-    "%s (restricted)" : "%s (limitado)"
+    "Predefined URLs" : "URLs Predefinidos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

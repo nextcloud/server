@@ -34,6 +34,7 @@ namespace OC;
 
 use OC\DB\Connection;
 use OC\DB\OracleConnection;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 
@@ -42,7 +43,6 @@ use OCP\IConfig;
  * database.
  */
 class AppConfig implements IAppConfig {
-
 	/** @var array[] */
 	protected $sensitiveValues = [
 		'circles' => [
@@ -112,6 +112,7 @@ class AppConfig implements IAppConfig {
 		'spreed' => [
 			'/^bridge_bot_password$/',
 			'/^hosted-signaling-server-(.*)$/',
+			'/^recording_servers$/',
 			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
 			'/^signaling_token_privkey_(.*)$/',
@@ -174,7 +175,7 @@ class AppConfig implements IAppConfig {
 	/**
 	 * Get all apps using the config
 	 *
-	 * @return array an array of app ids
+	 * @return string[] an array of app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
@@ -285,7 +286,6 @@ class AppConfig implements IAppConfig {
 		 * > Large objects (LOBs) are not supported in comparison conditions.
 		 */
 		if (!($this->conn instanceof OracleConnection)) {
-
 			/*
 			 * Only update the value when it is not the same
 			 * Note that NULL requires some special handling. Since comparing
@@ -300,7 +300,7 @@ class AppConfig implements IAppConfig {
 				$sql->andWhere(
 					$sql->expr()->orX(
 						$sql->expr()->isNull('configvalue'),
-						$sql->expr()->neq('configvalue', $sql->createNamedParameter($value))
+						$sql->expr()->neq('configvalue', $sql->createNamedParameter($value), IQueryBuilder::PARAM_STR)
 					)
 				);
 			}
@@ -373,7 +373,7 @@ class AppConfig implements IAppConfig {
 		} else {
 			$appIds = $this->getApps();
 			$values = array_map(function ($appId) use ($key) {
-				return isset($this->cache[$appId][$key]) ? $this->cache[$appId][$key] : null;
+				return $this->cache[$appId][$key] ?? null;
 			}, $appIds);
 			$result = array_combine($appIds, $values);
 

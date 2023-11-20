@@ -43,10 +43,8 @@
 </template>
 
 <script>
-import {
-	NcCheckboxRadioSwitch,
-	NcNoteCard,
-} from '@nextcloud/vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 

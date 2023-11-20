@@ -38,7 +38,7 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function copy($newPath) {
+	public function copy($targetPath) {
 		throw new NotFoundException();
 	}
 
@@ -66,7 +66,7 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);
 		} else {
@@ -142,15 +142,19 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function search($pattern) {
+	public function search($query) {
 		throw new NotFoundException();
 	}
 
-	public function searchByMime($mime) {
+	public function searchByMime($mimetype) {
 		throw new NotFoundException();
 	}
 
 	public function searchByTag($tag, $userId) {
+		throw new NotFoundException();
+	}
+
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
 		throw new NotFoundException();
 	}
 

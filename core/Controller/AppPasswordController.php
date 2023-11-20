@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,6 +32,7 @@ use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
@@ -42,32 +44,28 @@ use OCP\ISession;
 use OCP\Security\ISecureRandom;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
-	private ISession $session;
-	private ISecureRandom $random;
-	private IProvider $tokenProvider;
-	private IStore $credentialStore;
-	private IEventDispatcher $eventDispatcher;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								ISession $session,
-								ISecureRandom $random,
-								IProvider $tokenProvider,
-								IStore $credentialStore,
-								IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ISession $session,
+		private ISecureRandom $random,
+		private IProvider $tokenProvider,
+		private IStore $credentialStore,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->session = $session;
-		$this->random = $random;
-		$this->tokenProvider = $tokenProvider;
-		$this->credentialStore = $credentialStore;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
 	 * @NoAdminRequired
+	 * @PasswordConfirmationRequired
 	 *
-	 * @throws OCSForbiddenException
+	 * Create app password
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
+	 * @throws OCSForbiddenException Creating app password is not allowed
+	 *
+	 * 200: App password returned
 	 */
 	public function getAppPassword(): DataResponse {
 		// We do not allow the creation of new tokens if this is an app password
@@ -112,6 +110,13 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Delete app password
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSForbiddenException Deleting app password is not allowed
+	 *
+	 * 200: App password deleted successfully
 	 */
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
@@ -132,6 +137,13 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Rotate app password
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
+	 * @throws OCSForbiddenException Rotating app password is not allowed
+	 *
+	 * 200: App password returned
 	 */
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {

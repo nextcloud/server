@@ -29,7 +29,6 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -43,11 +42,11 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class LoginControllerTest extends TestCase {
-
 	/** @var LoginController */
 	private $loginController;
 
@@ -75,7 +74,7 @@ class LoginControllerTest extends TestCase {
 	/** @var Defaults|MockObject */
 	private $defaults;
 
-	/** @var Throttler|MockObject */
+	/** @var IThrottler|MockObject */
 	private $throttler;
 
 	/** @var IInitialStateService|MockObject */
@@ -100,7 +99,7 @@ class LoginControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
 		$this->notificationManager = $this->createMock(IManager::class);
@@ -144,9 +143,8 @@ class LoginControllerTest extends TestCase {
 			->with('nc_token')
 			->willReturn(null);
 		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->willReturn(false);
+			->method('getServerProtocol')
+			->willReturn('https');
 		$this->config
 			->expects($this->never())
 			->method('deleteUserValue');
@@ -161,26 +159,6 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
-	public function testLogoutNoClearSiteData() {
-		$this->request
-			->expects($this->once())
-			->method('getCookie')
-			->with('nc_token')
-			->willReturn(null);
-		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->willReturn(true);
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRouteAbsolute')
-			->with('core.login.showLoginForm')
-			->willReturn('/login');
-
-		$expected = new RedirectResponse('/login');
-		$this->assertEquals($expected, $this->loginController->logout());
-	}
-
 	public function testLogoutWithToken() {
 		$this->request
 			->expects($this->once())
@@ -189,8 +167,8 @@ class LoginControllerTest extends TestCase {
 			->willReturn('MyLoginToken');
 		$this->request
 			->expects($this->once())
-			->method('isUserAgent')
-			->willReturn(false);
+			->method('getServerProtocol')
+			->willReturn('https');
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -250,27 +228,30 @@ class LoginControllerTest extends TestCase {
 					],
 				]
 			);
-		$this->initialStateService->expects($this->at(0))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([
 				'core',
 				'loginMessages',
 				[
 					'MessageArray1',
 					'MessageArray2',
 					'This community release of Nextcloud is unsupported and push notifications are limited.',
-				]
-			);
-		$this->initialStateService->expects($this->at(1))
-			->method('provideInitialState')
-			->with(
-				'core',
-				'loginErrors',
+				],
+			],
 				[
-					'ErrorArray1',
-					'ErrorArray2',
-				]
-			);
+					'core',
+					'loginErrors',
+					[
+						'ErrorArray1',
+						'ErrorArray2',
+					],
+				],
+				[
+					'core',
+					'loginUsername',
+					'',
+				]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -289,13 +270,17 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->initialStateService->expects($this->at(4))
+		$this->initialStateService->expects($this->exactly(12))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([], [], [], [
+				'core',
+				'loginAutocomplete',
+				false
+			], [
 				'core',
 				'loginRedirectUrl',
 				'login/flow'
-			);
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -356,20 +341,17 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
-		$this->initialStateService->expects($this->at(2))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([], [], [
 				'core',
 				'loginUsername',
 				'LdapUser'
-			);
-		$this->initialStateService->expects($this->at(6))
-			->method('provideInitialState')
-			->with(
+			], [], [], [], [
 				'core',
 				'loginCanResetPassword',
 				$expectedResult
-			);
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -409,27 +391,21 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
-		$this->initialStateService->expects($this->at(3))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
-			->with(
+			->withConsecutive([], [], [], [
 				'core',
 				'loginAutocomplete',
 				true
-			);
-		$this->initialStateService->expects($this->at(5))
-			->method('provideInitialState')
-			->with(
+			], [], [
 				'core',
 				'loginResetPasswordLink',
 				false
-			);
-		$this->initialStateService->expects($this->at(6))
-			->method('provideInitialState')
-			->with(
+			], [
 				'core',
 				'loginCanResetPassword',
 				false
-			);
+			]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',

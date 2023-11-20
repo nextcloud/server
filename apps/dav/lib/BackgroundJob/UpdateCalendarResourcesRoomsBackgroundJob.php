@@ -339,7 +339,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @return string
 	 */
 	private function serializeGroupRestrictions(array $groups): string {
-		return \json_encode($groups);
+		return \json_encode($groups, JSON_THROW_ON_ERROR);
 	}
 
 	/**

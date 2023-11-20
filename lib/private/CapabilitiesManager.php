@@ -35,7 +35,6 @@ use OCP\Capabilities\IInitialStateExcludedCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
-
 	/** @var \Closure[] */
 	private $capabilities = [];
 
@@ -51,7 +50,7 @@ class CapabilitiesManager {
 	 *
 	 * @param bool $public get public capabilities only
 	 * @throws \InvalidArgumentException
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function getCapabilities(bool $public = false, bool $initialState = false) : array {
 		$capabilities = [];

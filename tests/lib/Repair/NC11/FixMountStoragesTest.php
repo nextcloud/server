@@ -36,7 +36,6 @@ use Test\TestCase;
  * @group DB
  */
 class FixMountStoragesTest extends TestCase {
-
 	/** @var IDBConnection */
 	private $db;
 

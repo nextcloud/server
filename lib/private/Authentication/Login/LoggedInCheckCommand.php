@@ -33,7 +33,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommand extends ALoginCommand {
-
 	/** @var LoggerInterface */
 	private $logger;
 	/** @var IEventDispatcher */

@@ -34,7 +34,6 @@ use Throwable;
  * @deprecated used internally only
  */
 interface IRegistry {
-
 	/**
 	 * Register a reporter instance
 	 *

@@ -36,7 +36,6 @@ namespace OCP\Mail\Headers;
  * @since 26.0.0
  */
 final class AutoSubmitted {
-
 	/**
 	 * Name of the Header as used in the final message later
 	 *

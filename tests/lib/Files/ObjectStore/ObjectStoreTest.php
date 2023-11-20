@@ -25,7 +25,6 @@ namespace Test\Files\ObjectStore;
 use Test\TestCase;
 
 abstract class ObjectStoreTest extends TestCase {
-
 	/** @var string[] */
 	private $cleanup = [];
 

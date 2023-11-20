@@ -47,7 +47,6 @@ use OCP\Route\IRouter;
  * @since 6.0.0
  */
 class App {
-
 	/** @var IAppContainer */
 	private $container;
 

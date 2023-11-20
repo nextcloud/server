@@ -41,6 +41,10 @@ use OCP\EventDispatcher\Event;
 class RegisterWidgetEvent extends Event {
 	private $manager;
 
+	/**
+	 * @param IManager $manager
+	 * @since 20.0.0
+	 */
 	public function __construct(IManager $manager) {
 		parent::__construct();
 

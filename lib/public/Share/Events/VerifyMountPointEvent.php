@@ -33,7 +33,6 @@ use OCP\Share\IShare;
  * @since 19.0.0
  */
 class VerifyMountPointEvent extends Event {
-
 	/** @var IShare */
 	private $share;
 	/** @var View */

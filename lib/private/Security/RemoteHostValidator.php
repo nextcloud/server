@@ -30,7 +30,6 @@ use OC\Net\IpAddressClassifier;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use Psr\Log\LoggerInterface;
-use function strpos;
 use function strtolower;
 use function substr;
 use function urldecode;
@@ -39,19 +38,12 @@ use function urldecode;
  * @internal
  */
 final class RemoteHostValidator implements IRemoteHostValidator {
-	private IConfig $config;
-	private HostnameClassifier $hostnameClassifier;
-	private IpAddressClassifier $ipAddressClassifier;
-	private LoggerInterface $logger;
-
-	public function __construct(IConfig $config,
-								HostnameClassifier $hostnameClassifier,
-								IpAddressClassifier $ipAddressClassifier,
-								LoggerInterface $logger) {
-		$this->config = $config;
-		$this->hostnameClassifier = $hostnameClassifier;
-		$this->ipAddressClassifier = $ipAddressClassifier;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private HostnameClassifier $hostnameClassifier,
+		private IpAddressClassifier $ipAddressClassifier,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function isValid(string $host): bool {
@@ -61,7 +53,7 @@ final class RemoteHostValidator implements IRemoteHostValidator {
 
 		$host = idn_to_utf8(strtolower(urldecode($host)));
 		// Remove brackets from IPv6 addresses
-		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
+		if (str_starts_with($host, '[') && str_ends_with($host, ']')) {
 			$host = substr($host, 1, -1);
 		}
 

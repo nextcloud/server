@@ -37,7 +37,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DecryptAll {
-
 	/** @var  OutputInterface */
 	protected $output;
 
@@ -250,7 +249,6 @@ class DecryptAll {
 	 * @return bool
 	 */
 	protected function decryptFile($path) {
-
 		// skip already decrypted files
 		$fileInfo = $this->rootView->getFileInfo($path);
 		if ($fileInfo !== false && !$fileInfo->isEncrypted()) {

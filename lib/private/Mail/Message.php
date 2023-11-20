@@ -35,64 +35,76 @@ use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMessage;
-use Swift_Message;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Exception\InvalidArgumentException;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 
 /**
- * Class Message provides a wrapper around SwiftMail
+ * Class Message provides a wrapper around Symfony\Component\Mime\Email (Used to be around SwiftMail)
  *
  * @package OC\Mail
  */
 class Message implements IMessage {
-	/** @var Swift_Message */
-	private $swiftMessage;
-	/** @var bool */
-	private $plainTextOnly;
+	private array $to = [];
+	private array $from = [];
+	private array $replyTo = [];
+	private array $cc = [];
+	private array $bcc = [];
 
-	public function __construct(Swift_Message $swiftMessage, bool $plainTextOnly) {
-		$this->swiftMessage = $swiftMessage;
-		$this->plainTextOnly = $plainTextOnly;
+	public function __construct(
+		private Email $symfonyEmail,
+		private bool $plainTextOnly,
+	) {
 	}
 
 	/**
-	 * @param IAttachment $attachment
-	 * @return $this
 	 * @since 13.0.0
+	 * @return $this
 	 */
 	public function attach(IAttachment $attachment): IMessage {
 		/** @var Attachment $attachment */
-		$this->swiftMessage->attach($attachment->getSwiftAttachment());
+		$attachment->attach($this->symfonyEmail);
 		return $this;
 	}
 
 	/**
-	 * SwiftMailer does currently not work with IDN domains, this function therefore converts the domains
-	 * FIXME: Remove this once SwiftMailer supports IDN
+	 * Can be used to "attach content inline" as message parts with specific MIME type and encoding.
+	 * {@inheritDoc}
+	 * @since 26.0.0
+	 */
+	public function attachInline(string $body, string $name, string $contentType = null): IMessage {
+		# To be sure this works with iCalendar messages, we encode with 8bit instead of
+		# quoted-printable encoding. We save the current encoder, replace the current
+		# encoder with an 8bit encoder and after we've finished, we reset the encoder
+		# to the previous one. Originally intended to be added after the message body,
+		# as it is curently unknown if all mail clients handle this properly if added
+		# before.
+		$this->symfonyEmail->embed($body, $name, $contentType);
+		return $this;
+	}
+
+	/**
+	 * Converts the [['displayName' => 'email'], ['displayName2' => 'email2']] arrays to valid Adresses
 	 *
-	 * @param array $addresses Array of mail addresses, key will get converted
-	 * @return array Converted addresses if `idn_to_ascii` exists
+	 * @param array $addresses Array of mail addresses
+	 * @return Address[]
+	 * @throws RfcComplianceException|InvalidArgumentException
 	 */
 	protected function convertAddresses(array $addresses): array {
-		if (!function_exists('idn_to_ascii') || !defined('INTL_IDNA_VARIANT_UTS46')) {
-			return $addresses;
-		}
-
 		$convertedAddresses = [];
 
-		foreach ($addresses as $email => $readableName) {
-			$parsableEmail = is_numeric($email) ? $readableName : $email;
-			if (strpos($parsableEmail, '@') === false) {
-				$convertedAddresses[$parsableEmail] = $readableName;
-				continue;
-			}
-
-			[$name, $domain] = explode('@', $parsableEmail, 2);
-			$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-			if (is_numeric($email)) {
-				$convertedAddresses[] = $name . '@' . $domain;
-			} else {
-				$convertedAddresses[$name . '@' . $domain] = $readableName;
-			}
+		if (empty($addresses)) {
+			return [];
 		}
+
+		array_walk($addresses, function ($readableName, $email) use (&$convertedAddresses) {
+			if (is_numeric($email)) {
+				$convertedAddresses[] = new Address($readableName);
+			} else {
+				$convertedAddresses[] = new Address($email, $readableName);
+			}
+		});
 
 		return $convertedAddresses;
 	}
@@ -106,41 +118,31 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setFrom(array $addresses): IMessage {
-		$addresses = $this->convertAddresses($addresses);
-
-		$this->swiftMessage->setFrom($addresses);
+		$this->from = $addresses;
 		return $this;
 	}
 
 	/**
 	 * Get the from address of this message.
-	 *
-	 * @return array
 	 */
 	public function getFrom(): array {
-		return $this->swiftMessage->getFrom() ?? [];
+		return $this->from;
 	}
 
 	/**
 	 * Set the Reply-To address of this message
-	 *
-	 * @param array $addresses
 	 * @return $this
 	 */
 	public function setReplyTo(array $addresses): IMessage {
-		$addresses = $this->convertAddresses($addresses);
-
-		$this->swiftMessage->setReplyTo($addresses);
+		$this->replyTo = $addresses;
 		return $this;
 	}
 
 	/**
 	 * Returns the Reply-To address of this message
-	 *
-	 * @return string
 	 */
-	public function getReplyTo(): string {
-		return $this->swiftMessage->getReplyTo();
+	public function getReplyTo(): array {
+		return $this->replyTo;
 	}
 
 	/**
@@ -150,19 +152,15 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setTo(array $recipients): IMessage {
-		$recipients = $this->convertAddresses($recipients);
-
-		$this->swiftMessage->setTo($recipients);
+		$this->to = $recipients;
 		return $this;
 	}
 
 	/**
 	 * Get the to address of this message.
-	 *
-	 * @return array
 	 */
 	public function getTo(): array {
-		return $this->swiftMessage->getTo() ?? [];
+		return $this->to;
 	}
 
 	/**
@@ -172,19 +170,15 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setCc(array $recipients): IMessage {
-		$recipients = $this->convertAddresses($recipients);
-
-		$this->swiftMessage->setCc($recipients);
+		$this->cc = $recipients;
 		return $this;
 	}
 
 	/**
 	 * Get the cc address of this message.
-	 *
-	 * @return array
 	 */
 	public function getCc(): array {
-		return $this->swiftMessage->getCc() ?? [];
+		return $this->cc;
 	}
 
 	/**
@@ -194,104 +188,114 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setBcc(array $recipients): IMessage {
-		$recipients = $this->convertAddresses($recipients);
-
-		$this->swiftMessage->setBcc($recipients);
+		$this->bcc = $recipients;
 		return $this;
 	}
 
 	/**
 	 * Get the Bcc address of this message.
-	 *
-	 * @return array
 	 */
 	public function getBcc(): array {
-		return $this->swiftMessage->getBcc() ?? [];
+		return $this->bcc;
 	}
 
 	/**
-	 * Set the subject of this message.
-	 *
-	 * @param string $subject
-	 * @return IMessage
+	 * @return $this
 	 */
 	public function setSubject(string $subject): IMessage {
-		$this->swiftMessage->setSubject($subject);
+		$this->symfonyEmail->subject($subject);
 		return $this;
 	}
 
 	/**
 	 * Get the from subject of this message.
-	 *
-	 * @return string
 	 */
 	public function getSubject(): string {
-		return $this->swiftMessage->getSubject();
+		return $this->symfonyEmail->getSubject() ?? '';
 	}
 
 	/**
-	 * Set the plain-text body of this message.
-	 *
-	 * @param string $body
 	 * @return $this
 	 */
 	public function setPlainBody(string $body): IMessage {
-		$this->swiftMessage->setBody($body);
+		$this->symfonyEmail->text($body);
 		return $this;
 	}
 
 	/**
 	 * Get the plain body of this message.
-	 *
-	 * @return string
 	 */
 	public function getPlainBody(): string {
-		return $this->swiftMessage->getBody();
+		/** @var string $body */
+		$body = $this->symfonyEmail->getTextBody() ?? '';
+		return $body;
 	}
 
 	/**
-	 * Set the HTML body of this message. Consider also sending a plain-text body instead of only an HTML one.
-	 *
-	 * @param string $body
 	 * @return $this
 	 */
-	public function setHtmlBody($body) {
+	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
-			$this->swiftMessage->addPart($body, 'text/html');
+			$this->symfonyEmail->html($body);
 		}
 		return $this;
 	}
 
 	/**
-	 * Get's the underlying SwiftMessage
-	 * @param Swift_Message $swiftMessage
+	 * Set the underlying Email instance
 	 */
-	public function setSwiftMessage(Swift_Message $swiftMessage): void {
-		$this->swiftMessage = $swiftMessage;
+	public function setSymfonyEmail(Email $symfonyEmail): void {
+		$this->symfonyEmail = $symfonyEmail;
 	}
 
 	/**
-	 * Get's the underlying SwiftMessage
-	 * @return Swift_Message
+	 * Get the underlying Email instance
 	 */
-	public function getSwiftMessage(): Swift_Message {
-		return $this->swiftMessage;
+	public function getSymfonyEmail(): Email {
+		return $this->symfonyEmail;
 	}
 
 	/**
-	 * @param string $body
-	 * @param string $contentType
 	 * @return $this
 	 */
-	public function setBody($body, $contentType) {
+	public function setBody(string $body, string $contentType): IMessage {
 		if (!$this->plainTextOnly || $contentType !== 'text/html') {
-			$this->swiftMessage->setBody($body, $contentType);
+			if ($contentType === 'text/html') {
+				$this->symfonyEmail->html($body);
+			} else {
+				$this->symfonyEmail->text($body);
+			}
 		}
 		return $this;
 	}
 
 	/**
-	 * @param IEMailTemplate $emailTemplate
+	 * Set the recipients on the symphony email
+	 *
+	 * Since
+	 *
+	 * setTo
+	 * setFrom
+	 * setReplyTo
+	 * setCc
+	 * setBcc
+	 *
+	 * could throw a \Symfony\Component\Mime\Exception\RfcComplianceException
+	 * or a \Symfony\Component\Mime\Exception\InvalidArgumentException
+	 * we wrap the calls here. We then have the validation errors all in one place and can
+	 * throw shortly before \OC\Mail\Mailer::send
+	 *
+	 * @throws InvalidArgumentException|RfcComplianceException
+	 */
+	public function setRecipients(): void {
+		$this->symfonyEmail->to(...$this->convertAddresses($this->getTo()));
+		$this->symfonyEmail->from(...$this->convertAddresses($this->getFrom()));
+		$this->symfonyEmail->replyTo(...$this->convertAddresses($this->getReplyTo()));
+		$this->symfonyEmail->cc(...$this->convertAddresses($this->getCc()));
+		$this->symfonyEmail->bcc(...$this->convertAddresses($this->getBcc()));
+	}
+
+	/**
 	 * @return $this
 	 */
 	public function useTemplate(IEMailTemplate $emailTemplate): IMessage {
@@ -311,7 +315,7 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setAutoSubmitted(string $value): IMessage {
-		$headers = $this->swiftMessage->getHeaders();
+		$headers = $this->symfonyEmail->getHeaders();
 
 		if ($headers->has(AutoSubmitted::HEADER)) {
 			// if the header already exsists, remove it.
@@ -319,6 +323,7 @@ class Message implements IMessage {
 			// of the interface \Swift_Mime_Header, however the
 			// interface doesn't, and this makes the static-code
 			// analysis unhappy.
+			// @todo check if symfony mailer can modify the autosubmitted header
 			$headers->remove(AutoSubmitted::HEADER);
 		}
 
@@ -330,13 +335,11 @@ class Message implements IMessage {
 	/**
 	 * Get the current value of the Auto-Submitted header. Defaults to "no"
 	 * which is equivalent to the header not existing at all
-	 *
-	 * @return string
 	 */
 	public function getAutoSubmitted(): string {
-		$headers = $this->swiftMessage->getHeaders();
+		$headers = $this->symfonyEmail->getHeaders();
 
 		return $headers->has(AutoSubmitted::HEADER) ?
-			$headers->get(AutoSubmitted::HEADER)->toString() : AutoSubmitted::VALUE_NO;
+			$headers->get(AutoSubmitted::HEADER)->getBodyAsString() : AutoSubmitted::VALUE_NO;
 	}
 }

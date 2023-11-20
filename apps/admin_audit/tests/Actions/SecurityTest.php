@@ -27,8 +27,9 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Tests\Actions;
 
 use OCA\AdminAudit\Actions\Security;
-use OCP\IUser;
 use OCA\AdminAudit\AuditLogger;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IUser;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
@@ -60,7 +61,11 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->twofactorFailed($this->user, ['provider' => 'myprovider']);
+		$provider = $this->createMock(IProvider::class);
+		$provider->method('getDisplayName')
+			->willReturn('myprovider');
+
+		$this->security->twofactorFailed($this->user, $provider);
 	}
 
 	public function testTwofactorSuccess() {
@@ -71,6 +76,10 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->twofactorSuccess($this->user, ['provider' => 'myprovider']);
+		$provider = $this->createMock(IProvider::class);
+		$provider->method('getDisplayName')
+			->willReturn('myprovider');
+
+		$this->security->twofactorSuccess($this->user, $provider);
 	}
 }

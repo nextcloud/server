@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -26,34 +27,33 @@ use OCP\Files\FileInfo;
 use OCP\Files\Search\ISearchOrder;
 
 class SearchOrder implements ISearchOrder {
-	/** @var  string */
-	private $direction;
-	/** @var  string */
-	private $field;
-
-	/**
-	 * SearchOrder constructor.
-	 *
-	 * @param string $direction
-	 * @param string $field
-	 */
-	public function __construct($direction, $field) {
-		$this->direction = $direction;
-		$this->field = $field;
+	public function __construct(
+		private string $direction,
+		private string $field,
+		private string $extra = ''
+	) {
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDirection() {
+	public function getDirection(): string {
 		return $this->direction;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getField() {
+	public function getField(): string {
 		return $this->field;
+	}
+
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getExtra(): string {
+		return $this->extra;
 	}
 
 	public function sortFileInfo(FileInfo $a, FileInfo $b): int {

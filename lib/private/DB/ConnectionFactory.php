@@ -139,7 +139,7 @@ class ConnectionFactory {
 					$additionalConnectionParams = array_merge($additionalConnectionParams, $additionalConnectionParams['driverOptions']);
 				}
 				$host = $additionalConnectionParams['host'];
-				$port = isset($additionalConnectionParams['port']) ? $additionalConnectionParams['port'] : null;
+				$port = $additionalConnectionParams['port'] ?? null;
 				$dbName = $additionalConnectionParams['dbname'];
 
 				// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string

@@ -218,10 +218,10 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Wrong share ID, share does not exist');
 
 		$this->shareManager
-			->expects($this->exactly(6))
+			->expects($this->exactly(7))
 			->method('getShareById')
 			->willReturnCallback(function ($id) {
-				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42' || $id === 'deck:42') {
+				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42' || $id === 'deck:42' || $id === 'sciencemesh:42') {
 					throw new \OCP\Share\Exceptions\ShareNotFound();
 				} else {
 					throw new \Exception();
@@ -576,6 +576,8 @@ class ShareAPIControllerTest extends TestCase {
 		$file->method('getPath')->willReturn('file');
 		$file->method('getStorage')->willReturn($storage);
 		$file->method('getParent')->willReturn($parentFolder);
+		$file->method('getSize')->willReturn(123465);
+		$file->method('getMTime')->willReturn(1234567890);
 		$file->method('getMimeType')->willReturn('myMimeType');
 
 		$folder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
@@ -583,6 +585,8 @@ class ShareAPIControllerTest extends TestCase {
 		$folder->method('getPath')->willReturn('folder');
 		$folder->method('getStorage')->willReturn($storage);
 		$folder->method('getParent')->willReturn($parentFolder);
+		$folder->method('getSize')->willReturn(123465);
+		$folder->method('getMTime')->willReturn(1234567890);
 		$folder->method('getMimeType')->willReturn('myFolderMimeType');
 
 		[$shareAttributes, $shareAttributesReturnJson] = $this->mockShareAttributes();
@@ -636,7 +640,8 @@ class ShareAPIControllerTest extends TestCase {
 			'hide_download' => 0,
 			'can_edit' => false,
 			'can_delete' => false,
-			'status' => [],
+			'item_size' => 123465,
+			'item_mtime' => 1234567890,
 			'attributes' => null,
 		];
 		$data[] = [$share, $expected];
@@ -689,6 +694,8 @@ class ShareAPIControllerTest extends TestCase {
 			'hide_download' => 0,
 			'can_edit' => false,
 			'can_delete' => false,
+			'item_size' => 123465,
+			'item_mtime' => 1234567890,
 			'attributes' => null,
 		];
 		$data[] = [$share, $expected];
@@ -747,6 +754,8 @@ class ShareAPIControllerTest extends TestCase {
 			'hide_download' => 0,
 			'can_edit' => false,
 			'can_delete' => false,
+			'item_size' => 123465,
+			'item_mtime' => 1234567890,
 			'attributes' => null,
 		];
 		$data[] = [$share, $expected];
@@ -3735,6 +3744,13 @@ class ShareAPIControllerTest extends TestCase {
 		$folder->method('getParent')->willReturn($parent);
 		$fileWithPreview->method('getParent')->willReturn($parent);
 
+		$file->method('getSize')->willReturn(123456);
+		$folder->method('getSize')->willReturn(123456);
+		$fileWithPreview->method('getSize')->willReturn(123456);
+		$file->method('getMTime')->willReturn(1234567890);
+		$folder->method('getMTime')->willReturn(1234567890);
+		$fileWithPreview->method('getMTime')->willReturn(1234567890);
+
 		$cache = $this->getMockBuilder('OCP\Files\Cache\ICache')->getMock();
 		$cache->method('getNumericStorageId')->willReturn(100);
 		$storage = $this->createMock(Storage::class);
@@ -3772,7 +3788,7 @@ class ShareAPIControllerTest extends TestCase {
 		// User backend down
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -3796,21 +3812,22 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'recipient',
 				'share_with_displayname_unique' => 'recipient',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'has_preview' => false,
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
-				'status' => [],
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => '[{"scope":"permissions","key":"download","enabled":true}]',
 			], $share, [], false
 		];
 		// User backend up
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiatorDN',
@@ -3823,7 +3840,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'ownerDN',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -3841,7 +3858,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
-				'status' => [],
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => '[{"scope":"permissions","key":"download","enabled":true}]',
 			], $share, [
 				['owner', $owner],
@@ -3864,7 +3882,7 @@ class ShareAPIControllerTest extends TestCase {
 		// User backend down
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -3877,7 +3895,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -3895,7 +3913,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
-				'status' => [],
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -3914,7 +3933,7 @@ class ShareAPIControllerTest extends TestCase {
 		// User backend down
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -3927,7 +3946,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'currentUser',
 				'displayname_file_owner' => 'currentUser',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -3945,7 +3964,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => true,
 				'can_delete' => true,
-				'status' => [],
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -3966,7 +3986,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_GROUP,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -3979,7 +3999,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -3996,6 +4016,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4014,7 +4036,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setId(42);
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_GROUP,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4026,7 +4048,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -4043,6 +4065,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4064,7 +4088,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_LINK,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4097,6 +4121,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4119,7 +4145,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_LINK,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4151,6 +4177,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4170,7 +4198,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_REMOTE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4182,7 +4210,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4199,6 +4227,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4218,7 +4248,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_REMOTE_GROUP,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4230,7 +4260,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4247,6 +4277,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4267,7 +4299,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_CIRCLE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4280,7 +4312,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4298,6 +4330,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4316,7 +4350,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_CIRCLE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4328,7 +4362,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4346,6 +4380,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4364,7 +4400,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_CIRCLE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4376,7 +4412,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4394,6 +4430,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4427,7 +4465,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_EMAIL,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4439,7 +4477,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4459,6 +4497,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'password_expiration_time' => null,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4478,7 +4518,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_EMAIL,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4490,7 +4530,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
-				'label' => null,
+				'label' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -4510,6 +4550,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_edit' => false,
 				'can_delete' => false,
 				'password_expiration_time' => null,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4529,7 +4571,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4541,7 +4583,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'currentUser',
 				'displayname_file_owner' => 'currentUser',
 				'note' => 'personal note',
-				'label' => null,
+				'label' => '',
 				'path' => 'fileWithPreview',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -4559,7 +4601,8 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => true,
 				'can_delete' => true,
-				'status' => [],
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4659,6 +4702,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$file->method('getParent')->willReturn($parent);
 
+		$file->method('getSize')->willReturn(123456);
+		$file->method('getMTime')->willReturn(1234567890);
+
 		$cache = $this->getMockBuilder('OCP\Files\Cache\ICache')->getMock();
 		$cache->method('getNumericStorageId')->willReturn(100);
 		$storage = $this->createMock(Storage::class);
@@ -4683,7 +4729,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_ROOM,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4712,6 +4758,8 @@ class ShareAPIControllerTest extends TestCase {
 				'label' => '',
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, false, []
 		];
@@ -4730,7 +4778,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result[] = [
 			[
-				'id' => 42,
+				'id' => '42',
 				'share_type' => IShare::TYPE_ROOM,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
@@ -4759,6 +4807,8 @@ class ShareAPIControllerTest extends TestCase {
 				'label' => '',
 				'can_edit' => false,
 				'can_delete' => false,
+				'item_size' => 123456,
+				'item_mtime' => 1234567890,
 				'attributes' => null,
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'

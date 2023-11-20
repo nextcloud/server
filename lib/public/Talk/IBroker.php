@@ -36,7 +36,6 @@ use OCP\Talk\Exceptions\NoBackendException;
  * @since 24.0.0
  */
 interface IBroker {
-
 	/**
 	 * Check if the Talk backend is available
 	 *

@@ -49,8 +49,6 @@ use OCP\FullTextSearch\Model\IDocumentAccess;
  * @package OC\FullTextSearch\Model
  */
 final class DocumentAccess implements IDocumentAccess, JsonSerializable {
-
-
 	/** @var string */
 	private $ownerId;
 

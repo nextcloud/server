@@ -31,12 +31,20 @@ namespace OCP\Files\Template;
  */
 final class TemplateFileCreator implements \JsonSerializable {
 	protected $appId;
+	/** @var string[] $mimetypes */
 	protected $mimetypes = [];
 	protected $actionName;
 	protected $fileExtension;
+	/** @var ?string $iconClass */
 	protected $iconClass;
+	/** @var ?float $ratio */
 	protected $ratio = null;
 	protected $order = 100;
+	/**
+	 * @since 27.0.0
+	 * @deprecated 28.0.0
+	 */
+	protected string $actionLabel = '';
 
 	/**
 	 * @since 21.0.0
@@ -104,7 +112,23 @@ final class TemplateFileCreator implements \JsonSerializable {
 	}
 
 	/**
+	 * @since 27.0.0
+	 */
+	public function setActionLabel(string $actionLabel): TemplateFileCreator {
+		$this->actionLabel = $actionLabel;
+		return $this;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getActionLabel(): string {
+		return $this->actionLabel;
+	}
+
+	/**
 	 * @since 21.0.0
+	 * @return array{app: string, label: string, extension: string, iconClass: ?string, mimetypes: string[], ratio: ?float, actionLabel: string}
 	 */
 	public function jsonSerialize(): array {
 		return [
@@ -113,7 +137,8 @@ final class TemplateFileCreator implements \JsonSerializable {
 			'extension' => $this->fileExtension,
 			'iconClass' => $this->iconClass,
 			'mimetypes' => $this->mimetypes,
-			'ratio' => $this->ratio
+			'ratio' => $this->ratio,
+			'actionLabel' => $this->actionLabel,
 		];
 	}
 }

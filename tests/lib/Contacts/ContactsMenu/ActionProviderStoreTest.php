@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActionProviderStoreTest extends TestCase {
-
 	/** @var IServerContainer|MockObject */
 	private $serverContainer;
 

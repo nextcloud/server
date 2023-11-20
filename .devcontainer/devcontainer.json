@@ -3,20 +3,26 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "nextclouddev",
 	"postCreateCommand": ".devcontainer/setup.sh",
+	"postStartCommand": ".devcontainer/postStart.sh",
 	"forwardPorts": [
 		80,
 		8080,
 		8025
 	],
-	"runArgs": [
-		"--privileged"
-	],
-	"extensions": [
-		"felixfbecker.php-debug",
-		"felixfbecker.php-intellisense",
-		"ms-azuretools.vscode-docker"
-	],
-	"settings": {
-		"php.suggest.basic": false,
-	}
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"felixfbecker.php-debug",
+				"felixfbecker.php-intellisense",
+				"ms-azuretools.vscode-docker",
+				"xdebug.php-debug",
+				"donjayamanne.githistory"
+			],
+			"settings": {
+				"php.suggest.basic": false
+			}
+		}
+	},
+	"workspaceFolder": "/var/www/html",
+	"remoteUser": "devcontainer"
 }

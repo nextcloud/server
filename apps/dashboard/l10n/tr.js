@@ -3,7 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "Pano",
     "Dashboard app" : "Pano uygulaması",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Güne bilgilenerek başlayın\n\nNextcloud Pano, gününüzün başlangıç noktasıdır ve size yaklaşan \nrandevularınız, acil e-postalarınız, sohbet iletileri, gelen destek \nistekleri, son tweetler gibi pek çok bilgi verir! Kullanıcılar istedikleri\nbaşka pano bileşenlerini ekleyebilir ve arka planı değiştirebilir.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Güne bilgilenerek başlayın\n\nNextcloud Pano, gününüzün başlangıç noktasıdır ve size yaklaşan randevularınız, acil e-postalarınız, sohbet iletileri, gelen destek istekleri, son tweetler gibi pek çok bilgi verir! Kullanıcılar istedikleri başka pano bileşenlerini ekleyebilir ve arka planı değiştirebilir.",
+    "\"{title} icon\"" : "\"{title} simgesi\"",
     "Customize" : "Özelleştir",
     "Edit widgets" : "Pano bileşenlerini düzenle",
     "Get more widgets from the App Store" : "Uygulama mağazasından başka pano bileşenleri alın",
@@ -22,10 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "İyi geceler, {name}",
     "Hello" : "Merhaba",
     "Hello, {name}" : "Merhaba {name}",
-    "Change background image" : "Arka plan görselini değiştir",
-    "Pick from Files" : "Dosyalardan seçin",
-    "Default images" : "Varsayılan görseller",
-    "Plain background" : "Düz arka plan",
-    "Insert from {productName}" : "{productName} üzerinden ekle"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Güne bilgilenerek başlayın\n\nNextcloud Pano, gününüzün başlangıç noktasıdır ve size yaklaşan \nrandevularınız, acil e-postalarınız, sohbet iletileri, gelen destek \nistekleri, son tweetler gibi pek çok bilgi verir! Kullanıcılar istedikleri\nbaşka pano bileşenlerini ekleyebilir ve arka planı değiştirebilir."
 },
 "nplurals=2; plural=(n > 1);");

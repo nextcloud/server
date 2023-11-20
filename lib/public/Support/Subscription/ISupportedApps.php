@@ -29,7 +29,6 @@ namespace OCP\Support\Subscription;
  * @since 17.0.0
  */
 interface ISupportedApps extends ISubscription {
-
 	/**
 	 * Fetches the list of app IDs that are supported by the subscription
 	 *

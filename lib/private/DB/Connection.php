@@ -40,11 +40,8 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Exception\ConstraintViolationException;
-use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
@@ -222,7 +219,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
-	public function prepare($statement, $limit = null, $offset = null): Statement {
+	public function prepare($sql, $limit = null, $offset = null): Statement {
 		if ($limit === -1 || $limit === null) {
 			$limit = null;
 		} else {
@@ -233,9 +230,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 		}
 		if (!is_null($limit)) {
 			$platform = $this->getDatabasePlatform();
-			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
+			$sql = $platform->modifyLimitQuery($sql, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->replaceTablePrefix($sql);
 		$statement = $this->adapter->fixupStatement($statement);
 
 		return parent::prepare($statement);
@@ -323,14 +320,14 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 *
 	 * @param string $seqName Name of the sequence object from which the ID should be returned.
 	 *
-	 * @return string the last inserted ID.
+	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
-	public function lastInsertId($seqName = null) {
-		if ($seqName) {
-			$seqName = $this->replaceTablePrefix($seqName);
+	public function lastInsertId($name = null): int {
+		if ($name) {
+			$name = $this->replaceTablePrefix($name);
 		}
-		return $this->adapter->lastInsertId($seqName);
+		return $this->adapter->lastInsertId($name);
 	}
 
 	/**
@@ -381,10 +378,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @param array $values (column name => value)
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
-	 * @throws \Doctrine\DBAL\Exception
+	 * @throws \OCP\DB\Exception
 	 * @throws PreConditionNotMetException
 	 */
-	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
+	public function setValues(string $table, array $keys, array $values, array $updatePreconditionValues = []): int {
 		try {
 			$insertQb = $this->getQueryBuilder();
 			$insertQb->insert($table)
@@ -394,9 +391,15 @@ class Connection extends \Doctrine\DBAL\Connection {
 					}, array_merge($keys, $values))
 				);
 			return $insertQb->executeStatement();
-		} catch (NotNullConstraintViolationException $e) {
-			throw $e;
-		} catch (ConstraintViolationException $e) {
+		} catch (\OCP\DB\Exception $e) {
+			if (!in_array($e->getReason(), [
+				\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
+				\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
+			])
+			) {
+				throw $e;
+			}
+
 			// value already exists, try update
 			$updateQb = $this->getQueryBuilder();
 			$updateQb->update($table);
@@ -596,10 +599,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this, $config, $dispatcher);
-		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this, $config, $dispatcher);
-		} elseif ($platform instanceof PostgreSQL94Platform) {
-			return new PostgreSqlMigrator($this, $config, $dispatcher);
 		} else {
 			return new Migrator($this, $config, $dispatcher);
 		}

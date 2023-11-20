@@ -87,12 +87,12 @@ class AppleProvisioningPluginTest extends TestCase {
 		$this->sabreResponse = $this->createMock(\Sabre\HTTP\ResponseInterface::class);
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		$server = $this->createMock(\Sabre\DAV\Server::class);
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
-			function () {
+			function (): void {
 			});
 
 		$server->expects($this->once())
@@ -102,7 +102,7 @@ class AppleProvisioningPluginTest extends TestCase {
 		$plugin->initialize($server);
 	}
 
-	public function testHttpGetOnHttp() {
+	public function testHttpGetOnHttp(): void {
 		$this->sabreRequest->expects($this->once())
 			->method('getPath')
 			->with()
@@ -141,7 +141,7 @@ class AppleProvisioningPluginTest extends TestCase {
 		$this->assertFalse($returnValue);
 	}
 
-	public function testHttpGetOnHttps() {
+	public function testHttpGetOnHttps(): void {
 		$this->sabreRequest->expects($this->once())
 			->method('getPath')
 			->with()

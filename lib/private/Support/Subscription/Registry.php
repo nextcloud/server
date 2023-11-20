@@ -176,7 +176,7 @@ class Registry implements IRegistry {
 		}
 
 		$userCount = $this->getUserCount();
-		$hardUserLimit = $this->config->getSystemValue('one-click-instance.user-limit', 50);
+		$hardUserLimit = $this->config->getSystemValueInt('one-click-instance.user-limit', 50);
 
 		$userLimitReached = $userCount >= $hardUserLimit;
 		if ($userLimitReached && $notificationManager instanceof IManager) {

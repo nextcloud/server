@@ -41,7 +41,7 @@ class EtagTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
 		$config = \OC::$server->getConfig();
-		$this->datadir = $config->getSystemValue('datadirectory');
+		$this->datadir = $config->getSystemValueString('datadirectory');
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 

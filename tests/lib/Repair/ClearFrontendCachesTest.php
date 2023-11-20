@@ -29,7 +29,6 @@ use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-
 	/** @var ICacheFactory */
 	private $cacheFactory;
 

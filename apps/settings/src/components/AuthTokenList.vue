@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import AuthToken from './AuthToken'
+import AuthToken from './AuthToken.vue'
 
 export default {
 	name: 'AuthTokenList',
@@ -93,7 +93,6 @@ export default {
 		max-width: 580px;
 
 		th {
-			opacity: .5;
 			padding: 10px 0;
 		}
 	}

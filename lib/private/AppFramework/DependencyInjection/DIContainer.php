@@ -72,6 +72,7 @@ use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -233,7 +234,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(IUserSession::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class)
+					$c->get(IThrottler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -291,8 +292,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
 					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class),
-					$c->get(IRequest::class)
+					$c->get(IThrottler::class),
+					$c->get(IRequest::class),
+					$c->get(LoggerInterface::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -308,13 +310,25 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
 					$c->get(\OCP\IConfig::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class)
+					$c->get(IThrottler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				$c->get(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
+			/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
+			$coordinator = $c->get(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			if ($registrationContext !== null) {
+				$appId = $this->getAppName();
+				foreach ($registrationContext->getMiddlewareRegistrations() as $middlewareRegistration) {
+					if ($middlewareRegistration->getAppId() === $appId
+						|| $middlewareRegistration->isGlobal()) {
+						$dispatcher->registerMiddleware($c->get($middlewareRegistration->getService()));
+					}
+				}
+			}
 			foreach ($this->middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c->get($middleWare));
 			}
@@ -387,33 +401,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 	private function getUserId() {
 		return $this->getServer()->getSession()->get('user_id');
-	}
-
-	/**
-	 * @deprecated use the ILogger instead
-	 * @param string $message
-	 * @param string $level
-	 * @return mixed
-	 */
-	public function log($message, $level) {
-		switch ($level) {
-			case 'debug':
-				$level = ILogger::DEBUG;
-				break;
-			case 'info':
-				$level = ILogger::INFO;
-				break;
-			case 'warn':
-				$level = ILogger::WARN;
-				break;
-			case 'fatal':
-				$level = ILogger::FATAL;
-				break;
-			default:
-				$level = ILogger::ERROR;
-				break;
-		}
-		\OCP\Util::writeLog($this->getAppName(), $message, $level);
 	}
 
 	/**

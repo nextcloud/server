@@ -39,7 +39,6 @@ use RuntimeException;
 use function array_reduce;
 
 class RequestManager {
-
 	/** @var Coordinator */
 	private $coordinator;
 

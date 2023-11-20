@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class SameSiteCookieMiddleware extends Middleware {
-
 	/** @var Request */
 	private $request;
 

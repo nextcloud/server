@@ -67,7 +67,7 @@ class PluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testSharing() {
+	public function testSharing(): void {
 		$this->book->expects($this->once())->method('updateShares')->with([[
 			'href' => 'principal:principals/admin',
 			'commonName' => null,

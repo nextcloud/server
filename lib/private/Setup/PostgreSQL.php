@@ -45,42 +45,44 @@ class PostgreSQL extends AbstractDatabase {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
 			]);
-			//check for roles creation rights in postgresql
-			$builder = $connection->getQueryBuilder();
-			$builder->automaticTablePrefix(false);
-			$query = $builder
-				->select('rolname')
-				->from('pg_roles')
-				->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
-				->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+			if ($this->tryCreateDbUser) {
+				//check for roles creation rights in postgresql
+				$builder = $connection->getQueryBuilder();
+				$builder->automaticTablePrefix(false);
+				$query = $builder
+					->select('rolname')
+					->from('pg_roles')
+					->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
+					->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
 
-			try {
-				$result = $query->execute();
-				$canCreateRoles = $result->rowCount() > 0;
-			} catch (DatabaseException $e) {
-				$canCreateRoles = false;
-			}
+				try {
+					$result = $query->execute();
+					$canCreateRoles = $result->rowCount() > 0;
+				} catch (DatabaseException $e) {
+					$canCreateRoles = false;
+				}
 
-			if ($canCreateRoles) {
-				$connectionMainDatabase = $this->connect();
-				//use the admin login data for the new database user
+				if ($canCreateRoles) {
+					$connectionMainDatabase = $this->connect();
+					//use the admin login data for the new database user
 
-				//add prefix to the postgresql user name to prevent collisions
-				$this->dbUser = 'oc_' . strtolower($username);
-				//create a new password so we don't need to store the admin config in the config file
-				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+					//add prefix to the postgresql user name to prevent collisions
+					$this->dbUser = 'oc_' . strtolower($username);
+					//create a new password so we don't need to store the admin config in the config file
+					$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
-				$this->createDBUser($connection);
+					$this->createDBUser($connection);
 
-				// Go to the main database and grant create on the public schema
-				// The code below is implemented to make installing possible with PostgreSQL version 15:
-				// https://www.postgresql.org/docs/release/15.0/
-				// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
-				// Therefore we assume that the database is only used by one user/service which is Nextcloud
-				// Additional services should get installed in a separate database in order to stay secure
-				// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-				$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO ' . addslashes($this->dbUser));
-				$connectionMainDatabase->close();
+					// Go to the main database and grant create on the public schema
+					// The code below is implemented to make installing possible with PostgreSQL version 15:
+					// https://www.postgresql.org/docs/release/15.0/
+					// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
+					// Therefore we assume that the database is only used by one user/service which is Nextcloud
+					// Additional services should get installed in a separate database in order to stay secure
+					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
+					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
+					$connectionMainDatabase->close();
+				}
 			}
 
 			$this->config->setValues([
@@ -120,7 +122,7 @@ class PostgreSQL extends AbstractDatabase {
 	private function createDatabase(Connection $connection) {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
-			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER " . addslashes($this->dbUser));
+			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER \"" . addslashes($this->dbUser) . '"');
 			try {
 				$query->execute();
 			} catch (DatabaseException $e) {
@@ -170,10 +172,10 @@ class PostgreSQL extends AbstractDatabase {
 			}
 
 			// create the user
-			$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+			$query = $connection->prepare("CREATE USER \"" . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->execute();
 			if ($this->databaseExists($connection)) {
-				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO '.addslashes($this->dbUser));
+				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($this->dbUser) . '"');
 				$query->execute();
 			}
 		} catch (DatabaseException $e) {

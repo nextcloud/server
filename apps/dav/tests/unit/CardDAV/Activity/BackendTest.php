@@ -102,11 +102,11 @@ class BackendTest extends TestCase {
 	/**
 	 * @dataProvider dataCallTriggerAddressBookActivity
 	 */
-	public function testCallTriggerAddressBookActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload) {
+	public function testCallTriggerAddressBookActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerAddressbookActivity']);
 		$backend->expects($this->once())
 			->method('triggerAddressbookActivity')
-			->willReturnCallback(function () use ($expectedPayload, $expectedSubject) {
+			->willReturnCallback(function () use ($expectedPayload, $expectedSubject): void {
 				$arguments = func_get_args();
 				$this->assertSame($expectedSubject, array_shift($arguments));
 				$this->assertEquals($expectedPayload, $arguments);
@@ -189,7 +189,7 @@ class BackendTest extends TestCase {
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
-	public function testTriggerAddressBookActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users) {
+	public function testTriggerAddressBookActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -263,7 +263,7 @@ class BackendTest extends TestCase {
 		$this->assertEmpty($this->invokePrivate($backend, 'triggerAddressbookActivity', [Addressbook::SUBJECT_ADD, ['principaluri' => 'principals/system/system'], [], [], '', '', null, []]));
 	}
 
-	public function testUserDeletionDoesNotCreateActivity() {
+	public function testUserDeletionDoesNotCreateActivity(): void {
 		$backend = $this->getBackend();
 
 		$this->userManager->expects($this->once())
@@ -359,7 +359,7 @@ class BackendTest extends TestCase {
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
-	public function testTriggerCardActivity(string $action, array $addressBookData, array $shares, array $cardData, string $currentUser, string $author, ?array $shareUsers, array $users) {
+	public function testTriggerCardActivity(string $action, array $addressBookData, array $shares, array $cardData, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -478,7 +478,7 @@ class BackendTest extends TestCase {
 	 * @param array $groups
 	 * @param array $expected
 	 */
-	public function testGetUsersForShares(array $shares, array $groups, array $expected) {
+	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 
 		$getGroups = [];

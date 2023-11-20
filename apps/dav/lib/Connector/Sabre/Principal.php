@@ -208,6 +208,11 @@ class Principal implements BackendInterface {
 					'{DAV:}displayname' => $group->getDisplayName(),
 				];
 			}
+		} elseif ($prefix === 'principals/system') {
+			return [
+				'uri' => 'principals/system/' . $name,
+				'{DAV:}displayname' => $this->languageFactory->get('dav')->t("Accounts"),
+			];
 		}
 		return null;
 	}
@@ -482,7 +487,7 @@ class Principal implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (strpos($uri, 'mailto:') === 0) {
+		if (str_starts_with($uri, 'mailto:')) {
 			if ($principalPrefix === 'principals/users') {
 				$users = $this->userManager->getByEmail(substr($uri, 7));
 				if (count($users) !== 1) {
@@ -617,8 +622,8 @@ class Principal implements BackendInterface {
 	public function getEmailAddressesOfPrincipal(array $principal): array {
 		$emailAddresses = [];
 
-		if (($primaryAddress = $principal['{http://sabredav.org/ns}email-address'])) {
-			$emailAddresses[] = $primaryAddress;
+		if (isset($principal['{http://sabredav.org/ns}email-address'])) {
+			$emailAddresses[] = $principal['{http://sabredav.org/ns}email-address'];
 		}
 
 		if (isset($principal['{DAV:}alternate-URI-set'])) {

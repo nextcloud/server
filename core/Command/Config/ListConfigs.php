@@ -33,13 +33,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListConfigs extends Base {
 	protected string $defaultOutputFormat = self::OUTPUT_FORMAT_JSON_PRETTY;
-	protected SystemConfig $systemConfig;
-	protected IAppConfig $appConfig;
 
-	public function __construct(SystemConfig $systemConfig, IAppConfig $appConfig) {
+	public function __construct(
+		protected SystemConfig $systemConfig,
+		protected IAppConfig $appConfig,
+	) {
 		parent::__construct();
-		$this->systemConfig = $systemConfig;
-		$this->appConfig = $appConfig;
 	}
 
 	protected function configure() {
@@ -77,7 +76,7 @@ class ListConfigs extends Base {
 				$configs = [
 					'system' => $this->getSystemConfigs($noSensitiveValues),
 				];
-			break;
+				break;
 
 			case 'all':
 				$apps = $this->appConfig->getApps();
@@ -88,7 +87,7 @@ class ListConfigs extends Base {
 				foreach ($apps as $appName) {
 					$configs['apps'][$appName] = $this->getAppConfigs($appName, $noSensitiveValues);
 				}
-			break;
+				break;
 
 			default:
 				$configs = [

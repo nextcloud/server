@@ -22,8 +22,8 @@
  *
  */
 
-import './share'
-import './sharebreadcrumbview'
+import './share.js'
+import './sharebreadcrumbview.js'
 import './style/sharebreadcrumb.scss'
 import './collaborationresourceshandler.js'
 

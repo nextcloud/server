@@ -22,9 +22,7 @@
 
 <template>
 	<div class="locale">
-		<select :id="inputId"
-			:placeholder="t('settings', 'Locale')"
-			@change="onLocaleChange">
+		<select :id="inputId" @change="onLocaleChange">
 			<option v-for="currentLocale in localesForLanguage"
 				:key="currentLocale.code"
 				:selected="locale.code === currentLocale.code"
@@ -50,7 +48,7 @@
 					<span>{{ example.time }}</span>
 				</p>
 				<p>
-					{{ t('settings', 'Week starts on {firstDayOfWeek}', { firstDayOfWeek: this.example.firstDayOfWeek }) }}
+					{{ t('settings', 'Week starts on {firstDayOfWeek}', { firstDayOfWeek: example.firstDayOfWeek }) }}
 				</p>
 			</div>
 		</div>
@@ -58,14 +56,13 @@
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
-import Web from 'vue-material-design-icons/Web'
+import Web from 'vue-material-design-icons/Web.vue'
 
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { validateLocale } from '../../../utils/validate.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 export default {
 	name: 'Locale',
@@ -108,7 +105,7 @@ export default {
 		allLocales() {
 			return Object.freeze(
 				[...this.localesForLanguage, ...this.otherLocales]
-					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {})
+					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {}),
 			)
 		},
 	},
@@ -155,8 +152,7 @@ export default {
 				this.initialLocale = locale
 			} else {
 				this.$emit('update:locale', this.initialLocale)
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 

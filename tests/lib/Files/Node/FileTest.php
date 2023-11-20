@@ -185,7 +185,7 @@ class FileTest extends NodeTest {
 
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
-			new $this->view,
+			$this->view,
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
@@ -277,7 +277,7 @@ class FileTest extends NodeTest {
 
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
-			new $this->view,
+			$this->view,
 			$this->user,
 			$this->userMountCache,
 			$this->logger,

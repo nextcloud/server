@@ -39,18 +39,17 @@ class CleanUpJob extends Job {
 	protected ?string $userId = null;
 	protected ?string $subject = null;
 	protected ?string $pwdPrefix = null;
-	private IConfig $config;
-	private IVerificationToken $verificationToken;
-	private IUserManager $userManager;
 
-	public function __construct(ITimeFactory $time, IConfig $config, IVerificationToken $verificationToken, IUserManager $userManager) {
+	public function __construct(
+		ITimeFactory $time,
+		private IConfig $config,
+		private IVerificationToken $verificationToken,
+		private IUserManager $userManager,
+	) {
 		parent::__construct($time);
-		$this->config = $config;
-		$this->verificationToken = $verificationToken;
-		$this->userManager = $userManager;
 	}
 
-	public function setArgument($argument) {
+	public function setArgument($argument): void {
 		parent::setArgument($argument);
 		$args = \json_decode($argument, true);
 		$this->userId = (string)$args['userId'];
@@ -59,7 +58,7 @@ class CleanUpJob extends Job {
 		$this->runNotBefore = (int)$args['notBefore'];
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		try {
 			$user = $this->userManager->get($this->userId);
 			if ($user === null) {

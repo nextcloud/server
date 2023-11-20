@@ -34,15 +34,13 @@
 			:is-supported-scope="supportedScopes.includes(federationScope.name)"
 			:name="federationScope.name"
 			:tooltip-disabled="federationScope.tooltipDisabled"
-			:tooltip="federationScope.tooltip"
-			:aria-label="federationScope.tooltip" />
+			:tooltip="federationScope.tooltip" />
 	</NcActions>
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 
 import FederationControlAction from './FederationControlAction.vue'
 
@@ -56,7 +54,7 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 const {
 	federationEnabled,
@@ -188,8 +186,7 @@ export default {
 				this.initialScope = scope
 			} else {
 				this.$emit('update:scope', this.initialScope)
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 	},
@@ -197,17 +194,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.federation-actions,
-	.federation-actions--additional {
-		opacity: 0.4 !important;
-
-		&:hover,
-		&:focus,
-		&:active {
-			opacity: 0.8 !important;
-		}
-	}
-
 	.federation-actions--additional {
 		&::v-deep button {
 			// TODO remove this hack

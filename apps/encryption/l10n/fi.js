@@ -28,10 +28,9 @@ OC.L10N.register(
     "Bad Signature" : "Virheellinen allekirjoitus",
     "Missing Signature" : "Puuttuva allekirjoitus",
     "one-time password for server-side-encryption" : "kertakäyttöinen salasana palvelinpään salausta varten",
+    "Encryption password" : "Salauksen salasana",
     "Default encryption module" : "Oletus salausmoduuli",
     "Default encryption module for server-side encryption" : "Oletusarvoinen salausmoduuli palvelimella tehtävään salaukseen",
-    "The share will expire on %s." : "Jakaminen päättyy %s.",
-    "Cheers!" : "Kiitos!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on aktivoitu, mutta avaimia ei ole alustettu, kirjaudu uudelleen sisään",
     "Encrypt the home storage" : "Salaa oma kotitila",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Tämän valinnan ollessa valittuna salataan kaikki päätallennustilaan tallennetut tiedostot. Muussa tapauksessa ainoastaan ulkoisessa tallennustilassa sijaitsevat tiedostot salataan.",
@@ -55,6 +54,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä"
+    "Disabled" : "Ei käytössä",
+    "The share will expire on %s." : "Jakaminen päättyy %s.",
+    "Cheers!" : "Kiitos!"
 },
 "nplurals=2; plural=(n != 1);");

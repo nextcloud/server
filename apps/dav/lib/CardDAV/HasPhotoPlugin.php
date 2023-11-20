@@ -66,8 +66,8 @@ class HasPhotoPlugin extends ServerPlugin {
 				return $vcard instanceof VCard
 					&& $vcard->PHOTO
 					// Either the PHOTO is a url (doesn't start with data:) or the mimetype has to start with image/
-					&& (strpos($vcard->PHOTO->getValue(), 'data:') !== 0
-						|| strpos($vcard->PHOTO->getValue(), 'data:image/') === 0)
+					&& (!str_starts_with($vcard->PHOTO->getValue(), 'data:')
+						|| str_starts_with($vcard->PHOTO->getValue(), 'data:image/'))
 				;
 			});
 		}

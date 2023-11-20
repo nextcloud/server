@@ -16,13 +16,13 @@
     "No more messages" : "Perunu àteru messàgiu",
     "Retry" : "Torra a proare",
     "Unable to load the comments list" : "Non faghet a carrigare sa lista de cummentos",
-    "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"],
     "_1 new comment_::_{unread} new comments_" : ["1 cummentu nou","{unread} cummentos noos"],
     "Comment" : "Cummenta",
     "An error occurred while trying to edit the comment" : "Ddoe at àpidu un'errore proende a modificare su cummentu",
     "Comment deleted" : "Cummentu cantzelladu",
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
     "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
-    "%1$s commented" : "%1$s at cummentadu"
+    "%1$s commented" : "%1$s at cummentadu",
+    "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

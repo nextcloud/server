@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "仪表盘",
     "Dashboard app" : "仪表盘应用",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "在通知中开启你的一天\n\nNextcloud仪表盘是你一天的起点，为你提供未来的约会、紧急邮件、聊天信息、新入订单、最新推文和更多信息的概述总览！用户可以添加喜爱的小组件，或是修改为喜欢的背景。",
+    "\"{title} icon\"" : "{title} 图标",
     "Customize" : "自定义",
     "Edit widgets" : "编辑小部件",
     "Get more widgets from the App Store" : "从应用商店获取更多小部件",
@@ -21,10 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "晚上好，{name}",
     "Hello" : "你好",
     "Hello, {name}" : "你好， {name}",
-    "Change background image" : "更改背景图片",
-    "Pick from Files" : "从文件中挑选",
-    "Default images" : "默认图片",
-    "Plain background" : "纯色背景",
-    "Insert from {productName}" : "从 {productName} 插入"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "在通知中开启你的一天\n\nNextcloud仪表盘是你一天的起点，为你提供未来的约会、紧急邮件、聊天信息、新入订单、最新推文和更多信息的概述总览！用户可以添加喜爱的小组件，或是修改为喜欢的背景。"
 },
 "nplurals=1; plural=0;");

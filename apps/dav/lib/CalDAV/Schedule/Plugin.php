@@ -36,6 +36,7 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
+use Sabre\CalDAV\Schedule\IOutbox;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
@@ -44,11 +45,11 @@ use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\DAVACL\IPrincipal;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\VObject;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
-use Sabre\VObject\Document;
 use Sabre\VObject\FreeBusyGenerator;
 use Sabre\VObject\ITip;
 use Sabre\VObject\Parameter;
@@ -311,10 +312,10 @@ EOF;
 					return null;
 				}
 
-				$isResourceOrRoom = strpos($principalUrl, 'principals/calendar-resources') === 0 ||
-					strpos($principalUrl, 'principals/calendar-rooms') === 0;
+				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources') ||
+					str_starts_with($principalUrl, 'principals/calendar-rooms');
 
-				if (strpos($principalUrl, 'principals/users') === 0) {
+				if (str_starts_with($principalUrl, 'principals/users')) {
 					[, $userId] = split($principalUrl);
 					$uri = $this->config->getUserValue($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
 					$displayName = CalDavBackend::PERSONAL_CALENDAR_NAME;
@@ -329,12 +330,12 @@ EOF;
 
 				/** @var CalendarHome $calendarHome */
 				$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
-				if (!$calendarHome->childExists($uri)) {
+				$currentCalendarDeleted = false;
+				if (!$calendarHome->childExists($uri) || $currentCalendarDeleted = $this->isCalendarDeleted($calendarHome, $uri)) {
 					// If the default calendar doesn't exist
 					if ($isResourceOrRoom) {
-						$calendarHome->getCalDAVBackend()->createCalendar($principalUrl, $uri, [
-							'{DAV:}displayname' => $displayName,
-						]);
+						// Resources or rooms can't be in the trashbin, so we're fine
+						$this->createCalendar($calendarHome, $principalUrl, $uri, $displayName);
 					} else {
 						// And we're not handling scheduling on resource/room booking
 						$userCalendars = [];
@@ -359,9 +360,16 @@ EOF;
 							$uri = $userCalendars[0]->getName();
 						} else {
 							// Otherwise if we have really nothing, create a new calendar
-							$calendarHome->getCalDAVBackend()->createCalendar($principalUrl, $uri, [
-								'{DAV:}displayname' => $displayName,
-							]);
+							if ($currentCalendarDeleted) {
+								// If the calendar exists but is deleted, we need to purge it first
+								// This may cause some issues in a non synchronous database setup
+								$calendar = $this->getCalendar($calendarHome, $uri);
+								if ($calendar instanceof Calendar) {
+									$calendar->disableTrashbin();
+									$calendar->delete();
+								}
+							}
+							$this->createCalendar($calendarHome, $principalUrl, $uri, $displayName);
 						}
 					}
 				}
@@ -608,5 +616,20 @@ EOF;
 		}
 
 		return $email;
+	}
+
+	private function getCalendar(CalendarHome $calendarHome, string $uri): INode {
+		return $calendarHome->getChild($uri);
+	}
+
+	private function isCalendarDeleted(CalendarHome $calendarHome, string $uri): bool {
+		$calendar = $this->getCalendar($calendarHome, $uri);
+		return $calendar instanceof Calendar && $calendar->isDeleted();
+	}
+
+	private function createCalendar(CalendarHome $calendarHome, string $principalUri, string $uri, string $displayName): void {
+		$calendarHome->getCalDAVBackend()->createCalendar($principalUri, $uri, [
+			'{DAV:}displayname' => $displayName,
+		]);
 	}
 }

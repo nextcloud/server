@@ -223,23 +223,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: true,
-					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -247,18 +237,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "warning",
+								description: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -267,10 +262,8 @@ describe('OC.SetupChecks tests', function() {
 					{
 						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-					}, {
-						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					}]);
+					},
+				]);
 				done();
 			});
 		});
@@ -284,23 +277,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: true,
-					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -308,18 +291,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "warning",
+								description: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -329,10 +317,7 @@ describe('OC.SetupChecks tests', function() {
 						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
-					{
-						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					}]);
+				]);
 				done();
 			});
 		});
@@ -346,23 +331,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: true,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -370,18 +345,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "warning",
+								description: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -396,64 +376,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if /dev/urandom is not accessible', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: false,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/myDocs.html">documentation ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if the wrong memcache PHP module is installed', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -463,24 +385,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -488,18 +399,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -507,64 +423,6 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">memcached wiki about both modules ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
-		it('should return an info if the mail server config was not set or verified, yet', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: false,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'You have not set or verified your email server configuration, yet. Please head over to the <a href="http://localhost/index.php/settings/admin">Basic settings</a> in order to set them. Afterwards, use the "Send email" button below the form to verify your settings.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
 			});
@@ -579,24 +437,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -604,20 +451,25 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [
 						'/some/path'
 					],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -639,24 +491,14 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -664,18 +506,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -697,24 +544,14 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: false,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -722,18 +559,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -755,24 +597,14 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -780,18 +612,35 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+						php: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							},
+							"PHP memory limit": {
+								severity: "error",
+								description: "The PHP memory limit is below the recommended value of 512MB.",
+								linkToDoc: null
+							},
+						},
+					},
 				})
 			);
 
@@ -833,25 +682,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
-					phpSupported: {eol: true, version: '5.4.0'},
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -859,25 +696,37 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+						security: {
+							"Checking for PHP version": {
+								severity: "warning",
+								description: "You are currently running PHP 8.0.30. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.",
+								linkToDoc: "https://secure.php.net/supported-versions.php"
+							}
+						},
+					},
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'You are currently running PHP 5.4.0. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group ↗</a> as soon as your distribution supports it.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					msg: 'You are currently running PHP 8.0.30. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">documentation ↗</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});
@@ -892,24 +741,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -917,18 +755,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -937,64 +780,6 @@ describe('OC.SetupChecks tests', function() {
 						msg: 'The PHP OPcache module is not properly configured. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-php-opcache">documentation ↗</a> for more information.<ul><li>recommendation1</li><li>recommendation2</li></ul>',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
-				done();
-			});
-		});
-
-		it('should return an info if server has no FreeType support', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: false,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
 				done();
 			});
 		});
@@ -1008,24 +793,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1033,18 +807,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1070,24 +849,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1095,19 +863,24 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1129,24 +902,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1154,19 +916,24 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1185,24 +952,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1210,18 +966,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1234,7 +995,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if imagick is not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1244,24 +1005,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1269,18 +1019,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: false,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1293,7 +1048,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1303,24 +1058,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1328,18 +1072,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1347,64 +1096,6 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
-		it('should return an error for 32bit instances', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
-					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					is64bit: false,
-					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});
@@ -1419,24 +1110,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1444,24 +1124,36 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+						config: {
+							"Checking for default phone region": {
+								severity: "info",
+								description: "Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add \"default_phone_region\" with the respective ISO 3166-1 code of the region to your config file.",
+								linkToDoc: "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements"
+							},
+						},
+					},
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO 3166-1 code ↗</a> of the region to your config file.',
+					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective ISO 3166-1 code of the region to your config file. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -1477,24 +1169,13 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					wasEmailTestSuccessful: true,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
-					isRandomnessSecure: true,
-					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					isFairUseOfFreePushService: true,
-					serverHasInternetConnectionProblems: false,
-					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
 					missingIndexes: [],
 					missingPrimaryKeys: [],
 					missingColumns: [],
@@ -1502,18 +1183,23 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					is64bit: true,
-					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: false,
+					generic: {
+						network: {
+							"Internet connectivity": {
+								severity: "success",
+								description: null,
+								linkToDoc: null
+							}
+						},
+					},
 				})
 			);
 
@@ -1569,7 +1255,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Content-Type-Options" HTTP header is not set to "nosniff". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-Robots-Tag" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+					msg: 'The "X-Robots-Tag" HTTP header is not set to "noindex, nofollow". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
 					msg: 'The "X-Frame-Options" HTTP header is not set to "SAMEORIGIN". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
@@ -1596,7 +1282,7 @@ describe('OC.SetupChecks tests', function() {
 			suite.server.requests[0].respond(
 				200,
 				{
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000;preload',
 					'X-Permitted-Cross-Domain-Policies': 'none',
@@ -1627,7 +1313,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-Permitted-Cross-Domain-Policies': 'none',
@@ -1641,6 +1327,49 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		describe('check X-Robots-Tag header', function() {
+			it('should return no message if X-Robots-Tag is set to noindex,nofollow without space', function(done) {
+				protocolStub.returns('https');
+				var result = OC.SetupChecks.checkGeneric();
+				suite.server.requests[0].respond(200, {
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-XSS-Protection': '1; mode=block',
+					'X-Content-Type-Options': 'nosniff',
+					'X-Robots-Tag': 'noindex,nofollow',
+					'X-Frame-Options': 'SAMEORIGIN',
+					'X-Permitted-Cross-Domain-Policies': 'none',
+					'Referrer-Policy': 'no-referrer',
+				});
+				result.done(function( data, s, x ){
+					expect(data).toEqual([]);
+					done();
+				});
+			});
+
+			it('should return a message if X-Robots-Tag is set to none', function(done) {
+				protocolStub.returns('https');
+				var result = OC.SetupChecks.checkGeneric();
+				suite.server.requests[0].respond(200, {
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-XSS-Protection': '1; mode=block',
+					'X-Content-Type-Options': 'nosniff',
+					'X-Robots-Tag': 'none',
+					'X-Frame-Options': 'SAMEORIGIN',
+					'X-Permitted-Cross-Domain-Policies': 'none',
+					'Referrer-Policy': 'no-referrer',
+				});
+				result.done(function( data, s, x ){
+					expect(data).toEqual([
+						{
+							msg: 'The "X-Robots-Tag" HTTP header is not set to "noindex, nofollow". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						}
+					]);
+					done();
+				});
+			});
+		});
+
 		describe('check X-XSS-Protection header', function() {
 			it('should return no message if X-XSS-Protection is set to 1; mode=block; report=https://example.com', function(done) {
 				protocolStub.returns('https');
@@ -1650,7 +1379,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block; report=https://example.com',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1670,7 +1399,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1690,7 +1419,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1715,7 +1444,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '0',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1742,7 +1471,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer',
@@ -1762,7 +1491,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'no-referrer-when-downgrade',
@@ -1782,7 +1511,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin',
@@ -1802,7 +1531,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -1822,7 +1551,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'same-origin',
@@ -1842,7 +1571,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin',
@@ -1867,7 +1596,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'origin-when-cross-origin',
@@ -1892,7 +1621,7 @@ describe('OC.SetupChecks tests', function() {
 					'Strict-Transport-Security': 'max-age=15768000',
 					'X-XSS-Protection': '1; mode=block',
 					'X-Content-Type-Options': 'nosniff',
-					'X-Robots-Tag': 'none',
+					'X-Robots-Tag': 'noindex, nofollow',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'X-Permitted-Cross-Domain-Policies': 'none',
 					'Referrer-Policy': 'unsafe-url',
@@ -1908,30 +1637,6 @@ describe('OC.SetupChecks tests', function() {
 					done();
 				});
 			});
-		});
-	});
-
-	it('should return a SSL warning if HTTPS is not used', function(done) {
-		protocolStub.returns('http');
-		var async = OC.SetupChecks.checkGeneric();
-
-		suite.server.requests[0].respond(200,
-			{
-				'X-XSS-Protection': '1; mode=block',
-				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
-				'X-Frame-Options': 'SAMEORIGIN',
-				'X-Permitted-Cross-Domain-Policies': 'none',
-				'Referrer-Policy': 'no-referrer',
-			}
-		);
-
-		async.done(function( data, s, x ){
-			expect(data).toEqual([{
-				msg: 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-security">security tips ↗</a>.',
-				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-			}]);
-			done();
 		});
 	});
 
@@ -1965,7 +1670,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -1990,7 +1695,7 @@ describe('OC.SetupChecks tests', function() {
 				'Strict-Transport-Security': 'max-age=15551999',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -2015,7 +1720,7 @@ describe('OC.SetupChecks tests', function() {
 				'Strict-Transport-Security': 'iAmABogusHeader342',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
-				'X-Robots-Tag': 'none',
+				'X-Robots-Tag': 'noindex, nofollow',
 				'X-Frame-Options': 'SAMEORIGIN',
 				'X-Permitted-Cross-Domain-Policies': 'none',
 				'Referrer-Policy': 'no-referrer',
@@ -2039,7 +1744,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=15768000',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2059,7 +1764,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2079,7 +1784,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',
@@ -2099,7 +1804,7 @@ describe('OC.SetupChecks tests', function() {
 			'Strict-Transport-Security': 'max-age=99999999; preload; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
-			'X-Robots-Tag': 'none',
+			'X-Robots-Tag': 'noindex, nofollow',
 			'X-Frame-Options': 'SAMEORIGIN',
 			'X-Permitted-Cross-Domain-Policies': 'none',
 			'Referrer-Policy': 'no-referrer',

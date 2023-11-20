@@ -32,7 +32,6 @@ use OCP\PreConditionNotMetException;
  * @since 24.0.0
  */
 interface ILockProvider {
-
 	/**
 	 * @throws PreConditionNotMetException
 	 * @throws NoLockProviderException

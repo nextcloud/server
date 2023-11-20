@@ -37,7 +37,6 @@ use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class JSCombiner {
-
 	/** @var IAppData */
 	protected $appData;
 

@@ -38,7 +38,6 @@ namespace OCP\WorkflowEngine;
  * @since 18.0.0
  */
 interface ISpecificOperation extends IOperation {
-
 	/**
 	 * returns the id of the entity the operator is designed for
 	 *

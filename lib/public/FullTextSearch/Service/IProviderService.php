@@ -32,8 +32,6 @@ namespace OCP\FullTextSearch\Service;
  *
  */
 interface IProviderService {
-
-
 	/**
 	 * Check if the provider $providerId is already indexed.
 	 *

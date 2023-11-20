@@ -11,7 +11,6 @@ namespace Test;
 use OCP\IRequest;
 
 class APITest extends \Test\TestCase {
-
 	// Helps build a response variable
 
 	/**

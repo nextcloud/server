@@ -29,8 +29,8 @@
 				{{ subtitle }}
 			</p>
 		</div>
-		<NcActions ref="actionsComponent"
-			v-if="$slots['default']"
+		<NcActions v-if="$slots['default']"
+			ref="actionsComponent"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:aria-expanded="ariaExpandedValue">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 
 export default {
 	name: 'SharingEntrySimple',
@@ -87,6 +87,7 @@ export default {
 	min-height: 44px;
 	&__desc {
 		padding: 8px;
+		padding-left: 10px;
 		line-height: 1.2em;
 		position: relative;
 		flex: 1 1;

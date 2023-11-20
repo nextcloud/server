@@ -32,7 +32,6 @@ use OCP\IUser;
  * @since 23.0.0
  */
 interface IVerificationToken {
-
 	/**
 	 * Checks whether the a provided tokent matches a stored token and its
 	 * constraints. An InvalidTokenException is thrown on issues, otherwise

@@ -73,7 +73,7 @@ class ImageExportPluginTest extends TestCase {
 	 * @dataProvider providesQueryParams
 	 * @param $param
 	 */
-	public function testQueryParams($param) {
+	public function testQueryParams($param): void {
 		$this->request->expects($this->once())->method('getQueryParameters')->willReturn($param);
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertTrue($result);
@@ -87,7 +87,7 @@ class ImageExportPluginTest extends TestCase {
 		];
 	}
 
-	public function testNoCard() {
+	public function testNoCard(): void {
 		$this->request->method('getQueryParameters')
 			->willReturn([
 				'photo'
@@ -119,7 +119,7 @@ class ImageExportPluginTest extends TestCase {
 	 * @param $size
 	 * @param bool $photo
 	 */
-	public function testCard($size, $photo) {
+	public function testCard($size, $photo): void {
 		$query = ['photo' => null];
 		if ($size !== null) {
 			$query['size'] = $size;
@@ -162,12 +162,11 @@ class ImageExportPluginTest extends TestCase {
 				->with(1, 'card', $size, $card)
 				->willReturn($file);
 
-			$this->response->expects($this->exactly(5))
+			$this->response->expects($this->exactly(4))
 				->method('setHeader')
 				->withConsecutive(
 					['Cache-Control', 'private, max-age=3600, must-revalidate'],
 					['Etag', '"myEtag"'],
-					['Pragma', 'public'],
 					['Content-Type', 'image/jpeg'],
 					['Content-Disposition', 'attachment; filename=card.jpg'],
 				);
@@ -179,12 +178,11 @@ class ImageExportPluginTest extends TestCase {
 				->method('setBody')
 				->with('imgdata');
 		} else {
-			$this->response->expects($this->exactly(3))
+			$this->response->expects($this->exactly(2))
 				->method('setHeader')
 				->withConsecutive(
 					['Cache-Control', 'private, max-age=3600, must-revalidate'],
 					['Etag', '"myEtag"'],
-					['Pragma', 'public'],
 				);
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)

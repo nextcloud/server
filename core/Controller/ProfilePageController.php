@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,6 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Profile\ProfileManager;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -38,35 +40,23 @@ use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\INavigationManager;
 
+#[IgnoreOpenAPI]
 class ProfilePageController extends Controller {
-	private IInitialState $initialStateService;
-	private ProfileManager $profileManager;
-	private IShareManager $shareManager;
-	private IUserManager $userManager;
-	private IUserSession $userSession;
-	private IUserStatusManager $userStatusManager;
-	private IEventDispatcher $eventDispatcher;
-
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		IInitialState $initialStateService,
-		ProfileManager $profileManager,
-		IShareManager $shareManager,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		IUserStatusManager $userStatusManager,
-		IEventDispatcher $eventDispatcher
+		private IInitialState $initialStateService,
+		private ProfileManager $profileManager,
+		private IShareManager $shareManager,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private IUserStatusManager $userStatusManager,
+		private INavigationManager $navigationManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
-		$this->initialStateService = $initialStateService;
-		$this->profileManager = $profileManager;
-		$this->shareManager = $shareManager;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->userStatusManager = $userStatusManager;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -113,8 +103,12 @@ class ProfilePageController extends Controller {
 
 		$this->initialStateService->provideInitialState(
 			'profileParameters',
-			$this->profileManager->getProfileParams($targetUser, $visitingUser),
+			$this->profileManager->getProfileFields($targetUser, $visitingUser),
 		);
+
+		if ($targetUser === $visitingUser) {
+			$this->navigationManager->setActiveEntry('profile');
+		}
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 

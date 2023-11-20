@@ -26,9 +26,9 @@
 namespace OC\Files\ObjectStore;
 
 use OC\User\User;
+use OCP\IUser;
 
 class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IHomeStorage {
-
 	/**
 	 * The home user storage requires a user object to create a unique storage id
 	 * @param array $params
@@ -62,7 +62,7 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 	 * @param string $path, optional
 	 * @return \OC\User\User
 	 */
-	public function getUser($path = null) {
+	public function getUser($path = null): IUser {
 		return $this->user;
 	}
 }

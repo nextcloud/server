@@ -31,7 +31,6 @@ use OCP\IUser;
  * @since 17.0.0
  */
 interface IActivatableAtLogin extends IProvider {
-
 	/**
 	 * @param IUser $user
 	 *

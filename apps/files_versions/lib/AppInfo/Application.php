@@ -33,7 +33,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Versions\Capabilities;
-use OCA\Files_Versions\Hooks;
+use OCA\Files_Versions\Listener\FileEventsListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
 use OCA\Files_Versions\Versions\IVersionManager;
@@ -44,6 +44,17 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeTouchedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IServerContainer;
@@ -96,15 +107,22 @@ class Application extends App implements IBootstrap {
 		 */
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
+
+		$context->registerEventListener(NodeCreatedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeTouchedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeTouchedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeWrittenEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeWrittenEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeDeletedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeRenamedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(\Closure::fromCallable([$this, 'registerVersionBackends']));
-
-		/**
-		 * Register hooks
-		 */
-		Hooks::connectHooks();
 	}
 
 	public function registerVersionBackends(ContainerInterface $container, IAppManager $appManager, LoggerInterface $logger): void {

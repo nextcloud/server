@@ -32,7 +32,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ProviderManagerTest extends TestCase {
-
 	/** @var IServerContainer */
 	protected $serverContainer;
 	/** @var LoggerInterface */

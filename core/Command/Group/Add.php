@@ -36,10 +36,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Add extends Base {
-	protected IGroupManager $groupManager;
-
-	public function __construct(IGroupManager $groupManager) {
-		$this->groupManager = $groupManager;
+	public function __construct(
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
 	}
 

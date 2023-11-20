@@ -1,0 +1,432 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "dashboard",
+        "version": "0.0.1",
+        "description": "Dashboard app",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Widget": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "title",
+                    "order",
+                    "icon_class",
+                    "icon_url",
+                    "widget_url",
+                    "item_icons_round",
+                    "item_api_versions",
+                    "reload_interval"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "icon_class": {
+                        "type": "string"
+                    },
+                    "icon_url": {
+                        "type": "string"
+                    },
+                    "widget_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "item_icons_round": {
+                        "type": "boolean"
+                    },
+                    "item_api_versions": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "reload_interval": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "buttons": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "type",
+                                "text",
+                                "link"
+                            ],
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "type": "string"
+                                },
+                                "link": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "WidgetItem": {
+                "type": "object",
+                "required": [
+                    "subtitle",
+                    "title",
+                    "link",
+                    "iconUrl",
+                    "overlayIconUrl",
+                    "sinceId"
+                ],
+                "properties": {
+                    "subtitle": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "iconUrl": {
+                        "type": "string"
+                    },
+                    "overlayIconUrl": {
+                        "type": "string"
+                    },
+                    "sinceId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "WidgetItems": {
+                "type": "object",
+                "required": [
+                    "items",
+                    "emptyContentMessage",
+                    "halfEmptyContentMessage"
+                ],
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WidgetItem"
+                        }
+                    },
+                    "emptyContentMessage": {
+                        "type": "string"
+                    },
+                    "halfEmptyContentMessage": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/ocs/v2.php/apps/dashboard/api/v1/widgets": {
+            "get": {
+                "operationId": "dashboard_api-get-widgets",
+                "summary": "Get the widgets",
+                "tags": [
+                    "dashboard_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Widgets returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "$ref": "#/components/schemas/Widget"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/dashboard/api/v1/widget-items": {
+            "get": {
+                "operationId": "dashboard_api-get-widget-items",
+                "summary": "Get the items for the widgets",
+                "tags": [
+                    "dashboard_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "sinceIds",
+                        "in": "query",
+                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number of result items per widget",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 7
+                        }
+                    },
+                    {
+                        "name": "widgets[]",
+                        "in": "query",
+                        "description": "Limit results to specific widgets",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Widget items returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "$ref": "#/components/schemas/WidgetItem"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/dashboard/api/v2/widget-items": {
+            "get": {
+                "operationId": "dashboard_api-get-widget-items-v2",
+                "summary": "Get the items for the widgets",
+                "tags": [
+                    "dashboard_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "sinceIds",
+                        "in": "query",
+                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number of result items per widget",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 7
+                        }
+                    },
+                    {
+                        "name": "widgets[]",
+                        "in": "query",
+                        "description": "Limit results to specific widgets",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Widget items returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "$ref": "#/components/schemas/WidgetItems"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": []
+}

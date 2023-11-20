@@ -20,11 +20,6 @@ OC.L10N.register(
     "Good evening" : "Labas vakaras",
     "Good evening, {name}" : "Labas vakaras, {name}",
     "Hello" : "Sveiki",
-    "Hello, {name}" : "Sveiki, {name},",
-    "Change background image" : "Keisti foninį paveikslą",
-    "Pick from Files" : "Pasirinkti iš Failų",
-    "Default images" : "Numatytieji paveikslai",
-    "Plain background" : "Vientisas fonas",
-    "Insert from {productName}" : "Įterpti iš {productName}"
+    "Hello, {name}" : "Sveiki, {name},"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

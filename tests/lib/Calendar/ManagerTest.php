@@ -43,7 +43,6 @@ interface ICreateFromStringAndHandleImipMessage extends ICreateFromString, IHand
 }
 
 class ManagerTest extends TestCase {
-
 	/** @var Coordinator|MockObject */
 	private $coordinator;
 

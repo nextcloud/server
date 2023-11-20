@@ -33,14 +33,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
-	private IConfig $config;
-	private Defaults $themingDefaults;
-
-	public function __construct(IConfig $config, Defaults $themingDefaults) {
+	public function __construct(
+		private IConfig $config,
+		private Defaults $themingDefaults,
+	) {
 		parent::__construct('status');
-
-		$this->config = $config;
-		$this->themingDefaults = $themingDefaults;
 	}
 
 	protected function configure() {

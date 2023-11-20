@@ -28,7 +28,6 @@ namespace OCP\Calendar\Room;
  * @since 14.0.0
  */
 interface IRoom {
-
 	/**
 	 * Get a unique ID for the room
 	 *

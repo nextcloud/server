@@ -40,7 +40,6 @@ use OCP\IUser;
  * @since 20.0.0
  */
 interface IProvider {
-
 	/**
 	 * Get the unique ID of this search provider
 	 *

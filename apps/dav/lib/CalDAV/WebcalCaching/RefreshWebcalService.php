@@ -55,13 +55,10 @@ use function count;
 
 class RefreshWebcalService {
 
-	/** @var CalDavBackend */
 	private CalDavBackend $calDavBackend;
 
-	/** @var IClientService */
 	private IClientService $clientService;
 
-	/** @var IConfig */
 	private IConfig $config;
 
 	/** @var LoggerInterface */

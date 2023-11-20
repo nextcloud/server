@@ -61,7 +61,7 @@ export default {
 	computed: {
 		colorPrimaryText() {
 			// For some reason the returned string has prepended whitespace
-			return getComputedStyle(document.body).getPropertyValue('--color-primary-text').trim()
+			return getComputedStyle(document.body).getPropertyValue('--color-primary-element-text').trim()
 		},
 	},
 }
@@ -77,7 +77,7 @@ export default {
 		line-height: 44px;
 		text-align: center;
 		border-radius: var(--border-radius-pill);
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		background-color: var(--color-primary-element);
 		overflow: hidden;
 		white-space: nowrap;

@@ -38,7 +38,7 @@ class Calendar implements IIconSection {
 	}
 
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath('core', 'caldav/time.svg');
+		return $this->urlGenerator->imagePath('dav', 'calendar.svg');
 	}
 
 	public function getID(): string {

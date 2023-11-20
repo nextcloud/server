@@ -30,7 +30,6 @@ use OC\AppFramework\OCS\BaseResponse;
 
 class BaseResponseTest extends \Test\TestCase {
 	public function testToXml(): void {
-
 		/** @var BaseResponse $response */
 		$response = $this->createMock(BaseResponse::class);
 
@@ -46,13 +45,14 @@ class BaseResponseTest extends \Test\TestCase {
 				'someElement' => 'withAttribute',
 			],
 			'value without key',
+			'object' => new \stdClass(),
 		];
 
 		$this->invokePrivate($response, 'toXml', [$data, $writer]);
 		$writer->endDocument();
 
 		$this->assertEquals(
-			"<?xml version=\"1.0\"?>\n<hello>hello</hello><information test=\"some data\"><someElement>withAttribute</someElement></information><element>value without key</element>\n",
+			"<?xml version=\"1.0\"?>\n<hello>hello</hello><information test=\"some data\"><someElement>withAttribute</someElement></information><element>value without key</element><object/>\n",
 			$writer->outputMemory(true)
 		);
 	}

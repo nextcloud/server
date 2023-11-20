@@ -31,20 +31,23 @@
  */
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\UserInterface;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
-use OCP\UserInterface;
+use OCP\User\Backend\IProvideEnabledStateBackend;
+use Psr\Log\LoggerInterface;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
-  /** @var array<string,User_LDAP> */
-	private $backends = [];
-	/** @var ?User_LDAP */
-	private $refBackend = null;
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+	/** @var User_LDAP[] */
+	private array $backends = [];
+	private ?User_LDAP $refBackend = null;
 
 	private bool $isSetUp = false;
 	private Helper $helper;
@@ -52,6 +55,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	private INotificationManager $notificationManager;
 	private IUserSession $userSession;
 	private UserPluginManager $userPluginManager;
+	private LoggerInterface $logger;
+	private DeletedUsersIndex $deletedUsersIndex;
 
 	public function __construct(
 		Helper $helper,
@@ -60,7 +65,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		IConfig $ocConfig,
 		INotificationManager $notificationManager,
 		IUserSession $userSession,
-		UserPluginManager $userPluginManager
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
@@ -68,6 +75,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		$this->notificationManager = $notificationManager;
 		$this->userSession = $userSession;
 		$this->userPluginManager = $userPluginManager;
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	protected function setup(): void {
@@ -77,8 +86,15 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 
 		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] =
-				new User_LDAP($this->getAccess($configPrefix), $this->ocConfig, $this->notificationManager, $this->userSession, $this->userPluginManager);
+			$this->backends[$configPrefix] = new User_LDAP(
+				$this->getAccess($configPrefix),
+				$this->ocConfig,
+				$this->notificationManager,
+				$this->userSession,
+				$this->userPluginManager,
+				$this->logger,
+				$this->deletedUsersIndex,
+			);
 
 			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
@@ -437,5 +453,24 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 */
 	public function createUser($username, $password) {
 		return $this->handleRequest($username, 'createUser', [$username, $password]);
+	}
+
+	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
+		return $this->handleRequest($uid, 'isUserEnabled', [$uid, $queryDatabaseValue]);
+	}
+
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
+		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
+	}
+
+	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+		return array_map(
+			fn (OfflineUser $user) => $user->getOCName(),
+			array_slice(
+				$this->deletedUsersIndex->getUsers(),
+				$offset,
+				$limit
+			)
+		);
 	}
 }

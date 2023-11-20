@@ -71,6 +71,7 @@ class RepairTest extends TestCase {
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
 		$outputFormatter->method('format')->willReturnArgument(0);
 
 		$this->output->expects($this->any())
@@ -141,7 +142,7 @@ class RepairTest extends TestCase {
 		$previewFolder->expects($this->once())
 			->method('getDirectoryListing')
 			->willReturn($directories);
-		$this->rootFolder->expects($this->at(0))
+		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with("appdata_/preview")
 			->willReturn($previewFolder);

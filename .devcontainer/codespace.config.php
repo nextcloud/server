@@ -14,6 +14,9 @@ $CONFIG = [
 ];
 
 if(is_string($codespaceName) && !empty($codespaceName) && is_string($codespaceDomain) && !empty($codespaceDomain)) {
-    $CONFIG['overwritehost'] = $codespaceName . '-80.' . $codespaceDomain;
+    $host = $codespaceName . '-80.' . $codespaceDomain;
+    $CONFIG['overwritehost'] = $host;
+    $CONFIG['overwrite.cli.url'] = 'https://' . $host;
     $CONFIG['overwriteprotocol'] = 'https';
+	$CONFIG['trusted_domains'] = [ $host ];
 }

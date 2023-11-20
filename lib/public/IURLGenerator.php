@@ -35,7 +35,6 @@ namespace OCP;
  * @since 6.0.0
  */
 interface IURLGenerator {
-
 	/**
 	 * Regex for matching http(s) urls
 	 *

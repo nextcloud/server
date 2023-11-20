@@ -40,7 +40,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeTest extends TestCase {
-
 	/** @var ITokenProvider|MockObject */
 	private $tokenProvider;
 

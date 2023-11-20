@@ -53,12 +53,14 @@ use Exception;
 use InvalidArgumentException;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -247,13 +249,14 @@ class Setup {
 			];
 		}
 
-		if (PHP_INT_SIZE < 8) {
+		if ($this->iniWrapper->getString('open_basedir') !== '' && PHP_INT_SIZE === 4) {
 			$errors[] = [
 				'error' => $this->l10n->t(
-					'It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher.',
+					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
+					'This will lead to problems with files over 4 GB and is highly discouraged.',
 					[$this->defaults->getProductName()]
 				),
-				'hint' => $this->l10n->t('Please switch to 64-bit PHP.'),
+				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.'),
 			];
 		}
 
@@ -273,7 +276,7 @@ class Setup {
 	 * @param $options
 	 * @return array
 	 */
-	public function install($options) {
+	public function install($options, ?IOutput $output = null) {
 		$l = $this->l10n;
 
 		$error = [];
@@ -347,6 +350,7 @@ class Setup {
 
 		$this->config->setValues($newConfigValues);
 
+		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {
 			$dbSetup->setupDatabase($username);
@@ -365,9 +369,11 @@ class Setup {
 			];
 			return $error;
 		}
+
+		$this->outputDebug($output, 'Run server migrations');
 		try {
 			// apply necessary migrations
-			$dbSetup->runMigrations();
+			$dbSetup->runMigrations($output);
 		} catch (Exception $e) {
 			$error[] = [
 				'error' => 'Error while trying to initialise the database: ' . $e->getMessage(),
@@ -377,6 +383,7 @@ class Setup {
 			return $error;
 		}
 
+		$this->outputDebug($output, 'Create admin user');
 		//create the user and group
 		$user = null;
 		try {
@@ -390,8 +397,8 @@ class Setup {
 
 		if (empty($error)) {
 			$config = \OC::$server->getConfig();
-			$config->setAppValue('core', 'installedat', microtime(true));
-			$config->setAppValue('core', 'lastupdatedat', microtime(true));
+			$config->setAppValue('core', 'installedat', (string)microtime(true));
+			$config->setAppValue('core', 'lastupdatedat', (string)microtime(true));
 
 			$vendorData = $this->getVendorData();
 			$config->setAppValue('core', 'vendor', $vendorData['vendor']);
@@ -405,16 +412,19 @@ class Setup {
 			}
 
 			// Install shipped apps and specified app bundles
-			Installer::installShippedApps();
+			$this->outputDebug($output, 'Install default apps');
+			Installer::installShippedApps(false, $output);
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
-			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+			$this->outputDebug($output, 'Setup data directory');
+			file_put_contents($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 			// Update .htaccess files
 			self::updateHtaccess();
 			self::protectDataDirectory();
 
+			$this->outputDebug($output, 'Install background jobs');
 			self::installBackgroundJobs();
 
 			//and we are done
@@ -423,20 +433,20 @@ class Setup {
 				unlink(\OC::$configDir.'/CAN_INSTALL');
 			}
 
-			$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$bootstrapCoordinator = \OCP\Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 			$bootstrapCoordinator->runInitialRegistration();
 
 			// Create a session token for the newly created user
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */
 			$userSession = \OC::$server->getUserSession();
-			$provider = \OC::$server->query(PublicKeyTokenProvider::class);
+			$provider = \OCP\Server::get(PublicKeyTokenProvider::class);
 			$userSession->setTokenProvider($provider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
 
 			$session = $userSession->getSession();
-			$session->set('last-password-confirm', \OC::$server->query(ITimeFactory::class)->getTime());
+			$session->set('last-password-confirm', \OCP\Server::get(ITimeFactory::class)->getTime());
 
 			// Set email for admin
 			if (!empty($options['adminemail'])) {
@@ -452,6 +462,7 @@ class Setup {
 		$jobList->add(TokenCleanupJob::class);
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
+		$jobList->add(RemoveOldTasksBackgroundJob::class);
 	}
 
 	/**
@@ -505,10 +516,10 @@ class Setup {
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
 			\OC::$server->getL10N('lib'),
-			\OC::$server->query(Defaults::class),
+			\OCP\Server::get(Defaults::class),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
+			\OCP\Server::get(Installer::class)
 		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
@@ -528,13 +539,13 @@ class Setup {
 			$content .= "\n  Options -MultiViews";
 			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|wasm|tflite)$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v(1|2)\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots\\.txt";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocm-provider|ocs-provider|updater)/";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocs-provider|updater)/";
 			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/richdocumentscode(_arm64)?/proxy.php$";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
@@ -549,6 +560,14 @@ class Setup {
 		}
 
 		if ($content !== '') {
+			// Never write file back if disk space should be too low
+			if (function_exists('disk_free_space')) {
+				$df = disk_free_space(\OC::$SERVERROOT);
+				$size = strlen($content) + 10240;
+				if ($df !== false && $df < (float)$size) {
+					throw new \Exception(\OC::$SERVERROOT . " does not have enough space for writing the htaccess file! Not writing it back!");
+				}
+			}
 			//suppress errors in case we don't have permissions for it
 			return (bool)@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent . $content . "\n");
 		}
@@ -584,7 +603,7 @@ class Setup {
 		$content .= "  IndexIgnore *\n";
 		$content .= "</IfModule>";
 
-		$baseDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$baseDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);
 		file_put_contents($baseDir . '/index.html', '');
 	}
@@ -612,5 +631,11 @@ class Setup {
 	 */
 	public function canInstallFileExists() {
 		return is_file(\OC::$configDir.'/CAN_INSTALL');
+	}
+
+	protected function outputDebug(?IOutput $output, string $message): void {
+		if ($output instanceof IOutput) {
+			$output->debug($message);
+		}
 	}
 }

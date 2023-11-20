@@ -30,7 +30,6 @@ namespace OCP\User\Backend;
  * @since 17.0.0
  */
 interface IGetRealUIDBackend {
-
 	/**
 	 * Some backends accept different UIDs than what is the internal UID to be used.
 	 * For example the database backend accepts different cased UIDs in all the functions

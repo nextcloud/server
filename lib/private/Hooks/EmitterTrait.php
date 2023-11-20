@@ -27,7 +27,6 @@ namespace OC\Hooks;
  * @deprecated 18.0.0 use events and the \OCP\EventDispatcher\IEventDispatcher service
  */
 trait EmitterTrait {
-
 	/**
 	 * @var callable[][] $listeners
 	 */

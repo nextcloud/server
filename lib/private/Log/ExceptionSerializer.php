@@ -100,13 +100,21 @@ class ExceptionSerializer {
 
 		// Preview providers, don't log big data strings
 		'imagecreatefromstring',
+
+		// text: PublicSessionController, SessionController and ApiService
+		'create',
+		'close',
+		'push',
+		'sync',
+		'updateSession',
+		'mention',
+		'loginSessionUser',
+
 	];
 
-	/** @var SystemConfig */
-	private $systemConfig;
-
-	public function __construct(SystemConfig $systemConfig) {
-		$this->systemConfig = $systemConfig;
+	public function __construct(
+		private SystemConfig $systemConfig,
+	) {
 	}
 
 	protected array $methodsWithSensitiveParametersByClass = [
@@ -195,7 +203,7 @@ class ExceptionSerializer {
 				return $this->editTrace($sensitiveValues, $traceLine);
 			}
 			foreach (self::methodsWithSensitiveParameters as $sensitiveMethod) {
-				if (strpos($traceLine['function'], $sensitiveMethod) !== false) {
+				if (str_contains($traceLine['function'], $sensitiveMethod)) {
 					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}
@@ -209,7 +217,7 @@ class ExceptionSerializer {
 		}, $trace);
 	}
 
-	private function removeValuesFromArgs($args, $values) {
+	private function removeValuesFromArgs($args, $values): array {
 		$workArgs = [];
 		foreach ($args as $arg) {
 			if (in_array($arg, $values, true)) {
@@ -269,7 +277,7 @@ class ExceptionSerializer {
 		return $arg;
 	}
 
-	public function serializeException(\Throwable $exception) {
+	public function serializeException(\Throwable $exception): array {
 		$data = [
 			'Exception' => get_class($exception),
 			'Message' => $exception->getMessage(),

@@ -51,8 +51,8 @@
 import { generateUrl } from '@nextcloud/router'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import Web from 'vue-material-design-icons/Web'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import Web from 'vue-material-design-icons/Web.vue'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
@@ -124,7 +124,7 @@ export default {
 
 	async beforeMount() {
 		// Dynamic load big list of user agents
-		// eslint-disable-next-line node/no-extraneous-import
+		// eslint-disable-next-line n/no-extraneous-import
 		const { agents } = await import('caniuse-lite')
 		this.agents = agents
 	},
@@ -141,8 +141,10 @@ export default {
 			const urlParams = new URLSearchParams(window.location.search)
 			if (urlParams.has('redirect_url')) {
 				const redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
-				window.location = redirectPath
-				return
+				if (redirectPath.startsWith('/')) {
+					window.location = generateUrl(redirectPath)
+					return
+				}
 			}
 			window.location = generateUrl('/')
 		},

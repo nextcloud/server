@@ -23,15 +23,16 @@
 <template>
 	<div>
 		<div class="email">
-			<input :id="inputId"
+			<input :id="inputIdWithDefault"
 				ref="email"
 				type="email"
+				autocomplete="email"
+				:aria-label="inputPlaceholder"
 				:placeholder="inputPlaceholder"
 				:value="email"
-				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
+				:aria-describedby="helperText ? `${inputIdWithDefault}-helper-text` : undefined"
 				autocapitalize="none"
-				autocomplete="on"
-				autocorrect="off"
+				spellcheck="false"
 				@input="onEmailChange">
 
 			<div class="email__actions-container">
@@ -73,7 +74,7 @@
 		</div>
 
 		<p v-if="helperText"
-			:id="`${inputId}-helper-text`"
+			:id="`${inputIdWithDefault}-helper-text`"
 			class="email__helper-text-message email__helper-text-message--error">
 			<AlertCircle class="email__helper-text-message__icon" :size="18" />
 			{{ helperText }}
@@ -86,15 +87,15 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton } from '@nextcloud/vue'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
-import Check from 'vue-material-design-icons/Check'
-import { showError } from '@nextcloud/dialogs'
+import Check from 'vue-material-design-icons/Check.vue'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl.vue'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
@@ -143,6 +144,11 @@ export default {
 		localVerificationState: {
 			type: Number,
 			default: VERIFICATION_ENUM.NOT_VERIFIED,
+		},
+		inputId: {
+			type: String,
+			required: false,
+			default: '',
 		},
 	},
 
@@ -194,18 +200,13 @@ export default {
 			return !this.initialEmail
 		},
 
-		inputId() {
-			if (this.primary) {
-				return 'email'
-			}
-			return `email-${this.index}`
+		inputIdWithDefault() {
+			return this.inputId || `account-property-email--${this.index}`
 		},
 
 		inputPlaceholder() {
-			if (this.primary) {
-				return t('settings', 'Your email address')
-			}
-			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
+			// Primary email has implicit linked <label>
+			return !this.primary ? t('settings', 'Additional email address {index}', { index: this.index + 1 }) : undefined
 		},
 
 		isNotificationEmail() {
@@ -358,8 +359,7 @@ export default {
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}
@@ -392,8 +392,6 @@ export default {
 		margin-right: 5px;
 
 		.email__actions {
-			opacity: 0.4 !important;
-
 			&:hover,
 			&:focus,
 			&:active {

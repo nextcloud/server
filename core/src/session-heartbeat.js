@@ -29,8 +29,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
-import OC from './OC'
-import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken'
+import OC from './OC/index.js'
+import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken.js'
 
 let config = null
 /**

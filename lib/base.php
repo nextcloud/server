@@ -67,8 +67,6 @@ declare(strict_types=1);
  */
 
 use OC\Encryption\HookManager;
-use OC\EventDispatcher\SymfonyAdapter;
-use OC\Files\Filesystem;
 use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
@@ -76,10 +74,12 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
@@ -159,6 +159,9 @@ class OC {
 				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'] ?? null,
 			],
 		];
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$params['server']['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+		}
 		$fakeRequest = new \OC\AppFramework\Http\Request(
 			$params,
 			new \OC\AppFramework\Http\RequestId($_SERVER['UNIQUE_ID'] ?? '', new \OC\Security\SecureRandom()),
@@ -307,6 +310,7 @@ class OC {
 	 * Prints the upgrade page
 	 */
 	private static function printUpgradePage(\OC\SystemConfig $systemConfig): void {
+		$cliUpgradeLink = $systemConfig->getValue('upgrade.cli-upgrade-link', '');
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
@@ -353,6 +357,7 @@ class OC {
 			$template->assign('productName', 'nextcloud'); // for now
 			$template->assign('version', OC_Util::getVersionString());
 			$template->assign('tooBig', $tooBig);
+			$template->assign('cliUpgradeLink', $cliUpgradeLink);
 
 			$template->printPage();
 			die();
@@ -392,8 +397,8 @@ class OC {
 
 		if (!empty($incompatibleShippedApps)) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
-			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
-			throw new \OCP\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
+			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
+			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
@@ -410,13 +415,17 @@ class OC {
 
 	public static function initSession(): void {
 		$request = Server::get(IRequest::class);
-		$isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
-		if ($request->getHeader('Authorization') !== '' && is_null($request->getCookie('cookie_test')) && $isDavRequest && !isset($_COOKIE['nc_session_id'])) {
-			setcookie('cookie_test', 'test', time() + 3600);
-			// Do not initialize the session if a request is authenticated directly
-			// unless there is a session cookie already sent along
-			return;
-		}
+
+		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
+		// TODO: See https://github.com/nextcloud/server/issues/37277#issuecomment-1476366147 and the other comments
+		// TODO: for further information.
+		// $isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
+		// if ($request->getHeader('Authorization') !== '' && is_null($request->getCookie('cookie_test')) && $isDavRequest && !isset($_COOKIE['nc_session_id'])) {
+		// setcookie('cookie_test', 'test', time() + 3600);
+		// // Do not initialize the session if a request is authenticated directly
+		// // unless there is a session cookie already sent along
+		// return;
+		// }
 
 		if ($request->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', 'true');
@@ -560,11 +569,14 @@ class OC {
 
 			// All other endpoints require the lax and the strict cookie
 			if (!$request->passesStrictCookieCheck()) {
+				logger('core')->warning('Request does not pass strict cookie check');
 				self::sendSameSiteCookies();
 				// Debug mode gets access to the resources without strict cookie
 				// due to the fact that the SabreDAV browser also lives there.
-				if (!$config->getSystemValue('debug', false)) {
-					http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
+				if (!$config->getSystemValueBool('debug', false)) {
+					http_response_code(\OCP\AppFramework\Http::STATUS_PRECONDITION_FAILED);
+					header('Content-Type: application/json');
+					echo json_encode(['error' => 'Strict Cookie has not been found in request']);
 					exit();
 				}
 			}
@@ -574,6 +586,11 @@ class OC {
 	}
 
 	public static function init(): void {
+		// prevent any XML processing from loading external entities
+		libxml_set_external_entity_loader(static function () {
+			return null;
+		});
+
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 
@@ -591,9 +608,9 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		// Add default composer PSR-4 autoloader
+		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix('composer_autoload');
+		self::$composerAutoloader->setApcuPrefix(null);
 
 		try {
 			self::initPaths();
@@ -666,7 +683,7 @@ class OC {
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
 			);
 			$exceptionHandler = [$errorHandler, 'onException'];
-			if ($config->getSystemValue('debug', false)) {
+			if ($config->getSystemValueBool('debug', false)) {
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
 				if (\OC::$CLI) {
 					$exceptionHandler = ['OC_Template', 'printExceptionErrorPage'];
@@ -727,7 +744,7 @@ class OC {
 					echo('Writing to database failed');
 				}
 				exit(1);
-			} elseif (self::$CLI && $config->getSystemValue('installed', false)) {
+			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
 		}
@@ -762,6 +779,7 @@ class OC {
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
 		self::registerFileReferenceEventListener();
+		self::registerRenderReferenceEventListener();
 		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
@@ -796,7 +814,7 @@ class OC {
 		 */
 		if (!OC::$CLI
 			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
-			&& $config->getSystemValue('installed', false)
+			&& $config->getSystemValueBool('installed', false)
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;
@@ -851,7 +869,7 @@ class OC {
 					// reset brute force delay for this IP address and username
 					$uid = $userSession->getUser()->getUID();
 					$request = Server::get(IRequest::class);
-					$throttler = Server::get(\OC\Security\Bruteforce\Throttler::class);
+					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 				}
 
@@ -918,11 +936,15 @@ class OC {
 	}
 
 	private static function registerResourceCollectionHooks(): void {
-		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
+		\OC\Collaboration\Resources\Listener::register(Server::get(IEventDispatcher::class));
 	}
 
 	private static function registerFileReferenceEventListener(): void {
 		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
+	}
+
+	private static function registerRenderReferenceEventListener() {
+		\OC\Collaboration\Reference\RenderReferenceEventListener::register(Server::get(IEventDispatcher::class));
 	}
 
 	/**
@@ -966,16 +988,17 @@ class OC {
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
+			$logger = Server::get(\Psr\Log\LoggerInterface::class);
 			$setupHelper = new OC\Setup(
 				$systemConfig,
 				Server::get(\bantu\IniGetWrapper\IniGetWrapper::class),
 				Server::get(\OCP\L10N\IFactory::class)->get('lib'),
 				Server::get(\OCP\Defaults::class),
-				Server::get(\Psr\Log\LoggerInterface::class),
+				$logger,
 				Server::get(\OCP\Security\ISecureRandom::class),
 				Server::get(\OC\Installer::class)
 			);
-			$controller = new OC\Core\Controller\SetupController($setupHelper);
+			$controller = new OC\Core\Controller\SetupController($setupHelper, $logger);
 			$controller->run($_POST);
 			exit();
 		}
@@ -1016,6 +1039,7 @@ class OC {
 
 		// Always load authentication apps
 		OC_App::loadApps(['authentication']);
+		OC_App::loadApps(['extended_authentication']);
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()
@@ -1092,10 +1116,12 @@ class OC {
 		try {
 			Server::get(\OC\Route\Router::class)->match('/error/404');
 		} catch (\Exception $e) {
-			logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			if (!$e instanceof MethodNotAllowedException) {
+				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
-				$l->t('404'),
+				'404',
 				$l->t('The page could not be found on the server.'),
 				404
 			);
@@ -1106,8 +1132,14 @@ class OC {
 	 * Check login: apache auth, auth token, basic auth
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
+		if ($request->getHeader('X-Nextcloud-Federation')) {
+			return false;
+		}
 		$userSession = Server::get(\OC\User\Session::class);
 		if (OC_User::handleApacheAuth()) {
+			return true;
+		}
+		if (self::tryAppAPILogin($request)) {
 			return true;
 		}
 		if ($userSession->tryTokenLogin($request)) {
@@ -1119,7 +1151,7 @@ class OC {
 			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request, Server::get(\OC\Security\Bruteforce\Throttler::class))) {
+		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {
 			return true;
 		}
 		return false;
@@ -1145,6 +1177,22 @@ class OC {
 					break;
 				}
 			}
+		}
+	}
+
+	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
+		$appManager = Server::get(OCP\App\IAppManager::class);
+		if (!$request->getHeader('AUTHORIZATION-APP-API')) {
+			return false;
+		}
+		if (!$appManager->isInstalled('app_api')) {
+			return false;
+		}
+		try {
+			$appAPIService = Server::get(OCA\AppAPI\Service\AppAPIService::class);
+			return $appAPIService->validateExAppRequestToNC($request);
+		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			return false;
 		}
 	}
 }

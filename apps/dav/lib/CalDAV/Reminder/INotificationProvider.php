@@ -42,13 +42,13 @@ interface INotificationProvider {
 	 * Send notification
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
 	 * @param string[] $principalEmailAddresses All email addresses associated to the principal owning the calendar object
 	 * @param IUser[] $users
 	 * @return void
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName,
+						 ?string $calendarDisplayName,
 						 array  $principalEmailAddresses,
 						 array $users = []): void;
 }

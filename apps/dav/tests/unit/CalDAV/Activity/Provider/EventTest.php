@@ -107,7 +107,7 @@ class EventTest extends TestCase {
 	 * @param array|null $link
 	 * @param bool $calendarAppEnabled
 	 */
-	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true) {
+	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
 		if ($link) {
 			$generatedLink = [
 				'view' => 'dayGridMonth',
@@ -121,6 +121,8 @@ class EventTest extends TestCase {
 				->with('calendar')
 				->willReturn($calendarAppEnabled);
 			if ($calendarAppEnabled) {
+				$this->url->expects($this->once())
+					->method('getWebroot');
 				$this->url->expects($this->once())
 					->method('linkToRouteAbsolute')
 					->with('calendar.view.indexview.timerange.edit', $generatedLink)
@@ -155,7 +157,7 @@ class EventTest extends TestCase {
 	 * @param mixed $eventData
 	 * @param string $exception
 	 */
-	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class) {
+	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 
 		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);

@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeActivityListener implements IEventListener {
-
 	/** @var IActvityManager */
 	private $activityManager;
 

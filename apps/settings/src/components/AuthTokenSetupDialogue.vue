@@ -20,14 +20,16 @@
   -->
 
 <template>
-	<div v-if="!adding" class="row spacing">
+	<div v-if="!adding" id="generate-app-token-section" class="row spacing">
 		<!-- Port to TextField component when available -->
-		<input v-model="deviceName"
+		<NcTextField :value.sync="deviceName"
 			type="text"
 			:maxlength="120"
 			:disabled="loading"
+			class="app-name-text-field"
+			:label="t('settings', 'App name')"
 			:placeholder="t('settings', 'App name')"
-			@keydown.enter="submit">
+			@keydown.enter="submit" />
 		<NcButton :disabled="loading || deviceName.length === 0"
 			type="primary"
 			@click="submit">
@@ -55,26 +57,25 @@
 				class="monospaced"
 				readonly="readonly"
 				@focus="selectInput">
-
-			<a ref="clipboardButton"
+			<NcButton type="tertiary"
 				:title="copyTooltipOptions"
 				:aria-label="copyTooltipOptions"
-				v-clipboard:copy="appPassword"
-				v-clipboard:success="onCopyPassword"
-				v-clipboard:error="onCopyPasswordFailed"
-				class="icon icon-clippy"
-				@mouseover="hoveringCopyButton = true"
-				@mouseleave="hoveringCopyButton = false" />
+				@click="copyPassword">
+				<template #icon>
+					<Check v-if="copied" :size="20" />
+					<ContentCopy v-else :size="20" />
+				</template>
+			</NcButton>
 			<NcButton @click="reset">
 				{{ t('settings', 'Done') }}
 			</NcButton>
 		</div>
 		<div class="app-password-row">
 			<span class="app-password-label" />
-			<a v-if="!showQR"
+			<NcButton v-if="!showQR"
 				@click="showQR = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
-			</a>
+			</NcButton>
 			<QR v-else
 				:value="qrUrl" />
 		</div>
@@ -85,14 +86,22 @@
 import QR from '@chenfengyuan/vue-qrcode'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
+import { showError } from '@nextcloud/dialogs'
 import { getRootUrl } from '@nextcloud/router'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+
+import Check from 'vue-material-design-icons/Check.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 
 export default {
 	name: 'AuthTokenSetupDialogue',
 	components: {
-		QR,
+		Check,
+		ContentCopy,
 		NcButton,
+		QR,
+		NcTextField,
 	},
 	props: {
 		add: {
@@ -107,15 +116,14 @@ export default {
 			deviceName: '',
 			appPassword: '',
 			loginName: '',
-			passwordCopied: false,
+			copied: false,
 			showQR: false,
 			qrUrl: '',
-			hoveringCopyButton: false,
 		}
 	},
 	computed: {
 		copyTooltipOptions() {
-			if (this.passwordCopied) {
+			if (this.copied) {
 				return t('settings', 'Copied!')
 			}
 			return t('settings', 'Copy')
@@ -150,13 +158,19 @@ export default {
 					this.reset()
 				})
 		},
-		onCopyPassword() {
-			this.passwordCopied = true
-			this.$refs.clipboardButton.blur()
-			setTimeout(() => { this.passwordCopied = false }, 3000)
-		},
-		onCopyPasswordFailed() {
-			OC.Notification.showTemporary(t('settings', 'Could not copy app password. Please copy it manually.'))
+		async copyPassword() {
+			try {
+				await navigator.clipboard.writeText(this.appPassword)
+				this.copied = true
+			} catch (e) {
+				this.copied = false
+				console.error(e)
+				showError(t('settings', 'Could not copy app password. Please copy it manually.'))
+			} finally {
+				setTimeout(() => {
+					this.copied = false
+				}, 4000)
+			}
 		},
 		reset() {
 			this.adding = false
@@ -175,6 +189,8 @@ export default {
 	.app-password-row {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 
 		.icon {
 			background-size: 16px 16px;
@@ -189,15 +205,15 @@ export default {
 
 	.app-password-label {
 		display: table-cell;
-		padding-right: 1em;
-		text-align: right;
+		margin-right: 1em;
+		text-align: left;
 		vertical-align: middle;
 		width: 100px;
 	}
 
-	.row input {
+	.app-name-text-field {
 		height: 44px !important;
-		padding: 7px 12px;
+		padding-left: 12px;
 		margin-right: 12px;
 		width: 200px;
 	}

@@ -41,7 +41,6 @@ use function sprintf;
  * created by the service container
  */
 final class ServiceEventListener {
-
 	/** @var IServerContainer */
 	private $container;
 

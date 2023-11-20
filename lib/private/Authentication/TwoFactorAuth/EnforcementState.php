@@ -28,7 +28,6 @@ namespace OC\Authentication\TwoFactorAuth;
 use JsonSerializable;
 
 class EnforcementState implements JsonSerializable {
-
 	/** @var bool */
 	private $enforced;
 

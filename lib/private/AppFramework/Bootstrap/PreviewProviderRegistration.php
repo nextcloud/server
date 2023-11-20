@@ -30,7 +30,6 @@ namespace OC\AppFramework\Bootstrap;
  * @template-extends ServiceRegistration<\OCP\Preview\IProviderV2>
  */
 class PreviewProviderRegistration extends ServiceRegistration {
-
 	/** @var string */
 	private $mimeTypeRegex;
 

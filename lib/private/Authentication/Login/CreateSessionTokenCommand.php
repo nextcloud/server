@@ -32,7 +32,6 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class CreateSessionTokenCommand extends ALoginCommand {
-
 	/** @var IConfig */
 	private $config;
 

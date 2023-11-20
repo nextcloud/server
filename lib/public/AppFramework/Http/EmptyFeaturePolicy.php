@@ -36,7 +36,6 @@ namespace OCP\AppFramework\Http;
  * @since 17.0.0
  */
 class EmptyFeaturePolicy {
-
 	/** @var string[] of allowed domains to autoplay media */
 	protected $autoplayDomains = null;
 

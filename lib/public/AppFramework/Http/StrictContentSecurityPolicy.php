@@ -32,7 +32,7 @@ namespace OCP\AppFramework\Http;
  * ('self') are allowed.
  *
  * Even if a value gets modified above defaults will still get appended. Please
- * notice that Nextcloud ships already with sensible defaults and those policies
+ * note that Nextcloud ships already with sensible defaults and those policies
  * should require no modification at all for most use-cases.
  *
  * This class represents out strictest defaults. They may get change from release
@@ -46,6 +46,8 @@ class StrictContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	protected $inlineScriptAllowed = false;
 	/** @var bool Whether eval in JS scripts is allowed */
 	protected $evalScriptAllowed = false;
+	/** @var bool Whether WebAssembly compilation is allowed */
+	protected ?bool $evalWasmAllowed = false;
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = [
 		'\'self\'',

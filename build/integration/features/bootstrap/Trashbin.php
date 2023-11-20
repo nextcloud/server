@@ -31,7 +31,6 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Trashbin functions
  */
 trait Trashbin {
-
 	// WebDav trait is expected to be used in the class that uses this trait.
 
 	/**

@@ -1,8 +1,10 @@
 { "translations": {
+    "The page could not be found on the server." : "Se podiá pas trobar la pagina sul servidor.",
     "Other activities" : "Autras activitats",
     "Authentication" : "Autentificacion",
     "Unknown filetype" : "filetype desconegut",
     "Invalid image" : "Imatge invalid",
+    "Files" : "Fichièrs",
     "View profile" : "Veire perfil",
     "today" : "uèi",
     "yesterday" : "ièr",
@@ -39,7 +41,6 @@
     "Address" : "Adreça",
     "Profile picture" : "Imatge de perfil",
     "About" : "A prepaus",
-    "Full name" : "Nom complèt",
     "Headline" : "Títol",
     "Organisation" : "Organizacion",
     "Role" : "Ròtle",
@@ -69,6 +70,7 @@
     "User disabled" : "Utilizaire desactivat",
     "a safe home for all your data" : "un ostal segur per vòstras donadas",
     "Authentication error" : "Error d’autentificacion",
-    "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible"
+    "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
+    "Full name" : "Nom complèt"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

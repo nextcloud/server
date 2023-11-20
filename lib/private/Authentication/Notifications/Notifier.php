@@ -32,7 +32,6 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
-
 	/** @var IL10nFactory */
 	private $factory;
 

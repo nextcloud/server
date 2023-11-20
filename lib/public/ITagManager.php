@@ -40,7 +40,6 @@ namespace OCP;
  * @since 6.0.0
  */
 interface ITagManager {
-
 	/**
 	 * Create a new \OCP\ITags instance and load tags from db for the current user.
 	 *

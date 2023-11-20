@@ -28,7 +28,6 @@ namespace OCP\Activity;
  * @since 11.0
  */
 interface IEventMerger {
-
 	/**
 	 * Combines two events when possible to have grouping:
 	 *

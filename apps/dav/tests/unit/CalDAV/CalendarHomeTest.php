@@ -78,7 +78,7 @@ class CalendarHomeTest extends TestCase {
 		$reflectionProperty->setValue($this->calendarHome, $this->pluginManager);
 	}
 
-	public function testCreateCalendarValidName() {
+	public function testCreateCalendarValidName(): void {
 		/** @var MkCol | MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
@@ -95,7 +95,7 @@ class CalendarHomeTest extends TestCase {
 		$this->calendarHome->createExtendedCollection('name123', $mkCol);
 	}
 
-	public function testCreateCalendarReservedName() {
+	public function testCreateCalendarReservedName(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
@@ -105,7 +105,7 @@ class CalendarHomeTest extends TestCase {
 		$this->calendarHome->createExtendedCollection('contact_birthdays', $mkCol);
 	}
 
-	public function testCreateCalendarReservedNameAppGenerated() {
+	public function testCreateCalendarReservedNameAppGenerated(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 

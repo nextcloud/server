@@ -36,7 +36,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class HookManager {
 
@@ -67,21 +66,16 @@ class HookManager {
 	/** @var Defaults */
 	private $themingDefaults;
 
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
-
 	public function __construct(IUserManager $userManager,
 								SyncService $syncService,
 								CalDavBackend $calDav,
 								CardDavBackend $cardDav,
-								Defaults $themingDefaults,
-								EventDispatcherInterface $eventDispatcher) {
+								Defaults $themingDefaults) {
 		$this->userManager = $userManager;
 		$this->syncService = $syncService;
 		$this->calDav = $calDav;
 		$this->cardDav = $cardDav;
 		$this->themingDefaults = $themingDefaults;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	public function setup() {

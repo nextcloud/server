@@ -35,7 +35,6 @@ use OCP\RichObjectStrings\IValidator;
  * @since 11.0.0
  */
 class Validator implements IValidator {
-
 	/** @var Definitions */
 	protected $definitions;
 

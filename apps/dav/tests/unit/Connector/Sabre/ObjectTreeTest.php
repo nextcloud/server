@@ -58,12 +58,11 @@ class ObjectTreeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider copyDataProvider
 	 */
-	public function testCopy($sourcePath, $targetPath, $targetParent) {
+	public function testCopy($sourcePath, $targetPath, $targetParent): void {
 		$view = $this->createMock(View::class);
 		$view->expects($this->once())
 			->method('verifyPath')
-			->with($targetParent)
-			->willReturn(true);
+			->with($targetParent);
 		$view->expects($this->once())
 			->method('file_exists')
 			->with($targetPath)
@@ -103,7 +102,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider copyDataProvider
 	 */
-	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent) {
+	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$view = $this->createMock(View::class);
@@ -150,7 +149,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$outputFileName,
 		$type,
 		$enableChunkingHeader
-	) {
+	): void {
 		if ($enableChunkingHeader) {
 			$_SERVER['HTTP_OC_CHUNKED'] = true;
 		}
@@ -265,7 +264,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	}
 
 
-	public function testGetNodeForPathInvalidPath() {
+	public function testGetNodeForPathInvalidPath(): void {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
 		$path = '/foo\bar';
@@ -293,7 +292,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$tree->getNodeForPath($path);
 	}
 
-	public function testGetNodeForPathRoot() {
+	public function testGetNodeForPathRoot(): void {
 		$path = '/';
 
 

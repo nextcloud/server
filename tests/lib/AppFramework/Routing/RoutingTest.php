@@ -6,8 +6,12 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Route;
 use OC\Route\Router;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IConfig;
+use OCP\IRequest;
 use OCP\Route\IRouter;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class RoutingTest extends \Test\TestCase {
@@ -133,7 +137,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(LoggerInterface::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// load route configuration
@@ -154,7 +164,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(LoggerInterface::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// load route configuration
@@ -214,7 +230,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(LoggerInterface::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// we expect create to be called once:
@@ -264,7 +286,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(LoggerInterface::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// we expect create to be called once:
@@ -291,7 +319,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(LoggerInterface::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// route mocks
@@ -338,7 +372,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(LoggerInterface::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// route mocks

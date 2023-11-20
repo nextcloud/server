@@ -20,7 +20,8 @@
   -
   -->
 <template>
-	<div v-show="!deleted"
+	<component :is="tag"
+		v-show="!deleted"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
@@ -67,54 +68,65 @@
 			</div>
 
 			<!-- Message editor -->
-			<div v-if="editor || editing" class="comment__editor ">
-				<NcRichContenteditable ref="editor"
-					:auto-complete="autoComplete"
-					:contenteditable="!loading"
-					:value="localMessage"
-					:user-data="userData"
-					@update:value="updateLocalMessage"
-					@submit="onSubmit" />
-				<NcButton class="comment__submit"
-					type="tertiary-no-background"
-					native-type="submit"
-					:aria-label="t('comments', 'Post comment')"
-					:disabled="isEmptyMessage"
-					@click="onSubmit">
-					<template #icon>
-						<span v-if="loading" class="icon-loading-small" />
-						<ArrowRight v-else :size="20" />
-					</template>
-				</NcButton>
-			</div>
+			<form v-if="editor || editing" class="comment__editor" @submit.prevent>
+				<div class="comment__editor-group">
+					<NcRichContenteditable ref="editor"
+						:auto-complete="autoComplete"
+						:contenteditable="!loading"
+						:value="localMessage"
+						:user-data="userData"
+						aria-describedby="tab-comments__editor-description"
+						@update:value="updateLocalMessage"
+						@submit="onSubmit" />
+					<div class="comment__submit">
+						<NcButton type="tertiary-no-background"
+							native-type="submit"
+							:aria-label="t('comments', 'Post comment')"
+							:disabled="isEmptyMessage"
+							@click="onSubmit">
+							<template #icon>
+								<span v-if="loading" class="icon-loading-small" />
+								<ArrowRight v-else :size="20" />
+							</template>
+						</NcButton>
+					</div>
+				</div>
+				<div id="tab-comments__editor-description" class="comment__editor-description">
+					{{ t('comments', '"@" for mentions, ":" for emoji, "/" for smart picker') }}
+				</div>
+			</form>
 
 			<!-- Message content -->
 			<!-- The html is escaped and sanitized before rendering -->
-			<!-- eslint-disable-next-line vue/no-v-html-->
+			<!-- eslint-disable vue/no-v-html-->
 			<div v-else
 				:class="{'comment__message--expanded': expanded}"
 				class="comment__message"
 				@click="onExpand"
 				v-html="renderedContent" />
+			<!-- eslint-enable vue/no-v-html-->
 		</div>
-	</div>
+	</component>
 </template>
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
+import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable'
-import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
-import ArrowRight from 'vue-material-design-icons/ArrowRight'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
-import Moment from './Moment'
-import CommentMixin from '../mixins/CommentMixin'
+import Moment from './Moment.vue'
+import CommentMixin from '../mixins/CommentMixin.js'
+
+// Dynamic loading
+const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
 
 export default {
 	name: 'Comment',
@@ -161,6 +173,11 @@ export default {
 		autoComplete: {
 			type: Function,
 			required: true,
+		},
+
+		tag: {
+			type: String,
+			default: 'div',
 		},
 	},
 
@@ -219,6 +236,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Update local Message on outer change
 		 *
@@ -263,8 +282,7 @@ $comment-padding: 10px;
 
 .comment {
 	display: flex;
-	gap: 16px;
-	position: relative;
+	gap: 8px;
 	padding: 5px $comment-padding;
 
 	&__side {
@@ -304,12 +322,19 @@ $comment-padding: 10px;
 		color: var(--color-text-maxcontrast);
 	}
 
+	&__editor-group {
+		position: relative;
+	}
+
+	&__editor-description {
+		color: var(--color-text-maxcontrast);
+		padding-block: var(--default-grid-baseline);
+	}
+
 	&__submit {
 		position: absolute !important;
-		right: 0;
 		bottom: 0;
-		// Align with input border
-		margin: 1px;
+		right: 0;
 	}
 
 	&__message {

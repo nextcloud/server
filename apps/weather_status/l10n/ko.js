@@ -18,7 +18,7 @@ OC.L10N.register(
     "You are not logged in." : "당신은 로그인하지 않았습니다.",
     "There was an error getting the weather status information." : "날씨 현황 정보를 불러오는 동안 오류가 발생했습니다.",
     "No weather information found" : "날씨 정보 없음",
-    "Location not found" : "위치를 찾을 수 없습니다",
+    "Location not found" : "위치를 찾을 수 없습니다.",
     "There was an error setting the location address." : "이 위치의 주소를 설정하는 동안 오류가 발생했습니다.",
     "There was an error setting the location." : "주소를 설정하는 동안 오류가 발생했습니다.",
     "There was an error saving the mode." : "모드 저장에 오류가 있습니다.",

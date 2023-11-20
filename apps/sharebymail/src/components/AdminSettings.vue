@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('sharebymail', 'Share by mail')"
+	<NcSettingsSection :name="t('sharebymail', 'Share by mail')"
 		:description="t('sharebymail', 'Allows users to share a personalized link to a file or folder by putting in an email address.')">
 		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="sendPasswordMail"
@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'

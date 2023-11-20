@@ -52,10 +52,20 @@ class Util {
 	}
 
 	/**
+	 * Should we invert the text on this background color?
 	 * @param string $color rgb color value
 	 * @return bool
 	 */
-	public function invertTextColor($color) {
+	public function invertTextColor(string $color): bool {
+		return $this->isBrightColor($color);
+	}
+
+	/**
+	 * Is this color too bright ?
+	 * @param string $color rgb color value
+	 * @return bool
+	 */
+	public function isBrightColor(string $color): bool {
 		$l = $this->calculateLuma($color);
 		if ($l > 0.6) {
 			return true;
@@ -68,20 +78,20 @@ class Util {
 	 * get color for on-page elements:
 	 * theme color by default, grey if theme color is to bright
 	 * @param string $color
-	 * @param bool $brightBackground
+	 * @param ?bool $brightBackground
 	 * @return string
 	 */
-	public function elementColor($color, bool $brightBackground = true) {
+	public function elementColor($color, ?bool $brightBackground = null) {
 		$luminance = $this->calculateLuminance($color);
 
-		if ($brightBackground && $luminance > 0.8) {
-			// If the color is too bright in bright mode, we fall back to a darker gray
-			return '#aaaaaa';
+		if ($brightBackground !== false && $luminance > 0.8) {
+			// If the color is too bright in bright mode, we fall back to a darkened color
+			return $this->darken($color, 30);
 		}
 
-		if (!$brightBackground && $luminance < 0.2) {
-			// If the color is too dark in dark mode, we fall back to a brighter gray
-			return '#555555';
+		if ($brightBackground !== true && $luminance < 0.2) {
+			// If the color is too dark in dark mode, we fall back to a brightened color
+			return $this->lighten($color, 30);
 		}
 
 		return $color;
@@ -180,7 +190,7 @@ class Util {
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
 			try {
-				$folder = $this->appData->getFolder('images');
+				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
 			} catch (NotFoundException $e) {
 			}

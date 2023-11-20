@@ -57,11 +57,11 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|webp)/';
+		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
-		$maxSizeForImages = $this->config->getSystemValue('preview_max_filesize_image', 50);
+		$maxSizeForImages = $this->config->getSystemValueInt('preview_max_filesize_image', 50);
 
 		$size = $file->getSize();
 
@@ -78,55 +78,105 @@ class Imaginary extends ProviderV2 {
 
 		// Object store
 		$stream = $file->fopen('r');
+		if (!$stream || !is_resource($stream) || feof($stream)) {
+			return null;
+		}
 
 		$httpClient = $this->service->newClient();
 
+		$convert = false;
+		$autorotate = true;
+
 		switch ($file->getMimeType()) {
+			case 'image/heic':
+				// Autorotate seems to be broken for Heic so disable for that
+				$autorotate = false;
+				$mimeType = 'jpeg';
+				break;
 			case 'image/gif':
 			case 'image/png':
+				$mimeType = 'png';
+				break;
+			case 'image/svg+xml':
+			case 'application/pdf':
+			case 'application/illustrator':
+				$convert = true;
+				// Converted files do not need to be autorotated
+				$autorotate = false;
 				$mimeType = 'png';
 				break;
 			default:
 				$mimeType = 'jpeg';
 		}
 
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
 
-		$operations = [
-			[
-				'operation' => 'autorotate',
-			],
-			[
-				'operation' => ($crop ? 'smartcrop' : 'fit'),
+		switch ($preview_format) { // Change the format to the correct one
+			case 'webp':
+				$mimeType = 'webp';
+				break;
+			default:
+		}
+
+		$operations = [];
+
+		if ($convert) {
+			$operations[] = [
+				'operation' => 'convert',
 				'params' => [
-					'width' => $maxX,
-					'height' => $maxY,
-					'stripmeta' => 'true',
 					'type' => $mimeType,
-					'norotation' => 'true',
-					'quality' => $quality,
 				]
+			];
+		} elseif ($autorotate) {
+			$operations[] = [
+				'operation' => 'autorotate',
+			];
+		}
+
+		switch ($mimeType) {
+			case 'jpeg':
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+				break;
+			case 'webp':
+				$quality = $this->config->getAppValue('preview', 'webp_quality', '80');
+				break;
+			default:
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		}
+
+		$operations[] = [
+			'operation' => ($crop ? 'smartcrop' : 'fit'),
+			'params' => [
+				'width' => $maxX,
+				'height' => $maxY,
+				'stripmeta' => 'true',
+				'type' => $mimeType,
+				'norotation' => 'true',
+				'quality' => $quality,
 			]
 		];
 
 		try {
+			$imaginaryKey = $this->config->getSystemValueString('preview_imaginary_key', '');
 			$response = $httpClient->post(
 				$imaginaryUrl . '/pipeline', [
-					'query' => ['operations' => json_encode($operations)],
+					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
 					'stream' => true,
 					'content-type' => $file->getMimeType(),
 					'body' => $stream,
 					'nextcloud' => ['allow_local_address' => true],
+					'timeout' => 120,
+					'connect_timeout' => 3,
 				]);
-		} catch (\Exception $e) {
-			$this->logger->error('Imaginary preview generation failed: ' . $e->getMessage(), [
+		} catch (\Throwable $e) {
+			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);
 			return null;
 		}
 
 		if ($response->getStatusCode() !== 200) {
-			$this->logger->error('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
+			$this->logger->info('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
 			return null;
 		}
 

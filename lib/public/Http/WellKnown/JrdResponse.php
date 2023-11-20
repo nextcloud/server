@@ -38,7 +38,6 @@ use function array_filter;
  * @since 21.0.0
  */
 final class JrdResponse implements IResponse {
-
 	/** @var string */
 	private $subject;
 

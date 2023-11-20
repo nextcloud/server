@@ -30,7 +30,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s sdílí „%2$s“ a dodává:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s sdílí „%2$s“ a dodává",
     "»%s« added a note to a file shared with you" : "„%s“ dodává poznámku k nasdílenému souboru",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s „%1$s“ nasdílel(a) %2$s. Sdílení bylo již příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %3$s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset ručně přeposlat.",
+    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s „%1$s“ nasdílel(a) %2$s. Sdílení bylo už příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %3$s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset ručně přeposlat.",
     "Password to access »%1$s« shared by you with %2$s" : "Heslo pro přístup k „%1$s“ nasdílenému vámi pro %2$s",
     "This is the password:" : "Toto je heslo:",
     "You can choose a different password at any time in the share dialog." : "V dialogu sdílení můžete kdykoliv vybrat jiné heslo.",

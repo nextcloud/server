@@ -27,6 +27,7 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3MultipartUploadException;
+use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
 use GuzzleHttp\Psr7;
@@ -44,6 +45,7 @@ trait S3ObjectTrait {
 	abstract protected function getConnection();
 
 	abstract protected function getCertificateBundlePath(): ?string;
+	abstract protected function getSSECParameters(bool $copy = false): array;
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -53,12 +55,12 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function readObject($urn) {
-		return SeekableHttpStream::open(function ($range) use ($urn) {
+		$fh = SeekableHttpStream::open(function ($range) use ($urn) {
 			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			]);
+			] + $this->getSSECParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -87,6 +89,10 @@ trait S3ObjectTrait {
 			$context = stream_context_create($opts);
 			return fopen($request->getUri(), 'r', false, $context);
 		});
+		if (!$fh) {
+			throw new \Exception("Failed to read object $urn");
+		}
+		return $fh;
 	}
 
 
@@ -106,7 +112,7 @@ trait S3ObjectTrait {
 			'ACL' => 'private',
 			'ContentType' => $mimetype,
 			'StorageClass' => $this->storageClass,
-		]);
+		] + $this->getSSECParameters());
 	}
 
 
@@ -126,7 +132,7 @@ trait S3ObjectTrait {
 			'params' => [
 				'ContentType' => $mimetype,
 				'StorageClass' => $this->storageClass,
-			],
+			] + $this->getSSECParameters(),
 		]);
 
 		try {
@@ -181,10 +187,25 @@ trait S3ObjectTrait {
 	}
 
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
+		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
 	}
 
-	public function copyObject($from, $to) {
-		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
+	public function copyObject($from, $to, array $options = []) {
+		$sourceMetadata = $this->getConnection()->headObject([
+			'Bucket' => $this->getBucket(),
+			'Key' => $from,
+		] + $this->getSSECParameters());
+
+		$copy = new MultipartCopy($this->getConnection(), [
+			"source_bucket" => $this->getBucket(),
+			"source_key" => $from
+		], array_merge([
+			"bucket" => $this->getBucket(),
+			"key" => $to,
+			"acl" => "private",
+			"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
+			"source_metadata" => $sourceMetadata
+		], $options));
+		$copy->copy();
 	}
 }

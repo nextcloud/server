@@ -30,7 +30,6 @@ namespace OCP\Group\Backend;
  * @since 17.0.0
  */
 interface IGetDisplayNameBackend {
-
 	/**
 	 * @param string $gid
 	 * @return string

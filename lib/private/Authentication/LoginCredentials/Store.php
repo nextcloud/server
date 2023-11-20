@@ -38,7 +38,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
-
 	/** @var ISession */
 	private $session;
 

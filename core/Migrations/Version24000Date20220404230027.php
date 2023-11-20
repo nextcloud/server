@@ -52,11 +52,15 @@ class Version24000Date20220404230027 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 50,
 			]);
-			$table->addColumn('metadata', Types::JSON, [
-				'notnull' => true,
+			$table->addColumn('value', Types::TEXT, [
+				'notnull' => false,
+				'default' => '',
 			]);
 			$table->setPrimaryKey(['id', 'group_name'], 'file_metadata_idx');
+
+			return $schema;
 		}
-		return $schema;
+
+		return null;
 	}
 }

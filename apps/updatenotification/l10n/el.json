@@ -19,11 +19,10 @@
     "Download now" : "Λήψη τώρα",
     "Please use the command line updater to update." : "Παρακαλούμε κάντε ενημέρωση μέσω γραμμής εντολών.",
     "What's new?" : "Τι νέο υπάρχει;",
+    "View changelog" : "Εμφάνιση αλλαγών",
     "The update check is not yet finished. Please refresh the page." : "Ο έλεγχος ενημερώσεων δεν τελείωσε ακόμη. Παρακαλώ ανανεώστε την σελίδα.",
     "Your version is up to date." : "Έχετε την τελευταία έκδοση.",
     "A non-default update server is in use to be checked for updates:" : "Ένας μή-προεπιλεγμένος διακομιστής είναι σε χρήση για έλεγχο ενημερώσεων:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Μπορείτε να αλλάξετε το κανάλι ενημέρωσης παρακάτω, το οποίο επηρεάζει επίσης τη σελίδα διαχείρισης εφαρμογών. Π.χ. μετά την αλλαγή στο κανάλι beta, θα σας προσφέρονται ενημερώσεις εφαρμογών beta στη σελίδα διαχείρισης εφαρμογών.",
-    "Update channel:" : "Ενημέρωση καναλιού:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Μπορείτε πάντα να ενημερώσετε σε μια νεότερη έκδοση. Αλλά δεν μπορείτε ποτέ να υποβαθμίσετε σε μια πιο σταθερή έκδοση.",
     "Notify members of the following groups about available updates:" : "Να ενημερωθούν τα μέλη των παρακάτω ομάδων σχετικά με τις διαθέσιμες ενημερώσεις:",
     "Only notifications for app updates are available." : "Διατίθενται μόνο ειδοποιήσεις για ενημερώσεις εφαρμογών.",
@@ -36,7 +35,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Σιγουρευτείτε πως το config.php δεν έχει οριστεί σε ψευδήςψ<samp>ενεργοποίησηαγοράςεφαρμογών</samp>.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Δεν ήταν δυνατή η σύνδεση στο App Store ή δε βρέθηκαν καθόλου ενημερώσεις. Αναζητήστε χειρωνακτικά ενημερώσεις ή βεβαιωθείτε ότι ο διακομιστής σας έχει πρόσβαση στο διαδίκτυο και μπορεί να συνδεθεί στο App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Όλες</strong> οι εφαρμογές έχουν διαθέσιμη μια συμβατή έκδοση για αυτήν την έκδοση Nextcloud.",
-    "View changelog" : "Εμφάνιση αλλαγών",
     "Enterprise" : "Επαγγελματιών",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Για επαγγελματική χρήση. Παρέχει πάντα την τελευταία ενημέρωση, αλλά δεν θα ενημερωθεί αμέσως στην επόμενη μεγάλη έκδοση. Η ενημέρωση αυτή συμβαίνει μόλις η Nextcloud GmbH πραγματοποιήσει επιπλέον ελέγχους και δοκιμές για εφαρμογές μεγάλης κλίμακας και κρίσιμης σημασίας για την αποστολή. Αυτό το κανάλι είναι διαθέσιμο μόνο στους πελάτες και παρέχει το πακέτο Nextcloud για Επαγγελματίες.",
     "Stable" : "Σταθερός",
@@ -44,6 +42,8 @@
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Είναι διαθέσιμη η ενημέρωση από την έκδοση %1$s στην %2$s."
+    "Update for %1$s to version %2$s is available." : "Είναι διαθέσιμη η ενημέρωση από την έκδοση %1$s στην %2$s.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Μπορείτε να αλλάξετε το κανάλι ενημέρωσης παρακάτω, το οποίο επηρεάζει επίσης τη σελίδα διαχείρισης εφαρμογών. Π.χ. μετά την αλλαγή στο κανάλι beta, θα σας προσφέρονται ενημερώσεις εφαρμογών beta στη σελίδα διαχείρισης εφαρμογών.",
+    "Update channel:" : "Ενημέρωση καναλιού:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

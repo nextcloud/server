@@ -621,7 +621,7 @@ trait Sharing {
 			return;
 		}
 
-		if (!array_key_exists($field, $returnedShare)) {
+		if (!property_exists($returnedShare, $field)) {
 			Assert::fail("$field was not found in response");
 		}
 

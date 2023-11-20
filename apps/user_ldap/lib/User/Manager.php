@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
@@ -152,10 +153,19 @@ class Manager {
 			$this->access->getConnection()->ldapUserDisplayName,
 			$this->access->getConnection()->ldapUserDisplayName2,
 			$this->access->getConnection()->ldapExtStorageHomeAttribute,
+			$this->access->getConnection()->ldapAttributePhone,
+			$this->access->getConnection()->ldapAttributeWebsite,
+			$this->access->getConnection()->ldapAttributeAddress,
+			$this->access->getConnection()->ldapAttributeTwitter,
+			$this->access->getConnection()->ldapAttributeFediverse,
+			$this->access->getConnection()->ldapAttributeOrganisation,
+			$this->access->getConnection()->ldapAttributeRole,
+			$this->access->getConnection()->ldapAttributeHeadline,
+			$this->access->getConnection()->ldapAttributeBiography,
 		];
 
 		$homeRule = (string)$this->access->getConnection()->homeFolderNamingRule;
-		if (strpos($homeRule, 'attr:') === 0) {
+		if (str_starts_with($homeRule, 'attr:')) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
 		}
 

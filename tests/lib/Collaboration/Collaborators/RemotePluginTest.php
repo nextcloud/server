@@ -40,7 +40,6 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class RemotePluginTest extends TestCase {
-
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 

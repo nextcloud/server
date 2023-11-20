@@ -35,8 +35,6 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 
 interface IProvider {
-
-
 	/**
 	 * Create and persist a new token
 	 *
@@ -110,6 +108,11 @@ interface IProvider {
 	 * Invalidate (delete) old session tokens
 	 */
 	public function invalidateOldTokens();
+
+	/**
+	 * Invalidate (delete) tokens last used before a given date
+	 */
+	public function invalidateLastUsedBefore(string $uid, int $before): void;
 
 	/**
 	 * Save the updated token

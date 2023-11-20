@@ -35,7 +35,6 @@ namespace OCP\UserStatus;
  * @since 20.0.0
  */
 interface IManager {
-
 	/**
 	 * Gets the statuses for all users in $users
 	 *

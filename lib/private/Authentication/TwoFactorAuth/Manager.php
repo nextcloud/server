@@ -36,6 +36,8 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserDisabled;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserEnabled;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -44,8 +46,6 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_diff;
 use function array_filter;
 
@@ -85,9 +85,6 @@ class Manager {
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
 	/** @psalm-var array<string, bool> */
 	private $userIsTwoFactorAuthenticated = [];
 
@@ -100,8 +97,7 @@ class Manager {
 								LoggerInterface $logger,
 								TokenProvider $tokenProvider,
 								ITimeFactory $timeFactory,
-								IEventDispatcher $eventDispatcher,
-								EventDispatcherInterface $legacyDispatcher) {
+								IEventDispatcher $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -112,14 +108,10 @@ class Manager {
 		$this->tokenProvider = $tokenProvider;
 		$this->timeFactory = $timeFactory;
 		$this->dispatcher = $eventDispatcher;
-		$this->legacyDispatcher = $legacyDispatcher;
 	}
 
 	/**
 	 * Determine whether the user must provide a second factor challenge
-	 *
-	 * @param IUser $user
-	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
 		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
@@ -143,18 +135,13 @@ class Manager {
 
 	/**
 	 * Get a 2FA provider by its ID
-	 *
-	 * @param IUser $user
-	 * @param string $challengeProviderId
-	 * @return IProvider|null
 	 */
-	public function getProvider(IUser $user, string $challengeProviderId) {
+	public function getProvider(IUser $user, string $challengeProviderId): ?IProvider {
 		$providers = $this->getProviderSet($user)->getProviders();
 		return $providers[$challengeProviderId] ?? null;
 	}
 
 	/**
-	 * @param IUser $user
 	 * @return IActivatableAtLogin[]
 	 * @throws Exception
 	 */
@@ -280,21 +267,17 @@ class Manager {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
 			$tokenId = $token->getId();
-			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $tokenId);
-
-			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->legacyDispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
+			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', (string)$tokenId);
 
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_success', [
 				'provider' => $provider->getDisplayName(),
 			]);
 		} else {
-			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->legacyDispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
-
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_failed', [
 				'provider' => $provider->getDisplayName(),
@@ -342,7 +325,6 @@ class Manager {
 
 		// First check if the session tells us we should do 2FA (99% case)
 		if (!$this->session->exists(self::SESSION_UID_KEY)) {
-
 			// Check if the session tells us it is 2FA authenticated already
 			if ($this->session->exists(self::SESSION_UID_DONE) &&
 				$this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
@@ -396,7 +378,7 @@ class Manager {
 
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), $this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), (string)$this->timeFactory->getTime());
 	}
 
 	public function clearTwoFactorPending(string $userId) {

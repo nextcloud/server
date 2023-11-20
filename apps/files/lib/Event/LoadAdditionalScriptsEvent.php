@@ -31,18 +31,7 @@ use OCP\EventDispatcher\Event;
 
 /**
  * This event is triggered when the files app is rendered.
- * It can be used to add additional scripts to the files app.
  *
  * @since 17.0.0
  */
-class LoadAdditionalScriptsEvent extends Event {
-	private $hiddenFields = [];
-
-	public function addHiddenField(string $name, string $value): void {
-		$this->hiddenFields[$name] = $value;
-	}
-
-	public function getHiddenFields(): array {
-		return $this->hiddenFields;
-	}
-}
+class LoadAdditionalScriptsEvent extends Event {}

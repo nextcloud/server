@@ -50,7 +50,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 	/** @var LoggerInterface | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	private function init() {
+	private function init(): void {
 		$config = $this->createMock(SystemConfig::class);
 		$config->expects($this->any())
 			->method('getValue')
@@ -72,7 +72,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 	/**
 	 * @dataProvider providesExceptions
 	 */
-	public function testLogging(string $expectedLogLevel, \Throwable $e) {
+	public function testLogging(string $expectedLogLevel, \Throwable $e): void {
 		$this->init();
 
 		$this->logger->expects($this->once())

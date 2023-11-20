@@ -29,8 +29,6 @@ OC.L10N.register(
     "Missing Signature" : "Mungon Nënshkrimi",
     "one-time password for server-side-encryption" : "fjalëkalim vetëm për një herë, për fshehtëzim-më-anë-shërbyesi",
     "Default encryption module" : "Modul i parazgjedhur fshehtëzimi",
-    "The share will expire on %s." : "Ndarja do të skadojë më %s.",
-    "Cheers!" : "Gëzuar!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen",
     "Encrypt the home storage" : "Fshehtëzo depozitën bazë",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivizimi i kësaj mundësie fshehtëzon krejt kartelat e depozituara në depon bazë, përndryshe do të fshehtëzohen vetëm kartelat në depozitën e jashtme",
@@ -54,6 +52,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivizo rimarrje fjalëkalimesh:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
-    "Disabled" : "E çaktivizuar"
+    "Disabled" : "E çaktivizuar",
+    "The share will expire on %s." : "Ndarja do të skadojë më %s.",
+    "Cheers!" : "Gëzuar!"
 },
 "nplurals=2; plural=(n != 1);");

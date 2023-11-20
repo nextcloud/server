@@ -25,7 +25,6 @@ namespace OC\Encryption\Exceptions;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class EncryptionHeaderKeyExistsException extends GenericEncryptionException {
-
 	/**
 	 * @param string $key
 	 */

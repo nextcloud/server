@@ -30,6 +30,7 @@ namespace OCA\Federation\Controller;
 
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -79,7 +80,13 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @throws OCSForbiddenException
+	 *
+	 * @param string $url URL of the server
+	 * @param string $token Token of the server
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSForbiddenException Requesting shared secret is not allowed
+	 *
+	 * 200: Shared secret requested successfully
 	 */
 	public function requestSharedSecretLegacy(string $url, string $token): DataResponse {
 		return $this->requestSharedSecret($url, $token);
@@ -91,7 +98,13 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @throws OCSForbiddenException
+	 *
+	 * @param string $url URL of the server
+	 * @param string $token Token of the server
+	 * @return DataResponse<Http::STATUS_OK, array{sharedSecret: string}, array{}>
+	 * @throws OCSForbiddenException Getting shared secret is not allowed
+	 *
+	 * 200: Shared secret returned
 	 */
 	public function getSharedSecretLegacy(string $url, string $token): DataResponse {
 		return $this->getSharedSecret($url, $token);
@@ -102,7 +115,13 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @throws OCSForbiddenException
+	 *
+	 * @param string $url URL of the server
+	 * @param string $token Token of the server
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSForbiddenException Requesting shared secret is not allowed
+	 *
+	 * 200: Shared secret requested successfully
 	 */
 	public function requestSharedSecret(string $url, string $token): DataResponse {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
@@ -138,7 +157,13 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @throws OCSForbiddenException
+	 *
+	 * @param string $url URL of the server
+	 * @param string $token Token of the server
+	 * @return DataResponse<Http::STATUS_OK, array{sharedSecret: string}, array{}>
+	 * @throws OCSForbiddenException Getting shared secret is not allowed
+	 *
+	 * 200: Shared secret returned
 	 */
 	public function getSharedSecret(string $url, string $token): DataResponse {
 		if ($this->trustedServers->isTrustedServer($url) === false) {

@@ -24,6 +24,7 @@
 !/apps/sharebymail
 !/apps/encryption
 !/apps/files_external
+!/apps/files_reminders
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
@@ -96,6 +97,7 @@ nbproject
 
 # vscode
 .vscode
+*.code-workspace
 
 # geany
 *.geany
@@ -153,6 +155,7 @@ Vagrantfile
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml
+/coverage
 
 # Tests - dependencies
 tests/acceptance/vendor/

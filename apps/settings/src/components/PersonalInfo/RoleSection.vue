@@ -22,6 +22,7 @@
 
 <template>
 	<AccountPropertySection v-bind.sync="role"
+		autocomplete="organization-title"
 		:placeholder="t('settings', 'Your role')" />
 </template>
 

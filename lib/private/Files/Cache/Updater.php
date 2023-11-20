@@ -27,10 +27,12 @@
  */
 namespace OC\Files\Cache;
 
+use Doctrine\DBAL\Exception\DeadlockException;
 use OC\Files\FileInfo;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Storage\IStorage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Update the cache and propagate changes
@@ -62,6 +64,8 @@ class Updater implements IUpdater {
 	 */
 	protected $cache;
 
+	private LoggerInterface $logger;
+
 	/**
 	 * @param \OC\Files\Storage\Storage $storage
 	 */
@@ -70,6 +74,7 @@ class Updater implements IUpdater {
 		$this->propagator = $storage->getPropagator();
 		$this->scanner = $storage->getScanner();
 		$this->cache = $storage->getCache();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	/**
@@ -253,7 +258,14 @@ class Updater implements IUpdater {
 		if ($parentId != -1) {
 			$mtime = $this->storage->filemtime($parent);
 			if ($mtime !== false) {
-				$this->cache->update($parentId, ['storage_mtime' => $mtime]);
+				try {
+					$this->cache->update($parentId, ['storage_mtime' => $mtime]);
+				} catch (DeadlockException $e) {
+					// ignore the failure.
+					// with failures concurrent updates, someone else would have already done it.
+					// in the worst case the `storage_mtime` isn't updated, which should at most only trigger an extra rescan
+					$this->logger->warning("Error while updating parent storage_mtime, should be safe to ignore", ['exception' => $e]);
+				}
 			}
 		}
 	}

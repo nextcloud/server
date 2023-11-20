@@ -18,13 +18,13 @@ OC.L10N.register(
     "No more messages" : "Engin fleiri skilaboð",
     "Retry" : "Reyna aftur",
     "Unable to load the comments list" : "Gat ekki hlaðið inn lista yfir athugasemdir",
-    "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"],
     "_1 new comment_::_{unread} new comments_" : ["1 ný athugasemd","{unread} nýjar athugasemdir"],
     "Comment" : "Athugasemd",
     "An error occurred while trying to edit the comment" : "Villa átti sér stað við að breyta athugasemdinni",
     "Comment deleted" : "Athugasemd var eytt",
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
     "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
-    "%1$s commented" : "%1$s setti inn athugasemd"
+    "%1$s commented" : "%1$s setti inn athugasemd",
+    "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"]
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

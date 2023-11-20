@@ -95,6 +95,7 @@ OC.L10N.register(
     "in %s" : "in %s",
     "Unknown error" : "Error incognite",
     "Show hidden files" : "Monstrar files occultate",
+    "WebDAV" : "WebDAV",
     "Cancel" : "Cancellar",
     "Create" : "Crear",
     "No files in here" : "Nulle files ci",
@@ -118,7 +119,6 @@ OC.L10N.register(
     "Copied!" : "Copiate!",
     "Unlimited" : "Ilimitate",
     "%1$s of %2$s used" : "%1$s de %2$s usate",
-    "Settings" : "Configurationes",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Configurationes"
 },
 "nplurals=2; plural=(n != 1);");

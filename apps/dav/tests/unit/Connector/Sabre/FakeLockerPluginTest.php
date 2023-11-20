@@ -50,7 +50,7 @@ class FakeLockerPluginTest extends TestCase {
 		$this->fakeLockerPlugin = new FakeLockerPlugin();
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		/** @var Server $server */
 		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
@@ -68,7 +68,7 @@ class FakeLockerPluginTest extends TestCase {
 		$this->fakeLockerPlugin->initialize($server);
 	}
 
-	public function testGetHTTPMethods() {
+	public function testGetHTTPMethods(): void {
 		$expected = [
 			'LOCK',
 			'UNLOCK',
@@ -76,14 +76,14 @@ class FakeLockerPluginTest extends TestCase {
 		$this->assertSame($expected, $this->fakeLockerPlugin->getHTTPMethods('Test'));
 	}
 
-	public function testGetFeatures() {
+	public function testGetFeatures(): void {
 		$expected = [
 			2,
 		];
 		$this->assertSame($expected, $this->fakeLockerPlugin->getFeatures());
 	}
 
-	public function testPropFind() {
+	public function testPropFind(): void {
 		$propFind = $this->getMockBuilder(PropFind::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -143,7 +143,7 @@ class FakeLockerPluginTest extends TestCase {
 	 * @param array $input
 	 * @param array $expected
 	 */
-	public function testValidateTokens(array $input, array $expected) {
+	public function testValidateTokens(array $input, array $expected): void {
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -151,7 +151,7 @@ class FakeLockerPluginTest extends TestCase {
 		$this->assertSame($expected, $input);
 	}
 
-	public function testFakeLockProvider() {
+	public function testFakeLockProvider(): void {
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -171,7 +171,7 @@ class FakeLockerPluginTest extends TestCase {
 		$this->assertXmlStringEqualsXmlString($expectedXml, $response->getBody());
 	}
 
-	public function testFakeUnlockProvider() {
+	public function testFakeUnlockProvider(): void {
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();

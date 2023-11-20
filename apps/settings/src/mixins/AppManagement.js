@@ -42,9 +42,9 @@ export default {
 		},
 		forceEnableButtonText() {
 			if (this.app.needsDownload) {
-				return t('settings', 'Enable untested app')
+				return t('settings', 'Allow untested app')
 			}
-			return t('settings', 'Enable untested app')
+			return t('settings', 'Allow untested app')
 		},
 		enableButtonTooltip() {
 			if (this.app.needsDownload) {
@@ -98,7 +98,8 @@ export default {
 			}
 			return true
 		},
-		addGroupLimitation(group) {
+		addGroupLimitation(groupArray) {
+			const group = groupArray.pop()
 			const groups = this.app.groups.concat([]).concat([group.id])
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
 		},

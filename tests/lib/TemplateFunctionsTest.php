@@ -57,6 +57,47 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		print_unescaped($string);
 	}
 
+	public function testEmitScriptTagWithContent() {
+		$this->expectOutputRegex('/<script nonce="[^"]+">\nalert\(\)\n<\/script>\n?/');
+		emit_script_tag('', 'alert()');
+	}
+
+	public function testEmitScriptTagWithSource() {
+		$this->expectOutputRegex('/<script nonce=".*" defer src="some.js"><\/script>/');
+		emit_script_tag('some.js');
+	}
+
+	public function testEmitScriptTagWithModuleSource() {
+		$this->expectOutputRegex('/<script nonce=".*" defer src="some.mjs" type="module"><\/script>/');
+		emit_script_tag('some.mjs', '', 'module');
+	}
+
+	public function testEmitScriptLoadingTags() {
+		// Test mjs js and inline content
+		$pattern = '/src="some\.mjs"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern .= '<script[^>]+src="other\.js"[^>]*>.+\n'; // other.js as plain javascript
+		$pattern .= '<script[^>]*>\n?.*inline.*\n?<\/script>'; // inline content
+		$pattern .= '/'; // no flags
+
+		$this->expectOutputRegex($pattern);
+		emit_script_loading_tags([
+			'jsfiles' => ['some.mjs', 'other.js'],
+			'inline_ocjs' => '// inline'
+		]);
+	}
+
+	public function testEmitScriptLoadingTagsWithVersion() {
+		// Test mjs js and inline content
+		$pattern = '/src="some\.mjs\?v=ab123cd"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern .= '<script[^>]+src="other\.js\?v=12abc34"[^>]*>.+\n'; // other.js as plain javascript
+		$pattern .= '/'; // no flags
+
+		$this->expectOutputRegex($pattern);
+		emit_script_loading_tags([
+			'jsfiles' => ['some.mjs?v=ab123cd', 'other.js?v=12abc34'],
+		]);
+	}
+
 	// ---------------------------------------------------------------------------
 	// Test relative_modified_date with dates only
 	// ---------------------------------------------------------------------------

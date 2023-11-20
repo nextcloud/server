@@ -30,7 +30,6 @@ namespace OC\Session;
 use OCP\ISession;
 
 abstract class Session implements \ArrayAccess, ISession {
-
 	/**
 	 * @var bool
 	 */

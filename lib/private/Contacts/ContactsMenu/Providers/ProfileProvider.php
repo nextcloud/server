@@ -33,30 +33,16 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
 
 class ProfileProvider implements IProvider {
-	private IActionFactory $actionFactory;
-	private ProfileManager $profileManager;
-	private IL10NFactory $l10nFactory;
-	private IURLGenerator $urlGenerator;
-	private IUserManager $userManager;
-
 	public function __construct(
-		IActionFactory $actionFactory,
-		ProfileManager $profileManager,
-		IL10NFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager
+		private IActionFactory $actionFactory,
+		private ProfileManager $profileManager,
+		private IL10NFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
 	) {
-		$this->actionFactory = $actionFactory;
-		$this->profileManager = $profileManager;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
 	}
 
-	/**
-	 * @param IEntry $entry
-	 */
-	public function process(IEntry $entry) {
+	public function process(IEntry $entry): void {
 		$targetUserId = $entry->getProperty('UID');
 		$targetUser = $this->userManager->get($targetUserId);
 		if (!empty($targetUser)) {

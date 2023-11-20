@@ -57,9 +57,7 @@ OC.L10N.register(
     "Custom mimetype" : "Personaliza sa genia MIME",
     "Please enter a valid time span" : "Inserta•nche un'intervallu de tempus bàlidu",
     "Select a request URL" : "Seletziona unu URL de rechesta",
-    "Predefined URLs" : "URL predefinidos",
     "Files WebDAV" : "Archìvios WebDAV",
-    "Others" : "Àtere",
     "Custom URL" : "Personaliza URL",
     "Select a user agent" : "Seletziona un'agente de utente",
     "Android client" : "Cliente Android",
@@ -111,9 +109,7 @@ OC.L10N.register(
     "User group membership" : "Apartenèntzia de is utentes a is grupos",
     "is member of" : "partètzipat a",
     "is not member of" : "no partètzipat a",
-    "Select a tag" : "Seletziona un'eticheta",
-    "No results" : "Perunu resurtadu",
-    "%s (invisible)" : "%s (invisìbile)",
-    "%s (restricted)" : "%s (limitadu)"
+    "Predefined URLs" : "URL predefinidos",
+    "Others" : "Àtere"
 },
 "nplurals=2; plural=(n != 1);");

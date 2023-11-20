@@ -35,7 +35,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class MandatoryTwoFactorTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	private $config;
 

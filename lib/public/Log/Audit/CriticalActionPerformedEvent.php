@@ -33,7 +33,6 @@ use OCP\EventDispatcher\Event;
  * @since 22.0.0
  */
 class CriticalActionPerformedEvent extends Event {
-
 	/** @var string */
 	private $logMessage;
 
