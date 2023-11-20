@@ -4,7 +4,8 @@
 -->
 <template>
 	<div class="header-menu unified-search-menu">
-		<NcButton class="header-menu__trigger"
+		<NcButton v-show="!showLocalSearch"
+			class="header-menu__trigger"
 			:aria-label="t('core', 'Unified search')"
 			type="tertiary-no-background"
 			@click="toggleUnifiedSearch">
@@ -12,39 +13,132 @@
 				<Magnify class="header-menu__trigger-icon" :size="20" />
 			</template>
 		</NcButton>
-		<UnifiedSearchModal :is-visible="showUnifiedSearch" @update:isVisible="handleModalVisibilityChange" />
+		<UnifiedSearchLocalSearchBar v-if="supportsLocalSearch"
+			:open.sync="showLocalSearch"
+			:query.sync="queryText"
+			@global-search="openModal" />
+		<UnifiedSearchModal :local-search="supportsLocalSearch"
+			:query.sync="queryText"
+			:open.sync="showUnifiedSearch" />
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { translate } from '@nextcloud/l10n'
+import { useBrowserLocation } from '@vueuse/core'
+import { defineComponent } from 'vue'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
-import UnifiedSearchModal from './UnifiedSearchModal.vue'
+import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
+import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
 
-export default {
+import debounce from 'debounce'
+import logger from '../logger'
+
+export default defineComponent({
 	name: 'UnifiedSearch',
+
 	components: {
 		NcButton,
 		Magnify,
 		UnifiedSearchModal,
+		UnifiedSearchLocalSearchBar,
 	},
-	data() {
+
+	setup() {
+		const currentLocation = useBrowserLocation()
+
 		return {
-			showUnifiedSearch: false,
+			currentLocation,
+			t: translate,
 		}
 	},
+
+	data() {
+		return {
+			/** The current search query */
+			queryText: '',
+			/** Open state of the modal */
+			showUnifiedSearch: false,
+			/** Open state of the local search bar */
+			showLocalSearch: false,
+		}
+	},
+
+	computed: {
+		/**
+		 * Debounce emitting the search query by 250ms
+		 */
+		debouncedQueryUpdate() {
+			return debounce(this.emitUpdatedQuery, 250)
+		},
+
+		/**
+		 * Current page (app) supports local in-app search
+		 */
+		supportsLocalSearch() {
+			// TODO: Make this an API
+			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck']
+			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
+		},
+	},
+
+	watch: {
+		/**
+		 * Emit the updated query as eventbus events
+		 * (This is debounced)
+		 */
+		queryText() {
+			this.debouncedQueryUpdate()
+		},
+	},
+
 	mounted() {
-		console.debug('Unified search initialized!')
+		logger.debug('Unified search initialized!')
+
+		// Deprecated events to be removed
+		subscribe('nextcloud:unified-search:reset', () => {
+			emit('nextcloud:unified-search.reset', { query: '' })
+		})
+		subscribe('nextcloud:unified-search:search', ({ query }) => {
+			emit('nextcloud:unified-search.search', { query })
+		})
 	},
+
 	methods: {
+		/**
+		 * Toggle the local search if available - otherwise open the unified search modal
+		 */
 		toggleUnifiedSearch() {
-			this.showUnifiedSearch = !this.showUnifiedSearch
+			if (this.supportsLocalSearch) {
+				this.showLocalSearch = true
+			} else {
+				this.openModal()
+			}
 		},
-		handleModalVisibilityChange(newVisibilityVal) {
-			this.showUnifiedSearch = newVisibilityVal
+
+		/**
+		 * Open the unified search modal
+		 */
+		openModal() {
+			this.showUnifiedSearch = true
+			this.showLocalSearch = false
+		},
+
+		/**
+		 * Emit the updated search query as eventbus events
+		 */
+		emitUpdatedQuery() {
+			if (this.queryText === '') {
+				emit('nextcloud:unified-search:reset')
+			} else {
+				emit('nextcloud:unified-search:search', { query: this.queryText })
+			}
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
