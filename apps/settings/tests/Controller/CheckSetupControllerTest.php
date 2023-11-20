@@ -57,7 +57,6 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
@@ -91,7 +90,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $dispatcher;
 	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
-	private IThrottler $throttler;
 	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
@@ -142,7 +140,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->db = $this->getMockBuilder(Connection::class)
 			->disableOriginalConstructor()->getMock();
-		$this->throttler = $this->createMock(IThrottler::class);
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
@@ -169,7 +166,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->iniGetWrapper,
 				$this->connection,
-				$this->throttler,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -441,8 +437,6 @@ class CheckSetupControllerTest extends TestCase {
 				'imageMagickLacksSVGSupport' => false,
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
-				'isBruteforceThrottled' => false,
-				'bruteforceRemoteAddress' => '',
 				'generic' => [],
 			]
 		);
@@ -466,7 +460,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->iniGetWrapper,
 				$this->connection,
-				$this->throttler,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -1193,7 +1186,6 @@ Array
 			$this->dateTimeFormatter,
 			$this->iniGetWrapper,
 			$this->connection,
-			$this->throttler,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,
@@ -1247,7 +1239,6 @@ Array
 			$this->dateTimeFormatter,
 			$this->iniGetWrapper,
 			$this->connection,
-			$this->throttler,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,

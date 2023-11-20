@@ -535,61 +535,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if the admin IP is bruteforce throttled', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isFairUseOfFreePushService: true,
-					isBruteforceThrottled: true,
-					bruteforceRemoteAddress: '::1',
-					forwardedForHeadersWorking: true,
-					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					OpcacheSetupRecommendations: [],
-					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					appDirsWithDifferentOwner: [],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your remote address was identified as "::1" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">documentation ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if set_time_limit is unavailable', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
