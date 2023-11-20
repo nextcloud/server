@@ -290,6 +290,7 @@ return array(
     'OCP\\FilesMetadata\\AMetadataEvent' => $baseDir . '/lib/public/FilesMetadata/AMetadataEvent.php',
     'OCP\\FilesMetadata\\Event\\MetadataBackgroundEvent' => $baseDir . '/lib/public/FilesMetadata/Event/MetadataBackgroundEvent.php',
     'OCP\\FilesMetadata\\Event\\MetadataLiveEvent' => $baseDir . '/lib/public/FilesMetadata/Event/MetadataLiveEvent.php',
+    'OCP\\FilesMetadata\\Event\\MetadataNamedEvent' => $baseDir . '/lib/public/FilesMetadata/Event/MetadataNamedEvent.php',
     'OCP\\FilesMetadata\\Exceptions\\FilesMetadataException' => $baseDir . '/lib/public/FilesMetadata/Exceptions/FilesMetadataException.php',
     'OCP\\FilesMetadata\\Exceptions\\FilesMetadataKeyFormatException' => $baseDir . '/lib/public/FilesMetadata/Exceptions/FilesMetadataKeyFormatException.php',
     'OCP\\FilesMetadata\\Exceptions\\FilesMetadataNotFoundException' => $baseDir . '/lib/public/FilesMetadata/Exceptions/FilesMetadataNotFoundException.php',

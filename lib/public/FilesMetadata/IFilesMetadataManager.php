@@ -42,6 +42,8 @@ interface IFilesMetadataManager {
 	public const PROCESS_LIVE = 1;
 	/** @since 28.0.0 */
 	public const PROCESS_BACKGROUND = 2;
+	/** @since 28.0.0 */
+	public const PROCESS_NAMED = 4;
 
 	/**
 	 * initiate the process of refreshing the metadata in relation to a node
@@ -54,15 +56,18 @@ interface IFilesMetadataManager {
 	 *
 	 * @param Node $node related node
 	 * @param int $process type of process
+	 * @param string $namedEvent limit process to a named event
 	 *
 	 * @return IFilesMetadata
 	 * @see self::PROCESS_BACKGROUND
 	 * @see self::PROCESS_LIVE
+	 * @see self::PROCESS_NAMED
 	 * @since 28.0.0
 	 */
 	public function refreshMetadata(
 		Node $node,
-		int $process = self::PROCESS_LIVE
+		int $process = self::PROCESS_LIVE,
+		string $namedEvent = ''
 	): IFilesMetadata;
 
 	/**
