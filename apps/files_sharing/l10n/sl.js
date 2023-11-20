@@ -211,6 +211,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Preteče {relativetime}",
     "this share just expired." : "to mesto souporabe je ravnokar preteklo.",
     "Shared with you by {owner}" : "Souporabo omogoča {owner}",
+    "Open in Files" : "Odpri datoteke",
     "Shared" : "V souporabi",
     "Link to a file" : "Povezava do datoteke",
     "Error creating the share: {errorMessage}" : "Napaka pri ustvarjanju mesta souporabe: {errorMessage}",
