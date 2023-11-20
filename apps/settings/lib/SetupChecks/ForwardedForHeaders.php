@@ -53,18 +53,19 @@ class ForwardedForHeaders implements ISetupCheck {
 	public function run(): SetupResult {
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
+		$detectedRemoteAddress = $this->request->getRemoteAddress();
 
 		if (!\is_array($trustedProxies)) {
 			return SetupResult::error($this->l10n->t('Your trusted_proxies setting is not correctly set, it should be an array.'));
 		}
 
-		if (($remoteAddress === '') && ($this->request->getRemoteAddress() === '')) {
+		if (($remoteAddress === '') && ($detectedRemoteAddress === '')) {
 			if (\OC::$CLI) {
 				/* We were called from CLI */
-				return SetupResult::info('Your remote address could not be determined.');
+				return SetupResult::info($this->l10n->t('Your remote address could not be determined.'));
 			} else {
 				/* Should never happen */
-				return SetupResult::error('Your remote address could not be determined.');
+				return SetupResult::error($this->l10n->t('Your remote address could not be determined.'));
 			}
 		}
 
@@ -76,9 +77,9 @@ class ForwardedForHeaders implements ISetupCheck {
 		}
 
 		if (\in_array($remoteAddress, $trustedProxies, true) && ($remoteAddress !== '127.0.0.1')) {
-			if ($remoteAddress !== $this->request->getRemoteAddress()) {
+			if ($remoteAddress !== $detectedRemoteAddress) {
 				/* Remote address was successfuly fixed */
-				return SetupResult::success('Working');
+				return SetupResult::success($this->l10n->t('Your IP address was resolved as %s', $detectedRemoteAddress));
 			} else {
 				return SetupResult::warning(
 					$this->l10n->t('The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud.'),

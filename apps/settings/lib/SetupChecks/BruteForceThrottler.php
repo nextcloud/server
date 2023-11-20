@@ -55,10 +55,10 @@ class BruteForceThrottler implements ISetupCheck {
 		if ($address === '') {
 			if (\OC::$CLI) {
 				/* We were called from CLI */
-				return SetupResult::info('Your remote address could not be determined.');
+				return SetupResult::info($this->l10n->t('Your remote address could not be determined.'));
 			} else {
 				/* Should never happen */
-				return SetupResult::error('Your remote address could not be determined.');
+				return SetupResult::error($this->l10n->t('Your remote address could not be determined.'));
 			}
 		} elseif ($this->throttler->showBruteforceWarning($address)) {
 			return SetupResult::error(
