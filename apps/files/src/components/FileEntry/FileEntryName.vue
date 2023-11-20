@@ -151,6 +151,7 @@ export default Vue.extend({
 				return {
 					title: displayName,
 					role: 'button',
+					tabindex: '0',
 				}
 			}
 
@@ -159,6 +160,7 @@ export default Vue.extend({
 					download: this.source.basename,
 					href: this.source.source,
 					title: t('files', 'Download file {name}', { name: this.displayName }),
+					tabindex: '0',
 				}
 			}
 
@@ -328,7 +330,6 @@ export default Vue.extend({
 				Vue.set(this.source, 'status', undefined)
 			}
 		},
-
 
 		t,
 	},
