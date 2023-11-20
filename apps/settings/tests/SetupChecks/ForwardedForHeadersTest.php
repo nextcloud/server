@@ -133,7 +133,7 @@ class ForwardedForHeadersTest extends TestCase {
 			->willReturn('1.1.1.1');
 
 		$this->assertEquals(
-			SetupResult::WARNING,
+			SetupResult::ERROR,
 			$this->check->run()->getSeverity()
 		);
 	}

@@ -79,7 +79,7 @@ class ForwardedForHeaders implements ISetupCheck {
 		if (\in_array($remoteAddress, $trustedProxies, true) && ($remoteAddress !== '127.0.0.1')) {
 			if ($remoteAddress !== $detectedRemoteAddress) {
 				/* Remote address was successfuly fixed */
-				return SetupResult::success($this->l10n->t('Your IP address was resolved as %s', $detectedRemoteAddress));
+				return SetupResult::success($this->l10n->t('Your IP address was resolved as %s', [$detectedRemoteAddress]));
 			} else {
 				return SetupResult::warning(
 					$this->l10n->t('The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud.'),
