@@ -13,6 +13,7 @@ use Aws\S3\S3Client;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
+use OCP\Files\NotFoundException;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -69,7 +70,11 @@ trait S3ObjectTrait {
 			}
 
 			$context = stream_context_create($opts);
-			return fopen($request->getUri(), 'r', false, $context);
+			$fh = fopen($request->getUri(), 'r', false, $context);
+			if (!$fh && isset($http_response_header[0]) && str_contains($http_response_header[0], '404')) {
+				throw new NotFoundException("object $urn not found in object store bucket " . $this->getBucket());
+			}
+			return $fh;
 		});
 		if (!$fh) {
 			throw new \Exception("Failed to read object $urn");
