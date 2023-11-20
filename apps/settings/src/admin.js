@@ -1,131 +1,8 @@
 window.addEventListener('DOMContentLoaded', () => {
-	$('#linksExcludedGroups,#passwordsExcludedGroups').each(function(index, element) {
-		OC.Settings.setupGroupsSelect($(element))
-		$(element).change(function(ev) {
-			let groups = ev.val || []
-			groups = JSON.stringify(groups)
-			OCP.AppConfig.setValue('core', $(this).attr('name'), groups)
-		})
-	})
-
 	$('#loglevel').change(function() {
 		$.post(OC.generateUrl('/settings/admin/log/level'), { level: $(this).val() }, () => {
 			OC.Log.reload()
 		})
-	})
-
-	$('#shareAPIEnabled').change(function() {
-		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked)
-	})
-
-	$('#shareapiExpireAfterNDays').on('input', function() {
-		this.value = this.value.replace(/\D/g, '')
-	})
-
-	$('#shareAPI input:not(.noJSAutoUpdate)').change(function() {
-		let value = $(this).val()
-		if ($(this).attr('type') === 'checkbox') {
-			if (this.checked) {
-				value = 'yes'
-			} else {
-				value = 'no'
-			}
-		}
-		OCP.AppConfig.setValue('core', $(this).attr('name'), value)
-	})
-
-	$('#shareapiDefaultExpireDate').change(function() {
-		$('#setDefaultExpireDate').toggleClass('hidden', !this.checked)
-	})
-
-	$('#shareapiDefaultInternalExpireDate').change(function() {
-		$('#setDefaultInternalExpireDate').toggleClass('hidden', !this.checked)
-	})
-
-	$('#shareapiDefaultRemoteExpireDate').change(function() {
-		$('#setDefaultRemoteExpireDate').toggleClass('hidden', !this.checked)
-	})
-
-	$('#enableLinkPasswordByDefault').change(function() {
-		if (this.checked) {
-			$('#enforceLinkPassword').removeAttr('disabled')
-			$('#passwordsExcludedGroups').removeAttr('disabled')
-		} else {
-			$('#enforceLinkPassword').attr('disabled', '')
-			$('#passwordsExcludedGroups').attr('disabled', '')
-
-			// Uncheck "Enforce password protection" when "Always asks for a
-			// password" is unchecked; the change event needs to be explicitly
-			// triggered so it behaves like a change done by the user.
-			$('#enforceLinkPassword').removeAttr('checked').trigger('change')
-		}
-	})
-
-	$('#enforceLinkPassword').change(function() {
-		$('#selectPasswordsExcludedGroups').toggleClass('hidden', !this.checked)
-	})
-
-	$('#publicShareDisclaimer').change(function() {
-		$('#publicShareDisclaimerText').toggleClass('hidden', !this.checked)
-		if (!this.checked) {
-			savePublicShareDisclaimerText('')
-		}
-	})
-
-	$('#shareApiDefaultPermissionsSection input').change(function(ev) {
-		const $el = $('#shareApiDefaultPermissions')
-		const $target = $(ev.target)
-
-		let value = $el.val()
-		if ($target.is(':checked')) {
-			value = value | $target.val()
-		} else {
-			value = value & ~$target.val()
-		}
-
-		// always set read permission
-		value |= OC.PERMISSION_READ
-
-		// this will trigger the field's change event and will save it
-		$el.val(value).change()
-
-		ev.preventDefault()
-
-		return false
-	})
-
-	const savePublicShareDisclaimerText = _.debounce(function(value) {
-		const options = {
-			success: () => {
-				OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('settings', 'Saved'))
-			},
-			error: () => {
-				OC.msg.finishedError('#publicShareDisclaimerStatus', t('settings', 'Not saved'))
-			},
-		}
-
-		OC.msg.startSaving('#publicShareDisclaimerStatus')
-		if (_.isString(value) && value !== '') {
-			OCP.AppConfig.setValue('core', 'shareapi_public_link_disclaimertext', value, options)
-		} else {
-			$('#publicShareDisclaimerText').val('')
-			OCP.AppConfig.deleteKey('core', 'shareapi_public_link_disclaimertext', options)
-		}
-	}, 500)
-
-	$('#publicShareDisclaimerText').on('change, keyup', function() {
-		savePublicShareDisclaimerText(this.value)
-	})
-
-	$('#shareapi_allow_share_dialog_user_enumeration').on('change', function() {
-		$('#shareapi_restrict_user_enumeration_to_group_setting').toggleClass('hidden', !this.checked)
-		$('#shareapi_restrict_user_enumeration_to_phone_setting').toggleClass('hidden', !this.checked)
-		$('#shareapi_restrict_user_enumeration_combinewarning_setting').toggleClass('hidden', !this.checked)
-	})
-
-	$('#allowLinks').change(function() {
-		$('#publicLinkSettings').toggleClass('hidden', !this.checked)
-		$('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked))
 	})
 
 	$('#mail_smtpauth').change(function() {
@@ -221,14 +98,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		})
 	})
 
-	$('#allowGroupSharing').change(function() {
-		$('#allowGroupSharing').toggleClass('hidden', !this.checked)
-	})
-
-	$('#shareapiExcludeGroups').change(function() {
-		$('#selectExcludedGroups').toggleClass('hidden', !this.checked)
-	})
-
 	const setupChecks = () => {
 		// run setup checks then gather error messages
 		$.when(
@@ -301,6 +170,4 @@ window.addEventListener('DOMContentLoaded', () => {
 	if (document.getElementById('security-warning') !== null) {
 		setupChecks()
 	}
-
-	$('#shareAPI').removeClass('loading')
 })
