@@ -47,6 +47,7 @@ OC.L10N.register(
     "Create or edit tags" : "Créer ou modifier les étiquettes",
     "Search for a tag to edit" : "Rechercher une étiquette à modifier",
     "Collaborative tags …" : "Étiquettes collaboratives ...",
+    "No tags to select" : "Aucune étiquette à sélectionner",
     "Tag name" : "Nom de l'étiquette",
     "Tag level" : "Niveau de l'étiquette",
     "Create" : "Créer",
