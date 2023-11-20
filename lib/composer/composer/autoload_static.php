@@ -323,6 +323,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\FilesMetadata\\AMetadataEvent' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/AMetadataEvent.php',
         'OCP\\FilesMetadata\\Event\\MetadataBackgroundEvent' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Event/MetadataBackgroundEvent.php',
         'OCP\\FilesMetadata\\Event\\MetadataLiveEvent' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Event/MetadataLiveEvent.php',
+        'OCP\\FilesMetadata\\Event\\MetadataNamedEvent' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Event/MetadataNamedEvent.php',
         'OCP\\FilesMetadata\\Exceptions\\FilesMetadataException' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Exceptions/FilesMetadataException.php',
         'OCP\\FilesMetadata\\Exceptions\\FilesMetadataKeyFormatException' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Exceptions/FilesMetadataKeyFormatException.php',
         'OCP\\FilesMetadata\\Exceptions\\FilesMetadataNotFoundException' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Exceptions/FilesMetadataNotFoundException.php',
