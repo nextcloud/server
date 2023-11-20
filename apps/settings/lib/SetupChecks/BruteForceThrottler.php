@@ -53,9 +53,13 @@ class BruteForceThrottler implements ISetupCheck {
 	public function run(): SetupResult {
 		$address = $this->request->getRemoteAddress();
 		if ($address === '') {
-			return SetupResult::info(
-				$this->l10n->t('Your remote address could not be determined.')
-			);
+			if (\OC::$CLI) {
+				/* We were called from CLI */
+				return SetupResult::info('Your remote address could not be determined.');
+			} else {
+				/* Should never happen */
+				return SetupResult::error('Your remote address could not be determined.');
+			}
 		} elseif ($this->throttler->showBruteforceWarning($address)) {
 			return SetupResult::error(
 				$this->l10n->t('Your remote address was identified as "%s" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly.', $address),

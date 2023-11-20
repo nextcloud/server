@@ -59,8 +59,13 @@ class ForwardedForHeaders implements ISetupCheck {
 		}
 
 		if (($remoteAddress === '') && ($this->request->getRemoteAddress() === '')) {
-			/* Most likely we were called from CLI */
-			return SetupResult::info('Your remote address could not be determined.');
+			if (\OC::$CLI) {
+				/* We were called from CLI */
+				return SetupResult::info('Your remote address could not be determined.');
+			} else {
+				/* Should never happen */
+				return SetupResult::error('Your remote address could not be determined.');
+			}
 		}
 
 		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host') !== '') {
