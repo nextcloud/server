@@ -650,14 +650,6 @@ span.version {
 		margin: 5px 0;
 	}
 
-	.app-name, .app-image * {
-		cursor: pointer;
-	}
-
-	.app-summary {
-		opacity: .7;
-	}
-
 	.app-image-icon .icon-settings-dark {
 		width: 100%;
 		height: 150px;
@@ -671,6 +663,10 @@ span.version {
 
 	.actions {
 		margin-top: 10px;
+
+		button {
+			margin: 10px 0;
+		}
 	}
 }
 
@@ -880,10 +876,6 @@ span.version {
 .apps-list {
 	$toolbar-padding: 8px;
 	$toolbar-height: 44px + $toolbar-padding * 2;
-
-	.section {
-		cursor: pointer;
-	}
 
 	.app-list-move {
 		transition: transform 1s;

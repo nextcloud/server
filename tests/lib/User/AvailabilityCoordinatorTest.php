@@ -32,7 +32,9 @@ use OCA\DAV\Db\Absence;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -40,6 +42,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 	private AvailabilityCoordinator $availabilityCoordinator;
 	private ICacheFactory $cacheFactory;
 	private ICache $cache;
+	private IConfig|MockObject $config;
 	private AbsenceMapper $absenceMapper;
 	private LoggerInterface $logger;
 
@@ -49,6 +52,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->absenceMapper = $this->createMock(AbsenceMapper::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->cacheFactory->expects(self::once())
@@ -58,8 +62,20 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->availabilityCoordinator = new AvailabilityCoordinator(
 			$this->cacheFactory,
 			$this->absenceMapper,
+			$this->config,
 			$this->logger,
 		);
+	}
+
+	public function testIsEnabled(): void {
+		$this->config->expects(self::once())
+			->method('getAppValue')
+			->with('dav', 'hide_absence_settings', 'no')
+			->willReturn('no');
+
+		$isEnabled = $this->availabilityCoordinator->isEnabled();
+
+		self::assertTrue($isEnabled);
 	}
 
 	public function testGetOutOfOfficeData(): void {

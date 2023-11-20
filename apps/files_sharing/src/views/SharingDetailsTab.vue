@@ -16,7 +16,8 @@
 			</span>
 		</div>
 		<div class="sharingTabDetailsView__wrapper">
-			<div class="sharingTabDetailsView__quick-permissions">
+			<div ref="quickPermissions"
+				class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
 						:checked.sync="sharingPermission"
@@ -78,15 +79,20 @@
 			</div>
 			<div class="sharingTabDetailsView__advanced-control">
 				<NcButton type="tertiary"
+					id="advancedSectionAccordionAdvancedControl"
 					alignment="end-reverse"
+					aria-controls="advancedSectionAccordionAdvanced"
+					:aria-expanded="advancedControlExpandedValue"
 					@click="advancedSectionAccordionExpanded = !advancedSectionAccordionExpanded">
 					{{ t('files_sharing', 'Advanced settings') }}
 					<template #icon>
-						<MenuDownIcon />
+						<MenuDownIcon v-if="!advancedSectionAccordionExpanded" />
+						<MenuUpIcon v-else />
 					</template>
 				</NcButton>
 			</div>
-			<div v-if="advancedSectionAccordionExpanded" class="sharingTabDetailsView__advanced">
+			<div v-if="advancedSectionAccordionExpanded" id="advancedSectionAccordionAdvanced" class="sharingTabDetailsView__advanced"
+				aria-labelledby="advancedSectionAccordionAdvancedControl" role="region">
 				<section>
 					<NcInputField v-if="isPublicShare"
 						:value.sync="share.label"
@@ -172,24 +178,24 @@
 							{{ t('files_sharing', 'Delete') }}
 						</NcCheckboxRadioSwitch>
 					</section>
+					<div class="sharingTabDetailsView__delete">
+						<NcButton v-if="!isNewShare"
+							:aria-label="t('files_sharing', 'Delete share')"
+							:disabled="false"
+							:readonly="false"
+							type="tertiary"
+							@click.prevent="removeShare">
+							<template #icon>
+								<CloseIcon :size="16" />
+							</template>
+							{{ t('files_sharing', 'Delete share') }}
+						</NcButton>
+					</div>
 				</section>
 			</div>
 		</div>
 
 		<div class="sharingTabDetailsView__footer">
-			<div class="sharingTabDetailsView__delete">
-				<NcButton v-if="!isNewShare"
-					:aria-label="t('files_sharing', 'Delete share')"
-					:disabled="false"
-					:readonly="false"
-					type="tertiary"
-					@click.prevent="removeShare">
-					<template #icon>
-						<CloseIcon :size="16" />
-					</template>
-					{{ t('files_sharing', 'Delete share') }}
-				</NcButton>
-			</div>
 			<div class="button-group">
 				<NcButton @click="$emit('close-sharing-details')">
 					{{ t('files_sharing', 'Cancel') }}
@@ -226,6 +232,7 @@ import UserIcon from 'vue-material-design-icons/AccountCircleOutline.vue'
 import ViewIcon from 'vue-material-design-icons/Eye.vue'
 import UploadIcon from 'vue-material-design-icons/Upload.vue'
 import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
+import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.js'
@@ -260,6 +267,7 @@ export default {
 		UploadIcon,
 		ViewIcon,
 		MenuDownIcon,
+		MenuUpIcon,
 		DotsHorizontalIcon,
 	},
 	mixins: [ShareTypes, ShareRequests, SharesMixin],
@@ -644,6 +652,9 @@ export default {
 					: translatedPermissions[permission].toLocaleLowerCase(getLanguage()))
 				.join(', ')
 		},
+		advancedControlExpandedValue() {
+			return this.advancedSectionAccordionExpanded ? 'true' : 'false'
+		}
 	},
 	watch: {
 		setCustomPermissions(isChecked) {
@@ -659,6 +670,10 @@ export default {
 		this.initializeAttributes()
 		console.debug('shareSentIn', this.share)
 		console.debug('config', this.config)
+	},
+
+	mounted() {
+		this.$refs.quickPermissions?.querySelector('input:checked')?.focus()
 	},
 
 	methods: {
@@ -946,6 +961,7 @@ export default {
 	}
 
 	&__wrapper {
+		position: relative;
 		overflow: scroll;
 		flex-shrink: 1;
 		padding: 4px;

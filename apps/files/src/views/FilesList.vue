@@ -218,6 +218,40 @@ export default Vue.extend({
 		},
 
 		/**
+		 * Directory content sorting parameters
+		 * Provided by an extra computed property for caching
+		 */
+		sortingParameters() {
+			const identifiers = [
+				// 1: Sort favorites first if enabled
+				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
+				// 2: Sort folders first if sorting by name
+				...(this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : []),
+				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
+				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
+				// 4: Use displayName if available, fallback to name
+				v => v.attributes?.displayName || v.basename,
+				// 5: Finally, use basename if all previous sorting methods failed
+				v => v.basename,
+			]
+			const orders = [
+				// (for 1): always sort favorites before normal files
+				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
+				// (for 2): always sort folders before files
+				...(this.sortingMode === 'basename' ? ['asc'] : []),
+				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
+				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
+				// (also for 3 so make sure not to conflict with 2 and 3)
+				...(this.sortingMode !== 'mtime' && this.sortingMode !== 'basename' ? [this.isAscSorting ? 'asc' : 'desc'] : []),
+				// for 4: use configured sorting direction
+				this.isAscSorting ? 'asc' : 'desc',
+				// for 5: use configured sorting direction
+				this.isAscSorting ? 'asc' : 'desc',
+			]
+			return [identifiers, orders] as const
+		},
+
+		/**
 		 * The current directory contents.
 		 */
 		dirContentsSorted(): Node[] {
@@ -234,24 +268,9 @@ export default Vue.extend({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
-			const identifiers = [
-				// Sort favorites first if enabled
-				...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
-				// Sort folders first if sorting by name
-				...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
-				// Use sorting mode if NOT basename (to be able to use displayName too)
-				...this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : [],
-				// Use displayName if available, fallback to name
-				v => v.attributes?.displayName || v.basename,
-				// Finally, use basename if all previous sorting methods failed
-				v => v.basename,
-			]
-			const orders = new Array(identifiers.length).fill(this.isAscSorting ? 'asc' : 'desc')
-
 			return orderBy(
 				[...this.dirContents],
-				identifiers,
-				orders,
+				...this.sortingParameters,
 			)
 		},
 

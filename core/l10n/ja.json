@@ -136,8 +136,6 @@
     "Currently open" : "編集中",
     "_{count} notification_::_{count} notifications_" : ["通知 {count} 件"],
     "Date range filter" : "日付範囲フィルタ",
-    "Pick start date" : "開始日を指定",
-    "Pick end date" : "終了日を指定",
     "Apply range" : "適用範囲",
     "Log in" : "ログイン",
     "Logging in …" : "ログイン中...",

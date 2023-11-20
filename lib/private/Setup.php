@@ -539,7 +539,7 @@ class Setup {
 			$content .= "\n  Options -MultiViews";
 			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|wasm|tflite)$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
@@ -560,6 +560,14 @@ class Setup {
 		}
 
 		if ($content !== '') {
+			// Never write file back if disk space should be too low
+			if (function_exists('disk_free_space')) {
+				$df = disk_free_space(\OC::$SERVERROOT);
+				$size = strlen($content) + 10240;
+				if ($df !== false && $df < (float)$size) {
+					throw new \Exception(\OC::$SERVERROOT . " does not have enough space for writing the htaccess file! Not writing it back!");
+				}
+			}
 			//suppress errors in case we don't have permissions for it
 			return (bool)@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent . $content . "\n");
 		}

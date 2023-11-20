@@ -161,6 +161,8 @@
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Votre PHP ne prend pas en charge FreeType, provoquant la casse des images de profil et de l'interface des paramètres.",
     "PHP getenv" : "PHP getenv",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP ne semble pas être configuré de manière à récupérer les valeurs des variables d’environnement. Le test de la commande getenv(\"PATH\") retourne seulement une réponse vide. ",
+    "PHP memory limit" : "Limite de mémoire PHP",
+    "The PHP memory limit is below the recommended value of %s." : "La limite de mémoire PHP est sous la valeur recommandée de %s.",
     "PHP modules" : "Modules PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Cette instance ne dispose pas de plusieurs modules nécessaires sur cette instance. Il est obligatoire de les installer : %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Cette instance ne dispose pas de plusieurs modules PHP recommandés. Il est recommandé de les installer pour améliorer les performances, et la compatibilité : %s.",

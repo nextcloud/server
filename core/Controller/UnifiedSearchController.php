@@ -28,6 +28,7 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use InvalidArgumentException;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
 use OCA\Core\ResponseDefinitions;
@@ -111,7 +112,7 @@ class UnifiedSearchController extends OCSController {
 
 		try {
 			$filters = $this->composer->buildFilterList($providerId, $this->request->getParams());
-		} catch (UnsupportedFilter $e) {
+		} catch (UnsupportedFilter|InvalidArgumentException $e) {
 			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
 		return new DataResponse(

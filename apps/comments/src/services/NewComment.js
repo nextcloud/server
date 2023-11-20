@@ -29,27 +29,27 @@ import client from './DavClient.js'
 /**
  * Retrieve the comments list
  *
- * @param {string} commentsType the ressource type
- * @param {number} ressourceId the ressource ID
+ * @param {string} resourceType the resource type
+ * @param {number} resourceId the resource ID
  * @param {string} message the message
  * @return {object} the new comment
  */
-export default async function(commentsType, ressourceId, message) {
-	const ressourcePath = ['', commentsType, ressourceId].join('/')
+export default async function(resourceType, resourceId, message) {
+	const resourcePath = ['', resourceType, resourceId].join('/')
 
-	const response = await axios.post(getRootPath() + ressourcePath, {
+	const response = await axios.post(getRootPath() + resourcePath, {
 		actorDisplayName: getCurrentUser().displayName,
 		actorId: getCurrentUser().uid,
 		actorType: 'users',
 		creationDateTime: (new Date()).toUTCString(),
 		message,
-		objectType: 'files',
+		objectType: resourceType,
 		verb: 'comment',
 	})
 
-	// Retrieve comment id from ressource location
+	// Retrieve comment id from resource location
 	const commentId = parseInt(response.headers['content-location'].split('/').pop())
-	const commentPath = ressourcePath + '/' + commentId
+	const commentPath = resourcePath + '/' + commentId
 
 	// Fetch newly created comment data
 	const comment = await client.stat(commentPath, {

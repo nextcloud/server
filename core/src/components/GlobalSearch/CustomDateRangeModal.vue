@@ -14,12 +14,12 @@
 				<NcDateTimePicker :id="'globalsearch-custom-date-range-start'"
 					v-model="dateFilter.startFrom"
 					:max="new Date()"
-					:label="t('core', 'Pick start date')"
+					:label="t('core', 'Pick a start date')"
 					type="date" />
 				<NcDateTimePicker :id="'globalsearch-custom-date-range-end'"
 					v-model="dateFilter.endAt"
 					:max="new Date()"
-					:label="t('core', 'Pick end date')"
+					:label="t('core', 'Pick an end date')"
 					type="date" />
 			</div>
 			<NcButton @click="applyCustomRange">

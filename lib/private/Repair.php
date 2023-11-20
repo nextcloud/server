@@ -46,6 +46,7 @@ use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
+use OC\Repair\AddMetadataMigrationJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
@@ -211,6 +212,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(CleanUpAbandonedApps::class),
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
+			\OCP\Server::get(AddMetadataMigrationJob::class),
 		];
 	}
 

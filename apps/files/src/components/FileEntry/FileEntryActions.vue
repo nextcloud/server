@@ -251,7 +251,7 @@ export default Vue.extend({
 		 * sure there is one at the time we call it.
 		 */
 		getBoundariesElement() {
-			return document.querySelector('.app-content > table.files-list')
+			return document.querySelector('.app-content > .files-list')
 		},
 	},
 
@@ -282,7 +282,7 @@ export default Vue.extend({
 				const success = await action.exec(this.source, this.currentView, this.currentDir)
 
 				// If the action returns null, we stay silent
-				if (success === null) {
+				if (success === null || success === undefined) {
 					return
 				}
 
