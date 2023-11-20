@@ -64,8 +64,8 @@ class ForwardedForHeaders implements ISetupCheck {
 		}
 
 		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host') !== '') {
-			return SetupResult::warning(
-				$this->l10n->t('The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud.'),
+			return SetupResult::error(
+				$this->l10n->t('The reverse proxy header configuration is incorrect. This is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud.'),
 				$this->urlGenerator->linkToDocs('admin-reverse-proxy')
 			);
 		}
