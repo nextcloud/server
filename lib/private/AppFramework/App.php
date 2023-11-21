@@ -34,16 +34,15 @@ namespace OC\AppFramework;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
-use OCP\App\IAppManager;
-use OCP\Profiler\IProfiler;
 use OC\Profiler\RoutingDataCollector;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
+use OCP\AppFramework\QueryException;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
+use OCP\Profiler\IProfiler;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -69,7 +68,7 @@ class App {
 			return $topNamespace . self::$nameSpaceCache[$appId];
 		}
 
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
+		$appInfo = self::getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
@@ -91,9 +90,40 @@ class App {
 		return $topNamespace . self::$nameSpaceCache[$appId];
 	}
 
+	public static function getAppInfo(string $appId, bool $path = false, $lang = null) {
+		if ($path) {
+			$file = $appId;
+		} else {
+			$dir = \OC_App::findAppInDirectories($appId);
+
+			if ($dir === false) {
+				return null;
+			}
+	
+			$appPath = $dir['path'] . '/' . $appId;
+			$file = $appPath . '/appinfo/info.xml';
+		}
+
+		$parser = new \OC\App\InfoParser();
+		$data = $parser->parse($file);
+
+		if (is_array($data)) {
+			$data = \OC_App::parseAppInfo($data, $lang);
+		}
+
+		return $data;
+	}
+
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
 		if (!str_starts_with($className, $topNamespace)) {
 			return null;
+		}
+
+		if (str_starts_with($className, $topNamespace)) {
+			$classNoTopNamespace = substr($className, strlen($topNamespace));
+			$appNameParts = explode('\\', $classNoTopNamespace, 2);
+			$appName = reset($appNameParts);
+			return strtolower($appName);
 		}
 
 		foreach (self::$nameSpaceCache as $appId => $namespace) {
@@ -105,6 +135,19 @@ class App {
 		return null;
 	}
 
+	public static function registerAppClass(string $className): void {
+		$classParts = explode('\\', $className, 2);
+		$topNamespace = reset($classParts) . '\\';
+		$appId = self::getAppIdForClass($className, $topNamespace);
+		$dir = \OC_App::findAppInDirectories($appId);
+
+		if ($dir === false) {
+			throw new \OCP\App\AppPathNotFoundException('App not found in any app directory');
+		}
+
+		$appPath = $dir['path'] . '/' . $appId;
+		\OC_App::registerAutoloading($appId, $appPath);
+	}
 
 	/**
 	 * Shortcut for calling a controller method and printing the result
