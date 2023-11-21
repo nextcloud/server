@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2023 Louis Chmn <louis@chmn.me>
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Louis Chmn <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,22 +22,22 @@
  */
 namespace OC\Repair;
 
-use OC\Core\BackgroundJobs\MigrateMetadataJob;
+use OC\Core\BackgroundJobs\GenerateMetadataJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
-class AddMetadataMigrationJob implements IRepairStep {
+class AddMetadataGenerationJob implements IRepairStep {
 	public function __construct(
 		private IJobList $jobList,
 	) {
 	}
 
 	public function getName() {
-		return 'Queue a job to migrate legacy metadata tables';
+		return 'Queue a job to generate metadata';
 	}
 
 	public function run(IOutput $output) {
-		$this->jobList->add(MigrateMetadataJob::class);
+		$this->jobList->add(GenerateMetadataJob::class);
 	}
 }
