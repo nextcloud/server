@@ -26,33 +26,40 @@ declare(strict_types=1);
 
 namespace OCA\Settings\SetupChecks;
 
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
-class BruteForceThrottler implements ISetupCheck {
+class ForwardedForHeaders implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
+		private IConfig $config,
 		private IURLGenerator $urlGenerator,
 		private IRequest $request,
-		private IThrottler $throttler,
 	) {
 	}
 
 	public function getCategory(): string {
-		return 'system';
+		return 'security';
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Bruteforce Throttle');
+		return $this->l10n->t('Forwared for headers');
 	}
 
 	public function run(): SetupResult {
-		$address = $this->request->getRemoteAddress();
-		if ($address === '') {
+		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
+		$detectedRemoteAddress = $this->request->getRemoteAddress();
+
+		if (!\is_array($trustedProxies)) {
+			return SetupResult::error($this->l10n->t('Your trusted_proxies setting is not correctly set, it should be an array.'));
+		}
+
+		if (($remoteAddress === '') && ($detectedRemoteAddress === '')) {
 			if (\OC::$CLI) {
 				/* We were called from CLI */
 				return SetupResult::info($this->l10n->t('Your remote address could not be determined.'));
@@ -60,15 +67,28 @@ class BruteForceThrottler implements ISetupCheck {
 				/* Should never happen */
 				return SetupResult::error($this->l10n->t('Your remote address could not be determined.'));
 			}
-		} elseif ($this->throttler->showBruteforceWarning($address)) {
+		}
+
+		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host') !== '') {
 			return SetupResult::error(
-				$this->l10n->t('Your remote address was identified as "%s" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly.', [$address]),
+				$this->l10n->t('The reverse proxy header configuration is incorrect. This is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud.'),
 				$this->urlGenerator->linkToDocs('admin-reverse-proxy')
 			);
-		} else {
-			return SetupResult::success(
-				$this->l10n->t('Your remote address "%s" is not bruteforce throttled.', [$address])
-			);
 		}
+
+		if (\in_array($remoteAddress, $trustedProxies, true) && ($remoteAddress !== '127.0.0.1')) {
+			if ($remoteAddress !== $detectedRemoteAddress) {
+				/* Remote address was successfuly fixed */
+				return SetupResult::success($this->l10n->t('Your IP address was resolved as %s', [$detectedRemoteAddress]));
+			} else {
+				return SetupResult::warning(
+					$this->l10n->t('The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud.'),
+					$this->urlGenerator->linkToDocs('admin-reverse-proxy')
+				);
+			}
+		}
+
+		/* Either not enabled or working correctly */
+		return SetupResult::success();
 	}
 }

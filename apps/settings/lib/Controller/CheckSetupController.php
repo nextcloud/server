@@ -247,31 +247,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Check if the reverse proxy configuration is working as expected
-	 *
-	 * @return bool
-	 */
-	private function forwardedForHeadersWorking(): bool {
-		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
-		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
-
-		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host') !== '') {
-			return false;
-		}
-
-		if (\is_array($trustedProxies)) {
-			if (\in_array($remoteAddress, $trustedProxies, true) && $remoteAddress !== '127.0.0.1') {
-				return $remoteAddress !== $this->request->getRemoteAddress();
-			}
-		} else {
-			return false;
-		}
-
-		// either not enabled or working correctly
-		return true;
-	}
-
-	/**
 	 * Checks if the correct memcache module for PHP is installed. Only
 	 * fails if memcached is configured and the working module is not installed.
 	 *
@@ -721,7 +696,6 @@ Raw output
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
-				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),

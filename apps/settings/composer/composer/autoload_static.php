@@ -93,6 +93,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\DefaultPhoneRegionSet' => __DIR__ . '/..' . '/../lib/SetupChecks/DefaultPhoneRegionSet.php',
         'OCA\\Settings\\SetupChecks\\EmailTestSuccessful' => __DIR__ . '/..' . '/../lib/SetupChecks/EmailTestSuccessful.php',
         'OCA\\Settings\\SetupChecks\\FileLocking' => __DIR__ . '/..' . '/../lib/SetupChecks/FileLocking.php',
+        'OCA\\Settings\\SetupChecks\\ForwardedForHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/ForwardedForHeaders.php',
         'OCA\\Settings\\SetupChecks\\InternetConnectivity' => __DIR__ . '/..' . '/../lib/SetupChecks/InternetConnectivity.php',
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
         'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => __DIR__ . '/..' . '/../lib/SetupChecks/MemcacheConfigured.php',
