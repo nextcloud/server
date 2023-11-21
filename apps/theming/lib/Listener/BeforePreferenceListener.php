@@ -79,12 +79,16 @@ class BeforePreferenceListener implements IEventListener {
 		}
 
 		$value = json_decode($event->getConfigValue(), true, flags:JSON_THROW_ON_ERROR);
-		if (is_array(($value))) {
-			foreach ($value as $id => $info) {
-				if (!is_array($info) || empty($info) || !isset($info['app']) || !$this->appManager->isEnabledForUser($info['app']) || !is_numeric($info['order'] ?? '')) {
-					// Invalid config value, refuse the change
-					return;
-				}
+		if (!is_array(($value))) {
+			// Must be an array
+			return;
+		}
+
+		foreach ($value as $id => $info) {
+			// required format: [ navigation_id: string => [ order: int, app?: string ] ]
+			if (!is_string($id) || !is_array($info) || empty($info) || !isset($info['order']) || !is_numeric($info['order']) || (isset($info['app']) && !$this->appManager->isEnabledForUser($info['app']))) {
+				// Invalid config value, refuse the change
+				return;
 			}
 		}
 		$event->setValid(true);
