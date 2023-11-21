@@ -47,11 +47,13 @@ use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
@@ -206,7 +208,21 @@ class TemplateLayout extends \OC_Template {
 			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
 				$showSimpleSignup = false;
 			}
+
+			$defaultSignUpLink = 'https://nextcloud.com/signup/';
+			$signUpLink = $this->config->getSystemValueString('registration_link', $defaultSignUpLink);
+			if ($signUpLink !== $defaultSignUpLink) {
+				$showSimpleSignup = true;
+			}
+
+			$appManager = \OCP\Server::get(IAppManager::class);
+			if ($appManager->isEnabledForUser('registration')) {
+				$urlGenerator = \OCP\Server::get(IURLGenerator::class);
+				$signUpLink = $urlGenerator->getAbsoluteURL('/index.php/apps/registration/');
+			}
+
 			$this->assign('showSimpleSignUpLink', $showSimpleSignup);
+			$this->assign('signUpLink', $signUpLink);
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
