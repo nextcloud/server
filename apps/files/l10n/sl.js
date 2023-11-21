@@ -262,7 +262,7 @@ OC.L10N.register(
     "Move to {target}" : "Premakni na {target}",
     "Cancelled move or copy operation" : "Opravilo kopiranje in premikanja je preklicano",
     "Open folder {displayName}" : "Odpri mapo {displayName}",
-    "Open in Files" : "Odpri datoteke",
+    "Open in Files" : "Open in Files",
     "Open details" : "Odpri podrobnosti",
     "Create new templates folder" : "Ustvari novo začasno mapo",
     "Templates" : "Predloge",
