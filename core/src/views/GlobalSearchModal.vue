@@ -13,7 +13,8 @@
 		<!-- Global search form -->
 		<div ref="globalSearch" class="global-search-modal">
 			<h1>{{ t('core', 'Global search') }}</h1>
-			<NcInputField :value.sync="searchQuery"
+			<NcInputField ref="searchInput"
+				:value.sync="searchQuery"
 				type="text"
 				:label="t('core', 'Search apps, files, tags, messages') + '...'"
 				@update:value="debouncedFind" />
@@ -220,6 +221,15 @@ export default {
 					icon: isEmptySearch ? MagnifyIcon : FlaskEmpty,
 				}
 			},
+		},
+	},
+	watch: {
+		isVisible(value) {
+			this.$nextTick(() => {
+				if (value) {
+					this.focusInput()
+				}
+			})
 		},
 	},
 	mounted() {
@@ -502,6 +512,9 @@ export default {
 			this.dateFilter.endAt = event.endAt
 			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
 			this.updateDateFilter()
+		},
+		focusInput() {
+			this.$refs.searchInput.$el.children[0].children[0].focus()
 		},
 		closeModal() {
 		    this.$refs.globalSearchModal.close()
