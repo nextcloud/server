@@ -51,7 +51,7 @@ class PhpMemoryLimit implements ISetupCheck {
 		if ($this->memoryInfo->isMemoryLimitSufficient()) {
 			return SetupResult::success(Util::humanFileSize($this->memoryInfo->getMemoryLimit()));
 		} else {
-			return SetupResult::error($this->l10n->t('The PHP memory limit is below the recommended value of %s.'), Util::humanFileSize(MemoryInfo::RECOMMENDED_MEMORY_LIMIT));
+			return SetupResult::error($this->l10n->t('The PHP memory limit is below the recommended value of %s.', Util::humanFileSize(MemoryInfo::RECOMMENDED_MEMORY_LIMIT)));
 		}
 	}
 }
