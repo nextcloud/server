@@ -78,8 +78,9 @@ import type { PropType } from 'vue'
 import type { UserConfig } from '../types.ts'
 
 import { Fragment } from 'vue-frag'
-import { getFileListHeaders, Folder, View, Permission } from '@nextcloud/files'
+import { getFileListHeaders, Folder, View, Permission, getFileActions } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import Vue from 'vue'
 
@@ -217,6 +218,8 @@ export default Vue.extend({
 
 		this.scrollToFile(this.fileId)
 		this.openSidebarForFile(this.fileId)
+		this.handleOpenFile()
+
 	},
 
 	methods: {
@@ -234,7 +237,7 @@ export default Vue.extend({
 			}
 		},
 
-		scrollToFile(fileId: number, warn = true) {
+		scrollToFile(fileId: number|null, warn = true) {
 			if (fileId) {
 				const index = this.nodes.findIndex(node => node.fileid === fileId)
 				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
@@ -242,6 +245,24 @@ export default Vue.extend({
 				}
 				this.scrollToIndex = Math.max(0, index)
 			}
+		},
+
+		handleOpenFile() {
+			const openFileInfo = loadState('files', 'openFileInfo', {}) as ({ id?: number })
+			if (openFileInfo === undefined) {
+				return
+			}
+
+			const node = this.nodes.find(n => n.fileid === openFileInfo.id) as NcNode
+			if (node === undefined) {
+				return
+			}
+
+			logger.debug('Opening file ' + node.path, { node })
+			getFileActions()
+				.filter(action => !action.enabled || action.enabled([node], this.currentView))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+				.filter(action => !!action?.default)[0].exec(node, this.currentView, this.currentFolder.path)
 		},
 
 		getFileId(node) {
