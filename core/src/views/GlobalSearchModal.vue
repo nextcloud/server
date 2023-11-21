@@ -97,30 +97,7 @@
 						<span>{{ providerResult.provider }}</span>
 					</div>
 					<ul class="result-items">
-						<NcListItem v-for="(result, index) in providerResult.results"
-							:key="index"
-							class="result-items__item"
-							:name="result.title ?? ''"
-							:bold="false"
-							@click="openResult(result)">
-							<template #icon>
-								<div v-if="result.icon"
-									class="result-items__item-icon"
-									:class="{
-										'result-items__item-icon--no-preview': !isValidUrl(result.thumbnailUrl),
-										'result-items__item-icon--with-thumbnail': isValidUrl(result.thumbnailUrl),
-										[result.icon]: !isValidUrl(result.icon),
-									}"
-									:style="{
-										backgroundImage: isValidUrl(result.icon) ? `url(${result.icon})` : '',
-									}">
-									<img v-if="result.thumbnailUrl" :src="result.thumbnailUrl" class="">
-								</div>
-							</template>
-							<template #subname>
-								{{ result.subline }}
-							</template>
-						</NcListItem>
+						<SearchResult v-for="(result, index) in providerResult.results" :key="index" v-bind="result" />
 					</ul>
 					<div class="result-footer">
 						<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult.id)">
@@ -158,9 +135,9 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 import SearchableList from '../components/GlobalSearch/SearchableList.vue'
+import SearchResult from '../components/GlobalSearch/SearchResult.vue'
 
 import debounce from 'debounce'
 import { getProviders, search as globalSearch, getContacts } from '../services/GlobalSearchService.js'
@@ -182,10 +159,10 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		NcModal,
-		NcListItem,
 		NcInputField,
 		MagnifyIcon,
 		SearchableList,
+		SearchResult,
 	},
 	props: {
 		isVisible: {
@@ -462,35 +439,36 @@ export default {
 		applyQuickDateRange(range) {
 			this.dateActionMenuIsOpen = false
 			const today = new Date()
-			let endDate = today
 			let startDate
+			let endDate
+
 			switch (range) {
 			case 'today':
 				// For 'Today', both start and end are set to today
-				startDate = today
+				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'Today')
 				break
 			case '7days':
 				// For 'Last 7 days', start date is 7 days ago, end is today
-				startDate = new Date(today)
-				startDate.setDate(today.getDate() - 7)
+				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6, 0, 0, 0, 0)
 				this.dateFilter.text = t('core', 'Last 7 days')
 				break
 			case '30days':
 				// For 'Last 30 days', start date is 30 days ago, end is today
-				startDate = new Date(today)
-				startDate.setDate(today.getDate() - 30)
+				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29, 0, 0, 0, 0)
 				this.dateFilter.text = t('core', 'Last 30 days')
 				break
 			case 'thisyear':
-				// For 'This year', start date is the first day of the year, end is today
-				startDate = new Date(today.getFullYear(), 0, 1)
+				// For 'This year', start date is the first day of the year, end is the last day of the year
+				startDate = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'This year')
 				break
 			case 'lastyear':
 				// For 'Last year', start date is the first day of the previous year, end is the last day of the previous year
-				startDate = new Date(today.getFullYear() - 1, 0, 1)
-				endDate = new Date(today.getFullYear() - 1, 11, 31)
+				startDate = new Date(today.getFullYear() - 1, 0, 1, 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear() - 1, 11, 31, 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'Last year')
 				break
 			case 'custom':
@@ -498,7 +476,6 @@ export default {
 				return
 			default:
 				return
-
 			}
 			this.dateFilter.startFrom = startDate
 			this.dateFilter.endAt = endDate
@@ -512,9 +489,6 @@ export default {
 			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
 			this.updateDateFilter()
 		},
-		isValidUrl(icon) {
-			return /^https?:\/\//.test(icon) || icon.startsWith('//')
-		},
 		closeModal() {
 			this.searchQuery = ''
 		},
@@ -523,10 +497,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use "sass:math";
-$clickable-area: 44px;
-$margin: 10px;
-
 .global-search-modal {
 	padding: 10px 20px 10px 20px;
 	height: 60%;
@@ -571,71 +541,6 @@ $margin: 10px;
 					color: var(--color-primary-element);
 					font-weight: bolder;
 					font-size: 16px;
-				}
-			}
-
-			.result-items {
-				::v-deep &__item {
-					a {
-						border-radius: 12px;
-						border: 2px solid transparent;
-						border-radius: var(--border-radius-large) !important;
-
-						&--focused {
-							background-color: var(--color-background-hover);
-						}
-
-						&:active,
-						&:hover,
-						&:focus {
-							background-color: var(--color-background-hover);
-							border: 2px solid var(--color-border-maxcontrast);
-						}
-
-						* {
-							cursor: pointer;
-						}
-
-					}
-
-					&-icon {
-						overflow: hidden;
-						width: $clickable-area;
-						height: $clickable-area;
-						border-radius: var(--border-radius);
-						background-repeat: no-repeat;
-						background-position: center center;
-						background-size: 32px;
-
-						&--rounded {
-							border-radius: math.div($clickable-area, 2);
-						}
-
-						&--no-preview {
-							background-size: 32px;
-						}
-
-						&--with-thumbnail {
-							background-size: cover;
-						}
-
-						&--with-thumbnail:not(&--rounded) {
-							// compensate for border
-							max-width: $clickable-area - 2px;
-							max-height: $clickable-area - 2px;
-							border: 1px solid var(--color-border);
-						}
-
-						img {
-							// Make sure to keep ratio
-							width: 100%;
-							height: 100%;
-
-							object-fit: cover;
-							object-position: center;
-						}
-					}
-
 				}
 			}
 
