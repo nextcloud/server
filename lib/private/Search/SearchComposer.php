@@ -223,12 +223,6 @@ class SearchComposer {
 			[$appId, 'app.svg'],
 			['core', 'places/default-app-icon.svg'],
 		];
-		if ($appId === 'settings' && $providerId === 'users') {
-			// Conflict:
-			// the file /apps/settings/users.svg is already used in black version by top right user menu
-			// Override icon name here
-			$icons = [['settings', 'users-white.svg']];
-		}
 		foreach ($icons as $i => $icon) {
 			try {
 				return $this->urlGenerator->imagePath(... $icon);

@@ -47,7 +47,6 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
-use OCA\Settings\Search\UserSearch;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
@@ -101,7 +100,6 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
 		$context->registerSearchProvider(AppSearch::class);
-		$context->registerSearchProvider(UserSearch::class);
 
 		// Register listeners
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
