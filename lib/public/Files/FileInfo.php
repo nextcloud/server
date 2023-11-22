@@ -45,10 +45,6 @@ interface FileInfo {
 	 * @since 7.0.0
 	 */
 	public const TYPE_FOLDER = 'dir';
-	/**
-	 * @since TODO
-	 */
-	public const TYPE_SYMLINK = 'symlink';
 
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_NOT_COMPUTED Return value for a not computed space value
