@@ -104,6 +104,7 @@ class FilesPlugin extends ServerPlugin {
 	private IConfig $config;
 	private IRequest $request;
 	private IPreview $previewManager;
+	private \OCP\Files\SymlinkManager $symlinkManager;
 
 	public function __construct(Tree $tree,
 		IConfig $config,
@@ -119,6 +120,7 @@ class FilesPlugin extends ServerPlugin {
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
 		$this->previewManager = $previewManager;
+		$this->symlinkManager = new \OCP\Files\SymlinkManager();
 	}
 
 	/**
@@ -228,18 +230,13 @@ class FilesPlugin extends ServerPlugin {
 
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// only handle symlinks
-		$symlinkPath = $request->getPath();
-		$fileInfo = \OC\Files\Filesystem::getView()->getFileInfo($symlinkPath);
-		if (!$fileInfo || $fileInfo->getType() !== \OC\Files\FileInfo::TYPE_SYMLINK) {
+		$node = $this->tree->getNodeForPath($request->getPath());
+		if (!($node instanceof \OCP\Files\File && $this->symlinkManager->isSymlink($node))) {
 			return;
-		}
-		$symlinkTarget = $fileInfo->getMetadata()['symlinkTarget'];
-		if (isset($symlinkTarget)) {
-			throw new NotFound("Symlink has no target!");
 		}
 
 		$response->addHeader('OC-File-Type', '1');
-		$response->setBody($symlinkTarget);
+		$response->setBody($node->getContent());
 		// do not continue processing this request
 		return false;
 	}
@@ -455,7 +452,7 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::RESOURCETYPE_PROPERTYNAME, function() use ($node) {
 				$info = $node->getFileInfo();
-				if ($info->getType() == \OC\Files\FileInfo::TYPE_SYMLINK || $info->getMimetype() == 'symlink') {
+				if ($this->symlinkManager->isSymlink($info)) {
 					return '{DAV:}symlink';
 				}
 				return null;
