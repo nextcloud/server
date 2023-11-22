@@ -67,8 +67,8 @@ interface ISearchComparison extends ISearchOperator {
 	/**
 	 * Get the value to compare the field with
 	 *
-	 * @return string|integer|\DateTime
+	 * @return string|integer|bool|\DateTime
 	 * @since 12.0.0
 	 */
-	public function getValue(): string|int|\DateTime;
+	public function getValue(): string|int|bool|\DateTime;
 }
