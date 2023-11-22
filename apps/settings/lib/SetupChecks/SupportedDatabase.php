@@ -83,7 +83,7 @@ class SupportedDatabase implements ISetupCheck {
 		} elseif ($databasePlatform instanceof SqlitePlatform) {
 			$version = 'Sqlite';
 		} else {
-			return SetupResult::error($this->l10n->t('Unknown database plaform'));
+			return SetupResult::error($this->l10n->t('Unknown database platform'));
 		}
 		return SetupResult::success($version);
 	}

@@ -40,7 +40,7 @@ class PhpOutputBuffering implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('PHP output_buffering option');
+		return $this->l10n->t('PHP "output_buffering" option');
 	}
 
 	public function run(): SetupResult {
@@ -48,7 +48,7 @@ class PhpOutputBuffering implements ISetupCheck {
 		if ($value === '' || $value === '0') {
 			return SetupResult::success($this->l10n->t('Disabled'));
 		} else {
-			return SetupResult::error($this->l10n->t('PHP configuration option output_buffering must be disabled'));
+			return SetupResult::error($this->l10n->t('PHP configuration option "output_buffering" must be disabled'));
 		}
 	}
 }
