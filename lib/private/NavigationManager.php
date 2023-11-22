@@ -294,6 +294,7 @@ class NavigationManager implements INavigationManager {
 					'id' => 'admin_settings',
 					'order' => 4,
 					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
+					'target' => '_blank',
 					'name' => $l->t('Administration settings'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
 				]);
