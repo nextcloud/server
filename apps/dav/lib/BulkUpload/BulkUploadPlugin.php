@@ -46,12 +46,18 @@ class BulkUploadPlugin extends ServerPlugin {
 	 */
 	private $server;
 
+	/**
+	 * @var \OCP\Files\SymlinkManager
+	 */
+	private $symlinkManager;
+
 	public function __construct(
 		Folder $userFolder,
 		LoggerInterface $logger
 	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;
+		$this->symlinkManager = new \OCP\Files\SymlinkManager();
 	}
 
 	/**
@@ -104,14 +110,7 @@ class BulkUploadPlugin extends ServerPlugin {
 				$node = $this->userFolder->getById($node->getId())[0];
 
 				if (isset($headers['oc-file-type']) && $headers['oc-file-type'] == 1) {
-					$infoData = [
-						'type' => \OC\Files\FileInfo::TYPE_SYMLINK,
-						'etag' => $node->getEtag(),
-						'mimetype' => 'symlink', // TODO: good news: this actually works! will be stored in database and will be retrieved when querying cache. bad news, files:scan will override the mimetype and it will be a regular file again :(
-					];
-					$path = $headers['x-file-path'];
-					$path = trim($path, '/');
-					\OC\Files\Filesystem::getView()->putFileInfo($path, $infoData);
+					$this->symlinkManager->storeSymlink($node);
 				}
 
 				$writtenFiles[$headers['x-file-path']] = [
