@@ -49,7 +49,7 @@ class SymlinkManager {
 	/**
 	 * Check if given node is a symlink
 	 *
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 *
 	 * @return bool
 	 */
@@ -60,7 +60,7 @@ class SymlinkManager {
 	/**
 	 * Store given node in database
 	 *
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 */
 	public function storeSymlink($node) {
 		if ($this->isSymlink($node)) {
@@ -73,7 +73,7 @@ class SymlinkManager {
 	/**
 	 * Delete given node from database
 	 *
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 *
 	 * @return bool
 	 */
@@ -93,10 +93,11 @@ class SymlinkManager {
 	 * @param string $path
 	 */
 	public function purgeSymlink($path = '/') {
+		$path = rtrim($path, '/');
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from(self::TABLE_NAME)
-			->where($query->expr()->like('storage', $query->createNamedParameter($path . '%')));
+			->where($query->expr()->like('storage', $query->createNamedParameter($this->connection->escapeLikeParameter($path) . '/%')));
 		$result = $query->executeQuery();
 
 		while ($row = $result->fetch()) {
@@ -107,7 +108,7 @@ class SymlinkManager {
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 *
 	 * @return int|false
 	 */
@@ -149,7 +150,7 @@ class SymlinkManager {
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 */
 	private function insertSymlink($node) {
 		$name = $this->getNameFromNode($node);
@@ -166,7 +167,7 @@ class SymlinkManager {
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 *
 	 * @return bool
 	 */
@@ -182,28 +183,28 @@ class SymlinkManager {
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 */
 	private function getNameFromNode($node) {
 		return $node->getName();
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 */
 	private function getStorageIdFromNode($node) {
 		return $node->getStorage()->getId();
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 */
 	private function getPathFromNode($node) {
 		return $node->getPath();
 	}
 
 	/**
-	 * @param \OCP\Files\Node $node
+	 * @param \OCP\Files\FileInfo $node
 	 */
 	private function getLastUpdatedFromNode($node) {
 		return $node->getMtime();
