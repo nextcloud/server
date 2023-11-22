@@ -216,21 +216,23 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 	<?php endif; ?>
 </form>
 
-<div class="followupsection">
-	<form autocomplete="false" action="#"
-		  id="global_credentials" method="post">
-		<h2><?php p($l->t('Global credentials')); ?></h2>
-		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>
-		<input type="text" name="username"
-			   autocomplete="false"
-			   value="<?php p($_['globalCredentials']['user']); ?>"
-			   placeholder="<?php p($l->t('Username')) ?>"/>
-		<input type="password" name="password"
-			   autocomplete="false"
-			   value="<?php p($_['globalCredentials']['password']); ?>"
-			   placeholder="<?php p($l->t('Password')) ?>"/>
-		<input type="hidden" name="uid"
-			   value="<?php p($_['globalCredentialsUid']); ?>"/>
-		<input type="submit" value="<?php p($l->t('Save')) ?>"/>
-	</form>
-</div>
+<?php if ($canCreateMounts): ?>
+	<div class="followupsection">
+		<form autocomplete="false" action="#"
+			id="global_credentials" method="post">
+			<h2><?php p($l->t('Global credentials')); ?></h2>
+			<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>
+			<input type="text" name="username"
+				autocomplete="false"
+				value="<?php p($_['globalCredentials']['user']); ?>"
+				placeholder="<?php p($l->t('Username')) ?>"/>
+			<input type="password" name="password"
+				autocomplete="false"
+				value="<?php p($_['globalCredentials']['password']); ?>"
+				placeholder="<?php p($l->t('Password')) ?>"/>
+			<input type="hidden" name="uid"
+				value="<?php p($_['globalCredentialsUid']); ?>"/>
+			<input type="submit" value="<?php p($l->t('Save')) ?>"/>
+		</form>
+	</div>
+<?php endif; ?>
