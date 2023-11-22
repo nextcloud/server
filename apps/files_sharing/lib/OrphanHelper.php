@@ -28,8 +28,12 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 
 class OrphanHelper {
-	private IDBConnection $connection;
-	private IRootFolder $rootFolder;
+
+	/** @var IDBConnection $connection */
+	private $connection;
+
+	/** @var IRootFolder $rootFolder */
+	private $rootFolder;
 
 	public function __construct(
 		IDBConnection $connection,

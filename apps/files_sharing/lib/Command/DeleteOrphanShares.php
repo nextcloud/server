@@ -33,7 +33,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteOrphanShares extends Base {
-	private OrphanHelper $orphanHelper;
+
+	/** @var OrphanHelper $orphanHelper */
+	private $orphanHelper;
 
 	public function __construct(OrphanHelper $orphanHelper) {
 		parent::__construct();
