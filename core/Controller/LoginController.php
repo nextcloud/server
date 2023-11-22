@@ -38,7 +38,6 @@ namespace OC\Core\Controller;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
@@ -58,12 +57,14 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Util;
 
 #[IgnoreOpenAPI]
 class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
+	public const LOGIN_MSG_CSRFCHECKFAILED = 'csrfCheckFailed';
 
 	public function __construct(
 		?string $appName,
@@ -74,7 +75,7 @@ class LoginController extends Controller {
 		private Session $userSession,
 		private IURLGenerator $urlGenerator,
 		private Defaults $defaults,
-		private Throttler $throttler,
+		private IThrottler $throttler,
 		private IInitialStateService $initialStateService,
 		private WebAuthnManager $webAuthnManager,
 		private IManager $manager,
@@ -291,7 +292,7 @@ class LoginController extends Controller {
 				$user,
 				$user,
 				$redirect_url,
-				$this->l10n->t('Please try again')
+				self::LOGIN_MSG_CSRFCHECKFAILED
 			);
 		}
 
@@ -360,12 +361,13 @@ class LoginController extends Controller {
 		$loginResult = $this->userManager->checkPassword($loginName, $password);
 		if ($loginResult === false) {
 			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
-			$response->throttle();
+			$response->throttle(['loginName' => $loginName]);
 			return $response;
 		}
 
 		$confirmTimestamp = time();
 		$this->session->set('last-password-confirm', $confirmTimestamp);
+		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'sudo', ['loginName' => $loginName]);
 		return new DataResponse(['lastLogin' => $confirmTimestamp], Http::STATUS_OK);
 	}
 }

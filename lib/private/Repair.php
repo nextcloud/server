@@ -46,6 +46,7 @@ use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
+use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
@@ -84,7 +85,6 @@ use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
-use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -212,6 +212,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(CleanUpAbandonedApps::class),
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
+			\OCP\Server::get(AddMetadataGenerationJob::class),
 		];
 	}
 
@@ -235,19 +236,19 @@ class Repair implements IOutput {
 	 * @return IRepairStep[]
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		/** @var Connection $connection */
-		$connection = \OC::$server->get(Connection::class);
 		/** @var ConnectionAdapter $connectionAdapter */
 		$connectionAdapter = \OC::$server->get(ConnectionAdapter::class);
 		$config = \OC::$server->getConfig();
 		$steps = [
 			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), $connectionAdapter, true),
-			new SqliteAutoincrement($connection),
 			new SaveAccountsTableData($connectionAdapter, $config),
 			new DropAccountTermsTable($connectionAdapter),
 		];
 
 		return $steps;
+	}
+
+	public function debug(string $message): void {
 	}
 
 	/**

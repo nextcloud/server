@@ -26,8 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\UserMigration;
 
-use function Safe\sort;
-use function Safe\substr;
+use function sort;
+use function substr;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Plugin as CardDAVPlugin;
@@ -46,8 +46,6 @@ use Sabre\VObject\Parser\Parser as VObjectParser;
 use Sabre\VObject\Reader as VObjectReader;
 use Sabre\VObject\Splitter\VCard as VCardSplitter;
 use Sabre\VObject\UUIDUtil;
-use Safe\Exceptions\ArrayException;
-use Safe\Exceptions\StringsException;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
@@ -165,12 +163,12 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	private function getUniqueAddressBookUri(IUser $user, string $initialAddressBookUri): string {
 		$principalUri = $this->getPrincipalUri($user);
 
-		try {
-			$initialAddressBookUri = substr($initialAddressBookUri, 0, strlen(ContactsMigrator::MIGRATED_URI_PREFIX)) === ContactsMigrator::MIGRATED_URI_PREFIX
-				? $initialAddressBookUri
-				: ContactsMigrator::MIGRATED_URI_PREFIX . $initialAddressBookUri;
-		} catch (StringsException $e) {
-			throw new ContactsMigratorException('Failed to get unique address book URI', 0, $e);
+		$initialAddressBookUri = substr($initialAddressBookUri, 0, strlen(ContactsMigrator::MIGRATED_URI_PREFIX)) === ContactsMigrator::MIGRATED_URI_PREFIX
+			? $initialAddressBookUri
+			: ContactsMigrator::MIGRATED_URI_PREFIX . $initialAddressBookUri;
+
+		if ($initialAddressBookUri === '') {
+			throw new ContactsMigratorException('Failed to get unique address book URI');
 		}
 
 		$existingAddressBookUris = array_map(
@@ -303,11 +301,10 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 			fn (string $filename) => pathinfo($filename, PATHINFO_EXTENSION) === ContactsMigrator::METADATA_EXT,
 		);
 
-		try {
-			sort($addressBookImports);
-			sort($metadataImports);
-		} catch (ArrayException $e) {
-			throw new ContactsMigratorException('Failed to sort address book files in ' . ContactsMigrator::PATH_ROOT, 0, $e);
+		$addressBookSort = sort($addressBookImports);
+		$metadataSort = sort($metadataImports);
+		if ($addressBookSort === false || $metadataSort === false) {
+			throw new ContactsMigratorException('Failed to sort address book files in ' . ContactsMigrator::PATH_ROOT);
 		}
 
 		if (count($addressBookImports) !== count($metadataImports)) {

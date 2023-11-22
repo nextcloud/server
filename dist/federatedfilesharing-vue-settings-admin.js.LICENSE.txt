@@ -1,5 +1,3 @@
-/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
-
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *

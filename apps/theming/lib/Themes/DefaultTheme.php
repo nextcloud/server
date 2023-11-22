@@ -70,7 +70,7 @@ class DefaultTheme implements ITheme {
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 
-		// Override default defaultPrimaryColor if set to improve accessibility
+		// Override primary colors (if set) to improve accessibility
 		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
 			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
 		}
@@ -103,16 +103,17 @@ class DefaultTheme implements ITheme {
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
-		$colorTextMaxcontrast = $this->util->lighten($colorMainText, 33);
+		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
+		$colorTextMaxcontrast = '#6b6b6b'; // 4.5 : 1 for hover background and background dark
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#e9322d';
+		$colorError = '#d91812';
 		$colorWarning = '#c28900';
-		$colorSuccess = '#3fa857';
-		$colorInfo = '#006aa3';
+		$colorSuccess = '#2d7b41';
+		$colorInfo = '#0071ad';
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -137,28 +138,28 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
-			'--color-text-light' => $colorMainText,
-			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
+			'--color-text-light' => 'var(--color-main-text)', // deprecated
+			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 
 			// error/warning/success/info feedback colours
 			'--color-error' => $colorError,
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
+			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
 			'--color-error-text' => $this->util->darken($colorError, 4),
 			'--color-warning' => $colorWarning,
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
 			'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
-			'--color-warning-text' => $this->util->darken($colorWarning, 8),
+			'--color-warning-text' => $this->util->darken($colorWarning, 10),
 			'--color-success' => $colorSuccess,
 			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
-			'--color-success-text' => $this->util->darken($colorSuccess, 10),
+			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 78),
+			'--color-success-text' => $this->util->darken($colorSuccess, 4),
 			'--color-info' => $colorInfo,
 			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
-			'--color-info-text' => $colorInfo,
+			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
+			'--color-info-text' => $this->util->darken($colorInfo, 4),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',

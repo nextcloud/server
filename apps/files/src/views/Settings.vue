@@ -38,6 +38,10 @@
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch :checked="userConfig.grid_view"
+				@update:checked="setConfig('grid_view', $event)">
+				{{ t('files', 'Enable the grid view') }}
+			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->

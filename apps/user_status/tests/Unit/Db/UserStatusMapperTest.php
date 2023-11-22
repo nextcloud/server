@@ -228,6 +228,7 @@ class UserStatusMapperTest extends TestCase {
 		$userStatus2->setUserId('user1');
 		$userStatus2->setStatus('dnd');
 		$userStatus2->setStatusTimestamp(5000);
+		$userStatus2->setStatusMessageTimestamp(5000);
 		$userStatus2->setIsUserDefined(true);
 		$userStatus2->setCustomIcon('💩');
 		$userStatus2->setCustomMessage('Do not disturb');
@@ -237,6 +238,7 @@ class UserStatusMapperTest extends TestCase {
 		$userStatus3->setUserId('user2');
 		$userStatus3->setStatus('away');
 		$userStatus3->setStatusTimestamp(6000);
+		$userStatus3->setStatusMessageTimestamp(6000);
 		$userStatus3->setIsUserDefined(false);
 		$userStatus3->setCustomIcon('🏝');
 		$userStatus3->setCustomMessage('On vacation');

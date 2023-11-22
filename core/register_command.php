@@ -19,6 +19,7 @@ declare(strict_types=1);
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Patrik Kernstock <info@pkern.at>
@@ -192,7 +193,10 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\AddAppPassword(\OC::$server->get(\OCP\IUserManager::class), \OC::$server->get(\OC\Authentication\Token\IProvider::class), \OC::$server->get(\OCP\Security\ISecureRandom::class), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class)));
+	$application->add(new OC\Core\Command\User\SyncAccountDataCommand(\OC::$server->getUserManager(), \OC::$server->get(\OCP\Accounts\IAccountManager::class)));
+	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Add::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\ListCommand::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Delete::class));
 
 	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\Delete(\OC::$server->getGroupManager()));
@@ -209,7 +213,10 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(), \OC::$server->getL10N('core')));
 	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager()));
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager()));
-	$application->add(new OC\Core\Command\Security\ResetBruteforceAttempts(\OC::$server->getBruteForceThrottler()));
+	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceResetAttempts::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\SetupChecks::class));
+	$application->add(\OCP\Server::get(\OC\Core\Command\FilesMetadata\Get::class));
 } else {
 	$application->add(\OC::$server->get(\OC\Core\Command\Maintenance\Install::class));
 }

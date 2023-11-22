@@ -21,13 +21,12 @@
 -->
 
 <template>
-	<NcActionButton :aria-label="isSupportedScope ? tooltip : tooltipDisabled"
-		class="federation-actions__btn"
+	<NcActionButton class="federation-actions__btn"
 		:class="{ 'federation-actions__btn--active': activeScope === name }"
 		:close-after-click="true"
 		:disabled="!isSupportedScope"
 		:icon="iconClass"
-		:title="displayName"
+		:name="displayName"
 		@click.stop.prevent="updateScope">
 		{{ isSupportedScope ? tooltip : tooltipDisabled }}
 	</NcActionButton>
@@ -87,18 +86,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.federation-actions__btn {
-	&::v-deep p {
-		width: 150px !important;
-		padding: 8px 0 !important;
-		color: var(--color-main-text) !important;
-		font-size: 12.8px !important;
-		line-height: 1.5em !important;
-	}
-}
-
 .federation-actions__btn--active {
 	background-color: var(--color-primary-element-light) !important;
 	box-shadow: inset 2px 0 var(--color-primary-element) !important;
+	border-radius: 0px !important;
 }
 </style>

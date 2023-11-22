@@ -19,9 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { expect } from '@jest/globals'
 import { File, Folder, Permission } from '@nextcloud/files'
 import { isNodeExternalStorage } from './externalStorageUtils'
-import { expect } from '@jest/globals'
 
 describe('Is node an external storage', () => {
 	test('A Folder with a backend and a valid scope is an external storage', () => {

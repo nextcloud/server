@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Estados recientes",
+    "No recent status changes" : "No hay cambios recientes de estado",
     "In a meeting" : "En una reunión",
     "Commuting" : "Desplazamiento",
     "Out sick" : "Ausente por enfermedad",
@@ -9,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Trabajando de forma remota",
     "In a call" : "En una llamada",
     "User status" : "Estado de usuario",
-    "View profile" : "Ver perfil",
     "Clear status after" : "Borrar estado después de",
     "Emoji for your status message" : "Emoji para tu mensaje de estado",
     "What is your status?" : "¿Cuál es tu estado?",
@@ -28,14 +28,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Hubo un error al guardar el estado",
     "There was an error clearing the status" : "Hubo un error al borrar el estado",
     "There was an error reverting the status" : "Hubo un error al revertir el estado",
-    "No recent status changes" : "No hay cambios recientes de estado",
-    "Away" : "Ausente",
-    "Do not disturb" : "No molestar",
-    "{status}, {timestamp}" : "{estado}, {marca de tiempo}",
     "Don't clear" : "No borrar",
     "Today" : "Hoy",
     "This week" : "Esta semana",
     "Online" : "En línea",
+    "Away" : "Ausente",
+    "Do not disturb" : "No molestar",
     "Invisible" : "Invisible",
     "Offline" : "Sin conexión",
     "There was an error saving the new status" : "Hubo un error al guardar el nuevo estado",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas las notificaciones",
-    "Appear offline" : "Aparecer como desconectado"
+    "Appear offline" : "Aparecer como desconectado",
+    "View profile" : "Ver perfil",
+    "{status}, {timestamp}" : "{estado}, {marca de tiempo}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -35,46 +35,27 @@
 
 		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
-			<label for="unified-search__input">{{ ariaLabel }}</label>
 			<div class="unified-search__input-row">
-				<form class="unified-search__form"
-					role="search"
-					:class="{'icon-loading-small': isLoading}"
-					@submit.prevent.stop="onInputEnter"
-					@reset.prevent.stop="onReset">
-					<!-- Search input -->
-					<input id="unified-search__input"
-						ref="input"
-						v-model="query"
-						class="unified-search__form-input"
-						type="search"
-						:class="{'unified-search__form-input--with-reset': !!query}"
-						:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
-						aria-describedby="unified-search-desc"
-						@input="onInputDebounced"
-						@keypress.enter.prevent.stop="onInputEnter">
-					<p id="unified-search-desc" class="hidden-visually">
-						{{ t('core', 'Search starts once you start typing and results may be reached with the arrow keys') }}
-					</p>
-
-					<!-- Reset search button -->
-					<input v-if="!!query && !isLoading"
-						type="reset"
-						class="unified-search__form-reset icon-close"
-						:aria-label="t('core','Reset search')"
-						value="">
-
-					<input v-if="!!query && !isLoading && !enableLiveSearch"
-						type="submit"
-						class="unified-search__form-submit icon-confirm"
-						:aria-label="t('core','Start search')"
-						value="">
-				</form>
+				<NcTextField :value.sync="query"
+					trailing-button-icon="close"
+					:label="ariaLabel"
+					ref="input"
+					:trailing-button-label="t('core','Reset search')"
+					:show-trailing-button="query !== ''"
+					aria-describedby="unified-search-desc"
+					class="unified-search__form-input"
+					:class="{'unified-search__form-input--with-reset': !!query}"
+					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
+					@trailing-button-click="onReset"
+					@input="onInputDebounced" />
+				<p id="unified-search-desc" class="hidden-visually">
+					{{ t('core', 'Search starts once you start typing and results may be reached with the arrow keys') }}
+				</p>
 
 				<!-- Search filters -->
 				<NcActions v-if="availableFilters.length > 1"
 					class="unified-search__filters"
-					placement="bottom"
+					placement="bottom-end"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
 					<NcActionButton v-for="filter in availableFilters"
@@ -152,6 +133,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 
@@ -175,6 +157,7 @@ export default {
 		NcHeaderMenu,
 		SearchResult,
 		SearchResultPlaceholders,
+		NcTextField,
 	},
 
 	data() {
@@ -367,9 +350,12 @@ export default {
 
 		document.addEventListener('keydown', (event) => {
 			// if not already opened, allows us to trigger default browser on second keydown
-			if (event.ctrlKey && event.key === 'f' && !this.open) {
+			if (event.ctrlKey && event.code === 'KeyF' && !this.open) {
 				event.preventDefault()
 				this.open = true
+			} else if (event.ctrlKey && event.key === 'f' && this.open) {
+				// User wants to use the native browser search, so we close ours again
+				this.open = false
 			}
 
 			// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
@@ -735,7 +721,7 @@ export default {
 
 $margin: 10px;
 $input-height: 34px;
-$input-padding: 6px;
+$input-padding: 10px;
 
 .unified-search {
 	&__input-wrapper {
@@ -759,6 +745,12 @@ $input-padding: 6px;
 
 	&__form-input {
 		margin: 0 !important;
+		&:focus,
+		&:focus-visible,
+		&:active {
+			border-color: 2px solid var(--color-main-text) !important;
+			box-shadow: 0 0 0 2px var(--color-main-background) !important;
+		}
 	}
 
 	&__input-row {
@@ -769,6 +761,7 @@ $input-padding: 6px;
 
 	&__filters {
 		margin: $margin 0 $margin math.div($margin, 2);
+		padding-top: 5px;
 		ul {
 			display: inline-flex;
 			justify-content: space-between;
@@ -810,12 +803,6 @@ $input-padding: 6px;
 			&::-webkit-search-results-button,
 			&::-webkit-search-results-decoration {
 				-webkit-appearance: none;
-			}
-
-			// Ellipsis earlier if reset button is here
-			.icon-loading-small &,
-			&--with-reset {
-				padding-right: $input-height;
 			}
 		}
 
@@ -869,7 +856,6 @@ $input-padding: 6px;
 		::v-deep .empty-content__title {
 			font-weight: normal;
             font-size: var(--default-font-size);
-			padding: 0 15px;
 			text-align: center;
 		}
 	}

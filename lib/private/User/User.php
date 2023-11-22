@@ -576,7 +576,7 @@ class User implements IUser {
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->getAvatarManager();
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
@@ -597,7 +597,7 @@ class User implements IUser {
 	public function getCloudId() {
 		$uid = $this->getUID();
 		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
-		if (substr($server, -10) === '/index.php') {
+		if (str_ends_with($server, '/index.php')) {
 			$server = substr($server, 0, -10);
 		}
 		$server = $this->removeProtocolFromUrl($server);

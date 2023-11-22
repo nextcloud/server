@@ -193,9 +193,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
-		return isset($this->items['parameters'][$offset])
-			? $this->items['parameters'][$offset]
-			: null;
+		return $this->items['parameters'][$offset] ?? null;
 	}
 
 	/**
@@ -255,9 +253,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'cookies':
 			case 'urlParams':
 			case 'method':
-				return isset($this->items[$name])
-					? $this->items[$name]
-					: null;
+				return $this->items[$name] ?? null;
 			case 'parameters':
 			case 'params':
 				if ($this->isPutStreamContent()) {
@@ -597,14 +593,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				// only have one default, so we cannot ship an insecure product out of the box
 			]);
 
-			foreach ($forwardedForHeaders as $header) {
+			// Read the x-forwarded-for headers and values in reverse order as per
+			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
+			foreach (array_reverse($forwardedForHeaders) as $header) {
 				if (isset($this->server[$header])) {
-					foreach (explode(',', $this->server[$header]) as $IP) {
+					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
 						$IP = trim($IP);
 
 						// remove brackets from IPv6 addresses
 						if (str_starts_with($IP, '[') && str_ends_with($IP, ']')) {
 							$IP = substr($IP, 1, -1);
+						}
+
+						if ($this->isTrustedProxy($trustedProxies, $IP)) {
+							continue;
 						}
 
 						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {

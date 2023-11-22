@@ -15,6 +15,7 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author zulan <git@zulan.net>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -46,6 +47,28 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
+use OCA\Settings\Search\UserSearch;
+use OCA\Settings\SetupChecks\BruteForceThrottler;
+use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
+use OCA\Settings\SetupChecks\EmailTestSuccessful;
+use OCA\Settings\SetupChecks\FileLocking;
+use OCA\Settings\SetupChecks\ForwardedForHeaders;
+use OCA\Settings\SetupChecks\InternetConnectivity;
+use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
+use OCA\Settings\SetupChecks\MemcacheConfigured;
+use OCA\Settings\SetupChecks\PhpDefaultCharset;
+use OCA\Settings\SetupChecks\PhpFreetypeSupport;
+use OCA\Settings\SetupChecks\PhpGetEnv;
+use OCA\Settings\SetupChecks\PhpMemoryLimit;
+use OCA\Settings\SetupChecks\PhpModules;
+use OCA\Settings\SetupChecks\PhpOutdated;
+use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\RandomnessSecure;
+use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\SupportedDatabase;
+use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
@@ -78,6 +101,7 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
 		$context->registerSearchProvider(AppSearch::class);
+		$context->registerSearchProvider(UserSearch::class);
 
 		// Register listeners
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
@@ -134,6 +158,27 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+		$context->registerSetupCheck(BruteForceThrottler::class);
+		$context->registerSetupCheck(CheckUserCertificates::class);
+		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
+		$context->registerSetupCheck(EmailTestSuccessful::class);
+		$context->registerSetupCheck(FileLocking::class);
+		$context->registerSetupCheck(ForwardedForHeaders::class);
+		$context->registerSetupCheck(InternetConnectivity::class);
+		$context->registerSetupCheck(LegacySSEKeyFormat::class);
+		$context->registerSetupCheck(MemcacheConfigured::class);
+		$context->registerSetupCheck(PhpDefaultCharset::class);
+		$context->registerSetupCheck(PhpFreetypeSupport::class);
+		$context->registerSetupCheck(PhpGetEnv::class);
+		$context->registerSetupCheck(PhpMemoryLimit::class);
+		$context->registerSetupCheck(PhpModules::class);
+		$context->registerSetupCheck(PhpOutdated::class);
+		$context->registerSetupCheck(PhpOutputBuffering::class);
+		$context->registerSetupCheck(RandomnessSecure::class);
+		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(SupportedDatabase::class);
+		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TransactionIsolation::class);
 
 		$context->registerUserMigrator(AccountMigrator::class);
 	}

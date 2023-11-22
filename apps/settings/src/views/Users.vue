@@ -22,45 +22,41 @@
 
 <template>
 	<Fragment>
-		<NcContent app-name="settings" :navigation-class="{ 'icon-loading': loadingAddGroup }">
+		<NcContent app-name="settings">
 			<NcAppNavigation>
 				<NcAppNavigationNew button-id="new-user-button"
 					:text="t('settings','New user')"
-					button-class="icon-add"
 					@click="showNewUserMenu"
 					@keyup.enter="showNewUserMenu"
-					@keyup.space="showNewUserMenu" />
+					@keyup.space="showNewUserMenu">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcAppNavigationNew>
 
 				<template #list>
-					<NcAppNavigationNewItem id="addgroup"
-						ref="addGroup"
-						:edit-placeholder="t('settings', 'Enter group name')"
-						:editable="true"
-						:loading="loadingAddGroup"
-						:name="t('settings', 'Add group')"
-						@click="showAddGroupForm"
-						@new-item="createGroup">
-						<template #icon>
-							<Plus :size="20" />
-						</template>
-					</NcAppNavigationNewItem>
 					<NcAppNavigationItem id="everyone"
 						:exact="true"
 						:name="t('settings', 'Active users')"
-						:to="{ name: 'users' }"
-						icon="icon-contacts-dark">
+						:to="{ name: 'users' }">
+						<template #icon>
+							<AccountGroup :size="20" />
+						</template>
 						<template #counter>
-							<NcCounterBubble :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
 								{{ userCount }}
 							</NcCounterBubble>
 						</template>
 					</NcAppNavigationItem>
+
 					<NcAppNavigationItem v-if="settings.isAdmin"
 						id="admin"
 						:exact="true"
 						:name="t('settings', 'Admins')"
-						:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
-						icon="icon-user-admin">
+						:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
+						<template #icon>
+							<ShieldAccount :size="20" />
+						</template>
 						<template v-if="adminGroupMenu.count > 0" #counter>
 							<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
 								{{ adminGroupMenu.count }}
@@ -73,8 +69,10 @@
 						id="disabled"
 						:exact="true"
 						:name="t('settings', 'Disabled users')"
-						:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
-						icon="icon-disabled-users">
+						:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
+						<template #icon>
+							<AccountOff :size="20" />
+						</template>
 						<template v-if="disabledGroupMenu.usercount > 0" #counter>
 							<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
 								{{ disabledGroupMenu.usercount }}
@@ -82,7 +80,33 @@
 						</template>
 					</NcAppNavigationItem>
 
-					<NcAppNavigationCaption v-if="groupList.length > 0" :name="t('settings', 'Groups')" />
+					<NcAppNavigationCaption :name="t('settings', 'Groups')"
+						:disabled="loadingAddGroup"
+						:aria-label="loadingAddGroup ? t('settings', 'Creating group …') : t('settings', 'Create group')"
+						force-menu
+						:open.sync="isAddGroupOpen">
+						<template #actionsTriggerIcon>
+							<NcLoadingIcon v-if="loadingAddGroup" />
+							<Plus v-else :size="20" />
+						</template>
+						<template #actions>
+							<NcActionText>
+								<template #icon>
+									<AccountGroup :size="20" />
+								</template>
+								{{ t('settings', 'Create group') }}
+							</NcActionText>
+							<NcActionInput :label="t('settings', 'Group name')"
+								data-cy-settings-new-group-name
+								:label-outside="false"
+								:disabled="loadingAddGroup"
+								:value.sync="newGroupName"
+								:error="hasAddGroupError"
+								:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
+								@submit="createGroup" />
+						</template>
+					</NcAppNavigationCaption>
+
 					<GroupListItem v-for="group in groupList"
 						:id="group.id"
 						:key="group.id"
@@ -117,18 +141,25 @@
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 import { Fragment } from 'vue-frag'
+import { translate as t } from '@nextcloud/l10n'
+import { showError } from '@nextcloud/dialogs'
 
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
-import NcAppNavigationNewItem from '@nextcloud/vue/dist/Components/NcAppNavigationNewItem.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
+import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
+import AccountOff from 'vue-material-design-icons/AccountOff.vue'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+import ShieldAccount from 'vue-material-design-icons/ShieldAccount.vue'
 
 import GroupListItem from '../components/GroupListItem.vue'
 import UserList from '../components/UserList.vue'
@@ -140,18 +171,23 @@ export default {
 	name: 'Users',
 
 	components: {
+		AccountGroup,
+		AccountOff,
 		Cog,
 		Fragment,
 		GroupListItem,
+		NcActionInput,
+		NcActionText,
 		NcAppContent,
 		NcAppNavigation,
 		NcAppNavigationCaption,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
-		NcAppNavigationNewItem,
 		NcContent,
 		NcCounterBubble,
+		NcLoadingIcon,
 		Plus,
+		ShieldAccount,
 		UserList,
 		UserSettingsDialog,
 	},
@@ -167,7 +203,10 @@ export default {
 		return {
 			// temporary value used for multiselect change
 			externalActions: [],
+			newGroupName: '',
+			isAddGroupOpen: false,
 			loadingAddGroup: false,
+			hasAddGroupError: false,
 			isDialogOpen: false,
 		}
 	},
@@ -245,6 +284,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		showNewUserMenu() {
 			this.$store.commit('setShowConfig', {
 				key: 'showNewUserForm',
@@ -271,43 +312,30 @@ export default {
 
 		/**
 		 * Create a new group
-		 *
-		 * @param {string} gid The group id
 		 */
-		async createGroup(gid) {
-			// group is not valid
-			if (gid.trim() === '') {
+		async createGroup() {
+			this.hasAddGroupError = false
+			const groupId = this.newGroupName.trim()
+			if (groupId === '') {
+				this.hasAddGroupError = true
 				return
 			}
 
+			this.isAddGroupOpen = false
+			this.loadingAddGroup = true
 			try {
-				this.loadingAddGroup = true
-				await this.$store.dispatch('addGroup', gid.trim())
-
-				this.hideAddGroupForm()
+				await this.$store.dispatch('addGroup', groupId)
 				await this.$router.push({
 					name: 'group',
 					params: {
-						selectedGroup: encodeURIComponent(gid.trim()),
+						selectedGroup: encodeURIComponent(groupId),
 					},
 				})
+				this.newGroupName = ''
 			} catch {
-				this.showAddGroupForm()
-			} finally {
-				this.loadingAddGroup = false
+				showError(t('settings', 'Failed to create group'))
 			}
-		},
-
-		showAddGroupForm() {
-			this.$refs.addGroup.newItemActive = true
-			this.$nextTick(() => {
-				this.$refs.addGroup.$refs.newItemInput.focusInput()
-			})
-		},
-
-		hideAddGroupForm() {
-			this.$refs.addGroup.newItemActive = false
-			this.$refs.addGroup.newItemValue = ''
+			this.loadingAddGroup = false
 		},
 
 		/**
@@ -344,11 +372,6 @@ export default {
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
-}
-
-// force hiding the editing action for the add group entry
-.app-navigation__list #addgroup::v-deep .app-navigation-entry__utils {
-	display: none;
 }
 
 .app-navigation-entry__settings {

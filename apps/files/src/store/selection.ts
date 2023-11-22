@@ -35,7 +35,7 @@ export const useSelectionStore = defineStore('selection', {
 		 * Set the selection of fileIds
 		 */
 		set(selection = [] as FileId[]) {
-			Vue.set(this, 'selected', selection)
+			Vue.set(this, 'selected', [...new Set(selection)])
 		},
 
 		/**

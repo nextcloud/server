@@ -59,6 +59,11 @@ class SMB extends Backend {
 				(new DefinitionParameter('show_hidden', $l->t('Show hidden files')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				(new DefinitionParameter('case_sensitive', $l->t('Case sensitive file system')))
+					->setType(DefinitionParameter::VALUE_BOOLEAN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
+					->setDefaultValue(true)
+					->setTooltip($l->t('Disabling it will allow to use a case insentive file system, but comes with a performance penalty')),
 				(new DefinitionParameter('check_acl', $l->t('Verify ACL access when listing files')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)

@@ -27,6 +27,7 @@ use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
 use OC\Share20\Manager;
 use OC\Share20\Share;
+use OC\Share20\ShareDisableChecker;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -111,6 +112,8 @@ class ManagerTest extends \Test\TestCase {
 	protected $userSession;
 	/** @var KnownUserService|MockObject  */
 	protected $knownUserService;
+	/** @var ShareDisableChecker|MockObject  */
+	protected $shareDisabledChecker;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -127,6 +130,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
+
+		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -158,7 +163,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker
 		);
 
 		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
@@ -188,7 +194,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->defaults,
 				$this->dispatcher,
 				$this->userSession,
-				$this->knownUserService
+				$this->knownUserService,
+				$this->shareDisabledChecker,
 			]);
 	}
 
@@ -2729,10 +2736,12 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByToken() {
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+			]);
 
 		$factory = $this->createMock(IProviderFactory::class);
 
@@ -2753,7 +2762,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2774,10 +2784,12 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenRoom() {
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('no');
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'no'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+			]);
 
 		$factory = $this->createMock(IProviderFactory::class);
 
@@ -2798,7 +2810,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2826,10 +2839,12 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenWithException() {
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+			]);
 
 		$factory = $this->createMock(IProviderFactory::class);
 
@@ -2850,7 +2865,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2873,6 +2889,61 @@ class ManagerTest extends \Test\TestCase {
 
 		$ret = $manager->getShareByToken('token');
 		$this->assertSame($share, $ret);
+	}
+
+
+	public function testGetShareByTokenHideDisabledUser() {
+		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+		$this->expectExceptionMessage('The requested share comes from a disabled user');
+
+		$this->config
+			->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'yes'],
+			]);
+
+		$this->l->expects($this->once())
+			->method('t')
+			->willReturnArgument(0);
+
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare'])
+			->getMock();
+
+		$date = new \DateTime();
+		$date->setTime(0, 0, 0);
+		$date->add(new \DateInterval('P2D'));
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date);
+		$share->setShareOwner('owner');
+		$share->setSharedBy('sharedBy');
+
+		$sharedBy = $this->createMock(IUser::class);
+		$owner = $this->createMock(IUser::class);
+
+		$this->userManager->method('get')->willReturnMap([
+			['sharedBy', $sharedBy],
+			['owner', $owner],
+		]);
+
+		$owner->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
+		$sharedBy->expects($this->once())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('expiredToken')
+			->willReturn($share);
+
+		$manager->expects($this->never())
+			->method('deleteShare');
+
+		$manager->getShareByToken('expiredToken');
 	}
 
 
@@ -2913,10 +2984,12 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenNotExpired() {
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+			]);
 
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
@@ -2948,11 +3021,12 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenPublicUploadDisabled() {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'no'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 			]);
 
 		$share = $this->manager->newShare();
@@ -4191,7 +4265,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
@@ -4225,7 +4300,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4290,7 +4366,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4407,7 +4484,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4533,7 +4611,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->dispatcher,
 			$this->userSession,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->shareDisabledChecker
 		);
 
 		$factory->setProvider($this->defaultProvider);

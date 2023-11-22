@@ -35,7 +35,7 @@ use OCP\Log\RotationTrait;
 class Rotate extends \OCP\BackgroundJob\Job {
 	use RotationTrait;
 
-	public function run($dummy) {
+	public function run($dummy): void {
 		$systemConfig = \OC::$server->getSystemConfig();
 		$this->filePath = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 

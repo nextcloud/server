@@ -26,13 +26,14 @@
 			<div :class="iconName.icon" />
 		</td>
 		<td class="token-name">
-			<input v-if="token.canRename && renaming"
+			<NcTextField v-if="token.canRename && renaming"
 				ref="input"
 				v-model="newName"
 				type="text"
+				:label="t('settings', 'Device name')"
 				@keyup.enter="rename"
 				@change="rename"
-				@keyup.esc="cancelRename">
+				@keyup.esc="cancelRename" />
 			<span v-else>{{ iconName.name }}</span>
 			<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
 		</td>
@@ -86,6 +87,7 @@
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 // When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {
@@ -157,6 +159,7 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
+		NcTextField,
 	},
 	props: {
 		token: {

@@ -14,9 +14,9 @@ OC.L10N.register(
     "Delete comment" : "댓글 삭제",
     "No comments yet, start the conversation!" : "아직 댓글이 없습니다. 대화를 시작하십시오!",
     "Retry" : "다시 시도",
-    "_%n unread comment_::_%n unread comments_" : ["읽지 않은 댓글 %n개"],
     "_1 new comment_::_{unread} new comments_" : ["새 댓글 {unread}개"],
     "Comment" : "설명",
-    "%1$s commented" : "%1$s 님의 댓글"
+    "%1$s commented" : "%1$s 님의 댓글",
+    "_%n unread comment_::_%n unread comments_" : ["읽지 않은 댓글 %n개"]
 },
 "nplurals=1; plural=0;");

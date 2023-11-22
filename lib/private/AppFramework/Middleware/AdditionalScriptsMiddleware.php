@@ -27,6 +27,8 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Middleware;
 
+use OC\Core\Controller\LoginController;
+use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -44,8 +46,12 @@ class AdditionalScriptsMiddleware extends Middleware {
 
 	public function afterController($controller, $methodName, Response $response): Response {
 		if ($response instanceof TemplateResponse) {
-			$isLoggedIn = !($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn();
-			$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn, $response));
+			if ($controller instanceof LoginController) {
+				$this->dispatcher->dispatchTyped(new BeforeLoginTemplateRenderedEvent($response));
+			} else {
+				$isLoggedIn = !($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn();
+				$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn, $response));
+			}
 		}
 
 		return $response;

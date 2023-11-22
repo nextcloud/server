@@ -202,8 +202,8 @@ class UtilTest extends TestCase {
 	public function dataGetAppImage() {
 		return [
 			['core', 'logo/logo.svg', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
-			['files', 'external', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
-			['files', 'external.svg', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
+			['files', 'folder', \OC::$SERVERROOT . '/apps/files/img/folder.svg'],
+			['files', 'folder.svg', \OC::$SERVERROOT . '/apps/files/img/folder.svg'],
 			['noapplikethis', 'foobar.svg', false],
 		];
 	}

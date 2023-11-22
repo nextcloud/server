@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 namespace OCP\Files\Mount;
 
+use OCP\Files\Config\ICachedMountInfo;
+
 /**
  * Interface IMountManager
  *
@@ -106,4 +108,14 @@ interface IMountManager {
 	 * @since 8.2.0
 	 */
 	public function findByNumericId(int $id): array;
+
+	/**
+	 * Return the mount matching a cached mount info (or mount file info)
+	 *
+	 * @param ICachedMountInfo $info
+	 *
+	 * @return IMountPoint|null
+	 * @since 28.0.0
+	 */
+	public function getMountFromMountInfo(ICachedMountInfo $info): ?IMountPoint;
 }

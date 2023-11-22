@@ -21,13 +21,13 @@ OC.L10N.register(
     "Retry" : "Thử lại",
     "Failed to mark comments as read" : "Không thể đánh dấu bình luận là đã đọc",
     "Unable to load the comments list" : "Không thể tải danh sách bình luận",
-    "_%n unread comment_::_%n unread comments_" : ["%n bình luận chưa đọc"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} bình luận mới"],
     "Comment" : "Bình luận",
     "An error occurred while trying to edit the comment" : "Đã xảy ra lỗi khi cố gắng chỉnh sửa bình luận",
     "Comment deleted" : "Đã xóa bình luận",
     "An error occurred while trying to delete the comment" : "Đã xảy ra lỗi khi cố gắng xóa bình luận",
     "An error occurred while trying to create the comment" : "Đã xảy ra lỗi khi cố gắng tạo bình luận",
-    "%1$s commented" : "%1$s được bình luận"
+    "%1$s commented" : "%1$s được bình luận",
+    "_%n unread comment_::_%n unread comments_" : ["%n bình luận chưa đọc"]
 },
 "nplurals=1; plural=0;");

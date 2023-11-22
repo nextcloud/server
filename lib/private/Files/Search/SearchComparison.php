@@ -1,7 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -25,46 +28,43 @@ namespace OC\Files\Search;
 use OCP\Files\Search\ISearchComparison;
 
 class SearchComparison implements ISearchComparison {
-	/** @var string */
-	private $type;
-	/** @var string */
-	private $field;
-	/** @var string|integer|\DateTime */
-	private $value;
-	private $hints = [];
+	private array $hints = [];
 
-	/**
-	 * SearchComparison constructor.
-	 *
-	 * @param string $type
-	 * @param string $field
-	 * @param \DateTime|int|string $value
-	 */
-	public function __construct($type, $field, $value) {
-		$this->type = $type;
-		$this->field = $field;
-		$this->value = $value;
+	public function __construct(
+		private string $type,
+		private string $field,
+		private \DateTime|int|string|bool $value,
+		private string $extra = ''
+	) {
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getField() {
+	public function getField(): string {
 		return $this->field;
 	}
 
 	/**
-	 * @return \DateTime|int|string
+	 * @return \DateTime|int|string|bool
 	 */
-	public function getValue() {
+	public function getValue(): string|int|bool|\DateTime {
 		return $this->value;
+	}
+
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getExtra(): string {
+		return $this->extra;
 	}
 
 	public function getQueryHint(string $name, $default) {

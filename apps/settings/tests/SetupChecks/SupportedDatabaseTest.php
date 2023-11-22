@@ -27,6 +27,7 @@ namespace OCA\Settings\Tests;
 
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\IL10N;
+use OCP\SetupCheck\SetupResult;
 use Test\TestCase;
 
 /**
@@ -36,6 +37,6 @@ class SupportedDatabaseTest extends TestCase {
 	public function testPass(): void {
 		$l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$check = new SupportedDatabase($l10n, \OC::$server->getDatabaseConnection());
-		$this->assertTrue($check->run());
+		$this->assertEquals(SetupResult::SUCCESS, $check->run()->getSeverity());
 	}
 }

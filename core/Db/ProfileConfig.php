@@ -26,10 +26,9 @@ declare(strict_types=1);
 
 namespace OC\Core\Db;
 
-use function Safe\json_decode;
-use function Safe\json_encode;
+use function json_decode;
+use function json_encode;
 use \JsonSerializable;
-use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Db\Entity;
 use OCP\Profile\ParameterDoesNotExistException;
 
@@ -40,53 +39,6 @@ use OCP\Profile\ParameterDoesNotExistException;
  * @method void setConfig(string $config)
  */
 class ProfileConfig extends Entity implements JsonSerializable {
-	/**
-	 * Visible to users, guests, and public access
-	 *
-	 * @since 23.0.0
-	 */
-	public const VISIBILITY_SHOW = 'show';
-
-	/**
-	 * Visible to users and guests
-	 *
-	 * @since 23.0.0
-	 */
-	public const VISIBILITY_SHOW_USERS_ONLY = 'show_users_only';
-
-	/**
-	 * Visible to nobody
-	 *
-	 * @since 23.0.0
-	 */
-	public const VISIBILITY_HIDE = 'hide';
-
-	/**
-	 * Default account property visibility
-	 *
-	 * @since 23.0.0
-	 */
-	public const DEFAULT_PROPERTY_VISIBILITY = [
-		IAccountManager::PROPERTY_ADDRESS => self::VISIBILITY_SHOW_USERS_ONLY,
-		IAccountManager::PROPERTY_AVATAR => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_BIOGRAPHY => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_DISPLAYNAME => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_HEADLINE => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_ORGANISATION => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_ROLE => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW_USERS_ONLY,
-		IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW_USERS_ONLY,
-		IAccountManager::PROPERTY_TWITTER => self::VISIBILITY_SHOW,
-		IAccountManager::PROPERTY_WEBSITE => self::VISIBILITY_SHOW,
-	];
-
-	/**
-	 * Default visibility
-	 *
-	 * @since 23.0.0
-	 */
-	public const DEFAULT_VISIBILITY = self::VISIBILITY_SHOW_USERS_ONLY;
-
 	/** @var string */
 	protected $userId;
 

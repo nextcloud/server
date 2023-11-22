@@ -52,6 +52,7 @@ export default {
 					return this.$t('user_status', 'Online')
 
 				case 'away':
+				case 'busy':
 					return this.$t('user_status', 'Away')
 
 				case 'dnd':
@@ -79,6 +80,7 @@ export default {
 				return 'icon-user-status-online'
 
 			case 'away':
+			case 'busy':
 				return 'icon-user-status-away'
 
 			case 'dnd':

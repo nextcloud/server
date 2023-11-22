@@ -38,40 +38,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteCalendar extends Command {
-	/** @var CalDavBackend */
-	private $calDav;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * @param CalDavBackend $calDav
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param IUserManager $userManager
-	 */
 	public function __construct(
-		CalDavBackend $calDav,
-		IConfig $config,
-		IL10N $l10n,
-		IUserManager $userManager,
-		LoggerInterface $logger
+		private CalDavBackend $calDav,
+		private IConfig $config,
+		private IL10N $l10n,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct();
-		$this->calDav = $calDav;
-		$this->config = $config;
-		$this->l10n = $l10n;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
 	}
 
 	protected function configure(): void {
@@ -140,6 +114,6 @@ class DeleteCalendar extends Command {
 
 		$calendar->delete();
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

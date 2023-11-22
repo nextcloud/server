@@ -58,7 +58,7 @@
 					:icon="backupIcon"
 					:message="backupMessage"
 					@select="revertBackupFromServer" />
-				<PredefinedStatusesList :is-custom-status="isCustomStatus" @select-status="selectPredefinedMessage" />
+				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 				<ClearAtSelect :clear-at="clearAt"
 					@select-clear-at="setClearAt" />
 				<div class="status-buttons">

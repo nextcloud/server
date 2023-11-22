@@ -32,11 +32,11 @@ use OCP\IMemcacheTTL;
 use OCP\Lock\LockedException;
 
 class MemcacheLockingProvider extends AbstractLockingProvider {
-	private IMemcache $memcache;
-
-	public function __construct(IMemcache $memcache, int $ttl = 3600) {
-		$this->memcache = $memcache;
-		$this->ttl = $ttl;
+	public function __construct(
+		private IMemcache $memcache,
+		int $ttl = 3600,
+	) {
+		parent::__construct($ttl);
 	}
 
 	private function setTTL(string $path): void {

@@ -26,6 +26,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\HomePropagator;
+use OCP\IUser;
 
 /**
  * Specialized version of Local storage for home directory usage
@@ -94,7 +95,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	 *
 	 * @return \OC\User\User owner of this home storage
 	 */
-	public function getUser() {
+	public function getUser(): IUser {
 		return $this->user;
 	}
 

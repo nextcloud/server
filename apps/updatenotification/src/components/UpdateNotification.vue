@@ -482,9 +482,6 @@ export default {
 					cursor: pointer;
 				}
 			}
-			&:first-of-type {
-				margin-top: 0;
-			}
 		}
 		h4 {
 			margin-block-end: 0.7rem;
@@ -510,6 +507,9 @@ export default {
 			cursor: pointer;
 			margin-left: 3px;
 			display: inline-block;
+			padding: 10px;
+			border-radius: 10px;
+			border: 2px solid var(--color-border-dark);
 			.icon-update-menu {
 				cursor: inherit;
 				.icon-triangle-s {

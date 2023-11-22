@@ -94,11 +94,6 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'Api#getViewConfig',
-				'url' => '/api/v1/views/{view}',
-				'verb' => 'GET'
-			],
-			[
 				'name' => 'Api#setConfig',
 				'url' => '/api/v1/config/{key}',
 				'verb' => 'PUT'
@@ -139,16 +134,14 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'view#index',
+				'name' => 'view#indexView',
 				'url' => '/{view}',
 				'verb' => 'GET',
-				'postfix' => 'view',
 			],
 			[
-				'name' => 'view#index',
+				'name' => 'view#indexViewFileid',
 				'url' => '/{view}/{fileid}',
 				'verb' => 'GET',
-				'postfix' => 'fileid',
 			],
 		],
 		'ocs' => [

@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Estados recentes",
+    "No recent status changes" : "Non hai cambios de estado recentes",
     "In a meeting" : "Nunha xuntanza",
     "Commuting" : "De casa ao traballo ou ao revés",
     "Out sick" : "Enfermo",
@@ -9,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Traballando en remoto",
     "In a call" : "Nunha chamada",
     "User status" : "Estado do usuario",
-    "View profile" : "Ver o perfil",
     "Clear status after" : "Limpar o estado após",
     "Emoji for your status message" : "«Emoji» para a súa mensaxe de estado",
     "What is your status?" : "Cal é o seu estado?",
@@ -28,14 +28,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Produciuse un erro ao gardar o estado",
     "There was an error clearing the status" : "Produciuse un erro ao limpar o estado",
     "There was an error reverting the status" : "Produciuse un erro ao reverter o estado",
-    "No recent status changes" : "Non hai cambios de estado recentes",
-    "Away" : "Ausente",
-    "Do not disturb" : "Non molestar",
-    "{status}, {timestamp}" : "{status} ás {timestamp}",
     "Don't clear" : "Non limpar",
     "Today" : "Hoxe",
     "This week" : "Esta semana",
     "Online" : "En liña",
+    "Away" : "Ausente",
+    "Do not disturb" : "Non molestar",
     "Invisible" : "Invisíbel",
     "Offline" : "Sen conexión",
     "There was an error saving the new status" : "Produciuse un erro ao gardar o novo estado",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas as notificacións",
-    "Appear offline" : "Aparece coma sen conexión"
+    "Appear offline" : "Aparece coma sen conexión",
+    "View profile" : "Ver o perfil",
+    "{status}, {timestamp}" : "{status} ás {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

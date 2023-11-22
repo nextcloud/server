@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "Вашата парола ще изтече днес.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Вашата парола ще изтече в рамките на %n дни.","Вашата парола ще изтече в рамките на %n дни."],
     "LDAP/AD integration" : "LDAP/AD интеграция",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Открит е невалиден UUID на потребители или групи на LDAP. Моля, прегледайте настройките си за \"Override UUID detection\"/ откриване на отмяна на UUID/, в експертната част на LDAP конфигурацията и използвайте \"occ ldap:update-uuid\", за да ги актуализирате.",
     "_%n group found_::_%n groups found_" : ["%n открити групи","%n открити групи"],
     "> 1000 groups found" : "> 1000 открити групи",
     "> 1000 users found" : "> 1000 намерени потребители",

@@ -160,7 +160,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		if (strpos($path, $this->principalPrefix) !== 0) {
+		if (!str_starts_with($path, $this->principalPrefix)) {
 			return null;
 		}
 		[, $name] = \Sabre\Uri\split($path);
@@ -443,7 +443,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 		$usersGroups = $this->groupManager->getUserGroupIds($user);
 
-		if (strpos($uri, 'mailto:') === 0) {
+		if (str_starts_with($uri, 'mailto:')) {
 			$email = substr($uri, 7);
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
@@ -463,9 +463,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			return $this->rowToPrincipal($row)['uri'];
 		}
 
-		if (strpos($uri, 'principal:') === 0) {
+		if (str_starts_with($uri, 'principal:')) {
 			$path = substr($uri, 10);
-			if (strpos($path, $this->principalPrefix) !== 0) {
+			if (!str_starts_with($path, $this->principalPrefix)) {
 				return null;
 			}
 

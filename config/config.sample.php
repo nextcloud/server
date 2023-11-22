@@ -235,6 +235,12 @@ $CONFIG = [
 'knowledgebaseenabled' => true,
 
 /**
+ * ``true`` embeds the documentation in an iframe inside Nextcloud.
+ * ``false`` only shows buttons to the online documentation.
+ */
+'knowledgebase.embedded' => false,
+
+/**
  * ``true`` allows users to change their display names (on their Personal
  * pages), and ``false`` prevents them from changing their display names.
  */
@@ -351,6 +357,19 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'auth.bruteforce.protection.enabled' => true,
+
+/**
+ * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ *
+ * In testing mode bruteforce attempts are still recorded, but the requests do
+ * not sleep/wait for the specified time. They will still abort with
+ * "429 Too Many Requests" when the maximum delay is reached.
+ * Enabling this is discouraged for security reasons
+ * and should only be done for debugging and on CI when running tests.
+ *
+ * Defaults to ``false``
+ */
+'auth.bruteforce.protection.testing' => false,
 
 /**
  * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
@@ -1218,14 +1237,6 @@ $CONFIG = [
  * Defaults to ``''`` (empty string)
  */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
-/**
- * Use this if LibreOffice/OpenOffice requires additional arguments.
- *
- * Defaults to ``''`` (empty string)
- */
-'preview_office_cl_parameters' =>
-	' --headless --nologo --nofirststartwizard --invisible --norestore '.
-	'--convert-to png --outdir ',
 
 /**
  * custom path for ffmpeg binary
@@ -1266,6 +1277,7 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
+ *  - ``OC\Preview\EMF``
  *
  *
  * Defaults to the following providers:
@@ -1578,7 +1590,6 @@ $CONFIG = [
  * filesystem and encryption will cause severe overhead because key files need
  * to be fetched in addition to any requested file.
  *
- * One way to test is applying for a trystack account at http://trystack.org/
  */
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
@@ -1922,6 +1933,17 @@ $CONFIG = [
 'blacklisted_files' => ['.htaccess'],
 
 /**
+ * Blacklist characters from being used in filenames. This is useful if you
+ * have a filesystem or OS which does not support certain characters like windows.
+ *
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
+ *
+ * Defaults to ``array()``
+ */
+'forbidden_chars' => [],
+
+/**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
  * The default location for themes is ``nextcloud/themes/``.
  *
@@ -1932,7 +1954,7 @@ $CONFIG = [
 /**
  * Enforce the user theme. This will disable the user theming settings
  * This must be a valid ITheme ID.
- * E.g. light, dark, highcontrast, dark-highcontrast...
+ * E.g. dark, dark-highcontrast, default, light, light-highcontrast, opendyslexic
  */
 'enforce_theme' => '',
 
@@ -2366,4 +2388,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'reference_opengraph' => true,
+
+/**
+ * Enable use of old unified search
+ *
+ * Defaults to ``false``
+ */
+'unified_search.enabled' => false,
 ];

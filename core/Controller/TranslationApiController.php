@@ -52,6 +52,8 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * Get the list of supported languages
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
+	 *
+	 * 200: Supported languages returned
 	 */
 	public function languages(): DataResponse {
 		return new DataResponse([

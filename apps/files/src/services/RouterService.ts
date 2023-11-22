@@ -31,6 +31,18 @@ export default class RouterService {
 		this._router = router
 	}
 
+	get name(): string | null | undefined {
+		return this._router.currentRoute.name
+	}
+
+	get query(): Dictionary<string | (string | null)[] | null | undefined> {
+		return this._router.currentRoute.query || {}
+	}
+
+	get params(): Dictionary<string> {
+		return this._router.currentRoute.params || {}
+	}
+
 	/**
 	 * Trigger a route change on the files app
 	 *

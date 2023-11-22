@@ -93,7 +93,6 @@ export default {
 		max-width: 580px;
 
 		th {
-			opacity: .5;
 			padding: 10px 0;
 		}
 	}

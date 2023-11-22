@@ -48,6 +48,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		private ISpeechToTextManager $sttManager,
 		private IManager $textProcessingManager,
 		private ContainerInterface $container,
+		private \OCP\TextToImage\IManager $text2imageManager,
 	) {
 	}
 
@@ -101,15 +102,25 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			];
 		}
 
+		$text2imageProviders = [];
+		foreach ($this->text2imageManager->getProviders() as $provider) {
+			$text2imageProviders[] = [
+				'id' => $provider->getId(),
+				'name' => $provider->getName(),
+			];
+		}
+
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);
 		$this->initialState->provideInitialState('ai-text-processing-providers', $textProcessingProviders);
 		$this->initialState->provideInitialState('ai-text-processing-task-types', $textProcessingTaskTypes);
+		$this->initialState->provideInitialState('ai-text2image-providers', $text2imageProviders);
 
 		$settings = [
 			'ai.stt_provider' => count($sttProviders) > 0 ? $sttProviders[0]['class'] : null,
 			'ai.textprocessing_provider_preferences' => $textProcessingSettings,
 			'ai.translation_provider_preferences' => $translationPreferences,
+			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;

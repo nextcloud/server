@@ -71,6 +71,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * Get the capabilities
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>}, array{}>
+	 *
+	 * 200: Capabilities returned
 	 */
 	public function getCapabilities(): DataResponse {
 		$result = [];

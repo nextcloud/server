@@ -8,6 +8,7 @@ OC.L10N.register(
     "Restore" : "Palauta",
     "List of files that have been deleted." : "Luettelo poistetuista tiedostoista.",
     "No deleted files" : "Ei poistettuja tiedostoja",
+    "Files and folders you have deleted will show up here" : "Poistamasi tiedostot ja kansiot näkyvät täällä",
     "Deleted" : "Poistettu",
     "You will be able to recover deleted files from here" : "Voit palauttaa poistettuja tiedostoja tätä kautta",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",

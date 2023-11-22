@@ -19,13 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { File, Folder, parseWebdavPermissions } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getClient, rootPath } from './WebdavClient'
-import { getCurrentUser } from '@nextcloud/auth'
-import { getDavNameSpaces, getDavProperties, getDefaultPropfind } from './DavProperties'
-import type { ContentsWithRoot } from './Navigation'
-import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
+import type { ContentsWithRoot } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
+
+import { Folder, getDavNameSpaces, getDavProperties, davGetDefaultPropfind } from '@nextcloud/files'
+
+import { getClient } from './WebdavClient'
+import { resultToNode } from './Files'
 
 const client = getClient()
 
@@ -39,49 +39,15 @@ const reportPayload = `<?xml version="1.0"?>
 	</oc:filter-rules>
 </oc:filter-files>`
 
-interface ResponseProps extends DAVResultResponseProps {
-	permissions: string,
-	fileid: number,
-	size: number,
-}
-
-const resultToNode = function(node: FileStat): File | Folder {
-	const props = node.props as ResponseProps
-	const permissions = parseWebdavPermissions(props?.permissions)
-	const owner = getCurrentUser()?.uid as string
-
-	const nodeData = {
-		id: props?.fileid as number || 0,
-		source: generateRemoteUrl('dav' + rootPath + node.filename),
-		mtime: new Date(node.lastmod),
-		mime: node.mime as string,
-		size: props?.size as number || 0,
-		permissions,
-		owner,
-		root: rootPath,
-		attributes: {
-			...node,
-			...props,
-			hasPreview: props?.['has-preview'],
-		},
-	}
-
-	delete nodeData.attributes.props
-
-	return node.type === 'file'
-		? new File(nodeData)
-		: new Folder(nodeData)
-}
-
 export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
-	const propfindPayload = getDefaultPropfind()
+	const propfindPayload = davGetDefaultPropfind()
 
 	// Get root folder
 	let rootResponse
 	if (path === '/') {
 		rootResponse = await client.stat(path, {
 			details: true,
-			data: getDefaultPropfind(),
+			data: propfindPayload,
 		}) as ResponseDataDetailed<FileStat>
 	}
 

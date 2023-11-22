@@ -8,13 +8,15 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikace OAuth2 umožňuje správcům nastavit vestavěný postup ověřování tak, aby podporoval také OAuth2 kompatibilní ověřování z ostatních webových aplikací.",
     "OAuth 2.0 clients" : "OAuth 2.0 klienti",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 umožňuje externím službám vyžádat si přístup k {instanceName}.",
-    "Add client" : "Přidat klienta",
     "Name" : "Název",
     "Redirection URI" : "URL pro přesměrování",
-    "Add" : "Přidat",
     "Client Identifier" : "Identifikátor klienta",
-    "Secret" : "Tajemství",
+    "Secret key" : "Tajný klíč",
+    "Delete client" : "Smazat klienta",
+    "Add client" : "Přidat klienta",
+    "Add" : "Přidat",
     "Show client secret" : "Zobrazit klientské tajemství",
-    "Delete" : "Smazat"
+    "Delete" : "Smazat",
+    "Secret" : "Tajemství"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

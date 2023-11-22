@@ -69,6 +69,7 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCA\DAV\Listener\OutOfOfficeListener;
 use OCP\Accounts\UserUpdatedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
@@ -89,6 +90,7 @@ use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
+use OCA\DAV\SetupChecks\NeedsSystemAddressBookSync;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\AppFramework\App;
@@ -101,8 +103,10 @@ use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\IServerContainer;
 use OCP\IUser;
+use OCP\User\Events\OutOfOfficeChangedEvent;
+use OCP\User\Events\OutOfOfficeClearedEvent;
+use OCP\User\Events\OutOfOfficeScheduledEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -124,12 +128,12 @@ class Application extends App implements IBootstrap {
 				$c->get(LoggerInterface::class)
 			);
 		});
-		$context->registerService(AppCalendarPlugin::class, function(ContainerInterface $c) {
+		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
-			  $c->get(ICalendarManager::class),
-			  $c->get(LoggerInterface::class)
+				$c->get(ICalendarManager::class),
+				$c->get(LoggerInterface::class)
 			);
-		  });
+		});
 
 		/*
 		 * Register capabilities
@@ -195,12 +199,18 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
 		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 
+		$context->registerEventListener(OutOfOfficeChangedEvent::class, OutOfOfficeListener::class);
+		$context->registerEventListener(OutOfOfficeClearedEvent::class, OutOfOfficeListener::class);
+		$context->registerEventListener(OutOfOfficeScheduledEvent::class, OutOfOfficeListener::class);
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
 
 		$context->registerUserMigrator(CalendarMigrator::class);
 		$context->registerUserMigrator(ContactsMigrator::class);
+
+		$context->registerSetupCheck(NeedsSystemAddressBookSync::class);
 	}
 
 	public function boot(IBootContext $context): void {

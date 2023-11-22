@@ -19,10 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate as t } from '@nextcloud/l10n'
 import type { Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction, DefaultType } from '../../../files/src/services/FileAction'
+import { registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+
 import { sharesViewId, sharedWithYouViewId, sharedWithOthersViewId, sharingByLinksViewId } from '../views/shares'
 
 export const action = new FileAction({
@@ -43,7 +44,7 @@ export const action = new FileAction({
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
 			{ view: 'files', fileid: node.fileid },
-			{ dir: node.dirname, fileid: node.fileid },
+			{ dir: node.dirname },
 		)
 		return null
 	},

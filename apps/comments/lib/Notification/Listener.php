@@ -30,15 +30,10 @@ use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 
 class Listener {
-	protected IManager $notificationManager;
-	protected IUserManager $userManager;
-
 	public function __construct(
-		IManager $notificationManager,
-		IUserManager $userManager
+		protected IManager $notificationManager,
+		protected IUserManager $userManager
 	) {
-		$this->notificationManager = $notificationManager;
-		$this->userManager = $userManager;
 	}
 
 	public function evaluate(CommentsEvent $event): void {

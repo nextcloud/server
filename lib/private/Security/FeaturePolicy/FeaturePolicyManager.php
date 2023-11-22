@@ -32,13 +32,11 @@ use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
 
 class FeaturePolicyManager {
 	/** @var EmptyFeaturePolicy[] */
-	private $policies = [];
+	private array $policies = [];
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(IEventDispatcher $dispatcher) {
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	public function addDefaultPolicy(EmptyFeaturePolicy $policy): void {
@@ -60,8 +58,10 @@ class FeaturePolicyManager {
 	 * Merges the first given policy with the second one
 	 *
 	 */
-	public function mergePolicies(FeaturePolicy $defaultPolicy,
-								  EmptyFeaturePolicy $originalPolicy): FeaturePolicy {
+	public function mergePolicies(
+		FeaturePolicy $defaultPolicy,
+		EmptyFeaturePolicy $originalPolicy,
+	): FeaturePolicy {
 		foreach ((object)(array)$originalPolicy as $name => $value) {
 			$setter = 'set' . ucfirst($name);
 			if (\is_array($value)) {

@@ -36,12 +36,12 @@ namespace OCA\DAV\Connector\Sabre;
 use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
@@ -58,13 +58,13 @@ class Auth extends AbstractBasic {
 	private IRequest $request;
 	private ?string $currentUser = null;
 	private Manager $twoFactorManager;
-	private Throttler $throttler;
+	private IThrottler $throttler;
 
 	public function __construct(ISession $session,
 								Session $userSession,
 								IRequest $request,
 								Manager $twoFactorManager,
-								Throttler $throttler,
+								IThrottler $throttler,
 								string $principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;

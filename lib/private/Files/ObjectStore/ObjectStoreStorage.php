@@ -68,6 +68,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	private $logger;
 
+	private bool $handleCopiesAsOwned;
+
 	/** @var bool */
 	protected $validateWrites = true;
 
@@ -88,6 +90,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (isset($params['validateWrites'])) {
 			$this->validateWrites = (bool)$params['validateWrites'];
 		}
+		$this->handleCopiesAsOwned = (bool)($params['handleCopiesAsOwned'] ?? false);
 
 		$this->logger = \OC::$server->getLogger();
 	}
@@ -559,6 +562,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 
 		if ($exists) {
+			// Always update the unencrypted size, for encryption the Encryption wrapper will update this afterwards anyways
+			$stat['unencrypted_size'] = $stat['size'];
 			$this->getCache()->update($fileId, $stat);
 		} else {
 			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
@@ -649,6 +654,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		try {
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
+			if ($this->handleCopiesAsOwned) {
+				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
+				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
+			}
 		} catch (\Exception $e) {
 			$cache->remove($to);
 

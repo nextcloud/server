@@ -36,14 +36,14 @@ export function uploadThreeVersions(user: User, fileName: string) {
 }
 
 export function openVersionsPanel(fileName: string) {
-	cy.get(`[data-file="${fileName}"]`).within(() => {
-		cy.get('[data-action="menu"]')
-			.click()
-
-		cy.get('.fileActionsMenu')
-			.get('.action-details')
+	cy.get(`[data-cy-files-list] [data-cy-files-list-row-name="${fileName}"]`).within(() => {
+		cy.get('[data-cy-files-list-row-actions] .action-item__menutoggle')
 			.click()
 	})
+
+	cy.get('.action-item__popper')
+		.get('[data-cy-files-list-row-action="details"]')
+		.click()
 
 	cy.get('#app-sidebar-vue')
 		.get('[aria-controls="tab-version_vue"]')

@@ -19,12 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, type Node } from '@nextcloud/files'
+import { emit } from '@nextcloud/event-bus'
+import { Permission, type Node, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
-
-import { emit } from '@nextcloud/event-bus'
-import { registerFileAction, FileAction } from '../services/FileAction'
 
 export const ACTION_DETAILS = 'details'
 
@@ -47,5 +45,3 @@ export const action = new FileAction({
 
 	order: 10,
 })
-
-registerFileAction(action)

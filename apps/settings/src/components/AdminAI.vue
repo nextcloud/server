@@ -36,9 +36,27 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 		</NcSettingsSection>
+		<NcSettingsSection :name="t('settings', 'Image generation')"
+			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
+			<template v-for="provider in text2imageProviders">
+				<NcCheckboxRadioSwitch :key="provider.id"
+					:checked.sync="settings['ai.text2image_provider']"
+					:value="provider.id"
+					name="text2image_provider"
+					type="radio"
+					@update:checked="saveChanges">
+					{{ provider.name }}
+				</NcCheckboxRadioSwitch>
+			</template>
+			<template v-if="!hasText2ImageProviders">
+				<NcCheckboxRadioSwitch disabled type="radio">
+					{{ t('settings', 'None of your currently installed apps provide image generation functionality') }}
+				</NcCheckboxRadioSwitch>
+			</template>
+		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
-			<template v-for="type in Object.keys(settings['ai.textprocessing_provider_preferences'])">
+			<template v-for="type in tpTaskTypes">
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
 					<p>{{ getTaskType(type).description }}</p>
@@ -88,7 +106,7 @@ export default {
 		DragVerticalIcon,
 		ArrowDownIcon,
 		ArrowUpIcon,
-		NcButton
+		NcButton,
 	},
 	data() {
 		return {
@@ -100,6 +118,7 @@ export default {
 			translationProviders: loadState('settings', 'ai-translation-providers'),
 			textProcessingProviders: loadState('settings', 'ai-text-processing-providers'),
 			textProcessingTaskTypes: loadState('settings', 'ai-text-processing-task-types'),
+			text2imageProviders: loadState('settings', 'ai-text2image-providers'),
 			settings: loadState('settings', 'ai-settings'),
 		}
 	},
@@ -110,13 +129,19 @@ export default {
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
+		tpTaskTypes() {
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type))
+		},
+		hasText2ImageProviders() {
+		  return this.text2imageProviders.length > 0
+		},
 	},
 	methods: {
 	  moveUp(i) {
 			this.settings['ai.translation_provider_preferences'].splice(
 			  Math.min(i - 1, 0),
 				0,
-				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},
@@ -124,7 +149,7 @@ export default {
 			this.settings['ai.translation_provider_preferences'].splice(
 				i + 1,
 				0,
-				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},

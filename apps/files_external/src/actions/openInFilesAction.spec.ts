@@ -21,21 +21,19 @@
  */
 import { action } from './openInFilesAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
-import type { Navigation } from '../../../files/src/services/Navigation'
+import { Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage'
 import { STORAGE_STATUS } from '../utils/credentialsUtils'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const externalStorageView = {
 	id: 'extstoragemounts',
 	name: 'External storage',
-} as Navigation
+} as View
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {

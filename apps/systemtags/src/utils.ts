@@ -22,19 +22,26 @@
 
 import camelCase from 'camelcase'
 
-import type { FileStat } from 'webdav'
+import type { DAVResultResponseProps } from 'webdav'
 
-import type { ServerTag, Tag, TagWithId } from './types.js'
+import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
 
-export const parseTags = (tags: Required<FileStat>[]): TagWithId[] => {
+export const defaultBaseTag: BaseTag = {
+	userVisible: true,
+	userAssignable: true,
+	canAssign: true,
+}
+
+export const parseTags = (tags: { props: DAVResultResponseProps }[]): TagWithId[] => {
 	return tags.map(({ props }) => Object.fromEntries(
 		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), value])
+			.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]),
 	)) as TagWithId[]
 }
 
 /**
  * Parse id from `Content-Location` header
+ * @param url URL to parse
  */
 export const parseIdFromLocation = (url: string): number => {
 	const queryPos = url.indexOf('?')

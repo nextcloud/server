@@ -28,7 +28,7 @@ interface Reminder {
 }
 
 export const getReminder = async (fileId: number): Promise<Reminder> => {
-	const url = generateOcsUrl('/apps/files_reminders/api/v1/get/{fileId}', { fileId })
+	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
 	const response = await axios.get(url)
 	const dueDate = response.data.ocs.data.dueDate ? new Date(response.data.ocs.data.dueDate) : null
 
@@ -38,7 +38,7 @@ export const getReminder = async (fileId: number): Promise<Reminder> => {
 }
 
 export const setReminder = async (fileId: number, dueDate: Date): Promise<[]> => {
-	const url = generateOcsUrl('/apps/files_reminders/api/v1/set/{fileId}', { fileId })
+	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
 
 	const response = await axios.put(url, {
 		dueDate: dueDate.toISOString(), // timezone of string is always UTC
@@ -48,7 +48,7 @@ export const setReminder = async (fileId: number, dueDate: Date): Promise<[]> =>
 }
 
 export const clearReminder = async (fileId: number): Promise<[]> => {
-	const url = generateOcsUrl('/apps/files_reminders/api/v1/remove/{fileId}', { fileId })
+	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
 	const response = await axios.delete(url)
 
 	return response.data.ocs.data

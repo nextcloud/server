@@ -59,6 +59,7 @@
     "Your password will expire today." : "La contrasenya caducarà avui.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La vostra contrasenya expirarà en %n dies.","La vostra contrasenya caducarà d'aquí %n dies."],
     "LDAP/AD integration" : "Integració LDAP/AD",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "S'han trobat UUID no vàlids d'usuaris o grups LDAP. Reviseu els paràmetres de l'\"Anul·lació de detecció d'UUID\" a la part Experta de la configuració LDAP i utilitzeu \"occ ldap:update-uuid\" per actualitzar-los.",
     "_%n group found_::_%n groups found_" : ["S'ha trobat %n grup","S’han trobat %n grups"],
     "> 1000 groups found" : "> 1000 grups trobats",
     "> 1000 users found" : "> 1000 usuaris trobats",

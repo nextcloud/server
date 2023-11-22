@@ -38,10 +38,12 @@ use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\LoginListener;
 use OCA\User_LDAP\Notification\Notifier;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
+use OCA\User_LDAP\SetupChecks\LdapInvalidUuids;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -57,6 +59,7 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
+use OCP\User\Events\PostLoginEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -113,6 +116,8 @@ class Application extends App implements IBootstrap {
 			// the instance is specific to a lazy bound Access instance, thus cannot be shared.
 			false
 		);
+		$context->registerEventListener(PostLoginEvent::class, LoginListener::class);
+		$context->registerSetupCheck(LdapInvalidUuids::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -151,7 +156,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher) {
+	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {

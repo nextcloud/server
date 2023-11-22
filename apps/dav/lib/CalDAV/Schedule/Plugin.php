@@ -36,6 +36,7 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
+use Sabre\CalDAV\Schedule\IOutbox;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
@@ -44,6 +45,7 @@ use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\DAVACL\IPrincipal;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\VObject;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -310,10 +312,10 @@ EOF;
 					return null;
 				}
 
-				$isResourceOrRoom = strpos($principalUrl, 'principals/calendar-resources') === 0 ||
-					strpos($principalUrl, 'principals/calendar-rooms') === 0;
+				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources') ||
+					str_starts_with($principalUrl, 'principals/calendar-rooms');
 
-				if (strpos($principalUrl, 'principals/users') === 0) {
+				if (str_starts_with($principalUrl, 'principals/users')) {
 					[, $userId] = split($principalUrl);
 					$uri = $this->config->getUserValue($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
 					$displayName = CalDavBackend::PERSONAL_CALENDAR_NAME;

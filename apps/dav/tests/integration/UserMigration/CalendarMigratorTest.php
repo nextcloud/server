@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\integration\UserMigration;
 
-use function Safe\scandir;
+use function scandir;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCP\AppFramework\App;

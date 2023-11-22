@@ -60,6 +60,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -275,7 +276,7 @@ class Setup {
 	 * @param $options
 	 * @return array
 	 */
-	public function install($options) {
+	public function install($options, ?IOutput $output = null) {
 		$l = $this->l10n;
 
 		$error = [];
@@ -349,6 +350,7 @@ class Setup {
 
 		$this->config->setValues($newConfigValues);
 
+		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {
 			$dbSetup->setupDatabase($username);
@@ -367,9 +369,11 @@ class Setup {
 			];
 			return $error;
 		}
+
+		$this->outputDebug($output, 'Run server migrations');
 		try {
 			// apply necessary migrations
-			$dbSetup->runMigrations();
+			$dbSetup->runMigrations($output);
 		} catch (Exception $e) {
 			$error[] = [
 				'error' => 'Error while trying to initialise the database: ' . $e->getMessage(),
@@ -379,6 +383,7 @@ class Setup {
 			return $error;
 		}
 
+		$this->outputDebug($output, 'Create admin user');
 		//create the user and group
 		$user = null;
 		try {
@@ -407,16 +412,19 @@ class Setup {
 			}
 
 			// Install shipped apps and specified app bundles
-			Installer::installShippedApps();
+			$this->outputDebug($output, 'Install default apps');
+			Installer::installShippedApps(false, $output);
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
+			$this->outputDebug($output, 'Setup data directory');
 			file_put_contents($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 			// Update .htaccess files
 			self::updateHtaccess();
 			self::protectDataDirectory();
 
+			$this->outputDebug($output, 'Install background jobs');
 			self::installBackgroundJobs();
 
 			//and we are done
@@ -531,13 +539,13 @@ class Setup {
 			$content .= "\n  Options -MultiViews";
 			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|wasm|tflite)$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v(1|2)\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots\\.txt";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocm-provider|ocs-provider|updater)/";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocs-provider|updater)/";
 			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/richdocumentscode(_arm64)?/proxy.php$";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
@@ -552,6 +560,14 @@ class Setup {
 		}
 
 		if ($content !== '') {
+			// Never write file back if disk space should be too low
+			if (function_exists('disk_free_space')) {
+				$df = disk_free_space(\OC::$SERVERROOT);
+				$size = strlen($content) + 10240;
+				if ($df !== false && $df < (float)$size) {
+					throw new \Exception(\OC::$SERVERROOT . " does not have enough space for writing the htaccess file! Not writing it back!");
+				}
+			}
 			//suppress errors in case we don't have permissions for it
 			return (bool)@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent . $content . "\n");
 		}
@@ -615,5 +631,11 @@ class Setup {
 	 */
 	public function canInstallFileExists() {
 		return is_file(\OC::$configDir.'/CAN_INSTALL');
+	}
+
+	protected function outputDebug(?IOutput $output, string $message): void {
+		if ($output instanceof IOutput) {
+			$output->debug($message);
+		}
 	}
 }

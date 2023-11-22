@@ -22,9 +22,7 @@
 
 <template>
 	<div class="locale">
-		<select :id="inputId"
-			:placeholder="t('settings', 'Locale')"
-			@change="onLocaleChange">
+		<select :id="inputId" @change="onLocaleChange">
 			<option v-for="currentLocale in localesForLanguage"
 				:key="currentLocale.code"
 				:selected="locale.code === currentLocale.code"

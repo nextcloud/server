@@ -88,6 +88,8 @@ class AppConfigController extends OCSController {
 	 * Get a list of apps
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>
+	 *
+	 * 200: Apps returned
 	 */
 	public function getApps(): DataResponse {
 		return new DataResponse([

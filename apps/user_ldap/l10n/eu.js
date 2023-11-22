@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "Zure pasahitza gaur iraungiko da.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Zure pasahitza egun %nean iraungiko da.","Zure pasahitza %n egunetan iraungiko da."],
     "LDAP/AD integration" : "LDAP/AD integrazioa",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP erabiltzaile edo taldeen UUID baliogabeak aurkitu dira. Mesedez, berrikusi zure \"Gainarazi UUID detekzioa\" ezarpenak LDAP konfigurazioaren Aditu atalean eta erabili \"occ ldap:update-uuid\" horiek eguneratzeko.",
     "_%n group found_::_%n groups found_" : ["Talde %n aurkitu da","%n talde aurkitu dira"],
     "> 1000 groups found" : "> 1000 talde aurkitu dira",
     "> 1000 users found" : "> 1000 erabiltzaile aurkitu dira",

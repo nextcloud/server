@@ -45,26 +45,17 @@ class Manager implements IManager {
 	public const TABLE_RESOURCES = 'collres_resources';
 	public const TABLE_ACCESS_CACHE = 'collres_accesscache';
 
-	/** @var IDBConnection */
-	protected $connection;
-	/** @var IProviderManager */
-	protected $providerManager;
-	/** @var LoggerInterface */
-	protected $logger;
-
 	/** @var string[] */
-	protected $providers = [];
+	protected array $providers = [];
 
-
-	public function __construct(IDBConnection $connection, IProviderManager $providerManager, LoggerInterface $logger) {
-		$this->connection = $connection;
-		$this->providerManager = $providerManager;
-		$this->logger = $logger;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected IProviderManager $providerManager,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
-	 * @param int $id
-	 * @return ICollection
 	 * @throws CollectionException when the collection could not be found
 	 * @since 16.0.0
 	 */
@@ -85,9 +76,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param int $id
-	 * @param IUser|null $user
-	 * @return ICollection
 	 * @throws CollectionException when the collection could not be found
 	 * @since 16.0.0
 	 */
@@ -122,10 +110,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param IUser $user
-	 * @param string $filter
-	 * @param int $limit
-	 * @param int $start
 	 * @return ICollection[]
 	 * @since 16.0.0
 	 */
@@ -173,8 +157,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $name
-	 * @return ICollection
 	 * @since 16.0.0
 	 */
 	public function newCollection(string $name): ICollection {
@@ -189,9 +171,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $type
-	 * @param string $id
-	 * @return IResource
 	 * @since 16.0.0
 	 */
 	public function createResource(string $type, string $id): IResource {
@@ -199,10 +178,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $type
-	 * @param string $id
-	 * @param IUser|null $user
-	 * @return IResource
 	 * @throws ResourceException
 	 * @since 16.0.0
 	 */
@@ -239,8 +214,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param ICollection $collection
-	 * @param IUser|null $user
 	 * @return IResource[]
 	 * @since 16.0.0
 	 */
@@ -274,8 +247,6 @@ class Manager implements IManager {
 	/**
 	 * Get the rich object data of a resource
 	 *
-	 * @param IResource $resource
-	 * @return array
 	 * @since 16.0.0
 	 */
 	public function getResourceRichObject(IResource $resource): array {
@@ -294,9 +265,6 @@ class Manager implements IManager {
 	/**
 	 * Can a user/guest access the collection
 	 *
-	 * @param IResource $resource
-	 * @param IUser|null $user
-	 * @return bool
 	 * @since 16.0.0
 	 */
 	public function canAccessResource(IResource $resource, ?IUser $user): bool {
@@ -325,9 +293,6 @@ class Manager implements IManager {
 	/**
 	 * Can a user/guest access the collection
 	 *
-	 * @param ICollection $collection
-	 * @param IUser|null $user
-	 * @return bool
 	 * @since 16.0.0
 	 */
 	public function canAccessCollection(ICollection $collection, ?IUser $user): bool {
@@ -505,9 +470,6 @@ class Manager implements IManager {
 		$query->execute();
 	}
 
-	/**
-	 * @param string $provider
-	 */
 	public function registerResourceProvider(string $provider): void {
 		$this->logger->debug('\OC\Collaboration\Resources\Manager::registerResourceProvider is deprecated', ['provider' => $provider]);
 		$this->providerManager->registerResourceProvider($provider);
@@ -516,7 +478,6 @@ class Manager implements IManager {
 	/**
 	 * Get the resource type of the provider
 	 *
-	 * @return string
 	 * @since 16.0.0
 	 */
 	public function getType(): string {

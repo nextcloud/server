@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -43,7 +44,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getType();
+	public function getType(): string;
 
 	/**
 	 * Get the name of the field to compare with
@@ -53,13 +54,21 @@ interface ISearchComparison extends ISearchOperator {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getField();
+	public function getField(): string;
+
+	/**
+	 * extra means data are not related to the main files table
+	 *
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getExtra(): string;
 
 	/**
 	 * Get the value to compare the field with
 	 *
-	 * @return string|integer|\DateTime
+	 * @return string|integer|bool|\DateTime
 	 * @since 12.0.0
 	 */
-	public function getValue();
+	public function getValue(): string|int|bool|\DateTime;
 }

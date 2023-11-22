@@ -36,9 +36,8 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
-
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class WeatherStatusService
@@ -49,70 +48,22 @@ class WeatherStatusService {
 	public const MODE_BROWSER_LOCATION = 1;
 	public const MODE_MANUAL_LOCATION = 2;
 
-	/** @var IClientService */
-	private $clientService;
+	private IClient $client;
+	private ICache $cache;
+	private string $version;
 
-	/** @var IClient */
-	private $client;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IAccountManager */
-	private $accountManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var ICache */
-	private $cache;
-
-	/** @var string */
-	private $userId;
-
-	/** @var string */
-	private $version;
-
-	/**
-	 * WeatherStatusService constructor
-	 *
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param ILogger $logger
-	 * @param IAccountManager $accountManager
-	 * @param IUserManager $userManager
-	 * @param IAppManager $appManager
-	 * @param ICacheFactory $cacheFactory
-	 * @param string $userId
-	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config,
-								IL10N $l10n,
-								ILogger $logger,
-								IAccountManager $accountManager,
-								IUserManager $userManager,
-								IAppManager $appManager,
-								ICacheFactory $cacheFactory,
-								?string $userId) {
-		$this->config = $config;
-		$this->userId = $userId;
-		$this->l10n = $l10n;
-		$this->logger = $logger;
-		$this->accountManager = $accountManager;
-		$this->userManager = $userManager;
-		$this->appManager = $appManager;
+	public function __construct(
+		private IClientService $clientService,
+		private IConfig $config,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+		private IAccountManager $accountManager,
+		private IUserManager $userManager,
+		private IAppManager $appManager,
+		private ICacheFactory $cacheFactory,
+		private ?string $userId
+	) {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
-		$this->clientService = $clientService;
 		$this->client = $clientService->newClient();
 		$this->cache = $cacheFactory->createDistributed('weatherstatus');
 	}
@@ -438,7 +389,7 @@ class WeatherStatusService {
 				return $json;
 			}
 		} catch (\Exception $e) {
-			$this->logger->warning($url . 'API error : ' . $e, ['app' => Application::APP_ID]);
+			$this->logger->warning($url . ' API error : ' . $e->getMessage(), ['exception' => $e]);
 			return ['error' => $e->getMessage()];
 		}
 	}

@@ -21,21 +21,19 @@
 		<form id="passwordform" method="POST" @submit.prevent="changePassword">
 			<NcPasswordField id="old-pass"
 				:label="t('settings', 'Current password')"
-				:label-visible="true"
 				name="oldpassword"
 				:value.sync="oldPass"
 				autocomplete="current-password"
 				autocapitalize="none"
-				autocorrect="off" />
+				spellcheck="false" />
 
 			<NcPasswordField id="new-pass"
 				:label="t('settings', 'New password')"
-				:label-visible="true"
 				:value.sync="newPass"
 				:maxlength="469"
 				autocomplete="new-password"
 				autocapitalize="none"
-				autocorrect="off"
+				spellcheck="false"
 				:check-password-strength="true" />
 
 			<NcButton type="primary"

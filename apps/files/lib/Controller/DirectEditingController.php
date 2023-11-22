@@ -55,6 +55,8 @@ class DirectEditingController extends OCSController {
 	 *
 	 * Get the direct editing capabilities
 	 * @return DataResponse<Http::STATUS_OK, array{editors: array<string, array{id: string, name: string, mimetypes: string[], optionalMimetypes: string[], secure: bool}>, creators: array<string, array{id: string, editor: string, name: string, extension: string, templates: bool, mimetypes: string[]}>}, array{}>
+	 *
+	 * 200: Direct editing capabilities returned
 	 */
 	public function info(): DataResponse {
 		$response = new DataResponse($this->directEditingService->getDirectEditingCapabilitites());

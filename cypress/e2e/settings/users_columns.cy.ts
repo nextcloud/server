@@ -21,7 +21,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { assertNotExistOrNotVisible } from './usersUtils.js'
+import { assertNotExistOrNotVisible, getUserList } from './usersUtils.js'
 
 const admin = new User('admin', 'admin')
 
@@ -49,12 +49,10 @@ describe('Settings: Show and hide columns', function() {
 
 	it('Can show a column', function() {
 		// see that the language column is not in the header
-		cy.get(`.user-list__header tr`).within(() => {
-			cy.contains('Language').should('not.exist')
-		})
+		cy.get('[data-cy-user-list-header-languages]').should('not.exist')
 
 		// see that the language column is not in all user rows
-		cy.get(`tbody.user-list__body tr`).each(($row) => {
+		cy.get('tbody.user-list__body tr').each(($row) => {
 			cy.wrap($row).get('[data-test="language"]').should('not.exist')
 		})
 
@@ -72,25 +70,21 @@ describe('Settings: Show and hide columns', function() {
 		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the language column is in the header
-		cy.get(`.user-list__header tr`).within(() => {
-			cy.contains('Language').should('exist')
-		})
+		cy.get('[data-cy-user-list-header-languages]').should('exist')
 
 		// see that the language column is in all user rows
-		cy.get(`tbody.user-list__body tr`).each(($row) => {
-			cy.wrap($row).get('[data-test="language"]').should('exist')
+		getUserList().find('tbody tr').each(($row) => {
+			cy.wrap($row).get('[data-cy-user-list-cell-language]').should('exist')
 		})
 	})
 
 	it('Can hide a column', function() {
 		// see that the last login column is in the header
-		cy.get(`.user-list__header tr`).within(() => {
-			cy.contains('Last login').should('exist')
-		})
+		cy.get('[data-cy-user-list-header-last-login]').should('exist')
 
 		// see that the last login column is in all user rows
-		cy.get(`tbody.user-list__body tr`).each(($row) => {
-			cy.wrap($row).get('[data-test="lastLogin"]').should('exist')
+		getUserList().find('tbody tr').each(($row) => {
+			cy.wrap($row).get('[data-cy-user-list-cell-last-login]').should('exist')
 		})
 
 		// open the settings dialog
@@ -107,13 +101,11 @@ describe('Settings: Show and hide columns', function() {
 		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the last login column is not in the header
-		cy.get(`.user-list__header tr`).within(() => {
-			cy.contains('Last login').should('not.exist')
-		})
+		cy.get('[data-cy-user-list-header-last-login]').should('not.exist')
 
 		// see that the last login column is not in all user rows
-		cy.get(`tbody.user-list__body tr`).each(($row) => {
-			cy.wrap($row).get('[data-test="lastLogin"]').should('not.exist')
+		getUserList().find('tbody tr').each(($row) => {
+			cy.wrap($row).get('[data-cy-user-list-cell-last-login]').should('not.exist')
 		})
 	})
 })

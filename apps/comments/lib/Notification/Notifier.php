@@ -36,24 +36,13 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
-	protected IFactory $l10nFactory;
-	protected IRootFolder $rootFolder;
-	protected ICommentsManager $commentsManager;
-	protected IURLGenerator $url;
-	protected IUserManager $userManager;
-
 	public function __construct(
-		IFactory $l10nFactory,
-		IRootFolder $rootFolder,
-		ICommentsManager $commentsManager,
-		IURLGenerator $url,
-		IUserManager $userManager
+		protected IFactory $l10nFactory,
+		protected IRootFolder $rootFolder,
+		protected ICommentsManager $commentsManager,
+		protected IURLGenerator $url,
+		protected IUserManager $userManager
 	) {
-		$this->l10nFactory = $l10nFactory;
-		$this->rootFolder = $rootFolder;
-		$this->commentsManager = $commentsManager;
-		$this->url = $url;
-		$this->userManager = $userManager;
 	}
 
 	/**

@@ -26,9 +26,9 @@
  */
 namespace OCA\DAV\Tests\unit\Connector;
 
-use OC\Security\Bruteforce\Throttler;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -50,7 +50,7 @@ class PublicAuthTest extends \Test\TestCase {
 	private $shareManager;
 	/** @var \OCA\DAV\Connector\PublicAuth */
 	private $auth;
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	/** @var string */
@@ -68,7 +68,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->shareManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->throttler = $this->getMockBuilder(Throttler::class)
+		$this->throttler = $this->getMockBuilder(IThrottler::class)
 			->disableOriginalConstructor()
 			->getMock();
 

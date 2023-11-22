@@ -13,6 +13,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Poimenovane različice so trajne in niso vključene v samodejno čiščenje, če je prostora v oblaku malo.",
     "Remove version name" : "Odstrani ime različice",
     "Save version name" : "Shrani ime različice",
+    "Current version" : "Trenutna različica",
     "Initial version restored" : "Začetna različica je obnovljena",
     "Version restored" : "Različica je obnovljena",
     "Could not restore version" : "Različice ni mogoče obnoviti",

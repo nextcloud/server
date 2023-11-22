@@ -46,6 +46,7 @@ use Exception;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
+use OC\PhoneNumberUtil;
 use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -59,6 +60,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
+use OCP\IPhoneNumberUtil;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -103,8 +105,10 @@ class UsersControllerTest extends TestCase {
 	private $remoteWipe;
 	/** @var KnownUserService|MockObject */
 	private $knownUserService;
-	/** @var IEventDispatcher */
+	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
+	/** @var IPhoneNumberUtil */
+	private $phoneNumberUtil;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -123,6 +127,7 @@ class UsersControllerTest extends TestCase {
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->phoneNumberUtil = new PhoneNumberUtil();
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -141,8 +146,9 @@ class UsersControllerTest extends TestCase {
 				$this->remoteWipe,
 				$this->knownUserService,
 				$this->eventDispatcher,
+				$this->phoneNumberUtil,
 			])
-			->setMethods(['fillStorageInfo'])
+			->onlyMethods(['fillStorageInfo'])
 			->getMock();
 	}
 
@@ -411,8 +417,9 @@ class UsersControllerTest extends TestCase {
 				$this->remoteWipe,
 				$this->knownUserService,
 				$this->eventDispatcher,
+				$this->phoneNumberUtil,
 			])
-			->setMethods(['editUser'])
+			->onlyMethods(['editUser'])
 			->getMock();
 
 		$this->userManager
@@ -3693,8 +3700,9 @@ class UsersControllerTest extends TestCase {
 				$this->remoteWipe,
 				$this->knownUserService,
 				$this->eventDispatcher,
+				$this->phoneNumberUtil,
 			])
-			->setMethods(['getUserData'])
+			->onlyMethods(['getUserData'])
 			->getMock();
 
 		$api->expects($this->once())->method('getUserData')->with('UID', true)
@@ -3779,8 +3787,9 @@ class UsersControllerTest extends TestCase {
 				$this->remoteWipe,
 				$this->knownUserService,
 				$this->eventDispatcher,
+				$this->phoneNumberUtil,
 			])
-			->setMethods(['getUserData'])
+			->onlyMethods(['getUserData'])
 			->getMock();
 
 		$expected = [

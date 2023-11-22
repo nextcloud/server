@@ -19,13 +19,13 @@
     "Retry" : "تلاش دوباره",
     "Failed to mark comments as read" : "Failed to mark comments as read",
     "Unable to load the comments list" : "Unable to load the comments list",
-    "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"],
     "_1 new comment_::_{unread} new comments_" : ["1 new comment","{unread} new comments"],
     "Comment" : "نظر",
     "An error occurred while trying to edit the comment" : "An error occurred while trying to edit the comment",
     "Comment deleted" : "توضیح حذف",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
     "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "%1$s commented" : "%1$s commented"
+    "%1$s commented" : "%1$s commented",
+    "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
