@@ -184,6 +184,10 @@ class SearchComposer {
 			function (array $providerData) use ($route, $routeParameters) {
 				$appId = $providerData['appId'];
 				$provider = $providerData['provider'];
+				$order = $provider->getOrder($route, $routeParameters);
+				if ($order === null) {
+					return;
+				}
 				$triggers = [$provider->getId()];
 				if ($provider instanceof IFilteringProvider) {
 					$triggers += $provider->getAlternateIds();
@@ -197,7 +201,7 @@ class SearchComposer {
 					'appId' => $appId,
 					'name' => $provider->getName(),
 					'icon' => $this->fetchIcon($appId, $provider->getId()),
-					'order' => $provider->getOrder($route, $routeParameters),
+					'order' => $order,
 					'triggers' => $triggers,
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
 					'inAppSearch' => $provider instanceof IInAppSearch,
@@ -205,6 +209,7 @@ class SearchComposer {
 			},
 			$this->providers,
 		);
+		$providers = array_filter($providers);
 
 		// Sort providers by order and strip associative keys
 		usort($providers, function ($provider1, $provider2) {
