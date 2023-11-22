@@ -92,7 +92,7 @@
 					</div>
 				</div>
 				<div id="tab-comments__editor-description" class="comment__editor-description">
-					{{ t('comments', '"@" for mentions, ":" for emoji, "/" for smart picker') }}
+					{{ t('comments', '@ for mentions, : for emoji, / for smart picker') }}
 				</div>
 			</form>
 
@@ -288,7 +288,7 @@ $comment-padding: 10px;
 	&__side {
 		display: flex;
 		align-items: flex-start;
-		padding-top: 16px;
+		padding-top: 6px;
 	}
 
 	&__body {
