@@ -339,6 +339,7 @@ return array(
     'OCA\\DAV\\Upload\\AssemblyStream' => $baseDir . '/../lib/Upload/AssemblyStream.php',
     'OCA\\DAV\\Upload\\ChunkingPlugin' => $baseDir . '/../lib/Upload/ChunkingPlugin.php',
     'OCA\\DAV\\Upload\\ChunkingV2Plugin' => $baseDir . '/../lib/Upload/ChunkingV2Plugin.php',
+    'OCA\\DAV\\Upload\\SymlinkPlugin' => $baseDir . '/../lib/Upload/SymlinkPlugin.php',
     'OCA\\DAV\\Upload\\CleanupService' => $baseDir . '/../lib/Upload/CleanupService.php',
     'OCA\\DAV\\Upload\\FutureFile' => $baseDir . '/../lib/Upload/FutureFile.php',
     'OCA\\DAV\\Upload\\PartFile' => $baseDir . '/../lib/Upload/PartFile.php',

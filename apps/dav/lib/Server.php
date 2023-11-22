@@ -74,6 +74,7 @@ use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
+use OCA\DAV\Upload\SymlinkPlugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -222,6 +223,7 @@ class Server {
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
 		$this->server->addPlugin(new ChunkingV2Plugin(\OCP\Server::get(ICacheFactory::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
+		$this->server->addPlugin(new SymlinkPlugin());
 
 		// allow setup of additional plugins
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
