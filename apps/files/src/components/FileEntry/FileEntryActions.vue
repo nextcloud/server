@@ -58,7 +58,7 @@
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
 					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 				</template>
-				{{ actionDisplayName(action) }}
+				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
 			</NcActionButton>
 
 			<!-- Submenu actions list-->
@@ -252,6 +252,10 @@ export default Vue.extend({
 		 */
 		getBoundariesElement() {
 			return document.querySelector('.app-content > .files-list')
+		},
+
+		mountType() {
+			return this.source._attributes['mount-type']
 		},
 	},
 
