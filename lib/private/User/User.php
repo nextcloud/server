@@ -576,7 +576,7 @@ class User implements IUser {
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->getAvatarManager();
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
