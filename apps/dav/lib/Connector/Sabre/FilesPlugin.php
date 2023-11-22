@@ -160,7 +160,6 @@ class FilesPlugin extends ServerPlugin {
 		$this->server->on('afterBind', [$this, 'sendFileIdHeader']);
 		$this->server->on('afterWriteContent', [$this, 'sendFileIdHeader']);
 		$this->server->on('method:GET', [$this,'httpGet']);
-        $this->server->on('method:PROPFIND', [$this, 'httpPropFind']);
 		$this->server->on('afterMethod:GET', [$this,'afterHttpGet']);
 		$this->server->on('afterMethod:GET', [$this, 'handleDownloadToken']);
 		$this->server->on('afterResponse', function ($request, ResponseInterface $response) {
@@ -225,76 +224,6 @@ class FilesPlugin extends ServerPlugin {
 			}
 		}
 	}
-
-	/**
-	 * Handle PROPFIND http requests for symlinks
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 */
-	public function httpPropFind(RequestInterface $request, ResponseInterface $response)
-	{
-		// only handle symlinks
-		// TODO: probably doesn't work because PROPFIND will be called on root dir and children are returned
-		$symlinkPath = $request->getPath();
-		$fileInfo = \OC\Files\Filesystem::getView()->getFileInfo($symlinkPath);
-		if (!$fileInfo || $fileInfo->getType() !== \OC\Files\FileInfo::TYPE_SYMLINK) {
-			return;
-		}
-
-		$requestBody = $request->getBodyAsString();
-		if (strlen($requestBody)) {
-			try {
-				$propFindXml = $this->server->xml->expect('{DAV:}propfind', $requestBody);
-			} catch (\Sabre\XML\ParseException $e) {
-				throw new \Sabre\DAV\Exception\BadRequest($e->getMessage(), 0, $e);
-			}
-		} else {
-			$propFindXml = new \Sabre\DAV\Xml\Request\PropFind();
-			$propFindXml->allProp = true;
-			$propFindXml->properties = [];
-		}
-
-		$newProperties = [];
-		foreach ($propFindXml->properties as $property) {
-			if ($property === self::GETETAG_PROPERTYNAME) {
-				$newProperties[$property] = [200, $fileInfo->getETag()];
-			} elseif ($property === self::LASTMODIFIED_PROPERTYNAME) {
-				// TODO
-			} elseif ($property === self::CREATIONDATE_PROPERTYNAME) {
-				// TODO
-			} elseif ($property === self::UPLOAD_TIME_PROPERTYNAME) {
-				// TODO
-			} elseif ($property === self::SIZE_PROPERTYNAME) {
-				$newProperties[$property] = [200, $fileInfo->getSize()];
-			} else { // TODO: handle other properties that make sense for symlinks
-				$newProperties[$property] = [404];
-			}
-		}
-
-		// This is a multi-status response
-		$response->setStatus(207);
-		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
-		$response->setHeader('Vary', 'Brief,Prefer');
-
-		// Normally this header is only needed for OPTIONS responses, however..
-		// iCal seems to also depend on these being set for PROPFIND. Since
-		// this is not harmful, we'll add it.
-		$features = ['1', '3', 'extended-mkcol'];
-		foreach ($this->server->getPlugins() as $plugin) {
-			$features = array_merge($features, $plugin->getFeatures());
-		}
-		$response->setHeader('DAV', implode(', ', $features));
-
-		$prefer = $this->server->getHTTPPrefer();
-		$minimal = 'minimal' === $prefer['return'];
-
-		$data = $this->server->generateMultiStatus($newProperties, $minimal);
-		$response->setBody($data);
-
-		// Sending back false will interrupt the event chain and tell the server
-		// we've handled this method.
-		return false;
-    }
 
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// only handle symlinks
