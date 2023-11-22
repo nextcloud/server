@@ -25,6 +25,7 @@
 		class="menu-entry">
 		<a v-if="href"
 			:href="href"
+			:target="target"
 			:class="{ active }"
 			@click.exact="handleClick">
 			<NcLoadingIcon v-if="loading"
@@ -70,6 +71,10 @@ export default {
 		active: {
 			type: Boolean,
 			required: true,
+		},
+		target: {
+			type: String,
+			required: false,
 		},
 		icon: {
 			type: String,
