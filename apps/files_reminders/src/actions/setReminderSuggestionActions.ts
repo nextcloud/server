@@ -36,6 +36,7 @@ interface ReminderOption {
 	label: string
 	ariaLabel: string
 	dateString?: string
+	verboseDateString?: string
 	action?: () => Promise<void>
 }
 
@@ -43,24 +44,32 @@ const laterToday: ReminderOption = {
 	dateTimePreset: DateTimePreset.LaterToday,
 	label: t('files_reminders', 'Later today'),
 	ariaLabel: t('files_reminders', 'Set reminder for later today'),
+	dateString: '',
+	verboseDateString: ''
 }
 
 const tomorrow: ReminderOption = {
 	dateTimePreset: DateTimePreset.Tomorrow,
 	label: t('files_reminders', 'Tomorrow'),
 	ariaLabel: t('files_reminders', 'Set reminder for tomorrow'),
+	dateString: '',
+	verboseDateString: ''
 }
 
 const thisWeekend: ReminderOption = {
 	dateTimePreset: DateTimePreset.ThisWeekend,
 	label: t('files_reminders', 'This weekend'),
 	ariaLabel: t('files_reminders', 'Set reminder for this weekend'),
+	dateString: '',
+	verboseDateString: ''
 }
 
 const nextWeek: ReminderOption = {
 	dateTimePreset: DateTimePreset.NextWeek,
 	label: t('files_reminders', 'Next week'),
 	ariaLabel: t('files_reminders', 'Set reminder for next week'),
+	dateString: '',
+	verboseDateString: ''
 }
 
 /**
@@ -69,21 +78,17 @@ const nextWeek: ReminderOption = {
  * @param option The option to generate the action for
  * @return The file action or null if the option should not be shown
  */
-const generateFileAction = (option): FileAction|null => {
-	const dateTime = getDateTime(option.dateTimePreset)
-	if (!dateTime) {
-		return null
-	}
+const generateFileAction = (option: ReminderOption): FileAction|null => {
 
 	return new FileAction({
 		id: `set-reminder-${option.dateTimePreset}`,
-		displayName: () => `${option.label} – ${getDateString(dateTime)}`,
-		title: () => `${option.ariaLabel} – ${getVerboseDateString(dateTime)}`,
+		displayName: () => `${option.label} – ${option.dateString}`,
+		title: () => `${option.ariaLabel} – ${option.verboseDateString}`,
 
 		// Empty svg to hide the icon
 		iconSvgInline: () => '<svg></svg>',
 
-		enabled: () => true,
+		enabled: () => Boolean(getDateTime(option.dateTimePreset)),
 		parent: SET_REMINDER_MENU_ID,
 
 		async exec(node: Node) {
@@ -96,7 +101,7 @@ const generateFileAction = (option): FileAction|null => {
 
 			// Set the reminder
 			try {
-				await setReminder(node.fileid, dateTime)
+				await setReminder(node.fileid, getDateTime(option.dateTimePreset)!)
 				showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: node.basename }))
 			} catch (error) {
 				logger.error('Failed to set reminder', { error })
@@ -110,7 +115,28 @@ const generateFileAction = (option): FileAction|null => {
 	})
 }
 
+[laterToday, tomorrow, thisWeekend, nextWeek].forEach((option) => {
+	// Generate the initial date string
+	const dateTime = getDateTime(option.dateTimePreset)
+	if (!dateTime) {
+		return
+	}
+	option.dateString = getDateString(dateTime)
+	option.verboseDateString = getVerboseDateString(dateTime)
+	+
+	// Update the date string every 30 minutes
+	setInterval(() => {
+		const dateTime = getDateTime(option.dateTimePreset)
+		if (!dateTime) {
+			return
+		}
+		
+		// update the submenu remind options strings
+		option.dateString = getDateString(dateTime)
+		option.verboseDateString = getVerboseDateString(dateTime)
+	}, 1000 * 30 * 60)
+})
+
 // Generate the default preset actions
 export const actions = [laterToday, tomorrow, thisWeekend, nextWeek]
-	.map(generateFileAction)
-	.filter(Boolean) as FileAction[]
+	.map(generateFileAction) as FileAction[]
