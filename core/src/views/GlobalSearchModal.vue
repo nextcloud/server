@@ -1,6 +1,6 @@
 <template>
-	<NcModal v-if="isVisible"
-		id="global-search"
+	<NcModal id="global-search"
+		ref="globalSearchModal"
 		:name="t('core', 'Global search')"
 		:show.sync="isVisible"
 		:clear-view-delay="0"
@@ -115,6 +115,14 @@
 					</div>
 				</div>
 			</div>
+			<div v-if="supportFiltering()" class="global-search-modal__results">
+				<NcButton @click="closeModal">
+					{{ t('core', 'Filter in current view') }}
+					<template #icon>
+						<FilterIcon :size="20" />
+					</template>
+				</NcButton>
+			</div>
 		</div>
 	</NcModal>
 </template>
@@ -125,6 +133,7 @@ import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
 import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModal.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
 import FlaskEmpty from 'vue-material-design-icons/FlaskEmpty.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
@@ -140,6 +149,7 @@ import SearchableList from '../components/GlobalSearch/SearchableList.vue'
 import SearchResult from '../components/GlobalSearch/SearchResult.vue'
 
 import debounce from 'debounce'
+import { emit } from '@nextcloud/event-bus'
 import { getProviders, search as globalSearch, getContacts } from '../services/GlobalSearchService.js'
 
 export default {
@@ -150,6 +160,7 @@ export default {
 		CalendarRangeIcon,
 		CustomDateRangeModal,
 		DotsHorizontalIcon,
+		FilterIcon,
 		FilterChip,
 		FlaskEmpty,
 		ListBox,
@@ -226,6 +237,9 @@ export default {
 			if (query.length === 0) {
 				this.results = []
 				return
+			}
+			if (this.supportFiltering()) {
+				emit('nextcloud:unified-search.search', { query })
 			}
 			const newResults = []
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
@@ -490,7 +504,15 @@ export default {
 			this.updateDateFilter()
 		},
 		closeModal() {
+		    this.$refs.globalSearchModal.close()
 			this.searchQuery = ''
+		},
+		supportFiltering() {
+			/* Hard coded apps for the moment this would be improved in coming updates. */
+			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck']
+			const currentPath = window.location.pathname.replace('/index.php', '')
+			const containsProvider = providerPaths.some(path => currentPath.includes(path))
+			return containsProvider
 		},
 	},
 }
