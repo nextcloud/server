@@ -73,6 +73,7 @@ class FilesPlugin extends ServerPlugin {
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 	public const CREATIONDATE_PROPERTYNAME = '{DAV:}creationdate';
 	public const DISPLAYNAME_PROPERTYNAME = '{DAV:}displayname';
+	public const RESOURCETYPE_PROPERTYNAME = '{DAV:}resourcetype';
 	public const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	public const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	public const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
@@ -450,6 +451,14 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
+			});
+
+			$propFind->handle(self::RESOURCETYPE_PROPERTYNAME, function() use ($node) {
+				$info = $node->getFileInfo();
+				if ($info->getType() == \OC\Files\FileInfo::TYPE_SYMLINK || $info->getMimetype() == 'symlink') {
+					return '{DAV:}symlink';
+				}
+				return null;
 			});
 		}
 
