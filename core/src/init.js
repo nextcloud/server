@@ -36,6 +36,7 @@ import { setUp as setUpContactsMenu } from './components/ContactsMenu'
 import { setUp as setUpMainMenu } from './components/MainMenu'
 import { setUp as setUpUserMenu } from './components/UserMenu'
 import PasswordConfirmation from './OC/password-confirmation'
+import { interceptRequests } from './utils/xhr-request.js'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
@@ -133,6 +134,8 @@ moment.locale(locale)
  * Initializes core
  */
 export const initCore = () => {
+	interceptRequests()
+
 	const userAgent = window.navigator.userAgent
 	const edge = userAgent.indexOf('Edge/')
 
