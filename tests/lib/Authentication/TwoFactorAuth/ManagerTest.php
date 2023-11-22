@@ -369,11 +369,12 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('two_factor_remember_login')
 			->willReturn(false);
-		$this->session->expects($this->exactly(2))
+		$this->session->expects($this->exactly(3))
 			->method('remove')
 			->withConsecutive(
 				['two_factor_auth_uid'],
-				['two_factor_remember_login']
+				['two_factor_remember_login'],
+				['two_factor_auth_configuring']
 			);
 		$this->session->expects($this->once())
 			->method('set')

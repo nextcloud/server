@@ -263,6 +263,7 @@ class Manager {
 			$this->session->remove(self::SESSION_UID_KEY);
 			$this->session->remove(self::REMEMBER_LOGIN);
 			$this->session->set(self::SESSION_UID_DONE, $user->getUID());
+			$this->session->remove(self::SESSION_UID_CONFIGURING);
 
 			// Clear token from db
 			$sessionId = $this->session->getId();
