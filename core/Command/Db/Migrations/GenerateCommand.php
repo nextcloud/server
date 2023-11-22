@@ -235,7 +235,7 @@ class {{classname}} extends SimpleMigrationStep {
 		$path = $dir . '/' . $className . '.php';
 
 		if (file_put_contents($path, $code) === false) {
-			throw new RuntimeException('Failed to generate new migration step.');
+			throw new RuntimeException('Failed to generate new migration step. Could not write to ' . $path);
 		}
 
 		return $path;
