@@ -17,6 +17,7 @@
     "Authentication" : "Autentificare",
     "Unknown filetype" : "Tip fișier necunoscut",
     "Invalid image" : "Imagine invalidă",
+    "Avatar image is not square" : "Imaginea de avatar nu este pătrată",
     "Files" : "Fișiere",
     "View profile" : "Vezi profilul",
     "Local time: %s" : "Timp local: %s",
