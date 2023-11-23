@@ -47,7 +47,7 @@ class ForwardedForHeaders implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Forwared for headers');
+		return $this->l10n->t('Forwarded for headers');
 	}
 
 	public function run(): SetupResult {
