@@ -464,7 +464,7 @@ export default Vue.extend({
 
 				// Hover state of the row should also change the favorite markers background
 				.favorite-marker-icon svg path {
-					stroke: var(--color-background-dark);
+					stroke: var(--color-background-hover);
 				}
 			}
 
