@@ -54,7 +54,7 @@ class SymlinkManager {
 	 * @return bool
 	 */
 	public function isSymlink($node) {
-		return $this->getId($node) === false;
+		return $this->getId($node) !== false;
 	}
 
 	/**
@@ -64,9 +64,9 @@ class SymlinkManager {
 	 */
 	public function storeSymlink($node) {
 		if ($this->isSymlink($node)) {
-			$this->insertSymlink($node);
-		} else {
 			$this->updateSymlink($node);
+		} else {
+			$this->insertSymlink($node);
 		}
 	}
 
@@ -97,7 +97,7 @@ class SymlinkManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from(self::TABLE_NAME)
-			->where($query->expr()->like('storage', $query->createNamedParameter($this->connection->escapeLikeParameter($path) . '/%')));
+			->where($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($path) . '/%')));
 		$result = $query->executeQuery();
 
 		while ($row = $result->fetch()) {
@@ -147,6 +147,9 @@ class SymlinkManager {
 			->set('storage', $query->createNamedParameter($storageId))
 			->set('path', $query->createNamedParameter($path))
 			->set('last_updated', $query->createNamedParameter($lastUpdated));
+		if ($query->executeStatement() != 1) {
+			throw new \OCP\DB\Exception("Invalid number of rows changed while updating symlink!");
+		}
 	}
 
 	/**
@@ -164,6 +167,9 @@ class SymlinkManager {
 			->setValue('storage', $query->createNamedParameter($storageId))
 			->setValue('path', $query->createNamedParameter($path))
 			->setValue('last_updated', $query->createNamedParameter($lastUpdated));
+		if ($query->executeStatement() != 1) {
+			throw new \OCP\DB\Exception("Invalid number of rows changed while inserting symlink!");
+		}
 	}
 
 	/**
