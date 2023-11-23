@@ -73,14 +73,20 @@ class SymlinkPlugin extends ServerPlugin {
 			$response->setStatus(201);
 			return false;
 		}
+		return true;
 	}
 
 	public function httpDelete(RequestInterface $request, ResponseInterface $response): bool {
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath(dirname($path));
-		if ($this->symlinkManager->isSymlink($node)) {
-			$this->symlinkManager->deleteSymlink($node);
-			return false;
+		if (!$node instanceof \OCA\DAV\Connector\Sabre\File) {
+			return true;
 		}
+		$info = $node->getFileInfo();
+		if ($this->symlinkManager->isSymlink($info)) {
+			$this->symlinkManager->deleteSymlink($info);
+		}
+		// always propagate to trigger deletion of regular file representing symlink in filesystem
+		return true;
 	}
 }
