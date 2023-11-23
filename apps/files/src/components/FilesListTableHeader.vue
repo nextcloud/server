@@ -3,7 +3,7 @@
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,7 @@
 		<template v-else>
 			<!-- Link to file -->
 			<th class="files-list__column files-list__row-name files-list__column--sortable"
-				:aria-sort="ariaSortForMode('basename')"
-				@click.stop.prevent="toggleSortBy('basename')">
+				:aria-sort="ariaSortForMode('basename')">
 				<!-- Icon or preview -->
 				<span class="files-list__row-icon" />
 
