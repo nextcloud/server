@@ -45,7 +45,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception\BadRequest;
-use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\PreconditionFailed;
@@ -147,20 +146,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 	}
 
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
-		if ($request->getHeader('OC-File-Type') == 1) {
-			$symlinkPath = $request->getPath();
-			$symlinkTarget = $request->getBodyAsString();
-			$newEtag = "'$symlinkPath'->'$symlinkTarget'";
-			$infoData = [
-				'type' => \OC\Files\FileInfo::TYPE_SYMLINK,
-				'etag' => $newEtag,
-			];
-			\OC\Files\Filesystem::getView()->putFileInfo($symlinkPath, $infoData);
-			$response->setHeader("OC-ETag", $newEtag);
-			$response->setStatus(201);
-			$this->server->sapi->sendResponse($response);
-			return false;
-		}
 		try {
 			$this->prepareUpload(dirname($request->getPath()));
 			$this->checkPrerequisites();
