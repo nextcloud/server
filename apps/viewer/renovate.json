@@ -18,6 +18,7 @@
   "ignoreUnstable": false,
   "baseBranches": [
     "master",
+    "stable28",
     "stable27",
     "stable26"
   ],
@@ -62,6 +63,7 @@
         "major"
       ],
       "matchBaseBranches": [
+        "stable28",
         "stable27",
         "stable26"
       ],
