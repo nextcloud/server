@@ -81,7 +81,7 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 			foreach ($missingIndices as $missingIndex) {
 				$list .= "\n".$this->l10n->t('Missing optional index "%s" in table "%s".', [$missingIndex['indexName'], $missingIndex['tableName']]);
 			}
-			return SetupResult::info(
+			return SetupResult::warning(
 				$this->l10n->t('The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running "occ db:add-missing-indices" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.').$list
 			);
 		}
