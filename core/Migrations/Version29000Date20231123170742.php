@@ -35,7 +35,7 @@ use OCP\Migration\SimpleMigrationStep;
 /**
  * Introduce symlinks table
  */
-class SymlinkSupportMigration extends SimpleMigrationStep {
+class Version29000Date20231123170742 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
