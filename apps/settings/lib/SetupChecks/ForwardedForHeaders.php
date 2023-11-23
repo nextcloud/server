@@ -56,7 +56,7 @@ class ForwardedForHeaders implements ISetupCheck {
 		$detectedRemoteAddress = $this->request->getRemoteAddress();
 
 		if (!\is_array($trustedProxies)) {
-			return SetupResult::error($this->l10n->t('Your trusted_proxies setting is not correctly set, it should be an array.'));
+			return SetupResult::error($this->l10n->t('Your "trusted_proxies" setting is not correctly set, it should be an array.'));
 		}
 
 		if (($remoteAddress === '') && ($detectedRemoteAddress === '')) {
