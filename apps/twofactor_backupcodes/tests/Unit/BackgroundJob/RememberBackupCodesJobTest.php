@@ -33,6 +33,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\Server;
 use Test\TestCase;
 
 class RememberBackupCodesJobTest extends TestCase {
@@ -82,16 +83,25 @@ class RememberBackupCodesJobTest extends TestCase {
 
 		$this->notificationManager->expects($this->never())
 			->method($this->anything());
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(
+				RememberBackupCodesJob::class,
+				['uid' => 'invalidUID']
+			);
 		$this->jobList->expects($this->never())
-			->method($this->anything());
+			->method('add');
 
-		$this->invokePrivate($this->job, 'run', [['uid' => 'invalidUID']]);
+		self::invokePrivate($this->job, 'run', [['uid' => 'invalidUID']]);
 	}
 
 	public function testBackupCodesGenerated() {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
+		$user->method('isEnabled')
+			->willReturn(true);
+
 		$this->userManager->method('get')
 			->with('validUID')
 			->willReturn($user);
@@ -112,7 +122,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->notificationManager->expects($this->never())
 			->method($this->anything());
 
-		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
+		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
 	public function testNoActiveProvider() {
@@ -140,13 +150,15 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->notificationManager->expects($this->never())
 			->method($this->anything());
 
-		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
+		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
 	public function testNotificationSend() {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
+		$user->method('isEnabled')
+			->willReturn(true);
 		$this->userManager->method('get')
 			->with('validUID')
 			->willReturn($user);
@@ -165,7 +177,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		$date->setTimestamp($this->time->getTime());
 
 		$this->notificationManager->method('createNotification')
-			->willReturn(\OC::$server->query(IManager::class)->createNotification());
+			->willReturn(Server::get(IManager::class)->createNotification());
 
 		$this->notificationManager->expects($this->once())
 			->method('notify')
@@ -178,6 +190,52 @@ class RememberBackupCodesJobTest extends TestCase {
 					$n->getSubject() === 'create_backupcodes';
 			}));
 
-		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
+		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
+	}
+
+	public function testNotificationNotSendForDisabledUser() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('validUID');
+		$user->method('isEnabled')
+			->willReturn(false);
+		$this->userManager->method('get')
+			->with('validUID')
+			->willReturn($user);
+
+		$this->registry->method('getProviderStates')
+			->with($user)
+			->willReturn([
+				'backup_codes' => false,
+				'foo' => true,
+			]);
+
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(
+				RememberBackupCodesJob::class,
+				['uid' => 'validUID']
+			);
+
+		$date = new \DateTime();
+		$date->setTimestamp($this->time->getTime());
+
+		$this->notificationManager->method('createNotification')
+			->willReturn(Server::get(IManager::class)->createNotification());
+
+		$this->notificationManager->expects($this->once())
+			->method('markProcessed')
+			->with($this->callback(function (INotification $n) {
+				return $n->getApp() === 'twofactor_backupcodes' &&
+					$n->getUser() === 'validUID' &&
+					$n->getObjectType() === 'create' &&
+					$n->getObjectId() === 'codes' &&
+					$n->getSubject() === 'create_backupcodes';
+			}));
+
+		$this->notificationManager->expects($this->never())
+			->method('notify');
+
+		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 }

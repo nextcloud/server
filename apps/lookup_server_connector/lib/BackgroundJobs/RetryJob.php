@@ -61,11 +61,11 @@ class RetryJob extends Job {
 	 * @param Signer $signer
 	 */
 	public function __construct(ITimeFactory $time,
-								IClientService $clientService,
-								IConfig $config,
-								IUserManager $userManager,
-								IAccountManager $accountManager,
-								Signer $signer) {
+		IClientService $clientService,
+		IConfig $config,
+		IUserManager $userManager,
+		IAccountManager $accountManager,
+		Signer $signer) {
 		parent::__construct($time);
 		$this->clientService = $clientService;
 		$this->config = $config;

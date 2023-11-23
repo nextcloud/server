@@ -39,7 +39,7 @@ class LoggedInCheckCommand extends ALoginCommand {
 	private $dispatcher;
 
 	public function __construct(LoggerInterface $logger,
-								IEventDispatcher $dispatcher) {
+		IEventDispatcher $dispatcher) {
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
 	}

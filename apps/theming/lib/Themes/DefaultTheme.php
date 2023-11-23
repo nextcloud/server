@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -51,13 +52,13 @@ class DefaultTheme implements ITheme {
 	public string $primaryColor;
 
 	public function __construct(Util $util,
-								ThemingDefaults $themingDefaults,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								ImageManager $imageManager,
-								IConfig $config,
-								IL10N $l,
-								IAppManager $appManager) {
+		ThemingDefaults $themingDefaults,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		ImageManager $imageManager,
+		IConfig $config,
+		IL10N $l,
+		IAppManager $appManager) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
 		$this->userSession = $userSession;

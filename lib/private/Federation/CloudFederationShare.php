@@ -57,16 +57,16 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $sharedSecret
 	 */
 	public function __construct($shareWith = '',
-								$name = '',
-								$description = '',
-								$providerId = '',
-								$owner = '',
-								$ownerDisplayName = '',
-								$sharedBy = '',
-								$sharedByDisplayName = '',
-								$shareType = '',
-								$resourceType = '',
-								$sharedSecret = ''
+		$name = '',
+		$description = '',
+		$providerId = '',
+		$owner = '',
+		$ownerDisplayName = '',
+		$sharedBy = '',
+		$sharedByDisplayName = '',
+		$shareType = '',
+		$resourceType = '',
+		$sharedSecret = ''
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);

@@ -50,7 +50,7 @@ class UpdateLookupServer {
 	 * @param IConfig $config
 	 */
 	public function __construct(IJobList $jobList,
-								IConfig $config) {
+		IConfig $config) {
 		$this->config = $config;
 		$this->jobList = $jobList;
 	}

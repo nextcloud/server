@@ -98,14 +98,14 @@ class ReminderService {
 	];
 
 	public function __construct(Backend $backend,
-								NotificationProviderManager $notificationProviderManager,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								CalDavBackend $caldavBackend,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								LoggerInterface $logger,
-								Principal $principalConnector) {
+		NotificationProviderManager $notificationProviderManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		CalDavBackend $caldavBackend,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		LoggerInterface $logger,
+		Principal $principalConnector) {
 		$this->backend = $backend;
 		$this->notificationProviderManager = $notificationProviderManager;
 		$this->userManager = $userManager;
@@ -390,12 +390,12 @@ class ReminderService {
 	 * @return array
 	 */
 	private function getRemindersForVAlarm(VAlarm $valarm,
-										   array $objectData,
-										   DateTimeZone $calendarTimeZone,
-										   string $eventHash = null,
-										   string $alarmHash = null,
-										   bool $isRecurring = false,
-										   bool $isRecurrenceException = false):array {
+		array $objectData,
+		DateTimeZone $calendarTimeZone,
+		string $eventHash = null,
+		string $alarmHash = null,
+		bool $isRecurring = false,
+		bool $isRecurrenceException = false):array {
 		if ($eventHash === null) {
 			$eventHash = $this->getEventHash($valarm->parent);
 		}
@@ -490,7 +490,7 @@ class ReminderService {
 	 * @param VEvent $vevent
 	 */
 	private function deleteOrProcessNext(array $reminder,
-										 VObject\Component\VEvent $vevent):void {
+		VObject\Component\VEvent $vevent):void {
 		if ($reminder['is_repeat_based'] ||
 			!$reminder['is_recurring'] ||
 			!$reminder['is_relative'] ||
@@ -673,8 +673,8 @@ class ReminderService {
 	 * @return VEvent|null
 	 */
 	private function getVEventByRecurrenceId(VObject\Component\VCalendar $vcalendar,
-											 int $recurrenceId,
-											 bool $isRecurrenceException):?VEvent {
+		int $recurrenceId,
+		bool $isRecurrenceException):?VEvent {
 		$vevents = $this->getAllVEventsFromVCalendar($vcalendar);
 		if (count($vevents) === 0) {
 			return null;

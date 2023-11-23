@@ -38,10 +38,10 @@ use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\UserInterface;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
+use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {

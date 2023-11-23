@@ -31,7 +31,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Lock\LockContext;
-use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
@@ -100,7 +99,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		$result = self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
+		$result = self::handleAppLocks(fn (): ?bool => $backend->rollback($version));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
 			\OC_Hook::emit('\OCP\Versions', 'rollback', [
@@ -197,7 +196,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
 			$lockManager = \OC::$server->get(ILockManager::class);
 			$result = null;
-			$lockManager->runInScope($lockContext, function() use ($callback, &$result) {
+			$lockManager->runInScope($lockContext, function () use ($callback, &$result) {
 				$result = $callback();
 			});
 			return $result;

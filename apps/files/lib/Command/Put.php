@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command;
 
-
 use OC\Core\Command\Info\FileUtils;
 use OCP\Files\File;
 use OCP\Files\Folder;

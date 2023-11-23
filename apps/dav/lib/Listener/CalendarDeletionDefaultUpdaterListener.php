@@ -44,7 +44,7 @@ class CalendarDeletionDefaultUpdaterListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IConfig $config,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->config = $config;
 		$this->logger = $logger;
 	}

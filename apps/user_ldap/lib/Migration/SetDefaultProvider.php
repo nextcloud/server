@@ -40,7 +40,7 @@ class SetDefaultProvider implements IRepairStep {
 	private $helper;
 
 	public function __construct(IConfig $config,
-								Helper $helper) {
+		Helper $helper) {
 		$this->config = $config;
 		$this->helper = $helper;
 	}

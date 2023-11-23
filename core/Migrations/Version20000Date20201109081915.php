@@ -43,7 +43,7 @@ class Version20000Date20201109081915 extends SimpleMigrationStep {
 
 		$result = $this->ensureColumnIsNullable($schema, 'share', 'password_by_talk');
 		$result = $this->ensureColumnIsNullable($schema, 'share', 'hide_download') || $result;
-//		$result = $this->ensureColumnIsNullable($schema, 'credentials', 'user') || $result;
+		//		$result = $this->ensureColumnIsNullable($schema, 'credentials', 'user') || $result;
 		$result = $this->ensureColumnIsNullable($schema, 'authtoken', 'password_invalid') || $result;
 		$result = $this->ensureColumnIsNullable($schema, 'collres_accesscache', 'access') || $result;
 

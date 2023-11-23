@@ -29,10 +29,10 @@ use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
-use Psr\Log\LoggerInterface;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AdminTest extends TestCase {

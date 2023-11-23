@@ -33,8 +33,8 @@ use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Throwable;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Manager implements IManager {
 	/** @var array */

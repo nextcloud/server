@@ -1030,7 +1030,7 @@ class Group_LDAPTest extends TestCase {
 				}
 				[$memberFilter] = explode('&', $filter);
 				if ($memberFilter === 'member='.$dn) {
-						return [$group1, $group2];
+					return [$group1, $group2];
 					return [];
 				} elseif ($memberFilter === 'member='.$group2['dn'][0]) {
 					return [$group3];

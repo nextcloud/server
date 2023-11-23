@@ -232,6 +232,24 @@ trait WebDav {
 	}
 
 	/**
+	 * @Then /^Favorite search should work$/
+	 */
+	public function searchFavorite(): void {
+		$this->searchFile(
+			$this->currentUser,
+			null,
+			null,
+			'<d:eq>
+			<d:prop>
+				<oc:favorite/>
+			</d:prop>
+			<d:literal>yes</d:literal>
+		</d:eq>'
+		);
+		Assert::assertEquals(207, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @Then /^Downloaded content when downloading file "([^"]*)" with range "([^"]*)" should be "([^"]*)"$/
 	 * @param string $fileSource
 	 * @param string $range

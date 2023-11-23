@@ -26,9 +26,9 @@ declare(strict_types=1);
 namespace OCA\SystemTags\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\SystemTags\Search\TagSearchProvider;
 use OCA\SystemTags\Activity\Listener;
 use OCA\SystemTags\Capabilities;
+use OCA\SystemTags\Search\TagSearchProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;

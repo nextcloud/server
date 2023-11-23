@@ -35,6 +35,7 @@ interface ISearchComparison extends ISearchOperator {
 	public const COMPARE_LESS_THAN_EQUAL = 'lte';
 	public const COMPARE_LIKE = 'like';
 	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
+	public const COMPARE_DEFINED = 'is-defined';
 
 	public const HINT_PATH_EQ_HASH = 'path_eq_hash'; // transform `path = "$path"` into `path_hash = md5("$path")`, on by default
 
@@ -67,8 +68,8 @@ interface ISearchComparison extends ISearchOperator {
 	/**
 	 * Get the value to compare the field with
 	 *
-	 * @return string|integer|\DateTime
+	 * @return string|integer|bool|\DateTime
 	 * @since 12.0.0
 	 */
-	public function getValue(): string|int|\DateTime;
+	public function getValue(): string|int|bool|\DateTime;
 }

@@ -39,15 +39,15 @@ describe('Settings: Create groups', () => {
 		// open the Create group menu
 		cy.get('button[aria-label="Create group"]').click()
 
-		cy.get('.action-item__popper ul[role="menu"]').within(() => {
+		cy.get('li[data-cy-settings-new-group-name]').within(() => {
 			// see that the group name is ""
-			cy.get('input[placeholder="Group name"]').should('exist').and('have.value', '')
+			cy.get('input').should('exist').and('have.value', '')
 			// set the group name to foo
-			cy.get('input[placeholder="Group name"]').type(groupName)
+			cy.get('input').type(groupName)
 			// see that the group name is foo
-			cy.get('input[placeholder="Group name"]').should('have.value', groupName)
+			cy.get('input').should('have.value', groupName)
 			// submit the group name
-			cy.get('input[placeholder="Group name"] ~ button').click()
+			cy.get('input ~ button').click()
 		})
 
 		// Make sure no confirmation modal is shown

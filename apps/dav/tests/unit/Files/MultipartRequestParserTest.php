@@ -22,8 +22,8 @@
 
 namespace OCA\DAV\Tests\unit\DAV;
 
-use Test\TestCase;
 use \OCA\DAV\BulkUpload\MultipartRequestParser;
+use Test\TestCase;
 
 class MultipartRequestParserTest extends TestCase {
 	private function getValidBodyObject() {
@@ -65,7 +65,7 @@ class MultipartRequestParserTest extends TestCase {
 
 		$body .= '--'.$boundary."--";
 
-		$stream = fopen('php://temp','r+');
+		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
 		rewind($stream);
 

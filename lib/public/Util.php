@@ -46,9 +46,9 @@
 
 namespace OCP;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
-use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 

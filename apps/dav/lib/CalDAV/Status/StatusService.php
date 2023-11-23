@@ -48,16 +48,13 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Status;
 
-use DateTimeZone;
 use OC\Calendar\CalendarQuery;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\FreeBusy\FreeBusyGenerator;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
-use OCA\DAV\CalDAV\IUser;
 use OCA\DAV\CalDAV\Schedule\Plugin as SchedulePlugin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
-use OCP\Calendar\ISchedulingInformation;
 use OCP\IL10N;
 use OCP\IUser as User;
 use OCP\UserStatus\IUserStatus;
@@ -66,7 +63,6 @@ use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAVACL\Exception\NeedPrivileges;
 use Sabre\DAVACL\Plugin as AclPlugin;
 use Sabre\VObject\Component;
-use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
@@ -74,10 +70,11 @@ use Sabre\VObject\Reader;
 
 class StatusService {
 	public function __construct(private ITimeFactory $timeFactory,
-								private IManager $calendarManager,
-								private InvitationResponseServer $server,
-								private IL10N $l10n,
-								private FreeBusyGenerator $generator){}
+		private IManager $calendarManager,
+		private InvitationResponseServer $server,
+		private IL10N $l10n,
+		private FreeBusyGenerator $generator) {
+	}
 
 	public function processCalendarAvailability(User $user, ?string $availability): ?Status {
 		$userId = $user->getUID();
@@ -172,7 +169,7 @@ class StatusService {
 		foreach ($calendarEvents as $calendarEvent) {
 			$vEvent = new VEvent($calendar, 'VEVENT');
 			foreach($calendarEvent['objects'] as $component) {
-				foreach ($component as $key =>  $value) {
+				foreach ($component as $key => $value) {
 					$vEvent->add($key, $value[0]);
 				}
 			}

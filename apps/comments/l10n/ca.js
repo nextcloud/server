@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Suprimeix el comentari",
     "Cancel edit" : "Cancel·la l'edició",
     "Post comment" : "Publica el comentari",
+    "Could not reload comments" : "No s'han pogut tornar a carregar els comentaris",
     "No comments yet, start the conversation!" : "Encara no hi ha cap comentari. Enceteu la conversa!",
     "No more messages" : "No hi ha més missatges",
     "Retry" : "Torna-ho a provar",

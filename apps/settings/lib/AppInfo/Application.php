@@ -48,10 +48,12 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
+use OCA\Settings\SetupChecks\ForwardedForHeaders;
 use OCA\Settings\SetupChecks\InternetConnectivity;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
@@ -156,10 +158,12 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+		$context->registerSetupCheck(BruteForceThrottler::class);
 		$context->registerSetupCheck(CheckUserCertificates::class);
 		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
 		$context->registerSetupCheck(EmailTestSuccessful::class);
 		$context->registerSetupCheck(FileLocking::class);
+		$context->registerSetupCheck(ForwardedForHeaders::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
 		$context->registerSetupCheck(MemcacheConfigured::class);

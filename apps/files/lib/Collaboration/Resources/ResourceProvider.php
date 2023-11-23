@@ -49,8 +49,8 @@ class ResourceProvider implements IProvider {
 	protected $nodes = [];
 
 	public function __construct(IRootFolder $rootFolder,
-								IPreview $preview,
-								IURLGenerator $urlGenerator) {
+		IPreview $preview,
+		IURLGenerator $urlGenerator) {
 		$this->rootFolder = $rootFolder;
 		$this->preview = $preview;
 		$this->urlGenerator = $urlGenerator;

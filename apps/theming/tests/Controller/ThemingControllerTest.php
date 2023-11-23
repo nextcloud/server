@@ -35,8 +35,8 @@ namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
-use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;

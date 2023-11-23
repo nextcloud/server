@@ -164,9 +164,9 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->shareManager->expects($this->once())
 			->method('checkPassword')->with(
-			$this->equalTo($share),
-			$this->equalTo('password')
-		)->willReturn(true);
+				$this->equalTo($share),
+				$this->equalTo('password')
+			)->willReturn(true);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 

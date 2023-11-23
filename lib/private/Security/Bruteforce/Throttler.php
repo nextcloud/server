@@ -72,8 +72,8 @@ class Throttler implements IThrottler {
 	 * {@inheritDoc}
 	 */
 	public function registerAttempt(string $action,
-									string $ip,
-									array $metadata = []): void {
+		string $ip,
+		array $metadata = []): void {
 		// No need to log if the bruteforce protection is disabled
 		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.enabled', true)) {
 			return;

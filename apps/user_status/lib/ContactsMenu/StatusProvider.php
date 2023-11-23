@@ -46,7 +46,7 @@ class StatusProvider implements IBulkProvider {
 		$statuses = $this->statusService->findByUserIds($uids);
 		/** @var array<string, UserStatus> $indexed */
 		$indexed = array_combine(
-			array_map(fn(UserStatus $status) => $status->getUserId(), $statuses),
+			array_map(fn (UserStatus $status) => $status->getUserId(), $statuses),
 			$statuses
 		);
 

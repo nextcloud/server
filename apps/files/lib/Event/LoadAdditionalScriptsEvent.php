@@ -34,4 +34,5 @@ use OCP\EventDispatcher\Event;
  *
  * @since 17.0.0
  */
-class LoadAdditionalScriptsEvent extends Event {}
+class LoadAdditionalScriptsEvent extends Event {
+}

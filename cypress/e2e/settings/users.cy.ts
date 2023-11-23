@@ -27,23 +27,16 @@ const admin = new User('admin', 'admin')
 const john = new User('john', '123456')
 
 describe('Settings: Create and delete users', function() {
-	before(function() {
+	beforeEach(function() {
+		cy.listUsers().then((users) => {
+			if ((users as string[]).includes(john.userId)) {
+				// ensure created user is deleted
+				cy.deleteUser(john)
+			}
+		})
 		cy.login(admin)
 		// open the User settings
 		cy.visit('/settings/users')
-	})
-
-	beforeEach(function() {
-		cy.login(admin)
-		cy.listUsers().then((users) => {
-			cy.login(admin)
-			if ((users as string[]).includes(john.userId)) {
-				// ensure created user is deleted
-				cy.deleteUser(john).login(admin)
-				// ensure deleted user is not present
-				cy.reload().login(admin)
-			}
-		})
 	})
 
 	it('Can create a user', function() {
@@ -64,7 +57,7 @@ describe('Settings: Create and delete users', function() {
 			// see that the password is 123456
 			cy.get('input[type="password"]').should('have.value', john.password)
 			// submit the new user form
-			cy.get('button[type="submit"]').click()
+			cy.get('button[type="submit"]').click({ force: true })
 		})
 
 		// Make sure no confirmation modal is shown
@@ -98,7 +91,7 @@ describe('Settings: Create and delete users', function() {
 			cy.get('input[type="password"]').type(john.password)
 			cy.get('input[type="password"]').should('have.value', john.password)
 			// submit the new user form
-			cy.get('button[type="submit"]').click()
+			cy.get('button[type="submit"]').click({ force: true })
 		})
 
 		// Make sure no confirmation modal is shown

@@ -82,13 +82,13 @@ abstract class AUserData extends OCSController {
 	protected $l10nFactory;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAccountManager $accountManager,
-								IFactory $l10nFactory) {
+		IRequest $request,
+		IUserManager $userManager,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAccountManager $accountManager,
+		IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;

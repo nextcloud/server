@@ -64,10 +64,10 @@ abstract class BaseResponse extends Response {
 	 * @param int|null $itemsPerPage
 	 */
 	public function __construct(DataResponse $dataResponse,
-								$format = 'xml',
-								$statusMessage = null,
-								$itemsCount = null,
-								$itemsPerPage = null) {
+		$format = 'xml',
+		$statusMessage = null,
+		$itemsCount = null,
+		$itemsPerPage = null) {
 		parent::__construct();
 
 		$this->format = $format;

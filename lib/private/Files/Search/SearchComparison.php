@@ -33,7 +33,7 @@ class SearchComparison implements ISearchComparison {
 	public function __construct(
 		private string $type,
 		private string $field,
-		private \DateTime|int|string $value,
+		private \DateTime|int|string|bool $value,
 		private string $extra = ''
 	) {
 	}
@@ -53,9 +53,9 @@ class SearchComparison implements ISearchComparison {
 	}
 
 	/**
-	 * @return \DateTime|int|string
+	 * @return \DateTime|int|string|bool
 	 */
-	public function getValue(): string|int|\DateTime {
+	public function getValue(): string|int|bool|\DateTime {
 		return $this->value;
 	}
 

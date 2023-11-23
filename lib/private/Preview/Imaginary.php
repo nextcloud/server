@@ -23,13 +23,13 @@
 
 namespace OC\Preview;
 
+use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
-use OCP\Image;
 
-use OC\StreamImage;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {

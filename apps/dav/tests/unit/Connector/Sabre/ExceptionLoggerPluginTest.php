@@ -28,14 +28,12 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-use OC\Log;
 use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Exception\ServerMaintenanceMode;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 use Test\TestCase;
 

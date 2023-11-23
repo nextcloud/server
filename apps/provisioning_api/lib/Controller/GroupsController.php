@@ -61,14 +61,14 @@ class GroupsController extends AUserData {
 	private $logger;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAccountManager $accountManager,
-								IFactory $l10nFactory,
-								LoggerInterface $logger) {
+		IRequest $request,
+		IUserManager $userManager,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAccountManager $accountManager,
+		IFactory $l10nFactory,
+		LoggerInterface $logger) {
 		parent::__construct($appName,
 			$request,
 			$userManager,

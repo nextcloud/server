@@ -267,14 +267,14 @@ class RoutingTest extends \Test\TestCase {
 	 * @param string $postfix
 	 */
 	private function assertSimpleOCSRoute($routes,
-										  $name,
-										  $verb,
-										  $url,
-										  $controllerName,
-										  $actionName,
-										  array $requirements = [],
-										  array $defaults = [],
-										  $postfix = '') {
+		$name,
+		$verb,
+		$url,
+		$controllerName,
+		$actionName,
+		array $requirements = [],
+		array $defaults = [],
+		$postfix = '') {
 		if ($postfix) {
 			$name .= $postfix;
 		}

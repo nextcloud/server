@@ -31,10 +31,10 @@ namespace OCA\DAV\DAV\Sharing;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class Backend {
 	use TTransactional;
@@ -211,7 +211,7 @@ class Backend {
 	}
 
 	public function preloadShares(array $resourceIds): void {
-		$resourceIds = array_filter($resourceIds, function(int $resourceId) {
+		$resourceIds = array_filter($resourceIds, function (int $resourceId) {
 			return !isset($this->shareCache[$resourceId]);
 		});
 		if (count($resourceIds) === 0) {

@@ -9,7 +9,6 @@ use OCP\Calendar\ICreateFromString;
 use OCP\Constants;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Test\TestCase;
 
 class CalendarObjectTest extends TestCase {
@@ -145,7 +144,7 @@ class CalendarObjectTest extends TestCase {
 
 		$backend->expects($this->once())
 			->method('createFromString')
-			->with('someid.ics', self::callback(fn($data): bool => preg_match('/BEGIN:VEVENT(.|\r\n)+STATUS:CANCELLED/', $data) === 1));
+			->with('someid.ics', self::callback(fn ($data): bool => preg_match('/BEGIN:VEVENT(.|\r\n)+STATUS:CANCELLED/', $data) === 1));
 
 		$calendarObject->delete();
 	}

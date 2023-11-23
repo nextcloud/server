@@ -20,11 +20,12 @@
  */
 namespace OCA\DAV\Tests\unit\DAV;
 
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\Files_Sharing\SharedStorage;
-use OCA\DAV\Connector\Sabre\File as DavFile;
-use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Sabre\VersionFile;
+use OCA\Files_Versions\Versions\IVersion;
 use OCP\Files\File;
 use OCP\Files\Storage\IStorage;
 use OCP\Share\IAttributes;
@@ -32,9 +33,8 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
-use Test\TestCase;
 use Sabre\HTTP\RequestInterface;
-use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use Test\TestCase;
 
 class ViewOnlyPluginTest extends TestCase {
 

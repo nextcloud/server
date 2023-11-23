@@ -115,7 +115,7 @@ class UserStatusController extends OCSController {
 	 * 200: The message was updated successfully
 	 */
 	public function setPredefinedMessage(string $messageId,
-										 ?int $clearAt): DataResponse {
+		?int $clearAt): DataResponse {
 		try {
 			$status = $this->service->setPredefinedMessage($this->userId, $messageId, $clearAt);
 			$this->service->removeBackupUserStatus($this->userId);
@@ -143,8 +143,8 @@ class UserStatusController extends OCSController {
 	 * 200: The message was updated successfully
 	 */
 	public function setCustomMessage(?string $statusIcon,
-									 ?string $message,
-									 ?int $clearAt): DataResponse {
+		?string $message,
+		?int $clearAt): DataResponse {
 		try {
 			if (($message !== null && $message !== '') || ($clearAt !== null && $clearAt !== 0)) {
 				$status = $this->service->setCustomMessage($this->userId, $statusIcon, $message, $clearAt);

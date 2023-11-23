@@ -22,11 +22,11 @@
 
 namespace OCA\DAV\BulkUpload;
 
-use Sabre\HTTP\RequestInterface;
+use OCP\AppFramework\Http;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\LengthRequired;
-use OCP\AppFramework\Http;
+use Sabre\HTTP\RequestInterface;
 
 class MultipartRequestParser {
 

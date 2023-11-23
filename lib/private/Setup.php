@@ -53,9 +53,9 @@ use Exception;
 use InvalidArgumentException;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
-use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
+use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
@@ -560,6 +560,14 @@ class Setup {
 		}
 
 		if ($content !== '') {
+			// Never write file back if disk space should be too low
+			if (function_exists('disk_free_space')) {
+				$df = disk_free_space(\OC::$SERVERROOT);
+				$size = strlen($content) + 10240;
+				if ($df !== false && $df < (float)$size) {
+					throw new \Exception(\OC::$SERVERROOT . " does not have enough space for writing the htaccess file! Not writing it back!");
+				}
+			}
 			//suppress errors in case we don't have permissions for it
 			return (bool)@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent . $content . "\n");
 		}

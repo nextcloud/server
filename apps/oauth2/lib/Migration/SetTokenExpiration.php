@@ -46,8 +46,8 @@ class SetTokenExpiration implements IRepairStep {
 	private $tokenProvider;
 
 	public function __construct(IDBConnection $connection,
-								ITimeFactory $timeFactory,
-								TokenProvider $tokenProvider) {
+		ITimeFactory $timeFactory,
+		TokenProvider $tokenProvider) {
 		$this->connection = $connection;
 		$this->time = $timeFactory;
 		$this->tokenProvider = $tokenProvider;

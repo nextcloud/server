@@ -26,8 +26,8 @@ namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
 use OCA\Testing\Provider\FakeText2ImageProvider;
-use OCA\Testing\Provider\FakeTranslationProvider;
 use OCA\Testing\Provider\FakeTextProcessingProvider;
+use OCA\Testing\Provider\FakeTranslationProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;

@@ -302,7 +302,7 @@ class UserStatusMapperTest extends TestCase {
 			$this->assertEquals('_user1', $user1Status->getUserId());
 			$this->assertEquals(true, $user1Status->getIsBackup());
 			$this->assertEquals('Current', $user1Status->getCustomMessage());
-		} else if ($hasBackup) {
+		} elseif ($hasBackup) {
 			$user1Status = $this->mapper->findByUserId('user1', true);
 			$this->assertEquals('_user1', $user1Status->getUserId());
 			$this->assertEquals(true, $user1Status->getIsBackup());

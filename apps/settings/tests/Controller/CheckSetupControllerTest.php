@@ -57,7 +57,6 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
@@ -91,7 +90,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $dispatcher;
 	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
-	private IThrottler $throttler;
 	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
@@ -142,7 +140,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->db = $this->getMockBuilder(Connection::class)
 			->disableOriginalConstructor()->getMock();
-		$this->throttler = $this->createMock(IThrottler::class);
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
@@ -169,7 +166,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->iniGetWrapper,
 				$this->connection,
-				$this->throttler,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -208,87 +204,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->dirsToRemove = [];
 	}
 
-	/**
-	 * @dataProvider dataForwardedForHeadersWorking
-	 *
-	 * @param array $trustedProxies
-	 * @param string $remoteAddrNotForwarded
-	 * @param string $remoteAddr
-	 * @param bool $result
-	 */
-	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn($trustedProxies);
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', $remoteAddrNotForwarded],
-				['X-Forwarded-Host', '']
-			]);
-		$this->request->expects($this->any())
-			->method('getRemoteAddress')
-			->willReturn($remoteAddr);
-
-		$this->assertEquals(
-			$result,
-			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
-		);
-	}
-
-	public function dataForwardedForHeadersWorking(): array {
-		return [
-			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
-			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', true],
-			'trusted proxy, remote addr not trusted proxy' => [['1.1.1.1'], '2.2.2.2', '2.2.2.2', true],
-			'trusted proxy, remote addr is trusted proxy, x-forwarded-for working' => [['1.1.1.1'], '1.1.1.1', '2.2.2.2', true],
-			'trusted proxy, remote addr is trusted proxy, x-forwarded-for not set' => [['1.1.1.1'], '1.1.1.1', '1.1.1.1', false],
-		];
-	}
-
-	public function testForwardedHostPresentButTrustedProxiesNotAnArray(): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn('1.1.1.1');
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', '1.1.1.1'],
-				['X-Forwarded-Host', 'nextcloud.test']
-			]);
-		$this->request->expects($this->any())
-			->method('getRemoteAddress')
-			->willReturn('1.1.1.1');
-
-		$this->assertEquals(
-			false,
-			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
-		);
-	}
-
-	public function testForwardedHostPresentButTrustedProxiesEmpty(): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn([]);
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', '1.1.1.1'],
-				['X-Forwarded-Host', 'nextcloud.test']
-			]);
-		$this->request->expects($this->any())
-			->method('getRemoteAddress')
-			->willReturn('1.1.1.1');
-
-		$this->assertEquals(
-			false,
-			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
-		);
-	}
-
 	public function testCheck() {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -306,13 +221,8 @@ class CheckSetupControllerTest extends TestCase {
 				['appstoreenabled', true, false],
 			]);
 
-		$this->request->expects($this->atLeastOnce())
-			->method('getHeader')
-			->willReturnMap([
-				['REMOTE_ADDR', '4.3.2.1'],
-				['X-Forwarded-Host', '']
-			]);
-
+		$this->request->expects($this->never())
+			->method('getHeader');
 		$this->clientService->expects($this->never())
 			->method('newClient');
 		$this->checkSetupController
@@ -419,7 +329,6 @@ class CheckSetupControllerTest extends TestCase {
 				],
 				'cronErrors' => [],
 				'isUsedTlsLibOutdated' => '',
-				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,
@@ -441,8 +350,6 @@ class CheckSetupControllerTest extends TestCase {
 				'imageMagickLacksSVGSupport' => false,
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
-				'isBruteforceThrottled' => false,
-				'bruteforceRemoteAddress' => '',
 				'generic' => [],
 			]
 		);
@@ -466,7 +373,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->iniGetWrapper,
 				$this->connection,
-				$this->throttler,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->appManager,
@@ -1193,7 +1099,6 @@ Array
 			$this->dateTimeFormatter,
 			$this->iniGetWrapper,
 			$this->connection,
-			$this->throttler,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,
@@ -1247,7 +1152,6 @@ Array
 			$this->dateTimeFormatter,
 			$this->iniGetWrapper,
 			$this->connection,
-			$this->throttler,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->appManager,

@@ -36,7 +36,7 @@ class CalendarShareUpdateListener implements IEventListener {
 	private LoggerInterface $logger;
 
 	public function __construct(Backend $activityBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityBackend = $activityBackend;
 		$this->logger = $logger;
 	}

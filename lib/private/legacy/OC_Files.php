@@ -43,10 +43,10 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
-use OCP\Lock\ILockingProvider;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class for file server access

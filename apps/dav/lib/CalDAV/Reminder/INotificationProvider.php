@@ -48,7 +48,7 @@ interface INotificationProvider {
 	 * @return void
 	 */
 	public function send(VEvent $vevent,
-						 ?string $calendarDisplayName,
-						 array  $principalEmailAddresses,
-						 array $users = []): void;
+		?string $calendarDisplayName,
+		array  $principalEmailAddresses,
+		array $users = []): void;
 }

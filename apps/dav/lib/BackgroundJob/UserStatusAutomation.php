@@ -46,11 +46,11 @@ class UserStatusAutomation extends TimedJob {
 	protected IConfig $config;
 
 	public function __construct(ITimeFactory $timeFactory,
-								IDBConnection $connection,
-								IJobList $jobList,
-								LoggerInterface $logger,
-								IManager $manager,
-								IConfig $config) {
+		IDBConnection $connection,
+		IJobList $jobList,
+		LoggerInterface $logger,
+		IManager $manager,
+		IConfig $config) {
 		parent::__construct($timeFactory);
 		$this->connection = $connection;
 		$this->jobList = $jobList;

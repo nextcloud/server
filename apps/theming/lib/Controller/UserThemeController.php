@@ -64,12 +64,12 @@ class UserThemeController extends OCSController {
 	private BackgroundService $backgroundService;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IUserSession $userSession,
-								ThemesService $themesService,
-								ThemingDefaults $themingDefaults,
-								BackgroundService $backgroundService) {
+		IRequest $request,
+		IConfig $config,
+		IUserSession $userSession,
+		ThemesService $themesService,
+		ThemingDefaults $themingDefaults,
+		BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;

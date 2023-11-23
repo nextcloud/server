@@ -57,11 +57,11 @@ class ServerDevNotice implements ISettings {
 	private $urlGenerator;
 
 	public function __construct(IRegistry $registry,
-								IEventDispatcher $eventDispatcher,
-								IRootFolder $rootFolder,
-								IUserSession $userSession,
-								IInitialState $initialState,
-								IURLGenerator $urlGenerator) {
+		IEventDispatcher $eventDispatcher,
+		IRootFolder $rootFolder,
+		IUserSession $userSession,
+		IInitialState $initialState,
+		IURLGenerator $urlGenerator) {
 		$this->registry = $registry;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->rootFolder = $rootFolder;

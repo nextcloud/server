@@ -48,7 +48,7 @@ class TransferOwnership extends QueuedJob {
 		private NotificationManager $notificationManager,
 		private TransferOwnershipMapper $mapper,
 		private IRootFolder $rootFolder,
-		) {
+	) {
 		parent::__construct($timeFactory);
 	}
 

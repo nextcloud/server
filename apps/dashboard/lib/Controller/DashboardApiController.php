@@ -29,24 +29,23 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\ResponseDefinitions;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
+use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
-use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IManager;
+use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
+use OCP\Dashboard\Model\WidgetItem;
+
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IConfig;
 use OCP\IRequest;
-
-use OCP\Dashboard\IAPIWidget;
-use OCP\Dashboard\IAPIWidgetV2;
-use OCP\Dashboard\Model\WidgetItem;
-use OCP\Dashboard\Model\WidgetItems;
 
 /**
  * @psalm-import-type DashboardWidget from ResponseDefinitions

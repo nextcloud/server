@@ -78,7 +78,6 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
@@ -108,8 +107,6 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
-	/** @var IThrottler */
-	private $throttler;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
@@ -134,7 +131,6 @@ class CheckSetupController extends Controller {
 		IDateTimeFormatter $dateTimeFormatter,
 		IniGetWrapper $iniGetWrapper,
 		IDBConnection $connection,
-		IThrottler $throttler,
 		ITempManager $tempManager,
 		IManager $manager,
 		IAppManager $appManager,
@@ -150,7 +146,6 @@ class CheckSetupController extends Controller {
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
 		$this->db = $db;
-		$this->throttler = $throttler;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->iniGetWrapper = $iniGetWrapper;
@@ -249,31 +244,6 @@ class CheckSetupController extends Controller {
 		}
 
 		return '';
-	}
-
-	/**
-	 * Check if the reverse proxy configuration is working as expected
-	 *
-	 * @return bool
-	 */
-	private function forwardedForHeadersWorking(): bool {
-		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
-		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
-
-		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host') !== '') {
-			return false;
-		}
-
-		if (\is_array($trustedProxies)) {
-			if (\in_array($remoteAddress, $trustedProxies, true) && $remoteAddress !== '127.0.0.1') {
-				return $remoteAddress !== $this->request->getRemoteAddress();
-			}
-		} else {
-			return false;
-		}
-
-		// either not enabled or working correctly
-		return true;
 	}
 
 	/**
@@ -725,10 +695,7 @@ Raw output
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
-				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
-				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
-				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),

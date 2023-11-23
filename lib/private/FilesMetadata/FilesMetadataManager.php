@@ -37,13 +37,14 @@ use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
+use OCP\FilesMetadata\Event\MetadataNamedEvent;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
@@ -89,7 +90,8 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 */
 	public function refreshMetadata(
 		Node $node,
-		int $process = self::PROCESS_LIVE
+		int $process = self::PROCESS_LIVE,
+		string $namedEvent = ''
 	): IFilesMetadata {
 		try {
 			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
@@ -98,8 +100,12 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		// if $process is LIVE, we enforce LIVE
+		// if $process is NAMED, we go NAMED
+		// else BACKGROUND
 		if ((self::PROCESS_LIVE & $process) !== 0) {
 			$event = new MetadataLiveEvent($node, $metadata);
+		} elseif ((self::PROCESS_NAMED & $process) !== 0) {
+			$event = new MetadataNamedEvent($node, $metadata, $namedEvent);
 		} else {
 			$event = new MetadataBackgroundEvent($node, $metadata);
 		}
@@ -299,6 +305,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 */
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
-		$eventDispatcher->addServiceListener(NodeDeletedEvent::class, MetadataDelete::class);
+		$eventDispatcher->addServiceListener(CacheEntryRemovedEvent::class, MetadataDelete::class);
 	}
 }

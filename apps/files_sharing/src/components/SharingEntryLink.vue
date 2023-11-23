@@ -43,12 +43,10 @@
 
 			<!-- clipboard -->
 			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionLink :href="shareLink"
-					target="_blank"
-					:title="copyLinkTooltip"
+				<NcActionButton	:title="copyLinkTooltip"
 					:aria-label="copyLinkTooltip"
 					:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-					@click.stop.prevent="copyLink" />
+					@click.prevent="copyLink" />
 			</NcActions>
 		</div>
 

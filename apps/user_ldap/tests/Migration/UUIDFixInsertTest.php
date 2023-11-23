@@ -78,7 +78,7 @@ class UUIDFixInsertTest extends TestCase {
 		$userBatches = [
 			0 => array_fill(0, 50, $record),
 			1 => array_fill(0, 50, $record),
-			2 => array_fill(0,  13, $record),
+			2 => array_fill(0, 13, $record),
 		];
 
 		$groupBatches = [
@@ -152,7 +152,7 @@ class UUIDFixInsertTest extends TestCase {
 		$this->userMapper->expects($this->exactly(5))
 			->method('getList')
 			->withConsecutive([0, 50], [0, 40], [0, 32], [32, 32], [64, 32])
-			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2],  $userBatches[3],  $userBatches[4]);
+			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2], $userBatches[3], $userBatches[4]);
 
 		$this->groupMapper->expects($this->once())
 			->method('getList')

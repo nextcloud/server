@@ -30,29 +30,30 @@ declare(strict_types=1);
 namespace OCA\Files\Search;
 
 use InvalidArgumentException;
-use OCP\Files\Search\ISearchOperator;
-use OCP\Search\FilterDefinition;
-use OCP\Search\IFilter;
-use OCP\Search\IFilteringProvider;
-use OCP\Share\IShare;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
+use OC\Search\Filter\GroupFilter;
+use OC\Search\Filter\UserFilter;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
+use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
-use OC\Search\Filter\GroupFilter;
-use OC\Search\Filter\UserFilter;
+use OCP\Share\IShare;
 
 class FilesSearchProvider implements IFilteringProvider {
 	/** @var IL10N */
@@ -71,7 +72,8 @@ class FilesSearchProvider implements IFilteringProvider {
 		IL10N $l10n,
 		IURLGenerator $urlGenerator,
 		IMimeTypeDetector $mimeTypeDetector,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
+		private IPreview $previewManager,
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
@@ -139,8 +141,12 @@ class FilesSearchProvider implements IFilteringProvider {
 		return SearchResult::paginated(
 			$this->l10n->t('Files'),
 			array_map(function (Node $result) use ($userFolder) {
-				// Generate thumbnail url
-				$thumbnailUrl = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->getId()]);
+				$thumbnailUrl = $this->previewManager->isMimeSupported($result->getMimetype())
+					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->getId()])
+					: '';
+				$icon = $result->getMimetype() === FileInfo::MIMETYPE_FOLDER
+					? 'icon-folder'
+					: $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype());
 				$path = $userFolder->getRelativePath($result->getPath());
 
 				// Use shortened link to centralize the various
@@ -155,7 +161,7 @@ class FilesSearchProvider implements IFilteringProvider {
 					$result->getName(),
 					$this->formatSubline($path),
 					$this->urlGenerator->getAbsoluteURL($link),
-					$result->getMimetype() === FileInfo::MIMETYPE_FOLDER ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype())
+					$icon,
 				);
 				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
 				$searchResultEntry->addAttribute('path', $path);

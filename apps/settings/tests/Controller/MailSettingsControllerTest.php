@@ -35,10 +35,10 @@ use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\IURLGenerator;
 
 /**
  * @package Tests\Settings\Controller

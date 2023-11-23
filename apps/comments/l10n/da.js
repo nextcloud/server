@@ -16,7 +16,6 @@ OC.L10N.register(
     "Delete comment" : "Slet kommentar",
     "Cancel edit" : "Annuller redigering",
     "Post comment" : "Skriv kommentar",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for at nævne, \":\" for emojis, \"/\" for Smart Vælger",
     "No comments yet, start the conversation!" : "Ingen kommentarer endnu, start samtalen!",
     "No more messages" : "Ikke flere beskeder",
     "Retry" : "Prøv igen",

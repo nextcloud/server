@@ -295,7 +295,7 @@ class EventsSearchProviderTest extends TestCase {
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
 		$seachTermFilter = $this->createMock(IFilter::class);
-		$query->method('getFilter')->willReturnCallback(function($name) use ($seachTermFilter) {
+		$query->method('getFilter')->willReturnCallback(function ($name) use ($seachTermFilter) {
 			return match ($name) {
 				'term' => $seachTermFilter,
 				default => null,

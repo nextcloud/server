@@ -26,11 +26,11 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Db;
 
-use Sabre\CalDAV\Schedule\Plugin;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\UserStatus\IUserStatus;
+use Sabre\CalDAV\Schedule\Plugin;
 
 /**
  * @template-extends QBMapper<UserStatus>
