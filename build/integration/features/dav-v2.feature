@@ -86,3 +86,11 @@ Feature: dav-v2
 		And As an "admin"
 		When User "user0" uploads file "data/green-square-256.png" to "/image.png"
 		When Image search should work
+
+  Scenario: Create a search query on favorite
+    Given using new dav path
+    And As an "admin"
+    And user "user0" exists
+    When User "user0" uploads file "data/green-square-256.png" to "/fav_image.png"
+    When user "user0" favorites element "/fav_image.png"
+    When Favorite search should work
