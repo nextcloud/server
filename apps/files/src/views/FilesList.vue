@@ -62,6 +62,10 @@
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 		</div>
 
+		<!-- Drag and drop notice -->
+		<DragAndDropNotice v-if="!loading && canUpload"
+			:current-folder="currentFolder" />
+
 		<!-- Initial loading -->
 		<NcLoadingIcon v-if="loading && !isRefreshing"
 			class="files-list__loading-icon"
@@ -121,26 +125,28 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useFilesStore } from '../store/files.ts'
-import { usePathsStore } from '../store/paths.ts'
-import { useSelectionStore } from '../store/selection.ts'
-import { useUploaderStore } from '../store/uploader.ts'
-import { useUserConfigStore } from '../store/userconfig.ts'
-import { useViewConfigStore } from '../store/viewConfig.ts'
+import { action as sidebarAction } from '../actions/sidebarAction.js'
+import { useFilesStore } from '../store/files.js'
+import { usePathsStore } from '../store/paths.js'
+import { useSelectionStore } from '../store/selection.js'
+import { useUploaderStore } from '../store/uploader.js'
+import { useUserConfigStore } from '../store/userconfig.js'
+import { useViewConfigStore } from '../store/viewConfig.js'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import filesSortingMixin from '../mixins/filesSorting.ts'
+import filesListWidthMixin from '../mixins/filesListWidth.js'
+import filesSortingMixin from '../mixins/filesSorting.js'
 import logger from '../logger.js'
+import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
-const isSharingEnabled = getCapabilities()?.files_sharing !== undefined
+const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
 export default Vue.extend({
 	name: 'FilesList',
 
 	components: {
 		BreadCrumbs,
+		DragAndDropNotice,
 		FilesListVirtual,
 		LinkIcon,
 		ListViewIcon,
@@ -342,9 +348,16 @@ export default Vue.extend({
 				: this.t('files', 'Switch to grid view')
 		},
 
+		/**
+		 * Check if the current folder has create permissions
+		 */
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
+		/**
+		 * Check if current folder has share permissions
+		 */
 		canShare() {
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
