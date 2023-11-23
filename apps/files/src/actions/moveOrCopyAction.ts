@@ -80,7 +80,13 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 		throw new Error(t('files', 'This file/folder is already in that directory'))
 	}
 
-	if (node.path.startsWith(destination.path)) {
+	/**
+	 * Example:
+	 * node: /foo/bar/file.txt -> path = /foo/bar
+	 * destination: /foo
+	 * Allow move of /foo does not start with /foo/bar so allow
+	 */
+	if (destination.path.startsWith(node.path)) {
 		throw new Error(t('files', 'You cannot move a file/folder onto itself or into a subfolder of itself'))
 	}
 
