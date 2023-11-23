@@ -201,6 +201,7 @@ OC.L10N.register(
     "Cancel" : "Anulare",
     "Confirm" : "Confirmă",
     "Submit" : "Trimite",
+    "Remove group" : "Înlătură grupul",
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",

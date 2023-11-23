@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "(Group)" : "(Grup)",
     "Enable encryption" : "Activează criptarea",
     "Enable previews" : "Activează previzualizările",
     "Enable sharing" : "Activează partajarea",

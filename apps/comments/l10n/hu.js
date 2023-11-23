@@ -16,7 +16,6 @@ OC.L10N.register(
     "Delete comment" : "Hozzászólás törlése",
     "Cancel edit" : "Változások elvetése",
     "Post comment" : "Hozzászólás közzététele",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” az említésekhez, „:” az emodzsikhoz, „/” az okos választához",
     "No comments yet, start the conversation!" : "Még nincsenek hozzászólások, kezdje el a beszélgetést!",
     "No more messages" : "Nincs több üzenet",
     "Retry" : "Újra",
