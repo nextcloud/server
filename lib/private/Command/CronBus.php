@@ -25,8 +25,8 @@
  */
 namespace OC\Command;
 
-use OCP\Command\ICommand;
 use Laravel\SerializableClosure\SerializableClosure;
+use OCP\Command\ICommand;
 
 class CronBus extends AsyncBus {
 	/**

@@ -59,7 +59,7 @@
 				$l->t('Subscribe to our newsletter'),
 
 			],
-'{facebookopen}<img width="50" src="{facebookimage}" title="{facebooktext}" alt="{facebooktext}">{linkclose}
+			'{facebookopen}<img width="50" src="{facebookimage}" title="{facebooktext}" alt="{facebooktext}">{linkclose}
 {twitteropen}<img width="50" src="{twitterimage}" title="{twittertext}" alt="{twittertext}">{linkclose}
 {mastodonopen}<img width="50" src="{mastodonimage}" title="{mastodontext}" alt="{mastodontext}">{linkclose}
 {rssopen}<img class="img-circle" width="50" src="{rssimage}" title="{rsstext}" alt="{rsstext}">{linkclose}

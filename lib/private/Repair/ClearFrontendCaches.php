@@ -37,7 +37,7 @@ class ClearFrontendCaches implements IRepairStep {
 	protected $jsCombiner;
 
 	public function __construct(ICacheFactory $cacheFactory,
-								JSCombiner $JSCombiner) {
+		JSCombiner $JSCombiner) {
 		$this->cacheFactory = $cacheFactory;
 		$this->jsCombiner = $JSCombiner;
 	}

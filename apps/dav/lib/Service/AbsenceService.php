@@ -110,4 +110,3 @@ class AbsenceService {
 		$this->eventDispatcher->dispatchTyped(new OutOfOfficeClearedEvent($eventData));
 	}
 }
-

@@ -40,11 +40,11 @@ use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\PreConditionNotMetException;
 use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
-use OCP\TextToImage\Task;
 use OCP\TextToImage\IManager;
-use OCP\PreConditionNotMetException;
+use OCP\TextToImage\Task;
 
 /**
  * @psalm-import-type CoreTextToImageTask from ResponseDefinitions

@@ -8,13 +8,13 @@
 
 namespace Test;
 
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Migration\IRepairStep;
 use OC\Repair;
+use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
-use OC\Repair\Events\RepairErrorEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class TestRepairStep implements IRepairStep {

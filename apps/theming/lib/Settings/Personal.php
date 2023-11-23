@@ -51,7 +51,7 @@ class Personal implements ISettings {
 	public function getForm(): TemplateResponse {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 
-		$themes = array_map(function($theme) {
+		$themes = array_map(function ($theme) {
 			return [
 				'id' => $theme->getId(),
 				'type' => $theme->getType(),
@@ -63,7 +63,7 @@ class Personal implements ISettings {
 		}, $this->themesService->getThemes());
 
 		if ($enforcedTheme !== '') {
-			$themes = array_filter($themes, function($theme) use ($enforcedTheme) {
+			$themes = array_filter($themes, function ($theme) use ($enforcedTheme) {
 				return $theme['type'] !== ITheme::TYPE_THEME || $theme['id'] === $enforcedTheme;
 			});
 		}

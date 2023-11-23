@@ -119,14 +119,14 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param IAppManager $appManager
 	 */
 	public function __construct(Tree $tree,
-								View $view,
-								ISystemTagManager $tagManager,
-								ISystemTagObjectMapper $tagMapper,
-								ITagManager $fileTagger,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								Folder $userFolder,
-								IAppManager $appManager
+		View $view,
+		ISystemTagManager $tagManager,
+		ISystemTagObjectMapper $tagMapper,
+		ITagManager $fileTagger,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		Folder $userFolder,
+		IAppManager $appManager
 	) {
 		$this->tree = $tree;
 		$this->fileView = $view;

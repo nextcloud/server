@@ -29,11 +29,11 @@
 
 namespace OCA\Files_Sharing;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;

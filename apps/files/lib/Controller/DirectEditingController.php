@@ -46,7 +46,7 @@ class DirectEditingController extends OCSController {
 		private IManager $directEditingManager,
 		private DirectEditingService $directEditingService,
 		private LoggerInterface $logger
-		) {
+	) {
 		parent::__construct($appName, $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge);
 	}
 

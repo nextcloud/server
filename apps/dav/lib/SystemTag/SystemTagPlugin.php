@@ -353,11 +353,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		$tags = array_filter(array_map(function(string $tagId) {
+		$tags = array_filter(array_map(function (string $tagId) {
 			return $this->cachedTags[$tagId] ?? null;
 		}, $tagIds));
 
-		$uncachedTagIds = array_filter($tagIds, function(string $tagId): bool {
+		$uncachedTagIds = array_filter($tagIds, function (string $tagId): bool {
 			return !isset($this->cachedTags[$tagId]);
 		});
 
@@ -369,7 +369,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$tags += $retrievedTags;
 		}
 
-		return array_filter($tags, function(ISystemTag $tag) use ($user) {
+		return array_filter($tags, function (ISystemTag $tag) use ($user) {
 			return $this->tagManager->canUserSeeTag($tag, $user);
 		});
 	}

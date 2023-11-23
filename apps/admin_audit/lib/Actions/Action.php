@@ -34,7 +34,8 @@ class Action {
 
 	public function __construct(
 		private IAuditLogger $logger,
-	) {}
+	) {
+	}
 
 	/**
 	 * Log a single action with a log level of info
@@ -45,9 +46,9 @@ class Action {
 	 * @param bool $obfuscateParameters
 	 */
 	public function log(string $text,
-						array $params,
-						array $elements,
-						bool $obfuscateParameters = false): void {
+		array $params,
+		array $elements,
+		bool $obfuscateParameters = false): void {
 		foreach ($elements as $element) {
 			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {

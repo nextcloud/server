@@ -35,9 +35,9 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use function preg_match;
-use OCP\EventDispatcher\IEventDispatcher;
 
 class Migrator {
 	/** @var Connection */
@@ -52,8 +52,8 @@ class Migrator {
 	private $noEmit = false;
 
 	public function __construct(Connection $connection,
-								IConfig $config,
-								?IEventDispatcher $dispatcher = null) {
+		IConfig $config,
+		?IEventDispatcher $dispatcher = null) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->dispatcher = $dispatcher;

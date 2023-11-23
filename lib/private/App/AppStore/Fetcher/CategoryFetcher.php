@@ -35,11 +35,11 @@ use Psr\Log\LoggerInterface;
 
 class CategoryFetcher extends Fetcher {
 	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								LoggerInterface $logger,
-								IRegistry $registry) {
+		IClientService $clientService,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		LoggerInterface $logger,
+		IRegistry $registry) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,

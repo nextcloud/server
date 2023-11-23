@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -56,7 +57,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 		$colorMainText = '#ffffff';
 		$colorMainBackground = '#000000';
-		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground)); 
+		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 
 		return array_merge(
 			$defaultVariables,

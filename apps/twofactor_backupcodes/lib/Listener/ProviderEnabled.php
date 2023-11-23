@@ -42,7 +42,7 @@ class ProviderEnabled implements IEventListener {
 	private $jobList;
 
 	public function __construct(IRegistry $registry,
-								IJobList $jobList) {
+		IJobList $jobList) {
 		$this->registry = $registry;
 		$this->jobList = $jobList;
 	}

@@ -28,6 +28,7 @@
  */
 namespace OCA\Theming;
 
+use Mexitek\PHPColors\Color;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
@@ -35,7 +36,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IUserSession;
-use Mexitek\PHPColors\Color;
 
 class Util {
 

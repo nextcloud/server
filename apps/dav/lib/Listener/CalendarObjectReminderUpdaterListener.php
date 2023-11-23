@@ -57,9 +57,9 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 	private $logger;
 
 	public function __construct(ReminderBackend $reminderBackend,
-								ReminderService $reminderService,
-								CalDavBackend $calDavBackend,
-								LoggerInterface $logger) {
+		ReminderService $reminderService,
+		CalDavBackend $calDavBackend,
+		LoggerInterface $logger) {
 		$this->reminderBackend = $reminderBackend;
 		$this->reminderService = $reminderService;
 		$this->calDavBackend = $calDavBackend;

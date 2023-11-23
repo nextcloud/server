@@ -27,7 +27,6 @@
  */
 namespace OCA\Theming;
 
-use Exception;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCP\Capabilities\IPublicCapability;
@@ -115,10 +114,10 @@ class Capabilities implements IPublicCapability {
 			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {
 				$backgroundPlain = false;
 				$background = $this->url->linkToRouteAbsolute('theming.userTheme.getBackground');
-			} else if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
+			} elseif (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
 				$backgroundPlain = false;
 				$background = $this->url->linkTo(Application::APP_ID, "img/background/$backgroundImage");
-			} else if ($backgroundImage !== BackgroundService::BACKGROUND_DEFAULT) {
+			} elseif ($backgroundImage !== BackgroundService::BACKGROUND_DEFAULT) {
 				$backgroundPlain = true;
 				$background = $color;
 			}

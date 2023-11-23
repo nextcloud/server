@@ -54,10 +54,10 @@ class RemoveLinkShares implements IRepairStep {
 	private $timeFactory;
 
 	public function __construct(IDBConnection $connection,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IManager $notificationManager,
-								ITimeFactory $timeFactory) {
+		IConfig $config,
+		IGroupManager $groupManager,
+		IManager $notificationManager,
+		ITimeFactory $timeFactory) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->groupManager = $groupManager;

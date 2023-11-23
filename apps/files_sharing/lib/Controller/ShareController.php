@@ -71,8 +71,8 @@ use OCP\Security\ISecureRandom;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateFactory;
+use OCP\Share\IShare;
 use OCP\Template;
 
 /**
@@ -569,10 +569,10 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $filePath
 	 */
 	protected function publishActivity($subject,
-										array $parameters,
-										$affectedUser,
-										$fileId,
-										$filePath) {
+		array $parameters,
+		$affectedUser,
+		$fileId,
+		$filePath) {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('public_links')

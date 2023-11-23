@@ -45,8 +45,8 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * @param array $objectData
 	 */
 	public function __construct(CalDavBackend $caldavBackend, IL10N $l10n,
-								array $calendarInfo,
-								array $objectData) {
+		array $calendarInfo,
+		array $objectData) {
 		parent::__construct($caldavBackend, $calendarInfo, $objectData);
 
 		if ($this->isShared()) {

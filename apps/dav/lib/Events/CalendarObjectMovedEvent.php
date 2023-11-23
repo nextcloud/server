@@ -46,12 +46,12 @@ class CalendarObjectMovedEvent extends Event {
 	 * @since 25.0.0
 	 */
 	public function __construct(int $sourceCalendarId,
-								array $sourceCalendarData,
-								int $targetCalendarId,
-								array $targetCalendarData,
-								array $sourceShares,
-								array $targetShares,
-								array $objectData) {
+		array $sourceCalendarData,
+		int $targetCalendarId,
+		array $targetCalendarData,
+		array $sourceShares,
+		array $targetShares,
+		array $objectData) {
 		parent::__construct();
 		$this->sourceCalendarId = $sourceCalendarId;
 		$this->sourceCalendarData = $sourceCalendarData;

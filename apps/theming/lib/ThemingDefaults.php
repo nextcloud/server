@@ -91,14 +91,14 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IAppManager $appManager
 	 */
 	public function __construct(IConfig $config,
-								IL10N $l,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								Util $util,
-								ImageManager $imageManager,
-								IAppManager $appManager,
-								INavigationManager $navigationManager
+		IL10N $l,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		ICacheFactory $cacheFactory,
+		Util $util,
+		ImageManager $imageManager,
+		IAppManager $appManager,
+		INavigationManager $navigationManager
 	) {
 		parent::__construct();
 		$this->config = $config;

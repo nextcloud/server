@@ -53,7 +53,7 @@ script('files', 'jquery.fileupload');
 					<?php
 				}
 			}
-			?>
+?>
 		</ul>
 	</nav>
 
@@ -80,7 +80,7 @@ script('files', 'jquery.fileupload');
 					<?php
 				}
 			}
-			?>
+?>
 		</ul>
 	</nav>
 </div>

@@ -41,8 +41,8 @@ if (\OCP\Util::needUpgrade()
 	exit;
 }
 
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /*
  * Try the appframework routes

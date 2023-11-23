@@ -56,11 +56,11 @@ class Notifier implements INotifier, IDismissableNotifier {
 	private $timeFactory;
 
 	public function __construct(IFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
-								TransferOwnershipMapper $mapper,
-								IManager $notificationManager,
-								IUserManager $userManager,
-								ITimeFactory $timeFactory) {
+		IURLGenerator $urlGenerator,
+		TransferOwnershipMapper $mapper,
+		IManager $notificationManager,
+		IUserManager $userManager,
+		ITimeFactory $timeFactory) {
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
 		$this->mapper = $mapper;

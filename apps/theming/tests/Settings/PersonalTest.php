@@ -29,6 +29,7 @@ namespace OCA\Theming\Tests\Settings;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
 use OCA\Theming\Themes\DarkHighContrastTheme;
@@ -39,7 +40,6 @@ use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCA\Theming\ITheme;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;

@@ -153,7 +153,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			);
 
 			$searchResultIndex = array_combine(
-				array_map(fn($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
+				array_map(fn ($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
 				array_fill(0, count($searchResults), null),
 			);
 			foreach ($attendeeSearchResults as $attendeeResult) {

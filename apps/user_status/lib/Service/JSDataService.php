@@ -44,7 +44,7 @@ class JSDataService implements \JsonSerializable {
 	 * @param StatusService $statusService
 	 */
 	public function __construct(IUserSession $userSession,
-								StatusService $statusService) {
+		StatusService $statusService) {
 		$this->userSession = $userSession;
 		$this->statusService = $statusService;
 	}

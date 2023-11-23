@@ -38,9 +38,9 @@ class SyncFederationAddressBooks {
 	private LoggerInterface $logger;
 
 	public function __construct(DbHandler $dbHandler,
-								SyncService $syncService,
-								IDiscoveryService $ocsDiscoveryService,
-								LoggerInterface $logger
+		SyncService $syncService,
+		IDiscoveryService $ocsDiscoveryService,
+		LoggerInterface $logger
 	) {
 		$this->syncService = $syncService;
 		$this->dbHandler = $dbHandler;

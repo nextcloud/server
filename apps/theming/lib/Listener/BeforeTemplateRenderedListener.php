@@ -96,23 +96,23 @@ class BeforeTemplateRenderedListener implements IEventListener {
 				$this->config->getUserValue($userId, Application::APP_ID, 'background_color', BackgroundService::DEFAULT_COLOR),
 			);
 
-			/** 
+			/**
 			 * Admin background. `backgroundColor` if disabled,
 			 * mime type if defined and empty by default
 			 */
 			$this->initialState->provideInitialState(
 				'themingDefaultBackground',
-				 $this->config->getAppValue('theming', 'backgroundMime', ''),
+				$this->config->getAppValue('theming', 'backgroundMime', ''),
 			);
 			$this->initialState->provideInitialState(
 				'defaultShippedBackground',
-				 BackgroundService::DEFAULT_BACKGROUND_IMAGE,
+				BackgroundService::DEFAULT_BACKGROUND_IMAGE,
 			);
 
 			/** List of all shipped backgrounds */
 			$this->initialState->provideInitialState(
 				'shippedBackgrounds',
-				 BackgroundService::SHIPPED_BACKGROUNDS,
+				BackgroundService::SHIPPED_BACKGROUNDS,
 			);
 		}
 

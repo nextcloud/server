@@ -24,11 +24,11 @@
 
 namespace OCA\Settings\Service;
 
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-
 use OC\Settings\AuthorizedGroup;
 use OC\Settings\AuthorizedGroupMapper;
+
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
 use OCP\IGroup;
 

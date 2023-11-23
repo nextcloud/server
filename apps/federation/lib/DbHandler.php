@@ -28,10 +28,10 @@
 namespace OCA\Federation;
 
 use OC\Files\Filesystem;
-use OCP\HintException;
-use OCP\IDBConnection;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\HintException;
+use OCP\IDBConnection;
 use OCP\IL10N;
 
 /**
