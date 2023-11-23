@@ -70,10 +70,10 @@ class URLGenerator implements IURLGenerator {
 	private ?IAppManager $appManager = null;
 
 	public function __construct(IConfig $config,
-								IUserSession $userSession,
-								ICacheFactory $cacheFactory,
-								IRequest $request,
-								Router $router
+		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
+		IRequest $request,
+		Router $router
 	) {
 		$this->config = $config;
 		$this->userSession = $userSession;

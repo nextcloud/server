@@ -31,13 +31,12 @@ use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
-use OCP\DB\Exception as DBException;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\Events\TrustedServerRemovedEvent;
 use Psr\Log\LoggerInterface;
 
 class TrustedServers {

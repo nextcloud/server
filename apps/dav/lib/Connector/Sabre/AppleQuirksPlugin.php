@@ -50,40 +50,37 @@ class AppleQuirksPlugin extends ServerPlugin {
 	private $isMacOSDavAgent = false;
 
 	/**
-     * Sets up the plugin.
-     *
-     * This method is automatically called by the server class.
+	 * Sets up the plugin.
+	 *
+	 * This method is automatically called by the server class.
 	 *
 	 * @return void
-     */
-    public function initialize(Server $server)
-    {
+	 */
+	public function initialize(Server $server) {
 		$server->on('beforeMethod:REPORT', [$this, 'beforeReport'], 0);
 		$server->on('report', [$this, 'report'], 0);
 	}
 
 	/**
-     * Triggered before any method is handled.
+	 * Triggered before any method is handled.
 	 *
 	 * @return void
-     */
-    public function beforeReport(RequestInterface $request, ResponseInterface $response)
-    {
+	 */
+	public function beforeReport(RequestInterface $request, ResponseInterface $response) {
 		$userAgent = $request->getRawServerValue('HTTP_USER_AGENT') ?? 'unknown';
 		$this->isMacOSDavAgent = $this->isMacOSUserAgent($userAgent);
 	}
 
 	/**
-     * This method handles HTTP REPORT requests.
-     *
-     * @param string $reportName
-     * @param mixed  $report
-     * @param mixed  $path
+	 * This method handles HTTP REPORT requests.
+	 *
+	 * @param string $reportName
+	 * @param mixed  $report
+	 * @param mixed  $path
 	 *
 	 * @return bool
-     */
-    public function report($reportName, $report, $path)
-    {
+	 */
+	public function report($reportName, $report, $path) {
 		if ($reportName == '{DAV:}principal-property-search' && $this->isMacOSDavAgent) {
 			/** @var \Sabre\DAVACL\Xml\Request\PrincipalPropertySearchReport $report */
 			$report->applyToPrincipalCollectionSet = true;
@@ -98,8 +95,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 *
 	 * @return bool
 	 */
-	protected function isMacOSUserAgent(string $userAgent):bool
-	{
+	protected function isMacOSUserAgent(string $userAgent):bool {
 		return str_starts_with(self::OSX_AGENT_PREFIX, $userAgent);
 	}
 
@@ -110,8 +106,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 *
 	 * @return null|array
 	 */
-	protected function decodeMacOSAgentString(string $userAgent):?array
-	{
+	protected function decodeMacOSAgentString(string $userAgent):?array {
 		// OSX agent string is like: macOS/13.2.1 (22D68) dataaccessd/1.0
 		if (preg_match('|^' . self::OSX_AGENT_PREFIX . '/([0-9]+)\\.([0-9]+)\\.([0-9]+)\s+\((\w+)\)\s+([^/]+)/([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?$|i', $userAgent, $matches)) {
 			return [

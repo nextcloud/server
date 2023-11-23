@@ -38,7 +38,7 @@ class Version12101Date20221011153334 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->createTable('open_local_editor');
-		$table->addColumn('id',Types::BIGINT, [
+		$table->addColumn('id', Types::BIGINT, [
 			'autoincrement' => true,
 			'notnull' => true,
 			'length' => 20,

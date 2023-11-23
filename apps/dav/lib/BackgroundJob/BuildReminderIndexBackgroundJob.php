@@ -59,10 +59,10 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 	 * BuildReminderIndexBackgroundJob constructor.
 	 */
 	public function __construct(IDBConnection $db,
-								ReminderService $reminderService,
-								LoggerInterface $logger,
-								IJobList $jobList,
-								ITimeFactory $timeFactory) {
+		ReminderService $reminderService,
+		LoggerInterface $logger,
+		IJobList $jobList,
+		ITimeFactory $timeFactory) {
 		parent::__construct($timeFactory);
 		$this->db = $db;
 		$this->reminderService = $reminderService;

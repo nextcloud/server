@@ -25,8 +25,9 @@
  */
 namespace OC\DirectEditing;
 
-use Doctrine\DBAL\FetchMode;
+use \OCP\DirectEditing\IManager;
 use \OCP\Files\Folder;
+use Doctrine\DBAL\FetchMode;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -34,7 +35,6 @@ use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
-use \OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\Files\File;

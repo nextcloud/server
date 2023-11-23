@@ -23,15 +23,15 @@
 
 namespace OCA\DAV\BulkUpload;
 
+use OCA\DAV\Connector\Sabre\MtimeSanitizer;
+use OCP\AppFramework\Http;
+use OCP\Files\DavUtil;
+use OCP\Files\Folder;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCP\Files\DavUtil;
-use OCP\Files\Folder;
-use OCP\AppFramework\Http;
-use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
 	private Folder $userFolder;

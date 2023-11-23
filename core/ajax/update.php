@@ -30,12 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IEventSource;
-use OCP\IEventSourceFactory;
-use OCP\IL10N;
-use OCP\ILogger;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
@@ -44,6 +38,12 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IEventSource;
+use OCP\IEventSourceFactory;
+use OCP\IL10N;
+use OCP\ILogger;
 use OCP\L10N\IFactory;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {

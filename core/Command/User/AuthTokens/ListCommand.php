@@ -22,9 +22,9 @@
  */
 namespace OC\Core\Command\User\AuthTokens;
 
-use OC\Core\Command\Base;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Core\Command\Base;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

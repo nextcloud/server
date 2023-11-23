@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,14 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\ImageManager;
-use OCA\Theming\ThemingDefaults;
-use OCA\Theming\Util;
 use OCA\Theming\ITheme;
-use OCA\Theming\Themes\DefaultTheme;
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IURLGenerator;
 
 class LightTheme extends DefaultTheme implements ITheme {
 

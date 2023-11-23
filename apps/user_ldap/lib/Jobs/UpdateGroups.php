@@ -32,11 +32,11 @@ declare(strict_types=1);
  */
 namespace OCA\User_LDAP\Jobs;
 
+use OCA\User_LDAP\Service\UpdateGroupsService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use OCP\IConfig;
-use OCA\User_LDAP\Service\UpdateGroupsService;
 use Psr\Log\LoggerInterface;
 
 class UpdateGroups extends TimedJob {

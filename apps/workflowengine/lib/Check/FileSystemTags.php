@@ -26,6 +26,7 @@
  */
 namespace OCA\WorkflowEngine\Check;
 
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Cache\ICache;
@@ -39,7 +40,6 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IFileCheck;
-use OC\Files\Storage\Wrapper\Wrapper;
 
 class FileSystemTags implements ICheck, IFileCheck {
 	use TFileCheck;

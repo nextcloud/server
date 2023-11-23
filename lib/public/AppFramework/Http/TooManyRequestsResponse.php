@@ -26,8 +26,8 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Http;
 
-use OCP\Template;
 use OCP\AppFramework\Http;
+use OCP\Template;
 
 /**
  * A generic 429 response showing an 404 error page as well to the end-user

@@ -35,7 +35,6 @@
  */
 namespace OCA\Files\Controller;
 
-use OC\AppFramework\Http;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -214,7 +213,8 @@ class ViewController extends Controller {
 		if ($fileid !== null && $view !== 'trashbin') {
 			try {
 				return $this->redirectToFileIfInTrashbin((int) $fileid);
-			} catch (NotFoundException $e) {}
+			} catch (NotFoundException $e) {
+			}
 		}
 
 		// Load the files we need
@@ -248,7 +248,7 @@ class ViewController extends Controller {
 
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
-			$storageInfo =  $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
+			$storageInfo = $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
 		} catch(\Exception $e) {
 			$storageInfo = $this->getStorageInfo();
 		}
@@ -399,7 +399,8 @@ class ViewController extends Controller {
 
 		try {
 			$this->redirectToFileIfInTrashbin($fileId);
-		} catch (NotFoundException $e) {}
+		} catch (NotFoundException $e) {
+		}
 
 		if (!empty($nodes)) {
 			$node = current($nodes);

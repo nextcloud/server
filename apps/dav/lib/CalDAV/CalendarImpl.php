@@ -33,7 +33,6 @@ use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
-use OCP\Calendar\ISchedulingInformation;
 use OCP\Constants;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\DAV\Exception\Conflict;
@@ -52,8 +51,8 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	private array $calendarInfo;
 
 	public function __construct(Calendar $calendar,
-								array $calendarInfo,
-								CalDavBackend $backend) {
+		array $calendarInfo,
+		CalDavBackend $backend) {
 		$this->calendar = $calendar;
 		$this->calendarInfo = $calendarInfo;
 		$this->backend = $backend;

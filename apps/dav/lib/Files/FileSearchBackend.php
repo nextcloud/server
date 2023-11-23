@@ -39,7 +39,6 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
@@ -372,6 +371,7 @@ class FileSearchBackend implements ISearchBackend {
 					throw new \InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
 				}
 				$value = $operator->arguments[1]->value;
+				// no break
 			case Operator::OPERATION_IS_DEFINED:
 				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
 					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
@@ -429,7 +429,7 @@ class FileSearchBackend implements ISearchBackend {
 			return '';
 		}
 
- 		switch ($property->dataType) {
+		switch ($property->dataType) {
 			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
 				return $value === 'yes';
 			case SearchPropertyDefinition::DATATYPE_DECIMAL:

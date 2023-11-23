@@ -68,7 +68,7 @@ class Test extends Command {
 			private $uid;
 
 			public function __construct(string $name,
-										string $uid) {
+				string $uid) {
 				parent::__construct();
 				$this->name = $name;
 				$this->uid = $uid;

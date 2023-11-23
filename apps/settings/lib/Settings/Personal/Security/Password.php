@@ -41,7 +41,7 @@ class Password implements ISettings {
 	private $uid;
 
 	public function __construct(IUserManager $userManager,
-								?string $UserId) {
+		?string $UserId) {
 		$this->userManager = $userManager;
 		$this->uid = $UserId;
 	}

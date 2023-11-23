@@ -27,10 +27,10 @@ namespace OCA\UserStatus\AppInfo;
 
 use OCA\UserStatus\Capabilities;
 use OCA\UserStatus\Connector\UserStatusProvider;
+use OCA\UserStatus\Dashboard\UserStatusWidget;
 use OCA\UserStatus\Listener\BeforeTemplateRenderedListener;
 use OCA\UserStatus\Listener\UserDeletedListener;
 use OCA\UserStatus\Listener\UserLiveStatusListener;
-use OCA\UserStatus\Dashboard\UserStatusWidget;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;

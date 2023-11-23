@@ -53,8 +53,8 @@ use function rewind;
  */
 class OutOfOfficeListener implements IEventListener {
 	public function __construct(private ServerFactory $serverFactory,
-	private IConfig $appConfig,
-	private LoggerInterface $logger) {
+		private IConfig $appConfig,
+		private LoggerInterface $logger) {
 	}
 
 	public function handle(Event $event): void {
@@ -80,7 +80,7 @@ class OutOfOfficeListener implements IEventListener {
 			} finally {
 				fclose($stream);
 			}
-		} else if ($event instanceof OutOfOfficeChangedEvent) {
+		} elseif ($event instanceof OutOfOfficeChangedEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
 
@@ -107,7 +107,7 @@ class OutOfOfficeListener implements IEventListener {
 					fclose($stream);
 				}
 			}
-		} else if ($event instanceof OutOfOfficeClearedEvent) {
+		} elseif ($event instanceof OutOfOfficeClearedEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
 

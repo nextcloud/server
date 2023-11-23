@@ -38,9 +38,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
-use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
-use Throwable;
 
 class ContactInteractionListener implements IEventListener {
 

@@ -38,8 +38,8 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**

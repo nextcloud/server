@@ -68,13 +68,13 @@ class AppConfigController extends OCSController {
 	 * @param IAppConfig $appConfig
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IAppConfig $appConfig,
-								IUserSession $userSession,
-								IL10N $l10n,
-								IGroupManager $groupManager,
-								IManager $settingManager) {
+		IRequest $request,
+		IConfig $config,
+		IAppConfig $appConfig,
+		IUserSession $userSession,
+		IL10N $l10n,
+		IGroupManager $groupManager,
+		IManager $settingManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appConfig = $appConfig;

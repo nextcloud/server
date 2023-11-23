@@ -51,9 +51,9 @@ class PublicAuth extends AbstractBasic {
 	private IThrottler $throttler;
 
 	public function __construct(IRequest $request,
-								IManager $shareManager,
-								ISession $session,
-								IThrottler $throttler) {
+		IManager $shareManager,
+		ISession $session,
+		IThrottler $throttler) {
 		$this->request = $request;
 		$this->shareManager = $shareManager;
 		$this->session = $session;

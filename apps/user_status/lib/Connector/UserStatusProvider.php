@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Connector;
 
+use OC\UserStatus\ISettableProvider;
 use OCA\UserStatus\Service\StatusService;
 use OCP\UserStatus\IProvider;
-use OC\UserStatus\ISettableProvider;
 
 class UserStatusProvider implements IProvider, ISettableProvider {
 

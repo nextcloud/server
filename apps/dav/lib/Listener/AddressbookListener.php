@@ -44,7 +44,7 @@ class AddressbookListener implements IEventListener {
 	private $logger;
 
 	public function __construct(ActivityBackend $activityBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityBackend = $activityBackend;
 		$this->logger = $logger;
 	}

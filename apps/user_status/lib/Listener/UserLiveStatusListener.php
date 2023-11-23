@@ -25,14 +25,14 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Listener;
 
-use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Connector\UserStatus as ConnectorUserStatus;
+use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\IEventListener;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserLiveStatusEvent;
 use OCP\UserStatus\IUserStatus;
 
@@ -47,8 +47,8 @@ class UserLiveStatusListener implements IEventListener {
 	private ITimeFactory $timeFactory;
 
 	public function __construct(UserStatusMapper $mapper,
-								StatusService $statusService,
-								ITimeFactory $timeFactory) {
+		StatusService $statusService,
+		ITimeFactory $timeFactory) {
 		$this->mapper = $mapper;
 		$this->statusService = $statusService;
 		$this->timeFactory = $timeFactory;

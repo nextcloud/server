@@ -51,7 +51,7 @@ class Backend {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
-								ITimeFactory $timeFactory) {
+		ITimeFactory $timeFactory) {
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;
 	}
@@ -114,17 +114,17 @@ class Backend {
 	 * @return int The insert id
 	 */
 	public function insertReminder(int $calendarId,
-								   int $objectId,
-								   string $uid,
-								   bool $isRecurring,
-								   int $recurrenceId,
-								   bool $isRecurrenceException,
-								   string $eventHash,
-								   string $alarmHash,
-								   string $type,
-								   bool $isRelative,
-								   int $notificationDate,
-								   bool $isRepeatBased):int {
+		int $objectId,
+		string $uid,
+		bool $isRecurring,
+		int $recurrenceId,
+		bool $isRecurrenceException,
+		string $eventHash,
+		string $alarmHash,
+		string $type,
+		bool $isRelative,
+		int $notificationDate,
+		bool $isRepeatBased):int {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
@@ -153,7 +153,7 @@ class Backend {
 	 * @param int $newNotificationDate
 	 */
 	public function updateReminder(int $reminderId,
-								   int $newNotificationDate):void {
+		int $newNotificationDate):void {
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendar_reminders')
 			->set('notification_date', $query->createNamedParameter($newNotificationDate))

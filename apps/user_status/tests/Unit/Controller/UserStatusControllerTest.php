@@ -110,14 +110,14 @@ class UserStatusControllerTest extends TestCase {
 	 * @dataProvider setStatusDataProvider
 	 */
 	public function testSetStatus(string $statusType,
-								  ?string $statusIcon,
-								  ?string $message,
-								  ?int $clearAt,
-								  bool $expectSuccess,
-								  bool $expectException,
-								  ?Throwable $exception,
-								  bool $expectLogger,
-								  ?string $expectedLogMessage): void {
+		?string $statusIcon,
+		?string $message,
+		?int $clearAt,
+		bool $expectSuccess,
+		bool $expectException,
+		?Throwable $exception,
+		bool $expectLogger,
+		?string $expectedLogMessage): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
@@ -178,12 +178,12 @@ class UserStatusControllerTest extends TestCase {
 	 * @dataProvider setPredefinedMessageDataProvider
 	 */
 	public function testSetPredefinedMessage(string $messageId,
-											 ?int $clearAt,
-											 bool $expectSuccess,
-											 bool $expectException,
-											 ?Throwable $exception,
-											 bool $expectLogger,
-											 ?string $expectedLogMessage): void {
+		?int $clearAt,
+		bool $expectSuccess,
+		bool $expectException,
+		?Throwable $exception,
+		bool $expectLogger,
+		?string $expectedLogMessage): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
@@ -248,14 +248,14 @@ class UserStatusControllerTest extends TestCase {
 	 * @dataProvider setCustomMessageDataProvider
 	 */
 	public function testSetCustomMessage(?string $statusIcon,
-										 string $message,
-										 ?int $clearAt,
-										 bool $expectSuccess,
-										 bool $expectException,
-										 ?Throwable $exception,
-										 bool $expectLogger,
-										 ?string $expectedLogMessage,
-										 bool $expectSuccessAsReset = false): void {
+		string $message,
+		?int $clearAt,
+		bool $expectSuccess,
+		bool $expectException,
+		?Throwable $exception,
+		bool $expectLogger,
+		?string $expectedLogMessage,
+		bool $expectSuccessAsReset = false): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {

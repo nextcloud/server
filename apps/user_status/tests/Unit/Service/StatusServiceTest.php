@@ -43,11 +43,9 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
 use OCP\IUser;
-use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -274,15 +272,15 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setStatusDataProvider
 	 */
 	public function testSetStatus(string $userId,
-								  string $status,
-								  ?int $statusTimestamp,
-								  bool $isUserDefined,
-								  bool $expectExisting,
-								  bool $expectSuccess,
-								  bool $expectTimeFactory,
-								  bool $expectException,
-								  ?string $expectedExceptionClass,
-								  ?string $expectedExceptionMessage): void {
+		string $status,
+		?int $statusTimestamp,
+		bool $isUserDefined,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectTimeFactory,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -405,14 +403,14 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setPredefinedMessageDataProvider
 	 */
 	public function testSetPredefinedMessage(string $userId,
-											 string $messageId,
-											 bool $isValidMessageId,
-											 ?int $clearAt,
-											 bool $expectExisting,
-											 bool $expectSuccess,
-											 bool $expectException,
-											 ?string $expectedExceptionClass,
-											 ?string $expectedExceptionMessage): void {
+		string $messageId,
+		bool $isValidMessageId,
+		?int $clearAt,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -503,15 +501,15 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setCustomMessageDataProvider
 	 */
 	public function testSetCustomMessage(string $userId,
-										 ?string $statusIcon,
-										 bool $supportsEmoji,
-										 string $message,
-										 ?int $clearAt,
-										 bool $expectExisting,
-										 bool $expectSuccess,
-										 bool $expectException,
-										 ?string $expectedExceptionClass,
-										 ?string $expectedExceptionMessage): void {
+		?string $statusIcon,
+		bool $supportsEmoji,
+		string $message,
+		?int $clearAt,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {

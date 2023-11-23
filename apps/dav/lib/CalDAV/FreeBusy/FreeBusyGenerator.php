@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /*
  * *
@@ -25,8 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\FreeBusy;
 
-use DateTimeInterface;
-use DateTimeZone;
 use Sabre\VObject\Component\VCalendar;
 
 /**

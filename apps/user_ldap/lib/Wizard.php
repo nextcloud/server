@@ -193,7 +193,7 @@ class Wizard extends LDAPUtility {
 	 * counts users with a specified attribute
 	 * @return int|false
 	 */
-  public function countUsersWithAttribute(string $attr, bool $existsCheck = false) {
+	public function countUsersWithAttribute(string $attr, bool $existsCheck = false) {
 		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
 		if (!$this->configuration->usesLdapi()) {
 			$reqs[] = 'ldapPort';
@@ -399,7 +399,7 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false the instance's WizardResult instance
 	 * @throws \Exception
 	 */
-  private function determineGroups(string $dbKey, string $confKey, bool $testMemberOf = true) {
+	private function determineGroups(string $dbKey, string $confKey, bool $testMemberOf = true) {
 		$reqs = ['ldapHost', 'ldapBase'];
 		if (!$this->configuration->usesLdapi()) {
 			$reqs[] = 'ldapPort';
@@ -636,7 +636,7 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false
 	 * @throws \Exception
 	 */
-  public function testLoginName(string $loginName) {
+	public function testLoginName(string $loginName) {
 		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
 		if (!$this->configuration->usesLdapi()) {
 			$reqs[] = 'ldapPort';

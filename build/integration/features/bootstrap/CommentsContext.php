@@ -269,7 +269,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theResponseShouldContainAPropertyWithValue($key, $value) {
-//		$keys = $this->response[0]['value'][1]['value'][0]['value'];
+		//		$keys = $this->response[0]['value'][1]['value'][0]['value'];
 		$keys = $this->getValueFromNamedEntries('{DAV:}response {DAV:}propstat {DAV:}prop', $this->response);
 		$found = false;
 		foreach ($keys as $singleKey) {

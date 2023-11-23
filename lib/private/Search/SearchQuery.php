@@ -27,8 +27,8 @@ declare(strict_types=1);
  */
 namespace OC\Search;
 
-use OCP\Search\IFilterCollection;
 use OCP\Search\IFilter;
+use OCP\Search\IFilterCollection;
 use OCP\Search\ISearchQuery;
 
 class SearchQuery implements ISearchQuery {

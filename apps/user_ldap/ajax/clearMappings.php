@@ -23,8 +23,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 // Check user and app status
 \OC_JSON::checkAdminUser();

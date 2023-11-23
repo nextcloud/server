@@ -51,7 +51,8 @@ class ConfigAdapter implements IMountProvider {
 		private UserStoragesService $userStoragesService,
 		private UserGlobalStoragesService $userGlobalStoragesService,
 		private ClockInterface $clock,
-	) {}
+	) {
+	}
 
 	/**
 	 * Process storage ready for mounting

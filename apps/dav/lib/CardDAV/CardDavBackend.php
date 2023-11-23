@@ -35,6 +35,7 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OC\Search\Filter\DateTimeFilter;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -53,7 +54,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
-use OC\Search\Filter\DateTimeFilter;
 use PDO;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
@@ -98,10 +98,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param IEventDispatcher $dispatcher
 	 */
 	public function __construct(IDBConnection $db,
-								Principal $principalBackend,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IEventDispatcher $dispatcher) {
+		Principal $principalBackend,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IEventDispatcher $dispatcher) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
@@ -1093,9 +1093,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	public function searchPrincipalUri(string $principalUri,
-									   string $pattern,
-									   array $searchProperties,
-									   array $options = []): array {
+		string $pattern,
+		array $searchProperties,
+		array $options = []): array {
 		return $this->atomic(function () use ($principalUri, $pattern, $searchProperties, $options) {
 			$addressBookIds = array_map(static function ($row):int {
 				return (int) $row['id'];
@@ -1123,9 +1123,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	private function searchByAddressBookIds(array $addressBookIds,
-											string $pattern,
-											array $searchProperties,
-											array $options = []): array {
+		string $pattern,
+		array $searchProperties,
+		array $options = []): array {
 		if (empty($addressBookIds)) {
 			return [];
 		}

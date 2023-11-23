@@ -26,7 +26,6 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Service;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\IConfig;

@@ -53,7 +53,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
-													 IAppContainer $appContainer): void {
+		IAppContainer $appContainer): void {
 		$manager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
 			function () use ($appContainer): CloudFederationProviderFiles {

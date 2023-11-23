@@ -163,13 +163,13 @@ class Scan extends Base {
 			++$this->errorsCounter;
 		});
 
-		$this->eventDispatcher->addListener(NodeAddedToCache::class, function() {
+		$this->eventDispatcher->addListener(NodeAddedToCache::class, function () {
 			++$this->newCounter;
 		});
-		$this->eventDispatcher->addListener(FileCacheUpdated::class, function() {
+		$this->eventDispatcher->addListener(FileCacheUpdated::class, function () {
 			++$this->updatedCounter;
 		});
-		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function() {
+		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function () {
 			++$this->removedCounter;
 		});
 

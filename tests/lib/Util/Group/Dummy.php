@@ -29,13 +29,13 @@
 
 namespace Test\Util\Group;
 
-use Test\Util\User\Dummy as DummyUser;
 use OCP\Group\Backend\ABackend;
-use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IAddToGroupBackend;
-use OCP\Group\Backend\IRemoveFromGroupBackend;
-use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\ICountUsersBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use Test\Util\User\Dummy as DummyUser;
 
 /**
  * Dummy group backend, does not keep state, only for testing use

@@ -53,7 +53,7 @@ class ExpireTrash extends Command {
 	 * @param Expiration|null $expiration
 	 */
 	public function __construct(IUserManager $userManager = null,
-								Expiration $expiration = null) {
+		Expiration $expiration = null) {
 		parent::__construct();
 
 		$this->userManager = $userManager;

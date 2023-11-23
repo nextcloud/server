@@ -38,7 +38,6 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Calendar\ISchedulingInformation;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
@@ -86,12 +85,12 @@ class StatusService {
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
 	public function __construct(private UserStatusMapper $mapper,
-								private ITimeFactory $timeFactory,
-								private PredefinedStatusService $predefinedStatusService,
-								private IEmojiHelper $emojiHelper,
-								private IConfig $config,
-								private IUserManager $userManager,
-								private CalendarStatusService $calendarStatusService) {
+		private ITimeFactory $timeFactory,
+		private PredefinedStatusService $predefinedStatusService,
+		private IEmojiHelper $emojiHelper,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private CalendarStatusService $calendarStatusService) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -190,9 +189,9 @@ class StatusService {
 	 * @throws InvalidStatusTypeException
 	 */
 	public function setStatus(string $userId,
-							  string $status,
-							  ?int $statusTimestamp,
-							  bool $isUserDefined): UserStatus {
+		string $status,
+		?int $statusTimestamp,
+		bool $isUserDefined): UserStatus {
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
 		} catch (DoesNotExistException $ex) {
@@ -232,8 +231,8 @@ class StatusService {
 	 * @throws InvalidClearAtException
 	 */
 	public function setPredefinedMessage(string $userId,
-										 string $messageId,
-										 ?int $clearAt): UserStatus {
+		string $messageId,
+		?int $clearAt): UserStatus {
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
 		} catch (DoesNotExistException $ex) {
@@ -276,10 +275,10 @@ class StatusService {
 	 * @throws InvalidMessageIdException
 	 */
 	public function setUserStatus(string $userId,
-									string $status,
-									string $messageId,
-								 	bool $createBackup,
-									string $customMessage = null): ?UserStatus {
+		string $status,
+		string $messageId,
+		bool $createBackup,
+		string $customMessage = null): ?UserStatus {
 		// Check if status-type is valid
 		if (!in_array($status, self::PRIORITY_ORDERED_STATUSES, true)) {
 			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
@@ -339,9 +338,9 @@ class StatusService {
 	 * @throws StatusMessageTooLongException
 	 */
 	public function setCustomMessage(string $userId,
-									 ?string $statusIcon,
-									 ?string $message,
-									 ?int $clearAt): UserStatus {
+		?string $statusIcon,
+		?string $message,
+		?int $clearAt): UserStatus {
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
 		} catch (DoesNotExistException $ex) {
@@ -569,7 +568,7 @@ class StatusService {
 			if (!$userStatus->getIsBackup()
 				&& $userStatus->getMessageId() === $messageId) {
 				$statuesToDelete[$userStatus->getUserId()] = $userStatus->getId();
-			} else if ($userStatus->getIsBackup()) {
+			} elseif ($userStatus->getIsBackup()) {
 				$backups[$userStatus->getUserId()] = $userStatus->getId();
 			}
 		}

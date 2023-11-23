@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,10 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\Util;
-use OCA\Theming\ImageManager;
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\Util;
 
 trait CommonThemeTrait {
 	public Util $util;

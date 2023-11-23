@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\UserMigration;
 
-use function substr;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
@@ -53,6 +52,7 @@ use Sabre\VObject\UUIDUtil;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use function substr;
 
 class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
