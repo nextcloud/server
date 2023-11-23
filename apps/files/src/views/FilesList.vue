@@ -425,7 +425,7 @@ export default Vue.extend({
 
 				// Define current directory children
 				// TODO: make it more official
-				Vue.set(folder, '_children', contents.map(node => node.fileid))
+				this.$set(folder, '_children', contents.map(node => node.fileid))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
