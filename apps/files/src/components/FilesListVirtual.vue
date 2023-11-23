@@ -72,20 +72,21 @@ import { getFileListHeaders, Folder, View, getFileActions } from '@nextcloud/fil
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
-import { action as sidebarAction } from '../actions/sidebarAction.js'
-import { useUserConfigStore } from '../store/userconfig.js'
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
+
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.js'
-import logger from '../logger.js'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
+import logger from '../logger.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListVirtual',
 
 	components: {

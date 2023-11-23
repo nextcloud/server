@@ -113,7 +113,7 @@ import { orderBy } from 'natural-orderby'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
@@ -125,23 +125,23 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
-import { action as sidebarAction } from '../actions/sidebarAction.js'
-import { useFilesStore } from '../store/files.js'
-import { usePathsStore } from '../store/paths.js'
-import { useSelectionStore } from '../store/selection.js'
-import { useUploaderStore } from '../store/uploader.js'
-import { useUserConfigStore } from '../store/userconfig.js'
-import { useViewConfigStore } from '../store/viewConfig.js'
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useFilesStore } from '../store/files.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { useSelectionStore } from '../store/selection.ts'
+import { useUploaderStore } from '../store/uploader.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.js'
-import filesSortingMixin from '../mixins/filesSorting.js'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesList',
 
 	components: {
