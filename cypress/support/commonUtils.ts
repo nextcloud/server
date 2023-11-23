@@ -45,7 +45,7 @@ export function installTestApp() {
 		const version = output.stdout.match(/(\d\d+)\.\d+\.\d+/)?.[1]
 		cy.wrap(version).should('not.be.undefined')
 		cy.exec(`docker cp '${testAppPath}' nextcloud-cypress-tests-server:/var/www/html/apps`, { log: true })
-		cy.exec(`docker exec nextcloud-cypress-tests-server sed -i 's|version="[0-9]+|version="${version}|' apps/testapp/appinfo/info.xml`)
+		cy.exec(`docker exec nextcloud-cypress-tests-server sed -i -e 's|-version="[0-9]\\+|-version="${version}|g' apps/testapp/appinfo/info.xml`)
 		cy.runOccCommand('app:enable testapp')
 	})
 }
