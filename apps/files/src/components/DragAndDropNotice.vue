@@ -33,7 +33,6 @@
 </template>
 
 <script lang="ts">
-import type { Upload } from '@nextcloud/upload'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { getUploader } from '@nextcloud/upload'
