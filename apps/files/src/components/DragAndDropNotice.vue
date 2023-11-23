@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import type { Upload } from '@nextcloud/upload'
-import { showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { getUploader } from '@nextcloud/upload'
 import { defineComponent } from 'vue'
@@ -105,8 +105,13 @@ export default defineComponent({
 
 				// Start upload
 				logger.debug(`Uploading files to ${this.currentFolder.path}`)
-				const promises = [...event.dataTransfer.files].map((file: File) => {
-					return uploader.upload(file.name, file) as Promise<Upload>
+				const promises = [...event.dataTransfer.files].map(async (file: File) => {
+					try {
+						return await uploader.upload(file.name, file)
+					} catch (e) {
+						showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
+						throw e
+					}
 				})
 
 				// Process finished uploads
