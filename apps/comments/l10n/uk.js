@@ -16,7 +16,6 @@ OC.L10N.register(
     "Delete comment" : "Вилучити коментар",
     "Cancel edit" : "Скасувати редагування",
     "Post comment" : "Опублікувати коментар",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" для згадок, \":\" для емоційок, \"/\" для асистента",
     "No comments yet, start the conversation!" : "Тут можна додати коментарі",
     "No more messages" : "Більше жодних повідомлень",
     "Retry" : "Ще раз",
