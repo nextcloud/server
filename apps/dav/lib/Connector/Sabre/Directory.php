@@ -193,56 +193,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	}
 
 	/**
-	 * Creates a new symlink
-	 *
-	 * @param string $name
-	 * @param string $target
-	 * @return null|string
-	 * @throws FileLocked
-	 * @throws InvalidPath
-	 * @throws ServiceUnavailable
-	 * @throws \Sabre\DAV\Exception
-	 * @throws \Sabre\DAV\Exception\Forbidden
-	 */
-	public function createSymlink($name, $target) {
-		try {
-			if (!$this->info->isCreatable()) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
-
-			$this->fileView->verifyPath($this->path, $name);
-
-			[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
-			if (!$storage || !$storage->instanceOfStorage(\OC\Files\Storage\Local::class)) {
-				throw new \Sabre\DAV\Exception\NotImplemented("Symlinks currently not supported on non-local storages - failed to create '$name'!");
-			}
-
-			$internalPath = $internalPath . '/' . $name;
-			$storage->unlink($internalPath);
-			if (!$storage->symlink($target, $internalPath)) {
-				throw new \Sabre\DAV\Exception\Forbidden("Could not create symlink '$name'!");
-			}
-			$storage->getUpdater()->update($internalPath);
-			$newEtag = $storage->getETag($internalPath);
-			$infoData = [
-				'type' => FileInfo::TYPE_FILE,
-				'etag' => $newEtag,
-			];
-			$path = \OC\Files\Filesystem::normalizePath($this->path . '/' . $name);
-			$this->fileView->putFileInfo($path, $infoData);
-			return '"' . $newEtag . '"';
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
-		} catch (InvalidPathException $ex) {
-			throw new InvalidPath($ex->getMessage(), false, $ex);
-		} catch (ForbiddenException $ex) {
-			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
-		} catch (LockedException $e) {
-			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-		}
-	}
-
-	/**
 	 * Returns a specific child node, referenced by its name
 	 *
 	 * @param string $name
