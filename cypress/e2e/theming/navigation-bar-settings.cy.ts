@@ -89,6 +89,7 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the default app is changed back to default', () => {
+		cy.reload()
 		cy.get('#nextcloud').click()
 		cy.url().should('match', /apps\/dashboard/)
 	})
