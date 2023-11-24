@@ -26,6 +26,7 @@ return array(
     'OCA\\UserStatus\\Exception\\InvalidStatusTypeException' => $baseDir . '/../lib/Exception/InvalidStatusTypeException.php',
     'OCA\\UserStatus\\Exception\\StatusMessageTooLongException' => $baseDir . '/../lib/Exception/StatusMessageTooLongException.php',
     'OCA\\UserStatus\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listener/BeforeTemplateRenderedListener.php',
+    'OCA\\UserStatus\\Listener\\OutOfOfficeStatusListener' => $baseDir . '/../lib/Listener/OutOfOfficeStatusListener.php',
     'OCA\\UserStatus\\Listener\\UserDeletedListener' => $baseDir . '/../lib/Listener/UserDeletedListener.php',
     'OCA\\UserStatus\\Listener\\UserLiveStatusListener' => $baseDir . '/../lib/Listener/UserLiveStatusListener.php',
     'OCA\\UserStatus\\Migration\\Version0001Date20200602134824' => $baseDir . '/../lib/Migration/Version0001Date20200602134824.php',

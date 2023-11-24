@@ -137,37 +137,8 @@ class StatusService {
 	 * @return UserStatus
 	 * @throws DoesNotExistException
 	 */
-	public function findByUserId(string $userId): UserStatus {
-		$userStatus = $this->mapper->findByUserId($userId);
-		// If the status is user-defined and one of the persistent status, we
-		// will not override it.
-		if ($userStatus->getIsUserDefined() && \in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
-			return $this->processStatus($userStatus);
-		}
-
-		$calendarStatus = $this->getCalendarStatus($userId);
-		// We found no status from the calendar, proceed with the existing status
-		if($calendarStatus === null) {
-			return $this->processStatus($userStatus);
-		}
-
-		// if we have the same status result for the calendar and the current status,
-		// and a custom message to boot, we leave the existing status alone
-		// as to not overwrite a custom message / emoji
-		if($userStatus->getIsUserDefined()
-			&& $calendarStatus->getStatus() === $userStatus->getStatus()
-			&& !empty($userStatus->getCustomMessage())) {
-			return $this->processStatus($userStatus);
-		}
-
-		// If the new status is null, there's already an identical status in place
-		$newUserStatus = $this->setUserStatus($userId,
-			$calendarStatus->getStatus(),
-			$calendarStatus->getMessage() ?? IUserStatus::MESSAGE_AVAILABILITY,
-			true,
-			$calendarStatus->getCustomMessage() ?? '');
-
-		return $newUserStatus === null ? $this->processStatus($userStatus) : $this->processStatus($newUserStatus);
+	public function findByUserId(string $userId):UserStatus {
+		return $this->processStatus($this->mapper->findByUserId($userId));
 	}
 
 	/**
@@ -271,6 +242,7 @@ class StatusService {
 	 * @param string $status
 	 * @param string $messageId
 	 * @param bool $createBackup
+	 * @param string|null $customMessage
 	 * @throws InvalidStatusTypeException
 	 * @throws InvalidMessageIdException
 	 */
@@ -278,7 +250,7 @@ class StatusService {
 		string $status,
 		string $messageId,
 		bool $createBackup,
-		string $customMessage = null): ?UserStatus {
+		?string $customMessage = null): ?UserStatus {
 		// Check if status-type is valid
 		if (!in_array($status, self::PRIORITY_ORDERED_STATUSES, true)) {
 			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
@@ -313,13 +285,7 @@ class StatusService {
 		$userStatus->setCustomIcon(null);
 		$userStatus->setCustomMessage($customMessage);
 		$userStatus->setClearAt(null);
-		if ($this->predefinedStatusService->getTranslatedStatusForId($messageId) !== null
-			|| ($customMessage !== null && $customMessage !== '')) {
-			// Only track status message ID if there is one
-			$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
-		} else {
-			$userStatus->setStatusMessageTimestamp(0);
-		}
+		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() !== null) {
 			return $this->mapper->update($userStatus);
@@ -506,8 +472,14 @@ class StatusService {
 	private function addDefaultMessage(UserStatus $status): void {
 		// If the message is predefined, insert the translated message and icon
 		$predefinedMessage = $this->predefinedStatusService->getDefaultStatusById($status->getMessageId());
-		if ($predefinedMessage !== null) {
+		if ($predefinedMessage === null) {
+			return;
+		}
+		// If there is a custom message, don't overwrite it
+		if(empty($status->getCustomMessage())) {
 			$status->setCustomMessage($predefinedMessage['message']);
+		}
+		if(empty($status->getCustomIcon())) {
 			$status->setCustomIcon($predefinedMessage['icon']);
 		}
 	}
@@ -588,8 +560,7 @@ class StatusService {
 	}
 
 	/**
-	 * Calculate a users' status according to their availabilit settings and their calendar
-	 * events
+	 * Calculate a users' status according to their calendar events
 	 *
 	 * There are 4 predefined types of FBTYPE - 'FREE', 'BUSY', 'BUSY-UNAVAILABLE', 'BUSY-TENTATIVE',
 	 * but 'X-' properties are possible
@@ -598,11 +569,10 @@ class StatusService {
 	 *
 	 * The status will be changed for types
 	 *  - 'BUSY'
-	 *  - 'BUSY-UNAVAILABLE' (ex.: when a VAVILABILITY setting is in effect)
 	 *  - 'BUSY-TENTATIVE' (ex.: an event has been accepted tentatively)
 	 * and all FREEBUSY components without a type (implicitly a 'BUSY' status)
 	 *
-	 * 'X-' properties are not handled for now
+	 * 'X-' properties and BUSY-UNAVAILABLE is not handled
 	 *
 	 * @param string $userId
 	 * @return CalendarStatus|null
@@ -612,9 +582,6 @@ class StatusService {
 		if ($user === null) {
 			return null;
 		}
-
-		$availability = $this->mapper->getAvailabilityFromPropertiesTable($userId);
-
-		return $this->calendarStatusService->processCalendarAvailability($user, $availability);
+		return $this->calendarStatusService->processCalendarAvailability($user);
 	}
 }
