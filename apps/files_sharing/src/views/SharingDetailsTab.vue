@@ -34,15 +34,12 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="toggleCustomPermissions">
+					<EditIcon :size="20" />
 					<template v-if="allowsFileDrop">
-						{{ t('files_sharing', 'Allow upload and editing') }}
+						<span>{{ t('files_sharing', 'Allow upload and editing') }}</span>
 					</template>
 					<template v-else>
-						{{ t('files_sharing', 'Allow editing') }}
-					</template>
-
-					<template #icon>
-						<EditIcon :size="20" />
+						<span>{{ t('files_sharing', 'Allow editing') }}</span>
 					</template>
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch v-if="allowsFileDrop"
@@ -64,11 +61,9 @@
 					type="radio"
 					button-variant-grouped="vertical"
 					@update:checked="expandCustomPermissions">
-					{{ t('files_sharing', 'Custom permissions') }}
+					<DotsHorizontalIcon :size="20" />
+					<span>{{ t('files_sharing', 'Custom permissions') }}</span>
 					<small>{{ customPermissionsList }}</small>
-					<template #icon>
-						<DotsHorizontalIcon :size="20" />
-					</template>
 				</NcCheckboxRadioSwitch>
 			</div>
 		</div>
