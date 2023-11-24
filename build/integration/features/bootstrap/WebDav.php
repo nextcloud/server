@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -31,9 +32,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 use GuzzleHttp\Client as GClient;
-use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
+use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
 use Sabre\DAV\Xml\Property\ResourceType;
 
@@ -43,17 +45,13 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait WebDav {
 	use Sharing;
 
-	/** @var string */
-	private $davPath = "remote.php/webdav";
-	/** @var boolean */
-	private $usingOldDavPath = true;
+	private string $davPath = "remote.php/webdav";
+	private bool $usingOldDavPath = true;
+	private ?array $storedETAG = null; // map with user as key and another map as value, which has path as key and etag as value
+	private ?int $storedFileID = null;
 	/** @var ResponseInterface */
 	private $response;
-	/** @var array map with user as key and another map as value, which has path as key and etag as value */
-	private $storedETAG = null;
-	/** @var int */
-	private $storedFileID = null;
-
+	private array $parsedResponse = [];
 	private string $s3MultipartDestination;
 	private string $uploadId;
 
@@ -237,7 +235,7 @@ trait WebDav {
 	public function searchFavorite(): void {
 		$this->searchFile(
 			$this->currentUser,
-			null,
+			'<oc:favorite/>',
 			null,
 			'<d:eq>
 			<d:prop>
@@ -334,18 +332,31 @@ trait WebDav {
 	}
 
 	/**
+	 * @Then the response should be empty
+	 * @throws \Exception
+	 */
+	public function theResponseShouldBeEmpty(): void {
+		$response = ($this->response instanceof ResponseInterface) ? $this->convertResponseToDavEntries() : $this->response;
+		if ($response === []) {
+			return;
+		}
+
+		throw new \Exception('response is not empty');
+	}
+
+	/**
 	 * @Then the single response should contain a property :key with value :value
 	 * @param string $key
 	 * @param string $expectedValue
 	 * @throws \Exception
 	 */
 	public function theSingleResponseShouldContainAPropertyWithValue($key, $expectedValue) {
-		$keys = $this->response;
-		if (!array_key_exists($key, $keys)) {
+		$response = ($this->response instanceof ResponseInterface) ? $this->convertResponseToDavSingleEntry() : $this->response;
+		if (!array_key_exists($key, $response)) {
 			throw new \Exception("Cannot find property \"$key\" with \"$expectedValue\"");
 		}
 
-		$value = $keys[$key];
+		$value = $response[$key];
 		if ($value instanceof ResourceType) {
 			$value = $value->getValue();
 			if (empty($value)) {
@@ -533,6 +544,7 @@ trait WebDav {
 			$this->response = $this->makeDavRequest($user, "SEARCH", '', [
 				'Content-Type' => 'text/xml'
 			], $body, '');
+
 			var_dump((string)$this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
@@ -1111,5 +1123,33 @@ trait WebDav {
 		if ($lastCode === 0) {
 			$this->theHTTPStatusCodeShouldBe(500);
 		}
+	}
+
+	/**
+	 * @return array
+	 * @throws Exception
+	 */
+	private function convertResponseToDavSingleEntry(): array {
+		$results = $this->convertResponseToDavEntries();
+		if (count($results) > 1) {
+			throw new \Exception('result is empty or contain more than one (1) entry');
+		}
+
+		return array_shift($results);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function convertResponseToDavEntries(): array {
+		$client = $this->getSabreClient($this->currentUser);
+		$parsedResponse = $client->parseMultiStatus((string)$this->response->getBody());
+
+		$results = [];
+		foreach ($parsedResponse as $href => $statusList) {
+			$results[$href] = $statusList[200] ?? [];
+		}
+
+		return $results;
 	}
 }
