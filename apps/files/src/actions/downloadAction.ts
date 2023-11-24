@@ -41,6 +41,22 @@ const downloadNodes = function(dir: string, nodes: Node[]) {
 	triggerDownload(url)
 }
 
+const isDownloadable = function(node: Node) {
+	if ((node.permissions & Permission.READ) === 0) {
+		return false
+	}
+
+	// If the mount type is a share, ensure it got download permissions.
+	if (node.attributes['mount-type'] === 'shared') {
+		const downloadAttribute = JSON.parse(node.attributes['share-attributes']).find((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
+		if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
+			return false
+		}
+	}
+
+	return true
+}
+
 export const action = new FileAction({
 	id: 'download',
 	displayName: () => t('files', 'Download'),
@@ -59,9 +75,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		return nodes
-			.map(node => node.permissions)
-			.every(permission => (permission & Permission.READ) !== 0)
+		return nodes.every(isDownloadable)
 	},
 
 	async exec(node: Node, view: View, dir: string) {
