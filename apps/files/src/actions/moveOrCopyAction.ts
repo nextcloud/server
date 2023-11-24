@@ -35,9 +35,8 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import CopyIcon from 'vue-material-design-icons/FileMultiple.vue'
+import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
-import MoveIcon from 'vue-material-design-icons/FolderMove.vue'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import logger from '../logger'
@@ -170,7 +169,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: 
 				buttons.push({
 					label: target ? t('files', 'Copy to {target}', { target }) : t('files', 'Copy'),
 					type: 'primary',
-					icon: CopyIcon,
+					icon: CopyIconSvg,
 					async callback(destination: Node[]) {
 						try {
 							await handleCopyMoveNodeTo(node, destination[0], MoveCopyAction.COPY)
@@ -186,12 +185,13 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: 
 				buttons.push({
 					label: target ? t('files', 'Move to {target}', { target }) : t('files', 'Move'),
 					type: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
-					icon: MoveIcon,
+					icon: FolderMoveSvg,
 					async callback(destination: Node[]) {
 						try {
 							await handleCopyMoveNodeTo(node, destination[0], MoveCopyAction.MOVE)
 							resolve(true)
 						} catch (error) {
+							console.warn('got error', error)
 							reject(error)
 						}
 					},
