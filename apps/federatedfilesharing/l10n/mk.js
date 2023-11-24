@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
     "Copy to clipboard" : "Копирај во клипборд",
     "Clipboard is not available" : "Клипбордот не е достапен",
-    "Copied!" : "Копирано!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Примивте \"%3$s\" како далечинско споделување од %4$s (%1$s) (во име на %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Примивте \"%3$s\" како далечинско споделување од %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Споделете со мене преку мојот Федерален Cloud ID, види %s"
+    "Copied!" : "Копирано!"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "刪除留言",
     "Cancel edit" : "取消編輯",
     "Post comment" : "張貼留言",
+    "@ for mentions, : for emoji, / for smart picker" : "@ 表示提及、: 表示表情符號、/ 表示智慧型選取程式",
     "Could not reload comments" : "無法重新載入留言",
     "No comments yet, start the conversation!" : "尚無留言，開始討論！",
     "No more messages" : "沒有更多訊息",
@@ -28,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "留言已刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除留言時發生錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤",
-    "%1$s commented" : "%1$s 已留言",
     "_%n unread comment_::_%n unread comments_" : ["%n 則未讀留言"]
 },
 "nplurals=1; plural=0;");

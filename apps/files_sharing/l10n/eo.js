@@ -152,7 +152,6 @@ OC.L10N.register(
     "Hide download" : "Kaŝi elŝuton",
     "Note to recipient" : "Noto por la ricevonto",
     "Enter a note for the share recipient" : "Entajpu noton por la ricevonto",
-    "Update" : "Ĝisdatigi",
     "Share" : "Kunhavigi",
     "Delete share" : "Forigi kunhavigon",
     "Unable to load the shares list" : "Ne eblas ricevi kunhavliston",
@@ -202,9 +201,9 @@ OC.L10N.register(
     "Restore" : "Restaŭri",
     "Something happened. Unable to restore the share." : "Io okazis. Ne eblis restaŭri la kunhavon. ",
     "No expiration date set" : "Neniu limdato agordita",
-    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
     "Allow resharing" : "Permesi rekunhavigon",
     "Expiration date enforced" : "Limdato efektiva",
-    "Password protect" : "Protekti per pasvorto"
+    "Password protect" : "Protekti per pasvorto",
+    "Update" : "Ĝisdatigi"
 },
 "nplurals=2; plural=(n != 1);");

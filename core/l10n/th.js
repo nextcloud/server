@@ -350,9 +350,6 @@ OC.L10N.register(
     "Move to {folder}" : "ย้ายไปยัง {folder}",
     "Authentication required" : "จำเป็นต้องตรวจสอบความถูกต้อง",
     "Failed to authenticate, try again" : "ไม่สามารถรับรองความถูกต้อง โปรดลองอีกครั้ง",
-    "File not found" : "ไม่พบไฟล์",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ไม่พบเอกสารบนเซิร์ฟเวอร์ การแชร์อาจถูกลบหรือหมดอายุไปแล้ว",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "กรุณาใช้ตัวอัปเดตผ่านบรรทัดคำสั่ง เนื่องจากการอัปเดตอัตโนมัติถูกปิดใช้งานใน config.php",
     "The page could not be found on the server." : "ไม่พบหน้านี้บนเซิร์ฟเวอร์"
 },
 "nplurals=1; plural=0;");

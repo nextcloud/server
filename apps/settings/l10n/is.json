@@ -333,7 +333,6 @@
     "Subscribe to our newsletter" : "Gerstu áskrifandi að fréttabréfinu okkar",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Þessi samfélagsútgáfa Nextcloud kemur ekki með neinni opinberri aðstoð og rauntímatilkynningar eru ekki til taks.",
     "Use a second factor besides your password to increase security for your account." : "Notaðu annað þrep til viðbótar lykilorðinu þínu til að auka öryggi notandaaðgangsins þíns.",
-    "You created app password \"{token}\"" : "Þú bjóst til forritslykilorðið \"{token}\"",
     "Enable all" : "Virkja allt",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Til að keyra þetta þarftu að hafa PHP-POSIX-viðaukann (extension). Skoðaðu {linkstart}PHP-hjálparskjölin{linkend} fyrir nánari útlistun.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Þú er í þann mund að fara að fjarlægja hópinn {group}. Notendunum verður EKKI eytt.",
@@ -351,11 +350,6 @@
     "Not saved" : "Ekki vistað",
     "Twitter" : "Twitter",
     "Enable untested app" : "Virkja óprófað forrit",
-    "Plain" : "Einfalt",
-    "NT LAN Manager" : "NT LAN stjórnun",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Auðkenningarmáti",
     "day(s)" : "dag(ar)",
     "Set default expiration date" : "Setja sjálfgefinn gildistíma"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"

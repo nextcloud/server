@@ -182,7 +182,6 @@ OC.L10N.register(
     "Note to recipient" : "Pastaba gavėjui",
     "Enter a note for the share recipient" : "Įrašykite pranešimą bendrinimo gavėjui",
     "Create" : "Sukurti",
-    "Update" : "Atnaujinti",
     "Share" : "Bendrinti",
     "Delete share" : "Ištrinti viešinį",
     "Others with access" : "Kiti asmenys, turintys prieigą",
@@ -247,11 +246,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Kažkas nutiko. Nepavyko priimti viešinio.",
     "Something happened. Unable to reject the share." : "Kažkas nutiko. Nepavyko atmesti viešinį.",
     "No expiration date set" : "Dalinimosi pabaigos data yra nenustatyta",
-    "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Allow creating" : "Leisti sukūrimą",
     "Allow deleting" : "Leisti ištrynimą",
     "Allow resharing" : "Leisti bendrinti iš naujo",
     "Expiration date enforced" : "Aktyvuotas galiojimo laikas",
-    "Password protect" : "Apsaugoti slaptažodžiu"
+    "Password protect" : "Apsaugoti slaptažodžiu",
+    "Update" : "Atnaujinti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

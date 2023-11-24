@@ -227,8 +227,6 @@ OC.L10N.register(
     "Pending" : "Pendiente",
     "Home" : "Casa",
     "Authentication required" : "Se requiere autenticación",
-    "Failed to authenticate, try again" : "Falla en la autenticación, favor de reintentar",
-    "File not found" : "Archivo no encontrado",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Favor de usar el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php."
+    "Failed to authenticate, try again" : "Falla en la autenticación, favor de reintentar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

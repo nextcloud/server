@@ -262,11 +262,6 @@ OC.L10N.register(
     "Send email to new user" : "Saada uuele kasutajale e-kiri",
     "Not saved" : "Ei ole salvestatud",
     "Twitter" : "Twitter",
-    "Plain" : "Tavatekst",
-    "NT LAN Manager" : "NT LAN Manager",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Autentimise meetod",
     "Set default expiration date" : "Määra vaikimisi aegumise kuupäev"
 },
 "nplurals=2; plural=(n != 1);");

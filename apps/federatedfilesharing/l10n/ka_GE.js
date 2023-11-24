@@ -34,7 +34,6 @@ OC.L10N.register(
     "HTML Code:" : "HTML კოდი:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Copy to clipboard" : "კოპირება ბუფერში",
-    "Copied!" : "კოპირებულია!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით, იხილეთ %s"
+    "Copied!" : "კოპირებულია!"
 },
 "nplurals=2; plural=(n!=1);");

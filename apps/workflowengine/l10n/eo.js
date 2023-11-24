@@ -86,8 +86,6 @@ OC.L10N.register(
     "Request user agent" : "Retumil-identigilo („user-agent“)",
     "User group membership" : "Grupano",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de",
-    "Predefined URLs" : "Antaŭdifinitaj retadresoj",
-    "Others" : "Aliaj"
+    "is not member of" : "ne estas membro de"
 },
 "nplurals=2; plural=(n != 1);");

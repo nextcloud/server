@@ -241,7 +241,6 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Nos seguir sus Mastodon",
     "Check out our blog" : "Donar un còp d’uèlh a nòstre blòg",
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
-    "You created app password \"{token}\"" : "Avètz creat lo senhal d’aplicacion « {token} »",
     "Enable all" : "Activar tot",
     "png or jpg, max. 20 MB" : "png or jpg, max. 20 Mo",
     "Your email address" : "Vòstra adreça electronica",
@@ -255,8 +254,6 @@ OC.L10N.register(
     "Show Languages" : "Veire las lengas",
     "Not saved" : "Pas enregistrat",
     "Twitter" : "Twitter",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
     "day(s)" : "jorn(s)",
     "Set default expiration date" : "Definir una data d’expiracion per defaut"
 },

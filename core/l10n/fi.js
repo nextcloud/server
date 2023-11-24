@@ -354,7 +354,6 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Tämä sivu päivittyy itsestään, kun instanssi on jälleen käytettävissä.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "Please try again" : "Yritä uudelleen",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Käytä komentorivipäivitintä, koska päivitys selainkäyttöliittymällä on estetty config.php-asetustiedostossa.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tietokantaasi ei suoriteta \"READ COMMITTED\"-transaktioeristystasolla. Tämä saattaa aiheuttaa ongelmia, kun useita toimintoja suoritetaan rinnakkaisesti.",
     "The PHP module \"fileinfo\" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection." : "PHP \"fileinfo\" moduuli puuttuu. Moduulin käyttöönottaminen on vahvasti suositeltua paremman MIME tyyppien tunnistuksen saavuttamiseksi.",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "PHP-asennuksessasi ei ole FreeType-tukea, ja siitä aiheutuu profiilikuvien sekä asetuskäyttöliittymän rikkoutuminen.",
@@ -366,7 +365,6 @@ OC.L10N.register(
     "Press enter to start searching" : "Paina enter aloittaaksesi haun",
     "Open settings menu" : "Avaa asetukset",
     "Settings" : "Asetukset",
-    "Avatar of {fullName}" : "Käyttäjän {fullName} kuva",
     "Show all contacts …" : "Näytä kaikki yhteystiedot…",
     "No files in here" : "Täällä ei ole tiedostoja",
     "New folder" : "Uusi kansio",
@@ -387,9 +385,7 @@ OC.L10N.register(
     "Move to {folder}" : "Siirrä kansioon {folder}",
     "Authentication required" : "Tunnistautuminen vaaditaan",
     "Failed to authenticate, try again" : "Varmennus epäonnistui, yritä uudelleen",
-    "File not found" : "Tiedostoa ei löytynyt",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Tätä asiakirjaa ei löytynyt palvelimelta. Kenties jako on poistettu tai se oli asetettu vanhenemaan.",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Käytä komentorivipäivitintä, koska automaattinen päivitys on estetty config.php-asetustiedostossa.",
-    "The page could not be found on the server." : "Sivua ei löytynyt palvelimelta."
+    "The page could not be found on the server." : "Sivua ei löytynyt palvelimelta.",
+    "Avatar of {fullName}" : "Käyttäjän {fullName} kuva"
 },
 "nplurals=2; plural=(n != 1);");

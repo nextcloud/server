@@ -190,7 +190,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Please contact the organizer directly.",
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "آزمایشی",
-    "Your attendance was updated successfully." : "Your attendance was updated successfully.",
-    "%1$s has responded your invitation" : "%1$s has responded your invitation"
+    "Your attendance was updated successfully." : "Your attendance was updated successfully."
 },
 "nplurals=2; plural=(n > 1);");

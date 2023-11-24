@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Iruzkina ezabatu da",
     "An error occurred while trying to delete the comment" : "Errorea gertatu da iruzkina ezabatzen saiatzean",
     "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
-    "%1$s commented" : "%1$s-(e)k iruzkindu du",
     "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"]
 },
 "nplurals=2; plural=(n != 1);");

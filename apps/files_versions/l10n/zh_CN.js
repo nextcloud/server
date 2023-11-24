@@ -19,10 +19,6 @@ OC.L10N.register(
     "Could not restore version" : "无法还原版本",
     "Could not set version name" : "无法设置版本名",
     "Could not delete version" : "无法删除版本",
-    "${version.label} restored" : "已还原版本${version.label} ",
-    "Failed to revert {file} to revision {timestamp}." : "将{file}还原为修订版{timestamp}失败。",
-    "_%n byte_::_%n bytes_" : ["%n 个字节"],
-    "Restore" : "恢复",
-    "No other versions available" : "没有其他可用版本"
+    "${version.label} restored" : "已还原版本${version.label} "
 },
 "nplurals=1; plural=0;");

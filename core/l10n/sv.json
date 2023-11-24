@@ -387,7 +387,6 @@
     "This page will refresh itself when the instance is available again." : "Denna sida uppdaterar sig själv när instansen är tillgänglig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
     "Please try again" : "Var vänlig och försök igen",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Var vänlig och uppdatera via kommandotolken då uppdatering via webbläsaren är inaktiverat i config.php",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP verkar inte vara korrekt inställd för att fråga efter systemmiljövariabler. Testet med getenv(\"PATH\") ger bara ett tomt svar.",
     "Please check the {linkstart}installation documentation ↗{linkend} for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Vänligen kontrollera {linkstart}installationsdokumentationen ↗{linkend} för PHP-konfigurationsanteckningar och PHP-konfigurationen för din server, speciellt när du använder php-fpm.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Den skrivskyddade konfigurationen har aktiverats. Detta förhindrar att vissa konfigurationer ställs in via webbgränssnittet. Dessutom måste filen göras skrivbar manuellt för varje uppdatering.",
@@ -410,7 +409,6 @@
     "Press enter to start searching" : "Tryck på enter för att börja söka",
     "Open settings menu" : "Öppna inställningsmenyn",
     "Settings" : "Inställningar",
-    "Avatar of {fullName}" : "Avatar för {fullName}",
     "Show all contacts …" : "Visa alla kontakter ...",
     "No files in here" : "Det finns inga filer här",
     "New folder" : "Ny mapp",
@@ -431,10 +429,8 @@
     "Move to {folder}" : "Flytta till {folder}",
     "Authentication required" : "Autentisering krävs",
     "Failed to authenticate, try again" : "Misslyckades att autentisera, försök igen",
-    "File not found" : "Filen kunde inte hittas",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentet kunde inte hittas på servern. Kanske var delningen raderad eller har gått ut?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Uppdatera via kommandotolken då automatisk uppdatering är inaktiverat i config.php.",
     "The page could not be found on the server." : "Sidan kunde inte hittas på servern.",
-    "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databasen används till transaktionsbaserad fillåsning. För att förbättra prestandan, konfigurera memcache om tillgängligt. Se {linkstart}Dokumentationen ↗{linkend} för mer information."
+    "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databasen används till transaktionsbaserad fillåsning. För att förbättra prestandan, konfigurera memcache om tillgängligt. Se {linkstart}Dokumentationen ↗{linkend} för mer information.",
+    "Avatar of {fullName}" : "Avatar för {fullName}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

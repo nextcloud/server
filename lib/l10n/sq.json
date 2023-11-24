@@ -154,7 +154,6 @@
     "Storage is temporarily not available" : "Hapsira ruajtëse nuk është në dispozicion përkohësisht",
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
     "Full name" : "Emri i plotë",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Në një emër përdoruesi lejohen vetëm shenjat vijuese: \"a-z\", \"A-Z\", \"0-9\", dhe \"_.@-\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Lypset të paktën libxml2 2.7.0. Hëpërhë e instaluar është %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Për të ndrequr këtë problem, përditësoni libxml2 dhe rinisni shërbyesin tuaj web."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

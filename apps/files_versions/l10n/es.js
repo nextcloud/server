@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "No se ha podido restaurar la versión",
     "Could not set version name" : "No ha podido establecer el nombre de la versión",
     "Could not delete version" : "No se ha podido eliminar la versión",
-    "${version.label} restored" : "${version.label} restaurada",
-    "Failed to revert {file} to revision {timestamp}." : "No se ha podido restaurar {file} a versión {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
-    "Restore" : "Recuperar",
-    "No other versions available" : "No hay más versiones disponibles"
+    "${version.label} restored" : "${version.label} restaurada"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

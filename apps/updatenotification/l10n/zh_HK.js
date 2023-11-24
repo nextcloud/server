@@ -49,7 +49,6 @@ OC.L10N.register(
     "Beta" : "Beta 測試版",
     "A pre-release version only for testing new features, not for production environments." : "預發佈版本僅用於測試新功能，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["有 <strong>%n</strong> 個應用程式沒有與此 Nextcloud 版本相容的版本。"],
-    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "您可以變更下方的更新頻道，這也會影響應用程式管理頁面。例如，切換到測試版頻道後，在應用程式管理頁更新應用程式時也會提供測試版。",
     "Update channel:" : "更新頻道："
 },

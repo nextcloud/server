@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Oharra hartzailearentzat",
     "Enter a note for the share recipient" : "Sartu ohar bat partekatzearen hartzailearentzat",
     "Create" : "Sortu",
-    "Update" : "Eguneratu",
     "Share" : "Partekatu",
     "Delete share" : "Ezabatu partekatzea",
     "Share with " : "Partekatu honekin",
@@ -297,13 +296,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Zerbait gertatu da. Ezin izan da partekatzea ukatu.",
     "No expiration date set" : "Ez da iraungitze-datarik ezarri",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "%s partekatzeak huts egin du atzealdeak ez dituelako sciencemesh parteatzeak onartzen",
-    "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Allow creating" : "Baimendu sortzea",
     "Allow deleting" : "Baimendu ezabatzea",
     "Allow resharing" : "Baimendu birpartekatzea",
     "Expiration date enforced" : "Iraungitze-data betearazita",
     "Password protect" : "Babestu pasahitzarekin",
     "Science Mesh" : "Zientzia sarea",
-    "Error generating password from password_policy" : "Errorea pasahitz-gidalerrotik pasahitza sortzean"
+    "Update" : "Eguneratu"
 },
 "nplurals=2; plural=(n != 1);");

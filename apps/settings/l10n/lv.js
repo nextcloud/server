@@ -174,11 +174,6 @@ OC.L10N.register(
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Not saved" : "Nav saglabāts",
     "Twitter" : "Twitter",
-    "Plain" : "vienkāršs teksts",
-    "NT LAN Manager" : "NT LAN Pārvaldnieks",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Autentifikācijas metode",
     "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Yorumu sil",
     "Cancel edit" : "Düzenlemeyi iptal et",
     "Post comment" : "Yorum gönder",
+    "@ for mentions, : for emoji, / for smart picker" : "Anmalar için @, emojiler için :, akıllı seçici için /",
     "Could not reload comments" : "Yorumlar yeniden yüklenemedi",
     "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir görüşme başlatın!",
     "No more messages" : "Başka ileti yok",
@@ -28,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Yorum silindi",
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
     "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
-    "%1$s commented" : "%1$s yorumlanmış",
     "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"]
 },
 "nplurals=2; plural=(n > 1);");

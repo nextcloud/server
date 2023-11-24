@@ -318,9 +318,6 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopijuoti į {folder}",
     "Move to {folder}" : "Perkelti į {folder}",
     "Authentication required" : "Reikalingas tapatybės nustatymas",
-    "Failed to authenticate, try again" : "Nepavyko nustatyti tapatybės, bandykite dar kartą",
-    "File not found" : "Failas nerastas",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Nepavyko serveryje rasti dokumento. Galbūt, viešinys buvo ištrintas arba pasibaigė jo galiojimo laikas?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Automatinis atnaujinimas išjungtas config.php faile. Naudokite komandinės eilutės atnaujinimo įrankį."
+    "Failed to authenticate, try again" : "Nepavyko nustatyti tapatybės, bandykite dar kartą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

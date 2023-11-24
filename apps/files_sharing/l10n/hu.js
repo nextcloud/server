@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Jegyzet a címzettnek",
     "Enter a note for the share recipient" : "Adjon meg egy megjegyzést a megosztás címzettje számára",
     "Create" : "Létrehozás",
-    "Update" : "Frissítés",
     "Share" : "Megosztás",
     "Delete share" : "Megosztás törlése",
     "Share with " : "Megosztás vele:",
@@ -298,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Valami történt. Nem sikerült elutasítani a megosztást.",
     "No expiration date set" : "Nincs beállítva lejárati dátum",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a szobamegosztásokat",
-    "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Allow creating" : "Létrehozás engedélyezése",
     "Allow deleting" : "Törlés engedélyezése",
     "Allow resharing" : "A megosztás továbbadásának engedélyezése",
     "Expiration date enforced" : "Lejárati idő megkövetelése",
     "Password protect" : "Jelszavas védelem",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Hiba a password_policy használatával történő jelszó-előállításkor"
+    "Update" : "Frissítés"
 },
 "nplurals=2; plural=(n != 1);");

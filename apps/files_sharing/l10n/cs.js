@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Poznámka pro příjemce",
     "Enter a note for the share recipient" : "Zadejte poznámku pro příjemce sdílení",
     "Create" : "Vytvářet",
-    "Update" : "Aktualizovat",
     "Share" : "Sdílet",
     "Delete share" : "Smazat sdílení",
     "Share with " : "Sdílet s",
@@ -298,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Něco se přihodilo. Sdílení se nedaří odmítnout.",
     "No expiration date set" : "Není nastaveno datum skončení platnosti",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje sciencemesh sdílení",
-    "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
     "Allow creating" : "Povolit vytváření",
     "Allow deleting" : "Povolit mazání",
     "Allow resharing" : "Povolit sdílet dále",
     "Expiration date enforced" : "Datum skončení platnosti vynuceno",
     "Password protect" : "Chránit heslem",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Chyba při vytváření hesla ze zásady pro hesla"
+    "Update" : "Aktualizovat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

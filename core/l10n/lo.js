@@ -328,9 +328,6 @@ OC.L10N.register(
     "Copy to {folder}" : "ສໍາເນົາໄປຍັງ {ໂຟນເດີ}",
     "Move to {folder}" : "ຍ້າຍໄປ {folder}",
     "Authentication required" : "ການຢັ້ງຢືນທີ່ຈໍາເປັນ",
-    "Failed to authenticate, try again" : "ບໍ່ສາມາດຮັບຮອງຄວາມຖຶກຕ້ອງໄດ້, ລອງອີກຄັ້ງ",
-    "File not found" : " ບໍ່ພົບຟາຍ",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ເອກະສານບໍ່ສາມາດຄົ້ນພົບໄດ້ໃນ server.  ບາງທີສ່ວນແບ່ງຖືກລຶບ ຫຼື ໄດ້ສິ້ນສຸດລົງ?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "ກະລຸນາໃຊ້ ຄໍາສັ່ງ ປັບປຸງ ເພາະການອັບເດດໂດຍອັດຕະໂນມັດຖືກປິດໃນລະບົບການຕັ້ງຄ່າ config.php."
+    "Failed to authenticate, try again" : "ບໍ່ສາມາດຮັບຮອງຄວາມຖຶກຕ້ອງໄດ້, ລອງອີກຄັ້ງ"
 },
 "nplurals=1; plural=0;");

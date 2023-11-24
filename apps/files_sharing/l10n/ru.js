@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Примечание для получателя",
     "Enter a note for the share recipient" : "Введите примечание для получателя",
     "Create" : "Создать",
-    "Update" : "Обновить",
     "Share" : "Поделиться",
     "Delete share" : "Удалить общий ресурс",
     "Share with " : "Поделиться",
@@ -297,13 +296,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Не удалось отклонить предложение общего ресурса.",
     "No expiration date set" : "Дата истечения не установлена",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общие ресурсы типа Science Mesh",
-    "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
     "Allow creating" : "Разрешить создавать",
     "Allow deleting" : "Разрешить удалять",
     "Allow resharing" : "Разрешить повторное открытие общего доступа",
     "Expiration date enforced" : "Требуется срок действия",
     "Password protect" : "Защитить паролем",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Не удалось создать пароль на основе политики"
+    "Update" : "Обновить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

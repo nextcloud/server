@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet que els usuaris comparteixin un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica.",
     "Send password by mail" : "Envia la contrasenya per correu electrònic",
     "Reply to initiator" : "Respon a l'usuari que comparteix l'element",
-    "Unable to update share by mail config" : "No s'ha pogut actualitzar la configuració d'ús compartit per correu electrònic",
-    "Shared with %1$s" : "S'ha compartit amb %1$s",
-    "Shared with %1$s by %2$s" : "%2$s ho ha compartit amb %1$s ",
-    "Unshared from %1$s" : "S'ha deixat de compartir amb %1$s",
-    "Unshared from %1$s by %2$s" : "%2$s ho ha deixat de compartir amb %1$s ",
-    "Password for mail share sent to %1$s" : "S'ha enviat la contrasenya de l'element compartit per correu electrònic a %1$s",
-    "You shared %1$s with %2$s by mail" : "Heu compartit %1$s amb %2$s per correu electrònic",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s ha compartit %1$s amb %2$s per correu electrònic",
-    "You unshared %1$s from %2$s by mail" : "Heu deixat de compartir %1$s amb %2$s per correu electrònic",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s ha deixat de compartir %1$s amb %2$s per correu electrònic",
-    "Password to access %1$s was sent to %2s" : "S'ha enviat a %2s la contrasenya per a accedir a %1$s",
-    "Password to access %1$s was sent to you" : "Se us ha enviat la contrasenya per a accedir a %1$s"
+    "Unable to update share by mail config" : "No s'ha pogut actualitzar la configuració d'ús compartit per correu electrònic"
 },
 "nplurals=2; plural=(n != 1);");

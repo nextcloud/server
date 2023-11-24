@@ -32,7 +32,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nýjasta stöðuga útgáfan. Hún hentar fyrir alla venjulega notkun og er alltaf uppfærð í nýjustu aðalútgáfu.",
     "Beta" : "BETA-prófunarútgáfa",
     "A pre-release version only for testing new features, not for production environments." : "For-útgáfa sem einungis er hugsuð til að prófa nýja eiginleika, og er alls ekki ætluð fyrir alvöru vinnslu.",
-    "Update for %1$s to version %2$s is available." : "Uppfærsla %1$s í útgáfu %2$s er tiltæk.",
     "Update channel:" : "Uppfærslurás:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -241,11 +241,6 @@ OC.L10N.register(
     "Send email to new user" : "Dërgo email përdoruesi të ri",
     "Not saved" : "Nuk u ruajt",
     "Twitter" : "Twitter",
-    "Plain" : "E thjeshtë",
-    "NT LAN Manager" : "Përgjegjës Rrjeti NT",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Metodë mirëfilltësimi",
     "Set default expiration date" : "Caktoni datë parazgjedhje skadimi"
 },
 "nplurals=2; plural=(n != 1);");

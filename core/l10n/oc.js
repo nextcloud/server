@@ -324,7 +324,6 @@ OC.L10N.register(
     "Press enter to start searching" : "Quichatz Entrada per aviar la recèrca",
     "Open settings menu" : "Dobrir lo menú de paramètres",
     "Settings" : "Paramètres",
-    "Avatar of {fullName}" : "Avatar de {fullName}",
     "Show all contacts …" : "Mostrar totes los contactes…",
     "No files in here" : "Cap de fichièr aicí",
     "New folder" : "Novèl dorsièr",
@@ -345,9 +344,7 @@ OC.L10N.register(
     "Move to {folder}" : "Desplaçar a {folder}",
     "Authentication required" : "Autentificacion requerida",
     "Failed to authenticate, try again" : "Autentificacion pas reüssida, tornatz ensajar",
-    "File not found" : "Fichièr pas trobat",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Lo document es pas trobable sul servidor. Benlèu que lo partiment foguèt suprimit o a expirat ?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Mercés d’utilizar l’actualizador en linha de comanda perque la mesa a jorn automatica es desactivada dins lo config.php.",
-    "The page could not be found on the server." : "Se podiá pas trobar la pagina sul servidor."
+    "The page could not be found on the server." : "Se podiá pas trobar la pagina sul servidor.",
+    "Avatar of {fullName}" : "Avatar de {fullName}"
 },
 "nplurals=2; plural=(n > 1);");

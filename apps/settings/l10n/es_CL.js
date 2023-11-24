@@ -243,11 +243,6 @@ OC.L10N.register(
     "Send email to new user" : "Enviar un correo electrónico al usuario nuevo",
     "Not saved" : "No guardado",
     "Twitter" : "Twitter",
-    "Plain" : "Plano",
-    "NT LAN Manager" : "Administrador de LAN NT",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Método de autenticación",
     "Set default expiration date" : "Establecer la fecha de expiración predeterminada"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

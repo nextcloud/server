@@ -49,9 +49,6 @@
     "Cloud ID copied to the clipboard" : "ID di cloud copiato negli appunti",
     "Copy to clipboard" : "Copia negli appunti",
     "Clipboard is not available" : "Appunti non disponibili",
-    "Copied!" : "Copiato!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Hai ricevuto \"%3$s\" come condivisione remota da %4$s (%1$s) (per conto di %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Hai ricevuto \"%3$s\" come condivisione remota da %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud, vedi %s"
+    "Copied!" : "Copiato!"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

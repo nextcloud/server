@@ -332,9 +332,6 @@
     "Copy to {folder}" : "Kopii al {folder}",
     "Move to {folder}" : "Movi al {folder}",
     "Authentication required" : "Aŭtentiĝo nepras",
-    "Failed to authenticate, try again" : "Malsukcesis aŭtentigi, provu ree",
-    "File not found" : "Dosiero ne troviĝis",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Bv. uzi komandlinian ĝisdatigilon, ĉar aŭtomata ĝisdatigo estas malebligita en la dosiero „config.php“."
+    "Failed to authenticate, try again" : "Malsukcesis aŭtentigi, provu ree"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
