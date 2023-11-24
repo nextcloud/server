@@ -318,7 +318,6 @@
     "Subscribe to our newsletter" : "Aboni nian retan bultenon",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
     "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton.",
-    "You created app password \"{token}\"" : "Vi kreis aplikaĵan pasvorton „{token}“",
     "Enable all" : "Ŝalti ĉiujn",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Por ruli iton, vi bezonas la PHP-modulon pri POSIX. Vidu la {linkstart}PHP-dokumentaron{linkend} pro pli da detaloj.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Vi tuj forigos grupon {group}. La uzantoj NE estos forigitaj.",
@@ -335,11 +334,6 @@
     "Not saved" : "Ne konservita",
     "Twitter" : "Twitter",
     "Enable untested app" : "Ŝalti netestitan aplikaĵon",
-    "Plain" : "Plena",
-    "NT LAN Manager" : "NT LAN Manager",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Aŭtentiga metodo",
     "Set default expiration date" : "Agordi defaŭltan limdaton"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

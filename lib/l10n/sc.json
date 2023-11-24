@@ -214,7 +214,6 @@
     "Storage connection timeout. %s" : "Tempus de connessione a s'archiviatzione iscadidu. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Is archìvios de s'aplicatzione %1$s no sunt istados cambiados in manera curreta. Assegura•ti chi b'apat una versione cumpatìbile cun su serbidore.",
     "Full name" : "Nùmene cumpletu",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Isceti custos caràteres sunt permìtidos in unu nùmene utente: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Est rechèdida a su mancu sa versione libxml2 2.7.0. Pro immoe cussa installada est sa%s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Pro assentare custu problema, agiorna sa versione libxml2 e torra a aviare su serbidore ìnternet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

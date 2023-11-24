@@ -151,7 +151,7 @@ OC.L10N.register(
     "Due on %s" : "到期於 %s",
     "DAV system address book" : "DAV 系統通訊錄",
     "No outstanding DAV system address book sync." : "沒有未完成的 DAV 系統通訊錄同步。",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "DAV 系統通訊錄同步尚未執行，因為您的站台有超過 1000 個使用者，或是因為發生錯誤。請透過呼叫 occ dav:sync-system-addressbook 手動執行。",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV 系統通訊錄同步尚未執行，因為您的站台有超過 1000 個使用者，或是因為遇到錯誤。請透過呼叫「occ dav:sync-system-addressbook」手動執行。",
     "Migrated calendar (%1$s)" : "已導入的行事曆 (%1$s)",
     "Calendars including events, details and attendees" : "行事曆，包含事件、詳細資訊及參與者",
     "Contacts and groups" : "聯絡人與群組",
@@ -203,7 +203,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "請直接聯絡主辦人。",
     "Are you accepting the invitation?" : "您接受邀請嗎？",
     "Tentative" : "暫定",
-    "Your attendance was updated successfully." : "您的參與狀態成功更新。",
-    "%1$s has responded your invitation" : "%1$s 已回應您的邀請"
+    "Your attendance was updated successfully." : "您的參與狀態成功更新。"
 },
 "nplurals=1; plural=0;");

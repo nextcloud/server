@@ -45,8 +45,6 @@ OC.L10N.register(
     "Enable password recovery:" : "เปิดใช้งานการกู้คืนด้วยรหัสผ่าน:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณสามารถเข้าถึงไฟล์ของคุณที่เข้ารหัสไว้ ในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดใช้งาน",
-    "Disabled" : "ปิดใช้งาน",
-    "The share will expire on %s." : "การแชร์จะหมดอายุในวันที่ %s",
-    "Cheers!" : "ไชโย!"
+    "Disabled" : "ปิดใช้งาน"
 },
 "nplurals=1; plural=0;");

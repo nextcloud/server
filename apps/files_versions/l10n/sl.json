@@ -17,10 +17,6 @@
     "Could not restore version" : "Različice ni mogoče obnoviti",
     "Could not set version name" : "Imena različice ni mogoče nastaviti",
     "Could not delete version" : "Različice ji mogoče izbrisati",
-    "${version.label} restored" : "Različica ${version.label} je obnovljena",
-    "Failed to revert {file} to revision {timestamp}." : "Povrnitev datoteke {file} na različico {timestamp} je spodletelo.",
-    "_%n byte_::_%n bytes_" : ["%n bajt","%n bajta","%n bajti","%n bajtov"],
-    "Restore" : "Obnovi",
-    "No other versions available" : "Na voljo ni nobene druge različice datoteke"
+    "${version.label} restored" : "Različica ${version.label} je obnovljena"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -115,8 +115,6 @@ OC.L10N.register(
     "Request user agent" : "Кориснички агент захтева",
     "User group membership" : "Припадност групи",
     "is member of" : "је члан групе",
-    "is not member of" : "није члан групе",
-    "Predefined URLs" : "Предефинисане адресе",
-    "Others" : "Остали"
+    "is not member of" : "није члан групе"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

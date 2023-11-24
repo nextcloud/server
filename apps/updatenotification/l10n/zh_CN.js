@@ -41,7 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新稳定版本。适合日常使用并总是更新至最新主版本。",
     "Beta" : "Beta 测试版",
     "A pre-release version only for testing new features, not for production environments." : "预发布版本仅作测试新功能用，不可用于生产环境。",
-    "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "你可以在下面改变更新渠道，这也会影响到应用管理页面。例如：切换到测试版渠道后，测试版应用程序的更新将在应用程序管理页面提供给你。",
     "Update channel:" : "更新通道："
 },

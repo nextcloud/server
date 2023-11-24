@@ -36,17 +36,6 @@ OC.L10N.register(
     "Could not find share" : "Gat ekki fundið sameign",
     "Share provider which allows you to share files by mail" : "Deilingarþjónusta sem gerir þér kleift að deila skrám með tölvupósti",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
-    "Send password by mail" : "Senda lykilorð með pósti",
-    "Shared with %1$s" : "Deilt með %1$s",
-    "Shared with %1$s by %2$s" : "Deilt með %1$s af %2$s",
-    "Unshared from %1$s" : "Tekið úr deilingu frá %1$s",
-    "Unshared from %1$s by %2$s" : "Tekið úr deilingu frá %1$s af %2$s",
-    "Password for mail share sent to %1$s" : "Lykilorð fyrir póstsameign var sent til %1$s",
-    "You shared %1$s with %2$s by mail" : "Þú deildir %1$s með %2$s með tölvupósti",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s deildi %1$s með %2$s með tölvupósti",
-    "You unshared %1$s from %2$s by mail" : "Þú tókst %1$s úr deilingu frá %2$s með tölvupósti",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$ tók %1$s úr deilingu frá %2$s með tölvupósti",
-    "Password to access %1$s was sent to %2s" : "Lykilorð fyrir aðgang að %1$s var sent til %2s",
-    "Password to access %1$s was sent to you" : "Lykilorð fyrir aðgang að %1$s var sent til þín"
+    "Send password by mail" : "Senda lykilorð með pósti"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

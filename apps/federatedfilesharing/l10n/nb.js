@@ -39,7 +39,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
     "Copy to clipboard" : "Kopiert til utklippstavlen",
     "Clipboard is not available" : "Utklippstavlen er ikke tilgjengelig",
-    "Copied!" : "Kopiert!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s"
+    "Copied!" : "Kopiert!"
 },
 "nplurals=2; plural=(n != 1);");

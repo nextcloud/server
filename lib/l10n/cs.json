@@ -268,13 +268,11 @@
     "Extract topics" : "Vyzískat témata",
     "Extracts topics from a text and outputs them separated by commas." : "Vyzíská témata z textu a vypíše je oddělované čárkami.",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Soubory aplikace %1$s nebyly nahrazeny řádně. Ověřte, že se jedná o verzi, která je kompatibilní se serverem.",
+    "404" : "404",
     "Full name" : "Celé jméno",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Bylo dosaženo limitu počtu uživatelů a uživatel proto nebyl vytvořen. Podrobnosti viz upozornění pro vás.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Pouze následující znaky jsou povoleny pro uživatelské jméno: „a-z“, „A-Z“, „0-9“, a „_.@-'“",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Je zapotřebí verze softwarové knihovny libxml2 přinejmenším 2.7.0. Nyní je nainstalována verze %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Tento problém opravíte instalací novější verze knihovny libxml2 a restartem webového serveru.",
     "PostgreSQL >= 9 required." : "Je vyžadováno PostgreSQL verze 9 a novější.",
-    "Please upgrade your database version." : "Aktualizujte verzi vámi využívané databáze.",
-    "404" : "404"
+    "Please upgrade your database version." : "Aktualizujte verzi vámi využívané databáze."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

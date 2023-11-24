@@ -24,7 +24,6 @@ OC.L10N.register(
     "Comment deleted" : "Athugasemd var eytt",
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
     "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
-    "%1$s commented" : "%1$s setti inn athugasemd",
     "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"]
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

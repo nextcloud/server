@@ -298,8 +298,6 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopeeri kausta {folder}",
     "Move to {folder}" : "Liiguta kausta {folder}",
     "Authentication required" : "Autentimine on vajalik",
-    "Failed to authenticate, try again" : "Autentimine ebaõnnestus, proovi uuesti",
-    "File not found" : "Faili ei leitud",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Palun kasuta uuendamiseks käsurida, kuna automaatne uuendamine on config.php failis välja lülitatud."
+    "Failed to authenticate, try again" : "Autentimine ebaõnnestus, proovi uuesti"
 },
 "nplurals=2; plural=(n != 1);");

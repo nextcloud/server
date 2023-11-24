@@ -135,7 +135,6 @@ OC.L10N.register(
     "Expiration date" : "Gildir til",
     "Hide download" : "Fela niðurhal",
     "Note to recipient" : "Minnispunktur til viðtakanda",
-    "Update" : "Uppfæra",
     "Share" : "Deila",
     "Delete share" : "Eyða sameign",
     "Expires {relativetime}" : "Rennur út {relativetime}",
@@ -184,6 +183,7 @@ OC.L10N.register(
     "No expiration date set" : "Engin dagsetning fyrir gildistíma er sett",
     "Allow resharing" : "Leyfa endurdeilingu",
     "Expiration date enforced" : "Gerði gildistíma nauðsynlegan",
-    "Password protect" : "Verja með lykilorði"
+    "Password protect" : "Verja með lykilorði",
+    "Update" : "Uppfæra"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

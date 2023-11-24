@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Commento eliminato",
     "An error occurred while trying to delete the comment" : "Si è verificato un errore durante il tentativo di eliminare il commento",
     "An error occurred while trying to create the comment" : "Si è verificato un errore durante il tentativo di creare il commento",
-    "%1$s commented" : "%1$s ha commentato",
     "_%n unread comment_::_%n unread comments_" : ["%n commento non letto","%n commenti non letti","%n commenti non letti"]
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

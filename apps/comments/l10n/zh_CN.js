@@ -28,7 +28,6 @@ OC.L10N.register(
     "Comment deleted" : "评论已删除",
     "An error occurred while trying to delete the comment" : "删除评论时出错",
     "An error occurred while trying to create the comment" : "创建评论时出错",
-    "%1$s commented" : "%1$s 已评论",
     "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"]
 },
 "nplurals=1; plural=0;");

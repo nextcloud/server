@@ -49,7 +49,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Ви можете змінити канал оновлення нижче, що також впливає на сторінку керування програмами. наприклад після переходу на бета-канал оновлення бета-версії програми будуть запропоновані вам на сторінці керування програмами.",
     "Update channel:" : "Канал оновлення:"
 },

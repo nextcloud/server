@@ -345,8 +345,6 @@ OC.L10N.register(
     "Check out our blog" : "Cek blog kami",
     "Subscribe to our newsletter" : "Berlangganan surat berita kami",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Rilis komunitas Nextcloud ini tidak didukung dan pemberitahuan instan tidak tersedia.",
-    "You created app password \"{token}\"" : "Anda telah membuat kata sandi aplikasi \"{token}\"",
-    "An administrator created app password \"{token}\"" : "Administrator membuat sandi aplikasi \"{token}\"",
     "Enable all" : "Hidupkan semua",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Anda akan menghapus grup  {group}. Pengguna di dalamnya TIDAK akan dihapus.",
     "Please confirm the group removal " : "Mohon konfirmasi penghapusan grup",
@@ -361,11 +359,6 @@ OC.L10N.register(
     "Not saved" : "Belum disimpan",
     "Twitter" : "Twitter",
     "Enable untested app" : "Hidupkan aplikasi yang belum dites",
-    "Plain" : "Biasa",
-    "NT LAN Manager" : "Manajer NT LAN",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Metode otentikasi",
     "Set default expiration date" : "Atur tanggal kadaluarsa default"
 },
 "nplurals=1; plural=0;");

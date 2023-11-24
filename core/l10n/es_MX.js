@@ -279,8 +279,6 @@ OC.L10N.register(
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Authentication required" : "Se requiere autenticación",
-    "Failed to authenticate, try again" : "Falla en la autenticación, por favor reintentalo",
-    "File not found" : "Archivo no encontrado",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor usa el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php."
+    "Failed to authenticate, try again" : "Falla en la autenticación, por favor reintentalo"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

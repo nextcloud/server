@@ -249,8 +249,6 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopēt uz {folder}",
     "Move to {folder}" : "Pārvietot uz {folder}",
     "Authentication required" : "Nepieciešama autentifikācija",
-    "Failed to authenticate, try again" : "Neizdevās autentificēt, mēģiniet vēlreiz",
-    "File not found" : "Datne nav atrasta",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Lūdzu izmanto komandrindas atjaunināšanu, jo automātiskā atjaunināšana ir atspējota konfigurācijas datnē config.php."
+    "Failed to authenticate, try again" : "Neizdevās autentificēt, mēģiniet vēlreiz"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

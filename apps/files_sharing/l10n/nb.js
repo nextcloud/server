@@ -202,7 +202,6 @@ OC.L10N.register(
     "Note to recipient" : "Melding til mottaker",
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
     "Create" : "Opprett",
-    "Update" : "Oppdater",
     "Share" : "Del",
     "Others with access" : "Andre med tilgang",
     "No other users with access found" : "Ingen andre brukere med tilgang funnet",
@@ -270,12 +269,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Noe skjedde. Ikke mulig å motta delingen.",
     "Something happened. Unable to reject the share." : "Noe skjedde. Ikke mulig å avvise delingen.",
     "No expiration date set" : "Ingen utløpsdato er satt",
-    "One or more of your shares will expire tomorrow" : "En eller flere av delingene dine utløper i morgen",
     "Allow creating" : "Tillat oppretting",
     "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
     "Expiration date enforced" : "Utløpsdato er påkrevd",
     "Password protect" : "Passordbeskyttelse",
-    "Error generating password from password_policy" : "Feil under generering av passord fra passordregler"
+    "Update" : "Oppdater"
 },
 "nplurals=2; plural=(n != 1);");
