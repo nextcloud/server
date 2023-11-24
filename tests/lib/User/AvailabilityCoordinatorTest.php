@@ -28,6 +28,7 @@ namespace Test\User;
 
 use OC\User\AvailabilityCoordinator;
 use OC\User\OutOfOfficeData;
+use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\ICache;
@@ -45,6 +46,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 	private IConfig|MockObject $config;
 	private AbsenceMapper $absenceMapper;
 	private LoggerInterface $logger;
+	private MockObject|TimezoneService $timezoneService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,6 +56,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->absenceMapper = $this->createMock(AbsenceMapper::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->timezoneService = $this->createMock(TimezoneService::class);
 
 		$this->cacheFactory->expects(self::once())
 			->method('createLocal')
@@ -64,6 +67,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 			$this->absenceMapper,
 			$this->config,
 			$this->logger,
+			$this->timezoneService,
 		);
 	}
 
@@ -86,6 +90,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setLastDay('2023-10-08');
 		$absence->setStatus('Vacation');
 		$absence->setMessage('On vacation');
+		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -101,13 +106,13 @@ class AvailabilityCoordinatorTest extends TestCase {
 			->willReturn($absence);
 		$this->cache->expects(self::once())
 			->method('set')
-			->with('user', '{"id":"420","startDate":1696118400,"endDate":1696723200,"shortMessage":"Vacation","message":"On vacation"}', 300);
+			->with('user', '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation"}', 300);
 
 		$expected = new OutOfOfficeData(
 			'420',
 			$user,
-			1696118400,
-			1696723200,
+			1696111200,
+			1696802340,
 			'Vacation',
 			'On vacation',
 		);
@@ -149,6 +154,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setLastDay('2023-10-08');
 		$absence->setStatus('Vacation');
 		$absence->setMessage('On vacation');
+		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -164,13 +170,13 @@ class AvailabilityCoordinatorTest extends TestCase {
 			->willReturn($absence);
 		$this->cache->expects(self::once())
 			->method('set')
-			->with('user', '{"id":"420","startDate":1696118400,"endDate":1696723200,"shortMessage":"Vacation","message":"On vacation"}', 300);
+			->with('user', '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation"}', 300);
 
 		$expected = new OutOfOfficeData(
 			'420',
 			$user,
-			1696118400,
-			1696723200,
+			1696111200,
+			1696802340,
 			'Vacation',
 			'On vacation',
 		);
