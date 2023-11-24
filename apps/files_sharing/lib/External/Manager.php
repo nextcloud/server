@@ -301,6 +301,10 @@ class Manager {
 		$updateResult->closeCursor();
 	}
 
+	public function initUserId(string $userId): void {
+		$this->uid = $userId;
+	}
+
 	/**
 	 * accept server-to-server share
 	 *

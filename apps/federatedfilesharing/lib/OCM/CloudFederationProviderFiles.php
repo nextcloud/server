@@ -33,7 +33,7 @@ use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
-use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\External\Manager as ExternalManager;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
@@ -62,6 +62,8 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class CloudFederationProviderFiles implements ICloudFederationProvider {
+	const AUTO_ACCEPT_SHARES = 'gs.federation.auto_accept_shares';
+
 	/**
 	 * CloudFederationProvider constructor.
 	 */
@@ -80,7 +82,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		private IDBConnection $connection,
 		private IGroupManager $groupManager,
 		private IConfig $config,
-		private Manager $externalShareManager,
+		private ExternalManager $externalShareManager,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -166,6 +168,10 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			try {
 				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType, false, $shareWith, $remoteId);
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
+				if ($this->config->getSystemValueBool(self::AUTO_ACCEPT_SHARES)) {
+					$this->externalShareManager->initUserId($shareWith);
+					$this->externalShareManager->acceptShare($shareId);
+				}
 
 				// get DisplayName about the owner of the share
 				$ownerDisplayName = $this->getUserDisplayName($ownerFederatedId);
@@ -255,6 +261,10 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	}
 
 	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $displayName): void {
+		if ($this->config->getSystemValueBool(self::AUTO_ACCEPT_SHARES)) {
+			return;
+		}
+
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files_sharing')
 			->setUser($shareWith)
