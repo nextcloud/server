@@ -55,6 +55,13 @@ describe(`Download ${fileName} in viewer`, function() {
 	})
 
 	it('Share the Photos folder with a share link and access the share link', function() {
+		cy.on('uncaught:exception', (err) => {
+			// This can happen because of blink engine handling animation, its not a bug just engine related.
+			if (err.message.includes('ResizeObserver loop limit exceeded')) {
+			  return false
+			}
+		})
+
 		cy.createLinkShare('/Photos').then(token => {
 			// Open the sidebar
 			cy.visit('/apps/files')
