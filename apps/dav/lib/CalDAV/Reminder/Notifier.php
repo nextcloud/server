@@ -170,18 +170,32 @@ class Notifier implements INotifier {
 			$components[] = $this->l10n->n('%n minute', '%n minutes', $diff->i);
 		}
 
-		// Limiting to the first three components to prevent
-		// the string from getting too long
-		$firstThreeComponents = array_slice($components, 0, 2);
-		$diffLabel = implode(', ', $firstThreeComponents);
+		if (!$this->hasPhpDatetimeDiffBug()) {
+			// Limiting to the first three components to prevent
+			// the string from getting too long
+			$firstThreeComponents = array_slice($components, 0, 2);
+			$diffLabel = implode(', ', $firstThreeComponents);
 
-		if ($diff->invert) {
-			$title = $this->l10n->t('%s (in %s)', [$title, $diffLabel]);
-		} else {
-			$title = $this->l10n->t('%s (%s ago)', [$title, $diffLabel]);
+			if ($diff->invert) {
+				$title = $this->l10n->t('%s (in %s)', [$title, $diffLabel]);
+			} else {
+				$title = $this->l10n->t('%s (%s ago)', [$title, $diffLabel]);
+			}
 		}
 
 		$notification->setParsedSubject($title);
+	}
+
+	/**
+	 * @see https://github.com/nextcloud/server/issues/41615
+	 * @see https://github.com/php/php-src/issues/9699
+	 */
+	private function hasPhpDatetimeDiffBug(): bool {
+		$d1 = DateTime::createFromFormat(\DateTimeInterface::ATOM, '2023-11-22T11:52:00+01:00');
+		$d2 = new DateTime('2023-11-22T10:52:03', new \DateTimeZone('UTC'));
+
+		// The difference is 3 seconds, not -1year+11months+…
+		return $d1->diff($d2)->y < 0;
 	}
 
 	/**
