@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "Неможе да се врати верзијата",
     "Could not set version name" : "Неможе да се постави име на верзијата",
     "Could not delete version" : "Неможе да се избрише верзијата",
-    "${version.label} restored" : "${version.label} вратена",
-    "Failed to revert {file} to revision {timestamp}." : "Не успеав да го вратам {file} на ревизијата {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["1 бајт","%n бајти"],
-    "Restore" : "Врати",
-    "No other versions available" : "Не постојат други верзии"
+    "${version.label} restored" : "${version.label} вратена"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

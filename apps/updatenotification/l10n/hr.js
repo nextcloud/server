@@ -41,7 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovija stabilna inačica. Primjerena je za redovitu uporabu i uvijek će se ažurirati na najnoviju glavnu inačicu.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Razvojna inačica koja služi samo za ispitivanje novih značajki, a nikako za produkcijska okruženja.",
-    "Update for %1$s to version %2$s is available." : "Dostupno je ažuriranje za %1$s na inačicu %2$s.",
     "Update channel:" : "Ažuriraj kanal:"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

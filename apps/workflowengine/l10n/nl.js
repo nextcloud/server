@@ -112,8 +112,6 @@ OC.L10N.register(
     "Request user agent" : "Useragent aanvraag",
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van",
-    "Predefined URLs" : "Voorgedefinieerde URL's",
-    "Others" : "Anderen"
+    "is not member of" : "is geen lid van"
 },
 "nplurals=2; plural=(n != 1);");

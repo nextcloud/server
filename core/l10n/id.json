@@ -344,9 +344,6 @@
     "Copy to {folder}" : "Salin ke {folder}",
     "Move to {folder}" : "Pindah ke {folder}",
     "Authentication required" : "Diperlukan otentikasi",
-    "Failed to authenticate, try again" : "Gagal mengotentikasi, coba lagi",
-    "File not found" : "Berkas tidak ditemukan",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumen tidak ditemukan pada peladen. Mungkin sudah tidak dibagikan atau kedaluwarsa?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Gunakan pembaruan di command line karena pembaruan otomatis di nonaktifkan di config.php. "
+    "Failed to authenticate, try again" : "Gagal mengotentikasi, coba lagi"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

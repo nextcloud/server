@@ -54,8 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä",
-    "The share will expire on %s." : "Jakaminen päättyy %s.",
-    "Cheers!" : "Kiitos!"
+    "Disabled" : "Ei käytössä"
 },
 "nplurals=2; plural=(n != 1);");

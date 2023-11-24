@@ -115,8 +115,6 @@ OC.L10N.register(
     "Request user agent" : "Client utilisé pour la requête",
     "User group membership" : "Membre du groupe d'utilisateur",
     "is member of" : "est membre de",
-    "is not member of" : "n'est pas membre de",
-    "Predefined URLs" : "URL prédéfinis",
-    "Others" : "Autres"
+    "is not member of" : "n'est pas membre de"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -57,14 +57,6 @@ OC.L10N.register(
     "Change color" : "Breyta lit",
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Upload" : "Senda inn",
-    "Remove background image" : "Fjarlægja bakgrunnsmynd",
-    "Loading preview…" : "Hleð inn forskoðun...",
-    "Admin" : "Stjórnandi",
-    "Name cannot be empty" : "Heiti má ekki vera tómt",
-    "Custom color" : "Sérsniðinn litur",
-    "Open documentation" : "Opna hjálparskjöl",
-    "https://…" : "https://…",
-    "Upload new login background" : "Senda inn nýjan bakgrunn innskráningar",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit."
+    "Remove background image" : "Fjarlægja bakgrunnsmynd"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

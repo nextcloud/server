@@ -374,7 +374,6 @@
     "Press enter to start searching" : "Притисни Enter за започне пребарувањето",
     "Open settings menu" : "Мени за параметри",
     "Settings" : "Параметри",
-    "Avatar of {fullName}" : "Аватар на {fullName}",
     "Show all contacts …" : "Прикажи ги сите контакти ...",
     "No files in here" : "Тука нема датотеки",
     "New folder" : "Нова папка",
@@ -395,9 +394,7 @@
     "Move to {folder}" : "Премести во {folder}",
     "Authentication required" : "Потребна е автентификација",
     "Failed to authenticate, try again" : "Неуспешна автентификација, обидете се повторно",
-    "File not found" : "Датотеката не е пронајдена",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документот не може да се пронајде на серверот. Можеби ова споделување е избришано или рекот за пристап му е истечен?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Ве молиме користете ја командната линија за ажурирање бидејќи автоматското ажурирање е оневозможено во config.php.",
-    "The page could not be found on the server." : "Страницата не е пронајдена на серверот."
+    "The page could not be found on the server." : "Страницата не е пронајдена на серверот.",
+    "Avatar of {fullName}" : "Аватар на {fullName}"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

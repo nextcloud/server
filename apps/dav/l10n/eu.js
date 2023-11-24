@@ -190,7 +190,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "%1$s has responded your invitation" : "%1$s-k zure gonbidapena erantzun du"
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
 },
 "nplurals=2; plural=(n != 1);");

@@ -434,8 +434,6 @@ OC.L10N.register(
     "Check out our blog" : "Peržvelkite mūsų tinklaraštį",
     "Subscribe to our newsletter" : "Prenumeruokite mūsų naujienlaiškį",
     "Use a second factor besides your password to increase security for your account." : "Be savo slaptažodžio naudokite ir antrąjį faktorių, kad padidintumėte savo paskyros saugumą.",
-    "You created app password \"{token}\"" : "Jūs sukūrėte programėlės slaptažodį \"{token}\"",
-    "An administrator created app password \"{token}\"" : "Administratorius sukūrė programėlės slaptažodį „{token}“",
     "Enable all" : "Įjungti visas",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Norint tai paleisti, jums reikia PHP POSIX plėtinio. Išsamesnei informacijai, žiūrėkite {linkstart}PHP dokumentaciją{linkend}.",
     "Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances." : "Naudoti sistemos „cron“ tarnybą, kad kas 5 minutes būtų iškviečiamas failas „cron.php“. Rekomenduojama visiems egzemplioriams.",
@@ -458,11 +456,6 @@ OC.L10N.register(
     "Not saved" : "Neįrašyta",
     "Twitter" : "Twitter",
     "Enable untested app" : "Įjungti netestuotą programą",
-    "Plain" : "Paprastas",
-    "NT LAN Manager" : "NT LAN tvarkytuvė",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Tapatybės nustatymo metodas",
     "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

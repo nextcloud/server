@@ -145,7 +145,6 @@ OC.L10N.register(
     "Hide download" : "Skjul download",
     "Note to recipient" : "Note til modtager",
     "Create" : "Opret",
-    "Update" : "Opdatér",
     "Share" : "Del",
     "Others with access" : "Andre med adgang",
     "No other users with access found" : "Ingen andre brugere med adgang fundet",
@@ -202,6 +201,7 @@ OC.L10N.register(
     "Allow deleting" : "Tillad sletning",
     "Allow resharing" : "Tillad videredeling",
     "Expiration date enforced" : "Udløbsdato tvungen",
-    "Password protect" : "Beskyt med adgangskode"
+    "Password protect" : "Beskyt med adgangskode",
+    "Update" : "Opdatér"
 },
 "nplurals=2; plural=(n != 1);");

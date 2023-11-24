@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "נמחקה הערה",
     "An error occurred while trying to delete the comment" : "אירעה שגיאה בניסיון למחוק את התגובה",
     "An error occurred while trying to create the comment" : "אירעה שגיאה בניסיון ליצור את התגובה",
-    "%1$s commented" : "התקבלו תגובות %1$s",
     "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו","%n תגובות שלא נקראו","%n תגובות שלא נקראו"]
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -268,13 +268,11 @@
     "Extract topics" : "トピックの抽出",
     "Extracts topics from a text and outputs them separated by commas." : "テキストからトピックを抽出し、カンマ区切りで出力します。",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "アプリ %1$s のファイルが正しく置き換えられませんでした。サーバーと互換性のあるバージョンであることを確認してください。",
+    "404" : "404",
     "Full name" : "フルネーム",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "ユーザー制限に達したため、ユーザーは作成されませんでした。詳細については、通知を確認してください。",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "ユーザー名で利用できる文字列： \"a-z\", \"A-Z\", \"0-9\", \"_.@-\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 バージョン 2.7.0 が最低必要です。現在 %s がインストールされています。",
     "To fix this issue update your libxml2 version and restart your web server." : "この問題を解決するには、libxml2 を更新して、Webサーバーを再起動してください。",
     "PostgreSQL >= 9 required." : "PostgreSQL 9以上が必要です",
-    "Please upgrade your database version." : "新しいバージョンのデータベースにアップグレードしてください。",
-    "404" : "404"
+    "Please upgrade your database version." : "新しいバージョンのデータベースにアップグレードしてください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

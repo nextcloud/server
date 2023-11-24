@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Примітка для одержувача",
     "Enter a note for the share recipient" : "Додайте нотатку для одержувача доступу до спільного ресурсу",
     "Create" : "Створити",
-    "Update" : "Оновлення",
     "Share" : "Спільне",
     "Delete share" : "Вилучити зі спільного доступу",
     "Share with " : "Поділитися з ",
@@ -298,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "От халепа! Неможливо відхилити дані, якими поділилися з вами.",
     "No expiration date set" : "Не встановлено терміну дії",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Поширення %s не вдалося, оскільки бекенд не підтримує ресурси типа ScienceMesh",
-    "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
     "Allow creating" : "Може створювати",
     "Allow deleting" : "Може вилучати",
     "Allow resharing" : "Дозволити передавати у спільний доступ іншим",
     "Expiration date enforced" : "Вимагати термін дії",
     "Password protect" : "Захистити паролем",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Помилка під час створення паролів з password_policy"
+    "Update" : "Оновлення"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

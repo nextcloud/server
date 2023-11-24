@@ -24,7 +24,6 @@ OC.L10N.register(
     "Comment deleted" : "Comentari suprimit",
     "An error occurred while trying to delete the comment" : "Error en ensajant de suprimir lo comentari",
     "An error occurred while trying to create the comment" : "Error en ensajant de crear lo comentari",
-    "%1$s commented" : "%1$s a comentat",
     "_%n unread comment_::_%n unread comments_" : ["%n comentari pas legit","%n comentaris pas legits"]
 },
 "nplurals=2; plural=(n > 1);");

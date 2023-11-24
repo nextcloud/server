@@ -326,9 +326,6 @@ OC.L10N.register(
     "Copy to {folder}" : "העתקה אל {folder}",
     "Move to {folder}" : "העברה אל {folder}",
     "Authentication required" : "נדרש אימות",
-    "Failed to authenticate, try again" : "האימות נכשל, נא לנסות שוב",
-    "File not found" : "קובץ לא נמצא",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "לא ניתן למצוא את המסמך בשרת. יכול להיות שהשיתוף נמחק או פג?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "יש להשתמש בעדכון על בסיס שורת פקודה כיוון שעדכון אוטומטי מנוטרל בקובץ config.php."
+    "Failed to authenticate, try again" : "האימות נכשל, נא לנסות שוב"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

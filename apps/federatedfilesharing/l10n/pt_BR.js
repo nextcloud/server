@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Cloud ID copiado para a área de transferência",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Clipboard is not available" : "A área de transferência não está disponível",
-    "Copied!" : "Copiado!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Você recebeu \"%3$s\" como um compartilhamento remoto de %4$s (%1$s) (em nome de %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Você recebeu \"%3$s\" como um compartilhamento remoto de %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud, veja %s"
+    "Copied!" : "Copiado!"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

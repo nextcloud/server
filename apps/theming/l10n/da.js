@@ -63,19 +63,6 @@ OC.L10N.register(
     "Move down" : "Flyt ned",
     "Reset to default" : "Nulstil",
     "Upload" : "Send",
-    "Remove background image" : "Fjern baggrundsbillede",
-    "Loading preview…" : "Indlæser forhåndsvisning...",
-    "Admin" : "Admin",
-    "Error uploading the file" : "Kunne ikke uploade filen",
-    "Name cannot be empty" : "Navn må ikke være tomt",
-    "Pick from Files" : "Vælg fra Filer",
-    "Default image" : "Standardbillede",
-    "Custom color" : "Brug brugerdefinerede farver",
-    "Plain background" : "Standard baggrund",
-    "Insert from {productName}" : "Indsæt fra {productName}",
-    "Open documentation" : "Åbn dokumentation",
-    "https://…" : "https://…",
-    "Upload new login background" : "Upload nyt login billede",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver."
+    "Remove background image" : "Fjern baggrundsbillede"
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "Sürüm geri yüklenemedi",
     "Could not set version name" : "Sürüm adı ayarlanamadı",
     "Could not delete version" : "Sürüm silinemedi",
-    "${version.label} restored" : "${version.label} geri yüklendi",
-    "Failed to revert {file} to revision {timestamp}." : "{file} dosyası {timestamp} sürümüne geri alınamadı.",
-    "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
-    "Restore" : "Geri yükle",
-    "No other versions available" : "Başka bir sürüm yok"
+    "${version.label} restored" : "${version.label} geri yüklendi"
 },
 "nplurals=2; plural=(n > 1);");

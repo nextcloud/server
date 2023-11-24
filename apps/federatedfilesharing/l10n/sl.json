@@ -49,9 +49,6 @@
     "Cloud ID copied to the clipboard" : "Določilo ID oblaka je kopirano v odložišče",
     "Copy to clipboard" : "Kopiraj v odložišče",
     "Clipboard is not available" : "Odložišče ni na voljo",
-    "Copied!" : "Kopirano!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Povezavo do »%3$s« ste prejeli kot oddaljeno mesto uporabnika %4$s (%1$s) (v imenu %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Povezavo do »%3$s« ste prejeli kot oddaljeno mesto uporabnika %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud; več na %s"
+    "Copied!" : "Kopirano!"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

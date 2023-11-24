@@ -29,7 +29,6 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
     "HTML Code:" : "Codice HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparti con me per mi ID de Nube Federate #Nextcloud",
-    "Copied!" : "Copiate!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s"
+    "Copied!" : "Copiate!"
 },
 "nplurals=2; plural=(n != 1);");

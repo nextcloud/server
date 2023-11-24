@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "接收人备注",
     "Enter a note for the share recipient" : "给共享接收人留备注",
     "Create" : "创建",
-    "Update" : "更新",
     "Share" : "共享",
     "Delete share" : "删除共享",
     "Share with " : "分享给",
@@ -291,13 +290,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "发生了问题。无法拒绝该共享。",
     "No expiration date set" : "未设置失效时间",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "共享 %s 失败，因为后端不支持 ScienceMesh 共享。",
-    "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
     "Allow creating" : "允许创建",
     "Allow deleting" : "允许删除",
     "Allow resharing" : "允许二次共享",
     "Expiration date enforced" : "强制过期日期",
     "Password protect" : "密码保护",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "从密码策略生成密码时出错"
+    "Update" : "更新"
 },
 "nplurals=1; plural=0;");

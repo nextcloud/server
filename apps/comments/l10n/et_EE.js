@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentaar kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis tõrge",
     "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge",
-    "%1$s commented" : "%1$s kommenteeris",
     "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"]
 },
 "nplurals=2; plural=(n != 1);");

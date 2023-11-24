@@ -368,9 +368,6 @@ OC.L10N.register(
     "Copy to {folder}" : "Afrita í {folder}",
     "Move to {folder}" : "Færa í {folder}",
     "Authentication required" : "Auðkenningar krafist",
-    "Failed to authenticate, try again" : "Tókst ekki að auðkenna, prófaðu aftur",
-    "File not found" : "Skrá finnst ekki",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Skjalið fannst ekki á þjóninum. Hugsanlega hefur sameigninni verið eytt eða sé útrunnin?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Endilega notaðu uppfærslutólið af skipanalínu, því sjálfvirkar uppfærslur eru gerðar óvirkar í config.php."
+    "Failed to authenticate, try again" : "Tókst ekki að auðkenna, prófaðu aftur"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Cloud ID در کلیپ بورد کپی شد",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
     "Clipboard is not available" : "تخته گیره موحود نیست",
-    "Copied!" : "رونوشت شد!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "شما \"%3$s\" را به عنوان یک اشتراک راه دور از %4$s(%1$s) (از طرف%5$s (%2$s)) دریافت کردید.",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "شما \"%3$s\" را به عنوان یک اشتراک راه دور از %4$s(%1$s) دریافت کردید",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "از طریق شناسه ابری فدرال #Nextcloud با من به اشتراک بگذارید، ببینید%s"
+    "Copied!" : "رونوشت شد!"
 },
 "nplurals=2; plural=(n > 1);");

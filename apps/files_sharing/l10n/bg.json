@@ -201,7 +201,6 @@
     "Note to recipient" : "Бележка за получателя",
     "Enter a note for the share recipient" : "Въведете бележка за получателя на споделянето",
     "Create" : "Създаване",
-    "Update" : "Обновяване",
     "Share" : "Сподели",
     "Others with access" : "Други с достъп",
     "No other users with access found" : "Няма намерени други потребители с достъп",
@@ -270,13 +269,12 @@
     "Something happened. Unable to reject the share." : "Нещо се случи. Споделянето не може да отхвърли.",
     "No expiration date set" : "Не е зададен срок на валидност",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението sciencemesh",
-    "One or more of your shares will expire tomorrow" : "Едно или повече от вашите спделяния изтичат утре",
     "Allow creating" : "Разреши създаването",
     "Allow deleting" : "Разреши изтриването",
     "Allow resharing" : "Може да споделя повторно",
     "Expiration date enforced" : "Дата на изтичане на срока на действие",
     "Password protect" : "Защита с парола",
     "Science Mesh" : "Приложение Science Mesh",
-    "Error generating password from password_policy" : "Грешка при генериране на парола от политиката за пароли"
+    "Update" : "Обновяване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

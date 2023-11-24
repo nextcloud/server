@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "%1$s commented" : "%1$s がコメントを追加",
     "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"]
 },
 "nplurals=1; plural=0;");

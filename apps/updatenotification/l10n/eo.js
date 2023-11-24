@@ -33,7 +33,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La plej freŝa stabila versio. Ĝi taŭgas por ĉiutaga uzo, kaj ĝi ĝisdatiĝos ĉiufoje al la lasta ĉefversio.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Antaŭeldona versio nur por testi novajn trajtojn; ne taŭgas por produktada medio.",
-    "Update for %1$s to version %2$s is available." : "Ĝisdatigo de %1$s al versio %2$s disponeblas.",
     "Update channel:" : "Ĝisdatiga kanalo:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -292,11 +292,6 @@
     "Send email to new user" : "Enviar email ao novo utilizador",
     "Not saved" : "Não guardado",
     "Twitter" : "Twitter",
-    "Plain" : "Plano",
-    "NT LAN Manager" : "Gestor de REDE NT",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Método de Autenticação",
     "Set default expiration date" : "Especificar a data padrão de expiração"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

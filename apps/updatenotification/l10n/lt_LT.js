@@ -35,7 +35,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Išankstinės laidos versija, skirta tik naujų ypatybių išbandymui, o ne darbinėms aplinkoms.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> programėlė neturi su šia Nextcloud versija suderinamos versijos.","<strong>%n</strong> programėlės neturi su šia Nextcloud versija suderinamų versijų.","<strong>%n</strong> programėlių neturi su šia Nextcloud versija suderinamų versijų.","<strong>%n</strong> programėlė neturi su šia Nextcloud versija suderinamų versijų."],
-    "Update for %1$s to version %2$s is available." : "Yra prieinamas %1$s atnaujinimas į versiją %2$s.",
     "Update channel:" : "Atnaujinimo kanalas:"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

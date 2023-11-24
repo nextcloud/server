@@ -340,9 +340,6 @@ OC.L10N.register(
     "Move to {folder}" : "Mover para {folder}",
     "Authentication required" : "Autenticação necessária",
     "Failed to authenticate, try again" : "Falha ao autenticar. Tente outra vez.",
-    "File not found" : "Ficheiro não encontrado",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Este documento não pode ser encontrado no servidor. Talvez a partilha tenha sido apagada ou expirado?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor, utilize o atualizador da linha de comandos porque a atualização automática está desativada no config.php.",
     "The page could not be found on the server." : "Esta página não foi encontrada no servidor."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
