@@ -151,7 +151,7 @@ OC.L10N.register(
     "Due on %s" : "Slutar den %s",
     "DAV system address book" : "DAV-systemets adressbok",
     "No outstanding DAV system address book sync." : "Ingen utestående synkronisering för DAV-systemets adressbok.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "DAV-systemets adressbokssynkronisering har inte körts ännu eftersom din instans har fler än 1000 användare eller för att ett fel uppstod. Kör det manuellt genom att anropa occ dav:sync-system-addressbook.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV-systemets adressbokssynkronisering har inte körts ännu eftersom din instans har fler än 1000 användare eller för att ett fel uppstod. Kör det manuellt genom att anropa \"occ dav:sync-system-addressbook\".",
     "Migrated calendar (%1$s)" : "Migrerade kalender (%1$s)",
     "Calendars including events, details and attendees" : "Kalendrar inklusive händelser, detaljer och deltagare",
     "Contacts and groups" : "Kontakter och grupper",
@@ -203,7 +203,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
-    "%1$s has responded your invitation" : "%1$s har svarat på din inbjudan"
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
 },
 "nplurals=2; plural=(n != 1);");

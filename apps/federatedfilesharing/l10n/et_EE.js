@@ -33,7 +33,6 @@ OC.L10N.register(
     "HTML Code:" : "HTML kood:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
-    "Copied!" : "Kopeeritud!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID, vaata %s"
+    "Copied!" : "Kopeeritud!"
 },
 "nplurals=2; plural=(n != 1);");

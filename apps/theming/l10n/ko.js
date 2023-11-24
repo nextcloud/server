@@ -65,16 +65,6 @@ OC.L10N.register(
     "Theme selection is enforced" : "테마가 강제로 선택됨",
     "Reset to default" : "기본값으로 초기화",
     "Upload" : "업로드",
-    "Remove background image" : "배경 그림 삭제",
-    "Loading preview…" : "미리 보기 불러오는 중…",
-    "Admin" : "관리자",
-    "Name cannot be empty" : "이름이 비어 있을 수 없음",
-    "Pick from Files" : "파일로부터 선택",
-    "Plain background" : "일반 배경",
-    "Insert from {productName}" : "{productName}로부터 삽입",
-    "Open documentation" : "문서 열기",
-    "https://…" : "https://…",
-    "Upload new login background" : "새 로그인 배경 업로드",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오."
+    "Remove background image" : "배경 그림 삭제"
 },
 "nplurals=1; plural=0;");

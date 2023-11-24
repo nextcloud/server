@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "URI przekierowania",
     "Client Identifier" : "Identyfikator Klienta",
     "Secret key" : "Tajny klucz",
+    "Delete client" : "Usuń klienta",
     "Add client" : "Dodaj klienta",
     "Add" : "Dodaj",
     "Show client secret" : "Pokaż tajny klucz klienta",

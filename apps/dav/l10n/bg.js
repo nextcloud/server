@@ -188,7 +188,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Моля, свържете се директно с организатора.",
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
-    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
-    "%1$s has responded your invitation" : "%1$s отговори на вашата покана"
+    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно."
 },
 "nplurals=2; plural=(n != 1);");

@@ -242,11 +242,6 @@ OC.L10N.register(
     "Send email to new user" : "გაუგზავნეთ ელ-წერილი ახალ მომხმარებელს",
     "Not saved" : "არაა შენახული",
     "Twitter" : "Twitter-ი",
-    "Plain" : "ჩვეულებრივი",
-    "NT LAN Manager" : "NT LAN მენეჯერი",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "აუტენტიფიკაციის მეთოდი",
     "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი"
 },
 "nplurals=2; plural=(n!=1);");

@@ -89,6 +89,8 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Mostrar archivos ocultos",
+    "Case sensitive file system" : "Sistema de archivos sensible a mayúsculas",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Desactivarlo permitirá usar un sistema de archivos no sensible a las mayúsculas, pero a costa de menor rendimiento",
     "Verify ACL access when listing files" : "Verificar acceso ACL al listar archivos",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprobar los ACL de cada archivo o carpeta en un directorio para filtrar los ítems en los que el usuario no tiene permisos de lectura. Provoca un descenso en el rendimiento.",
     "Timeout" : "Se agotó el tiempo",

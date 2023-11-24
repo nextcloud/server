@@ -129,7 +129,6 @@ OC.L10N.register(
     "Expiration date" : "Aegumise kuupäev",
     "Note to recipient" : "Märge saajale",
     "Create" : "Lisa",
-    "Update" : "Uuenda",
     "Share" : "Jaga",
     "Expires {relativetime}" : "Aegub {relativetime}",
     "this share just expired." : "see jagamine aegus äsja",
@@ -172,11 +171,11 @@ OC.L10N.register(
     "Restore" : "Taasta",
     "Something happened. Unable to restore the share." : "Midagi juhtus. Ei saa jagamist taastada.",
     "No expiration date set" : "Aegumise kuupäeva pole määratud",
-    "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme",
     "Allow creating" : "Luba loomine",
     "Allow deleting" : "Luba kustutamine",
     "Allow resharing" : "Luba edasijagamine",
     "Expiration date enforced" : "Aegumise kuupäev jõustatud",
-    "Password protect" : "Parooliga kaitsmine"
+    "Password protect" : "Parooliga kaitsmine",
+    "Update" : "Uuenda"
 },
 "nplurals=2; plural=(n != 1);");

@@ -105,23 +105,6 @@
     "Select a custom color" : "Chọn màu tùy chỉnh",
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
-    "Remove background image" : "Xóa bỏ ảnh nền",
-    "Loading preview…" : "Đang tải mục xem trước...",
-    "Admin" : "Quản trị viên",
-    "Error uploading the file" : "Lỗi tải tập tin lên",
-    "Name cannot be empty" : "Tên không thể trống",
-    "Migrate and clean up admin theming images" : "Di chuyển và dọn dẹp hình ảnh chủ đề quản trị viên",
-    "Failed to clean up the old admin theming images folder" : "Không thể dọn sạch thư mục hình ảnh chủ đề quản trị viên cũ",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Trong một số trường hợp, phím tắt có thể ảnh hưởng đến các công cụ trợ năng. Để cho phép tập trung vào công cụ của bạn một cách chính xác, bạn có thể tắt tất cả các phím tắt tại đây. Điều này cũng sẽ vô hiệu hóa tất cả các phím tắt có sẵn trong ứng dụng.",
-    "Pick from Files" : "Chọn từ Tệp",
-    "Default image" : "Hình ảnh mặc định",
-    "Custom color" : "Tùy chỉnh màu",
-    "Plain background" : "Nền đơn giản",
-    "Insert from {productName}" : "Chèn từ {productName}",
-    "Open documentation" : "Mở tài liệu",
-    "https://…" : "https://…",
-    "Upload new login background" : "Tải lên ảnh nền trang đăng nhập mới",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Mặc dù bạn có thể chọn và tùy chỉnh phiên bản của mình nhưng người dùng có thể thay đổi nền và màu sắc của họ. Nếu bạn muốn thực thi tùy chỉnh của mình, bạn có thể chọn hộp này.",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Cài đặt phần mở rộng PHP Imagemagick với hỗ trợ cho hình ảnh SVG để tự động tạo bộ favicon dựa trên màu và logo được tải lên"
+    "Remove background image" : "Xóa bỏ ảnh nền"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

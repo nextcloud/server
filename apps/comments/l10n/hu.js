@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "%1$s commented" : "%1$s hozzászólt",
     "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"]
 },
 "nplurals=2; plural=(n != 1);");

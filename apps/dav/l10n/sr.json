@@ -149,7 +149,7 @@
     "Due on %s" : "Рок је %s",
     "DAV system address book" : "DAV системски адресар",
     "No outstanding DAV system address book sync." : "Не постоји ниједна синхронизација DAV системског адресара која треба да се обави.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "DAV синхронизација системског адресара се још увек није покренула јер ваша инстанца има више од 1000 корисника или јер је дошло до грешке. Молимо вас да га ручно покренете командом occ dav:sync-system-addressbook.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV синхронизација системског адресара се још увек није покренула јер ваша инстанца има више од 1000 корисника или јер је дошло до грешке. Молимо вас да га ручно покренете командом „occ dav:sync-system-addressbook”.",
     "Migrated calendar (%1$s)" : "Мигрирани календар (%1$s)",
     "Calendars including events, details and attendees" : "Календари који укључују догађаје, детаље и учеснике",
     "Contacts and groups" : "Контакти и групе",
@@ -201,7 +201,6 @@
     "Please contact the organizer directly." : "Контактирајте директно организатора.",
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
-    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
-    "%1$s has responded your invitation" : "%1$s је одговорио на вашу позивницу"
+    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

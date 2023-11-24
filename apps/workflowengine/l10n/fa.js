@@ -112,8 +112,6 @@ OC.L10N.register(
     "Request user agent" : "درخواست سفیر کاربر",
     "User group membership" : "عضویت کاربر در گروه",
     "is member of" : "عضو است در ",
-    "is not member of" : "عضو نیست در ",
-    "Predefined URLs" : "URL از پیش تعریف شده ",
-    "Others" : "دیگران"
+    "is not member of" : "عضو نیست در "
 },
 "nplurals=2; plural=(n > 1);");

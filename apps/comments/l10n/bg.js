@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : " Изтрит е коментар",
     "An error occurred while trying to delete the comment" : "Възникна грешка при опит за изтриване на коментара",
     "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар",
-    "%1$s commented" : "%1$s коментира",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочетен коментар","%n непрочетени коментари"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -115,8 +115,6 @@ OC.L10N.register(
     "Request user agent" : "請求使用者代理字串",
     "User group membership" : "使用者群組成員資格",
     "is member of" : "是成員來自",
-    "is not member of" : "不是成員來自",
-    "Predefined URLs" : "預定義 URL",
-    "Others" : "其他"
+    "is not member of" : "不是成員來自"
 },
 "nplurals=1; plural=0;");

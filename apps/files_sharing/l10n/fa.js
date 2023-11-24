@@ -204,7 +204,6 @@ OC.L10N.register(
     "Note to recipient" : "یادداشت برای گیرنده",
     "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Create" : "ایجاد",
-    "Update" : "به‌روز رسانی",
     "Share" : "هم‌رسانی",
     "Others with access" : "دیگران با دسترسی",
     "No other users with access found" : "هیچ کاربر دیگری با دسترسی یافت نشد",
@@ -289,13 +288,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "اتفاقی افتاد. امکان رد اشتراک وجود ندارد.",
     "No expiration date set" : "تاریخ انقضا ست نشده است",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Sharing %s failed because the back end does not support sciencemesh shares",
-    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود",
     "Allow creating" : "اجازه ایجاد",
     "Allow deleting" : "اجازه حذف",
     "Allow resharing" : "مجوز اشتراک گذاری مجدد",
     "Expiration date enforced" : "تاریخ انقضا اجرا شده است",
     "Password protect" : "محافظت با گذرواژه",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Error generating password from password_policy"
+    "Update" : "به‌روز رسانی"
 },
 "nplurals=2; plural=(n > 1);");

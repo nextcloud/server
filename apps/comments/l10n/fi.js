@@ -25,7 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentti poistettu",
     "An error occurred while trying to delete the comment" : "Kommenttia poistaessa tapahtui virhe",
     "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe",
-    "%1$s commented" : "%1$s kommentoi",
     "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"]
 },
 "nplurals=2; plural=(n != 1);");

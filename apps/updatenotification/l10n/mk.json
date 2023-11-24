@@ -43,7 +43,6 @@
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
-    "Update for %1$s to version %2$s is available." : "Достапно е ажурирање од %1$s во верзија %2$s.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Може да го промените каналот за ажурирање подолу, што исто така влијае на страницата за управување со апликации. На пр. откако ќе се префрлите на бета каналот, ќе ви бидат понудени ажурирања на бета апликации на страницата за управување со апликации.",
     "Update channel:" : "Канал за ажурирање:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

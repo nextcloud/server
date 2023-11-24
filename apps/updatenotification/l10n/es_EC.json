@@ -47,7 +47,6 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versión previa al lanzamiento solo para probar nuevas funciones, no apta para entornos de producción.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación no tiene una versión compatible disponible para esta versión de Nextcloud.","<strong>%n</strong> aplicaciones no tienen una versión compatible disponible para esta versión de Nextcloud.","<strong>%n</strong> aplicaciones no tienen una versión compatible disponible para esta versión de Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Puedes cambiar el canal de actualización a continuación, lo cual también afecta la página de administración de aplicaciones. Por ejemplo, al cambiar al canal beta, se te ofrecerán actualizaciones beta de aplicaciones en la página de administración de aplicaciones.",
     "Update channel:" : "Actualizar el canal:"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

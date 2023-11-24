@@ -355,9 +355,6 @@
     "Copy to {folder}" : "Còpia in {folder}",
     "Move to {folder}" : "Tràmuda a {folder}",
     "Authentication required" : "Autenticatzione recherta",
-    "Failed to authenticate, try again" : "Impossìbile a s'autenticare, torra a proare",
-    "File not found" : "Archìviu no agatadu",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Su documentu non s'est agatadu in su serbidore. Mancari sa cumpartzidura nch'est istada cantzellada o est iscadida?",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Imprea s'atualizadore a lìnia de cummandu ca s'agiornamentu automàticu est disativadu in sa config.php."
+    "Failed to authenticate, try again" : "Impossìbile a s'autenticare, torra a proare"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

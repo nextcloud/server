@@ -148,7 +148,7 @@
     "Due on %s by %s" : "Scade il %s per %s",
     "Due on %s" : "Scade il %s",
     "No outstanding DAV system address book sync." : "Nessuna sincronizzazione della rubrica del sistema DAV in sospeso.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "La sincronizzazione della rubrica del sistema DAV non è ancora stata eseguita poiché la tua istanza ha più di 1000 utenti o perché si è verificato un errore. Eseguila a mano chiamando occ dav:sync-system-addressbook.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "La sincronizzazione della rubrica del sistema DAV non è ancora stata eseguita poiché la tua istanza ha più di 1000 utenti o perché si è verificato un errore. Eseguila a mano chiamando \"occ dav:sync-system-addressbook\".",
     "Migrated calendar (%1$s)" : "Calendario migrato (%1$s)",
     "Calendars including events, details and attendees" : "Calendari inclusi eventi, dettagli e partecipanti",
     "Contacts and groups" : "Contatti e gruppi",
@@ -189,7 +189,6 @@
     "Please contact the organizer directly." : "Contatta direttamente l'amministratore.",
     "Are you accepting the invitation?" : "Accetti l'invito?",
     "Tentative" : "Provvisorio",
-    "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
-    "%1$s has responded your invitation" : "%1$s ha risposto al tuo invito"
+    "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

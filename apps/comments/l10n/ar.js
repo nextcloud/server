@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "حذف التعليق",
     "Cancel edit" : "إلغاء التعديل",
     "Post comment" : "أضف تعليق",
+    "@ for mentions, : for emoji, / for smart picker" : "@ للإشارات،    : للإيموجي،    / للاقط الذكي",
     "Could not reload comments" : "تعذّرت إعادة تحميل الملاحظات",
     "No comments yet, start the conversation!" : "لا يوجد تعليقات, ابدأ النقاش الآن!",
     "No more messages" : "لامزيد من الرسائل",
@@ -28,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "التعليق حُذف",
     "An error occurred while trying to delete the comment" : "حدث خطأ أثناء محاولة حذف التعليق",
     "An error occurred while trying to create the comment" : "حدث خطأ أثناء محاولة إنشاء التعليق",
-    "%1$s commented" : "%1$s كتب تعليق",
     "_%n unread comment_::_%n unread comments_" : ["%n تعليق غير مقروء","%n تعليق غير مقروء","تعليقان غير مقروءة","%n تعليقات غير مقروء","%n تعليق غير مقروء","%n تعليق غير مقروء"]
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

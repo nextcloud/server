@@ -205,7 +205,6 @@
     "Note to recipient" : "Note au destinataire",
     "Enter a note for the share recipient" : "Saisissez une note pour le destinataire du partage",
     "Create" : "Créer",
-    "Update" : "Mise à jour",
     "Share" : "Partager",
     "Delete share" : "Supprimer le partage",
     "Share with " : "Partager avec ",
@@ -296,13 +295,12 @@
     "Something happened. Unable to reject the share." : "Quelque chose s'est passé. Impossible de refuser le partage.",
     "No expiration date set" : "Aucune date d'expiration définie",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Le partage de %s a échoué car le serveur ne supporte pas les partages sciencemesh",
-    "One or more of your shares will expire tomorrow" : "Au moins l'un de vos partages expirera demain",
     "Allow creating" : "Autoriser la création",
     "Allow deleting" : "Autoriser la suppression",
     "Allow resharing" : "Autoriser le repartage",
     "Expiration date enforced" : "Date d'expiration forcée",
     "Password protect" : "Protéger par un mot de passe",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Erreur de génération de mot de passe à partir de password_policy"
+    "Update" : "Mise à jour"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -170,7 +170,6 @@ OC.L10N.register(
     "Video verification" : "אימות וידאו",
     "Note to recipient" : "מסר לנמען",
     "Enter a note for the share recipient" : "נא להוסיף הערה למקבלי השיתוף",
-    "Update" : "עדכון",
     "Share" : "שיתוף",
     "Others with access" : "נוספים עם גישה",
     "No other users with access found" : "לא נמצאו משתמשים נוספים עם גישה",
@@ -230,11 +229,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "משהו התרחש. לא ניתן לשחזר את השיתוף.",
     "Something happened. Unable to reject the share." : "משהו התרחש. לא ניתן לדחות את השיתוף.",
     "No expiration date set" : "לא הוגדר מועד תפוגה",
-    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
     "Allow creating" : "לאפשר יצירה",
     "Allow deleting" : "לאפשר מחיקה",
     "Allow resharing" : "לאפשר שיתוף מחדש",
     "Expiration date enforced" : "נאכף מועד תפוגה",
-    "Password protect" : "הגנה בססמה"
+    "Password protect" : "הגנה בססמה",
+    "Update" : "עדכון"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

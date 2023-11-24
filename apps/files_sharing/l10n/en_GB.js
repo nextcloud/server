@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Note to recipient",
     "Enter a note for the share recipient" : "Enter a note for the share recipient",
     "Create" : "Create",
-    "Update" : "Update",
     "Share" : "Share",
     "Delete share" : "Delete share",
     "Share with " : "Share with ",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Restore share","Restore shares"],
     "Shared" : "Shared",
     "Shared by {ownerDisplayName}" : "Shared by {ownerDisplayName}",
+    "Show sharing options" : "Show sharing options",
     "Link to a file" : "Link to a file",
     "Error creating the share: {errorMessage}" : "Error creating the share: {errorMessage}",
     "Error creating the share" : "Error creating the share",
@@ -297,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Something happened. Unable to reject the share.",
     "No expiration date set" : "No expiration date set",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Sharing %s failed because the back end does not support sciencemesh shares",
-    "One or more of your shares will expire tomorrow" : "One or more of your shares will expire tomorrow",
     "Allow creating" : "Allow creating",
     "Allow deleting" : "Allow deleting",
     "Allow resharing" : "Allow resharing",
     "Expiration date enforced" : "Expiration date enforced",
     "Password protect" : "Password protect",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Error generating password from password policy"
+    "Update" : "Update"
 },
 "nplurals=2; plural=(n != 1);");
