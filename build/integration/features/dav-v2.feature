@@ -81,16 +81,27 @@ Feature: dav-v2
 		When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
 		Then the HTTP status code should be "201"
 
-	Scenario: Create a search query
+	Scenario: Create a search query on image
 		Given using new dav path
 		And As an "admin"
-		When User "user0" uploads file "data/green-square-256.png" to "/image.png"
-		When Image search should work
+    And user "user0" exists
+    And As an "user0"
+    When User "user0" uploads file "data/textfile.txt" to "/testquota/asdf.txt"
+    Then Image search should work
+    And the response should be empty
+    When User "user0" uploads file "data/green-square-256.png" to "/image.png"
+		Then Image search should work
+    And the single response should contain a property "{DAV:}getcontenttype" with value "image/png"
 
   Scenario: Create a search query on favorite
     Given using new dav path
     And As an "admin"
     And user "user0" exists
+    And As an "user0"
     When User "user0" uploads file "data/green-square-256.png" to "/fav_image.png"
+    Then Favorite search should work
+    And the response should be empty
     When user "user0" favorites element "/fav_image.png"
-    When Favorite search should work
+    Then Favorite search should work
+    And the single response should contain a property "{http://owncloud.org/ns}favorite" with value "1"
+
