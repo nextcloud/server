@@ -57,7 +57,7 @@
 				<template v-else #icon>
 					<Star :size="20" />
 				</template>
-				{{ fileInfo.isFavourited ? t('files', 'Add to favorites') : t('files', 'Remove from favorites') }}
+				{{ fileInfo.isFavourited ? t('files', 'Remove from favorites') : t('files', 'Add to favorites') }}
 			</NcActionButton>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
