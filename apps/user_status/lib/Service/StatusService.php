@@ -608,6 +608,7 @@ class StatusService {
 	 * @return CalendarStatus|null
 	 */
 	public function getCalendarStatus(string $userId): ?CalendarStatus {
+		return null;
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
 			return null;
