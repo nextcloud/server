@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Db;
 
 use DateTime;
-use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
 use JsonSerializable;
@@ -58,6 +57,7 @@ class Absence extends Entity implements JsonSerializable {
 	protected string $lastDay = '';
 
 	protected string $status = '';
+
 	protected string $message = '';
 
 	public function __construct() {
@@ -76,7 +76,7 @@ class Absence extends Entity implements JsonSerializable {
 			throw new Exception('Creating out-of-office data without ID');
 		}
 
-		$tz = new DateTimeZone($timezone);
+		$tz = new \DateTimeZone($timezone);
 		$startDate = new DateTime($this->getFirstDay(), $tz);
 		$endDate = new DateTime($this->getLastDay(), $tz);
 		$endDate->setTime(23, 59);

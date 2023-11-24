@@ -32,12 +32,16 @@ use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\Calendar\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use OCP\User\IOutOfOfficeData;
 
 class AbsenceService {
 	public function __construct(
@@ -45,6 +49,9 @@ class AbsenceService {
 		private IEventDispatcher $eventDispatcher,
 		private IJobList $jobList,
 		private TimezoneService $timezoneService,
+		private ITimeFactory $timeFactory,
+		private IConfig $appConfig,
+		private IManager $calendarManager,
 	) {
 	}
 
@@ -127,5 +134,18 @@ class AbsenceService {
 			$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
 		);
 		$this->eventDispatcher->dispatchTyped(new OutOfOfficeClearedEvent($eventData));
+	}
+
+	public function getAbsence(string $userId): ?Absence {
+		try {
+			return $this->absenceMapper->findByUserId($userId);
+		} catch (DoesNotExistException $e) {
+			return null;
+		}
+	}
+
+	public function isInEffect(IOutOfOfficeData $absence): bool {
+		$now = $this->timeFactory->getTime();
+		return $absence->getStartDate() <= $now && $absence->getEndDate() >= $now;
 	}
 }
