@@ -334,7 +334,6 @@ export default {
 	},
 
 	async created() {
-		subscribe('files:navigation:changed', this.onNavigationChange)
 		this.types = await getTypes()
 		this.logger.debug('Unified Search initialized with the following providers', this.types)
 	},
@@ -344,6 +343,9 @@ export default {
 	},
 
 	mounted() {
+		// subscribe in mounted, as onNavigationChange relys on $el
+		subscribe('files:navigation:changed', this.onNavigationChange)
+
 		if (OCP.Accessibility.disableKeyboardShortcuts()) {
 			return
 		}
@@ -383,7 +385,7 @@ export default {
 		},
 
 		onNavigationChange() {
-			this.$el.querySelector('form[role="search"]').reset()
+			this.$el?.querySelector?.('form[role="search"]')?.reset?.()
 		},
 
 		/**
