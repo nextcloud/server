@@ -15,6 +15,7 @@ OC.L10N.register(
     "Continue" : "Lanjutkan",
     "Undo" : "Undo",
     "Value" : "Nilari",
+    "Image" : "Gambar",
     "Size" : "Ukuran"
 },
 "nplurals=1; plural=0;");

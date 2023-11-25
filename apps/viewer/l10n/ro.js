@@ -23,6 +23,7 @@ OC.L10N.register(
     "Continue" : "Continuă",
     "Undo" : "Anulează ultima acțiune",
     "Custom" : "Particularizat",
+    "Image" : "Imagine",
     "Text" : "Text",
     "Size" : "Mărime",
     "Position" : "Poziție"
