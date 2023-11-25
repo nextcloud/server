@@ -149,6 +149,7 @@
     "Due on %s" : "Venç el %s",
     "DAV system address book" : "Llibreta d'adreces del sistema DAV",
     "No outstanding DAV system address book sync." : "No hi ha cap sincronització pendent de la llibreta d'adreces del sistema DAV",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "La sincronització de la llibreta d'adreces del sistema DAV encara no s'ha executat perquè la instància té més de 1000 usuaris o a causa d'un error. Executeu-la manualment amb «occ dav:sync-system-addressbook».",
     "Migrated calendar (%1$s)" : "Calendari migrat (%1$s)",
     "Calendars including events, details and attendees" : "Calendaris amb esdeveniments, detalls i assistents",
     "Contacts and groups" : "Contactes i grups",

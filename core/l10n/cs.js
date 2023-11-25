@@ -207,6 +207,7 @@ OC.L10N.register(
     "People" : "Lidé",
     "Load more results" : "Načíst další výsledky",
     "Search in" : "Hledat v",
+    "Filter in current view" : "Filtrovat ve stávajícím pohledu",
     "Start typing in search" : "Hledejte psaním ve vyhledávání",
     "No matching results" : "Žádné odpovídající výsledky",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Mezi ${this.dateFilter.startFrom.toLocaleDateString()} a ${this.dateFilter.endAt.toLocaleDateString()}",

@@ -164,6 +164,8 @@ OC.L10N.register(
     "Blank" : "Tóm",
     "Unable to create new file from template" : "Tekst ekki að búa til nýja skrá út frá sniðmáti",
     "Delete permanently" : "Eyða varanlega",
+    "Copy to {target}" : "Afrita í {target}",
+    "Move to {target}" : "Færa í {target}",
     "Open details" : "Opna nánari upplýsingar",
     "Templates" : "Sniðmát",
     "Unable to initialize the templates directory" : "Tókst ekki að frumstilla sniðmátamöppuna",

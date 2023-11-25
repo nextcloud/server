@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "sharebymail",
+    {
+    "Shared with {email}" : "Partajat cu {email}",
+    "Shared with {email} by {actor}" : "Partajat cu {email} de {actor}",
+    "Unshared from {email}" : "Partajarea cu {email} eliminată",
+    "Unshared from {email} by {actor}" : "Partajarea cu {email} eliminată de {actor}",
+    "Password for mail share sent to {email}" : "Parola pentru partajare a fost trimisă către {email}",
+    "Password for mail share sent to you" : "V-s fot trimisă parola pentru partajare",
+    "Share by mail" : "Partajază prin mail",
+    "%1$s shared »%2$s« with you" : "%1$s a partajat »%2$s« cu tine",
+    "%1$s shared »%2$s« with you." : "%1$sa partajat »%2$s« cu tine.",
+    "Click the button below to open it." : "Apasă pe butonul de jos pentru a deschide.",
+    "Open »%s«" : "Deschide »%s«",
+    "%1$s via %2$s" : "%1$sprin %2$s",
+    "Password to access »%1$s« shared to you by %2$s" : "Parola pentru a accesa »%1$s« partajată cu tine de către %2$s",
+    "Password to access »%s«" : "Parola pentru access »%s«",
+    "It is protected with the following password:" : "Este protejat cu urmatoarea parolă:",
+    "%1$s shared »%2$s« with you and wants to add:" : "%1$s a partajat »%2$s« cu tine și vrea să adauge",
+    "%1$s shared »%2$s« with you and wants to add" : "%1$s a partajat »%2$s« cu tine și vrea să adauge",
+    "»%s« added a note to a file shared with you" : "%s« a adaugat un comentariu la un fișier partajat cu tine",
+    "This is the password:" : "Aceasta este parola:",
+    "Could not find share" : "Nu am putut găsi partajarea",
+    "Send password by mail" : "Trimite parola prin mail"
+},
+"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

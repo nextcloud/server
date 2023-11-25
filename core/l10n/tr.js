@@ -207,6 +207,7 @@ OC.L10N.register(
     "People" : "Kişiler",
     "Load more results" : "Diğer sonuçları yükle",
     "Search in" : "Şurada aransın",
+    "Filter in current view" : "Geçerli görünümü süz",
     "Start typing in search" : "Aramak için yazmaya başlayın",
     "No matching results" : "Aramaya uyan bir sonuç bulunamadı",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "${this.dateFilter.startFrom.toLocaleDateString()} ile ${this.dateFilter.endAt.toLocaleDateString()} arasında",

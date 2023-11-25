@@ -151,6 +151,8 @@ OC.L10N.register(
     "File locking" : "檔案鎖定",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "事務型文件鎖定的功能已經取消，這可能會造成競態條件，請在 config.php 中啟用 \"filelocking.enabled\" 以避免出現這樣的問題。",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "資料庫用於交易檔案鎖定。要強化效能，請設定 memcache（若可用）。",
+    "Forwarded for headers" : "轉發標頭",
+    "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "您的「trusted_proxies」設定並未正確設定，其應為陣列。",
     "The reverse proxy header configuration is incorrect. This is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "反向代理標頭設定不正確。這是安全性問題，可能允許攻擊者對 Nextcloud 假冒 IP 位址。",
     "Your IP address was resolved as %s" : "您的 IP 位址已解析為 %s",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "偵測到您的反向代理標頭設定不正確，但也有可能是因為您目前正透過信任的代理伺服器存取 Nextcloud。若您目前不是透過信任的代理伺服器存取 Nextcloud，這就是一個安全性問題，允許攻擊者對 Nextcloud 假冒 IP 位址。",
