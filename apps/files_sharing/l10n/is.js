@@ -121,6 +121,7 @@ OC.L10N.register(
     "Cancel" : "Hætta við",
     "Add another link" : "Bæta við öðrum tengli",
     "Share link" : "Deila tengli",
+    "No recommendations. Start typing." : "Engar tillögur. Byrjaðu að skrifa.",
     "Resharing is not allowed" : "Endurdeiling er ekki leyfð",
     "Searching …" : "Leita …",
     "Search globally" : "Leita allstaðar",

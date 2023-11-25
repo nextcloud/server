@@ -205,6 +205,7 @@
     "People" : "ناس",
     "Load more results" : " عرض المزيد من النتائج",
     "Search in" : "Search in",
+    "Filter in current view" : "فَلْتِر في المنظور الحالي",
     "Start typing in search" : "إبدأ كتابة نص البحث",
     "No matching results" : "No matching results",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "بين ${this.dateFilter.startFrom.toLocaleDateString()} و ${this.dateFilter.endAt.toLocaleDateString()}",

@@ -23,6 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Buona sera, {name}",
     "Hello" : "Ciao",
     "Hello, {name}" : "Ciao {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Inizia la giornata informato\n\nIl cruscotto di Nextcloud è il tuo punto di partenza della giornata, che offre una\npanoramica di prossimi appuntamenti, email urgenti, messaggi di chat,\nnuove richieste, ultimi tweet e molto altro ancora! Gli utenti possono aggiungere i widget\nche preferiscono e modificare lo sfondo a proprio piacimento."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Inizia la tua giornata aggiornato\n\nIl cruscotto di Nextcloud è il tuo punto di partenza della giornata, che offre una panoramica dei prossimi appuntamenti, email urgenti, messaggi di chat, nuove richieste, ultimi tweet e molto altro ancora! Gli utenti possono aggiungere i widget che preferiscono e modificare lo sfondo a proprio piacimento."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
