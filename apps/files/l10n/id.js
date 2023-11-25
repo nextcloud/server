@@ -168,6 +168,7 @@ OC.L10N.register(
     "File Management" : "Pengelolaan Berkas",
     "Folder name" : "Nama folder",
     "Select all" : "Pilih Semua",
+    "Unselect all" : "Batalkan semua pemilihan",
     "File not found" : "Berkas tidak ditemukan",
     "Storage informations" : "Informasi penyimpanan",
     "{usedQuotaByte} used" : "{usedQuotaByte} digunakan",

@@ -207,6 +207,7 @@ OC.L10N.register(
     "People" : "Људи",
     "Load more results" : "Учитај још резултата",
     "Search in" : "Претражи у",
+    "Filter in current view" : "Филтрирај у текућем погледу",
     "Start typing in search" : "Почните да куцате у претрази",
     "No matching results" : "Претрага није дала резултате",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Између ${this.dateFilter.startFrom.toLocaleDateString()} и ${this.dateFilter.endAt.toLocaleDateString()}",

@@ -149,6 +149,8 @@
     "File locking" : "Zamykání souborů",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Transakční zamykání souborů je vypnuto, což může vést k problémům při souběžném přístupu. Abyste se jim vyhnuli, zapněte v config.php volbu „filelocking.enabled“.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "Databáze je používaná pro transakční zamykání souborů. Pokud chcete vylepšit výkon, nastavte memcache (pokud je k dispozici).",
+    "Forwarded for headers" : "Přeposláno pro hlavičky",
+    "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "Nastavení „trusted_proxies není provedeno správně – mělo by být polem.",
     "The reverse proxy header configuration is incorrect. This is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "Nastavení pro hlavičku reverzní proxy není správné. Toto je problém v zabezpečení a mohlo by umožnit útočníkům podvrhnout jejich IP adresu jako viditelnou pro Nextcloud.",
     "Your IP address was resolved as %s" : "Vaše IP adresa byla přeložena jako %s",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "Nastavení hlaviček reverzní proxy není správné nebo přistupujete na Nextcloud z důvěryhodné proxy. Pokud nepřistupujete k Nextcloud z důvěryhodné proxy, potom je toto bezpečností chyba a může útočníkovi umožnit falšovat IP adresu, kterou NextCloud vidí.",

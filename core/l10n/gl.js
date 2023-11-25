@@ -207,6 +207,7 @@ OC.L10N.register(
     "People" : "Persoas",
     "Load more results" : "Cargando máis resultados",
     "Search in" : "Buscar en",
+    "Filter in current view" : "Filtrar na vista actual",
     "Start typing in search" : "Comece a escribir na busca",
     "No matching results" : "Non hai resultados coincidentes",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Entre ${this.dateFilter.startFrom.toLocaleDateString()} e ${this.dateFilter.endAt.toLocaleDateString()}",

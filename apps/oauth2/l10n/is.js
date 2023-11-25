@@ -12,6 +12,7 @@ OC.L10N.register(
     "Redirection URI" : "Endurbeiningarslóð",
     "Client Identifier" : "Biðlaraauðkenni",
     "Secret key" : "Leynilykill",
+    "Delete client" : "Eyða biðlara",
     "Add client" : "Bæta við biðlara",
     "Add" : "Bæta við",
     "Show client secret" : "Sýna leynilykil biðlara",
