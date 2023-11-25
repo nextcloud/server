@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "restored" : "restaurat",
     "Deleted files" : "Fișiere șterse",
+    "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Fișierele și folderele șterse din coșul de gunoi (pot expira în timpul exportului dacă spațiul de stocare e limitat)",
+    "This application enables users to restore files that were deleted from the system." : "Această aplicație permite utilizatorilor să restaureze fișierele șterse.",
     "Restore" : "Restaurare",
     "List of files that have been deleted." : "Lista fișierelor șterse.",
     "No deleted files" : "Nu sunt fișiere șterse",

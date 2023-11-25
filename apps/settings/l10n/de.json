@@ -170,7 +170,7 @@
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Textverarbeitungsaufgaben können mittels verschiedener Apps umgesetzt werden. Hier kannst du einstellen, welche App für welche Aufgabe verwendet werden soll.",
     "Task:" : "Aufgabe:",
     "None of your currently installed apps provide Text processing functionality" : "Keine deiner derzeit installierten Apps bietet Funktionalität zur Textverarbeitung.",
-    "Here you can decide which group can access certain sections of the administration settings." : "Hier kannst du festlegen, welche Gruppe auf bestimmte Bereiche der Verwaltungs-Einstellungen zugreifen kann.",
+    "Here you can decide which group can access certain sections of the administration settings." : "Hier kannst du festlegen, welche Gruppe auf bestimmte Bereiche der Verwaltungseinstellungen zugreifen kann.",
     "None" : "Keine",
     "Unable to modify setting" : "Einstellung konnte nicht geändert werden",
     "Allow apps to use the Share API" : "Apps die Benutzung der Share-API erlauben",
