@@ -410,7 +410,7 @@
 
 			if (options.scrollTo) {
 				this.$fileList.one('updated', function() {
-					self.scrollTo(options.scrollTo);
+					self.scrollTo(options.scrollTo, !options.openFile);
 				});
 			}
 
@@ -3351,11 +3351,14 @@
 			this.$el.find('.mask').remove();
 			this.$table.removeClass('hidden');
 		},
-		scrollTo:function(file) {
+		scrollTo:function(file, showDetails) {
+			if (showDetails === undefined) {
+				showDetails = true
+			}
 			if (!_.isArray(file)) {
 				file = [file];
 			}
-			if (file.length === 1) {
+			if (file.length === 1 && showDetails) {
 				_.defer(function() {
 					if (document.documentElement.clientWidth > 1024) {
 						this.showDetailsView(file[0]);
