@@ -176,6 +176,7 @@
     "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "MariaDB version \"%s\" används. Nextcloud 21 och högre stöder inte denna version och kräver MariaDB 10.2 eller högre.",
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "MySQL-versionen \"%s\" används. Nextcloud 21 och högre stöder inte denna version och kräver MySQL 8.0 eller MariaDB 10.2 eller högre.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "PostgreSQL-versionen \"%s\" används. Nextcloud 21 och högre stöder inte denna version och kräver PostgreSQL 9.6 eller högre.",
+    "Unknown database platform" : "Okänd databasplattform",
     "Architecture" : "Arkitektur",
     "64-bit" : "64-bit",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Det verkar som att du kör en 32-bitars PHP-version. Nextcloud behöver 64-bitars för att fungera bra. Vänligen uppgradera ditt OS och PHP till 64-bitars!",

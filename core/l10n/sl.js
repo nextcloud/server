@@ -207,6 +207,7 @@ OC.L10N.register(
     "People" : "Osebe",
     "Load more results" : "Naloži več zadetkov",
     "Search in" : "Poišči v",
+    "Filter in current view" : "Filtrirajte trenutni pogled",
     "Start typing in search" : "Vpišite niz za iskanje …",
     "No matching results" : "Ni zadetkov iskanja",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Med ${this.dateFilter.startFrom.toLocaleDateString()} in ${this.dateFilter.endAt.toLocaleDateString()}",
