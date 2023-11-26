@@ -16,6 +16,7 @@ OC.L10N.register(
     "Undo" : "Undo",
     "Value" : "Nilari",
     "Image" : "Gambar",
+    "Line" : "Garis",
     "Size" : "Ukuran"
 },
 "nplurals=1; plural=0;");
