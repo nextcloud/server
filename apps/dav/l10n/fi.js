@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalenteri",
+    "To-dos" : "Tehtävät",
     "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",

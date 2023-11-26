@@ -77,6 +77,7 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Inaktivera alla tangentbordsgenvägar",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Allmän åtkomst är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med temat hög kontrast även på AAA-nivå.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Om du hittar några problem, tveka inte att rapportera dem på {issuetracker}vår problemhanterare{linkend}. Och om du vill engagera dig, gå med i {designteam}vårt designteam{linkend}!",
+    "Current selected app: {app}, position {position} of {total}" : "Aktuell vald app: {app}, position {position} av {total}",
     "Move up" : "Flytta upp",
     "Move down" : "Flytta ner",
     "Custom background" : "Anpassad bakgrund",
