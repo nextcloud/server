@@ -192,6 +192,7 @@ OC.L10N.register(
     "People" : "Personer",
     "Load more results" : "Hämta fler resultat",
     "Search in" : "Sök i",
+    "Filter in current view" : "Filtrera i aktuell vy",
     "Start typing in search" : "Börja skriva i sökningen",
     "No matching results" : "Inga matchande resultat",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Mellan ${this.dateFilter.startFrom.toLocaleDateString()} och ${this.dateFilter.endAt.toLocaleDateString()}",

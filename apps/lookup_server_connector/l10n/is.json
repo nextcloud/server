@@ -1,0 +1,5 @@
+{ "translations": {
+    "Lookup Server Connector" : "Tengi fyrir uppflettingaþjón",
+    "Sync public user information with the lookup server" : "Samstilltu opinberar upplýsingar notenda við uppflettingaþjóninn"
+},"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
+}
