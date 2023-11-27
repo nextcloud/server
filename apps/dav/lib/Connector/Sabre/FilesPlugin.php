@@ -231,12 +231,14 @@ class FilesPlugin extends ServerPlugin {
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// only handle symlinks
 		$node = $this->tree->getNodeForPath($request->getPath());
-		if (!($node instanceof \OCP\Files\File && $this->symlinkManager->isSymlink($node))) {
+		if (!($node instanceof \OCA\DAV\Connector\Sabre\File && $this->symlinkManager->isSymlink($node->getFileInfo()))) {
 			return;
 		}
 
-		$response->addHeader('OC-File-Type', '1');
-		$response->setBody($node->getContent());
+		$response->setHeader('OC-File-Type', '1');
+		$response->setHeader('OC-ETag', $node->getEtag());
+		$response->setBody($node->get());
+		$response->setStatus(200);
 		// do not continue processing this request
 		return false;
 	}

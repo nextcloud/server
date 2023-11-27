@@ -78,13 +78,16 @@ class SymlinkPlugin extends ServerPlugin {
 
 	public function httpDelete(RequestInterface $request, ResponseInterface $response): bool {
 		$path = $request->getPath();
-		$node = $this->server->tree->getNodeForPath(dirname($path));
-		if (!$node instanceof \OCA\DAV\Connector\Sabre\File) {
+		$node = $this->server->tree->getNodeForPath($path);
+		if (!$node instanceof \OCA\DAV\Connector\Sabre\Node) {
 			return true;
 		}
 		$info = $node->getFileInfo();
 		if ($this->symlinkManager->isSymlink($info)) {
-			$this->symlinkManager->deleteSymlink($info);
+			if (!$this->symlinkManager->deleteSymlink($info)) {
+				$symlinkName = $info->getName();
+				throw new \Sabre\DAV\Exception\NotFound("Unable to delete symlink '$symlinkName'!");
+			}
 		}
 		// always propagate to trigger deletion of regular file representing symlink in filesystem
 		return true;
