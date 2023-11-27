@@ -811,7 +811,7 @@ export default {
 			}
 
 			// checking valid handler component data
-			if ((!handler.component || typeof handler.component !== 'object')) {
+			if ((!handler.component || (typeof handler.component !== 'object' && typeof handler.component !== 'function'))) {
 				logger.error('The following handler doesn\'t have a valid component', { handler })
 				return
 			}
