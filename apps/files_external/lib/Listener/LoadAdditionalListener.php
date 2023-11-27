@@ -53,6 +53,5 @@ class LoadAdditionalListener implements IEventListener {
 		$this->initialState->provideInitialState('allowUserMounting', $allowUserMounting);
 
 		Util::addInitScript(Application::APP_ID, 'init');
-		Util::addScript(Application::APP_ID, 'main', 'files');
 	}
 }
