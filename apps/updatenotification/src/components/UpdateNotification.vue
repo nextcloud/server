@@ -97,7 +97,7 @@
 
 		<h3>{{ t('updatenotification', 'Update channel') }}</h3>
 		<p class="inlineblock">
-			{{ t('updatenotification', 'Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
+			{{ t('updatenotification', 'Changing the update channel also affects the apps management page, e.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
 		</p>
 		<div class="update-channel-selector">
 			<span>{{ t('updatenotification', 'Current update channel:') }}</span>
