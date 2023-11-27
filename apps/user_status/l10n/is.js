@@ -32,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 klukkustundir",
     "Mute all notifications" : "Þagga allar tilkynningar",
     "Appear offline" : "Birtast ótengt",
+    "View profile" : "Skoða notandasnið",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
