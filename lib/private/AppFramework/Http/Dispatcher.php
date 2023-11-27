@@ -42,6 +42,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OutOfRangeException;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -197,7 +198,7 @@ class Dispatcher {
 	private function executeController(Controller $controller, string $methodName): Response {
 		$arguments = [];
 
-		// valid types that will be casted
+		// valid types that will be cast
 		$types = ['int', 'integer', 'bool', 'boolean', 'float', 'double'];
 
 		foreach ($this->reflector->getParameters() as $param => $default) {
@@ -219,6 +220,7 @@ class Dispatcher {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
+				$this->ensureParameterValueSatisfiesRange($param, $value);
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -249,5 +251,23 @@ class Dispatcher {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * @psalm-param mixed $value
+	 * @throws OutOfRangeException
+	 */
+	private function ensureParameterValueSatisfiesRange(string $param, $value): void {
+		$rangeInfo = $this->reflector->getRange($param);
+		if ($rangeInfo) {
+			if ($value < $rangeInfo['min'] || $value > $rangeInfo['max']) {
+				throw new OutOfRangeException(sprintf(
+					'Parameter %s must be between %d and %d',
+					$param,
+					$rangeInfo['min'],
+					$rangeInfo['max'],
+				));
+			}
+		}
 	}
 }

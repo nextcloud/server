@@ -522,4 +522,51 @@ class DispatcherTest extends \Test\TestCase {
 
 		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
 	}
+
+
+	public function rangeDataProvider(): array {
+		return [
+			[PHP_INT_MIN, PHP_INT_MAX, 42, false],
+			[0, 12, -5, true],
+			[-12, 0, 5, true],
+			[7, 14, 5, true],
+			[7, 14, 10, false],
+			[-14, -7, -10, false],
+		];
+	}
+
+	/**
+	 * @dataProvider rangeDataProvider
+	 */
+	public function testEnsureParameterValueSatisfiesRange(int $min, int $max, int $input, bool $throw): void {
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->reflector->expects($this->any())
+			->method('getRange')
+			->willReturn([
+				'min' => $min,
+				'max' => $max,
+			]);
+
+		$this->dispatcher = new Dispatcher(
+			$this->http,
+			$this->middlewareDispatcher,
+			$this->reflector,
+			$this->request,
+			$this->config,
+			\OC::$server->getDatabaseConnection(),
+			$this->logger,
+			$this->eventLogger,
+			$this->container,
+		);
+
+		if ($throw) {
+			$this->expectException(\OutOfRangeException::class);
+		}
+
+		$this->invokePrivate($this->dispatcher, 'ensureParameterValueSatisfiesRange', ['myArgument', $input]);
+		if (!$throw) {
+			// do not mark this test risky
+			$this->assertTrue(true);
+		}
+	}
 }
