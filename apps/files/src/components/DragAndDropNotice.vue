@@ -20,8 +20,8 @@
 	-
 	-->
 <template>
-	<div class="files-list__drag-drop-notice"
-		:class="{ 'files-list__drag-drop-notice--dragover': dragover }"
+	<div v-show="dragover"
+		class="files-list__drag-drop-notice"
 		@drop="onDrop">
 		<div class="files-list__drag-drop-notice-wrapper">
 			<TrayArrowDownIcon :size="48" />
@@ -33,18 +33,16 @@
 </template>
 
 <script lang="ts">
-import type { Upload } from '@nextcloud/upload'
-import { join } from 'path'
-import { showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { getUploader } from '@nextcloud/upload'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import logger from '../logger.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'DragAndDropNotice',
 
 	components: {
@@ -56,16 +54,43 @@ export default Vue.extend({
 			type: Object,
 			required: true,
 		},
-		dragover: {
-			type: Boolean,
-			default: false,
-		},
+	},
+
+	data() {
+		return {
+			dragover: false,
+		}
+	},
+
+	mounted() {
+		// Add events on parent to cover both the table and DragAndDrop notice
+		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		mainContent.addEventListener('dragover', this.onDragOver)
+		mainContent.addEventListener('dragleave', this.onDragLeave)
+	},
+
+	beforeDestroy() {
+		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		mainContent.removeEventListener('dragover', this.onDragOver)
+		mainContent.removeEventListener('dragleave', this.onDragLeave)
 	},
 
 	methods: {
-		onDrop(event: DragEvent) {
-			this.$emit('update:dragover', false)
+		onDragOver(event: DragEvent) {
+			const isForeignFile = event.dataTransfer?.types.includes('Files')
+			if (isForeignFile) {
+				// Only handle uploading
+				this.dragover = true
+			}
+		},
 
+		onDragLeave(/* event: DragEvent */) {
+			if (this.dragover) {
+				this.dragover = false
+			}
+		},
+
+		onDrop(event: DragEvent) {
 			if (this.$el.querySelector('tbody')?.contains(event.target as Node)) {
 				return
 			}
@@ -79,8 +104,13 @@ export default Vue.extend({
 
 				// Start upload
 				logger.debug(`Uploading files to ${this.currentFolder.path}`)
-				const promises = [...event.dataTransfer.files].map((file: File) => {
-					return uploader.upload(file.name, file) as Promise<Upload>
+				const promises = [...event.dataTransfer.files].map(async (file: File) => {
+					try {
+						return await uploader.upload(file.name, file)
+					} catch (e) {
+						showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
+						throw e
+					}
 				})
 
 				// Process finished uploads
@@ -91,12 +121,13 @@ export default Vue.extend({
 					// Scroll to last upload if terminated
 					const lastUpload = uploads[uploads.length - 1]
 					if (lastUpload?.response?.headers?.['oc-fileid']) {
-						this.$router.push(Object.assign({}, this.$route, {
+						this.$router.push({
+							...this.$route,
 							params: {
 								// Remove instanceid from header response
 								fileid: parseInt(lastUpload.response?.headers?.['oc-fileid']),
 							},
-						}))
+						})
 					}
 				})
 			}
@@ -108,12 +139,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .files-list__drag-drop-notice {
-	position: absolute;
-	z-index: 9999;
-	top: 0;
-	right: 0;
-	left: 0;
-	display: none;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
@@ -123,11 +149,7 @@ export default Vue.extend({
 	user-select: none;
 	color: var(--color-text-maxcontrast);
 	background-color: var(--color-main-background);
-
-	&--dragover {
-		display: flex;
-		border-color: black;
-	}
+	border-color: black;
 
 	h3 {
 		margin-left: 16px;
@@ -143,12 +165,6 @@ export default Vue.extend({
 		padding: 0 5vw;
 		border: 2px var(--color-border-dark) dashed;
 		border-radius: var(--border-radius-large);
-	}
-
-	&__close {
-		position: absolute !important;
-		top: 10px;
-		right: 10px;
 	}
 }
 

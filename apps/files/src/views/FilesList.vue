@@ -62,6 +62,10 @@
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 		</div>
 
+		<!-- Drag and drop notice -->
+		<DragAndDropNotice v-if="!loading && canUpload"
+			:current-folder="currentFolder" />
+
 		<!-- Initial loading -->
 		<NcLoadingIcon v-if="loading && !isRefreshing"
 			class="files-list__loading-icon"
@@ -109,7 +113,7 @@ import { orderBy } from 'natural-orderby'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
@@ -133,14 +137,16 @@ import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
+import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
-const isSharingEnabled = getCapabilities()?.files_sharing !== undefined
+const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesList',
 
 	components: {
 		BreadCrumbs,
+		DragAndDropNotice,
 		FilesListVirtual,
 		LinkIcon,
 		ListViewIcon,
@@ -342,9 +348,16 @@ export default Vue.extend({
 				: this.t('files', 'Switch to grid view')
 		},
 
+		/**
+		 * Check if the current folder has create permissions
+		 */
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
+		/**
+		 * Check if current folder has share permissions
+		 */
 		canShare() {
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
@@ -412,7 +425,7 @@ export default Vue.extend({
 
 				// Define current directory children
 				// TODO: make it more official
-				Vue.set(folder, '_children', contents.map(node => node.fileid))
+				this.$set(folder, '_children', contents.map(node => node.fileid))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
