@@ -22,13 +22,24 @@
 import { getRootUrl } from '@nextcloud/router'
 
 /**
+ *
+ * @param {string} url the URL to check
+ * @returns {boolean}
+ */
+const isRelativeUrl = (url) => {
+	return !url.startsWith('https://') && !url.startsWith('http://')
+}
+
+/**
  * @param {string} url The URL to check
  * @return {boolean} true if the URL points to this nextcloud instance
  */
 const isNextcloudUrl = (url) => {
 	const nextcloudBaseUrl = window.location.protocol + '//' + window.location.host + getRootUrl()
-	// try with relative and absolute URL
-	return url.startsWith(nextcloudBaseUrl) || url.startsWith(getRootUrl())
+	// if the URL is absolute and starts with the baseUrl+rootUrl
+	// OR if the URL is relative and starts with rootUrl
+	return url.startsWith(nextcloudBaseUrl)
+		|| (isRelativeUrl(url) && url.startsWith(getRootUrl()))
 }
 
 /**
