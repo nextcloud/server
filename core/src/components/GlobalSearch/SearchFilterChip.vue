@@ -6,13 +6,13 @@
 		</span>
 		<span class="text">{{ text }}</span>
 		<span class="close-icon" @click="deleteChip">
-			<CloseIcon :size="16" />
+			<CloseIcon :size="18" />
 		</span>
 	</div>
 </template>
 
 <script>
-import CloseIcon from 'vue-material-design-icons/CloseThick.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
 
 export default {
 	name: 'SearchFilterChip',
@@ -20,8 +20,14 @@ export default {
 		CloseIcon,
 	},
 	props: {
-		text: String,
-		pretext: String,
+		text: {
+			type: String,
+			required: true,
+		},
+		pretext: {
+			type: String,
+			required: true,
+		},
 	},
 	methods: {
 		deleteChip() {
@@ -40,8 +46,6 @@ export default {
     border-radius: 20px;
     background-color: var(--color-primary-element-light);
     margin: 2px;
-    font-size: 10px;
-    font-weight: bolder;
 
     .icon {
         display: flex;
@@ -61,7 +65,7 @@ export default {
     }
 
     .close-icon {
-        cursor: pointer;
+        cursor: pointer ;
 
         :hover {
             filter: invert(20%);
