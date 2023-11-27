@@ -234,7 +234,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
+		$qb->select('id', 'userid', 'propertypath', 'propertyname', 'propertyvalue')
 			->from(self::TABLE_NAME)
 			->where($qb->expr()->eq('propertypath', $qb->createNamedParameter($path)));
 		$result = $qb->executeQuery();
@@ -263,7 +263,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 
 		// TODO: chunking if more than 1000 properties
-		$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?';
+		$sql = 'SELECT id, userid, propertypath, propertyname, propertyvalue FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?';
 
 		$whereValues = [$this->user->getUID(), $this->formatPath($path)];
 		$whereTypes = [null, null];
