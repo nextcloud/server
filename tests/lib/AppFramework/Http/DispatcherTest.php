@@ -31,6 +31,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
@@ -560,7 +561,7 @@ class DispatcherTest extends \Test\TestCase {
 		);
 
 		if ($throw) {
-			$this->expectException(\OutOfRangeException::class);
+			$this->expectException(ParameterOutOfRangeException::class);
 		}
 
 		$this->invokePrivate($this->dispatcher, 'ensureParameterValueSatisfiesRange', ['myArgument', $input]);

@@ -38,11 +38,11 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
-use OutOfRangeException;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -255,18 +255,18 @@ class Dispatcher {
 
 	/**
 	 * @psalm-param mixed $value
-	 * @throws OutOfRangeException
+	 * @throws ParameterOutOfRangeException
 	 */
 	private function ensureParameterValueSatisfiesRange(string $param, $value): void {
 		$rangeInfo = $this->reflector->getRange($param);
 		if ($rangeInfo) {
 			if ($value < $rangeInfo['min'] || $value > $rangeInfo['max']) {
-				throw new OutOfRangeException(sprintf(
-					'Parameter %s must be between %d and %d',
+				throw new ParameterOutOfRangeException(
 					$param,
+					$value,
 					$rangeInfo['min'],
 					$rangeInfo['max'],
-				));
+				);
 			}
 		}
 	}
