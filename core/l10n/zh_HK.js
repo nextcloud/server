@@ -207,6 +207,7 @@ OC.L10N.register(
     "People" : "人物",
     "Load more results" : "載入更多結果",
     "Search in" : "搜尋",
+    "Filter in current view" : "目前檢視裡的篩選條件",
     "Start typing in search" : "開始輸入搜尋內容",
     "No matching results" : "無相符結果",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "介於 ${this.dateFilter.startFrom.toLocaleDateString()} 到 ${this.dateFilter.endAt.toLocaleDateString()} 間",
