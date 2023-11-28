@@ -35,6 +35,7 @@ OC.L10N.register(
     "Save" : "Vista",
     "Available flows" : "Tiltæk flæði",
     "More flows" : "Fleiri flæði",
+    "Browse the App Store" : "Flakka um forritasafnið",
     "Configured flows" : "Uppsett flæði",
     "Your flows" : "Flæðin þín",
     "matches" : "samsvarar",
