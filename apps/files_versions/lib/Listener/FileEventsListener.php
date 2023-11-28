@@ -59,11 +59,10 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class FileEventsListener implements IEventListener {
-	private IRootFolder $rootFolder;
-	private IVersionManager $versionManager;
 	/**
 	 * @var array<int, array>
 	 */
@@ -76,19 +75,14 @@ class FileEventsListener implements IEventListener {
 	 * @var array<string, Node>
 	 */
 	private array $versionsDeleted = [];
-	private IMimeTypeLoader $mimeTypeLoader;
-	private LoggerInterface $logger;
 
 	public function __construct(
-		IRootFolder $rootFolder,
-		IVersionManager $versionManager,
-		IMimeTypeLoader $mimeTypeLoader,
-		LoggerInterface $logger,
+		private IRootFolder $rootFolder,
+		private IVersionManager $versionManager,
+		private IMimeTypeLoader $mimeTypeLoader,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->versionManager = $versionManager;
-		$this->mimeTypeLoader = $mimeTypeLoader;
-		$this->logger = $logger;
 	}
 
 	public function handle(Event $event): void {
@@ -351,17 +345,23 @@ class FileEventsListener implements IEventListener {
 
 	/**
 	 * Retrieve the path relative to the current user root folder.
-	 * If no user is connected, use the node's owner.
+	 * If no user is connected, try to use the node's owner.
 	 */
 	private function getPathForNode(Node $node): ?string {
-		try {
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user) {
 			return $this->rootFolder
-				->getUserFolder(\OC_User::getUser())
-				->getRelativePath($node->getPath());
-		} catch (\Throwable $ex) {
-			return $this->rootFolder
-				->getUserFolder($node->getOwner()->getUid())
+				->getUserFolder($user)
 				->getRelativePath($node->getPath());
 		}
+
+		$owner = $node->getOwner()?->getUid();
+		if ($owner) {
+			return $this->rootFolder
+				->getUserFolder($owner)
+				->getRelativePath($node->getPath());
+		}
+
+		return null;
 	}
 }
