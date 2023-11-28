@@ -544,10 +544,12 @@ export default defineComponent({
 				}
 
 				// Keyboard indicator a11y
-				&:focus .files-list__row-name-text,
-				&:focus-visible .files-list__row-name-text {
+				&:focus .files-list__row-name-text {
 					outline: 2px solid var(--color-main-text) !important;
 					border-radius: 20px;
+				}
+				&:focus:not(:focus-visible) .files-list__row-name-text {
+					outline: none !important;
 				}
 			}
 
