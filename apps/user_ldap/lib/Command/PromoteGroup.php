@@ -61,21 +61,36 @@ class PromoteGroup extends Command {
 			);
 	}
 
-	protected function promoteGroup(IGroup $group, InputInterface $input, OutputInterface $output): void {
-		if ($input->getOption('yes') === false) {
-			/** @var QuestionHelper $helper */
-			$helper = $this->getHelper('question');
+	protected function formatGroupName(IGroup $group): string {
+		$idLabel = '';
+		if ($group->getGID() !== $group->getDisplayName()) {
+			$idLabel = sprintf(' (Group ID: %s)', $group->getGID());
+		}
+		return sprintf('%s%s', $group->getDisplayName(), $idLabel);
+	}
 
-			$idLabel = '';
-			if ($group->getGID() !== $group->getDisplayName()) {
-				$idLabel = sprintf(' (Group ID: %s)', $group->getGID());
+	protected function promoteGroup(IGroup $group, InputInterface $input, OutputInterface $output): void {
+		$access = $this->backend->getLDAPAccess($group->getGID());
+		$currentlyPromotedGroupId = $access->connection->ldapAdminGroup;
+		if ($currentlyPromotedGroupId === $group->getGID()) {
+			$output->writeln('<info>The specified group is already promoted</info>');
+			return;
+		}
+
+		if ($input->getOption('yes') === false) {
+			$currentlyPromotedGroup = $this->groupManager->get($currentlyPromotedGroupId);
+			$demoteLabel = '';
+			if ($currentlyPromotedGroup instanceof IGroup && $this->backend->groupExists($currentlyPromotedGroup->getGID())) {
+				$groupNameLabel = $this->formatGroupName($currentlyPromotedGroup);
+				$demoteLabel = sprintf('and demote %s ', $groupNameLabel);
 			}
 
-			$q = new Question(sprintf('Promote %s%s to the admin group (y|N)? ', $group->getDisplayName(), $idLabel));
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+			$q = new Question(sprintf('Promote %s to the admin group %s(y|N)? ', $this->formatGroupName($group), $demoteLabel));
 			$input->setOption('yes', $helper->ask($input, $output, $q) === 'y');
 		}
 		if ($input->getOption('yes') === true) {
-			$access = $this->backend->getLDAPAccess($group->getGID());
 			$access->connection->setConfiguration(['ldapAdminGroup' => $group->getGID()]);
 			$access->connection->saveConfiguration();
 			$output->writeln(sprintf('<info>Group %s was promoted</info>', $group->getDisplayName()));
