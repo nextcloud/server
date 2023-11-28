@@ -77,6 +77,8 @@ class PublicShareMiddleware extends Middleware {
 		$controller->setToken($token);
 
 		if (!$controller->isValidToken()) {
+			$this->throttle($bruteforceProtectionAction, $token);
+
 			$controller->shareNotFound();
 			throw new NotFoundException();
 		}
@@ -88,7 +90,6 @@ class PublicShareMiddleware extends Middleware {
 
 		// If authentication succeeds just continue
 		if ($controller->isAuthenticated()) {
-			$this->throttle($bruteforceProtectionAction, $token);
 			return;
 		}
 
