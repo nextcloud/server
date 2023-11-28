@@ -282,18 +282,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.pendingBigIntConversionColumns.length > 0) {
-						var listOfPendingBigIntConversionColumns = "";
-						data.pendingBigIntConversionColumns.forEach(function(element){
-							listOfPendingBigIntConversionColumns += '<li>' + element + '</li>';
-						});
-						messages.push({
-							msg: t('core', 'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running "occ db:convert-filecache-bigint" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion') + '">')
-								.replace('{linkend}', '</a>') + '<ul>' + listOfPendingBigIntConversionColumns + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if (data.isSqliteUsed) {
 						messages.push({
 							msg: t('core', 'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.') + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +

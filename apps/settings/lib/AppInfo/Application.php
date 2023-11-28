@@ -53,6 +53,7 @@ use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\DatabaseHasMissingColumns;
 use OCA\Settings\SetupChecks\DatabaseHasMissingIndices;
 use OCA\Settings\SetupChecks\DatabaseHasMissingPrimaryKeys;
+use OCA\Settings\SetupChecks\DatabasePendingBigIntConversions;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
@@ -166,6 +167,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(DatabaseHasMissingColumns::class);
 		$context->registerSetupCheck(DatabaseHasMissingIndices::class);
 		$context->registerSetupCheck(DatabaseHasMissingPrimaryKeys::class);
+		$context->registerSetupCheck(DatabasePendingBigIntConversions::class);
 		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
 		$context->registerSetupCheck(EmailTestSuccessful::class);
 		$context->registerSetupCheck(FileLocking::class);
