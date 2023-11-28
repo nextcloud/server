@@ -348,11 +348,6 @@ export default {
 			})
 			this.results = sortedResults
 		},
-		openResult(result) {
-			if (result.resourceUrl) {
-				window.location = result.resourceUrl
-			}
-		},
 		mapContacts(contacts) {
 			return contacts.map(contact => {
 				return {
