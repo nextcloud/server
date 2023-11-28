@@ -85,6 +85,12 @@ interface IUserStatus {
 	 * @var string
 	 * @since 28.0.0
 	 */
+	public const MESSAGE_VACATION = 'vacationing';
+
+	/**
+	 * @var string
+	 * @since 28.0.0
+	 */
 	public const MESSAGE_CALENDAR_BUSY = 'meeting';
 
 	/**
