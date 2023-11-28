@@ -117,6 +117,10 @@ export const initCore = () => {
 			// don't close when clicking on the menu directly or a menu toggle
 			return false
 		}
+		if (event.which === 3) {
+			// don't close when right-clicking
+			return false
+		}
 
 		OC.hideMenus()
 	})
