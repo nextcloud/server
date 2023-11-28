@@ -178,8 +178,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'getOpcacheSetupRecommendations',
-				'hasMissingIndexes',
-				'hasMissingPrimaryKeys',
 				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'getAppDirsWithDifferentOwner',
@@ -229,12 +227,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getOpcacheSetupRecommendations')
 			->willReturn(['recommendation1', 'recommendation2']);
-		$this->checkSetupController
-			->method('hasMissingIndexes')
-			->willReturn([]);
-		$this->checkSetupController
-			->method('hasMissingPrimaryKeys')
-			->willReturn([]);
 		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);
@@ -337,9 +329,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isSettimelimitAvailable' => true,
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
-				'missingIndexes' => [],
-				'missingPrimaryKeys' => [],
-				'missingColumns' => [],
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
