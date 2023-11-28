@@ -36,12 +36,14 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\User\IAvailabilityCoordinator;
 
 class AvailabilitySettingsController extends Controller {
 	public function __construct(
 		IRequest $request,
 		private ?IUserSession $userSession,
 		private AbsenceService $absenceService,
+		private IAvailabilityCoordinator $coordinator,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -75,6 +77,7 @@ class AvailabilitySettingsController extends Controller {
 			$status,
 			$message,
 		);
+		$this->coordinator->clearCache($user->getUID());
 		return new JSONResponse($absence);
 	}
 
@@ -89,6 +92,7 @@ class AvailabilitySettingsController extends Controller {
 		}
 
 		$this->absenceService->clearAbsence($user);
+		$this->coordinator->clearCache($user->getUID());
 		return new JSONResponse([]);
 	}
 
