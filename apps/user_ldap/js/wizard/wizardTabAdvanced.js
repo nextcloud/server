@@ -167,6 +167,14 @@ OCA = OCA || {};
 					$element: $('#ldap_attr_biography'),
 					setMethod: 'setBiographyAttribute'
 				},
+				ldap_attr_birthdate: {
+					$element: $('#ldap_attr_birthdate'),
+					setMethod: 'setBirthDateAttribute'
+				},
+				ldap_attr_anniversarydate: {
+					$element: $('#ldap_attr_anniversarydate'),
+					setMethod: 'setAnniversaryDateAttribute'
+				},
 			};
 			this.setManagedItems(items);
 		},
@@ -496,6 +504,24 @@ OCA = OCA || {};
 		 */
 		setBiographyAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_attr_biography.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile birthday
+		 *
+		 * @param {string} attribute
+		 */
+		setBirthDateAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_birthdate.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile anniversary date
+		 *
+		 * @param {string} attribute
+		 */
+		setAnniversaryDateAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_anniversarydate.$element, attribute);
 		},
 
 		/**

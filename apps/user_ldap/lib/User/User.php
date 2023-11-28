@@ -324,6 +324,18 @@ class User {
 			} elseif (!empty($attr)) {	// configured, but not defined
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = "";
 			}
+			//User Profile Field - birthday
+			$attr = strtolower($this->connection->ldapAttributeBirthDate);
+			if (!empty($attr)) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE]
+					= $ldapEntry[$attr][0] ?? "";
+			}
+			//User Profile Field - anniversary date
+			$attr = strtolower($this->connection->ldapAttributeAnniversaryDate);
+			if (!empty($attr)) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ANNIVERSARYDATE]
+					= $ldapEntry[$attr][0] ?? "";
+			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));
 			$this->connection->writeToCache($cacheKey, $checksum // write array to cache. is waste of cache space
