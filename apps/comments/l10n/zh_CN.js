@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "删除评论",
     "Cancel edit" : "取消编辑",
     "Post comment" : "发表评论",
+    "@ for mentions, : for emoji, / for smart picker" : "使用“@”提及，“:”输入表情符号，“/”唤起智能选择",
     "Could not reload comments" : "无法重载评论",
     "No comments yet, start the conversation!" : "还没有评论，开始对话吧！",
     "No more messages" : "没有更多消息",
