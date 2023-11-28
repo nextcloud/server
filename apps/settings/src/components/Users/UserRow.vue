@@ -275,8 +275,7 @@
 					:placeholder="managerLabel"
 					@open="searchInitialUserManager"
 					@search="searchUserManager"
-					@option:selected="updateUserManager"
-					@input="updateUserManager" />
+					@option:selected="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
