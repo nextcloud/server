@@ -142,7 +142,7 @@ class Converter {
 					/* iOS compatibility */
 					$vCard->add(new Text($vCard, 'ITEM3.X-ABDATE;TYPE=pref', substr($property->getValue(), 0, 8), ['X-NC-SCOPE' => $scope]));
 					$vCard->add(new Text($vCard, 'ITEM3.X-ABLABEL:_$!<Anniversary>!$_'));
-					break;					
+					break;
 			}
 		}
 
