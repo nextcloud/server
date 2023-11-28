@@ -7,14 +7,17 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use DateTimeImmutable;
 use Exception;
 use OCP\Accounts\IAccountManager;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
+use Sabre\VObject\Property\VCard\Date;
 
 class Converter {
 	/** @var IURLGenerator */
@@ -23,8 +26,12 @@ class Converter {
 	private $accountManager;
 	private IUserManager $userManager;
 
-	public function __construct(IAccountManager $accountManager,
-		IUserManager $userManager, IURLGenerator $urlGenerator) {
+	public function __construct(
+		IAccountManager $accountManager,
+		IUserManager $userManager,
+		IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+	) {
 		$this->accountManager = $accountManager;
 		$this->userManager = $userManager;
 		$this->urlGenerator = $urlGenerator;
@@ -113,6 +120,24 @@ class Converter {
 					break;
 				case IAccountManager::PROPERTY_ROLE:
 					$vCard->add(new Text($vCard, 'TITLE', $property->getValue(), ['X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_BIOGRAPHY:
+					$vCard->add(new Text($vCard, 'NOTE', $property->getValue(), ['X-NC-SCOPE' => $scope]));
+					break;
+				case IAccountManager::PROPERTY_BIRTHDATE:
+					try {
+						$birthdate = new DateTimeImmutable($property->getValue());
+					} catch (Exception $e) {
+						// Invalid date -> just skip the property
+						$this->logger->info("Failed to parse user's birthdate for the SAB: " . $property->getValue(), [
+							'exception' => $e,
+							'userId' => $user->getUID(),
+						]);
+						break;
+					}
+					$dateProperty = new Date($vCard, 'BDAY', null, ['X-NC-SCOPE' => $scope]);
+					$dateProperty->setDateTime($birthdate);
+					$vCard->add($dateProperty);
 					break;
 			}
 		}

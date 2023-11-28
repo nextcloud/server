@@ -326,6 +326,8 @@ class UsersController extends Controller {
 	 * @param string|null $twitterScope
 	 * @param string|null $fediverse
 	 * @param string|null $fediverseScope
+	 * @param string|null $birthdate
+	 * @param string|null $birthdateScope
 	 *
 	 * @return DataResponse
 	 */
@@ -343,7 +345,9 @@ class UsersController extends Controller {
 		?string $twitter = null,
 		?string $twitterScope = null,
 		?string $fediverse = null,
-		?string $fediverseScope = null
+		?string $fediverseScope = null,
+		?string $birthdate = null,
+		?string $birthdateScope = null,
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -383,6 +387,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
 			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
+			IAccountManager::PROPERTY_BIRTHDATE => ['value' => $birthdate, 'scope' => $birthdateScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
@@ -424,6 +429,8 @@ class UsersController extends Controller {
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
 						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
 						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
+						'birthdate' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getValue(),
+						'birthdateScope' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getScope(),
 						'message' => $this->l10n->t('Settings saved'),
 					],
 				],
