@@ -54,6 +54,7 @@ trait CommonThemeTrait {
 			// invalid one with no fallback. 'unset' could here fallback to some
 			// other theme with media queries
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+			'--primary-invert-if-dark' => $this->util->invertTextColor($this->primaryColor) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-default' => $this->defaultPrimaryColor,

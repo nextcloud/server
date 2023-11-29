@@ -245,6 +245,10 @@ export default {
 	background-position: center;
 }
 
+.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
+	color: var(--color-primary-element-text);
+}
+
 .app-navigation > ul.app-navigation__list {
 	// Use flex gap value for more elegant spacing
 	padding-bottom: var(--default-grid-baseline, 4px);

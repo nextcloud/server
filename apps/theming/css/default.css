@@ -68,6 +68,7 @@
   --background-invert-if-bright: invert(100%);
   --background-image-invert-if-bright: no;
   --primary-invert-if-bright: no;
+  --primary-invert-if-dark: invert(100%);
   --color-primary: #00679e;
   --color-primary-default: #0082c9;
   --color-primary-text: #ffffff;
