@@ -240,7 +240,7 @@ class RepairMimeTypes implements IRepairStep {
 	private function introduceEmlAndMsgFormatType() {
 		$updatedMimetypes = [
 			'eml' => 'message/rfc822',
-			'msg' => 'application/x-ole-storage',
+			'msg' => 'application/vnd.ms-outlook',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);
@@ -307,7 +307,7 @@ class RepairMimeTypes implements IRepairStep {
 			$out->info('Fixed Enhanced Metafile Format mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.1', '<') && $this->introduceEmlAndMsgFormatType()) {
+		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.2', '<') && $this->introduceEmlAndMsgFormatType()) {
 			$out->info('Fixed eml and msg mime type');
 		}
 	}
