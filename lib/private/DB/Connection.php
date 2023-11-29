@@ -41,6 +41,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -78,6 +79,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;
+	private array $lastConnectionCheck = [];
 
 	protected ?float $transactionActiveSince = null;
 
@@ -127,9 +129,12 @@ class Connection extends PrimaryReadReplicaConnection {
 	public function connect($connectionName = null) {
 		try {
 			if ($this->_conn) {
+				$this->reconnectIfNeeded();
 				/** @psalm-suppress InternalMethod */
 				return parent::connect();
 			}
+
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
 
 			// Only trigger the event logger for the initial connect call
 			$eventLogger = \OC::$server->get(IEventLogger::class);
@@ -678,5 +683,27 @@ class Connection extends PrimaryReadReplicaConnection {
 			}
 		}
 		return $result;
+	}
+
+	private function reconnectIfNeeded(): void {
+		if (
+			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
+			$this->lastConnectionCheck[$this->getConnectionName()] + 30 >= time() ||
+			$this->isTransactionActive()
+		) {
+			return;
+		}
+
+		try {
+			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+		} catch (ConnectionLost|\Exception $e) {
+			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
+			$this->close();
+		}
+	}
+
+	private function getConnectionName(): string {
+		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
 	}
 }
