@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share" : "Del",
     "Show hidden files" : "Vis skjulte filer",
     "Case sensitive file system" : "Fil system med forskel på store og små bogstaver",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Deaktivering vil tillade at bruge et fil system, der ikke skelner mellem store og små bogstaver, men kan give en reduktion i systemets ydeevne.",
     "Verify ACL access when listing files" : "Bekræft ACL-adgang, når du viser filer",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Tjek ACL'erne for hver fil eller mappe i en mappe for at bortfiltrere elementer, hvor brugeren ikke har læsetilladelser, kommer med en præstationsstraf",
     "Timeout" : "Timeout",
@@ -112,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Der er en fejl med dette eksterne lager.",
     "We were unable to check the external storage {basename}" : "Det var ikke muligt at kontrollerer det eksterne lager {basename}",
     "Examine this faulty external storage configuration" : "Gennemgå fejl konfiguration af eksternt lager ",
-    "Open in files" : "Åben i Filer",
+    "Open in Files" : "Åben i Filer",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Der er en fejl med dette eksterne lager. Ønsker du at gennemgå konfigurationen?",
     "External mount error" : "Ekstern mount fejl",
     "List of external storage." : "Liste med eksterne lagre.",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Credentials saved" : "Brugeroplysninger gemt",
     "Credentials saving failed" : "Det mislykkedes at gemme brugeroplysninger.",
     "Credentials required" : "Kræver brugeroplysninger ",
-    "Name" : "Navn"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Deaktivering vil tillade at bruge et fil system, der ikke skelner mellem store og små bogstaver, men kan give en reduktion i systemets ydeevne.",
+    "Name" : "Navn",
+    "Open in files" : "Åben i Filer"
 },
 "nplurals=2; plural=(n != 1);");

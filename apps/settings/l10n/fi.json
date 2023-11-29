@@ -116,6 +116,8 @@
     "Background jobs" : "Taustatyöt",
     "Unlimited" : "Rajoittamaton",
     "Verifying" : "Vahvistetaan",
+    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Tietokannasta puuttuu indeksejä. Suuriin tauluihin indeksien lisääminen saattaa kestää kauan, ja sen vuoksi indeksejä ei lisätty automaattisesti. Suorita \"occ db:add-missing-indices\" lisätäksesi puuttuvat indeksit manuaalisesti samalla, kun instanssi pysyy käynnissä. Kun indeksit on lisätty, kyselyt kyseisiin tauluihin ovat yleensä huomattavasti aiempaa nopeampia.",
+    "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "Tietokannasta puuttuu primääriavaimia. Suuriin tauluihin primääriavainten lisääminen saattaa kestää kauan, ja sen vuoksi primääriavaimia ei lisätty automaattisesti. Suorita \"occ db:add-missing-primary-keys\" lisätäksesi puuttuvat primääriavaimet manuaalisesti samalla, kun instanssi pysyy käynnissä.",
     "Internet connectivity" : "Internet-yhdistettävyys",
     "Disabled" : "Pois käytöstä",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Vanha palvelinpuolen salausmenetelmä on käytössä. Suosittelemme sen ottamista pois käytöstä.",

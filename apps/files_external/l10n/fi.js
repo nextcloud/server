@@ -95,7 +95,7 @@ OC.L10N.register(
     "External storage" : "Erillinen tallennustila",
     "External storage support" : "Erillisen tallennustilan tuki",
     "Adds basic external storage support" : "Lisää perusmuotoisen tuen erillisille tallennustiloille",
-    "Open in files" : "Avaa tiedostosovelluksessa",
+    "Open in Files" : "Avaa tiedostosovelluksessa",
     "External mount error" : "Erillisen liitosvirhe",
     "Storage type" : "Tallennustilan tyyppi",
     "Unknown" : "Tuntematon",
@@ -131,6 +131,7 @@ OC.L10N.register(
     "Credentials saved" : "Kirjautumistiedot tallennettu",
     "Credentials saving failed" : "Kirjautumistietojen tallentaminen epäonnistui",
     "Credentials required" : "Kirjautumistiedot vaaditaan",
-    "Name" : "Nimi"
+    "Name" : "Nimi",
+    "Open in files" : "Avaa tiedostosovelluksessa"
 },
 "nplurals=2; plural=(n != 1);");

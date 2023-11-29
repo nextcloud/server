@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share" : "Udostępnij",
     "Show hidden files" : "Pokaż ukryte pliki",
     "Case sensitive file system" : "System plików uwzględniający wielkość liter",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Wyłączenie tej opcji umożliwi użycie systemu plików niewrażliwego na wielkość liter, ale wiąże się to ze spadkiem wydajności",
     "Verify ACL access when listing files" : "Zweryfikuj dostęp ACL podczas wyświetlania plików",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Sprawdź listy ACL każdego pliku lub katalogu w katalogu, aby odfiltrować elementy, w których użytkownik nie ma uprawnień do odczytu, wiąże się to z obniżeniem wydajności",
     "Timeout" : "Przekroczono limit czasu",
@@ -112,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Wystąpił błąd związany z pamięcią zewnętrzną.",
     "We were unable to check the external storage {basename}" : "Nie można sprawdzić pamięci zewnętrznej {basename}",
     "Examine this faulty external storage configuration" : "Sprawdź wadliwą konfigurację pamięci zewnętrznej",
-    "Open in files" : "Otwórz w Plikach",
+    "Open in Files" : "Otwórz w Plikach",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Wystąpił błąd związany z pamięcią zewnętrzną. Czy chcesz przejrzeć konfigurację punktu podłączenia na stronie ustawień?",
     "External mount error" : "Błąd przy montowaniu zewnętrznym",
     "List of external storage." : "Lista pamięci zewnętrznej.",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Credentials saved" : "Poświadczenia zapisane",
     "Credentials saving failed" : "Zapisywanie poświadczeń nie powiodło się",
     "Credentials required" : "Wymagane poświadczenia",
-    "Name" : "Nazwa"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Wyłączenie tej opcji umożliwi użycie systemu plików niewrażliwego na wielkość liter, ale wiąże się to ze spadkiem wydajności",
+    "Name" : "Nazwa",
+    "Open in files" : "Otwórz w Plikach"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

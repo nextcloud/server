@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share" : "Share",
     "Show hidden files" : "Show hidden files",
     "Case sensitive file system" : "Case sensitive file system",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Disabling it will allow to use a case insentive file system, but comes with a performance penalty",
     "Verify ACL access when listing files" : "Verify ACL access when listing files",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty",
     "Timeout" : "Timeout",
@@ -112,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "There was an error with this external storage.",
     "We were unable to check the external storage {basename}" : "We were unable to check the external storage {basename}",
     "Examine this faulty external storage configuration" : "Examine this faulty external storage configuration",
-    "Open in files" : "Open in files",
+    "Open in Files" : "Open in Files",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "There was an error with this external storage. Do you want to review this mount point config in the settings page?",
     "External mount error" : "External mount error",
     "List of external storage." : "List of external storage.",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Credentials saved" : "Credentials saved",
     "Credentials saving failed" : "Credentials saving failed",
     "Credentials required" : "Credentials required",
-    "Name" : "Name"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Disabling it will allow to use a case insentive file system, but comes with a performance penalty",
+    "Name" : "Name",
+    "Open in files" : "Open in files"
 },
 "nplurals=2; plural=(n != 1);");
