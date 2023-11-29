@@ -70,7 +70,8 @@
 				</div>
 			</div>
 			<div class="sharingTabDetailsView__advanced-control">
-				<NcButton type="tertiary"
+				<NcButton id="advancedSectionAccordionAdvancedControl"
+					type="tertiary"
 					alignment="end-reverse"
 					@click="advancedSectionAccordionExpanded = !advancedSectionAccordionExpanded">
 					{{ t('files_sharing', 'Advanced settings') }}
@@ -79,7 +80,11 @@
 					</template>
 				</NcButton>
 			</div>
-			<div v-if="advancedSectionAccordionExpanded" class="sharingTabDetailsView__advanced">
+			<div v-if="advancedSectionAccordionExpanded"
+				id="advancedSectionAccordionAdvanced"
+				class="sharingTabDetailsView__advanced"
+				aria-labelledby="advancedSectionAccordionAdvancedControl"
+				role="region">
 				<section>
 					<NcInputField v-if="isPublicShare"
 						:value.sync="share.label"
@@ -406,19 +411,6 @@ export default {
 		isFolder() {
 			return this.fileInfo.type === 'dir'
 		},
-		maxExpirationDateEnforced() {
-			if (this.isExpiryDateEnforced) {
-				if (this.isPublicShare) {
-					return this.config.defaultExpirationDate
-				}
-				if (this.isRemoteShare) {
-					return this.config.defaultRemoteExpirationDateString
-				}
-				// If it get's here then it must be an internal share
-				return this.config.defaultInternalExpirationDate
-			}
-			return null
-		},
 		/**
 		 * @return {boolean}
 		 */
@@ -456,9 +448,6 @@ export default {
 		},
 		isGroupShare() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
-		},
-		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 		},
 		isNewShare() {
 			return this.share.id === null || this.share.id === undefined
@@ -631,6 +620,9 @@ export default {
 					: translatedPermissions[permission].toLocaleLowerCase(getLanguage()))
 				.join(', ')
 		},
+		advancedControlExpandedValue() {
+			return this.advancedSectionAccordionExpanded ? 'true' : 'false'
+		},
 	},
 	watch: {
 		setCustomPermissions(isChecked) {
@@ -707,6 +699,12 @@ export default {
 				return
 			}
 
+			// If there is an enforced expiry date, then existing shares created before enforcement
+			// have no expiry date, hence we set it here.
+			if (!this.isValidShareAttribute(this.share.expireDate) && this.isExpiryDateEnforced) {
+				this.hasExpirationDate = true
+			}
+
 			if (
 				this.isValidShareAttribute(this.share.password)
 				|| this.isValidShareAttribute(this.share.expireDate)
@@ -762,16 +760,12 @@ export default {
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
 			}
-
 			if (this.isPasswordProtected) {
-				if (this.isValidShareAttribute(this.share.newPassword)) {
+				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
 					this.share.password = this.share.newPassword
 					this.$delete(this.share, 'newPassword')
-				} else {
-					if (this.isPasswordEnforced) {
-						this.passwordError = true
-						return
-					}
+				} else if (this.isPasswordEnforced && !this.isValidShareAttribute(this.share.password)) {
+					this.passwordError = true
 				}
 			} else {
 				this.share.password = ''

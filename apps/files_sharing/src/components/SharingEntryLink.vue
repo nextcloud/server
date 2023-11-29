@@ -97,13 +97,13 @@
 			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
-				:disabled="saving || isExpiryDateEnforced"
+				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
 				:value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
-				:max="dateMaxEnforced"
+				:max="maxExpirationDateEnforced"
 				@input="onExpirationChange">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
@@ -299,12 +299,6 @@ export default {
 			if (this.isEmailShareType
 				&& this.title !== this.share.shareWith) {
 				return this.share.shareWith
-			}
-			return null
-		},
-		dateMaxEnforced() {
-			if (this.config.isDefaultExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
 			}
 			return null
 		},
