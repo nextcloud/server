@@ -177,7 +177,7 @@ class OutOfOfficeListener implements IEventListener {
 			->setTime(0, 0);
 		$end = (new DateTimeImmutable())
 			->setTimestamp($data->getEndDate())
-			->modify('+ 2 days')
+			->modify('+ 1 days')
 			->setTime(0, 0);
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
