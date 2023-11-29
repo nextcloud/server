@@ -110,7 +110,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "There was an error with this external storage.",
     "We were unable to check the external storage {basename}" : "We were unable to check the external storage {basename}",
     "Examine this faulty external storage configuration" : "Examine this faulty external storage configuration",
-    "Open in files" : "Open in files",
+    "Open in Files" : "در فایل باز کنید",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "There was an error with this external storage. Do you want to review this mount point config in the settings page?",
     "External mount error" : "خظای نصب خارجی",
     "List of external storage." : "List of external storage.",
@@ -152,6 +152,7 @@ OC.L10N.register(
     "Credentials saved" : "اعتبارنامه ذخیره شد",
     "Credentials saving failed" : "ذخیره اعتبارنامه انجام نشد",
     "Credentials required" : "اعتبارنامه ضروری",
-    "Name" : "نام"
+    "Name" : "نام",
+    "Open in files" : "Open in files"
 },
 "nplurals=2; plural=(n > 1);");

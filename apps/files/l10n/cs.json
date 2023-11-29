@@ -170,6 +170,7 @@
     "Reload current directory" : "Znovu načíst stávající složku",
     "Go to the \"{dir}\" directory" : "Přejít do složky „{dir}“",
     "Drag and drop files here to upload" : "Soubory nahrajete jejich přetažením sem",
+    "Uploading \"{filename}\" failed" : "Nahrávání „{filename}“ se nezdařilo",
     "Upload successful" : "Nahrání úspěšné",
     "\"{displayName}\" action executed successfully" : "akce „{displayName}“ úspěšně vykonána",
     "\"{displayName}\" action failed" : "akce „{displayName}“ se nezdařila",

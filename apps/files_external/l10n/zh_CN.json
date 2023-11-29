@@ -88,7 +88,6 @@
     "Share" : "共享",
     "Show hidden files" : "显示隐藏文件",
     "Case sensitive file system" : "大小写敏感文件系统",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "关闭此选项将允许使用不区分大小的文件系统，但是会在一定程度上影响性能",
     "Verify ACL access when listing files" : "列出文件时验证 ACL 访问",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "检查目录中每个文件或文件夹的 ACL，以过滤掉用户没有读取权限的项目，这会带来性能损失",
     "Timeout" : "超时",
@@ -110,7 +109,7 @@
     "There was an error with this external storage." : "此外部存储出现问题",
     "We were unable to check the external storage {basename}" : "我们无法检查外部存储 {basename}",
     "Examine this faulty external storage configuration" : "检查此出错的外部存储配置",
-    "Open in files" : "在文件中打开",
+    "Open in Files" : "在文件中打开",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "此外部存储存在错误。要在设置页中检查此挂载点的配置吗？",
     "External mount error" : "外部挂载错误",
     "List of external storage." : "外部存储列表",
@@ -152,6 +151,8 @@
     "Credentials saved" : "凭据已保存",
     "Credentials saving failed" : "证书保存失败",
     "Credentials required" : "需要凭据",
-    "Name" : "名称"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "关闭此选项将允许使用不区分大小的文件系统，但是会在一定程度上影响性能",
+    "Name" : "名称",
+    "Open in files" : "在文件中打开"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

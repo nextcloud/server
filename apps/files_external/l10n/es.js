@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share" : "Compartir",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Case sensitive file system" : "Sistema de archivos sensible a mayúsculas",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Desactivarlo permitirá usar un sistema de archivos no sensible a las mayúsculas, pero a costa de menor rendimiento",
     "Verify ACL access when listing files" : "Verificar acceso ACL al listar archivos",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprobar los ACL de cada archivo o carpeta en un directorio para filtrar los ítems en los que el usuario no tiene permisos de lectura. Provoca un descenso en el rendimiento.",
     "Timeout" : "Se agotó el tiempo",
@@ -112,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Se presentó un problema con este almacenamiento externo.",
     "We were unable to check the external storage {basename}" : "No nos fue posible chequear el almacenamiento externo {basename}",
     "Examine this faulty external storage configuration" : "Examinar la configuración de este almacenamiento externo con fallas",
-    "Open in files" : "Abrir en archivos",
+    "Open in Files" : "Abrir en Archivos",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Se presentó un problema con este almacenamiento externo. ¿Desea revisar la configuración de este punto de montaje en la página de ajustes?",
     "External mount error" : "Error de montaje externo",
     "List of external storage." : "Lista de almacenamientos externos.",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Credentials saved" : "Credenciales guardados",
     "Credentials saving failed" : "Guardado de credenciales fallido",
     "Credentials required" : "Credenciales requeridos",
-    "Name" : "Nombre"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Desactivarlo permitirá usar un sistema de archivos no sensible a las mayúsculas, pero a costa de menor rendimiento",
+    "Name" : "Nombre",
+    "Open in files" : "Abrir en archivos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
