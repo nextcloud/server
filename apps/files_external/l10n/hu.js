@@ -110,7 +110,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Hiba történt ezzel a külső tárolóval.",
     "We were unable to check the external storage {basename}" : "Nem sikerült a külső tároló ellenőrzése {basename}",
     "Examine this faulty external storage configuration" : "Vizsálja meg a hibás külső tároló konfigurációját",
-    "Open in files" : "Megnyitás a Files-ban",
+    "Open in Files" : "Megnyitás a Files-ban",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "HIba lépett fel ezzel a külső tárolóval. Át kívánja tekinteni a konfigurációját a beállítások oldalon?",
     "External mount error" : "Külső csatolási hiba",
     "List of external storage." : "Külső tárolók listázása.",
@@ -152,6 +152,7 @@ OC.L10N.register(
     "Credentials saved" : "Hitelesítő adatok mentve",
     "Credentials saving failed" : "Hitelesítő adatok mentése sikertelen",
     "Credentials required" : "Hitelesítő adatok szükségesek",
-    "Name" : "Név"
+    "Name" : "Név",
+    "Open in files" : "Megnyitás a Files-ban"
 },
 "nplurals=2; plural=(n != 1);");

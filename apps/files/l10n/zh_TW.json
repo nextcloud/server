@@ -170,6 +170,7 @@
     "Reload current directory" : "重新載入目前的目錄",
     "Go to the \"{dir}\" directory" : "到「{dir}」目錄",
     "Drag and drop files here to upload" : "將檔案拖曳到此處以上傳",
+    "Uploading \"{filename}\" failed" : "上傳「{filename}」失敗",
     "Upload successful" : "上傳成功",
     "\"{displayName}\" action executed successfully" : "「{displayName}」動作執行成功",
     "\"{displayName}\" action failed" : "「{displayName}」操作失敗",

@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share" : "Дели",
     "Show hidden files" : "Прикажи скривене фајлове",
     "Case sensitive file system" : "Фајл систем који разликује величину слова",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Ако се искључи, омогућиће се употреба фајл система који не прави разлику у величини слова, али ће се умањити перформансе",
     "Verify ACL access when listing files" : "Провери ACL (листу контроле приступа) приликом излиставања фајлова",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Провери ACL (листу контроле приступа) сваког фајла или фасцикле унутар директоријума да исфилтрираш ставке где корисник нема право читања, али уз удар на перформансе",
     "Timeout" : "Истек времена",
@@ -112,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Дошло је до грешке у вези са овим спољним складиштем.",
     "We were unable to check the external storage {basename}" : "Нисмо успели да проверимо спољно складиште {basename}",
     "Examine this faulty external storage configuration" : "Испитајте ову неисправну конфигурацију спољног складишта",
-    "Open in files" : "Отвори у фајловима",
+    "Open in Files" : "Отвори у Фајловима",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Дошло је до грешке у вези са овим спољним складиштем. Желите ли да преиспитате конфигурацију ове тачке монтирања на страници подешавања?",
     "External mount error" : "Спољна грешка при монтирању",
     "List of external storage." : "Листа спољних складишта.",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Credentials saved" : "Акредитиви снимљени",
     "Credentials saving failed" : "Снимање акредитива није успело",
     "Credentials required" : "Потребни акредитиви",
-    "Name" : "Назив"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Ако се искључи, омогућиће се употреба фајл система који не прави разлику у величини слова, али ће се умањити перформансе",
+    "Name" : "Назив",
+    "Open in files" : "Отвори у фајловима"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

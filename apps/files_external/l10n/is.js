@@ -106,7 +106,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Það kom upp villa með þessa ytri-gagnageymslu.",
     "We were unable to check the external storage {basename}" : "Okkur tókst ekki að athuga ytri-gagnageymsluna {basename}",
     "Examine this faulty external storage configuration" : "Skoða þessa ófullgerðu uppsetningu ytri-gagnageymslu",
-    "Open in files" : "Opna í skráaforritinu",
+    "Open in Files" : "Opna í skráaforritinu",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Það kom upp villa með þessa ytri-gagnageymslu. Viltu yfirfara uppsetningu þessa tengipunkts á stillingasíðunni?",
     "External mount error" : "Villa við tengingu í fjartengdu skráakerfi",
     "List of external storage." : "Listi yfir ytri-gagnageymslur.",
@@ -146,6 +146,7 @@ OC.L10N.register(
     "Credentials saved" : "Auðkenni vistuð",
     "Credentials saving failed" : "Vistun auðkenna tókst ekki",
     "Credentials required" : "Auðkenna krafist",
-    "Name" : "Nafn"
+    "Name" : "Nafn",
+    "Open in files" : "Opna í skráaforritinu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

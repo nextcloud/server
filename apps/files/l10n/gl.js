@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Recargar o directorio actual",
     "Go to the \"{dir}\" directory" : "Vaia ao directorio «{dir}».",
     "Drag and drop files here to upload" : "Arrastre e solte os ficheiros aquí para envialos",
+    "Uploading \"{filename}\" failed" : "Produciuse un fallo ao cargar «{filename}».",
     "Upload successful" : "Envío satisfactorio",
     "\"{displayName}\" action executed successfully" : "A acción «{displayName}» executouse correctamente",
     "\"{displayName}\" action failed" : "A acción «{displayName}» fallou",

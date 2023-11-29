@@ -110,7 +110,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Si è verificato un errore con questa archiviazione esterna.",
     "We were unable to check the external storage {basename}" : "Non è stato possibile controllare l'archiviazione esterna {basename}",
     "Examine this faulty external storage configuration" : "Esamina questa configurazione errata di archiviazione esterna",
-    "Open in files" : "Apri in file",
+    "Open in Files" : "Apri in File",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Si è verificato un errore con questa archiviazione esterna. Vuoi rivedere la configurazione del punto di mount nelle impostazioni?",
     "External mount error" : "Errore di mount esterno",
     "List of external storage." : "Lista di archiviazioni esterne.",
@@ -152,6 +152,7 @@ OC.L10N.register(
     "Credentials saved" : "Credenziali salvate",
     "Credentials saving failed" : "Salvataggio delle credenziali non riuscito",
     "Credentials required" : "Credenziali richieste",
-    "Name" : "Nome"
+    "Name" : "Nome",
+    "Open in files" : "Apri in file"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

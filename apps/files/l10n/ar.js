@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "إعادة تحميل المجلد الحالي",
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
     "Drag and drop files here to upload" : "إسحَب و أفلِت الملفات هنا لرفعها",
+    "Uploading \"{filename}\" failed" : "فشل في تحديث \"{filename}\" ",
     "Upload successful" : "تمّ الرفع بنجاحٍ",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" الأمر نُفّذ بنجاح",
     "\"{displayName}\" action failed" : "\"{dispalyName}\" الأمر أخفق عند التنفيذ",

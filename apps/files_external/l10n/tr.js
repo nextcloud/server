@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share" : "Paylaş",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Case sensitive file system" : "Büyük/küçük harfe duyarlı dosya sistemi",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Bu seçeneği kapatmak, büyük/küçük harfe duyarlı olmayan bir dosya sisteminin kullanılmasını sağlar, ancak başarım kaybına yol açar",
     "Verify ACL access when listing files" : "Dosyalar listelenirken EDL denetlensin",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Tüm dosya ve klasörler için Erişim Denetimi Listesine bakılarak kullanıcının okuma yetkisi olmayan ögeler görüntülenmez. Bu özelliğin kullanılması başarımı düşürür",
     "Timeout" : "Zaman aşımı",
@@ -112,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : " Bu dış depolama birimi ile ilgili bir sorun çıktı.",
     "We were unable to check the external storage {basename}" : "{basename} dış depolama birimi denetlenemedi",
     "Examine this faulty external storage configuration" : "Bu sorunlu dış depolama birimi yapılandırmasını gözden geçirin",
-    "Open in files" : "Dosyalar uygulamasında aç",
+    "Open in Files" : "Dosyalar uygulamasında aç",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Bu dış depolama birimi ile ilgili bir sorun çıktı. Bu takma noktasının ayarlar sayfasındaki yapılandırmasını gözden geçirmek ister misiniz?",
     "External mount error" : "Dış bağlama sorunu",
     "List of external storage." : "Dış depolama birimi listesi.",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Credentials saved" : "Kimlik doğrulama bilgileri kaydedildi",
     "Credentials saving failed" : "Kimlik doğrulama bilgileri kaydedilemedi",
     "Credentials required" : "Kimlik doğrulama bilgileri gerekli",
-    "Name" : "Ad"
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Bu seçeneği kapatmak, büyük/küçük harfe duyarlı olmayan bir dosya sisteminin kullanılmasını sağlar, ancak başarım kaybına yol açar",
+    "Name" : "Ad",
+    "Open in files" : "Dosyalar uygulamasında aç"
 },
 "nplurals=2; plural=(n > 1);");
