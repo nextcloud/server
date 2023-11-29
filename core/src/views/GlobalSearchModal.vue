@@ -30,26 +30,26 @@
 						{{ t('core', provider.name) }}
 					</NcActionButton>
 				</NcActions>
-				<NcActions :menu-name="t('core', 'Modified')" :open.sync="dateActionMenuIsOpen">
+				<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen">
 					<template #icon>
 						<CalendarRangeIcon :size="20" />
 					</template>
-					<NcActionButton @click="applyQuickDateRange('today')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('today')">
 						{{ t('core', 'Today') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('7days')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('7days')">
 						{{ t('core', 'Last 7 days') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('30days')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('30days')">
 						{{ t('core', 'Last 30 days') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('thisyear')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('thisyear')">
 						{{ t('core', 'This year') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('lastyear')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('lastyear')">
 						{{ t('core', 'Last year') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('custom')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('custom')">
 						{{ t('core', 'Custom date range') }}
 					</NcActionButton>
 				</NcActions>
@@ -136,7 +136,6 @@ import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModa
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
-import FlaskEmpty from 'vue-material-design-icons/FlaskEmpty.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -163,7 +162,6 @@ export default {
 		DotsHorizontalIcon,
 		FilterIcon,
 		FilterChip,
-		FlaskEmpty,
 		ListBox,
 		NcActions,
 		NcActionButton,
@@ -193,6 +191,7 @@ export default {
 			dateFilterIsApplied: false,
 			personFilterIsApplied: false,
 			filteredProviders: [],
+			searching: false,
 			searchQuery: '',
 			placesFilter: '',
 			dateTimeFilter: null,
@@ -217,8 +216,8 @@ export default {
 
 				return {
 					show: isEmptySearch || hasNoResults,
-					text: isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results'),
-					icon: isEmptySearch ? MagnifyIcon : FlaskEmpty,
+					text: this.searching && hasNoResults ? t('core', 'Searching …') : (isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results')),
+					icon: MagnifyIcon,
 				}
 			},
 		},
@@ -244,8 +243,10 @@ export default {
 	},
 	methods: {
 		find(query) {
+			this.searching = true
 			if (query.length === 0) {
 				this.results = []
+				this.searching = false
 				return
 			}
 			if (this.supportFiltering()) {
@@ -297,6 +298,7 @@ export default {
 					console.debug('Global search results:', this.results)
 
 					this.updateResults(newResults)
+					this.searching = false
 				})
 			}
 			providersToSearch.forEach(provider => {
@@ -596,7 +598,7 @@ div.v-popper__wrapper {
 				align-items: center !important;
 
 				img {
-					width: 24px;
+					width: 20px;
 					margin: 0 4px;
 					filter: var(--background-invert-if-bright);
 				}
