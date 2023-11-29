@@ -20,6 +20,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s a partajat »%2$s« cu tine și vrea să adauge",
     "»%s« added a note to a file shared with you" : "%s« a adaugat un comentariu la un fișier partajat cu tine",
     "This is the password:" : "Aceasta este parola:",
+    "You can choose a different password at any time in the share dialog." : "Puteți schimba parola oricând în dialogul de partajare.",
     "Could not find share" : "Nu am putut găsi partajarea",
     "Send password by mail" : "Trimite parola prin mail"
 },

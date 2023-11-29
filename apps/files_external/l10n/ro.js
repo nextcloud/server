@@ -55,6 +55,7 @@ OC.L10N.register(
     "Show hidden files" : "Arată fișierele ascunse",
     "Service name" : "Nume serviciu",
     "External storage" : "Stocare externă",
+    "Open in Files" : "Deschide în Fișiere",
     "Storage type" : "Tip stocare",
     "Unknown" : "Necunoscut",
     "Scope" : "Scop",

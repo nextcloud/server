@@ -170,6 +170,7 @@
     "Reload current directory" : "Aktuelles Verzeichnis neu laden",
     "Go to the \"{dir}\" directory" : "In das Verzeichnis \"{dir}“ wechseln",
     "Drag and drop files here to upload" : "Dateien zum Hochladen hierher ziehen und ablegen",
+    "Uploading \"{filename}\" failed" : "Konnte \"{filename}\" nicht hochladen",
     "Upload successful" : "Hochladen erfolgreich",
     "\"{displayName}\" action executed successfully" : "Aktion \"{displayName}\" erfolgreich ausgeführt",
     "\"{displayName}\" action failed" : "Aktion \"{displayName}\" fehlgeschlagen",

@@ -19,7 +19,7 @@ OC.L10N.register(
     "Initial version restored" : "A versión inicial foi restaurada",
     "Version restored" : "A versión foi restaurada",
     "Could not restore version" : "Non foi posíbel restaurar a versión",
-    "Could not set version name" : "Non foi posíbel estabelecer o nome da versión",
+    "Could not set version name" : "Non foi posíbel definir o nome da versión",
     "Could not delete version" : "Non foi posíbel eliminar a versión",
     "${version.label} restored" : "${version.label} foi restaurada"
 },
