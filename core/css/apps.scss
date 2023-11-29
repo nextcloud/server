@@ -237,6 +237,10 @@ kbd {
 				> a {
 					background-color: var(--color-primary-element);
 					color: var(--color-primary-element-text);
+
+					&:first-child > img {
+						filter: var(--primary-invert-if-dark);
+					}
 				}
 			}
 
@@ -281,6 +285,9 @@ kbd {
 						> a {
 							border-radius: var(--border-radius-pill);
 							background-color: var(--color-primary-element-light);
+							&:first-child > img {
+								filter: var(--primary-invert-if-dark);
+							}
 						}
 					}
 
