@@ -66,7 +66,7 @@ class AvailabilitySettingsController extends Controller {
 
 		$parsedFirstDay = new DateTimeImmutable($firstDay);
 		$parsedLastDay = new DateTimeImmutable($lastDay);
-		if ($parsedFirstDay->getTimestamp() >= $parsedLastDay->getTimestamp()) {
+		if ($parsedFirstDay->getTimestamp() > $parsedLastDay->getTimestamp()) {
 			throw new \Exception('First day is on or after last day');
 		}
 
