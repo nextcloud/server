@@ -277,8 +277,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/OutOfOfficeData",
-                                                    "nullable": true
+                                                    "$ref": "#/components/schemas/OutOfOfficeData"
                                                 }
                                             }
                                         }
@@ -308,7 +307,6 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/OutOfOfficeData",
                                                     "nullable": true
                                                 }
                                             }
