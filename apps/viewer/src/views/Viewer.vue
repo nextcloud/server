@@ -660,7 +660,6 @@ export default {
 				handler = this.registeredHandlers[mime] ?? this.registeredHandlers[alias]
 			}
 
-			this.theme = handler.theme ?? 'dark'
 			// if we don't have a handler for this mime, abort
 			if (!handler) {
 				logger.error('The following file could not be displayed', { fileInfo })
@@ -669,6 +668,7 @@ export default {
 				return
 			}
 
+			this.theme = handler.theme ?? 'dark'
 			this.handlerId = handler.id
 
 			// check if part of a group, if so retrieve full files list
