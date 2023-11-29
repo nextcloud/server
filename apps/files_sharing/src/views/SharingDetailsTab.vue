@@ -152,7 +152,7 @@
 						{{ t('files_sharing', 'Create') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
-						{{ t('files_sharing', 'Update') }}
+						{{ t('files_sharing', 'Edit') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
 						:disabled="!canSetReshare"
@@ -614,7 +614,7 @@ export default {
 			const translatedPermissions = {
 				[ATOMIC_PERMISSIONS.READ]: this.t('files_sharing', 'Read'),
 				[ATOMIC_PERMISSIONS.CREATE]: this.t('files_sharing', 'Create'),
-				[ATOMIC_PERMISSIONS.UPDATE]: this.t('files_sharing', 'Update'),
+				[ATOMIC_PERMISSIONS.UPDATE]: this.t('files_sharing', 'Edit'),
 				[ATOMIC_PERMISSIONS.SHARE]: this.t('files_sharing', 'Share'),
 				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
