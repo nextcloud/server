@@ -196,16 +196,24 @@ trait S3ObjectTrait {
 			'Key' => $from,
 		] + $this->getSSECParameters());
 
-		$copy = new MultipartCopy($this->getConnection(), [
-			"source_bucket" => $this->getBucket(),
-			"source_key" => $from
-		], array_merge([
-			"bucket" => $this->getBucket(),
-			"key" => $to,
-			"acl" => "private",
-			"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
-			"source_metadata" => $sourceMetadata
-		], $options));
-		$copy->copy();
+		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
+
+		if ($size > $this->copySizeLimit) {
+			$copy = new MultipartCopy($this->getConnection(), [
+				"source_bucket" => $this->getBucket(),
+				"source_key" => $from
+			], array_merge([
+				"bucket" => $this->getBucket(),
+				"key" => $to,
+				"acl" => "private",
+				"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
+				"source_metadata" => $sourceMetadata
+			], $options));
+			$copy->copy();
+		} else {
+			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true)
+			], $options));
+		}
 	}
 }
