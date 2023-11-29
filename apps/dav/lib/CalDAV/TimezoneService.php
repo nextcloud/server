@@ -42,6 +42,15 @@ class TimezoneService {
 	}
 
 	public function getUserTimezone(string $userId): ?string {
+		$fromConfig = $this->config->getUserValue(
+			$userId,
+			'core',
+			'timezone',
+		);
+		if ($fromConfig !== '') {
+			return $fromConfig;
+		}
+
 		$availabilityPropPath = 'calendars/' . $userId . '/inbox';
 		$availabilityProp = '{' . Plugin::NS_CALDAV . '}calendar-availability';
 		$availabilities = $this->propertyMapper->findPropertyByPathAndName($userId, $availabilityPropPath, $availabilityProp);
