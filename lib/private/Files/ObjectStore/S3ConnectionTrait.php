@@ -71,6 +71,9 @@ trait S3ConnectionTrait {
 	/** @var int */
 	private $putSizeLimit;
 
+	/** @var int */
+	private $copySizeLimit;
+
 	protected $test;
 
 	protected function parseParams($params) {
@@ -87,6 +90,7 @@ trait S3ConnectionTrait {
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
+		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
