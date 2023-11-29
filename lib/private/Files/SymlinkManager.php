@@ -139,14 +139,12 @@ class SymlinkManager {
 		$name = $this->getNameFromNode($node);
 		$storageId = $this->getStorageIdFromNode($node);
 		$path = $this->getPathFromNode($node);
-		$lastUpdated = $this->getLastUpdatedFromNode($node);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update(self::TABLE_NAME)
 			->set('name', $query->createNamedParameter($name))
 			->set('storage', $query->createNamedParameter($storageId))
-			->set('path', $query->createNamedParameter($path))
-			->set('last_updated', $query->createNamedParameter($lastUpdated));
+			->set('path', $query->createNamedParameter($path));
 		if ($query->executeStatement() != 1) {
 			throw new \OCP\DB\Exception("Invalid number of rows changed while updating symlink!");
 		}
@@ -159,14 +157,12 @@ class SymlinkManager {
 		$name = $this->getNameFromNode($node);
 		$storageId = $this->getStorageIdFromNode($node);
 		$path = $this->getPathFromNode($node);
-		$lastUpdated = $this->getLastUpdatedFromNode($node);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_NAME)
 			->setValue('name', $query->createNamedParameter($name))
 			->setValue('storage', $query->createNamedParameter($storageId))
-			->setValue('path', $query->createNamedParameter($path))
-			->setValue('last_updated', $query->createNamedParameter($lastUpdated));
+			->setValue('path', $query->createNamedParameter($path));
 		if ($query->executeStatement() != 1) {
 			throw new \OCP\DB\Exception("Invalid number of rows changed while inserting symlink!");
 		}
@@ -207,12 +203,5 @@ class SymlinkManager {
 	 */
 	private function getPathFromNode($node) {
 		return $node->getPath();
-	}
-
-	/**
-	 * @param \OCP\Files\FileInfo $node
-	 */
-	private function getLastUpdatedFromNode($node) {
-		return $node->getMtime();
 	}
 }
