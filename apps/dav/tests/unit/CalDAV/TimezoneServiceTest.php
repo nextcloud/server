@@ -78,7 +78,22 @@ class TimezoneServiceTest extends TestCase {
 		);
 	}
 
+	public function testGetUserTimezoneFromSettings(): void {
+		$this->config->expects(self::once())
+			->method('getUserValue')
+			->with('test123', 'core', 'timezone', '')
+			->willReturn('Europe/Warsaw');
+
+		$timezone = $this->service->getUserTimezone('test123');
+
+		self::assertSame('Europe/Warsaw', $timezone);
+	}
+
 	public function testGetUserTimezoneFromAvailability(): void {
+		$this->config->expects(self::once())
+			->method('getUserValue')
+			->with('test123', 'core', 'timezone', '')
+			->willReturn('');
 		$property = new Property();
 		$property->setPropertyvalue('BEGIN:VCALENDAR
 PRODID:Nextcloud DAV app
@@ -99,10 +114,12 @@ END:VCALENDAR');
 	}
 
 	public function testGetUserTimezoneFromPersonalCalendar(): void {
-		$this->config->expects(self::once())
+		$this->config->expects(self::exactly(2))
 			->method('getUserValue')
-			->with('test123', 'dav', 'defaultCalendar')
-			->willReturn('personal-1');
+			->willReturnMap([
+				['test123', 'core', 'timezone', '', ''],
+				['test123', 'dav', 'defaultCalendar', '', 'personal-1'],
+			]);
 		$other = $this->createMock(ICalendar::class);
 		$other->method('getUri')->willReturn('other');
 		$personal = $this->createMock(CalendarImpl::class);
@@ -126,10 +143,12 @@ END:VCALENDAR');
 	}
 
 	public function testGetUserTimezoneFromAny(): void {
-		$this->config->expects(self::once())
+		$this->config->expects(self::exactly(2))
 			->method('getUserValue')
-			->with('test123', 'dav', 'defaultCalendar')
-			->willReturn('personal-1');
+			->willReturnMap([
+				['test123', 'core', 'timezone', '', ''],
+				['test123', 'dav', 'defaultCalendar', '', 'personal-1'],
+			]);
 		$other = $this->createMock(ICalendar::class);
 		$other->method('getUri')->willReturn('other');
 		$personal = $this->createMock(CalendarImpl::class);
