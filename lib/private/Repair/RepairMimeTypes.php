@@ -240,7 +240,7 @@ class RepairMimeTypes implements IRepairStep {
 	private function introduceEmlAndMsgFormatType() {
 		$updatedMimetypes = [
 			'eml' => 'message/rfc822',
-			'msg' => 'application/x-ole-storage',
+			'msg' => 'application/vnd.ms-outlook',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);
