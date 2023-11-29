@@ -30,6 +30,7 @@ use OCA\DAV\Db\AbsenceMapper;
 use OCA\DAV\ResponseDefinitions;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -50,15 +51,13 @@ class OutOfOfficeController extends OCSController {
 	/**
 	 * Get the currently configured out-of-office data of a user.
 	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * @param string $userId The user id to get out-of-office data for.
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, ?DAVOutOfOfficeData, array{}>
+	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
 	 *
 	 * 200: Out-of-office data
 	 * 404: No out-of-office data was found
 	 */
+	#[NoAdminRequired]
 	public function getCurrentOutOfOfficeData(string $userId): DataResponse {
 		try {
 			$data = $this->absenceMapper->findByUserId($userId);
