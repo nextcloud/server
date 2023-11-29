@@ -34,9 +34,7 @@ use OCA\DAV\Db\AbsenceMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\Calendar\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
@@ -50,8 +48,6 @@ class AbsenceService {
 		private IJobList $jobList,
 		private TimezoneService $timezoneService,
 		private ITimeFactory $timeFactory,
-		private IConfig $appConfig,
-		private IManager $calendarManager,
 	) {
 	}
 
@@ -97,22 +93,27 @@ class AbsenceService {
 			$this->eventDispatcher->dispatchTyped(new OutOfOfficeChangedEvent($eventData));
 		}
 
-		$this->jobList->scheduleAfter(
-			OutOfOfficeEventDispatcherJob::class,
-			$eventData->getStartDate(),
-			[
-				'id' => $absence->getId(),
-				'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
-			],
-		);
-		$this->jobList->scheduleAfter(
-			OutOfOfficeEventDispatcherJob::class,
-			$eventData->getEndDate(),
-			[
-				'id' => $absence->getId(),
-				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
-			],
-		);
+		$now = $this->timeFactory->getTime();
+		if ($eventData->getStartDate() > $now) {
+			$this->jobList->scheduleAfter(
+				OutOfOfficeEventDispatcherJob::class,
+				$eventData->getStartDate(),
+				[
+					'id' => $absence->getId(),
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				],
+			);
+		}
+		if ($eventData->getEndDate() > $now) {
+			$this->jobList->scheduleAfter(
+				OutOfOfficeEventDispatcherJob::class,
+				$eventData->getEndDate(),
+				[
+					'id' => $absence->getId(),
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				],
+			);
+		}
 
 		return $absence;
 	}
