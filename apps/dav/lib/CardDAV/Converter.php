@@ -135,12 +135,12 @@ class Converter {
 					$vCard->add(new Text($vCard, 'TITLE', $property->getValue(), ['X-NC-SCOPE' => $scope]));
 					break;
 				case IAccountManager::PROPERTY_BIRTHDATE:
-					$vCard->add(new Text($vCard, 'BDAY;VALUE=DATE', substr($property->getValue(), 0, 8), ['X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'BDAY', substr($property->getValue(), 0, 8), ['VALUE' => 'DATE']));
 					break;
 				case IAccountManager::PROPERTY_ANNIVERSARYDATE:
-					$vCard->add(new Text($vCard, 'ANNIVERSARY;VALUE=DATE', substr($property->getValue(), 0, 8), ['X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'ANNIVERSARY', substr($property->getValue(), 0, 8), ['VALUE' => 'DATE']));
 					/* iOS compatibility */
-					$vCard->add(new Text($vCard, 'ITEM3.X-ABDATE;TYPE=pref', substr($property->getValue(), 0, 8), ['X-NC-SCOPE' => $scope]));
+					$vCard->add(new Text($vCard, 'ITEM3.X-ABDATE', substr($property->getValue(), 0, 8), ['TYPE' => 'pref']));
 					$vCard->add(new Text($vCard, 'ITEM3.X-ABLABEL:_$!<Anniversary>!$_'));
 					break;
 			}
