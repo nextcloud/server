@@ -59,6 +59,7 @@ return array(
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files\\Listener\\RenderReferenceEventListener' => $baseDir . '/../lib/Listener/RenderReferenceEventListener.php',
+    'OCA\\Files\\Listener\\SyncLivePhotosListener' => $baseDir . '/../lib/Listener/SyncLivePhotosListener.php',
     'OCA\\Files\\Migration\\Version11301Date20191205150729' => $baseDir . '/../lib/Migration/Version11301Date20191205150729.php',
     'OCA\\Files\\Migration\\Version12101Date20221011153334' => $baseDir . '/../lib/Migration/Version12101Date20221011153334.php',
     'OCA\\Files\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',

@@ -133,7 +133,7 @@ class HookConnector {
 		$this->root->emit('\OC\Files', 'preDelete', [$node]);
 		$this->dispatcher->dispatch('\OCP\Files::preDelete', new GenericEvent($node));
 
-		$event = new BeforeNodeDeletedEvent($node);
+		$event = new BeforeNodeDeletedEvent($node, $arguments['run']);
 		$this->dispatcher->dispatchTyped($event);
 	}
 
@@ -171,7 +171,7 @@ class HookConnector {
 		$this->root->emit('\OC\Files', 'preRename', [$source, $target]);
 		$this->dispatcher->dispatch('\OCP\Files::preRename', new GenericEvent([$source, $target]));
 
-		$event = new BeforeNodeRenamedEvent($source, $target);
+		$event = new BeforeNodeRenamedEvent($source, $target, $arguments['run']);
 		$this->dispatcher->dispatchTyped($event);
 	}
 
