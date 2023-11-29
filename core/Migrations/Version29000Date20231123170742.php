@@ -67,16 +67,9 @@ class Version29000Date20231123170742 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 255,
 			]);
-			$table->addColumn('last_updated', Types::INTEGER, [
-				'notnull' => false,
-				'length' => 4,
-				'default' => 0,
-				'unsigned' => true,
-			]);
 
 			$table->setPrimaryKey(['id'], 'symlinks_id_index');
-			$table->addUniqueIndex(['path'], 'symlinks_path_index');
-			$table->addIndex(['last_updated'], 'symlinks_updated');
+			$table->addUniqueIndex(['storage', 'path'], 'symlinks_storage_path_index');
 
 			return $schema;
 		}
