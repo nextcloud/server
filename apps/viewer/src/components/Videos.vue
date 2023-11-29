@@ -99,6 +99,9 @@ export default {
 				blankVideo,
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
 				loadSprite: false,
+				fullscreen: {
+					iosNative: true,
+				}
 			}
 		},
 	},
