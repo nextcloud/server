@@ -154,7 +154,6 @@ OC.L10N.register(
     "Credentials saving failed" : "資格情報の保存に失敗しました",
     "Credentials required" : "資格情報が必要です",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "これを無効にすると、大文字と小文字を区別しないファイルシステムを使用できるようになりますが、パフォーマンス上のペナルティが発生します。",
-    "Name" : "名前",
-    "Open in files" : "ファイルで開く"
+    "Name" : "名前"
 },
 "nplurals=1; plural=0;");

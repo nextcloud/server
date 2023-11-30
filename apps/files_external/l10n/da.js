@@ -154,7 +154,6 @@ OC.L10N.register(
     "Credentials saving failed" : "Det mislykkedes at gemme brugeroplysninger.",
     "Credentials required" : "Kræver brugeroplysninger ",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Deaktivering vil tillade at bruge et fil system, der ikke skelner mellem store og små bogstaver, men kan give en reduktion i systemets ydeevne.",
-    "Name" : "Navn",
-    "Open in files" : "Åben i Filer"
+    "Name" : "Navn"
 },
 "nplurals=2; plural=(n != 1);");

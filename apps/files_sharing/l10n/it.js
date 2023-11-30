@@ -301,7 +301,6 @@ OC.L10N.register(
     "Allow resharing" : "Consenti la ri-condivisione",
     "Expiration date enforced" : "Data di scadenza applicata",
     "Password protect" : "Proteggi con password",
-    "Science Mesh" : "Science Mesh",
-    "Update" : "Aggiorna"
+    "Science Mesh" : "Science Mesh"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

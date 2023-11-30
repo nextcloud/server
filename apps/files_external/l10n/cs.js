@@ -90,6 +90,7 @@ OC.L10N.register(
     "Share" : "Sdílet",
     "Show hidden files" : "Zobrazit skryté soubory",
     "Case sensitive file system" : "Souborový systém rozlišující VELKÁ/malá písmena",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Vypnutí tohoto umožní používat souborový systém, rozlišující VELKÁ/malá písmena, ale za cenu snížení výkonu",
     "Verify ACL access when listing files" : "Ověřovat ACL přístup při vypisování souborů",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Kontrola ACL seznamů každého souboru či podsložky uvnitř složky pro vyfiltrování položek, ke kterým uživatel nemá oprávnění pro čtení, poznamená výkon",
     "Timeout" : "Časový limit",
@@ -154,7 +155,6 @@ OC.L10N.register(
     "Credentials saving failed" : "Uložení přihlašovacích údajů se nezdařilo",
     "Credentials required" : "Vyžadovány přihlašovací údaje",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Vypnutí tohoto umožní používat souborový systém, rozlišující VELKÁ/malá písmena, ale za cenu snížení výkonu",
-    "Name" : "Název",
-    "Open in files" : "Otevřít v aplikaci Soubory"
+    "Name" : "Název"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

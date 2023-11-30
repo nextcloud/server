@@ -154,7 +154,6 @@ OC.L10N.register(
     "Credentials saving failed" : "Erro ao salvar as credenciais",
     "Credentials required" : "Credenciais necessárias",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Desabilitar esta opção permitirá usar um servidor de arquivos não sensível a maiúsculas, no entanto haverá degradação na performance",
-    "Name" : "Nome",
-    "Open in files" : "Abrir em arquivos"
+    "Name" : "Nome"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

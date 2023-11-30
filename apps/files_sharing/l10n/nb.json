@@ -271,7 +271,6 @@
     "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
     "Expiration date enforced" : "Utløpsdato er påkrevd",
-    "Password protect" : "Passordbeskyttelse",
-    "Update" : "Oppdater"
+    "Password protect" : "Passordbeskyttelse"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

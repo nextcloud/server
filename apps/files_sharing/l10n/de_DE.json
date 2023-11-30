@@ -300,7 +300,6 @@
     "Allow resharing" : "Weiterteilen erlauben",
     "Expiration date enforced" : "Ablaufdatum erzwungen",
     "Password protect" : "Passwortschutz",
-    "Science Mesh" : "ScienceMesh",
-    "Update" : "Aktualisieren"
+    "Science Mesh" : "ScienceMesh"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

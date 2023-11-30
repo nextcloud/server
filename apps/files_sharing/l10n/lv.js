@@ -204,7 +204,6 @@ OC.L10N.register(
     "Allow deleting" : "Atļaut dzēšanu",
     "Allow resharing" : "Atļaut atkārtotu koplietošanu",
     "Expiration date enforced" : "Piespiedu derīguma termiņš",
-    "Password protect" : "Aizsargāt ar paroli",
-    "Update" : "Atjaunināt"
+    "Password protect" : "Aizsargāt ar paroli"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

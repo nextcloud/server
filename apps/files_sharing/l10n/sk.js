@@ -278,7 +278,6 @@ OC.L10N.register(
     "Allow deleting" : "Umožniť mazanie",
     "Allow resharing" : "Povoliť sprístupňovanie ďalej",
     "Expiration date enforced" : "Vynútený dátum ukončenia platnosti",
-    "Password protect" : "Chrániť heslom",
-    "Update" : "Aktualizovať"
+    "Password protect" : "Chrániť heslom"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

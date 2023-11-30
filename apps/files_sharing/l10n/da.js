@@ -201,7 +201,6 @@ OC.L10N.register(
     "Allow deleting" : "Tillad sletning",
     "Allow resharing" : "Tillad videredeling",
     "Expiration date enforced" : "Udløbsdato tvungen",
-    "Password protect" : "Beskyt med adgangskode",
-    "Update" : "Opdatér"
+    "Password protect" : "Beskyt med adgangskode"
 },
 "nplurals=2; plural=(n != 1);");
