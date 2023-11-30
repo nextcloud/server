@@ -44,6 +44,7 @@ use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\SystemConfig;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
@@ -81,6 +82,7 @@ class Application extends App {
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
 		$eventDispatcher->addListener(AddMissingIndicesEvent::class, function (AddMissingIndicesEvent $event) {
+			$dbType = $this->getContainer()->get(SystemConfig::class)->getSystemValue('dbtype', 'sqlite');
 			$event->addMissingIndex(
 				'share',
 				'share_with_index',
@@ -236,6 +238,15 @@ class Application extends App {
 				'preferences_app_key',
 				['appid', 'configkey']
 			);
+
+			if ($dbType !== 'oci') {
+				$event->addMissingIndex(
+					'preferences',
+					'preferences_configvalue',
+					['configvalue'],
+					['lengths' => [80]]
+				);
+			}
 
 			$event->addMissingIndex(
 				'mounts',
