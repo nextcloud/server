@@ -302,7 +302,6 @@ OC.L10N.register(
     "Allow resharing" : "再共有を許可する",
     "Expiration date enforced" : "有効期限が強制される",
     "Password protect" : "パスワード保護",
-    "Science Mesh" : "Science Mesh",
-    "Update" : "更新"
+    "Science Mesh" : "Science Mesh"
 },
 "nplurals=1; plural=0;");

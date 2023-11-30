@@ -152,7 +152,6 @@ OC.L10N.register(
     "Credentials saved" : "Hitelesítő adatok mentve",
     "Credentials saving failed" : "Hitelesítő adatok mentése sikertelen",
     "Credentials required" : "Hitelesítő adatok szükségesek",
-    "Name" : "Név",
-    "Open in files" : "Megnyitás a Files-ban"
+    "Name" : "Név"
 },
 "nplurals=2; plural=(n != 1);");

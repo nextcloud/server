@@ -146,7 +146,6 @@ OC.L10N.register(
     "Credentials saved" : "Auðkenni vistuð",
     "Credentials saving failed" : "Vistun auðkenna tókst ekki",
     "Credentials required" : "Auðkenna krafist",
-    "Name" : "Nafn",
-    "Open in files" : "Opna í skráaforritinu"
+    "Name" : "Nafn"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

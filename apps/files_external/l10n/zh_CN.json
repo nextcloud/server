@@ -152,7 +152,6 @@
     "Credentials saving failed" : "证书保存失败",
     "Credentials required" : "需要凭据",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "关闭此选项将允许使用不区分大小的文件系统，但是会在一定程度上影响性能",
-    "Name" : "名称",
-    "Open in files" : "在文件中打开"
+    "Name" : "名称"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -243,7 +243,6 @@ OC.L10N.register(
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
     "Expiration date enforced" : "Data de iscadèntzia posta",
-    "Password protect" : "Bàrdia crae",
-    "Update" : "Agiorna"
+    "Password protect" : "Bàrdia crae"
 },
 "nplurals=2; plural=(n != 1);");

@@ -141,7 +141,6 @@ OC.L10N.register(
     "Credentials saved" : "Sparade uppgifter",
     "Credentials saving failed" : "Misslyckades med att spara uppgifterna",
     "Credentials required" : "Uppgifter krävs",
-    "Name" : "Namn",
-    "Open in files" : "Öppna i filer"
+    "Name" : "Namn"
 },
 "nplurals=2; plural=(n != 1);");

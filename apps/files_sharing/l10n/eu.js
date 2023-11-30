@@ -301,7 +301,6 @@ OC.L10N.register(
     "Allow resharing" : "Baimendu birpartekatzea",
     "Expiration date enforced" : "Iraungitze-data betearazita",
     "Password protect" : "Babestu pasahitzarekin",
-    "Science Mesh" : "Zientzia sarea",
-    "Update" : "Eguneratu"
+    "Science Mesh" : "Zientzia sarea"
 },
 "nplurals=2; plural=(n != 1);");

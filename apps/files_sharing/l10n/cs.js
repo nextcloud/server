@@ -302,7 +302,6 @@ OC.L10N.register(
     "Allow resharing" : "Povolit sdílet dále",
     "Expiration date enforced" : "Datum skončení platnosti vynuceno",
     "Password protect" : "Chránit heslem",
-    "Science Mesh" : "Science Mesh",
-    "Update" : "Aktualizovat"
+    "Science Mesh" : "Science Mesh"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

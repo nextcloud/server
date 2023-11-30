@@ -279,7 +279,6 @@
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
     "Expiration date enforced" : "Vanhenemispäivä pakotettu",
-    "Password protect" : "Suojaa salasanalla",
-    "Update" : "Päivitä"
+    "Password protect" : "Suojaa salasanalla"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

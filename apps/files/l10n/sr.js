@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Поново учитај текући директоријум",
     "Go to the \"{dir}\" directory" : "Иди у „{dir}” дирекотријум",
     "Drag and drop files here to upload" : "Да отпремите, превуците и отпустите фајлове овде",
+    "Uploading \"{filename}\" failed" : "Није успело отпремање „{filename}”",
     "Upload successful" : "Отпремање је успешно",
     "\"{displayName}\" action executed successfully" : "Акција „{displayName}” је успешно извршена",
     "\"{displayName}\" action failed" : "Акција „{displayName}” није успела",

@@ -154,7 +154,6 @@ OC.L10N.register(
     "Credentials saving failed" : "Zapisywanie poświadczeń nie powiodło się",
     "Credentials required" : "Wymagane poświadczenia",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Wyłączenie tej opcji umożliwi użycie systemu plików niewrażliwego na wielkość liter, ale wiąże się to ze spadkiem wydajności",
-    "Name" : "Nazwa",
-    "Open in files" : "Otwórz w Plikach"
+    "Name" : "Nazwa"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

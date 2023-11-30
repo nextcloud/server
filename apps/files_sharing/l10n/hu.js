@@ -302,7 +302,6 @@ OC.L10N.register(
     "Allow resharing" : "A megosztás továbbadásának engedélyezése",
     "Expiration date enforced" : "Lejárati idő megkövetelése",
     "Password protect" : "Jelszavas védelem",
-    "Science Mesh" : "Science Mesh",
-    "Update" : "Frissítés"
+    "Science Mesh" : "Science Mesh"
 },
 "nplurals=2; plural=(n != 1);");
