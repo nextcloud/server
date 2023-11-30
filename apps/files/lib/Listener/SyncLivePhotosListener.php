@@ -32,6 +32,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -74,8 +75,6 @@ class SyncLivePhotosListener implements IEventListener {
 			$peerFile = $this->getLivePhotoPeer($event->getNode()->getId());
 		} elseif ($event instanceof CacheEntryRemovedEvent) {
 			$peerFile = $this->getLivePhotoPeer($event->getFileId());
-		} else {
-			return;
 		}
 
 		if ($peerFile === null) {
@@ -83,118 +82,152 @@ class SyncLivePhotosListener implements IEventListener {
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
-			$sourceFile = $event->getSource();
-			$targetFile = $event->getTarget();
-			$targetParent = $targetFile->getParent();
-			$sourceExtension = $sourceFile->getExtension();
-			$peerFileExtension = $peerFile->getExtension();
-			$targetName = $targetFile->getName();
-			$targetPath = $targetFile->getPath();
+			$this->handleMove($event, $peerFile);
+		} elseif ($event instanceof BeforeNodeDeletedEvent) {
+			$this->handleDeletion($event, $peerFile);
+		} elseif ($event instanceof CacheEntryRemovedEvent) {
+			$peerFile->delete();
+		} elseif ($event instanceof BeforeNodeRestoredEvent) {
+			$this->handleRestore($event, $peerFile);
+		}
+	}
 
-			// Prevent rename of the .mov file if the peer file do not have the same path.
-			if ($sourceFile->getMimetype() === 'video/quicktime') {
-				$peerFilePath = $this->pendingRenames[$peerFile->getId()] ?? $peerFile->getPath();
-				$targetPathWithoutExtension = preg_replace("/\.$sourceExtension$/", '', $targetPath);
-				$peerFilePathWithoutExtension = preg_replace("/\.$peerFileExtension$/", '', $peerFilePath);
+	/**
+	 * During rename events, which also include move operations,
+	 * we rename the peer file using the same name.
+	 * This means that a move operation on the .jpg will trigger
+	 * another recursive one for the .mov.
+	 * Move operations on the .mov file directly are currently blocked.
+	 * The event listener being singleton, we can store the current state
+	 * of pending renames inside the 'pendingRenames' property,
+	 * to prevent infinite recursivity.
+	 */
+	private function handleMove(BeforeNodeRenamedEvent $event, Node $peerFile): void {
+		$sourceFile = $event->getSource();
+		$targetFile = $event->getTarget();
+		$targetParent = $targetFile->getParent();
+		$sourceExtension = $sourceFile->getExtension();
+		$peerFileExtension = $peerFile->getExtension();
+		$targetName = $targetFile->getName();
+		$targetPath = $targetFile->getPath();
 
-				if ($targetPathWithoutExtension !== $peerFilePathWithoutExtension) {
-					$event->abortOperation(new NotPermittedException("The video part of a live photo need to have the same name as the image"));
-				}
+		// Prevent rename of the .mov file if the peer file do not have the same path.
+		if ($sourceFile->getMimetype() === 'video/quicktime') {
+			$peerFilePath = $this->pendingRenames[$peerFile->getId()] ?? $peerFile->getPath();
+			$targetPathWithoutExtension = preg_replace("/\.$sourceExtension$/", '', $targetPath);
+			$peerFilePathWithoutExtension = preg_replace("/\.$peerFileExtension$/", '', $peerFilePath);
 
-				unset($this->pendingRenames[$peerFile->getId()]);
+			if ($targetPathWithoutExtension !== $peerFilePathWithoutExtension) {
+				$event->abortOperation(new NotPermittedException("The video part of a live photo need to have the same name as the image"));
+			}
+
+			unset($this->pendingRenames[$peerFile->getId()]);
+			return;
+		}
+
+		if (!str_ends_with($targetName, ".".$sourceExtension)) {
+			$event->abortOperation(new NotPermittedException("Cannot change the extension of a live photo"));
+		}
+
+		try {
+			$targetParent->get($targetName);
+			$event->abortOperation(new NotPermittedException("A file already exist at destination path"));
+		} catch (NotFoundException $ex) {
+		}
+		try {
+			$peerTargetName = preg_replace("/\.$sourceExtension$/", '.mov', $targetName);
+			$targetParent->get($peerTargetName);
+			$event->abortOperation(new NotPermittedException("A file already exist at destination path"));
+		} catch (NotFoundException $ex) {
+		}
+
+		$peerTargetPath = preg_replace("/\.$sourceExtension$/", '.mov', $targetPath);
+		$this->pendingRenames[$sourceFile->getId()] = $targetPath;
+		try {
+			$peerFile->move($peerTargetPath);
+		} catch (\Throwable $ex) {
+			$event->abortOperation($ex);
+		}
+		return;
+	}
+
+	/**
+	 * During deletion event, we trigger another recursive delete on the peer file.
+	 * Delete operations on the .mov file directly are currently blocked.
+	 * The event listener being singleton, we can store the current state
+	 * of pending deletions inside the 'pendingDeletions' property,
+	 * to prevent infinite recursivity.
+	 */
+	private function handleDeletion(BeforeNodeDeletedEvent $event, Node $peerFile): void {
+		$deletedFile = $event->getNode();
+		if ($deletedFile->getMimetype() === 'video/quicktime') {
+			if (isset($this->pendingDeletion[$peerFile->getId()])) {
+				unset($this->pendingDeletion[$peerFile->getId()]);
 				return;
+			} else {
+				$event->abortOperation(new NotPermittedException("Cannot delete the video part of a live photo"));
 			}
-
-			if (!str_ends_with($targetName, ".".$sourceExtension)) {
-				$event->abortOperation(new NotPermittedException("Cannot change the extension of a live photo"));
-			}
-
+		} else {
+			$this->pendingDeletion[$deletedFile->getId()] = true;
 			try {
-				$targetParent->get($targetName);
-				$event->abortOperation(new NotPermittedException("A file already exist at destination path"));
-			} catch (NotFoundException $ex) {
-			}
-			try {
-				$peerTargetName = preg_replace("/\.$sourceExtension$/", '.mov', $targetName);
-				$targetParent->get($peerTargetName);
-				$event->abortOperation(new NotPermittedException("A file already exist at destination path"));
-			} catch (NotFoundException $ex) {
-			}
-
-			$peerTargetPath = preg_replace("/\.$sourceExtension$/", '.mov', $targetPath);
-			$this->pendingRenames[$sourceFile->getId()] = $targetPath;
-			try {
-				$peerFile->move($peerTargetPath);
+				$peerFile->delete();
 			} catch (\Throwable $ex) {
 				$event->abortOperation($ex);
 			}
-			return;
 		}
+		return;
+	}
 
-		if ($event instanceof BeforeNodeDeletedEvent) {
-			$deletedFile = $event->getNode();
-			if ($deletedFile->getMimetype() === 'video/quicktime') {
-				if (isset($this->pendingDeletion[$peerFile->getId()])) {
-					unset($this->pendingDeletion[$peerFile->getId()]);
-					return;
-				} else {
-					$event->abortOperation(new NotPermittedException("Cannot delete the video part of a live photo"));
-				}
+	/**
+	 * During restore event, we trigger another recursive restore on the peer file.
+	 * Restore operations on the .mov file directly are currently blocked.
+	 * The event listener being singleton, we can store the current state
+	 * of pending restores inside the 'pendingRestores' property,
+	 * to prevent infinite recursivity.
+	 */
+	private function handleRestore(BeforeNodeRestoredEvent $event, Node $peerFile): void {
+		$sourceFile = $event->getSource();
+
+		if ($sourceFile->getMimetype() === 'video/quicktime') {
+			if (isset($this->pendingRestores[$peerFile->getId()])) {
+				unset($this->pendingRestores[$peerFile->getId()]);
+				return;
 			} else {
-				$this->pendingDeletion[$deletedFile->getId()] = true;
-				try {
-					$peerFile->delete();
-				} catch (\Throwable $ex) {
-					$event->abortOperation($ex);
-				}
+				$event->abortOperation(new NotPermittedException("Cannot restore the video part of a live photo"));
 			}
-			return;
-		}
+		} else {
+			$user = $this->userSession->getUser();
+			if ($user === null) {
+				return;
+			}
 
-		if ($event instanceof CacheEntryRemovedEvent) {
-			$peerFile->delete();
-		}
+			$peerTrashItem = $this->trashManager->getTrashNodeById($user, $peerFile->getId());
+			// Peer file is not in the bin, no need to restore it.
+			if ($peerTrashItem === null) {
+				return;
+			}
 
-		if ($event instanceof BeforeNodeRestoredEvent) {
-			$sourceFile = $event->getSource();
+			$trashRoot = $this->trashManager->listTrashRoot($user);
+			$trashItem = $this->getTrashItem($trashRoot, $peerFile->getInternalPath());
 
-			if ($sourceFile->getMimetype() === 'video/quicktime') {
-				if (isset($this->pendingRestores[$peerFile->getId()])) {
-					unset($this->pendingRestores[$peerFile->getId()]);
-					return;
-				} else {
-					$event->abortOperation(new NotPermittedException("Cannot restore the video part of a live photo"));
-				}
-			} else {
-				$user = $this->userSession->getUser();
-				if ($user === null) {
-					return;
-				}
+			if ($trashItem === null) {
+				$event->abortOperation(new NotFoundException("Couldn't find peer file in trashbin"));
+			}
 
-				$peerTrashItem = $this->trashManager->getTrashNodeById($user, $peerFile->getId());
-
-				// Peer file in not in the bin, no need to restore it.
-				if ($peerTrashItem === null) {
-					return;
-				}
-
-				$trashRoot = $this->trashManager->listTrashRoot($user);
-				$trashItem = $this->getTrashItem($trashRoot, $peerFile->getInternalPath());
-
-				if ($trashItem === null) {
-					$event->abortOperation(new NotFoundException("Couldn't find peer file in trashbin"));
-				}
-
-				$this->pendingRestores[$sourceFile->getId()] = true;
-				try {
-					$this->trashManager->restoreItem($trashItem);
-				} catch (\Throwable $ex) {
-					$event->abortOperation($ex);
-				}
+			$this->pendingRestores[$sourceFile->getId()] = true;
+			try {
+				$this->trashManager->restoreItem($trashItem);
+			} catch (\Throwable $ex) {
+				$event->abortOperation($ex);
 			}
 		}
 	}
 
+	/**
+	 * Helper method to get the associated live photo file.
+	 * We first look for it in the user folder, and if we
+	 * cannot find it here, we look for it in the user's trashbin.
+	 */
 	private function getLivePhotoPeer(int $nodeId): ?Node {
 		if ($this->userFolder === null || $this->userSession === null) {
 			return null;
@@ -231,6 +264,11 @@ class SyncLivePhotosListener implements IEventListener {
 		return null;
 	}
 
+	/**
+	 * There is currently no method to restore a file based on its fileId or path.
+	 * So we have to manually find a ITrashItem from the trash item list.
+	 * TODO: This should be replaced by a proper method in the TrashManager.
+	 */
 	private function getTrashItem(array $trashFolder, string $path): ?ITrashItem {
 		foreach($trashFolder as $trashItem) {
 			if (str_starts_with($path, "files_trashbin/files".$trashItem->getTrashPath())) {
