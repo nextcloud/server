@@ -2,7 +2,7 @@
 	<NcModal id="global-search"
 		ref="globalSearchModal"
 		:name="t('core', 'Global search')"
-		:show.sync="isVisible"
+		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
 		:title="t('Global search')"
 		@close="closeModal">
@@ -201,6 +201,7 @@ export default {
 			contacts: [],
 			debouncedFind: debounce(this.find, 300),
 			showDateRangeModal: false,
+			internalIsVisible: false,
 		}
 	},
 
@@ -225,12 +226,17 @@ export default {
 	},
 	watch: {
 		isVisible(value) {
+			this.internalIsVisible = value
+		},
+		internalIsVisible(value) {
+			this.$emit('update:isVisible', value)
 			this.$nextTick(() => {
 				if (value) {
 					this.focusInput()
 				}
 			})
 		},
+
 	},
 	mounted() {
 		getProviders().then((providers) => {
@@ -516,7 +522,7 @@ export default {
 			this.$refs.searchInput.$el.children[0].children[0].focus()
 		},
 		closeModal() {
-		    this.$refs.globalSearchModal.close()
+			this.internalIsVisible = false
 			this.searchQuery = ''
 		},
 		supportFiltering() {

@@ -26,7 +26,7 @@
 				<Magnify class="global-search__trigger" :size="22" />
 			</template>
 		</NcButton>
-		<GlobalSearchModal :is-visible="showGlobalSearch" :class="'global-search-modal'" />
+		<GlobalSearchModal :class="'global-search-modal'" :is-visible="showGlobalSearch" @update:isVisible="handleModalVisibilityChange" />
 	</div>
 </template>
 
@@ -53,6 +53,9 @@ export default {
 	methods: {
 		toggleGlobalSearch() {
 			this.showGlobalSearch = !this.showGlobalSearch
+		},
+		handleModalVisibilityChange(newVisibilityVal) {
+			this.showGlobalSearch = newVisibilityVal
 		},
 	},
 }
