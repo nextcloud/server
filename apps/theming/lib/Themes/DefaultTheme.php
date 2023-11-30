@@ -112,7 +112,7 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
 		$colorError = '#d91812';
-		$colorWarning = '#c28900';
+		$colorWarning = '#b88100';
 		$colorSuccess = '#2d7b41';
 		$colorInfo = '#0071ad';
 

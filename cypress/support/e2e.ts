@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import 'cypress-axe'
 import './commands.ts'
 
 // Fix ResizeObserver loop limit exceeded happening in Cypress only
