@@ -66,6 +66,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -95,6 +96,9 @@ class View {
 	private UserManager $userManager;
 	private LoggerInterface $logger;
 
+	/** @var IConfig */
+	protected $config;
+
 	/**
 	 * @throws \Exception If $root contains an invalid path
 	 */
@@ -103,6 +107,7 @@ class View {
 			throw new \Exception();
 		}
 
+		$this->config = \OC::$server->getConfig();
 		$this->fakeRoot = $root;
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
@@ -1454,7 +1459,12 @@ class View {
 		}
 
 		$folderId = $data->getId();
-		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+		$systemConfigHideHiddenFilesViaPublicShareAccess = $this->config->getSystemValueBool('hide_hidden_files_via_public_share_access', false);
+		if ( $_SERVER['REQUEST_URI'] === "/public.php/webdav/" && $systemConfigHideHiddenFilesViaPublicShareAccess ){
+			$contents = $cache->getFolderContentsByIdExceptHidden($folderId); //TODO: mimetype_filter
+		}else{
+			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+		}
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 

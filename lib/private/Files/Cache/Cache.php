@@ -258,6 +258,34 @@ class Cache implements ICache {
 	}
 
 	/**
+	 * get the metadata of all files stored in $folder except hidden files
+	 *
+	 * @param int $fileId the file id of the folder
+	 * @return ICacheEntry[]
+	 */
+	public function getFolderContentsByIdExceptHidden($fileId) {
+		if ($fileId > -1) {
+			$query = $this->getQueryBuilder();
+			$query->selectFileCache()
+				->whereParent($fileId)
+ 				->andWhere($query->expr()->notlike('name', $query->createNamedParameter('.%')))
+				->orderBy('name', 'ASC');
+
+			$metadataQuery = $query->selectMetadata();
+
+			$result = $query->execute();
+			$files = $result->fetchAll();
+			$result->closeCursor();
+
+			return array_map(function (array $data) use ($metadataQuery) {
+				$data['metadata'] = $metadataQuery?->extractMetadata($data)->asArray() ?? [];
+				return self::cacheEntryFromData($data, $this->mimetypeLoader);
+			}, $files);
+		}
+		return [];
+	}
+
+	/**
 	 * insert or update meta data for a file or folder
 	 *
 	 * @param string $file
