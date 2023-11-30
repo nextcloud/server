@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2023 Louis Chemineau <louis@chmn.me>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,24 +23,21 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\Files\Events\Node;
+namespace OCA\Files_Trashbin\Events;
 
 use Exception;
+use OCP\Files\Events\Node\AbstractNodesEvent;
 use OCP\Files\Node;
 
 /**
- * @since 20.0.0
+ * @since 28.0.0
  */
-class BeforeNodeRenamedEvent extends AbstractNodesEvent {
-	/**
-	 * @since 20.0.0
-	 */
+class BeforeNodeRestoredEvent extends AbstractNodesEvent {
 	public function __construct(Node $source, Node $target, private bool &$run) {
 		parent::__construct($source, $target);
 	}
 
 	/**
-	 * @since 28.0.0
 	 * @return never
 	 */
 	public function abortOperation(\Throwable $ex = null) {
