@@ -767,7 +767,7 @@ class Manager implements IManager {
 				$this->container->query(FileName::class),
 				$this->container->query(FileSize::class),
 				$this->container->query(FileSystemTags::class),
-				$this->container->query(MfaVerified::class),
+				$this->container->get(MfaVerified::class),
 				$this->container->query(RequestRemoteAddress::class),
 				$this->container->query(RequestTime::class),
 				$this->container->query(RequestURL::class),
