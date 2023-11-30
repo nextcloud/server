@@ -137,7 +137,7 @@ class StatusService {
 	 * @return UserStatus
 	 * @throws DoesNotExistException
 	 */
-	public function findByUserId(string $userId):UserStatus {
+	public function findByUserId(string $userId): UserStatus {
 		return $this->processStatus($this->mapper->findByUserId($userId));
 	}
 
