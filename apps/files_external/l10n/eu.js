@@ -152,7 +152,6 @@ OC.L10N.register(
     "Credentials saved" : "Kredentzialak gordeta",
     "Credentials saving failed" : "Kredentzialak gordetzeak huts egin du",
     "Credentials required" : "Kredentzialak behar dira",
-    "Name" : "Izena",
-    "Open in files" : "Ireki Fitxategiak aplikazioan"
+    "Name" : "Izena"
 },
 "nplurals=2; plural=(n != 1);");

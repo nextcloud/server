@@ -301,7 +301,6 @@ OC.L10N.register(
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Expiration date enforced" : "Ngày hết hạn được thi hành",
     "Password protect" : "Mật khẩu bảo vệ",
-    "Science Mesh" : "Lưới khoa học",
-    "Update" : "Cập nhật"
+    "Science Mesh" : "Lưới khoa học"
 },
 "nplurals=1; plural=0;");

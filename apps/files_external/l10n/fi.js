@@ -131,7 +131,6 @@ OC.L10N.register(
     "Credentials saved" : "Kirjautumistiedot tallennettu",
     "Credentials saving failed" : "Kirjautumistietojen tallentaminen epäonnistui",
     "Credentials required" : "Kirjautumistiedot vaaditaan",
-    "Name" : "Nimi",
-    "Open in files" : "Avaa tiedostosovelluksessa"
+    "Name" : "Nimi"
 },
 "nplurals=2; plural=(n != 1);");

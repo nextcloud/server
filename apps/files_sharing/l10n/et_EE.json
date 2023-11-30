@@ -173,7 +173,6 @@
     "Allow deleting" : "Luba kustutamine",
     "Allow resharing" : "Luba edasijagamine",
     "Expiration date enforced" : "Aegumise kuupäev jõustatud",
-    "Password protect" : "Parooliga kaitsmine",
-    "Update" : "Uuenda"
+    "Password protect" : "Parooliga kaitsmine"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

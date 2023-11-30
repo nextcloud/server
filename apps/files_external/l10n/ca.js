@@ -90,6 +90,7 @@ OC.L10N.register(
     "Share" : "Element compartit",
     "Show hidden files" : "Mostra els fitxers ocults",
     "Case sensitive file system" : "Sistema de fitxers amb distinció entre majúscules i minúscules",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Si ho inhabiliteu, podreu utilitzar un sistema de fitxers sense distinció entre majúscules i minúscules, però amb una penalització de rendiment",
     "Verify ACL access when listing files" : "Comprova l'accés ACL quan s'enumerin els fitxers",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprova els ACL de cada fitxer o carpeta d'una carpeta per a filtrar els elements per als quals l'usuari no té permís  de lectura; provoca una disminució del rendiment",
     "Timeout" : "Temps d'espera",
@@ -154,7 +155,6 @@ OC.L10N.register(
     "Credentials saving failed" : "S'ha produït un error en desar les credencials",
     "Credentials required" : "Calen credencials",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Si ho inhabiliteu, podreu utilitzar un sistema de fitxers sense distinció entre majúscules i minúscules, però amb una penalització de rendiment",
-    "Name" : "Nom",
-    "Open in files" : "Obre a Fitxers"
+    "Name" : "Nom"
 },
 "nplurals=2; plural=(n != 1);");

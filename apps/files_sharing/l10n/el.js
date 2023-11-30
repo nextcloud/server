@@ -257,7 +257,6 @@ OC.L10N.register(
     "Allow deleting" : "Επιτρέπεται η διαγραφή",
     "Allow resharing" : "Επιτρέπεται ο επαναδιαμοιρασμός",
     "Expiration date enforced" : "Επεβλήθη ημερομηνία λήξης",
-    "Password protect" : "Προστασία με συνθηματικό",
-    "Update" : "Ενημέρωση"
+    "Password protect" : "Προστασία με συνθηματικό"
 },
 "nplurals=2; plural=(n != 1);");

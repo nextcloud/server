@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Geçerli klasörü yeniden yükle",
     "Go to the \"{dir}\" directory" : "\"{dir}\" klasörüne git",
     "Drag and drop files here to upload" : "Yüklemek istediğiniz dosyaları sürükleyip buraya bırakın",
+    "Uploading \"{filename}\" failed" : "\"{filename}\" yüklenemedi",
     "Upload successful" : "Yüklendi",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" işlemi tamamlandı",
     "\"{displayName}\" action failed" : "\"{displayName}\" işlemi tamamlanamadı",
