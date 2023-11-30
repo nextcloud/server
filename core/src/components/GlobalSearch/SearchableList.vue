@@ -149,6 +149,9 @@ export default {
 
 		:deep(.button-vue) {
 			border-radius: var(--border-radius-large) !important;
+			span {
+				font-weight: initial;
+			}
 		}
 	}
 
