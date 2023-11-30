@@ -90,6 +90,7 @@ OC.L10N.register(
     "Share" : "分享",
     "Show hidden files" : "顯示隱藏的檔案",
     "Case sensitive file system" : "區分大小寫檔案系統",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "禁用它將啟用不區分大小寫的檔案系統，但這將降低效能。",
     "Verify ACL access when listing files" : "列出檔案時驗證 ACL 存取",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "檢查目錄中每個檔案或資料夾的ACL，以過濾掉用戶沒有讀取權限的項目，但這會帶來性能損失。",
     "Timeout" : "逾時",
@@ -154,7 +155,6 @@ OC.L10N.register(
     "Credentials saving failed" : "身分驗證儲存失敗",
     "Credentials required" : "需要身分驗證訊息",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "停用其將允許使用不區分大小寫的檔案系統，但會帶來效能損失",
-    "Name" : "名稱",
-    "Open in files" : "在「檔案」應用程式中打開"
+    "Name" : "名稱"
 },
 "nplurals=1; plural=0;");

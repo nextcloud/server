@@ -152,7 +152,6 @@ OC.L10N.register(
     "Credentials saved" : "Credenziali salvate",
     "Credentials saving failed" : "Salvataggio delle credenziali non riuscito",
     "Credentials required" : "Credenziali richieste",
-    "Name" : "Nome",
-    "Open in files" : "Apri in file"
+    "Name" : "Nome"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

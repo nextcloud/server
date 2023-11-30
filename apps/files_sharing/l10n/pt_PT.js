@@ -166,7 +166,6 @@ OC.L10N.register(
     "Allow deleting" : "Permitir eliminar",
     "Allow resharing" : "Permitir repartilha",
     "Expiration date enforced" : "Imposta data de expiração",
-    "Password protect" : "Proteger com palavra-passe",
-    "Update" : "Atualizar"
+    "Password protect" : "Proteger com palavra-passe"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -274,7 +274,6 @@ OC.L10N.register(
     "Allow resharing" : "Dovoli nadaljnje omogočanje souporabe",
     "Expiration date enforced" : "Datum preteka je vsiljeno omogočen",
     "Password protect" : "Zaščiti z geslom",
-    "Science Mesh" : "Science Mesh",
-    "Update" : "Posodobi"
+    "Science Mesh" : "Science Mesh"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

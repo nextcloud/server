@@ -154,7 +154,6 @@ OC.L10N.register(
     "Credentials saving failed" : "Ошибка сохранения учётных данных",
     "Credentials required" : "Требуются учётные данные",
     "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Отключение этого параметра позволит использовать файловую систему с учетом регистра, но приведет к снижению производительности",
-    "Name" : "Имя",
-    "Open in files" : "Открыть в Файлах"
+    "Name" : "Имя"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

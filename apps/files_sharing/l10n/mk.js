@@ -296,7 +296,6 @@ OC.L10N.register(
     "Allow deleting" : "Дозволи бришење",
     "Allow resharing" : "Дозволи повторно споделување",
     "Expiration date enforced" : "Задолжителен рок на траење",
-    "Password protect" : "Заштити со лозинка",
-    "Update" : "Ажурирај"
+    "Password protect" : "Заштити со лозинка"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

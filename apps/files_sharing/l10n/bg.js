@@ -276,7 +276,6 @@ OC.L10N.register(
     "Allow resharing" : "Може да споделя повторно",
     "Expiration date enforced" : "Дата на изтичане на срока на действие",
     "Password protect" : "Защита с парола",
-    "Science Mesh" : "Приложение Science Mesh",
-    "Update" : "Обновяване"
+    "Science Mesh" : "Приложение Science Mesh"
 },
 "nplurals=2; plural=(n != 1);");

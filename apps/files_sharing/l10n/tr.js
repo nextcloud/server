@@ -302,7 +302,6 @@ OC.L10N.register(
     "Allow resharing" : "Yeniden paylaşılabilsin",
     "Expiration date enforced" : "Geçerlilik sonu tarihi dayatılıyor",
     "Password protect" : "Parola koruması",
-    "Science Mesh" : "ScienceMesh",
-    "Update" : "Güncelle"
+    "Science Mesh" : "ScienceMesh"
 },
 "nplurals=2; plural=(n > 1);");

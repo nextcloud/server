@@ -152,7 +152,6 @@ OC.L10N.register(
     "Credentials saved" : "اعتبارنامه ذخیره شد",
     "Credentials saving failed" : "ذخیره اعتبارنامه انجام نشد",
     "Credentials required" : "اعتبارنامه ضروری",
-    "Name" : "نام",
-    "Open in files" : "Open in files"
+    "Name" : "نام"
 },
 "nplurals=2; plural=(n > 1);");
