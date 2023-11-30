@@ -29,6 +29,8 @@
  *
  */
 require_once __DIR__ . '/lib/versioncheck.php';
+
+use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 
 try {
@@ -77,6 +79,21 @@ try {
 		exit();
 	}
 	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
+} catch (MaxDelayReached $ex) {
+	$request = \OC::$server->getRequest();
+	/**
+	 * Routes with the @CORS annotation and other API endpoints should
+	 * not return a webpage, so we only print the error page when html is accepted,
+	 * otherwise we reply with a JSON array like the BruteForceMiddleware would do.
+	 */
+	if (stripos($request->getHeader('Accept'), 'html') === false) {
+		http_response_code(429);
+		header('Content-Type: application/json; charset=utf-8');
+		echo json_encode(['message' => $ex->getMessage()]);
+		exit();
+	}
+	http_response_code(429);
+	OC_Template::printGuestPage('core', '429');
 } catch (Exception $ex) {
 	\OC::$server->get(LoggerInterface::class)->error($ex->getMessage(), [
 		'app' => 'index',
