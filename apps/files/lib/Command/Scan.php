@@ -90,7 +90,7 @@ class Scan extends Base {
 			->addOption(
 				'path',
 				'p',
-				InputArgument::OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
 			)
 			->addOption(
