@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use DateTimeImmutable;
-use OCA\DAV\Db\AbsenceMapper;
 use OCA\DAV\ResponseDefinitions;
 use OCA\DAV\Service\AbsenceService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -36,18 +35,20 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\User\IAvailabilityCoordinator;
 
 /**
  * @psalm-import-type DAVOutOfOfficeData from ResponseDefinitions
+ * @psalm-import-type DAVCurrentOutOfOfficeData from ResponseDefinitions
  */
 class OutOfOfficeController extends OCSController {
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private AbsenceMapper $absenceMapper,
+		private IUserManager $userManager,
 		private ?IUserSession $userSession,
 		private AbsenceService $absenceService,
 		private IAvailabilityCoordinator $coordinator,
@@ -59,15 +60,45 @@ class OutOfOfficeController extends OCSController {
 	 * Get the currently configured out-of-office data of a user.
 	 *
 	 * @param string $userId The user id to get out-of-office data for.
-	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
+	 * @return DataResponse<Http::STATUS_OK, DAVCurrentOutOfOfficeData, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
 	 *
 	 * 200: Out-of-office data
 	 * 404: No out-of-office data was found
 	 */
 	#[NoAdminRequired]
 	public function getCurrentOutOfOfficeData(string $userId): DataResponse {
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
 		try {
-			$data = $this->absenceMapper->findByUserId($userId);
+			$data = $this->absenceService->getCurrentAbsence($user);
+			if ($data === null) {
+				return new DataResponse(null, Http::STATUS_NOT_FOUND);
+			}
+		} catch (DoesNotExistException) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+
+		return new DataResponse($data->jsonSerialize());
+	}
+
+	/**
+	 * Get the configured out-of-office data of a user.
+	 *
+	 * @param string $userId The user id to get out-of-office data for.
+	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
+	 *
+	 * 200: Out-of-office data
+	 * 404: No out-of-office data was found
+	 */
+	#[NoAdminRequired]
+	public function getOutOfOffice(string $userId): DataResponse {
+		try {
+			$data = $this->absenceService->getAbsence($userId);
+			if ($data === null) {
+				return new DataResponse(null, Http::STATUS_NOT_FOUND);
+			}
 		} catch (DoesNotExistException) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
 		}

@@ -145,6 +145,22 @@ class AbsenceService {
 		}
 	}
 
+	public function getCurrentAbsence(IUser $user): ?IOutOfOfficeData {
+		try {
+			$absence = $this->absenceMapper->findByUserId($user->getUID());
+			$oooData = $absence->toOutOufOfficeData(
+				$user,
+				$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
+			);
+			if ($this->isInEffect($oooData)) {
+				return $oooData;
+			}
+		} catch (DoesNotExistException) {
+			// Nothing there to process
+		}
+		return null;
+	}
+
 	public function isInEffect(IOutOfOfficeData $absence): bool {
 		$now = $this->timeFactory->getTime();
 		return $absence->getStartDate() <= $now && $absence->getEndDate() >= $now;
