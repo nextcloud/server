@@ -175,6 +175,7 @@ OC.L10N.register(
     "Allow deleting" : "Luba kustutamine",
     "Allow resharing" : "Luba edasijagamine",
     "Expiration date enforced" : "Aegumise kuupäev jõustatud",
-    "Password protect" : "Parooliga kaitsmine"
+    "Password protect" : "Parooliga kaitsmine",
+    "Update" : "Uuenda"
 },
 "nplurals=2; plural=(n != 1);");

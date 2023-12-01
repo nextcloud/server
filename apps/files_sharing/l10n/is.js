@@ -302,6 +302,7 @@ OC.L10N.register(
     "Allow resharing" : "Leyfa endurdeilingu",
     "Expiration date enforced" : "Gerði gildistíma nauðsynlegan",
     "Password protect" : "Verja með lykilorði",
-    "Science Mesh" : "Science Mesh"
+    "Science Mesh" : "Science Mesh",
+    "Update" : "Uppfæra"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

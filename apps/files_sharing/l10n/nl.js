@@ -261,6 +261,7 @@ OC.L10N.register(
     "Allow deleting" : "Toestaan verwijderen",
     "Allow resharing" : "Opnieuw delen toestaan",
     "Expiration date enforced" : "Vervaldatum afgedwongen",
-    "Password protect" : "Beveiligen met wachtwoord"
+    "Password protect" : "Beveiligen met wachtwoord",
+    "Update" : "Update"
 },
 "nplurals=2; plural=(n != 1);");

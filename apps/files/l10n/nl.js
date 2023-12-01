@@ -170,6 +170,7 @@ OC.L10N.register(
     "Folder name" : "Mapnaam",
     "Name cannot be empty" : "Naam mag niet leeg zijn",
     "Select all" : "Alles selecteren",
+    "Unselect all" : "Alle deselecteren",
     "File not found" : "Bestand niet gevonden",
     "{usedQuotaByte} used" : "{usedQuotaByte} gebruikt",
     "{relative}% used" : "{relative}% gebruikt",
