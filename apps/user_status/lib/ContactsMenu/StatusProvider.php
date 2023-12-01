@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
