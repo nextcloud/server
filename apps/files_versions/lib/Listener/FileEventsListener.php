@@ -323,19 +323,23 @@ class FileEventsListener implements IEventListener {
 	 *
 	 */
 	public function pre_renameOrCopy_hook(Node $source, Node $target): void {
+		$user = $this->userSession->getUser()?->getUID();
+		if (!user) {
+			return;
+		}
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $oldPath);
+		$absOldPath = Filesystem::normalizePath('/' . $user . '/files' . $oldPath);
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
-		if ($internalPath === '' and $mount instanceof MoveableMount) {
+		if ($internalPath === '' && $mount instanceof MoveableMount) {
 			return;
 		}
 
-		$view = new View(\OC_User::getUser() . '/files');
+		$view = new View($user . '/files');
 		if ($view->file_exists($newPath)) {
 			Storage::store($newPath);
 		} else {
