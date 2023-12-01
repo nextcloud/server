@@ -189,6 +189,7 @@ OC.L10N.register(
     "Global search" : "Global search",
     "Search apps, files, tags, messages" : "Search apps, files, tags, messages",
     "Apps and Settings" : "Apps and Settings",
+    "Date" : "Date",
     "Today" : "Today",
     "Last 7 days" : "Last 7 days",
     "Last 30 days" : "Last 30 days",

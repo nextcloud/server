@@ -89,6 +89,8 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Condividi",
     "Show hidden files" : "Mostra i file nascosti",
+    "Case sensitive file system" : "File system case sensitive",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Disattivandolo, sarà possibile usare un file system non sensibile alle maiuscole, ma comporta una riduzione di prestazioni",
     "Verify ACL access when listing files" : "Verifica le ACL di accesso quando elenchi i file",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Controlla le ACL di ogni file o cartella all'interno di una cartella per filtrare elementi dove l'utente non ha permessi di lettura, implica una riduzione di prestazioni",
     "Timeout" : "Tempo scaduto",
@@ -152,6 +154,7 @@ OC.L10N.register(
     "Credentials saved" : "Credenziali salvate",
     "Credentials saving failed" : "Salvataggio delle credenziali non riuscito",
     "Credentials required" : "Credenziali richieste",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Disattivandolo, sarà possibile usare un file system non sensibile alle maiuscole, ma comporta una riduzione di prestazioni",
     "Name" : "Nome"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

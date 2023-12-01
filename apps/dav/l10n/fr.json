@@ -155,6 +155,7 @@
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Point d'accès WebDAV",
     "First day" : "Premier jour",
+    "Last day (inclusive)" : "Dernier jour (inclus)",
     "Save" : "Enregistrer",
     "Time zone:" : "Fuseau horaire :",
     "to" : "à",

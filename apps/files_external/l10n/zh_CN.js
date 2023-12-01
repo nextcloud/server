@@ -90,6 +90,7 @@ OC.L10N.register(
     "Share" : "共享",
     "Show hidden files" : "显示隐藏文件",
     "Case sensitive file system" : "大小写敏感文件系统",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "禁用此选项将允许使用大小写不敏感文件系统，但会带来性能损失",
     "Verify ACL access when listing files" : "列出文件时验证 ACL 访问",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "检查目录中每个文件或文件夹的 ACL，以过滤掉用户没有读取权限的项目，这会带来性能损失",
     "Timeout" : "超时",
@@ -153,7 +154,7 @@ OC.L10N.register(
     "Credentials saved" : "凭据已保存",
     "Credentials saving failed" : "证书保存失败",
     "Credentials required" : "需要凭据",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "关闭此选项将允许使用不区分大小的文件系统，但是会在一定程度上影响性能",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "关闭此选项将允许使用大小写不敏感文件系统，但会带来性能损失",
     "Name" : "名称"
 },
 "nplurals=1; plural=0;");

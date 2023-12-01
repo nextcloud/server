@@ -170,6 +170,7 @@
     "Reload current directory" : "Ricarica la cartella corrente",
     "Go to the \"{dir}\" directory" : "Vai alla cartella \"{dir}\"",
     "Drag and drop files here to upload" : "Trascina i file qui per caricarli",
+    "Uploading \"{filename}\" failed" : "Caricamento di \"{filename}\" fallito",
     "Upload successful" : "Caricamento effettuato",
     "\"{displayName}\" action executed successfully" : "L'azione \"{displayName}\" è stata eseguita correttamente",
     "\"{displayName}\" action failed" : "L'azione \"{displayName}\" è fallita",

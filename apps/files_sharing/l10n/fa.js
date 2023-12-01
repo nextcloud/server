@@ -293,6 +293,7 @@ OC.L10N.register(
     "Allow resharing" : "مجوز اشتراک گذاری مجدد",
     "Expiration date enforced" : "تاریخ انقضا اجرا شده است",
     "Password protect" : "محافظت با گذرواژه",
-    "Science Mesh" : "Science Mesh"
+    "Science Mesh" : "Science Mesh",
+    "Update" : "به‌روز رسانی"
 },
 "nplurals=2; plural=(n > 1);");
