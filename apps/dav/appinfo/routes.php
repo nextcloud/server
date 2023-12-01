@@ -36,5 +36,7 @@ return [
 	'ocs' => [
 		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
 		['name' => 'out_of_office#getCurrentOutOfOfficeData', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'GET'],
+		['name' => 'out_of_office#setOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'POST'],
+		['name' => 'out_of_office#clearOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'DELETE'],
 	],
 ];
