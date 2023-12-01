@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -23,9 +24,10 @@
 	<td class="files-list__row-checkbox">
 		<NcLoadingIcon v-if="isLoading" />
 		<NcCheckboxRadioSwitch v-else
-			:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
 			:checked="isSelected"
-			@update:checked="onSelectionChange" />
+			@update:checked="onSelectionChange">
+			<span class="hidden-visually">{{ t('files', 'Select the row for {displayName}', { displayName }) }}</span>
+		</NcCheckboxRadioSwitch>
 	</td>
 </template>
 

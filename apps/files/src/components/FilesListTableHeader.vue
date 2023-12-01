@@ -22,7 +22,9 @@
 <template>
 	<tr class="files-list__row-head">
 		<th class="files-list__column files-list__row-checkbox">
-			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
+			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll">
+				<span class="hidden-visually">{{ selectAllLabel }}</span>
+			</NcCheckboxRadioSwitch>
 		</th>
 
 		<!-- Actions multiple if some are selected -->
@@ -146,15 +148,17 @@ export default Vue.extend({
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
 		},
 
-		selectAllBind() {
-			const label = this.isNoneSelected || this.isSomeSelected
+		selectAllLabel() {
+			return this.isNoneSelected || this.isSomeSelected
 				? this.t('files', 'Select all')
 				: this.t('files', 'Unselect all')
+		},
+
+		selectAllBind() {
 			return {
-				'aria-label': label,
 				checked: this.isAllSelected,
 				indeterminate: this.isSomeSelected,
-				title: label,
+				title: this.selectAllLabel,
 			}
 		},
 
