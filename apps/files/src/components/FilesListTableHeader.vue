@@ -76,9 +76,13 @@
 </template>
 
 <script lang="ts">
+import type { Navigation, Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { translate } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import Vue from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -87,7 +91,7 @@ import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeader',
 
 	components: {
@@ -110,7 +114,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		filesListWidth: {
@@ -130,7 +134,7 @@ export default Vue.extend({
 
 	computed: {
 		currentView() {
-			return this.$navigation.active
+			return (this.$navigation as Navigation).active
 		},
 
 		columns() {
@@ -143,7 +147,7 @@ export default Vue.extend({
 
 		dir() {
 			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1') as string
 		},
 
 		selectAllBind() {
@@ -188,13 +192,13 @@ export default Vue.extend({
 				'files-list__column': true,
 				'files-list__column--sortable': !!column.sort,
 				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
+				[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
 			}
 		},
 
 		onToggleAll(selected) {
 			if (selected) {
-				const selection = this.nodes.map(node => node.fileid.toString())
+				const selection = this.nodes.map(node => node.fileid).filter((id) => id !== undefined) as number[]
 				logger.debug('Added all nodes to selection', { selection })
 				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)

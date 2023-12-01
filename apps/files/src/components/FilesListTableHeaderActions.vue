@@ -42,14 +42,18 @@
 </template>
 
 <script lang="ts">
+import type { Node as NcNode, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { NodeStatus, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Vue from 'vue'
 
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -60,7 +64,7 @@ import logger from '../logger.js'
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
@@ -76,11 +80,11 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
-			type: Object,
+			type: Object as PropType<View>,
 			required: true,
 		},
 		selectedNodes: {
-			type: Array,
+			type: Array as PropType<number[]>,
 			default: () => ([]),
 		},
 	},
@@ -115,13 +119,17 @@ export default Vue.extend({
 		},
 
 		nodes() {
+			// eslint-disable-next-line jsdoc/require-jsdoc
+			function isNode(node: unknown): node is NcNode {
+				return node !== undefined
+			}
 			return this.selectedNodes
-				.map(fileid => this.getNode(fileid))
-				.filter(node => node)
+				.map((fileid) => this.filesStore.getNode(fileid))
+				.filter(isNode)
 		},
 
 		areSomeNodesLoading() {
-			return this.nodes.some(node => node.status === NodeStatus.LOADING)
+			return this.nodes.some((node) => node.status === NodeStatus.LOADING)
 		},
 
 		openedMenu: {
@@ -148,16 +156,6 @@ export default Vue.extend({
 	},
 
 	methods: {
-		/**
-		 * Get a cached note from the store
-		 *
-		 * @param {number} fileId the file id to get
-		 * @return {Folder|File}
-		 */
-		getNode(fileId) {
-			return this.filesStore.getNode(fileId)
-		},
-
 		async onActionClick(action) {
 			const displayName = action.displayName(this.nodes, this.currentView)
 			const selectionIds = this.selectedNodes
@@ -165,7 +163,7 @@ export default Vue.extend({
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach(node => {
-					Vue.set(node, 'status', NodeStatus.LOADING)
+					this.$set(node, 'status', NodeStatus.LOADING)
 				})
 
 				// Dispatch action execution
@@ -199,7 +197,7 @@ export default Vue.extend({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach(node => {
-					Vue.set(node, 'status', undefined)
+					this.$set(node, 'status', undefined)
 				})
 			}
 		},

@@ -82,7 +82,7 @@ export interface SelectionStore {
 // Actions menu store
 export type GlobalActions = 'global'
 export interface ActionsMenuStore {
-	opened: GlobalActions|string|null
+	opened: GlobalActions|string|number|null
 }
 
 // View config store

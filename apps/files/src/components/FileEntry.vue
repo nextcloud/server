@@ -104,13 +104,13 @@
 import type { PropType } from 'vue'
 
 import { extname, join } from 'path'
-import { FileType, formatFileSize, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
+import { FileType, formatFileSize, Permission, Folder, File as NcFile, NodeStatus, Node as NcNode, View, Navigation } from '@nextcloud/files'
 import { getUploader } from '@nextcloud/upload'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
@@ -132,7 +132,7 @@ import logger from '../logger.js'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntry',
 
 	components: {
@@ -153,12 +153,16 @@ export default Vue.extend({
 			type: Boolean,
 			default: false,
 		},
+		/**
+		 * The source to render
+		 * Only valid nodes can be rendered, so the fileId is required to be set on source!
+		 */
 		source: {
-			type: [Folder, NcFile, Node] as PropType<Node>,
+			type: [Folder, NcFile, NcNode] as PropType<NcNode>,
 			required: true,
 		},
 		nodes: {
-			type: Array as PropType<Node[]>,
+			type: Array as PropType<NcNode[]>,
 			required: true,
 		},
 		filesListWidth: {
@@ -194,8 +198,8 @@ export default Vue.extend({
 	},
 
 	computed: {
-		currentView(): View {
-			return this.$navigation.active as View
+		currentView() {
+			return (this.$navigation as Navigation).active
 		},
 		columns() {
 			// Hide columns if the list is too small
@@ -210,10 +214,12 @@ export default Vue.extend({
 			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
 		},
 		currentFileId() {
-			return this.$route.params?.fileid || this.$route.query?.fileid || null
+			const text = this.$route.params?.fileid || this.$route.query?.fileid
+			return text ? parseInt(text) : null
 		},
 		fileid() {
-			return this.source?.fileid?.toString?.()
+			// We do not render files without file ID see files store
+			return this.source.fileid!
 		},
 		uniqueId() {
 			return hashCode(this.source.source)
@@ -238,7 +244,7 @@ export default Vue.extend({
 		},
 
 		size() {
-			const size = parseInt(this.source.size, 10) || 0
+			const size = this.source.size ?? 0
 			if (typeof size !== 'number' || size < 0) {
 				return t('files', 'Pending')
 			}
@@ -247,12 +253,12 @@ export default Vue.extend({
 		sizeOpacity() {
 			const maxOpacitySize = 10 * 1024 * 1024
 
-			const size = parseInt(this.source.size, 10) || 0
+			const size = this.source.size ?? 0
 			if (!size || size < 0) {
 				return {}
 			}
 
-			const ratio = Math.round(Math.min(100, 100 * Math.pow((this.source.size / maxOpacitySize), 2)))
+			const ratio = Math.round(Math.min(100, 100 * Math.pow(((this.source.size ?? 0) / maxOpacitySize), 2)))
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
@@ -299,17 +305,17 @@ export default Vue.extend({
 		},
 
 		isActive() {
-			return this.fileid === this.currentFileId?.toString?.()
+			return this.fileid === this.currentFileId
 		},
 
 		canDrag() {
-			const canDrag = (node: Node): boolean => {
+			const canDrag = (node: NcNode): boolean => {
 				return (node?.permissions & Permission.UPDATE) !== 0
 			}
 
 			// If we're dragging a selection, we need to check all files
 			if (this.selectedFiles.length > 0) {
-				const nodes = this.selectedFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				const nodes = this.selectedFiles.map(fileid => this.filesStore.getNode(fileid)) as NcNode[]
 				return nodes.every(canDrag)
 			}
 			return canDrag(this.source)
@@ -357,7 +363,7 @@ export default Vue.extend({
 			// Reset loading state
 			this.loading = ''
 
-			this.$refs.preview.reset()
+			this.$refs.preview?.reset?.()
 
 			// Close menu
 			this.openedMenu = false
@@ -380,19 +386,23 @@ export default Vue.extend({
 		},
 
 		execDefaultAction(...args) {
-			this.$refs.actions.execDefaultAction(...args)
+			this.$refs.actions?.execDefaultAction?.(...args)
 		},
 
 		openDetailsIfAvailable(event) {
 			event.preventDefault()
 			event.stopPropagation()
-			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
+			if (this.currentView && sidebarAction?.enabled?.([this.source], this.currentView)) {
 				sidebarAction.exec(this.source, this.currentView, this.currentDir)
 			}
 		},
 
 		onDragOver(event: DragEvent) {
 			this.dragover = this.canDrop
+			if (!event.dataTransfer) {
+				return
+			}
+
 			if (!this.canDrop) {
 				event.dataTransfer.dropEffect = 'none'
 				return
@@ -438,7 +448,7 @@ export default Vue.extend({
 			}
 
 			const nodes = this.draggingStore.dragging
-				.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				.map(fileid => this.filesStore.getNode(fileid)) as NcNode[]
 
 			const image = await getDragAndDropPreview(nodes)
 			event.dataTransfer?.setDragImage(image, -10, -10)
@@ -474,18 +484,18 @@ export default Vue.extend({
 				return
 			}
 
-			const nodes = this.draggingFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
-			nodes.forEach(async (node: Node) => {
+			const nodes = this.draggingFiles.map(fileid => this.filesStore.getNode(fileid)) as NcNode[]
+			nodes.forEach(async (node: NcNode) => {
 				Vue.set(node, 'status', NodeStatus.LOADING)
 				try {
 					// TODO: resolve potential conflicts prior and force overwrite
-					await handleCopyMoveNodeTo(node, this.source, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE)
+					await handleCopyMoveNodeTo(node, this.source as Folder, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE)
 				} catch (error) {
 					logger.error('Error while moving file', { error })
 					if (isCopy) {
-						showError(t('files', 'Could not copy {file}. {message}', { file: node.basename, message: error.message || '' }))
+						showError(t('files', 'Could not copy {file}. {message}', { file: node.basename, message: (error as Error).message || '' }))
 					} else {
-						showError(t('files', 'Could not move {file}. {message}', { file: node.basename, message: error.message || '' }))
+						showError(t('files', 'Could not move {file}. {message}', { file: node.basename, message: (error as Error).message || '' }))
 					}
 				} finally {
 					Vue.set(node, 'status', undefined)

@@ -120,10 +120,10 @@
 import type { Route } from 'vue-router'
 import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
-import type { View, ContentsWithRoot } from '@nextcloud/files'
+import type { View, ContentsWithRoot, Navigation } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
-import { Folder, Node, Permission } from '@nextcloud/files'
+import { FileType, Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
@@ -206,7 +206,7 @@ export default defineComponent({
 	data() {
 		return {
 			loading: true,
-			promise: null,
+			promise: null as Promise | null,
 			Type,
 		}
 	},
@@ -217,8 +217,8 @@ export default defineComponent({
 		},
 
 		currentView(): View {
-			return (this.$navigation.active
-				|| this.$navigation.views.find(view => view.id === 'files')) as View
+			return ((this.$navigation as Navigation).active
+				|| (this.$navigation as Navigation).views.find((view) => view.id === 'files')) as View
 		},
 
 		/**
@@ -234,14 +234,20 @@ export default defineComponent({
 		 */
 		currentFolder(): Folder|undefined {
 			if (!this.currentView?.id) {
-				return
+				return undefined
 			}
 
 			if (this.dir === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
 			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
-			return this.filesStore.getNode(fileId)
+			if (fileId !== undefined) {
+				const node = this.filesStore.getNode(fileId)
+				if (node?.type === FileType.Folder) {
+					return node as Folder
+				}
+			}
+			return undefined
 		},
 
 		/**
@@ -555,7 +561,9 @@ export default defineComponent({
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
-			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
+			if (this.currentFolder !== undefined) {
+				sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
+			}
 		},
 
 		toggleGridView() {

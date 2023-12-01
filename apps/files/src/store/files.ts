@@ -29,7 +29,8 @@ import Vue from 'vue'
 
 export const useFilesStore = function(...args) {
 	const store = defineStore('files', {
-		state: (): FilesState => ({
+		state: (): FilesState & { _initialized: boolean } => ({
+			_initialized: false,
 			files: {} as FilesStore,
 			roots: {} as RootsStore,
 		}),
@@ -37,18 +38,21 @@ export const useFilesStore = function(...args) {
 		getters: {
 			/**
 			 * Get a file or folder by id
+			 * @param state the stores state
 			 */
 			getNode: (state) => (id: FileId): Node|undefined => state.files[id],
 
 			/**
 			 * Get a list of files or folders by their IDs
 			 * Does not return undefined values
+			 * @param state the stores state
 			 */
 			getNodes: (state) => (ids: FileId[]): Node[] => ids
 				.map(id => state.files[id])
 				.filter(Boolean),
 			/**
 			 * Get a file or folder by id
+			 * @param state the stores state
 			 */
 			getRoot: (state) => (service: Service): Folder|undefined => state.roots[service],
 		},
@@ -58,7 +62,7 @@ export const useFilesStore = function(...args) {
 				// Update the store all at once
 				const files = nodes.reduce((acc, node) => {
 					if (!node.fileid) {
-						logger.error('Trying to update/set a node without fileid', node)
+						logger.error('Trying to update/set a node without fileid', { node })
 						return acc
 					}
 					acc[node.fileid] = node

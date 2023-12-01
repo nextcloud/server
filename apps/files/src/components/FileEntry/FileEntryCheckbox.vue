@@ -30,9 +30,11 @@
 </template>
 
 <script lang="ts">
-import { Node } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -41,7 +43,7 @@ import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
 import logger from '../../logger.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryCheckbox',
 
 	components: {
@@ -55,7 +57,7 @@ export default Vue.extend({
 			required: true,
 		},
 		fileid: {
-			type: String,
+			type: Number,
 			required: true,
 		},
 		isLoading: {
@@ -85,12 +87,17 @@ export default Vue.extend({
 			return this.selectedFiles.includes(this.fileid)
 		},
 		index() {
-			return this.nodes.findIndex((node: Node) => node.fileid === parseInt(this.fileid))
+			return this.nodes.findIndex((node: Node) => node.fileid === this.fileid)
 		},
 	},
 
 	methods: {
 		onSelectionChange(selected: boolean) {
+			// eslint-disable-next-line jsdoc/require-jsdoc
+			function isNumber(value: unknown): value is number {
+				return typeof value === 'number'
+			}
+
 			const newSelectedIndex = this.index
 			const lastSelectedIndex = this.selectionStore.lastSelectedIndex
 
@@ -103,8 +110,9 @@ export default Vue.extend({
 
 				const lastSelection = this.selectionStore.lastSelection
 				const filesToSelect = this.nodes
-					.map(file => file.fileid?.toString?.())
+					.map(file => file.fileid)
 					.slice(start, end + 1)
+					.filter(isNumber)
 
 				// If already selected, update the new selection _without_ the current file
 				const selection = [...lastSelection, ...filesToSelect]
