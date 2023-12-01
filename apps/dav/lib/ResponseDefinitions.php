@@ -27,13 +27,24 @@ declare(strict_types=1);
 namespace OCA\DAV;
 
 /**
- * @psalm-type DAVOutOfOfficeData = array{
+ * @psalm-type DAVOutOfOfficeDataCommon = array{
+ *      userId: string,
+ *      message: string,
+ *  }
+ *
+ * @psalm-type DAVOutOfOfficeData = DAVOutOfOfficeDataCommon&array{
  *     id: int,
- *     userId: string,
  *     firstDay: string,
  *     lastDay: string,
  *     status: string,
- *     message: string,
+ * }
+ *
+ * @todo this is a copy of \OCP\User\IOutOfOfficeData
+ * @psalm-type DAVCurrentOutOfOfficeData = DAVOutOfOfficeDataCommon&array{
+ *     id: string,
+ *     startDate: int,
+ *     endDate: int,
+ *     shortMessage: string,
  * }
  */
 class ResponseDefinitions {
