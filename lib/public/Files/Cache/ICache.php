@@ -83,6 +83,17 @@ interface ICache {
 	public function getFolderContentsById($fileId);
 
 	/**
+	 * get the metadata of all files stored in $folder except hidden files
+	 *
+	 * Only returns files one level deep, no recursion
+	 *
+	 * @param int $fileId the file id of the folder
+	 * @return ICacheEntry[]
+	 * @since 9.0.0
+	 */
+	public function getFolderContentsByIdExceptHidden($fileId);
+
+	/**
 	 * store meta data for a file or folder
 	 * This will automatically call either insert or update depending on if the file exists
 	 *
