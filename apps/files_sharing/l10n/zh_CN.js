@@ -302,6 +302,7 @@ OC.L10N.register(
     "Allow resharing" : "允许二次共享",
     "Expiration date enforced" : "强制过期日期",
     "Password protect" : "密码保护",
-    "Science Mesh" : "Science Mesh"
+    "Science Mesh" : "Science Mesh",
+    "Update" : "更新"
 },
 "nplurals=1; plural=0;");

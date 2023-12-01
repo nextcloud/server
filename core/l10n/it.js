@@ -128,6 +128,7 @@ OC.L10N.register(
     "More apps" : "Altre applicazioni",
     "Currently open" : "Attualmente aperto",
     "_{count} notification_::_{count} notifications_" : ["{count} notifica","{count} notifiche","{count} notifiche"],
+    "Custom date range" : "Intervallo di date personalizzato",
     "Pick start date" : "Prendi la data di inizio",
     "Pick end date" : "Prendi la data di fine",
     "Search in date range" : "Cerca nell'intervallo di date",

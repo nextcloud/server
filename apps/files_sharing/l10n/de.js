@@ -298,6 +298,7 @@ OC.L10N.register(
     "Allow resharing" : "Weiterteilen erlauben",
     "Expiration date enforced" : "Ablaufdatum erzwungen",
     "Password protect" : "Passwortschutz",
-    "Science Mesh" : "ScienceMesh"
+    "Science Mesh" : "ScienceMesh",
+    "Update" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE)."
 },
 "nplurals=2; plural=(n != 1);");

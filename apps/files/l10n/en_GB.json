@@ -170,6 +170,7 @@
     "Reload current directory" : "Reload current directory",
     "Go to the \"{dir}\" directory" : "Go to the \"{dir}\" directory",
     "Drag and drop files here to upload" : "Drag and drop files here to upload",
+    "Uploading \"{filename}\" failed" : "Uploading \"{filename}\" failed",
     "Upload successful" : "Upload successful",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" action executed successfully",
     "\"{displayName}\" action failed" : "\"{displayName}\" action failed",
