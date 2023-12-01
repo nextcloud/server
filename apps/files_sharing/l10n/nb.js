@@ -273,6 +273,7 @@ OC.L10N.register(
     "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
     "Expiration date enforced" : "Utløpsdato er påkrevd",
-    "Password protect" : "Passordbeskyttelse"
+    "Password protect" : "Passordbeskyttelse",
+    "Update" : "Oppdater"
 },
 "nplurals=2; plural=(n != 1);");

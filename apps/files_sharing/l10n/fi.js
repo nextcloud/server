@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
     "Expiration date enforced" : "Vanhenemispäivä pakotettu",
-    "Password protect" : "Suojaa salasanalla"
+    "Password protect" : "Suojaa salasanalla",
+    "Update" : "Päivitä"
 },
 "nplurals=2; plural=(n != 1);");

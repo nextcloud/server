@@ -297,6 +297,7 @@ OC.L10N.register(
     "Allow deleting" : "삭제 수락",
     "Allow resharing" : "재공유 허용",
     "Expiration date enforced" : "만료 날짜 적용",
-    "Password protect" : "암호 보호"
+    "Password protect" : "암호 보호",
+    "Update" : "업데이트"
 },
 "nplurals=1; plural=0;");

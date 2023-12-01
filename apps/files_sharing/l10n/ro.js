@@ -215,6 +215,7 @@ OC.L10N.register(
     "Allow deleting" : "Permite ștergerea",
     "Allow resharing" : "Permite repartajarea",
     "Expiration date enforced" : "Data expirării impusă",
-    "Password protect" : "Protejare cu parolă"
+    "Password protect" : "Protejare cu parolă",
+    "Update" : "Actualizare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -203,6 +203,7 @@ OC.L10N.register(
     "No expiration date set" : "Neniu limdato agordita",
     "Allow resharing" : "Permesi rekunhavigon",
     "Expiration date enforced" : "Limdato efektiva",
-    "Password protect" : "Protekti per pasvorto"
+    "Password protect" : "Protekti per pasvorto",
+    "Update" : "Ĝisdatigi"
 },
 "nplurals=2; plural=(n != 1);");
