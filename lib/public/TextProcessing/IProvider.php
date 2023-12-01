@@ -31,7 +31,7 @@ use RuntimeException;
 /**
  * This is the interface that is implemented by apps that
  * implement a text processing provider
- * @template T of ITaskType
+ * @psalm-template-covariant  T of ITaskType
  * @since 27.1.0
  */
 interface IProvider {
