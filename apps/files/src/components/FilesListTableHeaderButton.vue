@@ -25,7 +25,6 @@
 			'files-list__column-sort-button--active': sortingMode === mode,
 			'files-list__column-sort-button--size': sortingMode === 'size',
 		}]"
-		:aria-label="sortAriaLabel"
 		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
 		@click="toggleSortBy(mode)">
@@ -71,13 +70,6 @@ export default defineComponent({
 		},
 	},
 
-	computed: {
-		sortAriaLabel() {
-			return this.t('files', 'Sort list by {column}', {
-				column: this.name,
-			})
-		},
-	},
 	methods: {
 		t: translate,
 	},
