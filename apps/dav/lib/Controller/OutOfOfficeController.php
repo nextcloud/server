@@ -26,14 +26,18 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use DateTimeImmutable;
 use OCA\DAV\Db\AbsenceMapper;
 use OCA\DAV\ResponseDefinitions;
+use OCA\DAV\Service\AbsenceService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\User\IAvailabilityCoordinator;
 
 /**
  * @psalm-import-type DAVOutOfOfficeData from ResponseDefinitions
@@ -44,6 +48,9 @@ class OutOfOfficeController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private AbsenceMapper $absenceMapper,
+		private ?IUserSession $userSession,
+		private AbsenceService $absenceService,
+		private IAvailabilityCoordinator $coordinator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -73,5 +80,75 @@ class OutOfOfficeController extends OCSController {
 			'status' => $data->getStatus(),
 			'message' => $data->getMessage(),
 		]);
+	}
+
+	/**
+	 * Set out-of-office absence
+	 *
+	 * @param string $firstDay First day of the absence in format `YYYY-MM-DD`
+	 * @param string $lastDay Last day of the absence in format `YYYY-MM-DD`
+	 * @param string $status Short text that is set as user status during the absence
+	 * @param string $message Longer multiline message that is shown to others during the absence
+	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>
+	 *
+	 * 200: Absence data
+	 * 400: When the first day is not before the last day
+	 * 401: When the user is not logged in
+	 */
+	#[NoAdminRequired]
+	public function setOutOfOffice(
+		string $firstDay,
+		string $lastDay,
+		string $status,
+		string $message,
+	): DataResponse {
+		$user = $this->userSession?->getUser();
+		if ($user === null) {
+			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);
+		}
+
+		$parsedFirstDay = new DateTimeImmutable($firstDay);
+		$parsedLastDay = new DateTimeImmutable($lastDay);
+		if ($parsedFirstDay->getTimestamp() > $parsedLastDay->getTimestamp()) {
+			return new DataResponse(['error' => 'firstDay'], Http::STATUS_BAD_REQUEST);
+		}
+
+		$data = $this->absenceService->createOrUpdateAbsence(
+			$user,
+			$firstDay,
+			$lastDay,
+			$status,
+			$message,
+		);
+		$this->coordinator->clearCache($user->getUID());
+
+		return new DataResponse([
+			'id' => $data->getId(),
+			'userId' => $data->getUserId(),
+			'firstDay' => $data->getFirstDay(),
+			'lastDay' => $data->getLastDay(),
+			'status' => $data->getStatus(),
+			'message' => $data->getMessage(),
+		]);
+	}
+
+	/**
+	 * Clear the out-of-office
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_UNAUTHORIZED, null, array{}>
+	 *
+	 * 200: When the absence was cleared successfully
+	 * 401: When the user is not logged in
+	 */
+	#[NoAdminRequired]
+	public function clearOutOfOffice(): DataResponse {
+		$user = $this->userSession?->getUser();
+		if ($user === null) {
+			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);
+		}
+
+		$this->absenceService->clearAbsence($user);
+		$this->coordinator->clearCache($user->getUID());
+		return new DataResponse(null);
 	}
 }
