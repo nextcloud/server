@@ -90,11 +90,17 @@ export default {
 		 * @return {boolean}
 		 */
 		valid() {
+			// Translate the two date objects to midnight for an accurate comparison
+			const firstDay = new Date(this.firstDay?.getTime())
+			const lastDay = new Date(this.lastDay?.getTime())
+			firstDay?.setHours(0, 0, 0, 0)
+			lastDay?.setHours(0, 0, 0, 0)
+
 			return !!this.firstDay
 				&& !!this.lastDay
 				&& !!this.status
 				&& !!this.message
-				&& this.lastDay > this.firstDay
+				&& lastDay >= firstDay
 		},
 	},
 	methods: {
