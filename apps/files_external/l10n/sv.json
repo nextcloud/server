@@ -87,6 +87,7 @@
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Dela",
     "Show hidden files" : "Visa dolda filer",
+    "Case sensitive file system" : "Skiftlägeskänsligt filsystem",
     "Verify ACL access when listing files" : "Verifiera ACL-åtkomst i fil-listningar",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Kontrollera ACL:er för varje fil eller mapp inuti en sökväg för att filtrera bort element för vilka användaren saknar läsbehörighet, innebär en viss prestandaminskning.",
     "Timeout" : "Timeout",

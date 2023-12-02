@@ -5,6 +5,7 @@
     "Error" : "Villa",
     "Weather status" : "Veðurlýsing",
     "Weather status in your dashboard" : "Veðurlýsing á stjórnborðinu þínu",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Veðurupplýsingar innfelldar í stjórnborðsforritið.\n    Hægt er að ákvarða staðsetningu notanda sjálfvirkt eða handvirkt. Þá verður 6 klukkustunda veðurspá birt.\n    Þessar upplýsingar má einnig samtvinna á öðrum stöðum eins og í dagatalsforritinu.",
     "Detect location" : "Finna staðsetningu",
     "Set custom address" : "Setja sérsniðið heimilisfang",
     "Favorites" : "Eftirlæti",
