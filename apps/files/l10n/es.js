@@ -197,7 +197,6 @@ OC.L10N.register(
     "Unselect all" : "Desmarrcar todos",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" fallo en algunos elementos",
     "\"{displayName}\" batch action executed successfully" : "la acción en lotes \"{displayName}\" se ejecutó exitósamente",
-    "Sort list by {column}" : "Ordenar lista por {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} y {summaryFolder}",
     "List of files and folders." : "Lista de archivos y carpetas.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navega por la lista.",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se renderiza completa por razones de rendimiento. Los archivos serán renderizados mientras ud. navegue por la lista.",
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Selecciona",
-    "No files or folders have been deleted yet" : "No se han borrado archivos o carpetas todavía"
+    "No files or folders have been deleted yet" : "No se han borrado archivos o carpetas todavía",
+    "Sort list by {column}" : "Ordenar lista por {column}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -196,7 +196,6 @@ OC.L10N.register(
     "Unselect all" : "모두 선택 해제",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" 이 일부 요소들에서 실패함",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" 일괄 작업을 성공적으로 실행함",
-    "Sort list by {column}" : "{column}(을)를 기준으로 목록 정렬",
     "{summaryFile} and {summaryFolder}" : "{summaryFile}(과)와 {summaryFolder}",
     "List of files and folders." : "파일과 폴더의 목록",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "성능 상의 이유로 목록을 전부 표시하지 않았습니다. 목록을 탐색하면 파일들이 표시됩니다.",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
-    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
+    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
+    "Sort list by {column}" : "{column}(을)를 기준으로 목록 정렬"
 },
 "nplurals=1; plural=0;");

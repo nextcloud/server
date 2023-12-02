@@ -198,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "Zrušit výběr všeho",
     "\"{displayName}\" failed on some elements " : "„{displayName}“ se pro některé prvky nezdařilo",
     "\"{displayName}\" batch action executed successfully" : "hromadná akce „{displayName}“ úspěšně vykonána",
-    "Sort list by {column}" : "Seřadit podle {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} a {summaryFolder}",
     "List of files and folders." : "Seznam souborů a složek.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
-    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
+    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
+    "Sort list by {column}" : "Seřadit podle {column}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

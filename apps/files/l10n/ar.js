@@ -198,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "إلغاء الاختيار للكل",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" فشل في بعض العناصر",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" حزمة الأوامر نُفّذت بنجاح",
-    "Sort list by {column}" : "ترتيب القائمة على أساس {column} ",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} و {summaryFolder}",
     "List of files and folders." : "قائمة الملفات و المجلدات",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "لم يتم عرض هذه القائمة بالكامل لأسباب تتعلق بالأداء. سيتم عرض الملفات تباعاً أثناء التنقل عبر القائمة.",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "لم يمكن عرض هذه القائمة بالكامل بسبب إشكالية في الأداء. سيتم عرض الملفات عندما تمر عليها في القائمة",
     "Search for an account" : "البحث عن حساب",
     "Choose" : "إختَر",
-    "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ"
+    "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ",
+    "Sort list by {column}" : "ترتيب القائمة على أساس {column} "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -195,7 +195,6 @@
     "Unselect all" : "Отменить выделение для всех",
     "\"{displayName}\" failed on some elements " : "«{displayName}» неудачно для некоторых элементов",
     "\"{displayName}\" batch action executed successfully" : "Пакетное действие \"{displayName}\" выполнено успешно",
-    "Sort list by {column}" : "Сортировать список по {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} и {summaryFolder}",
     "List of files and folders." : "Список файлов и каталогов.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
@@ -308,6 +307,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "Choose" : "Выберите",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
+    "Sort list by {column}" : "Сортировать список по {column}"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
