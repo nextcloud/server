@@ -95,6 +95,7 @@ OC.L10N.register(
     "The \"{header}\" HTTP header does not contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP-hausinn inniheldur ekki \"{expected}\". Þetta er möguleg áhætta varðandi öryggi og gagnaleynd, við mælum með því að laga þessa stillingu.",
     "The \"{header}\" HTTP header is not set to \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" or \"{val5}\". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}." : "HTTP-hausinn \"{header}\" er ekki stilltur á \"{val1}\", \"{val2}\", \"{val3}\", \"{val4}\" eða \"{val5}\" Þetta getur lekið upplýsingum um kerfið. Skoðaðu hvað {linkstart}W3C mælir með ↗{linkend}.",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}." : "\"Strict-Transport-Security\" HTTP-hausinn er ekki stilltur á að minnsta kosti \"{seconds}\" sekúndur. Fyrir aukið öryggi mælum við með því að virkja HSTS eins og lýst er í {linkstart}öryggisleiðbeiningunum ↗ {linkend}.",
+    "Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}. Without it some important web functionality like \"copy to clipboard\" or \"service workers\" will not work!" : "Þú ert að tengjast þessu vefsvæði með óöruggu HTTP. Við mælum eindregið með að þú stillir þjóninn á að krefjast HTTPS í staðinn eins og lýst er í {linkstart}öryggisleiðbeiningunum ↗{linkend} okkar. Án þess munu ýmsir mikilvægir eiginleikar vefsíðna ekki virka, eins og \"afrita á klippispjald\" eða \"þjónustuferli / service workers\"!",
     "unknown text" : "óþekktur texti",
     "Hello world!" : "Halló heimur!",
     "sunny" : "sólríkt",
@@ -199,6 +200,8 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Fyrirsögnin og hlutar um hugbúnaðinn munu birtast hér",
     "You have not added any info yet" : "Þú hefur ekki bætt við neinum upplýsingum ennþá",
     "{user} has not added any info yet" : "{user} hefur ekki bætt við neinum upplýsingum ennþá",
+    "Error opening the user status modal, try hard refreshing the page" : "Villa við að opna stöðuglugga notandans, prófaðu að þvinga endurlestur síðunnar",
+    "Search starts once you start typing and results may be reached with the arrow keys" : "Leitin hefst um leið og byrjað er að skrifa og er hægt að flakka um leitarniðurstöður með örvalyklunum",
     "Search for {name} only" : "Leita einungis að {name}",
     "Start typing to search" : "Skrifaðu hér til að leita",
     "Loading more results …" : "Hleð inn fleiri niðurstöðum …",
@@ -322,6 +325,7 @@ OC.L10N.register(
     "Installing …" : "Set upp…",
     "Need help?" : "Þarftu hjálp?",
     "See the documentation" : "Sjá hjálparskjölin",
+    "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Gat ekki fjarlægt CAN_INSTALL úr stillingamöppunni. Fjarlægðu þessa skrá handvirkt.",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Þetta forrit krefst JavaScript fyrir rétta virkni. {linkstart} virkjaðu JavaScript {linkend} og endurlestu síðan síðuna.",
     "Skip to main content" : "Sleppa og fara í meginefni",
     "Skip to navigation of app" : "Hlaupa yfir í flakk innan forrits",
@@ -428,6 +432,7 @@ OC.L10N.register(
     "Authentication required" : "Auðkenningar krafist",
     "Failed to authenticate, try again" : "Tókst ekki að auðkenna, prófaðu aftur",
     "The page could not be found on the server." : "Síðan fannst ekki á netþjóninum.",
+    "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Gagnagrunnurinn er notaður fyrir færslulæsingu skráa. Til að auka afköst ættirðu að setja upp skyndiminni (með memcache) ef það er tiltækt. Skoðaðu {linkstart}hjálparskjölin ↗{linkend} til að sjá nánari upplýsingar.",
     "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -195,7 +195,6 @@ OC.L10N.register(
     "Unselect all" : "Deselectează tot",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" a eșuat asupra unor elemente ",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" acțiunea batch a fost executată cu succes",
-    "Sort list by {column}" : "Sortează lista după {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} și {summaryFolder}",
     "List of files and folders." : "Listă fișiere și foldere",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați prin listă.",
@@ -308,6 +307,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați în listă.",
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
-    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă"
+    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
+    "Sort list by {column}" : "Sortează lista după {column}"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

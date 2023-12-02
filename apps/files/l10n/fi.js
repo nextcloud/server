@@ -190,7 +190,6 @@ OC.L10N.register(
     "Could not move {file}. {message}" : "Tiedostoa {file} ei voitu siirtää. {message}",
     "Select all" : "Valitse kaikki",
     "Unselect all" : "Poista valinnat",
-    "Sort list by {column}" : "Järjestä luettelo sarakkeen {column} mukaan",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} ja {summaryFolder}",
     "List of files and folders." : "Luettelo tiedostoista ja kansioista.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
@@ -299,6 +298,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "Choose" : "Valitse",
-    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
+    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu",
+    "Sort list by {column}" : "Järjestä luettelo sarakkeen {column} mukaan"
 },
 "nplurals=2; plural=(n != 1);");

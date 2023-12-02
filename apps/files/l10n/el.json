@@ -195,7 +195,6 @@
     "Unselect all" : "Αποεπιλογή όλων",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" απέτυχε σε ορισμένα στοιχεία",
     "\"{displayName}\" batch action executed successfully" : "Η μαζική ενέργεια του/της \"{displayName}\" εκτελέστηκε επιτυχώς",
-    "Sort list by {column}" : "Ταξινόμηση λίστας κατά {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} και {summaryFolder}",
     "List of files and folders." : "Λίστα αρχείων και φακέλων.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
@@ -308,6 +307,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
-    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
+    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
+    "Sort list by {column}" : "Ταξινόμηση λίστας κατά {column}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

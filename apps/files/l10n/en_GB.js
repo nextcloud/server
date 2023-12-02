@@ -198,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "Unselect all",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" failed on some elements ",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" batch action executed successfully",
-    "Sort list by {column}" : "Sort list by {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} and {summaryFolder}",
     "List of files and folders." : "List of files and folders.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
-    "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
+    "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
+    "Sort list by {column}" : "Sort list by {column}"
 },
 "nplurals=2; plural=(n != 1);");

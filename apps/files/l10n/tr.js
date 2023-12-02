@@ -198,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "Tümünü bırak",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" toplu işlemi bazı bileşenlerde tamamlanamadı",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" toplu işlemi tamamlandı",
-    "Sort list by {column}" : "{column} sütununa göre sırala",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} ve {summaryFolder}",
     "List of files and folders." : "Dosya ve klasörlerin listesi.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
-    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
+    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
+    "Sort list by {column}" : "{column} sütununa göre sırala"
 },
 "nplurals=2; plural=(n > 1);");

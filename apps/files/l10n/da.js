@@ -197,7 +197,6 @@ OC.L10N.register(
     "Unselect all" : "Fravælg alle",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" fejlede i nogle aspekter.",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\"-handling blev udført korrekt",
-    "Sort list by {column}" : "Sortér liste efter {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
     "List of files and folders." : "Liste med filer og mapper.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "Search for an account" : "Søg efter en konto",
     "Choose" : "Vælg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu"
+    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu",
+    "Sort list by {column}" : "Sortér liste efter {column}"
 },
 "nplurals=2; plural=(n != 1);");
