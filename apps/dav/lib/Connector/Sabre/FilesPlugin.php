@@ -235,8 +235,12 @@ class FilesPlugin extends ServerPlugin {
 			return;
 		}
 
+		$date = \DateTime::createFromFormat('U', $node->getLastModified());
+		$date = $date->setTimezone(new \DateTimeZone('UTC'));
+		$response->setHeader('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
 		$response->setHeader('OC-File-Type', '1');
 		$response->setHeader('OC-ETag', $node->getEtag());
+		$response->setHeader('ETag', $node->getEtag());
 		$response->setBody($node->get());
 		$response->setStatus(200);
 		// do not continue processing this request
