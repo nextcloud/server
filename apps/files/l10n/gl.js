@@ -198,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "Desmarcar todo",
     "\"{displayName}\" failed on some elements " : "Produciuse un fallo nalgúns elementos de «{displayName}» ",
     "\"{displayName}\" batch action executed successfully" : "A acción por lotes «{displayName}» executouse correctamente",
-    "Sort list by {column}" : "Ordenar a lista por {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} e {summaryFolder}",
     "List of files and folders." : "Lista de ficheiros e cartafoles",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres se despraza pola lista.",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
+    "Sort list by {column}" : "Ordenar a lista por {column}"
 },
 "nplurals=2; plural=(n != 1);");

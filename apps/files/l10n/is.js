@@ -197,7 +197,6 @@ OC.L10N.register(
     "Unselect all" : "Afvelja allt",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" aðgerð mistókst á einhverjum atriðum",
     "\"{displayName}\" batch action executed successfully" : "Tókst að framkvæma \"{displayName}\" magnvinnsluaðgerð",
-    "Sort list by {column}" : "Raða lista eftir {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
     "List of files and folders." : "Listi yfir skrár og möppur.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "Search for an account" : "Leita að notandaaðgangi",
     "Choose" : "Velja",
-    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt"
+    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt",
+    "Sort list by {column}" : "Raða lista eftir {column}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

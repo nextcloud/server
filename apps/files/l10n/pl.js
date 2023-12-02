@@ -197,7 +197,6 @@ OC.L10N.register(
     "Unselect all" : "Odznacz wszystko",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" nie powiodło się w przypadku niektórych elementów",
     "\"{displayName}\" batch action executed successfully" : "Akcja wsadowa \"{displayName}\" została wykonana pomyślnie",
-    "Sort list by {column}" : "Sortuj listę według {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} i {summaryFolder}.",
     "List of files and folders." : "Lista plików i katalogów.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
     "Search for an account" : "Wyszukaj konto",
     "Choose" : "Wybierz",
-    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte"
+    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte",
+    "Sort list by {column}" : "Sortuj listę według {column}"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Ladda om nuvarande mapp",
     "Go to the \"{dir}\" directory" : "Gå till \"{dir}\" mappen",
     "Drag and drop files here to upload" : "Dra och släpp filer här för att ladda upp",
+    "Uploading \"{filename}\" failed" : "Uppladdning av \"{filename}\" misslyckades",
     "Upload successful" : "Uppladdningen lyckades",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\"-åtgärden har utförts",
     "\"{displayName}\" action failed" : "\"{displayName}\"-åtgärden misslyckades",
@@ -197,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "Avmarkera alla",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" misslyckades med vissa element",
     "\"{displayName}\" batch action executed successfully" : "Batchåtgärden \"{displayName}\" har utförts",
-    "Sort list by {column}" : "Sortera lista efter {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} och {summaryFolder}",
     "List of files and folders." : "Lista över filer och mappar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
@@ -310,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
-    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
+    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
+    "Sort list by {column}" : "Sortera lista efter {column}"
 },
 "nplurals=2; plural=(n != 1);");

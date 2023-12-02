@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Перевантажити поточний каталог",
     "Go to the \"{dir}\" directory" : "Перейти до каталогу \"{dir}\"",
     "Drag and drop files here to upload" : "Перетягніть файли сюди для завантаження",
+    "Uploading \"{filename}\" failed" : "Завантаження \"{filename}\" не вдалося",
     "Upload successful" : "Успішно завантажено",
     "\"{displayName}\" action executed successfully" : "Дію \"{displayName}\" успішно виконано",
     "\"{displayName}\" action failed" : "Дію \"{displayName}\" не вдалося виконати",
@@ -197,7 +198,6 @@ OC.L10N.register(
     "Unselect all" : "Зняти вибір",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" не показується в окремих елементах",
     "\"{displayName}\" batch action executed successfully" : "Операцію \"{displayName}\" успішно виконано",
-    "Sort list by {column}" : "Впорядкувати список за {column}",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} та {summaryFolder}",
     "List of files and folders." : "Список файлів та каталогів",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Список не подається повністю з міркувань обчислювальних потужностей. Файли показуватимуться під час прокручування списку.",
@@ -310,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Через обмеження, пов'язані з потужністю, список не показується повністю. Файли показуватимуться, щойно ви рухатиметеся списком.",
     "Search for an account" : "Пошук облікового запису",
     "Choose" : "Вибрати",
-    "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено"
+    "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено",
+    "Sort list by {column}" : "Впорядкувати список за {column}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

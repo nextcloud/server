@@ -200,6 +200,7 @@ OC.L10N.register(
     "People" : "Люди",
     "Load more results" : "Завантажити більше результатів",
     "Search in" : "Шукати у",
+    "Filter in current view" : "Фільтр поточного подання",
     "Searching …" : "Пошук ...",
     "Start typing in search" : "Почніть шукати",
     "No matching results" : "Відсутні збіги",

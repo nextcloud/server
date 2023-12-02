@@ -197,7 +197,6 @@ OC.L10N.register(
     "Unselect all" : "すべて選択解除",
     "\"{displayName}\" failed on some elements " : "いくつかの要素で \"{displayName}\" が失敗しました。",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" バッチアクションが正常に実行されました。",
-    "Sort list by {column}" : "{column} でリストをソートする",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} と {summaryFolder}",
     "List of files and folders." : "ファイルとフォルダの一覧。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
-    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません"
+    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
+    "Sort list by {column}" : "{column} でリストをソートする"
 },
 "nplurals=1; plural=0;");
