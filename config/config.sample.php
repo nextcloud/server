@@ -2405,4 +2405,14 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'unified_search.enabled' => false,
+
+/**
+ * DNS pinning is a security measure against DNS rebinding attacks.
+ *
+ * We recommend that you leave DNS pinning activated.
+ * Only deactivate it if you understand what you are doing.
+ *
+ * Defaults to ``true``
+ */
+'dns_pinning' => true,
 ];
