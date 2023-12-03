@@ -18,7 +18,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",
     "Open updater" : "Ouvrir l'interface de mise à jour",
     "Download now" : "Télécharger maintenant",
-    "Please use the command line updater to update." : "Veuillez utiliser le programme de mise à jour en ligne de commande pour mettre à jour. ",
     "What's new?" : "Quoi de neuf ?",
     "View changelog" : "Voir le journal des modifications",
     "The update check is not yet finished. Please refresh the page." : "La vérification de la mise-à-jour n'est pas encore terminée. Veuillez rafraîchir la page.",
@@ -47,6 +46,7 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Une version préliminaire utilisée seulement pour tester les nouvelles fonctionnalités, n'est pas adaptée dans un environnement de production.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> application n'a pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible avec cette version de Nextcloud disponible."],
+    "Please use the command line updater to update." : "Veuillez utiliser le programme de mise à jour en ligne de commande pour mettre à jour. ",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Vous pouvez modifier le canal de distribution ci-dessous mais ceci changera aussi le canal pour les applications. Par exemple, après avoir choisi le canal Beta, les applications en version Beta seront aussi proposées dans les mises à jour.",
     "Update channel:" : "Canal de mise à jour :"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

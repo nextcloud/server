@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tieni presente che il programma di aggiornamento web non è consigliato con più di 100 utenti! Si prega di utilizzare, invece, il programma di aggiornamento tramite riga di comando!",
     "Open updater" : "Apri strumento di aggiornamento",
     "Download now" : "Scarica ora",
-    "Please use the command line updater to update." : "Usa lo strumento di aggiornamento da riga di comando per aggiornare.",
     "What's new?" : "Cosa c'è di nuovo?",
     "View changelog" : "Visualizza le novità",
     "The update check is not yet finished. Please refresh the page." : "Il controllo degli aggiornamenti non è ancora terminato. Aggiorna la pagina.",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> applicazione non ha una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud."],
+    "Please use the command line updater to update." : "Usa lo strumento di aggiornamento da riga di comando per aggiornare.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Puoi modificare il canale di aggiornamento di seguito che influisce anche sulla pagina di gestione delle app. Per esempio. dopo il passaggio al canale beta, gli aggiornamenti dell'app beta ti verranno offerti nella pagina di gestione delle app.",
     "Update channel:" : "Canale di aggiornamento:"
 },
