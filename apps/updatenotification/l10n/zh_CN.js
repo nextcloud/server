@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "注意：不推荐超过100个用户的站点使用网页更新程序！请改用命令行更新！",
     "Open updater" : "打开更新器",
     "Download now" : "开始下载",
-    "Please use the command line updater to update." : "请使用命令行更新器来更新",
     "What's new?" : "有哪些更新？",
     "View changelog" : "查看更新记录",
     "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Beta 测试版",
     "A pre-release version only for testing new features, not for production environments." : "预发布版本仅作测试新功能用，不可用于生产环境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>个应用没有与这个 Nextcloud 版本兼容的版本可用"],
+    "Please use the command line updater to update." : "请使用命令行更新器来更新",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "你可以在下面改变更新渠道，这也会影响到应用管理页面。例如：切换到测试版渠道后，测试版应用程序的更新将在应用程序管理页面提供给你。",
     "Update channel:" : "更新通道："
 },

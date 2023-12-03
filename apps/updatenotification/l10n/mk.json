@@ -18,7 +18,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Имајте на ум дека веб ажурирачот не го препорачуваат повеќе од 100 корисници! Наместо тоа, користете го ажурирачот на командната линија!",
     "Open updater" : "Стартувај го надградувачот",
     "Download now" : "Преземи",
-    "Please use the command line updater to update." : "Користете ја командната линија за ажурирање.",
     "What's new?" : "Што е ново",
     "View changelog" : "Видете ги проммените",
     "The update check is not yet finished. Please refresh the page." : "Сеуште нема извшено проверка за ажурирање, Ве молиме рефреширајте ја страната.",
@@ -43,6 +42,7 @@
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
+    "Please use the command line updater to update." : "Користете ја командната линија за ажурирање.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Може да го промените каналот за ажурирање подолу, што исто така влијае на страницата за управување со апликации. На пр. откако ќе се префрлите на бета каналот, ќе ви бидат понудени ажурирања на бета апликации на страницата за управување со апликации.",
     "Update channel:" : "Канал за ажурирање:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

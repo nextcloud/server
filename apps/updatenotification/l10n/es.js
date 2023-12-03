@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tenga en cuenta que el actualizador web no se recomienda con más de 100 usuarios. Por favor, utilice el actualizador de línea de comandos en su lugar.",
     "Open updater" : "Abrir el actualizador",
     "Download now" : "Descargar ahora",
-    "Please use the command line updater to update." : "Por favor, utilice el actualizador de línea de comandos para actualizar.",
     "What's new?" : "¿Qué novedades hay?",
     "View changelog" : "Ver registro de cambios",
     "The update check is not yet finished. Please refresh the page." : "La comprobación de actualizaciones no ha finalizado aún. Por favor, recarga la página.",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app no es compatible con esta versión de Nextcloud.","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud.","<strong>%n</strong> apps no son compatibles con la versión de Nextcloud."],
+    "Please use the command line updater to update." : "Por favor, utilice el actualizador de línea de comandos para actualizar.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Puedes cambiar el canal de actualización a continuación, lo que también afecta a la página de gestión de aplicaciones. Por ejemplo, después de cambiar al canal beta, las actualizaciones de aplicaciones beta se ofrecerán en la página de gestión de aplicaciones.",
     "Update channel:" : "Canal de actualización: "
 },

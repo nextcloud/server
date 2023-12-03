@@ -18,7 +18,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "لاحظ رجاءً أن مُحدّث الوب لا يُنصح به في حالة كان عدد مستخدميك أكثر من 100 شخص! استخدم المُحدّث عن طريق سطر الأوامر بدلاً عنه!",
     "Open updater" : "فتح المحدِّث",
     "Download now" : "حمل الآن",
-    "Please use the command line updater to update." : "رجاءً، للتحديث استخدم المُحدّث عن طريق سطر الأوامر.",
     "What's new?" : "مالجديد؟",
     "View changelog" : "اعرض سجل التغييرات",
     "The update check is not yet finished. Please refresh the page." : "التحقق من التحديث لم ينته بعد. يرجى تحديث الصفحة.",
@@ -47,6 +46,7 @@
     "Beta" : "تجريبي",
     "A pre-release version only for testing new features, not for production environments." : "نسخة تجريبية فقط لاختبار الميزات الجديدة ، وليس لبيئات الإنتاجية.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong>تطبيق  ليس له إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح."],
+    "Please use the command line updater to update." : "رجاءً، للتحديث استخدم المُحدّث عن طريق سطر الأوامر.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "يُمكنك تغيير قناة التحديث أدناه. و لاحظ أنها بدورها ستوثر في صفحة إدارة التطبيقات. مثال: بعد التحوّل إلى القناة باء، ستُعرض عليك تحديثات القناة باء في صفحة تحديث التطبيقات.",
     "Update channel:" : "قناة التحديث:"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

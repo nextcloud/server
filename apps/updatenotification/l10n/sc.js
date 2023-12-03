@@ -18,7 +18,6 @@ OC.L10N.register(
     "Apps with compatible version" : "Aplicatzione cun versione cumpatìbile",
     "Open updater" : "Aberi sa funtzione de agiornamentu",
     "Download now" : "Iscàrriga immoe",
-    "Please use the command line updater to update." : "Imprea sa funtzione de agiornamentu dae sa lìnia de cumandu pro agiornare.",
     "What's new?" : "Ite noas?",
     "View changelog" : "Visualiza le novidade",
     "The update check is not yet finished. Please refresh the page." : "Su controllu de is agiornamentos no est terminadu ancora. Agiorna sa pàgina.",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Sa versione istàbile prus reghente. Est dèghida pro s'impreu fitianu e at a èssere semper agiornada a s'ùrtima versione printzipale.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
+    "Please use the command line updater to update." : "Imprea sa funtzione de agiornamentu dae sa lìnia de cumandu pro agiornare.",
     "Update channel:" : "Canale de agiornamentu:"
 },
 "nplurals=2; plural=(n != 1);");
