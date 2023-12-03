@@ -61,9 +61,8 @@
 					<NcActionButton v-for="filter in availableFilters"
 						:key="filter"
 						icon="icon-filter"
-						:title="t('core', 'Search for {name} only', { name: typesMap[filter] })"
 						@click.stop="onClickFilter(`in:${filter}`)">
-						{{ `in:${filter}` }}
+						{{ t('core', 'Search for {name} only', { name: typesMap[filter] }) }}
 					</NcActionButton>
 				</NcActions>
 			</div>
