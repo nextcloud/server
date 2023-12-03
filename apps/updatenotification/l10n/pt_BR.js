@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Observe que o atualizador da web não é recomendado com mais de 100 usuários! Por favor, use o atualizador de linha de comando!",
     "Open updater" : "Abrir atualizador",
     "Download now" : "Baixar agora",
-    "Please use the command line updater to update." : "Por favor, use o updater da linha de comando para atualizar.",
     "What's new?" : "O que há de novo?",
     "View changelog" : "Visualizar registro de alterações",
     "The update check is not yet finished. Please refresh the page." : "A verificação de atualização ainda não acabou. Atualize a página.",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Uma versão de pré-lançamento para testar novos recursos, não indicada para produção.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível."],
+    "Please use the command line updater to update." : "Por favor, use o updater da linha de comando para atualizar.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Você pode alterar o canal de atualização abaixo, o que também afeta a página de gerenciamento de aplicativos. Por exemplo. depois de mudar para o canal beta, as atualizações de aplicativos beta serão oferecidas a você na página de gerenciamento de aplicativos.",
     "Update channel:" : "Atualizar para:"
 },

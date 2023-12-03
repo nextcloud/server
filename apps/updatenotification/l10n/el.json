@@ -17,7 +17,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Παρακαλούμε λάβετε υπόψη ότι ο web updater δεν συνιστάται για περισσότερους από 100 χρήστες! Παρακαλούμε χρησιμοποιήστε αντ' αυτού το πρόγραμμα ενημέρωσης γραμμής εντολών!",
     "Open updater" : "Άνοιγμα εφαρμογής ενημέρωσης",
     "Download now" : "Λήψη τώρα",
-    "Please use the command line updater to update." : "Παρακαλούμε κάντε ενημέρωση μέσω γραμμής εντολών.",
     "What's new?" : "Τι νέο υπάρχει;",
     "View changelog" : "Εμφάνιση αλλαγών",
     "The update check is not yet finished. Please refresh the page." : "Ο έλεγχος ενημερώσεων δεν τελείωσε ακόμη. Παρακαλώ ανανεώστε την σελίδα.",
@@ -42,6 +41,7 @@
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
+    "Please use the command line updater to update." : "Παρακαλούμε κάντε ενημέρωση μέσω γραμμής εντολών.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Μπορείτε να αλλάξετε το κανάλι ενημέρωσης παρακάτω, το οποίο επηρεάζει επίσης τη σελίδα διαχείρισης εφαρμογών. Π.χ. μετά την αλλαγή στο κανάλι beta, θα σας προσφέρονται ενημερώσεις εφαρμογών beta στη σελίδα διαχείρισης εφαρμογών.",
     "Update channel:" : "Ενημέρωση καναλιού:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

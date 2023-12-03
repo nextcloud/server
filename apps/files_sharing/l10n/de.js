@@ -299,6 +299,6 @@ OC.L10N.register(
     "Expiration date enforced" : "Ablaufdatum erzwungen",
     "Password protect" : "Passwortschutz",
     "Science Mesh" : "ScienceMesh",
-    "Update" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE)."
+    "Update" : "Aktualisieren"
 },
 "nplurals=2; plural=(n != 1);");

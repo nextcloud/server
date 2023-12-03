@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Обратите внимание, что установка обновления с использованием веб-интерфейса не рекомендуется при наличии более ста пользователей. В таком случае желательно использовать обновление с использованием командной строки.",
     "Open updater" : "Открыть окно обновления",
     "Download now" : "Скачать сейчас",
-    "Please use the command line updater to update." : "Для обновления воспользуйтесь инструментом для командной строки.",
     "What's new?" : "Что нового?",
     "View changelog" : "Просмотреть изменения",
     "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу.",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Бета-версии (Beta)",
     "A pre-release version only for testing new features, not for production environments." : "Предрелизная версия, предназначенная только для тестирования новых возможностей.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["У <strong>%n</strong> приложения нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud."],
+    "Please use the command line updater to update." : "Для обновления воспользуйтесь инструментом для командной строки.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Изменение канала обновлений также влияет на установку обновлений приложений: при использовании канала бета-версии Nextcloud для используемых приложений также будут предлагаться бета-версии.",
     "Update channel:" : "Канал обновлений:"
 },

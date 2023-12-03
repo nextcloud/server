@@ -18,7 +18,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vær oppmerksom på at web-oppdaterer ikke anbefales med mer enn 100 brukere! Bruk kommandolinjen i stedet!",
     "Open updater" : "Åpne oppdaterer",
     "Download now" : "Last ned nå",
-    "Please use the command line updater to update." : "Bruk kommandolinjen for å oppdatere.",
     "What's new?" : "Hva er nytt?",
     "View changelog" : "Se endringslogg",
     "The update check is not yet finished. Please refresh the page." : "Oppdateringssjekken er ikke ferdig, vennligst oppdater siden.",
@@ -43,6 +42,7 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En pre-release versjon bare for testing av nye funksjoner, ikke for produksjonsmiljøer.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig.","<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig."],
+    "Please use the command line updater to update." : "Bruk kommandolinjen for å oppdatere.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan endre oppdateringskanalen nedenfor som også påvirker appadministrasjonssiden. F.eks. etter å ha byttet til betakanalen, vil betaappoppdateringer bli tilbudt deg på appadministrasjonssiden.",
     "Update channel:" : "Oppdateringskanal:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
