@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100 kullanıcı üzerinde site arayüzündeki güncelleyicinin kullanılmasının önerilmediğini unutmayın! Lütfen bunun yerine komut satırı güncelleyicisini kullanın!",
     "Open updater" : "Güncelleyici aç",
     "Download now" : "İndir",
-    "Please use the command line updater to update." : "Lütfen güncellemek için komut satırı güncelleyiciyi kullanın.",
     "What's new?" : "Yenilikler neler?",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
     "The update check is not yet finished. Please refresh the page." : "Güncelleme denetimi henüz tamamlanmadı. Lütfen sayfayı yenileyin.",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Yeni özellikleri denemek için kullanılabilecek yayın öncesi sürümü. Üretim ortamları için önerilmez.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var.","<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var."],
+    "Please use the command line updater to update." : "Lütfen güncellemek için komut satırı güncelleyiciyi kullanın.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Uygulama yönetimi sayfasını da etkileyen aşağıdaki güncelleme kanalını değiştirebilirsiniz. Örneğin. beta kanalına geçtikten sonra, uygulama yönetimi sayfasında beta uygulama güncellemeleri sunulur.",
     "Update channel:" : "Güncelleme kanalı:"
 },

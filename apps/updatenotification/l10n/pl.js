@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Należy pamiętać, że aktualizacja sieciowa nie jest zalecana przy więcej niż 100 użytkownikach! Zamiast tego użyj narzędzia do aktualizacji wiersza poleceń!",
     "Open updater" : "Otwórz aktualizator",
     "Download now" : "Pobierz teraz",
-    "Please use the command line updater to update." : "Użyj wiersza poleceń do aktualizacji.",
     "What's new?" : "Co nowego?",
     "View changelog" : "Zobacz listę zmian",
     "The update check is not yet finished. Please refresh the page." : "Sprawdzanie aktualizacji nie zostało jeszcze zakończone. Odśwież stronę.",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Wersja przedpremierowa tylko do testowania nowych funkcji. Nie jest do środowisk produkcyjnych.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikacja nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacje nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud."],
+    "Please use the command line updater to update." : "Użyj wiersza poleceń do aktualizacji.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Możesz zmienić kanał aktualizacji poniżej, co wpływa również na stronę zarządzania aplikacjami. Np. po przejściu na kanał beta aktualizacje aplikacji beta będą dostępne na stronie zarządzania aplikacjami.",
     "Update channel:" : "Kanał aktualizacji:"
 },

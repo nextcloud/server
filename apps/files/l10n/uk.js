@@ -200,6 +200,7 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "Операцію \"{displayName}\" успішно виконано",
     "{summaryFile} and {summaryFolder}" : "{summaryFile} та {summaryFolder}",
     "List of files and folders." : "Список файлів та каталогів",
+    "Column headers with buttons are sortable." : "Назви стовпців з кнопками можна впорядковувати",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Список не подається повністю з міркувань обчислювальних потужностей. Файли показуватимуться під час прокручування списку.",
     "File not found" : "Файл не знайдено",
     "_{count} file_::_{count} files_" : ["{count} файл","{count} файли","{count} файлів","{count} файлів"],
