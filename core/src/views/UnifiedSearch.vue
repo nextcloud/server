@@ -90,11 +90,12 @@
 		</template>
 
 		<!-- Grouped search results -->
-		<template v-for="({list, type}, typesIndex) in orderedResults" v-else :key="type">
-				<h2 class="unified-search__results-header">
-					{{ typesMap[type] }}
-				</h2>
-			<ul class="unified-search__results"
+		<template v-for="({list, type}, typesIndex) in orderedResults" v-else>
+			<h2 :key="type" class="unified-search__results-header">
+				{{ typesMap[type] }}
+			</h2>
+			<ul :key="type"
+				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
 				:aria-label="typesMap[type]">
 				<!-- Search results -->
