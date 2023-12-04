@@ -20,6 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Observera att webbuppdateraren inte rekommenderas med fler än 100 användare! Använd kommandouppdateraren istället!",
     "Open updater" : "Öppna uppdateraren",
     "Download now" : "Hämta nu",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Web-uppdateraren är inaktiverad. Använd kommandoradsuppdateraren eller lämpligt uppdateringsmekanism för din installationsmetod (t.ex. Docker pull) för att uppdatera.",
     "What's new?" : "Vad är nytt?",
     "View changelog" : "Visa ändringslogg",
     "The update check is not yet finished. Please refresh the page." : "Uppdateringskontrollen är inte färdig ännu. Vänligen uppdatera sidan.",

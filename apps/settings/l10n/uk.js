@@ -493,7 +493,7 @@ OC.L10N.register(
     "Show user backend" : "Показати бекенд",
     "Show storage path" : "Показати шлях до сховища",
     "Show last login" : "Показати останній вхід",
-    "Send email" : "Надіслати повідомлення",
+    "Send email" : "Надіслати ел. листа",
     "Send welcome email to new users" : "Надсилати вітальні листи новим користувачам",
     "Defaults" : "Типові налаштування",
     "Default quota" : "Квота за замовчуванням",
