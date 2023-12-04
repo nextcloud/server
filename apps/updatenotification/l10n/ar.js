@@ -1,9 +1,9 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "الإصدار {version} متوفر. أحصل على معلومات عن كيفية التحديث.",
+    "{version} is available. Get more information on how to update." : "الإصدار {version} متوفر. أحصُل على معلومات عن كيفية التحديث.",
     "Channel updated" : "تمّ تحديث القناة",
-    "Web updater is disabled" : "مُحدّث الوب موقوف",
+    "Web updater is disabled" : "مُحدِّث الوب موقوف",
     "Update notifications" : "إشعارات التحديث",
     "The update server could not be reached since %d days to check for new updates." : "تعذر الوصول إلى خادم التحديث للتحقق من وجود تحديثات جديدة منذ %d أيام.",
     "Please check the Nextcloud and server log files for errors." : "يرجى التحقق من نكست كلاود و سجل حركات الخادوم log بحثًا عن الأخطاء.",
@@ -20,6 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "لاحظ رجاءً أن مُحدّث الوب لا يُنصح به في حالة كان عدد مستخدميك أكثر من 100 شخص! استخدم المُحدّث عن طريق سطر الأوامر بدلاً عنه!",
     "Open updater" : "فتح المحدِّث",
     "Download now" : "حمل الآن",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "مُحدِّث الوِب Web updater تمّ تعطيله. رجاءً، استعمل للتحديث الأمر السطري updater أو آلية تحديث مناسبة لطريقتك في التثبيت (مثل Docker pull).",
     "What's new?" : "مالجديد؟",
     "View changelog" : "اعرض سجل التغييرات",
     "The update check is not yet finished. Please refresh the page." : "التحقق من التحديث لم ينته بعد. يرجى تحديث الصفحة.",

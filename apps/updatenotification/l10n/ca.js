@@ -20,6 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tingueu en compte que no es recomana l'actualitzador web amb més de 100 usuaris. Utilitzeu l'actualitzador de la línia d'ordres.",
     "Open updater" : "Obre l'actualitzador",
     "Download now" : "Baixa-ho ara",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "L'actualitzador web està inhabilitat. Utilitzeu l'actualitzador de línia d'ordres o el mecanisme d'actualització adequat per al vostre mètode d'instal·lació (p. ex., Docker pull) per a actualitzar.",
     "What's new?" : "Quines novetats hi ha?",
     "View changelog" : "Mostra el registre de canvis",
     "The update check is not yet finished. Please refresh the page." : "La comprovació d'actualitzacions encara no ha finalitzat. Actualitzeu la pàgina.",
