@@ -286,10 +286,10 @@ export default defineComponent({
 				.map(this.getNode)
 				.filter(file => {
 					if (!showHidden) {
-						return file?.attributes?.hidden !== true && !file?.basename.startsWith('.')
+						return file && file?.attributes?.hidden !== true && !file?.basename.startsWith('.')
 					}
 
-					return true
+					return !!file
 				})
 		},
 
