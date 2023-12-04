@@ -281,10 +281,16 @@ export default defineComponent({
 		},
 
 		dirContents(): Node[] {
+			const showHidden = this.userConfigStore?.userConfig.show_hidden
 			return (this.currentFolder?._children || [])
 				.map(this.getNode)
-				.filter(file => file)
-				.filter(file => file?.attributes?.hidden !== true)
+				.filter(file => {
+					if (!showHidden) {
+						return file?.attributes?.hidden !== true && !file?.basename.startsWith('.')
+					}
+
+					return true
+				})
 		},
 
 		/**
