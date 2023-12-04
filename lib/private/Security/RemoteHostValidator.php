@@ -60,6 +60,10 @@ final class RemoteHostValidator implements IRemoteHostValidator {
 		}
 
 		$host = idn_to_utf8(strtolower(urldecode($host)));
+		if ($host === false) {
+			return false;
+		}
+
 		// Remove brackets from IPv6 addresses
 		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 			$host = substr($host, 1, -1);
