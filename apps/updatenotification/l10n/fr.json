@@ -18,6 +18,7 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",
     "Open updater" : "Ouvrir l'interface de mise à jour",
     "Download now" : "Télécharger maintenant",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "La mise à jour par l'interface web est désactivée. Veuillez utiliser la mise à jour par ligne de commande ou le mécanisme de mise à jour approprié pour votre méthode d'installation (par exemple, Docker pull) pour effectuer la mise à jour.",
     "What's new?" : "Quoi de neuf ?",
     "View changelog" : "Voir le journal des modifications",
     "The update check is not yet finished. Please refresh the page." : "La vérification de la mise-à-jour n'est pas encore terminée. Veuillez rafraîchir la page.",
