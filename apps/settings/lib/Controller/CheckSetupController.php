@@ -51,9 +51,6 @@ use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
-use OC\DB\MissingColumnInformation;
-use OC\DB\MissingIndexInformation;
-use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OCP\App\IAppManager;
@@ -62,9 +59,6 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Events\AddMissingColumnsEvent;
-use OCP\DB\Events\AddMissingIndicesEvent;
-use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
@@ -419,73 +413,6 @@ Raw output
 		return $recommendations;
 	}
 
-	protected function hasMissingIndexes(): array {
-		$indexInfo = new MissingIndexInformation();
-
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new AddMissingIndicesEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingIndices = $event->getMissingIndices();
-
-		if ($missingIndices !== []) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingIndices as $missingIndex) {
-				if ($schema->hasTable($missingIndex['tableName'])) {
-					$table = $schema->getTable($missingIndex['tableName']);
-					if (!$table->hasIndex($missingIndex['indexName'])) {
-						$indexInfo->addHintForMissingSubject($missingIndex['tableName'], $missingIndex['indexName']);
-					}
-				}
-			}
-		}
-
-		return $indexInfo->getListOfMissingIndexes();
-	}
-
-	protected function hasMissingPrimaryKeys(): array {
-		$info = new MissingPrimaryKeyInformation();
-		// Dispatch event so apps can also hint for pending key updates if needed
-		$event = new AddMissingPrimaryKeyEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingKeys = $event->getMissingPrimaryKeys();
-
-		if (!empty($missingKeys)) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingKeys as $missingKey) {
-				if ($schema->hasTable($missingKey['tableName'])) {
-					$table = $schema->getTable($missingKey['tableName']);
-					if (!$table->hasPrimaryKey()) {
-						$info->addHintForMissingSubject($missingKey['tableName']);
-					}
-				}
-			}
-		}
-
-		return $info->getListOfMissingPrimaryKeys();
-	}
-
-	protected function hasMissingColumns(): array {
-		$columnInfo = new MissingColumnInformation();
-		// Dispatch event so apps can also hint for pending column updates if needed
-		$event = new AddMissingColumnsEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingColumns = $event->getMissingColumns();
-
-		if (!empty($missingColumns)) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingColumns as $missingColumn) {
-				if ($schema->hasTable($missingColumn['tableName'])) {
-					$table = $schema->getTable($missingColumn['tableName']);
-					if (!$table->hasColumn($missingColumn['columnName'])) {
-						$columnInfo->addHintForMissingColumn($missingColumn['tableName'], $missingColumn['columnName']);
-					}
-				}
-			}
-		}
-
-		return $columnInfo->getListOfMissingColumns();
-	}
-
 	protected function isSqliteUsed() {
 		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
 	}
@@ -702,9 +629,6 @@ Raw output
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
-				'missingIndexes' => $this->hasMissingIndexes(),
-				'missingColumns' => $this->hasMissingColumns(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
