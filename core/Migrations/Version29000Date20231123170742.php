@@ -57,7 +57,6 @@ class Version29000Date20231123170742 extends SimpleMigrationStep {
 			$table->addColumn('storage', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 20,
-				'default' => 0,
 			]);
 			$table->addColumn('path', Types::STRING, [
 				'notnull' => true,
