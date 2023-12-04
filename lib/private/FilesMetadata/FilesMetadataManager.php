@@ -148,6 +148,19 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	}
 
 	/**
+	 * returns metadata of multiple file ids
+	 *
+	 * @param int[] $fileIds file ids
+	 *
+	 * @return array File ID is the array key, files without metadata are not returned in the array
+	 * @psalm-return array<int, IFilesMetadata>
+	 * @since 28.0.0
+	 */
+	public function getMetadataForFiles(array $fileIds): array {
+		return $this->metadataRequestService->getMetadataFromFileIds($fileIds);
+	}
+
+	/**
 	 * @param IFilesMetadata $filesMetadata metadata
 	 *
 	 * @inheritDoc
