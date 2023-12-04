@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Upload;
 
 use OCP\Files\SymlinkManager;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -36,9 +37,12 @@ class SymlinkPlugin extends ServerPlugin {
 	private $server;
 	/** @var SymlinkManager */
 	private $symlinkManager;
+	/** @var LoggerInterface */
+	private $logger;
 
-	public function __construct() {
+	public function __construct(LoggerInterface $logger) {
 		$this->symlinkManager = new SymlinkManager();
+		$this->logger = $logger;
 	}
 
 	/**
@@ -72,9 +76,22 @@ class SymlinkPlugin extends ServerPlugin {
 
 			$response->setHeader("OC-ETag", $etag);
 			$response->setStatus(201);
-			return false;
+			return false; // this request was handled already
+		} elseif ($this->server->tree->nodeExists($request->getPath())) {
+			$node = $this->server->tree->getNodeForPath($request->getPath());
+			if (!$node instanceof \OCA\DAV\Connector\Sabre\File) {
+				// cannot check if file was symlink before - let's hope it's not
+				$this->logger->warning('Unable to check if there was a symlink
+					before at the same location');
+				return true;
+			}
+			// if the newly uploaded file is not a symlink,
+			// but there was a symlink at the same path before
+			if ($this->symlinkManager->isSymlink($node->getFileInfo())) {
+				$this->symlinkManager->deleteSymlink($node->getFileInfo());
+			}
 		}
-		return true;
+		return true; // continue handling this request
 	}
 
 	public function httpDelete(RequestInterface $request, ResponseInterface $response): bool {
