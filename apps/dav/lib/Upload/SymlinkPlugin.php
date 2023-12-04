@@ -47,6 +47,7 @@ class SymlinkPlugin extends ServerPlugin {
 	public function initialize(Server $server) {
 		$server->on('method:PUT', [$this, 'httpPut']);
 		$server->on('method:DELETE', [$this, 'httpDelete']);
+		$server->on('afterMove', [$this, 'afterMove']);
 
 		$this->server = $server;
 	}
@@ -91,5 +92,17 @@ class SymlinkPlugin extends ServerPlugin {
 		}
 		// always propagate to trigger deletion of regular file representing symlink in filesystem
 		return true;
+	}
+
+	public function afterMove(string $source, string $destination) {
+		$sourceNode = $this->server->tree->getNodeForPath($source);
+		$destinationNode = $this->server->tree->getNodeForPath($destination);
+		if ($this->symlinkManager->isSymlink($sourceNode)) {
+			$this->symlinkManager->deleteSymlink($sourceNode);
+			$this->symlinkManager->storeSymlink($destinationNode);
+		} elseif ($this->symlinkManager->isSymlink($destinationNode)) {
+			// source was not a symlink, but destination was a symlink before
+			$this->symlinkManager->deleteSymlink($destinationNode);
+		}
 	}
 }
