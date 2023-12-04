@@ -89,7 +89,6 @@ interface IFilesMetadataManager {
 	 *
 	 * @return array File ID is the array key, files without metadata are not returned in the array
 	 * @psalm-return array<int, IFilesMetadata>
-	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 28.0.0
 	 */
 	public function getMetadataForFiles(array $fileIds): array;
