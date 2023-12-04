@@ -275,6 +275,11 @@ class TemplateManager implements ITemplateManager {
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
+		if ($skeletonTemplatePath === '') {
+			$this->setTemplatePath('');
+			return '';
+		}
+
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
