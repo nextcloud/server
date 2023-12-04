@@ -111,6 +111,10 @@ class BulkUploadPlugin extends ServerPlugin {
 
 				if (isset($headers['oc-file-type']) && $headers['oc-file-type'] == 1) {
 					$this->symlinkManager->storeSymlink($node);
+				} elseif ($this->symlinkManager->isSymlink($node)) {
+					// uploaded file is not a symlink, but there was a symlink
+					// at the same location before
+					$this->symlinkManager->deleteSymlink($node);
 				}
 
 				$writtenFiles[$headers['x-file-path']] = [
