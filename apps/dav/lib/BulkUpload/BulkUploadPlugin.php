@@ -65,7 +65,7 @@ class BulkUploadPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$multiPartParser = new MultipartRequestParser($request);
+		$multiPartParser = new MultipartRequestParser($request, $this->logger);
 		$writtenFiles = [];
 
 		while (!$multiPartParser->isAtLastBoundary()) {
