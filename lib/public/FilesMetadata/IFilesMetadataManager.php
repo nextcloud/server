@@ -71,7 +71,7 @@ interface IFilesMetadataManager {
 	): IFilesMetadata;
 
 	/**
-	 * returns metadata from a file id
+	 * returns metadata of a file id
 	 *
 	 * @param int $fileId file id
 	 * @param boolean $generate Generate if metadata does not exist
@@ -81,6 +81,18 @@ interface IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata;
+
+	/**
+	 * returns metadata of multiple file ids
+	 *
+	 * @param int[] $fileIds file ids
+	 *
+	 * @return array File ID is the array key, files without metadata are not returned in the array
+	 * @psalm-return array<int, IFilesMetadata>
+	 * @throws FilesMetadataNotFoundException if not found
+	 * @since 28.0.0
+	 */
+	public function getMetadataForFiles(array $fileIds): array;
 
 	/**
 	 * save metadata to database and refresh indexes.
