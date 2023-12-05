@@ -110,7 +110,7 @@ export default Vue.extend({
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			}
-			return t('files', 'Go to the "{dir}" directory', section)
+			return t('files', 'Go to the {dir} directory', section)
 		},
 	},
 })
