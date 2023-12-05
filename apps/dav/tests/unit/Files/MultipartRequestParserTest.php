@@ -23,9 +23,17 @@
 namespace OCA\DAV\Tests\unit\DAV;
 
 use \OCA\DAV\BulkUpload\MultipartRequestParser;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class MultipartRequestParserTest extends TestCase {
+
+	protected LoggerInterface $logger;
+
+	protected function setUp(): void {
+		$this->logger = $this->createMock(LoggerInterface::class);
+	}
+
 	private function getValidBodyObject() {
 		return [
 			[
@@ -73,7 +81,7 @@ class MultipartRequestParserTest extends TestCase {
 			->method('getBody')
 			->willReturn($stream);
 
-		return new MultipartRequestParser($request);
+		return new MultipartRequestParser($request, $this->logger);
 	}
 
 
@@ -90,7 +98,7 @@ class MultipartRequestParserTest extends TestCase {
 			->willReturn($bodyStream);
 
 		$this->expectExceptionMessage('Body should be of type resource');
-		new MultipartRequestParser($request);
+		new MultipartRequestParser($request, $this->logger);
 	}
 
 	/**
