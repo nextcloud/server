@@ -927,6 +927,10 @@ export default {
 					iconSvgInline: () => EyeSvg,
 					default: DefaultType.DEFAULT,
 					enabled: (nodes) => {
+						// Disable if not located in user root
+						if (nodes.some(node => !(node.isDavRessource && node.root?.startsWith('/files')))) {
+							return false
+						}
 						// Faster to check if at least one node doesn't match the requirements
 						return !nodes.some(node => (
 							(node.permissions & Permission.READ) === 0
