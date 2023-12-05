@@ -30,12 +30,13 @@ namespace OCA\User_LDAP;
 
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IIsAdminBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUserManager;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IIsAdminBackend {
 	private $backends = [];
 	private ?Group_LDAP $refBackend = null;
 	private Helper $helper;
@@ -346,5 +347,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		return $this->handleRequest($gid, 'searchInGroup', [$gid, $search, $limit, $offset]);
+	}
+
+	public function isAdmin(string $uid): bool {
+		return $this->handleRequest($uid, 'isAdmin', [$uid]);
 	}
 }

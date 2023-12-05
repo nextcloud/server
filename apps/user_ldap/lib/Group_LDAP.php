@@ -48,6 +48,7 @@ use Exception;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Group\Backend\IIsAdminBackend;
 use OCP\GroupInterface;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
@@ -57,7 +58,7 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 use function json_decode;
 
-class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
+class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend, IIsAdminBackend {
 	protected bool $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
@@ -1227,6 +1228,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS |
 				GroupInterface::DELETE_GROUP |
+				GroupInterface::IS_ADMIN |
 				$this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
@@ -1391,5 +1393,19 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		$this->access->connection->writeToCache($cacheKey, $displayName);
 		return $displayName;
+	}
+
+	/**
+	 * @throws ServerNotAvailableException
+	 */
+	public function isAdmin(string $uid): bool {
+		if (!$this->enabled) {
+			return false;
+		}
+		$ldapAdminGroup = $this->access->connection->ldapAdminGroup;
+		if ($ldapAdminGroup === '') {
+			return false;
+		}
+		return $this->inGroup($uid, $ldapAdminGroup);
 	}
 }

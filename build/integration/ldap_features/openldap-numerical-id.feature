@@ -66,3 +66,31 @@ Scenario: Test LDAP group membership with intermediate groups not matching filte
     | 50194 | 1 |
     | 59376 | 1 |
     | 59463 | 1 |
+
+Scenario: Test LDAP admin group mapping, empowered user
+  Given modify LDAP configuration
+    | ldapBaseGroups                | ou=NumericGroups,dc=nextcloud,dc=ci |
+    | ldapGroupFilter               | (objectclass=groupOfNames) |
+    | ldapGroupMemberAssocAttr      | member |
+    | ldapAdminGroup                | 3001   |
+    | useMemberOfToDetectMembership | 1 |
+  And cookies are reset
+  # alice, part of the promoted group
+  And Logging in using web as "92379"
+  And sending "GET" to "/cloud/groups"
+  And sending "GET" to "/cloud/groups/2000/users"
+  And Sending a "GET" to "/index.php/settings/admin/overview" with requesttoken
+  Then the HTTP status code should be "200"
+
+Scenario: Test LDAP admin group mapping, regular user (no access)
+    Given modify LDAP configuration
+      | ldapBaseGroups                | ou=NumericGroups,dc=nextcloud,dc=ci |
+      | ldapGroupFilter               | (objectclass=groupOfNames) |
+      | ldapGroupMemberAssocAttr      | member |
+      | ldapAdminGroup                | 3001   |
+      | useMemberOfToDetectMembership | 1 |
+    And cookies are reset
+    # gustaf, not part of the promoted group
+    And Logging in using web as "59376"
+    And Sending a "GET" to "/index.php/settings/admin/overview" with requesttoken
+    Then the HTTP status code should be "403"
