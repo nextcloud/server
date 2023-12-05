@@ -105,10 +105,10 @@
 						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
-						<NcInputField v-if="isPasswordProtected"
-							:type="hasUnsavedPassword ? 'text' : 'password'"
-							:value="hasUnsavedPassword ? share.newPassword : '***************'"
+						<NcPasswordField v-if="isPasswordProtected"
+							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
+							:helper-text="errorPasswordLabel"
 							:required="isPasswordEnforced"
 							:label="t('files_sharing', 'Password')"
 							@update:value="onPasswordChange" />
@@ -219,8 +219,8 @@ import { getLanguage } from '@nextcloud/l10n'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -256,7 +256,7 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcInputField,
-		NcDateTimePicker,
+		NcPasswordField,
 		NcDateTimePickerNative,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
@@ -645,6 +645,12 @@ export default {
 		},
 		advancedControlExpandedValue() {
 			return this.advancedSectionAccordionExpanded ? 'true' : 'false'
+		},
+		errorPasswordLabel() {
+			if (this.passwordError) {
+				return t('files_sharing', "Password field can't be empty")
+			}
+			return undefined
 		},
 	},
 	watch: {
