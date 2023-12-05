@@ -163,3 +163,9 @@
 .nav-icon-external-storage {
 	background-image: var(--icon-external-dark);
 }
+
+.global_credentials__personal {
+    margin: 10px auto;
+    text-align: center;
+    width: min(400px, 100vw);
+}
