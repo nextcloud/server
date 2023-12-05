@@ -18,6 +18,7 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "請注意，不建議超過 100 個使用者的站台使用網頁更新程式！請改用命令列更新程式！",
     "Open updater" : "打開更新程式",
     "Download now" : "現在下載",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "網頁更新程式已停用。請使用命令列更新程式或適合您安裝方式的適當更新機制（例如 Docker pull）進行更新。",
     "What's new?" : "有什麼新鮮事？",
     "View changelog" : "檢視版本更新紀錄",
     "The update check is not yet finished. Please refresh the page." : "更新檢查未完成。請重新整理此頁面。",
