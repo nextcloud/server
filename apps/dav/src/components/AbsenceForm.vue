@@ -58,7 +58,6 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { formatDateAsYMD } from '../utils/date.js'
 import { loadState } from '@nextcloud/initial-state'
@@ -117,7 +116,7 @@ export default {
 
 			this.loading = true
 			try {
-				await axios.post(generateOcsUrl('/apps/dav/api/v1/outOfOffice/{userId}', { userId: getCurrentUser().uid }), {
+				await axios.post(generateOcsUrl('/apps/dav/api/v1/outOfOffice'), {
 					firstDay: formatDateAsYMD(this.firstDay),
 					lastDay: formatDateAsYMD(this.lastDay),
 					status: this.status,
@@ -134,7 +133,7 @@ export default {
 		async clearAbsence() {
 			this.loading = true
 			try {
-				await axios.delete(generateOcsUrl('/apps/dav/api/v1/outOfOffice/{userId}', { userId: getCurrentUser().uid }))
+				await axios.delete(generateOcsUrl('/apps/dav/api/v1/outOfOffice'))
 				this.resetForm()
 				showSuccess(this.$t('dav', 'Absence cleared'))
 			} catch (error) {

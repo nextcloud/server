@@ -463,7 +463,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/ocs/v2.php/apps/dav/api/v1/outOfOffice": {
             "post": {
                 "operationId": "out_of_office-set-out-of-office",
                 "summary": "Set out-of-office absence",
@@ -510,14 +512,6 @@
                         "name": "message",
                         "in": "query",
                         "description": "Longer multiline message that is shown to others during the absence",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "path",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -653,14 +647,6 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
