@@ -37,7 +37,6 @@
 			:container="getBoundariesElement"
 			:disabled="isLoading || loading !== ''"
 			:force-name="true"
-			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
 			:open.sync="openedMenu"
@@ -95,7 +94,7 @@
 <script lang="ts">
 import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n';
 import Vue, { PropType } from 'vue'
 
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
@@ -326,15 +325,3 @@ export default Vue.extend({
 	},
 })
 </script>
-
-<style lang="scss" scoped>
-
-:deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
-	.button-vue__text {
-		color: var(--color-primary-element);
-	}
-	.button-vue__icon {
-		color: var(--color-primary-element);
-	}
-}
-</style>
