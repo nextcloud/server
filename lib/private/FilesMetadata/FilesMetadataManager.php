@@ -52,6 +52,7 @@ use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -60,6 +61,7 @@ use Psr\Log\LoggerInterface;
  */
 class FilesMetadataManager implements IFilesMetadataManager {
 	public const CONFIG_KEY = 'files_metadata';
+	public const MIGRATION_DONE = 'files_metadata_installed';
 	private const JSON_MAXSIZE = 100000;
 
 	private ?IFilesMetadata $all = null;
@@ -241,10 +243,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		string $fileTableAlias,
 		string $fileIdField
 	): ?IMetadataQuery {
-		// we don't want to join metadata table if never filled
-		if ($this->config->getAppValue('core', self::CONFIG_KEY, '') === '') {
+		if (!$this->metadataInitiated()) {
 			return null;
 		}
+
 		return new MetadataQuery($qb, $this->getKnownMetadata(), $fileTableAlias, $fileIdField);
 	}
 
@@ -319,5 +321,27 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
 		$eventDispatcher->addServiceListener(CacheEntryRemovedEvent::class, MetadataDelete::class);
+	}
+
+	/**
+	 * Will confirm that tables were created and store an app value to cache the result.
+	 * Can be removed in 29 as this is to avoid strange situation when Nextcloud files were
+	 * replaced but the upgrade was not triggered yet.
+	 *
+	 * @return bool
+	 */
+	private function metadataInitiated(): bool {
+		if ($this->config->getAppValue('core', self::MIGRATION_DONE, '0') === '1') {
+			return true;
+		}
+
+		$dbConnection = \OCP\Server::get(IDBConnection::class);
+		if ($dbConnection->tableExists(MetadataRequestService::TABLE_METADATA)) {
+			$this->config->setAppValue('core', self::MIGRATION_DONE, '1');
+
+			return true;
+		}
+
+		return false;
 	}
 }
