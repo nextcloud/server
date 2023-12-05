@@ -36,10 +36,10 @@
 		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
 			<div class="unified-search__input-row">
-				<NcTextField :value.sync="query"
+				<NcTextField ref="input"
+					:value.sync="query"
 					trailing-button-icon="close"
 					:label="ariaLabel"
-					ref="input"
 					:trailing-button-label="t('core','Reset search')"
 					:show-trailing-button="query !== ''"
 					aria-describedby="unified-search-desc"
@@ -90,16 +90,14 @@
 		</template>
 
 		<!-- Grouped search results -->
-		<template v-else>
-			<ul v-for="({list, type}, typesIndex) in orderedResults"
-				:key="type"
+		<template v-for="({list, type}, typesIndex) in orderedResults" v-else>
+			<h2 :key="type" class="unified-search__results-header">
+				{{ typesMap[type] }}
+			</h2>
+			<ul :key="type"
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
 				:aria-label="typesMap[type]">
-				<h2 class="unified-search__results-header">
-					{{ typesMap[type] }}
-				</h2>
-
 				<!-- Search results -->
 				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
 					<SearchResult v-bind="result"

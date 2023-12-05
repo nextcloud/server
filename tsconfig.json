@@ -1,6 +1,6 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
-	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./core/**/*.ts", "./*.d.ts"],
+	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./core/**/*.ts", "./core/**/*.vue", "./*.d.ts"],
 	"compilerOptions": {
 		"types": ["jest", "node", "vue", "vue-router"],
 		"outDir": "./dist/",
@@ -17,6 +17,9 @@
 		"noImplicitAny": false,
 		"resolveJsonModule": true,
 		"strict": true,
+	},
+	"vueCompilerOptions": {
+		"target": 2.7
 	},
 	"ts-node": {
 		// these options are overrides used only by ts-node
