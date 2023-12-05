@@ -199,8 +199,9 @@ export default Vue.extend({
 		caption() {
 			const defaultCaption = t('files', 'List of files and folders.')
 			const viewCaption = this.currentView.caption || defaultCaption
+			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
-			return viewCaption + '\n' + virtualListNote
+			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
 		},
 	},
 

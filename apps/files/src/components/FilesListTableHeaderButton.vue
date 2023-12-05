@@ -20,10 +20,11 @@
   -
   -->
 <template>
-	<NcButton :aria-label="sortAriaLabel(name)"
-		:class="{'files-list__column-sort-button--active': sortingMode === mode}"
-		:alignment="mode !== 'size' ? 'start-reverse' : undefined"
-		class="files-list__column-sort-button"
+	<NcButton :class="['files-list__column-sort-button', {
+			'files-list__column-sort-button--active': sortingMode === mode,
+			'files-list__column-sort-button--size': sortingMode === 'size',
+		}]"
+		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
 		@click.stop.prevent="toggleSortBy(mode)">
 		<!-- Sort icon before text as size is align right -->
@@ -35,14 +36,15 @@
 
 <script lang="ts">
 import { translate } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Vue from 'vue'
 
-import filesSortingMixin from '../mixins/filesSorting.ts'
+import filesSortingMixin from '../mixins/filesSorting.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderButton',
 
 	components: {
@@ -67,12 +69,6 @@ export default Vue.extend({
 	},
 
 	methods: {
-		sortAriaLabel(column) {
-			return this.t('files', 'Sort list by {column}', {
-				column,
-			})
-		},
-
 		t: translate,
 	},
 })
