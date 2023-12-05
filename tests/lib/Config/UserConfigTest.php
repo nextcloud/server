@@ -14,6 +14,7 @@ use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
 use OCP\Config\ValueType;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -35,6 +36,7 @@ class UserConfigTest extends TestCase {
 	private PresetManager $presetManager;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
+	private IEventDispatcher $dispatcher;
 	private array $originalPreferences;
 
 	/**
@@ -181,6 +183,7 @@ class UserConfigTest extends TestCase {
 		$this->presetManager = Server::get(PresetManager::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
+		$this->dispatcher = Server::get(IEventDispatcher::class);
 
 		// storing current preferences and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -292,6 +295,7 @@ class UserConfigTest extends TestCase {
 			$this->presetManager,
 			$this->logger,
 			$this->crypto,
+			$this->dispatcher
 		);
 		$msg = ' generateUserConfig() failed to confirm cache status';
 
