@@ -592,14 +592,17 @@ class Storage {
 				throw new DoesNotExistException('Could not find relative path of (' . $info->getPath() . ')');
 			}
 
-			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
 			try {
+				$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
 				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
 				$versionEntities[$info->getId()] = $versionEntity;
 
 				if ($versionEntity->getLabel() !== '') {
 					return false;
 				}
+			} catch (NotFoundException $e) {
+				// Original node not found, delete the version
+				return true;
 			} catch (DoesNotExistException $ex) {
 				// Version on FS can have no equivalent in the DB if they were created before the version naming feature.
 				// So we ignore DoesNotExistException.
