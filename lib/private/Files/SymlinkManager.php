@@ -186,6 +186,8 @@ class SymlinkManager {
 
 	/**
 	 * @param \OCP\Files\FileInfo $node
+	 *
+	 * @return string
 	 */
 	private function getNameFromNode($node) {
 		return $node->getName();
@@ -193,9 +195,26 @@ class SymlinkManager {
 
 	/**
 	 * @param \OCP\Files\FileInfo $node
+	 *
+	 * @return int
 	 */
 	private function getStorageIdFromNode($node) {
-		return $node->getStorage()->getId();
+		$storageId = $node->getStorage()->getId();
+		$query = $this->connection->getQueryBuilder();
+		$query->select('numeric_id')
+			->from('storages')
+			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
+		$result = $query->executeQuery();
+
+		if ($result->rowCount() > 1) {
+			throw new \OCP\DB\Exception("Storage ('$storageId') is not unique in database!");
+		}
+
+		$numericId = $result->fetchOne();
+		if ($numericId === false) {
+			throw new \OCP\DB\Exception("Unable to find storage '$storageId' in database!");
+		}
+		return $numericId;
 	}
 
 	/**
