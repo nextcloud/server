@@ -417,9 +417,13 @@ export default {
 					|| !!this.share.password
 			},
 			async set(enabled) {
-				// TODO: directly save after generation to make sure the share is always protected
-				this.share.password = enabled ? await GeneratePassword() : ''
-				this.$set(this.share, 'newPassword', this.share.password)
+				if (enabled) {
+					this.share.password = await GeneratePassword()
+					this.$set(this.share, 'newPassword', this.share.password)
+				} else {
+					this.share.password = ''
+					this.$delete(this.share, 'newPassword')
+				}
 			},
 		},
 		/**
