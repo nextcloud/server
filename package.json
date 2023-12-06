@@ -64,7 +64,7 @@
     "clipboard": "^2.0.11",
     "colord": "^2.9.3",
     "core-js": "^3.24.0",
-    "davclient.js": "github:owncloud/davclient.js.git#0.2.1",
+    "davclient.js": "github:owncloud/davclient.js.git#0.2.2",
     "debounce": "^1.2.1",
     "dompurify": "^2.3.6",
     "escape-html": "^1.0.3",
