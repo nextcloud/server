@@ -200,27 +200,17 @@ class SymlinkManager {
 	 */
 	private function getStorageIdFromNode($node) {
 		$storageId = $node->getStorage()->getId();
-		$query = $this->connection->getQueryBuilder();
-		$query->select('numeric_id')
-			->from('storages')
-			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
-		$result = $query->executeQuery();
-
-		if ($result->rowCount() > 1) {
-			throw new \OCP\DB\Exception("Storage ('$storageId') is not unique in database!");
+		if ($numericStorageId = \OC\Files\Cache\Storage::getNumericStorageId($storageId)) {
+			return $numericStorageId;
+		} else {
+			throw new \OCP\Files\StorageNotAvailableException("Unable to find storage '$storageId'!");
 		}
-
-		$numericId = $result->fetchOne();
-		if ($numericId === false) {
-			throw new \OCP\DB\Exception("Unable to find storage '$storageId' in database!");
-		}
-		return $numericId;
 	}
 
 	/**
 	 * @param \OCP\Files\FileInfo $node
 	 */
 	private function getPathFromNode($node) {
-		return $node->getPath();
+		return $node->getInternalPath();
 	}
 }
