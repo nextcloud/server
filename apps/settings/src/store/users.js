@@ -206,7 +206,7 @@ const mutations = {
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value

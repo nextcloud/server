@@ -30,11 +30,11 @@
 			<NcLoadingIcon v-if="loading"
 				class="menu-entry__loading-icon"
 				:size="18" />
-			<img v-else :src="cachedIcon" alt="" />
+			<img v-else :src="cachedIcon" alt="">
 			{{ name }}
 		</a>
 		<button v-else>
-			<img :src="cachedIcon" alt="" />
+			<img :src="cachedIcon" alt="">
 			{{ name }}
 		</button>
 	</li>
