@@ -2,8 +2,9 @@
 	- @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
 	-
 	- @author John Molakvoæ <skjnldsv@protonmail.com>
+	- @author Ferdinand Thiessen <opensource@fthiessen.de>
 	-
-	- @license GNU AGPL version 3 or any later version
+	- @license AGPL-3.0-or-later
 	-
 	- This program is free software: you can redistribute it and/or modify
 	- it under the terms of the GNU Affero General Public License as
@@ -33,14 +34,14 @@
 </template>
 
 <script lang="ts">
-import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import { getUploader } from '@nextcloud/upload'
 import { defineComponent } from 'vue'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import logger from '../logger.js'
+import { handleDrop } from '../services/DropService'
+import { showSuccess } from '@nextcloud/dialogs'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -98,39 +99,29 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			if (event.dataTransfer && event.dataTransfer.files?.length > 0) {
-				const uploader = getUploader()
-				uploader.destination = this.currentFolder
-
+			if (event.dataTransfer && event.dataTransfer.items.length > 0) {
 				// Start upload
 				logger.debug(`Uploading files to ${this.currentFolder.path}`)
-				const promises = [...event.dataTransfer.files].map(async (file: File) => {
-					try {
-						return await uploader.upload(file.name, file)
-					} catch (e) {
-						showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
-						throw e
-					}
-				})
-
 				// Process finished uploads
-				Promise.all(promises).then((uploads) => {
+				handleDrop(event.dataTransfer).then((uploads) => {
 					logger.debug('Upload terminated', { uploads })
 					showSuccess(t('files', 'Upload successful'))
 
-					// Scroll to last upload if terminated
-					const lastUpload = uploads[uploads.length - 1]
-					if (lastUpload?.response?.headers?.['oc-fileid']) {
+					// Scroll to last upload in current directory if terminated
+					const lastUpload = uploads.findLast((upload) => !upload.file.webkitRelativePath.includes('/') && upload.response?.headers?.['oc-fileid'])
+					if (lastUpload !== undefined) {
 						this.$router.push({
 							...this.$route,
 							params: {
+								view: this.$route.params?.view ?? 'files',
 								// Remove instanceid from header response
-								fileid: parseInt(lastUpload.response?.headers?.['oc-fileid']),
+								fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
 							},
 						})
 					}
 				})
 			}
+			this.dragover = false
 		},
 		t,
 	},
