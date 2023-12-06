@@ -229,11 +229,12 @@ class FilesPlugin extends ServerPlugin {
 		}
 	}
 
-	public function httpGet(RequestInterface $request, ResponseInterface $response) {
+	public function httpGet(RequestInterface $request, ResponseInterface $response): bool {
 		// only handle symlinks
 		$node = $this->tree->getNodeForPath($request->getPath());
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\File && $this->symlinkManager->isSymlink($node->getFileInfo()))) {
-			return;
+		if (!($node instanceof \OCA\DAV\Connector\Sabre\File
+				&& $this->symlinkManager->isSymlink($node->getFileInfo()))) {
+			return true;
 		}
 
 		$date = \DateTime::createFromFormat('U', $node->getLastModified());
@@ -255,7 +256,7 @@ class FilesPlugin extends ServerPlugin {
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
-	public function afterHttpGet(RequestInterface $request, ResponseInterface $response) {
+	public function afterHttpGet(RequestInterface $request, ResponseInterface $response): void {
 		// Only handle valid files
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) {

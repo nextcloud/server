@@ -146,7 +146,7 @@ class SymlinkManager {
 			->set('storage', $query->createNamedParameter($storageId))
 			->set('path', $query->createNamedParameter($path));
 		if ($query->executeStatement() != 1) {
-			throw new \OCP\DB\Exception("Invalid number of rows changed while updating symlink!");
+			throw new \OCP\DB\Exception('Invalid number of rows changed while updating symlink!');
 		}
 	}
 
@@ -164,7 +164,7 @@ class SymlinkManager {
 			->setValue('storage', $query->createNamedParameter($storageId))
 			->setValue('path', $query->createNamedParameter($path));
 		if ($query->executeStatement() != 1) {
-			throw new \OCP\DB\Exception("Invalid number of rows changed while inserting symlink!");
+			throw new \OCP\DB\Exception('Invalid number of rows changed while inserting symlink!');
 		}
 	}
 
@@ -179,7 +179,7 @@ class SymlinkManager {
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$rowsChanged = $query->executeStatement();
 		if ($rowsChanged > 1) {
-			throw new \OCP\DB\Exception("Too many symlink rows deleted!");
+			throw new \OCP\DB\Exception('Too many symlink rows deleted!');
 		}
 		return $rowsChanged == 1;
 	}

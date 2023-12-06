@@ -33,7 +33,11 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class SymlinkPlugin extends ServerPlugin {
-	/** @var Server */
+	/**
+	 * @var Server
+	 *
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	private $server;
 	/** @var SymlinkManager */
 	private $symlinkManager;
@@ -48,7 +52,7 @@ class SymlinkPlugin extends ServerPlugin {
 	/**
 	 * @inheritdoc
 	 */
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$server->on('method:PUT', [$this, 'httpPut']);
 		$server->on('method:DELETE', [$this, 'httpDelete']);
 		$server->on('afterMove', [$this, 'afterMove']);
@@ -74,7 +78,9 @@ class SymlinkPlugin extends ServerPlugin {
 			$symlinkNode->put($symlinkTarget);
 			$this->symlinkManager->storeSymlink($symlinkNode->getFileInfo());
 
-			$response->setHeader("OC-ETag", $etag);
+			if ($etag) {
+				$response->setHeader('OC-ETag', $etag);
+			}
 			$response->setStatus(201);
 			return false; // this request was handled already
 		} elseif ($this->server->tree->nodeExists($request->getPath())) {
