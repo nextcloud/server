@@ -52,5 +52,5 @@ interface IProvideEnabledStateBackend {
 	 *
 	 * @return string[]
 	 */
-	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array;
+	public function getDisabledUserList(?int $limit = null, int $offset = 0): array;
 }

@@ -463,7 +463,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
 	}
 
-	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+	public function getDisabledUserList(?int $limit = null, int $offset = 0): array {
 		return array_map(
 			fn (OfflineUser $user) => $user->getOCName(),
 			array_slice(
