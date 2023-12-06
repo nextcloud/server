@@ -27,9 +27,7 @@ use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 use OCP\AppFramework\Http;
 use OCP\Files\DavUtil;
 use OCP\Files\Folder;
-use Exception;
 use Psr\Log\LoggerInterface;
-use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -38,13 +36,6 @@ use Sabre\HTTP\ResponseInterface;
 class BulkUploadPlugin extends ServerPlugin {
 	private Folder $userFolder;
 	private LoggerInterface $logger;
-
-	/**
-	 * Reference to main server object
-	 *
-	 * @var Server
-	 */
-	private $server;
 
 	/**
 	 * @var \OCP\Files\SymlinkManager
@@ -64,7 +55,6 @@ class BulkUploadPlugin extends ServerPlugin {
 	 * Register listener on POST requests with the httpPost method.
 	 */
 	public function initialize(Server $server): void {
-		$this->server = $server;
 		$server->on('method:POST', [$this, 'httpPost'], 10);
 	}
 
