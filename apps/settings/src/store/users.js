@@ -31,6 +31,7 @@ import api from './api'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import logger from '../logger'
+import { parseFileSize } from '@nextcloud/files'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
