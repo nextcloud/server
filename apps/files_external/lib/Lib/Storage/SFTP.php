@@ -506,7 +506,7 @@ class SFTP extends Common {
 			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
 				$size = $writtenSize;
 			});
-			if (!$stream) {
+			if (!is_resource($stream)) {
 				throw new \Exception("Failed to wrap stream");
 			}
 		}
