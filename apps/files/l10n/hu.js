@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} felhasználva",
     "{relative}% used" : "{relative}% felhasználva",
     "Could not refresh storage stats" : "Nem sikerült frissíteni a tárhelystatisztikákat",
+    "Your storage is full, files can not be updated or synced anymore!" : "A tároló megtelt, a fájlok többé nem frissíthetők vagy szinkronizálhatók!",
     "Transfer ownership of a file or folder" : "Fájl vagy mappa tulajdonjogának átruházása",
     "Choose file or folder to transfer" : "Válasszon egy fájlt vagy mappát az átruházáshoz",
     "Change" : "Módosítás",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
     "Cannot transfer ownership of a file or folder you do not own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Select file or folder to link to" : "Válassza ki a hivatkozandó fájlt vagy mappát",
+    "Add" : "Hozzáadás",
     "Loading current folder" : "Jelenlegi mappa betöltése",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Töltsön fel néhány tartalmat, vagy szinkronizáljon az eszközeivel.",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "Megosztva",
     "Switch to list view" : "Váltás listanézetre",
     "Switch to grid view" : "Váltás rácsnézetre",
+    "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "Open the files app settings" : "Nyissa meg a Fájlok lalkalmazás beállításait",
     "Files settings" : "Fájlok beállításai",
     "File cannot be accessed" : "A fájl nem érhető el",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Search for an account" : "Fiók keresése",
     "Choose" : "Válasszon",
-    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
-    "Sort list by {column}" : "Lista rendezése {column} szerint"
+    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
 },
 "nplurals=2; plural=(n != 1);");

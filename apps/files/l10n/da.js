@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} brugt",
     "{relative}% used" : "{relative}% brugt",
     "Could not refresh storage stats" : "Kunne ikke opdatere lageroplysninger",
+    "Your storage is full, files can not be updated or synced anymore!" : "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!",
     "Transfer ownership of a file or folder" : "Overfør ejerskab af en fil eller mappe",
     "Choose file or folder to transfer" : "Vælg fil eller mappe til overførsel",
     "Change" : "Ændr",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Anmodning om ejerskabsoverdragelse sendt",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
     "Select file or folder to link to" : "Vælg fil eller mappe at linke til",
+    "Add" : "Tilføj",
     "Loading current folder" : "Indlæser aktuelle mappe",
     "No files in here" : "Her er ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "Delt",
     "Switch to list view" : "Skift til listevisning",
     "Switch to grid view" : "Skift til gittervisning",
+    "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "Open the files app settings" : "Åbn fil-app indstillinger",
     "Files settings" : "indstillinger for filer",
     "File cannot be accessed" : "Filen kan ikke tilgås",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "Search for an account" : "Søg efter en konto",
     "Choose" : "Vælg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu",
-    "Sort list by {column}" : "Sortér liste efter {column}"
+    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu"
 },
 "nplurals=2; plural=(n != 1);");

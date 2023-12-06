@@ -208,6 +208,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{relative}% used" : "%{relative} kullanılmış",
     "Could not refresh storage stats" : "Depolama istatistikleri yenilenemedi",
+    "Your storage is full, files can not be updated or synced anymore!" : "Boş depolama alanınız kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "Transfer ownership of a file or folder" : "Bir dosya ya da klasörün sahipliğini aktarabilirsiniz",
     "Choose file or folder to transfer" : "Sahipliği aktarılacak dosya ya da klasörü seçin",
     "Change" : "Değiştir",
@@ -220,6 +221,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
     "Cannot transfer ownership of a file or folder you do not own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
     "Select file or folder to link to" : "Bağlantı verilecek dosya ya da klasörü seçin",
+    "Add" : "Ekle",
     "Loading current folder" : "Geçerli klasör yükleniyor",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
@@ -230,6 +232,7 @@ OC.L10N.register(
     "Shared" : "Paylaşılan",
     "Switch to list view" : "Liste görünümüne geç",
     "Switch to grid view" : "Tablo görünümüne geç",
+    "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
     "Files settings" : "Dosyalar ayarları",
     "File cannot be accessed" : "Dosyaya erişilemedi",
@@ -310,7 +313,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
-    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
-    "Sort list by {column}" : "{column} sütununa göre sırala"
+    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
 },
 "nplurals=2; plural=(n > 1);");

@@ -206,6 +206,7 @@
     "{usedQuotaByte} used" : "{usedQuotaByte} usato",
     "{relative}% used" : "{relative}% usato",
     "Could not refresh storage stats" : "Impossibile aggiornare le statistiche di archiviazione",
+    "Your storage is full, files can not be updated or synced anymore!" : "Lo spazio di archiviazione è pieno, i file non possono essere più aggiornati o sincronizzati!",
     "Transfer ownership of a file or folder" : " Trasferisci la proprietà di un file o di una cartella",
     "Choose file or folder to transfer" : "Scegli file o cartella da trasferire",
     "Change" : "Modifica",
@@ -218,6 +219,7 @@
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
     "Cannot transfer ownership of a file or folder you do not own" : "Impossibile trasferire la proprietà di un file o di una cartella di cui non sei proprietario",
     "Select file or folder to link to" : "Seleziona un file o una cartella da collegare",
+    "Add" : "Aggiungi",
     "Loading current folder" : "Sto caricando la cartella corrente",
     "No files in here" : "Qui non c'è alcun file",
     "Upload some content or sync with your devices!" : "Carica dei contenuti o sincronizza con i tuoi dispositivi!",
@@ -228,6 +230,7 @@
     "Shared" : "Condiviso",
     "Switch to list view" : "Passa alla vista elenco",
     "Switch to grid view" : "Passa alla vista griglia",
+    "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "Open the files app settings" : "Apri le impostazioni dell'app File",
     "Files settings" : "Impostazioni File",
     "File cannot be accessed" : "Il file non possono essere acceduti",
@@ -308,7 +311,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Questa lista non è stata mostrata completamente per ragioni di performances. I file verranno mostrati durante la navigazione della lista.",
     "Search for an account" : "Cerca un account",
     "Choose" : "Scegli",
-    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato",
-    "Sort list by {column}" : "Ordina lista per {column}"
+    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

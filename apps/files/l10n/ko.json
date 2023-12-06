@@ -204,6 +204,7 @@
     "{usedQuotaByte} used" : "{usedQuotaByte} 사용",
     "{relative}% used" : "{relative}% 사용",
     "Could not refresh storage stats" : "저장소 정보를 새로고칠 수 없음",
+    "Your storage is full, files can not be updated or synced anymore!" : "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 동기화할 수 없습니다!",
     "Transfer ownership of a file or folder" : "파일이나 폴더의 소유권 이전",
     "Choose file or folder to transfer" : "이전할 파일이나 폴더 고르기",
     "Change" : "변경",
@@ -216,6 +217,7 @@
     "Ownership transfer request sent" : "소유권 이전 요청이 전송됨",
     "Cannot transfer ownership of a file or folder you do not own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
     "Select file or folder to link to" : "링크할 파일이나 폴더 선택",
+    "Add" : "추가",
     "Loading current folder" : "현재 폴더를 불러오는 중",
     "No files in here" : "여기에 파일 없음",
     "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",
@@ -226,6 +228,7 @@
     "Shared" : "공유됨",
     "Switch to list view" : "목록 보기로 전환",
     "Switch to grid view" : "바둑판식 보기로 전환",
+    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "Open the files app settings" : "파일 앱 설정을 열기",
     "Files settings" : "파일 설정",
     "File cannot be accessed" : "파일에 접근할 수 없음",
@@ -306,7 +309,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
-    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
-    "Sort list by {column}" : "{column}(을)를 기준으로 목록 정렬"
+    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

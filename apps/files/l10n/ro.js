@@ -205,6 +205,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} utilizați",
     "{relative}% used" : "{relative}% utilizat",
     "Could not refresh storage stats" : "Nu pot actualiza statisticile de stocare",
+    "Your storage is full, files can not be updated or synced anymore!" : "Spațiul de stocare este plin, fișierele nu mai pot fi actualizate sau sincronizate!",
     "Transfer ownership of a file or folder" : "Transferă proprietatea unui fisier sau dosar",
     "Choose file or folder to transfer" : "Alege fișierul sau dosarul de transferat",
     "Change" : "Modificare",
@@ -217,6 +218,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Cererea de transfer a fost trimisă",
     "Cannot transfer ownership of a file or folder you do not own" : "Nu se poate transfera proprietatea unui fișier sau dosar daca nu le deții",
     "Select file or folder to link to" : "Selectați fișierul sau folderul țintă a link-ului",
+    "Add" : "Adaugă",
     "Loading current folder" : "Se încarcă folderul curent",
     "No files in here" : "Niciun fișier aici",
     "Upload some content or sync with your devices!" : "Încarcă ceva conținut sau sincronizează cu dispozitivele tale!",
@@ -227,6 +229,7 @@ OC.L10N.register(
     "Shared" : "Partajat",
     "Switch to list view" : "Comuta la organizarea tip listă",
     "Switch to grid view" : "Comută la organizare tip grilă",
+    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "Open the files app settings" : "Deschide setările aplicației Fișiere",
     "Files settings" : "Setări Fișiere",
     "File cannot be accessed" : "Fișierul nu poate fi accesat",
@@ -307,7 +310,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați în listă.",
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
-    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
-    "Sort list by {column}" : "Sortează lista după {column}"
+    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
