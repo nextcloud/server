@@ -351,6 +351,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param array $properties
 	 * @return int
 	 * @throws BadRequest
+	 * @throws Exception
 	 */
 	public function createAddressBook($principalUri, $url, array $properties) {
 		if (strlen($url) > 255) {
