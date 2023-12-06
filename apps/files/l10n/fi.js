@@ -200,6 +200,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} käytetty",
     "{relative}% used" : "{relative} % käytetty",
     "Could not refresh storage stats" : "Tallennustilan tilastoja ei voitu päivittää",
+    "Your storage is full, files can not be updated or synced anymore!" : "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!",
     "Transfer ownership of a file or folder" : "Siirrä tiedoston tai kansion omistajuus",
     "Choose file or folder to transfer" : "Valitse siirrettävä tiedosto tai kansio",
     "Change" : "Muuta",
@@ -212,6 +213,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
     "Cannot transfer ownership of a file or folder you do not own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Select file or folder to link to" : "Valitse tiedosto tai kansio, johon linkitetään",
+    "Add" : "Lisää",
     "Loading current folder" : "Ladataan nykyistä kansiota",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
@@ -222,6 +224,7 @@ OC.L10N.register(
     "Shared" : "Jaettu",
     "Switch to list view" : "Vaihda taulukkonäkymään",
     "Switch to grid view" : "Vaihda ruudukkonäkymään",
+    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
     "Files settings" : "Tiedostojen asetukset",
     "File cannot be accessed" : "Tiedostoa ei voi käyttää",
@@ -298,7 +301,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "Choose" : "Valitse",
-    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu",
-    "Sort list by {column}" : "Järjestä luettelo sarakkeen {column} mukaan"
+    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
 },
 "nplurals=2; plural=(n != 1);");

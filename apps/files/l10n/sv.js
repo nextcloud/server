@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
     "{relative}% used" : "{relative}% använt",
     "Could not refresh storage stats" : "Det gick inte att uppdatera lagringsstatistiken",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ditt lagringsutrymme är fullt, filer kan inte längre uppdateras eller synkroniseras!",
     "Transfer ownership of a file or folder" : "Överför ägarskap av en fil eller mapp",
     "Choose file or folder to transfer" : "Välj fil eller mapp att överföra",
     "Change" : "Ändra",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
     "Cannot transfer ownership of a file or folder you do not own" : "Det går inte att överföra äganderätten till en fil eller mapp som du inte äger",
     "Select file or folder to link to" : "Välj fil eller mapp att länka till",
+    "Add" : "Lägg till",
     "Loading current folder" : "Laddar aktuell mapp",
     "No files in here" : "Inga filer kunde hittas",
     "Upload some content or sync with your devices!" : "Ladda upp innehåll eller synkronisera med dina enheter!",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "Delad",
     "Switch to list view" : "Växla till listvy",
     "Switch to grid view" : "Växla till rutnätsvy",
+    "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "Open the files app settings" : "Öppna filappens inställningar",
     "Files settings" : "Filinställningar",
     "File cannot be accessed" : "Det går inte att komma åt filen",
@@ -312,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
-    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
-    "Sort list by {column}" : "Sortera lista efter {column}"
+    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
 },
 "nplurals=2; plural=(n != 1);");

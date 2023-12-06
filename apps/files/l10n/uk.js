@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} використано",
     "{relative}% used" : "{relative}% використано",
     "Could not refresh storage stats" : "Неможливо оновити статистику сховища",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані!",
     "Transfer ownership of a file or folder" : "Передавання прав власника на файл або каталог",
     "Choose file or folder to transfer" : "Виберіть файл або каталог для передавання",
     "Change" : "Змінити",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Запит на передавання прав власника надіслано",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможливо передати права власності на файл або каталог, якими ви не володієте",
     "Select file or folder to link to" : "Виберіть файл або каталог, до якого потрібно застосувати посилання",
+    "Add" : "Додати",
     "Loading current folder" : "Завантаження поточного каталогу",
     "No files in here" : "Тут немає файлів",
     "Upload some content or sync with your devices!" : "Завантажте вміст або синхронізуйтеся з вашими пристроями!",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "Спільне",
     "Switch to list view" : "У вигляді списку",
     "Switch to grid view" : "У вигляді сітки",
+    "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення файлів тут",
     "Open the files app settings" : "Перейти до налаштувань застосунку файлів",
     "Files settings" : "Налаштування",
     "File cannot be accessed" : "Неможливо отримати доступ до файлу",
@@ -241,6 +244,7 @@ OC.L10N.register(
     "Enable the grid view" : "Увімкнути перегляд у вигляді сітки",
     "Additional settings" : "Додатково",
     "WebDAV" : "WebDAV",
+    "WebDAV URL" : "URL-адреса WebDAV",
     "Copy to clipboard" : "Копіювати до буферу обміну",
     "Use this address to access your Files via WebDAV" : "Адреса для доступу до файлів за допомогою протоколу WebDAV",
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Якщо увімкнено двофакторної авторизацію, вам потрібно створити та використовувати окремий пароль на застосунок. Для цього клацніть тут.",
@@ -311,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Через обмеження, пов'язані з потужністю, список не показується повністю. Файли показуватимуться, щойно ви рухатиметеся списком.",
     "Search for an account" : "Пошук облікового запису",
     "Choose" : "Вибрати",
-    "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено",
-    "Sort list by {column}" : "Впорядкувати список за {column}"
+    "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

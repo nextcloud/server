@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "Zasedeno {usedQuotaByte}",
     "{relative}% used" : "Zasedeno {relative} %",
     "Could not refresh storage stats" : "Ni mogoče osvežiti podatkov shrambe",
+    "Your storage is full, files can not be updated or synced anymore!" : "Shramba je povsem napolnjena. Datotek ni več mogoče posodabljati in usklajevati!",
     "Transfer ownership of a file or folder" : "Prenos lastništva datoteke ali mape",
     "Choose file or folder to transfer" : "Izbor datoteke ali mape za prenos",
     "Change" : "Spremeni",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Zahteva za prenos lastništva je poslana",
     "Cannot transfer ownership of a file or folder you do not own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Select file or folder to link to" : "Izbor datoteke ali mape za povezavo",
+    "Add" : "Dodaj",
     "Loading current folder" : "Poteka nalaganje trenutne mape",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino, ali pa omogočite usklajevanje z napravami!",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "V souporabi",
     "Switch to list view" : "Preklopi na seznamski pogled",
     "Switch to grid view" : "Preklopi na mrežni pogled",
+    "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
     "Open the files app settings" : "Odpri nastavitve programa Datoteke",
     "Files settings" : "Nastavitve datotek",
     "File cannot be accessed" : "Do datoteke dostop ni mogoč",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali ob brskanju.",
     "Search for an account" : "Poišči račun",
     "Choose" : "Izbor",
-    "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map",
-    "Sort list by {column}" : "Razvrsti seznam po stolpcu {column}"
+    "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

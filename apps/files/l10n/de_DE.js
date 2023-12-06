@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{relative}% used" : "{relative}% verwendet",
     "Could not refresh storage stats" : "Die Speicherstatistik konnte nicht aktualisiert werden",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ihr Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
     "Transfer ownership of a file or folder" : "Besitz einer Datei oder eines Ordners übertragen",
     "Choose file or folder to transfer" : "Datei oder Ordner zur Übertragung auswählen",
     "Change" : "Ändern",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Anforderung für die Besitzübertragung versendet",
     "Cannot transfer ownership of a file or folder you do not own" : "Sie können den Besitz von Dateien oder Ordnern, die Sie nicht besitzen, nicht übertragen",
     "Select file or folder to link to" : "Datei oder Ordner zum Verknüpfen auswählen",
+    "Add" : "Hinzufügen",
     "Loading current folder" : "Lade aktuellen Ordner",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder mit Ihren Geräten synchronisieren!",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "Geteilt",
     "Switch to list view" : "Zur Listenansicht wechseln",
     "Switch to grid view" : "Zur Rasteransicht wechseln",
+    "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
     "Files settings" : "Dateien-Einstellungen",
     "File cannot be accessed" : "Auf die Datei kann nicht zugegriffen werden",
@@ -312,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
-    "Sort list by {column}" : "Liste sortieren nach {column}"
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },
 "nplurals=2; plural=(n != 1);");

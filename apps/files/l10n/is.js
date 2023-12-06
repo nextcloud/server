@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} notað",
     "{relative}% used" : "{relative}% notað",
     "Could not refresh storage stats" : "Gat ekki uppfært tölfræði fyrir geymslurými",
+    "Your storage is full, files can not be updated or synced anymore!" : "Geymsluplássið þitt er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
     "Transfer ownership of a file or folder" : "Millifæra eignarhald skráar eða möppu",
     "Choose file or folder to transfer" : "Veldu skrá eða möppu til að millifæra",
     "Change" : "Breyta",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Beiðni um millifærslu eignarhalds send",
     "Cannot transfer ownership of a file or folder you do not own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
     "Select file or folder to link to" : "Veldu skrá eða möppu til að tengja í",
+    "Add" : "Bæta við",
     "Loading current folder" : "Hleð inn núverandi möppu",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "Sameiginlegt",
     "Switch to list view" : "Skipta yfir í listasýn",
     "Switch to grid view" : "Skipta yfir í reitasýn",
+    "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "Open the files app settings" : "Opna stillingar skráaforritsins",
     "Files settings" : "Stillingar skráaforritsins",
     "File cannot be accessed" : "Skráin er ekki aðgengileg",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "Search for an account" : "Leita að notandaaðgangi",
     "Choose" : "Velja",
-    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt",
-    "Sort list by {column}" : "Raða lista eftir {column}"
+    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

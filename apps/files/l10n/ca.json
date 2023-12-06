@@ -207,6 +207,7 @@
     "{usedQuotaByte} used" : "{usedQuotaByte} en ús",
     "{relative}% used" : "{relative}% en ús",
     "Could not refresh storage stats" : "No s'han pogut actualitzar les estadístiques d'emmagatzematge",
+    "Your storage is full, files can not be updated or synced anymore!" : "L'emmagatzematge està ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
     "Transfer ownership of a file or folder" : "Transferència de la propietat d'un fitxer o carpeta",
     "Choose file or folder to transfer" : "Tria el fitxer o carpeta que voleu transferir",
     "Change" : "Canvia",
@@ -229,6 +230,7 @@
     "Shared" : "S'ha compartit",
     "Switch to list view" : "Canvia a la visualització de llista",
     "Switch to grid view" : "Canvia a la visualització de quadrícula",
+    "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "Open the files app settings" : "Obre els paràmetres de l'aplicació Fitxers",
     "Files settings" : "Paràmetres de Fitxers",
     "File cannot be accessed" : "No es pot accedir al fitxer",
@@ -310,7 +312,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Search for an account" : "Cerqueu un compte",
     "Choose" : "Tria",
-    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
-    "Sort list by {column}" : "Ordena la llista per {column}"
+    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} 使用されています",
     "{relative}% used" : "{relative}% 使用されています",
     "Could not refresh storage stats" : "ストレージの状態を更新できませんでした",
+    "Your storage is full, files can not be updated or synced anymore!" : "ストレージは一杯です。ファイルの更新と同期はできません！",
     "Transfer ownership of a file or folder" : "ファイルまたはフォルダーの所有権を譲渡する",
     "Choose file or folder to transfer" : "譲渡するファイルまたはフォルダーを選択してください",
     "Change" : "変更",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "所有権転送のリクエストを送信しました",
     "Cannot transfer ownership of a file or folder you do not own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
     "Select file or folder to link to" : "リンク先のファイルまたはフォルダを選択",
+    "Add" : "追加",
     "Loading current folder" : "現在のフォルダの読み込み中",
     "No files in here" : "ファイルがありません",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "共有中",
     "Switch to list view" : "リスト表示へ切り替え",
     "Switch to grid view" : "グリッド表示へ切り替え",
+    "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "Open the files app settings" : "ファイルアプリの設定を開く",
     "Files settings" : "ファイルの設定",
     "File cannot be accessed" : "ファイルにアクセスできません",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
-    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
-    "Sort list by {column}" : "{column} でリストをソートする"
+    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません"
 },
 "nplurals=1; plural=0;");

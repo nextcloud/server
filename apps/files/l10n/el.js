@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} χρησιμοποιείται",
     "{relative}% used" : "{relative}% χρησιμοποιείται",
     "Could not refresh storage stats" : "Δεν ήταν δυνατή η ανανέωση των στατιστικών αποθήκευσης",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ο αποθηκευτικός σας χώρος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν πια!",
     "Transfer ownership of a file or folder" : "Μεταβίβαση κυριότητας αρχείου ή φακέλου",
     "Choose file or folder to transfer" : "Επιλέξτε αρχείο ή φάκελο για μεταφορά",
     "Change" : "Αλλαγή",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Αποστολή αίτησης μεταβίβασης κυριότητας",
     "Cannot transfer ownership of a file or folder you do not own" : "Δεν είναι δυνατή η μεταβίβαση της κυριότητας ενός αρχείου ή φακέλου που δε σας ανήκει",
     "Select file or folder to link to" : "Επιλέξτε αρχείο ή φάκελο για σύνδεση",
+    "Add" : "Προσθήκη",
     "Loading current folder" : "Φόρτωση τρέχοντος φακέλου",
     "No files in here" : "Δεν υπάρχουν αρχεία εδώ",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "Κοινόχρηστα",
     "Switch to list view" : "Αλλαγή σε προβολή λίστας",
     "Switch to grid view" : "Εναλλαγή σε προβολή πλέγματος",
+    "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "Open the files app settings" : "Ανοίξτε τις ρυθμίσεις της εφαρμογής αρχείων",
     "Files settings" : "Ρυθμίσεις αρχείων",
     "File cannot be accessed" : "Δεν είναι δυνατή η πρόσβαση στο αρχείο",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
-    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
-    "Sort list by {column}" : "Ταξινόμηση λίστας κατά {column}"
+    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
 },
 "nplurals=2; plural=(n != 1);");
