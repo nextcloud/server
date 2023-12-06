@@ -55,15 +55,15 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorMainText = '#D8D8D8';
 		$colorMainBackground = '#171717';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
-		$colorTextMaxcontrast = $this->util->darken($colorMainText, 30);
+		$colorTextMaxcontrast = $this->util->darken($colorMainText, 28);
 
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#d91812';
+		$colorError = '#ee312b';
 		$colorWarning = '#c28900';
-		$colorSuccess = '#2d7b41';
-		$colorInfo = '#0071ad';
+		$colorSuccess = '#36914e';
+		$colorInfo = '#007bbd';
 
 		return array_merge(
 			$defaultVariables,
