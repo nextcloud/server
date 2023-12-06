@@ -2,7 +2,8 @@
 	<NcListItem class="result-items__item"
 		:name="title"
 		:bold="false"
-		@click="openResult(resourceUrl)">
+		:href="resourceUrl"
+		target="_self">
 		<template #icon>
 			<div aria-hidden="true"
 				class="result-items__item-icon"
@@ -90,11 +91,6 @@ export default {
 		},
 		thumbnailErrorHandler() {
 			this.thumbnailHasError = true
-		},
-		openResult(url) {
-			if (url) {
-				window.location = url
-			}
 		},
 	},
 }
