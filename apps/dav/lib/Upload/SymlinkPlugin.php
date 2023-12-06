@@ -112,14 +112,31 @@ class SymlinkPlugin extends ServerPlugin {
 	}
 
 	public function afterMove(string $source, string $destination) {
-		$sourceNode = $this->server->tree->getNodeForPath($source);
+		// source node does not exist anymore, thus use still existing parent
+		$sourceParentNode = dirname($source);
+		$sourceParentNode = $this->server->tree->getNodeForPath($sourceParentNode);
+		if (!$sourceParentNode instanceof \OCA\DAV\Connector\Sabre\Node) {
+			throw new \Sabre\DAV\Exception\NotImplemented('Unable to check if moved file is a symlink!');
+		}
 		$destinationNode = $this->server->tree->getNodeForPath($destination);
-		if ($this->symlinkManager->isSymlink($sourceNode)) {
-			$this->symlinkManager->deleteSymlink($sourceNode);
-			$this->symlinkManager->storeSymlink($destinationNode);
-		} elseif ($this->symlinkManager->isSymlink($destinationNode)) {
+		if (!$destinationNode instanceof \OCA\DAV\Connector\Sabre\Node) {
+			throw new \Sabre\DAV\Exception\NotImplemented('Unable to set symlink information on move destination!');
+		}
+
+		$sourceInfo = new \OC\Files\FileInfo(
+			$source,
+			$sourceParentNode->getFileInfo()->getStorage(),
+			$sourceParentNode->getInternalPath() . '/' . basename($source),
+			[],
+			$sourceParentNode->getFileInfo()->getMountPoint());
+		$destinationInfo = $destinationNode->getFileInfo();
+
+		if ($this->symlinkManager->isSymlink($sourceInfo)) {
+			$this->symlinkManager->deleteSymlink($sourceInfo);
+			$this->symlinkManager->storeSymlink($destinationInfo);
+		} elseif ($this->symlinkManager->isSymlink($destinationInfo)) {
 			// source was not a symlink, but destination was a symlink before
-			$this->symlinkManager->deleteSymlink($destinationNode);
+			$this->symlinkManager->deleteSymlink($destinationInfo);
 		}
 	}
 }
