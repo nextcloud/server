@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} usado",
     "{relative}% used" : "{relative}% usado",
     "Could not refresh storage stats" : "Non foi posíbel  actualizar as estatísticas de almacenamento",
+    "Your storage is full, files can not be updated or synced anymore!" : "O seu espazo de almacenamento está cheo, xa non se poden actualizar nin sincronizar os ficheiros.",
     "Transfer ownership of a file or folder" : "Transferencia da propiedade dun ficheiro ou cartafol",
     "Choose file or folder to transfer" : "Escolla o ficheiro ou cartafol para transferir",
     "Change" : "Cambiar",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Enviouse solicitude de transferencia da propiedade",
     "Cannot transfer ownership of a file or folder you do not own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol do que non es o propietario",
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
+    "Add" : "Engadir",
     "Loading current folder" : "Cargando o cartafol actual",
     "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "Compartido",
     "Switch to list view" : "Cambiar á vista de lista",
     "Switch to grid view" : "Cambiar á vista de grade",
+    "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "Open the files app settings" : "Abrir os axustes da aplicación de ficheiros",
     "Files settings" : "Axustes de Ficheiros",
     "File cannot be accessed" : "Non é posíbel acceder ao ficheiro",
@@ -312,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
-    "Sort list by {column}" : "Ordenar a lista por {column}"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
 },
 "nplurals=2; plural=(n != 1);");

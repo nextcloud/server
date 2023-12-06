@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} využito",
     "{relative}% used" : "{relative}% využito",
     "Could not refresh storage stats" : "Nedaří se znovu načíst statistiky úložiště",
+    "Your storage is full, files can not be updated or synced anymore!" : "Vaše úložiště je plné – soubory už proto nelze aktualizovat ani synchronizovat!",
     "Transfer ownership of a file or folder" : "Převést vlastnictví souboru či složky",
     "Choose file or folder to transfer" : "Zvolte soubor nebo složku k převedení",
     "Change" : "Změnit",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Žádost o převedení vlastnictví zaslána",
     "Cannot transfer ownership of a file or folder you do not own" : "Není možné převést vlastnictví souboru či složky, kterých nejste vlastníky",
     "Select file or folder to link to" : "Vyberte soubor nebo složku na kterou odkazovat",
+    "Add" : "Přidat",
     "Loading current folder" : "Načítá se stávající složka",
     "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo proveďte synchronizaci se svými zařízeními!",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "Sdíleno",
     "Switch to list view" : "Přepnout do zobrazení v seznamu",
     "Switch to grid view" : "Přepnout do zobrazení v mřížce",
+    "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "Open the files app settings" : "Otevřít nastavení aplikace soubory",
     "Files settings" : "Nastavení pro Soubory",
     "File cannot be accessed" : "K souboru se nedaří přistoupit",
@@ -312,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
-    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
-    "Sort list by {column}" : "Seřadit podle {column}"
+    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

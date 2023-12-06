@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} used",
     "{relative}% used" : "{relative}% used",
     "Could not refresh storage stats" : "Could not refresh storage stats",
+    "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
     "Transfer ownership of a file or folder" : "Transfer ownership of a file or folder",
     "Choose file or folder to transfer" : "Choose file or folder to transfer",
     "Change" : "Change",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Ownership transfer request sent",
     "Cannot transfer ownership of a file or folder you do not own" : "Cannot transfer ownership of a file or folder you do not own",
     "Select file or folder to link to" : "Select file or folder to link to",
+    "Add" : "Add",
     "Loading current folder" : "Loading current folder",
     "No files in here" : "No files in here",
     "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "Shared",
     "Switch to list view" : "Switch to list view",
     "Switch to grid view" : "Switch to grid view",
+    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "Open the files app settings" : "Open the files app settings",
     "Files settings" : "Files settings",
     "File cannot be accessed" : "File cannot be accessed",
@@ -312,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
-    "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
-    "Sort list by {column}" : "Sort list by {column}"
+    "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
 },
 "nplurals=2; plural=(n != 1);");

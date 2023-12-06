@@ -205,6 +205,7 @@
     "{usedQuotaByte} used" : "Wykorzystano {usedQuotaByte}",
     "{relative}% used" : "Wykorzystano {relative}%",
     "Could not refresh storage stats" : "Nie można odświeżyć statystyk przechowywania",
+    "Your storage is full, files can not be updated or synced anymore!" : "Magazyn jest pełny. Nie można już zaktualizować ani zsynchronizować plików!",
     "Transfer ownership of a file or folder" : "Przenieś własność pliku lub katalogu",
     "Choose file or folder to transfer" : "Wybierz plik lub katalog do przeniesienia",
     "Change" : "Zmień",
@@ -217,6 +218,7 @@
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
     "Select file or folder to link to" : "Wybierz plik lub katalog do linku",
+    "Add" : "Dodaj",
     "Loading current folder" : "Ładowanie bieżącego katalogu",
     "No files in here" : "Brak plików",
     "Upload some content or sync with your devices!" : "Wyślij lub zsynchronizuj pliki z urządzeniami.",
@@ -227,6 +229,7 @@
     "Shared" : "Udostępnione",
     "Switch to list view" : "Przełącz na widok listy",
     "Switch to grid view" : "Przełącz na widok siatki",
+    "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
     "Files settings" : "Ustawienia Plików",
     "File cannot be accessed" : "Nie można uzyskać dostępu do pliku",
@@ -307,7 +310,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
     "Search for an account" : "Wyszukaj konto",
     "Choose" : "Wybierz",
-    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte",
-    "Sort list by {column}" : "Sortuj listę według {column}"
+    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

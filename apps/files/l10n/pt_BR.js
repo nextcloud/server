@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "{usedQuotaByte} usado",
     "{relative}% used" : "{relative}% usado",
     "Could not refresh storage stats" : "Não foi possível atualizar as estatísticas de armazenamento",
+    "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio e arquivos não podem mais ser atualizados ou sincronizados!",
     "Transfer ownership of a file or folder" : "Transferir a propriedade de um arquivo ou pasta",
     "Choose file or folder to transfer" : "Escolha o arquivo ou pasta a transferir",
     "Change" : "Mudar",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Solicitação de transferência de propriedade enviada",
     "Cannot transfer ownership of a file or folder you do not own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não possui",
     "Select file or folder to link to" : "Selecione o arquivo ou pasta para vincular",
+    "Add" : "Adicionar",
     "Loading current folder" : "Carregando a pasta atual",
     "No files in here" : "Nenhum arquivo aqui",
     "Upload some content or sync with your devices!" : "Envie um arquivo ou sincronize com seus dispositivos!",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "Compartilhado",
     "Switch to list view" : "Mudar para a visualizar lista",
     "Switch to grid view" : "Mudar para visualização em grade",
+    "You don’t have permission to upload or create files here" : "Você não tem permissão para enviar ou criar arquivos aqui",
     "Open the files app settings" : "Abra as configurações do aplicativo de arquivos",
     "Files settings" : "Configurações de arquivos",
     "File cannot be accessed" : "File cannot be accessed",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista não é totalmente renderizada por motivos de desempenho. Os arquivos serão renderizados conforme você navega pela lista.",
     "Search for an account" : "Pesquisar uma conta",
     "Choose" : "Escolher",
-    "No files or folders have been deleted yet" : "Nenhum arquivo ou pasta foi excluído ainda",
-    "Sort list by {column}" : "Classificar lista por {column}"
+    "No files or folders have been deleted yet" : "Nenhum arquivo ou pasta foi excluído ainda"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

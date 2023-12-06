@@ -207,6 +207,7 @@
     "{usedQuotaByte} used" : "{usedQuotaByte} مستخدمة",
     "{relative}% used" : "{relative}% مستخدمة",
     "Could not refresh storage stats" : "تعذر تحديث حالة التخزين",
+    "Your storage is full, files can not be updated or synced anymore!" : "مساحتك التخزينية ممتلئة, لا يمكن تحديث ملفاتك أو مزامنتها بعد الآن !",
     "Transfer ownership of a file or folder" : "تحويل ملكية ملف أو مجلد",
     "Choose file or folder to transfer" : "اختر ملف او مجلد لنقل الملكية",
     "Change" : "تغير",
@@ -219,6 +220,7 @@
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
     "Cannot transfer ownership of a file or folder you do not own" : "لايمكنك نقل ملكية ملف أو مجلد لا تملكه",
     "Select file or folder to link to" : "اختر ملف أو مجلد للربط معه",
+    "Add" : "أضِف",
     "Loading current folder" : "تحميل المجلد الحالي",
     "No files in here" : "لا يوجد ملفات هنا ",
     "Upload some content or sync with your devices!" : "ارفع بعض المحتوي او زامن مع اجهزتك !",
@@ -229,6 +231,7 @@
     "Shared" : "مُشارَكة",
     "Switch to list view" : "التبديل إلى عرض القائمة",
     "Switch to grid view" : "بدِّل إلى المنظور الصندوقي",
+    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Open the files app settings" : "إفتح إعدادات تطبيق الملفات",
     "Files settings" : "إعدادات الملفات",
     "File cannot be accessed" : "الملف لم يمكن الوصول إليه",
@@ -310,7 +313,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "لم يمكن عرض هذه القائمة بالكامل بسبب إشكالية في الأداء. سيتم عرض الملفات عندما تمر عليها في القائمة",
     "Search for an account" : "البحث عن حساب",
     "Choose" : "إختَر",
-    "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ",
-    "Sort list by {column}" : "ترتيب القائمة على أساس {column} "
+    "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

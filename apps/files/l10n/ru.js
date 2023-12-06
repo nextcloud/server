@@ -207,6 +207,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
     "{relative}% used" : "Использовано {relative}%",
     "Could not refresh storage stats" : "Не удалось обновить данные об использовании хранилища",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ваше хранилище переполнено, файлы больше не могут быть обновлены или синхронизированы.",
     "Transfer ownership of a file or folder" : "Изменение владельца файла или папки",
     "Choose file or folder to transfer" : "Выберите файл или папку для передачи владения",
     "Change" : "Изменить",
@@ -219,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Запрос на передачу прав владения отправлен",
     "Cannot transfer ownership of a file or folder you do not own" : "Невозможно передать право владения на файл или каталог, которые вам не принадлежат",
     "Select file or folder to link to" : "Выберите файл или папку для создания ссылки",
+    "Add" : "Добавить",
     "Loading current folder" : "Загрузка текущей папки",
     "No files in here" : "Здесь нет файлов",
     "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
@@ -229,6 +231,7 @@ OC.L10N.register(
     "Shared" : "Опубликованное",
     "Switch to list view" : "Переключение в режим просмотра списка",
     "Switch to grid view" : "Переключиться на режим просмотра сеткой",
+    "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
     "Open the files app settings" : "Открыть параметры приложения «Файлы»",
     "Files settings" : "Настройки файлов",
     "File cannot be accessed" : "Не удалось получить доступ к файлу",
@@ -309,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "Choose" : "Выберите",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
-    "Sort list by {column}" : "Сортировать список по {column}"
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
