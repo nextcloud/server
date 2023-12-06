@@ -31,7 +31,6 @@
  */
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
@@ -333,9 +332,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['userid', 'appid', 'configkey']);
 			$table->addIndex(['appid', 'configkey'], 'preferences_app_key');
-			if (!$this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-				$table->addIndex(['configvalue'], 'preferences_configvalue', [], ['lengths' => [80]]);
-			}
 		}
 
 		if (!$schema->hasTable('properties')) {
