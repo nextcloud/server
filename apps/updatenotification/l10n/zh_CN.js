@@ -20,6 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "注意：不推荐超过100个用户的站点使用网页更新程序！请改用命令行更新！",
     "Open updater" : "打开更新器",
     "Download now" : "开始下载",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "网页更新程序已禁用。请使用命令行更新器或者其他更新机制（例如 Docker 拉取）进行更新。",
     "What's new?" : "有哪些更新？",
     "View changelog" : "查看更新记录",
     "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",

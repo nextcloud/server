@@ -209,6 +209,7 @@ OC.L10N.register(
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte} ",
     "{relative}% used" : "已使用 {relative}%",
     "Could not refresh storage stats" : "無法更新儲存統計數據",
+    "Your storage is full, files can not be updated or synced anymore!" : "您的儲存空間已滿，沒有辦法再更新或是同步檔案！",
     "Transfer ownership of a file or folder" : "轉移檔案或資料夾的擁有權",
     "Choose file or folder to transfer" : "選擇要轉移的檔案或資料夾",
     "Change" : "更改",
@@ -221,6 +222,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "已送出擁有權轉移的請求",
     "Cannot transfer ownership of a file or folder you do not own" : "無法轉移您未擁有的檔案或是資料夾所有權",
     "Select file or folder to link to" : "選擇要連結的檔案或資料夾",
+    "Add" : "添加",
     "Loading current folder" : "目前資料夾加載中",
     "No files in here" : "沒有任何檔案",
     "Upload some content or sync with your devices!" : "在您的裝置同步或上傳一些內容！",
@@ -231,6 +233,7 @@ OC.L10N.register(
     "Shared" : "已分享",
     "Switch to list view" : "切換到列表檢視",
     "Switch to grid view" : "切換到網格檢視",
+    "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "Open the files app settings" : "開啟 Files 應用程式設定",
     "Files settings" : "檔案設定",
     "File cannot be accessed" : "檔案無法存取",
@@ -312,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋賬號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
-    "Sort list by {column}" : "按 {column} 排序清單"
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
 },
 "nplurals=1; plural=0;");
