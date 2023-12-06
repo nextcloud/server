@@ -460,7 +460,7 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::RESOURCETYPE_PROPERTYNAME, function() use ($node) {
 				$info = $node->getFileInfo();
 				if ($this->symlinkManager->isSymlink($info)) {
-					return '{DAV:}symlink';
+					return new \Sabre\DAV\Xml\Property\ResourceType(['{DAV:}symlink']);
 				}
 				return null;
 			});
