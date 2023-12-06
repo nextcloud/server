@@ -23,6 +23,7 @@
 
 namespace OCA\DAV\BulkUpload;
 
+use OC\Files\SymlinkManager;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 use OCP\AppFramework\Http;
 use OCP\Files\DavUtil;
@@ -38,7 +39,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	private LoggerInterface $logger;
 
 	/**
-	 * @var \OCP\Files\SymlinkManager
+	 * @var SymlinkManager
 	 */
 	private $symlinkManager;
 
@@ -48,7 +49,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;
-		$this->symlinkManager = new \OCP\Files\SymlinkManager();
+		$this->symlinkManager = new SymlinkManager();
 	}
 
 	/**

@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Upload;
 
-use OCP\Files\SymlinkManager;
+use OC\Files\SymlinkManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;

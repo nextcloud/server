@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCP\Files;
+namespace OC\Files;
 
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;

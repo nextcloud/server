@@ -35,6 +35,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OC\Files\SymlinkManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
@@ -104,7 +105,7 @@ class FilesPlugin extends ServerPlugin {
 	private IConfig $config;
 	private IRequest $request;
 	private IPreview $previewManager;
-	private \OCP\Files\SymlinkManager $symlinkManager;
+	private SymlinkManager $symlinkManager;
 
 	public function __construct(Tree $tree,
 		IConfig $config,
@@ -120,7 +121,7 @@ class FilesPlugin extends ServerPlugin {
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
 		$this->previewManager = $previewManager;
-		$this->symlinkManager = new \OCP\Files\SymlinkManager();
+		$this->symlinkManager = new SymlinkManager();
 	}
 
 	/**
