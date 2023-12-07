@@ -1,25 +1,24 @@
 <template>
-	<NcModal id="global-search"
-		ref="globalSearchModal"
+	<NcModal id="unified-search"
+		ref="unifiedSearchModal"
+		:name="t('core', 'Unified search')"
 		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
 		:title="t('Unified search')"
 		@close="closeModal">
 		<CustomDateRangeModal :is-open="showDateRangeModal"
-			:class="'global-search__date-range'"
+			class="unified-search__date-range"
 			@set:custom-date-range="setCustomDateRange"
 			@update:is-open="showDateRangeModal = $event" />
-		<!-- Global search form -->
-		<div ref="globalSearch" class="global-search-modal">
-			<h2 class="global-search-modal__heading">
-				{{ t('core', 'Unified search') }}
-			</h2>
+		<!-- Unified search form -->
+		<div ref="unifiedSearch" class="unified-search-modal">
+			<h1>{{ t('core', 'Unified search') }}</h1>
 			<NcInputField ref="searchInput"
 				:value.sync="searchQuery"
 				type="text"
 				:label="t('core', 'Search apps, files, tags, messages') + '...'"
 				@update:value="debouncedFind" />
-			<div class="global-search-modal__filters">
+			<div class="unified-search-modal__filters">
 				<NcActions :menu-name="t('core', 'Apps and Settings')" :open.sync="providerActionMenuIsOpen">
 					<template #icon>
 						<ListBox :size="20" />
@@ -68,7 +67,7 @@
 					</template>
 				</SearchableList>
 			</div>
-			<div class="global-search-modal__filters-applied">
+			<div class="unified-search-modal__filters-applied">
 				<FilterChip v-for="filter in filters"
 					:key="filter.id"
 					:text="filter.name ?? filter.text"
@@ -86,14 +85,14 @@
 					</template>
 				</FilterChip>
 			</div>
-			<div v-if="noContentInfo.show" class="global-search-modal__no-content">
+			<div v-if="noContentInfo.show" class="unified-search-modal__no-content">
 				<NcEmptyContent :name="noContentInfo.text">
 					<template #icon>
 						<component :is="noContentInfo.icon" />
 					</template>
 				</NcEmptyContent>
 			</div>
-			<div v-for="providerResult in results" :key="providerResult.id" class="global-search-modal__results">
+			<div v-for="providerResult in results" :key="providerResult.id" class="unified-search-modal__results">
 				<div class="results">
 					<div class="result-title">
 						<span>{{ providerResult.provider }}</span>
@@ -117,7 +116,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="supportFiltering()" class="global-search-modal__results">
+			<div v-if="supportFiltering()" class="unified-search-modal__results">
 				<NcButton @click="closeModal">
 					{{ t('core', 'Filter in current view') }}
 					<template #icon>
@@ -133,10 +132,10 @@
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
-import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModal.vue'
+import CustomDateRangeModal from '../components/UnifiedSearch/CustomDateRangeModal.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
-import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
+import FilterChip from '../components/UnifiedSearch/SearchFilterChip.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -146,15 +145,15 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
-import SearchableList from '../components/GlobalSearch/SearchableList.vue'
-import SearchResult from '../components/GlobalSearch/SearchResult.vue'
+import SearchableList from '../components/UnifiedSearch/SearchableList.vue'
+import SearchResult from '../components/UnifiedSearch/SearchResult.vue'
 
 import debounce from 'debounce'
 import { emit } from '@nextcloud/event-bus'
-import { getProviders, search as globalSearch, getContacts } from '../services/GlobalSearchService.js'
+import { getProviders, search as unifiedSearch, getContacts } from '../services/UnifiedSearchService.js'
 
 export default {
-	name: 'GlobalSearchModal',
+	name: 'UnifiedSearchModal',
 	components: {
 		ArrowRight,
 		AccountGroup,
@@ -256,7 +255,7 @@ export default {
 				this.searching = false
 				return
 			}
-			// Event should probably be refactored at some point to used nextcloud:global-search.search
+			// Event should probably be refactored at some point to used nextcloud:unified-search.search
 			emit('nextcloud:unified-search.search', { query })
 			const newResults = []
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
@@ -290,7 +289,7 @@ export default {
 					params.limit = this.providerResultLimit
 				}
 
-				const request = globalSearch(params).request
+				const request = unifiedSearch(params).request
 
 				request().then((response) => {
 					newResults.push({
@@ -301,7 +300,7 @@ export default {
 					})
 
 					console.debug('New results', newResults)
-					console.debug('Global search results:', this.results)
+					console.debug('Unified search results:', this.results)
 
 					this.updateResults(newResults)
 					this.searching = false
@@ -535,7 +534,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.global-search-modal {
+.unified-search-modal {
 	padding: 10px 20px 10px 20px;
 	height: 60%;
 
