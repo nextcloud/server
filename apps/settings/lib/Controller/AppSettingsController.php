@@ -365,7 +365,7 @@ class AppSettingsController extends Controller {
 			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
-				$currentLanguage = $app['releases'][0]['version'];
+				$currentVersion = $app['releases'][0]['version'];
 			}
 
 			$formattedApps[] = [
