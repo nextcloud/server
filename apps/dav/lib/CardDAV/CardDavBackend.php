@@ -436,9 +436,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				->execute();
 
 			$addressBookId = $query->getLastInsertId();
+			$addressBook = [
+				'id' => $addressBookId,
+				'uri' => $values['uri'],
+				'principaluri' => $values['principaluri'],
+				'{DAV:}displayname' => $values['displayname'],
+				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $values['description'],
+				'{http://calendarserver.org/ns/}getctag' => 0,
+				'{http://sabredav.org/ns}sync-token' => '0',
+			];
+			$this->addOwnerPrincipal($addressBook);
+
 			return [
 				$addressBookId,
-				$this->getAddressBookById($addressBookId),
+				$addressBook
 			];
 		}, $this->db);
 
