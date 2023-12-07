@@ -24,7 +24,8 @@
 	<NcContent app-name="settings"
 		:class="{ 'with-app-sidebar': app}">
 		<!-- Categories & filters -->
-		<NcAppNavigation :class="{ 'icon-loading': loading }">
+		<NcAppNavigation :class="{ 'icon-loading': loading }"
+			:aria-label="t('settings', 'Apps')">
 			<template #list>
 				<NcAppNavigationItem id="app-category-your-apps"
 					:to="{ name: 'apps' }"
