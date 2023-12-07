@@ -23,11 +23,14 @@ import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { FileAction, Permission, type Node } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
+
+let disableEditLocally = loadState('files', 'disable_edit_locally', false)
 
 const openLocalClient = async function(path: string) {
 	const link = generateOcsUrl('apps/files/api/v1') + '/openlocaleditor?format=json'
@@ -51,7 +54,7 @@ export const action = new FileAction({
 
 	// Only works on single files
 	enabled(nodes: Node[]) {
-		if ($('#disableEditLocally').val() === "1") {
+		if (disableEditLocally) {
 			return false
 		}
 

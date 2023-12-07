@@ -186,7 +186,6 @@ class ViewControllerTest extends TestCase {
 			'index',
 			[
 				'fileNotFound' => 0,
-				'disableEditLocally' => 0,
 			]
 		);
 		$policy = new Http\ContentSecurityPolicy();

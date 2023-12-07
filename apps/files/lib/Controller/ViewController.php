@@ -278,10 +278,10 @@ class ViewController extends Controller {
 
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
+		$this->initialState->provideInitialState('disable_edit_locally', $this->config->getSystemValueBool('disable_edit_locally'));
 
 		$params = [
 			'fileNotFound' => $fileNotFound ? 1 : 0,
-			'disableEditLocally' => $this->config->getSystemValueBool('disable_edit_locally') ? 1 : 0,
 		];
 
 		$response = new TemplateResponse(

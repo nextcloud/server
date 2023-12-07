@@ -2412,4 +2412,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_non-accessible_features' => true,
+
+/**
+ * Disable "Edit locally" menu item in file viewer
+ *
+ * Defaults to ``false``
+ */
+'disable_edit_locally' => false,
 ];
