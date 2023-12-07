@@ -1,10 +1,10 @@
 <template>
 	<NcModal id="global-search"
 		ref="globalSearchModal"
-		:name="t('core', 'Global search')"
+		:name="t('core', 'Unified search')"
 		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
-		:title="t('Global search')"
+		:title="t('Unified search')"
 		@close="closeModal">
 		<CustomDateRangeModal :is-open="showDateRangeModal"
 			:class="'global-search__date-range'"
@@ -12,7 +12,7 @@
 			@update:is-open="showDateRangeModal = $event" />
 		<!-- Global search form -->
 		<div ref="globalSearch" class="global-search-modal">
-			<h1>{{ t('core', 'Global search') }}</h1>
+			<h1>{{ t('core', 'Unified search') }}</h1>
 			<NcInputField ref="searchInput"
 				:value.sync="searchQuery"
 				type="text"
