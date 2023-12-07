@@ -307,6 +307,7 @@ import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import {formatFileSize, parseFileSize} from "@nextcloud/files";
 
 export default {
 	name: 'UserRow',
@@ -435,9 +436,9 @@ export default {
 
 		usedSpace() {
 			if (this.user.quota?.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota?.used) })
+				return t('settings', '{size} used', { size: formatFileSize(this.user.quota?.used) })
 			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			return t('settings', '{size} used', { size: formatFileSize(0) })
 		},
 
 		canEdit() {
@@ -451,7 +452,7 @@ export default {
 				quota = this.settings.defaultQuota
 				if (quota !== 'none') {
 					// convert to numeric value to match what the server would usually return
-					quota = OC.Util.computerFileSize(quota)
+					quota = parseFileSize(quota, true)
 				}
 			}
 
@@ -459,9 +460,9 @@ export default {
 			if (quota === 'none' || quota === -3) {
 				return t('settings', 'Unlimited')
 			} else if (quota >= 0) {
-				return OC.Util.humanFileSize(quota)
+				return formatFileSize(quota)
 			}
-			return OC.Util.humanFileSize(0)
+			return formatFileSize(0)
 		},
 
 		userActions() {
@@ -498,7 +499,7 @@ export default {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota
 				}
-				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+				if (this.settings.defaultQuota !== unlimitedQuota.id && parseFileSize(this.settings.defaultQuota, true) >= 0) {
 					// if value is valid, let's map the quotaOptions or return custom quota
 					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
 				}
@@ -834,7 +835,8 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota,
+		  		// translate from locale string format to raw float format so backend can read it
+					value: '' + parseFileSize(quota, true)
 				})
 			} catch (error) {
 				console.error(error)
@@ -855,12 +857,12 @@ export default {
 				quota = quota?.id || quota.label
 			}
 			// only used for new presets sent through @Tag
-			const validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = parseFileSize(quota, true)
 			if (validQuota === null) {
 				return unlimitedQuota
 			} else {
 				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				return { id: quota, label: quota }
 			}
 		},
