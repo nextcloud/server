@@ -20,7 +20,8 @@
   -
   -->
 <template>
-	<NcAppNavigation data-cy-files-navigation>
+	<NcAppNavigation data-cy-files-navigation
+		:aria-label="t('files', 'Files')">
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
