@@ -23,7 +23,7 @@
 <template>
 	<Fragment>
 		<NcContent app-name="settings">
-			<NcAppNavigation>
+			<NcAppNavigation :aria-label="t('settings', 'User management')">
 				<NcAppNavigationNew button-id="new-user-button"
 					:text="t('settings','New user')"
 					@click="showNewUserMenu"
