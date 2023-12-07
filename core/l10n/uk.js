@@ -303,7 +303,7 @@ OC.L10N.register(
     "If this happens again, please send the technical details below to the server administrator." : "Якщо це станеться знову, надішліть технічні подробиці адміністратору сервера.",
     "More details can be found in the server log." : "Більше деталей може бути в журналі серверу.",
     "Technical details" : "Технічні деталі",
-    "Remote Address: %s" : "Віддалена Адреса: %s",
+    "Remote Address: %s" : "Віддалена адреса: %s",
     "Request ID: %s" : "ID запиту: %s",
     "Type: %s" : "Тип: %s",
     "Code: %s" : "Код: %s",
@@ -451,7 +451,7 @@ OC.L10N.register(
     "Authentication required" : "Потрібна авторизація",
     "Failed to authenticate, try again" : "Помилка авторизації, спробуйте ще раз",
     "The page could not be found on the server." : "Сторінку не знайдено на сервері.",
-    "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Віддалену адресу \"{remoteAddress}\" ідентифіковано як таку, з якої ведуться атаки на злам системи, відповідно це впливає на уповільнення окремих запитів. Якщо ця віддалена адреса не є вашою адресою, це може означати, що проксі некоректно сконфігуровано. Будь ласка, ознайомтеся з цією  {linkstart}документацією ↗{linkend}.",
+    "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваша віддалена адреса була ідентифікована як \"{remoteAddress}\" і наразі щодо неї виконуються спроби грубого підбору паролів, відповідно виконання різних запитів відбувається уповільнено. Якщо віддалена адреса не є вашою адресою, це може свідчити про те, що проксі налаштовано неправильно. Додаткову інформацію можна знайти в документації ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "База даних використовується для транзакційного блокування файлів. Для підвищення продуктивності, будь ласка, налаштуйте кеш-пам'ять, якщо це можливо. Докладнішу інформацію наведено у ↗{linkend} документації{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 вже застаріла в Nextcloud 27. Для роботи Nextcloud 28 може знадобитися щонайменше PHP 8.1. Будь ласка, якнайшвидше оновіть систему до {linkstart}однієї з офіційно підтримуваних версій PHP, наданих групою розробників PHP ↗{linkend}.",
     "Avatar of {fullName}" : "Аватарка {fullName}"
