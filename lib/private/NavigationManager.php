@@ -95,7 +95,10 @@ class NavigationManager implements INavigationManager {
 			return;
 		}
 
+		$id = $entry['id'];
+
 		$entry['active'] = false;
+		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
 		if (!isset($entry['icon'])) {
 			$entry['icon'] = '';
 		}
@@ -106,9 +109,12 @@ class NavigationManager implements INavigationManager {
 			$entry['type'] = 'link';
 		}
 
-		$id = $entry['id'];
-		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
 		if ($entry['type'] === 'link') {
+			// app might not be set when using closures, in this case try to fallback to ID
+			if (!isset($entry['app']) && $this->appManager->isEnabledForUser($id)) {
+				$entry['app'] = $id;
+			}
+
 			// This is the default app that will always be shown first
 			$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
 			// Set order from user defined app order
