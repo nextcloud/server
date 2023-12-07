@@ -74,7 +74,7 @@
     "_in %n minute_::_in %n minutes_" : ["om %n minut","om %n minutter"],
     "_%n minute ago_::_%n minutes ago_" : ["%n minut siden","%n minutter siden"],
     "in a few seconds" : "om få sekunder",
-    "seconds ago" : "sekunder siden",
+    "seconds ago" : "få sekunder siden",
     "Empty file" : "Tom fil",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Modulet med ID: %s eksisterer ikke. Aktiver det venligst i dine indstillinger eller kontakt din administrator.",
     "File already exists" : "Filen findes allerede",
@@ -267,13 +267,11 @@
     "Extract topics" : "Uddrag emner",
     "Extracts topics from a text and outputs them separated by commas." : "Uddrager emner fra en tekst og skriver dem adskilt af kommaer.",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Filerne tilhørende appen %1$s blev ikke erstattet korrekt. Check at versionen er kompatibel med serveren.",
+    "404" : "404",
     "Full name" : "Fulde navn",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Grænsen for brugere er nået, og den nye bruger er ikke blevet oprettet. Læs dine notifikationer for at lære mere.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kun følgende tegn kan indgå i et brugernavn: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 skal mindst være version 2.7.0. Du har version %s installeret.",
     "To fix this issue update your libxml2 version and restart your web server." : "Opdater din libxml2 version og genstart webserveren for at løse problemet.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 kræves.",
-    "Please upgrade your database version." : "Opgradér venligst din databaseversion.",
-    "404" : "404"
+    "Please upgrade your database version." : "Opgradér venligst din databaseversion."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

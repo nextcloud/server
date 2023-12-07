@@ -94,9 +94,11 @@ class RememberBackupCodesJob extends TimedJob {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('twofactor_backupcodes')
 			->setUser($user->getUID())
-			->setDateTime($date)
 			->setObject('create', 'codes')
 			->setSubject('create_backupcodes');
+		$this->notificationManager->markProcessed($notification);
+
+		$notification->setDateTime($date);
 		$this->notificationManager->notify($notification);
 	}
 }

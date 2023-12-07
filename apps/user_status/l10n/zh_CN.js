@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "远程办公中",
     "In a call" : "通话中",
     "User status" : "用户状态",
-    "View profile" : "查看个人资料",
     "Clear status after" : "清除状态于",
     "Emoji for your status message" : "表示状态信息的表情符号",
     "What is your status?" : "你什么状态？",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "4 hours" : "4小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
+    "View profile" : "查看个人资料",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=1; plural=0;");

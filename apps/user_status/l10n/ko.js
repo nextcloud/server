@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "원격 근무 중",
     "In a call" : "통화중",
     "User status" : "사용자 상태",
-    "View profile" : "프로필 보기",
     "Clear status after" : "상태 메시지 지우기 예약",
     "What is your status?" : "당신의 상태는?",
     "Set status" : "상태 설정",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 시간",
     "Mute all notifications" : "모든 알림을 음소거",
     "Appear offline" : "접속 안함으로 표시",
+    "View profile" : "프로필 보기",
     "{status}, {timestamp}" : "{status},{timestamp}"
 },
 "nplurals=1; plural=0;");

@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "به کاربران اجازه می دهد با قرار دادن یک آدرس ایمیل ، پیوند شخصی شده را با پرونده یا پوشه به اشتراک بگذارند.",
     "Send password by mail" : "ارسال رمز عبور از طریق پست",
     "Reply to initiator" : "پاسخ به آغازگر",
-    "Unable to update share by mail config" : "به‌روزرسانی اشتراک‌گذاری با پیکربندی ایمیل امکان‌پذیر نیست",
-    "Shared with %1$s" : "اشتراک گذاری با %1$s",
-    "Shared with %1$s by %2$s" : "اشتراک گذاری با %1$s توسط %2$s",
-    "Unshared from %1$s" : "عدم اشتراک از %1$s",
-    "Unshared from %1$s by %2$s" : "عدم اشتراک از %1$s توسط %2$s",
-    "Password for mail share sent to %1$s" : "رمز عبور برای اشتراک نامه ارسال شده به %1$s",
-    "You shared %1$s with %2$s by mail" : "شما %1$s با %2$s توسط پست الکترونیک به اشتراک گذاشتید.",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s اشتراک گذاری %1$s با %2$s توسط پست الکترونیک",
-    "You unshared %1$s from %2$s by mail" : "شما %1$s از طریق %2$s  پست مشترک نشده اید",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s عدم اشتراک گذاری %1$s از %2$s توسط پست الکترونیک",
-    "Password to access %1$s was sent to %2s" : "رمز ورود برای دسترسی %1$s  به %2s ارسال شد",
-    "Password to access %1$s was sent to you" : "رمز عبور برای دسترسی %1$s به شما ارسال شد"
+    "Unable to update share by mail config" : "به‌روزرسانی اشتراک‌گذاری با پیکربندی ایمیل امکان‌پذیر نیست"
 },
 "nplurals=2; plural=(n > 1);");

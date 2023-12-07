@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "給收件者的訊息",
     "Enter a note for the share recipient" : "輸入給分享收件者的訊息",
     "Create" : "建立",
-    "Update" : "更新",
     "Share" : "分享",
     "Delete share" : "刪除分享",
     "Share with " : "分享者",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["還原分享"],
     "Shared" : "已分享",
     "Shared by {ownerDisplayName}" : "由 {ownerDisplayName} 分享",
+    "Show sharing options" : "顯示分享選項",
     "Link to a file" : "檔案連結",
     "Error creating the share: {errorMessage}" : "建立分享時發生錯誤：{errorMessage}",
     "Error creating the share" : "建立分享時發生錯誤",
@@ -297,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "好像有東西出錯了。無法拒絕分享。",
     "No expiration date set" : "未指定到期日",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "分享 %s 失敗，因為後端不支援 sciencemesh 分享",
-    "One or more of your shares will expire tomorrow" : "您的一個或多個分享將於明天到期",
     "Allow creating" : "允許建立",
     "Allow deleting" : "允許刪除",
     "Allow resharing" : "允許轉分享",
     "Expiration date enforced" : "已設定到期日",
     "Password protect" : "密碼保護",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "從密碼策略產生密碼時發生錯誤"
+    "Update" : "更新"
 },
 "nplurals=1; plural=0;");

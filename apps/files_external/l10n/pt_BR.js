@@ -89,6 +89,7 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Compartilhar",
     "Show hidden files" : "Mostrar arquivos ocultos",
+    "Case sensitive file system" : "Sistema de arquivos sensível a maiúsculas",
     "Verify ACL access when listing files" : "Verifique o acesso da ACL ao listar arquivos",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Verifique as ACLs de cada arquivo ou pasta dentro de um diretório para filtrar itens nos quais o usuário não tem permissão de leitura. Vem com uma penalidade de desempenho",
     "Timeout" : "Tempo limite",
@@ -110,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Ocorreu um erro com este armazenamento externo.",
     "We were unable to check the external storage {basename}" : "Não foi possível verificar o armazenamento externo {basename}",
     "Examine this faulty external storage configuration" : "Examine esta configuração de armazenamento externo com falha",
-    "Open in files" : "Abrir em arquivos",
+    "Open in Files" : "Abrir em arquivos",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Ocorreu um erro com este armazenamento externo. Deseja revisar esta configuração do ponto de montagem na página de configurações?",
     "External mount error" : "Erro de montagem externa",
     "List of external storage." : "Lista de armazenamento externo.",
@@ -152,6 +153,7 @@ OC.L10N.register(
     "Credentials saved" : "Credenciais salvas",
     "Credentials saving failed" : "Erro ao salvar as credenciais",
     "Credentials required" : "Credenciais necessárias",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Desabilitar esta opção permitirá usar um servidor de arquivos não sensível a maiúsculas, no entanto haverá degradação na performance",
     "Name" : "Nome"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

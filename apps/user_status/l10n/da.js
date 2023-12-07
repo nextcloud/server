@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Arbejder hjemmefra",
     "In a call" : "Taler i telefon",
     "User status" : "Bruger status",
-    "View profile" : "Vis profil",
     "Clear status after" : "Ryd status efter",
     "What is your status?" : "Hvad er din status",
     "Set status" : "Sæt status",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
     "Mute all notifications" : "Vis ikke notifikationer",
-    "Appear offline" : "Er offline"
+    "Appear offline" : "Er offline",
+    "View profile" : "Vis profil"
 },
 "nplurals=2; plural=(n != 1);");

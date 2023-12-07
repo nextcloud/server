@@ -93,6 +93,8 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $showHidden;
 
+	private bool $caseSensitive;
+
 	/** @var bool */
 	protected $checkAcl;
 
@@ -132,6 +134,7 @@ class SMB extends Common implements INotifyStorage {
 		$this->root = rtrim($this->root, '/') . '/';
 
 		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
+		$this->caseSensitive = (bool) ($params['case_sensitive'] ?? true);
 		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
 
 		$this->statCache = new CappedMemoryCache();
@@ -312,6 +315,12 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	public function rename($source, $target, $retry = true): bool {
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
+			return false;
+		}
+		if ($this->caseSensitive === false
+			&& mb_strtolower($target) === mb_strtolower($source)
+		) {
+			// Forbid changing case only on case-insensitive file system
 			return false;
 		}
 
@@ -663,6 +672,16 @@ class SMB extends Common implements INotifyStorage {
 
 	public function file_exists($path) {
 		try {
+			if ($this->caseSensitive === false) {
+				$filename = basename($path);
+				$siblings = $this->getDirectoryContent(dirname($this->buildPath($path)));
+				foreach ($siblings as $sibling) {
+					if ($sibling['name'] === $filename) {
+						return true;
+					}
+				}
+				return false;
+			}
 			$this->getFileInfo($path);
 			return true;
 		} catch (NotFoundException $e) {

@@ -52,8 +52,6 @@ OC.L10N.register(
     "Enable password recovery:" : "აამოქმედეთ პაროლის აღდგენა:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
-    "Disabled" : "არაა მოქმედი",
-    "The share will expire on %s." : "გაზიარება გაუქმდება %s-ზე.",
-    "Cheers!" : "წარმატებები!"
+    "Disabled" : "არაა მოქმედი"
 },
 "nplurals=2; plural=(n!=1);");

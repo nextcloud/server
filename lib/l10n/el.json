@@ -249,7 +249,6 @@
     "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Τα αρχεία της εφαρμογής %1$s δεν αντικαταστάθηκαν σωστά. Βεβαιωθείτε ότι πρόκειται για συμβατή έκδοση με το διακομιστή.",
     "Full name" : "Πλήρες όνομα",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται στο όνομα χρήστη;  \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Απαιτείται τουλάχιστον το libxml2 2.7.0. Αυτή τη στιγμή είναι εγκατεστημένο το %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Για να διορθώσετε το σφάλμα ενημερώστε την έκδοση του libxml2 και επανεκκινήστε τον διακομιστή.",
     "PostgreSQL >= 9 required." : "Απαιτείται PostgreSQL >= 9.",

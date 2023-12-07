@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vegye figyelembe, hogy a webes frissítő több mint 100 felhasználóval nem ajánlott. Használja helyette a parancssoros frissítőt.",
     "Open updater" : "Frissítő megnyitása",
     "Download now" : "Letöltés most",
-    "Please use the command line updater to update." : "Az frissítéshez kérjük használja a parancssoros frissítéskezelőt.",
     "What's new?" : "Újdonságok",
     "View changelog" : "Változásnapló megjelenítése",
     "The update check is not yet finished. Please refresh the page." : "A frissítéskeresés még nem ért véget. Frissítse az oldalt.",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Beta" : "Béta",
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz.","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz."],
-    "Update for %1$s to version %2$s is available." : "A(z) %1$s frissíthető erre a verzióra: %2$s.",
+    "Please use the command line updater to update." : "Az frissítéshez kérjük használja a parancssoros frissítéskezelőt.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Alább módosíthatja a frissítési csatornát, amely érinti az alkalmazáskezelés oldalt is. Például ha a béta csatornára vált, akkor a béta alkalmazásfrissítések is fel lesznek kínálva az alkalmazáskezelés oldalon.",
     "Update channel:" : "Frissítési csatorna:"
 },

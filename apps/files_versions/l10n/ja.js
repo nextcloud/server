@@ -15,15 +15,12 @@ OC.L10N.register(
     "Remove version name" : "バージョン名を削除",
     "Save version name" : "バージョン名を保存",
     "Current version" : "現在のバージョン",
+    "Initial version" : "最初のバージョン",
     "Initial version restored" : "初期バージョンを復旧",
     "Version restored" : "指定のバージョンが復旧されました",
     "Could not restore version" : "このバージョンを復旧できません",
     "Could not set version name" : "バージョン名を設定できませんでした",
     "Could not delete version" : "指定のバージョンを削除できませんでした",
-    "${version.label} restored" : "${version.label} が復旧されました",
-    "Failed to revert {file} to revision {timestamp}." : "{file} を {timestamp} のリビジョンに戻すことができません。",
-    "_%n byte_::_%n bytes_" : ["%n バイト"],
-    "Restore" : "復元",
-    "No other versions available" : "利用可能なバージョンはありません"
+    "${version.label} restored" : "${version.label} が復旧されました"
 },
 "nplurals=1; plural=0;");

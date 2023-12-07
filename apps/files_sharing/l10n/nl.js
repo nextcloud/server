@@ -193,7 +193,6 @@ OC.L10N.register(
     "Note to recipient" : "Notitie voor ontvanger",
     "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger",
     "Create" : "Creëer",
-    "Update" : "Update",
     "Share" : "Delen",
     "Delete share" : "Verwijder share",
     "Others with access" : "Anderen met toegang",
@@ -258,11 +257,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Er is iets gebeurd. Kan de deellink niet accepteren.",
     "Something happened. Unable to reject the share." : "Er is iets gebeurd. Kan de deellink niet weigeren.",
     "No expiration date set" : "Geen vervaldatum ingesteld",
-    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen",
     "Allow creating" : "Toestaan creëren",
     "Allow deleting" : "Toestaan verwijderen",
     "Allow resharing" : "Opnieuw delen toestaan",
     "Expiration date enforced" : "Vervaldatum afgedwongen",
-    "Password protect" : "Beveiligen met wachtwoord"
+    "Password protect" : "Beveiligen met wachtwoord",
+    "Update" : "Update"
 },
 "nplurals=2; plural=(n != 1);");

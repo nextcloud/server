@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lehetővé teszi, hogy a felhasználók személyre szabott megosztási hivatkozásokat hozzanak létre egy fájlhoz vagy mappához az e-mail-cím megadásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
     "Reply to initiator" : "Válasz a kezdeményezőnek",
-    "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők",
-    "Shared with %1$s" : "Megosztva a következővel: %1$s",
-    "Shared with %1$s by %2$s" : "%2$s megosztotta a következővel: %1$s",
-    "Unshared from %1$s" : "Megosztás visszavonva a következőtől: %1$s",
-    "Unshared from %1$s by %2$s" : "%2$s visszavonta tőle a megosztást: %1$s",
-    "Password for mail share sent to %1$s" : "Az e-mailes megosztáshoz szükséges jelszó elküldve a következőnek: %1$s",
-    "You shared %1$s with %2$s by mail" : "%1$s megosztva e-mailben a következővel: %2$s",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s e-mailben megosztotta a(z) %1$s elemet a következővel: %2$s",
-    "You unshared %1$s from %2$s by mail" : "E-mailben visszavonta a(z) %1$s megosztását a következőtől: %2$s",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s e-mailben visszavonta a(z) %1$s megosztását a következőtől: %2$s",
-    "Password to access %1$s was sent to %2s" : "A(z) %1$s eléréséhez szükséges jelszó elküldve a következőhöz: %2s",
-    "Password to access %1$s was sent to you" : "A(z) %1$s eléréséhez szükséges jelszó elküldve Önnek"
+    "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők"
 },
 "nplurals=2; plural=(n != 1);");

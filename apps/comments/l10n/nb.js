@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Det oppsto en feil under forsøk på å slette kommentaren",
     "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren",
-    "%1$s commented" : "%1$s kommentert",
     "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -120,7 +120,7 @@ import { NcActionButton, NcActionLink, NcListItem, NcModal, NcButton, NcTextFiel
 import moment from '@nextcloud/moment'
 import { translate } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { emit } from '@nextcloud/event-bus'
 
@@ -213,9 +213,9 @@ export default {
 		 */
 		downloadURL() {
 			if (this.isCurrent) {
-				return joinPaths('/remote.php/webdav', this.fileInfo.path, this.fileInfo.name)
+				return getRootUrl() + joinPaths('/remote.php/webdav', this.fileInfo.path, this.fileInfo.name)
 			} else {
-				return this.version.url
+				return getRootUrl() + this.version.url
 			}
 		},
 

@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Nota per al destinatari",
     "Enter a note for the share recipient" : "Introduïu una nota per al destinatari de l'element compartit",
     "Create" : "Crea",
-    "Update" : "Actualitza",
     "Share" : "Comparteix",
     "Delete share" : "Suprimeix l'element compartit",
     "Share with " : "Comparteix amb",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Restaura l'element compartit","Restaura els elements compartits"],
     "Shared" : "S'ha compartit",
     "Shared by {ownerDisplayName}" : "Compartit per {ownerDisplayName}",
+    "Show sharing options" : "Mostra les opcions d'ús compartit",
     "Link to a file" : "Enllaç a un fitxer",
     "Error creating the share: {errorMessage}" : "S'ha produït un error en crear l'element compartit: {errorMessage}",
     "Error creating the share" : "S'ha produït un error en crear l'element compartit",
@@ -297,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "S'ha produït un error. No es pot rebutjar l'element compartit.",
     "No expiration date set" : "No s'ha establert cap data de caducitat",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "No s'ha pogut compartir %s perquè el rerefons no permet l'ús compartit amb ScienceMesh",
-    "One or more of your shares will expire tomorrow" : "Una o més dels vostres elements compartits caducaran demà",
     "Allow creating" : "Permet la creació",
     "Allow deleting" : "Permet la supressió",
     "Allow resharing" : "Permet l'ús compartit derivat",
     "Expiration date enforced" : "Data de caducitat",
     "Password protect" : "Protegeix amb contrasenya",
     "Science Mesh" : "ScienceMesh",
-    "Error generating password from password_policy" : "S'ha produït un error en generar la contrasenya a partir de password_policy"
+    "Update" : "Actualitza"
 },
 "nplurals=2; plural=(n != 1);");

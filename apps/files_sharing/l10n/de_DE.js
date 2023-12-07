@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Notiz an Empfänger",
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Create" : "Erstellen",
-    "Update" : "Aktualisieren",
     "Share" : "Teilen",
     "Delete share" : "Freigabe löschen",
     "Share with " : "Teilen mit",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Freigabe wiederherstellen","Freigaben wiederherstellen"],
     "Shared" : "Geteilt",
     "Shared by {ownerDisplayName}" : "Geteilt von {ownerDisplayName}",
+    "Show sharing options" : "Freigabeoptionen anzeigen",
     "Link to a file" : "Mit einer Datei verknüpfen",
     "Error creating the share: {errorMessage}" : "Fehler beim Erstellen der Freigabe: {errorMessage}",
     "Error creating the share" : "Fehler beim Erstellen der Freigabe",
@@ -297,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Die Freigabe konnte nicht abgelehnt werden.",
     "No expiration date set" : "Kein Ablaufdatum gesetzt",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
-    "One or more of your shares will expire tomorrow" : "EIne oder mehrere Ihrer Freigaben werden morgen ablaufen",
     "Allow creating" : "Erstellen erlauben",
     "Allow deleting" : "Löschen erlauben",
     "Allow resharing" : "Weiterteilen erlauben",
     "Expiration date enforced" : "Ablaufdatum erzwungen",
     "Password protect" : "Passwortschutz",
     "Science Mesh" : "ScienceMesh",
-    "Error generating password from password_policy" : "Fehler beim Erzeugen des Passworts basierend auf der Kennwortrichtlinie"
+    "Update" : "Aktualisieren"
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Присутен од дома",
     "In a call" : "Во разговор",
     "User status" : "Статус на корисникот",
-    "View profile" : "Прегледај профил",
     "Clear status after" : "Тргни го статусот после",
     "What is your status?" : "Кој е вашиот статус?",
     "Set status" : "Постави статус",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Занеми (Mute) ги сите известувања",
     "Appear offline" : "Прикажи исклучен",
+    "View profile" : "Прегледај профил",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

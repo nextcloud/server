@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
     "Reply to initiator" : "Απάντηση στον αποστολέα",
-    "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω mail",
-    "Shared with %1$s" : "Διαμοιράστηκε με %1$s",
-    "Shared with %1$s by %2$s" : "Διαμοιράστηκε με  %1$s από %2$s",
-    "Unshared from %1$s" : "Διακοπή διαμοιρασμού από %1$s",
-    "Unshared from %1$s by %2$s" : "Διακοπή διαμοιρασμού από %1$s με %2$s",
-    "Password for mail share sent to %1$s" : "Το συνθηματικό για το διαμοιρασμό μέσου ηλ. αλληλογραφίας έχει αποσταλλεί  %1$s",
-    "You shared %1$s with %2$s by mail" : "Διαμοιραστήκατε το %1$s με %2$s μέσω mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s Διαμοιραστηκε %1$s με %2$s μέσω mail",
-    "You unshared %1$s from %2$s by mail" : "Διακόψατε διαμοιρασμό %1$s από %2$s με mail",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s διέκοψε διαμοιρασμό%1$s από %2$s με mail",
-    "Password to access %1$s was sent to %2s" : "Το συνθηματικό για πρόσβαση στο %1$s στάθηκε στο %2s",
-    "Password to access %1$s was sent to you" : "Σας έχει αποσταλεί το συνθηματικό για πρόσβαση στο %1$s"
+    "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω mail"
 },
 "nplurals=2; plural=(n != 1);");

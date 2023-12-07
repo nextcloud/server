@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
     "Reply to initiator" : "Antwort an Initiator",
-    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden",
-    "Shared with %1$s" : "Geteilt mit %1$s",
-    "Shared with %1$s by %2$s" : "Geteilt mit %1$s von %2$s",
-    "Unshared from %1$s" : "Nicht mehr geteilt von %1$s",
-    "Unshared from %1$s by %2$s" : "Nicht mehr geteilt mit %1$s von %2$s",
-    "Password for mail share sent to %1$s" : "Passwort für E-Mail-Freigabe wurde an %1$s versandt",
-    "You shared %1$s with %2$s by mail" : "Sie haben %1$s mit %2$s via E-Mail geteilt",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s hat %1$s mit %2$s via E-Mail geteilt",
-    "You unshared %1$s from %2$s by mail" : "Sie teilen %1$snicht mehr mit %2$s via E-Mail",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s teilt %1$s nicht mehr mit %2$s via E-Mail",
-    "Password to access %1$s was sent to %2s" : "Passwort für den Zugriff auf %1$s wurde an %2s versandt ",
-    "Password to access %1$s was sent to you" : "Passwort für den Zugriff auf %1$s wurde an Sie versandt"
+    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden"
 },
 "nplurals=2; plural=(n != 1);");

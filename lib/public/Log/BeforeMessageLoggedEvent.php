@@ -33,12 +33,12 @@ use OCP\EventDispatcher\Event;
 class BeforeMessageLoggedEvent extends Event {
 	private int $level;
 	private string $app;
-	private $message;
+	private array $message;
 
 	/**
 	 * @since 26.0.8
 	 */
-	public function __construct(string $app, int $level, $message) {
+	public function __construct(string $app, int $level, array $message) {
 		$this->level = $level;
 		$this->app = $app;
 		$this->message = $message;
@@ -54,7 +54,6 @@ class BeforeMessageLoggedEvent extends Event {
 		return $this->level;
 	}
 
-
 	/**
 	 * Get the app context of the log item
 	 *
@@ -65,14 +64,13 @@ class BeforeMessageLoggedEvent extends Event {
 		return $this->app;
 	}
 
-
 	/**
 	 * Get the message of the log item
 	 *
-	 * @return string
+	 * @return array
 	 * @since 26.0.8
 	 */
-	public function getMessage(): string {
+	public function getMessage(): array {
 		return $this->message;
 	}
 }

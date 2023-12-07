@@ -16,7 +16,8 @@ OC.L10N.register(
     "Delete comment" : "Delete comment",
     "Cancel edit" : "Cancel edit",
     "Post comment" : "Post comment",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker",
+    "@ for mentions, : for emoji, / for smart picker" : "@ for mentions, : for emoji, / for smart picker",
+    "Could not reload comments" : "Could not reload comments",
     "No comments yet, start the conversation!" : "No comments yet, start the conversation!",
     "No more messages" : "No more messages",
     "Retry" : "Retry",
@@ -28,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Comment deleted",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
     "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "%1$s commented" : "%1$s commented",
     "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"]
 },
 "nplurals=2; plural=(n != 1);");

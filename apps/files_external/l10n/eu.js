@@ -110,7 +110,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Errore bat gertatu da kanpoko biltegi honekin.",
     "We were unable to check the external storage {basename}" : "Ezin izan da {basename} kanpoko biltegia egiaztatu ",
     "Examine this faulty external storage configuration" : "Berrikusi kanpoko biltegi konfigurazio akastun hau",
-    "Open in files" : "Ireki Fitxategiak aplikazioan",
+    "Open in Files" : "Ireki Fitxategiak aplikazioan",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Errore bat gertatu da kanpoko biltegi honekin. Muntatze-puntu honen konfigurazioa berrikusi nahi duzu ezarpen orrian?",
     "External mount error" : "Kanpoko muntatzearen errorea",
     "List of external storage." : "Kanpoko biltegien zerrenda.",

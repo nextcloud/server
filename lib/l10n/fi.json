@@ -223,13 +223,11 @@
     "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Sovelluksen %1$s tiedostoja ei korvattu oikein Varmista, että sen versio on yhteensopiva palvelimen kanssa.",
+    "404" : "404",
     "Full name" : "Koko nimi",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Käyttäjää ei luotu, koska käyttäjäraja on tullut täyteen. Tarkista ilmoitukset saadaksesi lisätietoja.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vähintään libxml2 2.7.0 vaaditaan. %s on asennettu.",
     "To fix this issue update your libxml2 version and restart your web server." : "Päivitä libxml2:n versio ja käynnistä http-palvelin uudelleen.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 vaaditaan.",
-    "Please upgrade your database version." : "Päivitä tietokannan versio.",
-    "404" : "404"
+    "Please upgrade your database version." : "Päivitä tietokannan versio."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

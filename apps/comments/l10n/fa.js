@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "توضیح حذف",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
     "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "%1$s commented" : "%1$s commented",
     "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"]
 },
 "nplurals=2; plural=(n > 1);");

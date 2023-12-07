@@ -6,13 +6,13 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Permet l’autentificacion compatibla OAuth2 a partir d’autras aplicacions web",
     "OAuth 2.0 clients" : "clients OAuth 2.0",
-    "Add client" : "Apondre un client",
     "Name" : "Nom",
     "Redirection URI" : "URI de redireccion",
-    "Add" : "Apondre",
     "Client Identifier" : "Identificador client",
-    "Secret" : "Secret",
+    "Add client" : "Apondre un client",
+    "Add" : "Apondre",
     "Show client secret" : "Afichar lo secret del client",
-    "Delete" : "Suprimir"
+    "Delete" : "Suprimir",
+    "Secret" : "Secret"
 },
 "nplurals=2; plural=(n > 1);");

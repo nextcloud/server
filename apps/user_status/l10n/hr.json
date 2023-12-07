@@ -8,7 +8,6 @@
     "Working remotely" : "Rad na daljinu",
     "In a call" : "U pozivu",
     "User status" : "Status korisnika",
-    "View profile" : "Prikaži profil",
     "Clear status after" : "Izbriši status nakon",
     "What is your status?" : "Koji je vaš status?",
     "Set status" : "Postavi status",
@@ -32,6 +31,7 @@
     "4 hours" : "4 sata",
     "Mute all notifications" : "Utišaj sve obavijesti",
     "Appear offline" : "Prikaži izvanmrežno",
+    "View profile" : "Prikaži profil",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

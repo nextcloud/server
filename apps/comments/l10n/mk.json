@@ -25,7 +25,6 @@
     "Comment deleted" : "Коментарот е избришан",
     "An error occurred while trying to delete the comment" : "Настана грешка при обидот за бришење на коментар",
     "An error occurred while trying to create the comment" : "Настана грешка при обидот за креирање на коментар",
-    "%1$s commented" : "%1$s коментиран",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитан коментар","%n непрочитани коментари"]
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -77,7 +77,6 @@ OC.L10N.register(
     "Request user agent" : "Solicitar agente de utilizador",
     "User group membership" : "Grupos do utilizador",
     "is member of" : "é membro de",
-    "is not member of" : "não é um membro de",
-    "Predefined URLs" : "URLs Predefinidos"
+    "is not member of" : "não é um membro de"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

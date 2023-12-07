@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Távoli munkavégzés",
     "In a call" : "Hívásban",
     "User status" : "Felhasználói állapot",
-    "View profile" : "Profil megtekintése",
     "Clear status after" : "Állapot törlése ennyi idő után",
     "Emoji for your status message" : "Emodzsi az állapotüzenetéhez",
     "What is your status?" : "Mi az állapota?",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
     "Appear offline" : "Megjelenés nem kapcsolódottként",
+    "View profile" : "Profil megtekintése",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

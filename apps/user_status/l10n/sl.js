@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Delam od doma",
     "In a call" : "V klicu",
     "User status" : "Stanje uporabnika",
-    "View profile" : "Pokaži profil",
     "Clear status after" : "Počisti stanje",
     "Emoji for your status message" : "Izrazne ikone za stanje sporočila",
     "What is your status?" : "Kako želite nastaviti stanje?",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "4 hours" : "po 4 urah",
     "Mute all notifications" : "Utiša vsa obvestila",
     "Appear offline" : "Pokaže kot brez povezave",
+    "View profile" : "Pokaži profil",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

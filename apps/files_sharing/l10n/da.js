@@ -145,13 +145,13 @@ OC.L10N.register(
     "Hide download" : "Skjul download",
     "Note to recipient" : "Note til modtager",
     "Create" : "Opret",
-    "Update" : "Opdatér",
     "Share" : "Del",
     "Others with access" : "Andre med adgang",
     "No other users with access found" : "Ingen andre brugere med adgang fundet",
     "Toggle list of others with access to this directory" : "Vis/skjul liste over andre med adgang til denne mappe",
     "Toggle list of others with access to this file" : "Vis/skjul liste over andre med adgang til denne fil",
     "Shared with you by {owner}" : "Delt med dig {owner}",
+    "Open in Files" : "Vis i filer",
     "Shared" : "Delt",
     "Error creating the share" : "Fejl ved skabelse af delt drev",
     "Shared by" : "Delt af",
@@ -201,6 +201,7 @@ OC.L10N.register(
     "Allow deleting" : "Tillad sletning",
     "Allow resharing" : "Tillad videredeling",
     "Expiration date enforced" : "Udløbsdato tvungen",
-    "Password protect" : "Beskyt med adgangskode"
+    "Password protect" : "Beskyt med adgangskode",
+    "Update" : "Opdatér"
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,27 +26,27 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use JsonSerializable;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
+use OCP\OCM\IOCMResource;
 
 /**
  * @since 28.0.0
  */
-class OCMProvider implements IOCMProvider, JsonSerializable {
+class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
 	private string $apiVersion = '';
 	private string $endPoint = '';
-	/** @var OCMResource[] */
+	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 
 	/**
 	 * @param bool $enabled
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setEnabled(bool $enabled): self {
+	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
 		return $this;
@@ -62,9 +62,9 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	/**
 	 * @param string $apiVersion
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setApiVersion(string $apiVersion): self {
+	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
 		return $this;
@@ -80,9 +80,9 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	/**
 	 * @param string $endPoint
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setEndPoint(string $endPoint): self {
+	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
 		return $this;
@@ -96,29 +96,29 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	}
 
 	/**
-	 * @param OCMResource $resource
+	 * @param IOCMResource $resource
 	 *
 	 * @return $this
 	 */
-	public function addResourceType(OCMResource $resource): self {
+	public function addResourceType(IOCMResource $resource): static {
 		$this->resourceTypes[] = $resource;
 
 		return $this;
 	}
 
 	/**
-	 * @param OCMResource[] $resourceTypes
+	 * @param IOCMResource[] $resourceTypes
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setResourceTypes(array $resourceTypes): self {
+	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
 		return $this;
 	}
 
 	/**
-	 * @return OCMResource[]
+	 * @return IOCMResource[]
 	 */
 	public function getResourceTypes(): array {
 		return $this->resourceTypes;
@@ -151,11 +151,11 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	 *
 	 * @param array $data
 	 *
-	 * @return self
+	 * @return $this
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
 	 * @see self::jsonSerialize()
 	 */
-	public function import(array $data): self {
+	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
 			 ->setApiVersion((string)($data['apiVersion'] ?? ''))
 			 ->setEndPoint($data['endPoint'] ?? '');

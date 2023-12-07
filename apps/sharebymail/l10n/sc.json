@@ -36,17 +36,6 @@
     "Share provider which allows you to share files by mail" : "Frunidore de cumpartzidura chi ti permitit de cumpartzire archìvios tràmite posta eletrònica",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitit a is utentes de cumpartzire unu ligòngiu personalizadu a un'archìviu o cartella insertende un'indiritzu de posta eletrònica.",
     "Send password by mail" : "Imbia crae tràmite posta eletrònica",
-    "Reply to initiator" : "Risponde a chie cumintzat",
-    "Shared with %1$s" : "Cumpartzida cun %1$s",
-    "Shared with %1$s by %2$s" : "Cumpartzida cun %1$s dae %2$s ",
-    "Unshared from %1$s" : "Cumpartzidura annullada dae %1$s",
-    "Unshared from %1$s by %2$s" : "Cumpartzidura annullada dae %1$s dae %2$s",
-    "Password for mail share sent to %1$s" : "Crae pro sa cumpartzidura cun posta eletrònica imbiada a %1$s",
-    "You shared %1$s with %2$s by mail" : "As cumpartzidu %1$s cun %2$s cun sa posta eletrònica",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s at cumpartzidu %1$s cun %2$s tràmite posta eletrònica",
-    "You unshared %1$s from %2$s by mail" : "As annulladu sa cumpartzidura de %1$s dae %2$s tràmite posta eletrònica",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s at annulladu sa cumpartzidura de %1$s dae %2$s tràmite posta eletrònica",
-    "Password to access %1$s was sent to %2s" : "Sa crae pro s'atzessu a %1$s est istada imbiada a %2s",
-    "Password to access %1$s was sent to you" : "Sa crae pro s'atzessu a %1$s est istada imbiada a tie"
+    "Reply to initiator" : "Risponde a chie cumintzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

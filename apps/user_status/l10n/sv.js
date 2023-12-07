@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Arbetar hemifrån",
     "In a call" : "I ett samtal",
     "User status" : "Användarstatus",
-    "View profile" : "Visa profil",
     "Clear status after" : "Rensa status efter",
     "Emoji for your status message" : "Emoji för ditt statusmeddelande",
     "What is your status?" : "Vad är din status?",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad",
+    "View profile" : "Visa profil",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

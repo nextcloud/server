@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Удалённая работа",
     "In a call" : "В звонке",
     "User status" : "Статус пользователя",
-    "View profile" : "Открыть профиль",
     "Clear status after" : "Удалить статус через",
     "Emoji for your status message" : "Эмодзи для вашего сообщения о состоянии",
     "What is your status?" : "Какой у вас статус?",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Отключить все уведомления",
     "Appear offline" : "Возможно, не в сети",
+    "View profile" : "Открыть профиль",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

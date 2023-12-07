@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
     "Reply to initiator" : "Одговор до иницијаторот",
-    "Unable to update share by mail config" : "Неможе да се ажурираат параметрите за споделување со е-пошта",
-    "Shared with %1$s" : "Споделено со %1$s",
-    "Shared with %1$s by %2$s" : "Споделено со %1$s од %2$s",
-    "Unshared from %1$s" : "Не е повеќе споделено со %1$s",
-    "Unshared from %1$s by %2$s" : "Не е повеќе споделено со %1$s од %2$s",
-    "Password for mail share sent to %1$s" : "Лозинката за споделување е испратена до %1$s",
-    "You shared %1$s with %2$s by mail" : "Споделивте %1$s со %2$s преку е-пошта",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s сподели %1$s со %2$s преку е-пошта",
-    "You unshared %1$s from %2$s by mail" : "Отстранивте споделување преку емаил на %1$s со %2$s",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s не го споделува повеќе преку емаил %1$s со %2$s",
-    "Password to access %1$s was sent to %2s" : "Лозинката за пристап до %1$s е испратена на %2s",
-    "Password to access %1$s was sent to you" : "Лозинката за пристап до %1$s е испратена до вас"
+    "Unable to update share by mail config" : "Неможе да се ажурираат параметрите за споделување со е-пошта"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

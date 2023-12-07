@@ -89,6 +89,7 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Общий ресурс",
     "Show hidden files" : "Показать скрытые файлы",
+    "Case sensitive file system" : "Файловая система чувствительная к регистру",
     "Verify ACL access when listing files" : "Проверять права ACL при получении списка файлов",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "При получении списка файлов возможно проверять права доступа и исключать из списка файлы, к которым отсутствуют права чтения. Такая проверка снижает производительность.",
     "Timeout" : "Тайм-аут",
@@ -110,7 +111,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Произошла ошибка с этим внешним хранилищем.",
     "We were unable to check the external storage {basename}" : "Нам не удалось проверить внешнее хранилище {basename}",
     "Examine this faulty external storage configuration" : "Проверьте эту конфигурацию внешнего хранилища, она содержит ошибки",
-    "Open in files" : "Открыть в Файлах",
+    "Open in Files" : "Открыть в Файлах",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Произошла ошибка с этим внешним хранилищем. Вы хотите просмотреть конфигурацию точки монтирования на странице настроек?",
     "External mount error" : "Ошибка внешнего подключения",
     "List of external storage." : "Список внешних хранилищ.",
@@ -152,6 +153,7 @@ OC.L10N.register(
     "Credentials saved" : "Учётные данные сохранены",
     "Credentials saving failed" : "Ошибка сохранения учётных данных",
     "Credentials required" : "Требуются учётные данные",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Отключение этого параметра позволит использовать файловую систему с учетом регистра, но приведет к снижению производительности",
     "Name" : "Имя"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

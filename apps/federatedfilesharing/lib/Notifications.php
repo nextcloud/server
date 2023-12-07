@@ -293,6 +293,7 @@ class Notifications {
 		$status = json_decode($result['result'], true);
 
 		if ($result['success'] &&
+			isset($status['ocs']['meta']['statuscode']) &&
 			($status['ocs']['meta']['statuscode'] === 100 ||
 				$status['ocs']['meta']['statuscode'] === 200
 			)

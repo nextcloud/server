@@ -205,10 +205,9 @@ OC.L10N.register(
     "Note to recipient" : "Poznámka pre príjemcu",
     "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
     "Create" : "Vytvoriť",
-    "Update" : "Aktualizovať",
     "Share" : "Sprístupniť",
     "Delete share" : "Odstrániť zdieľanie",
-    "Share with " : "Zdieľať s",
+    "Share with " : "Zdieľať s ",
     "Save share" : "Uložiť zdieľanie",
     "Others with access" : "Ďalší, ktorí majú prístup",
     "No other users with access found" : "Neboli nájdení ďalší používatelia s prístupom",
@@ -275,11 +274,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Niečo sa stalo. Nedarí sa prijať zdieľanie.",
     "Something happened. Unable to reject the share." : "Niečo sa stalo. Nedarí sa odmietnuť zdieľanie.",
     "No expiration date set" : "Dátum exspirácie nenastavený",
-    "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť",
     "Allow creating" : "Umožniť vytváranie",
     "Allow deleting" : "Umožniť mazanie",
     "Allow resharing" : "Povoliť sprístupňovanie ďalej",
     "Expiration date enforced" : "Vynútený dátum ukončenia platnosti",
-    "Password protect" : "Chrániť heslom"
+    "Password protect" : "Chrániť heslom",
+    "Update" : "Aktualizovať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

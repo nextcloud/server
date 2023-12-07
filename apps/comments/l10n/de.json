@@ -24,7 +24,6 @@
     "Comment deleted" : "Kommentar gelöscht",
     "An error occurred while trying to delete the comment" : "Es ist ein Fehler beim Löschen des Kommentars aufgetreten",
     "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten",
-    "%1$s commented" : "%1$s kommentierte",
     "_%n unread comment_::_%n unread comments_" : ["%n ungelesener Kommentar","%n ungelesene Kommentare"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

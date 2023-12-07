@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "Reactie verwijderd",
     "An error occurred while trying to delete the comment" : "Er trad een fout op bij het verwijderen van de reactie",
     "An error occurred while trying to create the comment" : "Er trad een fout op bij het creëren van de reactie",
-    "%1$s commented" : "%1$s heeft gereageerd",
     "_%n unread comment_::_%n unread comments_" : ["%n ongelezen reactie","%n ongelezen reacties"]
 },
 "nplurals=2; plural=(n != 1);");

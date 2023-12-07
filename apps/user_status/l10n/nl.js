@@ -10,7 +10,6 @@ OC.L10N.register(
     "Working remotely" : "Thuiswerken",
     "In a call" : "In gesprek",
     "User status" : "Gebruikersstatus",
-    "View profile" : "Bekijk profiel",
     "Clear status after" : "Maak de status leeg na",
     "What is your status?" : "Wat is jouw status?",
     "Set status" : "Status instellen",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
+    "View profile" : "Bekijk profiel",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");
