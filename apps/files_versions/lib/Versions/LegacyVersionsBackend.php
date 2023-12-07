@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
+use OCA\Files_Sharing\ISharedStorage;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -197,6 +198,21 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$owner = $sourceFile->getOwner();
+		$storage = $sourceFile->getStorage();
+
+		// Shared files have their versions in the owners root folder so we need to obtain them from there
+		if ($storage->instanceOfStorage(ISharedStorage::class) && $owner) {
+			/** @var SharedStorage $storage */
+			$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+			$user = $owner;
+			$ownerPathInStorage = $sourceFile->getInternalPath();
+			$sourceFile = $storage->getShare()->getNode();
+			if ($sourceFile instanceof Folder) {
+				$sourceFile = $sourceFile->get($ownerPathInStorage);
+			}
+		}
+
 		$versionFolder = $this->getVersionFolder($user);
 		/** @var File $file */
 		$file = $versionFolder->get($userFolder->getRelativePath($sourceFile->getPath()) . '.v' . $revision);
