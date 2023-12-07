@@ -447,7 +447,7 @@
     "Copy to {folder}" : "Copiar en {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Authentication required" : "Precísase da autenticación",
-    "Failed to authenticate, try again" : "Fallou a autenticación, ténteo de novo",
+    "Failed to authenticate, try again" : "Produciuse un fallo na autenticación, ténteo de novo",
     "The page could not be found on the server." : "Non foi posíbel atopar a páxina no servidor.",
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "O seu enderezo remoto foi identificado como «{remoteAddress}» e neste momento está estrangulado por forza bruta, o que reduce o rendemento de varias solicitudes. Se o enderezo remoto non é o seu enderezo, isto pode ser unha indicación de que un proxy non está configurado correctamente. Pode atopar máis información na {linkstart}documentación ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "A base de datos úsase para o bloqueo de ficheiros transaccionais. Para mellorar o rendemento, configure Memcache, se está dispoñíbel. Consulte a {linkstart}documentación ↗{linkend} para obter máis información.",
