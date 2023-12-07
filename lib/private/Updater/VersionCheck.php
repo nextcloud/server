@@ -123,7 +123,9 @@ class VersionCheck {
 	 */
 	protected function getUrlContent($url) {
 		$client = $this->clientService->newClient();
-		$response = $client->get($url);
+		$response = $client->get($url, [
+			'timeout' => 5,
+		]);
 		return $response->getBody();
 	}
 
