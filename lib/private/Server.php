@@ -150,6 +150,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
+use OC\Settings\DeclarativeManager;
 use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
@@ -259,6 +260,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShareHelper;
@@ -1429,6 +1431,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IProfileManager::class, ProfileManager::class);
 
 		$this->registerAlias(IAvailabilityCoordinator::class, AvailabilityCoordinator::class);
+
+		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
 
 		$this->connectDispatcher();
 	}
