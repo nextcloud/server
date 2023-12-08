@@ -537,7 +537,11 @@
                     },
                     "hide_download": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "enum": [
+                            0,
+                            1
+                        ]
                     },
                     "id": {
                         "type": "string"
@@ -578,7 +582,11 @@
                     },
                     "mail_send": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "enum": [
+                            0,
+                            1
+                        ]
                     },
                     "mimetype": {
                         "type": "string"
@@ -2792,8 +2800,20 @@
                         "in": "query",
                         "description": "Limit to specific share types",
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -2897,8 +2917,20 @@
                         "in": "query",
                         "description": "Limit to specific share types",
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {

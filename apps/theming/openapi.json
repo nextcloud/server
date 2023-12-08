@@ -303,7 +303,8 @@
                         "description": "ID of the app",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "default": "core"
                         }
                     }
                 ],
