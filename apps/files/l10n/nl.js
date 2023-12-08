@@ -187,6 +187,7 @@ OC.L10N.register(
     "Unknown error" : "Onbekende fout",
     "Ownership transfer request sent" : "Aanvraag eigendomsoverdracht verstuurd",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
+    "Choose {file}" : "Kies {file}",
     "Add" : "Toevoegen",
     "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload je inhoud of synchroniseer met je apparaten!",

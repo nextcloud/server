@@ -185,7 +185,6 @@ OC.L10N.register(
     "Install the Contacts app" : "連絡先アプリをインストール",
     "Loading your contacts …" : "連絡先を読み込み中...",
     "Looking for {term} …" : "{term} を確認中 ...",
-    "Global search" : "グローバル検索",
     "Search apps, files, tags, messages" : "アプリ、ファイル、タグ、メッセージを検索",
     "Apps and Settings" : "アプリと設定",
     "Date" : "日付",

@@ -186,7 +186,6 @@ OC.L10N.register(
     "Install the Contacts app" : "Namesti program Stiki",
     "Loading your contacts …" : "Poteka nalaganje stikov ...",
     "Looking for {term} …" : "Poteka iskanje {term} …",
-    "Global search" : "Splošno iskanje",
     "Search apps, files, tags, messages" : "Iskanje programov, datotek, nalog in sporočil",
     "Apps and Settings" : "Programi in nastavive",
     "Date" : "Datum",

@@ -215,6 +215,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Испратено барање за трансфер на сопственост",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
     "Select file or folder to link to" : "Изберете датотека или папка за линк до",
+    "Choose {file}" : "Избери {file}",
     "Add" : "Додади",
     "Loading current folder" : "Вчитување на моменталната папка",
     "No files in here" : "Тука нема датотеки",

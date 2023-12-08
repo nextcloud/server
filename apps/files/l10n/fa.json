@@ -215,6 +215,7 @@
     "Ownership transfer request sent" : "درخواست انتقال مالکیت ارسال شد",
     "Cannot transfer ownership of a file or folder you do not own" : "نمی‌توان مالکیت فایل یا پوشه‌ای را که متعلق به شما نیست، منتقل کرد",
     "Select file or folder to link to" : "فایل یا پوشه را برای پیوند انتخاب کنید",
+    "Choose {file}" : "انتخاب {file}",
     "Loading current folder" : "در حال بارگیری پوشه فعلی",
     "No files in here" : "هیچ فایلی اینجا وجود ندارد",
     "Upload some content or sync with your devices!" : "محتوایی را آپلود کنید یا با دستگاه خود همگام‌سازی کنید!",

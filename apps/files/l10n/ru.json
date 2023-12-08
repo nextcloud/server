@@ -218,6 +218,7 @@
     "Ownership transfer request sent" : "Запрос на передачу прав владения отправлен",
     "Cannot transfer ownership of a file or folder you do not own" : "Невозможно передать право владения на файл или каталог, которые вам не принадлежат",
     "Select file or folder to link to" : "Выберите файл или папку для создания ссылки",
+    "Choose {file}" : "Выберан {file}",
     "Add" : "Добавить",
     "Loading current folder" : "Загрузка текущей папки",
     "No files in here" : "Здесь нет файлов",
