@@ -220,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
     "Cannot transfer ownership of a file or folder you do not own" : "Không thể chuyển quyền sở hữu tệp hoặc thư mục mà bạn không sở hữu",
     "Select file or folder to link to" : "Chọn tập tin hoặc thư mục để liên kết đến",
+    "Choose {file}" : "Chọn {tập tin}",
     "Add" : "Thêm",
     "Loading current folder" : "Đang tải thư mục hiện tại",
     "No files in here" : "Không có tệp nào",

@@ -220,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
     "Cannot transfer ownership of a file or folder you do not own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
     "Select file or folder to link to" : "Hautatu estekatzeko fitxategia edo karpeta",
+    "Choose {file}" : "Aukeratu {file}",
     "Add" : "Gehitu",
     "Loading current folder" : "Uneko karpeta kargatzen",
     "No files in here" : "Ez dago fitxategirik hemen",

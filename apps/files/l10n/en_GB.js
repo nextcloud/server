@@ -221,6 +221,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Ownership transfer request sent",
     "Cannot transfer ownership of a file or folder you do not own" : "Cannot transfer ownership of a file or folder you do not own",
     "Select file or folder to link to" : "Select file or folder to link to",
+    "Choose {file}" : "Choose {file}",
     "Add" : "Add",
     "Loading current folder" : "Loading current folder",
     "No files in here" : "No files in here",

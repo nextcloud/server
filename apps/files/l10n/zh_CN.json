@@ -219,6 +219,7 @@
     "Ownership transfer request sent" : "所有权转移请求已发送",
     "Cannot transfer ownership of a file or folder you do not own" : "无法转让您未拥有的文件或文件夹的所有权",
     "Select file or folder to link to" : "选择需要链接的文件或文件夹",
+    "Choose {file}" : "选择 {file}",
     "Add" : "添加",
     "Loading current folder" : "正在载入当前文件夹",
     "No files in here" : "这里没有文件",

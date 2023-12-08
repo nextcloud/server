@@ -217,6 +217,7 @@
     "Ownership transfer request sent" : "소유권 이전 요청이 전송됨",
     "Cannot transfer ownership of a file or folder you do not own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
     "Select file or folder to link to" : "링크할 파일이나 폴더 선택",
+    "Choose {file}" : "{file} 선택",
     "Add" : "추가",
     "Loading current folder" : "현재 폴더를 불러오는 중",
     "No files in here" : "여기에 파일 없음",
