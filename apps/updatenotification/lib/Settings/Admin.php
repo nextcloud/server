@@ -30,18 +30,18 @@ declare(strict_types=1);
 namespace OCA\UpdateNotification\Settings;
 
 use OC\User\Backend;
-use OCP\User\Backend\ICountUsersBackend;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\User\Backend\ICountUsersBackend;
 use OCP\Util;
-use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
@@ -64,7 +64,7 @@ class Admin implements ISettings {
 		IRegistry $subscriptionRegistry,
 		IUserManager $userManager,
 		LoggerInterface $logger,
-		IInitialState $initialState 
+		IInitialState $initialState
 	) {
 		$this->config = $config;
 		$this->updateChecker = $updateChecker;

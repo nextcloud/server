@@ -37,7 +37,6 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;

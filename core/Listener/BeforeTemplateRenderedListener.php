@@ -53,6 +53,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			// todo: make login work without these
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addTranslations('core');
 		}
 
 		if ($event instanceof BeforeTemplateRenderedEvent) {

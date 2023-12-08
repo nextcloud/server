@@ -38,8 +38,8 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IUrlGenerator;
 use OCP\IL10N;
+use OCP\IUrlGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 

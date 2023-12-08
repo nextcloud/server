@@ -32,11 +32,10 @@ use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
@@ -69,14 +68,14 @@ class DirectController extends OCSController {
 	private $eventDispatcher;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								string $userId,
-								DirectMapper $mapper,
-								ISecureRandom $random,
-								ITimeFactory $timeFactory,
-								IURLGenerator $urlGenerator,
-								IEventDispatcher $eventDispatcher) {
+		IRequest $request,
+		IRootFolder $rootFolder,
+		string $userId,
+		DirectMapper $mapper,
+		ISecureRandom $random,
+		ITimeFactory $timeFactory,
+		IURLGenerator $urlGenerator,
+		IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;

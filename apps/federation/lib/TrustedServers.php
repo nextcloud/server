@@ -31,13 +31,13 @@ use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\Exception;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
-use OCP\DB\Exception as DBException;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\Events\TrustedServerRemovedEvent;
 use Psr\Log\LoggerInterface;
 
 class TrustedServers {
@@ -59,6 +59,9 @@ class TrustedServers {
 	private IConfig $config;
 	private IEventDispatcher $dispatcher;
 	private ITimeFactory $timeFactory;
+
+	/** @var list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>|null */
+	private ?array $trustedServersCache = null;
 
 	public function __construct(
 		DbHandler $dbHandler,
@@ -123,14 +126,20 @@ class TrustedServers {
 		$server = $this->dbHandler->getServerById($id);
 		$this->dbHandler->removeServer($id);
 		$this->dispatcher->dispatchTyped(new TrustedServerRemovedEvent($server['url_hash']));
+
 	}
 
 	/**
 	 * Get all trusted servers
-	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: string, status: int, sync_token: string}>
+	 *
+	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>
+	 * @throws Exception
 	 */
 	public function getServers() {
-		return $this->dbHandler->getAllServer();
+		if ($this->trustedServersCache === null) {
+			$this->trustedServersCache = $this->dbHandler->getAllServer();
+		}
+		return $this->trustedServersCache;
 	}
 
 	/**

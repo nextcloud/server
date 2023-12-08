@@ -50,7 +50,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\SimpleCollection;
 

@@ -1,10 +1,10 @@
 <template>
-	<NcModal v-if="isVisible"
-		id="global-search"
-		:name="t('core', 'Global search')"
-		:show.sync="isVisible"
+	<NcModal id="global-search"
+		ref="globalSearchModal"
+		:name="t('core', 'Unified search')"
+		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
-		:title="t('Global search')"
+		:title="t('Unified search')"
 		@close="closeModal">
 		<CustomDateRangeModal :is-open="showDateRangeModal"
 			:class="'global-search__date-range'"
@@ -12,8 +12,9 @@
 			@update:is-open="showDateRangeModal = $event" />
 		<!-- Global search form -->
 		<div ref="globalSearch" class="global-search-modal">
-			<h1>{{ t('core', 'Global search') }}</h1>
-			<NcInputField :value.sync="searchQuery"
+			<h1>{{ t('core', 'Unified search') }}</h1>
+			<NcInputField ref="searchInput"
+				:value.sync="searchQuery"
 				type="text"
 				:label="t('core', 'Search apps, files, tags, messages') + '...'"
 				@update:value="debouncedFind" />
@@ -29,26 +30,26 @@
 						{{ t('core', provider.name) }}
 					</NcActionButton>
 				</NcActions>
-				<NcActions :menu-name="t('core', 'Modified')" :open.sync="dateActionMenuIsOpen">
+				<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen">
 					<template #icon>
 						<CalendarRangeIcon :size="20" />
 					</template>
-					<NcActionButton @click="applyQuickDateRange('today')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('today')">
 						{{ t('core', 'Today') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('7days')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('7days')">
 						{{ t('core', 'Last 7 days') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('30days')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('30days')">
 						{{ t('core', 'Last 30 days') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('thisyear')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('thisyear')">
 						{{ t('core', 'This year') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('lastyear')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('lastyear')">
 						{{ t('core', 'Last year') }}
 					</NcActionButton>
-					<NcActionButton @click="applyQuickDateRange('custom')">
+					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('custom')">
 						{{ t('core', 'Custom date range') }}
 					</NcActionButton>
 				</NcActions>
@@ -115,6 +116,14 @@
 					</div>
 				</div>
 			</div>
+			<div v-if="supportFiltering()" class="global-search-modal__results">
+				<NcButton @click="closeModal">
+					{{ t('core', 'Filter in current view') }}
+					<template #icon>
+						<FilterIcon :size="20" />
+					</template>
+				</NcButton>
+			</div>
 		</div>
 	</NcModal>
 </template>
@@ -125,8 +134,8 @@ import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
 import CustomDateRangeModal from '../components/GlobalSearch/CustomDateRangeModal.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import FilterChip from '../components/GlobalSearch/SearchFilterChip.vue'
-import FlaskEmpty from 'vue-material-design-icons/FlaskEmpty.vue'
 import ListBox from 'vue-material-design-icons/ListBox.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -140,6 +149,7 @@ import SearchableList from '../components/GlobalSearch/SearchableList.vue'
 import SearchResult from '../components/GlobalSearch/SearchResult.vue'
 
 import debounce from 'debounce'
+import { emit } from '@nextcloud/event-bus'
 import { getProviders, search as globalSearch, getContacts } from '../services/GlobalSearchService.js'
 
 export default {
@@ -150,8 +160,8 @@ export default {
 		CalendarRangeIcon,
 		CustomDateRangeModal,
 		DotsHorizontalIcon,
+		FilterIcon,
 		FilterChip,
-		FlaskEmpty,
 		ListBox,
 		NcActions,
 		NcActionButton,
@@ -181,6 +191,7 @@ export default {
 			dateFilterIsApplied: false,
 			personFilterIsApplied: false,
 			filteredProviders: [],
+			searching: false,
 			searchQuery: '',
 			placesFilter: '',
 			dateTimeFilter: null,
@@ -189,6 +200,7 @@ export default {
 			contacts: [],
 			debouncedFind: debounce(this.find, 300),
 			showDateRangeModal: false,
+			internalIsVisible: false,
 		}
 	},
 
@@ -205,11 +217,25 @@ export default {
 
 				return {
 					show: isEmptySearch || hasNoResults,
-					text: isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results'),
-					icon: isEmptySearch ? MagnifyIcon : FlaskEmpty,
+					text: this.searching && hasNoResults ? t('core', 'Searching …') : (isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results')),
+					icon: MagnifyIcon,
 				}
 			},
 		},
+	},
+	watch: {
+		isVisible(value) {
+			this.internalIsVisible = value
+		},
+		internalIsVisible(value) {
+			this.$emit('update:isVisible', value)
+			this.$nextTick(() => {
+				if (value) {
+					this.focusInput()
+				}
+			})
+		},
+
 	},
 	mounted() {
 		getProviders().then((providers) => {
@@ -223,10 +249,14 @@ export default {
 	},
 	methods: {
 		find(query) {
+			this.searching = true
 			if (query.length === 0) {
 				this.results = []
+				this.searching = false
 				return
 			}
+			// Event should probably be refactored at some point to used nextcloud:global-search.search
+			emit('nextcloud:unified-search.search', { query })
 			const newResults = []
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
 			const searchProvider = (provider, filters) => {
@@ -273,6 +303,7 @@ export default {
 					console.debug('Global search results:', this.results)
 
 					this.updateResults(newResults)
+					this.searching = false
 				})
 			}
 			providersToSearch.forEach(provider => {
@@ -316,11 +347,6 @@ export default {
 				return aOrder - bOrder
 			})
 			this.results = sortedResults
-		},
-		openResult(result) {
-			if (result.resourceUrl) {
-				window.location = result.resourceUrl
-			}
 		},
 		mapContacts(contacts) {
 			return contacts.map(contact => {
@@ -489,8 +515,19 @@ export default {
 			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
 			this.updateDateFilter()
 		},
+		focusInput() {
+			this.$refs.searchInput.$el.children[0].children[0].focus()
+		},
 		closeModal() {
+			this.internalIsVisible = false
 			this.searchQuery = ''
+		},
+		supportFiltering() {
+			/* Hard coded apps for the moment this would be improved in coming updates. */
+			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck']
+			const currentPath = window.location.pathname.replace('/index.php', '')
+			const containsProvider = providerPaths.some(path => currentPath.includes(path))
+			return containsProvider
 		},
 	},
 }
@@ -561,7 +598,7 @@ div.v-popper__wrapper {
 				align-items: center !important;
 
 				img {
-					width: 24px;
+					width: 20px;
 					margin: 0 4px;
 					filter: var(--background-invert-if-bright);
 				}

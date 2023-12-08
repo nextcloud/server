@@ -46,8 +46,8 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
-use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\Util;
 use Psr\Log\LoggerInterface;

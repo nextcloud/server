@@ -25,14 +25,14 @@ declare(strict_types=1);
 
 namespace Test;
 
+use JsonSerializable;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\InitialStateService;
 use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use function json_encode;
-use JsonSerializable;
-use OC\InitialStateService;
 use stdClass;
+use function json_encode;
 
 class InitialStateServiceTest extends TestCase {
 	/** @var InitialStateService */

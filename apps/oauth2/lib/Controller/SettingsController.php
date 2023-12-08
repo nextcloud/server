@@ -30,13 +30,13 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Controller;
 
-use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
@@ -63,7 +63,7 @@ class SettingsController extends Controller {
 	}
 
 	public function addClient(string $name,
-							  string $redirectUri): JSONResponse {
+		string $redirectUri): JSONResponse {
 		if (filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
 			return new JSONResponse(['message' => $this->l->t('Your redirect URL needs to be a full URL for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
 		}

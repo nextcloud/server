@@ -30,8 +30,8 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
-use OCP\IUserManager;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
@@ -42,10 +42,10 @@ class Security implements ISettings {
 	private IURLGenerator $urlGenerator;
 
 	public function __construct(IManager $manager,
-								IUserManager $userManager,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								IInitialState $initialState,
-								IURLGenerator $urlGenerator) {
+		IUserManager $userManager,
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		IInitialState $initialState,
+		IURLGenerator $urlGenerator) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;

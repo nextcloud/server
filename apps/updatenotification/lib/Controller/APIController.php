@@ -74,12 +74,12 @@ class APIController extends OCSController {
 	];
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IAppManager $appManager,
-								AppFetcher $appFetcher,
-								IFactory $l10nFactory,
-								IUserSession $userSession) {
+		IRequest $request,
+		IConfig $config,
+		IAppManager $appManager,
+		AppFetcher $appFetcher,
+		IFactory $l10nFactory,
+		IUserSession $userSession) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -141,7 +141,7 @@ class APIController extends OCSController {
 		$this->language = $this->l10nFactory->getUserLanguage($this->userSession->getUser());
 
 		// Ignore apps that are deployed from git
-		$installedApps = array_filter($installedApps, function(string $appId) {
+		$installedApps = array_filter($installedApps, function (string $appId) {
 			try {
 				return !file_exists($this->appManager->getAppPath($appId) . '/.git');
 			} catch (AppPathNotFoundException $e) {

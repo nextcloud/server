@@ -105,12 +105,12 @@ class FilesPlugin extends ServerPlugin {
 	private IPreview $previewManager;
 
 	public function __construct(Tree $tree,
-								IConfig $config,
-								IRequest $request,
-								IPreview $previewManager,
-								IUserSession $userSession,
-								bool $isPublic = false,
-								bool $downloadAttachment = true) {
+		IConfig $config,
+		IRequest $request,
+		IPreview $previewManager,
+		IUserSession $userSession,
+		bool $isPublic = false,
+		bool $downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->config = $config;
 		$this->request = $request;

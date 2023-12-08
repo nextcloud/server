@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentár bol odstránený",
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
     "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
-    "%1$s commented" : "%1$s komentoval",
     "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov","%n neprečítaných komentárov"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

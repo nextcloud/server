@@ -52,12 +52,12 @@ class MigrateUserConfig implements IRepairStep {
 	 * MigrateUserConfig constructor.
 	 */
 	public function __construct(IConfig $config,
-								IUserManager $userManager,
-								ThemesService $themesService,
-								DarkTheme $darkTheme,
-								DarkHighContrastTheme $darkHighContrastTheme,
-								HighContrastTheme $highContrastTheme,
-								DyslexiaFont $dyslexiaFont) {
+		IUserManager $userManager,
+		ThemesService $themesService,
+		DarkTheme $darkTheme,
+		DarkHighContrastTheme $darkHighContrastTheme,
+		HighContrastTheme $highContrastTheme,
+		DyslexiaFont $dyslexiaFont) {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->themesService = $themesService;
@@ -98,9 +98,9 @@ class MigrateUserConfig implements IRepairStep {
 			if ($highcontrast || $theme) {
 				if ($theme === 'dark' && $highcontrast === 'highcontrast') {
 					$config[] = $this->darkHighContrastTheme->getId();
-				} else if ($theme === 'dark') {
+				} elseif ($theme === 'dark') {
 					$config[] = $this->darkTheme->getId();
-				} else if ($highcontrast === 'highcontrast') {
+				} elseif ($highcontrast === 'highcontrast') {
 					$config[] = $this->highContrastTheme->getId();
 				}
 			}

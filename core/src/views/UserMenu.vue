@@ -261,6 +261,14 @@ export default {
 					svg {
 						filter: var(--background-invert-if-dark);
 					}
+
+					&:active,
+					&.active {
+						img,
+						svg {
+							filter: var(--primary-invert-if-dark);
+						}
+					}
 				}
 
 				// Override global button styles

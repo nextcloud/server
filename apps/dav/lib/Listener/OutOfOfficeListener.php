@@ -52,21 +52,21 @@ use function rewind;
  * @template-implements IEventListener<OutOfOfficeScheduledEvent|OutOfOfficeChangedEvent|OutOfOfficeClearedEvent>
  */
 class OutOfOfficeListener implements IEventListener {
-	public function __construct(private ServerFactory $serverFactory,
-	private IConfig $appConfig,
-	private LoggerInterface $logger) {
+	public function __construct(
+		private ServerFactory $serverFactory,
+		private IConfig $appConfig,
+		private LoggerInterface $logger
+	) {
 	}
 
 	public function handle(Event $event): void {
 		if ($event instanceof OutOfOfficeScheduledEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
-
 			$calendarNode = $this->getCalendarNode($principal, $userId);
 			if ($calendarNode === null) {
 				return;
 			}
-
 			$tz = $calendarNode->getProperties([])['{urn:ietf:params:xml:ns:caldav}calendar-timezone'] ?? null;
 			$vCalendarEvent = $this->createVCalendarEvent($event->getData(), $tz);
 			$stream = fopen('php://memory', 'rb+');
@@ -80,10 +80,9 @@ class OutOfOfficeListener implements IEventListener {
 			} finally {
 				fclose($stream);
 			}
-		} else if ($event instanceof OutOfOfficeChangedEvent) {
+		} elseif ($event instanceof OutOfOfficeChangedEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
-
 			$calendarNode = $this->getCalendarNode($principal, $userId);
 			if ($calendarNode === null) {
 				return;
@@ -107,20 +106,19 @@ class OutOfOfficeListener implements IEventListener {
 					fclose($stream);
 				}
 			}
-		} else if ($event instanceof OutOfOfficeClearedEvent) {
+		} elseif ($event instanceof OutOfOfficeClearedEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
-
 			$calendarNode = $this->getCalendarNode($principal, $userId);
 			if ($calendarNode === null) {
 				return;
 			}
-
 			try {
 				$oldEvent = $calendarNode->getChild($this->getEventFileName($event->getData()->getId()));
 				$oldEvent->delete();
 			} catch (NotFound) {
 				// The user must have deleted it or the default calendar changed -> ignore
+				return;
 			}
 		}
 	}
@@ -179,7 +177,7 @@ class OutOfOfficeListener implements IEventListener {
 			->setTime(0, 0);
 		$end = (new DateTimeImmutable())
 			->setTimestamp($data->getEndDate())
-			->modify('+ 2 days')
+			->modify('+ 1 days')
 			->setTime(0, 0);
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [

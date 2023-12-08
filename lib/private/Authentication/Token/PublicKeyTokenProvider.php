@@ -31,13 +31,13 @@ namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Exceptions\TokenPasswordExpiredException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\TokenPasswordExpiredException;
 use OC\Authentication\Exceptions\WipeTokenException;
-use OCP\AppFramework\Db\TTransactional;
-use OCP\Cache\CappedMemoryCache;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -73,12 +73,12 @@ class PublicKeyTokenProvider implements IProvider {
 	private IHasher $hasher;
 
 	public function __construct(PublicKeyTokenMapper $mapper,
-								ICrypto $crypto,
-								IConfig $config,
-								IDBConnection $db,
-								LoggerInterface $logger,
-								ITimeFactory $time,
-								IHasher $hasher) {
+		ICrypto $crypto,
+		IConfig $config,
+		IDBConnection $db,
+		LoggerInterface $logger,
+		ITimeFactory $time,
+		IHasher $hasher) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -94,12 +94,12 @@ class PublicKeyTokenProvider implements IProvider {
 	 * {@inheritDoc}
 	 */
 	public function generateToken(string $token,
-								  string $uid,
-								  string $loginName,
-								  ?string $password,
-								  string $name,
-								  int $type = IToken::TEMPORARY_TOKEN,
-								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+		string $uid,
+		string $loginName,
+		?string $password,
+		string $name,
+		int $type = IToken::TEMPORARY_TOKEN,
+		int $remember = IToken::DO_NOT_REMEMBER): IToken {
 		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
 			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
 			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
@@ -425,12 +425,12 @@ class PublicKeyTokenProvider implements IProvider {
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	private function newToken(string $token,
-							  string $uid,
-							  string $loginName,
-							  $password,
-							  string $name,
-							  int $type,
-							  int $remember): PublicKeyToken {
+		string $uid,
+		string $loginName,
+		$password,
+		string $name,
+		int $type,
+		int $remember): PublicKeyToken {
 		$dbToken = new PublicKeyToken();
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);

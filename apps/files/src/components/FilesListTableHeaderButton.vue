@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -20,29 +21,32 @@
   -
   -->
 <template>
-	<NcButton :aria-label="sortAriaLabel(name)"
-		:class="{'files-list__column-sort-button--active': sortingMode === mode}"
-		:alignment="mode !== 'size' ? 'start-reverse' : undefined"
-		class="files-list__column-sort-button"
+	<NcButton :class="['files-list__column-sort-button', {
+			'files-list__column-sort-button--active': sortingMode === mode,
+			'files-list__column-sort-button--size': sortingMode === 'size',
+		}]"
+		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
-		@click.stop.prevent="toggleSortBy(mode)">
-		<!-- Sort icon before text as size is align right -->
-		<MenuUp v-if="sortingMode !== mode || isAscSorting" slot="icon" />
-		<MenuDown v-else slot="icon" />
-		{{ name }}
+		@click="toggleSortBy(mode)">
+		<template #icon>
+			<MenuUp v-if="sortingMode !== mode || isAscSorting" class="files-list__column-sort-button-icon" />
+			<MenuDown v-else class="files-list__column-sort-button-icon" />
+		</template>
+		<span class="files-list__column-sort-button-text">{{ name }}</span>
 	</NcButton>
 </template>
 
 <script lang="ts">
 import { translate } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Vue from 'vue'
 
 import filesSortingMixin from '../mixins/filesSorting.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderButton',
 
 	components: {
@@ -67,43 +71,38 @@ export default Vue.extend({
 	},
 
 	methods: {
-		sortAriaLabel(column) {
-			return this.t('files', 'Sort list by {column}', {
-				column,
-			})
-		},
-
 		t: translate,
 	},
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .files-list__column-sort-button {
 	// Compensate for cells margin
 	margin: 0 calc(var(--cell-margin) * -1);
+	min-width: calc(100% - 3 * var(--cell-margin))!important;
 
-	.button-vue__icon {
-		transition-timing-function: linear;
-		transition-duration: .1s;
-		transition-property: opacity;
+	&-text {
+		color: var(--color-text-maxcontrast);
+		font-weight: normal;
+	}
+
+	&-icon {
+		color: var(--color-text-maxcontrast);
 		opacity: 0;
+		transition: opacity var(--animation-quick);
+		inset-inline-start: -10px;
 	}
 
-	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	.button-vue__text {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+	&--size &-icon {
+		inset-inline-start: 10px;
 	}
 
-	&--active,
-	&:hover,
-	&:focus,
-	&:active {
-		.button-vue__icon {
-			opacity: 1 !important;
-		}
+	&--active &-icon,
+	&:hover &-icon,
+	&:focus &-icon,
+	&:active &-icon {
+		opacity: 1;
 	}
 }
 </style>

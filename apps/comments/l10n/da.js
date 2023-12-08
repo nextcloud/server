@@ -16,7 +16,6 @@ OC.L10N.register(
     "Delete comment" : "Slet kommentar",
     "Cancel edit" : "Annuller redigering",
     "Post comment" : "Skriv kommentar",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for at nævne, \":\" for emojis, \"/\" for Smart Vælger",
     "No comments yet, start the conversation!" : "Ingen kommentarer endnu, start samtalen!",
     "No more messages" : "Ikke flere beskeder",
     "Retry" : "Prøv igen",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Der opstod en fejl under forsøget på at slette kommentaren",
     "An error occurred while trying to create the comment" : "Der opstod en fejl under forsøget på at oprette kommentaren",
-    "%1$s commented" : "%1$s kommenterede",
     "_%n unread comment_::_%n unread comments_" : ["%n ulæst kommentar","%n ulæste kommentarer"]
 },
 "nplurals=2; plural=(n != 1);");

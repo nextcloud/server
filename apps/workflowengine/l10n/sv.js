@@ -115,8 +115,6 @@ OC.L10N.register(
     "Request user agent" : "Begär användaragent",
     "User group membership" : "Användargruppsmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i",
-    "Predefined URLs" : "Förinställda webbadresser",
-    "Others" : "Övriga"
+    "is not member of" : "är inte medlem i"
 },
 "nplurals=2; plural=(n != 1);");

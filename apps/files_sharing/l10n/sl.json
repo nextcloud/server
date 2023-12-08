@@ -198,7 +198,6 @@
     "Note to recipient" : "Sporočilo za prejemnika",
     "Enter a note for the share recipient" : "Vpišite opombo za prejemnika",
     "Create" : "Ustvari",
-    "Update" : "Posodobi",
     "Share" : "·Souporaba·",
     "Others with access" : "Drugi z dostopom",
     "No other users with access found" : "Ni najdenih drugih uporabnikov z dostopom",
@@ -268,13 +267,12 @@
     "Something happened. Unable to reject the share." : "Prišlo je do napake. Ni mogoče zavrniti mesta souporabe.",
     "No expiration date set" : "Datum preteka ni določen",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Souporaba %s je spodletela, ker sistem ne podpira souporabe sciencemesh",
-    "One or more of your shares will expire tomorrow" : "Eno ali več mest souporabe bo jutri poteklo",
     "Allow creating" : "Dovoli ustvarjanje",
     "Allow deleting" : "Dovoli brisanje",
     "Allow resharing" : "Dovoli nadaljnje omogočanje souporabe",
     "Expiration date enforced" : "Datum preteka je vsiljeno omogočen",
     "Password protect" : "Zaščiti z geslom",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Napaka ustvarjanja gesla po določenih varnostnih pravilih"
+    "Update" : "Posodobi"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

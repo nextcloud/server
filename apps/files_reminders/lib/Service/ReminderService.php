@@ -52,7 +52,8 @@ class ReminderService {
 		protected ReminderMapper $reminderMapper,
 		protected IRootFolder $root,
 		protected LoggerInterface $logger,
-	) {}
+	) {
+	}
 
 	/**
 	 * @throws DoesNotExistException

@@ -33,16 +33,15 @@ use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Version1027Date20230504122946 extends SimpleMigrationStep {
 	public function __construct(private SyncService $syncService,
-								private LoggerInterface $logger,
-								private IUserManager $userManager,
-								private IConfig $config) {}
+		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private IConfig $config) {
+	}
 	/**
 	 * @param IOutput $output
 	 * @param Closure(): ISchemaWrapper $schemaClosure

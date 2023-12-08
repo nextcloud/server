@@ -68,7 +68,7 @@ use ScssPhp\ScssPhp\Compiler;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
-	const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
+	public const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
 
 	private ThemingDefaults $themingDefaults;
 	private IL10N $l10n;
@@ -414,7 +414,7 @@ class ThemingController extends Controller {
 		}
 
 		$theme = $themes[$themeId];
-		$customCss  = $theme->getCustomCss();
+		$customCss = $theme->getCustomCss();
 
 		// Generate variables
 		$variables = '';
@@ -429,7 +429,8 @@ class ThemingController extends Controller {
 			// If not set, we'll rely on the body class
 			$compiler = new Compiler();
 			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
-			$css = $compiledCss->getCss();;
+			$css = $compiledCss->getCss();
+			;
 		}
 
 		try {
@@ -486,13 +487,13 @@ class ThemingController extends Controller {
 				[
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
-								['app' => $app]) . '?v=' . $cacheBusterValue,
+							['app' => $app]) . '?v=' . $cacheBusterValue,
 						'type' => 'image/png',
 						'sizes' => '512x512'
 					],
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon',
-								['app' => $app]) . '?v=' . $cacheBusterValue,
+							['app' => $app]) . '?v=' . $cacheBusterValue,
 						'type' => 'image/svg+xml',
 						'sizes' => '16x16'
 					]

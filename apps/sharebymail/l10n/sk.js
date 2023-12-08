@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
     "Reply to initiator" : "Odpovedať iniciátorovi",
-    "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu",
-    "Shared with %1$s" : "Sprístupnené používateľovi %1$s",
-    "Shared with %1$s by %2$s" : "Sprístupnené používateľovi %1$s používateľom %2$s",
-    "Unshared from %1$s" : "Zdieľanie zrušené od %1$s",
-    "Unshared from %1$s by %2$s" : "%2$s zrušil zdieľanie od %1$s",
-    "Password for mail share sent to %1$s" : "Heslo na sprístupnenie bolo zaslané %1$s",
-    "You shared %1$s with %2$s by mail" : "Sprístupnili ste %1$s používateľovi %2$s pomocou emailu",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s sprístupnil %1$s používateľovi %2$s pomocou emailu",
-    "You unshared %1$s from %2$s by mail" : "E-mailom ste zrušili zdieľanie %1$s od %2$s",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s e-mailom zrušil zdieľanie %1$s od %2$s",
-    "Password to access %1$s was sent to %2s" : "Heslo na sprístupnenie %1$s bolo zaslané %2s",
-    "Password to access %1$s was sent to you" : "Heslo na sprístupnenie %1$s Vám bolo zaslané"
+    "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

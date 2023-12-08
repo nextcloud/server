@@ -40,13 +40,6 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use OCP\App\IAppManager;
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\HintException;
-use OCP\IConfig;
-use OCP\ILogger;
-use OCP\Util;
 use OC\App\AppManager;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
@@ -61,6 +54,13 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC_App;
+use OCP\App\IAppManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
+use OCP\IConfig;
+use OCP\ILogger;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -94,9 +94,9 @@ class Updater extends BasicEmitter {
 	];
 
 	public function __construct(IConfig $config,
-								Checker $checker,
-								?LoggerInterface $log,
-								Installer $installer) {
+		Checker $checker,
+		?LoggerInterface $log,
+		Installer $installer) {
 		$this->log = $log;
 		$this->config = $config;
 		$this->checker = $checker;

@@ -6,6 +6,8 @@
 			:aria-label="ariaLabel(section)"
 			:title="ariaLabel(section)"
 			v-bind="section"
+			dir="auto"
+			:to="section.to"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
 				<Home :size="20" />

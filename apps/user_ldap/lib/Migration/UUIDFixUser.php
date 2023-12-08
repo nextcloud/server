@@ -22,8 +22,8 @@
  */
 namespace OCA\User_LDAP\Migration;
 
-use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User_Proxy;
 
 class UUIDFixUser extends UUIDFix {
 	public function __construct(UserMapping $mapper, User_Proxy $proxy) {

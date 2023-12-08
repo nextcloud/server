@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "No s'ha pogut recuperar la versió",
     "Could not set version name" : "No s'ha pogut definir el nom de la versió",
     "Could not delete version" : "No s'ha pogut suprimir la versió",
-    "${version.label} restored" : "S'ha recuperat la versió ${version.label}",
-    "Failed to revert {file} to revision {timestamp}." : "No s'ha pogut recuperar la revisió {timestamp} del fitxer {file}.",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
-    "Restore" : "Recupera",
-    "No other versions available" : "No hi ha cap altra versió disponible"
+    "${version.label} restored" : "S'ha recuperat la versió ${version.label}"
 },
 "nplurals=2; plural=(n != 1);");

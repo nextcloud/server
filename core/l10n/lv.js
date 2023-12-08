@@ -105,8 +105,9 @@ OC.L10N.register(
     "Install the Contacts app" : "Instalējiet lietotni Kontaktpersonas",
     "Loading your contacts …" : "Notiek kontaktpersonu ielāde...",
     "Looking for {term} …" : "Meklē {term} …",
-    "Modified" : "Mainīts",
+    "Date" : "Datums",
     "Today" : "Šodien",
+    "Searching …" : "Meklē...",
     "Forgot password?" : "Aizmirsi paroli?",
     "Back" : "Atpakaļ",
     "Edit Profile" : "Rediģēt profilu",
@@ -236,6 +237,7 @@ OC.L10N.register(
     "No more subfolders in here" : "Šeit nav vairāk apakšmapju",
     "Name" : "Vārds",
     "Size" : "Izmērs",
+    "Modified" : "Mainīts",
     "\"{name}\" is an invalid file name." : "\"{name}\" ir nepareizs datnes nosaukums.",
     "File name cannot be empty." : "Datnes nosaukums nevar būt tukšs.",
     "\"/\" is not allowed inside a file name." : "\"/\" nav atļauts faila nosaukumā.",
@@ -249,8 +251,6 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopēt uz {folder}",
     "Move to {folder}" : "Pārvietot uz {folder}",
     "Authentication required" : "Nepieciešama autentifikācija",
-    "Failed to authenticate, try again" : "Neizdevās autentificēt, mēģiniet vēlreiz",
-    "File not found" : "Datne nav atrasta",
-    "Please use the command line updater because automatic updating is disabled in the config.php." : "Lūdzu izmanto komandrindas atjaunināšanu, jo automātiskā atjaunināšana ir atspējota konfigurācijas datnē config.php."
+    "Failed to authenticate, try again" : "Neizdevās autentificēt, mēģiniet vēlreiz"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

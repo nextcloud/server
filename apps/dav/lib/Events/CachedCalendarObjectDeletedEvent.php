@@ -57,9 +57,9 @@ class CachedCalendarObjectDeletedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $subscriptionId,
-								array $subscriptionData,
-								array $shares,
-								array $objectData) {
+		array $subscriptionData,
+		array $shares,
+		array $objectData) {
 		parent::__construct();
 		$this->subscriptionId = $subscriptionId;
 		$this->subscriptionData = $subscriptionData;

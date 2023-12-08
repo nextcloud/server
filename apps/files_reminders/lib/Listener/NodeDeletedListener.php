@@ -34,7 +34,8 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 class NodeDeletedListener implements IEventListener {
 	public function __construct(
 		private ReminderService $reminderService,
-	) {}
+	) {
+	}
 
 	public function handle(Event $event): void {
 		if (!($event instanceof NodeDeletedEvent)) {

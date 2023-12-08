@@ -28,13 +28,13 @@ declare(strict_types=1);
 namespace OC\Search;
 
 use InvalidArgumentException;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
 use OCP\Search\IFilteringProvider;
 use OCP\Search\IInAppSearch;
-use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\IUser;
-use OCP\Search\IFilter;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;

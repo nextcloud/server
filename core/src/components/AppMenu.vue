@@ -270,6 +270,10 @@ $header-icon-size: 20px;
 	.app-icon {
 		position: relative;
 		height: 44px;
+		width: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		/* Icons are bright so invert them if bright color theme == bright background is used */
 		filter: var(--background-invert-if-bright);
 
@@ -280,7 +284,6 @@ $header-icon-size: 20px;
 		img {
 			width: $header-icon-size;
 			height: $header-icon-size;
-			padding: calc((50px - $header-icon-size) / 2);
 		}
 	}
 }

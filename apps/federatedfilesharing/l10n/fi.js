@@ -45,7 +45,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
-    "Copied!" : "Kopioitu!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s"
+    "Copied!" : "Kopioitu!"
 },
 "nplurals=2; plural=(n != 1);");

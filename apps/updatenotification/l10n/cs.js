@@ -20,7 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Prosím mějte na paměti, že pro instance s více než 100 uživateli není doporučeno aktualizovat přes webový nástroj pro aktualizaci! V takovém případě namísto toho proveďte aktualizaci prostřednictvím příkazového řádku!",
     "Open updater" : "Otevřít nástroj pro aktualizaci",
     "Download now" : "Stáhnout nyní",
-    "Please use the command line updater to update." : "Aktualizaci proveďte nástrojem z příkazového řádku.",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Webový nástroj pro aktualizování je vypnutý. Pro aktualizaci použijte ten pro příkazový řádek nebo příslušný mechanizmus aktualizace pro metodu, kterou jste nainstalovali (např. Docker pull).",
     "What's new?" : "Co je nového?",
     "View changelog" : "Zobrazit souhrn změn",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
@@ -49,7 +49,7 @@ OC.L10N.register(
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru."],
-    "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s.",
+    "Please use the command line updater to update." : "Aktualizaci proveďte nástrojem z příkazového řádku.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Níže je možné změnit kanál aktualizací, což se projeví také na stránce pro správu aplikací. Např. po přepnutí kanálu na beta (testování před vydáním), budou zde nabízeny také aktualizace na testovací verze aplikací.",
     "Update channel:" : "Kanál aktualizací:"
 },

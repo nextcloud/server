@@ -72,13 +72,13 @@ class UserLiveStatusListenerTest extends TestCase {
 	 * @dataProvider handleEventWithCorrectEventDataProvider
 	 */
 	public function testHandleWithCorrectEvent(string $userId,
-											   string $previousStatus,
-											   int $previousTimestamp,
-											   bool $previousIsUserDefined,
-											   string $eventStatus,
-											   int $eventTimestamp,
-											   bool $expectExisting,
-											   bool $expectUpdate): void {
+		string $previousStatus,
+		int $previousTimestamp,
+		bool $previousIsUserDefined,
+		string $eventStatus,
+		int $eventTimestamp,
+		bool $expectExisting,
+		bool $expectUpdate): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {

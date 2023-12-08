@@ -22,10 +22,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCP\Share\IManager;
-use OCP\Server;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Server;
+use OCP\Share\IManager;
 
 $config = Server::get(IConfig::class);
 $userSession = Server::get(IUserSession::class);

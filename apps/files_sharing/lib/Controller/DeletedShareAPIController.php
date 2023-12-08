@@ -77,14 +77,14 @@ class DeletedShareAPIController extends OCSController {
 	private $serverContainer;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								ShareManager $shareManager,
-								string $UserId,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IRootFolder $rootFolder,
-								IAppManager $appManager,
-								IServerContainer $serverContainer) {
+		IRequest $request,
+		ShareManager $shareManager,
+		string $UserId,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IAppManager $appManager,
+		IServerContainer $serverContainer) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManager;

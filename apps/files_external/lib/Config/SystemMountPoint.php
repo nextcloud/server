@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_External\Config;
 
-
 use OCP\Files\Mount\ISystemMountPoint;
 
 class SystemMountPoint extends ExternalMountPoint implements ISystemMountPoint {

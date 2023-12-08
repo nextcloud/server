@@ -36,10 +36,10 @@
 		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
 			<div class="unified-search__input-row">
-				<NcTextField :value.sync="query"
+				<NcTextField ref="input"
+					:value.sync="query"
 					trailing-button-icon="close"
 					:label="ariaLabel"
-					ref="input"
 					:trailing-button-label="t('core','Reset search')"
 					:show-trailing-button="query !== ''"
 					aria-describedby="unified-search-desc"
@@ -61,9 +61,8 @@
 					<NcActionButton v-for="filter in availableFilters"
 						:key="filter"
 						icon="icon-filter"
-						:title="t('core', 'Search for {name} only', { name: typesMap[filter] })"
 						@click.stop="onClickFilter(`in:${filter}`)">
-						{{ `in:${filter}` }}
+						{{ t('core', 'Search for {name} only', { name: typesMap[filter] }) }}
 					</NcActionButton>
 				</NcActions>
 			</div>
@@ -90,16 +89,14 @@
 		</template>
 
 		<!-- Grouped search results -->
-		<template v-else>
-			<ul v-for="({list, type}, typesIndex) in orderedResults"
-				:key="type"
+		<template v-for="({list, type}, typesIndex) in orderedResults" v-else>
+			<h2 :key="type" class="unified-search__results-header">
+				{{ typesMap[type] }}
+			</h2>
+			<ul :key="type"
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
 				:aria-label="typesMap[type]">
-				<h2 class="unified-search__results-header">
-					{{ typesMap[type] }}
-				</h2>
-
 				<!-- Search results -->
 				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
 					<SearchResult v-bind="result"
@@ -334,7 +331,6 @@ export default {
 	},
 
 	async created() {
-		subscribe('files:navigation:changed', this.onNavigationChange)
 		this.types = await getTypes()
 		this.logger.debug('Unified Search initialized with the following providers', this.types)
 	},
@@ -344,6 +340,9 @@ export default {
 	},
 
 	mounted() {
+		// subscribe in mounted, as onNavigationChange relys on $el
+		subscribe('files:navigation:changed', this.onNavigationChange)
+
 		if (OCP.Accessibility.disableKeyboardShortcuts()) {
 			return
 		}
@@ -383,7 +382,7 @@ export default {
 		},
 
 		onNavigationChange() {
-			this.$el.querySelector('form[role="search"]').reset()
+			this.$el?.querySelector?.('form[role="search"]')?.reset?.()
 		},
 
 		/**

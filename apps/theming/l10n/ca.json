@@ -106,23 +106,6 @@
     "Select a custom color" : "Selecciona un color personalitzat",
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Upload" : "Puja",
-    "Remove background image" : "Suprimeix la imatge de fons",
-    "Loading preview…" : "S'està carregant la previsualització…",
-    "Admin" : "Administrador",
-    "Error uploading the file" : "S'ha produït un error en pujar el fitxer",
-    "Name cannot be empty" : "El nom no pot estar buit",
-    "Migrate and clean up admin theming images" : "Migra i neteja les imatges de temes d'administració",
-    "Failed to clean up the old admin theming images folder" : "No s'ha pogut netejar la carpeta antiga d'imatges de temes d'administració",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En alguns casos, les dreceres de teclat poden interferir amb les eines d'accessibilitat. Per a permetre centrar-vos correctament en la vostra eina, podeu inhabilitar totes les dreceres de teclat aquí. Això també inhabilitarà totes les dreceres disponibles en les aplicacions.",
-    "Pick from Files" : "Tria dels fitxers",
-    "Default image" : "Imatge per defecte",
-    "Custom color" : "Color personalitzat",
-    "Plain background" : "Fons senzill",
-    "Insert from {productName}" : "Insereix des de {productName}",
-    "Open documentation" : "Obre la documentació",
-    "https://…" : "https://…",
-    "Upload new login background" : "Puja un fons d'inici de sessió nou",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Tot i que podeu seleccionar i personalitzar la instància, els usuaris poden canviar el fons i els colors. Si voleu forçar la vostra personalització, podeu marcar aquesta casella.",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió del PHP d'ImageMagick compatible amb imatges SVG per a generar automàticament icones de web a partir del logotip i del color pujats."
+    "Remove background image" : "Suprimeix la imatge de fons"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

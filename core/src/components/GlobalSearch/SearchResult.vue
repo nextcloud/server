@@ -2,7 +2,8 @@
 	<NcListItem class="result-items__item"
 		:name="title"
 		:bold="false"
-		@click="openResult(result)">
+		:href="resourceUrl"
+		target="_self">
 		<template #icon>
 			<div aria-hidden="true"
 				class="result-items__item-icon"

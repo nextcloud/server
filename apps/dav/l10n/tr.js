@@ -151,7 +151,7 @@ OC.L10N.register(
     "Due on %s" : "%s tarihine kadar",
     "DAV system address book" : "DAV sistem adres defteri",
     "No outstanding DAV system address book sync." : "Bekleyen bir DAV sistemi adres defteri eşitlemesi yok.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "Kopyanızda 1000 üzerinde kullanıcı olduğundan ya da bir sorun çıktığından DAV sistemi adres defteri eşitlemesi henüz yapılmamış. Lütfen occ dav:sync-system-addressbook komutunu yürüterek el ile eşitleyin.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Kopyanızda 1000 üzerinde kullanıcı olduğundan ya da bir sorun çıktığından DAV sistemi adres defteri eşitlemesi henüz yapılmamış. Lütfen \"occ dav:sync-system-addressbook\" komutunu yürüterek el ile eşitleyin.",
     "Migrated calendar (%1$s)" : "Aktarılmış takvim (%1$s)",
     "Calendars including events, details and attendees" : "Etkinlikler, bilgiler ve katılımcılar ile takvimler",
     "Contacts and groups" : "Kişiler ve gruplar",
@@ -163,7 +163,9 @@ OC.L10N.register(
     "Long absence Message" : "Uzun işe gelmeme iletisi",
     "Save" : "Kaydet",
     "Disable absence" : "İşe gelmemeyi kapat",
+    "Absence saved" : "İşe gelmeme kaydedildi",
     "Failed to save your absence settings" : "İşe gelmeme ayarlarınız kaydedilemedi",
+    "Absence cleared" : "İşe gelmeme temizlendi",
     "Failed to clear your absence settings" : "İşe gelmeme ayarlarınız temizlenemedi",
     "Time zone:" : "Saat dilimi:",
     "to" : "ile",
@@ -203,7 +205,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "%1$s has responded your invitation" : "%1$s çağrınızı yanıtladı"
+    "Your attendance was updated successfully." : "Katılımınız güncellendi."
 },
 "nplurals=2; plural=(n > 1);");

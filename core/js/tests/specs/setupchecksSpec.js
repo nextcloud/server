@@ -229,9 +229,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -239,7 +236,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -282,9 +278,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -292,7 +285,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -335,9 +327,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -345,7 +334,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -388,9 +376,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -398,7 +383,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -439,9 +423,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -451,7 +432,6 @@ describe('OC.SetupChecks tests', function() {
 					],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -493,9 +473,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: false,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -503,7 +480,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -545,9 +521,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -555,7 +528,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -628,9 +600,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -638,7 +607,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -686,9 +654,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: ['recommendation1', 'recommendation2'],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -696,7 +661,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -737,9 +701,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -747,7 +708,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -792,9 +752,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -802,7 +759,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -844,9 +800,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -854,7 +807,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -893,9 +845,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -903,7 +852,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
@@ -945,9 +893,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -955,7 +900,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: false,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -997,9 +941,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -1007,7 +948,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -1048,9 +988,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -1058,7 +995,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -1106,9 +1042,6 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					OpcacheSetupRecommendations: [],
 					isSettimelimitAvailable: true,
-					missingIndexes: [],
-					missingPrimaryKeys: [],
-					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -1116,7 +1049,6 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
-					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',

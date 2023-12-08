@@ -45,9 +45,9 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
@@ -69,16 +69,16 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(IL10N $l,
-								Defaults $defaults,
-								IAppManager $appManager,
-								ISession $session,
-								?IUser $currentUser,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator,
-								CapabilitiesManager $capabilitiesManager,
-								IInitialStateService $initialStateService) {
+		Defaults $defaults,
+		IAppManager $appManager,
+		ISession $session,
+		?IUser $currentUser,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IniGetWrapper $iniWrapper,
+		IURLGenerator $urlGenerator,
+		CapabilitiesManager $capabilitiesManager,
+		IInitialStateService $initialStateService) {
 		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->appManager = $appManager;

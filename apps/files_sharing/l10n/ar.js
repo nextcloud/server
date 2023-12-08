@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "ملاحظة للمستلم",
     "Enter a note for the share recipient" : "أدخل ملاحظةً لمُستلِم المُشارَكة",
     "Create" : "أنشِيء",
-    "Update" : "تحديث",
     "Share" : "مُشارَكة",
     "Delete share" : "حذف المشاركة",
     "Share with " : "شَارِك مع",
@@ -298,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "حدث أمرٌ ما.  لا يمكن رفض المشاركة",
     "No expiration date set" : "تاريخ نهاية صلاحية المشاركة لم يتمّ تعيينه",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "مشاركة %s أخفقت بسبب أن الخادوم لا يدعم مشاركات ScienceMesh",
-    "One or more of your shares will expire tomorrow" : "واحدة أو أكثر من مشاركاتك ستنتهي صلاحيتها غدًا",
     "Allow creating" : "السماح بالإنشاء",
     "Allow deleting" : "السماح بالحذف",
     "Allow resharing" : "السماح بإعادة المشاركة ",
     "Expiration date enforced" : "فرض تاريخ انتهاء الصلاحية المشاركة",
     "Password protect" : "حماية بكلمة مرور",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "خطأ في توليد كلمة المرور بسبب مخالفة سياسة كلمات المرور"
+    "Update" : "تحديث"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

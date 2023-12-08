@@ -5,8 +5,8 @@
   */
 
 /*!
- * Vue.js v2.7.14
- * (c) 2014-2022 Evan You
+ * Vue.js v2.7.15
+ * (c) 2014-2023 Evan You
  * Released under the MIT License.
  */
 
@@ -15,6 +15,8 @@
  * (c) 2023 Eduardo San Martin Morote
  * @license MIT
  */
+
+/*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
 
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>

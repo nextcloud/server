@@ -73,19 +73,19 @@ class IconBuilder {
 			$icon->setImageFormat("png32");
 
 			$clone = clone $icon;
-			$clone->scaleImage(16,0);
+			$clone->scaleImage(16, 0);
 			$favicon->addImage($clone);
 
 			$clone = clone $icon;
-			$clone->scaleImage(32,0);
+			$clone->scaleImage(32, 0);
 			$favicon->addImage($clone);
 
 			$clone = clone $icon;
-			$clone->scaleImage(64,0);
+			$clone->scaleImage(64, 0);
 			$favicon->addImage($clone);
 
 			$clone = clone $icon;
-			$clone->scaleImage(128,0);
+			$clone->scaleImage(128, 0);
 			$favicon->addImage($clone);
 
 			$data = $favicon->getImagesBlob();

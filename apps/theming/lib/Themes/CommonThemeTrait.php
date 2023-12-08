@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,10 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\Util;
-use OCA\Theming\ImageManager;
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\Util;
 
 trait CommonThemeTrait {
 	public Util $util;
@@ -53,6 +54,7 @@ trait CommonThemeTrait {
 			// invalid one with no fallback. 'unset' could here fallback to some
 			// other theme with media queries
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+			'--primary-invert-if-dark' => $this->util->invertTextColor($this->primaryColor) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-default' => $this->defaultPrimaryColor,

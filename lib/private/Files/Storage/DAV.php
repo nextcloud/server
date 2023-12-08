@@ -55,11 +55,11 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
-use Psr\Log\LoggerInterface;
 use Sabre\HTTP\RequestInterface;
 
 /**

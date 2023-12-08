@@ -191,11 +191,6 @@ OC.L10N.register(
     "Add a new user" : "Yeni istifadəçi əlavə edin",
     "Show Languages" : "Dilləri göstərin",
     "Send email to new user" : "Yeni istifadəçiyə məktub yolla",
-    "Plain" : "Adi",
-    "NT LAN Manager" : "NT LAN Manager",
-    "SSL/TLS" : "SSL/TLS",
-    "STARTTLS" : "STARTTLS",
-    "Authentication method" : "Qeydiyyat metodikası",
     "Set default expiration date" : "Susmaya görə olan bitmə vaxtını təyin edin"
 },
 "nplurals=2; plural=(n != 1);");

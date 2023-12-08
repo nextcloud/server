@@ -18,7 +18,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Kontuan izan web eguneratzailea ez dela gomendatzen 100 erabiltzaile baino gehiagorekin! Mesedez, erabili komando-lerroko eguneratzailea horren ordez!",
     "Open updater" : "Ireki eguneratzailea",
     "Download now" : "Deskargatu orain",
-    "Please use the command line updater to update." : "Mesedez, erabili komando-lerroko eguneratzailea eguneratzeko.",
     "What's new?" : "Zer berri?",
     "View changelog" : "Ikusi aldaketen egunkaria",
     "The update check is not yet finished. Please refresh the page." : "Egunareketen egiaztapena ez da oraindik bukatu. Mesedez freskatu orria.",
@@ -47,7 +46,7 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Aplikazio <strong>%n</strong>ek ez du Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikaziok ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
-    "Update for %1$s to version %2$s is available." : "%1$s(r)entzako %2$s bertsiora eguneratzea eskuragarri dago.",
+    "Please use the command line updater to update." : "Mesedez, erabili komando-lerroko eguneratzailea eguneratzeko.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Behean eguneratze-kanala alda dezakezu eta horrek aplikazioen kudeaketa-orrian ere eragiten du. Adib. beta kanalera aldatu ondoren, beta aplikazioen eguneraketak aplikazioen kudeaketa orrian eskainiko zaizkizu.",
     "Update channel:" : "Eguneraketa kanala:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

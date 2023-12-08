@@ -46,9 +46,9 @@ class ExiprationNotification extends Command {
 	private $shareManager;
 
 	public function __construct(ITimeFactory $time,
-								NotificationManager $notificationManager,
-								IDBConnection $connection,
-								ShareManager $shareManager) {
+		NotificationManager $notificationManager,
+		IDBConnection $connection,
+		ShareManager $shareManager) {
 		parent::__construct();
 
 		$this->notificationManager = $notificationManager;
@@ -67,7 +67,7 @@ class ExiprationNotification extends Command {
 		//Current time
 		$minTime = $this->time->getDateTime();
 		$minTime->add(new \DateInterval('P1D'));
-		$minTime->setTime(0,0,0);
+		$minTime->setTime(0, 0, 0);
 
 		$maxTime = clone $minTime;
 		$maxTime->setTime(23, 59, 59);

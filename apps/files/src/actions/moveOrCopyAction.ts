@@ -35,9 +35,8 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import CopyIcon from 'vue-material-design-icons/FileMultiple.vue'
+import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
-import MoveIcon from 'vue-material-design-icons/FolderMove.vue'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import logger from '../logger'
@@ -81,7 +80,13 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 		throw new Error(t('files', 'This file/folder is already in that directory'))
 	}
 
-	if (node.path.startsWith(destination.path)) {
+	/**
+	 * Example:
+	 * node: /foo/bar/file.txt -> path = /foo/bar
+	 * destination: /foo
+	 * Allow move of /foo does not start with /foo/bar so allow
+	 */
+	if (destination.path.startsWith(node.path)) {
 		throw new Error(t('files', 'You cannot move a file/folder onto itself or into a subfolder of itself'))
 	}
 
@@ -170,7 +175,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: 
 				buttons.push({
 					label: target ? t('files', 'Copy to {target}', { target }) : t('files', 'Copy'),
 					type: 'primary',
-					icon: CopyIcon,
+					icon: CopyIconSvg,
 					async callback(destination: Node[]) {
 						try {
 							await handleCopyMoveNodeTo(node, destination[0], MoveCopyAction.COPY)
@@ -186,12 +191,13 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: 
 				buttons.push({
 					label: target ? t('files', 'Move to {target}', { target }) : t('files', 'Move'),
 					type: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
-					icon: MoveIcon,
+					icon: FolderMoveSvg,
 					async callback(destination: Node[]) {
 						try {
 							await handleCopyMoveNodeTo(node, destination[0], MoveCopyAction.MOVE)
 							resolve(true)
 						} catch (error) {
+							console.warn('got error', error)
 							reject(error)
 						}
 					},

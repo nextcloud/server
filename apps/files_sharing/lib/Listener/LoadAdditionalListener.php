@@ -25,8 +25,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Listener;
 
-use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Share\IManager;

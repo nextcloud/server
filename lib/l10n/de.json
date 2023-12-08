@@ -93,7 +93,7 @@
     "Appearance and accessibility" : "Erscheinungsbild und Barrierefreiheit",
     "Apps" : "Apps",
     "Personal settings" : "Persönliche Einstellungen",
-    "Administration settings" : "Verwaltungs-Einstellungen",
+    "Administration settings" : "Verwaltungseinstellungen",
     "Settings" : "Einstellungen",
     "Log out" : "Abmelden",
     "Users" : "Benutzer",
@@ -258,13 +258,11 @@
     "Storage is temporarily not available" : "Speicher ist vorübergehend nicht verfügbar",
     "Storage connection timeout. %s" : "Zeitüberschreitung der Verbindung zum Speicherplatz. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Die Dateien der App %1$swurden nicht korrekt ersetzt. Stelle sicher, dass es sich um eine mit dem Server kompatible Version handelt.",
+    "404" : "404",
     "Full name" : "Vollständiger Name",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Das Benutzerlimit wurde erreicht und der Benutzer wurde nicht erstellt. Überprüfe deine Benachrichtigungen, um mehr zu erfahren.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Folgende Zeichen sind im Benutzernamen erlaubt: „a-z“, „A-Z“, „0-9“ und „_.@-'“",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 ist mindestestens erforderlich. Im Moment ist %s installiert.",
     "To fix this issue update your libxml2 version and restart your web server." : "Um den Fehler zu beheben, musst du die libxml2 Version aktualisieren und den Webserver neustarten.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 benötigt",
-    "Please upgrade your database version." : "Bitte aktualisiere deine Datenbankversion",
-    "404" : "404"
+    "Please upgrade your database version." : "Bitte aktualisiere deine Datenbankversion"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

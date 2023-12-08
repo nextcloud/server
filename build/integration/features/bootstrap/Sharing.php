@@ -270,13 +270,13 @@ trait Sharing {
 	}
 
 	public function createShare($user,
-								$path = null,
-								$shareType = null,
-								$shareWith = null,
-								$publicUpload = null,
-								$password = null,
-								$permissions = null,
-								$viewOnly = false) {
+		$path = null,
+		$shareType = null,
+		$shareWith = null,
+		$publicUpload = null,
+		$password = null,
+		$permissions = null,
+		$viewOnly = false) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [

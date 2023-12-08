@@ -20,10 +20,6 @@ OC.L10N.register(
     "Could not restore version" : "Could not restore version",
     "Could not set version name" : "Could not set version name",
     "Could not delete version" : "Could not delete version",
-    "${version.label} restored" : "${version.label} restored",
-    "Failed to revert {file} to revision {timestamp}." : "برگرداندن {file} به نسخه {timestamp} با شکست روبرو شد",
-    "_%n byte_::_%n bytes_" : ["%n بایت","%n بایت"],
-    "Restore" : "بازیابی",
-    "No other versions available" : "نسخه ی دیگری در دسترس نیست"
+    "${version.label} restored" : "${version.label} restored"
 },
 "nplurals=2; plural=(n > 1);");

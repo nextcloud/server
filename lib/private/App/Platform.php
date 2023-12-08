@@ -25,8 +25,8 @@
  */
 namespace OC\App;
 
-use OCP\IConfig;
 use OCP\IBinaryFinder;
+use OCP\IConfig;
 
 /**
  * Class Platform

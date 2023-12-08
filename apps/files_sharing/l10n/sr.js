@@ -207,7 +207,6 @@ OC.L10N.register(
     "Note to recipient" : "Белешка примаоцу",
     "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Create" : "Креирање",
-    "Update" : "Ажурирај",
     "Share" : "Подели",
     "Delete share" : "Обриши дељење",
     "Share with " : "Подели са",
@@ -298,13 +297,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Нешто се десило. Не могу да одбијем дељење.",
     "No expiration date set" : "Није постављен датум истека",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Дељење %s није успело јер позадински механизам не подржава sciencemesh дељења",
-    "One or more of your shares will expire tomorrow" : "Једно или више Ваших дељења ће истећи сутра",
     "Allow creating" : "Дозволи креирање",
     "Allow deleting" : "Дозволи брисање",
     "Allow resharing" : "Дозволи дељење даље",
     "Expiration date enforced" : "Захтевано постављање датума истека",
     "Password protect" : "Заштићено лозинком",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Грешка приликом креирања лозинке из password_policy"
+    "Update" : "Ажурирај"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

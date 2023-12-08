@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentar dihapus",
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
     "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
-    "%1$s commented" : "%1$s dikomentari",
     "_%n unread comment_::_%n unread comments_" : ["%nkomentar belum dibaca"]
 },
 "nplurals=1; plural=0;");

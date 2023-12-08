@@ -16,7 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Ta bort kommentar",
     "Cancel edit" : "Avbryt redigering",
     "Post comment" : "Publicera kommentar",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" för omnämnanden, \":\" för emoji, \"/\" för smart picker",
+    "@ for mentions, : for emoji, / for smart picker" : "@ för omnämnanden, : för emoji, / för smart picker",
     "Could not reload comments" : "Kunde inte ladda om kommentarer",
     "No comments yet, start the conversation!" : "Inga kommentarer ännu.",
     "No more messages" : "Inga fler meddelanden",
@@ -29,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar borttagen",
     "An error occurred while trying to delete the comment" : "Ett fel uppstod när du försökte ta bort kommentaren",
     "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
-    "%1$s commented" : "%1$s kommenterade",
     "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"]
 },
 "nplurals=2; plural=(n != 1);");

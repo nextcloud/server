@@ -39,7 +39,6 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ICache;
-use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -87,7 +86,7 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getInternalPath')
 			->willReturn($internalPath);
 		$info->method('getMountPoint')
-			->willReturnCallback(function() use ($shared) {
+			->willReturnCallback(function () use ($shared) {
 				if ($shared) {
 					return $this->createMock(SharedMount::class);
 				} else {

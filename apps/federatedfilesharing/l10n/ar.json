@@ -49,9 +49,6 @@
     "Cloud ID copied to the clipboard" : "تمّ نسخ مُعرّف السحابة إلى الحافظة",
     "Copy to clipboard" : "نسخ الرابط",
     "Clipboard is not available" : "الحافظة غير متوافرة",
-    "Copied!" : "تم نسخه !",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "أنت تلقّيت \"%3$s\" كمُشاركةٍ قصيّةٍ من %4$s (%1$s) (نيابةً عن%5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "أنت تلقّيت \"%3$s\" كمُشاركةٍ قصيّةٍ من %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "شارك معي من خلال # مُعرّف سحابة نكست كلاود الاتحاديّة Nextcloud Federated Cloud ID. أنظر %s"
+    "Copied!" : "تم نسخه !"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

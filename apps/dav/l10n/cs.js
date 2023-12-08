@@ -151,7 +151,7 @@ OC.L10N.register(
     "Due on %s" : "Termín do %s",
     "DAV system address book" : "Systémový DAV adresář kontaktů",
     "No outstanding DAV system address book sync." : "Žádná zbývající synchronizace systémového DAV adresáře kontaktů.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "Systémová DAV synchronizace adresářů kontaktů ještě nebyla spuštěná protože vámi využívaná instance má více než 1 000 uživatelů nebo protože došlo k chybě\\\\ DAV spusťte ji ručně  příkazem occ dav:sync-system-addressbook.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV synchronizace systémového adresáře kontaktů ještě nebyla spuštěná protože vámi využívaná instance má více než 1 000 uživatelů nebo protože došlo k chybě. Spusťte ji ručně  příkazem „occ dav:sync-system-addressbook“.",
     "Migrated calendar (%1$s)" : "Přesunut kalendář (%1$s)",
     "Calendars including events, details and attendees" : "Kalendáře včetně událostí, podrobností a účastníků",
     "Contacts and groups" : "Kontakty a skupiny",
@@ -163,7 +163,9 @@ OC.L10N.register(
     "Long absence Message" : "Zpráva pro dlouhou nepřítomnost",
     "Save" : "Uložit",
     "Disable absence" : "Vypnout nepřítomnost",
+    "Absence saved" : "Nepřítomnost uložena",
     "Failed to save your absence settings" : "Nepodařilo se uložit nastavení vaší nepřítomnosti",
+    "Absence cleared" : "Nepřítomnost vyčištěna",
     "Failed to clear your absence settings" : "Nepodařilo se vymazat nastavení vaší nepřítomnosti",
     "Time zone:" : "Časové pásmo:",
     "to" : "do",
@@ -203,7 +205,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontaktujte organizátora přímo.",
     "Are you accepting the invitation?" : "Přijímáte pozvání?",
     "Tentative" : "Nezávazně",
-    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
-    "%1$s has responded your invitation" : "%1$s odpověděl(a) na vaši pozvánku"
+    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

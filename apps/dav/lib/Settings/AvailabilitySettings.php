@@ -42,11 +42,11 @@ class AvailabilitySettings implements ISettings {
 	protected ?string $userId;
 
 	public function __construct(IConfig $config,
-								IInitialState $initialState,
-								?string $userId,
-								private LoggerInterface $logger,
-								private IAvailabilityCoordinator $coordinator,
-								private AbsenceMapper $absenceMapper) {
+		IInitialState $initialState,
+		?string $userId,
+		private LoggerInterface $logger,
+		private IAvailabilityCoordinator $coordinator,
+		private AbsenceMapper $absenceMapper) {
 		$this->config = $config;
 		$this->initialState = $initialState;
 		$this->userId = $userId;

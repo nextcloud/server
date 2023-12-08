@@ -70,11 +70,11 @@ final class WidgetItem implements JsonSerializable {
 	 * @since 22.0.0
 	 */
 	public function __construct(string $title = '',
-								string $subtitle = '',
-								string $link = '',
-								string $iconUrl = '',
-								string $sinceId = '',
-								string $overlayIconUrl = '') {
+		string $subtitle = '',
+		string $link = '',
+		string $iconUrl = '',
+		string $sinceId = '',
+		string $overlayIconUrl = '') {
 		$this->title = $title;
 		$this->subtitle = $subtitle;
 		$this->iconUrl = $iconUrl;

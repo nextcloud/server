@@ -51,8 +51,8 @@ class PredefinedStatusController extends OCSController {
 	 * @param PredefinedStatusService $predefinedStatusService
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								PredefinedStatusService $predefinedStatusService) {
+		IRequest $request,
+		PredefinedStatusService $predefinedStatusService) {
 		parent::__construct($appName, $request);
 		$this->predefinedStatusService = $predefinedStatusService;
 	}

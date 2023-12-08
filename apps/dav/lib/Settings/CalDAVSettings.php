@@ -27,8 +27,8 @@ namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 

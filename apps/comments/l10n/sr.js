@@ -16,7 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Обриши коментар",
     "Cancel edit" : "Поништи измену",
     "Post comment" : "Објави коментар",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” за помињања, „:” за емођи, „/” за паметни бирач",
+    "@ for mentions, : for emoji, / for smart picker" : "@ за помињања, : за емођи, / за паметни бирач",
     "Could not reload comments" : "Коментари не могу поново да се учитају",
     "No comments yet, start the conversation!" : "Још нема коментара. Започните дискусију!",
     "No more messages" : "Нема више порука",
@@ -29,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Коментар обрисан",
     "An error occurred while trying to delete the comment" : "Грешка приликом покушаја брисања коментара",
     "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара",
-    "%1$s commented" : "%1$s коментарисао",
     "_%n unread comment_::_%n unread comments_" : ["%nнепрочитани коментар","%nнепрочитана коментара ","%n непрочитаних коментара"]
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

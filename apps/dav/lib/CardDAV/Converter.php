@@ -29,8 +29,8 @@ namespace OCA\DAV\CardDAV;
 
 use Exception;
 use OCP\Accounts\IAccountManager;
-use OCP\IURLGenerator;
 use OCP\IImage;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use Sabre\VObject\Component\VCard;

@@ -90,7 +90,7 @@ OC.L10N.register(
     "Share" : "Partage",
     "Show hidden files" : "Afficher les fichiers masqués",
     "Case sensitive file system" : "Système de fichiers sensible à la casse",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Le désactiver va permettre d'utiliser un système de fichiers insensible à la casse mais cela a un impact sur les performances.",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Le désactiver va permettre d'utiliser un système de fichiers insensible à la casse mais cela a un impact sur les performances.",
     "Verify ACL access when listing files" : "Vérifier l'accès à l'ACL lors de l'affichage de la liste des fichiers",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Contrôler les ACL de chaque fichier ou dossier à l'intérieur d'un répertoire afin de filtrer les éléments pour lesquels l'utilisateur n'a pas d'accès en lecture, ceci engendre une dégradation des performances",
     "Timeout" : "Délai d'attente",
@@ -112,7 +112,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "Il y a eu une erreur avec ce stockage externe.",
     "We were unable to check the external storage {basename}" : "Nous n'avons pas pu vérifier le stockage externe {basename}",
     "Examine this faulty external storage configuration" : "Examiner la configuration de ce stockage externe défaillant",
-    "Open in files" : "Ouvrir dans Fichiers",
+    "Open in Files" : "Ouvrir dans Fichiers",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Il y a eu une erreur avec ce stockage externe. Voulez-vous examiner la configuration de ce point de montage sur la page des paramètres ?",
     "External mount error" : "Erreur de point de montage externe",
     "List of external storage." : "Liste du stockage externe.",
@@ -154,6 +154,7 @@ OC.L10N.register(
     "Credentials saved" : "Identifiants sauvegardés",
     "Credentials saving failed" : "La sauvegarde des identifiants a échoué",
     "Credentials required" : "Identifiants exigés",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Le désactiver va permettre d'utiliser un système de fichiers insensible à la casse mais cela a un impact sur les performances.",
     "Name" : "Nom"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
