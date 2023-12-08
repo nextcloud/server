@@ -218,6 +218,7 @@
     "Ownership transfer request sent" : "Αποστολή αίτησης μεταβίβασης κυριότητας",
     "Cannot transfer ownership of a file or folder you do not own" : "Δεν είναι δυνατή η μεταβίβαση της κυριότητας ενός αρχείου ή φακέλου που δε σας ανήκει",
     "Select file or folder to link to" : "Επιλέξτε αρχείο ή φάκελο για σύνδεση",
+    "Choose {file}" : "Επιλέξτε {file}",
     "Add" : "Προσθήκη",
     "Loading current folder" : "Φόρτωση τρέχοντος φακέλου",
     "No files in here" : "Δεν υπάρχουν αρχεία εδώ",

@@ -173,7 +173,6 @@ OC.L10N.register(
     "Install the Contacts app" : "Setja upp tengiliðaforritið",
     "Loading your contacts …" : "Hleð inn tengiliðalistum ...",
     "Looking for {term} …" : "Leita að {term} …",
-    "Global search" : "Víðvær leit",
     "Search apps, files, tags, messages" : "Leita í forritum, skrám, merkjum, skilaboðum",
     "Apps and Settings" : "Forrit og stillingar",
     "Date" : "Dagsetning",

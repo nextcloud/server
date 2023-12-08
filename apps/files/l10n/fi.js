@@ -213,6 +213,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
     "Cannot transfer ownership of a file or folder you do not own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Select file or folder to link to" : "Valitse tiedosto tai kansio, johon linkitetään",
+    "Choose {file}" : "Valitse {file}",
     "Add" : "Lisää",
     "Loading current folder" : "Ladataan nykyistä kansiota",
     "No files in here" : "Täällä ei ole tiedostoja",

@@ -218,6 +218,7 @@
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
     "Cannot transfer ownership of a file or folder you do not own" : "Impossibile trasferire la proprietà di un file o di una cartella di cui non sei proprietario",
     "Select file or folder to link to" : "Seleziona un file o una cartella da collegare",
+    "Choose {file}" : "Scegli {file}",
     "Add" : "Aggiungi",
     "Loading current folder" : "Sto caricando la cartella corrente",
     "No files in here" : "Qui non c'è alcun file",

@@ -185,7 +185,6 @@ OC.L10N.register(
     "Install the Contacts app" : "Inštalovať aplikáciu Kontakty",
     "Loading your contacts …" : "Načítavam vaše kontakty...",
     "Looking for {term} …" : "Hľadá sa výraz {term}...",
-    "Global search" : "Globálne hľadanie",
     "Search apps, files, tags, messages" : "Hľadať aplikácie, súbory, štítky a správy",
     "Apps and Settings" : "Aplikácie a Nastavenia",
     "Date" : "Dátum",

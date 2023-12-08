@@ -220,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Anmodning om ejerskabsoverdragelse sendt",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
     "Select file or folder to link to" : "Vælg fil eller mappe at linke til",
+    "Choose {file}" : "Vælg {file}",
     "Add" : "Tilføj",
     "Loading current folder" : "Indlæser aktuelle mappe",
     "No files in here" : "Her er ingen filer",

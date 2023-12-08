@@ -278,6 +278,7 @@ OC.L10N.register(
     "Templates" : "Plantilles",
     "Unable to initialize the templates directory" : "No s'ha pogut inicialitzar la carpeta de plantilles",
     "Created new folder \"{name}\"" : "S'ha creat la carpeta nova «{name}»",
+    "One of the dropped files could not be processed" : "No s'ha pogut processar un dels fitxers que heu deixat anar.",
     "Uploading \"{filename}\" failed" : "No s'ha pogut pujar «{filename}»",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} carpeta","{folderCount} carpetes"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fitxer","{fileCount} fitxers"],
