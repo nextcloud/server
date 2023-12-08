@@ -161,6 +161,12 @@ class Util {
 			$path = "js/$file";
 		}
 
+		// We need to handle the translation BEFORE the init script
+		// is loaded, as the init script might use translations
+		if ($application !== 'core' && !str_contains($file, 'l10n')) {
+			self::addTranslations($application, null, true);
+		}
+
 		self::$scriptsInit[] = $path;
 	}
 
@@ -233,9 +239,10 @@ class Util {
 	 * Add a translation JS file
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current locale
+	 * @param bool $init whether the translations should be loaded early or not
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
 			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
 		}
@@ -244,7 +251,12 @@ class Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::$scripts[$application][] = $path;
+
+		if ($init) {
+			self::$scriptsInit[] = $path;
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
