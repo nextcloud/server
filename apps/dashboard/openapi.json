@@ -267,7 +267,9 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 7
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 30
                         }
                     },
                     {
@@ -364,7 +366,9 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 7
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 30
                         }
                     },
                     {
