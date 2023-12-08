@@ -22,7 +22,7 @@
 
 import '@nextcloud/dialogs/style.css'
 
-import type { Node } from '@nextcloud/files'
+import type { Folder, Node } from '@nextcloud/files'
 import { Permission } from '@nextcloud/files'
 import PQueue from 'p-queue'
 
@@ -49,6 +49,11 @@ export enum MoveCopyAction {
 	MOVE = 'Move',
 	COPY = 'Copy',
 	MOVE_OR_COPY = 'move-or-copy',
+}
+
+export type MoveCopyResult = {
+	destination: Folder
+	action: MoveCopyAction.COPY | MoveCopyAction.MOVE
 }
 
 export const canMove = (nodes: Node[]) => {
