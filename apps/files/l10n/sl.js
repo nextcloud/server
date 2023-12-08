@@ -220,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Zahteva za prenos lastništva je poslana",
     "Cannot transfer ownership of a file or folder you do not own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Select file or folder to link to" : "Izbor datoteke ali mape za povezavo",
+    "Choose {file}" : "Izberite datoteko {file}",
     "Add" : "Dodaj",
     "Loading current folder" : "Poteka nalaganje trenutne mape",
     "No files in here" : "V mapi ni datotek",

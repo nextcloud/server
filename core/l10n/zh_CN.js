@@ -186,7 +186,6 @@ OC.L10N.register(
     "Install the Contacts app" : "安装联系人应用",
     "Loading your contacts …" : "正在加载您的联系人……",
     "Looking for {term} …" : "正在查找{term} ……",
-    "Global search" : "全局搜索",
     "Search apps, files, tags, messages" : "搜索应用程序、文件、标签，信息",
     "Apps and Settings" : "应用程序以及设置",
     "Date" : "日期",

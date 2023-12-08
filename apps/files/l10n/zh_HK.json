@@ -219,6 +219,7 @@
     "Ownership transfer request sent" : "已送出擁有權轉移的請求",
     "Cannot transfer ownership of a file or folder you do not own" : "無法轉移您未擁有的檔案或是資料夾所有權",
     "Select file or folder to link to" : "選擇要連結的檔案或資料夾",
+    "Choose {file}" : "選擇 {file}",
     "Add" : "添加",
     "Loading current folder" : "目前資料夾加載中",
     "No files in here" : "沒有任何檔案",

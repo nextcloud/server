@@ -186,7 +186,6 @@ OC.L10N.register(
     "Install the Contacts app" : "Instalează aplicația Contacte",
     "Loading your contacts …" : "Se încarcă contactele ...",
     "Looking for {term} …" : "Se caută  {term} …",
-    "Global search" : "Căutare globală",
     "Search apps, files, tags, messages" : "Caută aplicații, fișiere, etichete, mesaje",
     "Apps and Settings" : "Aplicații și Setări",
     "Today" : "Azi",

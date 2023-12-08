@@ -212,6 +212,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Anforderung für die Übertragung des Besitzes gesendet",
     "Cannot transfer ownership of a file or folder you do not own" : "Der Besitz an einer Datei oder einem Ordner, der dir nicht gehört, kann nicht übertragen werden",
     "Select file or folder to link to" : "Datei oder Ordner zum Verknüpfen auswählen",
+    "Choose {file}" : "{file} auswählen",
     "Add" : "Hinzufügen",
     "Loading current folder" : "Lade aktuellen Ordner",
     "No files in here" : "Keine Dateien vorhanden",

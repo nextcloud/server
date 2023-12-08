@@ -220,6 +220,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
     "Cannot transfer ownership of a file or folder you do not own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Select file or folder to link to" : "Válassza ki a hivatkozandó fájlt vagy mappát",
+    "Choose {file}" : "{file} kiválasztása",
     "Add" : "Hozzáadás",
     "Loading current folder" : "Jelenlegi mappa betöltése",
     "No files in here" : "Itt nincsenek fájlok",

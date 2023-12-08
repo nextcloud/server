@@ -186,7 +186,6 @@ OC.L10N.register(
     "Install the Contacts app" : "Installer l'appli Contacts",
     "Loading your contacts …" : "Chargement de vos contacts...",
     "Looking for {term} …" : "Recherche de {term} ...",
-    "Global search" : "Recherche globale",
     "Search apps, files, tags, messages" : "Rechercher des apps, fichiers, étiquettes, messages",
     "Apps and Settings" : "Applications et Paramètres",
     "Date" : "Date",
