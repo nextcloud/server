@@ -1,7 +1,6 @@
 <template>
 	<NcModal id="global-search"
 		ref="globalSearchModal"
-		:name="t('core', 'Unified search')"
 		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
 		:title="t('Unified search')"
@@ -12,7 +11,9 @@
 			@update:is-open="showDateRangeModal = $event" />
 		<!-- Global search form -->
 		<div ref="globalSearch" class="global-search-modal">
-			<h1>{{ t('core', 'Unified search') }}</h1>
+			<h2 class="global-search-modal__heading">
+				{{ t('core', 'Unified search') }}
+			</h2>
 			<NcInputField ref="searchInput"
 				:value.sync="searchQuery"
 				type="text"
@@ -538,10 +539,11 @@ export default {
 	padding: 10px 20px 10px 20px;
 	height: 60%;
 
-	h1 {
+	&__heading {
 		font-size: 16px;
 		font-weight: bolder;
 		line-height: 2em;
+		margin-bottom: 0;
 	}
 
 	&__filters {
