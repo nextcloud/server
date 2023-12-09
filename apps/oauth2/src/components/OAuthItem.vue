@@ -28,11 +28,10 @@
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
 				<NcButton type="tertiary-no-background"
-					:aria-label="t('oauth2', 'Show client secret')"
+					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
-						<EyeOutline :size="20"
-							:title="t('oauth2', 'Show client secret')" />
+						<EyeOutline :size="20"/>
 					</template>
 				</NcButton>
 			</div>
@@ -87,6 +86,12 @@ export default {
 				return '****'
 			}
 		},
+		toggleAriaLabel() {
+			if (!this.renderSecret) {
+				return t('oauth2', 'Show client secret')
+			} 
+			return t('oauth2', 'Hide client secret')
+		}
 	},
 	methods: {
 		toggleSecret() {
