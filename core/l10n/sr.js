@@ -186,6 +186,7 @@ OC.L10N.register(
     "Install the Contacts app" : "Инсталирај апликацију Контакти",
     "Loading your contacts …" : "Учитавам контакте ...",
     "Looking for {term} …" : "Тражим {term} …",
+    "Unified search" : "Обједињена претрага",
     "Search apps, files, tags, messages" : "Претражи апликације, фајлове, ознаке, поруке",
     "Apps and Settings" : "Апликације и Подешавања",
     "Date" : "Датум",

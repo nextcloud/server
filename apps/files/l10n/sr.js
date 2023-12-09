@@ -221,6 +221,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Послат захтев за пренос власништва",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да пренесете власништво над фајлом или фолдером који не поседујете",
     "Select file or folder to link to" : "Изаберите фајл или фолдер на који показује линк",
+    "Choose file" : "Изаберите фајл",
     "Choose {file}" : "Изабери {file}",
     "Add" : "Додај",
     "Loading current folder" : "Учитавање текућег фолдера",

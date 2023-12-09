@@ -211,6 +211,7 @@ OC.L10N.register(
     "Search {types} …" : "Cerqueu {types}…",
     "No" : "No",
     "Yes" : "Sí",
+    "Choose {file}" : "Tria {file}",
     "Choose" : "Tria",
     "Copy to {target}" : "Copia a {target}",
     "Copy" : "Copia",
