@@ -221,6 +221,8 @@ OC.L10N.register(
     "Ownership transfer request sent" : "S'ha enviat la sol·licitud de transferència de propietat",
     "Cannot transfer ownership of a file or folder you do not own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
     "Select file or folder to link to" : "Seleccioneu el fitxer o la carpeta que voleu enllaçar",
+    "Choose file" : "Tria el fitxer",
+    "Choose {file}" : "Tria {file}",
     "Add" : "Afegeix",
     "Loading current folder" : "S'està carregant la carpeta actual",
     "No files in here" : "No hi ha cap fitxer aquí",
