@@ -186,6 +186,7 @@ OC.L10N.register(
     "Install the Contacts app" : "تثبيت تطبيق جهات الإتصال",
     "Loading your contacts …" : "تحميل جهات الإتصال",
     "Looking for {term} …" : "جاري البحث عن {term}",
+    "Unified search" : "بحث مُوحَّد",
     "Search apps, files, tags, messages" : "البحث في التطبيقات و الملفات و السِّمات و الرسائل",
     "Apps and Settings" : "التطبيقات و الإعدادات",
     "Date" : "Date",

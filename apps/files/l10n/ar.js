@@ -221,6 +221,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
     "Cannot transfer ownership of a file or folder you do not own" : "لايمكنك نقل ملكية ملف أو مجلد لا تملكه",
     "Select file or folder to link to" : "اختر ملف أو مجلد للربط معه",
+    "Choose file" : "إختَر ملفاً",
     "Choose {file}" : "إختَر {file}",
     "Add" : "أضِف",
     "Loading current folder" : "تحميل المجلد الحالي",
