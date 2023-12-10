@@ -561,6 +561,7 @@ OC.L10N.register(
     "Create group" : "أنشِيءْ مجموعةً ",
     "Group name" : "إسم الفريق",
     "Please enter a valid group name" : "رجاءً، قم بإدخال اسم مناسب للمجموعة",
+    "User group: {group}" : "مجموعة المستخدِم: {group}",
     "Failed to create group" : "تعذّر إنشاء المجموعة",
     "Sending…" : "الإرسال جارٍ …",
     "Email sent" : "تمّ إرسال الإيميل",
