@@ -561,6 +561,7 @@ OC.L10N.register(
     "Create group" : "Gruppe erstellen",
     "Group name" : "Gruppenname",
     "Please enter a valid group name" : "Bitte einen gültigen Gruppennamen eingeben",
+    "User group: {group}" : "Benutzergruppe: {group}",
     "Failed to create group" : "Fehler beim Erstellen der Gruppe",
     "Sending…" : "Senden…",
     "Email sent" : "E-Mail gesendet",
