@@ -184,6 +184,7 @@ import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { registerFileAction, FileAction, Permission, DefaultType } from '@nextcloud/files'
+import getSortingConfig from '../services/FileSortingConfig.ts'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
@@ -259,6 +260,7 @@ export default {
 			comparisonFile: null,
 			nextFile: {},
 			fileList: [],
+			sortingConfig: null,
 
 			// States
 			isLoaded: false,
@@ -570,13 +572,14 @@ export default {
 	},
 
 	methods: {
-		beforeOpen() {
+		async beforeOpen() {
 			// initial loading start
 			this.initiated = true
 
 			if (OCA?.Files?.Sidebar?.setFullScreenMode) {
 				OCA.Files.Sidebar.setFullScreenMode(true)
 			}
+			this.sortingConfig = await getSortingConfig()
 		},
 
 		/**
@@ -586,7 +589,7 @@ export default {
 		 * @param {string|null} overrideHandlerId the ID of the handler with which to view the files, if any
 		 */
 		async openFile(path, overrideHandlerId = null) {
-			this.beforeOpen()
+			await this.beforeOpen()
 
 			// cancel any previous request
 			this.cancelRequestFile()
@@ -699,7 +702,7 @@ export default {
 				// sort like the files list
 				// TODO: implement global sorting API
 				// https://github.com/nextcloud/server/blob/a83b79c5f8ab20ed9b4d751167417a65fa3c42b8/apps/files/lib/Controller/ApiController.php#L247
-				this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, 'basename'))
+				this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, this.sortingConfig.key, this.sortingConfig.asc))
 
 				// store current position
 				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
