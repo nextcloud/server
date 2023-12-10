@@ -172,6 +172,7 @@ OC.L10N.register(
     "Install the Contacts app" : "Installera appen Kontakter",
     "Loading your contacts …" : "Läser in dina kontakter ...",
     "Looking for {term} …" : "Letar efter {term} …",
+    "Unified search" : "Enhetlig sökning",
     "Search apps, files, tags, messages" : "Sök efter appar, filer, taggar, meddelanden",
     "Apps and Settings" : "Appar och inställningar",
     "Date" : "Datum",

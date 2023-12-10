@@ -186,6 +186,7 @@ OC.L10N.register(
     "Install the Contacts app" : "Kişiler uygulamasını kur",
     "Loading your contacts …" : "Kişileriniz yükleniyor …",
     "Looking for {term} …" : "{term} ifadesi aranıyor …",
+    "Unified search" : "Birleşik arama",
     "Search apps, files, tags, messages" : "Uygulama, dosya, etiket, ileti ara",
     "Apps and Settings" : "Uygulamalar ve ayarlar",
     "Date" : "Tarih",
