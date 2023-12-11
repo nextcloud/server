@@ -32,6 +32,7 @@
 				:label="labelText"
 				trailing-button-icon="close"
 				:show-trailing-button="searchTerm !== ''"
+				@update:value="searchTermChanged"
 				@trailing-button-click="clearSearch">
 				<Magnify :size="20" />
 			</NcTextField>
@@ -125,6 +126,9 @@ export default {
 			this.$emit('item-selected', element)
 			this.clearSearch()
 			this.opened = false
+		},
+		searchTermChanged(term) {
+			this.$emit('search-term-change', term)
 		},
 	},
 }

@@ -55,6 +55,7 @@
 				<SearchableList :label-text="t('core', 'Search people')"
 					:search-list="userContacts"
 					:empty-content-text="t('core', 'Not found')"
+					@search-term-change="debouncedFilterContacts"
 					@item-selected="applyPersonFilter">
 					<template #trigger>
 						<NcButton>
@@ -198,6 +199,7 @@ export default {
 			results: [],
 			contacts: [],
 			debouncedFind: debounce(this.find, 300),
+			debouncedFilterContacts: debounce(this.filterContacts, 300),
 			showDateRangeModal: false,
 			internalIsVisible: false,
 		}
