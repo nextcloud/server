@@ -46,7 +46,7 @@ class AppFetcher extends Fetcher {
 		IClientService $clientService,
 		ITimeFactory $timeFactory,
 		IConfig $config,
-		CompareVersion $compareVersion,
+		private CompareVersion $compareVersion,
 		LoggerInterface $logger,
 		protected IRegistry $registry,
 	) {
