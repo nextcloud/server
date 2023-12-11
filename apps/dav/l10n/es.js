@@ -156,7 +156,7 @@ OC.L10N.register(
     "Calendars including events, details and attendees" : "Calendarios que incluyen eventos, detalles y asistentes",
     "Contacts and groups" : "Contactos y grupos",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Extremo de WebDAV",
+    "WebDAV endpoint" : "Endpoint WebDAV",
     "First day" : "Primer día",
     "Last day (inclusive)" : "Último día (incluido)",
     "Short absence status" : "Estado de ausencia corta",
