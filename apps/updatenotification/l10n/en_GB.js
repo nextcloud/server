@@ -20,6 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!",
     "Open updater" : "Open updater",
     "Download now" : "Download now",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.",
     "What's new?" : "What's new?",
     "View changelog" : "View changelog",
     "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page.",

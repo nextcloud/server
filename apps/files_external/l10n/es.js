@@ -46,7 +46,7 @@ OC.L10N.register(
     "Username" : "Nombre de usuario",
     "Password" : "Contraseña",
     "Tenant name" : "Nombre del inquilino",
-    "Identity endpoint URL" : "Identidad de punto final URL",
+    "Identity endpoint URL" : "URL del endpoint de identidad",
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Dominio",
     "Rackspace" : "Espacio de Rack",
