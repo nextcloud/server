@@ -219,6 +219,7 @@
     "Ownership transfer request sent" : "Enviouse solicitude de transferencia da propiedade",
     "Cannot transfer ownership of a file or folder you do not own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol do que non es o propietario",
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
+    "Choose file" : "Escoller o ficheiro",
     "Choose {file}" : "Escoller  {file}",
     "Add" : "Engadir",
     "Loading current folder" : "Cargando o cartafol actual",
