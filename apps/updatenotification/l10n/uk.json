@@ -18,6 +18,7 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Будь ласка, зверніть увагу, що веб-оновлювач не рекомендується, якщо кількість користувачів перевищує 100! Натомість використовуйте засіб оновлення командного рядка!",
     "Open updater" : "Оновити",
     "Download now" : "Звантажити зараз",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Веб-оновлення вимкнено. Для оновлення, будь ласка, скористайтеся засобом оновлення з командного рядка або відповідним до вашого методу встановлення механізмом оновлення (наприклад, Docker pull).",
     "What's new?" : "Що нового?",
     "View changelog" : "Переглянути журнал змін",
     "The update check is not yet finished. Please refresh the page." : "Перевірку на нові версії не завершено. Будь ласка, перезавантажте сторінку.",
