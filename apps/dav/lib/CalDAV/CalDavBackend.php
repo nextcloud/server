@@ -3085,11 +3085,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
 				->executeStatement();
 
+			$query = $this->db->getQueryBuilder();
 			$query->delete('calendarchanges')
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
 				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
 				->executeStatement();
 
+			$query = $this->db->getQueryBuilder();
 			$query->delete($this->dbObjectPropertiesTable)
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
 				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
