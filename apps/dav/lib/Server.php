@@ -386,7 +386,4 @@ class Server {
 		return false;
 	}
 
-	public function getSabreServer(): Connector\Sabre\Server {
-		return $this->server;
-	}
 }
