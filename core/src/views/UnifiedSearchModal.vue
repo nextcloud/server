@@ -193,7 +193,7 @@ export default {
 			filteredProviders: [],
 			searching: false,
 			searchQuery: '',
-			placesFilter: '',
+			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
 			results: [],
@@ -243,7 +243,7 @@ export default {
 			this.providers = providers
 			console.debug('Search providers', this.providers)
 		})
-		getContacts({ filter: '' }).then((contacts) => {
+		getContacts({ searchTerm: '' }).then((contacts) => {
 			this.contacts = this.mapContacts(contacts)
 			console.debug('Contacts', this.contacts)
 		})
@@ -363,7 +363,7 @@ export default {
 			})
 		},
 		filterContacts(query) {
-			getContacts({ filter: query }).then((contacts) => {
+			getContacts({ searchTerm: query }).then((contacts) => {
 				this.contacts = this.mapContacts(contacts)
 				console.debug(`Contacts filtered by ${query}`, this.contacts)
 			})
