@@ -139,7 +139,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
-				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
@@ -196,11 +195,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('hasPassedCheck')
 			->willReturn(true);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isImagickEnabled')
-			->willReturn(false);
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -263,12 +257,10 @@ class CheckSetupControllerTest extends TestCase {
 				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isSettimelimitAvailable' => true,
-				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
-				'imageMagickLacksSVGSupport' => false,
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
 				'generic' => [],

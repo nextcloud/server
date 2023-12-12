@@ -342,15 +342,6 @@ Raw output
 		return false;
 	}
 
-	protected function isImagickEnabled(): bool {
-		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
-			if (!extension_loaded('imagick')) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	protected function areWebauthnExtensionsEnabled(): bool {
 		if (!extension_loaded('bcmath')) {
 			return false;
@@ -401,10 +392,6 @@ Raw output
 		return false;
 	}
 
-	protected function imageMagickLacksSVGSupport(): bool {
-		return extension_loaded('imagick') && count(\Imagick::queryFormats('SVG')) === 0;
-	}
-
 	/**
 	 * @return DataResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
@@ -422,12 +409,10 @@ Raw output
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
-				'imageMagickLacksSVGSupport' => $this->imageMagickLacksSVGSupport(),
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				'generic' => $this->setupCheckManager->runAll(),
 			]
