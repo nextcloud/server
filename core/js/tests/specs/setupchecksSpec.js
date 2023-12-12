@@ -232,7 +232,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -280,7 +279,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -328,7 +326,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -376,7 +373,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -404,54 +400,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return a warning if there are app directories with wrong permissions', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					appDirsWithDifferentOwner: [
-						'/some/path'
-					],
-					isImagickEnabled: true,
-					areWebauthnExtensionsEnabled: true,
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:<ul><li>/some/path</li></ul>',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if set_time_limit is unavailable', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -471,7 +419,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -518,7 +465,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -596,7 +542,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -649,7 +594,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: true,
@@ -699,7 +643,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -746,7 +689,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -790,7 +732,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -837,7 +778,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: false,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -884,7 +824,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -930,7 +869,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -983,7 +921,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,

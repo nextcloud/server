@@ -270,7 +270,6 @@ class CheckSetupControllerTest extends TestCase {
 				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isSettimelimitAvailable' => true,
-				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
 				'isMysqlUsedWithoutUTF8MB4' => false,

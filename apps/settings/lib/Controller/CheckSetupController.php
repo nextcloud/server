@@ -45,7 +45,6 @@
  */
 namespace OCA\Settings\Controller;
 
-use DirectoryIterator;
 use GuzzleHttp\Exception\ClientException;
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
@@ -343,53 +342,6 @@ Raw output
 		return false;
 	}
 
-	/**
-	 * Iterates through the configured app roots and
-	 * tests if the subdirectories are owned by the same user than the current user.
-	 *
-	 * @return array
-	 */
-	protected function getAppDirsWithDifferentOwner(): array {
-		$currentUser = posix_getuid();
-		$appDirsWithDifferentOwner = [[]];
-
-		foreach (\OC::$APPSROOTS as $appRoot) {
-			if ($appRoot['writable'] === true) {
-				$appDirsWithDifferentOwner[] = $this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot);
-			}
-		}
-
-		$appDirsWithDifferentOwner = array_merge(...$appDirsWithDifferentOwner);
-		sort($appDirsWithDifferentOwner);
-
-		return $appDirsWithDifferentOwner;
-	}
-
-	/**
-	 * Tests if the directories for one apps directory are writable by the current user.
-	 *
-	 * @param int $currentUser The current user
-	 * @param array $appRoot The app root config
-	 * @return string[] The none writable directory paths inside the app root
-	 */
-	private function getAppDirsWithDifferentOwnerForAppRoot(int $currentUser, array $appRoot): array {
-		$appDirsWithDifferentOwner = [];
-		$appsPath = $appRoot['path'];
-		$appsDir = new DirectoryIterator($appRoot['path']);
-
-		foreach ($appsDir as $fileInfo) {
-			if ($fileInfo->isDir() && !$fileInfo->isDot()) {
-				$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-				$appDirUser = fileowner($absAppPath);
-				if ($appDirUser !== $currentUser) {
-					$appDirsWithDifferentOwner[] = $absAppPath;
-				}
-			}
-		}
-
-		return $appDirsWithDifferentOwner;
-	}
-
 	protected function isImagickEnabled(): bool {
 		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
 			if (!extension_loaded('imagick')) {
@@ -470,7 +422,6 @@ Raw output
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
