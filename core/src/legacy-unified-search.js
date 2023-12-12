@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2020 Fon E. Noel NFEBE <fenn25.fn@gmail.com>
+ * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Fon E. Noel NFEBE <fenn25.fn@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -25,13 +25,13 @@ import { getRequestToken } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import Vue from 'vue'
 
-import GlobalSearch from './views/GlobalSearch.vue'
+import UnifiedSearch from './views/LegacyUnifiedSearch.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
 
 const logger = getLoggerBuilder()
-	.setApp('global-search')
+	.setApp('unified-search')
 	.detectUser()
 	.build()
 
@@ -48,8 +48,8 @@ Vue.mixin({
 })
 
 export default new Vue({
-	el: '#global-search',
+	el: '#unified-search',
 	// eslint-disable-next-line vue/match-component-file-name
-	name: 'GlobalSearchRoot',
-	render: h => h(GlobalSearch),
+	name: 'UnifiedSearchRoot',
+	render: h => h(UnifiedSearch),
 })

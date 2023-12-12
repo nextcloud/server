@@ -1,6 +1,6 @@
 <template>
 	<NcModal v-if="isModalOpen"
-		id="global-search"
+		id="unified-search"
 		:name="t('core', 'Custom date range')"
 		:show.sync="isModalOpen"
 		:size="'small'"
@@ -8,19 +8,19 @@
 		:title="t('core', 'Custom date range')"
 		@close="closeModal">
 		<!-- Custom date range -->
-		<div class="global-search-custom-date-modal">
+		<div class="unified-search-custom-date-modal">
 			<h1>{{ t('core', 'Custom date range') }}</h1>
-			<div class="global-search-custom-date-modal__pickers">
-				<NcDateTimePicker :id="'globalsearch-custom-date-range-start'"
+			<div class="unified-search-custom-date-modal__pickers">
+				<NcDateTimePicker :id="'unifiedsearch-custom-date-range-start'"
 					v-model="dateFilter.startFrom"
 					:label="t('core', 'Pick start date')"
 					type="date" />
-				<NcDateTimePicker :id="'globalsearch-custom-date-range-end'"
+				<NcDateTimePicker :id="'unifiedsearch-custom-date-range-end'"
 					v-model="dateFilter.endAt"
 					:label="t('core', 'Pick end date')"
 					type="date" />
 			</div>
-			<div class="global-search-custom-date-modal__footer">
+			<div class="unified-search-custom-date-modal__footer">
 				<NcButton @click="applyCustomRange">
 					{{ t('core', 'Search in date range') }}
 					<template #icon>
@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.global-search-custom-date-modal {
+.unified-search-custom-date-modal {
 	padding: 10px 20px 10px 20px;
 
 	h1 {
