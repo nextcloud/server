@@ -561,6 +561,7 @@ OC.L10N.register(
     "Create group" : "建立群組",
     "Group name" : "群組名稱",
     "Please enter a valid group name" : "請輸入有效的群組名稱",
+    "User group: {group}" : "使用者群組：{group}",
     "Failed to create group" : "建立群組失敗",
     "Sending…" : "正在傳送……",
     "Email sent" : "電子郵件已寄出",

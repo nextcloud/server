@@ -160,7 +160,7 @@ OC.L10N.register(
     "First day" : "Erster Tag",
     "Last day (inclusive)" : "Letzter Tag (Inklusiv)",
     "Short absence status" : "Kurzer Abwesenheitsstaus",
-    "Long absence Message" : "Langer Abwesenheitsstatus",
+    "Long absence Message" : "Lange Abwesenheitsnachricht",
     "Save" : "Speichern",
     "Disable absence" : "Abwesenheit deaktivieren",
     "Absence saved" : "Abwesenheit gespeichert",
