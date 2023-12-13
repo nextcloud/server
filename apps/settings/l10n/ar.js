@@ -203,6 +203,7 @@ OC.L10N.register(
     "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "الإصدار المستعمل من MaridaDB  هو  \"%s\" . بدايةً من نكست كلاود 21 فما فوق تتطلب استعمال الإصدار MariaDN 10.2 أو أحدث.",
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "الإصدار المستعمل من MySQL هو \"%s\" . بدايةً من نكست كلاود 21 فما فوق تتطلب استعمال الإصدار MySAL 8.0 أو  MariaDB 10.2 أو أحدث.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "الإصدار المستعمل من PostgreSQL هو \"%s\" . بدايةً من نكست كلاود 21 فما فوق تتطلب استعمال الإصدار PostgreSQL 9,6 أو أحدث.",
+    "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "يتم استخدام SQLite حاليًا كقاعدة بيانات خلفية. بالنسبة لعمليات التثبيت الأكبر حجمًا، نوصي بالتبديل إلى واجهة خلفية مختلفة لقاعدة البيانات. يوصى بهذا بشكل خاص عند استخدام عميل سطح المكتب لمزامنة الملفات. للانتقال إلى قاعدة بيانات أخرى، استخدم الأمر السطري: \n\"occ db:convert-type\".",
     "Unknown database platform" : "منصة قاعدة البيانات غير معلومة",
     "Architecture" : "معمار",
     "64-bit" : "64-بِت",
