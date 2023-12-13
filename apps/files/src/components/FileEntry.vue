@@ -27,12 +27,7 @@
 		:data-cy-files-list-row-name="source.basename"
 		:draggable="canDrag"
 		class="files-list__row"
-		@contextmenu="onRightClick"
-		@dragover="onDragOver"
-		@dragleave="onDragLeave"
-		@dragstart="onDragStart"
-		@dragend="onDragEnd"
-		@drop="onDrop">
+		v-on="rowListeners">
 		<!-- Failed indicator -->
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
@@ -110,7 +105,7 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
@@ -132,7 +127,7 @@ import logger from '../logger.js'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntry',
 
 	components: {
@@ -194,6 +189,26 @@ export default Vue.extend({
 	},
 
 	computed: {
+		/**
+		 * Conditionally add drag and drop listeners
+		 * Do not add drag start and over listeners on renaming to allow to drag and drop text
+		 */
+		rowListeners() {
+			const conditionals = this.isRenaming
+				? {}
+				: {
+					dragstart: this.onDragStart,
+					dragover: this.onDragOver,
+				}
+
+			return {
+				...conditionals,
+				contextmenu: this.onRightClick,
+				dragleave: this.onDragLeave,
+				dragend: this.onDragEnd,
+				drop: this.onDrop,
+			}
+		},
 		currentView(): View {
 			return this.$navigation.active as View
 		},
@@ -303,6 +318,10 @@ export default Vue.extend({
 		},
 
 		canDrag() {
+			if (this.isRenaming) {
+				return false
+			}
+
 			const canDrag = (node: Node): boolean => {
 				return (node?.permissions & Permission.UPDATE) !== 0
 			}
@@ -449,7 +468,12 @@ export default Vue.extend({
 			logger.debug('Drag ended')
 		},
 
-		async onDrop(event) {
+		async onDrop(event: DragEvent) {
+			// skip if native drop like text drag and drop from files names
+			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+				return
+			}
+
 			event.preventDefault()
 			event.stopPropagation()
 
