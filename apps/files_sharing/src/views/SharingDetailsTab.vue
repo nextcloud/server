@@ -305,24 +305,24 @@ export default {
 
 	computed: {
 		title() {
-			let title = t('files_sharing', 'Share with ')
-			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER) {
-				title = title + this.share.shareWithDisplayName
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK) {
-				title = t('files_sharing', 'Share link')
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
-				title += ` (${t('files_sharing', 'group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
-				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
-				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
-				title += ` (${t('files_sharing', 'remote group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
-				title += ` (${t('files_sharing', 'guest')})`
+			switch (this.share.type) {
+			case this.SHARE_TYPES.SHARE_TYPE_USER:
+				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+				return t('files_sharing', 'Share link')
+			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+				return t('files_sharing', 'Share with group')
+			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+				return t('files_sharing', 'Share in conversation')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE:
+				return t('files_sharing', 'Share with remote')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
+				return t('files_sharing', 'Share with remote group')
+			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+				return t('files_sharing', 'Share with guest')
+			default:
+				return t('files_sharing', 'Share with')
 			}
-
-			return title
 		},
 		/**
 		 * Can the sharee edit the shared file ?
