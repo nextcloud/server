@@ -201,6 +201,7 @@
     "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "正在使用 MariaDB 版本「%s」。Nextcloud 21 及更新版本不再支援此版本，並需要 MariaDB 10.2 或更新版本。",
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "正在使用 MySQL 版本「%s」。Nextcloud 21 及更新版本不再支援此版本，並需要 MySQL 8.0 或 MariaDB 10.2 或更新版本。",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "正在使用 PostgreSQL 版本「%s」。Nextcloud 21 及更新版本不再支援此版本，並需要 PostgreSQL 9.6 或更新版本。",
+    "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "目前使用 SQLite 作為後端資料庫。對於較大型的站台，我們建議您切換到其他資料庫後端。當使用桌面客戶端進行檔案同步時，我們更強烈建議您這麼做。若要遷移到其他資料庫，請使用命令列工具：「occ db:convert-type」。",
     "Unknown database platform" : "數據庫平台不詳",
     "Architecture" : "建築學",
     "64-bit" : "64 位元",
