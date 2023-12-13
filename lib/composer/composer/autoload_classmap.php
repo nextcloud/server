@@ -1230,6 +1230,7 @@ return array(
     'OC\\Core\\Migrations\\Version28000Date20230906104802' => $baseDir . '/core/Migrations/Version28000Date20230906104802.php',
     'OC\\Core\\Migrations\\Version28000Date20231004103301' => $baseDir . '/core/Migrations/Version28000Date20231004103301.php',
     'OC\\Core\\Migrations\\Version28000Date20231103104802' => $baseDir . '/core/Migrations/Version28000Date20231103104802.php',
+    'OC\\Core\\Migrations\\Version29000Date20231213104850' => $baseDir . '/core/Migrations/Version29000Date20231213104850.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
