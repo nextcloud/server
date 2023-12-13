@@ -55,13 +55,15 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
