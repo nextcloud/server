@@ -25,11 +25,14 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\Unit\Listener;
 
+use DateTimeImmutable;
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\CalDAV\Plugin;
+use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Listener\OutOfOfficeListener;
 use OCA\DAV\ServerFactory;
@@ -45,6 +48,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Tree;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Reader;
 use Test\TestCase;
 
 /**
@@ -55,20 +61,23 @@ class OutOfOfficeListenerTest extends TestCase {
 	private ServerFactory|MockObject $serverFactory;
 	private IConfig|MockObject $appConfig;
 	private LoggerInterface|MockObject $loggerInterface;
-	private OutOfOfficeListener $listener;
+	private MockObject|TimezoneService $timezoneService;
 	private IManager|MockObject $manager;
+	private OutOfOfficeListener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->serverFactory = $this->createMock(ServerFactory::class);
 		$this->appConfig = $this->createMock(IConfig::class);
+		$this->timezoneService = $this->createMock(TimezoneService::class);
 		$this->loggerInterface = $this->createMock(LoggerInterface::class);
 		$this->manager = $this->createMock(IManager::class);
 
 		$this->listener = new OutOfOfficeListener(
 			$this->serverFactory,
 			$this->appConfig,
+			$this->timezoneService,
 			$this->loggerInterface,
 			$this->manager
 		);
@@ -166,11 +175,15 @@ class OutOfOfficeListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleScheduling(): void {
+	public function testHandleSchedulingWithDefaultTimezone(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$data = $this->createMock(IOutOfOfficeData::class);
 		$data->method('getUser')->willReturn($user);
+		$data->method('getStartDate')
+			->willReturn((new DateTimeImmutable('2023-12-12T00:00:00Z'))->getTimestamp());
+		$data->method('getEndDate')
+			->willReturn((new DateTimeImmutable('2023-12-13T00:00:00Z'))->getTimestamp());
 		$davServer = $this->createMock(Server::class);
 		$invitationServer = $this->createMock(InvitationResponseServer::class);
 		$invitationServer->method('getServer')->willReturn($davServer);
@@ -195,12 +208,28 @@ class OutOfOfficeListenerTest extends TestCase {
 			->with('user123', 'dav', 'defaultCalendar', 'personal')
 			->willReturn('personal-1');
 		$calendar = $this->createMock(Calendar::class);
+		$this->timezoneService->expects(self::once())
+			->method('getUserTimezone')
+			->with('user123')
+			->willReturn('Europe/Prague');
 		$calendarHome->expects(self::once())
 			->method('getChild')
 			->with('personal-1')
 			->willReturn($calendar);
 		$calendar->expects(self::once())
-			->method('createFile');
+			->method('createFile')
+			->willReturnCallback(function ($name, $data) {
+				$vcalendar = Reader::read($data);
+				if (!($vcalendar instanceof VCalendar)) {
+					throw new InvalidArgumentException('Calendar data should be a VCALENDAR');
+				}
+				$vevent = $vcalendar->VEVENT;
+				if ($vevent === null || !($vevent instanceof VEvent)) {
+					throw new InvalidArgumentException('Calendar data should contain a VEVENT');
+				}
+				self::assertSame('Europe/Prague', $vevent->DTSTART['TZID']?->getValue());
+				self::assertSame('Europe/Prague', $vevent->DTEND['TZID']?->getValue());
+			});
 		$event = new OutOfOfficeScheduledEvent($data);
 
 		$this->listener->handle($event);
@@ -295,6 +324,10 @@ class OutOfOfficeListenerTest extends TestCase {
 		$user->method('getUID')->willReturn('user123');
 		$data = $this->createMock(IOutOfOfficeData::class);
 		$data->method('getUser')->willReturn($user);
+		$data->method('getStartDate')
+			->willReturn((new DateTimeImmutable('2023-12-12T00:00:00Z'))->getTimestamp());
+		$data->method('getEndDate')
+			->willReturn((new DateTimeImmutable('2023-12-14T00:00:00Z'))->getTimestamp());
 		$davServer = $this->createMock(Server::class);
 		$invitationServer = $this->createMock(InvitationResponseServer::class);
 		$invitationServer->method('getServer')->willReturn($davServer);
@@ -319,6 +352,13 @@ class OutOfOfficeListenerTest extends TestCase {
 			->with('user123', 'dav', 'defaultCalendar', 'personal')
 			->willReturn('personal-1');
 		$calendar = $this->createMock(Calendar::class);
+		$this->timezoneService->expects(self::once())
+			->method('getUserTimezone')
+			->with('user123')
+			->willReturn(null);
+		$this->timezoneService->expects(self::once())
+			->method('getDefaultTimezone')
+			->willReturn('Europe/Berlin');
 		$calendarHome->expects(self::once())
 			->method('getChild')
 			->with('personal-1')
@@ -327,17 +367,33 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getChild')
 			->willThrowException(new NotFound());
 		$calendar->expects(self::once())
-			->method('createFile');
+			->method('createFile')
+			->willReturnCallback(function ($name, $data) {
+				$vcalendar = Reader::read($data);
+				if (!($vcalendar instanceof VCalendar)) {
+					throw new InvalidArgumentException('Calendar data should be a VCALENDAR');
+				}
+				$vevent = $vcalendar->VEVENT;
+				if ($vevent === null || !($vevent instanceof VEvent)) {
+					throw new InvalidArgumentException('Calendar data should contain a VEVENT');
+				}
+				self::assertSame('Europe/Berlin', $vevent->DTSTART['TZID']?->getValue());
+				self::assertSame('Europe/Berlin', $vevent->DTEND['TZID']?->getValue());
+			});
 		$event = new OutOfOfficeChangedEvent($data);
 
 		$this->listener->handle($event);
 	}
 
-	public function testHandleChange(): void {
+	public function testHandleChangeWithoutTimezone(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$data = $this->createMock(IOutOfOfficeData::class);
 		$data->method('getUser')->willReturn($user);
+		$data->method('getStartDate')
+			->willReturn((new DateTimeImmutable('2023-01-12T00:00:00Z'))->getTimestamp());
+		$data->method('getEndDate')
+			->willReturn((new DateTimeImmutable('2023-12-14T00:00:00Z'))->getTimestamp());
 		$davServer = $this->createMock(Server::class);
 		$invitationServer = $this->createMock(InvitationResponseServer::class);
 		$invitationServer->method('getServer')->willReturn($davServer);
@@ -367,11 +423,31 @@ class OutOfOfficeListenerTest extends TestCase {
 			->with('personal-1')
 			->willReturn($calendar);
 		$eventNode = $this->createMock(CalendarObject::class);
+		$this->timezoneService->expects(self::once())
+			->method('getUserTimezone')
+			->with('user123')
+			->willReturn(null);
+		$this->timezoneService->expects(self::once())
+			->method('getDefaultTimezone')
+			->willReturn('UTC');
 		$calendar->expects(self::once())
 			->method('getChild')
 			->willReturn($eventNode);
 		$eventNode->expects(self::once())
-			->method('put');
+			->method('put')
+			->willReturnCallback(function ($data) {
+				$vcalendar = Reader::read($data);
+				if (!($vcalendar instanceof VCalendar)) {
+					throw new InvalidArgumentException('Calendar data should be a VCALENDAR');
+				}
+				$vevent = $vcalendar->VEVENT;
+				if ($vevent === null || !($vevent instanceof VEvent)) {
+					throw new InvalidArgumentException('Calendar data should contain a VEVENT');
+				}
+				// UTC datetimes are stored without a TZID
+				self::assertSame(null, $vevent->DTSTART['TZID']?->getValue());
+				self::assertSame(null, $vevent->DTEND['TZID']?->getValue());
+			});
 		$calendar->expects(self::never())
 			->method('createFile');
 		$event = new OutOfOfficeChangedEvent($data);
