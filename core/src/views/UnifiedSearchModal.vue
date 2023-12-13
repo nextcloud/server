@@ -56,6 +56,7 @@
 				<SearchableList :label-text="t('core', 'Search people')"
 					:search-list="userContacts"
 					:empty-content-text="t('core', 'Not found')"
+					@search-term-change="debouncedFilterContacts"
 					@item-selected="applyPersonFilter">
 					<template #trigger>
 						<NcButton>
@@ -193,12 +194,13 @@ export default {
 			filteredProviders: [],
 			searching: false,
 			searchQuery: '',
-			placesFilter: '',
+			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
 			results: [],
 			contacts: [],
 			debouncedFind: debounce(this.find, 300),
+			debouncedFilterContacts: debounce(this.filterContacts, 300),
 			showDateRangeModal: false,
 			internalIsVisible: false,
 		}
@@ -217,7 +219,7 @@ export default {
 
 				return {
 					show: isEmptySearch || hasNoResults,
-					text: this.searching && hasNoResults ? t('core', 'Searching …') : (isEmptySearch ? t('core', 'Start typing in search') : t('core', 'No matching results')),
+					text: this.searching && hasNoResults ? t('core', 'Searching …') : (isEmptySearch ? t('core', 'Start typing to search') : t('core', 'No matching results')),
 					icon: MagnifyIcon,
 				}
 			},
@@ -242,7 +244,7 @@ export default {
 			this.providers = providers
 			console.debug('Search providers', this.providers)
 		})
-		getContacts({ filter: '' }).then((contacts) => {
+		getContacts({ searchTerm: '' }).then((contacts) => {
 			this.contacts = this.mapContacts(contacts)
 			console.debug('Contacts', this.contacts)
 		})
@@ -362,7 +364,7 @@ export default {
 			})
 		},
 		filterContacts(query) {
-			getContacts({ filter: query }).then((contacts) => {
+			getContacts({ searchTerm: query }).then((contacts) => {
 				this.contacts = this.mapContacts(contacts)
 				console.debug(`Contacts filtered by ${query}`, this.contacts)
 			})

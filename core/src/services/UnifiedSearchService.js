@@ -22,6 +22,7 @@
 
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import { getCurrentUser } from '@nextcloud/auth'
 
 /**
  * Create a cancel token
@@ -103,5 +104,20 @@ export async function getContacts({ searchTerm }) {
 	const { data: { contacts } } = await axios.post(generateUrl('/contactsmenu/contacts'), {
 		filter: searchTerm,
 	})
+	/*
+	 * Add authenticated user to list of contacts for search filter
+	 * If authtenicated user is searching/filtering, do not add them to the list
+	 */
+	if (!searchTerm) {
+		let authenticatedUser = getCurrentUser()
+		authenticatedUser = {
+			id: authenticatedUser.uid,
+			fullName: 'Me',
+			emailAddresses: [],
+		  }
+		contacts.unshift(authenticatedUser)
+		return contacts
+	  }
+
 	return contacts
 }
