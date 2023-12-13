@@ -23,6 +23,7 @@ const path = require('path')
 
 module.exports = {
 	comments: {
+		comments: path.join(__dirname, 'apps/comments/src', 'comments.js'),
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
 		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
 		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),

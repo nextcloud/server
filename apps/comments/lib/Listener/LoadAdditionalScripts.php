@@ -39,7 +39,9 @@ class LoadAdditionalScripts implements IEventListener {
 			return;
 		}
 
-		// Adding init script for file list inline actions
+		// TODO: make sure to only include the sidebar script when
+		// we properly split it between files list and sidebar
+		Util::addScript(Application::APP_ID, 'comments');
 		Util::addInitScript(Application::APP_ID, 'init');
 	}
 }
