@@ -202,7 +202,6 @@
     "Search in" : "Leita í",
     "Filter in current view" : "Sía í núverandi sýn",
     "Searching …" : "Leita …",
-    "Start typing in search" : "Byrjaðu að skrifa til að leita",
     "No matching results" : "Engar samsvarandi niðurstöður",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Á milli ${this.dateFilter.startFrom.toLocaleDateString()} og ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Það er ekki stuðningur við þennan vafra",
@@ -430,6 +429,7 @@
     "Failed to authenticate, try again" : "Tókst ekki að auðkenna, prófaðu aftur",
     "The page could not be found on the server." : "Síðan fannst ekki á netþjóninum.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Gagnagrunnurinn er notaður fyrir færslulæsingu skráa. Til að auka afköst ættirðu að setja upp skyndiminni (með memcache) ef það er tiltækt. Skoðaðu {linkstart}hjálparskjölin ↗{linkend} til að sjá nánari upplýsingar.",
-    "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}"
+    "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}",
+    "Start typing in search" : "Byrjaðu að skrifa til að leita"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

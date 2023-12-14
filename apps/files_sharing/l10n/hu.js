@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Létrehozás",
     "Share" : "Megosztás",
     "Delete share" : "Megosztás törlése",
-    "Share with " : "Megosztás vele:",
+    "Share with" : "Megosztva a következővel",
     "Save share" : "Megosztás mentése",
     "Update share" : "Megosztás frissítése",
     "Others with access" : "Mások, akik hozzáféréssel rendelkeznek",
@@ -303,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Lejárati idő megkövetelése",
     "Password protect" : "Jelszavas védelem",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Frissítés"
+    "Update" : "Frissítés",
+    "Share with " : "Megosztás vele:"
 },
 "nplurals=2; plural=(n != 1);");

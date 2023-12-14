@@ -215,7 +215,6 @@
     "Search in" : "Шукати у",
     "Filter in current view" : "Фільтр поточного подання",
     "Searching …" : "Пошук ...",
-    "Start typing in search" : "Почніть шукати",
     "No matching results" : "Відсутні збіги",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Між ${this.dateFilter.startFrom.toLocaleDateString()} та ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Цей бравзер не підтримується",
@@ -451,6 +450,7 @@
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваша віддалена адреса була ідентифікована як \"{remoteAddress}\" і наразі щодо неї виконуються спроби грубого підбору паролів, відповідно виконання різних запитів відбувається уповільнено. Якщо віддалена адреса не є вашою адресою, це може свідчити про те, що проксі налаштовано неправильно. Додаткову інформацію можна знайти в {linkstart}документації ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "База даних використовується для транзакційного блокування файлів. Для підвищення продуктивності, будь ласка, налаштуйте кеш-пам'ять, якщо це можливо. Докладнішу інформацію наведено у ↗{linkend} документації{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 вже застаріла в Nextcloud 27. Для роботи Nextcloud 28 може знадобитися щонайменше PHP 8.1. Будь ласка, якнайшвидше оновіть систему до {linkstart}однієї з офіційно підтримуваних версій PHP, наданих групою розробників PHP ↗{linkend}.",
-    "Avatar of {fullName}" : "Аватарка {fullName}"
+    "Avatar of {fullName}" : "Аватарка {fullName}",
+    "Start typing in search" : "Почніть шукати"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

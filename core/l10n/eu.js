@@ -218,7 +218,6 @@ OC.L10N.register(
     "Search in" : "Bilatu hemen",
     "Filter in current view" : "Iragazi uneko ikuspegian",
     "Searching …" : "Bilatzen…",
-    "Start typing in search" : "Hasi bilaketa idazten",
     "No matching results" : "Ez dago bilaketaren emaitzarik",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "${this.dateFilter.startFrom.toLocaleDateString()} eta ${this.dateFilter.endAt.toLocaleDateString()} artean",
     "This browser is not supported" : "Nabigatzaile hau ez da onartzen",
@@ -454,6 +453,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Zure helbide urruna \"{remoteAddress}\" bezala identifikatua izan zen, eta gelditzera behartuta dago une honetan eskaera batzuen errendimendua gutxituz. Urrutiko helbidea zure helbidea ez bada, proxy bat ez dela behar bezala konfiguratu adierazten du. Informazio gehiago aurkitu daiteke {linkstart} dokumentazioan ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Datu-basea fitxategi transakzionalak blokeatzeko erabiltzen da. Errendimendua hobetzeko, mesedez konfiguratu memcache, eskuragarri badago. Ikusi {linkstart}dokumentazioa ↗{linkend} informazio gehiago lortzeko.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 zaharkituta dago Nextcloud 27-n. Baliteke Nextcloud 28-k gutxienez PHP 8.1 behar izatea. Mesedez, eguneratu {linkstart}PHP Group-ek ofizialki onartzen dituen ↗{linkend} PHP bertsio batera ahalik eta lasterren.",
-    "Avatar of {fullName}" : "{fullName}-(r)en avatarra"
+    "Avatar of {fullName}" : "{fullName}-(r)en avatarra",
+    "Start typing in search" : "Hasi bilaketa idazten"
 },
 "nplurals=2; plural=(n != 1);");

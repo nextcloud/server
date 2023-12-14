@@ -205,7 +205,6 @@ OC.L10N.register(
     "Search in" : "Sök i",
     "Filter in current view" : "Filtrera i aktuell vy",
     "Searching …" : "Söker ...",
-    "Start typing in search" : "Börja skriva i sökningen",
     "No matching results" : "Inga matchande resultat",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Mellan ${this.dateFilter.startFrom.toLocaleDateString()} och ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Den här webbläsaren stöds inte",
@@ -436,6 +435,7 @@ OC.L10N.register(
     "Failed to authenticate, try again" : "Misslyckades att autentisera, försök igen",
     "The page could not be found on the server." : "Sidan kunde inte hittas på servern.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databasen används till transaktionsbaserad fillåsning. För att förbättra prestandan, konfigurera memcache om tillgängligt. Se {linkstart}Dokumentationen ↗{linkend} för mer information.",
-    "Avatar of {fullName}" : "Avatar för {fullName}"
+    "Avatar of {fullName}" : "Avatar för {fullName}",
+    "Start typing in search" : "Börja skriva i sökningen"
 },
 "nplurals=2; plural=(n != 1);");

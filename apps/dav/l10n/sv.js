@@ -54,7 +54,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "En kalender-<strong>händelse</strong> modifierades",
     "A calendar <strong>to-do</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades",
     "Contact birthdays" : "Födelsedagar",
-    "Death of %s" : "Död av %s",
+    "Death of %s" : "%ss död ",
     "Untitled calendar" : "Namnlös kalender",
     "Calendar:" : "Kalender:",
     "Date:" : "Datum:",
