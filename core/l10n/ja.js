@@ -214,7 +214,6 @@ OC.L10N.register(
     "Not found" : "見つかりませんでした",
     "People" : "人間",
     "Searching …" : "検索しています…",
-    "Start typing in search" : "入力して検索を開始します",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "${this.dateFilter.startFrom.toLocaleDateString()} と ${this.dateFilter.endAt.toLocaleDateString()} の間",
     "This browser is not supported" : "お使いのブラウザーはサポートされていません",
     "Your browser is not supported. Please upgrade to a newer version or a supported one." : "お使いのブラウザーはサポート対象外です。新しいバージョンにアップグレードするかサポートされているブラウザーへ切り替えてください",
@@ -449,6 +448,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "あなたのIPアドレスは、\"{remoteAddress}\" として認識されており、現在ブルートフォース対策機能により様々なリクエストのパフォーマンスが低下しています。IPアドレスがあなたのアドレスでない場合、プロキシが正しく設定されていない可能性があります。詳細は{linkstart}ドキュメント{linkend}をご覧ください。",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "データベースは取引ファイルを見ることに使われています。パフォーマンスをあげるには、可能であればメモリーのキャッシュを設定してください。詳しくは {linkstart}こちらの文書↗{linkend}をご覧ください。",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 は Nextcloud 27 で非推奨になりました。Nextcloud 28 では少なくとも PHP 8.1 が必要になる場合があります。できるだけ早く、{linkstart}PHP グループ が提供する、正式にサポートされている PHP バージョンのいずれか↗{linkend} にアップグレードしてください。",
-    "Avatar of {fullName}" : "{fullName} のアバター"
+    "Avatar of {fullName}" : "{fullName} のアバター",
+    "Start typing in search" : "入力して検索を開始します"
 },
 "nplurals=1; plural=0;");

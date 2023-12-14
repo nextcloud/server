@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Создать",
     "Share" : "Поделиться",
     "Delete share" : "Удалить общий ресурс",
-    "Share with " : "Поделиться",
+    "Share with" : "Поделиться",
     "Save share" : "Сохранить общий ресурс",
     "Update share" : "Обновить общий ресурс",
     "Others with access" : "Другие пользователи, имеющие доступ",
@@ -302,6 +302,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Требуется срок действия",
     "Password protect" : "Защитить паролем",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Изменение"
+    "Update" : "Изменение",
+    "Share with " : "Поделиться"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -209,7 +209,6 @@ OC.L10N.register(
     "Create" : "Sortu",
     "Share" : "Partekatu",
     "Delete share" : "Ezabatu partekatzea",
-    "Share with " : "Partekatu honekin",
     "Save share" : "Gorde partekatzea",
     "Update share" : "Eguneratu partekatzea",
     "Others with access" : "Sarbidea duten beste erabiltzaileak",
@@ -302,6 +301,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Iraungitze-data betearazita",
     "Password protect" : "Babestu pasahitzarekin",
     "Science Mesh" : "Zientzia sarea",
-    "Update" : "Eguneratu"
+    "Update" : "Eguneratu",
+    "Share with " : "Partekatu honekin"
 },
 "nplurals=2; plural=(n != 1);");

@@ -217,7 +217,6 @@ OC.L10N.register(
     "Search in" : "Искать в",
     "Filter in current view" : "Фильтр в текущем виде",
     "Searching …" : "Поиск…",
-    "Start typing in search" : "Начните вводить текст в поиске",
     "No matching results" : "Нет совпадающих результатов",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Между ${this.dateFilter.startFrom.toLocaleDateString()} и ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Используемый браузер не поддерживается",
@@ -453,6 +452,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваш удаленный адрес был идентифицирован как \"{remoteAddress}\" и в данный момент заблокирован защитой от перебора, что замедляет выполнение различных запросов. Если удаленный адрес не является вашим адресом, это может свидетельствовать о том, что прокси-сервер настроен неправильно. Дополнительную информацию можно найти в {linkstart}документации ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "База данных используется для блокировки транзакционных файлов. Для повышения производительности, пожалуйста, настройте memcache, если таковой имеется. Смотрите документацию {linkstart} ↗ {linkend} для получения дополнительной информации.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 теперь устарел в Nextcloud 27. Для Nextcloud 28 может потребоваться как минимум PHP 8.1. Пожалуйста, обновитесь до {linkstart} одной из официально поддерживаемых версий PHP, предоставляемых PHP Group ↗ {linkend} как можно скорее.",
-    "Avatar of {fullName}" : "Изображение профиля {fullName}"
+    "Avatar of {fullName}" : "Изображение профиля {fullName}",
+    "Start typing in search" : "Начните вводить текст в поиске"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

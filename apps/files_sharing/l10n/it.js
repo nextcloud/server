@@ -209,7 +209,6 @@ OC.L10N.register(
     "Create" : "Crea",
     "Share" : "Condividi",
     "Delete share" : "Elimina condivisione",
-    "Share with " : "Condividi con",
     "Save share" : "Salva condivisione",
     "Update share" : "Aggiorna condivisione",
     "Others with access" : "Altri con accesso",
@@ -303,6 +302,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Data di scadenza applicata",
     "Password protect" : "Proteggi con password",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Aggiorna"
+    "Update" : "Aggiorna",
+    "Share with " : "Condividi con"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

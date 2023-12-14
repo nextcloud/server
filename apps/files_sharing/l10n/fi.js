@@ -197,6 +197,7 @@ OC.L10N.register(
     "Create" : "Luo",
     "Share" : "Jaa",
     "Delete share" : "Poista jako",
+    "Share with" : "Jaa",
     "Save share" : "Tallenna jako",
     "Update share" : "Päivitä jako",
     "Others with access" : "Muut, joilla on käyttöoikeus",

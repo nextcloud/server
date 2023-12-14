@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Ekle",
     "Share" : "Paylaş",
     "Delete share" : "Paylaşımı sil",
-    "Share with " : "Şunlarla paylaş",
+    "Share with" : "Şunlarla paylaş",
     "Save share" : "Paylaşımı kaydet",
     "Update share" : "Paylaşımı güncelle",
     "Others with access" : "Erişebilen diğer kişiler",
@@ -303,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Geçerlilik sonu tarihi dayatılıyor",
     "Password protect" : "Parola koruması",
     "Science Mesh" : "ScienceMesh",
-    "Update" : "Güncelle"
+    "Update" : "Güncelle",
+    "Share with " : "Şunlarla paylaş"
 },
 "nplurals=2; plural=(n > 1);");
