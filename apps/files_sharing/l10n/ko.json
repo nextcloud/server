@@ -205,7 +205,6 @@
     "Create" : "생성",
     "Share" : "공유",
     "Delete share" : "공유 삭제",
-    "Share with " : "공유 받는이:",
     "Save share" : "공유 저장",
     "Update share" : "공유 업데이트",
     "Others with access" : "접근할 수 있는 다른 사용자",
@@ -296,6 +295,7 @@
     "Allow resharing" : "재공유 허용",
     "Expiration date enforced" : "만료 날짜 적용",
     "Password protect" : "암호 보호",
-    "Update" : "업데이트"
+    "Update" : "업데이트",
+    "Share with " : "공유 받는이:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

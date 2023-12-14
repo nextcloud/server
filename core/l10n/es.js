@@ -216,7 +216,6 @@ OC.L10N.register(
     "People" : "Personas",
     "Search in" : "Buscar en",
     "Searching …" : "Buscando  …",
-    "Start typing in search" : "Empieza a escribir en la búsqueda",
     "No matching results" : "No hay coincidencias",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Entre ${this.dateFilter.startFrom.toLocaleDateString()} y ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Este navegador no está soportado",
@@ -452,6 +451,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Su dirección remota se ha identificado como \"{remoteAddress}\" y está ralentizando el rendimiento de varias solicitudes por fuera bruta. Si la dirección remota no es su dirección esto puede ser un indicador de que el proxy no se ha configurado correctamente. Puede encontrar más información en la {linkstart}documentación ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "La base de datos se utiliza para bloqueo transaccional de archivos. Para mejorar el rendimiento, por favor configure memcache, si está disponible. Vea la {linkstart}documentación ↗{linkend} para más información.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 es obsoleto en Nextcloud 27. Nextcloud 28 podría requerir al menos PHP 8.1. Por favor, actualice a {linkstart}una de las versiones oficialmente soportadas de PHP provistas por PHP Group ↗{linkend} tan pronto sea posible.",
-    "Avatar of {fullName}" : "Avatar de {fullName}"
+    "Avatar of {fullName}" : "Avatar de {fullName}",
+    "Start typing in search" : "Empieza a escribir en la búsqueda"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

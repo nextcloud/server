@@ -209,7 +209,6 @@ OC.L10N.register(
     "Create" : "‎Tạo‎",
     "Share" : "Chia sẻ",
     "Delete share" : "Xóa chia sẻ",
-    "Share with " : "Chia sẽ với",
     "Save share" : "Lưu chia sẻ",
     "Update share" : "Cập nhật chia sẻ",
     "Others with access" : "Những người khác có quyền truy cập",
@@ -302,6 +301,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Ngày hết hạn được thi hành",
     "Password protect" : "Mật khẩu bảo vệ",
     "Science Mesh" : "Lưới khoa học",
-    "Update" : "Cập nhật"
+    "Update" : "Cập nhật",
+    "Share with " : "Chia sẽ với"
 },
 "nplurals=1; plural=0;");
