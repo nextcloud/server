@@ -27,10 +27,11 @@
 				:key="view.id"
 				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
+				:exact="true"
 				:icon="view.iconClass"
+				:name="view.name"
 				:open="isExpanded(view)"
 				:pinned="view.sticky"
-				:name="view.name"
 				:to="generateToNavigation(view)"
 				@update:open="onToggleExpand(view)">
 				<!-- Sanitized icon as svg if provided -->
