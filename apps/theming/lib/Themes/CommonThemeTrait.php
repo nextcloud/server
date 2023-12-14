@@ -40,7 +40,7 @@ trait CommonThemeTrait {
 	 */
 	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
 		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground);
 		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
