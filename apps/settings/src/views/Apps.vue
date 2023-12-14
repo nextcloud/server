@@ -31,7 +31,7 @@
 					:to="{ name: 'apps' }"
 					:exact="true"
 					icon="icon-category-installed"
-					:name="t('settings', 'Your apps')" />
+					:name="$options.APPS_SECTION_ENUM.installed" />
 				<NcAppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
@@ -88,7 +88,9 @@
 		</NcAppNavigation>
 
 		<!-- Apps list -->
-		<NcAppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
+		<NcAppContent class="app-settings-content"
+			:class="{ 'icon-loading': loadingList }"
+			:page-heading="pageHeading">
 			<AppList :category="category" :app="app" :search="searchQuery" />
 		</NcAppContent>
 
@@ -206,6 +208,13 @@ export default {
 	},
 
 	computed: {
+		pageHeading() {
+			if (this.$options.APPS_SECTION_ENUM[this.category]) {
+				return this.$options.APPS_SECTION_ENUM[this.category]
+			}
+			const category = this.$store.getters.getCategoryById(this.category)
+			return category.displayName
+		},
 		loading() {
 			return this.$store.getters.loading('categories')
 		},
