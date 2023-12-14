@@ -4,7 +4,6 @@
 		:name="t('core', 'Unified search')"
 		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
-		:title="t('Unified search')"
 		@close="closeModal">
 		<CustomDateRangeModal :is-open="showDateRangeModal"
 			:class="'global-search__date-range'"
