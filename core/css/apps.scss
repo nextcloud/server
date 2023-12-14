@@ -121,6 +121,8 @@ kbd {
 #app-navigation:not(.vue) {
 	// We use fixed variable for the pill style as we have larger containers around nested list entries
 	--border-radius-pill: calc(var(--default-clickable-area) / 2);
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
 
 	width: variables.$navigation-width;
 	z-index: 500;
