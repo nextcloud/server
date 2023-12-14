@@ -1,7 +1,6 @@
 <template>
 	<NcModal id="unified-search"
 		ref="unifiedSearchModal"
-		:name="t('core', 'Unified search')"
 		:show.sync="internalIsVisible"
 		:clear-view-delay="0"
 		@close="closeModal">
@@ -11,7 +10,7 @@
 			@update:is-open="showDateRangeModal = $event" />
 		<!-- Unified search form -->
 		<div ref="unifiedSearch" class="unified-search-modal">
-			<h1>{{ t('core', 'Unified search') }}</h1>
+			<h2>{{ t('core', 'Unified search') }}</h2>
 			<NcInputField ref="searchInput"
 				:value.sync="searchQuery"
 				type="text"
