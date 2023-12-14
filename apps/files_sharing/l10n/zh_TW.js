@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "建立",
     "Share" : "分享",
     "Delete share" : "刪除分享",
-    "Share with " : "分享者",
+    "Share with" : "分享者",
     "Save share" : "儲存分享",
     "Update share" : "更新分享",
     "Others with access" : "有存取權的其他人",
@@ -303,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "已設定到期日",
     "Password protect" : "密碼保護",
     "Science Mesh" : "Science Mesh",
-    "Update" : "更新"
+    "Update" : "更新",
+    "Share with " : "分享者"
 },
 "nplurals=1; plural=0;");

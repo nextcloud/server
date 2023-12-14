@@ -218,7 +218,6 @@ OC.L10N.register(
     "Search in" : "搜尋",
     "Filter in current view" : "目前檢視裡的篩選條件",
     "Searching …" : "正在搜尋……",
-    "Start typing in search" : "開始輸入搜尋內容",
     "No matching results" : "無相符結果",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "介於 ${this.dateFilter.startFrom.toLocaleDateString()} 到 ${this.dateFilter.endAt.toLocaleDateString()} 間",
     "This browser is not supported" : "不支援此瀏覽器",
@@ -454,6 +453,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的遠端地址被識別為「{remoteAddress}」，且目前正受到強力限制，導致降低了各種請求的效能。若遠端地址不是您的地址，可能代表代理伺服器設定不正確。可以在{linkstart}文件 ↗{linkend}中找到進一步的資訊。",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "數據庫用於事務檔案鎖定。為提高性能，請配置 memcache（如果可用）。有關詳細信息，請參閱{linkstart}說明書 ↗{linkend}。",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27 現已棄用 PHP 8.0。Nextcloud 28 需要 PHP 8.1 或更高版本。請盡快升級到 {linkstart} PHP Group ↗{linkend} 提供的官方支持的 PHP 版本之一。",
-    "Avatar of {fullName}" : "{fullName} 的虛擬化身"
+    "Avatar of {fullName}" : "{fullName} 的虛擬化身",
+    "Start typing in search" : "開始輸入搜尋內容"
 },
 "nplurals=1; plural=0;");

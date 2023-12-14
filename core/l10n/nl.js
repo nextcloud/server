@@ -216,7 +216,6 @@ OC.L10N.register(
     "People" : "Mensen",
     "Search in" : "Zoek in",
     "Searching …" : "Zoeken ...",
-    "Start typing in search" : "Begin te typen in zoeken",
     "No matching results" : "Geen resultaten",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Tussen ${this.dateFilter.startFrom.toLocaleDateString()} en ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Deze browser wordt niet ondersteunt",
@@ -452,6 +451,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Je remote address is geregistreerd als \"{remoteAddress}\" en wordt op dit moment afgeremd ter bescherming van bruteforce aanvallen. Dit verlaagt de performantie van verschillende aanvragen. Als het remote address niet uw adres is kan dit wijzen op een verkeerd ingestelde proxy. Meer informatie hierover kan je in de {linkstart}documentatie vinden ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "De database wordt gebruikt voor transactionele file locking. Verbeter de prestaties door memcache te configureren indien beschikbaar. Voor meer informatie, bekijk {linkstart}documentation ↗{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 is verouderd binnen Nextcloud 27. Nextcloud 28 vereist mogelijks minstens PHP 8.1. Gelieve zo snel mogelijk te upgraden naar {linkstart} één van de officieel ondersteunde PHP versies voorzien door de PHP Group ↗{linkend}.",
-    "Avatar of {fullName}" : "Avatar van {fullName}"
+    "Avatar of {fullName}" : "Avatar van {fullName}",
+    "Start typing in search" : "Begin te typen in zoeken"
 },
 "nplurals=2; plural=(n != 1);");

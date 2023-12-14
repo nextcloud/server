@@ -201,6 +201,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Vpišite opombo za prejemnika",
     "Create" : "Ustvari",
     "Share" : "·Souporaba·",
+    "Share with" : "Omogoči souporabo …",
     "Others with access" : "Drugi z dostopom",
     "No other users with access found" : "Ni najdenih drugih uporabnikov z dostopom",
     "Toggle list of others with access to this directory" : "Preklopi seznam drugih z dostopom do te mape",

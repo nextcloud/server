@@ -154,6 +154,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Entajpu noton por la ricevonto",
     "Share" : "Kunhavigi",
     "Delete share" : "Forigi kunhavigon",
+    "Share with" : "Kunhavigi kun",
     "Unable to load the shares list" : "Ne eblas ricevi kunhavliston",
     "Expires {relativetime}" : "Senvalidiĝas {relativetime}",
     "this share just expired." : "Tiu kunhavo ĵus senvalidiĝis.",

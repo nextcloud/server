@@ -202,6 +202,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Você ainda não adicionou nenhuma informação",
     "{user} has not added any info yet" : "{user} ainda não adicionou nenhuma informação",
     "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de status do usuário, tente atualizar a página",
+    "Unified search" : "Pesquisa unificada",
     "Search apps, files, tags, messages" : "Procure por apps, arquivos, etiquetas, mensagens",
     "Search {types} …" : "Pesquisar {types}…",
     "Apps and Settings" : "Apps e Configurações",
@@ -215,8 +216,8 @@ OC.L10N.register(
     "Not found" : "Não encontrado",
     "People" : "Pessoas",
     "Search in" : "Procurar em",
+    "Filter in current view" : "Filtrar na visualização atual",
     "Searching …" : "Pesquisando...",
-    "Start typing in search" : "Comece a digitar em pesquisar",
     "No matching results" : "Nenhum resultado encontrado",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Entre ${this.dateFilter.startFrom.toLocaleDateString()} e ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Este navegador não é compatível",
@@ -452,6 +453,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Seu endereço remoto foi identificado como \"{remoteAddress}\" e está com aceleração de força bruta no momento, diminuindo o desempenho de várias solicitações. Se o endereço remoto não for o seu, isso pode ser uma indicação de que um proxy não está configurado corretamente. Mais informações podem ser encontradas na documentação {linkstart}↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "O banco de dados é usado para bloqueio de arquivo transacional. Para melhorar o desempenho, configure o memcache, se disponível. Consulte a {linkstart}documentação ↗{linkend} para obter mais informações.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "O PHP 8.0 agora está obsoleto no Nextcloud 27. O Nextcloud 28 pode exigir pelo menos o PHP 8.1. Atualize para {linkstart}uma das versões PHP oficialmente suportadas fornecidas pelo PHP Group ↗{linkend} assim que possível.",
-    "Avatar of {fullName}" : "Avatar of {fullName}"
+    "Avatar of {fullName}" : "Avatar of {fullName}",
+    "Start typing in search" : "Comece a digitar em pesquisar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

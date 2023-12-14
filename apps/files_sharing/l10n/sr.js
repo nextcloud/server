@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Креирање",
     "Share" : "Подели",
     "Delete share" : "Обриши дељење",
-    "Share with " : "Подели са",
+    "Share with" : "Подели са",
     "Save share" : "Сачувај дељење",
     "Update share" : "Ажурирај дељење",
     "Others with access" : "Остали са приступом",
@@ -303,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Захтевано постављање датума истека",
     "Password protect" : "Заштићено лозинком",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Ажурирај"
+    "Update" : "Ажурирај",
+    "Share with " : "Подели са"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

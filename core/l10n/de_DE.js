@@ -218,7 +218,6 @@ OC.L10N.register(
     "Search in" : "Suche in",
     "Filter in current view" : "Filter in aktueller Ansicht",
     "Searching …" : "Suche …",
-    "Start typing in search" : "Mit der Sucheingabe beginnen",
     "No matching results" : "Keine passenden Suchergebnisse",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Zwischen ${this.dateFilter.startFrom.toLocaleDateString()} und ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Dieser Browser wird nicht unterstützt",
@@ -454,6 +453,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ihre Remote-Adresse wurde als \"{remoteAddress}“ identifiziert und ist derzeit aufgrund eines mutmaßlichen Brute-Force-Angriffs gedrosselt, was die Geschwindigkeit verschiedener Anfragen verlangsamt. Wenn die Remote-Adresse nicht Ihre Adresse ist, kann dies ein Hinweis darauf sein, dass ein Proxy nicht richtig konfiguriert ist. Weitere Informationen finden Sie in der {linkstart}Dokumentation ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Die Datenbank wird zum Sperren von Transaktionsdateien verwendet. Um die Leistung zu verbessern, richten Sie bitte, sofern verfügbar, Memcache ein. Weitere Informationen finden Sie in der {linkstart}Dokumentation ↗{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 ist jetzt in Nextcloud 27 veraltet. Nextcloud 28 erfordert möglicherweise mindestens PHP 8.1. Bitte aktualisieren Sie so bald wie möglich auf {linkstart}eine der offiziell unterstützten PHP-Versionen, die von der PHP-Gruppe ↗{linkend} bereitgestellt werden.",
-    "Avatar of {fullName}" : "Avatar von {fullName}"
+    "Avatar of {fullName}" : "Avatar von {fullName}",
+    "Start typing in search" : "Mit der Sucheingabe beginnen"
 },
 "nplurals=2; plural=(n != 1);");

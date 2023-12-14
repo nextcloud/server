@@ -190,6 +190,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου",
     "Create" : "Δημιουργία",
     "Share" : "Διαμοιρασμός",
+    "Share with" : "Διαμοιρασμός με",
     "Others with access" : "Άλλοι με πρόσβαση",
     "No other users with access found" : "Δεν βρέθηκαν άλλοι χρήστες με πρόσβαση",
     "Toggle list of others with access to this directory" : "Εναλλαγή λίστας άλλων με πρόσβαση σε αυτόν τον κατάλογο",

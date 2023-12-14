@@ -218,7 +218,6 @@ OC.L10N.register(
     "Search in" : "Şurada aransın",
     "Filter in current view" : "Geçerli görünümü süz",
     "Searching …" : "Aranıyor…",
-    "Start typing in search" : "Aramak için yazmaya başlayın",
     "No matching results" : "Aramaya uyan bir sonuç bulunamadı",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "${this.dateFilter.startFrom.toLocaleDateString()} ile ${this.dateFilter.endAt.toLocaleDateString()} arasında",
     "This browser is not supported" : "Bu tarayıcı desteklenmiyor",
@@ -454,6 +453,7 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Uzak adresiniz \"{remoteAddress}\" olarak belirlendi ve şu anda çeşitli isteklerin yerine getirilmesini yavaşlatacak şekilde kaba kuvvet saldırısı nedeniyle kısıtlanıyor. Uzak adres sizin adresiniz değilse bu, vekil sunucusunun doğru şekilde yapılandırılmadığını gösteriyor olabilir. Ayrıntılı bilgi almak için {linkstart}belgelere ↗{linkend} bakabilirsiniz.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Veri tabanı, işlemsel dosya kilitleme için kullanılır. Başarımı yükseltmek için varsa lütfen memcache yapılandırmasını ayarlayın. Ayrıntılı bilgi almak için {linkstart}belgelere ↗{linkend} bakabilirsiniz.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 son olarak Nextcloud 27 sürümünde destekleniyor. Nextcloud 28 için en az PHP 8.1 gerekebilir. Lütfen olabilecek en kısa sürede {linkstart} PHP Group tarafından sağlanan resmi olarak desteklenen PHP sürümlerinden birine↗{linkend}  yükseltin.",
-    "Avatar of {fullName}" : "{fullName} avatarı"
+    "Avatar of {fullName}" : "{fullName} avatarı",
+    "Start typing in search" : "Aramak için yazmaya başlayın"
 },
 "nplurals=2; plural=(n > 1);");

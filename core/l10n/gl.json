@@ -216,7 +216,6 @@
     "Search in" : "Buscar en",
     "Filter in current view" : "Filtrar na vista actual",
     "Searching …" : "Buscando…",
-    "Start typing in search" : "Comece a escribir na busca",
     "No matching results" : "Non hai resultados coincidentes",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Entre ${this.dateFilter.startFrom.toLocaleDateString()} e ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Este navegador non é compatíbel",
@@ -452,6 +451,7 @@
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "O seu enderezo remoto foi identificado como «{remoteAddress}» e neste momento está estrangulado por forza bruta, o que reduce o rendemento de varias solicitudes. Se o enderezo remoto non é o seu enderezo, isto pode ser unha indicación de que un proxy non está configurado correctamente. Pode atopar máis información na {linkstart}documentación ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "A base de datos úsase para o bloqueo de ficheiros transaccionais. Para mellorar o rendemento, configure Memcache, se está dispoñíbel. Consulte a {linkstart}documentación ↗{linkend} para obter máis información.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 é obsoleto en Nextcloud 27. Nextcloud 28 pode precisar polo menos PHP 8.1. Actualice a {linkstart}unha das versións de PHP oficialmente compatíbeis fornecidas polo Grupo PHP ↗{linkend} o antes posíbel.",
-    "Avatar of {fullName}" : "Avatar de {fullName}"
+    "Avatar of {fullName}" : "Avatar de {fullName}",
+    "Start typing in search" : "Comece a escribir na busca"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

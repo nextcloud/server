@@ -216,7 +216,6 @@
     "Search in" : "Претражи у",
     "Filter in current view" : "Филтрирај у текућем погледу",
     "Searching …" : "Тражим…",
-    "Start typing in search" : "Почните да куцате у претрази",
     "No matching results" : "Претрага није дала резултате",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Између ${this.dateFilter.startFrom.toLocaleDateString()} и ${this.dateFilter.endAt.toLocaleDateString()}",
     "This browser is not supported" : "Овај веб читач није подржан",
@@ -452,6 +451,7 @@
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваша удаљена адреса је идентификована као „{remoteAddress}” и тренутно је пригушена због напада грубом силом чиме се успоравају перформансе разних захтева. Ако удаљена адреса није ваша, ово може бити знак да прокси није исправно подешен. Више информација може да се пронађе у {linkstart}документацији ↗{linkend}.”",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "База података се користи за трансакционо закључавање фајлова. Да бисте побољшали перформансе, молимо вас да конфигуришете memcache, ако је то могуће. За више информација, погледајте {linkstart}документацију ↗{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 је сада застарео у Nextcloud 27. Nextcloud 28 може да захтева барем PHP 8.1. Молимо вас да ажурирате на {linkstart}једну од званично подржаних PHP верзија које обезбеђује PHP Група ↗{linkend} што је пре могуће.",
-    "Avatar of {fullName}" : "Аватар корисника {fullName}"
+    "Avatar of {fullName}" : "Аватар корисника {fullName}",
+    "Start typing in search" : "Почните да куцате у претрази"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
