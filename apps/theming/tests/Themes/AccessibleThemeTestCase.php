@@ -46,6 +46,26 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				3.0,
 			],
+			'status color elements on background' => [
+				[
+					'--color-error',
+					'--color-error-hover',
+					'--color-warning',
+					'--color-warning-hover',
+					'--color-info',
+					'--color-info-hover',
+					'--color-success',
+					'--color-success-hover',
+				],
+				[
+					'--color-main-background',
+					'--color-background-hover',
+					'--color-background-dark',
+					'--color-background-darker',
+					'--color-main-background-blur',
+				],
+				3.0,
+			],
 			'primary-element-text' => [
 				[
 					'--color-primary-element-text',
@@ -92,6 +112,21 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				4.5,
 			],
+			'status-text' => [
+				[
+					'--color-error-text',
+					'--color-warning-text',
+					'--color-success-text',
+					'--color-info-text',
+				],
+				[
+					'--color-main-background',
+					'--color-background-hover',
+					'--color-background-dark',
+					'--color-main-background-blur',
+				],
+				4.5,
+			],
 		];
 	}
 
@@ -108,7 +143,7 @@ class AccessibleThemeTestCase extends TestCase {
 		$variables = $this->theme->getCSSVariables();
 
 		// Blur effect does not work so we mockup the color - worst supported case is the default "clouds" background image (on dark themes the clouds with white color are bad on bright themes the primary color as sky is bad)
-		$variables['--color-main-background-blur'] = $this->util->mix($variables['--color-main-background'], $this->util->isBrightColor($variables['--color-main-background']) ? $variables['--color-primary'] : '#ffffff', 75);
+		$variables['--color-main-background-blur'] = $this->util->mix($variables['--color-main-background'], $this->util->isBrightColor($variables['--color-main-background']) ? '#000000' : '#ffffff', 75);
 
 		foreach ($backgroundColors as $background) {
 			$this->assertStringStartsWith('#', $variables[$background], 'Is not a plain color variable - consider to remove or fix this test');
