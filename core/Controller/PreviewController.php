@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use OC\Files\SymlinkManager;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -42,6 +43,12 @@ use OCP\IRequest;
 use OCP\Preview\IMimeIconProvider;
 
 class PreviewController extends Controller {
+	private const SYMLINK_PREVIEW_ICON_PATH = '/core/img/filetypes/link.svg';
+	/**
+	 * @var SymlinkManager
+	 */
+	private $symlinkManager;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -51,6 +58,8 @@ class PreviewController extends Controller {
 		private IMimeIconProvider $mimeIconProvider,
 	) {
 		parent::__construct($appName, $request);
+
+		$this->symlinkManager = new SymlinkManager();
 	}
 
 	/**
@@ -166,6 +175,14 @@ class PreviewController extends Controller {
 			$attributes = $share->getAttributes();
 			if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
+			}
+		}
+
+		if ($this->symlinkManager->isSymlink($node)) {
+			if ($url = \OC::$server->get(\OCP\IURLGenerator::class)->getAbsoluteURL(
+				self::SYMLINK_PREVIEW_ICON_PATH
+			)) {
+				return new RedirectResponse($url);
 			}
 		}
 
