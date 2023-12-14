@@ -56,6 +56,7 @@ class SymlinkPlugin extends ServerPlugin {
 		$server->on('method:PUT', [$this, 'httpPut']);
 		$server->on('method:DELETE', [$this, 'httpDelete']);
 		$server->on('afterMove', [$this, 'afterMove']);
+		$server->on('afterCopy', [$this, 'afterCopy']);
 
 		$this->server = $server;
 	}
@@ -117,7 +118,7 @@ class SymlinkPlugin extends ServerPlugin {
 		return true;
 	}
 
-	public function afterMove(string $source, string $destination) {
+	public function afterMove(string $source, string $destination): void {
 		// source node does not exist anymore, thus use still existing parent
 		$sourceParentNode = dirname($source);
 		$sourceParentNode = $this->server->tree->getNodeForPath($sourceParentNode);
@@ -143,6 +144,26 @@ class SymlinkPlugin extends ServerPlugin {
 		} elseif ($this->symlinkManager->isSymlink($destinationInfo)) {
 			// source was not a symlink, but destination was a symlink before
 			$this->symlinkManager->deleteSymlink($destinationInfo);
+		}
+	}
+
+	public function afterCopy(string $source, string $destination): void {
+		$sourceNode = $this->server->tree->getNodeForPath($source);
+		if (!$sourceNode instanceof \OCA\DAV\Connector\Sabre\Node) {
+			throw new \Sabre\DAV\Exception\NotImplemented(
+				'Unable to check if copied file is a symlink!');
+		}
+		$destinationNode = $this->server->tree->getNodeForPath($destination);
+		if (!$destinationNode instanceof \OCA\DAV\Connector\Sabre\Node) {
+			throw new \Sabre\DAV\Exception\NotImplemented(
+				'Unable to set symlink information on copy destination!');
+		}
+
+		$sourceInfo = $sourceNode->getFileInfo();
+		$destinationInfo = $destinationNode->getFileInfo();
+
+		if ($this->symlinkManager->isSymlink($sourceInfo)) {
+			$this->symlinkManager->storeSymlink($destinationInfo);
 		}
 	}
 }
