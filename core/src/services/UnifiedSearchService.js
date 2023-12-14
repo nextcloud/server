@@ -112,7 +112,7 @@ export async function getContacts({ searchTerm }) {
 		let authenticatedUser = getCurrentUser()
 		authenticatedUser = {
 			id: authenticatedUser.uid,
-			fullName: 'Me',
+			fullName: authenticatedUser.displayName,
 			emailAddresses: [],
 		  }
 		contacts.unshift(authenticatedUser)
