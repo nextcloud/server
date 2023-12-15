@@ -27,8 +27,6 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Service;
 
-use OCA\DAV\CalDAV\Status\Status as CalendarStatus;
-use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -89,8 +87,7 @@ class StatusService {
 		private PredefinedStatusService $predefinedStatusService,
 		private IEmojiHelper $emojiHelper,
 		private IConfig $config,
-		private IUserManager $userManager,
-		private CalendarStatusService $calendarStatusService) {
+		private IUserManager $userManager) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -557,31 +554,5 @@ class StatusService {
 
 		// For users that matched restore the previous status
 		$this->mapper->restoreBackupStatuses($restoreIds);
-	}
-
-	/**
-	 * Calculate a users' status according to their calendar events
-	 *
-	 * There are 4 predefined types of FBTYPE - 'FREE', 'BUSY', 'BUSY-UNAVAILABLE', 'BUSY-TENTATIVE',
-	 * but 'X-' properties are possible
-	 *
-	 * @link https://icalendar.org/iCalendar-RFC-5545/3-2-9-free-busy-time-type.html
-	 *
-	 * The status will be changed for types
-	 *  - 'BUSY'
-	 *  - 'BUSY-TENTATIVE' (ex.: an event has been accepted tentatively)
-	 * and all FREEBUSY components without a type (implicitly a 'BUSY' status)
-	 *
-	 * 'X-' properties and BUSY-UNAVAILABLE is not handled
-	 *
-	 * @param string $userId
-	 * @return CalendarStatus|null
-	 */
-	public function getCalendarStatus(string $userId): ?CalendarStatus {
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			return null;
-		}
-		return $this->calendarStatusService->processCalendarAvailability($user);
 	}
 }
