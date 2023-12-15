@@ -89,7 +89,7 @@ class UserStatusAutomation extends TimedJob {
 			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no valid availability rules and no OOO data set');
 			$this->jobList->remove(self::class, $argument);
 			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
-			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_VACATION, IUserStatus::DND);
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 			return;
 		}
 
@@ -227,7 +227,7 @@ class UserStatusAutomation extends TimedJob {
 		if(empty($ooo)) {
 			// Reset the user status if the absence doesn't exist
 			$this->logger->debug('User has no OOO period in effect, reverting DND status if applicable');
-			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_VACATION, IUserStatus::DND);
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 			// We need to also run the availability automation
 			return true;
 		}
@@ -235,7 +235,7 @@ class UserStatusAutomation extends TimedJob {
 		if(!$this->coordinator->isInEffect($ooo)) {
 			// Reset the user status if the absence is (no longer) in effect
 			$this->logger->debug('User has no OOO period in effect, reverting DND status if applicable');
-			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_VACATION, IUserStatus::DND);
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 
 			if($ooo->getStartDate() > $this->time->getTime()) {
 				// Set the next run to take place at the start of the ooo period if it is in the future
@@ -250,7 +250,7 @@ class UserStatusAutomation extends TimedJob {
 		// Revert both a possible 'CALL - away' and 'office hours - DND' status
 		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_CALL, IUserStatus::DND);
 		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
-		$this->manager->setUserStatus($user->getUID(), IUserStatus::MESSAGE_VACATION, IUserStatus::DND, true, $ooo->getShortMessage());
+		$this->manager->setUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
 		// Run at the end of an ooo period to return to availability / regular user status
 		// If it's overwritten by a custom status in the meantime, there's nothing we can do about it
 		$this->setLastRunToNextToggleTime($user->getUID(), $ooo->getEndDate());
