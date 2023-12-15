@@ -1,13 +1,13 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Hi ha disponible la versió {version}. Obteniu més informació sobre com aplicar l'actualització.",
+    "{version} is available. Get more information on how to update." : "{version} ja està disponible. Obteniu més informació sobre com aplicar l'actualització.",
     "Channel updated" : "S'ha actualitzat el canal",
     "Web updater is disabled" : "L'actualitzador web està inhabilitat",
     "Update notifications" : "Notificacions d'actualització",
     "The update server could not be reached since %d days to check for new updates." : "No s'ha pogut accedir al servidor d'actualitzacions des de fa %d dies per a comprovar si hi ha actualitzacions noves.",
     "Please check the Nextcloud and server log files for errors." : "Consulteu els fitxers de registre del servidor i del Nextcloud per a detectar errors.",
-    "Update to %1$s is available." : "Hi ha disponible l'actualització a la versió %1$s.",
+    "Update to %1$s is available." : "Hi ha disponible l'actualització a %1$s.",
     "Update to {serverAndVersion} is available." : "Hi ha disponible l'actualització a {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Hi ha disponible l'actualització a la versió %s per a {app}.",
     "Update notification" : "Notificació d'actualització",

@@ -90,6 +90,7 @@ OC.L10N.register(
     "Share" : "Compartilhar",
     "Show hidden files" : "Mostrar arquivos ocultos",
     "Case sensitive file system" : "Sistema de arquivos sensível a maiúsculas",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Desativá-lo permitirá usar um sistema de arquivos que não diferencia maiúsculas de minúsculas, mas acarretará uma penalidade de desempenho",
     "Verify ACL access when listing files" : "Verifique o acesso da ACL ao listar arquivos",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Verifique as ACLs de cada arquivo ou pasta dentro de um diretório para filtrar itens nos quais o usuário não tem permissão de leitura. Vem com uma penalidade de desempenho",
     "Timeout" : "Tempo limite",
