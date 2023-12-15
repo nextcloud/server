@@ -132,6 +132,7 @@ OC.L10N.register(
     "Storage location" : "Krātuves atrašanās vieta",
     "Last login" : "Pēdējā pieteikšanās",
     "Edit" : "Rediģēt",
+    "Visibility" : "Redzamība",
     "Show last login" : "Rādīt pēdējo autorizāciju",
     "Send email" : "Sūtīt e-pastu",
     "Default quota" : "Apjoms pēc noklusējuma",
