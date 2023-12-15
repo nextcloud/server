@@ -84,7 +84,7 @@ export const action = new FileAction({
 			return null
 		}
 
-		triggerDownload(node.source)
+		triggerDownload(node.encodedSource)
 		return null
 	},
 
