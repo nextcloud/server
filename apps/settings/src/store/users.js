@@ -32,6 +32,7 @@ import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
 import logger from '../logger.js'
+import { parseFileSize } from "@nextcloud/files"
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -227,7 +228,7 @@ const mutations = {
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
