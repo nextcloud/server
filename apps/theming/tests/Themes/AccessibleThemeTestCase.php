@@ -47,7 +47,10 @@ class AccessibleThemeTestCase extends TestCase {
 				3.0,
 			],
 			'primary-element-text' => [
-				['--color-primary-element-text'],
+				[
+					'--color-primary-element-text',
+					'--color-primary-element-text-dark',
+				],
 				[
 					'--color-primary-element',
 					'--color-primary-element-hover',
@@ -96,8 +99,11 @@ class AccessibleThemeTestCase extends TestCase {
 	 * @dataProvider dataAccessibilityPairs
 	 */
 	public function testAccessibilityOfVariables($mainColors, $backgroundColors, $minContrast) {
-		$this->assertNotNull($this->theme, 'You need to setup $this->theme in your setUp function');
-		$this->assertNotNull($this->util, 'You need to setup $this->util in your setUp function');
+		if (!isset($this->theme)) {
+			$this->markTestSkipped('You need to setup $this->theme in your setUp function');
+		} elseif (!isset($this->util)) {
+			$this->markTestSkipped('You need to setup $this->util in your setUp function');
+		}
 
 		$variables = $this->theme->getCSSVariables();
 
