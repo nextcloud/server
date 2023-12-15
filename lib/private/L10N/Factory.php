@@ -58,6 +58,12 @@ class Factory implements IFactory {
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
 
+	public const RTL_LANGUAGES = [
+		'ae', 'ar', 'arc', 'arz', 'bcc', 'bqi', 'ckb', 'dv', 'fa', 'glk',
+		'ha', 'he', 'khw', 'ks', 'ku', 'mzn', 'nqo', 'pnb', 'ps', 'sd', 'ug',
+		'ur', 'uzs', 'yi',
+	];
+
 	private ICache $cache;
 
 	public function __construct(
@@ -362,6 +368,16 @@ class Factory implements IFactory {
 
 		$languages = $this->findAvailableLanguages($app);
 		return in_array($lang, $languages);
+	}
+
+
+	public function getLanguageDirectionFromLocale(string $locale): string
+	{
+		if (in_array($locale, self::RTL_LANGUAGES)) {
+			return 'rtl';
+		}
+
+		return 'ltr';
 	}
 
 	public function getLanguageIterator(?IUser $user = null): ILanguageIterator {

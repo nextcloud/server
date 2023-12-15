@@ -193,13 +193,15 @@ class TemplateLayout extends \OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-		// Send the language and the locale to our layouts
+		// Send the language, locale, and direction to our layouts
 		$lang = \OC::$server->get(IFactory::class)->findLanguage();
 		$locale = \OC::$server->get(IFactory::class)->findLocale($lang);
+		$direction = \OC::$server->getL10NFactory()->getLanguageDirectionFromLocale($locale);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
 		$this->assign('locale', $locale);
+		$this->assign('direction', $direction);
 
 		if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
