@@ -202,6 +202,7 @@ OC.L10N.register(
     "You have not added any info yet" : "您尚未添加任何信息",
     "{user} has not added any info yet" : "{user} 尚未添加任何信息",
     "Error opening the user status modal, try hard refreshing the page" : "打开用户状态模块时出错，请努力刷新页面",
+    "Unified search" : "统一搜索",
     "Search apps, files, tags, messages" : "搜索应用程序、文件、标签，信息",
     "Search {types} …" : "搜索 {类型} …",
     "Apps and Settings" : "应用程序以及设置",
