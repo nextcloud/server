@@ -65,7 +65,7 @@
 
 		<NcModal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
-				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
+				<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
 				<ol class="panels">
 					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
 						<input :id="'status-checkbox-' + status"
@@ -101,7 +101,7 @@
 				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
 				<div v-if="statuses.weather && isStatusActive('weather')">
-					<h3>{{ t('dashboard', 'Weather service') }}</h3>
+					<h2>{{ t('dashboard', 'Weather service') }}</h2>
 					<p>
 						{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
 					</p>
@@ -668,12 +668,9 @@ export default {
 		}
 	}
 
-	h3 {
+	h2 {
 		font-weight: bold;
-
-		&:not(:first-of-type) {
-			margin-top: 64px;
-		}
+		margin-top: 12px;
 	}
 
 	// Adjust design of 'Get more widgets' button
