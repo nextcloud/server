@@ -120,6 +120,7 @@
 <script lang='ts'>
 import { debounce } from 'debounce'
 import { formatFileSize } from '@nextcloud/files'
+import { encodePath } from '@nextcloud/paths'
 import { Fragment } from 'vue-frag'
 import { join, extname } from 'path'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -301,8 +302,10 @@ export default Vue.extend({
 				}
 			}
 
+			const encodedSource = origin + encodePath(this.source.source.slice(origin.length))
 			return {
-				href: this.source.source,
+				download: '',
+				href: encodedSource,
 				// TODO: Use first action title ?
 				title: this.t('files', 'Download file {name}', { name: this.displayName }),
 			}
