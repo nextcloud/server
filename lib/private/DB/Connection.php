@@ -79,6 +79,8 @@ class Connection extends PrimaryReadReplicaConnection {
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;
 
+	protected ?float $transactionActiveSince = null;
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
@@ -306,6 +308,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			// FIXME:  Improve to log the actual target db host
 			$isPrimary = $this->connections['primary'] === $this->_conn;
 			$prefix .= ' ' . ($isPrimary === true ? 'primary' : 'replica') . ' ';
+			$prefix .= ' ' . $this->getTransactionNestingLevel() . ' ';
 
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
@@ -615,6 +618,37 @@ class Connection extends PrimaryReadReplicaConnection {
 		$after = $this->isConnectedToPrimary();
 		if (!$before && $after) {
 			$this->logger->debug('Switched to primary database', ['exception' => new \Exception()]);
+		}
+		return $result;
+	}
+
+	public function beginTransaction() {
+		if (!$this->inTransaction()) {
+			$this->transactionActiveSince = microtime(true);
+		}
+		return parent::beginTransaction();
+	}
+
+	public function commit() {
+		$result = parent::commit();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction')]);
+			}
+		}
+		return $result;
+	}
+
+	public function rollBack() {
+		$result = parent::rollBack();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+			}
 		}
 		return $result;
 	}
