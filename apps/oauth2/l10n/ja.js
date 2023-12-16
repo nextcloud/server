@@ -14,8 +14,8 @@ OC.L10N.register(
     "Secret key" : "シークレットキー",
     "Add client" : "クライアントの追加",
     "Add" : "追加",
-    "Show client secret" : "クライアントシークレットキーを表示",
     "Delete" : "削除",
+    "Show client secret" : "クライアントシークレットキーを表示",
     "Secret" : "シークレットキー"
 },
 "nplurals=1; plural=0;");

@@ -319,9 +319,7 @@ OC.L10N.register(
     "Connect to your account" : "Conectate a tu cuenta",
     "Please log in before granting %1$s access to your %2$s account." : "Inicia sesión antes de otorgar acceso a %1$s a tu cuenta de %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si no estás intentando configurar un nuevo dispositivo o aplicación, alguien está tratando de engañarte para que les otorgues acceso a tus datos. En este caso, no continúes y, en su lugar, contacta a tu administrador del sistema.",
-    "App token" : "Ficha de la aplicación",
     "Grant access" : "Conceder acceso",
-    "Alternative log in using app token" : "Inicio de sesión alternativo usando una ficha de aplicación",
     "Account access" : "Acceo de cuenta",
     "Currently logged in as %1$s (%2$s)." : "Actualmente iniciado sesión como %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Estás a punto de otorgar acceso a %1$s a tu cuenta de %2$s.",
@@ -422,6 +420,8 @@ OC.L10N.register(
     "Authentication required" : "Se requiere autenticación",
     "Failed to authenticate, try again" : "Falla en la autenticación, por favor reintentalo",
     "The page could not be found on the server." : "No se pudo encontrar la página en el servidor.",
+    "App token" : "Ficha de la aplicación",
+    "Alternative log in using app token" : "Inicio de sesión alternativo usando una ficha de aplicación",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "La base de datos se utiliza para el bloqueo de archivos transaccional. Para mejorar el rendimiento, configure memcache si está disponible. Consulte la {linkstart}documentación ↗{linkend} para obtener más información.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 está obsoleto en Nextcloud 27. Nextcloud 28 puede requerir al menos PHP 8.1. Actualice a {linkstart}una de las versiones de PHP admitidas oficialmente proporcionadas por el Grupo PHP ↗{linkend} lo antes posible.",
     "Avatar of {fullName}" : "Avatar de {fullName}"

@@ -330,9 +330,7 @@
     "Connect to your account" : "Tengdu við notandaaðganginn þinn",
     "Please log in before granting %1$s access to your %2$s account." : "Skráðu þig inn áður en þú leyfir %1$s aðgang að %2$s notandaaðgangnum þínum.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ef þú ert ekki að reyna að setja upp nýtt tæki eða forrit, þá er einhver annar að reyna að gabba þig til að gefa þeim aðgang að gögnunum þínum. Ef svo er, skaltu ekki halda áfram í þessu ferli og hafa strax samband við kerfisstjórann þinn.",
-    "App token" : "Teikn forrits",
     "Grant access" : "Veita aðgengi",
-    "Alternative log in using app token" : "Önnur innskráning með forritsteikni",
     "Account access" : "Aðgangur að notandaaðgangi",
     "Currently logged in as %1$s (%2$s)." : "Í augnablikinu er skráð inn sem %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Þú ert að fara að leyfa \"%1$s\" aðgang að %2$s notandaaðgangnum þínum.",
@@ -428,6 +426,8 @@
     "Authentication required" : "Auðkenningar krafist",
     "Failed to authenticate, try again" : "Tókst ekki að auðkenna, prófaðu aftur",
     "The page could not be found on the server." : "Síðan fannst ekki á netþjóninum.",
+    "App token" : "Teikn forrits",
+    "Alternative log in using app token" : "Önnur innskráning með forritsteikni",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Gagnagrunnurinn er notaður fyrir færslulæsingu skráa. Til að auka afköst ættirðu að setja upp skyndiminni (með memcache) ef það er tiltækt. Skoðaðu {linkstart}hjálparskjölin ↗{linkend} til að sjá nánari upplýsingar.",
     "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}",
     "Start typing in search" : "Byrjaðu að skrifa til að leita"

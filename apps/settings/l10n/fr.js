@@ -507,7 +507,7 @@ OC.L10N.register(
     "Edit" : "Editer",
     "User management settings" : "Paramètres de la gestion utilisateurs",
     "Visibility" : "Visibilité",
-    "Show language" : "Montrer la langue utilisée",
+    "Show language" : "Afficher la langue",
     "Show user backend" : "Afficher l'origine du compte",
     "Show storage path" : "Afficher l'emplacement du stockage",
     "Show last login" : "Afficher la dernière connexion",

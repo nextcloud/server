@@ -271,9 +271,7 @@
     "Connect to your account" : "Povežite se sa svojim računom",
     "Please log in before granting %1$s access to your %2$s account." : "Prijavite se prije odobravanja pristupa %1$s svom računu %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ako ne pokušavate postaviti novi uređaj ili aplikaciju, netko vas pokušava navesti da mu odobrite pristup svojim podacima. U tom slučaju nemojte nastaviti, već se obratite administratoru sustava.",
-    "App token" : "Aplikacijski token",
     "Grant access" : "Dodijeli pristup",
-    "Alternative log in using app token" : "Alternativna prijava s pomoću aplikacijskog tokena",
     "Account access" : "Pristup računu",
     "You are about to grant %1$s access to your %2$s account." : "Dopustit ćete osobi %1$s pristup vašem računu %2$s.",
     "Account connected" : "Račun povezan",
@@ -356,6 +354,8 @@
     "Copy to {folder}" : "Kopiraj u {folder}",
     "Move to {folder}" : "Premjesti u {folder}",
     "Authentication required" : "Potrebna autentifikacija",
-    "Failed to authenticate, try again" : "Pogreška pri provjeri autentičnosti, pokušajte ponovo"
+    "Failed to authenticate, try again" : "Pogreška pri provjeri autentičnosti, pokušajte ponovo",
+    "App token" : "Aplikacijski token",
+    "Alternative log in using app token" : "Alternativna prijava s pomoću aplikacijskog tokena"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

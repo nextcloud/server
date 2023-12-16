@@ -262,9 +262,7 @@ OC.L10N.register(
     "Connect to your account" : "Hubungkan ke akun Anda",
     "Please log in before granting %1$s access to your %2$s account." : "Silakan log masuk sebelum mengizinkan %1$s mengakses akun %2$s Anda.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jika Anda tidak mencoba menyiapkan perangkat atau aplikasi baru, seseorang mencoba menipu Anda agar memberi mereka akses ke data Anda. Dalam hal ini jangan lanjutkan dan hubungi administrator sistem Anda.",
-    "App token" : "Token aplikasi",
     "Grant access" : "Berikan hak akses",
-    "Alternative log in using app token" : "Log masuk alternatif dengan token aplikasi",
     "Account access" : "Akses akun",
     "You are about to grant %1$s access to your %2$s account." : "Anda akan memberikan izin %1$s akses ke akun %2$s Anda.",
     "Account connected" : "Akun terhubung",
@@ -346,6 +344,8 @@ OC.L10N.register(
     "Copy to {folder}" : "Salin ke {folder}",
     "Move to {folder}" : "Pindah ke {folder}",
     "Authentication required" : "Diperlukan otentikasi",
-    "Failed to authenticate, try again" : "Gagal mengotentikasi, coba lagi"
+    "Failed to authenticate, try again" : "Gagal mengotentikasi, coba lagi",
+    "App token" : "Token aplikasi",
+    "Alternative log in using app token" : "Log masuk alternatif dengan token aplikasi"
 },
 "nplurals=1; plural=0;");

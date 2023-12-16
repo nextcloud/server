@@ -15,8 +15,8 @@ OC.L10N.register(
     "Delete client" : "删除客户端",
     "Add client" : "添加客户端",
     "Add" : "添加",
-    "Show client secret" : "显示客户端 secret",
     "Delete" : "删除",
+    "Show client secret" : "显示客户端 secret",
     "Secret" : "Secret"
 },
 "nplurals=1; plural=0;");

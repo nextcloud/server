@@ -190,6 +190,7 @@ OC.L10N.register(
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Esta instância está faltando alguns módulos PHP recomendados. Para melhor desempenho e melhor compatibilidade é altamente recomendável instalá-los:%s.",
     "PHP version" : "Versão do PHP",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Você está executando PHP no momento %s.PHP 8.0 agora está obsoleto no Nextcloud 27. Nextcloud 28 pode exigir pelo menos PHP 8.1. Atualize para uma das versões PHP com suporte oficial fornecidas pelo PHP Group o mais rápido possível.",
+    "You are currently running PHP %s." : "Você está executando PHP no momento %s.",
     "PHP \"output_buffering\" option" : "Opção \"output_buffering\" do PHP",
     "PHP configuration option \"output_buffering\" must be disabled" : "A opção de configuração do PHP \"output_buffering\" deve estar desabilitada",
     "Random generator" : "Gerador aleatório",

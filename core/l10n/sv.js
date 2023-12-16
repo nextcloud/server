@@ -334,9 +334,7 @@ OC.L10N.register(
     "Connect to your account" : "Anslut ditt konto",
     "Please log in before granting %1$s access to your %2$s account." : "Logga in innan du ger %1$s åtkomst till ditt %2$s konto.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Om du inte försöker konfigurera en ny enhet eller app, försöker någon lura dig att ge dem åtkomst till din data. Fortsätt i så fall inte, utan kontakta istället din systemadministratör.",
-    "App token" : "Apptoken",
     "Grant access" : "Tillåt åtkomst",
-    "Alternative log in using app token" : "Alternativ inloggning med apptoken",
     "Account access" : "Kontoåtkomst",
     "Currently logged in as %1$s (%2$s)." : "För närvarande inloggad som %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Du håller på att ge %1$s åtkomst till ditt %2$s konto.",
@@ -434,6 +432,8 @@ OC.L10N.register(
     "Authentication required" : "Autentisering krävs",
     "Failed to authenticate, try again" : "Misslyckades att autentisera, försök igen",
     "The page could not be found on the server." : "Sidan kunde inte hittas på servern.",
+    "App token" : "Apptoken",
+    "Alternative log in using app token" : "Alternativ inloggning med apptoken",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databasen används till transaktionsbaserad fillåsning. För att förbättra prestandan, konfigurera memcache om tillgängligt. Se {linkstart}Dokumentationen ↗{linkend} för mer information.",
     "Avatar of {fullName}" : "Avatar för {fullName}",
     "Start typing in search" : "Börja skriva i sökningen"

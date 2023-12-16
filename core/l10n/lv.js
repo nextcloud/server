@@ -202,7 +202,6 @@ OC.L10N.register(
     "This action requires you to confirm your password" : "Lai veiktu šo darbību, jums jāievada sava parole.",
     "Confirm your password" : "Apstipriniet paroli",
     "Confirm" : "Apstiprināt",
-    "App token" : "Lietotnes pilnvara",
     "Grant access" : "Piešķirt pieeju",
     "This share is password-protected" : "Šī koplietotne ir aizsargāta ar paroli",
     "Two-factor authentication" : "Divpakāpju autentifikācija",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopēt uz {folder}",
     "Move to {folder}" : "Pārvietot uz {folder}",
     "Authentication required" : "Nepieciešama autentifikācija",
-    "Failed to authenticate, try again" : "Neizdevās autentificēt, mēģiniet vēlreiz"
+    "Failed to authenticate, try again" : "Neizdevās autentificēt, mēģiniet vēlreiz",
+    "App token" : "Lietotnes pilnvara"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
