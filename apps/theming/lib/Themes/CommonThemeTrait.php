@@ -38,9 +38,9 @@ trait CommonThemeTrait {
 	 * This is shared between multiple themes because colorMainBackground and colorMainText
 	 * will change in between.
 	 */
-	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
+	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText, bool $highContrast = false): array {
 		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground, $highContrast);
 		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$invertPrimaryTextColor = $this->util->invertTextColor($colorPrimaryElement);
