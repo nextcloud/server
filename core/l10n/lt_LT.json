@@ -250,9 +250,7 @@
     "Connect to your account" : "Prisijunkite prie paskyros",
     "Please log in before granting %1$s access to your %2$s account." : "Prieš suteikdami %1$s prieigą prie savo %2$s paskyros, prisijunkite.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jeigu nebandote nusistatyti naujo įrenginio ar programėlės, tuomet kažkas bando jus apgauti, kad suteiktumėte jam prieigą prie savo duomenų. Tokiu atveju netęskite ir, vietoj to, susisiekite su savo sistemos administratoriumi.",
-    "App token" : "Išorinės sistemos įskiepio kodas",
     "Grant access" : "Suteikti prieigą",
-    "Alternative log in using app token" : "Alternatyvus prisijungimas naudojant programėlės atpažinimo raktą",
     "Account access" : "Paskyros prieiga",
     "Currently logged in as %1$s (%2$s)." : "Šiuo metu prisijungta kaip %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Ketinate suteikti %1$s prieigą prie savo %2$s paskyros.",
@@ -318,6 +316,8 @@
     "Copy to {folder}" : "Kopijuoti į {folder}",
     "Move to {folder}" : "Perkelti į {folder}",
     "Authentication required" : "Reikalingas tapatybės nustatymas",
-    "Failed to authenticate, try again" : "Nepavyko nustatyti tapatybės, bandykite dar kartą"
+    "Failed to authenticate, try again" : "Nepavyko nustatyti tapatybės, bandykite dar kartą",
+    "App token" : "Išorinės sistemos įskiepio kodas",
+    "Alternative log in using app token" : "Alternatyvus prisijungimas naudojant programėlės atpažinimo raktą"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

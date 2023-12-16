@@ -245,9 +245,7 @@ OC.L10N.register(
     "Connect to your account" : "ເຊື່ອມຕໍ່ບັນຊີຂອງທ່ານ",
     "Please log in before granting %1$s access to your %2$s account." : "ກະລຸນາເຂົ້າລະບົບກ່ອນທີ່ຈະໃຫ້ %1$sການເຂົ້າເຖິງບັນຊີຂອງທ່ານ%2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "ຖ້າທ່ານບໍ່ໄດ້ພະຍາຍາມທີ່ຈະຕິດຕັ້ງອຸປະກອນຫຼື app ໃຫມ່ , ບາງຄົນພະຍາຍາມຫຼອກລວງ ທ່ານໃຫ້ອະນຸຍາດໃຫ້ເຂົາເຈົ້າເຂົ້າເຖິງຂໍ້ມູນຂອງທ່ານ. ໃນກໍລະນີນີ້ບໍ່ໄດ້ດໍາເນີນການ ແລະ ແທນທີ່ຈະຕິດຕໍ່ຜູ້ບໍລິຫານລະບົບຂອງທ່ານ.",
-    "App token" : "ແອັບ token",
     "Grant access" : "ການເຂົ້າເຖິງ Grant",
-    "Alternative log in using app token" : "log ທາງເລືອກໃນການນໍາໃຊ້ token app",
     "Account access" : "ການເຂົ້າເຖິງບັນຊີ",
     "You are about to grant %1$s access to your %2$s account." : "ທ່ານກໍາລັງຈະໃຫ້ %1$sການເຂົ້າເຖິງບັນຊີ %2$sຂອງທ່ານ.",
     "Account connected" : "ບັນຊີທີ່ຕິດພັນ",
@@ -328,6 +326,8 @@ OC.L10N.register(
     "Copy to {folder}" : "ສໍາເນົາໄປຍັງ {ໂຟນເດີ}",
     "Move to {folder}" : "ຍ້າຍໄປ {folder}",
     "Authentication required" : "ການຢັ້ງຢືນທີ່ຈໍາເປັນ",
-    "Failed to authenticate, try again" : "ບໍ່ສາມາດຮັບຮອງຄວາມຖຶກຕ້ອງໄດ້, ລອງອີກຄັ້ງ"
+    "Failed to authenticate, try again" : "ບໍ່ສາມາດຮັບຮອງຄວາມຖຶກຕ້ອງໄດ້, ລອງອີກຄັ້ງ",
+    "App token" : "ແອັບ token",
+    "Alternative log in using app token" : "log ທາງເລືອກໃນການນໍາໃຊ້ token app"
 },
 "nplurals=1; plural=0;");

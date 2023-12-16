@@ -324,9 +324,7 @@
     "Connect to your account" : "Connexió al vostre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Inicieu la sessió abans de concedir a %1$s accés al vostre compte del %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si no intenteu configurar un dispositiu o una aplicació nova, algú intenta enganyar-vos perquè li concediu accés a les vostres dades. En aquest cas, no procediu i contacteu amb l'administrador del sistema.",
-    "App token" : "Testimoni d'aplicació",
     "Grant access" : "Concedeix l'accés",
-    "Alternative log in using app token" : "Inici de sessió alternatiu amb un testimoni d'aplicació",
     "Account access" : "Accés al compte",
     "Currently logged in as %1$s (%2$s)." : "S'ha iniciat la sessió com a %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Esteu a punt de concedir a %1$s accés al vostre compte del %2$s.",
@@ -427,6 +425,8 @@
     "Authentication required" : "Cal autenticació",
     "Failed to authenticate, try again" : "S'ha produït un error d'autenticació, torneu-ho a provar",
     "The page could not be found on the server." : "No s'ha pogut trobar la pàgina en el servidor.",
+    "App token" : "Testimoni d'aplicació",
+    "Alternative log in using app token" : "Inici de sessió alternatiu amb un testimoni d'aplicació",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "La base de dades s'utilitza per al blocatge de fitxers transaccionals. Per a millorar el rendiment, configureu una memòria cau en memòria, si està disponible. Consulteu la {linkstart}documentació ↗{linkend} per a obtenir més informació.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "El PHP 8.0 està obsolet en el Nextcloud 27. És possible que el Nextcloud 28 requereixi, com a mínim, el PHP 8.1. Actualitzeu a {linkstart}una de les versions del PHP admeses oficialment proporcionades pel Grup PHP ↗{linkend} tan aviat com sigui possible.",
     "Avatar of {fullName}" : "Avatar de {fullName}"

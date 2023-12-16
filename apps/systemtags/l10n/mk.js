@@ -64,6 +64,7 @@ OC.L10N.register(
     "This file has the tag {tag}" : "Оваа датотека има ознака {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Оваа датотека има ознаки {firstTags} и {lastTag}",
     "No tags found" : "Не се пронајдени ознаки",
+    "Tags you have created will show up here." : "Ознаките што ги имате креирано ќе се појават овде",
     "Failed to load last used tags" : "Неуспешно вчитување на последно користените ознаки",
     "Missing \"Content-Location\" header" : "Недостасува \"Content-Location\" заглавие",
     "No files in here" : "Тука нема датотеки",

@@ -12,8 +12,8 @@ OC.L10N.register(
     "Secret key" : "Salainen avain",
     "Add client" : "Lisää asiakas",
     "Add" : "Lisää",
-    "Show client secret" : "Näytä asiakkaan salaisuus",
     "Delete" : "Poista",
+    "Show client secret" : "Näytä asiakkaan salaisuus",
     "Secret" : "Salaisuus"
 },
 "nplurals=2; plural=(n != 1);");

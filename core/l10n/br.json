@@ -228,9 +228,7 @@
     "Connect to your account" : "Kevreit gant o c'hont",
     "Please log in before granting %1$s access to your %2$s account." : "Kit-tre a raok reiñ %1$s tremen d'o c'hont %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "M'a n'oc'h ket o klask stumma un ardivink pe meziant nevez, unan bennak a zo o klask lakaat ac'hanoc'h aotreañ anezho da dizout o roadennoù. M'az eo ze, na gendalc'hit ket, ha kelaouit o merour.",
-    "App token" : "Jedouer meziant",
     "Grant access" : "Reiñ an tremen",
-    "Alternative log in using app token" : "Ur c'hennask disheñvel en ur implij ar jedouer arload",
     "Account access" : "Mont d'ar c'hont",
     "You are about to grant %1$s access to your %2$s account." : "Emaoc'h war-nes reiñ an aotre da \"%1$s\" da dizhout ho kont \"%2$s\".",
     "Account connected" : "Kont kenstaged",
@@ -302,6 +300,8 @@
     "Copy to {folder}" : "Eilan e {folder}",
     "Move to {folder}" : "Diblasañ da {folder}",
     "Authentication required" : "Eus un dilesa ez eus ezhomp",
-    "Failed to authenticate, try again" : "Dilesa c'hwitet, klaskit en dro"
+    "Failed to authenticate, try again" : "Dilesa c'hwitet, klaskit en dro",
+    "App token" : "Jedouer meziant",
+    "Alternative log in using app token" : "Ur c'hennask disheñvel en ur implij ar jedouer arload"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

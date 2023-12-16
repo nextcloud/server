@@ -272,9 +272,7 @@ OC.L10N.register(
     "Connect to your account" : "เชื่อมต่อบัญชีของคุณ",
     "Please log in before granting %1$s access to your %2$s account." : "กรุณาเข้าสู่ระบบก่อนอนุญาตให้ %1$s เข้าถึงบัญชี %2$s ของคุณ",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "หากคุณไม่ได้เป็นคนตั้งค่าอุปกรณ์หรือแอปใหม่ อาจมีบุคคลอื่นกำลังหลอกให้คุณอนุญาตให้พวกเขาเข้าถึงข้อมูลของคุณ ในกรณีนี้ห้ามดำเนินการต่อ ให้ติดต่อผู้ดูแลระบบของคุณ",
-    "App token" : "โทเค็นแอป",
     "Grant access" : "อนุญาตให้เข้าถึง",
-    "Alternative log in using app token" : "ทางเลือกเข้าสู่ระบบด้วยโทเค็นแอป",
     "Account access" : "การเข้าถึงบัญชี",
     "Currently logged in as %1$s (%2$s)." : "ขณะนี้เข้าสู่ระบบเป็น %1$s (%2$s)",
     "You are about to grant %1$s access to your %2$s account." : "คุณกำลังจะอนุญาตให้ %1$s เข้าถึงบัญชี %2$s ของคุณ",
@@ -352,6 +350,8 @@ OC.L10N.register(
     "Move to {folder}" : "ย้ายไปยัง {folder}",
     "Authentication required" : "จำเป็นต้องตรวจสอบความถูกต้อง",
     "Failed to authenticate, try again" : "ไม่สามารถรับรองความถูกต้อง โปรดลองอีกครั้ง",
-    "The page could not be found on the server." : "ไม่พบหน้านี้บนเซิร์ฟเวอร์"
+    "The page could not be found on the server." : "ไม่พบหน้านี้บนเซิร์ฟเวอร์",
+    "App token" : "โทเค็นแอป",
+    "Alternative log in using app token" : "ทางเลือกเข้าสู่ระบบด้วยโทเค็นแอป"
 },
 "nplurals=1; plural=0;");
