@@ -328,9 +328,7 @@
     "Connect to your account" : "Connect to your account",
     "Please log in before granting %1$s access to your %2$s account." : "Please log in before granting %1$s access to your %2$s account.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.",
-    "App token" : "App token",
     "Grant access" : " مجوز اعطا دسترسی",
-    "Alternative log in using app token" : "Alternative log in using app token",
     "Account access" : "دسترسی به حساب",
     "Currently logged in as %1$s (%2$s)." : "Currently logged in as %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "You are about to grant %1$s access to your %2$s account.",
@@ -431,6 +429,8 @@
     "Authentication required" : "احراز هویت مورد نیاز است",
     "Failed to authenticate, try again" : "تأیید هویت نشد، دوباره امتحان کنید",
     "The page could not be found on the server." : "The page could not be found on the server.",
+    "App token" : "App token",
+    "Alternative log in using app token" : "Alternative log in using app token",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible.",
     "Avatar of {fullName}" : "Avatar of {fullName}"

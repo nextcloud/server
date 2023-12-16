@@ -223,6 +223,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Врати споделување","Врати споделувања"],
     "Shared" : "Споделен",
     "Shared by {ownerDisplayName}" : "Споделено од {ownerDisplayName}",
+    "Show sharing options" : "Прикажи параметри за споделување",
     "Link to a file" : "Линк до датотеката",
     "Error creating the share: {errorMessage}" : "Грешка при креирање на споделување: {errorMessage}",
     "Error creating the share" : "Грешка при креирање на споделување",

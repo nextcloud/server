@@ -313,9 +313,7 @@ OC.L10N.register(
     "Confirm" : "Vahvista",
     "Connect to your account" : "Yhdistä tiliisi",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jos et ole asentamassa uutta laitetta tai sovellusta, joku yrittää huijata sinut antamaan käyttöoikeudet tietoihisi. Tässä tapauksessa älä jatka, ota yhteys järjestelmänvalvojaan.",
-    "App token" : "Sovellusvaltuutus",
     "Grant access" : "Myönnä pääsy",
-    "Alternative log in using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovelluspolettia",
     "Account access" : "Tilin käyttö",
     "Currently logged in as %1$s (%2$s)." : "Kirjautuneena käyttäjänä %1$s (%2$s).",
     "Account connected" : "Tili yhdistetty",
@@ -399,6 +397,8 @@ OC.L10N.register(
     "Authentication required" : "Tunnistautuminen vaaditaan",
     "Failed to authenticate, try again" : "Varmennus epäonnistui, yritä uudelleen",
     "The page could not be found on the server." : "Sivua ei löytynyt palvelimelta.",
+    "App token" : "Sovellusvaltuutus",
+    "Alternative log in using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovelluspolettia",
     "Avatar of {fullName}" : "Käyttäjän {fullName} kuva"
 },
 "nplurals=2; plural=(n != 1);");

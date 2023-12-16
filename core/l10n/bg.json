@@ -315,9 +315,7 @@
     "Connect to your account" : "Свързване към вашия профил",
     "Please log in before granting %1$s access to your %2$s account." : "Необходимо е да се впишете, преди да дадете достъп на %1$s до вашия %2$s профил.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ако не се опитвате да настроите ново устройство или приложение, някой се опитва да ви подмами, за да му предоставите достъп до вашите данни. В този случай не продължавайте и вместо това се свържете със системния си администратор.",
-    "App token" : "Парола за приложението",
     "Grant access" : "Разреши достъпa",
-    "Alternative log in using app token" : "Алтернативен метод за вписване с парола за приложение",
     "Account access" : "Достъп до профил",
     "Currently logged in as %1$s (%2$s)." : "В момента сте влезли като %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Ще разрешите на %1$s да ползва вашия %2$s профил.",
@@ -418,6 +416,8 @@
     "Authentication required" : "Изисква удостоверяване",
     "Failed to authenticate, try again" : "Грешка при удостоверяване, опитайте пак",
     "The page could not be found on the server." : "Страницата не е намерена на сървъра.",
+    "App token" : "Парола за приложението",
+    "Alternative log in using app token" : "Алтернативен метод за вписване с парола за приложение",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Базата данни се използва за транзакционно заключване на файлове. За да подобрите производителността, конфигурирайте memcache, ако има такава възможност. За повече информация вижте {linkstart}документацията ↗{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 вече е изчерпан в Nextcloud 27. Nextcloud 28 може да изисква поне PHP 8.1. Моля, преминете към {linkstart}една от официално поддържаните версии на PHP, предоставени от PHP Group ↗{linkend}, колкото е възможно по-скоро.",
     "Avatar of {fullName}" : "Аватар на {fullName}"

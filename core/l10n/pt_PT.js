@@ -265,9 +265,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Connect to your account" : "Ligar à sua conta",
     "Please log in before granting %1$s access to your %2$s account." : "Por favor, autentique-se antes de permitir o acesso de %1$s à sua conta %2$s.",
-    "App token" : "Token da aplicação",
     "Grant access" : "Conceder acesso",
-    "Alternative log in using app token" : "Autenticação alternativa usando token da aplicação",
     "Account access" : "Acesso à conta",
     "You are about to grant %1$s access to your %2$s account." : "Está prestes a permitir a %1$s aceder à sua conta conta %2$s. ",
     "Account connected" : "Conta ligada",
@@ -342,6 +340,8 @@ OC.L10N.register(
     "Move to {folder}" : "Mover para {folder}",
     "Authentication required" : "Autenticação necessária",
     "Failed to authenticate, try again" : "Falha ao autenticar. Tente outra vez.",
-    "The page could not be found on the server." : "Esta página não foi encontrada no servidor."
+    "The page could not be found on the server." : "Esta página não foi encontrada no servidor.",
+    "App token" : "Token da aplicação",
+    "Alternative log in using app token" : "Autenticação alternativa usando token da aplicação"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

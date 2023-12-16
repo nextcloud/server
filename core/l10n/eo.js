@@ -252,9 +252,7 @@ OC.L10N.register(
     "Confirm" : "Konfirmi",
     "Connect to your account" : "Konekti al via konto",
     "Please log in before granting %1$s access to your %2$s account." : "Bv. unue ensaluti por doni al %1$s aliron al via konto %2$s.",
-    "App token" : "Aplikaĵa ĵetono",
     "Grant access" : "Doni alirpermeson",
-    "Alternative log in using app token" : "Ensaluti alimaniere per aplikaĵa ĵetono",
     "Account access" : "Aliro al konto",
     "Currently logged in as %1$s (%2$s)." : "Aktuale salutinta kiel %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Vi tuj donos permeson al %1$s aliri al via konto %2$s.",
@@ -334,6 +332,8 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopii al {folder}",
     "Move to {folder}" : "Movi al {folder}",
     "Authentication required" : "Aŭtentiĝo nepras",
-    "Failed to authenticate, try again" : "Malsukcesis aŭtentigi, provu ree"
+    "Failed to authenticate, try again" : "Malsukcesis aŭtentigi, provu ree",
+    "App token" : "Aplikaĵa ĵetono",
+    "Alternative log in using app token" : "Ensaluti alimaniere per aplikaĵa ĵetono"
 },
 "nplurals=2; plural=(n != 1);");
