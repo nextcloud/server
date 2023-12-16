@@ -105,7 +105,7 @@ class Authtokens implements ISettings {
 		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
 			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof INamedToken;
+			$data['canRename'] = $token instanceof INamedToken && $data['type'] !== IToken::WIPE_TOKEN;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
 				$data['canRename'] = false;
