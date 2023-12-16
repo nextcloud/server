@@ -188,9 +188,7 @@ OC.L10N.register(
     "Confirm your password" : "Confirme su contraseña",
     "Confirm" : "Confirmar",
     "Connect to your account" : "Conéctate a tu cuenta",
-    "App token" : "Ficha de la aplicación",
     "Grant access" : "Conceder acceso",
-    "Alternative log in using app token" : "Inicio de sesión alternativo con token de app",
     "Account access" : "Acceso a la cuenta",
     "Account connected" : "Cuenta conectada",
     "This share is password-protected" : "Este elemento compartido está protegido con una contraseña",
@@ -229,6 +227,8 @@ OC.L10N.register(
     "Pending" : "Pendiente",
     "Home" : "Casa",
     "Authentication required" : "Se requiere autenticación",
-    "Failed to authenticate, try again" : "Falla en la autenticación, favor de reintentar"
+    "Failed to authenticate, try again" : "Falla en la autenticación, favor de reintentar",
+    "App token" : "Ficha de la aplicación",
+    "Alternative log in using app token" : "Inicio de sesión alternativo con token de app"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

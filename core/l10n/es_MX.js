@@ -223,9 +223,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Connect to your account" : "Conectate a tu cuenta",
     "Please log in before granting %1$s access to your %2$s account." : "Por favor, inicia sesión antes de conceder a %1$s acceso a tu cuenta %2$s.",
-    "App token" : "Ficha de la aplicación",
     "Grant access" : "Conceder acceso",
-    "Alternative log in using app token" : "Inicio de sesión alternativo usando una ficha de aplicación",
     "Account access" : "Acceo de cuenta",
     "Currently logged in as %1$s (%2$s)." : "Actualmente está conectado como %1$s (%2$s).",
     "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
@@ -281,6 +279,8 @@ OC.L10N.register(
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Authentication required" : "Se requiere autenticación",
-    "Failed to authenticate, try again" : "Falla en la autenticación, por favor reintentalo"
+    "Failed to authenticate, try again" : "Falla en la autenticación, por favor reintentalo",
+    "App token" : "Ficha de la aplicación",
+    "Alternative log in using app token" : "Inicio de sesión alternativo usando una ficha de aplicación"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

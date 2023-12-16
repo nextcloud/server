@@ -272,9 +272,7 @@
     "Connect to your account" : "Connete·ti a su contu tuo",
     "Please log in before granting %1$s access to your %2$s account." : "Faghe s'atzessu prima de permìtere a %1$s de intrare a su %2$s contu tuo.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Chi non ses chirchende de impostare unu dispositivu o un'aplicatzione noa, calecunu est proende a si fàghere dare atzessu a is datos tuos. In custu casu, no sigast e cuntata s'amministradore de sistema tuo.",
-    "App token" : "Autenticadore de s'aplicatzione",
     "Grant access" : "Dona atzessu",
-    "Alternative log in using app token" : "Atzessu alternativu cun s'autenticadore de s'aplicatzione",
     "Account access" : "Atzessu a su contu",
     "You are about to grant %1$s access to your %2$s account." : "Ses acanta de donare %1$s atzessu a su contu %2$s tuo.",
     "Account connected" : "Contu collegadu",
@@ -357,6 +355,8 @@
     "Copy to {folder}" : "Còpia in {folder}",
     "Move to {folder}" : "Tràmuda a {folder}",
     "Authentication required" : "Autenticatzione recherta",
-    "Failed to authenticate, try again" : "Impossìbile a s'autenticare, torra a proare"
+    "Failed to authenticate, try again" : "Impossìbile a s'autenticare, torra a proare",
+    "App token" : "Autenticadore de s'aplicatzione",
+    "Alternative log in using app token" : "Atzessu alternativu cun s'autenticadore de s'aplicatzione"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

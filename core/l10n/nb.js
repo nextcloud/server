@@ -308,9 +308,7 @@ OC.L10N.register(
     "Connect to your account" : "Koble til kontoen din",
     "Please log in before granting %1$s access to your %2$s account." : "Logg inn før du tildeler %1$stilgang til din %2$skonto.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Hvis du ikke prøver å sette opp en ny enhet eller app, så er det noen som nå prøver å lure deg til å gi de tilgang til dine data. Stopp i så fall øyeblikkelig og kontakt din systemadministrator.",
-    "App token" : "App-symbol",
     "Grant access" : "Gi tilgang",
-    "Alternative log in using app token" : "Alternativ logg inn ved hjelp av app-kode",
     "Account access" : "Kontotilgang",
     "Currently logged in as %1$s (%2$s)." : "Logget inn som %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Du er i ferd med å tildele %1$s tilgang til din %2$skonto.",
@@ -410,6 +408,8 @@ OC.L10N.register(
     "Move to {folder}" : "Flytt til {folder}",
     "Authentication required" : "Autentisering påkrevd",
     "Failed to authenticate, try again" : "Autentisering mislyktes, prøv igjen",
-    "The page could not be found on the server." : "Siden ble ikke funnet på serveren."
+    "The page could not be found on the server." : "Siden ble ikke funnet på serveren.",
+    "App token" : "App-symbol",
+    "Alternative log in using app token" : "Alternativ logg inn ved hjelp av app-kode"
 },
 "nplurals=2; plural=(n != 1);");

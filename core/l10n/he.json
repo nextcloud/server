@@ -249,9 +249,7 @@
     "Connect to your account" : "התחברות לחשבון שלך",
     "Please log in before granting %1$s access to your %2$s account." : "נא להיכנס בטרם הענקת גישה לחשבון שלך ב־%2$s לטובת %1$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "אם אינך מנסה להגדיר מכשיר חדש או אפליקציה חדשה, מישהו מנסה לרמות אותך להעניק לו גישה לנתונים שלך. במקרה הזה, אל תמשיך, ובמקום זאת פנה למנהל המערכת שלך.",
-    "App token" : "אסימון יישום",
     "Grant access" : "הענקת גישה",
-    "Alternative log in using app token" : "כניסה חלופית באמצעות אסימון יישומון",
     "Account access" : "גישה לחשבון",
     "You are about to grant %1$s access to your %2$s account." : "פעולה זו תעניק ל־%1$s גישה לחשבון ה־%2$s שלך.",
     "Account connected" : "חשבון מחובר",
@@ -326,6 +324,8 @@
     "Copy to {folder}" : "העתקה אל {folder}",
     "Move to {folder}" : "העברה אל {folder}",
     "Authentication required" : "נדרש אימות",
-    "Failed to authenticate, try again" : "האימות נכשל, נא לנסות שוב"
+    "Failed to authenticate, try again" : "האימות נכשל, נא לנסות שוב",
+    "App token" : "אסימון יישום",
+    "Alternative log in using app token" : "כניסה חלופית באמצעות אסימון יישומון"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

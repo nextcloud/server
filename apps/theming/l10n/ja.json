@@ -74,6 +74,7 @@
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "何か問題を見つけた場合は、{issuetracker}私たちの問題トラッカー{linkend}で遠慮なく報告してください。参加したい場合は、{designteam}私たちのデザイン チーム{linkend}に参加してください!",
     "Move up" : "上に移動",
     "Move down" : "下に移動",
+    "Default background" : "デフォルト背景",
     "Change color" : "色を変える",
     "Theme selection is enforced" : "テーマ選択を強制",
     "Select a custom color" : "カスタムカラーを選択",
