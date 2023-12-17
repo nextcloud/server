@@ -700,4 +700,22 @@ class FactoryTest extends TestCase {
 		$iterator = $factory->getLanguageIterator($iUserMock);
 		self::assertInstanceOf(ILanguageIterator::class, $iterator);
 	}
+
+	public static function languagesWithRespectedDirection():array {
+		return [
+			['en', 'ltr'],
+			['de', 'ltr'],
+			['fa', 'rtl'],
+			['ar', 'rtl']
+		];
+	}
+
+	/**
+	 * @dataProvider languagesWithRespectedDirection
+	 */
+	public function testDirectionForEnLocale(string $lang, string $expectedDirection) {
+		$factory = $this->getFactory();
+
+		self::assertEquals($expectedDirection, $factory->getLanguageDirection($lang));
+	}
 }
