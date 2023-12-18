@@ -88,6 +88,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\ForwardedForHeaders' => $baseDir . '/../lib/SetupChecks/ForwardedForHeaders.php',
     'OCA\\Settings\\SetupChecks\\InternetConnectivity' => $baseDir . '/../lib/SetupChecks/InternetConnectivity.php',
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
+    'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => $baseDir . '/../lib/SetupChecks/MaintenanceWindowStart.php',
     'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => $baseDir . '/../lib/SetupChecks/MemcacheConfigured.php',
     'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => $baseDir . '/../lib/SetupChecks/PhpDefaultCharset.php',
     'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => $baseDir . '/../lib/SetupChecks/PhpFreetypeSupport.php',

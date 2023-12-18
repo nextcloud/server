@@ -103,6 +103,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\ForwardedForHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/ForwardedForHeaders.php',
         'OCA\\Settings\\SetupChecks\\InternetConnectivity' => __DIR__ . '/..' . '/../lib/SetupChecks/InternetConnectivity.php',
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
+        'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => __DIR__ . '/..' . '/../lib/SetupChecks/MaintenanceWindowStart.php',
         'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => __DIR__ . '/..' . '/../lib/SetupChecks/MemcacheConfigured.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpFreetypeSupport.php',
