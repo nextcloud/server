@@ -15,6 +15,7 @@
     "Add" : "Ekle",
     "Delete" : "Sil",
     "Show client secret" : "İstemci parolasını görüntüle",
+    "Hide client secret" : "İstemci parolasını gizle",
     "Secret" : "Parola"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
