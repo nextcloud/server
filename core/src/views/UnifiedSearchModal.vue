@@ -11,79 +11,89 @@
 			@update:is-open="showDateRangeModal = $event" />
 		<!-- Unified search form -->
 		<div ref="unifiedSearch" class="unified-search-modal">
-			<h1>{{ t('core', 'Unified search') }}</h1>
-			<NcInputField ref="searchInput"
-				:value.sync="searchQuery"
-				type="text"
-				:label="t('core', 'Search apps, files, tags, messages') + '...'"
-				@update:value="debouncedFind" />
-			<div class="unified-search-modal__filters">
-				<NcActions :menu-name="t('core', 'Apps and Settings')" :open.sync="providerActionMenuIsOpen">
-					<template #icon>
-						<ListBox :size="20" />
-					</template>
-					<NcActionButton v-for="provider in providers" :key="provider.id" @click="addProviderFilter(provider)">
+			<div class="unified-search-modal__header">
+				<h1>{{ t('core', 'Unified search') }}</h1>
+				<NcInputField ref="searchInput"
+					:value.sync="searchQuery"
+					type="text"
+					:label="t('core', 'Search apps, files, tags, messages') + '...'"
+					@update:value="debouncedFind" />
+				<div class="unified-search-modal__filters">
+					<NcActions :menu-name="t('core', 'Apps and Settings')" :open.sync="providerActionMenuIsOpen">
 						<template #icon>
-							<img :src="provider.icon">
+							<ListBox :size="20" />
 						</template>
-						{{ t('core', provider.name) }}
-					</NcActionButton>
-				</NcActions>
-				<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen">
-					<template #icon>
-						<CalendarRangeIcon :size="20" />
-					</template>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('today')">
-						{{ t('core', 'Today') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('7days')">
-						{{ t('core', 'Last 7 days') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('30days')">
-						{{ t('core', 'Last 30 days') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('thisyear')">
-						{{ t('core', 'This year') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('lastyear')">
-						{{ t('core', 'Last year') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('custom')">
-						{{ t('core', 'Custom date range') }}
-					</NcActionButton>
-				</NcActions>
-				<SearchableList :label-text="t('core', 'Search people')"
-					:search-list="userContacts"
-					:empty-content-text="t('core', 'Not found')"
-					@search-term-change="debouncedFilterContacts"
-					@item-selected="applyPersonFilter">
-					<template #trigger>
-						<NcButton>
+						<NcActionButton v-for="provider in providers"
+							:key="provider.id"
+							@click="addProviderFilter(provider)">
 							<template #icon>
-								<AccountGroup :size="20" />
+								<img :src="provider.icon" class="filter-button__icon" alt="">
 							</template>
-							{{ t('core', 'People') }}
-						</NcButton>
-					</template>
-				</SearchableList>
-			</div>
-			<div class="unified-search-modal__filters-applied">
-				<FilterChip v-for="filter in filters"
-					:key="filter.id"
-					:text="filter.name ?? filter.text"
-					:pretext="''"
-					@delete="removeFilter(filter)">
-					<template #icon>
-						<NcAvatar v-if="filter.type === 'person'"
-							:user="filter.user"
-							:size="24"
-							:disable-menu="true"
-							:show-user-status="false"
-							:hide-favorite="false" />
-						<CalendarRangeIcon v-else-if="filter.type === 'date'" />
-						<img v-else :src="filter.icon" alt="">
-					</template>
-				</FilterChip>
+							{{ provider.name }}
+						</NcActionButton>
+					</NcActions>
+					<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen">
+						<template #icon>
+							<CalendarRangeIcon :size="20" />
+						</template>
+						<NcActionButton :close-after-click="true" @click="applyQuickDateRange('today')">
+							{{ t('core', 'Today') }}
+						</NcActionButton>
+						<NcActionButton :close-after-click="true" @click="applyQuickDateRange('7days')">
+							{{ t('core', 'Last 7 days') }}
+						</NcActionButton>
+						<NcActionButton :close-after-click="true" @click="applyQuickDateRange('30days')">
+							{{ t('core', 'Last 30 days') }}
+						</NcActionButton>
+						<NcActionButton :close-after-click="true" @click="applyQuickDateRange('thisyear')">
+							{{ t('core', 'This year') }}
+						</NcActionButton>
+						<NcActionButton :close-after-click="true" @click="applyQuickDateRange('lastyear')">
+							{{ t('core', 'Last year') }}
+						</NcActionButton>
+						<NcActionButton :close-after-click="true" @click="applyQuickDateRange('custom')">
+							{{ t('core', 'Custom date range') }}
+						</NcActionButton>
+					</NcActions>
+					<SearchableList :label-text="t('core', 'Search people')"
+						:search-list="userContacts"
+						:empty-content-text="t('core', 'Not found')"
+						@search-term-change="debouncedFilterContacts"
+						@item-selected="applyPersonFilter">
+						<template #trigger>
+							<NcButton>
+								<template #icon>
+									<AccountGroup :size="20" />
+								</template>
+								{{ t('core', 'People') }}
+							</NcButton>
+						</template>
+					</SearchableList>
+					<NcButton v-if="supportFiltering" @click="closeModal">
+						{{ t('core', 'Filter in current view') }}
+						<template #icon>
+							<FilterIcon :size="20" />
+						</template>
+					</NcButton>
+				</div>
+				<div class="unified-search-modal__filters-applied">
+					<FilterChip v-for="filter in filters"
+						:key="filter.id"
+						:text="filter.name ?? filter.text"
+						:pretext="''"
+						@delete="removeFilter(filter)">
+						<template #icon>
+							<NcAvatar v-if="filter.type === 'person'"
+								:user="filter.user"
+								:size="24"
+								:disable-menu="true"
+								:show-user-status="false"
+								:hide-favorite="false" />
+							<CalendarRangeIcon v-else-if="filter.type === 'date'" />
+							<img v-else :src="filter.icon" alt="">
+						</template>
+					</FilterChip>
+				</div>
 			</div>
 			<div v-if="noContentInfo.show" class="unified-search-modal__no-content">
 				<NcEmptyContent :name="noContentInfo.text">
@@ -92,8 +102,8 @@
 					</template>
 				</NcEmptyContent>
 			</div>
-			<div v-for="providerResult in results" :key="providerResult.id" class="unified-search-modal__results">
-				<div class="results">
+			<div v-else class="unified-search-modal__results">
+				<div v-for="providerResult in results" :key="providerResult.id" class="result">
 					<div class="result-title">
 						<span>{{ providerResult.provider }}</span>
 					</div>
@@ -115,14 +125,6 @@
 						</NcButton>
 					</div>
 				</div>
-			</div>
-			<div v-if="supportFiltering()" class="unified-search-modal__results">
-				<NcButton @click="closeModal">
-					{{ t('core', 'Filter in current view') }}
-					<template #icon>
-						<FilterIcon :size="20" />
-					</template>
-				</NcButton>
 			</div>
 		</div>
 	</NcModal>
@@ -150,6 +152,7 @@ import SearchResult from '../components/UnifiedSearch/SearchResult.vue'
 
 import debounce from 'debounce'
 import { emit } from '@nextcloud/event-bus'
+import { useBrowserLocation } from '@vueuse/core'
 import { getProviders, search as unifiedSearch, getContacts } from '../services/UnifiedSearchService.js'
 
 export default {
@@ -180,6 +183,15 @@ export default {
 			required: true,
 		},
 	},
+	setup() {
+		/**
+		 * Reactive version of window.location
+		 */
+		const currentLocation = useBrowserLocation()
+		return {
+			currentLocation,
+		}
+	},
 	data() {
 		return {
 			providers: [],
@@ -206,22 +218,22 @@ export default {
 	},
 
 	computed: {
-		userContacts: {
-			get() {
-				return this.contacts
-			},
+		userContacts() {
+			return this.contacts
 		},
-		noContentInfo: {
-			get() {
-				const isEmptySearch = this.searchQuery.length === 0
-				const hasNoResults = this.searchQuery.length > 0 && this.results.length === 0
-
-				return {
-					show: isEmptySearch || hasNoResults,
-					text: this.searching && hasNoResults ? t('core', 'Searching …') : (isEmptySearch ? t('core', 'Start typing to search') : t('core', 'No matching results')),
-					icon: MagnifyIcon,
-				}
-			},
+		noContentInfo() {
+			const isEmptySearch = this.searchQuery.length === 0
+			const hasNoResults = this.searchQuery.length > 0 && this.results.length === 0
+			return {
+				show: isEmptySearch || hasNoResults,
+				text: this.searching && hasNoResults ? t('core', 'Searching …') : (isEmptySearch ? t('core', 'Start typing to search') : t('core', 'No matching results')),
+				icon: MagnifyIcon,
+			}
+		},
+		supportFiltering() {
+			/* Hard coded apps for the moment this would be improved in coming updates. */
+			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck']
+			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
 	watch: {
@@ -523,21 +535,27 @@ export default {
 			this.internalIsVisible = false
 			this.searchQuery = ''
 		},
-		supportFiltering() {
-			/* Hard coded apps for the moment this would be improved in coming updates. */
-			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck']
-			const currentPath = window.location.pathname.replace('/index.php', '')
-			const containsProvider = providerPaths.some(path => currentPath.includes(path))
-			return containsProvider
-		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
 .unified-search-modal {
-	padding: 10px 20px 10px 20px;
-	height: 60%;
+	box-sizing: border-box;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	padding-block: 10px 0;
+
+	// inline padding on direct children to make sure the scrollbar is on the modal container
+	> * {
+		padding-inline: 20px;
+	}
+
+	&__header {
+		padding-block-end: 8px;
+	}
 
 	&__heading {
 		font-size: 16px;
@@ -548,14 +566,10 @@ export default {
 
 	&__filters {
 		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		justify-content: start;
 		padding-top: 4px;
-		justify-content: left;
-
-		>* {
-			margin-right: 4px;
-
-		}
-
 	}
 
 	&__filters-applied {
@@ -571,11 +585,11 @@ export default {
 	}
 
 	&__results {
-		padding: 10px;
+		overflow: hidden scroll;
+		padding-block: 0 10px;
 
-		.results {
-
-			.result-title {
+		.result {
+			&-title {
 				span {
 					color: var(--color-primary-element);
 					font-weight: bolder;
@@ -583,7 +597,7 @@ export default {
 				}
 			}
 
-			.result-footer {
+			&-footer {
 				justify-content: space-between;
 				align-items: center;
 				display: flex;
@@ -593,20 +607,18 @@ export default {
 	}
 }
 
-div.v-popper__wrapper {
-	ul {
-		li {
-			::v-deep button.action-button {
-				align-items: center !important;
+.filter-button__icon {
+	height: 20px;
+	width: 20px;
+	object-fit: contain;
+	filter: var(--background-invert-if-bright);
+	padding: 11px; // align with text to fit at least 44px
+}
 
-				img {
-					width: 20px;
-					margin: 0 4px;
-					filter: var(--background-invert-if-bright);
-				}
-
-			}
-		}
+// Ensure modal is accessible on small devices
+@media only screen and (max-height: 400px) {
+	.unified-search-modal__results {
+		overflow: unset;
 	}
 }
 </style>
