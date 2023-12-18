@@ -2405,4 +2405,11 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'unified_search.enabled' => false,
+
+/**
+ * Enable features that are do respect accessibility standards yet.
+ *
+ * Defaults to ``true``
+ */
+'enable_non-accessible_features' => true,
 ];
