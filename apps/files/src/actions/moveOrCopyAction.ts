@@ -145,7 +145,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
  */
 const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes: Node[]): Promise<MoveCopyResult> => {
 	const fileIDs = nodes.map(node => node.fileid).filter(Boolean)
-	const filePicker = getFilePickerBuilder(t('files', 'Chose destination'))
+	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
 		.setFilter((n: Node) => {
 			// We only want to show folders that we can create nodes in
