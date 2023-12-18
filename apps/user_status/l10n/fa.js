@@ -42,7 +42,7 @@ OC.L10N.register(
     "4 hours" : "۴ ساعت",
     "Mute all notifications" : "خاموش کردن همه اعلانات",
     "Appear offline" : "نمایش آفلاین",
-    "View profile" : "مشاهده پروفایل",
+    "View profile" : "مشاهدهٔ نمایه",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n > 1);");

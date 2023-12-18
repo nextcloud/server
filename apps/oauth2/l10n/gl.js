@@ -17,6 +17,7 @@ OC.L10N.register(
     "Add" : "Engadir",
     "Delete" : "Eliminar",
     "Show client secret" : "Amosar o segredo do cliente",
+    "Hide client secret" : "Agochar o segredo do cliente",
     "Secret" : "Segredo"
 },
 "nplurals=2; plural=(n != 1);");

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Add" : "Lägg till",
     "Delete" : "Ta bort",
     "Show client secret" : "Visa klienthemlighet",
+    "Hide client secret" : "Dölj klienthemlighet",
     "Secret" : "Hemlighet"
 },
 "nplurals=2; plural=(n != 1);");
