@@ -27,6 +27,7 @@ namespace OCA\DAV\DAV;
 
 use Exception;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -136,7 +137,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	public function __construct(
 		Tree $tree,
 		IDBConnection $connection,
-		IUser $user
+		IUser $user,
 	) {
 		$this->tree = $tree;
 		$this->connection = $connection;
@@ -156,7 +157,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		// these might appear
 		$requestedProps = array_diff(
 			$requestedProps,
-			self::IGNORED_PROPERTIES
+			self::IGNORED_PROPERTIES,
+		);
+		$requestedProps = array_filter(
+			$requestedProps,
+			fn ($prop) => !str_starts_with($prop, FilesPlugin::FILE_METADATA_PREFIX),
 		);
 
 		// substr of calendars/ => path is inside the CalDAV component
