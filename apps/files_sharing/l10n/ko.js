@@ -223,6 +223,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["공유 거절"],
     "_Restore share_::_Restore shares_" : ["공유 복원"],
     "Shared" : "공유됨",
+    "Shared by {ownerDisplayName}" : "{ownerDisplayName}이 변경함",
     "Link to a file" : "파일로 향한 링크",
     "Error creating the share: {errorMessage}" : "공유를 만드는 중 오류 발생: {errorMessage}",
     "Error creating the share" : "공유를 만드는 중 오류 발생",
