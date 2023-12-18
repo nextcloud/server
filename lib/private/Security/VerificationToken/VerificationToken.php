@@ -101,7 +101,7 @@ class VerificationToken implements IVerificationToken {
 		IUser $user,
 		string $subject,
 		string $passwordPrefix = '',
-		, int $expirationTime = self::TOKEN_LIFETIME * 2
+		int $expirationTime = self::TOKEN_LIFETIME * 2
 	): string {
 		$token = $this->secureRandom->generate(
 			21,
