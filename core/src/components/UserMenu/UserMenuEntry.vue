@@ -100,7 +100,7 @@ export default {
 <style lang="scss" scoped>
 .menu-entry {
 	&__loading-icon {
-		margin-right: 8px;
+		margin-inline-end: 8px;
 	}
 }
 </style>

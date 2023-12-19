@@ -250,7 +250,7 @@ p {
 
 	.info {
 		h3, p {
-			text-align: left;
+			text-align: start;
 		}
 
 		h3 {

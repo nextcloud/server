@@ -7,7 +7,7 @@
 
 .whatsNewPopover {
   bottom: 35px !important;
-  left: 15px !important;
+  inset-inline-start: 15px !important;
   width: 270px;
   z-index: 700;
 }
@@ -23,7 +23,7 @@
 
 .whatsNewPopover .icon-close {
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
 }
 
 .whatsNewPopover::after {
