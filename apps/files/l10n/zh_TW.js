@@ -269,7 +269,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "此資料夾中已存在同名的檔案或資料夾",
     "The files is locked" : "檔案已鎖定",
     "The file does not exist anymore" : "檔案已不存在",
-    "Chose destination" : "選擇目的地",
     "Copy to {target}" : "複製到 {target}",
     "Move to {target}" : "移動至 {target}",
     "Cancelled move or copy operation" : "已取消移動或複製操作",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋帳號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
+    "Chose destination" : "選擇目的地"
 },
 "nplurals=1; plural=0;");

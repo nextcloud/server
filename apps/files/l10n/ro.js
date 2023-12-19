@@ -261,7 +261,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Un fișier sau folder cu acest nume există deja în acest folder",
     "The files is locked" : "Fișierul este blocat",
     "The file does not exist anymore" : "Fișierul nu mai există",
-    "Chose destination" : "Selectați destinația",
     "Copy to {target}" : "Copiază la {target}",
     "Move to {target}" : "Mută la {target}",
     "Cancelled move or copy operation" : "Copierea sau mutarea a fost anulată",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați în listă.",
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
-    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă"
+    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
+    "Chose destination" : "Selectați destinația"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

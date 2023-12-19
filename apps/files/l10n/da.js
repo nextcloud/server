@@ -263,7 +263,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "En fil eller mappe med det navn findes allerede i denne mappe",
     "The files is locked" : "Filerne er låste",
     "The file does not exist anymore" : "Filen findes ikke længere",
-    "Chose destination" : "Vælg destionation",
     "Copy to {target}" : "Kopiér til {target}",
     "Move to {target}" : "Flyt til {target}",
     "Cancelled move or copy operation" : "Flytning eller kopiering er annulleret",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "Search for an account" : "Søg efter en konto",
     "Choose" : "Vælg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu"
+    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu",
+    "Chose destination" : "Vælg destionation"
 },
 "nplurals=2; plural=(n != 1);");

@@ -269,7 +269,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Ja existeix un fitxer o carpeta amb aquest nom en aquesta carpeta",
     "The files is locked" : "El fitxer està blocat",
     "The file does not exist anymore" : "El fitxer ja no existeix",
-    "Chose destination" : "Tria una destinació",
     "Copy to {target}" : "Copia a {target}",
     "Move to {target}" : "Mou a {target}",
     "Cancelled move or copy operation" : "S'ha cancel·lat l'operació de desplaçament o còpia",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Search for an account" : "Cerqueu un compte",
     "Choose" : "Tria",
-    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
+    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
+    "Chose destination" : "Tria una destinació"
 },
 "nplurals=2; plural=(n != 1);");
