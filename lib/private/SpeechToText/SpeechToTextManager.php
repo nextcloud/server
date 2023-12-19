@@ -39,6 +39,7 @@ use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SpeechToText\ISpeechToTextProvider;
+use OCP\SpeechToText\ISpeechToTextProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -117,8 +118,13 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		$json = $this->config->getAppValue('core', 'ai.stt_provider', '');
 		if ($json !== '') {
-			$className = json_decode($json, true);
-			$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+			$classNameOrId = json_decode($json, true);
+			$provider = current(array_filter($providers, function ($provider) use ($classNameOrId) {
+				if ($provider instanceof ISpeechToTextProviderWithId) {
+					return $provider->getId() === $classNameOrId;
+				}
+				return $provider::class === $classNameOrId;
+			}));
 			if ($provider !== false) {
 				$providers = [$provider];
 			}
