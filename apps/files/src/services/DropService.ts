@@ -29,6 +29,7 @@ import { davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath } fro
 import { translate as t } from '@nextcloud/l10n'
 import { getUploader } from '@nextcloud/upload'
 import logger from '../logger.js'
+import { joinPaths } from '@nextcloud/paths'
 
 export const handleDrop = async (data: DataTransfer) => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
@@ -85,10 +86,12 @@ const handleRecursiveUpload = async (entry: FileSystemEntry, path: string = ''):
 		]
 	} else {
 		const directory = entry as FileSystemDirectoryEntry
-		logger.debug('Handle directory recursivly', { name: directory.name })
 
 		// TODO: Implement this on `@nextcloud/upload`
-		const absolutPath = `${davRootPath}${getUploader().destination.path}${path}${directory.name}`
+		const absolutPath = joinPaths(davRootPath, getUploader().destination.path, path, directory.name)
+
+		logger.debug('Handle directory recursively', { name: directory.name, absolutPath })
+
 		const davClient = davGetClient()
 		const dirExists = await davClient.exists(absolutPath)
 		if (!dirExists) {
