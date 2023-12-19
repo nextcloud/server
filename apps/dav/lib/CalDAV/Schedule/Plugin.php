@@ -160,6 +160,11 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		if (!$this->pathOfCalendarObjectChange) {
 			$this->pathOfCalendarObjectChange = $request->getPath();
 		}
+		
+		// Ensure description consistency
+		if (!$isNew) {
+		    $this->ensureDescriptionConsistency($request, $vCal, $modified);
+		}
 
 		parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
 	}
@@ -629,5 +634,39 @@ EOF;
 		$calendarHome->getCalDAVBackend()->createCalendar($principalUri, $uri, [
 			'{DAV:}displayname' => $displayName,
 		]);
+	}
+	
+	private function ensureDescriptionConsistency(RequestInterface $request, VCalendar $vCal, &$modified) {
+	    $xAltDescPropName = "X-ALT-DESC";
+	    
+	    // Obtain previous version
+	    $node = $this->server->tree->getNodeForPath($request->getPath());
+	    $oldObj = Reader::read($node->get());
+	    
+	    // Get presence of description fields
+	    $hasOldDescription = isset($oldObj->VTODO) && isset($oldObj->VTODO->DESCRIPTION);
+	    $hasNewDescription = isset($vCal->VTODO) && isset($vCal->VTODO->DESCRIPTION);
+	    $hasOldXAltDesc = isset($oldObj->VTODO) && isset($oldObj->VTODO->{$xAltDescPropName});
+	    $hasNewXAltDesc = isset($vCal->VTODO) && isset($vCal->VTODO->{$xAltDescPropName});
+	    $hasAllDesc = $hasOldDescription && $hasNewDescription && $hasOldXAltDesc && $hasNewXAltDesc;
+	    
+	    // If all description fields are present, then verify consistency
+	    if ($hasAllDesc) {
+	        // Get descriptions
+	        $oldDescription = (string) $oldObj->VTODO->DESCRIPTION;
+	        $newDescription = (string) $vCal->VTODO->DESCRIPTION;
+	        $oldXAltDesc = (string) $oldObj->VTODO->{$xAltDescPropName};
+	        $newXAltDesc = (string) $vCal->VTODO->{$xAltDescPropName};
+	        
+	        // Compare descriptions
+	        $isSameDescription = $oldDescription === $newDescription;
+	        $isSameXAltDesc = $oldXAltDesc === $newXAltDesc;
+	        
+	        // If the description changed, but not the alternate one, then delete the latest
+	        if (!$isSameDescription && $isSameXAltDesc) {
+	            unset($vCal->VTODO->{$xAltDescPropName});
+	            $modified = true;
+	        }
+	    }
 	}
 }
