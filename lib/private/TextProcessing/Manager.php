@@ -284,11 +284,11 @@ class Manager implements IManager {
 			if (isset($preferences[$task->getType()])) {
 				// If a preference for this task type is set, move the preferred provider to the start
 				$provider = current(array_values(array_filter($providers, function ($provider) use ($preferences, $task) {
-          if ($provider instanceof IProviderWithId) {
+					if ($provider instanceof IProviderWithId) {
 						return $provider->getId() === $preferences[$task->getType()];
 					}
-          $provider::class === $preferences[$task->getType()];
-        })));
+					$provider::class === $preferences[$task->getType()];
+				})));
 				if ($provider !== false) {
 					$providers = array_filter($providers, fn ($p) => $p !== $provider);
 					array_unshift($providers, $provider);
