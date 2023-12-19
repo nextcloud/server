@@ -692,6 +692,7 @@ return array(
     'OCP\\TextProcessing\\IManager' => $baseDir . '/lib/public/TextProcessing/IManager.php',
     'OCP\\TextProcessing\\IProvider' => $baseDir . '/lib/public/TextProcessing/IProvider.php',
     'OCP\\TextProcessing\\IProviderWithExpectedRuntime' => $baseDir . '/lib/public/TextProcessing/IProviderWithExpectedRuntime.php',
+    'OCP\\TextProcessing\\IProviderWithId' => $baseDir . '/lib/public/TextProcessing/IProviderWithId.php',
     'OCP\\TextProcessing\\IProviderWithUserId' => $baseDir . '/lib/public/TextProcessing/IProviderWithUserId.php',
     'OCP\\TextProcessing\\ITaskType' => $baseDir . '/lib/public/TextProcessing/ITaskType.php',
     'OCP\\TextProcessing\\SummaryTaskType' => $baseDir . '/lib/public/TextProcessing/SummaryTaskType.php',

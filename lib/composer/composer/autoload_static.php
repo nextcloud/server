@@ -725,6 +725,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TextProcessing\\IManager' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/IManager.php',
         'OCP\\TextProcessing\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/IProvider.php',
         'OCP\\TextProcessing\\IProviderWithExpectedRuntime' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/IProviderWithExpectedRuntime.php',
+        'OCP\\TextProcessing\\IProviderWithId' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/IProviderWithId.php',
         'OCP\\TextProcessing\\IProviderWithUserId' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/IProviderWithUserId.php',
         'OCP\\TextProcessing\\ITaskType' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/ITaskType.php',
         'OCP\\TextProcessing\\SummaryTaskType' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/SummaryTaskType.php',
