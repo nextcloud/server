@@ -43,8 +43,8 @@ use OCP\Dashboard\IWidget;
 use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IRequest;
 use OCP\IL10N;
+use OCP\IRequest;
 
 #[IgnoreOpenAPI]
 class DashboardController extends Controller {
