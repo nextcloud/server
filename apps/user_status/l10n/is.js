@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Á ferðinni",
     "Out sick" : "Veikindi",
     "Vacationing" : "Í fríi",
+    "Out of office" : "Ekki á staðnum",
     "Working remotely" : "Fjarvinna",
     "In a call" : "Er í símtali",
     "User status" : "Staða notanda",

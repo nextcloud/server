@@ -261,7 +261,6 @@
     "A file or folder with that name already exists in this folder" : "その名前のファイルまたはフォルダが、このフォルダに既に存在します",
     "The files is locked" : "ファイルはロックされています",
     "The file does not exist anymore" : "ファイルはもう存在しません",
-    "Chose destination" : "目的地を選ぶ",
     "Copy to {target}" : "{target} にコピー",
     "Move to {target}" : "{target} に移動",
     "Cancelled move or copy operation" : "キャンセルされた移動またはコピー操作",
@@ -311,6 +310,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
-    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません"
+    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
+    "Chose destination" : "目的地を選ぶ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

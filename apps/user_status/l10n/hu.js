@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Ingázás",
     "Out sick" : "Betegszabadságon",
     "Vacationing" : "Szabadságon",
+    "Out of office" : "Irodán kívül",
     "Working remotely" : "Távoli munkavégzés",
     "In a call" : "Hívásban",
     "User status" : "Felhasználói állapot",

@@ -269,7 +269,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Már létezik ilyen nevű fájl vagy mappa ebben a mappában",
     "The files is locked" : "Ez a fájl zárolva van",
     "The file does not exist anymore" : "Ez a fájl már nem létezik",
-    "Chose destination" : "Válasszon célt",
     "Copy to {target}" : "Másolás ide: {target}",
     "Move to {target}" : "Áthelyezés ide: {target}",
     "Cancelled move or copy operation" : "Az áthelyezés vagy másolás művelet megszakítva",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Search for an account" : "Fiók keresése",
     "Choose" : "Válasszon",
-    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
+    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
+    "Chose destination" : "Válasszon célt"
 },
 "nplurals=2; plural=(n != 1);");

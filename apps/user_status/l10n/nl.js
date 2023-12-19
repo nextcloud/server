@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Woon-werk",
     "Out sick" : "Ziek",
     "Vacationing" : "Op vakantie",
+    "Out of office" : "Niet op kantoor",
     "Working remotely" : "Thuiswerken",
     "In a call" : "In gesprek",
     "User status" : "Gebruikersstatus",

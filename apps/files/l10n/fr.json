@@ -267,7 +267,6 @@
     "A file or folder with that name already exists in this folder" : "Un fichier ou un dossier portant ce nom existe déjà dans ce dossier",
     "The files is locked" : "Le fichier est verrouillé",
     "The file does not exist anymore" : "Le fichier n'existe plus",
-    "Chose destination" : "Choisir la destination",
     "Copy to {target}" : "Copier vers {target}",
     "Move to {target}" : "Déplacer vers {target}",
     "Cancelled move or copy operation" : "Opération de déplacement ou de copie annulée",
@@ -319,6 +318,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Cette liste n'est pas affichée en totalité pour des raisons de performances. Les fichiers seront affichés au fur et à mesure que vous parcourrez la liste.",
     "Search for an account" : "Chercher un compte",
     "Choose" : "Choisir",
-    "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé"
+    "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé",
+    "Chose destination" : "Choisir la destination"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

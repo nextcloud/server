@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Đang di chuyển",
     "Out sick" : "Bị ốm",
     "Vacationing" : "Đi nghỉ",
+    "Out of office" : "Không ở văn phòng",
     "Working remotely" : "Làm việc từ xa",
     "User status" : "Trạng thái người dùng",
     "Clear status after" : "Xóa trạng thái sau",

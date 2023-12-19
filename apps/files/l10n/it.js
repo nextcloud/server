@@ -263,7 +263,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Esiste già un file o una cartella con quel nome in questa cartella",
     "The files is locked" : "Il file è bloccato",
     "The file does not exist anymore" : "Il file non esiste più",
-    "Chose destination" : "Scegli destinazione",
     "Copy to {target}" : "Copia in {target}",
     "Move to {target}" : "Sposta in {target}",
     "Cancelled move or copy operation" : "Operazione di spostamento o copia annullata",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Questa lista non è stata mostrata completamente per ragioni di performances. I file verranno mostrati durante la navigazione della lista.",
     "Search for an account" : "Cerca un account",
     "Choose" : "Scegli",
-    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato"
+    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato",
+    "Chose destination" : "Scegli destinazione"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

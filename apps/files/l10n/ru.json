@@ -261,7 +261,6 @@
     "A file or folder with that name already exists in this folder" : "В этой папке уже есть файл или папка с этим именем",
     "The files is locked" : "Файлы заблокированы",
     "The file does not exist anymore" : "Файл больше не существует",
-    "Chose destination" : "Выбор места назначения",
     "Copy to {target}" : "Скопировать в «{target}»",
     "Move to {target}" : "Переместить в «{target}»",
     "Cancelled move or copy operation" : "Копирование или перемещение отменено",
@@ -311,6 +310,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "Choose" : "Выберите",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
+    "Chose destination" : "Выбор места назначения"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
