@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Under vejs",
     "Out sick" : "Sygemeldt",
     "Vacationing" : "Holder ferie",
+    "Out of office" : "Ikke på kontoret",
     "Working remotely" : "Arbejder hjemmefra",
     "In a call" : "Taler i telefon",
     "User status" : "Bruger status",

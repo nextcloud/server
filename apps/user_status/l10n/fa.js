@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "در رفت و آمد",
     "Out sick" : "مرخصی استعلاجی",
     "Vacationing" : "تعطیلات",
+    "Out of office" : "بیرون از دفتر",
     "Working remotely" : "دورکاری",
     "In a call" : "در حال تماس تلفنی",
     "User status" : "وضعبت کاربر",

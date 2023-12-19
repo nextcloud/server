@@ -263,7 +263,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Ένα αρχείο ή ένας φάκελος με αυτό το όνομα υπάρχει ήδη σε αυτόν το φάκελο",
     "The files is locked" : "Το αρχείο είναι κλειδωμένο",
     "The file does not exist anymore" : "Το αρχείο δεν υπάρχει πλέον",
-    "Chose destination" : "Επιλέξτε προορισμό",
     "Copy to {target}" : "Αντιγραφή σε {target}",
     "Move to {target}" : "Μετακίνηση σε {target}",
     "Cancelled move or copy operation" : "Ακυρώθηκε η λειτουργία μετακίνησης ή αντιγραφής",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
-    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
+    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
+    "Chose destination" : "Επιλέξτε προορισμό"
 },
 "nplurals=2; plural=(n != 1);");

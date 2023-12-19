@@ -261,7 +261,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Izen hori duen fitxategi edo karpeta bat dago karpena honetan",
     "The files is locked" : "Fixategiak blokeatuta dago",
     "The file does not exist anymore" : "Fitxategia ez da existizen dagoeneko",
-    "Chose destination" : "Aukeratu helburua",
     "Copy to {target}" : "Kopiatu hona: {target}",
     "Move to {target}" : "Mugitu hona: {target}",
     "Cancelled move or copy operation" : "Mugitze edo kopiatze operazioa utzi da",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
-    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
+    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
+    "Chose destination" : "Aukeratu helburua"
 },
 "nplurals=2; plural=(n != 1);");

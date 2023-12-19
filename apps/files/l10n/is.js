@@ -269,7 +269,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Skrá eða mappa með þessu heiti er þegar til staðar í þessari möppu",
     "The files is locked" : "Skráin er læst",
     "The file does not exist anymore" : "Skráin  er ekki lengur til",
-    "Chose destination" : "Veldu áfangastað",
     "Copy to {target}" : "Afrita í {target}",
     "Move to {target}" : "Færa í {target}",
     "Cancelled move or copy operation" : "Hætti við aðgerð við að færa eða afrita",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "Search for an account" : "Leita að notandaaðgangi",
     "Choose" : "Velja",
-    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt"
+    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt",
+    "Chose destination" : "Veldu áfangastað"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
