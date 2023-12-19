@@ -30,7 +30,15 @@ class AccessibleThemeTestCase extends TestCase {
 	protected ITheme $theme;
 	protected Util $util;
 
+	/**
+	 * Set to true to check for WCAG AAA level accessibility
+	 */
+	protected bool $WCAGaaa = false;
+
 	public function dataAccessibilityPairs() {
+		$textContrast = $this->WCAGaaa ? 7.0 : 4.5;
+		$elementContrast = 3.0;
+
 		return [
 			'primary-element on background' => [
 				[
@@ -44,7 +52,7 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-darker',
 					'--color-main-background-blur',
 				],
-				3.0,
+				$elementContrast,
 			],
 			'status color elements on background' => [
 				[
@@ -64,7 +72,18 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-darker',
 					'--color-main-background-blur',
 				],
-				3.0,
+				$elementContrast,
+			],
+			// Those two colors are used for borders which will be `color-main-text` on focussed state, thus need 3:1 contrast to it
+			'success-error-border-colors' => [
+				[
+					'--color-error',
+					'--color-success',
+				],
+				[
+					'--color-main-text',
+				],
+				$elementContrast,
 			],
 			'primary-element-text' => [
 				[
@@ -75,7 +94,7 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-primary-element',
 					'--color-primary-element-hover',
 				],
-				4.5,
+				$textContrast,
 			],
 			'primary-element-light-text' => [
 				['--color-primary-element-light-text'],
@@ -83,7 +102,7 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-primary-element-light',
 					'--color-primary-element-light-hover',
 				],
-				4.5,
+				$textContrast,
 			],
 			'main-text' => [
 				['--color-main-text'],
@@ -94,7 +113,7 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-darker',
 					'--color-main-background-blur',
 				],
-				4.5,
+				$textContrast,
 			],
 			'max-contrast-text' => [
 				['--color-text-maxcontrast'],
@@ -103,14 +122,14 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-hover',
 					'--color-background-dark',
 				],
-				4.5,
+				$textContrast,
 			],
 			'max-contrast text-on blur' => [
 				['--color-text-maxcontrast-background-blur'],
 				[
 					'--color-main-background-blur',
 				],
-				4.5,
+				$textContrast,
 			],
 			'status-text' => [
 				[
@@ -125,7 +144,7 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-dark',
 					'--color-main-background-blur',
 				],
-				4.5,
+				$textContrast,
 			],
 		];
 	}

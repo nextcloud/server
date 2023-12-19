@@ -52,17 +52,17 @@ class DarkTheme extends DefaultTheme implements ITheme {
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
-		$colorMainText = '#D8D8D8';
+		$colorMainText = '#EBEBEB';
 		$colorMainBackground = '#171717';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
-		$colorTextMaxcontrast = $this->util->darken($colorMainText, 28);
+		$colorTextMaxcontrast = $this->util->darken($colorMainText, 32);
 
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#FF5252';
+		$colorError = '#FF3333';
 		$colorWarning = '#FFCC00';
-		$colorSuccess = '#50BB50';
+		$colorSuccess = '#3B973B';
 		$colorInfo = '#00AEFF';
 
 		return array_merge(
@@ -92,7 +92,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-error-hover' => $this->util->lighten($colorError, 10),
-				'--color-error-text' => $this->util->lighten($colorError, 10),
+				'--color-error-text' => $this->util->lighten($colorError, 15),
 				'--color-warning' => $colorWarning,
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
 				'--color-warning-hover' => $this->util->lighten($colorWarning, 10),
@@ -100,7 +100,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-success' => $colorSuccess,
 				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
 				'--color-success-hover' => $this->util->lighten($colorSuccess, 10),
-				'--color-success-text' => $colorSuccess,
+				'--color-success-text' => $this->util->lighten($colorSuccess, 15),
 				'--color-info' => $colorInfo,
 				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
