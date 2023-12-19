@@ -207,6 +207,7 @@ import EyeSvg from '@mdi/svg/svg/eye.svg?raw'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
+import { loadState } from '@nextcloud/initial-state'
 
 // Dynamic loading
 const NcModal = () => import(
@@ -384,6 +385,7 @@ export default {
 				&& this.currentFile?.permissions?.includes('W')
 				&& this.isImage
 				&& !this.comparisonFile
+				&& (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		},
 
 		modalClass() {
