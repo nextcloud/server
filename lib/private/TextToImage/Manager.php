@@ -83,7 +83,7 @@ class Manager implements IManager {
 		foreach ($context->getTextToImageProviders() as $providerServiceRegistration) {
 			$class = $providerServiceRegistration->getService();
 			try {
-				$this->providers[$class] = $this->serverContainer->get($class);
+				$this->providers[] = $this->serverContainer->get($class);
 			} catch (Throwable $e) {
 				$this->logger->error('Failed to load Text to image provider ' . $class, [
 					'exception' => $e,
