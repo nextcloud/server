@@ -46,7 +46,7 @@
 				</template>
 			</BreadCrumbs>
 
-			<NcButton v-if="filesListWidth >= 512"
+			<NcButton v-if="filesListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
@@ -113,6 +113,7 @@ import { orderBy } from 'natural-orderby'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
+import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
 import LinkIcon from 'vue-material-design-icons/Link.vue'
@@ -172,6 +173,9 @@ export default defineComponent({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
+
+		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
+
 		return {
 			filesStore,
 			pathsStore,
@@ -179,6 +183,7 @@ export default defineComponent({
 			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
+			enableGridView,
 		}
 	},
 
