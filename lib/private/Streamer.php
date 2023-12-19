@@ -28,7 +28,7 @@
  */
 namespace OC;
 
-use Icewind\Streams\CallBackWrapper;
+use Icewind\Streams\CallbackWrapper;
 use OC\Files\Filesystem;
 use OCP\Files\File;
 use OCP\Files\Folder;
