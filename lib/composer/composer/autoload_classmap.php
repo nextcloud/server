@@ -658,6 +658,7 @@ return array(
     'OCP\\SpeechToText\\Events\\TranscriptionSuccessfulEvent' => $baseDir . '/lib/public/SpeechToText/Events/TranscriptionSuccessfulEvent.php',
     'OCP\\SpeechToText\\ISpeechToTextManager' => $baseDir . '/lib/public/SpeechToText/ISpeechToTextManager.php',
     'OCP\\SpeechToText\\ISpeechToTextProvider' => $baseDir . '/lib/public/SpeechToText/ISpeechToTextProvider.php',
+    'OCP\\SpeechToText\\ISpeechToTextProviderWithId' => $baseDir . '/lib/public/SpeechToText/ISpeechToTextProviderWithId.php',
     'OCP\\Support\\CrashReport\\ICollectBreadcrumbs' => $baseDir . '/lib/public/Support/CrashReport/ICollectBreadcrumbs.php',
     'OCP\\Support\\CrashReport\\IMessageReporter' => $baseDir . '/lib/public/Support/CrashReport/IMessageReporter.php',
     'OCP\\Support\\CrashReport\\IRegistry' => $baseDir . '/lib/public/Support/CrashReport/IRegistry.php',

@@ -31,6 +31,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 use OCP\SpeechToText\ISpeechToTextManager;
+use OCP\SpeechToText\ISpeechToTextProviderWithId;
 use OCP\TextProcessing\IManager;
 use OCP\TextProcessing\IProvider;
 use OCP\TextProcessing\IProviderWithId;
@@ -70,7 +71,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		$sttProviders = [];
 		foreach ($this->sttManager->getProviders() as $provider) {
 			$sttProviders[] = [
-				'class' => $provider::class,
+				'class' => $provider instanceof ISpeechToTextProviderWithId ? $provider->getId() : $provider::class,
 				'name' => $provider->getName(),
 			];
 		}
