@@ -28,9 +28,6 @@ namespace OCA\UserStatus\Tests\Service;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
-use OC\User\User;
-use OCA\DAV\CalDAV\Status\Status;
-use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -45,7 +42,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -71,9 +67,6 @@ class StatusServiceTest extends TestCase {
 	/** @var IUserManager|MockObject  */
 	private $userManager;
 
-	/** @var CalendarStatusService|MockObject  */
-	private $calendarStatusService;
-
 	private StatusService $service;
 
 	protected function setUp(): void {
@@ -84,8 +77,6 @@ class StatusServiceTest extends TestCase {
 		$this->predefinedStatusService = $this->createMock(PredefinedStatusService::class);
 		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->calendarStatusService = $this->createMock(CalendarStatusService::class);
-
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->config->method('getAppValue')
@@ -99,8 +90,7 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager,
-			$this->calendarStatusService,
+			$this->userManager
 		);
 	}
 
@@ -156,8 +146,7 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager,
-			$this->calendarStatusService,
+			$this->userManager
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -176,8 +165,7 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager,
-			$this->calendarStatusService,
+			$this->userManager
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -836,36 +824,5 @@ class StatusServiceTest extends TestCase {
 			->with([2]);
 
 		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
-	}
-
-	public function testCalendarAvailabilityNoUser(): void {
-		$userId = 'admin';
-
-		$this->userManager->expects(self::once())
-			->method('get')
-			->with($userId)
-			->willReturn(null);
-		$this->calendarStatusService->expects(self::never())
-			->method('processCalendarAvailability');
-
-		$this->service->getCalendarStatus($userId);
-	}
-
-	public function testCalendarAvailabilityNoStatus(): void {
-		$user = $this->createConfiguredMock(IUser::class, [
-			'getUID' => 'admin',
-			'getEMailAddress' => 'test@test.com',
-		]);
-
-		$this->userManager->expects(self::once())
-			->method('get')
-			->with($user->getUID())
-			->willReturn($user);
-		$this->calendarStatusService->expects(self::once())
-			->method('processCalendarAvailability')
-			->with($user)
-			->willReturn(null);
-
-		$this->service->getCalendarStatus($user->getUID());
 	}
 }

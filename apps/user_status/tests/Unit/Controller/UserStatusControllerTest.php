@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Tests\Controller;
 
+use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Controller\UserStatusController;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -47,7 +48,10 @@ class UserStatusControllerTest extends TestCase {
 	private $logger;
 
 	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
+	private $statusService;
+
+	/** @var CalendarStatusService|\PHPUnit\Framework\MockObject\MockObject $calendarStatusService */
+	private $calendarStatusService;
 
 	/** @var UserStatusController */
 	private $controller;
@@ -58,15 +62,23 @@ class UserStatusControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$userId = 'john.doe';
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->service = $this->createMock(StatusService::class);
+		$this->statusService = $this->createMock(StatusService::class);
+		$this->calendarStatusService = $this->createMock(CalendarStatusService::class);
 
-		$this->controller = new UserStatusController('user_status', $request, $userId, $this->logger, $this->service);
+		$this->controller = new UserStatusController(
+			'user_status',
+			$request,
+			$userId,
+			$this->logger,
+			$this->statusService,
+			$this->calendarStatusService,
+		);
 	}
 
 	public function testGetStatus(): void {
 		$userStatus = $this->getUserStatus();
 
-		$this->service->expects($this->once())
+		$this->statusService->expects($this->once())
 			->method('findByUserId')
 			->with('john.doe')
 			->willReturn($userStatus);
@@ -85,7 +97,10 @@ class UserStatusControllerTest extends TestCase {
 	}
 
 	public function testGetStatusDoesNotExist(): void {
-		$this->service->expects($this->once())
+		$this->calendarStatusService->expects(self::once())
+			->method('processCalendarStatus')
+			->with('john.doe');
+		$this->statusService->expects($this->once())
 			->method('findByUserId')
 			->with('john.doe')
 			->willThrowException(new DoesNotExistException(''));
@@ -121,12 +136,12 @@ class UserStatusControllerTest extends TestCase {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setStatus')
 				->with('john.doe', $statusType, null, true)
 				->willThrowException($exception);
 		} else {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setStatus')
 				->with('john.doe', $statusType, null, true)
 				->willReturn($userStatus);
@@ -187,12 +202,12 @@ class UserStatusControllerTest extends TestCase {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setPredefinedMessage')
 				->with('john.doe', $messageId, $clearAt)
 				->willThrowException($exception);
 		} else {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setPredefinedMessage')
 				->with('john.doe', $messageId, $clearAt)
 				->willReturn($userStatus);
@@ -259,28 +274,28 @@ class UserStatusControllerTest extends TestCase {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setCustomMessage')
 				->with('john.doe', $statusIcon, $message, $clearAt)
 				->willThrowException($exception);
 		} else {
 			if ($expectSuccessAsReset) {
-				$this->service->expects($this->never())
+				$this->statusService->expects($this->never())
 					->method('setCustomMessage');
-				$this->service->expects($this->once())
+				$this->statusService->expects($this->once())
 					->method('clearMessage')
 					->with('john.doe');
-				$this->service->expects($this->once())
+				$this->statusService->expects($this->once())
 					->method('findByUserId')
 					->with('john.doe')
 					->willReturn($userStatus);
 			} else {
-				$this->service->expects($this->once())
+				$this->statusService->expects($this->once())
 					->method('setCustomMessage')
 					->with('john.doe', $statusIcon, $message, $clearAt)
 					->willReturn($userStatus);
 
-				$this->service->expects($this->never())
+				$this->statusService->expects($this->never())
 					->method('clearMessage');
 			}
 		}
@@ -326,7 +341,7 @@ class UserStatusControllerTest extends TestCase {
 	}
 
 	public function testClearMessage(): void {
-		$this->service->expects($this->once())
+		$this->statusService->expects($this->once())
 			->method('clearMessage')
 			->with('john.doe');
 

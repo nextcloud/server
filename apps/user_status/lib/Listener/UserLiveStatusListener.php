@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Listener;
 
+use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Connector\UserStatus as ConnectorUserStatus;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
@@ -48,7 +49,8 @@ class UserLiveStatusListener implements IEventListener {
 
 	public function __construct(UserStatusMapper $mapper,
 		StatusService $statusService,
-		ITimeFactory $timeFactory) {
+		ITimeFactory $timeFactory,
+		private CalendarStatusService $calendarStatusService) {
 		$this->mapper = $mapper;
 		$this->statusService = $statusService;
 		$this->timeFactory = $timeFactory;
@@ -65,6 +67,7 @@ class UserLiveStatusListener implements IEventListener {
 
 		$user = $event->getUser();
 		try {
+			$this->calendarStatusService->processCalendarStatus($user->getUID());
 			$userStatus = $this->statusService->findByUserId($user->getUID());
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
@@ -78,6 +81,12 @@ class UserLiveStatusListener implements IEventListener {
 		// will not override it.
 		if ($userStatus->getIsUserDefined() &&
 			\in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
+			return;
+		}
+
+		// Don't overwrite the "away" calendar status if it's set
+		if($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+			$event->setUserStatus(new ConnectorUserStatus($userStatus));
 			return;
 		}
 
