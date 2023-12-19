@@ -3,7 +3,8 @@
 		:class="{
 			'order-selector-element': true,
 			'order-selector-element--disabled': app.default
-		}">
+		}"
+		@focusin="$emit('update:focus')">
 		<svg width="20"
 			height="20"
 			viewBox="0 0 20 20"
@@ -25,6 +26,8 @@
 			<NcButton v-show="!isFirst && !app.default"
 				ref="buttonUp"
 				:aria-label="t('settings', 'Move up')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
 				data-cy-app-order-button="up"
 				type="tertiary-no-background"
 				@click="moveUp">
@@ -36,6 +39,8 @@
 			<NcButton v-show="!isLast && !app.default"
 				ref="buttonDown"
 				:aria-label="t('settings', 'Move down')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
 				data-cy-app-order-button="down"
 				type="tertiary-no-background"
 				@click="moveDown">
@@ -52,7 +57,7 @@
 import type { PropType } from 'vue'
 
 import { translate as t } from '@nextcloud/l10n'
-import { defineComponent, nextTick, onUpdated, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 
 import IconArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import IconArrowUp from 'vue-material-design-icons/ArrowUp.vue'
@@ -73,6 +78,17 @@ export default defineComponent({
 		NcButton,
 	},
 	props: {
+		/**
+		 * Needs to be forwarded to the buttons (as interactive elements)
+		 */
+		ariaDescribedby: {
+			type: String,
+			default: null,
+		},
+		ariaDetails: {
+			type: String,
+			default: null,
+		},
 		app: {
 			type: Object as PropType<IApp>,
 			required: true,
@@ -89,6 +105,10 @@ export default defineComponent({
 	emits: {
 		'move:up': () => true,
 		'move:down': () => true,
+		/**
+		 * We need this as Sortable.js removes all native focus event listeners
+		 */
+		'update:focus': () => true,
 	},
 	setup(props, { emit }) {
 		const buttonUp = ref()
@@ -116,10 +136,12 @@ export default defineComponent({
 		}
 
 		/**
-		 * onUpdated hook is used to reset the focus on the last used button (if requested)
+		 * Reset the focus on the last used button.
 		 * If the button is now visible anymore (because this element is the first/last) then the opposite button is focussed
+		 *
+		 * This function is exposed to the "AppOrderSelector" component which triggers this when the list was successfully rerendered
 		 */
-		onUpdated(() => {
+		const keepFocus = () => {
 			if (needsFocus !== 0) {
 				// focus requested
 				if ((needsFocus === 1 || props.isLast) && !props.isFirst) {
@@ -130,7 +152,7 @@ export default defineComponent({
 				}
 			}
 			needsFocus = 0
-		})
+		}
 
 		return {
 			buttonUp,
@@ -138,6 +160,8 @@ export default defineComponent({
 
 			moveUp,
 			moveDown,
+
+			keepFocus,
 
 			t,
 		}

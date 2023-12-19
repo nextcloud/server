@@ -47,9 +47,10 @@ class SetupCheckManager implements ISetupCheckManager {
 			$setupCheckObject = Server::get($setupCheck->getService());
 			$this->logger->debug('Running check '.get_class($setupCheckObject));
 			$setupResult = $setupCheckObject->run();
+			$setupResult->setName($setupCheckObject->getName());
 			$category = $setupCheckObject->getCategory();
 			$results[$category] ??= [];
-			$results[$category][$setupCheckObject->getName()] = $setupResult;
+			$results[$category][$setupCheckObject::class] = $setupResult;
 		}
 		return $results;
 	}

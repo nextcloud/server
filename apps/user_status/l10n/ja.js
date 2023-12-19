@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "通勤中",
     "Out sick" : "体調不良",
     "Vacationing" : "休暇",
+    "Out of office" : "オフィス外",
     "Working remotely" : "リモートワーク中",
     "In a call" : "通話中",
     "User status" : "ユーザーステータス",
-    "View profile" : "プロフィールを表示",
     "Clear status after" : "ステータスの有効期限",
     "What is your status?" : "現在のオンラインステータスは？",
     "Set status" : "ステータスを設定",
@@ -34,6 +34,7 @@ OC.L10N.register(
     "4 hours" : "4時間",
     "Mute all notifications" : "全ての通知をミュート",
     "Appear offline" : "オフライン",
+    "View profile" : "プロフィールを表示",
     "{status}, {timestamp}" : "{status}、{timestamp}"
 },
 "nplurals=1; plural=0;");

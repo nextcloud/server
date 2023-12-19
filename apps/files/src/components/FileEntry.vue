@@ -27,12 +27,7 @@
 		:data-cy-files-list-row-name="source.basename"
 		:draggable="canDrag"
 		class="files-list__row"
-		@contextmenu="onRightClick"
-		@dragover="onDragOver"
-		@dragleave="onDragLeave"
-		@dragstart="onDragStart"
-		@dragend="onDragEnd"
-		@drop="onDrop">
+		v-on="rowListeners">
 		<!-- Failed indicator -->
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
@@ -83,7 +78,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<span>{{ mtime }}</span>
+			<NcDateTime :timestamp="source.mtime" :ignore-seconds="true" />
 		</td>
 
 		<!-- View columns -->
@@ -110,7 +105,7 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
@@ -122,6 +117,7 @@ import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
@@ -131,7 +127,7 @@ import logger from '../logger.js'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntry',
 
 	components: {
@@ -140,6 +136,7 @@ export default Vue.extend({
 		FileEntryCheckbox,
 		FileEntryName,
 		FileEntryPreview,
+		NcDateTime,
 	},
 
 	props: {
@@ -192,6 +189,26 @@ export default Vue.extend({
 	},
 
 	computed: {
+		/**
+		 * Conditionally add drag and drop listeners
+		 * Do not add drag start and over listeners on renaming to allow to drag and drop text
+		 */
+		rowListeners() {
+			const conditionals = this.isRenaming
+				? {}
+				: {
+					dragstart: this.onDragStart,
+					dragover: this.onDragOver,
+				}
+
+			return {
+				...conditionals,
+				contextmenu: this.onRightClick,
+				dragleave: this.onDragLeave,
+				dragend: this.onDragEnd,
+				drop: this.onDrop,
+			}
+		},
 		currentView(): View {
 			return this.$navigation.active as View
 		},
@@ -255,13 +272,6 @@ export default Vue.extend({
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
 		},
-
-		mtime() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).fromNow()
-			}
-			return t('files_trashbin', 'A long time ago')
-		},
 		mtimeOpacity() {
 			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
 
@@ -308,6 +318,10 @@ export default Vue.extend({
 		},
 
 		canDrag() {
+			if (this.isRenaming) {
+				return false
+			}
+
 			const canDrag = (node: Node): boolean => {
 				return (node?.permissions & Permission.UPDATE) !== 0
 			}
@@ -454,7 +468,12 @@ export default Vue.extend({
 			logger.debug('Drag ended')
 		},
 
-		async onDrop(event) {
+		async onDrop(event: DragEvent) {
+			// skip if native drop like text drag and drop from files names
+			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+				return
+			}
+
 			event.preventDefault()
 			event.stopPropagation()
 

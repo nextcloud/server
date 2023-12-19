@@ -60,14 +60,14 @@ class Hooks {
 	protected $defaults;
 
 	public function __construct(IActivityManager $activityManager,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer,
-								IConfig $config,
-								IFactory $languageFactory,
-				   				Defaults $defaults) {
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		IMailer $mailer,
+		IConfig $config,
+		IFactory $languageFactory,
+		Defaults $defaults) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;

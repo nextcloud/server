@@ -87,7 +87,7 @@
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			:title="shippedBackground.details.attribution"
-			:aria-label="shippedBackground.details.attribution"
+			:aria-label="shippedBackground.details.description"
 			:aria-pressed="backgroundImage === shippedBackground.name"
 			:class="{
 				'background background__shipped': true,
@@ -387,8 +387,8 @@ export default {
 		&--active,
 		&:hover,
 		&:focus {
-			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
+			outline: 2px solid var(--color-main-text) !important;
+			border-color: var(--color-main-background) !important;
 		}
 
 		// Icon

@@ -30,15 +30,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
-use OCP\Calendar\Resource\IBackend as IResourceBackend;
-use OCP\Calendar\Room\IBackend as IRoomBackend;
-use OCP\Collaboration\Reference\IReferenceProvider;
-use OCP\TextProcessing\IProvider as ITextProcessingProvider;
-use OCP\SpeechToText\ISpeechToTextProvider;
-use OCP\Talk\ITalkBackend;
-use OCP\Translation\ITranslationProvider;
-use RuntimeException;
-use function array_shift;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -46,7 +37,10 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\Calendar\ICalendarProvider;
+use OCP\Calendar\Resource\IBackend as IResourceBackend;
+use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Capabilities\ICapability;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -57,10 +51,16 @@ use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\Talk\ITalkBackend;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\Translation\ITranslationProvider;
 use OCP\UserMigration\IMigrator as IUserMigrator;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
+use function array_shift;
 
 class RegistrationContext {
 	/** @var ServiceRegistration<ICapability>[] */
@@ -137,6 +137,12 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TextToImage\IProvider>[] */
+	private $textToImageProviders = [];
+
+
+
 
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
@@ -268,6 +274,13 @@ class RegistrationContext {
 			}
 			public function registerTextProcessingProvider(string $providerClass): void {
 				$this->context->registerTextProcessingProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
+			public function registerTextToImageProvider(string $providerClass): void {
+				$this->context->registerTextToImageProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -448,6 +461,10 @@ class RegistrationContext {
 
 	public function registerTextProcessingProvider(string $appId, string $class): void {
 		$this->textProcessingProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTextToImageProvider(string $appId, string $class): void {
+		$this->textToImageProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerTemplateProvider(string $appId, string $class): void {
@@ -737,6 +754,13 @@ class RegistrationContext {
 	 */
 	public function getTextProcessingProviders(): array {
 		return $this->textProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TextToImage\IProvider>[]
+	 */
+	public function getTextToImageProviders(): array {
+		return $this->textToImageProviders;
 	}
 
 	/**

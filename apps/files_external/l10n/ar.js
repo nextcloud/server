@@ -89,6 +89,8 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "شارك",
     "Show hidden files" : "عرض الملفات المخفية",
+    "Case sensitive file system" : "نظام الملفات حساس لحالة الأحرف الصغيرة و الكبيرة",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "تعطيله سوف يسمح باستعمال نظام ملفات غير حساس لحالة الأحرف الصغيرة و الكبيرة، لكن هذا سيترتب عليه تأثير سلبيٌّ في الأداء.",
     "Verify ACL access when listing files" : "تأكد من قائمة صلاحيات الوصول ACL عند سرد الملفات",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "التحقّق من قوائم صلاحيات الوصول ACL لكل ملف أو مجلد داخل دليل لتصفية العناصر التي لا يمتلك المستخدم أذونات لقراءتها. مع العلم أن هذا يؤثر على أداء النظام.",
     "Timeout" : "انتهى الوقت",
@@ -110,7 +112,7 @@ OC.L10N.register(
     "There was an error with this external storage." : "هنالك خطأ في وحدة التخزين الخارجية هذه.",
     "We were unable to check the external storage {basename}" : "لم نستطع التحقق من وحدة التخزين الخارجية  {basename}",
     "Examine this faulty external storage configuration" : "إفحَص التهيئة الخاطئة لوحدة التخزين الخارجية هذه",
-    "Open in files" : "إفتَح في شاشة الملفات",
+    "Open in Files" : "إفتَح في \"الملفات\"",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "هنالك خطأ في وحدة التخزين الخارجية هذه. هل ترغب في مراجعة تهيئة نقطة التشبيك mount point هذه في صفحة الإعدادات؟",
     "External mount error" : "خطأ في نقطة التثبيت (Mount point) الخارجي",
     "List of external storage." : "قائمة وحدات التخزين الخارجية.",
@@ -152,6 +154,7 @@ OC.L10N.register(
     "Credentials saved" : "تم حفظ بيانات الدخول",
     "Credentials saving failed" : "فشل حفظ معلومات تسجيل الدخول",
     "Credentials required" : "يتطلب بيانات الدخول",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "تعطيله سيؤدي إلى السماح باستخدام نظام ملفات غير حساس لحالة الأحرف الصفيرة و الكبيرة، و لكن هذا سيؤثر في سرعة الأداء",
     "Name" : "اسم"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

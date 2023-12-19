@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace OC\DB;
 
 class MissingColumnInformation {
-	private $listOfMissingColumns = [];
+	private array $listOfMissingColumns = [];
 
 	public function addHintForMissingColumn(string $tableName, string $columnName): void {
 		$this->listOfMissingColumns[] = [

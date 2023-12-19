@@ -179,7 +179,6 @@ OC.L10N.register(
     "Note to recipient" : "Obavijest primatelju",
     "Enter a note for the share recipient" : "Unesite bilješku za primatelja dijeljenja",
     "Create" : "Stvori",
-    "Update" : "Ažuriraj",
     "Share" : "Dijeli",
     "Delete share" : "Izbriši dijeljenje",
     "Others with access" : "Korisnici s omogućenim pristupom",
@@ -242,11 +241,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Nešto se dogodilo. Dijeljenje nije moguće prihvatiti.",
     "Something happened. Unable to reject the share." : "Nešto se dogodilo. Dijeljenje nije moguće odbiti.",
     "No expiration date set" : "Nije postavljen datum isteka",
-    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
     "Allow creating" : "Dopusti stvaranje",
     "Allow deleting" : "Dopusti brisanje",
     "Allow resharing" : "Dopusti ponovno dijeljenje",
     "Expiration date enforced" : "Provodi se datum isteka",
-    "Password protect" : "Zaštita zaporkom"
+    "Password protect" : "Zaštita zaporkom",
+    "Update" : "Ažuriraj"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

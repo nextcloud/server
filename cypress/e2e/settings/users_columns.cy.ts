@@ -38,7 +38,7 @@ describe('Settings: Show and hide columns', function() {
 		// reset all visibility toggles
 		cy.get('.modal-container #settings-section_visibility-settings input[type="checkbox"]').uncheck({ force: true })
 
-		cy.get('.modal-container').within(() => {
+		cy.contains('.modal-container', 'User management settings').within(() => {
 			// enable the last login toggle
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').check({ force: true })
 			// close the settings dialog
@@ -49,9 +49,7 @@ describe('Settings: Show and hide columns', function() {
 
 	it('Can show a column', function() {
 		// see that the language column is not in the header
-		cy.get('.user-list__header tr').within(() => {
-			cy.contains('Language').should('not.exist')
-		})
+		cy.get('[data-cy-user-list-header-languages]').should('not.exist')
 
 		// see that the language column is not in all user rows
 		cy.get('tbody.user-list__body tr').each(($row) => {
@@ -61,7 +59,7 @@ describe('Settings: Show and hide columns', function() {
 		// open the settings dialog
 		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
 
-		cy.get('.modal-container').within(() => {
+		cy.contains('.modal-container', 'User management settings').within(() => {
 			// enable the language toggle
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').should('not.be.checked')
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').check({ force: true })
@@ -72,31 +70,27 @@ describe('Settings: Show and hide columns', function() {
 		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the language column is in the header
-		cy.get('.user-list__header tr').within(() => {
-			cy.contains('Language').should('exist')
-		})
+		cy.get('[data-cy-user-list-header-languages]').should('exist')
 
 		// see that the language column is in all user rows
 		getUserList().find('tbody tr').each(($row) => {
-			cy.wrap($row).get('[data-test-id="cell-language"]').should('exist')
+			cy.wrap($row).get('[data-cy-user-list-cell-language]').should('exist')
 		})
 	})
 
 	it('Can hide a column', function() {
 		// see that the last login column is in the header
-		cy.get('.user-list__header tr').within(() => {
-			cy.contains('Last login').should('exist')
-		})
+		cy.get('[data-cy-user-list-header-last-login]').should('exist')
 
 		// see that the last login column is in all user rows
 		getUserList().find('tbody tr').each(($row) => {
-			cy.wrap($row).get('[data-test-id="cell-lastLogin"]').should('exist')
+			cy.wrap($row).get('[data-cy-user-list-cell-last-login]').should('exist')
 		})
 
 		// open the settings dialog
 		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
 
-		cy.get('.modal-container').within(() => {
+		cy.contains('.modal-container', 'User management settings').within(() => {
 			// disable the last login toggle
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').should('be.checked')
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').uncheck({ force: true })
@@ -104,16 +98,14 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.contains('.modal-container', 'User management settings').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the last login column is not in the header
-		cy.get('.user-list__header tr').within(() => {
-			cy.contains('Last login').should('not.exist')
-		})
+		cy.get('[data-cy-user-list-header-last-login]').should('not.exist')
 
 		// see that the last login column is not in all user rows
 		getUserList().find('tbody tr').each(($row) => {
-			cy.wrap($row).get('[data-test-id="cell-lastLogin"]').should('not.exist')
+			cy.wrap($row).get('[data-cy-user-list-cell-last-login]').should('not.exist')
 		})
 	})
 })

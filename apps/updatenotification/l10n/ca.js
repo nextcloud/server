@@ -1,13 +1,13 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Hi ha disponible la versió {version}. Obteniu més informació sobre com aplicar l'actualització.",
+    "{version} is available. Get more information on how to update." : "{version} ja està disponible. Obteniu més informació sobre com aplicar l'actualització.",
     "Channel updated" : "S'ha actualitzat el canal",
     "Web updater is disabled" : "L'actualitzador web està inhabilitat",
     "Update notifications" : "Notificacions d'actualització",
     "The update server could not be reached since %d days to check for new updates." : "No s'ha pogut accedir al servidor d'actualitzacions des de fa %d dies per a comprovar si hi ha actualitzacions noves.",
     "Please check the Nextcloud and server log files for errors." : "Consulteu els fitxers de registre del servidor i del Nextcloud per a detectar errors.",
-    "Update to %1$s is available." : "Hi ha disponible l'actualització a la versió %1$s.",
+    "Update to %1$s is available." : "Hi ha disponible l'actualització a %1$s.",
     "Update to {serverAndVersion} is available." : "Hi ha disponible l'actualització a {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Hi ha disponible l'actualització a la versió %s per a {app}.",
     "Update notification" : "Notificació d'actualització",
@@ -20,7 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tingueu en compte que no es recomana l'actualitzador web amb més de 100 usuaris. Utilitzeu l'actualitzador de la línia d'ordres.",
     "Open updater" : "Obre l'actualitzador",
     "Download now" : "Baixa-ho ara",
-    "Please use the command line updater to update." : "Utilitzeu l'actualitzador de la línia d'ordres per a aplicar l'actualització.",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "L'actualitzador web està inhabilitat. Utilitzeu l'actualitzador de línia d'ordres o el mecanisme d'actualització adequat per al vostre mètode d'instal·lació (p. ex., Docker pull) per a actualitzar.",
     "What's new?" : "Quines novetats hi ha?",
     "View changelog" : "Mostra el registre de canvis",
     "The update check is not yet finished. Please refresh the page." : "La comprovació d'actualitzacions encara no ha finalitzat. Actualitzeu la pàgina.",
@@ -49,7 +49,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versió preliminar només per a provar característiques noves, no per a entorns de producció.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Hi ha <strong>%n</strong> aplicació que no té disponible cap versió compatible amb aquesta versió del Nextcloud.","Hi ha <strong>%n</strong> aplicacions que no tenen disponible cap versió compatible amb aquesta versió del Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Hi ha disponible l'actualització a la versió %2$s per a %1$s.",
+    "Please use the command line updater to update." : "Utilitzeu l'actualitzador de la línia d'ordres per a aplicar l'actualització.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Podeu canviar el canal d'actualitzacions a continuació, que també afecta la pàgina d'administració d'aplicacions. Per exemple, després de canviar al canal beta, se us oferiran actualitzacions d'aplicacions beta a la pàgina d'administració d'aplicacions.",
     "Update channel:" : "Canal d'actualitzacions:"
 },

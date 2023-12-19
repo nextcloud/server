@@ -100,16 +100,16 @@ class Principal implements BackendInterface {
 	private $languageFactory;
 
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IAccountManager $accountManager,
-								IShareManager $shareManager,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								ProxyMapper $proxyMapper,
-								KnownUserService $knownUserService,
-								IConfig $config,
-								IFactory $languageFactory,
-								string $principalPrefix = 'principals/users/') {
+		IGroupManager $groupManager,
+		IAccountManager $accountManager,
+		IShareManager $shareManager,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		ProxyMapper $proxyMapper,
+		KnownUserService $knownUserService,
+		IConfig $config,
+		IFactory $languageFactory,
+		string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->accountManager = $accountManager;

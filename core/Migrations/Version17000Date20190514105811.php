@@ -30,8 +30,8 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -67,7 +67,7 @@ class Version17000Date20190514105811 extends SimpleMigrationStep {
 				'default' => 0,
 			]);
 			$table->setPrimaryKey(['fileid'], 'fce_pk');
-//			$table->addUniqueIndex(['fileid'], 'fce_fileid_idx');
+			//			$table->addUniqueIndex(['fileid'], 'fce_fileid_idx');
 			$table->addIndex(['creation_time'], 'fce_ctime_idx');
 			$table->addIndex(['upload_time'], 'fce_utime_idx');
 		}

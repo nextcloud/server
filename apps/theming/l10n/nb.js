@@ -60,17 +60,6 @@ OC.L10N.register(
     "Change color" : "Endre farge",
     "Reset to default" : "Tilbakestill til standard",
     "Upload" : "Last opp",
-    "Remove background image" : "Fjern bakgrunnsbilde",
-    "Loading preview…" : "Laster forhåndsvisning…",
-    "Admin" : "Admin",
-    "Name cannot be empty" : "Navn kan ikke være tom",
-    "Pick from Files" : "Velg fra Filer",
-    "Custom color" : "Tilpasset farge",
-    "Plain background" : "Ensfarget bakgrunn",
-    "Insert from {productName}" : "Sett inn fra {productName}",
-    "Open documentation" : "Åpne dokumentasjon",
-    "https://…" : "https://…",
-    "Upload new login background" : "Last opp ny innloggingsbakgrunn",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge."
+    "Remove background image" : "Fjern bakgrunnsbilde"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,4 +1,27 @@
+/**
+ * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
+ *
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 import type { User } from '@nextcloud/cypress'
+import { getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils'
 
 describe('Login', () => {
 	let user: User
@@ -137,8 +160,8 @@ describe('Login', () => {
 		cy.url().should('match', /apps\/dashboard(\/|$)/)
 
 		// When click logout
-		cy.get('#user-menu button').should('exist').click()
-		cy.get('#logout a').should('contain.text', 'Log out').click()
+		getNextcloudUserMenuToggle().should('exist').click()
+		getNextcloudUserMenu().contains('a', 'Log out').click()
 
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)

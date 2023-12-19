@@ -29,9 +29,11 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Tests\Settings;
 
+use OC\User\Backend;
 use OCA\UpdateNotification\Settings\Admin;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroup;
@@ -40,11 +42,9 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;
-use OCP\UserInterface;
 use OCP\User\Backend\ICountUsersBackend;
-use OCP\AppFramework\Services\IInitialState;
+use OCP\UserInterface;
 use OCP\Util;
-use OC\User\Backend;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -84,11 +84,11 @@ class AdminTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Admin(
-			$this->config, 
-			$this->updateChecker, 
-			$this->groupManager, 
-			$this->dateTimeFormatter, 
-			$this->l10nFactory, 
+			$this->config,
+			$this->updateChecker,
+			$this->groupManager,
+			$this->dateTimeFormatter,
+			$this->l10nFactory,
 			$this->subscriptionRegistry,
 			$this->userManager,
 			$this->logger,

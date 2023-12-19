@@ -2,10 +2,10 @@ name: Psalm static code analysis
 
 on:
   pull_request:
-  push:
-    branches:
-      - master
-      - stable*
+
+concurrency:
+  group: static-code-analysis-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   static-code-analysis:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
 
@@ -68,7 +68,7 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
 

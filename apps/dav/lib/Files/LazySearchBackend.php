@@ -22,7 +22,6 @@
  */
 namespace OCA\DAV\Files;
 
-use Sabre\DAV\INode;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Query\Query;
 

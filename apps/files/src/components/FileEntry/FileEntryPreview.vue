@@ -22,7 +22,7 @@
 <template>
 	<span class="files-list__row-icon">
 		<template v-if="source.type === 'folder'">
-			<FolderOpenIcon v-once v-if="dragover" />
+			<FolderOpenIcon v-if="dragover" v-once />
 			<template v-else>
 				<FolderIcon v-once />
 				<OverlayIcon :is="folderOverlay"
@@ -37,18 +37,21 @@
 			alt=""
 			class="files-list__row-icon-preview"
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
+			loading="lazy"
 			:src="previewUrl"
 			@error="backgroundFailed = true"
 			@load="backgroundFailed = false">
 
-		<FileIcon v-once v-else />
+		<FileIcon v-else v-once />
 
 		<!-- Favorite icon -->
-		<span v-if="isFavorite"
-			class="files-list__row-icon-favorite"
-			:aria-label="t('files', 'Favorite')">
+		<span v-if="isFavorite" class="files-list__row-icon-favorite">
 			<FavoriteIcon v-once />
 		</span>
+
+		<OverlayIcon :is="fileOverlay"
+			v-if="fileOverlay"
+			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
 	</span>
 </template>
 
@@ -70,9 +73,12 @@ import KeyIcon from 'vue-material-design-icons/Key.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
+import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
+import { isLivePhoto } from '../../services/LivePhotos'
 
 export default Vue.extend({
 	name: 'FileEntryPreview',
@@ -80,6 +86,7 @@ export default Vue.extend({
 	components: {
 		AccountGroupIcon,
 		AccountPlusIcon,
+		CollectivesIcon,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
@@ -162,6 +169,14 @@ export default Vue.extend({
 			}
 		},
 
+		fileOverlay() {
+			if (isLivePhoto(this.source)) {
+				return PlayCircleIcon
+			}
+
+			return null
+		},
+
 		folderOverlay() {
 			if (this.source.type !== FileType.Folder) {
 				return null
@@ -194,6 +209,8 @@ export default Vue.extend({
 				return NetworkIcon
 			case 'group':
 				return AccountGroupIcon
+			case 'collective':
+				return CollectivesIcon
 			}
 
 			return null
@@ -202,11 +219,11 @@ export default Vue.extend({
 
 	methods: {
 		reset() {
-			// Reset background state
-			this.backgroundFailed = undefined
-			if (this.$refs.previewImg) {
+			if (this.backgroundFailed === true && this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
+			// Reset background state
+			this.backgroundFailed = undefined
 		},
 
 		t,

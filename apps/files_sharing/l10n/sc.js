@@ -178,7 +178,6 @@ OC.L10N.register(
     "Note to recipient" : "Nota a sa persone destinatària",
     "Enter a note for the share recipient" : "Inserta una nota pro sa persone destinatària",
     "Create" : "Crea",
-    "Update" : "Agiorna",
     "Share" : "Cumpartzi",
     "Others with access" : "Àtere cun atzessu",
     "No other users with access found" : "Peruna utèntzia cun atzessu agatada",
@@ -240,11 +239,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Non faghet a atzetare sa cumpartzidura.",
     "Something happened. Unable to reject the share." : "Non faghet a refudare sa cumpartzidura.",
     "No expiration date set" : "Peruna data de iscadèntzia impostada",
-    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
     "Allow creating" : "Permite sa creatzione",
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
     "Expiration date enforced" : "Data de iscadèntzia posta",
-    "Password protect" : "Bàrdia crae"
+    "Password protect" : "Bàrdia crae",
+    "Update" : "Agiorna"
 },
 "nplurals=2; plural=(n != 1);");

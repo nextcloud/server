@@ -50,6 +50,17 @@ class ClassComplexConstructor {
 	}
 }
 
+class ClassNullableUntypedConstructorArg {
+	public function __construct($class) {
+	}
+}
+class ClassNullableTypedConstructorArg {
+	public $class;
+	public function __construct(?\Some\Class $class) {
+		$this->class = $class;
+	}
+}
+
 interface IInterfaceConstructor {
 }
 class ClassInterfaceConstructor {
@@ -242,5 +253,18 @@ class SimpleContainerTest extends \Test\TestCase {
 			$this->container->query('test1'), $this->container->query('test1'));
 		$this->assertNotSame(
 			$this->container->query('test'), $this->container->query('test1'));
+	}
+
+	public function testQueryUntypedNullable(): void {
+		$this->expectException(\OCP\AppFramework\QueryException::class);
+
+		$this->container->query(ClassNullableUntypedConstructorArg::class);
+	}
+
+	public function testQueryTypedNullable(): void {
+		/** @var ClassNullableTypedConstructorArg $service */
+		$service = $this->container->query(ClassNullableTypedConstructorArg::class);
+
+		self::assertNull($service->class);
 	}
 }

@@ -75,18 +75,18 @@ class FederatedShareProvider implements IShareProvider {
 	 * DefaultShareProvider constructor.
 	 */
 	public function __construct(
-			private IDBConnection $dbConnection,
-			private AddressHandler $addressHandler,
-			private Notifications $notifications,
-			private TokenHandler $tokenHandler,
-			private IL10N $l,
-			private IRootFolder $rootFolder,
-			private IConfig $config,
-			private IUserManager $userManager,
-			private ICloudIdManager $cloudIdManager,
-			private \OCP\GlobalScale\IConfig $gsConfig,
-			private ICloudFederationProviderManager $cloudFederationProviderManager,
-			private LoggerInterface $logger,
+		private IDBConnection $dbConnection,
+		private AddressHandler $addressHandler,
+		private Notifications $notifications,
+		private TokenHandler $tokenHandler,
+		private IL10N $l,
+		private IRootFolder $rootFolder,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private ICloudIdManager $cloudIdManager,
+		private \OCP\GlobalScale\IConfig $gsConfig,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private LoggerInterface $logger,
 	) {
 	}
 

@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "يسمح للمستخدمين بمشاركة ارتباط مخصص لملف أو مجلد عن طريق إدخال عنوان بريد إلكتروني.",
     "Send password by mail" : "إرسال كلمة مرور بالإيميل",
     "Reply to initiator" : "ردّ على المُنشيء initiator",
-    "Unable to update share by mail config" : "تعذّر تحديث تهيئة المشاركة بالإيميل",
-    "Shared with %1$s" : "مشاركة مع %1$s",
-    "Shared with %1$s by %2$s" : "مشاركة مع %1$sمن قِبَل %2$s",
-    "Unshared from %1$s" : "إلغاء المشاركة مع %1$s",
-    "Unshared from %1$s by %2$s" : "إلغاء المشاركة مع %1$s من قِبَل%2$s",
-    "Password for mail share sent to %1$s" : "كلمة مرور للمشاركة بالإيميل أُرسلت إلى %1$s",
-    "You shared %1$s with %2$s by mail" : "أنت شاركت %1$s مع %2$s بالإيميل",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s شارك %1$s مع %2$s بالإيميل",
-    "You unshared %1$s from %2$s by mail" : "أنت ألغيت المشاركة %1$s مع %2$s بالإيميل",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s ألغى المشاركة %1$s مع %2$s بالإيميل",
-    "Password to access %1$s was sent to %2s" : "كلمة مرور للوصول إلى %1$s أُرسلت إلى %2s",
-    "Password to access %1$s was sent to you" : "كلمة مرور للوصول إلى %1$s أُرسلت إليك"
+    "Unable to update share by mail config" : "تعذّر تحديث تهيئة المشاركة بالإيميل"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

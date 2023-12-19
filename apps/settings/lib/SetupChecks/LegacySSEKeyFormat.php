@@ -44,12 +44,12 @@ class LegacySSEKeyFormat implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for old server-side-encryption being disabled');
+		return $this->l10n->t('Old server-side-encryption');
 	}
 
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueBool('encryption.legacy_format_support', false) === false) {
-			return SetupResult::success();
+			return SetupResult::success($this->l10n->t('Disabled'));
 		}
 		return SetupResult::warning($this->l10n->t('The old server-side-encryption format is enabled. We recommend disabling this.'), $this->urlGenerator->linkToDocs('admin-sse-legacy-format'));
 	}

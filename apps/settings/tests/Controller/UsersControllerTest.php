@@ -636,8 +636,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param ?string $oldDisplayName
 	 */
 	public function testSaveUserSettings($data,
-										 $oldEmailAddress,
-										 $oldDisplayName
+		$oldEmailAddress,
+		$oldDisplayName
 	) {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
@@ -948,9 +948,9 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testCanAdminChangeUserPasswords($encryptionEnabled,
-													$encryptionModuleLoaded,
-													$masterKeyEnabled,
-													$expected) {
+		$encryptionModuleLoaded,
+		$masterKeyEnabled,
+		$expected) {
 		$controller = $this->getController();
 
 		$this->encryptionManager->expects($this->any())

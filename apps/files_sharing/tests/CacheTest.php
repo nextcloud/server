@@ -244,7 +244,7 @@ class CacheTest extends TestCase {
 
 	public function testGetFolderContentsInRoot() {
 		$results = $this->user2View->getDirectoryContent('/');
-		$results = (array_filter($results, function($file) {
+		$results = (array_filter($results, function ($file) {
 			return $file->getName() !== 'welcome.txt';
 		}));
 
@@ -334,7 +334,7 @@ class CacheTest extends TestCase {
 		self::assertEquals([
 			'welcome.txt',
 			'simplefile.txt'
-		], array_map(function($node) {
+		], array_map(function ($node) {
 			return $node->getFileInfo()['name'];
 		}, $recents));
 	}

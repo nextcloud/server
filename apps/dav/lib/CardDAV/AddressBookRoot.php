@@ -41,11 +41,11 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 * @param string $principalPrefix
 	 */
 	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend,
-								\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
-								PluginManager $pluginManager,
-								?IUser $user,
-								?IGroupManager $groupManager,
-								string $principalPrefix = 'principals') {
+		\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
+		PluginManager $pluginManager,
+		?IUser $user,
+		?IGroupManager $groupManager,
+		string $principalPrefix = 'principals') {
 		parent::__construct($principalBackend, $carddavBackend, $principalPrefix);
 		$this->pluginManager = $pluginManager;
 		$this->user = $user;

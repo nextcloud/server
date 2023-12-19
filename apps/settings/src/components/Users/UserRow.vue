@@ -25,8 +25,8 @@
 
 <template>
 	<tr class="user-list__row"
-		:data-test="user.id">
-		<td class="row__cell row__cell--avatar">
+		:data-cy-user-row="user.id">
+		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
 			<NcLoadingIcon v-if="isLoadingUser"
 				:name="t('settings', 'Loading user …')"
 				:size="32" />
@@ -36,12 +36,12 @@
 				:user="user.id" />
 		</td>
 
-		<td class="row__cell row__cell--displayname" data-test-id="cell-displayname">
+		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
 				<NcTextField ref="displayNameField"
 					class="user-row-text-field"
-					data-test-id="input-displayName"
-					:data-test-loading="`${loading.displayName}`"
+					data-cy-user-list-input-displayname
+					:data-loading="loading.displayName || undefined"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{ 'icon-loading-small': loading.displayName }"
 					:show-trailing-button="true"
@@ -63,13 +63,13 @@
 			</template>
 		</td>
 
-		<td data-test-id="cell-password"
+		<td data-cy-user-list-cell-password
 			class="row__cell"
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
 			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
 				<NcTextField class="user-row-text-field"
-					data-test-id="input-password"
-					:data-test-loading="`${loading.password}`"
+					data-cy-user-list-input-password
+					:data-loading="loading.password || undefined"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{'icon-loading-small': loading.password}"
 					:show-trailing-button="true"
@@ -91,10 +91,12 @@
 			</span>
 		</td>
 
-		<td class="row__cell" data-test-id="cell-email">
+		<td class="row__cell" data-cy-user-list-cell-email>
 			<template v-if="editing">
 				<NcTextField class="user-row-text-field"
 					:class="{'icon-loading-small': loading.mailAddress}"
+					data-cy-user-list-input-email
+					:data-loading="loading.mailAddress || undefined"
 					:show-trailing-button="true"
 					:trailing-button-label="t('settings', 'Submit')"
 					:label="t('settings', 'Set new email address')"
@@ -113,13 +115,15 @@
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--multiline" data-test-id="cell-groups">
+		<td class="row__cell row__cell--large row__cell--multiline" data-cy-user-list-cell-groups>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'groups' + uniqueId">
 					{{ t('settings', 'Add user to group') }}
 				</label>
-				<NcSelect :input-id="'groups' + uniqueId"
+				<NcSelect data-cy-user-list-input-groups
+					:data-loading="loading.groups || undefined"
+					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
 					:loading="loading.groups"
@@ -143,14 +147,16 @@
 		</td>
 
 		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
-			data-test-id="cell-subadmins"
+			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
 			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set user as admin for') }}
 				</label>
-				<NcSelect :input-id="'subadmins' + uniqueId"
+				<NcSelect data-cy-user-list-input-subadmins
+					:data-loading="loading.subadmins || undefined"
+					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
 					:loading="loading.subadmins"
@@ -170,7 +176,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell" data-test-id="cell-quota">
+		<td class="row__cell" data-cy-user-list-cell-quota>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'quota' + uniqueId">
@@ -179,6 +185,8 @@
 				<NcSelect v-model="editedUserQuota"
 					:close-on-select="true"
 					:create-option="validateQuota"
+					data-cy-user-list-input-quota
+					:data-loading="loading.quota || undefined"
 					:disabled="isLoadingField"
 					:loading="loading.quota"
 					:append-to-body="false"
@@ -202,13 +210,15 @@
 
 		<td v-if="showConfig.showLanguages"
 			class="row__cell row__cell--large"
-			data-test-id="cell-language">
+			data-cy-user-list-cell-language>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'language' + uniqueId">
 					{{ t('settings', 'Set the language') }}
 				</label>
 				<NcSelect :id="'language' + uniqueId"
+					data-cy-user-list-input-language
+					:data-loading="loading.languages || undefined"
 					:allow-empty="false"
 					:disabled="isLoadingField"
 					:loading="loading.languages"
@@ -226,7 +236,7 @@
 		</td>
 
 		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-			data-test-id="cell-storageLocation"
+			data-cy-user-list-cell-storage-location
 			class="row__cell row__cell--large">
 			<template v-if="!isObfuscated">
 				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
@@ -241,11 +251,11 @@
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"
-			data-test-id="cell-lastLogin">
+			data-cy-user-list-cell-last-login>
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--fill" data-test-id="cell-manager">
+		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'manager' + uniqueId">
@@ -253,6 +263,8 @@
 				</label>
 				<NcSelect v-model="currentManager"
 					class="select--fill"
+					data-cy-user-list-input-manager
+					:data-loading="loading.manager || undefined"
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
 					:disabled="isLoadingField"
@@ -263,19 +275,19 @@
 					:placeholder="managerLabel"
 					@open="searchInitialUserManager"
 					@search="searchUserManager"
-					@option:selected="updateUserManager"
-					@input="updateUserManager" />
+					@option:selected="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--actions" data-test-id="cell-actions">
+		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
 			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
 				:actions="userActions"
 				:disabled="isLoadingField"
 				:edit="editing"
+				:user="user"
 				@update:edit="toggleEdit" />
 		</td>
 	</tr>
@@ -295,6 +307,7 @@ import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import {formatFileSize, parseFileSize} from "@nextcloud/files";
 
 export default {
 	name: 'UserRow',
@@ -423,9 +436,9 @@ export default {
 
 		usedSpace() {
 			if (this.user.quota?.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota?.used) })
+				return t('settings', '{size} used', { size: formatFileSize(this.user.quota?.used) })
 			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			return t('settings', '{size} used', { size: formatFileSize(0) })
 		},
 
 		canEdit() {
@@ -439,7 +452,7 @@ export default {
 				quota = this.settings.defaultQuota
 				if (quota !== 'none') {
 					// convert to numeric value to match what the server would usually return
-					quota = OC.Util.computerFileSize(quota)
+					quota = parseFileSize(quota, true)
 				}
 			}
 
@@ -447,9 +460,9 @@ export default {
 			if (quota === 'none' || quota === -3) {
 				return t('settings', 'Unlimited')
 			} else if (quota >= 0) {
-				return OC.Util.humanFileSize(quota)
+				return formatFileSize(quota)
 			}
-			return OC.Util.humanFileSize(0)
+			return formatFileSize(0)
 		},
 
 		userActions() {
@@ -486,7 +499,7 @@ export default {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota
 				}
-				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+				if (this.settings.defaultQuota !== unlimitedQuota.id && parseFileSize(this.settings.defaultQuota, true) >= 0) {
 					// if value is valid, let's map the quotaOptions or return custom quota
 					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
 				}
@@ -822,7 +835,8 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota,
+		  		// translate from locale string format to raw float format so backend can read it
+					value: '' + parseFileSize(quota, true)
 				})
 			} catch (error) {
 				console.error(error)
@@ -843,12 +857,12 @@ export default {
 				quota = quota?.id || quota.label
 			}
 			// only used for new presets sent through @Tag
-			const validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = parseFileSize(quota, true)
 			if (validQuota === null) {
 				return unlimitedQuota
 			} else {
 				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				return { id: quota, label: quota }
 			}
 		},
@@ -930,22 +944,6 @@ export default {
 		border-bottom: 1px solid var(--color-border);
 
 		:deep {
-			.input-field,
-			.input-field__main-wrapper,
-			.input-field__input {
-				height: 48px !important;
-			}
-
-			.input-field__input {
-				&:placeholder-shown:not(:focus) + .input-field__label {
-					inset-block-start: 16px !important;
-				}
-			}
-
-			.button-vue--icon-only {
-				height: 44px !important;
-			}
-
 			.v-select.select {
 				min-width: var(--cell-min-width);
 			}

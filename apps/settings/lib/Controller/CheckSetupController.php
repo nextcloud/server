@@ -47,35 +47,20 @@ namespace OCA\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\TransactionIsolationLevel;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
-use OC\DB\Connection;
-use OC\DB\MissingColumnInformation;
-use OC\DB\MissingIndexInformation;
-use OC\DB\MissingPrimaryKeyInformation;
-use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
-use OC\Lock\NoopLockingProvider;
-use OC\Lock\DBLockingProvider;
-use OC\MemoryInfo;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Events\AddMissingColumnsEvent;
-use OCP\DB\Events\AddMissingIndicesEvent;
-use OCP\DB\Events\AddMissingPrimaryKeyEvent;
-use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
@@ -83,8 +68,6 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
-use OCP\Security\Bruteforce\IThrottler;
-use OCP\Security\ISecureRandom;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
@@ -104,22 +87,12 @@ class CheckSetupController extends Controller {
 	private $logger;
 	/** @var IEventDispatcher */
 	private $dispatcher;
-	/** @var Connection */
-	private $db;
 	/** @var ILockingProvider */
 	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var MemoryInfo */
-	private $memoryInfo;
-	/** @var ISecureRandom */
-	private $secureRandom;
 	/** @var IniGetWrapper */
 	private $iniGetWrapper;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var IThrottler */
-	private $throttler;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
@@ -131,27 +104,22 @@ class CheckSetupController extends Controller {
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
-								IRequest $request,
-								IConfig $config,
-								IClientService $clientService,
-								IURLGenerator $urlGenerator,
-								IL10N $l10n,
-								Checker $checker,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher,
-								Connection $db,
-								ILockingProvider $lockingProvider,
-								IDateTimeFormatter $dateTimeFormatter,
-								MemoryInfo $memoryInfo,
-								ISecureRandom $secureRandom,
-								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection,
-								IThrottler $throttler,
-								ITempManager $tempManager,
-								IManager $manager,
-								IAppManager $appManager,
-								IServerContainer $serverContainer,
-								ISetupCheckManager $setupCheckManager,
+		IRequest $request,
+		IConfig $config,
+		IClientService $clientService,
+		IURLGenerator $urlGenerator,
+		IL10N $l10n,
+		Checker $checker,
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher,
+		ILockingProvider $lockingProvider,
+		IDateTimeFormatter $dateTimeFormatter,
+		IniGetWrapper $iniGetWrapper,
+		ITempManager $tempManager,
+		IManager $manager,
+		IAppManager $appManager,
+		IServerContainer $serverContainer,
+		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
@@ -161,14 +129,9 @@ class CheckSetupController extends Controller {
 		$this->checker = $checker;
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
-		$this->db = $db;
-		$this->throttler = $throttler;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->memoryInfo = $memoryInfo;
-		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
-		$this->connection = $connection;
 		$this->tempManager = $tempManager;
 		$this->manager = $manager;
 		$this->appManager = $appManager;
@@ -190,29 +153,12 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	private function isFairUseOfFreePushService(): bool {
-		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Checks whether a local memcache is installed or not
-	 * @return bool
-	 */
-	private function isMemcacheConfigured() {
-		return $this->config->getSystemValue('memcache.local', null) !== null;
-	}
-
-	/**
-	 * Whether PHP can generate "secure" pseudorandom integers
-	 *
-	 * @return bool
-	 */
-	private function isRandomnessSecure() {
-		try {
-			$this->secureRandom->generate(1);
-		} catch (\Exception $ex) {
-			return false;
+		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
+		if ($rateLimitReached >= (time() - 7 * 24 * 3600)) {
+			// Notifications app is showing a message already
+			return true;
 		}
-		return true;
+		return $this->manager->isFairUseOfFreePushService();
 	}
 
 	/**
@@ -280,31 +226,6 @@ class CheckSetupController extends Controller {
 		}
 
 		return '';
-	}
-
-	/**
-	 * Check if the reverse proxy configuration is working as expected
-	 *
-	 * @return bool
-	 */
-	private function forwardedForHeadersWorking(): bool {
-		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
-		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
-
-		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host') !== '') {
-			return false;
-		}
-
-		if (\is_array($trustedProxies)) {
-			if (\in_array($remoteAddress, $trustedProxies, true) && $remoteAddress !== '127.0.0.1') {
-				return $remoteAddress !== $this->request->getRemoteAddress();
-			}
-		} else {
-			return false;
-		}
-
-		// either not enabled or working correctly
-		return true;
 	}
 
 	/**
@@ -480,129 +401,6 @@ Raw output
 		return $recommendations;
 	}
 
-	/**
-	 * Check if the required FreeType functions are present
-	 * @return bool
-	 */
-	protected function hasFreeTypeSupport() {
-		return function_exists('imagettfbbox') && function_exists('imagettftext');
-	}
-
-	protected function hasMissingIndexes(): array {
-		$indexInfo = new MissingIndexInformation();
-
-		// Dispatch event so apps can also hint for pending index updates if needed
-		$event = new AddMissingIndicesEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingIndices = $event->getMissingIndices();
-
-		if ($missingIndices !== []) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingIndices as $missingIndex) {
-				if ($schema->hasTable($missingIndex['tableName'])) {
-					$table = $schema->getTable($missingIndex['tableName']);
-					if (!$table->hasIndex($missingIndex['indexName'])) {
-						$indexInfo->addHintForMissingSubject($missingIndex['tableName'], $missingIndex['indexName']);
-					}
-				}
-			}
-		}
-
-		return $indexInfo->getListOfMissingIndexes();
-	}
-
-	protected function hasMissingPrimaryKeys(): array {
-		$info = new MissingPrimaryKeyInformation();
-		// Dispatch event so apps can also hint for pending key updates if needed
-		$event = new AddMissingPrimaryKeyEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingKeys = $event->getMissingPrimaryKeys();
-
-		if (!empty($missingKeys)) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingKeys as $missingKey) {
-				if ($schema->hasTable($missingKey['tableName'])) {
-					$table = $schema->getTable($missingKey['tableName']);
-					if (!$table->hasPrimaryKey()) {
-						$info->addHintForMissingSubject($missingKey['tableName']);
-					}
-				}
-			}
-		}
-
-		return $info->getListOfMissingPrimaryKeys();
-	}
-
-	protected function hasMissingColumns(): array {
-		$columnInfo = new MissingColumnInformation();
-		// Dispatch event so apps can also hint for pending column updates if needed
-		$event = new AddMissingColumnsEvent();
-		$this->dispatcher->dispatchTyped($event);
-		$missingColumns = $event->getMissingColumns();
-
-		if (!empty($missingColumns)) {
-			$schema = new SchemaWrapper(\OCP\Server::get(Connection::class));
-			foreach ($missingColumns as $missingColumn) {
-				if ($schema->hasTable($missingColumn['tableName'])) {
-					$table = $schema->getTable($missingColumn['tableName']);
-					if (!$table->hasColumn($missingColumn['columnName'])) {
-						$columnInfo->addHintForMissingColumn($missingColumn['tableName'], $missingColumn['columnName']);
-					}
-				}
-			}
-		}
-
-		return $columnInfo->getListOfMissingColumns();
-	}
-
-	protected function isSqliteUsed() {
-		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
-	}
-
-	protected function isReadOnlyConfig(): bool {
-		return \OC_Helper::isReadOnlyConfigEnabled();
-	}
-
-	protected function wasEmailTestSuccessful(): bool {
-		// Handle the case that the configuration was set before the check was introduced or it was only set via command line and not from the UI
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '' && $this->config->getSystemValue('mail_domain', '') === '') {
-			return false;
-		}
-
-		// The mail test was unsuccessful or the config was changed using the UI without verifying with a testmail, hence return false
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '0') {
-			return false;
-		}
-
-		return true;
-	}
-
-	protected function hasValidTransactionIsolationLevel(): bool {
-		try {
-			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
-				return true;
-			}
-
-			return $this->db->getTransactionIsolation() === TransactionIsolationLevel::READ_COMMITTED;
-		} catch (Exception $e) {
-			// ignore
-		}
-
-		return true;
-	}
-
-	protected function hasFileinfoInstalled(): bool {
-		return \OC_Util::fileInfoLoaded();
-	}
-
-	protected function hasWorkingFileLocking(): bool {
-		return !($this->lockingProvider instanceof NoopLockingProvider);
-	}
-
-	protected function hasDBFileLocking(): bool {
-		return ($this->lockingProvider instanceof DBLockingProvider);
-	}
-
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -691,40 +489,6 @@ Raw output
 		return $appDirsWithDifferentOwner;
 	}
 
-	/**
-	 * Checks for potential PHP modules that would improve the instance
-	 *
-	 * @return string[] A list of PHP modules that is recommended
-	 */
-	protected function hasRecommendedPHPModules(): array {
-		$recommendedPHPModules = [];
-
-		if (!extension_loaded('intl')) {
-			$recommendedPHPModules[] = 'intl';
-		}
-
-		if (!extension_loaded('sysvsem')) {
-			// used to limit the usage of resources by preview generator
-			$recommendedPHPModules[] = 'sysvsem';
-		}
-
-		if (!extension_loaded('exif')) {
-			// used to extract metadata from images
-			// required for correct orientation of preview images
-			$recommendedPHPModules[] = 'exif';
-		}
-
-		if (!defined('PASSWORD_ARGON2I')) {
-			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
-			// on previous version argon2 wasn't part of the "standard" extension
-			// and RedHat disabled it so even installing php-sodium won't provide argon2i
-			// support in password_hash/password_verify.
-			$recommendedPHPModules[] = 'sodium';
-		}
-
-		return $recommendedPHPModules;
-	}
-
 	protected function isImagickEnabled(): bool {
 		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
 			if (!extension_loaded('imagick')) {
@@ -744,59 +508,8 @@ Raw output
 		return true;
 	}
 
-	protected function is64bit(): bool {
-		if (PHP_INT_SIZE < 8) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	protected function isMysqlUsedWithoutUTF8MB4(): bool {
 		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
-	}
-
-	protected function hasBigIntConversionPendingColumns(): array {
-		// copy of ConvertFilecacheBigInt::getColumnsByTable()
-		$tables = [
-			'activity' => ['activity_id', 'object_id'],
-			'activity_mq' => ['mail_id'],
-			'authtoken' => ['id'],
-			'bruteforce_attempts' => ['id'],
-			'federated_reshares' => ['share_id'],
-			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
-			'filecache_extended' => ['fileid'],
-			'files_trash' => ['auto_id'],
-			'file_locks' => ['id'],
-			'file_metadata' => ['id'],
-			'jobs' => ['id'],
-			'mimetypes' => ['id'],
-			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
-			'share_external' => ['id', 'parent'],
-			'storages' => ['numeric_id'],
-		];
-
-		$schema = new SchemaWrapper($this->db);
-		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
-		$pendingColumns = [];
-
-		foreach ($tables as $tableName => $columns) {
-			if (!$schema->hasTable($tableName)) {
-				continue;
-			}
-
-			$table = $schema->getTable($tableName);
-			foreach ($columns as $columnName) {
-				$column = $table->getColumn($columnName);
-				$isAutoIncrement = $column->getAutoincrement();
-				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
-					$pendingColumns[] = $tableName . '.' . $columnName;
-				}
-			}
-		}
-
-		return $pendingColumns;
 	}
 
 	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
@@ -846,44 +559,20 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'isGetenvServerWorking' => !empty(getenv('PATH')),
-				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
-				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
-				'wasEmailTestSuccessful' => $this->wasEmailTestSuccessful(),
-				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
-				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
-				'hasDBFileLocking' => $this->hasDBFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
-				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
-				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
-				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
-				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
-				'isRandomnessSecure' => $this->isRandomnessSecure(),
-				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
-				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
-				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
-				'missingIndexes' => $this->hasMissingIndexes(),
-				'missingColumns' => $this->hasMissingColumns(),
-				'isSqliteUsed' => $this->isSqliteUsed(),
-				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
-				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'is64bit' => $this->is64bit(),
-				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
-				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),

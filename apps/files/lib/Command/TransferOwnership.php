@@ -36,9 +36,9 @@ namespace OCA\Files\Command;
 
 use OCA\Files\Exception\TransferOwnershipException;
 use OCA\Files\Service\OwnershipTransferService;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -85,7 +85,7 @@ class TransferOwnership extends Command {
 				InputOption::VALUE_OPTIONAL,
 				'transfer incoming user file shares to destination user. Usage: --transfer-incoming-shares=1 (value required)',
 				'2'
-		);
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {

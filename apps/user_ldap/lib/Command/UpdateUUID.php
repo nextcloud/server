@@ -42,12 +42,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function sprintf;
 
 class UuidUpdateReport {
-	const UNCHANGED = 0;
-	const UNKNOWN = 1;
-	const UNREADABLE = 2;
-	const UPDATED = 3;
-	const UNWRITABLE = 4;
-	const UNMAPPED = 5;
+	public const UNCHANGED = 0;
+	public const UNKNOWN = 1;
+	public const UNREADABLE = 2;
+	public const UPDATED = 3;
+	public const UNWRITABLE = 4;
+	public const UNMAPPED = 5;
 
 	public $id = '';
 	public $dn = '';
@@ -178,7 +178,7 @@ class UpdateUUID extends Command {
 				if (!empty($report->id)) {
 					$output->writeln(sprintf('  %s: %s',
 						$report->isUser ? 'User' : 'Group', $report->id));
-				} else if (!empty($report->dn)) {
+				} elseif (!empty($report->dn)) {
 					$output->writeln(sprintf('  DN: %s', $report->dn));
 				}
 			}
@@ -190,7 +190,7 @@ class UpdateUUID extends Command {
 			if ($output->isVerbose()) {
 				/** @var UuidUpdateReport $report */
 				foreach ($this->reports[UuidUpdateReport::UNKNOWN] as $report) {
-					$output->writeln(sprintf('  %s: %s',$report->isUser ? 'User' : 'Group', $report->id));
+					$output->writeln(sprintf('  %s: %s', $report->isUser ? 'User' : 'Group', $report->id));
 				}
 				$output->writeln(PHP_EOL . 'Old users can be removed along with their data per occ user:delete.' . PHP_EOL);
 			}
@@ -201,7 +201,7 @@ class UpdateUUID extends Command {
 			if ($output->isVerbose()) {
 				/** @var UuidUpdateReport $report */
 				foreach ($this->reports[UuidUpdateReport::UNREADABLE] as $report) {
-					$output->writeln(sprintf('  %s: %s',$report->isUser ? 'User' : 'Group', $report->id));
+					$output->writeln(sprintf('  %s: %s', $report->isUser ? 'User' : 'Group', $report->id));
 				}
 			}
 		}
@@ -211,7 +211,7 @@ class UpdateUUID extends Command {
 			if ($output->isVerbose()) {
 				/** @var UuidUpdateReport $report */
 				foreach ($this->reports[UuidUpdateReport::UNWRITABLE] as $report) {
-					$output->writeln(sprintf('  %s: %s',$report->isUser ? 'User' : 'Group', $report->id));
+					$output->writeln(sprintf('  %s: %s', $report->isUser ? 'User' : 'Group', $report->id));
 				}
 			}
 		}
@@ -222,7 +222,7 @@ class UpdateUUID extends Command {
 			foreach($this->handleMappingBasedUpdates(false) as $_) {
 				yield;
 			}
-		} else if ($input->getOption('userId')
+		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {
@@ -326,8 +326,7 @@ class UpdateUUID extends Command {
 		foreach ($list as $row) {
 			$access = $backendProxy->getLDAPAccess($row['name']);
 			if ($access instanceof Access
-				&& $dn = $mapping->getDNByName($row['name']))
-			{
+				&& $dn = $mapping->getDNByName($row['name'])) {
 				if ($uuid = $access->getUUID($dn, $isUser)) {
 					if ($uuid !== $row['uuid']) {
 						if ($this->dryRun || $mapping->setUUIDbyDN($uuid, $dn)) {
@@ -359,7 +358,7 @@ class UpdateUUID extends Command {
 	protected function estimateNumberOfUpdates(InputInterface $input): int {
 		if ($input->getOption('all')) {
 			return $this->userMapping->count() + $this->groupMapping->count();
-		} else if ($input->getOption('userId')
+		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {

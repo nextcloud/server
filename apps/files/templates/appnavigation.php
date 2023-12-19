@@ -3,9 +3,9 @@
 	<ul class="with-icon" tabindex="0">
 		<?php
 			$pinned = 0;
-			foreach ($_['navigationItems'] as $item) {
-				$pinned = NavigationListElements($item, $l, $pinned);
-			}
+		foreach ($_['navigationItems'] as $item) {
+			$pinned = NavigationListElements($item, $l, $pinned);
+		}
 		?>
 	</ul>
 </div>
@@ -31,8 +31,8 @@ function NavigationListElements($item, $l, $pinned) {
 		<?php if (isset($item['expandedState'])) { ?> data-expandedstate="<?php p($item['expandedState']); ?>" <?php } ?>
 		class="nav-<?php p($item['id']) ?>
 		<?php if (isset($item['classes'])) {
-		p($item['classes']);
-	} ?>
+			p($item['classes']);
+		} ?>
 		<?php p($pinned === 1 ? 'first-pinned' : '') ?>
 		<?php if (isset($item['defaultExpandedState']) && $item['defaultExpandedState']) { ?> open<?php } ?>"
 		<?php if (isset($item['folderPosition'])) { ?> folderposition="<?php p($item['folderPosition']); ?>" <?php } ?>>
@@ -42,7 +42,7 @@ function NavigationListElements($item, $l, $pinned) {
 
 
 		<?php
-		NavigationElementMenu($item);
+			NavigationElementMenu($item);
 	if (isset($item['sublist'])) {
 		?>
 			<button class="collapse app-navigation-noclose" aria-expanded="<?= !empty($item['defaultExpandedState']) ? 'true' : 'false' ?>"

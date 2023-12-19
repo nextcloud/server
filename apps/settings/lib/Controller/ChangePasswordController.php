@@ -57,13 +57,13 @@ class ChangePasswordController extends Controller {
 	private IAppManager $appManager;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								?string $userId,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								IAppManager $appManager,
-								IL10N $l) {
+		IRequest $request,
+		?string $userId,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		IAppManager $appManager,
+		IL10N $l) {
 		parent::__construct($appName, $request);
 
 		$this->userId = $userId;

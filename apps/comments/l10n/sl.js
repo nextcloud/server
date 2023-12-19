@@ -16,6 +16,8 @@ OC.L10N.register(
     "Delete comment" : "Izbriši opombo",
     "Cancel edit" : "Prekliči urejanje",
     "Post comment" : "Objavi opombo",
+    "@ for mentions, : for emoji, / for smart picker" : "@ za omenjanje, za izrazne ikone, / za pametni izbirnik",
+    "Could not reload comments" : "Opomb ni mogoče posodobiti",
     "No comments yet, start the conversation!" : "Ni še odzivov, bodite prvi!",
     "No more messages" : "Ni drugih sporočil",
     "Retry" : "Poskusi znova",
@@ -27,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Opomba je izbrisana",
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
     "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
-    "%1$s commented" : "%1$s napiše opombo",
     "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"]
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

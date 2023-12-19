@@ -34,7 +34,8 @@ use OCP\User\Events\UserDeletedEvent;
 class UserDeletedListener implements IEventListener {
 	public function __construct(
 		private ReminderService $reminderService,
-	) {}
+	) {
+	}
 
 	public function handle(Event $event): void {
 		if (!($event instanceof UserDeletedEvent)) {

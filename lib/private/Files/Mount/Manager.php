@@ -30,10 +30,10 @@ declare(strict_types=1);
 
 namespace OC\Files\Mount;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -101,6 +101,15 @@ class Manager implements IMountManager {
 			return $this->pathCache[$path];
 		}
 
+
+
+		if (count($this->mounts) === 0) {
+			$this->setupManager->setupRoot();
+			if (count($this->mounts) === 0) {
+				throw new \Exception("No mounts even after explicitly setting up the root mounts");
+			}
+		}
+
 		$current = $path;
 		while (true) {
 			$mountPoint = $current . '/';
@@ -117,7 +126,7 @@ class Manager implements IMountManager {
 			}
 		}
 
-		throw new NotFoundException("No mount for path " . $path . " existing mounts: " . implode(",", array_keys($this->mounts)));
+		throw new NotFoundException("No mount for path " . $path . " existing mounts (" . count($this->mounts) ."): " . implode(",", array_keys($this->mounts)));
 	}
 
 	/**

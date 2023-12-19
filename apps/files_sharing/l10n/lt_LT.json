@@ -180,9 +180,9 @@
     "Note to recipient" : "Pastaba gavėjui",
     "Enter a note for the share recipient" : "Įrašykite pranešimą bendrinimo gavėjui",
     "Create" : "Sukurti",
-    "Update" : "Atnaujinti",
     "Share" : "Bendrinti",
     "Delete share" : "Ištrinti viešinį",
+    "Share with" : "Bendrinti su",
     "Others with access" : "Kiti asmenys, turintys prieigą",
     "No other users with access found" : "Nerasta kitų naudotojų, turinčių prieigą",
     "Toggle list of others with access to this directory" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio katalogo",
@@ -245,11 +245,11 @@
     "Something happened. Unable to accept the share." : "Kažkas nutiko. Nepavyko priimti viešinio.",
     "Something happened. Unable to reject the share." : "Kažkas nutiko. Nepavyko atmesti viešinį.",
     "No expiration date set" : "Dalinimosi pabaigos data yra nenustatyta",
-    "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Allow creating" : "Leisti sukūrimą",
     "Allow deleting" : "Leisti ištrynimą",
     "Allow resharing" : "Leisti bendrinti iš naujo",
     "Expiration date enforced" : "Aktyvuotas galiojimo laikas",
-    "Password protect" : "Apsaugoti slaptažodžiu"
+    "Password protect" : "Apsaugoti slaptažodžiu",
+    "Update" : "Atnaujinti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

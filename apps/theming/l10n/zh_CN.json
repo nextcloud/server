@@ -84,22 +84,6 @@
     "Select a custom color" : "自定义颜色",
     "Reset to default" : "重置为默认设置",
     "Upload" : "上传",
-    "Remove background image" : "删除背景图片",
-    "Loading preview…" : "正在加载预览 ...",
-    "Admin" : "管理",
-    "Error uploading the file" : "上传文件时出错",
-    "Name cannot be empty" : "名称不能为空",
-    "Migrate and clean up admin theming images" : "迁移并管理主题图像",
-    "Failed to clean up the old admin theming images folder" : "无法清除旧的管理主题图片文件夹",
-    "Pick from Files" : "从文件中挑选",
-    "Default image" : "默认图片",
-    "Custom color" : "自定义颜色",
-    "Plain background" : "纯色背景",
-    "Insert from {productName}" : "从 {productName} 插入",
-    "Open documentation" : "打开文档",
-    "https://…" : "https://…",
-    "Upload new login background" : "上传新登录背景",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "即使您可以选择并自定义您的实例，用户仍然可以更改他们的背景和颜色。如果您希望强制执行您的设置，请勾选此复选框。",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。"
+    "Remove background image" : "删除背景图片"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

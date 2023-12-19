@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div :class="{ 'icon-loading': loading }">
+	<div class="sharingTab" :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
@@ -87,13 +87,11 @@
 		</template>
 
 		<!-- share details -->
-		<div v-else>
-			<SharingDetailsTab :file-info="shareDetailsData.fileInfo"
-				:share="shareDetailsData.share"
-				@close-sharing-details="toggleShareDetailsView"
-				@add:share="addShare"
-				@remove:share="removeShare" />
-		</div>
+		<SharingDetailsTab v-else :file-info="shareDetailsData.fileInfo"
+			:share="shareDetailsData.share"
+			@close-sharing-details="toggleShareDetailsView"
+			@add:share="addShare"
+			@remove:share="removeShare" />
 	</div>
 </template>
 
@@ -376,14 +374,13 @@ export default {
 		 * @param {Function} resolve a function to execute after
 		 */
 		awaitForShare(share, resolve) {
-			let listComponent = this.$refs.shareList
-			// Only mail shares comes from the input, link shares
-			// are managed internally in the SharingLinkList component
-			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				listComponent = this.$refs.linkShareList
-			}
-
 			this.$nextTick(() => {
+				let listComponent = this.$refs.shareList
+				// Only mail shares comes from the input, link shares
+				// are managed internally in the SharingLinkList component
+				if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					listComponent = this.$refs.linkShareList
+				}
 				const newShare = listComponent.$children.find(component => component.share === share)
 				if (newShare) {
 					resolve(newShare)
@@ -406,6 +403,9 @@ export default {
 }
 
 .sharingTab {
+	position: relative;
+	height: 100%;
+
 	&__content {
 		padding: 0 6px;
 	}

@@ -38,7 +38,7 @@ class ReadOnlyConfig implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Checking for configuration file access rights');
+		return $this->l10n->t('Configuration file access rights');
 	}
 
 	public function getCategory(): string {

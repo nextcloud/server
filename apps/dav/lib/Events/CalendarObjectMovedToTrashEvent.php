@@ -52,9 +52,9 @@ class CalendarObjectMovedToTrashEvent extends Event {
 	 * @since 22.0.0
 	 */
 	public function __construct(int $calendarId,
-								array $calendarData,
-								array $shares,
-								array $objectData) {
+		array $calendarData,
+		array $shares,
+		array $objectData) {
 		parent::__construct();
 		$this->calendarId = $calendarId;
 		$this->calendarData = $calendarData;

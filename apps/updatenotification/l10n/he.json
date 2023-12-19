@@ -25,7 +25,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "נא לוודא שב־config.php שלך ה־<samp>appstoreenabled</samp> לא מוגדר ל‏־false.",
     "Stable" : "יציב",
     "Beta" : "בטא",
-    "Update for %1$s to version %2$s is available." : "עדכון של %1$s לגרסה %2$s זמין.",
     "Update channel:" : "עדכון ערוץ:"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

@@ -138,7 +138,7 @@ class OC_User {
 			$class = $config['class'];
 			$arguments = $config['arguments'];
 			if (class_exists($class)) {
-				if (array_search($i, self::$_setupedBackends) === false) {
+				if (!in_array($i, self::$_setupedBackends)) {
 					// make a reflection object
 					$reflectionObj = new ReflectionClass($class);
 

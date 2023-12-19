@@ -34,8 +34,8 @@ class Provider extends \OCP\AppFramework\Controller {
 	 * @param \OCP\App\IAppManager $appManager
 	 */
 	public function __construct($appName,
-								\OCP\IRequest $request,
-								\OCP\App\IAppManager $appManager) {
+		\OCP\IRequest $request,
+		\OCP\App\IAppManager $appManager) {
 		parent::__construct($appName, $request);
 		$this->appManager = $appManager;
 	}

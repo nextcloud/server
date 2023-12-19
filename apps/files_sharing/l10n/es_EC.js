@@ -201,7 +201,6 @@ OC.L10N.register(
     "Note to recipient" : "Nota para el destinatario",
     "Enter a note for the share recipient" : "Ingresa una nota para el destinatario de la compartición",
     "Create" : "Crear",
-    "Update" : "Actualizar",
     "Share" : "Compartir",
     "Others with access" : "Otros con acceso",
     "No other users with access found" : "No se encontraron otros usuarios con acceso",
@@ -285,13 +284,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Ha ocurrido algo. No se puede rechazar la compartición.",
     "No expiration date set" : "No se ha establecido la fecha de expiración",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "La compartición de %s ha fallado porque el servidor no admite comparticiones de ScienceMesh",
-    "One or more of your shares will expire tomorrow" : "Una o más de tus comparticiones expirarán mañana",
     "Allow creating" : "Permitir creación",
     "Allow deleting" : "Permitir eliminación",
     "Allow resharing" : "Permitir volver a compartir",
     "Expiration date enforced" : "Vencimiento de la fecha exigido",
     "Password protect" : "Proteger con contraseña",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Error al generar la contraseña según la política de contraseñas"
+    "Update" : "Actualizar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

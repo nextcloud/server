@@ -36,9 +36,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IUser;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'lookup_server_connector';
@@ -58,7 +56,7 @@ class Application extends App implements IBootstrap {
 	 * @todo move the OCP events and then move the registration to `register`
 	 */
 	private function registerEventListeners(IEventDispatcher $dispatcher,
-											ContainerInterface $appContainer): void {
+		ContainerInterface $appContainer): void {
 		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($appContainer) {
 			/** @var UpdateLookupServer $updateLookupServer */
 			$updateLookupServer = $appContainer->get(UpdateLookupServer::class);

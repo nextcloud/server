@@ -147,7 +147,6 @@ OC.L10N.register(
     "Hide download" : "Slēpt lejupielādi",
     "Video verification" : "Video verifikācija",
     "Note to recipient" : "Piezīme saņēmējam",
-    "Update" : "Atjaunināt",
     "Share" : "Koplietot",
     "Others with access" : "Citi ar pieeju",
     "No other users with access found" : "Nav atrasti citi lietotāji ar pieeju",
@@ -201,11 +200,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Kaut kas atgadījās. Nevar apstiprināt koplietošanu.",
     "Something happened. Unable to reject the share." : "Kaut kas atgadījās. Nevar noraidīt koplietojumu.",
     "No expiration date set" : "Nav noteikts derīguma termiņa beigu datums",
-    "One or more of your shares will expire tomorrow" : "Vienam vai vairākiem jūsu koplietojumiem rīt beigsies termiņš",
     "Allow creating" : "Atļaut veidošanu",
     "Allow deleting" : "Atļaut dzēšanu",
     "Allow resharing" : "Atļaut atkārtotu koplietošanu",
     "Expiration date enforced" : "Piespiedu derīguma termiņš",
-    "Password protect" : "Aizsargāt ar paroli"
+    "Password protect" : "Aizsargāt ar paroli",
+    "Update" : "Atjaunināt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

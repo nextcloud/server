@@ -42,6 +42,7 @@ class Comment implements IComment {
 		'objectType' => '',
 		'objectId' => '',
 		'referenceId' => null,
+		'metaData' => null,
 		'creationDT' => null,
 		'latestChildDT' => null,
 		'reactions' => null,
@@ -396,6 +397,34 @@ class Comment implements IComment {
 				throw new \InvalidArgumentException('Non empty string expected.');
 			}
 			$this->data['referenceId'] = $referenceId;
+		}
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMetaData(): ?array {
+		if ($this->data['metaData'] === null) {
+			return null;
+		}
+
+		try {
+			$metaData = json_decode($this->data['metaData'], true, flags: JSON_THROW_ON_ERROR);
+		} catch (\JsonException $e) {
+			return null;
+		}
+		return is_array($metaData) ? $metaData : null;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setMetaData(?array $metaData):  IComment {
+		if ($metaData === null) {
+			$this->data['metaData'] = null;
+		} else {
+			$this->data['metaData'] = json_encode($metaData, JSON_THROW_ON_ERROR);
 		}
 		return $this;
 	}

@@ -48,10 +48,10 @@ use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -105,12 +105,12 @@ class AppManager implements IAppManager {
 	private array $loadedApps = [];
 
 	public function __construct(IUserSession $userSession,
-								IConfig $config,
-								AppConfig $appConfig,
-								IGroupManager $groupManager,
-								ICacheFactory $memCacheFactory,
-								IEventDispatcher $dispatcher,
-								LoggerInterface $logger) {
+		IConfig $config,
+		AppConfig $appConfig,
+		IGroupManager $groupManager,
+		ICacheFactory $memCacheFactory,
+		IEventDispatcher $dispatcher,
+		LoggerInterface $logger) {
 		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
@@ -838,9 +838,12 @@ class AppManager implements IAppManager {
 				/* Fallback on user defined apporder */
 				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 				if (!empty($customOrders)) {
-					$customOrders = array_map('min', $customOrders);
-					asort($customOrders);
-					$defaultApps = array_keys($customOrders);
+					// filter only entries with app key (when added using closures or NavigationManager::add the app is not guranteed to be set)
+					$customOrders = array_filter($customOrders, fn ($entry) => isset($entry['app']));
+					// sort apps by order
+					usort($customOrders, fn ($a, $b) => $a['order'] - $b['order']);
+					// set default apps to sorted apps
+					$defaultApps = array_map(fn ($entry) => $entry['app'], $customOrders);
 				}
 			}
 		}

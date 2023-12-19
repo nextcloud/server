@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "Зберегти",
     "Available flows" : "Процеси",
     "For details on how to write your own flow, check out the development documentation." : "Перегляньте документацію для розробника, щоби дізнатися, як додати власні процеси.",
+    "No flows installed" : "Відсутні процеси",
+    "Ask your administrator to install new flows." : "Зверніться до адміністратора щодо встановлення нових процесів.",
     "More flows" : "Більше процесів",
     "Browse the App Store" : "Перейти до App Store",
     "Show less" : "Показувати менше",
     "Show more" : "Показати більше",
     "Configured flows" : "Налаштовані процеси",
     "Your flows" : "Ваші процеси",
+    "No flows configured" : "Процеси не налаштовано",
     "matches" : "містить",
     "does not match" : "не містить",
     "is" : "є",
@@ -112,8 +115,6 @@ OC.L10N.register(
     "Request user agent" : "Запит агента користувача",
     "User group membership" : "Участь користувача в групі",
     "is member of" : "є учасником",
-    "is not member of" : "не є учасником",
-    "Predefined URLs" : "Попередньо визначені URL-адреси",
-    "Others" : "Інші"
+    "is not member of" : "не є учасником"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

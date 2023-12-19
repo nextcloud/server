@@ -193,6 +193,8 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$parentPath = '';
 			}
 			$req = $this->server->httpRequest;
+
+			// If chunked upload
 			if ($req->getHeader('OC-Chunked')) {
 				$info = \OC_FileChunking::decodeName($newName);
 				$chunkHandler = $this->getFileChunking($info);
@@ -202,6 +204,10 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				// use target file name for free space check in case of shared files
 				$path = rtrim($parentPath, '/') . '/' . $info['name'];
 			}
+
+			// Strip any duplicate slashes
+			$path = str_replace('//', '/', $path);
+
 			$freeSpace = $this->getFreeSpace($path);
 			if ($freeSpace >= 0 && $length > $freeSpace) {
 				if (isset($chunkHandler)) {

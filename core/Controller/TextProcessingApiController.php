@@ -35,12 +35,14 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Common\Exception\NotFoundException;
+use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\PreConditionNotMetException;
+use OCP\TextProcessing\Exception\TaskFailureException;
+use OCP\TextProcessing\IManager;
 use OCP\TextProcessing\ITaskType;
 use OCP\TextProcessing\Task;
-use OCP\TextProcessing\IManager;
-use OCP\PreConditionNotMetException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -102,7 +104,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTextProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
 	 * 400: Scheduling task is not possible
@@ -118,7 +120,11 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(['message' => $this->l->t('Requested task type does not exist')], Http::STATUS_BAD_REQUEST);
 		}
 		try {
-			$this->textProcessingManager->scheduleTask($task);
+			try {
+				$this->textProcessingManager->runOrScheduleTask($task);
+			} catch(TaskFailureException) {
+				// noop, because the task object has the failure status set already, we just return the task json
+			}
 
 			$json = $task->jsonSerialize();
 
@@ -127,6 +133,8 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l->t('Necessary language model provider is not available')], Http::STATUS_PRECONDITION_FAILED);
+		} catch (Exception) {
+			return new DataResponse(['message' => 'Internal server error'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 

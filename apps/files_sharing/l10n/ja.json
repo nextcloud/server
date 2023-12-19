@@ -205,10 +205,9 @@
     "Note to recipient" : "受取人への注意",
     "Enter a note for the share recipient" : "共有受信者へのメモを入力してください",
     "Create" : "作成",
-    "Update" : "更新",
     "Share" : "共有",
     "Delete share" : "共有を解除",
-    "Share with " : "共有先",
+    "Share with" : "共有対象",
     "Save share" : "共有を保存",
     "Update share" : "共有設定の更新",
     "Others with access" : "アクセス権を持つ他のユーザー",
@@ -226,6 +225,7 @@
     "_Restore share_::_Restore shares_" : ["共有を復元する"],
     "Shared" : "共有中",
     "Shared by {ownerDisplayName}" : "{ownerDisplayName} が共有済み",
+    "Show sharing options" : "共有オプションを表示",
     "Link to a file" : "ファイルへリンク",
     "Error creating the share: {errorMessage}" : "共有の作成中にエラーが発生しました: {errorMessage}",
     "Error creating the share" : "共有の作成中にエラーが発生しました",
@@ -295,13 +295,13 @@
     "Something happened. Unable to reject the share." : "何かしらの問題があり、共有を拒否できません。",
     "No expiration date set" : "有効期限が未設定",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "バックエンドが sciencemesh 共有をサポートしていないため %s 共有に失敗しました。",
-    "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
     "Allow creating" : "作成許可",
     "Allow deleting" : "削除許可",
     "Allow resharing" : "再共有を許可する",
     "Expiration date enforced" : "有効期限が強制される",
     "Password protect" : "パスワード保護",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "password_policy からのパスワード生成エラー"
+    "Update" : "更新",
+    "Share with " : "共有先"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

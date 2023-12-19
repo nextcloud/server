@@ -162,6 +162,7 @@ tests/acceptance/vendor/
 
 composer.phar
 /lib/composer/bin
+/lib/composer/bamarni
 /vendor-bin/**/vendor
 
 ./.htaccess

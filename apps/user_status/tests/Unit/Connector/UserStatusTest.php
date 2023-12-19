@@ -26,8 +26,8 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Tests\Connector;
 
 use OCA\UserStatus\Connector\UserStatus;
-use Test\TestCase;
 use OCA\UserStatus\Db;
+use Test\TestCase;
 
 class UserStatusTest extends TestCase {
 	public function testUserStatus() {

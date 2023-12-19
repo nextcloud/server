@@ -16,6 +16,8 @@ OC.L10N.register(
     "Delete comment" : "Suprimeix el comentari",
     "Cancel edit" : "Cancel·la l'edició",
     "Post comment" : "Publica el comentari",
+    "@ for mentions, : for emoji, / for smart picker" : "@ per a mencions, : per a emojis, / per al selector intel·ligent",
+    "Could not reload comments" : "No s'han pogut tornar a carregar els comentaris",
     "No comments yet, start the conversation!" : "Encara no hi ha cap comentari. Enceteu la conversa!",
     "No more messages" : "No hi ha més missatges",
     "Retry" : "Torna-ho a provar",
@@ -27,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "S'ha suprimit el comentari",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
     "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
-    "%1$s commented" : "%1$s ha escrit un comentari",
     "_%n unread comment_::_%n unread comments_" : ["%n comentari sense llegir","%n comentaris sense llegir"]
 },
 "nplurals=2; plural=(n != 1);");

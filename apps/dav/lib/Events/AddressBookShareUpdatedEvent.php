@@ -61,10 +61,10 @@ class AddressBookShareUpdatedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,
-								array $addressBookData,
-								array $oldShares,
-								array $added,
-								array $removed) {
+		array $addressBookData,
+		array $oldShares,
+		array $added,
+		array $removed) {
 		parent::__construct();
 		$this->addressBookId = $addressBookId;
 		$this->addressBookData = $addressBookData;

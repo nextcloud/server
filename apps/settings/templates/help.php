@@ -6,8 +6,10 @@
 		<ul>
 			<li>
 				<a class="icon-user <?php if ($_['mode'] === 'user') {
-		p('active');
-	} ?>" <?php if ($_['mode'] === 'user') { print_unescaped('aria-current="page"'); } ?>
+					p('active');
+				} ?>" <?php if ($_['mode'] === 'user') {
+					print_unescaped('aria-current="page"');
+				} ?>
 					href="<?php print_unescaped($_['urlUserDocs']); ?>">
 					<span class="help-list__text">
 						<?php p($l->t('User documentation')); ?>
@@ -17,8 +19,10 @@
 		<?php if ($_['admin']) { ?>
 			<li>
 				<a class="icon-user-admin <?php if ($_['mode'] === 'admin') {
-		p('active');
-	} ?>" <?php if ($_['mode'] === 'admin') { print_unescaped('aria-current="page"'); } ?>
+					p('active');
+				} ?>" <?php if ($_['mode'] === 'admin') {
+					print_unescaped('aria-current="page"');
+				} ?>
 					href="<?php print_unescaped($_['urlAdminDocs']); ?>">
 					<span class="help-list__text">
 						<?php p($l->t('Administrator documentation')); ?>

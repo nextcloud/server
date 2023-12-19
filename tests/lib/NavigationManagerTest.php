@@ -276,6 +276,17 @@ class NavigationManagerTest extends TestCase {
 			]
 		];
 		$defaults = [
+			'profile' => [
+				'type' => 'settings',
+				'id' => 'profile',
+				'order' => 1,
+				'href' => '/apps/test/',
+				'name' => 'View profile',
+				'icon' => '',
+				'active' => false,
+				'classes' => '',
+				'unread' => 0,
+			],
 			'accessibility_settings' => [
 				'type' => 'settings',
 				'id' => 'accessibility_settings',
@@ -339,6 +350,7 @@ class NavigationManagerTest extends TestCase {
 		return [
 			'minimalistic' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -353,7 +365,6 @@ class NavigationManagerTest extends TestCase {
 						'unread' => 0,
 						'default' => true,
 						'app' => 'test',
-						'key' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -365,6 +376,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'minimalistic-settings' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -388,6 +400,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'with-multiple' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -402,7 +415,6 @@ class NavigationManagerTest extends TestCase {
 						'unread' => 0,
 						'default' => false,
 						'app' => 'test',
-						'key' => 0,
 					],
 						'test1' => [
 							'id' => 'test1',
@@ -416,7 +428,6 @@ class NavigationManagerTest extends TestCase {
 							'unread' => 0,
 							'default' => true, // because of order
 							'app' => 'test',
-							'key' => 1,
 						]],
 					['logout' => $defaults['logout']]
 				),
@@ -429,6 +440,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'admin' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					$adminSettings,
 					$apps,
 					['test' => [
@@ -443,7 +455,6 @@ class NavigationManagerTest extends TestCase {
 						'unread' => 0,
 						'default' => true,
 						'app' => 'test',
-						'key' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -456,6 +467,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'no name' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					$adminSettings,
 					$apps,
 					['logout' => $defaults['logout']]
@@ -498,7 +510,6 @@ class NavigationManagerTest extends TestCase {
 				'unread' => 0,
 				'default' => true,
 				'app' => 'test',
-				'key' => 0,
 			],
 		];
 		$navigation = ['navigations' => [
@@ -512,7 +523,7 @@ class NavigationManagerTest extends TestCase {
 				function (string $userId, string $appName, string $key, mixed $default = '') use ($testOrder) {
 					$this->assertEquals('user001', $userId);
 					if ($key === 'apporder') {
-						return json_encode(['test' => [$testOrder]]);
+						return json_encode(['test' => ['app' => 'test', 'order' => $testOrder]]);
 					}
 					return $default;
 				}

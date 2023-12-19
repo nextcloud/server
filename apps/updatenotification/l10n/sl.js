@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upoštevajte, da spletna posodobitev ni priporočljiva, če okolje uporablja več kot 100 uporabnikov! V takih primerih je ustreznejši posodabljalnik zagnan iz ukazne vrstice.",
     "Open updater" : "Odpri posodabljalnik",
     "Download now" : "Prejmi takoj",
-    "Please use the command line updater to update." : "Za posodabljanje uporabite možnosti prek ukazne vrstice.",
     "What's new?" : "Kaj je novega?",
     "View changelog" : "Ogled Dnevnika sprememb",
     "The update check is not yet finished. Please refresh the page." : "Preverjanje za posodobitve še ni končano. Osvežite stran za ponovno vzpostavitev seje.",
@@ -46,7 +45,7 @@ OC.L10N.register(
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> nameščen program nima skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščena programa nimata skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščeni programi nimajo skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščenih programov nima skladne različice s trenutno različico oblaka Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Na voljo je posodobitev %1$s na različico %2$s.",
+    "Please use the command line updater to update." : "Za posodabljanje uporabite možnosti prek ukazne vrstice.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Kanal za posodobitve, ki vpliva tudi na upravljanje z nameščenimi programi, je mogoče spremeniti. Pri preklopu na različico beta so za namestitev na primer na voljo tudi beta različice programske opreme.",
     "Update channel:" : "Kanal za posodobitve:"
 },

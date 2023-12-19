@@ -42,8 +42,8 @@ class ValidatePhoneNumber implements IRepairStep {
 	private $accountManager;
 
 	public function __construct(IUserManager $userManager,
-								IAccountManager $accountManager,
-								IConfig $config) {
+		IAccountManager $accountManager,
+		IConfig $config) {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;

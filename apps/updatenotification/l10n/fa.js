@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!",
     "Open updater" : "باز کردن به‌روزرسان",
     "Download now" : "Download now",
-    "Please use the command line updater to update." : "Please use the command line updater to update.",
     "What's new?" : "What's new?",
     "View changelog" : "مشاهده تغییرات",
     "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page.",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Beta" : "بتا",
     "A pre-release version only for testing new features, not for production environments." : "A pre-release version only for testing new features, not for production environments.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
-    "Update for %1$s to version %2$s is available." : "Update for %1$s to version %2$s is available.",
+    "Please use the command line updater to update." : "Please use the command line updater to update.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.",
     "Update channel:" : "کانال به‌روزرسانی"
 },

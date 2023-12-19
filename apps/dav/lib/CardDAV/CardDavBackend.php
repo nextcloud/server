@@ -35,6 +35,7 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OC\Search\Filter\DateTimeFilter;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -97,10 +98,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param IEventDispatcher $dispatcher
 	 */
 	public function __construct(IDBConnection $db,
-								Principal $principalBackend,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IEventDispatcher $dispatcher) {
+		Principal $principalBackend,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IEventDispatcher $dispatcher) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
@@ -1092,9 +1093,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	public function searchPrincipalUri(string $principalUri,
-									   string $pattern,
-									   array $searchProperties,
-									   array $options = []): array {
+		string $pattern,
+		array $searchProperties,
+		array $options = []): array {
 		return $this->atomic(function () use ($principalUri, $pattern, $searchProperties, $options) {
 			$addressBookIds = array_map(static function ($row):int {
 				return (int) $row['id'];
@@ -1105,57 +1106,58 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * @param array $addressBookIds
+	 * @param int[] $addressBookIds
 	 * @param string $pattern
 	 * @param array $searchProperties
 	 * @param array $options
-	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
+	 * @psalm-param array{
+	 *   types?: bool,
+	 *   escape_like_param?: bool,
+	 *   limit?: int,
+	 *   offset?: int,
+	 *   wildcard?: bool,
+	 *   since?: DateTimeFilter|null,
+	 *   until?: DateTimeFilter|null,
+	 *   person?: string
+	 * } $options
 	 * @return array
 	 */
 	private function searchByAddressBookIds(array $addressBookIds,
-											string $pattern,
-											array $searchProperties,
-											array $options = []): array {
+		string $pattern,
+		array $searchProperties,
+		array $options = []): array {
+		if (empty($addressBookIds)) {
+			return [];
+		}
 		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
 		$useWildcards = !\array_key_exists('wildcard', $options) || $options['wildcard'] !== false;
 
-		$query2 = $this->db->getQueryBuilder();
-
-		$addressBookOr = $query2->expr()->orX();
-		foreach ($addressBookIds as $addressBookId) {
-			$addressBookOr->add($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)));
-		}
-
-		if ($addressBookOr->count() === 0) {
-			return [];
-		}
-
-		$propertyOr = $query2->expr()->orX();
-		foreach ($searchProperties as $property) {
-			if ($escapePattern) {
+		if ($escapePattern) {
+			$searchProperties = array_filter($searchProperties, function ($property) use ($pattern) {
 				if ($property === 'EMAIL' && str_contains($pattern, ' ')) {
 					// There can be no spaces in emails
-					continue;
+					return false;
 				}
 
 				if ($property === 'CLOUD' && preg_match('/[^a-zA-Z0-9 :_.@\/\-\']/', $pattern) === 1) {
 					// There can be no chars in cloud ids which are not valid for user ids plus :/
 					// worst case: CA61590A-BBBC-423E-84AF-E6DF01455A53@https://my.nxt/srv/
-					continue;
+					return false;
 				}
-			}
 
-			$propertyOr->add($query2->expr()->eq('cp.name', $query2->createNamedParameter($property)));
+				return true;
+			});
 		}
 
-		if ($propertyOr->count() === 0) {
+		if (empty($searchProperties)) {
 			return [];
 		}
 
+		$query2 = $this->db->getQueryBuilder();
 		$query2->selectDistinct('cp.cardid')
 			->from($this->dbCardsPropertiesTable, 'cp')
-			->andWhere($addressBookOr)
-			->andWhere($propertyOr);
+			->where($query2->expr()->in('cp.addressbookid', $query2->createNamedParameter($addressBookIds, IQueryBuilder::PARAM_INT_ARRAY), IQueryBuilder::PARAM_INT_ARRAY))
+			->andWhere($query2->expr()->in('cp.name', $query2->createNamedParameter($searchProperties, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
@@ -1167,12 +1169,37 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
 			}
 		}
-
 		if (isset($options['limit'])) {
 			$query2->setMaxResults($options['limit']);
 		}
 		if (isset($options['offset'])) {
 			$query2->setFirstResult($options['offset']);
+		}
+
+		if (isset($options['person'])) {
+			$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($options['person']) . '%')));
+		}
+		if (isset($options['since']) || isset($options['until'])) {
+			$query2->join('cp', $this->dbCardsPropertiesTable, 'cp_bday', 'cp.cardid = cp_bday.cardid');
+			$query2->andWhere($query2->expr()->eq('cp_bday.name', $query2->createNamedParameter('BDAY')));
+			/**
+			 * FIXME Find a way to match only 4 last digits
+			 * BDAY can be --1018 without year or 20001019 with it
+			 * $bDayOr = $query2->expr()->orX();
+			 * if ($options['since'] instanceof DateTimeFilter) {
+			 * $bDayOr->add(
+			 * $query2->expr()->gte('SUBSTR(cp_bday.value, -4)',
+			 * $query2->createNamedParameter($options['since']->get()->format('md')))
+			 * );
+			 * }
+			 * if ($options['until'] instanceof DateTimeFilter) {
+			 * $bDayOr->add(
+			 * $query2->expr()->lte('SUBSTR(cp_bday.value, -4)',
+			 * $query2->createNamedParameter($options['until']->get()->format('md')))
+			 * );
+			 * }
+			 * $query2->andWhere($bDayOr);
+			 */
 		}
 
 		$result = $query2->execute();
@@ -1410,7 +1437,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$maxId = (int) $result->fetchOne();
 		$result->closeCursor();
 		if (!$maxId || $maxId < $keep) {
-		    return 0;
+			return 0;
 		}
 
 		$query = $this->db->getQueryBuilder();

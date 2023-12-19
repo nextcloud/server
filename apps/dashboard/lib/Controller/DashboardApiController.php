@@ -29,24 +29,23 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\ResponseDefinitions;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
+use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
-use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IManager;
+use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
+use OCP\Dashboard\Model\WidgetItem;
+
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IConfig;
 use OCP\IRequest;
-
-use OCP\Dashboard\IAPIWidget;
-use OCP\Dashboard\IAPIWidgetV2;
-use OCP\Dashboard\Model\WidgetItem;
-use OCP\Dashboard\Model\WidgetItems;
 
 /**
  * @psalm-import-type DashboardWidget from ResponseDefinitions
@@ -102,6 +101,7 @@ class DashboardApiController extends OCSController {
 	 *
 	 * @param array<string, string> $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
 	 * @param int $limit Limit number of result items per widget
+	 * @psalm-param int<1, 30> $limit
 	 * @param string[] $widgets Limit results to specific widgets
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItem[]>, array{}>
 	 *
@@ -128,7 +128,8 @@ class DashboardApiController extends OCSController {
 	 * Get the items for the widgets
 	 *
 	 * @param array<string, string> $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
-	 * @param int $limit Limit number of result items per widget
+	 * @param int $limit Limit number of result items per widget, not more than 30 are allowed
+	 * @psalm-param int<1, 30> $limit
 	 * @param string[] $widgets Limit results to specific widgets
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItems>, array{}>
 	 *

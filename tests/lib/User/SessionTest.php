@@ -14,6 +14,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\Session\Memory;
 use OC\User\LoginException;
 use OC\User\Manager;
@@ -34,7 +35,6 @@ use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use OC\Security\CSRF\CsrfTokenManager;
 
 /**
  * @group DB
@@ -1110,7 +1110,7 @@ class SessionTest extends \Test\TestCase {
 
 		$userSession->expects($this->once())
 			->method('isTokenPassword')
-			->willReturn(true);
+			->willReturn(false);
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john@foo.bar', 'I-AM-AN-PASSWORD')

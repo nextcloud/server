@@ -189,8 +189,8 @@ OC.L10N.register(
     "Note to recipient" : "Σημείωση προς τον παραλήπτη",
     "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου",
     "Create" : "Δημιουργία",
-    "Update" : "Ενημέρωση",
     "Share" : "Διαμοιρασμός",
+    "Share with" : "Διαμοιρασμός με",
     "Others with access" : "Άλλοι με πρόσβαση",
     "No other users with access found" : "Δεν βρέθηκαν άλλοι χρήστες με πρόσβαση",
     "Toggle list of others with access to this directory" : "Εναλλαγή λίστας άλλων με πρόσβαση σε αυτόν τον κατάλογο",
@@ -200,6 +200,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Λήγει {relativetime}",
     "this share just expired." : "το κοινόχρηστο μόλις έληξε.",
     "Shared with you by {owner}" : "Διαμοιράστηκε με σας από τον {owner}",
+    "Open in Files" : "Άνοιγμα στα Αρχεία",
     "Shared" : "Κοινόχρηστα",
     "Link to a file" : "Σύνδεσμος σε αρχείο",
     "Error creating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
@@ -253,11 +254,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Κάτι συνέβη. Δεν μπορεί να γίνει η αποδοχή.",
     "Something happened. Unable to reject the share." : "Κάτι συνέβη. Δεν μπορεί να απορριφθεί το κοινόχρηστο",
     "No expiration date set" : "Δεν ορίστηκε ημερομηνία λήξης",
-    "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
     "Allow creating" : "Επιτρέπεται η δημιουργία",
     "Allow deleting" : "Επιτρέπεται η διαγραφή",
     "Allow resharing" : "Επιτρέπεται ο επαναδιαμοιρασμός",
     "Expiration date enforced" : "Επεβλήθη ημερομηνία λήξης",
-    "Password protect" : "Προστασία με συνθηματικό"
+    "Password protect" : "Προστασία με συνθηματικό",
+    "Update" : "Ενημέρωση"
 },
 "nplurals=2; plural=(n != 1);");

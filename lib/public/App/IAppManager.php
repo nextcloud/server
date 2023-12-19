@@ -250,6 +250,8 @@ interface IAppManager {
 	 *
 	 * @param ?IUser $user User to query default app for
 	 * @param bool $withFallbacks Include fallback values if no default app was configured manually
+	 *                            Before falling back to predefined default apps,
+	 *                            the user defined app order is considered and the first app would be used as the fallback.
 	 *
 	 * @since 25.0.6
 	 * @since 28.0.0 Added optional $withFallbacks parameter

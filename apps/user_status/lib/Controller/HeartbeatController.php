@@ -29,8 +29,6 @@ namespace OCA\UserStatus\Controller;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
-use OCP\AppFramework\Controller;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -59,11 +57,11 @@ class HeartbeatController extends OCSController {
 	private $service;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IEventDispatcher $eventDispatcher,
-								IUserSession $userSession,
-								ITimeFactory $timeFactory,
-								StatusService $service) {
+		IRequest $request,
+		IEventDispatcher $eventDispatcher,
+		IUserSession $userSession,
+		ITimeFactory $timeFactory,
+		StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userSession = $userSession;

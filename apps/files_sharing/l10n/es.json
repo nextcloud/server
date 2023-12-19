@@ -205,10 +205,9 @@
     "Note to recipient" : "Nota para el destinatario",
     "Enter a note for the share recipient" : "Escriba una nota para el recurso compartido del destinatario",
     "Create" : "Crear",
-    "Update" : "Actualizar",
     "Share" : "Compartir",
     "Delete share" : "Borrar recurso compartido",
-    "Share with " : "Compartir con",
+    "Share with" : "Compartir con",
     "Save share" : "Guardar recurso compartido",
     "Update share" : "Actualizar recurso compartido",
     "Others with access" : "Otros con acceso",
@@ -226,6 +225,7 @@
     "_Restore share_::_Restore shares_" : ["Restaurar recurso compartido","Restaurar recursos compartidos","Restaurar recursos compartidos"],
     "Shared" : "Compartido",
     "Shared by {ownerDisplayName}" : "Compartido por {ownerDisplayName}",
+    "Show sharing options" : "Mostrar opciones de compartir",
     "Link to a file" : "Enlace al archivo",
     "Error creating the share: {errorMessage}" : "Error al crear el recurso compartido: {errorMessage}",
     "Error creating the share" : "Error quitando el recurso compartido",
@@ -295,13 +295,13 @@
     "Something happened. Unable to reject the share." : "Algo ha ocurrido. No es posible rechazar el recurso compartido",
     "No expiration date set" : "No se ha establecido fecha de caducidad",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Compartir %s ha fallado porque el backend no soporta recursos compartidos de ScienceMesh",
-    "One or more of your shares will expire tomorrow" : "Uno o más de sus recursos compartidos caducarán mañana",
     "Allow creating" : "Permitir la creación",
     "Allow deleting" : "Permitir la eliminación",
     "Allow resharing" : "Permitir recompartir",
     "Expiration date enforced" : "Fecha de caducidad impuesta",
     "Password protect" : "Protegido por contraseña",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Error generando contraseña desde la política de contraseñas"
+    "Update" : "Actualizar",
+    "Share with " : "Compartir con"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

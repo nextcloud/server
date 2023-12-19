@@ -23,7 +23,7 @@
 <template>
 	<Fragment>
 		<NcContent app-name="settings">
-			<NcAppNavigation>
+			<NcAppNavigation :aria-label="t('settings', 'User management')">
 				<NcAppNavigationNew button-id="new-user-button"
 					:text="t('settings','New user')"
 					@click="showNewUserMenu"
@@ -97,6 +97,7 @@
 								{{ t('settings', 'Create group') }}
 							</NcActionText>
 							<NcActionInput :label="t('settings', 'Group name')"
+								data-cy-settings-new-group-name
 								:label-outside="false"
 								:disabled="loadingAddGroup"
 								:value.sync="newGroupName"
@@ -126,7 +127,7 @@
 				</template>
 			</NcAppNavigation>
 
-			<NcAppContent>
+			<NcAppContent :page-heading="pageHeading">
 				<UserList :selected-group="selectedGroupDecoded"
 					:external-actions="externalActions" />
 			</NcAppContent>
@@ -211,6 +212,17 @@ export default {
 	},
 
 	computed: {
+		pageHeading() {
+			if (this.selectedGroupDecoded === null) {
+				return t('settings', 'Active users')
+			}
+			const matchHeading = {
+				admin: t('settings', 'Admins'),
+				disabled: t('settings', 'Disabled users'),
+			}
+			return matchHeading[this.selectedGroupDecoded] ?? t('settings', 'User group: {group}', { group: this.selectedGroupDecoded })
+		},
+
 		showConfig() {
 			return this.$store.getters.getShowConfig
 		},

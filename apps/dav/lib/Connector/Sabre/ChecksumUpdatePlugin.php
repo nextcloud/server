@@ -23,10 +23,10 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\DAV\Server;
 
 class ChecksumUpdatePlugin extends ServerPlugin {
 	protected ?Server $server = null;

@@ -210,9 +210,9 @@ class UserHooks implements IHook {
 				$this->logger->error('Encryption could not update users encryption password');
 			}
 
-			// NOTE: Session does not need to be updated as the
-			// private key has not changed, only the passphrase
-			// used to decrypt it has changed
+		// NOTE: Session does not need to be updated as the
+		// private key has not changed, only the passphrase
+		// used to decrypt it has changed
 		} else { // admin changed the password for a different user, create new keys and re-encrypt file keys
 			$userId = $params['uid'];
 			$this->initMountPoints($userId);

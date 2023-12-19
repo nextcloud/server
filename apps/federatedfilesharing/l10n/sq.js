@@ -34,7 +34,6 @@ OC.L10N.register(
     "HTML Code:" : "Kod HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Copy to clipboard" : "Kopjo në dërrasë ",
-    "Copied!" : "U kopjua!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s"
+    "Copied!" : "U kopjua!"
 },
 "nplurals=2; plural=(n != 1);");

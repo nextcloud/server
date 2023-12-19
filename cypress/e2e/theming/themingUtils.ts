@@ -22,7 +22,7 @@
 import { colord } from 'colord'
 
 export const defaultPrimary = '#0082c9'
-export const defaultAccessiblePrimary = '#006aa3'
+export const defaultAccessiblePrimary = '#00679e'
 export const defaultBackground = 'kamil-porembinski-clouds.jpg'
 
 /**
@@ -32,19 +32,18 @@ export const defaultBackground = 'kamil-porembinski-clouds.jpg'
  * @param {string|null} expectedBackground the expected background
  */
 export const validateBodyThemingCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
-	return cy.window().then((win) => {
-		const guestBackgroundColor = getComputedStyle(win.document.body).backgroundColor
-		const guestBackgroundImage = getComputedStyle(win.document.body).backgroundImage
-		
-		const isValidBackgroundColor = colord(guestBackgroundColor).isEqual(expectedColor)
-		const isValidBackgroundImage = !expectedBackground
-			? guestBackgroundImage === 'none'
-			: guestBackgroundImage.includes(expectedBackground)
+	// We must use `Cypress.$` here as any assertions (get is an assertion) is not allowed in wait-until's check function, see documentation
+	const guestBackgroundColor = Cypress.$('body').css('background-color')
+	const guestBackgroundImage = Cypress.$('body').css('background-image')
 
-		console.debug({ guestBackgroundColor: colord(guestBackgroundColor).toHex(), guestBackgroundImage, expectedColor, expectedBackground, isValidBackgroundColor, isValidBackgroundImage })
+	const isValidBackgroundColor = colord(guestBackgroundColor).isEqual(expectedColor)
+	const isValidBackgroundImage = !expectedBackground
+		? guestBackgroundImage === 'none'
+		: guestBackgroundImage.includes(expectedBackground)
 
-		return isValidBackgroundColor && isValidBackgroundImage
-	})
+	console.debug({ guestBackgroundColor: colord(guestBackgroundColor).toHex(), guestBackgroundImage, expectedColor, expectedBackground, isValidBackgroundColor, isValidBackgroundImage })
+
+	return isValidBackgroundColor && isValidBackgroundImage
 }
 
 /**
@@ -54,27 +53,22 @@ export const validateBodyThemingCss = function(expectedColor = defaultPrimary, e
  * @param {string} expectedBackground the expected background
  */
 export const validateUserThemingDefaultCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
-	return cy.window().then((win) => {
-		const defaultSelectButton = win.document.querySelector('[data-user-theming-background-default]')
-		const customColorSelectButton = win.document.querySelector('[data-user-theming-background-color]')
-		if (!defaultSelectButton || !customColorSelectButton) {
-			return false
-		}
+	const defaultSelectButton = Cypress.$('[data-user-theming-background-default]')
+	const customColorSelectButton = Cypress.$('[data-user-theming-background-color]')
+	if (defaultSelectButton.length === 0 || customColorSelectButton.length === 0) {
+		return false
+	}
 
-		const defaultOptionBackground = getComputedStyle(defaultSelectButton).backgroundImage
-		const defaultOptionBorderColor = getComputedStyle(defaultSelectButton).borderColor
-		const colorPickerOptionColor = getComputedStyle(customColorSelectButton).backgroundColor
+	const defaultOptionBackground = defaultSelectButton.css('background-image')
+	const colorPickerOptionColor = customColorSelectButton.css('background-color')
 
-		const isValidBackgroundImage = !expectedBackground
-			? defaultOptionBackground === 'none'
-			: defaultOptionBackground.includes(expectedBackground)
-		
-		console.debug(colord(defaultOptionBorderColor).toHex(), colord(colorPickerOptionColor).toHex(), expectedColor, isValidBackgroundImage)
+	const isValidBackgroundImage = !expectedBackground
+		? defaultOptionBackground === 'none'
+		: defaultOptionBackground.includes(expectedBackground)
 
-		return isValidBackgroundImage
-			&& colord(defaultOptionBorderColor).isEqual(expectedColor)
-			&& colord(colorPickerOptionColor).isEqual(expectedColor)
-	})
+	console.debug({ colorPickerOptionColor: colord(colorPickerOptionColor).toHex(), expectedColor, isValidBackgroundImage })
+
+	return isValidBackgroundImage && colord(colorPickerOptionColor).isEqual(expectedColor)
 }
 
 export const pickRandomColor = function(pickerSelector: string): Cypress.Chainable<string> {
@@ -85,9 +79,8 @@ export const pickRandomColor = function(pickerSelector: string): Cypress.Chainab
 	cy.get(pickerSelector).click()
 
 	// Return selected colour
-	return cy.get(pickerSelector).get('.color-picker__simple-color-circle').eq(randColour)
-		.click().then(colorElement => {
-			const selectedColor = colorElement.css('background-color')
-			return selectedColor
-		})
+	return cy.get(pickerSelector).get('.color-picker__simple-color-circle').eq(randColour).then(($el) => {
+		$el.trigger('click')
+		return $el.css('background-color')
+	})
 }

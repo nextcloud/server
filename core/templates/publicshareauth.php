@@ -1,10 +1,10 @@
 <?php
-	/** @var array $_ */
-	/** @var \OCP\IL10N $l */
-	\OCP\Util::addStyle('core', 'guest');
-	\OCP\Util::addStyle('core', 'publicshareauth');
-	\OCP\Util::addScript('core', 'publicshareauth');
-	?>
+/** @var array $_ */
+/** @var \OCP\IL10N $l */
+\OCP\Util::addStyle('core', 'guest');
+\OCP\Util::addStyle('core', 'publicshareauth');
+\OCP\Util::addScript('core', 'publicshareauth');
+?>
 
 <div class="guest-box">
 	<!-- password prompt form. It should be hidden when we show the email prompt form -->

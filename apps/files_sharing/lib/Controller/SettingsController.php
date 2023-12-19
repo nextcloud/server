@@ -41,8 +41,8 @@ class SettingsController extends Controller {
 	private $userId;
 
 	public function __construct(IRequest $request,
-								IConfig $config,
-								string $userId) {
+		IConfig $config,
+		string $userId) {
 		parent::__construct(Application::APP_ID, $request);
 
 		$this->config = $config;
