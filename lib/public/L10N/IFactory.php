@@ -128,12 +128,12 @@ interface IFactory {
 	public function localeExists($locale);
 
 	/**
-	 * Return the current language Direction
+	 * Return the current language direction from locale
 	 *
-	 * @param  $lang
+	 * @param string $locale
 	 * @return string
 	 */
-	public function getLanguageDirection($lang): string;
+	public function getLanguageDirectionFromLocale($locale): string;
 
 	/**
 	 * iterate through language settings (if provided) in this order:

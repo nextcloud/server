@@ -88,7 +88,7 @@ class Factory implements IFactory {
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
 
-	const RTL_LANGS = [
+	const RTL_LANGUAGES = [
 		'ae', 'ar', 'arc', 'arz', 'bcc', 'bqi', 'ckb', 'dv', 'fa', 'glk',
 		'ha', 'he', 'khw', 'ks', 'ku', 'mzn', 'nqo', 'pnb', 'ps', 'sd', 'ug',
 		'ur', 'uzs', 'yi',
@@ -421,9 +421,9 @@ class Factory implements IFactory {
 		return in_array($lang, $languages);
 	}
 
-	public function getLanguageDirection($lang): string
+	public function getLanguageDirectionFromLocale($locale): string
 	{
-		if (in_array($lang, self::RTL_LANGS)) {
+		if (in_array($locale, self::RTL_LANGUAGES)) {
 			return "rtl";
 		}
 
