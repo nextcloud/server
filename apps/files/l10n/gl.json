@@ -267,7 +267,6 @@
     "A file or folder with that name already exists in this folder" : "Neste cartafol xa existe un ficheiro ou cartafol con ese nome",
     "The files is locked" : "Os ficheiros están bloqueados",
     "The file does not exist anymore" : "O ficheiro xa non existe",
-    "Chose destination" : "Escoller o destino",
     "Copy to {target}" : "Copiar en {target}",
     "Move to {target}" : "Mover a {target}",
     "Cancelled move or copy operation" : "Foi cancelada a operación de movemento ou copia",
@@ -319,6 +318,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
+    "Chose destination" : "Escoller o destino"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

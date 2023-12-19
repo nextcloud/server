@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "בדרכים",
     "Out sick" : "בחופשת מחלה",
     "Vacationing" : "בחופש",
+    "Out of office" : "מחוץ למשרד",
     "Working remotely" : "בעבודה מרחוק",
     "User status" : "מצב משתמש",
     "Clear status after" : "לפנות את המצב לאחר",

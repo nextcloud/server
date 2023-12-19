@@ -267,7 +267,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Súbor alebo priečinok s týmto názvom už existuje v tomto priečinku",
     "The files is locked" : "Súbory sú uzamknuté",
     "The file does not exist anymore" : "Súbor už neexistuje",
-    "Chose destination" : "Vyberte cieľ",
     "Copy to {target}" : "Kopírovať do {target}",
     "Move to {target}" : "Presunúť do {target}",
     "Cancelled move or copy operation" : "Zrušená operácia kopírovania alebo presunu",
@@ -318,6 +317,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzat zoznamom.",
     "Search for an account" : "Vyhľadať účet",
     "Choose" : "Vybrať",
-    "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané"
+    "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané",
+    "Chose destination" : "Vyberte cieľ"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

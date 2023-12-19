@@ -269,7 +269,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Bu klasörde aynı adlı bir dosya ya da klasör zaten var",
     "The files is locked" : "Dosyalar kilitli",
     "The file does not exist anymore" : "Dosya artık yok",
-    "Chose destination" : "Hedefi seçin",
     "Copy to {target}" : "{target} içine kopyala",
     "Move to {target}" : "{target} içine taşı",
     "Cancelled move or copy operation" : "Taşıma ya da kopyalama işlemi iptal edildi",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
-    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
+    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
+    "Chose destination" : "Hedefi seçin"
 },
 "nplurals=2; plural=(n > 1);");

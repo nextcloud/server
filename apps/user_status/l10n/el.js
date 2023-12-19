@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Μετακίνηση προς την εργασία",
     "Out sick" : "Αναρρωτική άδεια",
     "Vacationing" : "Διακοπάρω",
+    "Out of office" : "Εκτός γραφείου",
     "Working remotely" : "Εργασία εξ αποστάσεως",
     "In a call" : "Σε μια κλήση",
     "User status" : "Κατάσταση χρήστη",

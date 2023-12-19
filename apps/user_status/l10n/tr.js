@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "İşe gidiyor/geliyor",
     "Out sick" : "Hasta",
     "Vacationing" : "Tatilde",
+    "Out of office" : "İş yeri dışında",
     "Working remotely" : "Uzaktan çalışıyor",
     "In a call" : "Bir çağrıda",
     "User status" : "Kullanıcı durumu",

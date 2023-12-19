@@ -267,7 +267,6 @@
     "A file or folder with that name already exists in this folder" : "A file or folder with that name already exists in this folder",
     "The files is locked" : "The files is locked",
     "The file does not exist anymore" : "The file does not exist anymore",
-    "Chose destination" : "Choose destination",
     "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Move to {target}",
     "Cancelled move or copy operation" : "Cancelled move or copy operation",
@@ -319,6 +318,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
-    "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
+    "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
+    "Chose destination" : "Choose destination"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

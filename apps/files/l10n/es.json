@@ -261,7 +261,6 @@
     "A file or folder with that name already exists in this folder" : "Un archivo o carpeta con ese nombre ya existe en esta carpeta",
     "The files is locked" : "El archivo está bloqueado",
     "The file does not exist anymore" : "El archivo ya no existe",
-    "Chose destination" : "Seleccione el destino",
     "Copy to {target}" : "Copiar a {target}",
     "Move to {target}" : "Mover a {target}",
     "Cancelled move or copy operation" : "Se canceló la operación de mover o copiar",
@@ -311,6 +310,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se renderiza completa por razones de rendimiento. Los archivos serán renderizados mientras ud. navegue por la lista.",
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Selecciona",
-    "No files or folders have been deleted yet" : "No se han borrado archivos o carpetas todavía"
+    "No files or folders have been deleted yet" : "No se han borrado archivos o carpetas todavía",
+    "Chose destination" : "Seleccione el destino"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
