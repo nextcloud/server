@@ -111,7 +111,7 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#C00505';
+		$colorError = '#DB0606';
 		$colorWarning = '#A37200';
 		$colorSuccess = '#2d7b41';
 		$colorInfo = '#0071ad';
@@ -148,7 +148,7 @@ class DefaultTheme implements ITheme {
 			'--color-error' => $colorError,
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
-			'--color-error-text' => $colorError,
+			'--color-error-text' => $this->util->darken($colorError, 5),
 			'--color-warning' => $colorWarning,
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
 			'--color-warning-hover' => $this->util->darken($colorWarning, 5),
