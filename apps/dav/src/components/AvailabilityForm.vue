@@ -164,12 +164,13 @@ export default {
 	width: 120px;
 }
 .time-zone {
-	padding: 32px 12px 12px 0;
-    display: flex;
-    flex-wrap: wrap;
+	padding-block: 32px 12px;
+	padding-inline: 0 12px;
+	display: flex;
+	flex-wrap: wrap;
 
 	&__heading {
-		margin-right: calc(var(--default-grid-baseline) * 2);
+		margin-inline-end: calc(var(--default-grid-baseline) * 2);
 		line-height: var(--default-clickable-area);
 		font-weight: bold;
 	}

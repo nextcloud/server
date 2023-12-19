@@ -34,8 +34,8 @@
 }
 
 .app-sidebar .thumbnailContainer.large {
-	margin-left: -15px;
-	margin-right: -35px; /* 15 + 20 for the close button */
+	margin-inline-start: -15px;
+	margin-inline-end: -35px; /* 15 + 20 for the close button */
 	margin-top: -15px;
 }
 
@@ -73,7 +73,7 @@
 	overflow-x: hidden;
 	padding-top: 14px;
 	font-size: 80%;
-	margin-left: 0;
+	margin-inline-start: 0;
 }
 
 .app-sidebar .thumbnail {
@@ -81,7 +81,7 @@
 	min-height: 75px;
 	display: inline-block;
 	float: left;
-	margin-right: 10px;
+	margin-inline-end: 10px;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -126,7 +126,7 @@
 .app-sidebar .close {
 	position: absolute;
 	top: 0;
-	right: 0;
+	inset-inline-end: 0;
 	opacity: .5;
 	z-index: 1;
 	width: 44px;

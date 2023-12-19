@@ -86,7 +86,7 @@ export default {
 		max-width: inherit;
 	}
 	&__actions {
-		margin-left: auto !important;
+		margin-inline-start: auto !important;
 	}
 }
 </style>

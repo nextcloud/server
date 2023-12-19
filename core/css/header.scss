@@ -23,7 +23,7 @@
 		height: 2px;
 		border-radius: 3px;
 		background-color: var(--color-background-plain-text);
-		left: 50%;
+		inset-inline-start: 50%;
 		opacity: 1;
 	}
 
@@ -40,7 +40,7 @@
 		}
 
 		#expand.menutoggle:focus-visible::after {
-			left: 40%;
+			inset-inline-start: 40%;
 		}
 	}
 
@@ -63,7 +63,7 @@
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
 	padding: 5px 0;
-	padding-left: 86px; // logo width + 2* pa
+	padding-inline-start: 86px; // logo width + 2* pa
 	position: relative;
 	height: calc(100% - 4px);
 	box-sizing: border-box;
@@ -97,7 +97,7 @@
 		position: absolute;
 		max-width: 350px;
 		@include header-menu-height();
-		right: 8px; // relative to parent
+		inset-inline-end: 8px; // relative to parent
 		top: variables.$header-height;
 		margin: 0;
 		overflow-y: auto;
@@ -116,7 +116,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 10px;
+			inset-inline-end: 10px;
 		}
 
 		& > div,
@@ -133,7 +133,7 @@
 		background-position: center;
 		width: 62px;
 		position: absolute;
-		left: 12px;
+		inset-inline-start: 12px;
 		top: 1px;
 		bottom: 1px;
 		// Invert if not customized and background is bright
@@ -142,7 +142,7 @@
 
 	.header-appname-container {
 		display: none;
-		padding-right: 10px;
+		padding-inline-end: 10px;
 		flex-shrink: 0;
 	}
 
@@ -209,7 +209,7 @@
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
-	padding-right: 5px;
+	padding-inline-end: 5px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	// Take full width to push the header-shared-by bellow (if any)
@@ -243,7 +243,7 @@
 	overflow: hidden;
 	z-index: 9999;
 	top: -999px;
-	left: 3px;
+	inset-inline-start: 3px;
 	padding: 11px;
 	display: flex;
 	flex-wrap: wrap;

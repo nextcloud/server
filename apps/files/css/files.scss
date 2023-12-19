@@ -29,7 +29,7 @@
 	display: flex;
 	flex: 1 1;
 	.button:not(:last-child) {
-		margin-right: 3px;
+		margin-inline-end: 3px;
 		width: unset;
 		gap: 14px;
 		background-color: var(--color-primary-element-light);
@@ -44,7 +44,7 @@
 }
 
 #trash {
-	margin-right: 8px;
+	margin-inline-end: 8px;
 	float: right;
 	z-index: 1010;
 	padding: 10px;
@@ -212,21 +212,21 @@ table th .columntitle {
 }
 table.multiselect th .columntitle {
 	display: inline-block;
-	margin-right: -20px;
+	margin-inline-end: -20px;
 }
 table th .columntitle.name {
-	padding-left: 0;
-	margin-left: 44px;
+	padding-inline-start: 0;
+	margin-inline-start: 44px;
 }
 
 table.multiselect th .columntitle.name {
-	margin-left: 0;
+	margin-inline-start: 0;
 }
 
 table th .sort-indicator {
 	width: 10px;
 	height: 8px;
-	margin-left: 5px;
+	margin-inline-start: 5px;
 	display: inline-block;
 	vertical-align: text-bottom;
 	opacity: .3;
@@ -248,7 +248,7 @@ table th:focus .sort-indicator.hidden {
 table th,
 table td {
 	border-bottom: 1px solid var(--color-border);
-	text-align: left;
+	text-align: start;
 	font-weight: normal;
 }
 table td {
@@ -272,7 +272,7 @@ table th.column-selection {
 	padding-top: 2px;
 }
 table th.column-size, table td.filesize {
-	text-align: right;
+	text-align: end;
 }
 table th.column-mtime, table td.date,
 table th.column-last, table td.column-last {
@@ -303,7 +303,7 @@ table.multiselect thead th {
 }
 
 #app-content.with-app-sidebar table.multiselect thead{
-	margin-right: 27%;
+	margin-inline-end: 27%;
 }
 
 table.multiselect .column-name {
@@ -352,7 +352,7 @@ table td.filename .thumbnail {
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
-	margin-left: 9px;
+	margin-inline-start: 9px;
 	margin-top: 9px;
 	border-radius: var(--border-radius);
 	cursor: pointer;
@@ -370,7 +370,7 @@ table tr[data-has-preview='true'] .thumbnail {
 
 table:not(.view-grid) td.filename input.filename {
 	width: 70% !important;
-	margin-left: 48px !important;
+	margin-inline-start: 48px !important;
 	cursor: text;
 }
 table td.filename form {
@@ -402,7 +402,8 @@ table {
 			text-overflow: ellipsis;
 			height: 100%;
 			z-index: 10;
-			padding: 0 20px 0 0;
+			padding: 0;
+			padding-inline-end: 20px;
 		}
 	}
 }
@@ -435,13 +436,13 @@ table td.filename .uploadtext {
 	position: absolute;
 	font-weight: normal;
 	// checkbox width
-	margin-left: 50px;
-	left: 0;
+	margin-inline-start: 50px;
+	inset-inline-start: 0;
 	bottom: 0;
 	height: 20px;
 	padding: 0 4px;
 	// align with file name
-	padding-left: 1px;
+	padding-inline-start: 1px;
 	font-size: 11px;
 	// double the font size
 	line-height: 22px;
@@ -457,7 +458,7 @@ table td.selection {
 /* File checkboxes */
 .files-fileList tr td.selection>.selectCheckBox + label:before {
 	opacity: 0.3;
-	margin-right: 0;
+	margin-inline-end: 0;
 }
 
 /* Show checkbox with full opacity when hovering, checked, or selected */
@@ -497,8 +498,7 @@ table td.selection {
 .files-fileList tr td.filename {
 	position: relative;
 	width: 100%;
-	padding-left: 0;
-	padding-right:0;
+	padding-inline: 0;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
@@ -517,7 +517,7 @@ table td.selection {
 	position: absolute;
 	display: block;
 	top: -8px;
-	right: -8px;
+	inset-inline-end: -8px;
 	line-height: 100%;
 	text-align: center;
 	&.permanent {
@@ -634,7 +634,7 @@ a.action.action-setreminder {
 				/* hide text of the share action */
 				/* .hidden-visually for accessbility */
 				position: absolute;
-				left:-10000px;
+				inset-inline-start:-10000px;
 				top: auto;
 				width: 1px;
 				height: 1px;
@@ -648,8 +648,8 @@ a.action.action-setreminder {
 		&.action-menu {
 			padding-top: 17px;
 			padding-bottom: 17px;
-			padding-left: 14px;
-			padding-right: 14px;
+			padding-inline-start: 14px;
+			padding-inline-end: 14px;
 		}
 		&.no-permission {
 			&:hover, &:focus {
@@ -691,11 +691,11 @@ a.action.action-setreminder {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	vertical-align: middle;
-	margin-left: 6px;
+	margin-inline-end: 6px;
 }
 
 .files-fileList .remoteAddress .userDomain {
-	margin-left: 0 !important;
+	margin-inline-start: 0 !important;
 }
 
 .files-fileList .favorite-mark.permanent {
@@ -732,7 +732,7 @@ a.action.action-setreminder {
 .files-filestable .summary .filesummary {
 	width: 100%;
 	/* Width of checkbox and file preview */
-	padding-left: 101px;
+	padding-inline-start: 101px;
 }
 /* Less whitespace needed on link share page
  * as there is a footer and action menus have fewer entries.
@@ -763,23 +763,20 @@ table.dragshadow {
 	z-index: 2000;
 }
 table.dragshadow td.filename {
-	padding-left:60px;
-	padding-right:16px;
+	padding-inline-start: 60px;
+	padding-inline-end: 16px;
 	height: 36px;
 
 	/* Override "max-width: 0" to prevent file name and size from overlapping */
 	max-width: unset;
 }
 table.dragshadow td.size {
-	padding-right:8px;
+	padding-inline-end: 8px;
 }
 .mask {
 	z-index: 50;
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	inset: 0;
 	background-color: var(--color-main-background);
 	background-repeat: no-repeat no-repeat;
 	background-position: 50%;
@@ -797,14 +794,14 @@ table.dragshadow td.size {
 .newFileMenu {
 	font-weight: 300;
 	top: 100%;
-	left: -48px !important;
+	inset-inline-start: -48px !important;
 	margin-top: 4px;
 	min-width: 100px;
 	z-index: 1001;
 
 	/* Center triangle */
 	&::after {
-		left: 84px !important;
+		inset-inline-start: 84px !important;
 	}
 }
 
@@ -824,7 +821,7 @@ table.dragshadow td.size {
 	user-select: none;
 	display: flex;
 	top: 0;
-	padding-left: 50px; /* width of the nav toggle button; */
+	padding-inline-start: 50px; /* width of the nav toggle button; */
 
 	.actions {
 		> div,
@@ -849,7 +846,7 @@ table.dragshadow td.size {
 /* position controls for apps with app-navigation */
 
 .viewer-mode #app-navigation + #app-content .files-controls {
-	left: 0;
+	inset-inline-start: 0;
 }
 
 .files-filestable .filename .action .icon,
@@ -915,8 +912,8 @@ table.dragshadow td.size {
 }
 
 .notCreatable {
-	margin-left: 12px;
-	margin-right: 44px;
+	margin-inline-start: 12px;
+	margin-inline-end: 44px;
 	margin-top: 12px;
 	color: var(--color-main-text);
 	overflow: auto;
@@ -930,7 +927,7 @@ table.dragshadow td.size {
 	.icon-alert-outline {
 		top: -15px;
 		position: relative;
-		margin-right: 4px;
+		margin-inline-end: 4px;
 	}
 }
 
@@ -1022,7 +1019,7 @@ table.dragshadow td.size {
 					height: $grid-size;
 					padding: $grid-pad; // same as action icon bottom and right padding
 					top: 0;
-					left: 0;
+					inset-inline-start: 0;
 					z-index: -1; // make sure the default click is the link
 
 					.thumbnail {
@@ -1038,9 +1035,9 @@ table.dragshadow td.size {
 						 * Position is inherited from the selection while in grid view
 						 */
 						.favorite-mark {
-							left: auto;
+							inset-inline-start: auto;
 							top: -11px; // center in corner of thumbnail
-							right: -11px; // center in corner of thumbnail
+							inset-inline-end: -11px; // center in corner of thumbnail
 						}
 					}
 				}
@@ -1054,7 +1051,7 @@ table.dragshadow td.size {
 					height: 28px;
 					padding-top: 4px;
 					// checkbox margins
-					padding-left: calc(44px - 16px);
+					padding-inline-start: calc(44px - 16px);
 				}
 
 				.name {
@@ -1113,7 +1110,7 @@ table.dragshadow td.size {
 						display: flex;
 						align-items: center;
 						position: absolute;
-						right: 0;
+						inset-inline-end: 0;
 
 						.action {
 							padding: $grid-pad;
@@ -1157,7 +1154,7 @@ table.dragshadow td.size {
 
 					input.filename {
 						width: 100%;
-						margin-left: 0;
+						margin-inline-start: 0;
 						cursor: text;
 					}
 				}
@@ -1173,7 +1170,7 @@ table.dragshadow td.size {
 			&.filename .favorite-mark {
 				position: absolute;
 				top: -8px; // half the checkbox width, center on corner of thumbnail
-				left: -8px; // half the checkbox width, center on corner of thumbnail
+				inset-inline-start: -8px; // half the checkbox width, center on corner of thumbnail
 				display: flex;
 				z-index: 10;
 
@@ -1192,7 +1189,7 @@ table.dragshadow td.size {
 
 			/* Position actions menu below file */
 			.popovermenu {
-				left: 0;
+				inset-inline-start: 0;
 				width: $grid-size - 10px; // 2 * margin
 				margin: 0 5px;
 
@@ -1228,7 +1225,7 @@ table.dragshadow td.size {
 				}
 
 				.info {
-				    margin-left: 0;
+				    margin-inline-start: 0;
 				}
 			}
 		}
@@ -1243,7 +1240,7 @@ table.dragshadow td.size {
 	padding: 22px;
 	opacity: .5;
 	float: right;
-	right: var(--default-grid-baseline);
+	inset-inline-end: var(--default-grid-baseline);
 	top: var(--default-grid-baseline);
 	z-index: 100;
 	position: sticky;
@@ -1280,14 +1277,14 @@ table.dragshadow td.size {
 
 		/* Position actions menu correctly below 3-dot-menu */
 		.popovermenu {
-			left: -80px;
+			inset-inline-start: -80px;
 		}
 	}
 
 	/* Right-align view toggle on link share page */
 	#view-toggle {
 		position: absolute;
-		right: 0;
+		inset-inline-end: 0;
 		top: 0;
 	}
 }

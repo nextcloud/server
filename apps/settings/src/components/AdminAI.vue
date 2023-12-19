@@ -231,7 +231,7 @@ export default {
 	border: 2px solid var(--color-primary-element);
 	color: var(--color-primary-element);
 	padding: 0px 7px;
-	margin-right: 3px;
+	margin-inline-end: 3px;
 }
 
 .drag-vertical-icon {

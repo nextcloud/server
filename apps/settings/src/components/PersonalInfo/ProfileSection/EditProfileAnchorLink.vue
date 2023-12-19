@@ -66,7 +66,7 @@ a {
 		display: inline-block;
 		vertical-align: middle;
 		margin-top: 6px;
-		margin-right: 8px;
+		margin-inline-end: 8px;
 	}
 
 	&:hover,

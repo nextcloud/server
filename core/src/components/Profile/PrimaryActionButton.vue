@@ -61,4 +61,37 @@ export default defineComponent({
 	.icon {
 		filter: var(--primary-invert-if-dark);
 	}
+
+	.profile__primary-action-button {
+		font-size: var(--default-font-size);
+		font-weight: bold;
+		width: 188px;
+		height: 44px;
+		padding: 0 16px;
+		line-height: 44px;
+		text-align: center;
+		border-radius: var(--border-radius-pill);
+		color: var(--color-primary-element-text);
+		background-color: var(--color-primary-element);
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+
+		.icon {
+			display: inline-block;
+			vertical-align: middle;
+			margin-bottom: 2px;
+			margin-inline-end: 4px;
+
+			&.icon-invert {
+				filter: invert(1);
+			}
+		}
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: var(--color-primary-element-light);
+		}
+	}
 </style>

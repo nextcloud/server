@@ -196,16 +196,16 @@ export default {
 		justify-content: end;
 
 		button {
-			margin-left: 5px;
+			margin-inline-start: 5px;
 		}
 		button:last-child{
-			margin-right: 10px;
+			margin-inline-end: 10px;
 		}
 	}
 
 	.error-message {
 		float: right;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 	}
 
 	.flow-icon {
@@ -230,7 +230,7 @@ export default {
 		.icon-confirm {
 			background-position: right 27px;
 			padding-right: 20px;
-			margin-right: 20px;
+			margin-inline-end: 20px;
 		}
 	}
 	.trigger p, .action p {
@@ -239,7 +239,7 @@ export default {
 
 		& > span {
 			min-width: 50px;
-			text-align: right;
+			text-align: end;
 			color: var(--color-text-maxcontrast);
 			padding-right: 10px;
 			padding-top: 6px;
@@ -265,7 +265,7 @@ export default {
 		border-radius: var(--border-radius);
 		color: var(--color-text-maxcontrast);
 		font-weight: normal;
-		text-align: left;
+		text-align: start;
 		font-size: 1em;
 	}
 

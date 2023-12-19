@@ -280,7 +280,7 @@ select {
 	background: var(--icon-triangle-s-dark) no-repeat right 8px center;
 	appearance: none;
 	background-color: var(--color-main-background);
-	padding-right: 28px !important;
+	padding-inline-end: 28px !important;
 }
 
 select,
@@ -350,8 +350,8 @@ input {
 	&[type='password'],
 	&[type='email'] {
 		+ .icon-confirm {
-			margin-left: -13px !important;
-			border-left-color: transparent !important;
+			margin-inline-start: -13px !important;
+			border-inline-start-color: transparent !important;
 			border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
 			border-width: 2px;
 			background-clip: padding-box;
@@ -362,7 +362,7 @@ input {
 			width: var(--default-clickable-area);
 			padding: 7px 6px;
 			cursor: pointer;
-			margin-right: 0;
+			margin-inline-end: 0;
 			&:disabled {
 				cursor: default;
 				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
@@ -393,7 +393,7 @@ input {
 		&:focus {
 			+ .icon-confirm {
 				border-color: var(--color-primary-element) !important;
-				border-left-color: transparent !important;
+				border-inline-start-color: transparent !important;
 				/* above previous input */
 				z-index: 2;
 			}
@@ -422,7 +422,7 @@ input {
 		&.radio,
 		&.checkbox {
 			position: absolute;
-			left: -10000px;
+			inset-inline-start: -10000px;
 			top: auto;
 			width: 1px;
 			height: 1px;
@@ -473,7 +473,7 @@ input {
 			// Detail description below label of checkbox or radio button
 			& + label ~ em {
 				display: inline-block;
-				margin-left: 25px;
+				margin-inline-start: 25px;
 			}
 			& + label ~ em:last-of-type {
 				margin-bottom: $checkbox-radio-size;
@@ -546,7 +546,7 @@ div.select2-drop {
 	}
 	.avatar {
 		display: inline-block;
-		margin-right: 8px;
+		margin-inline-end: 8px;
 		vertical-align: middle;
 		img {
 			cursor: pointer;
@@ -620,7 +620,7 @@ div.select2-container-multi {
 		}
 		.select2-search-choice {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			&.select2-search-choice-focus,
 			&:hover,
 			&:active,
@@ -671,7 +671,7 @@ div.select2-container {
 		}
 		.select2-search-choice {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			background-image: none;
 			background-color: var(--color-background-dark);
 			border-color: var(--color-background-dark);
@@ -713,7 +713,7 @@ div.select2-container {
 		flex-wrap: wrap;
 		.selected-tag {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			background-image: none;
 			background-color: var(--color-main-background);
 			color: var(--color-text-maxcontrast);
@@ -721,7 +721,7 @@ div.select2-container {
 			display: inline-flex;
 			align-items: center;
 			.close {
-				margin-left: 3px;
+				margin-inline-start: 3px;
 			}
 		}
 	}
@@ -761,7 +761,7 @@ div.select2-container {
 					min-height: 16px;
 					display: block;
 					opacity: 0.5;
-					margin-right: 5px;
+					margin-inline-end: 5px;
 					visibility: hidden;
 				}
 			}
@@ -843,7 +843,7 @@ progress:not(.vue) {
 // Same as .hidden-visually
 label.infield {
 	position: absolute;
-	left: -10000px;
+	inset-inline-start: -10000px;
 	top: -10000px;
 	width: 1px;
 	height: 1px;

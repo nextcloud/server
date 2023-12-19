@@ -88,7 +88,8 @@ export default {
 	display: flex;
 	position: relative;
 	align-items: center;
-	padding: 3px 3px 3px 10px;
+	padding: 3px;
+	padding-inline-start: 10px;
 
 	&__action {
 		&__icon {
@@ -108,8 +109,8 @@ export default {
 
 	&__body {
 		flex-grow: 1;
-		padding-left: 10px;
-		margin-left: 10px;
+		padding-inline-start: 10px;
+		margin-inline-start: 10px;
 		min-width: 0;
 
 		div {
@@ -162,7 +163,7 @@ export default {
 	/* actions menu */
 	.menu {
 		top: 47px;
-		margin-right: 13px;
+		margin-inline-end: 13px;
 	}
 
 	.popovermenu::after {

@@ -174,7 +174,7 @@ export default {
 	progress {
 		position: absolute;
 		bottom: 12px;
-		margin-left: 44px;
+		margin-inline-start: 44px;
 		width: calc(100% - 44px - 22px);
 	}
 }

@@ -84,13 +84,13 @@ dt,
 dd {
 	display: inline-block;
 	padding: 12px;
-	padding-left: 0;
+	padding-inline-start: 0;
 }
 
 dt {
 	width: 130px;
 	white-space: nowrap;
-	text-align: right;
+	text-align: end;
 }
 
 kbd {
@@ -141,7 +141,7 @@ kbd {
 		box-shadow: none !important;
 		user-select: none;
 		pointer-events:none;
-		margin-left: 10px;
+		margin-inline-start: 10px;
 	}
 }
 
@@ -156,9 +156,9 @@ kbd {
 			display: inline-block;
 			width: 100%;
 			padding: 10px;
-			padding-left: 34px;
+			padding-inline-start: 34px;
 			background-position: 10px center;
-			text-align: left;
+			text-align: start;
 			margin: 0;
 		}
 	}
@@ -202,13 +202,13 @@ kbd {
 
 			> .app-navigation-entry-deleted {
 				/* Ugly hack for overriding the main entry link */
-				padding-left: var(--default-clickable-area) !important;
+				padding-inline-start: var(--default-clickable-area) !important;
 			}
 			> .app-navigation-entry-edit {
 				/* Ugly hack for overriding the main entry link */
 				/* align the input correctly with the link text
 				   44px-6px padding for the input */
-				padding-left: calc(var(--default-clickable-area) - 6px) !important;
+				padding-inline-start: calc(var(--default-clickable-area) - 6px) !important;
 			}
 
 			a:hover,
@@ -239,7 +239,7 @@ kbd {
 
 			/* align loader */
 			&.icon-loading-small:after {
-				left: 22px;
+				inset-inline-start: 22px;
 				top: 22px;
 			}
 
@@ -260,7 +260,7 @@ kbd {
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
-					padding-left: var(--default-clickable-area);
+					padding-inline-start: var(--default-clickable-area);
 					width: 100%;
 					margin-bottom: 3px;
 
@@ -286,21 +286,21 @@ kbd {
 
 					/* align loader */
 					&.icon-loading-small:after {
-						left: calc(var(--default-clickable-area) / 2);
+						inset-inline-start: calc(var(--default-clickable-area) / 2);
 					}
 
 					> .app-navigation-entry-deleted {
 						/* margin to keep active indicator visible */
-						margin-left: 4px;
-						padding-left: 84px;
+						margin-inline-start: 4px;
+						padding-inline-start: 84px;
 					}
 
 					> .app-navigation-entry-edit {
 						/* margin to keep active indicator visible */
-						margin-left: 4px;
+						margin-inline-start: 4px;
 						/* align the input correctly with the link text
 						44px+44px-4px-6px padding for the input */
-						padding-left: calc(2 * var(--default-clickable-area) - 10px) !important;
+						padding-inline-start: calc(2 * var(--default-clickable-area) - 10px) !important;
 					}
 				}
 			}
@@ -346,7 +346,7 @@ kbd {
 					}
 				}
 				&:first-child img {
-					margin-right: calc(2 * var(--default-grid-baseline)) !important;
+					margin-inline-end: calc(2 * var(--default-grid-baseline)) !important;
 					width: 16px;
 					height: 16px;
 					// Legacy invert if bright background
@@ -358,7 +358,7 @@ kbd {
 					display: inline-block;
 					float: right;
 					.app-navigation-entry-utils-counter {
-						padding-right: 0 !important;
+						padding-inline-end: 0 !important;
 					}
 				}
 			}
@@ -471,7 +471,7 @@ kbd {
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
-			padding-left: var(--default-clickable-area);
+			padding-inline-start: var(--default-clickable-area);
 		}
 		&:hover,
 		&:focus {
@@ -527,7 +527,7 @@ kbd {
 		}
 		.app-navigation-entry-utils-counter {
 			overflow: hidden;
-			text-align: right;
+			text-align: end;
 			font-size: 9pt;
 			line-height: var(--default-clickable-area);
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
@@ -549,8 +549,8 @@ kbd {
 	 * Editable entries
 	 */
 	.app-navigation-entry-edit {
-		padding-left: 5px;
-		padding-right: 5px;
+		padding-inline-start: 5px;
+		padding-inline-end: 5px;
 		display: block;
 		width: calc(100% - 1px); /* Avoid border overlapping */
 		transition: opacity 250ms ease-in-out;
@@ -565,7 +565,7 @@ kbd {
 		}
 		input {
 			padding: 5px;
-			margin-right: 0;
+			margin-inline-end: 0;
 			height: 38px;
 			&:hover,
 			&:focus {
@@ -576,8 +576,8 @@ kbd {
 		input[type='text'] {
 			width: 100%;
 			min-width: 0; /* firefox hack: override auto */
-			border-bottom-right-radius: 0;
-			border-top-right-radius: 0;
+			border-end-end-radius: 0;
+			border-start-end-radius: 0;
 		}
 		button,
 		input:not([type='text']) {
@@ -588,13 +588,13 @@ kbd {
 				border-radius: 0 !important;
 			}
 			&:not(:first-child) {
-				margin-left: -1px;
+				margin-inline-start: -1px;
 			}
 			&:last-child {
-				border-bottom-right-radius: var(--border-radius);
-				border-top-right-radius: var(--border-radius);
-				border-bottom-left-radius: 0;
-				border-top-left-radius: 0;
+				border-end-end-radius: var(--border-radius);
+				border-start-end-radius: var(--border-radius);
+				border-end-start-radius: 0;
+				border-start-start-radius: 0;
 			}
 		}
 	}
@@ -604,7 +604,7 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
-		padding-left: var(--default-clickable-area);
+		padding-inline-start: var(--default-clickable-area);
 		transform: translateX(#{variables.$navigation-width});
 		.app-navigation-entry-deleted-description {
 			position: relative;
@@ -636,7 +636,7 @@ kbd {
 					opacity 250ms ease-in-out,
 					z-index 250ms ease-in-out;
 		position: absolute;
-		left: 0;
+		inset-inline-start: 0;
 		background-color: var(--color-main-background);
 		box-sizing: border-box;
 	}
@@ -681,14 +681,14 @@ kbd {
 
 @media only screen and (max-width: variables.$breakpoint-mobile) {
 	#content {
-		border-top-left-radius: var(--border-radius-large);
-		border-top-right-radius: var(--border-radius-large);
+		border-start-start-radius: var(--border-radius-large);
+		border-start-end-radius: var(--border-radius-large);
 	}
 	#app-navigation {
-		border-top-left-radius: var(--border-radius-large);
+		border-start-start-radius: var(--border-radius-large);
 	}
 	#app-sidebar {
-		border-top-right-radius: var(--border-radius-large);
+		border-start-end-radius: var(--border-radius-large);
 	}
 }
 
@@ -752,14 +752,14 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	position: -webkit-sticky;
 	position: sticky;
 	top: variables.$header-height;
-	right:0;
+	inset-inline-end:0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1500;
 	opacity: 0.7px;
 	height: calc(100vh - #{variables.$header-height});
 	background: var(--color-main-background);
-	border-left: 1px solid var(--color-border);
+	border-inline-start: 1px solid var(--color-border);
 	flex-shrink: 0;
 	// no animations possible, use OC.Apps.showAppSidebar
 	&.disappear {
@@ -785,7 +785,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	display: none;
 	padding: calc(var(--default-grid-baseline) * 2);
 	padding-top: 0;
-	padding-left: calc(var(--default-grid-baseline) * 4);
+	padding-inline-start: calc(var(--default-grid-baseline) * 4);
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
@@ -834,7 +834,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 		box-shadow: none;
 		border: 0;
 		border-radius: calc(var(--default-clickable-area) / 2);
-		text-align: left;
+		text-align: start;
 		font-weight: normal;
 		font-size: 100%;
 		opacity: 0.8;
@@ -860,7 +860,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 			width: var(--default-clickable-area);
 			height: var(--default-clickable-area);
 			top: 0;
-			left: 0;
+			inset-inline-start: 0;
 			display: block;
 		}
 
@@ -884,14 +884,14 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 		&[type='checkbox'],
 		&[type='radio'] {
 			vertical-align: -2px;
-			margin-right: 4px;
+			margin-inline-end: 4px;
 		}
 	}
 }
 .sub-section {
 	position: relative;
 	margin-top: 10px;
-	margin-left: 27px;
+	margin-inline-start: 27px;
 	margin-bottom: 10px;
 }
 
@@ -931,10 +931,10 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 
 		/* Use same amount as sidebar padding */
 		&:first-child {
-			padding-left: 15px;
+			padding-inline-start: 15px;
 		}
 		&:last-child {
-			padding-right: 15px;
+			padding-inline-end: 15px;
 		}
 
 		.icon {
@@ -944,7 +944,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 			background-size: 16px;
 			vertical-align: middle;
 			margin-top: -2px;
-			margin-right: 3px;
+			margin-inline-end: 3px;
 			opacity: .7;
 			cursor: pointer;
 		}
@@ -1015,7 +1015,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 		// = 16px/2 + 14px = 22px
 		// popover right margin is 5px, arrow width is 9px to center and border is 1px
 		// 22px - 9px - 5px - 1px = 7px
-		right: 7px;
+		inset-inline-end: 7px;
 		/* change this to adjust the arrow position */
 		border: solid transparent;
 		content: ' ';
@@ -1030,7 +1030,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	&.menu-center {
 		transform: translateX(50%);
 		right: 50%;
-		margin-right: 0;
+		margin-inline-end: 0;
 		&:after {
 			right: 50%;
 			transform: translateX(50%);
@@ -1040,7 +1040,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	&.menu-left {
 		right: auto;
 		left: 0;
-		margin-right: 0;
+		margin-inline-end: 0;
 		&:after {
 			left: 6px;
 			right: auto;
@@ -1107,7 +1107,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				> input,
 				> form {
 					&:not([class^='icon-']):not([class*='icon-']):first-child {
-						margin-left: $popoveritem-height;
+						margin-inline-start: $popoveritem-height;
 					}
 				}
 			}
@@ -1143,11 +1143,11 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			}
 			> select {
 				margin: 0;
-				margin-left: 6px;
+				margin-inline-start: 6px;
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
-				padding-right: $outter-margin !important;
+				padding-inline-end: $outter-margin !important;
 			}
 			/* DEPRECATED! old img in popover fallback
 			 * TODO: to remove */
@@ -1177,13 +1177,13 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				   if there is an element before */
 				align-items: center;
 				&:not(:first-child)  {
-					margin-left: 5px;
+					margin-inline-start: 5px;
 				}
 			}
 			/* no margin if hidden span before */
 			> span.hidden + form,
 			> span[style*='display:none'] + form {
-				margin-left: 0;
+				margin-inline-start: 0;
 			}
 			/* Inputs inside popover supports text, submit & reset */
 			input {
@@ -1193,7 +1193,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				flex: 1 1 auto;
 				// space between inline inputs
 				&:not(:first-child) {
-					margin-left: 5px;
+					margin-inline-start: 5px;
 				}
 			}
 		}
@@ -1255,7 +1255,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	position: -webkit-sticky;
 	position: relative;
 	top: 0;
-	border-right: 1px solid var(--color-border);
+	border-inline-end: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
@@ -1343,7 +1343,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			}
 			+ label {
 				top: 14px;
-				left: 7px;
+				inset-inline-start: 7px;
 				// hidden by default, only chown on hover-focus or if checked
 				display: none;
 				&::before {
@@ -1359,7 +1359,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 		.app-content-list-item-star {
 			display: flex;
 			top: 10px;
-			left: 32px;
+			inset-inline-start: 32px;
 			background-size: 16px;
 			height: 20px;
 			width: 20px;
@@ -1375,7 +1375,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			line-height: 40px;
 			border-radius: 50%;
 			vertical-align: middle;
-			margin-right: 10px;
+			margin-inline-end: 10px;
 			color: #fff;
 			text-align: center;
 			font-size: 1.5em;
@@ -1390,13 +1390,13 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 		.app-content-list-item-line-one,
 		.app-content-list-item-line-two {
 			display: block;
-			padding-left: 50px;
+			padding-inline-start: 50px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			order: 1;
 			flex: 1 1 0px;
-			padding-right: 10px;
+			padding-inline-end: 10px;
 			cursor: pointer;
 		}
 
@@ -1425,7 +1425,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				margin: 0;
 				// action icon have -7px margin
 				// default popover is normally 5px
-				right: -2px;
+				inset-inline-end: -2px;
 			}
 		}
 	}
