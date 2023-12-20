@@ -269,6 +269,7 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "En fil eller mapp med det namnet finns redan i den här mappen",
     "The files is locked" : "Filerna är låsta",
     "The file does not exist anymore" : "Filen finns inte längre",
+    "Choose destination" : "Välj destination",
     "Copy to {target}" : "Kopiera till {target}",
     "Move to {target}" : "Flytta till {target}",
     "Cancelled move or copy operation" : "Flytta eller kopiera avbröts",

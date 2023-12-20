@@ -92,7 +92,6 @@ OC.L10N.register(
     "Decline" : "Одбиј",
     "More options …" : "Повеќе опции ...",
     "More options at %s" : "Повеќе опции на %s",
-    "In a meeting" : "На состанок",
     "Contacts" : "Контакти",
     "{actor} created address book {addressbook}" : "{actor} креираше адресар {addressbook}",
     "You created address book {addressbook}" : "Креиравте адресар {addressbook}",

@@ -267,6 +267,7 @@
     "A file or folder with that name already exists in this folder" : "Já existe um arquivo ou pasta com esse nome nesta pasta",
     "The files is locked" : "Os arquivos estão bloqueados",
     "The file does not exist anymore" : "O arquivo não existe mais",
+    "Choose destination" : "Escolha o destino",
     "Copy to {target}" : "Copiar para {target}",
     "Move to {target}" : "Mover para {target}",
     "Cancelled move or copy operation" : "Operação de movimentação ou cópia cancelada",

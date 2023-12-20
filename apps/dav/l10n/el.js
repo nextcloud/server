@@ -64,7 +64,6 @@ OC.L10N.register(
     "Decline" : "Απόρριψη",
     "More options …" : "Περισσότερες επιλογές...",
     "More options at %s" : "Περισσότερες επιλογές στο %s",
-    "In a meeting" : "Σε συνάντηση",
     "Contacts" : "Επαφές",
     "You created contact {card} in address book {addressbook}" : "Δημιουργήσατε την επαφή {card} στο βιβλίο διευθύνσεων {addressbook}",
     "You deleted contact {card} from address book {addressbook}" : "Διαγράψατε την επαφή {card} από το βιβλίο διευθύνσεων {addressbook}",
