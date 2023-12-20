@@ -71,49 +71,27 @@ class JobWorker extends JobBase {
 			return 1;
 		}
 
-		$interval = (int)($input->getOption('interval') ?? 5);
-
 		while (true) {
 			// Handle canceling of the process
 			try {
 				$this->abortIfInterrupted();
 			} catch (InterruptedException $e) {
-				$output->writeln('<comment>Cleaning up before quitting. Press Ctrl-C again to kill, but this may have unexpected side effects.</comment>');
-				$this->unlockExecuted();
 				$output->writeln('<info>Background job worker stopped</info>');
 				break;
 			}
 
 			$this->printSummary($input, $output);
 
-			// Unlock jobs that should be executed again after the interval
-			// Alternative could be to set last_checked to interval in the future to avoid the extra locks
-			foreach ($this->executedJobs as $id => $time) {
-				if ($time <= time() - $interval) {
-					unset($this->executedJobs[$id]);
-					$job = $this->jobList->getById($id);
-					if ($job !== null) {
-						$this->jobList->unlockJob($job);
-					}
-				}
-			}
-
 			usleep(50000);
 			$job = $this->jobList->getNext(false, $jobClass);
 			if (!$job) {
-				if ($input->getOption('once') === true || $interval === 0) {
+				if ($input->getOption('once') === true) {
 					break;
 				}
 
 				$output->writeln("Waiting for new jobs to be queued", OutputInterface::VERBOSITY_VERBOSE);
 				// Re-check interval for new jobs
 				sleep(1);
-				continue;
-			}
-
-
-			if (isset($this->executedJobs[$job->getId()]) && ($this->executedJobs[$job->getId()] + $interval > time())) {
-				$output->writeln("<comment>Job already executed within timeframe " . get_class($job) . " " . $job->getId() . '</comment>', OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
@@ -131,14 +109,11 @@ class JobWorker extends JobBase {
 
 			$this->jobList->setLastJob($job);
 			$this->jobList->unlockJob($job);
-			$this->executedJobs[$job->getId()] = time();
 
 			if ($input->getOption('once') === true) {
 				break;
 			}
 		}
-
-		$this->unlockExecuted();
 
 		return 0;
 	}
@@ -154,15 +129,5 @@ class JobWorker extends JobBase {
 			$counts[] = $row;
 		}
 		$this->writeTableInOutputFormat($input, $output, $counts);
-	}
-
-	private function unlockExecuted() {
-		foreach ($this->executedJobs as $id => $time) {
-			unset($this->executedJobs[$id]);
-			$job = $this->jobList->getById($id);
-			if ($job !== null) {
-				$this->jobList->unlockJob($job);
-			}
-		}
 	}
 }
