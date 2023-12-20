@@ -436,7 +436,7 @@ export default defineComponent({
 
 	mounted() {
 		this.fetchContent()
-		subscribe('files:node:updated', this.onUpdateNode)
+		subscribe('files:node:updated', this.onUpdatedNode)
 	},
 
 	methods: {
@@ -563,7 +563,7 @@ export default defineComponent({
 		 * @param {Node} node is the file/folder being updated.
  		 */
 		onUpdatedNode(node) {
-			if (node.fileid === this.currentFolder.fileid) {
+			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
 			}
 		},
