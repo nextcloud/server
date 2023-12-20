@@ -88,7 +88,6 @@ OC.L10N.register(
     "Decline" : "Avslå",
     "More options …" : "Flere alternativer ...",
     "More options at %s" : "Flere alternativer ved %s",
-    "In a meeting" : "I et møte",
     "Contacts" : "Kontakter",
     "{actor} created address book {addressbook}" : "{actor} opprettet adresseboken {addressbook}",
     "You created address book {addressbook}" : "Du opprettet adresseboken {addressbook}",

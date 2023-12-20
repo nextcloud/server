@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Rechazar",
     "More options …" : "Más opciones...",
     "More options at %s" : "Más opciones en %s",
-    "In a meeting" : "En una reunión",
     "Contacts" : "Contactos",
     "{actor} created address book {addressbook}" : "{actor} ha creado la libreta de direcciones {addressbook}",
     "You created address book {addressbook}" : "Has creado la libreta de direcciones {adressbook}",
