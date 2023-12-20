@@ -534,7 +534,7 @@
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "لطفاً <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">راهنماهای نصب</a> را مجددا مرور کرده و هرگونه خطا یا هشدار را در <a href=\"%2$s\">گزارشات log </a> بررسی کنید.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "امنیت نکست کلود خود را در مورد <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">اسکن امنیتی ما ↗ </a>بررسی کنید",
     "Reasons to use Nextcloud in your organization" : "Reasons to use Nextcloud in your organization",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "توسعه یافته توسط {communityopen} انجمن نکست کلود {linkclose} ، {githubopen} کد منبع {linkclose} تحت مجوز است {licenseopen}AGPL{linkclose}. ",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "توسعه یافته توسط {communityopen} انجمن نکست کلود {linkclose}، {githubopen} کد منبع {linkclose} تحت مجوز {licenseopen}AGPL{linkclose}است. ",
     "Like our Facebook page" : "پسندیدن صفحه فیس بوک ما",
     "Follow us on Twitter" : "ما را در توییتر دنبال کنید",
     "Follow us on Mastodon" : "ما را در ماستودون دنبال کنید",

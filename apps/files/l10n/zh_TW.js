@@ -269,6 +269,7 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "此資料夾中已存在同名的檔案或資料夾",
     "The files is locked" : "檔案已鎖定",
     "The file does not exist anymore" : "檔案已不存在",
+    "Choose destination" : "選擇目的地",
     "Copy to {target}" : "複製到 {target}",
     "Move to {target}" : "移動至 {target}",
     "Cancelled move or copy operation" : "已取消移動或複製操作",
