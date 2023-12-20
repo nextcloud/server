@@ -248,7 +248,7 @@ export default {
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
-						max-width: 110px;
+						max-width: 210px;
 					}
 
 					img {
