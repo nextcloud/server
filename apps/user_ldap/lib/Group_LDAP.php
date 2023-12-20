@@ -681,7 +681,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 	protected function getCachedGroupsForUserId(string $uid): array {
 		$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
-		return json_decode($groupStr) ?? [];
+		return json_decode($groupStr, true) ?? [];
 	}
 
 	/**
@@ -834,7 +834,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			return $groups;
 		}
 
-		$groups = array_unique($groups, SORT_LOCALE_STRING);
+		$groups = array_values(array_unique($groups, SORT_LOCALE_STRING));
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		$groupStr = \json_encode($groups);
