@@ -170,7 +170,7 @@ export default {
 
 	ul, ol {
 		padding-left: 10px;
-		margin-left: 10px;
+		margin-inline-start: 10px;
 	}
 
 	ul li {
@@ -189,8 +189,8 @@ export default {
 		padding-left: 1em;
 		border-left: 4px solid var(--color-primary-element);
 		color: var(--color-text-maxcontrast);
-		margin-left: 0;
-		margin-right: 0;
+		margin-inline-start: 0;
+		margin-inline-end: 0;
 	}
 
 	}

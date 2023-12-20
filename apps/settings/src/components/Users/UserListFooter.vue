@@ -111,7 +111,7 @@ export default Vue.extend({
 		color: var(--color-text-maxcontrast);
 
 		&--loading {
-			left: 0;
+			inset-inline-start: 0;
 			min-width: var(--avatar-cell-width);
 			width: var(--avatar-cell-width);
 			align-items: center;
@@ -119,7 +119,7 @@ export default Vue.extend({
 		}
 
 		&--count {
-			left: var(--avatar-cell-width);
+			inset-inline-start: var(--avatar-cell-width);
 			min-width: var(--cell-width);
 			width: var(--cell-width);
 		}

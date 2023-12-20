@@ -389,7 +389,7 @@ export default {
 
 		display: flex;
 		gap: 0 2px;
-		margin-right: 5px;
+		margin-inline-end: 5px;
 
 		.email__actions {
 			&:hover,
@@ -413,7 +413,7 @@ export default {
 		align-items: center;
 
 		&__icon {
-			margin-right: 8px;
+			margin-inline-end: 8px;
 			align-self: start;
 			margin-top: 4px;
 		}

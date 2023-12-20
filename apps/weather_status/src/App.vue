@@ -605,7 +605,7 @@ export default {
 
 		&.icon-loading-small {
 			&::after {
-				left: 21px;
+				inset-inline-start: 21px;
 			}
 		}
 	}

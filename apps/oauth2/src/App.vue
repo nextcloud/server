@@ -163,6 +163,6 @@ export default {
 	}
 	.oauth2-form--input {
 		max-width: 200px;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 	}
 </style>

@@ -235,7 +235,7 @@ p {
 		margin-bottom: calc(var(--default-grid-baseline) * 2);
 
 		span {
-			margin-right: 8px;
+			margin-inline-end: 8px;
 		}
 	}
 
@@ -246,7 +246,7 @@ p {
 }
 .transfer-select-row {
 	span {
-		margin-right: 8px;
+		margin-inline-end: 8px;
 	}
 
 	&__choose_button {

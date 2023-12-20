@@ -178,7 +178,7 @@ export default {
 		margin-top: 0.5rem;
 		button {
 			display: inline-flex;
-			margin-left: 0.5rem;
+			margin-inline-start: 0.5rem;
 			margin-top: 1rem;
 		}
 		&__website-button {
@@ -198,6 +198,6 @@ export default {
 		white-space: pre-wrap;
 	}
 	#cloudid {
-		margin-left: 0.25rem;
+		margin-inline-start: 0.25rem;
 	}
 </style>

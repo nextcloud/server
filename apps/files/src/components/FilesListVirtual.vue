@@ -406,7 +406,7 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			flex: 0 0 auto;
-			justify-content: left;
+			justify-content: start;
 			width: var(--row-height);
 			height: var(--row-height);
 			margin: 0;
@@ -428,8 +428,8 @@ export default defineComponent({
 			position: absolute;
 			display: block;
 			top: 0;
-			left: 0;
-			right: 0;
+			inset-inline-start: 0;
+			inset-inline-end: 0;
 			bottom: 0;
 			opacity: .1;
 			z-index: -1;
@@ -493,7 +493,7 @@ export default defineComponent({
 			width: var(--icon-preview-size);
 			height: 100%;
 			// Show same padding as the checkbox right padding for visual balance
-			margin-right: var(--checkbox-padding);
+			margin-inline-end: var(--checkbox-padding);
 			color: var(--color-primary-element);
 
 			// Icon is also clickable
@@ -539,7 +539,7 @@ export default defineComponent({
 			&-favorite {
 				position: absolute;
 				top: 0px;
-				right: -10px;
+				inset-inline-end: -10px;
 			}
 
 			// File and folder overlay
@@ -595,7 +595,7 @@ export default defineComponent({
 				color: var(--color-main-text);
 				// Make some space for the outline
 				padding: 5px 10px;
-				margin-left: -10px;
+				margin-inline-start: -10px;
 				// Align two name and ext
 				display: inline-flex;
 			}
@@ -614,7 +614,7 @@ export default defineComponent({
 			input {
 				width: 100%;
 				// Align with text, 0 - padding - border
-				margin-left: -8px;
+				margin-inline-start: -8px;
 				padding: 2px 6px;
 				border-width: 2px;
 
@@ -645,7 +645,7 @@ export default defineComponent({
 		}
 
 		.files-list__row-action--inline {
-			margin-right: 7px;
+			margin-inline-end: 7px;
 		}
 
 		.files-list__row-mtime,
@@ -701,7 +701,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		position: absolute;
 		z-index: 9;
 		top: 0;
-		left: 0;
+		inset-inline-start: 0;
 		overflow: hidden;
 		width: var(--clickable-area);
 		height: var(--clickable-area);
@@ -712,7 +712,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	.files-list__row-icon-favorite {
 		position: absolute;
 		top: 0;
-		right: 0;
+		inset-inline-end: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -749,7 +749,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 
 	.files-list__row-actions {
 		position: absolute;
-		right: 0;
+		inset-inline-end: 0;
 		bottom: 0;
 		width: var(--clickable-area);
 		height: var(--clickable-area);

@@ -109,7 +109,7 @@ export default {
 		}
 	}
 	&__actions {
-		margin-left: auto;
+		margin-inline-start: auto;
 	}
 }
 </style>

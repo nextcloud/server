@@ -115,7 +115,7 @@ export default {
 		flex-basis: calc(16px * var(--ratio));
 		flex-shrink: 0;
 		height: calc(10px * var(--ratio));
-		margin-right: var(--gap);
+		margin-inline-end: var(--gap);
 		cursor: pointer;
 		border-radius: var(--border-radius);
 		background-repeat: no-repeat;

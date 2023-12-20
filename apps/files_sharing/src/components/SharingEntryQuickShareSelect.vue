@@ -234,7 +234,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		top: 100%;
-		left: 0;
+		inset-inline-start: 0;
 		background-color: var(--color-main-background);
 		border-radius: 8px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -254,7 +254,7 @@ export default {
 			outline: none;
 			width: 100%;
 			white-space: nowrap;
-			text-align: left;
+			text-align: start;
 
 			&:hover {
 				background-color: var(--color-background-dark);

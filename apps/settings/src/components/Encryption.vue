@@ -200,7 +200,7 @@ export default {
 
 li {
 	list-style-type: initial;
-	margin-left: 1rem;
+	margin-inline-start: 1rem;
 	padding: 0.25rem 0;
 }
 

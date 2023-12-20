@@ -188,7 +188,7 @@ export default Vue.extend({
 	}
 
 	&__footer {
-		left: 0;
+		inset-inline-start: 0;
 	}
 
 	&__body {

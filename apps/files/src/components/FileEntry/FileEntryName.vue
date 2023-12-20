@@ -44,6 +44,7 @@
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
 		v-bind="linkTo.params"
+		dir="auto"
 		@click="$emit('click', $event)">
 		<!-- File name -->
 		<span class="files-list__row-name-text">

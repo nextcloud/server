@@ -393,7 +393,7 @@ export default {
 // Align the appNavigation toggle with the apps header toolbar
 .app-navigation::v-deep button.app-navigation-toggle {
 	top: 8px;
-	right: -8px;
+	inset-inline-end: -8px;
 }
 
 .app-sidebar-tabs__release {

@@ -505,7 +505,7 @@ export default {
 		.update-menu {
 			position: relative;
 			cursor: pointer;
-			margin-left: 3px;
+			margin-inline-start: 3px;
 			display: inline-block;
 			padding: 10px;
 			border-radius: 10px;

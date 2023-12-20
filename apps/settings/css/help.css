@@ -3,7 +3,7 @@
 }
 
 .help-list__text {
-	margin-left: 24px;
+	margin-inline-start: 24px;
 }
 
 .help-iframe {

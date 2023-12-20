@@ -192,7 +192,7 @@ export default Vue.extend({
 		margin-top: 30px;
 
 		button {
-			margin-left: 10px;
+			margin-inline-start: 10px;
 		}
 	}
 }
