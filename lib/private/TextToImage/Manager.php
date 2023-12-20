@@ -66,7 +66,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @inerhitDocs
+	 * @inheritDoc
 	 */
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
@@ -313,7 +313,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return IProvider[]
+	 * @return list<IProvider>
 	 */
 	private function getPreferredProviders() {
 		$providers = $this->getProviders();
