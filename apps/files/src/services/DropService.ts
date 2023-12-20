@@ -23,13 +23,14 @@
 import type { Upload } from '@nextcloud/upload'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { showError } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { emit } from '@nextcloud/event-bus'
 import { getUploader } from '@nextcloud/upload'
-import logger from '../logger.js'
 import { joinPaths } from '@nextcloud/paths'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+
+import logger from '../logger.js'
 
 export const handleDrop = async (data: DataTransfer) => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
