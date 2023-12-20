@@ -713,9 +713,9 @@ class FactoryTest extends TestCase {
 	/**
 	 * @dataProvider languagesWithRespectedDirection
 	 */
-	public function testDirectionForEnLocale(string $lang, string $expectedDirection) {
+	public function testDirectionOfLocales(string $locale, string $expectedDirection) {
 		$factory = $this->getFactory();
 
-		self::assertEquals($expectedDirection, $factory->getLanguageDirection($lang));
+		self::assertEquals($expectedDirection, $factory->getLanguageDirectionFromLocale($locale));
 	}
 }
