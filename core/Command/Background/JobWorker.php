@@ -36,11 +36,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class JobWorker extends JobBase {
 	private array $executedJobs = [];
 
-	public function __construct(IJobList $jobList,
-								LoggerInterface $logger) {
-		parent::__construct($jobList, $logger);
-	}
-
 	protected function configure(): void {
 		parent::configure();
 
@@ -76,6 +71,8 @@ class JobWorker extends JobBase {
 			return 1;
 		}
 
+		$interval = (int)($input->getOption('interval') ?? 5);
+
 		while (true) {
 			// Handle canceling of the process
 			try {
@@ -88,8 +85,6 @@ class JobWorker extends JobBase {
 			}
 
 			$this->printSummary($input, $output);
-
-			$interval = (int)($input->getOption('interval') ?? 5);
 
 			// Unlock jobs that should be executed again after the interval
 			// Alternative could be to set last_checked to interval in the future to avoid the extra locks
