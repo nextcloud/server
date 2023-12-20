@@ -45,6 +45,10 @@ abstract class JobBase extends \OC\Core\Command\Base {
 	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
+		if ($row === null) {
+			return;
+		}
+
 		$lastRun = new \DateTime();
 		$lastRun->setTimestamp((int) $row['last_run']);
 		$lastChecked = new \DateTime();
@@ -55,10 +59,10 @@ abstract class JobBase extends \OC\Core\Command\Base {
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OC\BackgroundJob\TimedJob || $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OC\BackgroundJob\QueuedJob || $job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');
@@ -81,7 +85,7 @@ abstract class JobBase extends \OC\Core\Command\Base {
 			$interval = $intervalProperty->getValue($job);
 
 			$nextRun = new \DateTime();
-			$nextRun->setTimestamp($row['last_run'] + $interval);
+			$nextRun->setTimestamp((int)$row['last_run'] + $interval);
 
 			if ($nextRun > new \DateTime()) {
 				$output->writeln('Next execution:       <comment>' . $nextRun->format(\DateTimeInterface::ATOM) . '</comment>');

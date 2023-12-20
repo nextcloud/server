@@ -55,11 +55,6 @@ use OCP\IConfig;
 use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 
-use OC\Core\Command;
-use OCP\IConfig;
-use OCP\Server;
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
-
 $application->add(new CompletionCommand());
 $application->add(Server::get(Command\Status::class));
 $application->add(Server::get(Command\Check::class));

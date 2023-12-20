@@ -448,11 +448,14 @@ class JobList implements IJobList {
 		$result = $query->executeQuery();
 
 		$jobs = [];
+
 		while (($row = $result->fetch()) !== false) {
+			/**
+			 * @var array{count:int, class:class-string} $row
+			 */
 			$jobs[] = $row;
 		}
 
 		return $jobs;
-
 	}
 }
