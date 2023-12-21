@@ -26,17 +26,13 @@ declare(strict_types=1);
 namespace OC\Core\Command\Background;
 
 use OC\Core\Command\InterruptedException;
-use OCP\BackgroundJob\IJobList;
 use OCP\ITempManager;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class JobWorker extends JobBase {
-	private array $executedJobs = [];
-
 	protected function configure(): void {
 		parent::configure();
 
