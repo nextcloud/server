@@ -186,6 +186,8 @@ class ViewControllerTest extends TestCase {
 			'index',
 			[
 				'fileNotFound' => 0,
+				'id-app-content' => '#app-content-vue',
+				'id-app-navigation' => '#app-navigation-vue',
 			]
 		);
 		$policy = new Http\ContentSecurityPolicy();

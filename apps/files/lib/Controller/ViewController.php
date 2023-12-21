@@ -280,7 +280,9 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		$params = [
-			'fileNotFound' => $fileNotFound ? 1 : 0
+			'fileNotFound' => $fileNotFound ? 1 : 0,
+			'id-app-content' => '#app-content-vue',
+			'id-app-navigation' => '#app-navigation-vue',
 		];
 
 		$response = new TemplateResponse(
