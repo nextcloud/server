@@ -40,9 +40,10 @@ trait CommonThemeTrait {
 	 */
 	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
 		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground);
 		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+		$invertPrimaryTextColor = $this->util->invertTextColor($colorPrimaryElement);
 
 		// primary related colours
 		return [
@@ -66,10 +67,10 @@ trait CommonThemeTrait {
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 82),
-			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+			'--color-primary-element-hover' => $invertPrimaryTextColor ? $this->util->lighten($colorPrimaryElement, 4) : $this->util->darken($colorPrimaryElement, 4),
+			'--color-primary-element-text' => $invertPrimaryTextColor ? '#000000' : '#ffffff',
 			// mostly used for disabled states
-			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 6),
+			'--color-primary-element-text-dark' => $invertPrimaryTextColor ? $this->util->lighten('#000000', 4) : $this->util->darken('#ffffff', 4),
 
 			// used for hover/focus states
 			'--color-primary-element-light' => $colorPrimaryElementLight,
