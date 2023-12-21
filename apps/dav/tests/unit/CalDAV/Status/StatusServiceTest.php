@@ -49,6 +49,7 @@ class StatusServiceTest extends TestCase {
 	private IAvailabilityCoordinator|MockObject $availabilityCoordinator;
 	private ICacheFactory|MockObject $cacheFactory;
 	private LoggerInterface|MockObject $logger;
+	private ICache|MockObject $cache;
 	private StatusService $service;
 
 	protected function setUp(): void {
