@@ -522,6 +522,10 @@ class Setup {
 			\OCP\Server::get(Installer::class)
 		);
 
+		if (!is_writable($setupHelper->pathToHtaccess())) {
+			return false;
+		}
+
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
