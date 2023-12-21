@@ -58,6 +58,7 @@ use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
 use OCA\Settings\SetupChecks\ForwardedForHeaders;
 use OCA\Settings\SetupChecks\InternetConnectivity;
+use OCA\Settings\SetupChecks\JavaScriptModules;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
@@ -172,6 +173,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(FileLocking::class);
 		$context->registerSetupCheck(ForwardedForHeaders::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
+		$context->registerSetupCheck(JavaScriptModules::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
 		$context->registerSetupCheck(MaintenanceWindowStart::class);
 		$context->registerSetupCheck(MemcacheConfigured::class);
