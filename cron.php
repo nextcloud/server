@@ -96,13 +96,15 @@ try {
 			exit(1);
 		}
 
-		$user = posix_getuid();
-		$configUser = fileowner(OC::$configDir . 'config.php');
-		if ($user !== $configUser) {
-			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-			echo "Current user id: " . $user . PHP_EOL;
-			echo "Owner id of config.php: " . $configUser . PHP_EOL;
-			exit(1);
+		if (!$config->getSystemValue('config_is_read_only', false)) {
+			$user = posix_getuid();
+			$configUser = fileowner(OC::$configDir . 'config.php');
+			if ($user !== $configUser) {
+				echo "Cron has to be executed with the user that owns the file config/config.php" . PHP_EOL;
+				echo "Current user id: " . $user . PHP_EOL;
+				echo "Owner id of config.php: " . $configUser . PHP_EOL;
+				exit(1);
+			}
 		}
 
 
