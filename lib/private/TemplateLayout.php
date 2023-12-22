@@ -113,9 +113,9 @@ class TemplateLayout extends \OC_Template {
 				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
 				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
 				$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
-				Util::addScript('core', 'unified-search', 'core');
+				Util::addScript('core', 'legacy-unified-search', 'core');
 			} else {
-				Util::addScript('core', 'global-search', 'core');
+				Util::addScript('core', 'unified-search', 'core');
 			}
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
