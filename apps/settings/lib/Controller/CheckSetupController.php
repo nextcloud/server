@@ -515,14 +515,14 @@ Raw output
 				empty($status['opcache_statistics']['max_cached_keys']) ||
 				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
 			) {
-				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
+				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded (%d cached, %d max). To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>.', [($status['opcache_statistics']['num_cached_keys'] ?: 0), ($status['opcache_statistics']['max_cached_keys'] ?: 0), ($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
 			}
 
 			if (
 				empty($status['memory_usage']['free_memory']) ||
 				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
 			) {
-				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
+				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full (%d used, %d free). To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>.', [($status['memory_usage']['used_memory'] ?: 0), ($status['memory_usage']['free_memory'] ?: 0), ($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
 			}
 
 			if (
@@ -533,7 +533,7 @@ Raw output
 					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
 				)
 			) {
-				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
+				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full (%d used, %d free). To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($status['interned_strings_usage']['used_memory'] ?: 0), ($status['interned_strings_usage']['free_memory'] ?: 0), ($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
 			}
 		}
 
