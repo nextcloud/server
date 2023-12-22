@@ -1,16 +1,17 @@
 <template>
-	<NcBreadcrumbs data-cy-files-content-breadcrumbs>
+	<NcBreadcrumbs 
+		data-cy-files-content-breadcrumbs
+		:aria-label="t('files', 'Current directory path')">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
 			:key="section.dir"
-			:aria-label="ariaLabel(section)"
-			:title="ariaLabel(section)"
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
+			:title="titleForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
-				<Home :size="20" />
+				<Home :size="20"/>
 			</template>
 		</NcBreadcrumb>
 
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import { translate as t} from '@nextcloud/l10n'
 import { basename } from 'path'
 import Home from 'vue-material-design-icons/Home.vue'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
@@ -106,12 +108,14 @@ export default Vue.extend({
 			}
 		},
 
-		ariaLabel(section) {
+		titleForSection(section) {
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			}
 			return t('files', 'Go to the "{dir}" directory', section)
 		},
+
+		t,
 	},
 })
 </script>
