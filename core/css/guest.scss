@@ -591,14 +591,19 @@ p.info {
 		margin-inline-end: 25px;
 	}
 
-	img.float-spinner {
-		float: left;
-	}
-
 	a.update-show-detailed {
 		border-bottom: inherit;
 	}
 }
+
+/* Cannot use inline-start and :dir to support Samsung Internet */ 
+body[dir='ltr'] .update img.float-spinner {
+	float: left;
+}
+body[dir='rtl'] .update img.float-spinner {
+	float: right;
+}
+
 #update-progress-detailed {
 	text-align: start;
 	margin-bottom: 12px;

@@ -44,7 +44,7 @@ p($theme->getTitle());
 	</div>
 
 	<header id="header">
-		<div class="header-left">
+		<div class="header-start">
 			<div id="nextcloud" class="header-appname">
 				<?php if ($_['logoUrl']): ?>
 					<a href="<?php print_unescaped($_['logoUrl']); ?>"
@@ -72,7 +72,7 @@ p($theme->getTitle());
 			</div>
 		</div>
 
-		<div class="header-right">
+		<div class="header-end">
 		<?php
 /** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
 if (isset($template) && $template->getActionCount() !== 0) {

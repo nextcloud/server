@@ -248,7 +248,14 @@ body {
 	position: absolute;
 	inset-inline-end: 1em;
 	top: .8em;
+}
+
+/* Cannot use inline-start and :dir to support Samsung Internet */ 
+body[dir='ltr'] #show, #dbpassword {
 	float: right;
+}
+body[dir='ltr'] #show, #dbpassword {
+	float: left;
 }
 
 #show + label, #dbpassword + label {

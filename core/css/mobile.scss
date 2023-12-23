@@ -132,7 +132,7 @@
 }
 
 @media only screen and (max-width: 480px) {
-	#header .header-right > div > .menu {
+	#header .header-end > div > .menu {
 		max-width: calc(100vw - 10px);
 		position: fixed;
 		&::after {
@@ -140,7 +140,7 @@
 		}
 	}
 	/* Arrow directly child of menutoggle */
-	#header .header-right > div {
+	#header .header-end > div {
 		&.openedMenu {
 			&::after {
 				display: block;

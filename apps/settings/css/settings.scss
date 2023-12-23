@@ -158,6 +158,13 @@ select {
 	}
 }
 
+body[dir='ltr'] .link-button.icon-file {
+	background-position: left 24px center;
+}
+body[dir='rtl'] .link-button.icon-file {
+	background-position: right 24px center;
+}
+
 .personal-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr 1fr;
