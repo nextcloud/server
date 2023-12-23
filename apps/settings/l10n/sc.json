@@ -125,6 +125,7 @@
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Sa cunfinguratzione de letura isceti est istètia ativada. Custu evitat de pònere cunfiguratziones cun sa interfache-web. In prus, s'archìviu depet èssere produidu pro èssere iscritu a manu a cada agiornamentu.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Sa base de datos tua non funtzionat cun su livellu de isulamentu de sa transatzione \"READ COMMITTED\". Custu podet causare problemas cando si faghent prus atziones in parallelu.",
     "Nextcloud settings" : "Impostatziones de Nextcloud",
+    "Image generation" : "Generatzione de imàgines",
     "None" : "Perunu",
     "Allow apps to use the Share API" : "Permite a is aplicatzione de impreare is API de cumpartzidura",
     "Allow resharing" : "Permite de torrare a cumpartzire",
