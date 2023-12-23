@@ -336,7 +336,8 @@ kbd {
 				justify-content: space-between;
 				line-height: 44px;
 				min-height: 44px;
-				padding: 0 12px 0 14px;
+				padding-block: 0;
+				padding-inline: 14px 12px;
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
@@ -348,9 +349,11 @@ kbd {
 				/* TODO: forbid using img as icon in menu? */
 
 				&.svg {
-					padding: 0 12px 0 44px;
+					padding-block: 0;
+					padding-inline: 44px 12px;
 					:focus-visible {
-						padding: 0 8px 0 42px;
+						padding-block: 0;
+						padding-inline: 42px 8px;
 					}
 				}
 				&:first-child img {
@@ -805,7 +808,8 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	}
 
 	.info-text {
-		padding: 5px 0 7px 22px;
+		padding-block: 5px 7px;
+		padding-inline: 22px 0;
 		color: var(--color-text-lighter);
 	}
 	input {
