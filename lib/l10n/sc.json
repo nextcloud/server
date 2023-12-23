@@ -4,6 +4,7 @@
     "See %s" : "Càstia %s",
     "Sample configuration detected" : "S'at agatadu una cunfiguratzione de esèmpiu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Est istadu iscobertu ca sa cunfiguratzione de esèmpiu est istada copiada. Custu podet blocare s'installatzione e no est suportadu. Leghe sa documentatzione in config.php antis de fàghere càmbios.",
+    "The page could not be found on the server." : "Impossìbile agatare custa pàgina in su serbidore.",
     "Other activities" : "Àteras atividades",
     "%1$s and %2$s" : "%1$s e %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s e %3$s",
