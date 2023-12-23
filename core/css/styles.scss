@@ -658,7 +658,8 @@ body[dir='ltr'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
 
 span.ui-icon {
 	float: left;
-	margin: 3px 7px 30px 0;
+	margin-block: 3px 30px;
+	margin-inline: 0 7px;
 }
 
 /* ---- TOOLTIPS ---- */

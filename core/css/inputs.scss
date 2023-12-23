@@ -77,7 +77,8 @@ button:not(
 	border-radius: var(--border-radius);
 	cursor: text;
 	&:not(.app-navigation-entry-button) {
-		margin: 3px 3px 3px 0;
+		margin: 3px;
+		margin-inline-start: 0;
 	}
 	&:not(
 		:disabled,
@@ -152,7 +153,8 @@ button:not(
 }
 
 div[contenteditable=false] {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
@@ -245,7 +247,8 @@ input:not(
 select,
 div[contenteditable=true],
 textarea {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	padding: 0 12px;
 	font-size: var(--default-font-size);
 	background-color: var(--color-main-background);
@@ -449,7 +452,8 @@ input {
 				width: $checkbox-radio-size;
 				vertical-align: middle;
 				border-radius: 50%;
-				margin: 0 6px 3px 3px;
+				margin: 0 3px;
+				margin-inline: 3px 6px;
 				border: 1px solid var(--color-text-maxcontrast);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
@@ -662,7 +666,8 @@ div.select2-container-multi {
 	}
 }
 div.select2-container {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	&.select2-container-multi .select2-choices {
 		display: flex;
 		flex-wrap: wrap;
@@ -722,7 +727,8 @@ div.select2-container {
 
 /* Vue v-select */
 .v-select {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	display: inline-block;
 	.dropdown-toggle {
 		display: flex !important;
@@ -755,7 +761,8 @@ div.select2-container {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				height: 25px;
-				padding: 3px 7px 4px 2px;
+				padding-block: 3px 4px;
+				padding-inline: 2px 7px;
 				margin: 0;
 				cursor: pointer;
 				min-height: 1em;

@@ -340,9 +340,11 @@ kbd {
 				/* TODO: forbid using img as icon in menu? */
 
 				&.svg {
-					padding: 0 12px 0 var(--default-clickable-area);
+					padding-block: 0;
+					padding-inline: var(--default-clickable-area) 12px;
 					:focus-visible {
-						padding: 0 8px 0 calc(var(--default-clickable-area) - 2px);
+						padding-block: 0;
+						padding-inline: calc(var(--default-clickable-area) - 2px) 8px;
 					}
 				}
 				&:first-child img {
@@ -797,7 +799,8 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	}
 
 	.info-text {
-		padding: 5px 0 7px 22px;
+		padding-block: 5px 7px;
+		padding-inline: 22px 0;
 		color: var(--color-text-lighter);
 	}
 	input {

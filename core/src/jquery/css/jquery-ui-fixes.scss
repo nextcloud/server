@@ -189,7 +189,8 @@
 		.ui-menu-item a {
 			color: var(--color-text-lighter);
 			display: block;
-			padding: 4px 4px 4px 14px;
+			padding: 4px;
+			padding-inline-start: 14px;
 
 			&.ui-state-focus, &.ui-state-active {
 				box-shadow: inset 4px 0 var(--color-primary-element);
