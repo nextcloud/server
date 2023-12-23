@@ -485,11 +485,10 @@ code {
 		.ui-icon {
 			opacity: .5;
 
-			&.ui-icon-circle-triangle-e {
-				background: url("../img/actions/arrow-right.svg") center center no-repeat;
-			}
+			&.ui-icon-circle-triangle-e,
 			&.ui-icon-circle-triangle-w {
-				background: url("../img/actions/arrow-left.svg") center center no-repeat;
+				background-position: center center;
+				background-repeat: no-repeat;
 			}
 		}
 		.ui-state-hover .ui-icon {
@@ -526,6 +525,23 @@ code {
 				opacity: .8;
 			}
 		}
+	}
+}
+
+body[dir='ltr'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+	&.ui-icon-circle-triangle-e {
+		background: url("../img/actions/arrow-right.svg");
+	}
+	&.ui-icon-circle-triangle-w {
+		background: url("../img/actions/arrow-left.svg");
+	}
+}
+body[dir='ltr'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+	&.ui-icon-circle-triangle-e {
+		background: url("../img/actions/arrow-left.svg");
+	}
+	&.ui-icon-circle-triangle-w {
+		background: url("../img/actions/arrow-right.svg");
 	}
 }
 

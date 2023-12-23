@@ -277,10 +277,18 @@ textarea, div[contenteditable=true] {
 
 /* Override the ugly select arrow */
 select {
-	background: var(--icon-triangle-s-dark) no-repeat right 8px center;
+	background: var(--icon-triangle-s-dark) no-repeat;
 	appearance: none;
 	background-color: var(--color-main-background);
 	padding-inline-end: 28px !important;
+}
+
+body[dir='ltr'] select {
+	background-position:  right 8px center;
+}
+
+body[dir='rtl'] select {
+	background-position:  left 8px center;
 }
 
 select,
@@ -554,7 +562,7 @@ div.select2-drop {
 	}
 	.select2-search input {
 		min-height: auto;
-		background: var(--icon-search-dark) no-repeat right center !important;
+		background: var(--icon-search-dark) no-repeat !important;
 		background-origin: content-box !important;
 	}
 	.select2-results {
@@ -594,6 +602,14 @@ div.select2-drop {
 		}
 	}
 }
+
+body[dir='ltr'] div.select2-drop .select2-search input {
+	background-position: right center !important;
+}
+body[dir='ltr'] div.select2-drop .select2-search input {
+	background-position: left center !important;
+}
+
 .select2-chosen,
 #select2-drop {
 	.avatar,
