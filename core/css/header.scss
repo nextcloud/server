@@ -40,7 +40,7 @@
 		bottom: 2px;
 	}
 
-	.header-right {
+	.header-end {
 		a:not(.button):focus-visible::after, div[role=button]:focus-visible::after {
 			bottom: 4px;
 		}
@@ -94,7 +94,7 @@
 	/* Header menu */
 	$header-menu-entry-height: 44px;
 
-	.header-right > div > .menu {
+	.header-end > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
 		border-radius: var(--border-radius-large);
@@ -152,25 +152,25 @@
 		flex-shrink: 0;
 	}
 
-	#header-left, .header-left,
-	#header-right, .header-right {
+	#header-start, .header-start,
+	#header-end, .header-end {
 		display: inline-flex;
 		align-items: center;
 	}
 
-	#header-left, .header-left {
+	#header-start, .header-start {
 		flex: 1 0;
 		white-space: nowrap;
 		min-width: 0;
 	}
 
-	#header-right, .header-right {
+	#header-end, .header-end {
 		justify-content: flex-end;
 		flex-shrink: 1;
 	}
 
 	/* Right header standard */
-	.header-right {
+	.header-end {
 		> div,
 		> form {
 			height: 100%;
