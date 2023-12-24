@@ -167,6 +167,7 @@
     "The ownership transfer of {path} from {user} has completed." : "نقل الملكية لـ {path} من قبل {user} تمت بنجاح.",
     "in %s" : "في %s",
     "File Management" : "إدارة الملفات",
+    "Current directory path" : "مسار المجلد الحالي",
     "Reload current directory" : "إعادة تحميل المجلد الحالي",
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
     "Drag and drop files here to upload" : "إسحَب و أفلِت الملفات هنا لرفعها",
