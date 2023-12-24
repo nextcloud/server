@@ -152,8 +152,14 @@ select {
 
 	&.icon-file {
 		padding-inline-start: 48px;
-		background-position: 24px;
 	}
+}
+
+body[dir='ltr'] .link-button.icon-file {
+	background-position: left 24px center;
+}
+body[dir='rtl'] .link-button.icon-file {
+	background-position: right 24px center;
 }
 
 .personal-settings-container {
