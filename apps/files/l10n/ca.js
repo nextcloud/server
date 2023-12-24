@@ -169,6 +169,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "S'ha completat la transferència de propietat de {path} de {user}.",
     "in %s" : "%s",
     "File Management" : "Gestió de fitxers",
+    "Current directory path" : "Camí de la carpeta actual",
     "Reload current directory" : "Torna a carregar la carpeta actual",
     "Go to the \"{dir}\" directory" : "Ves a la carpeta «{dir}»",
     "Drag and drop files here to upload" : "Arrossegueu i deixeu anar fitxers aquí per a pujar-los",

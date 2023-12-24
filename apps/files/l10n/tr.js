@@ -169,6 +169,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "{path} yolundaki {user} kullanıcısının sahipliği size aktarıldı.",
     "in %s" : "%s içinde",
     "File Management" : "Dosya yönetimi",
+    "Current directory path" : "Geçerli klasör yolu",
     "Reload current directory" : "Geçerli klasörü yeniden yükle",
     "Go to the \"{dir}\" directory" : "\"{dir}\" klasörüne git",
     "Drag and drop files here to upload" : "Yüklemek istediğiniz dosyaları sürükleyip buraya bırakın",
