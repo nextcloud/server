@@ -169,6 +169,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "The ownership transfer of {path} from {user} has completed.",
     "in %s" : "in %s",
     "File Management" : "File Management",
+    "Current directory path" : "Current directory path",
     "Reload current directory" : "Reload current directory",
     "Go to the \"{dir}\" directory" : "Go to the \"{dir}\" directory",
     "Drag and drop files here to upload" : "Drag and drop files here to upload",
