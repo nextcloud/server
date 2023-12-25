@@ -636,13 +636,26 @@ class ManagerTest extends TestCase {
 					return false;
 				} elseif ($var === 'app_password') {
 					return false;
+				} elseif ($var === 'app_api') {
+					return false;
 				}
 				return true;
 			});
+		$this->session->method('get')
+			->willReturnCallback(function ($var) {
+				if ($var === Manager::SESSION_UID_KEY) {
+					return 'user';
+				} elseif ($var === 'app_api') {
+					return true;
+				}
+				return null;
+			});
 		$this->session->expects($this->once())
 			->method('get')
-			->with(Manager::SESSION_UID_DONE)
-			->willReturn('user');
+			->willReturnMap([
+				[Manager::SESSION_UID_DONE, 'user'],
+				['app_api', true]
+			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
@@ -702,8 +715,10 @@ class ManagerTest extends TestCase {
 	public function testNeedsSecondFactorAppPassword() {
 		$user = $this->createMock(IUser::class);
 		$this->session->method('exists')
-			->with('app_password')
-			->willReturn(true);
+			->willReturnMap([
+				['app_password', true],
+				['app_api', true]
+			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
