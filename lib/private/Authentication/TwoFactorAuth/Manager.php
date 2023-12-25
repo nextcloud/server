@@ -318,8 +318,8 @@ class Manager {
 			return false;
 		}
 
-		// If we are authenticated using an app password skip all this
-		if ($this->session->exists('app_password')) {
+		// If we are authenticated using an app password or AppAPI Auth, skip all this
+		if ($this->session->exists('app_password') || $this->session->get('app_api') === true) {
 			return false;
 		}
 
