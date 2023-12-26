@@ -53,6 +53,12 @@ jobs:
     needs: init
 
     steps:
+      - name: Restore cached git repository
+        uses: buildjet/cache@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        with:
+          path: .git
+          key: git-repo
+
       - name: Checkout ${{ needs.init.outputs.head_ref }}
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
@@ -69,8 +75,8 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: package-engines-versions
         with:
-          fallbackNode: '^16'
-          fallbackNpm: '^7'
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
         uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v3
@@ -82,6 +88,9 @@ jobs:
         run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
 
       - name: Install dependencies & build
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           npm ci
           npm run build --if-present
