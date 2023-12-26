@@ -128,6 +128,7 @@ OC.L10N.register(
     "Search contacts …" : "Cari kontak ...",
     "Could not load your contacts" : "Tidak dapat memuat kontak Anda",
     "No contacts found" : "Kontak tidak ditemukan",
+    "Show all contacts" : "Tampilkan semua kontak",
     "Install the Contacts app" : "Instal aplikasi Kontak",
     "Loading your contacts …" : "Memuat kontak Anda ...",
     "Looking for {term} …" : "Mencari {term}",
