@@ -1,0 +1,17 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Panel",
+    "Weather" : "Clima",
+    "Status" : "Estáu",
+    "Good morning" : "Bonos díes",
+    "Good morning, {name}" : "Bonos díes, {name}",
+    "Good afternoon" : "Bones tardes",
+    "Good afternoon, {name}" : "Bones tardes, {name}",
+    "Good evening" : "Bones nueches",
+    "Good evening, {name}" : "Bones nueches, {name}",
+    "Hello" : "Hola",
+    "Hello, {name}" : "Hola, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "f"
+},
+"nplurals=2; plural=(n != 1);");
