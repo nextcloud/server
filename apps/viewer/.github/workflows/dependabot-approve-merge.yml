@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   auto-approve-merge:
-    if: github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate[bot]'
     runs-on: ubuntu-latest
     permissions:
       # for hmarr/auto-approve-action to approve PRs
