@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Moln-ID kopierades till urklippet",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
-    "Copied!" : "Kopierad!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du tog emot \"%3$s\" som en extern delning från %4$s (%1$s) (via %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du tog emot \"%3$s\" som en extern delning från %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dela med mig genom mitt #Nextcloud federerade moln-ID, se %s"
+    "Copied!" : "Kopierad!"
 },
 "nplurals=2; plural=(n != 1);");

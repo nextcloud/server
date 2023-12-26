@@ -26,8 +26,8 @@ declare(strict_types=1);
 namespace OC\Search;
 
 use Generator;
-use OCP\Search\IFilterCollection;
 use OCP\Search\IFilter;
+use OCP\Search\IFilterCollection;
 
 /**
  * Interface for search filters

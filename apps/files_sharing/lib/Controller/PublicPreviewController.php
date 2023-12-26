@@ -51,10 +51,10 @@ class PublicPreviewController extends PublicShareController {
 	private $share;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								ShareManager $shareManger,
-								ISession $session,
-								IPreview $previewManager) {
+		IRequest $request,
+		ShareManager $shareManger,
+		ISession $session,
+		IPreview $previewManager) {
 		parent::__construct($appName, $request, $session);
 
 		$this->shareManager = $shareManger;

@@ -22,7 +22,6 @@
  */
 namespace OCA\Theming\Service;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Util;
 use OCP\IConfig;
@@ -39,11 +38,11 @@ class ThemeInjectionService {
 	private ?string $userId;
 
 	public function __construct(IURLGenerator $urlGenerator,
-								ThemesService $themesService,
-								DefaultTheme $defaultTheme,
-								Util $util,
-								IConfig $config,
-								IUserSession $userSession) {
+		ThemesService $themesService,
+		DefaultTheme $defaultTheme,
+		Util $util,
+		IConfig $config,
+		IUserSession $userSession) {
 		$this->urlGenerator = $urlGenerator;
 		$this->themesService = $themesService;
 		$this->defaultTheme = $defaultTheme;
@@ -59,7 +58,7 @@ class ThemeInjectionService {
 	public function injectHeaders() {
 		$themes = $this->themesService->getThemes();
 		$defaultTheme = $themes[$this->defaultTheme->getId()];
-		$mediaThemes = array_filter($themes, function($theme) {
+		$mediaThemes = array_filter($themes, function ($theme) {
 			// Check if the theme provides a media query
 			return (bool)$theme->getMediaQuery();
 		});

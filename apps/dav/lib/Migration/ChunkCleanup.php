@@ -48,9 +48,9 @@ class ChunkCleanup implements IRepairStep {
 	private $jobList;
 
 	public function __construct(IConfig $config,
-								IUserManager $userManager,
-								IRootFolder $rootFolder,
-								IJobList $jobList) {
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		IJobList $jobList) {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;

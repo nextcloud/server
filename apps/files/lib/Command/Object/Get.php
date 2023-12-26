@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OCP\Files\File;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

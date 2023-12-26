@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Afvis",
     "More options …" : "Flere indstillinger…",
     "More options at %s" : "Flere muligheder på %s",
-    "In a meeting" : "I møde",
     "Contacts" : "Kontakter",
     "{actor} created address book {addressbook}" : "{actor} oprettede adressebog {addressbook}",
     "You created address book {addressbook}" : "Du oprettede adressebog {addressbook}",
@@ -189,7 +188,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontakt venligst arrangøren direkte.",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
-    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
-    "%1$s has responded your invitation" : "%1$s har besvaret din invitation"
+    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret."
 },
 "nplurals=2; plural=(n != 1);");

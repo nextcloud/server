@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalenteri",
+    "To-dos" : "Tehtävät",
     "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",
@@ -72,7 +73,6 @@ OC.L10N.register(
     "Decline" : "Kieltäydy",
     "More options …" : "Lisää valintoja…",
     "More options at %s" : "Lisää valintoja kohteessa %s",
-    "In a meeting" : "Tapaamisessa",
     "Contacts" : "Yhteystiedot",
     "{actor} created address book {addressbook}" : "{actor} loi osoitekirjan {addressbook}",
     "You created address book {addressbook}" : "Loit osoitekirjan {addressbook}",

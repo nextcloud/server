@@ -60,8 +60,8 @@ class InvitationResponseController extends Controller {
 	 * @param InvitationResponseServer $responseServer
 	 */
 	public function __construct(string $appName, IRequest $request,
-								IDBConnection $db, ITimeFactory $timeFactory,
-								InvitationResponseServer $responseServer) {
+		IDBConnection $db, ITimeFactory $timeFactory,
+		InvitationResponseServer $responseServer) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;

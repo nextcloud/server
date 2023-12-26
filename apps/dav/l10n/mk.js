@@ -61,7 +61,7 @@ OC.L10N.register(
     "Where:" : "Каде: ",
     "Description:" : "Опис:",
     "_%n year_::_%n years_" : ["една година","%n години"],
-    "_%n month_::_%n months_" : ["еден месец","%n месеци"],
+    "_%n month_::_%n months_" : ["%n месец","%n месеци"],
     "_%n day_::_%n days_" : ["еден ден","%n дена"],
     "_%n hour_::_%n hours_" : ["еден час","%n часа"],
     "_%n minute_::_%n minutes_" : ["една минута","%n минути"],
@@ -92,7 +92,6 @@ OC.L10N.register(
     "Decline" : "Одбиј",
     "More options …" : "Повеќе опции ...",
     "More options at %s" : "Повеќе опции на %s",
-    "In a meeting" : "На состанок",
     "Contacts" : "Контакти",
     "{actor} created address book {addressbook}" : "{actor} креираше адресар {addressbook}",
     "You created address book {addressbook}" : "Креиравте адресар {addressbook}",
@@ -164,7 +163,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Контактирајте го организаторот директно.",
     "Are you accepting the invitation?" : "Дали ја прифаќате поканата?",
     "Tentative" : "Прелиминарно",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "%1$s has responded your invitation" : "%1$s одговори на вашата покана"
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "رفض",
     "More options …" : "مزيد مِن الخيارات…",
     "More options at %s" : "خيارات أخرى في %s",
-    "In a meeting" : "في اجتماع",
     "Contacts" : "المُراسِلون",
     "{actor} created address book {addressbook}" : "{actor} أنشأ دفتر العناوين {addressbook}",
     "You created address book {addressbook}" : "أنت أنشأت دفتر العناوين {addressbook}",
@@ -151,7 +150,7 @@ OC.L10N.register(
     "Due on %s" : "مطلوبٌ في %s",
     "DAV system address book" : "دفتر عناوين نظام DAV",
     "No outstanding DAV system address book sync." : "لا توجد أي مزامنات معلقة لدفتر عناوني نظام DAV.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "مزامنة دفتر عناوين نظام DAV لم تبدأ بعدٌ بسبب وجود أكثر من 1000 مستخدِم حالي للنظام أو بسبب حدوث خطأٍ آخر. رجاءً، قم بتشغيل المزامنة يدوياً و ذلك باستعمال الأمر السطري: \nocc dav:sync-system-addressbook",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "لم يتم تشغيل مزامنة دفتر عناوين نظام DAV حتى الآن بسبب أن خادومك يحتوي على أكثر من 1000 مستخدم أو بسبب حدوث خطأ. يرجى تشغيل المزامنة يدويًا عن طريق الأمر السطري:\n\"occ dav:sync-system-addressbook\"",
     "Migrated calendar (%1$s)" : "تقويم مُرحّل (%1$s)",
     "Calendars including events, details and attendees" : "تحوي التقاويم الأحداث، و تفاصيلها، و الحُضُور",
     "Contacts and groups" : "جهات الاتصال والمجموعات",
@@ -163,7 +162,9 @@ OC.L10N.register(
     "Long absence Message" : "رسالة الغياب الطويل",
     "Save" : "حفظ",
     "Disable absence" : "تعطيل الغياب",
+    "Absence saved" : "تمّ حفظ الغياب",
     "Failed to save your absence settings" : "تعذّر حفظ إعداداتك للغياب",
+    "Absence cleared" : "تمّ محو الغياب",
     "Failed to clear your absence settings" : "تعذّر محو إعداداتك للغياب",
     "Time zone:" : "منطقة زمنية:",
     "to" : "إلى",
@@ -203,7 +204,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "رجاءً، تواصل مع المُنظّم أو المُنظّمين مُباشرةً.",
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
-    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
-    "%1$s has responded your invitation" : "%1$s تفاعل مع دعوتك"
+    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

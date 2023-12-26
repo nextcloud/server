@@ -115,8 +115,6 @@ OC.L10N.register(
     "Request user agent" : "وكيل المستخدم الخاص بالطلب",
     "User group membership" : "عضوية مجموعة المستخدمين",
     "is member of" : "عضو فى",
-    "is not member of" : "ليس عضو فى",
-    "Predefined URLs" : "عناوين URLs المحددة مسبقا",
-    "Others" : "آخرون"
+    "is not member of" : "ليس عضو فى"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

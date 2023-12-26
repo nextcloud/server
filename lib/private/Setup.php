@@ -53,9 +53,9 @@ use Exception;
 use InvalidArgumentException;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
-use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
+use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
@@ -521,6 +521,10 @@ class Setup {
 			\OC::$server->getSecureRandom(),
 			\OCP\Server::get(Installer::class)
 		);
+
+		if (!is_writable($setupHelper->pathToHtaccess())) {
+			return false;
+		}
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";

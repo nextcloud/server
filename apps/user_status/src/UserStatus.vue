@@ -176,6 +176,9 @@ export default {
 
 <style lang="scss" scoped>
 .user-status-menu-item {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	width: auto;
 	min-width: 44px;
 	height: 44px;

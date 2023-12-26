@@ -8,6 +8,8 @@
     "Delete" : "Cantzella",
     "You can upload into this folder" : "Podes carrigare in custa cartella",
     "Terms of service" : "Cunditziones de servìtziu",
+    "Show list view" : "Mustra sa visualizatzione de lista",
+    "Show grid view" : "Mustra sa visualizatzione de mosàicu",
     "No compatible server found at {remote}" : "Perunu serbidore cumpatìbile agatadu in {remote}",
     "Invalid server URL" : "URL de su serbidore non vàlidu",
     "Failed to add the public link to your Nextcloud" : "No at fatu a agiùnghere su ligòngiu pùblicu in Nextcloud",
@@ -176,7 +178,6 @@
     "Note to recipient" : "Nota a sa persone destinatària",
     "Enter a note for the share recipient" : "Inserta una nota pro sa persone destinatària",
     "Create" : "Crea",
-    "Update" : "Agiorna",
     "Share" : "Cumpartzi",
     "Others with access" : "Àtere cun atzessu",
     "No other users with access found" : "Peruna utèntzia cun atzessu agatada",
@@ -187,6 +188,7 @@
     "Expires {relativetime}" : "Iscadit {relativetime}",
     "this share just expired." : "custa cumpartzidura est iscadida.",
     "Shared with you by {owner}" : "Cumpartzidu cun tegus dae {owner}",
+    "Open in Files" : "Aberi in Archìvios",
     "Shared" : "Cumpartzidu",
     "Link to a file" : "Ligòngiu a archìviu",
     "Error creating the share: {errorMessage}" : "Errore in sa creatzione de sa cumpartzidura: {errorMessage}",
@@ -238,11 +240,11 @@
     "Something happened. Unable to accept the share." : "Non faghet a atzetare sa cumpartzidura.",
     "Something happened. Unable to reject the share." : "Non faghet a refudare sa cumpartzidura.",
     "No expiration date set" : "Peruna data de iscadèntzia impostada",
-    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
     "Allow creating" : "Permite sa creatzione",
     "Allow deleting" : "Permite sa cantzelladura",
     "Allow resharing" : "Permite sa re-cumpartzidura",
     "Expiration date enforced" : "Data de iscadèntzia posta",
-    "Password protect" : "Bàrdia crae"
+    "Password protect" : "Bàrdia crae",
+    "Update" : "Agiorna"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

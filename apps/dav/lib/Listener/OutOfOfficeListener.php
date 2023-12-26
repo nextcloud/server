@@ -26,9 +26,11 @@ declare(strict_types=1);
 namespace OCA\DAV\Listener;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\ServerFactory;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -40,9 +42,6 @@ use OCP\User\IOutOfOfficeData;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\Component\VTimeZone;
-use Sabre\VObject\Reader;
 use function fclose;
 use function fopen;
 use function fwrite;
@@ -52,23 +51,24 @@ use function rewind;
  * @template-implements IEventListener<OutOfOfficeScheduledEvent|OutOfOfficeChangedEvent|OutOfOfficeClearedEvent>
  */
 class OutOfOfficeListener implements IEventListener {
-	public function __construct(private ServerFactory $serverFactory,
-	private IConfig $appConfig,
-	private LoggerInterface $logger) {
+	public function __construct(
+		private ServerFactory $serverFactory,
+		private IConfig $appConfig,
+		private TimezoneService $timezoneService,
+		private LoggerInterface $logger
+	) {
 	}
 
 	public function handle(Event $event): void {
 		if ($event instanceof OutOfOfficeScheduledEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
-
 			$calendarNode = $this->getCalendarNode($principal, $userId);
 			if ($calendarNode === null) {
 				return;
 			}
-
-			$tz = $calendarNode->getProperties([])['{urn:ietf:params:xml:ns:caldav}calendar-timezone'] ?? null;
-			$vCalendarEvent = $this->createVCalendarEvent($event->getData(), $tz);
+			$tzId = $this->timezoneService->getUserTimezone($userId) ?? $this->timezoneService->getDefaultTimezone();
+			$vCalendarEvent = $this->createVCalendarEvent($event->getData(), $tzId);
 			$stream = fopen('php://memory', 'rb+');
 			try {
 				fwrite($stream, $vCalendarEvent->serialize());
@@ -80,16 +80,15 @@ class OutOfOfficeListener implements IEventListener {
 			} finally {
 				fclose($stream);
 			}
-		} else if ($event instanceof OutOfOfficeChangedEvent) {
+		} elseif ($event instanceof OutOfOfficeChangedEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
-
 			$calendarNode = $this->getCalendarNode($principal, $userId);
 			if ($calendarNode === null) {
 				return;
 			}
-			$tz = $calendarNode->getProperties([])['{urn:ietf:params:xml:ns:caldav}calendar-timezone'] ?? null;
-			$vCalendarEvent = $this->createVCalendarEvent($event->getData(), $tz);
+			$tzId = $this->timezoneService->getUserTimezone($userId) ?? $this->timezoneService->getDefaultTimezone();
+			$vCalendarEvent = $this->createVCalendarEvent($event->getData(), $tzId);
 			try {
 				$oldEvent = $calendarNode->getChild($this->getEventFileName($event->getData()->getId()));
 				$oldEvent->put($vCalendarEvent->serialize());
@@ -107,20 +106,19 @@ class OutOfOfficeListener implements IEventListener {
 					fclose($stream);
 				}
 			}
-		} else if ($event instanceof OutOfOfficeClearedEvent) {
+		} elseif ($event instanceof OutOfOfficeClearedEvent) {
 			$userId = $event->getData()->getUser()->getUID();
 			$principal = "principals/users/$userId";
-
 			$calendarNode = $this->getCalendarNode($principal, $userId);
 			if ($calendarNode === null) {
 				return;
 			}
-
 			try {
 				$oldEvent = $calendarNode->getChild($this->getEventFileName($event->getData()->getId()));
 				$oldEvent->delete();
 			} catch (NotFound) {
 				// The user must have deleted it or the default calendar changed -> ignore
+				return;
 			}
 		}
 	}
@@ -171,15 +169,17 @@ class OutOfOfficeListener implements IEventListener {
 		return "out_of_office_$id.ics";
 	}
 
-	private function createVCalendarEvent(IOutOfOfficeData $data, ?string $timeZoneData): VCalendar {
+	private function createVCalendarEvent(IOutOfOfficeData $data, string $tzId): VCalendar {
 		$shortMessage = $data->getShortMessage();
 		$longMessage = $data->getMessage();
 		$start = (new DateTimeImmutable)
+			->setTimezone(new DateTimeZone($tzId))
 			->setTimestamp($data->getStartDate())
 			->setTime(0, 0);
 		$end = (new DateTimeImmutable())
+			->setTimezone(new DateTimeZone($tzId))
 			->setTimestamp($data->getEndDate())
-			->modify('+ 2 days')
+			->modify('+ 1 days')
 			->setTime(0, 0);
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
@@ -190,21 +190,6 @@ class OutOfOfficeListener implements IEventListener {
 			'DTEND' => $end,
 			'X-NEXTCLOUD-OUT-OF-OFFICE' => $data->getId(),
 		]);
-		/** @var VEvent $vEvent */
-		$vEvent = $vCalendar->VEVENT;
-		if ($timeZoneData !== null) {
-			/** @var VCalendar $vtimezoneObj */
-			$vtimezoneObj = Reader::read($timeZoneData);
-			/** @var VTimeZone $vtimezone */
-			$vtimezone = $vtimezoneObj->VTIMEZONE;
-			$calendarTimeZone = $vtimezone->getTimeZone();
-			$vCalendar->add($vtimezone);
-
-			/** @psalm-suppress UndefinedMethod */
-			$vEvent->DTSTART->setDateTime($start->setTimezone($calendarTimeZone)->setTime(0, 0));
-			/** @psalm-suppress UndefinedMethod */
-			$vEvent->DTEND->setDateTime($end->setTimezone($calendarTimeZone)->setTime(0, 0));
-		}
 		return $vCalendar;
 	}
 }

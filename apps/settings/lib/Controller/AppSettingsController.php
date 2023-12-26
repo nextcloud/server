@@ -100,18 +100,18 @@ class AppSettingsController extends Controller {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								INavigationManager $navigationManager,
-								IAppManager $appManager,
-								CategoryFetcher $categoryFetcher,
-								AppFetcher $appFetcher,
-								IFactory $l10nFactory,
-								BundleFetcher $bundleFetcher,
-								Installer $installer,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger) {
+		IRequest $request,
+		IL10N $l10n,
+		IConfig $config,
+		INavigationManager $navigationManager,
+		IAppManager $appManager,
+		CategoryFetcher $categoryFetcher,
+		AppFetcher $appFetcher,
+		IFactory $l10nFactory,
+		BundleFetcher $bundleFetcher,
+		Installer $installer,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -368,7 +368,7 @@ class AppSettingsController extends Controller {
 			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
-				$currentLanguage = $app['releases'][0]['version'];
+				$currentVersion = $app['releases'][0]['version'];
 			}
 
 			$formattedApps[] = [

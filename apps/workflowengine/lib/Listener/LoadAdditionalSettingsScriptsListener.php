@@ -30,9 +30,9 @@ use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Template;
+use OCP\Util;
 use function class_exists;
 use function function_exists;
-use OCP\Util;
 
 class LoadAdditionalSettingsScriptsListener implements IEventListener {
 	public function handle(Event $event): void {

@@ -56,7 +56,7 @@
 						class="button"
 						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
 					<span v-if="updaterEnabled && !webUpdaterEnabled">
-						{{ t('updatenotification', 'Please use the command line updater to update.') }}
+						{{ t('updatenotification', 'Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.') }}
 					</span>
 					<NcActions v-if="whatsNewData || changelogURL"
 						:force-menu="true"

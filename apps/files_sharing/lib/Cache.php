@@ -39,8 +39,6 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ICacheFactory;
-use OCP\IUserManager;
 use OCP\Share\IShare;
 
 /**

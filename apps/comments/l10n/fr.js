@@ -16,7 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Supprimer le commentaire",
     "Cancel edit" : "Annuler les modifications",
     "Post comment" : "Publier le commentaire",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" pour les mentions, \":\" pour les émojis, \"/\" pour le sélecteur intelligent",
+    "@ for mentions, : for emoji, / for smart picker" : "@ pour les mentions, : pour les émojis, / pour le sélecteur intelligent",
     "Could not reload comments" : "Impossible de rafraichir les commentaires",
     "No comments yet, start the conversation!" : "Il n'y a aucun commentaire, démarrez la conversation !",
     "No more messages" : "Aucun autre message",
@@ -29,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Commentaire supprimé",
     "An error occurred while trying to delete the comment" : "Une erreur s'est produite lors de la tentative de suppression du commentaire",
     "An error occurred while trying to create the comment" : "Une erreur s'est produite lors de la tentative de création du commentaire",
-    "%1$s commented" : "%1$s a commenté",
     "_%n unread comment_::_%n unread comments_" : ["%n commentaire non lu","%n commentaires non lus","%n commentaires non lus"]
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

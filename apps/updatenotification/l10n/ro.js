@@ -25,7 +25,6 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Verificarea actualizării nu este încă finalizată. Vă rugăm să reîmprospătați pagina.",
     "Your version is up to date." : "Versiunea curentă este la zi.",
     "Beta" : "Beta",
-    "Update for %1$s to version %2$s is available." : "Actualizarea pentru %1$s la versiunea %2$s este disponibilă.",
     "Update channel:" : "Canal pentru actualizări:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -37,19 +37,24 @@ namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
 use OC\Files\Node\Folder;
+use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Activity\IManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Constants;
+use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
@@ -62,14 +67,9 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
-use OCP\Activity\IManager;
-use OCP\Files\IRootFolder;
-use OCP\Defaults;
-use OC\Share20\Manager;
-use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
-use OCP\Share\IPublicShareTemplateFactory;
 
 /**
  * @group DB

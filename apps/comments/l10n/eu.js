@@ -16,7 +16,8 @@ OC.L10N.register(
     "Delete comment" : "Ezabatu iruzkina",
     "Cancel edit" : "Utzi editatzeari",
     "Post comment" : "Argitaratu iruzkina",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" aipamenetarako, \":\" emojientzako, \"/\" hautatzaile adimentsurako",
+    "@ for mentions, : for emoji, / for smart picker" : "@ aipamenetarako, : emojientzako, / hautatzaile adimentsurako",
+    "Could not reload comments" : "Ezin izan dira iruzkinak freskatu",
     "No comments yet, start the conversation!" : "Oraindik ez dago iruzkinik, izan zaitez lehena zerbait esanez!",
     "No more messages" : "Ez da mezu gehiagorik",
     "Retry" : "Saiatu berriro",
@@ -28,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Iruzkina ezabatu da",
     "An error occurred while trying to delete the comment" : "Errorea gertatu da iruzkina ezabatzen saiatzean",
     "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
-    "%1$s commented" : "%1$s-(e)k iruzkindu du",
     "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"]
 },
 "nplurals=2; plural=(n != 1);");

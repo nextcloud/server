@@ -64,7 +64,10 @@
 				<div v-if="id && loading" class="comment_loading icon-loading-small" />
 
 				<!-- Relative time to the comment creation -->
-				<Moment v-else-if="creationDateTime" class="comment__timestamp" :timestamp="timestamp" />
+				<NcDateTime v-else-if="creationDateTime"
+					class="comment__timestamp"
+					:timestamp="timestamp"
+					:ignore-seconds="true" />
 			</div>
 
 			<!-- Message editor -->
@@ -92,7 +95,7 @@
 					</div>
 				</div>
 				<div id="tab-comments__editor-description" class="comment__editor-description">
-					{{ t('comments', '"@" for mentions, ":" for emoji, "/" for smart picker') }}
+					{{ t('comments', '@ for mentions, : for emoji, / for smart picker') }}
 				</div>
 			</form>
 
@@ -112,17 +115,16 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
-import Moment from './Moment.vue'
 import CommentMixin from '../mixins/CommentMixin.js'
 
 // Dynamic loading
@@ -132,13 +134,13 @@ export default {
 	name: 'Comment',
 
 	components: {
+		ArrowRight,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
-		ArrowRight,
 		NcAvatar,
 		NcButton,
-		Moment,
+		NcDateTime,
 		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],
@@ -217,9 +219,11 @@ export default {
 			return !this.localMessage || this.localMessage.trim() === ''
 		},
 
+		/**
+		 * Timestamp of the creation time (in ms UNIX time)
+		 */
 		timestamp() {
-			// seconds, not milliseconds
-			return parseInt(moment(this.creationDateTime).format('x'), 10) / 1000
+			return Date.parse(this.creationDateTime)
 		},
 	},
 
@@ -288,7 +292,7 @@ $comment-padding: 10px;
 	&__side {
 		display: flex;
 		align-items: flex-start;
-		padding-top: 16px;
+		padding-top: 6px;
 	}
 
 	&__body {

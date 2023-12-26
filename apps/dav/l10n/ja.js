@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "拒否",
     "More options …" : "他のオプション …",
     "More options at %s" : "%s のその他のオプション",
-    "In a meeting" : "会議中",
     "Contacts" : "連絡先",
     "{actor} created address book {addressbook}" : "{actor}がアドレス帳 {addressbook}を作成しました",
     "You created address book {addressbook}" : "アドレス帳 {addressbook}を作成しました",
@@ -151,7 +150,7 @@ OC.L10N.register(
     "Due on %s" : "期限日：%s",
     "DAV system address book" : "DAVシステムアドレス帳",
     "No outstanding DAV system address book sync." : "DAVシステムアドレス帳の同期が完了していません。",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "あなたのインスタンスのユーザー数が1000人以上であるか、エラーが発生したため、DAVシステムアドレス帳の同期がまだ実行されていません。occ dav:sync-system-addressbook を呼び出して手動で実行してください。",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAVシステムのアドレス帳同期は、インスタンスに1000人以上のユーザーがいるか、エラーが発生したためまだ実行されていません。手動で実行するには、\"occ dav:sync-system-addressbook\"を呼び出してください。",
     "Migrated calendar (%1$s)" : "カレンダーを移行しました (%1$s)",
     "Calendars including events, details and attendees" : "カレンダーには、イベント、イベントの詳細及び出席者が含まれます",
     "Contacts and groups" : "連絡先とグループ",
@@ -163,9 +162,11 @@ OC.L10N.register(
     "Long absence Message" : "長期不在のメッセージ",
     "Save" : "保存",
     "Disable absence" : "不在を無効にする",
+    "Absence saved" : "不在を保存しました",
     "Failed to save your absence settings" : "不在設定の保存に失敗しました",
+    "Absence cleared" : "不在を削除しました",
     "Failed to clear your absence settings" : "不在設定の解除に失敗しました",
-    "Time zone:" : "時間帯：",
+    "Time zone:" : "タイムゾーン：",
     "to" : "宛先",
     "Delete slot" : "スロットを削除",
     "No working hours set" : "勤務時間未設定",
@@ -203,7 +204,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Your attendance was updated successfully." : "出席は正常に更新されました。",
-    "%1$s has responded your invitation" : "%1$s はあなたの招待に応じた"
+    "Your attendance was updated successfully." : "出席は正常に更新されました。"
 },
 "nplurals=1; plural=0;");

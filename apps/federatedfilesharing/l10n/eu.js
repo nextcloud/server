@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
     "Copy to clipboard" : "Kopiatu arbelera",
     "Clipboard is not available" : "Arbela ez dago erabilgarri",
-    "Copied!" : "Kopiatuta!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "\"%3$s\" jaso duzu urruneko partekatze gisa %4$s(r)engandik (%1$s) (%5$s(%2$s) bidez) ",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "\"%3$s\" jaso duzu urruneko partekatze gisa %4$s(%1$s)(r)engandik",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz, ikus %s"
+    "Copied!" : "Kopiatuta!"
 },
 "nplurals=2; plural=(n != 1);");

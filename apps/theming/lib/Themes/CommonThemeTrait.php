@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,10 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\Util;
-use OCA\Theming\ImageManager;
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\Util;
 
 trait CommonThemeTrait {
 	public Util $util;
@@ -37,11 +38,12 @@ trait CommonThemeTrait {
 	 * This is shared between multiple themes because colorMainBackground and colorMainText
 	 * will change in between.
 	 */
-	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
+	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText, bool $highContrast = false): array {
 		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground, $highContrast);
 		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+		$invertPrimaryTextColor = $this->util->invertTextColor($colorPrimaryElement);
 
 		// primary related colours
 		return [
@@ -52,7 +54,8 @@ trait CommonThemeTrait {
 			// ⚠️ Using 'no' as a value to make sure we specify an
 			// invalid one with no fallback. 'unset' could here fallback to some
 			// other theme with media queries
-			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+			'--primary-invert-if-bright' => $this->util->invertTextColor($colorPrimaryElement) ? 'invert(100%)' : 'no',
+			'--primary-invert-if-dark' => $this->util->invertTextColor($colorPrimaryElement) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-default' => $this->defaultPrimaryColor,
@@ -64,10 +67,10 @@ trait CommonThemeTrait {
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 82),
-			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+			'--color-primary-element-hover' => $invertPrimaryTextColor ? $this->util->lighten($colorPrimaryElement, 4) : $this->util->darken($colorPrimaryElement, 4),
+			'--color-primary-element-text' => $invertPrimaryTextColor ? '#000000' : '#ffffff',
 			// mostly used for disabled states
-			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 6),
+			'--color-primary-element-text-dark' => $invertPrimaryTextColor ? $this->util->lighten('#000000', 4) : $this->util->darken('#ffffff', 4),
 
 			// used for hover/focus states
 			'--color-primary-element-light' => $colorPrimaryElementLight,

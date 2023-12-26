@@ -31,6 +31,7 @@ namespace OC\Core\Controller;
 use InvalidArgumentException;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
+use OC\Search\UnsupportedFilter;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -40,7 +41,6 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Route\IRouter;
 use OCP\Search\ISearchQuery;
-use OC\Search\UnsupportedFilter;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**

@@ -28,6 +28,7 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Controller;
 
+use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Exception\InvalidClearAtException;
 use OCA\UserStatus\Exception\InvalidMessageIdException;
@@ -55,6 +56,7 @@ class UserStatusController extends OCSController {
 		private string $userId,
 		private LoggerInterface $logger,
 		private StatusService $service,
+		private CalendarStatusService $calendarStatusService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -71,6 +73,7 @@ class UserStatusController extends OCSController {
 	 */
 	public function getStatus(): DataResponse {
 		try {
+			$this->calendarStatusService->processCalendarStatus($this->userId);
 			$userStatus = $this->service->findByUserId($this->userId);
 		} catch (DoesNotExistException $ex) {
 			throw new OCSNotFoundException('No status for the current user');
@@ -115,7 +118,7 @@ class UserStatusController extends OCSController {
 	 * 200: The message was updated successfully
 	 */
 	public function setPredefinedMessage(string $messageId,
-										 ?int $clearAt): DataResponse {
+		?int $clearAt): DataResponse {
 		try {
 			$status = $this->service->setPredefinedMessage($this->userId, $messageId, $clearAt);
 			$this->service->removeBackupUserStatus($this->userId);
@@ -143,8 +146,8 @@ class UserStatusController extends OCSController {
 	 * 200: The message was updated successfully
 	 */
 	public function setCustomMessage(?string $statusIcon,
-									 ?string $message,
-									 ?int $clearAt): DataResponse {
+		?string $message,
+		?int $clearAt): DataResponse {
 		try {
 			if (($message !== null && $message !== '') || ($clearAt !== null && $clearAt !== 0)) {
 				$status = $this->service->setCustomMessage($this->userId, $statusIcon, $message, $clearAt);

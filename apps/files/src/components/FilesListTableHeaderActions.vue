@@ -185,6 +185,12 @@ export default Vue.extend({
 						.filter((fileid, index) => results[index] === false)
 					this.selectionStore.set(failedIds)
 
+					if (results.some(result => result === null)) {
+						// If some actions returned null, we assume that the dev
+						// is handling the error messages and we stay silent
+						return
+					}
+
 					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
 					return
 				}

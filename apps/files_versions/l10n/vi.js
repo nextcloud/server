@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "Không thể khôi phục phiên bản",
     "Could not set version name" : "Không thể đặt tên phiên bản",
     "Could not delete version" : "Không thể xóa phiên bản",
-    "${version.label} restored" : "${version.label} đã được khôi phục",
-    "Failed to revert {file} to revision {timestamp}." : "Thất bại khi trở lại {file} khi sử đổi {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n byte"],
-    "Restore" : "Khôi phục",
-    "No other versions available" : "Không có các phiên bản khác có sẵn"
+    "${version.label} restored" : "${version.label} đã được khôi phục"
 },
 "nplurals=1; plural=0;");

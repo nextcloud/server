@@ -54,8 +54,8 @@ class StatusesController extends OCSController {
 	 * @param StatusService $service
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								StatusService $service) {
+		IRequest $request,
+		StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->service = $service;
 	}

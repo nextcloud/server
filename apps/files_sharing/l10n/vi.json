@@ -205,10 +205,8 @@
     "Note to recipient" : "Ghi chú cho người nhận",
     "Enter a note for the share recipient" : "Nhập ghi chú cho người nhận chia sẻ",
     "Create" : "‎Tạo‎",
-    "Update" : "Cập nhật",
     "Share" : "Chia sẻ",
     "Delete share" : "Xóa chia sẻ",
-    "Share with " : "Chia sẽ với",
     "Save share" : "Lưu chia sẻ",
     "Update share" : "Cập nhật chia sẻ",
     "Others with access" : "Những người khác có quyền truy cập",
@@ -295,13 +293,13 @@
     "Something happened. Unable to reject the share." : "Một cái gì đó đã xảy ra. Không thể từ chối chia sẻ.",
     "No expiration date set" : "Không có ngày hết hạn được đặt",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Chia sẻ %s không thành công vì phần sau không hỗ trợ chia sẻ khoa học",
-    "One or more of your shares will expire tomorrow" : "Một hoặc nhiều cổ phiếu của bạn sẽ hết hạn vào ngày mai",
     "Allow creating" : "Cho phép tạo",
     "Allow deleting" : "Cho phép xoá",
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Expiration date enforced" : "Ngày hết hạn được thi hành",
     "Password protect" : "Mật khẩu bảo vệ",
     "Science Mesh" : "Lưới khoa học",
-    "Error generating password from password_policy" : "Lỗi tạo mật khẩu từ pass_policy"
+    "Update" : "Cập nhật",
+    "Share with " : "Chia sẽ với"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

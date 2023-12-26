@@ -83,11 +83,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 		return $this->l10n->t('Contacts');
 	}
 
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'contacts.Page.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('contacts')) {
+			return $route === 'contacts.Page.index' ? -1 : 25;
 		}
-		return 25;
+
+		return null;
 	}
 
 	public function search(IUser $user, ISearchQuery $query): SearchResult {

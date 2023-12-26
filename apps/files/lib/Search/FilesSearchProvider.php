@@ -30,30 +30,30 @@ declare(strict_types=1);
 namespace OCA\Files\Search;
 
 use InvalidArgumentException;
-use OCP\Files\Search\ISearchOperator;
-use OCP\IPreview;
-use OCP\Search\FilterDefinition;
-use OCP\Search\IFilter;
-use OCP\Search\IFilteringProvider;
-use OCP\Share\IShare;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
+use OC\Search\Filter\GroupFilter;
+use OC\Search\Filter\UserFilter;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
+use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
-use OC\Search\Filter\GroupFilter;
-use OC\Search\Filter\UserFilter;
+use OCP\Share\IShare;
 
 class FilesSearchProvider implements IFilteringProvider {
 	/** @var IL10N */

@@ -58,6 +58,7 @@ class MetadataQuery implements IMetadataQuery {
 	 */
 	public function retrieveMetadata(): void {
 		$this->queryBuilder->selectAlias($this->alias . '.json', 'meta_json');
+		$this->queryBuilder->selectAlias($this->alias . '.sync_token', 'meta_sync_token');
 		$this->queryBuilder->leftJoin(
 			$this->fileTableAlias, MetadataRequestService::TABLE_METADATA, $this->alias,
 			$this->queryBuilder->expr()->eq($this->fileTableAlias . '.' . $this->fileIdField, $this->alias . '.file_id')

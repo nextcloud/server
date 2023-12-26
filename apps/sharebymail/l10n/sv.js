@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
     "Send password by mail" : "Skicka lösenord via e-post",
     "Reply to initiator" : "Svara till startare",
-    "Unable to update share by mail config" : "Kunde inte uppdatera konfiguration för delning via e-post",
-    "Shared with %1$s" : "Delad med %1$s",
-    "Shared with %1$s by %2$s" : "Delad med %1$s av %2$s",
-    "Unshared from %1$s" : "Sluta dela från %1$s",
-    "Unshared from %1$s by %2$s" : "Sluta dela från %1$s av %2$s",
-    "Password for mail share sent to %1$s" : "Lösenord för e-postdelning skickat till %1$s",
-    "You shared %1$s with %2$s by mail" : "Du delade %1$s med %2$s via e-post",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s delade %1$s med %2$s via e-post",
-    "You unshared %1$s from %2$s by mail" : "Du slutade dela %1$s från %2$s via e-post",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s slutade dela %1$s från %2$s via e-post",
-    "Password to access %1$s was sent to %2s" : "Lösenord för åtkomst till %1$s skickades till %2s",
-    "Password to access %1$s was sent to you" : "Lösenord för att nå %1$s skickades till dig"
+    "Unable to update share by mail config" : "Kunde inte uppdatera konfiguration för delning via e-post"
 },
 "nplurals=2; plural=(n != 1);");

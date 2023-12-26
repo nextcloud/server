@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Dojíždění",
     "Out sick" : "Nemoc",
     "Vacationing" : "Dovolená",
+    "Out of office" : "Mimo kancelář",
     "Working remotely" : "Pracuje na dálku",
     "In a call" : "Má hovor",
     "User status" : "Stav uživatele",

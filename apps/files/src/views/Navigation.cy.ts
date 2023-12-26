@@ -178,7 +178,7 @@ describe('Quota rendering', () => {
 
 	it('Unlimited quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
 			quota: -1,
 		})
 
@@ -200,8 +200,8 @@ describe('Quota rendering', () => {
 
 	it('Non-reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
-			quota: 5 * 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
+			quota: 5 * 1024 * 1024 * 1024,
 			relative: 20, // percent
 		})
 
@@ -224,8 +224,8 @@ describe('Quota rendering', () => {
 
 	it('Reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 5 * 1000 * 1000 * 1000,
-			quota: 1000 * 1000 * 1000,
+			used: 5 * 1024 * 1024 * 1024,
+			quota: 1024 * 1024 * 1024,
 			relative: 500, // percent
 		})
 

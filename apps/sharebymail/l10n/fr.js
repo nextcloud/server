@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Autoriser les utilisateurs de partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse e-mail.",
     "Send password by mail" : "Envoyer le mot de passe par e-mail",
     "Reply to initiator" : "Répondre à l'initiateur",
-    "Unable to update share by mail config" : "Impossible de mettre à jour la configuration du partage par e-mail",
-    "Shared with %1$s" : "Partagé avec %1$s",
-    "Shared with %1$s by %2$s" : "Partagé avec %1$s par %2$s",
-    "Unshared from %1$s" : "Partage supprimé de %1$s",
-    "Unshared from %1$s by %2$s" : "Partage supprimé de %1$s par %2$s",
-    "Password for mail share sent to %1$s" : "Le mot de passe pour le partage par e-mail a été envoyé à %1$s",
-    "You shared %1$s with %2$s by mail" : "Vous avez partagé %1$s avec %2$s par e-mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s a partagé %1$s avec %2$s par e-mail",
-    "You unshared %1$s from %2$s by mail" : "Vous avez supprimé le partage %1$s de %2$s par e-mail",
-    "%3$s unshared %1$s from %2$s by mail" : "Fin de partage par %3$s de %1$s depuis %2$s par e-mail",
-    "Password to access %1$s was sent to %2s" : "Le mot de passe pour accèder à %1$s a été envoyé à %2s",
-    "Password to access %1$s was sent to you" : "Le mot de passe pour accèder à %1$s vous a été envoyé"
+    "Unable to update share by mail config" : "Impossible de mettre à jour la configuration du partage par e-mail"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

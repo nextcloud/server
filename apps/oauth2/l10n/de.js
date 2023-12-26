@@ -12,10 +12,11 @@ OC.L10N.register(
     "Redirection URI" : "Weiterleitungs-URI",
     "Client Identifier" : "Client-Identifikationsmerkmal",
     "Secret key" : "Geheimer Schlüssel",
+    "Delete client" : "Client löschen",
     "Add client" : "Client hinzufügen",
     "Add" : "Hinzufügen",
-    "Show client secret" : "Geheime Zeichenkette des Clients anzeigen",
     "Delete" : " Löschen",
+    "Show client secret" : "Geheime Zeichenkette des Clients anzeigen",
     "Secret" : "Geheimnis"
 },
 "nplurals=2; plural=(n != 1);");

@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
     "Reply to initiator" : "Responder ao iniciador",
-    "Unable to update share by mail config" : "Não foi possível atualizar o compartilhamento por configuração de e-mail",
-    "Shared with %1$s" : "Compartilhado com %1$s",
-    "Shared with %1$s by %2$s" : "Compartilhado com %1$s por %2$s",
-    "Unshared from %1$s" : "Descompartilhado de %1$s",
-    "Unshared from %1$s by %2$s" : "Descompartilhado de %1$s por %2$s",
-    "Password for mail share sent to %1$s" : "Senha para o correio compartilhado enviado para %1$s",
-    "You shared %1$s with %2$s by mail" : "Você compartilhou %1$s com %2$s por e-mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s compartilhou %1$s com %2$s por e-mail",
-    "You unshared %1$s from %2$s by mail" : "Você descompartilhou %1$s de %2$s por e-mail",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s descompartilhou %1$s de %2$s por e-mail",
-    "Password to access %1$s was sent to %2s" : "A senha para acesso %1$s foi enviada para %2s",
-    "Password to access %1$s was sent to you" : "A senha para acesso  %1$s foi enviada para você"
+    "Unable to update share by mail config" : "Não foi possível atualizar o compartilhamento por configuração de e-mail"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

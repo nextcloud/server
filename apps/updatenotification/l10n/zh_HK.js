@@ -20,7 +20,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "請注意，不建議使用超過 100 個用戶的網絡更新程序！ 請改用命令行更新程序！",
     "Open updater" : "打開更新程式",
     "Download now" : "立即下載",
-    "Please use the command line updater to update." : "請使用命令行更新程序進行更新。",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "網頁更新程式已停用。請使用命令列更新程式或適合您安裝方式的適當更新機制（例如 Docker pull）進行更新。",
     "What's new?" : "有什麼新鮮事？",
     "View changelog" : "檢視版本更新紀錄",
     "The update check is not yet finished. Please refresh the page." : "更新檢查未完成。請重新整理此頁面。",
@@ -49,7 +49,7 @@ OC.L10N.register(
     "Beta" : "Beta 測試版",
     "A pre-release version only for testing new features, not for production environments." : "預發佈版本僅用於測試新功能，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["有 <strong>%n</strong> 個應用程式沒有與此 Nextcloud 版本相容的版本。"],
-    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。",
+    "Please use the command line updater to update." : "請使用命令行更新程序進行更新。",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "您可以變更下方的更新頻道，這也會影響應用程式管理頁面。例如，切換到測試版頻道後，在應用程式管理頁更新應用程式時也會提供測試版。",
     "Update channel:" : "更新頻道："
 },

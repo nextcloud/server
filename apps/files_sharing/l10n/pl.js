@@ -207,10 +207,9 @@ OC.L10N.register(
     "Note to recipient" : "Informacja dla odbiorcy",
     "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Create" : "Utwórz",
-    "Update" : "Aktualizuj",
     "Share" : "Udostępnij",
     "Delete share" : "Usuń udostępnianie",
-    "Share with " : "Udostępnij dla",
+    "Share with" : "Udostępnij dla",
     "Save share" : "Zapisz udostępnienie",
     "Update share" : "Zaktualizuj udostępnienie",
     "Others with access" : "Inni z dostępem",
@@ -298,13 +297,13 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Coś się stało. Nie można odrzucić udostępnienia.",
     "No expiration date set" : "Nie ustawiono daty wygaśnięcia",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępnień Science Mesh",
-    "One or more of your shares will expire tomorrow" : "Co najmniej jeden z Twoich udostępnień wygaśnie jutro",
     "Allow creating" : "Zezwalaj na tworzenie",
     "Allow deleting" : "Zezwalaj na usuwanie",
     "Allow resharing" : "Zezwalaj na udostępnianie dalej",
     "Expiration date enforced" : "Wymuszona data wygaśnięcia",
     "Password protect" : "Zabezpiecz hasłem",
     "Science Mesh" : "Science Mesh",
-    "Error generating password from password_policy" : "Błąd podczas generowania hasła z password_policy"
+    "Update" : "Aktualizuj",
+    "Share with " : "Udostępnij dla"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

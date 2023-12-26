@@ -62,14 +62,14 @@ class Update {
 	 * @param string $uid
 	 */
 	public function __construct(
-			View $view,
-			Util $util,
-			Mount\Manager $mountManager,
-			Manager $encryptionManager,
-			File $file,
-			LoggerInterface $logger,
-			$uid
-		) {
+		View $view,
+		Util $util,
+		Mount\Manager $mountManager,
+		Manager $encryptionManager,
+		File $file,
+		LoggerInterface $logger,
+		$uid
+	) {
 		$this->view = $view;
 		$this->util = $util;
 		$this->mountManager = $mountManager;

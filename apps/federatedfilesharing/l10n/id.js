@@ -31,7 +31,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
     "Copy to clipboard" : "Salin ke papan klip",
     "Clipboard is not available" : "Papan klip tidak tersedia",
-    "Copied!" : "Tersalin!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s"
+    "Copied!" : "Tersalin!"
 },
 "nplurals=1; plural=0;");

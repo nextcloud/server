@@ -78,8 +78,8 @@
 				</div>
 			</div>
 			<div class="sharingTabDetailsView__advanced-control">
-				<NcButton type="tertiary"
-					id="advancedSectionAccordionAdvancedControl"
+				<NcButton id="advancedSectionAccordionAdvancedControl"
+					type="tertiary"
 					alignment="end-reverse"
 					aria-controls="advancedSectionAccordionAdvanced"
 					:aria-expanded="advancedControlExpandedValue"
@@ -91,8 +91,11 @@
 					</template>
 				</NcButton>
 			</div>
-			<div v-if="advancedSectionAccordionExpanded" id="advancedSectionAccordionAdvanced" class="sharingTabDetailsView__advanced"
-				aria-labelledby="advancedSectionAccordionAdvancedControl" role="region">
+			<div v-if="advancedSectionAccordionExpanded"
+				id="advancedSectionAccordionAdvanced"
+				class="sharingTabDetailsView__advanced"
+				aria-labelledby="advancedSectionAccordionAdvancedControl"
+				role="region">
 				<section>
 					<NcInputField v-if="isPublicShare"
 						:value.sync="share.label"
@@ -102,10 +105,10 @@
 						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
-						<NcInputField v-if="isPasswordProtected"
-							:type="hasUnsavedPassword ? 'text' : 'password'"
-							:value="hasUnsavedPassword ? share.newPassword : '***************'"
+						<NcPasswordField v-if="isPasswordProtected"
+							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
+							:helper-text="errorPasswordLabel"
 							:required="isPasswordEnforced"
 							:label="t('files_sharing', 'Password')"
 							@update:value="onPasswordChange" />
@@ -167,7 +170,7 @@
 							{{ t('files_sharing', 'Create') }}
 						</NcCheckboxRadioSwitch>
 						<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
-							{{ t('files_sharing', 'Update') }}
+							{{ t('files_sharing', 'Edit') }}
 						</NcCheckboxRadioSwitch>
 						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
 							:disabled="!canSetReshare"
@@ -216,8 +219,8 @@ import { getLanguage } from '@nextcloud/l10n'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -253,7 +256,7 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcInputField,
-		NcDateTimePicker,
+		NcPasswordField,
 		NcDateTimePickerNative,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
@@ -302,24 +305,24 @@ export default {
 
 	computed: {
 		title() {
-			let title = t('files_sharing', 'Share with ')
-			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER) {
-				title = title + this.share.shareWithDisplayName
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK) {
-				title = t('files_sharing', 'Share link')
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
-				title += ` (${t('files_sharing', 'group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
-				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
-				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
-				title += ` (${t('files_sharing', 'remote group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
-				title += ` (${t('files_sharing', 'guest')})`
+			switch (this.share.type) {
+			case this.SHARE_TYPES.SHARE_TYPE_USER:
+				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+				return t('files_sharing', 'Share link')
+			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+				return t('files_sharing', 'Share with group')
+			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+				return t('files_sharing', 'Share in conversation')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE:
+				return t('files_sharing', 'Share with remote')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
+				return t('files_sharing', 'Share with remote group')
+			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+				return t('files_sharing', 'Share with guest')
+			default:
+				return t('files_sharing', 'Share with')
 			}
-
-			return title
 		},
 		/**
 		 * Can the sharee edit the shared file ?
@@ -414,9 +417,13 @@ export default {
 					|| !!this.share.password
 			},
 			async set(enabled) {
-				// TODO: directly save after generation to make sure the share is always protected
-				this.share.password = enabled ? await GeneratePassword() : ''
-				this.$set(this.share, 'newPassword', this.share.password)
+				if (enabled) {
+					this.share.password = await GeneratePassword()
+					this.$set(this.share, 'newPassword', this.share.password)
+				} else {
+					this.share.password = ''
+					this.$delete(this.share, 'newPassword')
+				}
 			},
 		},
 		/**
@@ -426,19 +433,6 @@ export default {
 		 */
 		isFolder() {
 			return this.fileInfo.type === 'dir'
-		},
-		maxExpirationDateEnforced() {
-			if (this.isExpiryDateEnforced) {
-				if (this.isPublicShare) {
-					return this.config.defaultExpirationDate
-				}
-				if (this.isRemoteShare) {
-					return this.config.defaultRemoteExpirationDateString
-				}
-				// If it get's here then it must be an internal share
-				return this.config.defaultInternalExpirationDate
-			}
-			return null
 		},
 		/**
 		 * @return {boolean}
@@ -477,9 +471,6 @@ export default {
 		},
 		isGroupShare() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
-		},
-		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 		},
 		isNewShare() {
 			return this.share.id === null || this.share.id === undefined
@@ -640,7 +631,7 @@ export default {
 			const translatedPermissions = {
 				[ATOMIC_PERMISSIONS.READ]: this.t('files_sharing', 'Read'),
 				[ATOMIC_PERMISSIONS.CREATE]: this.t('files_sharing', 'Create'),
-				[ATOMIC_PERMISSIONS.UPDATE]: this.t('files_sharing', 'Update'),
+				[ATOMIC_PERMISSIONS.UPDATE]: this.t('files_sharing', 'Edit'),
 				[ATOMIC_PERMISSIONS.SHARE]: this.t('files_sharing', 'Share'),
 				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
@@ -654,7 +645,13 @@ export default {
 		},
 		advancedControlExpandedValue() {
 			return this.advancedSectionAccordionExpanded ? 'true' : 'false'
-		}
+		},
+		errorPasswordLabel() {
+			if (this.passwordError) {
+				return t('files_sharing', "Password field can't be empty")
+			}
+			return undefined
+		},
 	},
 	watch: {
 		setCustomPermissions(isChecked) {
@@ -731,6 +728,12 @@ export default {
 				return
 			}
 
+			// If there is an enforced expiry date, then existing shares created before enforcement
+			// have no expiry date, hence we set it here.
+			if (!this.isValidShareAttribute(this.share.expireDate) && this.isExpiryDateEnforced) {
+				this.hasExpirationDate = true
+			}
+
 			if (
 				this.isValidShareAttribute(this.share.password)
 				|| this.isValidShareAttribute(this.share.expireDate)
@@ -786,16 +789,12 @@ export default {
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
 			}
-
 			if (this.isPasswordProtected) {
-				if (this.isValidShareAttribute(this.share.newPassword)) {
+				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
 					this.share.password = this.share.newPassword
 					this.$delete(this.share, 'newPassword')
-				} else {
-					if (this.isPasswordEnforced) {
-						this.passwordError = true
-						return
-					}
+				} else if (this.isPasswordEnforced && !this.isValidShareAttribute(this.share.password)) {
+					this.passwordError = true
 				}
 			} else {
 				this.share.password = ''

@@ -26,13 +26,13 @@
  */
 namespace OC\Migration;
 
+use OC\NeedsUpdateException;
+use OC\Repair;
+use OC_App;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\EventDispatcher\IEventDispatcher;
-use OC\NeedsUpdateException;
-use OC\Repair;
-use OC_App;
 use Psr\Log\LoggerInterface;
 
 /**

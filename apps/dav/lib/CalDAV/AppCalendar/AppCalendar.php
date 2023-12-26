@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -25,8 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\AppCalendar;
 
-use OCA\DAV\CalDAV\Plugin;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
+use OCA\DAV\CalDAV\Plugin;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICreateFromString;
 use OCP\Constants;

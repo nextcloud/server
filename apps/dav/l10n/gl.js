@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "More options …" : "Máis opcións…",
     "More options at %s" : "Máis opcións en %s",
-    "In a meeting" : "Nunha xuntanza",
     "Contacts" : "Contactos",
     "{actor} created address book {addressbook}" : "{actor} creou o caderno de enderezos {addressbook}",
     "You created address book {addressbook}" : "Vde. creou o caderno de enderezos {addressbook}",
@@ -151,7 +150,7 @@ OC.L10N.register(
     "Due on %s" : "Caduca o %s",
     "DAV system address book" : "Caderno de enderezos do sistema DAV",
     "No outstanding DAV system address book sync." : "Non hai sincronización pendente do caderno de enderezos do sistema DAV.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "A sincronización do caderno de enderezos do sistema DAV aínda non foi executada aínda porque a súa instancia ten máis de 1000 usuarios ou porque se produciu un erro. Execútea manualmente con occ dav:sync-system-addressbook.",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "A sincronización do caderno de enderezos do sistema DAV aínda non foi executada aínda porque a súa instancia ten máis de 1000 usuarios ou porque se produciu un erro. Execútea manualmente con occ dav:sync-system-addressbook.",
     "Migrated calendar (%1$s)" : "Calendario migrado (%1$s)",
     "Calendars including events, details and attendees" : "Calendarios incluíndo eventos, detalles e asistentes",
     "Contacts and groups" : "Contactos e grupos",
@@ -163,7 +162,9 @@ OC.L10N.register(
     "Long absence Message" : "Mensaxe de ausencia longa",
     "Save" : "Gardar",
     "Disable absence" : "Desactivar a ausencia",
+    "Absence saved" : "Ausencia gardada",
     "Failed to save your absence settings" : "Produciuse un fallo ao gardar os axustes de ausencia",
+    "Absence cleared" : "Limpouse a ausencia",
     "Failed to clear your absence settings" : "Produciuse un fallo ao limpar os axustes de ausencia",
     "Time zone:" : "Fuso horario:",
     "to" : "para",
@@ -203,7 +204,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta Vde. o convite?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
-    "%1$s has responded your invitation" : "%1$s respondeu ao seu convite"
+    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente."
 },
 "nplurals=2; plural=(n != 1);");

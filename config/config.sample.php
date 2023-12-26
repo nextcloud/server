@@ -229,6 +229,16 @@ $CONFIG = [
 'force_locale' => 'en_US',
 
 /**
+ * This sets the default timezone on your Nextcloud server, using IANA
+ * identifiers like ``Europe/Berlin`` or ``Pacific/Auckland``. The default
+ * timezone parameter is only used when the timezone of the user can't be
+ * determined.
+ *
+ * Defaults to ``UTC``
+ */
+'default_timezone' => 'Europe/Berlin',
+
+/**
  * ``true`` enables the Help menu item in the user menu (top right of the
  * Nextcloud Web interface). ``false`` removes the Help item.
  */
@@ -2406,4 +2416,11 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'unified_search.enabled' => false,
+
+/**
+ * Enable features that are do respect accessibility standards yet.
+ *
+ * Defaults to ``true``
+ */
+'enable_non-accessible_features' => true,
 ];

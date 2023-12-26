@@ -23,9 +23,9 @@
  */
 namespace OCA\Files\BackgroundJob;
 
+use OC\Lock\DBLockingProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OC\Lock\DBLockingProvider;
 
 /**
  * Clean up all file locks that are expired for the DB file locking provider

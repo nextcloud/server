@@ -258,13 +258,11 @@
     "Storage is temporarily not available" : "Временно хранилището не е налично",
     "Storage connection timeout. %s" : "Време за изчакване при свързването с хранилище. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Файловете на приложението %1$s не бяха заменени правилно. Уверете се, че версията е съвместима със сървъра.",
+    "404" : "404",
     "Full name" : "Пълно име",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Потребителските имена може да съдържат следните знаци: \"a-z\", \"A-Z\", \"0-9\" и \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Нужно е поне libxml2 2.7.0. В момента са инсталирани %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "За да отстраните този проблем, актуализирайте версията на libxml2 и рестартирайте вашия уеб сървър.",
     "PostgreSQL >= 9 required." : "Нужно е PostgreSQL >= 9",
-    "Please upgrade your database version." : "Моля, надстройте версията на вашата база данни.",
-    "404" : "404"
+    "Please upgrade your database version." : "Моля, надстройте версията на вашата база данни."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

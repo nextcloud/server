@@ -44,8 +44,8 @@ class Capabilities implements ICapability {
 	private $appManager;
 
 	public function __construct(IManager $manager,
-								SettingsManager $settingsManager,
-								IAppManager $appManager) {
+		SettingsManager $settingsManager,
+		IAppManager $appManager) {
 		$this->manager = $manager;
 		$this->settingsManager = $settingsManager;
 		$this->appManager = $appManager;

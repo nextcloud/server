@@ -98,6 +98,40 @@ class MetadataRequestService {
 	}
 
 	/**
+	 * returns metadata for multiple file ids
+	 *
+	 * If
+	 *
+	 * @param array $fileIds file ids
+	 *
+	 * @return array File ID is the array key, files without metadata are not returned in the array
+	 * @psalm-return array<int, IFilesMetadata>
+	 */
+	public function getMetadataFromFileIds(array $fileIds): array {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('file_id', 'json', 'sync_token')->from(self::TABLE_METADATA);
+		$qb->where(
+			$qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY))
+		);
+
+		$list = [];
+		$result = $qb->executeQuery();
+		while ($data = $result->fetch()) {
+			$fileId = (int) $data['file_id'];
+			$metadata = new FilesMetadata($fileId);
+			try {
+				$metadata->importFromDatabase($data);
+			} catch (FilesMetadataNotFoundException) {
+				continue;
+			}
+			$list[$fileId] = $metadata;
+		}
+		$result->closeCursor();
+
+		return $list;
+	}
+
+	/**
 	 * drop metadata related to a file id
 	 *
 	 * @param int $fileId file id

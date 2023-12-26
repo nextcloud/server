@@ -51,8 +51,8 @@ class SubadminMiddleware extends Middleware {
 	 * @param IL10N $l10n
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								$isSubAdmin,
-								IL10N $l10n) {
+		$isSubAdmin,
+		IL10N $l10n) {
 		$this->reflector = $reflector;
 		$this->isSubAdmin = $isSubAdmin;
 		$this->l10n = $l10n;

@@ -19,10 +19,6 @@
     "Could not restore version" : "Verzi se nedaří obnovit",
     "Could not set version name" : "Nedaří se nastavit název verze",
     "Could not delete version" : "Nedaří se smazat verzi",
-    "${version.label} restored" : "${version.label} obnoveno",
-    "Failed to revert {file} to revision {timestamp}." : "Nepodařilo se vrátit {file} do stavu k {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů","%n bajty"],
-    "Restore" : "Obnovit",
-    "No other versions available" : "Nejsou k dispozici žádné jiné verze"
+    "${version.label} restored" : "${version.label} obnoveno"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

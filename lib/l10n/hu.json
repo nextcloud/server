@@ -261,20 +261,18 @@
     "Storage connection timeout. %s" : "Időtúllépés a tárolókapcsolatban. %s",
     "Free prompt" : "Szabad prompt",
     "Runs an arbitrary prompt through the language model." : "Tetszőleges promptot futtat a nyelvi modellen.",
-    "Generate headline" : "Címsor generálás",
-    "Generates a possible headline for a text." : "Lehetséges címsort generál a szövegnek.",
+    "Generate headline" : "Címsor előállítása",
+    "Generates a possible headline for a text." : "Egy lehetséges címsort állít elő egy szöveghez.",
     "Summarize" : "Összesítés",
-    "Summarizes text by reducing its length without losing key information." : "Összesíti a szöveget a hosszúság csökkentésével anélkül, hogy a kulcs információk elvesznének.",
-    "Extract topics" : "Témák kibontása",
-    "Extracts topics from a text and outputs them separated by commas." : "Kibontja a témákat a szövegből és vesszővel elválasztva megjeleníti",
+    "Summarizes text by reducing its length without losing key information." : "Összesíti a szöveget a hosszúság csökkentésével anélkül, hogy a kulcsinformációk elvesznének.",
+    "Extract topics" : "Témák kinyerése",
+    "Extracts topics from a text and outputs them separated by commas." : "Kinyeri a témákat a szövegből, és vesszőkkel elválasztva megjeleníti.",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "A(z) %1$s alkalmazás fájljait helytelenül cserélték le. Ellenőrizze, hogy a verzió kompatibilis-e a kiszolgálóval.",
+    "404" : "404",
     "Full name" : "Teljes név",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Elérte a felhasználókorlátot, és a felhasználó nem jött létre. Nézze meg az értesítéseit, hogy többet tudjon meg.",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "A felhasználónévben csak a következő karakterek engedélyezettek: „a-z”, „A-Z”, „0-9”, és „_.@-'”",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Legalább libxml2 2.7.0 szükséges. Jelenleg telepített: %s.",
     "To fix this issue update your libxml2 version and restart your web server." : "A probléma javításához frissítse a libxml2 verziót, és indítsa újra a webkiszolgálót.",
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 szükséges.",
-    "Please upgrade your database version." : "Frissítse az adatbázis verzióját.",
-    "404" : "404"
+    "Please upgrade your database version." : "Frissítse az adatbázis verzióját."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

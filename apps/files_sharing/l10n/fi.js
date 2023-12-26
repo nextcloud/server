@@ -195,9 +195,9 @@ OC.L10N.register(
     "Note to recipient" : "Huomio vastaanottajalle",
     "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle",
     "Create" : "Luo",
-    "Update" : "Päivitä",
     "Share" : "Jaa",
     "Delete share" : "Poista jako",
+    "Share with" : "Jaa",
     "Save share" : "Tallenna jako",
     "Update share" : "Päivitä jako",
     "Others with access" : "Muut, joilla on käyttöoikeus",
@@ -278,11 +278,11 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Jotain tapahtui. Jakoa ei voitu hyväksyä.",
     "Something happened. Unable to reject the share." : "Tapahtui virhe. Ei voida hylätä jakoa.",
     "No expiration date set" : "Ei vanhenemispäivää asetettu",
-    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna",
     "Allow creating" : "Salli luominen",
     "Allow deleting" : "Salli poistaminen",
     "Allow resharing" : "Salli uudelleenjakaminen",
     "Expiration date enforced" : "Vanhenemispäivä pakotettu",
-    "Password protect" : "Suojaa salasanalla"
+    "Password protect" : "Suojaa salasanalla",
+    "Update" : "Päivitä"
 },
 "nplurals=2; plural=(n != 1);");

@@ -110,8 +110,8 @@ use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use OC\LDAP\NullLDAPProviderFactory;
 use OC\KnownUser\KnownUserService;
+use OC\LDAP\NullLDAPProviderFactory;
 use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
@@ -129,6 +129,7 @@ use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
 use OC\Preview\MimeIconProvider;
 use OC\Profile\ProfileManager;
+use OC\Profiler\Profiler;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
@@ -163,11 +164,16 @@ use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
 use OC\User\Session;
+use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\BackgroundJob\IJobList;
@@ -202,10 +208,10 @@ use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IAvatarManager;
+use OCP\IBinaryFinder;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
-use OCP\IBinaryFinder;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
@@ -236,7 +242,9 @@ use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
+use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
+use OCP\Profiler\IProfiler;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -270,13 +278,6 @@ use OCP\User\IAvailabilityCoordinator;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use OCA\Files_External\Service\UserStoragesService;
-use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCA\Files_External\Service\GlobalStoragesService;
-use OCA\Files_External\Service\BackendService;
-use OCP\Profiler\IProfiler;
-use OC\Profiler\Profiler;
-use OCP\Preview\IMimeIconProvider;
 
 /**
  * Class Server
@@ -1079,7 +1080,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$memcacheFactory = $c->get(ICacheFactory::class);
 				$memcache = $memcacheFactory->createLocking('lock');
 				if (!($memcache instanceof \OC\Memcache\NullCache)) {
-					return new MemcacheLockingProvider($memcache, $ttl);
+					$timeFactory = $c->get(ITimeFactory::class);
+					return new MemcacheLockingProvider($memcache, $timeFactory, $ttl);
 				}
 				return new DBLockingProvider(
 					$c->get(IDBConnection::class),

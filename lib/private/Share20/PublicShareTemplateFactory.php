@@ -27,9 +27,9 @@ use Exception;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
 use OCP\Server;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\Share\IShare;
 
 class PublicShareTemplateFactory implements IPublicShareTemplateFactory {
 	public function __construct(

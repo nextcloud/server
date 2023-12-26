@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Отклонить",
     "More options …" : "Дополнительные параметры…",
     "More options at %s" : "Дополнительные параметры на %s",
-    "In a meeting" : "На встрече",
     "Contacts" : "Контакты",
     "{actor} created address book {addressbook}" : "{actor} создал(а) адресную книгу «{addressbook}»",
     "You created address book {addressbook}" : "Вы создали адресную книгу «{addressbook}»",
@@ -190,7 +189,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
-    "Your attendance was updated successfully." : "Статус участия обновлён.",
-    "%1$s has responded your invitation" : "%1$s ответил на ваше приглашение"
+    "Your attendance was updated successfully." : "Статус участия обновлён."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

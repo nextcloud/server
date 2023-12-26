@@ -22,6 +22,7 @@
 import '@nextcloud/dialogs/style.css'
 import type { Folder, Node, View } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
+import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
 // eslint-disable-next-line n/no-extraneous-import
 import { AxiosError } from 'axios'
@@ -35,9 +36,8 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import CopyIcon from 'vue-material-design-icons/FileMultiple.vue'
+import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
-import MoveIcon from 'vue-material-design-icons/FolderMove.vue'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import logger from '../logger'
@@ -81,13 +81,18 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 		throw new Error(t('files', 'This file/folder is already in that directory'))
 	}
 
-	if (node.path.startsWith(destination.path)) {
+	/**
+	 * Example:
+	 * node: /foo/bar/file.txt -> path = /foo/bar
+	 * destination: /foo
+	 * Allow move of /foo does not start with /foo/bar so allow
+	 */
+	if (destination.path.startsWith(node.path)) {
 		throw new Error(t('files', 'You cannot move a file/folder onto itself or into a subfolder of itself'))
 	}
 
 	const relativePath = join(destination.path, node.basename)
 	const destinationUrl = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}${relativePath}`)
-	logger.debug(`${method} ${node.basename} to ${destinationUrl}`)
 
 	// Set loading state
 	Vue.set(node, 'status', NodeStatus.LOADING)
@@ -135,33 +140,37 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
  * Open a file picker for the given action
  * @param {MoveCopyAction} action The action to open the file picker for
  * @param {string} dir The directory to start the file picker in
- * @param {Node} node The node to move/copy
- * @return {Promise<boolean>} A promise that resolves to true if the action was successful
+ * @param {Node[]} nodes The nodes to move/copy
+ * @return {Promise<MoveCopyResult>} The picked destination
  */
-const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: Node): Promise<boolean> => {
-	const filePicker = getFilePickerBuilder(t('files', 'Chose destination'))
+const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes: Node[]): Promise<MoveCopyResult> => {
+	const fileIDs = nodes.map(node => node.fileid).filter(Boolean)
+	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
 		.setFilter((n: Node) => {
 			// We only want to show folders that we can create nodes in
 			return (n.permissions & Permission.CREATE) !== 0
-				// We don't want to show the current node in the file picker
-				&& node.fileid !== n.fileid
+				// We don't want to show the current nodes in the file picker
+				&& !fileIDs.includes(n.fileid)
 		})
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
 
 	return new Promise((resolve, reject) => {
-		filePicker.setButtonFactory((nodes: Node[], path: string) => {
+		filePicker.setButtonFactory((_selection, path: string) => {
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 
-			if (node.dirname === path) {
+			const dirnames = nodes.map(node => node.dirname)
+			const paths = nodes.map(node => node.path)
+
+			if (dirnames.includes(path)) {
 				// This file/folder is already in that directory
 				return buttons
 			}
 
-			if (node.path === path) {
+			if (paths.includes(path)) {
 				// You cannot move a file/folder onto itself
 				return buttons
 			}
@@ -170,14 +179,12 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: 
 				buttons.push({
 					label: target ? t('files', 'Copy to {target}', { target }) : t('files', 'Copy'),
 					type: 'primary',
-					icon: CopyIcon,
+					icon: CopyIconSvg,
 					async callback(destination: Node[]) {
-						try {
-							await handleCopyMoveNodeTo(node, destination[0], MoveCopyAction.COPY)
-							resolve(true)
-						} catch (error) {
-							reject(error)
-						}
+						resolve({
+							destination: destination[0] as Folder,
+							action: MoveCopyAction.COPY,
+						} as MoveCopyResult)
 					},
 				})
 			}
@@ -186,14 +193,12 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', node: 
 				buttons.push({
 					label: target ? t('files', 'Move to {target}', { target }) : t('files', 'Move'),
 					type: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
-					icon: MoveIcon,
+					icon: FolderMoveSvg,
 					async callback(destination: Node[]) {
-						try {
-							await handleCopyMoveNodeTo(node, destination[0], MoveCopyAction.MOVE)
-							resolve(true)
-						} catch (error) {
-							reject(error)
-						}
+						resolve({
+							destination: destination[0] as Folder,
+							action: MoveCopyAction.MOVE,
+						} as MoveCopyResult)
 					},
 				})
 			}
@@ -231,8 +236,9 @@ export const action = new FileAction({
 
 	async exec(node: Node, view: View, dir: string) {
 		const action = getActionForNodes([node])
+		const result = await openFilePickerForAction(action, dir, [node])
 		try {
-			await openFilePickerForAction(action, dir, node)
+			await handleCopyMoveNodeTo(node, result.destination, result.action)
 			return true
 		} catch (error) {
 			if (error instanceof Error && !!error.message) {
@@ -242,6 +248,25 @@ export const action = new FileAction({
 			}
 			return false
 		}
+	},
+
+	async execBatch(nodes: Node[], view: View, dir: string) {
+		const action = getActionForNodes(nodes)
+		const result = await openFilePickerForAction(action, dir, nodes)
+		const promises = nodes.map(async node => {
+			try {
+				await handleCopyMoveNodeTo(node, result.destination, result.action)
+				return true
+			} catch (error) {
+				logger.error(`Failed to ${result.action} node`, { node, error })
+				return false
+			}
+		})
+
+		// We need to keep the selection on error!
+		// So we do not return null, and for batch action
+		// we let the front handle the error.
+		return await Promise.all(promises)
 	},
 
 	order: 15,

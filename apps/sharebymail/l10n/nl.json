@@ -37,17 +37,6 @@
     "Share provider which allows you to share files by mail" : "Share provider waarmee je bestanden via de mail kunt delen",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Reply to initiator" : "Antwoord aan oproeper",
-    "Shared with %1$s" : "Deel met %1$s",
-    "Shared with %1$s by %2$s" : "Gedeeld met %1$s door %2$s",
-    "Unshared from %1$s" : "Niet langer gedeeld door %1$s",
-    "Unshared from %1$s by %2$s" : "Niet langer gedeeld van %1$s door %2$s",
-    "Password for mail share sent to %1$s" : "Wachtwoord voor het delen per mail is naar %1$s",
-    "You shared %1$s with %2$s by mail" : "Je deelde %1$s met %2$s per mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s deelde %1$s met %2$s per mail",
-    "You unshared %1$s from %2$s by mail" : "Je deelde niet langer%1$s met %2$s per mail",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s deelde niet langer%1$s met %2$s per mail",
-    "Password to access %1$s was sent to %2s" : "Wachtwoord voor toegang tot %1$s is gestuurd naar %2s",
-    "Password to access %1$s was sent to you" : "Wachtwoord voor toegang tot %1$s is naar jou gestuurd"
+    "Reply to initiator" : "Antwoord aan oproeper"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

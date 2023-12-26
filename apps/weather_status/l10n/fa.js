@@ -45,6 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
     "There was an error using personal address." : "There was an error using personal address.",
-    "Set location for weather" : "Set location for weather"
+    "Set location for weather" : "تنظیم مکان برای آب و هوا"
 },
 "nplurals=2; plural=(n > 1);");

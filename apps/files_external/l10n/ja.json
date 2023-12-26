@@ -88,7 +88,6 @@
     "Share" : "共有",
     "Show hidden files" : "隠しファイルを表示",
     "Case sensitive file system" : "大文字と小文字を区別するファイルシステム",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "これを無効にすると、大文字と小文字を区別しないファイルシステムを使用できるようになりますが、パフォーマンス上のペナルティが発生します。",
     "Verify ACL access when listing files" : "ファイルをリストアップする際に ACL アクセスを確認する",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "ディレクトリ内の各ファイルまたはフォルダーのACLをチェックして、ユーザーが読み取り権限を持たないアイテムを除外すると、パフォーマンスが低下します",
     "Timeout" : "タイムアウト",
@@ -110,7 +109,7 @@
     "There was an error with this external storage." : "この外部ストレージでエラーが発生しました。",
     "We were unable to check the external storage {basename}" : "外部ストレージ {basename} をチェックできませんでした。",
     "Examine this faulty external storage configuration" : "この問題のある外部ストレージの設定を調べる",
-    "Open in files" : "ファイルで開く",
+    "Open in Files" : "ファイルアプリで開く",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "この外部ストレージでエラーが発生しました。設定ページでこのマウントポイントの設定を見直しますか？",
     "External mount error" : "外部マウントエラー",
     "List of external storage." : "外部ストレージの一覧。",
@@ -152,6 +151,7 @@
     "Credentials saved" : "資格情報を保存しました",
     "Credentials saving failed" : "資格情報の保存に失敗しました",
     "Credentials required" : "資格情報が必要です",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "これを無効にすると、大文字と小文字を区別しないファイルシステムを使用できるようになりますが、パフォーマンス上のペナルティが発生します。",
     "Name" : "名前"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

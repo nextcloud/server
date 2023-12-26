@@ -20,16 +20,18 @@
   -
   -->
 <template>
-	<NcAppNavigation data-cy-files-navigation>
+	<NcAppNavigation data-cy-files-navigation
+		:aria-label="t('files', 'Files')">
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
 				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
+				:exact="true"
 				:icon="view.iconClass"
+				:name="view.name"
 				:open="isExpanded(view)"
 				:pinned="view.sticky"
-				:name="view.name"
 				:to="generateToNavigation(view)"
 				@update:open="onToggleExpand(view)">
 				<!-- Sanitized icon as svg if provided -->
@@ -243,6 +245,10 @@ export default {
 .app-navigation::v-deep .app-navigation-entry-icon {
 	background-repeat: no-repeat;
 	background-position: center;
+}
+
+.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
+	color: var(--color-primary-element-text);
 }
 
 .app-navigation > ul.app-navigation__list {

@@ -50,9 +50,9 @@ interface ILimiter {
 	 *
 	 */
 	public function registerAnonRequest(string $identifier,
-										int    $anonLimit,
-										int    $anonPeriod,
-										string $ip): void;
+		int    $anonLimit,
+		int    $anonPeriod,
+		string $ip): void;
 
 	/**
 	 * Registers attempt for an authenticated request
@@ -66,7 +66,7 @@ interface ILimiter {
 	 *
 	 */
 	public function registerUserRequest(string $identifier,
-										int    $userLimit,
-										int    $userPeriod,
-										IUser  $user): void;
+		int    $userLimit,
+		int    $userPeriod,
+		IUser  $user): void;
 }

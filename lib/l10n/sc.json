@@ -4,6 +4,7 @@
     "See %s" : "Càstia %s",
     "Sample configuration detected" : "S'at agatadu una cunfiguratzione de esèmpiu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Est istadu iscobertu ca sa cunfiguratzione de esèmpiu est istada copiada. Custu podet blocare s'installatzione e no est suportadu. Leghe sa documentatzione in config.php antis de fàghere càmbios.",
+    "The page could not be found on the server." : "Impossìbile agatare custa pàgina in su serbidore.",
     "Other activities" : "Àteras atividades",
     "%1$s and %2$s" : "%1$s e %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s e %3$s",
@@ -214,7 +215,6 @@
     "Storage connection timeout. %s" : "Tempus de connessione a s'archiviatzione iscadidu. %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Is archìvios de s'aplicatzione %1$s no sunt istados cambiados in manera curreta. Assegura•ti chi b'apat una versione cumpatìbile cun su serbidore.",
     "Full name" : "Nùmene cumpletu",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Isceti custos caràteres sunt permìtidos in unu nùmene utente: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Est rechèdida a su mancu sa versione libxml2 2.7.0. Pro immoe cussa installada est sa%s.",
     "To fix this issue update your libxml2 version and restart your web server." : "Pro assentare custu problema, agiorna sa versione libxml2 e torra a aviare su serbidore ìnternet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -42,6 +42,8 @@ interface IFilesMetadataManager {
 	public const PROCESS_LIVE = 1;
 	/** @since 28.0.0 */
 	public const PROCESS_BACKGROUND = 2;
+	/** @since 28.0.0 */
+	public const PROCESS_NAMED = 4;
 
 	/**
 	 * initiate the process of refreshing the metadata in relation to a node
@@ -54,19 +56,22 @@ interface IFilesMetadataManager {
 	 *
 	 * @param Node $node related node
 	 * @param int $process type of process
+	 * @param string $namedEvent limit process to a named event
 	 *
 	 * @return IFilesMetadata
 	 * @see self::PROCESS_BACKGROUND
 	 * @see self::PROCESS_LIVE
+	 * @see self::PROCESS_NAMED
 	 * @since 28.0.0
 	 */
 	public function refreshMetadata(
 		Node $node,
-		int $process = self::PROCESS_LIVE
+		int $process = self::PROCESS_LIVE,
+		string $namedEvent = ''
 	): IFilesMetadata;
 
 	/**
-	 * returns metadata from a file id
+	 * returns metadata of a file id
 	 *
 	 * @param int $fileId file id
 	 * @param boolean $generate Generate if metadata does not exist
@@ -76,6 +81,17 @@ interface IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata;
+
+	/**
+	 * returns metadata of multiple file ids
+	 *
+	 * @param int[] $fileIds file ids
+	 *
+	 * @return array File ID is the array key, files without metadata are not returned in the array
+	 * @psalm-return array<int, IFilesMetadata>
+	 * @since 28.0.0
+	 */
+	public function getMetadataForFiles(array $fileIds): array;
 
 	/**
 	 * save metadata to database and refresh indexes.

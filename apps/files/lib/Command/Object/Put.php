@@ -46,7 +46,8 @@ class Put extends Command {
 			->setDescription('Write a file to the object store')
 			->addArgument('input', InputArgument::REQUIRED, "Source local path, use - to read from STDIN")
 			->addArgument('object', InputArgument::REQUIRED, "Object to write")
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket where to store the object, only required in cases where it can't be determined from the config");;
+			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket where to store the object, only required in cases where it can't be determined from the config");
+		;
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Đã xóa bình luận",
     "An error occurred while trying to delete the comment" : "Đã xảy ra lỗi khi cố gắng xóa bình luận",
     "An error occurred while trying to create the comment" : "Đã xảy ra lỗi khi cố gắng tạo bình luận",
-    "%1$s commented" : "%1$s được bình luận",
     "_%n unread comment_::_%n unread comments_" : ["%n bình luận chưa đọc"]
 },
 "nplurals=1; plural=0;");

@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Webアップデーターは100人以上のユーザーがいる場合には推奨されていないことにご注意ください！代わりに、コマンドラインアップデーターをご使用ください！",
     "Open updater" : "アップデーターを開く",
     "Download now" : "今すぐダウンロード",
-    "Please use the command line updater to update." : "コマンドラインアップデーターを使ってアップデートしてください。",
     "What's new?" : "新着情報？",
     "View changelog" : "変更履歴を確認する",
     "The update check is not yet finished. Please refresh the page." : "アップデートチェックが完了していません。ページを更新してください。",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Beta" : "ベータ",
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
-    "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
+    "Please use the command line updater to update." : "コマンドラインアップデーターを使ってアップデートしてください。",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "以下からアップデートチャンネルを変更すると、アプリの管理ページにも影響します。例えば、ベータチャンネルに切り替えると、アプリ管理ページにて、ベータアプリの更新が通知されたりします。",
     "Update channel:" : "アップデートチャンネル:"
 },

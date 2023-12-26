@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "Nem sikerült helyreállítani a verziót",
     "Could not set version name" : "Nem sikerült beállítani a verziónevet",
     "Could not delete version" : "Nem sikerült törölni a verziót",
-    "${version.label} restored" : "${version.label} helyreállítva",
-    "Failed to revert {file} to revision {timestamp}." : "A(z) {file} fájlt nem sikerült erre visszaállítani: {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
-    "Restore" : "Visszaállítás",
-    "No other versions available" : "Nincs másik elérhető verzió"
+    "${version.label} restored" : "${version.label} helyreállítva"
 },
 "nplurals=2; plural=(n != 1);");

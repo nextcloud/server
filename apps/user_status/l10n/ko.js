@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "이동 중",
     "Out sick" : "병가",
     "Vacationing" : "휴가 중",
+    "Out of office" : "자리에 없음",
     "Working remotely" : "원격 근무 중",
     "In a call" : "통화중",
     "User status" : "사용자 상태",

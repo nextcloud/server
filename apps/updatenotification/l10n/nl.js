@@ -18,7 +18,6 @@ OC.L10N.register(
     "Apps with compatible version" : "Apps met compatibele versie",
     "Open updater" : "Open updater",
     "Download now" : "Download nu",
-    "Please use the command line updater to update." : "Gebruik de commandoregel updater, om bij te werken.",
     "What's new?" : "Wat is nieuw?",
     "View changelog" : "Bekijk wijzigingenoverzicht",
     "The update check is not yet finished. Please refresh the page." : "De updatecontrole is niet afgerond. Ververs de pagina.",
@@ -41,7 +40,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
-    "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
+    "Please use the command line updater to update." : "Gebruik de commandoregel updater, om bij te werken.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Je kunt het updatekanaal hieronder wijzigen, wat ook van invloed is op de beheerpagina van apps. bijv. nadat je bent overgeschakeld naar het bètakanaal, worden bèta-app-updates aangeboden op de beheerpagina voor apps.",
     "Update channel:" : "Bijwerkkanaal:"
 },

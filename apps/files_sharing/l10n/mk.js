@@ -204,10 +204,8 @@ OC.L10N.register(
     "Note to recipient" : "Белешка до примачот",
     "Enter a note for the share recipient" : "Внесете белешка до примачот на споделуваето",
     "Create" : "Креирај",
-    "Update" : "Ажурирај",
     "Share" : "Сподели",
     "Delete share" : "Избриши споделување",
-    "Share with " : "Сподели со",
     "Save share" : "Зачувај споделување",
     "Update share" : "Ажурирај споделување",
     "Others with access" : "Други со пристап",
@@ -225,6 +223,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Врати споделување","Врати споделувања"],
     "Shared" : "Споделен",
     "Shared by {ownerDisplayName}" : "Споделено од {ownerDisplayName}",
+    "Show sharing options" : "Прикажи параметри за споделување",
     "Link to a file" : "Линк до датотеката",
     "Error creating the share: {errorMessage}" : "Грешка при креирање на споделување: {errorMessage}",
     "Error creating the share" : "Грешка при креирање на споделување",
@@ -293,12 +292,12 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Нешто се случи. Неможам да го прифатам споделувањето.",
     "Something happened. Unable to reject the share." : "Нешто се случи. Неможам да го одбијам споделувањето.",
     "No expiration date set" : "Не е поставен рок на траење",
-    "One or more of your shares will expire tomorrow" : "Едно или повеќе од твојте споделувања ќе истечат утре",
     "Allow creating" : "Дозволи креирање",
     "Allow deleting" : "Дозволи бришење",
     "Allow resharing" : "Дозволи повторно споделување",
     "Expiration date enforced" : "Задолжителен рок на траење",
     "Password protect" : "Заштити со лозинка",
-    "Error generating password from password_policy" : "Грешка при генерирање на лозинка од политиката на лозинки"
+    "Update" : "Ажурирај",
+    "Share with " : "Сподели со"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

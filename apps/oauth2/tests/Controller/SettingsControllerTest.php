@@ -26,14 +26,13 @@
  */
 namespace OCA\OAuth2\Tests\Controller;
 
-use OC\Authentication\Token\IToken;
-use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;

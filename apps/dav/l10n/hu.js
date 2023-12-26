@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Elutasítás",
     "More options …" : "További lehetőségek…",
     "More options at %s" : "További lehetőségek itt: %s",
-    "In a meeting" : "Találkozón",
     "Contacts" : "Névjegyek",
     "{actor} created address book {addressbook}" : "{actor} létrehozta a következő címjegyzéket: {addressbook}",
     "You created address book {addressbook}" : "Létrehozta a következő címjegyzéket: {addressbook}",
@@ -150,7 +149,7 @@ OC.L10N.register(
     "Due on %s by %s" : "Esedékesség: %s, %s által",
     "Due on %s" : "Esedékesség: %s",
     "No outstanding DAV system address book sync." : "Nincs kiemelkedő DAV rendszer címjegyzék szinkronizálás.",
-    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook." : "A DAV rendszer címjegyzék szinkronizációja még nem futott le, mert több, mint 1000 felhasználó található vagy hiba történt. Kérem futtasa manuálisan a következő paranccsal: \"occ dav:sync-system-addressbook\".",
+    "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "A DAV rendszer címjegyzék szinkronizációja még nem futott le, mert több, mint 1000 felhasználó található vagy hiba történt. Kérem futtassa manuálisan a következő paranccsal: \"occ dav:sync-system-addressbook\".",
     "Migrated calendar (%1$s)" : "Átköltöztetett naptár (%1$s)",
     "Calendars including events, details and attendees" : "Naptárak eseményekkel, részletekkel és résztvevőkkel",
     "Contacts and groups" : "Névjegyek és csoportok",
@@ -192,7 +191,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vegye fel a kapcsolatot közvetlenül a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
-    "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
-    "%1$s has responded your invitation" : "%1$s válaszolt a meghívására"
+    "Your attendance was updated successfully." : "A részvétele frissítése sikeres."
 },
 "nplurals=2; plural=(n != 1);");

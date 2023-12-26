@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace OCA\files_versions\tests;
 
 use OCA\Files_Versions\Expiration;
-use OCA\Files_Versions\Hooks;
 use OCA\Files_Versions\Storage;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;

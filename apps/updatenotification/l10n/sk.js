@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upozorňujeme, že webový aktualizátor sa neodporúča pre viac ako 100 používateľov! Namiesto toho použite nástroj na aktualizáciu príkazového riadku!",
     "Open updater" : "Otvoriť aktualizátor",
     "Download now" : "Stiahnuť teraz",
-    "Please use the command line updater to update." : "Použite prosím aktualizáciu cez príkazový riadok.",
     "What's new?" : "Čo je nové?",
     "View changelog" : "Zobraziť súhrn zmien",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizácií ešte neskončila. Obnovte prosím stránku.",
@@ -45,7 +44,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Verzia pred vydaním iba na testovanie nových funkcií, nevhodné pre ostrú prevádzku.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"],
-    "Update for %1$s to version %2$s is available." : "Pre %1$s je dostupná aktualizácia na verziu %2$s.",
+    "Please use the command line updater to update." : "Použite prosím aktualizáciu cez príkazový riadok.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Nižšie môžete zmeniť aktualizačný kanál, ktorý ovplyvní aj stránku správy aplikácií. Napr. po prepnutí na beta kanál vám budú na stránke správy aplikácií ponúknuté aktualizácie na beta verzie aplikácií.",
     "Update channel:" : "Aktualizačný kanál:"
 },

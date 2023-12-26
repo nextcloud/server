@@ -25,10 +25,10 @@ declare(strict_types=1);
  */
 namespace OC\Search;
 
-use OCP\Search\FilterDefinition;
-use OCP\Search\IFilter;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
 use RuntimeException;
 
 final class FilterFactory {

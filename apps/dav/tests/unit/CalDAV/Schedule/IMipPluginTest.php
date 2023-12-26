@@ -45,7 +45,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
-use Sabre\VObject\Property;
 use Test\TestCase;
 use function array_merge;
 
@@ -233,7 +232,7 @@ class IMipPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message,$newVevent, '1496912700')
+			->with($message, $newVevent, '1496912700')
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')

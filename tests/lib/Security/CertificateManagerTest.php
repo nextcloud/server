@@ -146,9 +146,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testNeedRebundling($CaBundleMtime,
-								$targetBundleMtime,
-								$targetBundleExists,
-								$expected
+		$targetBundleMtime,
+		$targetBundleExists,
+		$expected
 	) {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();

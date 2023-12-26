@@ -18,7 +18,6 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Huomioi, ettei päivitys selaimen kautta ole suositeltu yli 100 käyttäjän instansseissa! Tee sen sijaan päivitys komentoriviltä.",
     "Open updater" : "Avaa päivittäjä",
     "Download now" : "Lataa heti",
-    "Please use the command line updater to update." : "Käytä komentorivipäivitintä päivittääksesi.",
     "What's new?" : "Mitä uutta?",
     "View changelog" : "Näytä muutosloki",
     "The update check is not yet finished. Please refresh the page." : "Päivitystarkistus ei ole vielä valmis. Päivitä sivu.",
@@ -45,7 +44,7 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Esijulkaisuversio uusien toimintojen testaukseen, ei tuotantoympäristöille.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
-    "Update for %1$s to version %2$s is available." : "Kohteen %1$s päivitys versioon %2$s on saatavilla.",
+    "Please use the command line updater to update." : "Käytä komentorivipäivitintä päivittääksesi.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Voit vaihtaa päivityskanavan alapuolelta, se vaikuttaa myös sovellushallinnan sivuun. Jos vaihdat esimerkiksi beetakanavaan, sovellusten beetapäivityksiä tarjotaan sovellushallinnan sivun kautta.",
     "Update channel:" : "Päivityskanava:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

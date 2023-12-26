@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Core\Db\ProfileConfigMapper;
+use OC\Profile\ProfileManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -37,7 +38,6 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OC\Profile\ProfileManager;
 
 class ProfileApiController extends OCSController {
 	public function __construct(

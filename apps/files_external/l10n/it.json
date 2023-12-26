@@ -87,6 +87,8 @@
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Condividi",
     "Show hidden files" : "Mostra i file nascosti",
+    "Case sensitive file system" : "File system case sensitive",
+    "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Disattivandolo, sarà possibile usare un file system non sensibile alle maiuscole, ma comporta una riduzione di prestazioni",
     "Verify ACL access when listing files" : "Verifica le ACL di accesso quando elenchi i file",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Controlla le ACL di ogni file o cartella all'interno di una cartella per filtrare elementi dove l'utente non ha permessi di lettura, implica una riduzione di prestazioni",
     "Timeout" : "Tempo scaduto",
@@ -108,7 +110,7 @@
     "There was an error with this external storage." : "Si è verificato un errore con questa archiviazione esterna.",
     "We were unable to check the external storage {basename}" : "Non è stato possibile controllare l'archiviazione esterna {basename}",
     "Examine this faulty external storage configuration" : "Esamina questa configurazione errata di archiviazione esterna",
-    "Open in files" : "Apri in file",
+    "Open in Files" : "Apri in File",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Si è verificato un errore con questa archiviazione esterna. Vuoi rivedere la configurazione del punto di mount nelle impostazioni?",
     "External mount error" : "Errore di mount esterno",
     "List of external storage." : "Lista di archiviazioni esterne.",
@@ -150,6 +152,7 @@
     "Credentials saved" : "Credenziali salvate",
     "Credentials saving failed" : "Salvataggio delle credenziali non riuscito",
     "Credentials required" : "Credenziali richieste",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Disattivandolo, sarà possibile usare un file system non sensibile alle maiuscole, ma comporta una riduzione di prestazioni",
     "Name" : "Nome"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

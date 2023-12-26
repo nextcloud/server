@@ -89,11 +89,12 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'calendar.View.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('calendar')) {
+			return $route === 'calendar.View.index' ? -1 : 30;
 		}
-		return 30;
+
+		return null;
 	}
 
 	/**
@@ -153,7 +154,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			);
 
 			$searchResultIndex = array_combine(
-				array_map(fn($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
+				array_map(fn ($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
 				array_fill(0, count($searchResults), null),
 			);
 			foreach ($attendeeSearchResults as $attendeeResult) {

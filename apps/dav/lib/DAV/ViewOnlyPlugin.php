@@ -26,10 +26,10 @@ use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
-use Sabre\DAV\Exception\NotFound;
 
 /**
  * Sabre plugin for restricting file share receiver download:
@@ -74,7 +74,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 			if ($davNode instanceof DavFile) {
 				// Restrict view-only to nodes which are shared
 				$node = $davNode->getNode();
-			} else if ($davNode instanceof VersionFile) {
+			} elseif ($davNode instanceof VersionFile) {
 				$node = $davNode->getVersion()->getSourceFile();
 			} else {
 				return true;

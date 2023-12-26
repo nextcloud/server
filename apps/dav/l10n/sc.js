@@ -69,7 +69,6 @@ OC.L10N.register(
     "Decline" : "Refuda",
     "More options …" : "Àteras optziones ...",
     "More options at %s" : "Àteras optziones a is %s",
-    "In a meeting" : "In riunione",
     "Contacts" : "Cuntatos",
     "{actor} created address book {addressbook}" : "{actor} at creadu sa rubrica {addressbook}",
     "You created address book {addressbook}" : "As creadu sa rubrica {addressbook}",

@@ -205,10 +205,8 @@ OC.L10N.register(
     "Note to recipient" : "받는이에게 메모",
     "Enter a note for the share recipient" : "받는이를 위한 메모 입력",
     "Create" : "생성",
-    "Update" : "업데이트",
     "Share" : "공유",
     "Delete share" : "공유 삭제",
-    "Share with " : "공유 받는이:",
     "Save share" : "공유 저장",
     "Update share" : "공유 업데이트",
     "Others with access" : "접근할 수 있는 다른 사용자",
@@ -225,6 +223,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["공유 거절"],
     "_Restore share_::_Restore shares_" : ["공유 복원"],
     "Shared" : "공유됨",
+    "Shared by {ownerDisplayName}" : "{ownerDisplayName}이 변경함",
     "Link to a file" : "파일로 향한 링크",
     "Error creating the share: {errorMessage}" : "공유를 만드는 중 오류 발생: {errorMessage}",
     "Error creating the share" : "공유를 만드는 중 오류 발생",
@@ -294,12 +293,12 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "공유를 거절할 수 없습니다.",
     "No expiration date set" : "만료 날짜가 설정되지 않았음",
     "Sharing %s failed because the back end does not support sciencemesh shares" : "백엔드가 ScienceMesh 공유를 지원하지 않기 때문에 %s의 공유가 실패했습니다.",
-    "One or more of your shares will expire tomorrow" : "하나 이상의 공유가 내일 만료됩니다.",
     "Allow creating" : "생성 수락",
     "Allow deleting" : "삭제 수락",
     "Allow resharing" : "재공유 허용",
     "Expiration date enforced" : "만료 날짜 적용",
     "Password protect" : "암호 보호",
-    "Error generating password from password_policy" : "password_policy에서 암호 생성 중에 오류 발생"
+    "Update" : "업데이트",
+    "Share with " : "공유 받는이:"
 },
 "nplurals=1; plural=0;");

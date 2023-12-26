@@ -98,8 +98,6 @@ OC.L10N.register(
     "Request user agent" : "요청 사용자 에이전트",
     "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
-    "is not member of" : "구성원이 아님",
-    "Predefined URLs" : "사전 정의된 URL",
-    "Others" : "기타"
+    "is not member of" : "구성원이 아님"
 },
 "nplurals=1; plural=0;");

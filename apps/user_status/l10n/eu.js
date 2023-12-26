@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Lanerako bidean",
     "Out sick" : "Gaixorik",
     "Vacationing" : "Oporretan",
+    "Out of office" : "Bulegotik kanpo",
     "Working remotely" : "Urrutitik lanean",
     "In a call" : "Dei batean",
     "User status" : "Erabiltzaile-egoera",

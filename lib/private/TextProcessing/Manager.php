@@ -27,21 +27,22 @@ namespace OC\TextProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\TextProcessing\Db\Task as DbTask;
-use OCP\IConfig;
-use OCP\TextProcessing\Exception\TaskFailureException;
-use OCP\TextProcessing\IProviderWithExpectedRuntime;
-use OCP\TextProcessing\Task;
-use OCP\TextProcessing\Task as OCPTask;
 use OC\TextProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
+use OCP\IConfig;
 use OCP\IServerContainer;
+use OCP\PreConditionNotMetException;
+use OCP\TextProcessing\Exception\TaskFailureException;
 use OCP\TextProcessing\IManager;
 use OCP\TextProcessing\IProvider;
-use OCP\PreConditionNotMetException;
+use OCP\TextProcessing\IProviderWithExpectedRuntime;
+use OCP\TextProcessing\IProviderWithId;
+use OCP\TextProcessing\Task;
+use OCP\TextProcessing\Task as OCPTask;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -282,7 +283,12 @@ class Manager implements IManager {
 			$preferences = json_decode($json, true);
 			if (isset($preferences[$task->getType()])) {
 				// If a preference for this task type is set, move the preferred provider to the start
-				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider::class === $preferences[$task->getType()])));
+				$provider = current(array_values(array_filter($providers, function ($provider) use ($preferences, $task) {
+					if ($provider instanceof IProviderWithId) {
+						return $provider->getId() === $preferences[$task->getType()];
+					}
+					$provider::class === $preferences[$task->getType()];
+				})));
 				if ($provider !== false) {
 					$providers = array_filter($providers, fn ($p) => $p !== $provider);
 					array_unshift($providers, $provider);

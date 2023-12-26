@@ -18,10 +18,6 @@ OC.L10N.register(
     "Could not restore version" : "Versiooni taastamine ebaõnnestus",
     "Could not set version name" : "Versiooni nime seadmine ebaõnnestus",
     "Could not delete version" : "Versiooni kustutamine ebaõnnestus",
-    "${version.label} restored" : "${version.label} taastatud",
-    "Failed to revert {file} to revision {timestamp}." : "Faili {file} taastamine revisjonile {timestamp} ebaõnnestus",
-    "_%n byte_::_%n bytes_" : ["%n bait","%n baiti"],
-    "Restore" : "Taasta",
-    "No other versions available" : "Muid versioone pole saadaval"
+    "${version.label} restored" : "${version.label} taastatud"
 },
 "nplurals=2; plural=(n != 1);");

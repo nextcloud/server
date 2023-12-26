@@ -26,9 +26,9 @@
  *
  */
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Cookie\CookieJar;
 
 require __DIR__ . '/../../vendor/autoload.php';
 

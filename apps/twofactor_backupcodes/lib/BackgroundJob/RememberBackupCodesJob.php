@@ -49,10 +49,10 @@ class RememberBackupCodesJob extends TimedJob {
 	private $jobList;
 
 	public function __construct(IRegistry $registry,
-								IUserManager $userManager,
-								ITimeFactory $timeFactory,
-								IManager $notificationManager,
-								IJobList $jobList) {
+		IUserManager $userManager,
+		ITimeFactory $timeFactory,
+		IManager $notificationManager,
+		IJobList $jobList) {
 		parent::__construct($timeFactory);
 		$this->registry = $registry;
 		$this->userManager = $userManager;

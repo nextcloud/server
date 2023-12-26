@@ -31,14 +31,14 @@ use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
-use OCP\EventDispatcher\IEventDispatcher;
-use Test\TestCase;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | TrustedServers */

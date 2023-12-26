@@ -23,8 +23,8 @@
 namespace OC\Core\Command\User\AuthTokens;
 
 use DateTimeImmutable;
-use OC\Core\Command\Base;
 use OC\Authentication\Token\IProvider;
+use OC\Core\Command\Base;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;

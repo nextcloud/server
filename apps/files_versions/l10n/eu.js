@@ -21,10 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "Ezin izan da bertsioa leheneratu",
     "Could not set version name" : "Ezin izan da bertsioaren izena ezarri",
     "Could not delete version" : "Ezin izan da bertsioa ezabatu",
-    "${version.label} restored" : "${version.label} leheneratuta",
-    "Failed to revert {file} to revision {timestamp}." : "Errorea egon da {fitxategia} {timestamp} bertsiora leheneratzean.",
-    "_%n byte_::_%n bytes_" : ["%nbyte","%n bytes"],
-    "Restore" : "Leheneratu",
-    "No other versions available" : "Ez dago bertsio gehiago eskuragarri"
+    "${version.label} restored" : "${version.label} leheneratuta"
 },
 "nplurals=2; plural=(n != 1);");
