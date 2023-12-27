@@ -163,6 +163,7 @@ class SharingTest extends TestCase {
 						'allowLinksExcludeGroups' => [],
 						'passwordExcludedGroups' => [],
 						'passwordExcludedGroupsFeatureEnabled' => false,
+						'onlyShareWithGroupMembersExcludeGroupList' => [],
 					]
 				],
 			);
@@ -254,6 +255,7 @@ class SharingTest extends TestCase {
 						'allowLinksExcludeGroups' => [],
 						'passwordExcludedGroups' => [],
 						'passwordExcludedGroupsFeatureEnabled' => false,
+						'onlyShareWithGroupMembersExcludeGroupList' => [],
 					]
 				],
 			);
