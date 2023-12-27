@@ -81,7 +81,7 @@ class Util {
 	 * @param ?bool $brightBackground
 	 * @return string
 	 */
-	public function elementColor($color, ?bool $brightBackground = null, ?string $backgroundColor = null) {
+	public function elementColor($color, ?bool $brightBackground = null, ?string $backgroundColor = null, bool $highContrast = false) {
 		if ($backgroundColor !== null) {
 			$brightBackground = $brightBackground ?? $this->isBrightColor($backgroundColor);
 			// Minimal amount that is possible to change the luminance
@@ -93,7 +93,9 @@ class Util {
 			$contrast = $this->colorContrast($color, $blurredBackground);
 
 			// Min. element contrast is 3:1 but we need to keep hover states in mind -> min 3.2:1
-			while ($contrast < 3.2 && $iteration++ < 100) {
+			$minContrast = $highContrast ? 5.5 : 3.2;
+
+			while ($contrast < $minContrast && $iteration++ < 100) {
 				$hsl = Color::hexToHsl($color);
 				$hsl['L'] = max(0, min(1, $hsl['L'] + ($brightBackground ? -$epsilon : $epsilon)));
 				$color = '#' . Color::hslToHex($hsl);
