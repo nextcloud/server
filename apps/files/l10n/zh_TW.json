@@ -167,6 +167,7 @@
     "The ownership transfer of {path} from {user} has completed." : "來自 {user} 的 {path} 所有權轉移已經完成。",
     "in %s" : "在 %s",
     "File Management" : "檔案管理",
+    "Current directory path" : "目前目錄路徑",
     "Reload current directory" : "重新載入目前的目錄",
     "Go to the \"{dir}\" directory" : "到「{dir}」目錄",
     "Drag and drop files here to upload" : "將檔案拖曳到此處以上傳",

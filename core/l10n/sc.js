@@ -413,7 +413,6 @@ OC.L10N.register(
     "Failed to authenticate, try again" : "Impossìbile a s'autenticare, torra a proare",
     "The page could not be found on the server." : "Impossìbile agatare custa pàgina in su serbidore.",
     "App token" : "Autenticadore de s'aplicatzione",
-    "Alternative log in using app token" : "Atzessu alternativu cun s'autenticadore de s'aplicatzione",
-    "Start typing in search" : "Cumintza a iscrìere in sa chirca"
+    "Alternative log in using app token" : "Atzessu alternativu cun s'autenticadore de s'aplicatzione"
 },
 "nplurals=2; plural=(n != 1);");
