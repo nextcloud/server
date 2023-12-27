@@ -38,6 +38,7 @@ namespace OC\DB;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -55,7 +56,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
 use Psr\Log\LoggerInterface;
 
-class Connection extends \Doctrine\DBAL\Connection {
+class Connection extends PrimaryReadReplicaConnection {
 	/** @var string */
 	protected $tablePrefix;
 
@@ -119,7 +120,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/**
 	 * @throws Exception
 	 */
-	public function connect() {
+	public function connect($connectionName = null) {
 		try {
 			if ($this->_conn) {
 				/** @psalm-suppress InternalMethod */
@@ -301,6 +302,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
 				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
 			}
+
+			// FIXME:  Improve to log the actual target db host
+			$isPrimary = $this->connections['primary'] === $this->_conn;
+			$prefix .= ' ' . ($isPrimary === true ? 'primary' : 'replica') . ' ';
 
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
@@ -602,5 +607,15 @@ class Connection extends \Doctrine\DBAL\Connection {
 		} else {
 			return new Migrator($this, $config, $dispatcher);
 		}
+	}
+
+	protected function performConnect(?string $connectionName = null): bool {
+		$before = $this->isConnectedToPrimary();
+		$result = parent::performConnect($connectionName);
+		$after = $this->isConnectedToPrimary();
+		if (!$before && $after) {
+			$this->logger->debug('Switched to primary database', ['exception' => new \Exception()]);
+		}
+		return $result;
 	}
 }

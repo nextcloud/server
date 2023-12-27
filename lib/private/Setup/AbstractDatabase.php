@@ -141,7 +141,7 @@ abstract class AbstractDatabase {
 			$connectionParams['host'] = $host;
 		}
 
-		$connectionParams = array_merge($connectionParams, $configOverwrite);
+		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]], $configOverwrite);
 		$cf = new ConnectionFactory($this->config);
 		return $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
 	}
