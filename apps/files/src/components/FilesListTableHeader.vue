@@ -21,7 +21,8 @@
   -->
 <template>
 	<tr class="files-list__row-head">
-		<th class="files-list__column files-list__row-checkbox">
+		<th class="files-list__column files-list__row-checkbox"
+			@keyup.esc.exact="resetSelection">
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
@@ -202,6 +203,10 @@ export default Vue.extend({
 				logger.debug('Cleared selection')
 				this.selectionStore.reset()
 			}
+		},
+
+		resetSelection() {
+			this.selectionStore.reset()
 		},
 
 		t: translate,
