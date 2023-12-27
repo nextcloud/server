@@ -239,7 +239,7 @@ class Scanner extends PublicEmitter {
 				}
 			}
 
-			// don't scan received local shares, these can be scanned when scanning the owner's storage
+			// don't scan received local shares or collectives, these can be scanned when scanning the owner's storage
 			if ($storage->instanceOfStorage(SharedStorage::class) || $storage->instanceOfStorage(CollectiveStorage::class)) {
 				continue;
 			}
