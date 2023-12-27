@@ -435,7 +435,6 @@
     "App token" : "Apptoken",
     "Alternative log in using app token" : "Alternativ inloggning med apptoken",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databasen används till transaktionsbaserad fillåsning. För att förbättra prestandan, konfigurera memcache om tillgängligt. Se {linkstart}Dokumentationen ↗{linkend} för mer information.",
-    "Avatar of {fullName}" : "Avatar för {fullName}",
-    "Start typing in search" : "Börja skriva i sökningen"
+    "Avatar of {fullName}" : "Avatar för {fullName}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
