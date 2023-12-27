@@ -63,6 +63,7 @@ class Sharing implements IDelegatedSettings {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		$linksExcludedGroups = $this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '');
 		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
+		$onlyShareWithGroupMembersExcludeGroupList = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 
 		$parameters = [
 			// Built-In Sharing
@@ -83,6 +84,7 @@ class Sharing implements IDelegatedSettings {
 			'passwordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
 			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
+			'onlyShareWithGroupMembersExcludeGroupList' => json_decode($onlyShareWithGroupMembersExcludeGroupList) ?? [],
 			'defaultExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_expire_date'),
 			'expireAfterNDays' => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
 			'enforceExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_expire_date'),
