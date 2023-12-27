@@ -447,7 +447,6 @@
     "Alternative log in using app token" : "Alternatívne prihlásenie pomocou tokenu aplikácie",
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Vaša vzdialená adresa bola identifikovaná ako \"{remoteAddress}\" a rýchlosť vybavovania požiadaviek z nej je v tejto chvíli obmedzovaná kvôli ochrane proti útokom heslom (bruteforce). Ak vzdialená adresa nie je vaša, môže to znamenať, že nie je správna nastavená proxy. Podrobnosti sú k dispozícii v {linkstart}dokumentácii ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databáza sa používa pre transakčné zamykanie súborov. Ak chcete zvýšiť výkon, nastavte memcache, ak je k dispozícií. Ďalšie informácie nájdete v {linkstart}dokumentácií ↗{linkend}.",
-    "Avatar of {fullName}" : "Avatar užívateľa {fullName}",
-    "Start typing in search" : "Začnite písať do vyhľadávania"
+    "Avatar of {fullName}" : "Avatar užívateľa {fullName}"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

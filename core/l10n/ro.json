@@ -449,7 +449,6 @@
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "Adresa ta a fost identificată ca \"{remoteAddress}\" și este în prezent limitată datorită protecției împotriva atacurilor, performanța fiind degradată. Dacă această adresă nu este a ta, poate fi un indiciu că un proxy nu este configurat corect. Informații suplimentare se pot găsi în {linkstart}documentație↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Pentru blocarea tranzacțională a fișierelor este folosită baza de date. Pentru îmbunătățirea performanței, configurați memcache, dacă este disponibilă. Vedeți {linkstart}documentația ↗{linkend} pentru mai multe informații.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 este abandonat de la Nextcloud 27. Nextcloud 28 necesită cel puțin PHP 8.1. Faceți upgrade la {linkstart} o versiune PHP suportată oficial, furnizată de PHP Group ↗{linkend} cât mai repede.",
-    "Avatar of {fullName}" : "Avatarul {fullName}",
-    "Start typing in search" : "Tastați în căutare"
+    "Avatar of {fullName}" : "Avatarul {fullName}"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

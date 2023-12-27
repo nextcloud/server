@@ -455,7 +455,6 @@ OC.L10N.register(
     "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "A távoli címe a következőként lett azonosítva: „{remoteAddress}”, és a különböző kéréseit lelassítja a nyers erős támadás elleni védelem. Ha a távoli cím nem az IP-címe, akkor ez azt jelentheti, hogy a proxy nincs helyesen beállítva. További információk találhatók a {linkstart}dokumentációban ↗{linkend}.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Az adatbázis a tranzakciós fájlzároláshoz használatos. A teljesítmény növeléséhez állítson be memcache-t, ha az elérhető. További információkért lásd a {linkstart}dokumentációt ↗{linkend}.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "A PHP 8.0 már elavult a Nextcloud 27-ben. A Nextcloud 28-hoz legalább PHP 8.1 szükséges. Amint csak lehet frissítsen a {linkstart}PHP Group által hivatalosan támogatott PHP-verzió egyikére ↗{linkend}.",
-    "Avatar of {fullName}" : "{fullName} profilképe",
-    "Start typing in search" : "Kezdjen el gépelni a keresésben"
+    "Avatar of {fullName}" : "{fullName} profilképe"
 },
 "nplurals=2; plural=(n != 1);");

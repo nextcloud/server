@@ -431,7 +431,6 @@ OC.L10N.register(
     "App token" : "Teikn forrits",
     "Alternative log in using app token" : "Önnur innskráning með forritsteikni",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Gagnagrunnurinn er notaður fyrir færslulæsingu skráa. Til að auka afköst ættirðu að setja upp skyndiminni (með memcache) ef það er tiltækt. Skoðaðu {linkstart}hjálparskjölin ↗{linkend} til að sjá nánari upplýsingar.",
-    "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}",
-    "Start typing in search" : "Byrjaðu að skrifa til að leita"
+    "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
