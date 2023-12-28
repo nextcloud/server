@@ -34,8 +34,8 @@
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
-							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
-							<ShareVariantIcon v-else :size="20" />
+							<FolderAccountIcon v-if="shareButtonType !== null" />
+							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
 
@@ -135,7 +135,7 @@ import { UploadPicker } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
-import LinkIcon from 'vue-material-design-icons/Link.vue'
+import FolderAccountIcon from 'vue-material-design-icons/FolderAccount.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -143,7 +143,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -169,7 +169,6 @@ export default defineComponent({
 		BreadCrumbs,
 		DragAndDropNotice,
 		FilesListVirtual,
-		LinkIcon,
 		ListViewIcon,
 		NcAppContent,
 		NcButton,
@@ -177,9 +176,10 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		PlusIcon,
-		ShareVariantIcon,
+		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
+		FolderAccountIcon,
 	},
 
 	mixins: [
