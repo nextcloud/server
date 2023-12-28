@@ -1689,9 +1689,6 @@
     <InvalidReturnType>
       <code>string</code>
     </InvalidReturnType>
-    <ParamNameMismatch>
-      <code>$uid</code>
-    </ParamNameMismatch>
   </file>
   <file src="apps/workflowengine/lib/Listener/LoadAdditionalSettingsScriptsListener.php">
     <MissingTemplateParam>
