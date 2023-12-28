@@ -511,7 +511,7 @@ OC.L10N.register(
     "{license}-licensed" : "{license}-に許諾されています",
     "Changelog" : "変更履歴",
     "by {author}\n{license}" : "作者 {author}\n{license}",
-    "Active users" : "アクティブユーザー数",
+    "Active users" : "アクティブユーザー",
     "Admins" : "管理者",
     "Disabled users" : "無効なユーザー",
     "Creating group …" : "グループを作成 ...",
