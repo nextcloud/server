@@ -105,6 +105,7 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import moment from '@nextcloud/moment'
+import { generateUrl } from '@nextcloud/router'
 import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -398,8 +399,14 @@ export default defineComponent({
 			event.stopPropagation()
 		},
 
-		execDefaultAction(...args) {
-			this.$refs.actions.execDefaultAction(...args)
+		execDefaultAction(event) {
+			event.preventDefault()
+			if (event.ctrlKey || event.metaKey) {
+				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
+				return false
+			}
+
+			this.$refs.actions.execDefaultAction(event)
 		},
 
 		openDetailsIfAvailable(event) {
