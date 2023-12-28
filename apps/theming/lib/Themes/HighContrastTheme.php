@@ -59,17 +59,25 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 
+		$colorError = '#D10000';
+		$colorWarning = '#995900';
+		$colorSuccess = '#207830';
+		$colorInfo = '#006DA8';
+
+		$primaryVariables = $this->generatePrimaryVariables($colorMainBackground, $colorMainText, true);
 		return array_merge(
 			$defaultVariables,
-			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
+			$primaryVariables,
 			[
+				'--color-primary-element-text-dark' => $primaryVariables['--color-primary-element-text'],
+
 				'--color-main-background' => $colorMainBackground,
 				'--color-main-background-rgb' => $colorMainBackgroundRGB,
 				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
 				'--color-main-text' => $colorMainText,
 
-				'--color-background-dark' => $this->util->darken($colorMainBackground, 30),
-				'--color-background-darker' => $this->util->darken($colorMainBackground, 30),
+				'--color-background-dark' => $this->util->darken($colorMainBackground, 20),
+				'--color-background-darker' => $this->util->darken($colorMainBackground, 20),
 
 				'--color-main-background-blur' => $colorMainBackground,
 				'--filter-background-blur' => 'none',
@@ -81,6 +89,26 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast-background-blur' => $colorMainText,
 				'--color-text-light' => $colorMainText,
 				'--color-text-lighter' => $colorMainText,
+
+				'--color-error' => $colorError,
+				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+				'--color-error-hover' => $this->util->darken($colorError, 8),
+				'--color-error-text' => $this->util->darken($colorError, 17),
+
+				'--color-warning' => $colorWarning,
+				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+				'--color-warning-hover' => $this->util->darken($colorWarning, 7),
+				'--color-warning-text' => $this->util->darken($colorWarning, 13),
+
+				'--color-info' => $colorInfo,
+				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+				'--color-info-hover' => $this->util->darken($colorInfo, 7),
+				'--color-info-text' => $this->util->darken($colorInfo, 15),
+
+				'--color-success' => $colorSuccess,
+				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+				'--color-success-hover' => $this->util->darken($colorSuccess, 7),
+				'--color-success-text' => $this->util->darken($colorSuccess, 14),
 
 				'--color-scrollbar' => $this->util->darken($colorMainBackground, 25),
 
