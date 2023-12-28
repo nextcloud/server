@@ -198,7 +198,7 @@ trait S3ObjectTrait {
 
 		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
 
-		if ($size > $this->copySizeLimit) {
+		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
 			$copy = new MultipartCopy($this->getConnection(), [
 				"source_bucket" => $this->getBucket(),
 				"source_key" => $from

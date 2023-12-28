@@ -74,6 +74,8 @@ trait S3ConnectionTrait {
 	/** @var int */
 	private $copySizeLimit;
 
+	private bool $useMultipartCopy = true;
+
 	protected $test;
 
 	protected function parseParams($params) {
@@ -91,6 +93,7 @@ trait S3ConnectionTrait {
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
+		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
