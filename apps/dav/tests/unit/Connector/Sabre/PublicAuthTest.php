@@ -62,18 +62,10 @@ class PublicAuthTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = $this->getMockBuilder(ISession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->shareManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->throttler = $this->getMockBuilder(IThrottler::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->session = $this->createMock(ISession::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->auth = new \OCA\DAV\Connector\Sabre\PublicAuth(

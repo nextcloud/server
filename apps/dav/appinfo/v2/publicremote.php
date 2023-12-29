@@ -30,57 +30,77 @@
  *
  */
 
+use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\View;
+use OCA\DAV\Storage\PublicOwnerWrapper;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Mount\IMountManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\ITagManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Security\Bruteforce\IThrottler;
+use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\DAV\Exception\NotFound;
 
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
-
 OC_App::loadApps($RUNTIME_APPTYPES);
-
 OC_Util::obEnd();
-\OC::$server->getSession()->close();
+
+$session = \OCP\Server::get(ISession::class);
+$request = \OCP\Server::get(IRequest::class);
+
+$session->close();
+$requestUri = $request->getRequestUri();
 
 // Backends
 $authBackend = new OCA\DAV\Connector\Sabre\PublicAuth(
-	\OC::$server->getRequest(),
-	\OC::$server->getShareManager(),
-	\OC::$server->getSession(),
-	\OC::$server->getBruteForceThrottler(),
-	\OC::$server->query(LoggerInterface::class)
+	$request,
+	\OCP\Server::get(IManager::class),
+	$session,
+	\OCP\Server::get(IThrottler::class),
+	\OCP\Server::get(LoggerInterface::class)
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
+$l10nFactory = \OCP\Server::get(IFactory::class);
 $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
-	\OC::$server->getConfig(),
-	\OC::$server->get(Psr\Log\LoggerInterface::class),
-	\OC::$server->getDatabaseConnection(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getMountManager(),
-	\OC::$server->getTagManager(),
-	\OC::$server->getRequest(),
-	\OC::$server->getPreviewManager(),
-	\OC::$server->query(IEventDispatcher::class),
-	\OC::$server->getL10N('dav')
+	\OCP\Server::get(IConfig::class),
+	\OCP\Server::get(LoggerInterface::class),
+	\OCP\Server::get(IDBConnection::class),
+	\OCP\Server::get(IUserSession::class),
+	\OCP\Server::get(IMountManager::class),
+	\OCP\Server::get(ITagManager::class),
+	$request,
+	\OCP\Server::get(IPreview::class),
+	\OCP\Server::get(IEventDispatcher::class),
+	$l10nFactory->get('dav'),
 );
 
-$requestUri = \OC::$server->getRequest()->getRequestUri();
 
 $linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
 $filesDropPlugin = new \OCA\DAV\Files\Sharing\FilesDropPlugin();
 
 // Define root url with /public.php/dav/files/TOKEN
-// $baseuri is defined in public.php
+/** @var string $baseuri defined in public.php */
 preg_match('/(^files\/\w+)/i', substr($requestUri, strlen($baseuri)), $match);
 $baseuri = $baseuri . $match[0];
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	$isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider $shareProvider */
-	$federatedShareProvider = \OC::$server->query(\OCA\FederatedFileSharing\FederatedShareProvider::class);
+	$federatedShareProvider = \OCP\Server::get(FederatedShareProvider::class);
 	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 		// this is what is thrown when trying to access a non-existing share
-		throw new \Sabre\DAV\Exception\NotAuthenticated();
+		throw new NotAuthenticated();
 	}
 
 	$share = $authBackend->getShare();
@@ -89,23 +109,23 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	$fileId = $share->getNodeId();
 
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
-	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
-	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new \OC\Files\Storage\Wrapper\PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE]);
+	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
+	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
+		return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE]);
 	});
-	\OC\Files\Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
-		return new \OCA\DAV\Storage\PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
+	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 	});
-	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
+	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	OC_Util::tearDownFS();
 	OC_Util::setupFS($owner);
-	$ownerView = new \OC\Files\View('/'. $owner . '/files');
+	$ownerView = new View('/'. $owner . '/files');
 	$path = $ownerView->getPath($fileId);
 	$fileInfo = $ownerView->getFileInfo($path);
 
 	if ($fileInfo === false) {
-		throw new \Sabre\DAV\Exception\NotFound();
+		throw new NotFound();
 	}
 
 	$linkCheckPlugin->setFileInfo($fileInfo);
@@ -115,7 +135,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 		$filesDropPlugin->enable();
 	}
 
-	$view = new \OC\Files\View($ownerView->getAbsolutePath($path));
+	$view = new View($ownerView->getAbsolutePath($path));
 	$filesDropPlugin->setView($view);
 
 	return $view;
