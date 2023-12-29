@@ -58,7 +58,7 @@ class DashboardApiController extends OCSController {
 	private $dashboardManager;
 	/** @var IConfig */
 	private $config;
-	/** @var string|null */
+	/** @var string */
 	private $userId;
 
 	public function __construct(
@@ -66,7 +66,7 @@ class DashboardApiController extends OCSController {
 		IRequest $request,
 		IManager $dashboardManager,
 		IConfig $config,
-		?string $userId
+		string $userId
 	) {
 		parent::__construct($appName, $request);
 
