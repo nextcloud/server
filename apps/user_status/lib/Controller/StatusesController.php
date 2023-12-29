@@ -39,6 +39,7 @@ use OCP\IRequest;
 use OCP\UserStatus\IUserStatus;
 
 /**
+ * @psalm-import-type UserStatusType from ResponseDefinitions
  * @psalm-import-type UserStatusPublic from ResponseDefinitions
  */
 class StatusesController extends OCSController {
@@ -105,6 +106,7 @@ class StatusesController extends OCSController {
 	 * @return UserStatusPublic
 	 */
 	private function formatStatus(UserStatus $status): array {
+		/** @var UserStatusType $visibleStatus */
 		$visibleStatus = $status->getStatus();
 		if ($visibleStatus === IUserStatus::INVISIBLE) {
 			$visibleStatus = IUserStatus::OFFLINE;
