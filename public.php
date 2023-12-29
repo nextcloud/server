@@ -36,7 +36,7 @@ require_once __DIR__ . '/lib/versioncheck.php';
  * @param $service
  * @return string
  */
-function resolveService($service) {
+function resolveService(string $service): string {
 	$services = [
 		'webdav' => 'dav/appinfo/v1/publicwebdav.php',
 		'dav' => 'dav/appinfo/v2/publicremote.php',
@@ -74,7 +74,7 @@ try {
 
 	$file = resolveService($service);
 
-	if (is_null($file)) {
+	if (!$file) {
 		throw new RemoteException('Path not found', 404);
 	}
 

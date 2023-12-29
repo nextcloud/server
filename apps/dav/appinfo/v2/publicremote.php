@@ -109,13 +109,20 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	$fileId = $share->getNodeId();
 
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
+	/** @psalm-suppress InternalMethod */
 	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
+
+	/** @psalm-suppress MissingClosureParamType */
 	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
 		return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE]);
 	});
+
+	/** @psalm-suppress MissingClosureParamType */
 	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
 		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 	});
+
+	/** @psalm-suppress InternalMethod */
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	OC_Util::tearDownFS();
