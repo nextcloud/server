@@ -182,7 +182,7 @@ OC.L10N.register(
     "File name" : "Nome do arquivo",
     "Folder name" : "Nome da pasta",
     "This node is unavailable" : "Este nó está indisponível",
-    "Download file {name}" : "Baixe o arquivo {nome}",
+    "Download file {name}" : "Baixe o arquivo {name}",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" não é um tipo de arquivo permitido.",
     "{newName} already exists." : "{newName} já existe.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" não é permitido dentro de um nome de arquivo.",
