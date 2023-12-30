@@ -59,7 +59,7 @@
     "@nextcloud/upload": "^1.0.4",
     "@nextcloud/vue": "^8.3.0",
     "@skjnldsv/sanitize-svg": "^1.0.2",
-    "@vueuse/components": "^10.7.0",
+    "@vueuse/components": "^10.7.1",
     "@vueuse/core": "^10.7.0",
     "@vueuse/integrations": "^10.6.0",
     "autosize": "^6.0.1",
