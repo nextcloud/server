@@ -494,7 +494,7 @@ export default {
 
 		files(fileList) {
 			// the files list changed, let's update the current opened index
-			const currentIndex = fileList.findIndex(file => file.basename === this.currentFile.basename)
+			const currentIndex = fileList.findIndex(file => file.filename === this.currentFile.filename)
 			if (currentIndex > -1) {
 				this.currentIndex = currentIndex
 				logger.debug('The files list changed, new current file index is ' + currentIndex)
@@ -694,7 +694,7 @@ export default {
 				this.fileList = this.files
 
 				// store current position
-				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
+				this.currentIndex = this.fileList.findIndex(file => file.filename === fileInfo.filename)
 			} else if (group && this.el === null) {
 				const mimes = this.mimeGroups[group]
 					? this.mimeGroups[group]
@@ -715,7 +715,7 @@ export default {
 				this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, this.sortingConfig.key, this.sortingConfig.asc))
 
 				// store current position
-				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
+				this.currentIndex = this.fileList.findIndex(file => file.filename === fileInfo.filename)
 			} else {
 				this.currentIndex = 0
 				this.fileList = [fileInfo]
@@ -1137,8 +1137,8 @@ export default {
 				await axios.delete(url)
 				emit('files:node:deleted', { fileid })
 
-				// fileid is not unique, basename is
-				const currentIndex = this.fileList.findIndex(file => file.basename === this.currentFile.basename)
+				// fileid is not unique, basename is not unqiue, filename is
+				const currentIndex = this.fileList.findIndex(file => file.filename === this.currentFile.filename)
 				if (this.hasPrevious || this.hasNext) {
 					// Checking the previous or next file
 					this.hasPrevious ? this.previous() : this.next()

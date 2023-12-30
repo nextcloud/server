@@ -40,8 +40,8 @@ import Audios from '../models/audios.js'
  * File info type definition
  *
  * @typedef {object} Fileinfo
- * @property {string} filename the file name
- * @property {string} basename the full path of the file
+ * @property {string} filename File path of the remote item
+ * @property {string} basename Base filename of the remote item, no path
  * @property {?string} source absolute path of a non-dav file, e.g. a static resource or provided by an app route
  * @property {string} mime file MIME type in the format type/sub-type
  * @property {string} [previewUrl] URL of the file preview
