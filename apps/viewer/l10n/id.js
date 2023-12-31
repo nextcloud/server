@@ -17,6 +17,7 @@ OC.L10N.register(
     "Value" : "Nilari",
     "Image" : "Gambar",
     "Line" : "Garis",
+    "Text" : "Teks",
     "Size" : "Ukuran"
 },
 "nplurals=1; plural=0;");
