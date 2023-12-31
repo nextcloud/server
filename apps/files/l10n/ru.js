@@ -169,6 +169,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "Завершена передача владения «{path}» от пользователя {user}.",
     "in %s" : "в %s",
     "File Management" : "Управление файлами",
+    "Current directory path" : "Текущий путь к каталогу",
     "Reload current directory" : "Обновить текущий каталог",
     "Go to the \"{dir}\" directory" : "Перейти в каталог \"{dir}\"",
     "Drag and drop files here to upload" : "Перетаскивайте файлы сюда для загрузки",
