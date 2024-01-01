@@ -47,6 +47,12 @@ OC.L10N.register(
     "are not images" : "nun son imáxenes",
     "is not an image" : "nun ye una imaxe",
     "Original" : "Orixinal",
+    "Square" : "Cuadráu",
+    "Landscape" : "Horizontal",
+    "Portrait" : "Vertical",
+    "Ellipse" : "Elipse",
+    "Classic TV" : "TV clásica",
+    "Arrow" : "Flecha",
     "Brightness" : "Brillu",
     "Contrast" : "Contraste",
     "Hue" : "Tonu",
@@ -74,6 +80,7 @@ OC.L10N.register(
     "Extension" : "Estensión",
     "Name is required." : "El nome ye obligatoriu",
     "Quality" : "Calidá",
+    "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Decátate que l'área de recorte seleicionada ye menor que la redimensión aplicada lo que ye posible que cause una perda de calidá",
     "Actual size (100%)" : "Tamañu actual (100%)"
 },
 "nplurals=2; plural=(n != 1);");
