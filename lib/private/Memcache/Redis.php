@@ -46,6 +46,10 @@ class Redis extends Cache implements IMemcacheTTL {
 			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
 			'cf0e94b2e9ffc7e04395cf88f7583fc309985910',
 		],
+		'caSetTtl' => [
+			'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("expire", KEYS[1], ARGV[2]) return 1 else return 0 end',
+			'fa4acbc946d23ef41d7d3910880b60e6e4972d72',
+		],
 	];
 
 	/**
@@ -179,6 +183,17 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	public function setTTL($key, $ttl) {
 		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
+	}
+
+	public function getTTL(string $key): int|false {
+		$ttl = $this->getCache()->ttl($this->getPrefix() . $key);
+		return $ttl > 0 ? (int)$ttl : false;
+	}
+
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		$value = self::encodeValue($value);
+
+		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
 	}
 
 	public static function isAvailable(): bool {
