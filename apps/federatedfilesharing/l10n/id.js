@@ -2,7 +2,7 @@ OC.L10N.register(
     "federatedfilesharing",
     {
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Apakah Anda ingin menambahkan pembagian remote {name} dari {owner}@{remote}?",
-    "Remote share" : "Berbagi remote",
+    "Remote share" : "Berbagi jarak jauh",
     "Remote share password" : "Kata sandi berbagi jarak jauh",
     "Cancel" : "Batalkan",
     "Add remote share" : "Tambah berbagi remote",
