@@ -119,7 +119,7 @@ OC.L10N.register(
     "Cannot install this app because it is not compatible" : "Tidak dapat memasang aplikasi ini karena tidak kompatibel",
     "Cannot install this app" : "Tidak dapat memasang aplikasi ini",
     "Skip" : "Lewati",
-    "Install recommended apps" : "Instal aplikasi rekomendasi",
+    "Install recommended apps" : "Instal aplikasi yang disarankan",
     "Schedule work & meetings, synced with all your devices." : "Penjadwalan rapat & pekerjaan, tersinkronisasi dengan gawai Anda.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Simpan info teman dan kolega Anda dalam satu tempat, tanpa membocorkan privat mereka.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Aplikasi klien surel sederhana, terintegrasi dengan Berkas, Kontak, dan Kalender.",
