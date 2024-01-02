@@ -129,7 +129,7 @@ describe('User select a custom color', function() {
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		pickRandomColor('[data-user-theming-background-color]')
+		pickRandomColor()
 
 		// Validate custom colour change
 		cy.wait('@setColor')
@@ -168,7 +168,7 @@ describe('User select a bright custom color and remove background', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
 		// Pick one of the bright color preset
-		cy.get('[data-user-theming-background-color]').click()
+		cy.get('button').contains('Change color').click()
 		cy.get('.color-picker__simple-color-circle:eq(4)').click()
 
 		// Validate custom colour change
@@ -286,7 +286,7 @@ describe('User changes settings and reload the page', function() {
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		cy.get('[data-user-theming-background-color]').click()
+		cy.get('button').contains('Change color').click()
 		cy.get('.color-picker__simple-color-circle:eq(5)').click()
 
 		// Validate clear background
