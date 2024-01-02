@@ -54,13 +54,13 @@ export const validateBodyThemingCss = function(expectedColor = defaultPrimary, e
  */
 export const validateUserThemingDefaultCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
 	const defaultSelectButton = Cypress.$('[data-user-theming-background-default]')
-	const customColorSelectButton = Cypress.$('[data-user-theming-background-color]')
-	if (defaultSelectButton.length === 0 || customColorSelectButton.length === 0) {
+	const customColor = Cypress.$('[data-user-theming-background-color]')
+	if (defaultSelectButton.length === 0 || customColor.length === 0) {
 		return false
 	}
 
 	const defaultOptionBackground = defaultSelectButton.css('background-image')
-	const colorPickerOptionColor = customColorSelectButton.css('background-color')
+	const colorPickerOptionColor = customColor.css('background-color')
 
 	const isValidBackgroundImage = !expectedBackground
 		? defaultOptionBackground === 'none'
@@ -71,15 +71,15 @@ export const validateUserThemingDefaultCss = function(expectedColor = defaultPri
 	return isValidBackgroundImage && colord(colorPickerOptionColor).isEqual(expectedColor)
 }
 
-export const pickRandomColor = function(pickerSelector: string): Cypress.Chainable<string> {
+export const pickRandomColor = function(): Cypress.Chainable<string> {
 	// Pick one of the first 8 options
 	const randColour = Math.floor(Math.random() * 8)
 
 	// Open picker
-	cy.get(pickerSelector).click()
+	cy.get('button').contains('Change color').click()
 
 	// Return selected colour
-	return cy.get(pickerSelector).get('.color-picker__simple-color-circle').eq(randColour).then(($el) => {
+	return cy.get('.color-picker__simple-color-circle').eq(randColour).then(($el) => {
 		$el.trigger('click')
 		return $el.css('background-color')
 	})
