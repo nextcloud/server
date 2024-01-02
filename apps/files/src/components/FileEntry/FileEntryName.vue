@@ -185,10 +185,13 @@ export default Vue.extend({
 		 * in the input, without the extension.
 		 * @param renaming
 		 */
-		isRenaming(renaming: boolean) {
-			if (renaming) {
-				this.startRenaming()
-			}
+		isRenaming: {
+			immediate: true,
+			handler(renaming: boolean) {
+				if (renaming) {
+					this.startRenaming()
+				}
+			},
 		},
 	},
 
