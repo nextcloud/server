@@ -63,7 +63,7 @@
     "Could not create file \"{file}\"" : "Tidak dapat membuat berkas \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Tidak dapat membuat berkas \"{file}\" karena sudah ada",
     "Could not create folder \"{dir}\" because it already exists" : "Tidak dapat membuat folder \"{dir}\" karena sudah ada",
-    "Could not fetch file details \"{file}\"" : "Tidak dapat melihat detail \"{file}\"",
+    "Could not fetch file details \"{file}\"" : "Tidak dapat memperoleh detail berkas \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Terjadi kesalahan saat menghapus berkas \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Hasil pencarian tidak ditemukan di folder lainnya untuk '{tag}{filter}{endtag}'",
     "Enter more than two characters to search in other folders" : "Masukkan lebih dari dua karakter untuk mencari di folder lain",
