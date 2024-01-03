@@ -32,74 +32,51 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
-	/** @var IValidator */
-	protected $richValidator;
+	protected string $app;
 
-	/** @var string */
-	protected $app;
+	protected string $user;
 
-	/** @var string */
-	protected $user;
+	protected \DateTime $dateTime;
 
-	/** @var \DateTime */
-	protected $dateTime;
+	protected string $objectType;
 
-	/** @var string */
-	protected $objectType;
+	protected string $objectId;
 
-	/** @var string */
-	protected $objectId;
+	protected string $subject;
 
-	/** @var string */
-	protected $subject;
+	protected array $subjectParameters;
 
-	/** @var array */
-	protected $subjectParameters;
+	protected string $subjectParsed;
 
-	/** @var string */
-	protected $subjectParsed;
+	protected string $subjectRich;
 
-	/** @var string */
-	protected $subjectRich;
+	protected array $subjectRichParameters;
 
-	/** @var array */
-	protected $subjectRichParameters;
+	protected string $message;
 
-	/** @var string */
-	protected $message;
+	protected array $messageParameters;
 
-	/** @var array */
-	protected $messageParameters;
+	protected string $messageParsed;
 
-	/** @var string */
-	protected $messageParsed;
+	protected string $messageRich;
 
-	/** @var string */
-	protected $messageRich;
+	protected array $messageRichParameters;
 
-	/** @var array */
-	protected $messageRichParameters;
+	protected string $link;
 
-	/** @var string */
-	protected $link;
+	protected string $icon;
 
-	/** @var string */
-	protected $icon;
+	protected array $actions;
 
-	/** @var array */
-	protected $actions;
+	protected array $actionsParsed;
 
-	/** @var array */
-	protected $actionsParsed;
+	protected bool $hasPrimaryAction;
 
-	/** @var bool */
-	protected $hasPrimaryAction;
+	protected bool $hasPrimaryParsedAction;
 
-	/** @var bool */
-	protected $hasPrimaryParsedAction;
-
-	public function __construct(IValidator $richValidator) {
-		$this->richValidator = $richValidator;
+	public function __construct(
+		protected IValidator $richValidator,
+	) {
 		$this->app = '';
 		$this->user = '';
 		$this->dateTime = new \DateTime();
