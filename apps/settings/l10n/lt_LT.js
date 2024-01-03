@@ -317,7 +317,7 @@ OC.L10N.register(
     "Wipe {userid}'s devices" : "Ištrinti duomenis naudotojo {userid} įrenginiuose",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Pilnai ištrinta {userid} paskyra, įskaitant visus asmeninius failus, programos duomenis ir pan. ",
     "Account deletion" : "Paskyros ištrynimas",
-    "Delete {userid}'s account" : "Ištrinti naudtojo {userid} paskyrą",
+    "Delete {userid}'s account" : "Ištrinti naudotojo {userid} paskyrą",
     "Welcome mail sent!" : "Pasveikinimo laiškas išsiųstas!",
     "Toggle user actions menu" : "Perjungti vartotojo veiksmų meniu ",
     "Done" : "Atlikta",
