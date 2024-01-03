@@ -6,6 +6,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author nacho <nacho@ownyourbits.com>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Eduardo Morales <emoral435@gmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -31,7 +32,6 @@ import moment from 'moment'
 
 import { initSessionHeartBeat } from './session-heartbeat.js'
 import OC from './OC/index.js'
-import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
 import { setUp as setUpUserMenu } from './components/UserMenu.js'
 import { interceptRequests } from './utils/xhr-request.js'
@@ -125,7 +125,6 @@ export const initCore = () => {
 
 	setUpMainMenu()
 	setUpUserMenu()
-	setUpContactsMenu()
 
 	// just add snapper for logged in users
 	// and if the app doesn't handle the nav slider itself
