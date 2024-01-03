@@ -114,7 +114,7 @@ OC.L10N.register(
     "Recommended apps" : "Aplikasi terekomendasi",
     "Loading apps …" : "Memuat aplikasi ...",
     "Could not fetch list of apps from the App Store." : "Tidak dapat mengambil daftar aplikasi dari App Store.",
-    "Installing apps …" : "Instalasi aplikasi ...",
+    "Installing apps …" : "menginstal aplikasi ...",
     "App download or installation failed" : "Unduh aplikasi atau gagal instalasi",
     "Cannot install this app because it is not compatible" : "Tidak dapat memasang aplikasi ini karena tidak kompatibel",
     "Cannot install this app" : "Tidak dapat memasang aplikasi ini",
