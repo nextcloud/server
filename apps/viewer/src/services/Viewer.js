@@ -99,6 +99,12 @@ export default class Viewer {
 	 * @param {Handler} handler a new unregistered handler
 	 */
 	registerHandler(handler) {
+		const err = this.validateHandler(handler)
+		if (err) {
+			console.error(err, handler)
+			return
+		}
+
 		this._state.handlers.push(handler)
 		const handledMimes = [
 			...handler.mimes,
@@ -107,6 +113,28 @@ export default class Viewer {
 		this._mimetypes.push.apply(this._mimetypes, handledMimes)
 		if (handler?.canCompare === true) {
 			this._mimetypesCompare.push.apply(this._mimetypesCompare, handledMimes)
+		}
+	}
+
+	validateHandler({ id, mimes, mimesAliases, component }) {
+		// checking valid handler id
+		if (!id || id.trim() === '' || typeof id !== 'string') {
+			return 'The handler doesn\'t have a valid id'
+		}
+
+		// checking if handler is not already registered
+		if (this._state.handlers.find(h => h.id === id)) {
+			return 'The handler is already registered'
+		}
+
+		// Nothing available to process! Failure
+		if (!(mimes && Array.isArray(mimes)) && !mimesAliases) {
+			return 'Handler needs a valid mime array or mimesAliases'
+		}
+
+		// checking valid handler component data
+		if ((!component || (typeof component !== 'object' && typeof component !== 'function'))) {
+			return 'The handler doesn\'t have a valid component'
 		}
 	}
 
