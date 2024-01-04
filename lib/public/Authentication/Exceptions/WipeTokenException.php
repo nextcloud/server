@@ -30,7 +30,7 @@ use OCP\Authentication\Token\IToken;
 /**
  * @since 28.0.0
  */
-class WipeTokenException extends InvalidTokenException {
+class WipeTokenException extends \OC\Authentication\Exceptions\InvalidTokenException {
 	/**
 	 * @since 28.0.0
 	 */
