@@ -28,10 +28,11 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OC\Authentication\Exceptions\WipeTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\PasswordlessTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
 
 class Manager implements IProvider, OCPIProvider {
@@ -221,7 +222,7 @@ class Manager implements IProvider, OCPIProvider {
 			return $this->publicKeyTokenProvider->rotate($token, $oldTokenId, $newTokenId);
 		}
 
-		throw new InvalidTokenException();
+		throw new OcInvalidTokenException();
 	}
 
 	/**
@@ -233,7 +234,7 @@ class Manager implements IProvider, OCPIProvider {
 		if ($token instanceof PublicKeyToken) {
 			return $this->publicKeyTokenProvider;
 		}
-		throw new InvalidTokenException();
+		throw new OcInvalidTokenException();
 	}
 
 
