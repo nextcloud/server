@@ -32,10 +32,8 @@
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -45,6 +43,9 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -292,7 +293,8 @@ class AuthSettingsController extends Controller {
 			$token = $e->getToken();
 		}
 		if ($token->getUID() !== $this->uid) {
-			throw new InvalidTokenException('This token does not belong to you!');
+			/* We have to throw the OC version so both OC and OCP catches catch it */
+			throw new OcInvalidTokenException('This token does not belong to you!');
 		}
 		return $token;
 	}
@@ -305,7 +307,7 @@ class AuthSettingsController extends Controller {
 	 * @param int $id
 	 * @return JSONResponse
 	 * @throws InvalidTokenException
-	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
+	 * @throws ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
 		if ($this->checkAppToken()) {

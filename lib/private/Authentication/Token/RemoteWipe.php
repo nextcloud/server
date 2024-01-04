@@ -29,8 +29,8 @@ namespace OC\Authentication\Token;
 
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
-use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;

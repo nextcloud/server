@@ -39,8 +39,6 @@
 namespace OC\User;
 
 use OC;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
@@ -51,6 +49,8 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
