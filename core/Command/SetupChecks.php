@@ -45,6 +45,30 @@ class SetupChecks extends Base {
 		;
 	}
 
+	/**
+	 * @throws \InvalidArgumentException if a parameter has no name or no type
+	 */
+	private function richToParsed(string $message, array $parameters): string {
+		$placeholders = [];
+		$replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			foreach (['name','type'] as $requiredField) {
+				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
+					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
+				}
+			}
+			if ($parameter['type'] === 'user') {
+				$replacements[] = '@' . $parameter['name'];
+			} elseif ($parameter['type'] === 'file') {
+				$replacements[] = $parameter['path'] ?? $parameter['name'];
+			} else {
+				$replacements[] = $parameter['name'];
+			}
+		}
+		return str_replace($placeholders, $replacements, $message);
+	}
+
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$results = $this->setupCheckManager->runAll();
 		switch ($input->getOption('output')) {
@@ -70,6 +94,10 @@ class SetupChecks extends Base {
 						};
 						$verbosity = ($check->getSeverity() === 'error' ? OutputInterface::VERBOSITY_QUIET : OutputInterface::VERBOSITY_NORMAL);
 						$description = $check->getDescription();
+						$descriptionParameters = $check->getDescriptionParameters();
+						if ($descriptionParameters !== null) {
+							$description = $this->richToParsed($description, $descriptionParameters);
+						}
 						$output->writeln(
 							"\t\t".
 							($styleTag !== null ? "<{$styleTag}>" : '').
