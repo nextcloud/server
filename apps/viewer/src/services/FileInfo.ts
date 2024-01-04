@@ -24,33 +24,15 @@ import { getClient } from './WebdavClient'
 import { genFileInfo, type FileInfo } from '../utils/fileUtils'
 import { createClient, type FileStat, type ResponseDataDetailed } from 'webdav'
 import { getRequestToken } from '@nextcloud/auth'
+import { getDavNameSpaces, getDavProperties } from '@nextcloud/files'
 
 const statData = `<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:"
-	xmlns:oc="http://owncloud.org/ns"
-	xmlns:nc="http://nextcloud.org/ns"
-	xmlns:ocs="http://open-collaboration-services.org/ns">
-	<d:prop>
-		<d:getlastmodified />
-		<d:getcontenttype />
-		<d:resourcetype />
-		<d:getetag />
-		<oc:fileid />
-		<oc:permissions />
-		<oc:size />
-		<d:getcontentlength />
-		<nc:has-preview />
-		<nc:mount-type />
-		<nc:is-encrypted />
-		<ocs:share-permissions />
-		<oc:tags />
-		<oc:favorite />
-		<oc:comments-unread />
-		<oc:owner-id />
-		<oc:owner-display-name />
-		<oc:share-types />
-	</d:prop>
-</d:propfind>`
+	<d:propfind ${getDavNameSpaces()}>
+		<d:prop>
+			<oc:tags />
+			${getDavProperties()}
+		</d:prop>
+	</d:propfind>`
 
 /**
  * Retrieve the files list

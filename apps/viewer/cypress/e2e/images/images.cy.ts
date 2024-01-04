@@ -63,7 +63,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('The image source is the preview url', function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', '/index.php/core/preview')
 	})
@@ -97,7 +97,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('The image source is the preview url', function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', '/index.php/core/preview')
 	})
@@ -117,7 +117,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('The image source is the preview url', function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', '/index.php/core/preview')
 	})
@@ -138,7 +138,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('The image source is the preview url', function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', '/index.php/core/preview')
 	})
@@ -158,7 +158,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('The image source is the preview url', function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', '/index.php/core/preview')
 	})

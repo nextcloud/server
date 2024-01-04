@@ -19,9 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { encodePath } from '@nextcloud/paths'
-import { generateUrl } from '@nextcloud/router'
-import { getToken, isPublic } from '../utils/davUtils.ts'
+import { getPreviewIfAny } from '../utils/previewUtils.ts'
 import { getDavPath } from '../utils/fileUtils.ts'
 
 export default {
@@ -68,25 +66,8 @@ export default {
 		 * @param {string|null} data.etag the etag of the file
 		 * @return {string} the absolute url
 		 */
-		getPreviewIfAny({ fileid, filename, previewUrl, hasPreview, davPath, etag }) {
-			if (previewUrl) {
-				return previewUrl
-			}
-
-			const searchParams = `fileId=${fileid}`
-				+ `&x=${Math.floor(screen.width * devicePixelRatio)}`
-				+ `&y=${Math.floor(screen.height * devicePixelRatio)}`
-				+ '&a=true'
-				+ (etag !== null ? `&etag=${etag.replace(/&quot;/g, '')}` : '')
-
-			if (hasPreview) {
-				// TODO: find a nicer standard way of doing this?
-				if (isPublic()) {
-					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?file=${encodePath(filename)}&${searchParams}`)
-				}
-				return generateUrl(`/core/preview?${searchParams}`)
-			}
-			return davPath
+		getPreviewIfAny(data) {
+			return getPreviewIfAny(data)
 		},
 	},
 }

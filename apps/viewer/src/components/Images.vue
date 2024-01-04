@@ -21,34 +21,83 @@
  -->
 
 <template>
-	<ImageEditor v-if="editing"
-		:mime="mime"
-		:src="src"
-		:fileid="fileid"
-		@close="onClose" />
+	<div class="image_container">
+		<ImageEditor v-if="editing"
+			:mime="mime"
+			:src="src"
+			:fileid="fileid"
+			@close="onClose" />
 
-	<img v-else-if="data !== null"
-		:alt="alt"
-		:class="{
-			dragging,
-			loaded,
-			zoomed: zoomRatio !== 1
-		}"
-		:src="data"
-		:style="imgStyle"
-		@error.capture.prevent.stop.once="onFail"
-		@load="updateImgSize"
-		@wheel="updateZoom"
-		@dblclick.prevent="onDblclick"
-		@mousedown.prevent="dragStart">
+		<template v-else-if="data !== null">
+			<img v-if="!livePhotoCanBePlayed"
+				ref="image"
+				:alt="alt"
+				:class="{
+					dragging,
+					loaded,
+					zoomed: zoomRatio !== 1
+				}"
+				:src="data"
+				:style="imgStyle"
+				@error.capture.prevent.stop.once="onFail"
+				@load="updateImgSize"
+				@wheel="updateZoom"
+				@dblclick.prevent="onDblclick"
+				@mousedown.prevent="dragStart">
+
+			<template v-if="livePhoto">
+				<video v-show="livePhotoCanBePlayed"
+					ref="video"
+					:class="{
+						dragging,
+						loaded,
+						zoomed: zoomRatio !== 1
+					}"
+					:style="imgStyle"
+					:playsinline="true"
+					:poster="data"
+					:src="livePhotoSrc"
+					preload="metadata"
+					@canplaythrough="doneLoadingLivePhoto"
+					@loadedmetadata="updateImgSize"
+					@wheel="updateZoom"
+					@error.capture.prevent.stop.once="onFail"
+					@dblclick.prevent="onDblclick"
+					@mousedown.prevent="dragStart"
+					@ended="stopLivePhoto" />
+				<button v-if="width !== 0"
+					class="live-photo_play_button"
+					:style="{left: `calc(50% - ${width/2}px)`}"
+					:disabled="!livePhotoCanBePlayed"
+					:aria-description="t('viewer', 'Play the live photo')"
+					@click="playLivePhoto"
+					@pointerenter="playLivePhoto"
+					@focus="playLivePhoto"
+					@pointerleave="stopLivePhoto"
+					@blur="stopLivePhoto">
+					<PlayCircleOutline v-if="livePhotoCanBePlayed" />
+					<NcLoadingIcon v-else />
+					<!-- TRANSLATORS Label of the button used at the top left corner of live photos to play them -->
+					{{ t('viewer', 'LIVE') }}
+				</button>
+			</template>
+		</template>
+	</div>
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
-import ImageEditor from './ImageEditor.vue'
+import PlayCircleOutline from 'vue-material-design-icons/PlayCircleOutline.vue'
+
+import axios from '@nextcloud/axios'
 import { basename } from '@nextcloud/paths'
+import { translate } from '@nextcloud/l10n'
+import { NcLoadingIcon } from '@nextcloud/vue'
+
+import ImageEditor from './ImageEditor.vue'
+import { findLivePhotoPeerFromFileId } from '../utils/livePhotoUtils'
+import { getDavPath } from '../utils/fileUtils'
 
 Vue.use(AsyncComputed)
 
@@ -57,6 +106,8 @@ export default {
 
 	components: {
 		ImageEditor,
+		PlayCircleOutline,
+		NcLoadingIcon,
 	},
 
 	props: {
@@ -76,6 +127,7 @@ export default {
 			shiftY: 0,
 			zoomRatio: 1,
 			fallback: false,
+			livePhotoCanBePlayed: false,
 		}
 	},
 
@@ -102,6 +154,21 @@ export default {
 				height: this.zoomHeight + 'px',
 				width: this.zoomWidth + 'px',
 			}
+		},
+		livePhoto() {
+			return findLivePhotoPeerFromFileId(this.metadataFilesLivePhoto, this.fileList)
+		},
+		livePhotoSrc() {
+			return this.livePhoto?.source ?? this.livePhotoDavPath
+		},
+		/** @return {string|null} */
+		livePhotoDavPath() {
+			return this.livePhoto
+				? getDavPath({
+					filename: this.livePhoto.filename,
+					basename: this.livePhoto.basename,
+				})
+				: null
 		},
 	},
 
@@ -147,8 +214,13 @@ export default {
 	methods: {
 		// Updates the dimensions of the modal
 		updateImgSize() {
-			this.naturalHeight = this.$el.naturalHeight
-			this.naturalWidth = this.$el.naturalWidth
+			if (this.$refs.image) {
+				this.naturalHeight = this.$refs.image.naturalHeight
+				this.naturalWidth = this.$refs.image.naturalWidth
+			} else if (this.$refs.video) {
+				this.naturalHeight = this.$refs.video.videoHeight
+				this.naturalWidth = this.$refs.video.videoWidth
+			}
 
 			this.updateHeightWidth()
 			this.doneLoading()
@@ -157,7 +229,7 @@ export default {
 		/**
 		 * Manually retrieve the path and return its base64
 		 *
-		 * @return {string}
+		 * @return {Promise<string>}
 		 */
 		async getBase64FromImage() {
 			const file = await axios.get(this.src)
@@ -167,8 +239,8 @@ export default {
 		/**
 		 * Handle zooming
 		 *
-		 * @param {Event} event the scroll event
-		 * @return {null}
+		 * @param {WheelEvent} event the scroll event
+		 * @return {void}
 		 */
 		updateZoom(event) {
 			if (!this.canZoom) {
@@ -179,8 +251,9 @@ export default {
 			event.preventDefault()
 
 			// scrolling position relative to the image
-			const scrollX = event.clientX - this.$el.x - (this.width * this.zoomRatio / 2)
-			const scrollY = event.clientY - this.$el.y - (this.height * this.zoomRatio / 2)
+			const element = this.$refs.image ?? this.$refs.video
+			const scrollX = event.clientX - element.x - (this.width * this.zoomRatio / 2)
+			const scrollY = event.clientY - element.y - (this.height * this.zoomRatio / 2)
 			const scrollPercX = scrollX / (this.width * this.zoomRatio)
 			const scrollPercY = scrollY / (this.height * this.zoomRatio)
 			const isZoomIn = event.deltaY < 0
@@ -216,7 +289,7 @@ export default {
 		/**
 		 * Dragging handlers
 		 *
-		 * @param {Event} event the event
+		 * @param {DragEvent} event the event
 		 */
 		dragStart(event) {
 			const { pageX, pageY } = event
@@ -224,16 +297,26 @@ export default {
 			this.dragX = pageX
 			this.dragY = pageY
 			this.dragging = true
-			this.$el.onmouseup = this.dragEnd
-			this.$el.onmousemove = this.dragHandler
+			const element = this.$refs.image ?? this.$refs.video
+			element.onmouseup = this.dragEnd
+			element.onmousemove = this.dragHandler
 		},
+		/**
+		 * @param {DragEvent} event the event
+		 */
 		dragEnd(event) {
 			event.preventDefault()
 
 			this.dragging = false
-			this.$el.onmouseup = null
-			this.$el.onmousemove = null
+			const element = this.$refs.image ?? this.$refs.video
+			if (element) {
+				element.onmouseup = null
+				element.onmousemove = null
+			}
 		},
+		/**
+		 * @param {DragEvent} event the event
+		 */
 		dragHandler(event) {
 			event.preventDefault()
 			const { pageX, pageY } = event
@@ -269,6 +352,26 @@ export default {
 				this.fallback = true
 			}
 		},
+		doneLoadingLivePhoto() {
+			this.livePhotoCanBePlayed = true
+			this.doneLoading()
+		},
+		playLivePhoto() {
+			if (!this.livePhotoCanBePlayed) {
+				return
+			}
+
+			/** @type {HTMLVideoElement} */
+			const video = this.$refs.video
+			video.play()
+		},
+		stopLivePhoto() {
+			/** @type {HTMLVideoElement} */
+			const video = this.$refs.video
+			video.load()
+		},
+
+		t: translate,
 	},
 }
 </script>
@@ -277,7 +380,14 @@ export default {
 $checkered-size: 8px;
 $checkered-color: #efefef;
 
-img {
+.image_container {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	justify-content: center;
+}
+
+img, video {
 	max-width: 100%;
 	max-height: 100%;
 	align-self: center;
@@ -311,5 +421,19 @@ img {
 		transition: none !important;
 		cursor: move;
 	}
+}
+
+.live-photo_play_button {
+	position: absolute;
+	top: 0;
+	// left: is set dynamically on the element itself
+	margin: 16px !important;
+	display: flex;
+	align-items: center;
+	border: none;
+	gap: 4px;
+	border-radius: var(--border-radius);
+	padding: 4px 8px;
+	background-color: var(--color-main-background-blur);
 }
 </style>

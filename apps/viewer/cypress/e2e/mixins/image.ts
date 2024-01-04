@@ -81,7 +81,7 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source
 	})
 
 	it(`The image source is the ${source ? 'remote' : 'preview'} url`, function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', source ?? '/index.php/core/preview')
 	})

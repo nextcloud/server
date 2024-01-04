@@ -83,7 +83,7 @@ describe('Open non-dav files in viewer', function() {
 	})
 
 	it('The image source is the remote url', function() {
-		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active img')
 			.should('have.attr', 'src')
 			.and('contain', source)
 	})
