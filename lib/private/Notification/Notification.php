@@ -32,71 +32,33 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
-	protected string $app;
-
-	protected string $user;
-
+	protected string $app = '';
+	protected string $user = '';
 	protected \DateTime $dateTime;
-
-	protected string $objectType;
-
-	protected string $objectId;
-
-	protected string $subject;
-
-	protected array $subjectParameters;
-
-	protected string $subjectParsed;
-
-	protected string $subjectRich;
-
-	protected array $subjectRichParameters;
-
-	protected string $message;
-
-	protected array $messageParameters;
-
-	protected string $messageParsed;
-
-	protected string $messageRich;
-
-	protected array $messageRichParameters;
-
-	protected string $link;
-
-	protected string $icon;
-
-	protected array $actions;
-
-	protected array $actionsParsed;
-
-	protected bool $hasPrimaryAction;
-
-	protected bool $hasPrimaryParsedAction;
+	protected string $objectType = '';
+	protected string $objectId = '';
+	protected string $subject = '';
+	protected array $subjectParameters = [];
+	protected string $subjectParsed = '';
+	protected string $subjectRich = '';
+	protected array $subjectRichParameters = [];
+	protected string $message = '';
+	protected array $messageParameters = [];
+	protected string $messageParsed = '';
+	protected string $messageRich = '';
+	protected array $messageRichParameters = [];
+	protected string $link = '';
+	protected string $icon = '';
+	protected array $actions = [];
+	protected array $actionsParsed = [];
+	protected bool $hasPrimaryAction = false;
+	protected bool $hasPrimaryParsedAction = false;
 
 	public function __construct(
 		protected IValidator $richValidator,
 	) {
-		$this->app = '';
-		$this->user = '';
 		$this->dateTime = new \DateTime();
 		$this->dateTime->setTimestamp(0);
-		$this->objectType = '';
-		$this->objectId = '';
-		$this->subject = '';
-		$this->subjectParameters = [];
-		$this->subjectParsed = '';
-		$this->subjectRich = '';
-		$this->subjectRichParameters = [];
-		$this->message = '';
-		$this->messageParameters = [];
-		$this->messageParsed = '';
-		$this->messageRich = '';
-		$this->messageRichParameters = [];
-		$this->link = '';
-		$this->icon = '';
-		$this->actions = [];
-		$this->actionsParsed = [];
 	}
 
 	/**
