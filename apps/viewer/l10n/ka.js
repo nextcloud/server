@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "viewer",
+    {
+    "Edit" : "Edit",
+    "Open sidebar" : "Open sidebar",
+    "Download" : "Download",
+    "Delete" : "Delete",
+    "View" : "View",
+    "Name" : "Name",
+    "Save" : "Save",
+    "Back" : "Back",
+    "Loading …" : "Loading …",
+    "Reset" : "Reset",
+    "Cancel" : "Cancel",
+    "Continue" : "Continue",
+    "Undo" : "Undo",
+    "Custom" : "Custom",
+    "Blur" : "Blur",
+    "Value" : "Value",
+    "Image" : "Image",
+    "Text" : "Text",
+    "Size" : "Size",
+    "Position" : "Position"
+},
+"nplurals=2; plural=(n!=1);");
