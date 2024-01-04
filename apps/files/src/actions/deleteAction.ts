@@ -29,10 +29,16 @@ import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import logger from '../logger.js'
 import { getCurrentUser } from '@nextcloud/auth'
 
+// A file which the owner is NOT the current user
+// is considered shared. Other methods like group folders
+// will always use the current user as the owner.
+// It will therefore not be considered shared.
 const isAllUnshare = (nodes: Node[]) => {
-	return !nodes.some(node => node.owner === getCurrentUser()?.uid)
+	return !nodes.some(node => node.owner !== getCurrentUser()?.uid)
 }
 
+// Check whether the selection contains a mix of files
+// the current user owns and files owned by other users.
 const isMixedUnshareAndDelete = (nodes: Node[]) => {
 	const hasUnshareItems = nodes.some(node => node.owner !== getCurrentUser()?.uid)
 	const hasDeleteItems = nodes.some(node => node.owner === getCurrentUser()?.uid)
@@ -73,7 +79,7 @@ export const action = new FileAction({
 
 			// Let's delete even if it's moved to the trashbin
 			// since it has been removed from the current view
-			//  and changing the view will trigger a reload anyway.
+			// and changing the view will trigger a reload anyway.
 			emit('files:node:deleted', node)
 			return true
 		} catch (error) {
