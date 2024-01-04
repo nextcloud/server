@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -30,20 +30,9 @@ use OCP\Authentication\Token\IToken;
 /**
  * @since 28.0.0
  */
-class WipeTokenException extends InvalidTokenException {
+interface IExpiredTokenException extends IInvalidTokenException {
 	/**
 	 * @since 28.0.0
 	 */
-	public function __construct(
-		private IToken $token,
-	) {
-		parent::__construct();
-	}
-
-	/**
-	 * @since 28.0.0
-	 */
-	public function getToken(): IToken {
-		return $this->token;
-	}
+	public function getToken(): IToken;
 }

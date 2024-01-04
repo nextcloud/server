@@ -24,10 +24,8 @@ declare(strict_types=1);
  */
 namespace OCP\Authentication\Exceptions;
 
-use Exception;
-
 /**
  * @since 28.0.0
  */
-class InvalidTokenException extends Exception {
+interface IInvalidTokenException extends \Throwable {
 }

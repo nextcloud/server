@@ -24,9 +24,9 @@ declare(strict_types=1);
  */
 namespace OCP\Authentication\Token;
 
-use OCP\Authentication\Exceptions\ExpiredTokenException;
-use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Exceptions\IExpiredTokenException;
+use OCP\Authentication\Exceptions\IInvalidTokenException;
+use OCP\Authentication\Exceptions\IWipeTokenException;
 
 /**
  * @since 24.0.8
@@ -47,9 +47,9 @@ interface IProvider {
 	 * Get a token by token string id
 	 *
 	 * @since 28.0.0
-	 * @throws InvalidTokenException
-	 * @throws ExpiredTokenException
-	 * @throws WipeTokenException
+	 * @throws IInvalidTokenException
+	 * @throws IExpiredTokenException
+	 * @throws IWipeTokenException
 	 * @return IToken
 	 */
 	public function getToken(string $tokenId): IToken;

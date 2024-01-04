@@ -26,20 +26,16 @@ declare(strict_types=1);
 namespace OC\Authentication\Exceptions;
 
 use OC\Authentication\Token\IToken;
+use OCP\Authentication\Exceptions\IWipeTokenException;
 
-/**
- * @deprecated 28.0.0 use {@see \OCP\Authentication\Exceptions\WipeTokenException} instead
- */
-class WipeTokenException extends \OCP\Authentication\Exceptions\WipeTokenException {
+class WipeTokenException extends InvalidTokenException implements IWipeTokenException {
 	public function __construct(
-		IToken $token,
+		private IToken $token,
 	) {
-		parent::__construct($token);
+		parent::__construct();
 	}
 
 	public function getToken(): IToken {
-		$token = parent::getToken();
-		/** @var IToken $token We know that we passed OC interface from constructor */
-		return $token;
+		return $this->token;
 	}
 }

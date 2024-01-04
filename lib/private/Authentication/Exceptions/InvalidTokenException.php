@@ -24,8 +24,7 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Exceptions;
 
-/**
- * @deprecated 28.0.0 use OCP version instead
- */
-class InvalidTokenException extends \OCP\Authentication\Exceptions\InvalidTokenException {
+use OCP\Authentication\Exceptions\IInvalidTokenException;
+
+class InvalidTokenException extends \Exception implements IInvalidTokenException {
 }
