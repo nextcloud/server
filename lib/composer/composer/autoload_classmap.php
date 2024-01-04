@@ -953,6 +953,7 @@ return array(
     'OC\\BackgroundJob\\QueuedJob' => $baseDir . '/lib/private/BackgroundJob/QueuedJob.php',
     'OC\\BackgroundJob\\TimedJob' => $baseDir . '/lib/private/BackgroundJob/TimedJob.php',
     'OC\\BinaryFinder' => $baseDir . '/lib/private/BinaryFinder.php',
+    'OC\\Blurhash\\Listener\\GenerateBlurhashMetadata' => $baseDir . '/lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php',
     'OC\\Broadcast\\Events\\BroadcastEvent' => $baseDir . '/lib/private/Broadcast/Events/BroadcastEvent.php',
     'OC\\Cache\\CappedMemoryCache' => $baseDir . '/lib/private/Cache/CappedMemoryCache.php',
     'OC\\Cache\\File' => $baseDir . '/lib/private/Cache/File.php',

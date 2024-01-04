@@ -986,6 +986,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\BackgroundJob\\QueuedJob' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/QueuedJob.php',
         'OC\\BackgroundJob\\TimedJob' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/TimedJob.php',
         'OC\\BinaryFinder' => __DIR__ . '/../../..' . '/lib/private/BinaryFinder.php',
+        'OC\\Blurhash\\Listener\\GenerateBlurhashMetadata' => __DIR__ . '/../../..' . '/lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php',
         'OC\\Broadcast\\Events\\BroadcastEvent' => __DIR__ . '/../../..' . '/lib/private/Broadcast/Events/BroadcastEvent.php',
         'OC\\Cache\\CappedMemoryCache' => __DIR__ . '/../../..' . '/lib/private/Cache/CappedMemoryCache.php',
         'OC\\Cache\\File' => __DIR__ . '/../../..' . '/lib/private/Cache/File.php',

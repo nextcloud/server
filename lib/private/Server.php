@@ -68,6 +68,7 @@ use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
+use OC\Blurhash\Listener\GenerateBlurhashMetadata;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
@@ -1482,6 +1483,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
+		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
 	}
 
 	/**
