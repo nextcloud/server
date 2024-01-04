@@ -33,8 +33,8 @@ declare(strict_types=1);
  */
 namespace OC\Session;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
