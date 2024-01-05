@@ -541,9 +541,6 @@ export default defineComponent({
 			} else if (status === 403) {
 				showError(this.t('files', 'Operation is blocked by access control'))
 				return
-			} else if (status !== 0) {
-				showError(this.t('files', 'Error when assembling chunks, status code {status}', { status }))
-				return
 			}
 
 			// Else we try to parse the response error message
@@ -552,11 +549,17 @@ export default defineComponent({
 				const response = await parser.parseStringPromise(upload.response?.data)
 				const message = response['s:message'][0] as string
 				if (typeof message === 'string' && message.trim() !== '') {
-					// Unfortunatly, the server message is not translated
+					// The server message is also translated
 					showError(this.t('files', 'Error during upload: {message}', { message }))
 					return
 				}
 			} catch (error) {}
+
+			// Finally, check the status code if we have one
+			if (status !== 0) {
+				showError(this.t('files', 'Error during upload, status code {status}', { status }))
+				return
+			}
 
 			showError(this.t('files', 'Unknown error during upload'))
 		},
