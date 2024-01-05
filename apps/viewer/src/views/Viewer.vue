@@ -113,65 +113,75 @@
 
 		<div class="viewer__content" :class="contentClass" @click.self.exact="close">
 			<!-- COMPARE FILE -->
-			<component :is="comparisonFile.modal"
-				v-if="comparisonFile && !comparisonFile.failed && showComparison"
-				:key="comparisonFile | uniqueKey"
-				ref="comparison-content"
-				v-bind="comparisonFile"
-				:active="true"
-				:can-swipe="false"
-				:can-zoom="false"
-				:editing="false"
-				:is-full-screen="isFullscreen"
-				:is-sidebar-shown="isSidebarShown"
-				:loaded.sync="comparisonFile.loaded"
-				class="viewer__file viewer__file--active"
-				@error="comparisonFailed" />
+			<div v-if="comparisonFile && !comparisonFile.failed && showComparison" class="viewer__file-wrapper">
+				<component :is="comparisonFile.modal"
+					:key="comparisonFile | uniqueKey"
+					ref="comparison-content"
+					v-bind="comparisonFile"
+					:active="true"
+					:can-swipe="false"
+					:can-zoom="false"
+					:editing="false"
+					:is-full-screen="isFullscreen"
+					:is-sidebar-shown="isSidebarShown"
+					:loaded.sync="comparisonFile.loaded"
+					class="viewer__file viewer__file--active"
+					@error="comparisonFailed" />
+			</div>
 
 			<!-- PREVIOUS -->
-			<component :is="previousFile.modal"
-				v-if="previousFile && !previousFile.failed"
+			<div v-if="previousFile"
 				:key="previousFile | uniqueKey"
-				ref="previous-content"
-				v-bind="previousFile"
-				:file-list="fileList"
-				class="viewer__file--hidden viewer__file"
-				@error="previousFailed" />
-			<Error v-else-if="previousFile"
-				class="hidden-visually"
-				:name="previousFile.basename" />
+				class="viewer__file-wrapper viewer__file-wrapper--hidden"
+				aria-hidden="true"
+				inert>
+				<component :is="previousFile.modal"
+					v-if="!previousFile.failed"
+					ref="previous-content"
+					v-bind="previousFile"
+					:file-list="fileList"
+					class="viewer__file"
+					@error="previousFailed" />
+				<Error v-else
+					:name="previousFile.basename" />
+			</div>
 
 			<!-- CURRENT -->
-			<component :is="currentFile.modal"
-				v-if="!currentFile.failed"
-				:key="currentFile | uniqueKey"
-				ref="content"
-				v-bind="currentFile"
-				:active="true"
-				:can-swipe.sync="canSwipe"
-				:can-zoom="canZoom"
-				:editing.sync="editing"
-				:file-list="fileList"
-				:is-full-screen="isFullscreen"
-				:is-sidebar-shown="isSidebarShown"
-				:loaded.sync="currentFile.loaded"
-				class="viewer__file viewer__file--active"
-				@error="currentFailed" />
-			<Error v-else
-				:name="currentFile.basename" />
+			<div :key="currentFile | uniqueKey" class="viewer__file-wrapper">
+				<component :is="currentFile.modal"
+					v-if="!currentFile.failed"
+					ref="content"
+					v-bind="currentFile"
+					:active="true"
+					:can-swipe.sync="canSwipe"
+					:can-zoom="canZoom"
+					:editing.sync="editing"
+					:file-list="fileList"
+					:is-full-screen="isFullscreen"
+					:is-sidebar-shown="isSidebarShown"
+					:loaded.sync="currentFile.loaded"
+					class="viewer__file viewer__file--active"
+					@error="currentFailed" />
+				<Error v-else
+					:name="currentFile.basename" />
+			</div>
 
 			<!-- NEXT -->
-			<component :is="nextFile.modal"
-				v-if="nextFile && !nextFile.failed"
+			<div v-if="nextFile"
 				:key="nextFile | uniqueKey"
-				ref="next-content"
-				v-bind="nextFile"
-				:file-list="fileList"
-				class="viewer__file--hidden viewer__file"
-				@error="nextFailed" />
-			<Error v-else-if="nextFile"
-				class="hidden-visually"
-				:name="nextFile.basename" />
+				class="viewer__file-wrapper viewer__file-wrapper--hidden"
+				aria-hidden="true"
+				inert>
+				<component :is="nextFile.modal"
+					v-if="!nextFile.failed"
+					ref="next-content"
+					v-bind="nextFile"
+					:file-list="fileList"
+					class="viewer__file"
+					@error="nextFailed" />
+				<Error v-else
+					:name="nextFile.basename" />
+			</div>
 		</div>
 	</NcModal>
 </template>
@@ -1234,17 +1244,16 @@ export default {
 	}
 
 	&__content {
-		// center views
+		width: 100%;
+		height: 100%;
+	}
+
+	&__file-wrapper {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-	}
-
-	&__file {
-		transition: height 100ms ease,
-			width 100ms ease;
 
 		// display on page but make it invisible
 		&--hidden {
@@ -1252,6 +1261,11 @@ export default {
 			z-index: -1;
 			left: -10000px;
 		}
+	}
+
+	&__file {
+		transition: height 100ms ease,
+			width 100ms ease;
 	}
 
 	&.theme--dark:deep(.button-vue--vue-tertiary) {
