@@ -44,7 +44,7 @@ OC.L10N.register(
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Усі</strong> програми мають сумісну версію для цієї версії Nextcloud.",
     "Enterprise" : "Для бізнесу",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Для корпоративного використання. Завжди надає останній рівень виправлення, але не оновлюється до наступного основного випуску негайно. Це оновлення відбувається після того, як Nextcloud GmbH виконає додаткову надійність і тестування для широкомасштабних і критично важливих розгортань. Цей канал доступний лише для клієнтів і надає пакет Nextcloud Enterprise.",
-    "Stable" : "Стабільна",
+    "Stable" : "Стабільний",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Остання стабільна версія. Він підходить для регулярного використання та завжди оновлюється до останньої основної версії.",
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
