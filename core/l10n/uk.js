@@ -151,7 +151,7 @@ OC.L10N.register(
     "Your connection is not secure" : "Ваше зʼєднання не захищене",
     "Passwordless authentication is only available over a secure connection." : "Авторизація без пароля можлива лише при безпечному з'єднанні.",
     "Reset password" : "Перевстановити пароль",
-    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Якщо цей обліковий запис існує, на його електронну адресу було надіслано повідомлення про зміну пароля. Якщо ви його не отримали, перевірте адресу електронної пошти та/або назву облікового запису, перевірте папки \"Спам\" і \"Небажана пошта\" або зверніться за допомогою до вашого адміністратора.",
+    "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Якщо цей обліковий запис існує, на його електронну адресу було надіслано повідомлення про зміну пароля. Якщо ви його не отримали, перевірте адресу електронної пошти та/або назву облікового запису, перевірте каталоги \"Спам\" та \"Небажана пошта\" або зверніться за допомогою до адміністратора.",
     "Couldn't send reset email. Please contact your administrator." : "Не вдалося надіслати повідомлення для перевстановлення пароля. Будь ласка, сконтактуйте з адміністратором.",
     "Password cannot be changed. Please contact your administrator." : "Пароль не можна змінити. Будь ласка, зверніться до свого адміністратора.",
     "Back to login" : "Повернутися на сторінку входу",
