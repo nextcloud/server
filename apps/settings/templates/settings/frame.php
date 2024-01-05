@@ -84,6 +84,6 @@ script('files', 'jquery.fileupload');
 		</ul>
 	</nav>
 </div>
-<div id="app-content" data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>">
+<div id="app-content" data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>" data-active-section-type="<?php print_unescaped($_['activeSectionType']) ?>">
 	<?php print_unescaped($_['content']); ?>
 </div>
