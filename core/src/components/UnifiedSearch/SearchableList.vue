@@ -36,25 +36,11 @@
 				@trailing-button-click="clearSearch">
 				<Magnify :size="20" />
 			</NcTextField>
-			<ul v-if="filteredList.length > 0" class="searchable-list__list">
-				<li v-for="element in filteredList"
-					:key="element.id"
-					:title="element.displayName"
-					role="button">
-					<NcButton alignment="start"
-						type="tertiary"
-						:wide="true"
-						@click="itemSelected(element)">
-						<template #icon>
-							<NcAvatar :user="element.user ? element.user : undefined" 
-								:show-user-status="false" 
-								:hide-favorite="false"
-								:isNoUser="element.isNoUser"
-								:disable-menu="true"/>
-						</template>
-						{{ element.displayName }}
-					</NcButton>
-				</li>
+			<ul v-if="filteredContactList.length > 0" class="searchable-list__list">
+				<Contact v-for="contact in filteredContactList" 
+					:key="contact.id" 
+					:contact="contact" 
+					@click.native="itemSelected(contact)" />
 			</ul>
 			<div v-else class="searchable-list__empty-content">
 				<NcEmptyContent :name="emptyContentText">
@@ -68,7 +54,8 @@
 </template>
 
 <script>
-import { NcPopover, NcTextField, NcAvatar, NcEmptyContent, NcButton } from '@nextcloud/vue'
+import { NcPopover, NcTextField, NcAvatar, NcEmptyContent } from '@nextcloud/vue'
+import Contact from '../ContactsMenu/Contact.vue'
 
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
@@ -83,7 +70,7 @@ export default {
 		AlertCircleOutline,
 		NcAvatar,
 		NcEmptyContent,
-		NcButton,
+		Contact,
 	},
 
 	props: {
@@ -112,7 +99,7 @@ export default {
 	},
 
 	computed: {
-		filteredList() {
+		filteredContactList() {
 			return this.searchList.filter((element) => {
 				if (!this.searchTerm.toLowerCase().length) {
 					return true

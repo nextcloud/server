@@ -370,6 +370,12 @@ export default {
 					subname: contact.emailAddresses[0] ? contact.emailAddresses[0] : '',
 					icon: '',
 					user: contact.id,
+					topAction: contact.topAction,
+					actions: contact.actions,
+					status: contact.status,
+					statusMessage: contact.statusMessage,
+					statusIcon: contact.statusIcon,
+					avatarLabel: contact.avatarLabel,
 				}
 			})
 		},
