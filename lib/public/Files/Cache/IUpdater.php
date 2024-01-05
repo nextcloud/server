@@ -53,7 +53,7 @@ interface IUpdater {
 	 * @param int $time
 	 * @since 9.0.0
 	 */
-	public function update($path, $time = null);
+	public function update($path, $time = null, ?int $sizeDifference = null);
 
 	/**
 	 * Remove $path from the cache and update the size, etag and mtime of the parent folders
