@@ -483,6 +483,56 @@ class SessionTest extends \Test\TestCase {
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
 
+	public function testTryTokenLoginNoHeaderNoSessionCookie(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn(null);
+		$this->tokenProvider->expects(self::never())
+			->method('getToken');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginAuthorizationHeaderTokenNotFound(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer abcde-12345');
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('abcde-12345')
+			->willThrowException(new InvalidTokenException());
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginSessionIdTokenNotFound(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn('abcde12345');
+		$this->session->expects(self::once())
+			->method('getId')
+			->willReturn('abcde12345');
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('abcde12345')
+			->willThrowException(new InvalidTokenException());
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
 	public function testRememberLoginValidToken() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
 		$managerMethods = get_class_methods(Manager::class);
