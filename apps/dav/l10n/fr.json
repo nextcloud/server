@@ -178,7 +178,7 @@
     "Sunday" : "Dimanche",
     "Pick a start time for {dayName}" : "Choisissez une heure de début pour {dayName}",
     "Pick a end time for {dayName}" : "Choisissez une heure de fin pour {dayName}",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Définir automatiquement le statut \"Ne pas déranger\" en dehors des heures de disponibilités pour désactiver toutes les notifications.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Définir automatiquement le statut « Ne pas déranger » en dehors des heures de disponibilités pour désactiver toutes les notifications.",
     "Failed to load availability" : "Impossible de charger les disponibilités",
     "Saved availability" : "Disponibilités sauvegardées",
     "Failed to save availability" : "Impossible de sauvegarder les disponibilités",
