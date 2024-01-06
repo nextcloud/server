@@ -402,6 +402,7 @@ class ViewControllerTest extends TestCase {
 		);
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
+		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->activityHelper->method('getFavoriteFilePaths')
