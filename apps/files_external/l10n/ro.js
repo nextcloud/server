@@ -1,6 +1,11 @@
 OC.L10N.register(
     "files_external",
     {
+    "Grant access" : "Permite accesul",
+    "Error configuring OAuth1" : "Eroare la configurarea OAuth1",
+    "Error configuring OAuth2" : "Eroare la configurarea OAuth2",
+    "Generate keys" : "Generează chei",
+    "Error generating key pair" : "Eroarea la generarea cheilor",
     "(Group)" : "(Grup)",
     "Enable encryption" : "Activează criptarea",
     "Enable previews" : "Activează previzualizările",
@@ -68,11 +73,6 @@ OC.L10N.register(
     "Available for" : "Disponibil pentru",
     "Add storage" : "Adauga stocare",
     "Advanced settings" : "Setări avansate",
-    "Grant access" : "Permite accesul",
-    "Error configuring OAuth1" : "Eroare la configurarea OAuth1",
-    "Error configuring OAuth2" : "Eroare la configurarea OAuth2",
-    "Generate keys" : "Generează chei",
-    "Error generating key pair" : "Eroarea la generarea cheilor",
     "Empty response from the server" : "Răspuns nul de la server",
     "There was an error with message: " : "A apărut o eroare cu mesajul:",
     "external-storage" : "Stocare externă",
