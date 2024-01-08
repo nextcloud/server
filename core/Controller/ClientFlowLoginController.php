@@ -33,7 +33,6 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
-use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -332,7 +331,7 @@ class ClientFlowLoginController extends Controller {
 		try {
 			$token = $this->tokenProvider->getToken($password);
 			if ($token->getLoginName() !== $user) {
-				throw new OcInvalidTokenException('login name does not match');
+				throw new InvalidTokenException('login name does not match');
 			}
 		} catch (InvalidTokenException $e) {
 			$response = new StandaloneTemplateResponse(

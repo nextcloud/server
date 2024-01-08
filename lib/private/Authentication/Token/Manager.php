@@ -29,9 +29,9 @@ namespace OC\Authentication\Token;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
 
@@ -222,6 +222,7 @@ class Manager implements IProvider, OCPIProvider {
 			return $this->publicKeyTokenProvider->rotate($token, $oldTokenId, $newTokenId);
 		}
 
+		/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
 		throw new OcInvalidTokenException();
 	}
 
@@ -234,6 +235,7 @@ class Manager implements IProvider, OCPIProvider {
 		if ($token instanceof PublicKeyToken) {
 			return $this->publicKeyTokenProvider;
 		}
+		/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
 		throw new OcInvalidTokenException();
 	}
 
