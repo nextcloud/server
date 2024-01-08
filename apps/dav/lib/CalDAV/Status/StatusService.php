@@ -94,12 +94,15 @@ class StatusService {
 		}
 
 		// Filter events to see if we have any that apply to the calendar status
-		$applicableEvents = array_filter($calendarEvents, function (array $calendarEvent) use ($userStatusTimestamp) {
-			$component = $calendarEvent['objects'][0];
-			if(isset($component['X-NEXTCLOUD-OUT-OF-OFFICE'])) {
+		$applicableEvents = array_filter($calendarEvents, static function (array $calendarEvent) use ($userStatusTimestamp): bool {
+			if (empty($calendarEvent['objects'])) {
 				return false;
 			}
-			if(isset($component['DTSTART']) && $userStatusTimestamp !== null) {
+			$component = $calendarEvent['objects'][0];
+			if (isset($component['X-NEXTCLOUD-OUT-OF-OFFICE'])) {
+				return false;
+			}
+			if (isset($component['DTSTART']) && $userStatusTimestamp !== null) {
 				/** @var DateTimeImmutable $dateTime */
 				$dateTime = $component['DTSTART'][0];
 				$timestamp = $dateTime->getTimestamp();
@@ -108,7 +111,7 @@ class StatusService {
 				}
 			}
 			// Ignore events that are transparent
-			if(isset($component['TRANSP']) && strcasecmp($component['TRANSP'][0], 'TRANSPARENT') === 0) {
+			if (isset($component['TRANSP']) && strcasecmp($component['TRANSP'][0], 'TRANSPARENT') === 0) {
 				return false;
 			}
 			return true;
