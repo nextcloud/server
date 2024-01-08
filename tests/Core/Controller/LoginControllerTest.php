@@ -143,9 +143,12 @@ class LoginControllerTest extends TestCase {
 			->with('nc_token')
 			->willReturn(null);
 		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
+		$this->request
 			->expects($this->once())
 			->method('isUserAgent')
-			->willReturn(false);
+			->willReturn(true);
 		$this->config
 			->expects($this->never())
 			->method('deleteUserValue');
