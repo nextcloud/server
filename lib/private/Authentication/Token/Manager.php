@@ -34,6 +34,7 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
+use OCP\Authentication\Token\IToken;
 
 class Manager implements IProvider, OCPIProvider {
 	/** @var PublicKeyTokenProvider */

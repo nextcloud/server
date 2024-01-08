@@ -37,6 +37,7 @@ use OC\Authentication\Exceptions\WipeTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Token\IToken;
 use OCP\Cache\CappedMemoryCache;
 use OCP\IConfig;
 use OCP\IDBConnection;
