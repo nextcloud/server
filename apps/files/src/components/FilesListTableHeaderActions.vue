@@ -218,15 +218,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .files-list__row-actions-batch {
 	flex: 1 1 100% !important;
-
-	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	:deep(.button-vue__wrapper) {
-		width: 100%;
-		span.button-vue__text {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
+	max-width: 100%;
 }
 </style>
