@@ -2349,17 +2349,6 @@ $CONFIG = [
 'profile.enabled' => true,
 
 /**
- * Enable file metadata collection
- *
- * This is helpful for the mobile clients and will enable few optimizations in
- * the future for the preview generation.
- *
- * Note that when enabled, this data will be stored in the database and might increase
- * the database storage.
- */
-'enable_file_metadata' => true,
-
-/**
  * Allows to override the default scopes for Account data.
  * The list of overridable properties and valid values for scopes are in
  * ``OCP\Accounts\IAccountManager``. Values added here are merged with
