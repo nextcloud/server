@@ -34,25 +34,20 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
-use bantu\IniGetWrapper\IniGetWrapper;
 use OC;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Controller\CheckSetupController;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -83,22 +78,12 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $dispatcher;
-	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
-	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $iniGetWrapper;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var IServerContainer|MockObject */
-	private $serverContainer;
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
 
@@ -127,17 +112,12 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
-		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
@@ -149,14 +129,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dispatcher,
-				$this->lockingProvider,
 				$this->dateTimeFormatter,
-				$this->iniGetWrapper,
 				$this->tempManager,
 				$this->notificationManager,
-				$this->appManager,
-				$this->serverContainer,
 				$this->setupCheckManager,
 			])
 			->setMethods([
@@ -164,7 +139,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getSuggestedOverwriteCliURL',
 				'getCurlVersion',
 				'isPhpOutdated',
-				'getOpcacheSetupRecommendations',
 				'isPHPMailerUsed',
 				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
@@ -208,10 +182,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getHeader');
 		$this->clientService->expects($this->never())
 			->method('newClient');
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getOpcacheSetupRecommendations')
-			->willReturn(['recommendation1', 'recommendation2']);
 		$this->checkSetupController
 			->expects($this->once())
 			->method('getSuggestedOverwriteCliURL')
@@ -299,7 +269,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
-				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
@@ -327,14 +296,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dispatcher,
-				$this->lockingProvider,
 				$this->dateTimeFormatter,
-				$this->iniGetWrapper,
 				$this->tempManager,
 				$this->notificationManager,
-				$this->appManager,
-				$this->serverContainer,
 				$this->setupCheckManager,
 			])
 			->setMethods(null)->getMock();
@@ -1051,14 +1015,9 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dispatcher,
-			$this->lockingProvider,
 			$this->dateTimeFormatter,
-			$this->iniGetWrapper,
 			$this->tempManager,
 			$this->notificationManager,
-			$this->appManager,
-			$this->serverContainer,
 			$this->setupCheckManager,
 		);
 
@@ -1102,14 +1061,9 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dispatcher,
-			$this->lockingProvider,
 			$this->dateTimeFormatter,
-			$this->iniGetWrapper,
 			$this->tempManager,
 			$this->notificationManager,
-			$this->appManager,
-			$this->serverContainer,
 			$this->setupCheckManager,
 		);
 

@@ -45,28 +45,22 @@
  */
 namespace OCA\Settings\Controller;
 
-use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
 use GuzzleHttp\Exception\ClientException;
-use OC;
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
@@ -85,22 +79,12 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var ILockingProvider */
-	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var IniGetWrapper */
-	private $iniGetWrapper;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
 	private $manager;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IServerContainer */
-	private $serverContainer;
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
@@ -111,14 +95,9 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		IEventDispatcher $dispatcher,
-		ILockingProvider $lockingProvider,
 		IDateTimeFormatter $dateTimeFormatter,
-		IniGetWrapper $iniGetWrapper,
 		ITempManager $tempManager,
 		IManager $manager,
-		IAppManager $appManager,
-		IServerContainer $serverContainer,
 		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
@@ -128,14 +107,9 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
-		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->iniGetWrapper = $iniGetWrapper;
 		$this->tempManager = $tempManager;
 		$this->manager = $manager;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
 		$this->setupCheckManager = $setupCheckManager;
 	}
 
@@ -328,79 +302,6 @@ Raw output
 		);
 	}
 
-	/**
-	 * Checks whether a PHP OPcache is properly set up
-	 * @return string[] The list of OPcache setup recommendations
-	 */
-	protected function getOpcacheSetupRecommendations(): array {
-		// If the module is not loaded, return directly to skip inapplicable checks
-		if (!extension_loaded('Zend OPcache')) {
-			return [$this->l10n->t('The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.')];
-		}
-
-		$recommendations = [];
-
-		// Check whether Nextcloud is allowed to use the OPcache API
-		$isPermitted = true;
-		$permittedPath = $this->iniGetWrapper->getString('opcache.restrict_api');
-		if (isset($permittedPath) && $permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, rtrim($permittedPath, '/'))) {
-			$isPermitted = false;
-		}
-
-		if (!$this->iniGetWrapper->getBool('opcache.enable')) {
-			$recommendations[] = $this->l10n->t('OPcache is disabled. For better performance, it is recommended to apply <code>opcache.enable=1</code> to your PHP configuration.');
-
-			// Check for saved comments only when OPcache is currently disabled. If it was enabled, opcache.save_comments=0 would break Nextcloud in the first place.
-			if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
-				$recommendations[] = $this->l10n->t('OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function.');
-			}
-
-			if (!$isPermitted) {
-				$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
-			}
-		} elseif (!$isPermitted) {
-			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
-		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
-			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply <code>opcache.file_cache_only=0</code> to your PHP configuration and use the file cache as second level cache only.');
-		} else {
-			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
-			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
-			if (isset($disabledFunctions) && str_contains($disabledFunctions, 'opcache_get_status')) {
-				return [];
-			}
-
-			$status = opcache_get_status(false);
-
-			// Recommend to raise value, if more than 90% of max value is reached
-			if (
-				empty($status['opcache_statistics']['max_cached_keys']) ||
-				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
-			) {
-				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
-			}
-
-			if (
-				empty($status['memory_usage']['free_memory']) ||
-				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
-			) {
-				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
-			}
-
-			if (
-				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') / 4) &&
-				(
-					empty($status['interned_strings_usage']['free_memory']) ||
-					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
-				)
-			) {
-				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
-			}
-		}
-
-		return $recommendations;
-	}
-
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -452,7 +353,7 @@ Raw output
 		$currentUser = posix_getuid();
 		$appDirsWithDifferentOwner = [[]];
 
-		foreach (OC::$APPSROOTS as $appRoot) {
+		foreach (\OC::$APPSROOTS as $appRoot) {
 			if ($appRoot['writable'] === true) {
 				$appDirsWithDifferentOwner[] = $this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot);
 			}
@@ -568,7 +469,6 @@ Raw output
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
-				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'isImagickEnabled' => $this->isImagickEnabled(),
