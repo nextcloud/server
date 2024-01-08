@@ -50,10 +50,11 @@
 					@search="findUserDebounced" />
 			</p>
 			<p>
-				<input type="submit"
-					class="primary"
-					:value="submitButtonText"
+				<NcButton native-type="submit"
+					type="primary"
 					:disabled="!canSubmit">
+					{{ submitButtonText }}
+				</NcButton>
 				<span class="error">{{ submitError }}</span>
 			</p>
 		</form>
