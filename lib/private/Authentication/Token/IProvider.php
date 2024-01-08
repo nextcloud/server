@@ -33,6 +33,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 
 interface IProvider {
 	/**

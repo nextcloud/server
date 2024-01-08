@@ -36,7 +36,6 @@ use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenExceptio
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager;
@@ -46,6 +45,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
