@@ -27,7 +27,6 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
@@ -212,7 +211,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		try {
 			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
 			if ($token->getLoginName() !== $user) {
-				throw new OcInvalidTokenException('login name does not match');
+				throw new InvalidTokenException('login name does not match');
 			}
 		} catch (InvalidTokenException $e) {
 			$response = new StandaloneTemplateResponse(

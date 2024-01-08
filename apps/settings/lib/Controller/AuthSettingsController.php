@@ -293,7 +293,7 @@ class AuthSettingsController extends Controller {
 			$token = $e->getToken();
 		}
 		if ($token->getUID() !== $this->uid) {
-			/* We have to throw the OC version so both OC and OCP catches catch it */
+			/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
 			throw new OcInvalidTokenException('This token does not belong to you!');
 		}
 		return $token;
