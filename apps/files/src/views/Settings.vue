@@ -56,6 +56,7 @@
 		<!-- Webdav URL-->
 		<NcAppSettingsSection id="webdav" :name="t('files', 'WebDAV')">
 			<NcInputField id="webdav-url-input"
+				:label="t('files', 'WebDAV URL')"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
 				:trailing-button-label="t('files', 'Copy to clipboard')"
