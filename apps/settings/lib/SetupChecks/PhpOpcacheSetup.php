@@ -49,46 +49,43 @@ class PhpOpcacheSetup implements ISetupCheck {
 
 	/**
 	 * Checks whether a PHP OPcache is properly set up
-	 * @return string[] The list of OPcache setup recommendations
+	 * @return array{'warning'|'error',list<string>} The level and the list of OPcache setup recommendations
 	 */
 	protected function getOpcacheSetupRecommendations(): array {
+		$level = 'warning';
+
 		// If the module is not loaded, return directly to skip inapplicable checks
 		if (!extension_loaded('Zend OPcache')) {
-			return [$this->l10n->t('The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.')];
+			return ['error',[$this->l10n->t('The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.')]];
 		}
 
 		$recommendations = [];
 
 		// Check whether Nextcloud is allowed to use the OPcache API
 		$isPermitted = true;
-		$permittedPath = $this->iniGetWrapper->getString('opcache.restrict_api');
-		if (isset($permittedPath) && $permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, rtrim($permittedPath, '/'))) {
+		$permittedPath = (string)$this->iniGetWrapper->getString('opcache.restrict_api');
+		if ($permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, rtrim($permittedPath, '/'))) {
 			$isPermitted = false;
 		}
 
 		if (!$this->iniGetWrapper->getBool('opcache.enable')) {
 			$recommendations[] = $this->l10n->t('OPcache is disabled. For better performance, it is recommended to apply "opcache.enable=1" to your PHP configuration.');
-
-			// Check for saved comments only when OPcache is currently disabled. If it was enabled, opcache.save_comments=0 would break Nextcloud in the first place.
-			if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
-				$recommendations[] = $this->l10n->t('OPcache is configured to remove code comments. With OPcache enabled, "opcache.save_comments=1" must be set for Nextcloud to function.');
-			}
-
-			if (!$isPermitted) {
-				$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with "opcache.restrict_api" or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
-			}
-		} elseif (!$isPermitted) {
-			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with "opcache.restrict_api" or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
+			$level = 'error';
 		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
 			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply "opcache.file_cache_only=0" to your PHP configuration and use the file cache as second level cache only.');
 		} else {
 			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
 			if (isset($disabledFunctions) && str_contains($disabledFunctions, 'opcache_get_status')) {
-				return [];
+				return [$level, $recommendations];
 			}
 
 			$status = opcache_get_status(false);
+
+			if ($status === false) {
+				$recommendations[] = $this->l10n->t('OPcache is not working as it should, opcache_get_status() returns false, please check configuration.');
+				$level = 'error';
+			}
 
 			// Recommend to raise value, if more than 90% of max value is reached
 			if (
@@ -107,7 +104,7 @@ class PhpOpcacheSetup implements ISetupCheck {
 
 			if (
 				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? 0 < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') / 4) &&
+				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? 0 < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0 / 4) &&
 				(
 					empty($status['interned_strings_usage']['free_memory']) ||
 					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
@@ -117,16 +114,33 @@ class PhpOpcacheSetup implements ISetupCheck {
 			}
 		}
 
-		return $recommendations;
+		// Check for saved comments only when OPcache is currently disabled. If it was enabled, opcache.save_comments=0 would break Nextcloud in the first place.
+		if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
+			$recommendations[] = $this->l10n->t('OPcache is configured to remove code comments. With OPcache enabled, "opcache.save_comments=1" must be set for Nextcloud to function.');
+			$level = 'error';
+		}
+
+		if (!$isPermitted) {
+			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with "opcache.restrict_api" or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
+			$level = 'error';
+		}
+
+		return [$level, $recommendations];
 	}
 
 	public function run(): SetupResult {
-		$recommendations = $this->getOpcacheSetupRecommendations();
+		[$level,$recommendations] = $this->getOpcacheSetupRecommendations();
 		if (!empty($recommendations)) {
-			return SetupResult::error(
-				$this->l10n->t('The PHP OPcache module is not properly configured. %s.', implode("\n", $recommendations)),
-				$this->urlGenerator->linkToDocs('admin-php-opcache')
-			);
+			return match($level) {
+				'error' => SetupResult::error(
+					$this->l10n->t('The PHP OPcache module is not properly configured. %s.', implode("\n", $recommendations)),
+					$this->urlGenerator->linkToDocs('admin-php-opcache')
+				),
+				default => SetupResult::warning(
+					$this->l10n->t('The PHP OPcache module is not properly configured. %s.', implode("\n", $recommendations)),
+					$this->urlGenerator->linkToDocs('admin-php-opcache')
+				),
+			};
 		} else {
 			return SetupResult::success($this->l10n->t('Correctly configured'));
 		}
