@@ -38,7 +38,8 @@
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked="userConfig.grid_view"
+			<NcCheckboxRadioSwitch v-if="enableGridView"
+				:checked="userConfig.grid_view"
 				@update:checked="setConfig('grid_view', $event)">
 				{{ t('files', 'Enable the grid view') }}
 			</NcCheckboxRadioSwitch>
@@ -99,6 +100,7 @@ import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default {
@@ -136,6 +138,7 @@ export default {
 			webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
 			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
+			enableGridView: (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true),
 		}
 	},
 
