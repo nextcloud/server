@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<th class="files-list__column files-list__row-actions-batch" colspan="2">
+	<div class="files-list__column files-list__row-actions-batch">
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
@@ -38,7 +38,7 @@
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
 		</NcActions>
-	</th>
+	</div>
 </template>
 
 <script lang="ts">
@@ -220,7 +220,7 @@ export default Vue.extend({
 	flex: 1 1 100% !important;
 
 	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	::v-deep .button-vue__wrapper {
+	:deep(.button-vue__wrapper) {
 		width: 100%;
 		span.button-vue__text {
 			overflow: hidden;
