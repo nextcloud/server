@@ -45,6 +45,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -123,6 +124,7 @@ class ApiTest extends TestCase {
 		$serverContainer = $this->createMock(IServerContainer::class);
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
 		$previewManager = $this->createMock(IPreview::class);
+		$dateTimeZone = $this->createMock(IDateTimeZone::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -138,7 +140,8 @@ class ApiTest extends TestCase {
 			$appManager,
 			$serverContainer,
 			$userStatusManager,
-			$previewManager
+			$previewManager,
+			$dateTimeZone,
 		);
 	}
 
