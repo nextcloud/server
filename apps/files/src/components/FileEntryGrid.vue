@@ -283,8 +283,8 @@ export default Vue.extend({
 		},
 
 		execDefaultAction(event) {
-			event.preventDefault()
 			if (event.ctrlKey || event.metaKey) {
+				event.preventDefault()
 				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
 				return false
 			}
