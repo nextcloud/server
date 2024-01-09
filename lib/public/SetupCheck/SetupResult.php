@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCP\SetupCheck;
 
+use OCP\RichObjectStrings\IValidator;
+
 /**
  * @brief This class is used for storing the result of a setup check
  *
@@ -54,6 +56,9 @@ class SetupResult implements \JsonSerializable {
 		private ?array $descriptionParameters = null,
 		private ?string $linkToDoc = null,
 	) {
+		if ($description !== null && $descriptionParameters !== null) {
+			\OCP\Server::get(IValidator::class)->validate($description, $descriptionParameters);
+		}
 	}
 
 	/**
