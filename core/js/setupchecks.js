@@ -332,6 +332,28 @@
 			return deferred.promise();
 		},
 
+		/**
+		* @param message      The message string containing placeholders.
+		* @param parameters   An object with keys as placeholders and values as their replacements.
+		*
+		* @return The message with placeholders replaced by values.
+		*/
+		richToParsed: function (message, parameters) {
+			for (var [placeholder, parameter] of Object.entries(parameters)) {
+				var replacement;
+				if (parameter.type === 'user') {
+					replacement = '@' + parameter.name;
+				} else if (parameter.type === 'file') {
+					replacement = parameter.path || parameter.name;
+				} else {
+					replacement = parameter.name;
+				}
+				message = message.replace('{' + placeholder + '}', replacement);
+			}
+
+			return message;
+		},
+
 		addGenericSetupCheck: function(data, check, messages) {
 			var setupCheck = data[check] || { pass: true, description: '', severity: 'info', linkToDoc: null}
 
@@ -343,6 +365,9 @@
 			}
 
 			var message = setupCheck.description;
+			if (setupCheck.descriptionParameters) {
+				message = this.richToParsed(message, setupCheck.descriptionParameters);
+			}
 			if (setupCheck.linkToDoc) {
 				message += ' ' + t('core', 'For more details see the {linkstart}documentation ↗{linkend}.')
 					.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + setupCheck.linkToDoc + '">')
