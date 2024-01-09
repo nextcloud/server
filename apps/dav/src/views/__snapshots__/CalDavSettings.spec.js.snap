@@ -70,19 +70,19 @@ exports[`CalDavSettings interactions 1`] = `
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
         data-v-375ea653=""
-        data-v-9f4bf554=""
+        data-v-87511acb=""
         style="--icon-size: 36px;"
       >
         <input
           class="checkbox-radio-switch__input"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           id="caldavSendInvitations"
           type="checkbox"
           value=""
         />
         <label
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           data-v-bc42acb7=""
           for="caldavSendInvitations"
         >
@@ -142,19 +142,19 @@ exports[`CalDavSettings interactions 1`] = `
       <span
         class="checkbox-radio-switch checkbox checkbox-radio-switch-switch checkbox-radio-switch--checked"
         data-v-375ea653=""
-        data-v-9f4bf554=""
+        data-v-87511acb=""
         style="--icon-size: 36px;"
       >
         <input
           class="checkbox-radio-switch__input"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           id="caldavGenerateBirthdayCalendar"
           type="checkbox"
           value=""
         />
         <label
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           data-v-bc42acb7=""
           for="caldavGenerateBirthdayCalendar"
         >
@@ -222,19 +222,19 @@ exports[`CalDavSettings interactions 1`] = `
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
         data-v-375ea653=""
-        data-v-9f4bf554=""
+        data-v-87511acb=""
         style="--icon-size: 36px;"
       >
         <input
           class="checkbox-radio-switch__input"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           id="caldavSendEventReminders"
           type="checkbox"
           value=""
         />
         <label
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           data-v-bc42acb7=""
           for="caldavSendEventReminders"
         >
@@ -307,19 +307,19 @@ exports[`CalDavSettings interactions 1`] = `
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
         data-v-375ea653=""
-        data-v-9f4bf554=""
+        data-v-87511acb=""
         style="--icon-size: 36px;"
       >
         <input
           class="checkbox-radio-switch__input"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           id="caldavSendEventRemindersToSharedGroupMembers"
           type="checkbox"
           value=""
         />
         <label
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           data-v-bc42acb7=""
           for="caldavSendEventRemindersToSharedGroupMembers"
         >
@@ -376,19 +376,19 @@ exports[`CalDavSettings interactions 1`] = `
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
         data-v-375ea653=""
-        data-v-9f4bf554=""
+        data-v-87511acb=""
         style="--icon-size: 36px;"
       >
         <input
           class="checkbox-radio-switch__input"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           id="caldavSendEventRemindersPush"
           type="checkbox"
           value=""
         />
         <label
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch"
-          data-v-9f4bf554=""
+          data-v-87511acb=""
           data-v-bc42acb7=""
           for="caldavSendEventRemindersPush"
         >

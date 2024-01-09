@@ -50,7 +50,7 @@ OC.L10N.register(
     "{user} unshared {file} from you" : "{user} deixou de compartir {file} con Vde.",
     "Shared with {user}" : "Compartido con {user}",
     "Removed share for {user}" : "Retirar o compartido para {user}",
-    "You removed yourself" : "Retirou a sí mesmo",
+    "You removed yourself" : "Vde. retirouse a si mesmo",
     "{actor} removed themselves" : "{actor} foi retirado",
     "{actor} shared with {user}" : "{actor} compartiu con {user}",
     "{actor} removed share for {user}" : "{actor} retirou o compartido para {user}",
@@ -60,7 +60,7 @@ OC.L10N.register(
     "Share expired" : "Caducou a compartición",
     "You shared {file} with {user}" : "Vde. compartiu {file} con  {user}",
     "You removed {user} from {file}" : "Vde. retirou a {user} de {file}",
-    "You removed yourself from {file}" : "Vde. retirouse a sí mesmo de {file}",
+    "You removed yourself from {file}" : "Vde. retirouse a si mesmo de {file}",
     "{actor} removed themselves from {file}" : "{actor} foi retirado de {file}",
     "{actor} shared {file} with {user}" : "{actor} compartiu {file} con {user}",
     "{actor} removed {user} from {file}" : "{actor} retirou a {user} de {file}",
@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Crear",
     "Share" : "Compartir",
     "Delete share" : "Eliminar o recurso compartido",
-    "Share with " : "Compartir con",
+    "Share with" : "Compartir con",
     "Save share" : "Gardar a compartición",
     "Update share" : "Actualizar a compartición",
     "Others with access" : "Outros con acceso",
@@ -303,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Data de caducidade obrigada",
     "Password protect" : "Protexido con contrasinal",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Actualizar"
+    "Update" : "Actualizar",
+    "Share with " : "Compartir con"
 },
 "nplurals=2; plural=(n != 1);");

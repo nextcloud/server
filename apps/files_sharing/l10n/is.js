@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Búa til",
     "Share" : "Deila",
     "Delete share" : "Eyða sameign",
-    "Share with " : "Deila með ",
+    "Share with" : "Deila með",
     "Save share" : "Vista sameign",
     "Update share" : "Uppfæra sameign",
     "Others with access" : "Aðrir með aðgang",
@@ -303,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Gerði gildistíma nauðsynlegan",
     "Password protect" : "Verja með lykilorði",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Uppfæra"
+    "Update" : "Uppfæra",
+    "Share with " : "Deila með "
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -2147,6 +2147,20 @@
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
   </file>
+  <file src="lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php">
+    <InvalidArgument>
+      <code>$image</code>
+      <code>$image</code>
+      <code>$image</code>
+      <code>$image</code>
+    </InvalidArgument>
+    <InvalidReturnStatement>
+      <code>$image</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>GdImage|false</code>
+    </InvalidReturnType>
+  </file>
   <file src="lib/private/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
       <code>\ArrayAccess</code>

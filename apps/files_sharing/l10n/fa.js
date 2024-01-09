@@ -205,6 +205,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Create" : "ایجاد",
     "Share" : "هم‌رسانی",
+    "Share with" : "به اشتراک گذاشتن با",
     "Others with access" : "دیگران با دسترسی",
     "No other users with access found" : "هیچ کاربر دیگری با دسترسی یافت نشد",
     "Toggle list of others with access to this directory" : "لیست دسترسی دیگران به این فهرست را تغییر دهید",

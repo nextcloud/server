@@ -167,9 +167,12 @@
     "The ownership transfer of {path} from {user} has completed." : "نقل الملكية لـ {path} من قبل {user} تمت بنجاح.",
     "in %s" : "في %s",
     "File Management" : "إدارة الملفات",
+    "Current directory path" : "مسار المجلد الحالي",
     "Reload current directory" : "إعادة تحميل المجلد الحالي",
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
     "Drag and drop files here to upload" : "إسحَب و أفلِت الملفات هنا لرفعها",
+    "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات بعدُ",
+    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Upload successful" : "تمّ الرفع بنجاحٍ",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" الأمر نُفّذ بنجاح",
     "\"{displayName}\" action failed" : "\"{dispalyName}\" الأمر أخفق عند التنفيذ",
@@ -219,6 +222,7 @@
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
     "Cannot transfer ownership of a file or folder you do not own" : "لايمكنك نقل ملكية ملف أو مجلد لا تملكه",
     "Select file or folder to link to" : "اختر ملف أو مجلد للربط معه",
+    "Choose file" : "إختَر ملفاً",
     "Choose {file}" : "إختَر {file}",
     "Add" : "أضِف",
     "Loading current folder" : "تحميل المجلد الحالي",
@@ -231,8 +235,6 @@
     "Shared" : "مُشارَكة",
     "Switch to list view" : "التبديل إلى عرض القائمة",
     "Switch to grid view" : "بدِّل إلى المنظور الصندوقي",
-    "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات بعدُ",
-    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Error during upload: {message}" : "حدث خطأ أثناء الرفع: {message}",
     "Unknown error during upload" : "خطأ غير محدد حدث أثناء الرفع",
     "Open the files app settings" : "إفتح إعدادات تطبيق الملفات",
@@ -266,7 +268,7 @@
     "A file or folder with that name already exists in this folder" : "ملف أو مجلد بنفس ذاك الاسم موجود سلفاً في هذا المجلد",
     "The files is locked" : "الملفات مقفله",
     "The file does not exist anymore" : "الملف لم يعد موجوداً",
-    "Chose destination" : "إختَر المَقصَد",
+    "Choose destination" : "إختَر المَقصِد",
     "Copy to {target}" : "أُنسُخ إلى {target}",
     "Move to {target}" : "أُنقُل إلى {target}",
     "Cancelled move or copy operation" : ".عملية النسخ أو النقل تمّ إلغاؤها",
@@ -318,6 +320,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "لم يمكن عرض هذه القائمة بالكامل بسبب إشكالية في الأداء. سيتم عرض الملفات عندما تمر عليها في القائمة",
     "Search for an account" : "البحث عن حساب",
     "Choose" : "إختَر",
-    "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ"
+    "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ",
+    "Chose destination" : "إختَر المَقصَد"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

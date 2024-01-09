@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Ponovno naloži trenutno mapo",
     "Go to the \"{dir}\" directory" : "Pojdi v mapo »{dir}«",
     "Drag and drop files here to upload" : "Za pošiljanje potegnite in spustite datoteke na to mesto",
+    "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
     "Upload successful" : "Pošiljanje je uspešno končano",
     "\"{displayName}\" action executed successfully" : "Dejanje »{displayName}« je uspešno izvedeno",
     "\"{displayName}\" action failed" : "Dejanje »{displayName}« je spodletelo",
@@ -232,7 +233,6 @@ OC.L10N.register(
     "Shared" : "V souporabi",
     "Switch to list view" : "Preklopi na seznamski pogled",
     "Switch to grid view" : "Preklopi na mrežni pogled",
-    "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
     "Open the files app settings" : "Odpri nastavitve programa Datoteke",
     "Files settings" : "Nastavitve datotek",
     "File cannot be accessed" : "Do datoteke dostop ni mogoč",
@@ -263,7 +263,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Datoteka oziroma mapa s tem imenom v tej mapi že obstaja",
     "The files is locked" : "Datoteka je zaklenjena",
     "The file does not exist anymore" : "Datoteka ne obstaja več",
-    "Chose destination" : "Izbor ciljnega mesta",
     "Copy to {target}" : "Kopiraj na {target}",
     "Move to {target}" : "Premakni na {target}",
     "Cancelled move or copy operation" : "Opravilo kopiranje in premikanja je preklicano",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali ob brskanju.",
     "Search for an account" : "Poišči račun",
     "Choose" : "Izbor",
-    "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map"
+    "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map",
+    "Chose destination" : "Izbor ciljnega mesta"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

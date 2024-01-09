@@ -24,6 +24,7 @@ import { translate as t } from '@nextcloud/l10n'
 
 /** Enum of verification constants, according to Apps */
 export const APPS_SECTION_ENUM = Object.freeze({
+	installed: t('settings', 'Your apps'),
 	enabled: t('settings', 'Active apps'),
 	disabled: t('settings', 'Disabled apps'),
 	updates: t('settings', 'Updates'),

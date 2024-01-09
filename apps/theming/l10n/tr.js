@@ -52,7 +52,7 @@ OC.L10N.register(
     "Adjust the Nextcloud theme" : "Nextcloud temasını ayarla",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Advanced options" : "Gelişmiş ayarlar",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için ImageMagick PHP eklentisini SVG desteği ile kurun.",
+    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon oluşturulması için ImageMagick PHP eklentisini SVG desteği ile kurun.",
     "Name" : "Ad",
     "Web link" : "Site bağlantısı",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",

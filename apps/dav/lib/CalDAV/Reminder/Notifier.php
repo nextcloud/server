@@ -170,7 +170,7 @@ class Notifier implements INotifier {
 			$components[] = $this->l10n->n('%n minute', '%n minutes', $diff->i);
 		}
 
-		if (!$this->hasPhpDatetimeDiffBug()) {
+		if (count($components) > 0 && !$this->hasPhpDatetimeDiffBug()) {
 			// Limiting to the first three components to prevent
 			// the string from getting too long
 			$firstThreeComponents = array_slice($components, 0, 2);

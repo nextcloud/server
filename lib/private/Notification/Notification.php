@@ -32,94 +32,33 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
-	/** @var IValidator */
-	protected $richValidator;
+	protected string $app = '';
+	protected string $user = '';
+	protected \DateTime $dateTime;
+	protected string $objectType = '';
+	protected string $objectId = '';
+	protected string $subject = '';
+	protected array $subjectParameters = [];
+	protected string $subjectParsed = '';
+	protected string $subjectRich = '';
+	protected array $subjectRichParameters = [];
+	protected string $message = '';
+	protected array $messageParameters = [];
+	protected string $messageParsed = '';
+	protected string $messageRich = '';
+	protected array $messageRichParameters = [];
+	protected string $link = '';
+	protected string $icon = '';
+	protected array $actions = [];
+	protected array $actionsParsed = [];
+	protected bool $hasPrimaryAction = false;
+	protected bool $hasPrimaryParsedAction = false;
 
-	/** @var string */
-	protected $app;
-
-	/** @var string */
-	protected $user;
-
-	/** @var \DateTime */
-	protected $dateTime;
-
-	/** @var string */
-	protected $objectType;
-
-	/** @var string */
-	protected $objectId;
-
-	/** @var string */
-	protected $subject;
-
-	/** @var array */
-	protected $subjectParameters;
-
-	/** @var string */
-	protected $subjectParsed;
-
-	/** @var string */
-	protected $subjectRich;
-
-	/** @var array */
-	protected $subjectRichParameters;
-
-	/** @var string */
-	protected $message;
-
-	/** @var array */
-	protected $messageParameters;
-
-	/** @var string */
-	protected $messageParsed;
-
-	/** @var string */
-	protected $messageRich;
-
-	/** @var array */
-	protected $messageRichParameters;
-
-	/** @var string */
-	protected $link;
-
-	/** @var string */
-	protected $icon;
-
-	/** @var array */
-	protected $actions;
-
-	/** @var array */
-	protected $actionsParsed;
-
-	/** @var bool */
-	protected $hasPrimaryAction;
-
-	/** @var bool */
-	protected $hasPrimaryParsedAction;
-
-	public function __construct(IValidator $richValidator) {
-		$this->richValidator = $richValidator;
-		$this->app = '';
-		$this->user = '';
+	public function __construct(
+		protected IValidator $richValidator,
+	) {
 		$this->dateTime = new \DateTime();
 		$this->dateTime->setTimestamp(0);
-		$this->objectType = '';
-		$this->objectId = '';
-		$this->subject = '';
-		$this->subjectParameters = [];
-		$this->subjectParsed = '';
-		$this->subjectRich = '';
-		$this->subjectRichParameters = [];
-		$this->message = '';
-		$this->messageParameters = [];
-		$this->messageParsed = '';
-		$this->messageRich = '';
-		$this->messageRichParameters = [];
-		$this->link = '';
-		$this->icon = '';
-		$this->actions = [];
-		$this->actionsParsed = [];
 	}
 
 	/**

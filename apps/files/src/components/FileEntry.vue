@@ -27,12 +27,7 @@
 		:data-cy-files-list-row-name="source.basename"
 		:draggable="canDrag"
 		class="files-list__row"
-		@contextmenu="onRightClick"
-		@dragover="onDragOver"
-		@dragleave="onDragLeave"
-		@dragstart="onDragStart"
-		@dragend="onDragEnd"
-		@drop="onDrop">
+		v-on="rowListeners">
 		<!-- Failed indicator -->
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
@@ -110,7 +105,8 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
+import { generateUrl } from '@nextcloud/router'
+import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
@@ -132,7 +128,7 @@ import logger from '../logger.js'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntry',
 
 	components: {
@@ -194,6 +190,26 @@ export default Vue.extend({
 	},
 
 	computed: {
+		/**
+		 * Conditionally add drag and drop listeners
+		 * Do not add drag start and over listeners on renaming to allow to drag and drop text
+		 */
+		rowListeners() {
+			const conditionals = this.isRenaming
+				? {}
+				: {
+					dragstart: this.onDragStart,
+					dragover: this.onDragOver,
+				}
+
+			return {
+				...conditionals,
+				contextmenu: this.onRightClick,
+				dragleave: this.onDragLeave,
+				dragend: this.onDragEnd,
+				drop: this.onDrop,
+			}
+		},
 		currentView(): View {
 			return this.$navigation.active as View
 		},
@@ -303,6 +319,10 @@ export default Vue.extend({
 		},
 
 		canDrag() {
+			if (this.isRenaming) {
+				return false
+			}
+
 			const canDrag = (node: Node): boolean => {
 				return (node?.permissions & Permission.UPDATE) !== 0
 			}
@@ -333,6 +353,15 @@ export default Vue.extend({
 				return this.actionsMenuStore.opened === this.uniqueId
 			},
 			set(opened) {
+				// Only reset when opening a new menu
+				if (opened) {
+					// Reset any right click position override on close
+					// Wait for css animation to be done
+					const root = this.$root.$el as HTMLElement
+					root.style.removeProperty('--mouse-pos-x')
+					root.style.removeProperty('--mouse-pos-y')
+				}
+
 				this.actionsMenuStore.opened = opened ? this.uniqueId : null
 			},
 		},
@@ -370,6 +399,13 @@ export default Vue.extend({
 				return
 			}
 
+			const root = this.$root.$el as HTMLElement
+			const contentRect = root.getBoundingClientRect()
+			// Using Math.min/max to prevent the menu from going out of the AppContent
+			// 200 = max width of the menu
+			root.style.setProperty('--mouse-pos-x', Math.max(contentRect.left, Math.min(event.clientX, event.clientX - 200)) + 'px')
+			root.style.setProperty('--mouse-pos-y', Math.max(contentRect.top, event.clientY - contentRect.top) + 'px')
+
 			// If the clicked row is in the selection, open global menu
 			const isMoreThanOneSelected = this.selectedFiles.length > 1
 			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this.uniqueId
@@ -379,8 +415,14 @@ export default Vue.extend({
 			event.stopPropagation()
 		},
 
-		execDefaultAction(...args) {
-			this.$refs.actions.execDefaultAction(...args)
+		execDefaultAction(event) {
+			if (event.ctrlKey || event.metaKey) {
+				event.preventDefault()
+				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
+				return false
+			}
+
+			this.$refs.actions.execDefaultAction(event)
 		},
 
 		openDetailsIfAvailable(event) {
@@ -449,7 +491,12 @@ export default Vue.extend({
 			logger.debug('Drag ended')
 		},
 
-		async onDrop(event) {
+		async onDrop(event: DragEvent) {
+			// skip if native drop like text drag and drop from files names
+			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+				return
+			}
+
 			event.preventDefault()
 			event.stopPropagation()
 

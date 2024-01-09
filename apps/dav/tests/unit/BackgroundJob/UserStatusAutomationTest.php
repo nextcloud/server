@@ -228,7 +228,7 @@ END:VCALENDAR');
 			->method('revertUserStatus');
 		$this->statusManager->expects(self::once())
 			->method('setUserStatus')
-			->with('user', IUserStatus::MESSAGE_VACATION, IUserStatus::DND, true, $ooo->getShortMessage());
+			->with('user', IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
 		$this->config->expects(self::never())
 			->method('getUserValue');
 		$this->time->method('getDateTime')

@@ -16,7 +16,7 @@
     "File shares" : "Dateifreigaben",
     "Downloaded via public link" : "Über den öffentlichen Link heruntergeladen",
     "Downloaded by {email}" : "Heruntergeladen von {email}",
-    "{file} downloaded via public link" : "{file} heruntergeladen mittels öffentlichem Link",
+    "{file} downloaded via public link" : "{file} über öffentlichen Link heruntergeladen",
     "{email} downloaded {file}" : "{email} hat {file} heruntergeladen",
     "Shared with group {group}" : "Geteilt mit der Gruppe {group}",
     "Removed share for group {group}" : "Freigabe für die Gruppe {group} entfernt",
@@ -207,7 +207,13 @@
     "Create" : "Erstellen",
     "Share" : "Teilen",
     "Delete share" : "Freigabe löschen",
-    "Share with " : "Teilen mit",
+    "Share with {userName}" : "Mit {userName} teilen",
+    "Share with group" : "Mit Gruppe teilen",
+    "Share in conversation" : "In Unterhaltungen teilen",
+    "Share with remote" : "Mit Entfernten teilen",
+    "Share with remote group" : "Mit entfernter Gruppe teilen",
+    "Share with guest" : "Mit Gast teilen",
+    "Share with" : "Teilen mit",
     "Save share" : "Freigabe speichern",
     "Update share" : "Freigabe aktualisieren",
     "Others with access" : "Andere mit Zugriff",
@@ -301,6 +307,7 @@
     "Expiration date enforced" : "Ablaufdatum erzwungen",
     "Password protect" : "Passwortschutz",
     "Science Mesh" : "ScienceMesh",
-    "Update" : "Aktualisieren"
+    "Update" : "Aktualisieren",
+    "Share with " : "Teilen mit "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

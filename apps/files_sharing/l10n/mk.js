@@ -206,7 +206,6 @@ OC.L10N.register(
     "Create" : "Креирај",
     "Share" : "Сподели",
     "Delete share" : "Избриши споделување",
-    "Share with " : "Сподели со",
     "Save share" : "Зачувај споделување",
     "Update share" : "Ажурирај споделување",
     "Others with access" : "Други со пристап",
@@ -224,6 +223,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Врати споделување","Врати споделувања"],
     "Shared" : "Споделен",
     "Shared by {ownerDisplayName}" : "Споделено од {ownerDisplayName}",
+    "Show sharing options" : "Прикажи параметри за споделување",
     "Link to a file" : "Линк до датотеката",
     "Error creating the share: {errorMessage}" : "Грешка при креирање на споделување: {errorMessage}",
     "Error creating the share" : "Грешка при креирање на споделување",
@@ -297,6 +297,7 @@ OC.L10N.register(
     "Allow resharing" : "Дозволи повторно споделување",
     "Expiration date enforced" : "Задолжителен рок на траење",
     "Password protect" : "Заштити со лозинка",
-    "Update" : "Ажурирај"
+    "Update" : "Ажурирај",
+    "Share with " : "Сподели со"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -80,6 +80,7 @@ import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } 
 import { getUploader } from '@nextcloud/upload'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import Vue from 'vue'
 
@@ -281,8 +282,14 @@ export default Vue.extend({
 			event.stopPropagation()
 		},
 
-		execDefaultAction(...args) {
-			this.$refs.actions.execDefaultAction(...args)
+		execDefaultAction(event) {
+			if (event.ctrlKey || event.metaKey) {
+				event.preventDefault()
+				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
+				return false
+			}
+
+			this.$refs.actions.execDefaultAction(event)
 		},
 
 		openDetailsIfAvailable(event) {

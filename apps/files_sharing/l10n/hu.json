@@ -207,7 +207,7 @@
     "Create" : "Létrehozás",
     "Share" : "Megosztás",
     "Delete share" : "Megosztás törlése",
-    "Share with " : "Megosztás vele:",
+    "Share with" : "Megosztva a következővel",
     "Save share" : "Megosztás mentése",
     "Update share" : "Megosztás frissítése",
     "Others with access" : "Mások, akik hozzáféréssel rendelkeznek",
@@ -220,12 +220,12 @@
     "this share just expired." : "ez a megosztás épp most járt le.",
     "Shared with you by {owner}" : "{owner} megosztotta Önnel",
     "_Accept share_::_Accept shares_" : ["Megosztás elfogadása","Megosztások elfogadása"],
-    "Open in Files" : "Megnyitás a Files-ban",
+    "Open in Files" : "Megnyitás a Fájlokban",
     "_Reject share_::_Reject shares_" : ["Megosztás elutasítása","Megosztások elutasítása"],
-    "_Restore share_::_Restore shares_" : ["Megosztás visszaállítása","Megosztások visszaállítása"],
+    "_Restore share_::_Restore shares_" : ["Megosztás helyreállítása","Megosztások helyreállítása"],
     "Shared" : "Megosztva",
     "Shared by {ownerDisplayName}" : "Megosztotta: {ownerDisplayName}",
-    "Show sharing options" : "Megosztási beállítások mutatása",
+    "Show sharing options" : "Megosztási beállítások megjelenítése",
     "Link to a file" : "Hivatkozás egy fájlhoz",
     "Error creating the share: {errorMessage}" : "Hiba történt a megosztás létrehozása során: {errorMessage}",
     "Error creating the share" : "Megosztás létrehozása sikertelen",
@@ -301,6 +301,7 @@
     "Expiration date enforced" : "Lejárati idő megkövetelése",
     "Password protect" : "Jelszavas védelem",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Frissítés"
+    "Update" : "Frissítés",
+    "Share with " : "Megosztás vele:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

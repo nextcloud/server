@@ -152,6 +152,14 @@ $CONFIG = [
 'dbpersistent' => '',
 
 /**
+ * Specify read only replicas to be used by Nextcloud when querying the database
+ */
+'dbreplica' => [
+	['user' => 'replica1', 'password', 'host' => '', 'dbname' => ''],
+	['user' => 'replica1', 'password', 'host' => '', 'dbname' => ''],
+],
+
+/**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
  * indicates a successful installation, and ``false`` indicates an unsuccessful
  * installation.
@@ -2405,4 +2413,11 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'unified_search.enabled' => false,
+
+/**
+ * Enable features that are do respect accessibility standards yet.
+ *
+ * Defaults to ``true``
+ */
+'enable_non-accessible_features' => true,
 ];

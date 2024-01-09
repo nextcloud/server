@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "На путу до посла",
     "Out sick" : "На боловању",
     "Vacationing" : "На одмору",
+    "Out of office" : "Ван канцеларије",
     "Working remotely" : "Радим од куће",
     "In a call" : "У позиву",
     "User status" : "Корисников статус",

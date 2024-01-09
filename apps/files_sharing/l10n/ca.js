@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "Crea",
     "Share" : "Comparteix",
     "Delete share" : "Suprimeix l'element compartit",
-    "Share with " : "Comparteix amb",
+    "Share with {userName}" : "Comparteix amb {userName}",
+    "Share with group" : "Comparteix amb el grup",
+    "Share in conversation" : "Comparteix en la conversa",
+    "Share with remote" : "Comparteix en remot",
+    "Share with remote group" : "Comparteix amb el grup remot",
+    "Share with guest" : "Comparteix amb el convidat",
+    "Share with" : "Comparteix amb",
     "Save share" : "Desa l'element compartit",
     "Update share" : "Actualitza l'element compartit",
     "Others with access" : "Altres usuaris amb accés",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Data de caducitat",
     "Password protect" : "Protegeix amb contrasenya",
     "Science Mesh" : "ScienceMesh",
-    "Update" : "Actualitza"
+    "Update" : "Actualitza",
+    "Share with " : "Comparteix amb"
 },
 "nplurals=2; plural=(n != 1);");

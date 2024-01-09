@@ -33,6 +33,7 @@ use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class GenerateMetadataJob extends TimedJob {
 	public function __construct(
@@ -42,6 +43,7 @@ class GenerateMetadataJob extends TimedJob {
 		private IUserManager $userManager,
 		private IFilesMetadataManager $filesMetadataManager,
 		private IJobList $jobList,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 
@@ -102,10 +104,14 @@ class GenerateMetadataJob extends TimedJob {
 				continue;
 			}
 
-			$this->filesMetadataManager->refreshMetadata(
-				$node,
-				IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
-			);
+			try {
+				$this->filesMetadataManager->refreshMetadata(
+					$node,
+					IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
+				);
+			} catch (\Throwable $ex) {
+				$this->logger->warning("Error while generating metadata for fileid ".$node->getId(), ['exception' => $ex]);
+			}
 		}
 	}
 }

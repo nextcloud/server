@@ -128,6 +128,7 @@ OC.L10N.register(
     "Note to recipient" : "Nota para o destinatário",
     "Create" : "Criar",
     "Share" : "Partilhar",
+    "Share with" : "Partilhar com",
     "Shared with you by {owner}" : "Partilhado consigo por {owner}",
     "Shared" : "Partilhados",
     "Shared by" : "Partilhado por",

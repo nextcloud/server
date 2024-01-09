@@ -23,7 +23,6 @@ const path = require('path')
 
 module.exports = {
 	comments: {
-		comments: path.join(__dirname, 'apps/comments/src', 'comments.js'),
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
 		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
 		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
@@ -38,8 +37,8 @@ module.exports = {
 		profile: path.join(__dirname, 'core/src', 'profile.js'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
-		'global-search': path.join(__dirname, 'core/src', 'global-search.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
+		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 	},

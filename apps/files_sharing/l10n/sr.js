@@ -169,7 +169,7 @@ OC.L10N.register(
     "Share link ({index})" : "Дели линк ({index})",
     "Share link" : "Веза дељења",
     "Actions for \"{title}\"" : "Акције за „{title}",
-    "Copy public link of \"{title}\" to clipboard" : "Копирај јавни линк за „{title}\" у клипборд",
+    "Copy public link of \"{title}\" to clipboard" : "Копирај јавни линк за „{title}” у клипборд",
     "Error, please enter proper password and/or expiration date" : "Грешка, унесите исправну лозинку и/или датум истицања",
     "Link share created" : "Креиран је линк за дељење",
     "Error while creating the share" : "Грешка приликом креирања дељења",
@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "Креирање",
     "Share" : "Подели",
     "Delete share" : "Обриши дељење",
-    "Share with " : "Подели са",
+    "Share with {userName}" : "Подели са {userName}",
+    "Share with group" : "Подели са групом",
+    "Share in conversation" : "Подели у разговор",
+    "Share with remote" : "Подели са удаљеним",
+    "Share with remote group" : "Подели са удаљеном групом",
+    "Share with guest" : "Подели са гостом",
+    "Share with" : "Подели са",
     "Save share" : "Сачувај дељење",
     "Update share" : "Ажурирај дељење",
     "Others with access" : "Остали са приступом",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Захтевано постављање датума истека",
     "Password protect" : "Заштићено лозинком",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Ажурирај"
+    "Update" : "Ажурирај",
+    "Share with " : "Подели са"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

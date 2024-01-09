@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "重新载入当前目录",
     "Go to the \"{dir}\" directory" : "前往“{dir}”目录",
     "Drag and drop files here to upload" : "将文件拖拽至此处以上传",
+    "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
     "Upload successful" : "上传成功",
     "\"{displayName}\" action executed successfully" : "“{displayName}”操作执行成功",
     "\"{displayName}\" action failed" : "“{displayName}”操作执行失败",
@@ -233,7 +234,6 @@ OC.L10N.register(
     "Shared" : "已共享",
     "Switch to list view" : "切换为列表视图",
     "Switch to grid view" : "切换到网格视图",
-    "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
     "Open the files app settings" : "打开文件设置",
     "Files settings" : "文件设置",
     "File cannot be accessed" : "文件无法访问",
@@ -265,7 +265,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "相同的文件/文件夹已存在于该文件夹中",
     "The files is locked" : "文件已锁定",
     "The file does not exist anymore" : "文件不存在",
-    "Chose destination" : "选择目的地",
     "Copy to {target}" : "复制到 {target}",
     "Move to {target}" : "移动到 {target}",
     "Cancelled move or copy operation" : "已取消移动或复制操作",
@@ -316,6 +315,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Search for an account" : "搜索一个账户",
     "Choose" : "选择",
-    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹"
+    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹",
+    "Chose destination" : "选择目的地"
 },
 "nplurals=1; plural=0;");

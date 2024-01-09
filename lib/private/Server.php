@@ -68,6 +68,7 @@ use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
+use OC\Blurhash\Listener\GenerateBlurhashMetadata;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
@@ -173,6 +174,7 @@ use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\BackgroundJob\IJobList;
@@ -842,8 +844,7 @@ class Server extends ServerContainer implements IServerContainer {
 			if (!$factory->isValidType($type)) {
 				throw new \OC\DatabaseException('Invalid database type');
 			}
-			$connectionParams = $factory->createConnectionParams();
-			$connection = $factory->getConnection($type, $connectionParams);
+			$connection = $factory->getConnection($type, []);
 			return $connection;
 		});
 		/** @deprecated 19.0.0 */
@@ -1079,7 +1080,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$memcacheFactory = $c->get(ICacheFactory::class);
 				$memcache = $memcacheFactory->createLocking('lock');
 				if (!($memcache instanceof \OC\Memcache\NullCache)) {
-					return new MemcacheLockingProvider($memcache, $ttl);
+					$timeFactory = $c->get(ITimeFactory::class);
+					return new MemcacheLockingProvider($memcache, $timeFactory, $ttl);
 				}
 				return new DBLockingProvider(
 					$c->get(IDBConnection::class),
@@ -1481,6 +1483,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
+		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
 	}
 
 	/**

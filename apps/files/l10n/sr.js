@@ -172,6 +172,8 @@ OC.L10N.register(
     "Reload current directory" : "Поново учитај текући директоријум",
     "Go to the \"{dir}\" directory" : "Иди у „{dir}” дирекотријум",
     "Drag and drop files here to upload" : "Да отпремите, превуците и отпустите фајлове овде",
+    "Your have used your space quota and cannot upload files anymore" : "Искористили сте квоту простора и више не можете да отпремате фајлове",
+    "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
     "Upload successful" : "Отпремање је успешно",
     "\"{displayName}\" action executed successfully" : "Акција „{displayName}” је успешно извршена",
     "\"{displayName}\" action failed" : "Акција „{displayName}” није успела",
@@ -221,6 +223,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Послат захтев за пренос власништва",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да пренесете власништво над фајлом или фолдером који не поседујете",
     "Select file or folder to link to" : "Изаберите фајл или фолдер на који показује линк",
+    "Choose file" : "Изаберите фајл",
     "Choose {file}" : "Изабери {file}",
     "Add" : "Додај",
     "Loading current folder" : "Учитавање текућег фолдера",
@@ -233,8 +236,6 @@ OC.L10N.register(
     "Shared" : "Подељено",
     "Switch to list view" : "Пређи на поглед листе",
     "Switch to grid view" : "Пређи на поглед мреже",
-    "Your have used your space quota and cannot upload files anymore" : "Искористили сте квоту простора и више не можете да отпремате фајлове",
-    "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
     "Error during upload: {message}" : "Грешка при отпремању: {message}",
     "Unknown error during upload" : "Непозната грешка током отпремања",
     "Open the files app settings" : "Отвори подешавања апликације фајлови",
@@ -268,7 +269,7 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "У овом фолдеру већ постоји фајл или фолдер са тим именом",
     "The files is locked" : "Фајл је закључан",
     "The file does not exist anymore" : "Фајл више не постоји",
-    "Chose destination" : "Изаберите одредиште",
+    "Choose destination" : "Изаберите одредиште",
     "Copy to {target}" : "Копирај у {target}",
     "Move to {target}" : "Премести у {target}",
     "Cancelled move or copy operation" : "Операција премештања или копирања је отказана",
@@ -320,6 +321,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
     "Search for an account" : "Претражите налог",
     "Choose" : "Изаберите",
-    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер"
+    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер",
+    "Chose destination" : "Изаберите одредиште"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "Створити",
     "Share" : "Спільне",
     "Delete share" : "Вилучити зі спільного доступу",
-    "Share with " : "Поділитися з ",
+    "Share with {userName}" : "Поділитися з {userName}",
+    "Share with group" : "Поділитися з групою",
+    "Share in conversation" : "Поширити в розмові ",
+    "Share with remote" : "Поділитися з віддаленим",
+    "Share with remote group" : "Поділитися з віддаленою групою",
+    "Share with guest" : "Поділитися з гостем",
+    "Share with" : "Поділитися з",
     "Save share" : "Зберегти спільний ресурс",
     "Update share" : "Оновити спільний ресурс",
     "Others with access" : "Доступ для інших",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Вимагати термін дії",
     "Password protect" : "Захистити паролем",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Оновлювати"
+    "Update" : "Оновлювати",
+    "Share with " : "Поділитися з "
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

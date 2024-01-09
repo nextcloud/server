@@ -168,6 +168,7 @@
     "Reload current directory" : "Reîncarcă directorul curent",
     "Go to the \"{dir}\" directory" : "Salt la directorul \"{dir}\" ",
     "Drag and drop files here to upload" : "Faceți Drag and drop cu fișierele aici pentru upload",
+    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "Upload successful" : "Încărcare cu succes",
     "\"{displayName}\" action executed successfully" : "Acțiunea \"{displayName}\" a fost executată cu succes",
     "\"{displayName}\" action failed" : "Acțiunea \"{displayName}\" a eșuat",
@@ -228,7 +229,6 @@
     "Shared" : "Partajat",
     "Switch to list view" : "Comuta la organizarea tip listă",
     "Switch to grid view" : "Comută la organizare tip grilă",
-    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "Open the files app settings" : "Deschide setările aplicației Fișiere",
     "Files settings" : "Setări Fișiere",
     "File cannot be accessed" : "Fișierul nu poate fi accesat",
@@ -259,7 +259,6 @@
     "A file or folder with that name already exists in this folder" : "Un fișier sau folder cu acest nume există deja în acest folder",
     "The files is locked" : "Fișierul este blocat",
     "The file does not exist anymore" : "Fișierul nu mai există",
-    "Chose destination" : "Selectați destinația",
     "Copy to {target}" : "Copiază la {target}",
     "Move to {target}" : "Mută la {target}",
     "Cancelled move or copy operation" : "Copierea sau mutarea a fost anulată",
@@ -309,6 +308,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați în listă.",
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
-    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă"
+    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
+    "Chose destination" : "Selectați destinația"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

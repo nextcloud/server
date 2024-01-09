@@ -803,6 +803,9 @@ a.legal {
 }
 
 .guest-box, .body-login-container {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	color: var(--color-main-text);
 	background-color: var(--color-main-background-blur);
 	padding: $guest-container-padding;

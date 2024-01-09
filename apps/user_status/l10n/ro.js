@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "În deplasare",
     "Out sick" : "Bolnav",
     "Vacationing" : "În vacanță",
+    "Out of office" : "În afara serviciului",
     "Working remotely" : "Lucru la distanță",
     "In a call" : "Într-un apel",
     "User status" : "Statusul utilizatorului",

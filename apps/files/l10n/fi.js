@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Lataa nykyinen kansio uudelleen",
     "Go to the \"{dir}\" directory" : "Siirry kansioon \"{dir}\"",
     "Drag and drop files here to upload" : "Vedä ja pudota tiedostot tähän lähettääksesi",
+    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "Upload successful" : "Lähetys onnistui",
     "Rename file" : "Nimeä tiedosto uudelleen",
     "File name" : "Tiedostonimi",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "Shared" : "Jaettu",
     "Switch to list view" : "Vaihda taulukkonäkymään",
     "Switch to grid view" : "Vaihda ruudukkonäkymään",
-    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
     "Files settings" : "Tiedostojen asetukset",
     "File cannot be accessed" : "Tiedostoa ei voi käyttää",
@@ -254,7 +254,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Tämä tiedosto/kansio on jo kyseisessä kansiossa",
     "A file or folder with that name already exists in this folder" : "Tiedosto tai kansio tällä nimellä on jo olemassa tässä kansiossa",
     "The file does not exist anymore" : "Tiedostoa ei ole enää olemassa",
-    "Chose destination" : "Valitse kohde",
     "Copy to {target}" : "Kopioi kohteeseen {target}",
     "Move to {target}" : "Siirrä kohteeseen {target}",
     "Open folder {displayName}" : "Avaa kansio {displayName}",
@@ -302,6 +301,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "Choose" : "Valitse",
-    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
+    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu",
+    "Chose destination" : "Valitse kohde"
 },
 "nplurals=2; plural=(n != 1);");

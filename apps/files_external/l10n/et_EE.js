@@ -1,6 +1,11 @@
 OC.L10N.register(
     "files_external",
     {
+    "Grant access" : "Anna ligipääs",
+    "Error configuring OAuth1" : "OAuth1 seadistamise tõrge",
+    "Error configuring OAuth2" : "OAuth2 seadistamise tõrge",
+    "Generate keys" : "Loo võtmed",
+    "Error generating key pair" : "Viga võtmepaari loomisel",
     "Enable encryption" : "Luba krüpteerimine",
     "Enable previews" : "Luba eelvaated",
     "Enable sharing" : "Luba jagamine",
@@ -74,11 +79,6 @@ OC.L10N.register(
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
-    "Grant access" : "Anna ligipääs",
-    "Error configuring OAuth1" : "OAuth1 seadistamise tõrge",
-    "Error configuring OAuth2" : "OAuth2 seadistamise tõrge",
-    "Generate keys" : "Loo võtmed",
-    "Error generating key pair" : "Viga võtmepaari loomisel",
     "Empty response from the server" : "Tühi vastus serverilt",
     "Couldn't get the list of external mount points: {type}" : "Välise ühenduspunkti hankimine ebaõnnestus: {type}",
     "There was an error with message: " : "Sõnumiga tekkis tõrge:",

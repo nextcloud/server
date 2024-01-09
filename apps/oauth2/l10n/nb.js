@@ -14,8 +14,8 @@ OC.L10N.register(
     "Secret key" : "Hemmelig nøkkel",
     "Add client" : "Legg til klient",
     "Add" : "Legg til",
-    "Show client secret" : "Vis klients hemmelighet",
     "Delete" : "Slett",
+    "Show client secret" : "Vis klients hemmelighet",
     "Secret" : "Hemmelighet"
 },
 "nplurals=2; plural=(n != 1);");

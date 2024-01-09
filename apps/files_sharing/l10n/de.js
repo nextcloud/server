@@ -209,7 +209,7 @@ OC.L10N.register(
     "Create" : "Erstellen",
     "Share" : "Teilen",
     "Delete share" : "Freigabe löschen",
-    "Share with " : "Teilen mit",
+    "Share with" : "Teilen mit",
     "Save share" : "Freigabe speichern",
     "Update share" : "Freigabe aktualisieren",
     "Others with access" : "Andere mit Zugriff",
@@ -221,9 +221,13 @@ OC.L10N.register(
     "Expires {relativetime}" : "Läuft {relativetime} ab",
     "this share just expired." : "Diese Freigabe ist gerade abgelaufen.",
     "Shared with you by {owner}" : "{owner} hat dies mit dir geteilt",
+    "_Accept share_::_Accept shares_" : ["Freigabe akzeptieren","Freigaben akzeptieren"],
     "Open in Files" : "In Dateien öffnen",
+    "_Reject share_::_Reject shares_" : ["Freigabe ablehnen","Freigaben ablehnen"],
+    "_Restore share_::_Restore shares_" : ["Freigabe wiederherstellen","Freigaben wiederherstellen"],
     "Shared" : "Geteilt",
     "Shared by {ownerDisplayName}" : "Geteilt von {ownerDisplayName}",
+    "Show sharing options" : "Freigabeoptionen anzeigen",
     "Link to a file" : "Mit einer Datei verknüpfen",
     "Error creating the share: {errorMessage}" : "Fehler beim Erstellen der Freigabe: {errorMessage}",
     "Error creating the share" : "Fehler beim Erstellen der Freigabe",
@@ -299,6 +303,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Ablaufdatum erzwungen",
     "Password protect" : "Passwortschutz",
     "Science Mesh" : "ScienceMesh",
-    "Update" : "Aktualisieren"
+    "Update" : "Aktualisieren",
+    "Share with " : "Teilen mit"
 },
 "nplurals=2; plural=(n != 1);");

@@ -105,10 +105,10 @@
 						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
-						<NcInputField v-if="isPasswordProtected"
-							:type="hasUnsavedPassword ? 'text' : 'password'"
-							:value="hasUnsavedPassword ? share.newPassword : '***************'"
+						<NcPasswordField v-if="isPasswordProtected"
+							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
+							:helper-text="errorPasswordLabel"
 							:required="isPasswordEnforced"
 							:label="t('files_sharing', 'Password')"
 							@update:value="onPasswordChange" />
@@ -219,8 +219,8 @@ import { getLanguage } from '@nextcloud/l10n'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -256,7 +256,7 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcInputField,
-		NcDateTimePicker,
+		NcPasswordField,
 		NcDateTimePickerNative,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
@@ -305,24 +305,24 @@ export default {
 
 	computed: {
 		title() {
-			let title = t('files_sharing', 'Share with ')
-			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER) {
-				title = title + this.share.shareWithDisplayName
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK) {
-				title = t('files_sharing', 'Share link')
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
-				title += ` (${t('files_sharing', 'group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
-				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
-				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
-				title += ` (${t('files_sharing', 'remote group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
-				title += ` (${t('files_sharing', 'guest')})`
+			switch (this.share.type) {
+			case this.SHARE_TYPES.SHARE_TYPE_USER:
+				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+				return t('files_sharing', 'Share link')
+			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+				return t('files_sharing', 'Share with group')
+			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+				return t('files_sharing', 'Share in conversation')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE:
+				return t('files_sharing', 'Share with remote')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
+				return t('files_sharing', 'Share with remote group')
+			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+				return t('files_sharing', 'Share with guest')
+			default:
+				return t('files_sharing', 'Share with')
 			}
-
-			return title
 		},
 		/**
 		 * Can the sharee edit the shared file ?
@@ -645,6 +645,12 @@ export default {
 		},
 		advancedControlExpandedValue() {
 			return this.advancedSectionAccordionExpanded ? 'true' : 'false'
+		},
+		errorPasswordLabel() {
+			if (this.passwordError) {
+				return t('files_sharing', "Password field can't be empty")
+			}
+			return undefined
 		},
 	},
 	watch: {

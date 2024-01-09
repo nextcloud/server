@@ -41,11 +41,11 @@ OC.L10N.register(
     "Public link expired for {file}" : "{file} fitxategiaren esteka publikoa iraungi da",
     "{actor} shared {file} as public link" : "{actor} erabiltzaileak {file} fitxategia esteka publiko bezala partekatu du",
     "{actor} removed public link for {file}" : "{actor} erabiltzaileak {file} fitxategiaren esteka publikoa kendu du",
-    "Public link of {actor} for {file} expired" : "{actor} erabiltzailearen {file} fitxategiaren esteka publikoa iraungi da",
+    "Public link of {actor} for {file} expired" : "{file} fitxategirako {actor} erabiltzailearen esteka publikoa iraungi da",
     "{user} accepted the remote share" : "{user} erabiltzaileak urruneko partekatzea onartu du",
     "{user} declined the remote share" : "{user} erabiltzaileak urruneko partekatzea ukatu du",
-    "You received a new remote share {file} from {user}" : "Urruneko partekatze berri bat {file} jaso duzu {user} erabiltzailearengandik",
-    "{user} accepted the remote share of {file}" : "{user} erabiltzaileak {file} fitxategiaren urruneko partekatze bat onartu du",
+    "You received a new remote share {file} from {user}" : "Urruneko {file} partekatze berria jaso duzu {user} erabiltzailearengandik",
+    "{user} accepted the remote share of {file}" : "{user} erabiltzaileak {file} fitxategiaren urruneko partekatzea onartu du",
     "{user} declined the remote share of {file}" : "{user} erabiltzaileak {file} fitxategiaren urruneko partekatze bat ukatu du",
     "{user} unshared {file} from you" : "{user} erabiltzaileak {file} fitxategia zurekin partekatzeari utzi dio",
     "Shared with {user}" : "{user} erabiltzailearekin partekatua",
@@ -209,7 +209,6 @@ OC.L10N.register(
     "Create" : "Sortu",
     "Share" : "Partekatu",
     "Delete share" : "Ezabatu partekatzea",
-    "Share with " : "Partekatu honekin",
     "Save share" : "Gorde partekatzea",
     "Update share" : "Eguneratu partekatzea",
     "Others with access" : "Sarbidea duten beste erabiltzaileak",
@@ -302,6 +301,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Iraungitze-data betearazita",
     "Password protect" : "Babestu pasahitzarekin",
     "Science Mesh" : "Zientzia sarea",
-    "Update" : "Eguneratu"
+    "Update" : "Eguneratu",
+    "Share with " : "Partekatu honekin"
 },
 "nplurals=2; plural=(n != 1);");

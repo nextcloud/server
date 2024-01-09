@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "作成",
     "Share" : "共有",
     "Delete share" : "共有を解除",
-    "Share with " : "共有先",
+    "Share with {userName}" : "{userName} と共有",
+    "Share with group" : "グループと共有する",
+    "Share in conversation" : "会話で共有する",
+    "Share with remote" : "リモートと共有する",
+    "Share with remote group" : "リモートグループと共有する",
+    "Share with guest" : "ゲストと共有する",
+    "Share with" : "共有対象",
     "Save share" : "共有を保存",
     "Update share" : "共有設定の更新",
     "Others with access" : "アクセス権を持つ他のユーザー",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "有効期限が強制される",
     "Password protect" : "パスワード保護",
     "Science Mesh" : "Science Mesh",
-    "Update" : "更新"
+    "Update" : "更新",
+    "Share with " : "共有先"
 },
 "nplurals=1; plural=0;");

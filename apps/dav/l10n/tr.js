@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Reddet",
     "More options …" : "Diğer seçenekler …",
     "More options at %s" : "%s üzerindeki diğer seçenekler",
-    "In a meeting" : "Toplantıda",
     "Contacts" : "Kişiler",
     "{actor} created address book {addressbook}" : "{actor}, {addressbook} adres defterini ekledi",
     "You created address book {addressbook}" : "{addressbook} adres defterini eklediniz",

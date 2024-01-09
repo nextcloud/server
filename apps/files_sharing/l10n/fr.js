@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "Créer",
     "Share" : "Partager",
     "Delete share" : "Supprimer le partage",
-    "Share with " : "Partager avec ",
+    "Share with {userName}" : "Partager avec {userName}",
+    "Share with group" : "Partager avec le groupe",
+    "Share in conversation" : "Partager dans la conversation",
+    "Share with remote" : "Partager avec le distant",
+    "Share with remote group" : "Partager avec le groupe distant",
+    "Share with guest" : "Partager avec l'invité",
+    "Share with" : "Partager avec",
     "Save share" : "Enregistrer le partage",
     "Update share" : "Mettre à jour le partage",
     "Others with access" : "Autres utilisateurs ayant accès",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Date d'expiration forcée",
     "Password protect" : "Protéger par un mot de passe",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Mise à jour"
+    "Update" : "Mise à jour",
+    "Share with " : "Partager avec "
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "Criar",
     "Share" : "Compartilhar",
     "Delete share" : "Excluir compartilhamento",
-    "Share with " : "Compartilhar com",
+    "Share with {userName}" : "Compartilhe com {userName}",
+    "Share with group" : "Compartilhar com grupo",
+    "Share in conversation" : "Compartilhar na conversa",
+    "Share with remote" : "Compartilhar com controle remoto",
+    "Share with remote group" : "Compartilhar com grupo remoto",
+    "Share with guest" : "Compartilhar com convidado",
+    "Share with" : "Compartilhar com",
     "Save share" : "Salvar compartilhamento",
     "Update share" : "Atualizar compartilhamento",
     "Others with access" : "Outros com acesso",
@@ -227,6 +233,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Restaurar compartilhamentos","Restaurar compartilhamentos","Restaurar compartilhamentos"],
     "Shared" : "Compartilhado",
     "Shared by {ownerDisplayName}" : "Compartilhado por {ownerDisplayName}",
+    "Show sharing options" : "Mostrar opções de compartilhamento",
     "Link to a file" : "Criar link para um arquivo",
     "Error creating the share: {errorMessage}" : "Erro ao criar o compartilhamento: {errorMessage}",
     "Error creating the share" : "Erro ao criar o compartilhamento",
@@ -302,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Data de vencimento aplicada",
     "Password protect" : "Proteger com senha",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Atualizar"
+    "Update" : "Atualizar",
+    "Share with " : "Compartilhar com"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

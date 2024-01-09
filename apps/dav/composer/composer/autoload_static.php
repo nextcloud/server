@@ -114,7 +114,6 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\PropFilter' => __DIR__ . '/..' . '/../lib/CalDAV/Search/Xml/Filter/PropFilter.php',
         'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter' => __DIR__ . '/..' . '/../lib/CalDAV/Search/Xml/Filter/SearchTermFilter.php',
         'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport' => __DIR__ . '/..' . '/../lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php',
-        'OCA\\DAV\\CalDAV\\Status\\Status' => __DIR__ . '/..' . '/../lib/CalDAV/Status/Status.php',
         'OCA\\DAV\\CalDAV\\Status\\StatusService' => __DIR__ . '/..' . '/../lib/CalDAV/Status/StatusService.php',
         'OCA\\DAV\\CalDAV\\TimezoneService' => __DIR__ . '/..' . '/../lib/CalDAV/TimezoneService.php',
         'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObject' => __DIR__ . '/..' . '/../lib/CalDAV/Trashbin/DeletedCalendarObject.php',

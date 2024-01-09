@@ -13,8 +13,9 @@
     "Delete client" : "İstemciyi sil",
     "Add client" : "İstemci ekle",
     "Add" : "Ekle",
-    "Show client secret" : "İstemci parolasını görüntüle",
     "Delete" : "Sil",
+    "Show client secret" : "İstemci parolasını görüntüle",
+    "Hide client secret" : "İstemci parolasını gizle",
     "Secret" : "Parola"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

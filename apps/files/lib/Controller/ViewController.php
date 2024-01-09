@@ -237,12 +237,16 @@ class ViewController extends Controller {
 		if ($fileid && $dir !== '') {
 			$baseFolder = $this->rootFolder->getUserFolder($userId);
 			$nodes = $baseFolder->getById((int) $fileid);
-			$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
-			$relativePath = $nodePath ? dirname($nodePath) : '';
-			// If the requested path does not contain the file id
-			// or if the requested path is not the file id itself
-			if (count($nodes) === 1 && $relativePath !== $dir && $nodePath !== $dir) {
-				return $this->redirectToFile((int) $fileid);
+			if (!empty($nodes)) {
+				$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
+				$relativePath = $nodePath ? dirname($nodePath) : '';
+				// If the requested path does not contain the file id
+				// or if the requested path is not the file id itself
+				if (count($nodes) === 1 && $relativePath !== $dir && $nodePath !== $dir) {
+					return $this->redirectToFile((int) $fileid);
+				}
+			} else { // fileid does not exist anywhere
+				$fileNotFound = true;
 			}
 		}
 
@@ -280,7 +284,9 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		$params = [
-			'fileNotFound' => $fileNotFound ? 1 : 0
+			'fileNotFound' => $fileNotFound ? 1 : 0,
+			'id-app-content' => '#app-content-vue',
+			'id-app-navigation' => '#app-navigation-vue',
 		];
 
 		$response = new TemplateResponse(

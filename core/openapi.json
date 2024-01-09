@@ -430,7 +430,14 @@
                     },
                     "status": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
                     },
                     "userId": {
                         "type": "string",
@@ -476,7 +483,14 @@
                     },
                     "status": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
                     },
                     "userId": {
                         "type": "string",
@@ -4080,8 +4094,16 @@
                         "in": "query",
                         "description": "Offset for searching",
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
                         }
                     },
                     {

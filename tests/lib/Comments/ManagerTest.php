@@ -65,6 +65,8 @@ class ManagerTest extends TestCase {
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter($objectId),
 				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -119,6 +121,8 @@ class ManagerTest extends TestCase {
 				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter('file64'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -138,6 +142,8 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getObjectId(), 'file64');
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $creationDT->getTimestamp());
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
+		$this->assertEquals($comment->getReferenceId(), 'referenceId');
+		$this->assertEquals($comment->getMetaData(), ['last_edit_actor_id' => 'admin']);
 	}
 
 

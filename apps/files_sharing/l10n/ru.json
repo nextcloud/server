@@ -207,7 +207,13 @@
     "Create" : "Создать",
     "Share" : "Поделиться",
     "Delete share" : "Удалить общий ресурс",
-    "Share with " : "Поделиться",
+    "Share with {userName}" : "Поделиться с {userName}",
+    "Share with group" : "Поделиться с группой",
+    "Share in conversation" : "Поделиться в чате",
+    "Share with remote" : "Поделиться с удалённым",
+    "Share with remote group" : "Поделиться с удалённой группой",
+    "Share with guest" : "Поделиться с гостем",
+    "Share with" : "Поделиться",
     "Save share" : "Сохранить общий ресурс",
     "Update share" : "Обновить общий ресурс",
     "Others with access" : "Другие пользователи, имеющие доступ",
@@ -225,6 +231,7 @@
     "_Restore share_::_Restore shares_" : ["Восстановить общий ресурс","Восстановить общие ресурсы","Восстановить общие ресурсы","Восстановить общие ресурсы"],
     "Shared" : "Опубликованное",
     "Shared by {ownerDisplayName}" : "Доступно пользователю {ownerDisplayName}",
+    "Show sharing options" : "Показать опции доступа",
     "Link to a file" : "Ссылка на файл",
     "Error creating the share: {errorMessage}" : "Не удалось создать общий ресурс: {errorMessage}",
     "Error creating the share" : "Ошибка создания общего доступа",
@@ -300,6 +307,7 @@
     "Expiration date enforced" : "Требуется срок действия",
     "Password protect" : "Защитить паролем",
     "Science Mesh" : "Science Mesh",
-    "Update" : "Изменение"
+    "Update" : "Изменение",
+    "Share with " : "Поделиться"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -207,7 +207,6 @@
     "Create" : "‎Tạo‎",
     "Share" : "Chia sẻ",
     "Delete share" : "Xóa chia sẻ",
-    "Share with " : "Chia sẽ với",
     "Save share" : "Lưu chia sẻ",
     "Update share" : "Cập nhật chia sẻ",
     "Others with access" : "Những người khác có quyền truy cập",
@@ -300,6 +299,7 @@
     "Expiration date enforced" : "Ngày hết hạn được thi hành",
     "Password protect" : "Mật khẩu bảo vệ",
     "Science Mesh" : "Lưới khoa học",
-    "Update" : "Cập nhật"
+    "Update" : "Cập nhật",
+    "Share with " : "Chia sẽ với"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -327,8 +327,24 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+// Allow right click to define the position of the menu
+// only if defined
+.app-content[style*="mouse-pos-x"] .v-popper__popper {
+	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
+	// If the menu is too close to the bottom, we move it up
+	&[data-popper-placement="top"] {
+		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh), 0px) !important;
+	}
+	// Hide arrow if floating
+	.v-popper__arrow-container {
+		display: none;
+	}
+}
+</style>
+
+<style lang="scss" scoped>
 :deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
 	.button-vue__text {
 		color: var(--color-primary-element);

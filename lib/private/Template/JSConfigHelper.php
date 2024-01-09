@@ -179,7 +179,8 @@ class JSConfigHelper {
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'version' => implode('.', Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString()
+			'versionstring' => \OC_Util::getVersionString(),
+			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 
 		$array = [

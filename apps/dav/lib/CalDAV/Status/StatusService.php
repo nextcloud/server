@@ -25,83 +25,123 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Status;
 
+use DateTimeImmutable;
 use OC\Calendar\CalendarQuery;
 use OCA\DAV\CalDAV\CalendarImpl;
-use OCA\DAV\CalDAV\FreeBusy\FreeBusyGenerator;
-use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
-use OCA\DAV\CalDAV\Schedule\Plugin as SchedulePlugin;
+use OCA\UserStatus\Service\StatusService as UserStatusService;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
-use OCP\IL10N;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IUser as User;
+use OCP\IUserManager;
+use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IUserStatus;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
-use Sabre\DAV\Exception\NotAuthenticated;
-use Sabre\DAVACL\Exception\NeedPrivileges;
-use Sabre\DAVACL\Plugin as AclPlugin;
-use Sabre\VObject\Component;
-use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\Parameter;
-use Sabre\VObject\Property;
 
 class StatusService {
+	private ICache $cache;
 	public function __construct(private ITimeFactory $timeFactory,
 		private IManager $calendarManager,
-		private InvitationResponseServer $server,
-		private IL10N $l10n,
-		private FreeBusyGenerator $generator) {
+		private IUserManager $userManager,
+		private UserStatusService $userStatusService,
+		private IAvailabilityCoordinator $availabilityCoordinator,
+		private ICacheFactory $cacheFactory,
+		private LoggerInterface $logger) {
+		$this->cache = $cacheFactory->createLocal('CalendarStatusService');
 	}
 
-	public function processCalendarAvailability(User $user): ?Status {
-		$userId = $user->getUID();
-		$email = $user->getEMailAddress();
-		if($email === null) {
-			return null;
+	public function processCalendarStatus(string $userId): void {
+		$user = $this->userManager->get($userId);
+		if($user === null) {
+			return;
 		}
 
-		$server = $this->server->getServer();
-
-		/** @var SchedulePlugin $schedulingPlugin */
-		$schedulingPlugin = $server->getPlugin('caldav-schedule');
-		$caldavNS = '{'.$schedulingPlugin::NS_CALDAV.'}';
-
-		/** @var AclPlugin $aclPlugin */
-		$aclPlugin = $server->getPlugin('acl');
-		if ('mailto:' === substr($email, 0, 7)) {
-			$email = substr($email, 7);
+		$availability = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
+		if($availability !== null && $this->availabilityCoordinator->isInEffect($availability)) {
+			$this->logger->debug('An Absence is in effect, skipping calendar status check', ['user' => $userId]);
+			return;
 		}
 
-		$result = $aclPlugin->principalSearch(
-			['{http://sabredav.org/ns}email-address' => $email],
-			[
-				'{DAV:}principal-URL',
-				$caldavNS.'calendar-home-set',
-				$caldavNS.'schedule-inbox-URL',
-				'{http://sabredav.org/ns}email-address',
-			]
+		$calendarEvents = $this->cache->get($userId);
+		if($calendarEvents === null) {
+			$calendarEvents = $this->getCalendarEvents($user);
+			$this->cache->set($userId, $calendarEvents, 300);
+		}
+
+		if(empty($calendarEvents)) {
+			$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			$this->logger->debug('No calendar events found for status check', ['user' => $userId]);
+			return;
+		}
+
+		$userStatusTimestamp = null;
+		$currentStatus = null;
+		try {
+			$currentStatus = $this->userStatusService->findByUserId($userId);
+			$userStatusTimestamp = $currentStatus->getIsUserDefined() ? $currentStatus->getStatusTimestamp() : null;
+		} catch (DoesNotExistException) {
+		}
+
+		if($currentStatus !== null && $currentStatus->getMessageId() === IUserStatus::MESSAGE_CALL
+			|| $currentStatus !== null && $currentStatus->getStatus() === IUserStatus::DND
+			|| $currentStatus !== null && $currentStatus->getStatus() === IUserStatus::INVISIBLE) {
+			// We don't overwrite the call status, DND status or Invisible status
+			$this->logger->debug('Higher priority status detected, skipping calendar status change', ['user' => $userId]);
+			return;
+		}
+
+		// Filter events to see if we have any that apply to the calendar status
+		$applicableEvents = array_filter($calendarEvents, function (array $calendarEvent) use ($userStatusTimestamp) {
+			$component = $calendarEvent['objects'][0];
+			if(isset($component['X-NEXTCLOUD-OUT-OF-OFFICE'])) {
+				return false;
+			}
+			if(isset($component['DTSTART']) && $userStatusTimestamp !== null) {
+				/** @var DateTimeImmutable $dateTime */
+				$dateTime = $component['DTSTART'][0];
+				$timestamp = $dateTime->getTimestamp();
+				if($userStatusTimestamp > $timestamp) {
+					return false;
+				}
+			}
+			// Ignore events that are transparent
+			if(isset($component['TRANSP']) && strcasecmp($component['TRANSP'][0], 'TRANSPARENT') === 0) {
+				return false;
+			}
+			return true;
+		});
+
+		if(empty($applicableEvents)) {
+			$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			$this->logger->debug('No status relevant events found, skipping calendar status change', ['user' => $userId]);
+			return;
+		}
+
+		// One event that fulfills all status conditions is enough
+		// 1. Not an OOO event
+		// 2. Current user status was not set after the start of this event
+		// 3. Event is not set to be transparent
+		$count = count($applicableEvents);
+		$this->logger->debug("Found $count applicable event(s), changing user status", ['user' => $userId]);
+		$this->userStatusService->setUserStatus(
+			$userId,
+			IUserStatus::AWAY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true
 		);
 
-		if (!count($result) || !isset($result[0][200][$caldavNS.'schedule-inbox-URL'])) {
-			return null;
-		}
+	}
 
-		$inboxUrl = $result[0][200][$caldavNS.'schedule-inbox-URL']->getHref();
-
-		// Do we have permission?
-		try {
-			$aclPlugin->checkPrivileges($inboxUrl, $caldavNS.'schedule-query-freebusy');
-		} catch (NeedPrivileges | NotAuthenticated $exception) {
-			return null;
-		}
-
-		$now = $this->timeFactory->now();
-		$calendarTimeZone = $now->getTimezone();
-		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
+	private function getCalendarEvents(User $user): array {
+		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
 		if(empty($calendars)) {
-			return null;
+			return [];
 		}
 
-		$query = $this->calendarManager->newQuery('principals/users/' . $userId);
+		$query = $this->calendarManager->newQuery('principals/users/' . $user->getUID());
 		foreach ($calendars as $calendarObject) {
 			// We can only work with a calendar if it exposes its scheduling information
 			if (!$calendarObject instanceof CalendarImpl) {
@@ -114,83 +154,20 @@ class StatusService {
 				// ignore it for free-busy purposes.
 				continue;
 			}
-
-			/** @var Component\VTimeZone|null $ctz */
-			$ctz = $calendarObject->getSchedulingTimezone();
-			if ($ctz !== null) {
-				$calendarTimeZone = $ctz->getTimeZone();
-			}
 			$query->addSearchCalendar($calendarObject->getUri());
 		}
 
-		$calendarEvents = [];
-		$dtStart = $now;
-		$dtEnd = \DateTimeImmutable::createFromMutable($this->timeFactory->getDateTime('+10 minutes'));
+		$dtStart = DateTimeImmutable::createFromMutable($this->timeFactory->getDateTime());
+		$dtEnd = DateTimeImmutable::createFromMutable($this->timeFactory->getDateTime('+5 minutes'));
 
 		// Only query the calendars when there's any to search
 		if($query instanceof CalendarQuery && !empty($query->getCalendarUris())) {
 			// Query the next hour
 			$query->setTimerangeStart($dtStart);
 			$query->setTimerangeEnd($dtEnd);
-			$calendarEvents = $this->calendarManager->searchForPrincipal($query);
+			return $this->calendarManager->searchForPrincipal($query);
 		}
 
-		// @todo we can cache that
-		if(empty($calendarEvents)) {
-			return null;
-		}
-
-		$calendar = $this->generator->getVCalendar();
-		foreach ($calendarEvents as $calendarEvent) {
-			$vEvent = new VEvent($calendar, 'VEVENT');
-			foreach($calendarEvent['objects'] as $component) {
-				foreach ($component as $key => $value) {
-					$vEvent->add($key, $value[0]);
-				}
-			}
-			$calendar->add($vEvent);
-		}
-
-		$calendar->METHOD = 'REQUEST';
-
-		$this->generator->setObjects($calendar);
-		$this->generator->setTimeRange($dtStart, $dtEnd);
-		$this->generator->setTimeZone($calendarTimeZone);
-		$result = $this->generator->getResult();
-
-		if (!isset($result->VFREEBUSY)) {
-			return null;
-		}
-
-		/** @var Component $freeBusyComponent */
-		$freeBusyComponent = $result->VFREEBUSY;
-		$freeBusyProperties = $freeBusyComponent->select('FREEBUSY');
-		// If there is no FreeBusy property, the time-range is empty and available
-		if (count($freeBusyProperties) === 0) {
-			return null;
-		}
-
-		/** @var Property $freeBusyProperty */
-		$freeBusyProperty = $freeBusyProperties[0];
-		if (!$freeBusyProperty->offsetExists('FBTYPE')) {
-			// If there is no FBTYPE, it means it's busy from a regular event
-			return new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY);
-		}
-
-		// If we can't deal with the FBTYPE (custom properties are a possibility)
-		// we should ignore it and leave the current status
-		$fbTypeParameter = $freeBusyProperty->offsetGet('FBTYPE');
-		if (!($fbTypeParameter instanceof Parameter)) {
-			return null;
-		}
-		$fbType = $fbTypeParameter->getValue();
-		switch ($fbType) {
-			// Ignore BUSY-UNAVAILABLE, that's for the automation
-			case 'BUSY':
-			case 'BUSY-TENTATIVE':
-				return new Status(IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, $this->l10n->t('In a meeting'));
-			default:
-				return null;
-		}
+		return [];
 	}
 }

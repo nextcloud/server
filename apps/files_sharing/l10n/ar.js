@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "أنشِيء",
     "Share" : "مُشارَكة",
     "Delete share" : "حذف المشاركة",
-    "Share with " : "شَارِك مع",
+    "Share with {userName}" : "شارِك مع {userName}",
+    "Share with group" : "شارِك مع مجموعة",
+    "Share in conversation" : "شارِك في محادثة",
+    "Share with remote" : "شارِك مع موقعٍ قَصِي",
+    "Share with remote group" : "شارِك مع مجموعة قَصِيّة",
+    "Share with guest" : "شارِك مع ضيف",
+    "Share with" : "شارِكه مع",
     "Save share" : "حفظ المشاركة",
     "Update share" : "تحديث المشاركة",
     "Others with access" : "الآخرون الذين لديهم حق الوصول",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "فرض تاريخ انتهاء الصلاحية المشاركة",
     "Password protect" : "حماية بكلمة مرور",
     "Science Mesh" : "Science Mesh",
-    "Update" : "تحديث"
+    "Update" : "تحديث",
+    "Share with " : "شَارِك مع"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

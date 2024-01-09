@@ -388,9 +388,9 @@ class FilesPlugin extends ServerPlugin {
 			}
 
 			$propFind->handle(self::HIDDEN_PROPERTYNAME, function () use ($node) {
-				$filesMetadataManager = \OCP\Server::get(IFilesMetadataManager::class);
-				$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
-				return $metadata->hasKey('files-live-photo') && $node->getFileInfo()->getMimetype() === 'video/quicktime' ? 'true' : 'false';
+				$isLivePhoto = isset($node->getFileInfo()->getMetadata()['files-live-photo']);
+				$isMovFile = $node->getFileInfo()->getMimetype() === 'video/quicktime';
+				return ($isLivePhoto && $isMovFile) ? 'true' : 'false';
 			});
 
 			/**

@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "创建",
     "Share" : "共享",
     "Delete share" : "删除共享",
-    "Share with " : "分享给",
+    "Share with {userName}" : "分享至 {userName}",
+    "Share with group" : "分享至群组",
+    "Share in conversation" : "分享至对话",
+    "Share with remote" : "分享至远程",
+    "Share with remote group" : "分享至远程群组",
+    "Share with guest" : "分享至访客",
+    "Share with" : "共享给",
     "Save share" : "保存分享",
     "Update share" : "更新分享",
     "Others with access" : "其他具有访问权限的人",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "强制过期日期",
     "Password protect" : "密码保护",
     "Science Mesh" : "Science Mesh",
-    "Update" : "更新"
+    "Update" : "更新",
+    "Share with " : "分享给"
 },
 "nplurals=1; plural=0;");

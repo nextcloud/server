@@ -1573,14 +1573,8 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function checkPassword(IShare $share, $password) {
-		$passwordProtected = $share->getShareType() !== IShare::TYPE_LINK
-			|| $share->getShareType() !== IShare::TYPE_EMAIL
-			|| $share->getShareType() !== IShare::TYPE_CIRCLE;
-		if (!$passwordProtected) {
-			//TODO maybe exception?
-			return false;
-		}
 
+		// if there is no password on the share object / passsword is null, there is nothing to check
 		if ($password === null || $share->getPassword() === null) {
 			return false;
 		}

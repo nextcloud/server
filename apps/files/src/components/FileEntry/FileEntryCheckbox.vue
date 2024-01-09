@@ -20,7 +20,8 @@
   -
   -->
 <template>
-	<td class="files-list__row-checkbox">
+	<td class="files-list__row-checkbox"
+		@keyup.esc.exact="resetSelection">
 		<NcLoadingIcon v-if="isLoading" />
 		<NcCheckboxRadioSwitch v-else
 			:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
@@ -123,6 +124,10 @@ export default Vue.extend({
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)
 			this.selectionStore.setLastIndex(newSelectedIndex)
+		},
+
+		resetSelection() {
+			this.selectionStore.reset()
 		},
 
 		t,

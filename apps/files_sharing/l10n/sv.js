@@ -209,7 +209,13 @@ OC.L10N.register(
     "Create" : "Skapa",
     "Share" : "Dela",
     "Delete share" : "Ta bort delning",
-    "Share with " : "Dela med",
+    "Share with {userName}" : "Dela med {userName}",
+    "Share with group" : "Dela med grupp",
+    "Share in conversation" : "Dela i konversation",
+    "Share with remote" : "Dela med remote",
+    "Share with remote group" : "Dela med remote grupp",
+    "Share with guest" : "Dela med gäst",
+    "Share with" : "Dela med",
     "Save share" : "Spara delning",
     "Update share" : "Uppdatera delning",
     "Others with access" : "Andra med åtkomst",
@@ -303,6 +309,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Förfallodatum obligatorisk",
     "Password protect" : "Lösenordsskydda",
     "Science Mesh" : "ScienceMesh",
-    "Update" : "Uppdatera"
+    "Update" : "Uppdatera",
+    "Share with " : "Dela med"
 },
 "nplurals=2; plural=(n != 1);");

@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Przeładuj bieżący katalog",
     "Go to the \"{dir}\" directory" : "Przejdź do katalogu \"{dir}\"",
     "Drag and drop files here to upload" : "Przeciągnij i upuść pliki tutaj, aby je przesłać",
+    "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "Upload successful" : "Wysyłanie zakończone",
     "\"{displayName}\" action executed successfully" : "Akcja \"{displayName}\" została wykonana pomyślnie",
     "\"{displayName}\" action failed" : "Akcja \"{displayName}\" nie powiodła się",
@@ -232,7 +233,6 @@ OC.L10N.register(
     "Shared" : "Udostępnione",
     "Switch to list view" : "Przełącz na widok listy",
     "Switch to grid view" : "Przełącz na widok siatki",
-    "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
     "Files settings" : "Ustawienia Plików",
     "File cannot be accessed" : "Nie można uzyskać dostępu do pliku",
@@ -263,7 +263,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Plik lub katalog o tej nazwie już istnieje w tym katalogu",
     "The files is locked" : "Pliki są zablokowane",
     "The file does not exist anymore" : "Plik już nie istnieje",
-    "Chose destination" : "Wybierz miejsce docelowe",
     "Copy to {target}" : "Skopiuj do {target}",
     "Move to {target}" : "Przenieś do {target}",
     "Cancelled move or copy operation" : "Anulowano operację przenoszenia lub kopiowania",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
     "Search for an account" : "Wyszukaj konto",
     "Choose" : "Wybierz",
-    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte"
+    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte",
+    "Chose destination" : "Wybierz miejsce docelowe"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -170,6 +170,8 @@
     "Reload current directory" : "Recargar o directorio actual",
     "Go to the \"{dir}\" directory" : "Vaia ao directorio «{dir}».",
     "Drag and drop files here to upload" : "Arrastre e solte os ficheiros aquí para envialos",
+    "Your have used your space quota and cannot upload files anymore" : "Vde. usou a súa cota de espazo e xa non pode enviar ningún ficheiro más",
+    "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "Upload successful" : "Envío satisfactorio",
     "\"{displayName}\" action executed successfully" : "A acción «{displayName}» executouse correctamente",
     "\"{displayName}\" action failed" : "A acción «{displayName}» fallou",
@@ -219,6 +221,7 @@
     "Ownership transfer request sent" : "Enviouse solicitude de transferencia da propiedade",
     "Cannot transfer ownership of a file or folder you do not own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol do que non es o propietario",
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
+    "Choose file" : "Escoller o ficheiro",
     "Choose {file}" : "Escoller  {file}",
     "Add" : "Engadir",
     "Loading current folder" : "Cargando o cartafol actual",
@@ -231,8 +234,6 @@
     "Shared" : "Compartido",
     "Switch to list view" : "Cambiar á vista de lista",
     "Switch to grid view" : "Cambiar á vista de grade",
-    "Your have used your space quota and cannot upload files anymore" : "Vde. usou a súa cota de espazo e xa non pode enviar ningún ficheiro más",
-    "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "Error during upload: {message}" : "Produciuse un erro durante o envío: {message}",
     "Unknown error during upload" : "Produciuse un erro descoñecido durante o envío",
     "Open the files app settings" : "Abrir os axustes da aplicación de ficheiros",
@@ -266,7 +267,6 @@
     "A file or folder with that name already exists in this folder" : "Neste cartafol xa existe un ficheiro ou cartafol con ese nome",
     "The files is locked" : "Os ficheiros están bloqueados",
     "The file does not exist anymore" : "O ficheiro xa non existe",
-    "Chose destination" : "Escoller o destino",
     "Copy to {target}" : "Copiar en {target}",
     "Move to {target}" : "Mover a {target}",
     "Cancelled move or copy operation" : "Foi cancelada a operación de movemento ou copia",
@@ -318,6 +318,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
+    "Chose destination" : "Escoller o destino"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

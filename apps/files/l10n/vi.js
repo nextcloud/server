@@ -172,6 +172,7 @@ OC.L10N.register(
     "Reload current directory" : "Tải lại thư mục hiện tại",
     "Go to the \"{dir}\" directory" : "Đi đến thư mục \"{dir}\"",
     "Drag and drop files here to upload" : "Kéo thả file vào đây để tải lên",
+    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "Upload successful" : "Tải lên thành công",
     "\"{displayName}\" action executed successfully" : "Hành động \"{displayName}\" đã thực thi thành công",
     "\"{displayName}\" action failed" : "Hành động \"{displayName}\" thất bại",
@@ -232,7 +233,6 @@ OC.L10N.register(
     "Shared" : "Chia sẻ",
     "Switch to list view" : "Chuyển sang chế độ xem danh sách",
     "Switch to grid view" : "Chuyển sang chế độ xem dạng lưới",
-    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "Open the files app settings" : "Mở cài đặt ứng dụng tệp",
     "Files settings" : "Cài đặt tệp tin",
     "File cannot be accessed" : "Không thể truy cập tập tin",
@@ -263,7 +263,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "Tệp hoặc thư mục có tên đó đã tồn tại trong thư mục này",
     "The files is locked" : "Các tập tin bị khóa",
     "The file does not exist anymore" : "Tập tin không tồn tại nữa",
-    "Chose destination" : "Chọn điểm đến",
     "Copy to {target}" : "Copy to {mục tiêu}",
     "Move to {target}" : "Di chuyển đến {mục tiêu}",
     "Cancelled move or copy operation" : "Đã hủy thao tác di chuyển hoặc sao chép",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "anh sách này không được hiển thị đầy đủ vì lý do hiệu suất. Các tập tin sẽ được hiển thị khi bạn điều hướng qua danh sách.",
     "Search for an account" : "Tìm kiếm tài khoản",
     "Choose" : "Chọn",
-    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa"
+    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa",
+    "Chose destination" : "Chọn điểm đến"
 },
 "nplurals=1; plural=0;");

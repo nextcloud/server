@@ -171,6 +171,7 @@ OC.L10N.register(
     "Reload current directory" : "이 경로를 새로고침",
     "Go to the \"{dir}\" directory" : "\"{dir}\" 경로로 이동",
     "Drag and drop files here to upload" : "이곳에 파일을 드래그 앤 드롭해 업로드",
+    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "Upload successful" : "업로드 성공",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" 작업을 성공적으로 실행함",
     "\"{displayName}\" action failed" : "\"{displayName}\" 작업을 실패함",
@@ -231,7 +232,6 @@ OC.L10N.register(
     "Shared" : "공유됨",
     "Switch to list view" : "목록 보기로 전환",
     "Switch to grid view" : "바둑판식 보기로 전환",
-    "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "Open the files app settings" : "파일 앱 설정을 열기",
     "Files settings" : "파일 설정",
     "File cannot be accessed" : "파일에 접근할 수 없음",
@@ -262,7 +262,6 @@ OC.L10N.register(
     "A file or folder with that name already exists in this folder" : "같은 이름을 사용하는 파일 또는 폴더가 이미 이 폴더에 있습니다.",
     "The files is locked" : "이 파일은 잠겼습니다.",
     "The file does not exist anymore" : "파일이 더이상 존재하지 않습니다.",
-    "Chose destination" : "대상 선택",
     "Copy to {target}" : "{target}에 복사",
     "Move to {target}" : "{target}에 이동",
     "Cancelled move or copy operation" : "이동 또는 복사 작업을 취소함",
@@ -312,6 +311,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
-    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
+    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
+    "Chose destination" : "대상 선택"
 },
 "nplurals=1; plural=0;");

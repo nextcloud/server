@@ -32,7 +32,6 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -46,11 +45,11 @@ use OCP\IUserSession;
  */
 class SyncLivePhotosListener implements IEventListener {
 	/** @var Array<int, string> */
-	private $pendingRenames = [];
+	private array $pendingRenames = [];
 	/** @var Array<int, bool> */
-	private $pendingDeletion = [];
+	private array $pendingDeletion = [];
 	/** @var Array<int, bool> */
-	private $pendingRestores = [];
+	private array $pendingRestores = [];
 
 	public function __construct(
 		private ?Folder $userFolder,
@@ -78,7 +77,7 @@ class SyncLivePhotosListener implements IEventListener {
 		}
 
 		if ($peerFile === null) {
-			return;
+			return; // not a Live Photo
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
@@ -95,12 +94,9 @@ class SyncLivePhotosListener implements IEventListener {
 	/**
 	 * During rename events, which also include move operations,
 	 * we rename the peer file using the same name.
-	 * This means that a move operation on the .jpg will trigger
-	 * another recursive one for the .mov.
-	 * Move operations on the .mov file directly are currently blocked.
 	 * The event listener being singleton, we can store the current state
 	 * of pending renames inside the 'pendingRenames' property,
-	 * to prevent infinite recursivity.
+	 * to prevent infinite recursive.
 	 */
 	private function handleMove(BeforeNodeRenamedEvent $event, Node $peerFile): void {
 		$sourceFile = $event->getSource();
@@ -111,44 +107,35 @@ class SyncLivePhotosListener implements IEventListener {
 		$targetName = $targetFile->getName();
 		$targetPath = $targetFile->getPath();
 
-		// Prevent rename of the .mov file if the peer file do not have the same path.
-		if ($sourceFile->getMimetype() === 'video/quicktime') {
-			$peerFilePath = $this->pendingRenames[$peerFile->getId()] ?? $peerFile->getPath();
-			$targetPathWithoutExtension = preg_replace("/\.$sourceExtension$/", '', $targetPath);
-			$peerFilePathWithoutExtension = preg_replace("/\.$peerFileExtension$/", '', $peerFilePath);
-
-			if ($targetPathWithoutExtension !== $peerFilePathWithoutExtension) {
-				$event->abortOperation(new NotPermittedException("The video part of a live photo need to have the same name as the image"));
-			}
-
-			unset($this->pendingRenames[$peerFile->getId()]);
-			return;
-		}
-
 		if (!str_ends_with($targetName, ".".$sourceExtension)) {
-			$event->abortOperation(new NotPermittedException("Cannot change the extension of a live photo"));
+			$event->abortOperation(new NotPermittedException("Cannot change the extension of a Live Photo"));
 		}
 
 		try {
 			$targetParent->get($targetName);
-			$event->abortOperation(new NotPermittedException("A file already exist at destination path"));
-		} catch (NotFoundException $ex) {
-		}
-		try {
-			$peerTargetName = preg_replace("/\.$sourceExtension$/", '.mov', $targetName);
-			$targetParent->get($peerTargetName);
-			$event->abortOperation(new NotPermittedException("A file already exist at destination path"));
+			$event->abortOperation(new NotPermittedException("A file already exist at destination path of the Live Photo"));
 		} catch (NotFoundException $ex) {
 		}
 
-		$peerTargetPath = preg_replace("/\.$sourceExtension$/", '.mov', $targetPath);
+		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
+		try {
+			$targetParent->get($peerTargetName);
+			$event->abortOperation(new NotPermittedException("A file already exist at destination path of the Live Photo"));
+		} catch (NotFoundException $ex) {
+		}
+
+		// in case the rename was initiated from this listener, we stop right now
+		if (array_key_exists($peerFile->getId(), $this->pendingRenames)) {
+			return;
+		}
+
 		$this->pendingRenames[$sourceFile->getId()] = $targetPath;
 		try {
-			$peerFile->move($peerTargetPath);
+			$peerFile->move($targetParent->getPath() . '/' . $peerTargetName);
 		} catch (\Throwable $ex) {
 			$event->abortOperation($ex);
 		}
-		return;
+		unset($this->pendingRenames[$sourceFile->getId()]);
 	}
 
 	/**

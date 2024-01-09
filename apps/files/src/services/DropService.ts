@@ -23,11 +23,13 @@
 import type { Upload } from '@nextcloud/upload'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { showError } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { emit } from '@nextcloud/event-bus'
 import { getUploader } from '@nextcloud/upload'
+import { joinPaths } from '@nextcloud/paths'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+
 import logger from '../logger.js'
 
 export const handleDrop = async (data: DataTransfer) => {
@@ -85,10 +87,12 @@ const handleRecursiveUpload = async (entry: FileSystemEntry, path: string = ''):
 		]
 	} else {
 		const directory = entry as FileSystemDirectoryEntry
-		logger.debug('Handle directory recursivly', { name: directory.name })
 
 		// TODO: Implement this on `@nextcloud/upload`
-		const absolutPath = `${davRootPath}${getUploader().destination.path}${path}${directory.name}`
+		const absolutPath = joinPaths(davRootPath, getUploader().destination.path, path, directory.name)
+
+		logger.debug('Handle directory recursively', { name: directory.name, absolutPath })
+
 		const davClient = davGetClient()
 		const dirExists = await davClient.exists(absolutPath)
 		if (!dirExists) {

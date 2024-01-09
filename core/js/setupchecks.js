@@ -240,18 +240,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(data.OpcacheSetupRecommendations.length > 0) {
-						var listOfOPcacheRecommendations = "";
-						data.OpcacheSetupRecommendations.forEach(function(element){
-							listOfOPcacheRecommendations += '<li>' + element + '</li>';
-						});
-						messages.push({
-							msg: t('core', 'The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-opcache') + '">')
-								.replace('{linkend}', '</a>') + '<ul>' + listOfOPcacheRecommendations + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
 					if(!data.isSettimelimitAvailable) {
 						messages.push({
 							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
@@ -280,15 +268,6 @@
 						messages.push({
 							msg: t('core', 'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-					if (data.isSqliteUsed) {
-						messages.push({
-							msg: t('core', 'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.') + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
-							t('core', 'To migrate to another database use the command line tool: "occ db:convert-type", or see the {linkstart}documentation ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.databaseConversionDocumentation + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
 
