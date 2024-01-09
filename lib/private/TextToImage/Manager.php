@@ -49,7 +49,7 @@ use RuntimeException;
 use Throwable;
 
 class Manager implements IManager {
-	/** @var ?IProvider[] */
+	/** @var ?list<IProvider> */
 	private ?array $providers = null;
 	private IAppData $appData;
 
@@ -83,7 +83,9 @@ class Manager implements IManager {
 		foreach ($context->getTextToImageProviders() as $providerServiceRegistration) {
 			$class = $providerServiceRegistration->getService();
 			try {
-				$this->providers[] = $this->serverContainer->get($class);
+				/** @var IProvider $provider */
+				$provider = $this->serverContainer->get($class);
+				$this->providers[] = $provider;
 			} catch (Throwable $e) {
 				$this->logger->error('Failed to load Text to image provider ' . $class, [
 					'exception' => $e,
