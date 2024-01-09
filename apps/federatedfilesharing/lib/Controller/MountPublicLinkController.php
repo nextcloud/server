@@ -31,6 +31,7 @@
  */
 namespace OCA\FederatedFileSharing\Controller;
 
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
@@ -108,7 +109,7 @@ class MountPublicLinkController extends Controller {
 
 		// make sure that user is authenticated in case of a password protected link
 		$storedPassword = $share->getPassword();
-		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
+		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId() ||
 			$this->shareManager->checkPassword($share, $password);
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(

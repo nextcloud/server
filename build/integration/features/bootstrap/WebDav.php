@@ -169,11 +169,10 @@ trait WebDav {
 	 */
 	public function downloadPublicFileWithRange($range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token";
 
 		$client = new GClient();
 		$options = [];
-		$options['auth'] = [$token, ""];
 		$options['headers'] = [
 			'Range' => $range
 		];
@@ -187,7 +186,7 @@ trait WebDav {
 	 */
 	public function downloadPublicFileInsideAFolderWithRange($path, $range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav" . "$path";
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$path";
 
 		$client = new GClient();
 		$options = [
@@ -195,7 +194,6 @@ trait WebDav {
 				'Range' => $range
 			]
 		];
-		$options['auth'] = [$token, ""];
 
 		$this->response = $client->request("GET", $fullUrl, $options);
 	}

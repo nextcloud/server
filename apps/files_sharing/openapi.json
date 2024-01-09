@@ -598,7 +598,8 @@
                         "nullable": true
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "password_expiration_time": {
                         "type": "string",
@@ -620,7 +621,8 @@
                         "format": "int64"
                     },
                     "share_with": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "share_with_avatar": {
                         "type": "string"
@@ -637,6 +639,12 @@
                     },
                     "status": {
                         "type": "object",
+                        "required": [
+                            "clearAt",
+                            "icon",
+                            "message",
+                            "status"
+                        ],
                         "properties": {
                             "clearAt": {
                                 "type": "integer",

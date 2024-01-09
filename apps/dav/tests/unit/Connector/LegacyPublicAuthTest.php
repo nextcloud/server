@@ -34,13 +34,13 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 /**
- * Class PublicAuthTest
+ * Class LegacyPublicAuthTest
  *
  * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
-class PublicAuthTest extends \Test\TestCase {
+class LegacyPublicAuthTest extends \Test\TestCase {
 
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
@@ -48,7 +48,7 @@ class PublicAuthTest extends \Test\TestCase {
 	private $request;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
-	/** @var \OCA\DAV\Connector\PublicAuth */
+	/** @var \OCA\DAV\Connector\LegacyPublicAuth */
 	private $auth;
 	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
@@ -72,7 +72,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->auth = new \OCA\DAV\Connector\PublicAuth(
+		$this->auth = new \OCA\DAV\Connector\LegacyPublicAuth(
 			$this->request,
 			$this->shareManager,
 			$this->session,
@@ -195,7 +195,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testSharePasswordLinkValidSession(): void {
+	public function testInvalidSharePasswordLinkValidSession(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();

@@ -187,8 +187,8 @@ trait Sharing {
 			$token = $this->lastShareData->data->token;
 		}
 
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
-		$this->checkDownload($fullUrl, [$token, $password], 'text/plain');
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/";
+		$this->checkDownload($fullUrl, ['', $password], 'text/plain');
 	}
 
 	private function checkDownload($url, $auth = null, $mimeType = null) {

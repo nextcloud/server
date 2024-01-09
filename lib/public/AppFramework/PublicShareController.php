@@ -86,7 +86,7 @@ abstract class PublicShareController extends Controller {
 	 *
 	 * @since 14.0.0
 	 */
-	abstract protected function getPasswordHash(): string;
+	abstract protected function getPasswordHash(): ?string;
 
 	/**
 	 * Is the provided token a valid token
