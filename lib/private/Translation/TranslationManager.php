@@ -35,6 +35,7 @@ use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\IDetectLanguageProvider;
 use OCP\Translation\ITranslationManager;
 use OCP\Translation\ITranslationProvider;
+use OCP\Translation\ITranslationProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -73,13 +74,17 @@ class TranslationManager implements ITranslationManager {
 			$precedence = json_decode($json, true);
 			$newProviders = [];
 			foreach ($precedence as $className) {
-				$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+				$provider = current(array_filter($providers, fn ($provider) =>
+				  $provider instanceof ITranslationProviderWithId ? $provider->getId() === $className : $provider::class === $className))
+				;
 				if ($provider !== false) {
 					$newProviders[] = $provider;
 				}
 			}
 			// Add all providers that haven't been added so far
-			$newProviders += array_udiff($providers, $newProviders, fn ($a, $b) => $a::class > $b::class ? 1 : ($a::class < $b::class ? -1 : 0));
+			$newProviders += array_udiff($providers, $newProviders, fn ($a, $b) =>
+				($a instanceof ITranslationProviderWithId ? $a->getId() : $a::class) <=> ($b instanceof ITranslationProviderWithId ? $b->getId() : $b::class)
+			);
 			$providers = $newProviders;
 		}
 
