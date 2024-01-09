@@ -104,6 +104,12 @@ class GenerateMetadataJob extends TimedJob {
 				continue;
 			}
 
+			// Do not scan remote storages. Ex: external storages.
+			$generateMetadataForRemoteStorages = $this->config->getSystemValueBool('generateMetadataForRemoteStorages', false);
+			if (!$folder->getStorage()->isLocal() && !$generateMetadataForRemoteStorages) {
+				return;
+			}
+
 			try {
 				$this->filesMetadataManager->refreshMetadata(
 					$node,
