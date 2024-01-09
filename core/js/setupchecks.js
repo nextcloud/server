@@ -271,21 +271,6 @@
 						})
 					}
 
-					if(data.appDirsWithDifferentOwner && data.appDirsWithDifferentOwner.length > 0) {
-						var appDirsWithDifferentOwner = data.appDirsWithDifferentOwner.reduce(
-							function(appDirsWithDifferentOwner, directory) {
-								return appDirsWithDifferentOwner + '<li>' + directory + '</li>';
-							},
-							''
-						);
-						messages.push({
-							msg: t('core', 'Some app directories are owned by a different user than the web server one. ' +
-									'This may be the case if apps have been installed manually. ' +
-									'Check the permissions of the following app directories:')
-									+ '<ul>' + appDirsWithDifferentOwner + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if (data.isMysqlUsedWithoutUTF8MB4) {
 						messages.push({
 							msg: t('core', 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read {linkstart}the documentation page about this ↗{linkend}.')
