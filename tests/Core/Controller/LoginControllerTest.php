@@ -148,7 +148,7 @@ class LoginControllerTest extends TestCase {
 		$this->request
 			->expects($this->once())
 			->method('isUserAgent')
-			->willReturn(true);
+			->willReturn(false);
 		$this->config
 			->expects($this->never())
 			->method('deleteUserValue');
@@ -170,6 +170,9 @@ class LoginControllerTest extends TestCase {
 			->with('nc_token')
 			->willReturn(null);
 		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
+		$this->request
 			->expects($this->once())
 			->method('isUserAgent')
 			->willReturn(true);
@@ -189,6 +192,9 @@ class LoginControllerTest extends TestCase {
 			->method('getCookie')
 			->with('nc_token')
 			->willReturn('MyLoginToken');
+		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
 		$this->request
 			->expects($this->once())
 			->method('isUserAgent')
