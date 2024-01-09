@@ -95,7 +95,7 @@ class SetupChecks extends Base {
 						$verbosity = ($check->getSeverity() === 'error' ? OutputInterface::VERBOSITY_QUIET : OutputInterface::VERBOSITY_NORMAL);
 						$description = $check->getDescription();
 						$descriptionParameters = $check->getDescriptionParameters();
-						if ($descriptionParameters !== null) {
+						if ($description !== null && $descriptionParameters !== null) {
 							$description = $this->richToParsed($description, $descriptionParameters);
 						}
 						$output->writeln(
