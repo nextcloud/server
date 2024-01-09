@@ -53,22 +53,22 @@ class GenerateMetadataJob extends TimedJob {
 
 	protected function run(mixed $argument): void {
 		$users = $this->userManager->search('');
-		$lastMappedUser = $this->config->getAppValue('core', 'metadataGenerationLastHandledUser', '');
+		$lastHandledUser = $this->config->getAppValue('core', 'metadataGenerationLastHandledUser', '');
 
-		if ($lastMappedUser === '') {
+		if ($lastHandledUser === '') {
 			$user = array_key_first($users);
 			if ($user === null) {
 				return;
 			}
 
-			$lastMappedUser = $users[$user]->getUID();
+			$lastHandledUser = $users[$user]->getUID();
 		}
 
 		$startTime = null;
 		foreach ($users as $user) {
 			if ($startTime === null) {
-				// Skip all user before lastMappedUser.
-				if ($lastMappedUser !== $user->getUID()) {
+				// Skip all user before lastHandledUser.
+				if ($lastHandledUser !== $user->getUID()) {
 					continue;
 				}
 
