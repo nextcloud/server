@@ -34,7 +34,6 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
-use OC;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
@@ -140,7 +139,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
-				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
 				'isMysqlUsedWithoutUTF8MB4',
@@ -198,11 +196,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('hasPassedCheck')
 			->willReturn(true);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getAppDirsWithDifferentOwner')
-			->willReturn([]);
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -347,56 +340,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getCurlVersion')
 			->willReturn(['ssl_version' => 'OpenSSL/1.0.2b']);
 		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	/**
-	 * Setups a temp directory and some subdirectories.
-	 * Then calls the 'getAppDirsWithDifferentOwner' method.
-	 * The result is expected to be empty since
-	 * there are no directories with different owners than the current user.
-	 *
-	 * @return void
-	 */
-	public function testAppDirectoryOwnersOk() {
-		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
-		mkdir($tempDir);
-		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
-		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app2');
-		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app1';
-		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app2';
-		$this->dirsToRemove[] = $tempDir;
-		OC::$APPSROOTS = [
-			[
-				'path' => $tempDir,
-				'url' => '/apps',
-				'writable' => true,
-			],
-		];
-		$this->assertSame(
-			[],
-			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
-		);
-	}
-
-	/**
-	 * Calls the check for a none existing app root that is marked as not writable.
-	 * It's expected that no error happens since the check shouldn't apply.
-	 *
-	 * @return void
-	 */
-	public function testAppDirectoryOwnersNotWritable() {
-		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
-		OC::$APPSROOTS = [
-			[
-				'path' => $tempDir,
-				'url' => '/apps',
-				'writable' => false,
-			],
-		];
-		$this->assertSame(
-			[],
-			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
-		);
 	}
 
 	public function testIsBuggyNss400() {
