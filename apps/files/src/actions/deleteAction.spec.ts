@@ -38,6 +38,10 @@ const trashbinView = {
 } as View
 
 describe('Delete action conditions tests', () => {
+	afterEach(() => {
+		jest.restoreAllMocks()
+	})
+
 	const file = new File({
 		id: 1,
 		source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
@@ -48,8 +52,8 @@ describe('Delete action conditions tests', () => {
 
 	const file2 = new File({
 		id: 1,
-		source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
-		owner: 'user2',
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+		owner: 'admin',
 		mime: 'text/plain',
 		permissions: Permission.ALL,
 	})
@@ -67,12 +71,12 @@ describe('Delete action conditions tests', () => {
 		expect(action.displayName([file], trashbinView)).toBe('Delete permanently')
 	})
 
-	test('Shared node view values', () => {
+	test('Shared node values', () => {
 		jest.spyOn(auth, 'getCurrentUser').mockReturnValue(null)
 		expect(action.displayName([file2], view)).toBe('Unshare')
 	})
 
-	test('Shared and owned nodes view values', () => {
+	test('Shared and owned nodes values', () => {
 		expect(action.displayName([file, file2], view)).toBe('Delete and unshare')
 	})
 })
