@@ -49,6 +49,7 @@ class SetupResult implements \JsonSerializable {
 	 * @param self::SUCCESS|self::INFO|self::WARNING|self::ERROR $severity
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
+	 * @since 28.0.2 throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 */
 	private function __construct(
 		private string $severity,
