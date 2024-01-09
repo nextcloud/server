@@ -46,6 +46,7 @@ class SetupChecks extends Base {
 	}
 
 	/**
+	 * @TODO move this method to a common service used by notifications, activity and this command
 	 * @throws \InvalidArgumentException if a parameter has no name or no type
 	 */
 	private function richToParsed(string $message, array $parameters): string {
