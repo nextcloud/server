@@ -1172,7 +1172,11 @@
                         "description": "Whether to copy the system templates to the template directory",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
