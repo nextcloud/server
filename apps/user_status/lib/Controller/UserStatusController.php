@@ -47,6 +47,7 @@ use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @psalm-import-type UserStatusType from ResponseDefinitions
  * @psalm-import-type UserStatusPrivate from ResponseDefinitions
  */
 class UserStatusController extends OCSController {
@@ -207,6 +208,8 @@ class UserStatusController extends OCSController {
 	 * @return UserStatusPrivate
 	 */
 	private function formatStatus(UserStatus $status): array {
+		/** @var UserStatusType $visibleStatus */
+		$visibleStatus = $status->getStatus();
 		return [
 			'userId' => $status->getUserId(),
 			'message' => $status->getCustomMessage(),
@@ -214,7 +217,7 @@ class UserStatusController extends OCSController {
 			'messageIsPredefined' => $status->getMessageId() !== null,
 			'icon' => $status->getCustomIcon(),
 			'clearAt' => $status->getClearAt(),
-			'status' => $status->getStatus(),
+			'status' => $visibleStatus,
 			'statusIsUserDefined' => $status->getIsUserDefined(),
 		];
 	}

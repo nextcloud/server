@@ -188,9 +188,20 @@
                         "nullable": true
                     },
                     "status": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/Type"
                     }
                 }
+            },
+            "Type": {
+                "type": "string",
+                "enum": [
+                    "online",
+                    "away",
+                    "dnd",
+                    "busy",
+                    "offline",
+                    "invisible"
+                ]
             }
         }
     },
