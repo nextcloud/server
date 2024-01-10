@@ -1,5 +1,9 @@
 <template>
 	<div class="files-list" data-cy-files-list>
+		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
+			<slot name="header-overlay" />
+		</div>
+
 		<!-- Header -->
 		<div ref="before" class="files-list__before">
 			<slot name="before" />

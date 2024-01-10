@@ -33,6 +33,11 @@
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
+		<template v-if="!isNoneSelected" #header-overlay>
+			<FilesListTableHeaderActions :current-view="currentView"
+				:selected-nodes="selectedNodes" />
+		</template>
+
 		<template #before>
 			<!-- Headers -->
 			<FilesListHeader v-for="header in sortedHeaders"
@@ -76,6 +81,7 @@ import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { useSelectionStore } from '../store/selection.js'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -85,6 +91,7 @@ import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.js'
+import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -94,6 +101,7 @@ export default defineComponent({
 		FilesListTableFooter,
 		FilesListTableHeader,
 		VirtualList,
+		FilesListTableHeaderActions,
 	},
 
 	mixins: [
@@ -117,8 +125,10 @@ export default defineComponent({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const selectionStore = useSelectionStore()
 		return {
 			userConfigStore,
+			selectionStore,
 		}
 	},
 
@@ -184,6 +194,14 @@ export default defineComponent({
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
 			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
+		},
+
+		selectedNodes() {
+			return this.selectionStore.selected
+		},
+
+		isNoneSelected() {
+			return this.selectedNodes.length === 0
 		},
 	},
 
@@ -298,6 +316,7 @@ export default defineComponent({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
+	position: relative;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -331,6 +350,22 @@ export default defineComponent({
 
 		.files-list__table {
 			display: block;
+		}
+
+		.files-list__thead-overlay {
+			position: absolute;
+			top: 0;
+			left: var(--row-height); // Save space for a row checkbox
+			right: 0;
+			z-index: 1000;
+
+			display: flex;
+			align-items: center;
+
+			// Reuse row styles
+			background-color: var(--color-main-background);
+			border-bottom: 1px solid var(--color-border);
+			height: var(--row-height);
 		}
 
 		.files-list__thead,
