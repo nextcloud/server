@@ -51,7 +51,7 @@ class JavaScriptModules implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Supports JavaScript modules');
+		return $this->l10n->t('JavaScript modules support');
 	}
 
 	public function run(): SetupResult {
