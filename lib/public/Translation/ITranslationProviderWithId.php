@@ -29,7 +29,7 @@ namespace OCP\Translation;
 /**
  * @since 29.0.0
  */
-interface ITranslationProviderWithId {
+interface ITranslationProviderWithId extends ITranslationProvider {
 	/**
 	 * @since 29.0.0
 	 */
