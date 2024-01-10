@@ -148,8 +148,23 @@ try {
 				break;
 			}
 
-			$logger->debug('CLI cron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
+			$jobDetails = get_class($this) . ' (id: ' . $this->getId() . ', arguments: ' . json_encode($this->getArgument()) . ')';
+			$logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
+
+			$memoryBefore = memory_get_usage();
+			$memoryPeakBefore = memory_get_peak_usage();
+
 			$job->execute($jobList, $logger);
+
+			$memoryAfter = memory_get_usage();
+			$memoryPeakAfter = memory_get_peak_usage();
+
+			if ($memoryAfter - $memoryBefore > 10_000_000) {
+				$logger->warning('Used memory grew by more than 10 MB when executing job ' . $jobDetails . ': ' . \OCP\Util::humanFileSize($memoryAfter). ' (before: ' . \OCP\Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
+			}
+			if ($memoryPeakAfter > 300_000_000) {
+				$logger->warning('Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . \OCP\Util::humanFileSize($memoryPeakAfter) . ' (before: ' . \OCP\Util::humanFileSize($memoryPeakBefore) . ')', ['app' => 'cron']);
+			}
 
 			// clean up after unclean jobs
 			\OC_Util::tearDownFS();
