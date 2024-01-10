@@ -127,7 +127,7 @@ OC.L10N.register(
     "Allow editing" : "Allow editing",
     "Read only" : "Read only",
     "Allow upload and editing" : "업로드와 수정 허용",
-    "File drop (upload only)" : "File drop (upload only)",
+    "File drop (upload only)" : "업로드만 허용",
     "Custom permissions" : "사용자 지정 권한",
     "Read" : "읽기",
     "Upload" : "업로드",
