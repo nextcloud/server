@@ -32,6 +32,7 @@ namespace OC\Core\Controller;
 
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
@@ -72,6 +73,7 @@ class AutoCompleteController extends OCSController {
 	 *
 	 * 200: Autocomplete results returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/autocomplete/get', root: '/core')]
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.

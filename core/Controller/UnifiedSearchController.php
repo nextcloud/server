@@ -34,6 +34,7 @@ use OC\Search\SearchQuery;
 use OC\Search\UnsupportedFilter;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -69,6 +70,7 @@ class UnifiedSearchController extends OCSController {
 	 *
 	 * 200: Providers returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/providers', root: '/search')]
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
 
@@ -99,6 +101,7 @@ class UnifiedSearchController extends OCSController {
 	 * 200: Search entries returned
 	 * 400: Searching is not possible
 	 */
+	#[ApiRoute(verb: 'GET', url: '/providers/{providerId}/search', root: '/search')]
 	public function search(
 		string $providerId,
 		// Unused parameter for OpenAPI spec generator

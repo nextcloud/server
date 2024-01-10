@@ -27,6 +27,7 @@ namespace OC\Core\Controller;
 
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
@@ -59,6 +60,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: References returned
 	 */
+	#[ApiRoute(verb: 'POST', url: '/extract', root: '/references')]
 	public function extract(string $text, bool $resolve = false, int $limit = 1): DataResponse {
 		$references = $this->referenceManager->extractReferences($text);
 
@@ -87,6 +89,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Reference returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/resolve', root: '/references')]
 	public function resolveOne(string $reference): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference))?->jsonSerialize();
@@ -107,6 +110,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: References returned
 	 */
+	#[ApiRoute(verb: 'POST', url: '/resolve', root: '/references')]
 	public function resolve(array $references, int $limit = 1): DataResponse {
 		$result = [];
 		$index = 0;
@@ -132,6 +136,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Providers returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/providers', root: '/references')]
 	public function getProvidersInfo(): DataResponse {
 		$providers = $this->referenceManager->getDiscoverableProviders();
 		$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
@@ -151,6 +156,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Provider touched
 	 */
+	#[ApiRoute(verb: 'PUT', url: '/provider/{providerId}', root: '/references')]
 	public function touchProvider(string $providerId, ?int $timestamp = null): DataResponse {
 		if ($this->userId !== null) {
 			$success = $this->referenceManager->touchProvider($this->userId, $providerId, $timestamp);
