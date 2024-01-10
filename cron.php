@@ -148,7 +148,7 @@ try {
 				break;
 			}
 
-			$jobDetails = get_class($this) . ' (id: ' . $this->getId() . ', arguments: ' . json_encode($this->getArgument()) . ')';
+			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
 
 			$memoryBefore = memory_get_usage();
