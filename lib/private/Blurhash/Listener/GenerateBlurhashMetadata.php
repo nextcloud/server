@@ -37,6 +37,8 @@ use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\AMetadataEvent;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
+use OCP\FilesMetadata\Event\MetadataNamedEvent;
+use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\IPreview;
 use OCP\Lock\LockedException;
 
@@ -63,8 +65,20 @@ class GenerateBlurhashMetadata implements IEventListener {
 	 */
 	public function handle(Event $event): void {
 		if (!($event instanceof MetadataLiveEvent)
-			&& !($event instanceof MetadataBackgroundEvent)) {
+			&& !($event instanceof MetadataBackgroundEvent)
+			&& !($event instanceof MetadataNamedEvent)
+		) {
 			return;
+		}
+
+		$named = false;
+		if ($event instanceof MetadataNamedEvent) {
+			// in case of MetadataNamedEvent, we ignore if its name is not 'blurhash'
+			if ($event->getName() === 'blurhash') {
+				$named = true;
+			} else {
+				return;
+			}
 		}
 
 		$file = $event->getNode();
@@ -72,9 +86,26 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
+		$metadata = $event->getMetadata();
+		try {
+			/**
+			 * In case of not named event we check stored etag with
+			 * the current one from the file to ensure we do not
+			 * re-create an identical blurhash.
+			 * We also confirm that the blurhash is known.
+			 */
+			$storedEtag = $metadata->getString('blurhash_etag');
+			$metadata->getString('blurhash');
+			if (!$named && $file->getEtag() === $storedEtag) {
+				return;
+			}
+		} catch (FilesMetadataException) {
+		}
+
 		// too heavy to run on the live thread, request a rerun as a background job
 		if ($event instanceof MetadataLiveEvent) {
 			$event->requestBackgroundJob();
+
 			return;
 		}
 
@@ -95,8 +126,8 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
-		$metadata = $event->getMetadata();
 		$metadata->setString('blurhash', $this->generateBlurHash($image));
+		$metadata->setString('blurhash_etag', $file->getEtag());
 	}
 
 	/**
@@ -125,6 +156,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 		}
 
 		$newImage = imagescale($image, $newX, $newY);
+
 		return ($newImage !== false) ? $newImage : $image;
 	}
 
@@ -160,5 +192,6 @@ class GenerateBlurhashMetadata implements IEventListener {
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(MetadataLiveEvent::class, self::class);
 		$eventDispatcher->addServiceListener(MetadataBackgroundEvent::class, self::class);
+		$eventDispatcher->addServiceListener(MetadataNamedEvent::class, self::class);
 	}
 }
