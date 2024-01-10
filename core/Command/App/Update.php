@@ -108,6 +108,7 @@ class Update extends Command {
 							'exception' => $e,
 						]);
 						$output->writeln('Error: ' . $e->getMessage());
+						$result = false;
 						$return = 1;
 					}
 
