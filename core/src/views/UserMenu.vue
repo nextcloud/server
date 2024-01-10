@@ -236,8 +236,8 @@ export default {
 						outline: none !important;
 					}
 
-					&:active,
-					&.active {
+					&:active:not(:focus-visible),
+					&.active:not(:focus-visible) {
 						background-color: var(--color-primary-element);
 						color: var(--color-primary-element-text);
 					}
@@ -262,8 +262,8 @@ export default {
 						filter: var(--background-invert-if-dark);
 					}
 
-					&:active,
-					&.active {
+					&:active:not(:focus-visible),
+					&.active:not(:focus-visible) {
 						img,
 						svg {
 							filter: var(--primary-invert-if-dark);

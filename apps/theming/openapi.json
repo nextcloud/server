@@ -162,7 +162,11 @@
                         "description": "Let the browser decide the CSS priority",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -171,7 +175,11 @@
                         "description": "Include custom CSS",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -232,7 +240,11 @@
                         "description": "Return image as SVG",
                         "schema": {
                             "type": "integer",
-                            "default": 1
+                            "default": 1,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
