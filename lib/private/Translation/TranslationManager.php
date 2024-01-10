@@ -77,17 +77,17 @@ class TranslationManager implements ITranslationManager {
 			$precedence = json_decode($json, true);
 			$newProviders = [];
 			foreach ($precedence as $className) {
-				$provider = current(array_filter($providers, fn ($provider) =>
-				  $provider instanceof ITranslationProviderWithId ? $provider->getId() === $className : $provider::class === $className))
-				;
+				$provider = current(array_filter($providers, function ($provider) use ($className) {
+					return $provider instanceof ITranslationProviderWithId ? $provider->getId() === $className : $provider::class === $className;
+				}));
 				if ($provider !== false) {
 					$newProviders[] = $provider;
 				}
 			}
 			// Add all providers that haven't been added so far
-			$newProviders += array_udiff($providers, $newProviders, fn ($a, $b) =>
-				($a instanceof ITranslationProviderWithId ? $a->getId() : $a::class) <=> ($b instanceof ITranslationProviderWithId ? $b->getId() : $b::class)
-			);
+			$newProviders += array_udiff($providers, $newProviders, function ($a, $b) {
+				return ($a instanceof ITranslationProviderWithId ? $a->getId() : $a::class) <=> ($b instanceof ITranslationProviderWithId ? $b->getId() : $b::class);
+			});
 			$providers = $newProviders;
 		}
 
@@ -116,7 +116,7 @@ class TranslationManager implements ITranslationManager {
 
 		foreach ($providers as $provider) {
 			try {
-				if ($provider instanceof  ITranslationProviderWithUserId) {
+				if ($provider instanceof ITranslationProviderWithUserId) {
 					$provider->setUserId($this->userSession->getUser()?->getUID());
 				}
 				return $provider->translate($fromLanguage, $toLanguage, $text);
