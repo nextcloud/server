@@ -30,6 +30,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -53,38 +54,33 @@ class GenerateMetadataJob extends TimedJob {
 
 	protected function run(mixed $argument): void {
 		$users = $this->userManager->search('');
-		$lastMappedUser = $this->config->getAppValue('core', 'metadataGenerationLastHandledUser', '');
+		$lastHandledUser = $this->config->getAppValue('core', 'metadataGenerationLastHandledUser', '');
 
-		if ($lastMappedUser === '') {
-			$user = array_key_first($users);
-			if ($user === null) {
-				return;
-			}
-
-			$lastMappedUser = $users[$user]->getUID();
-		}
-
-		$startTime = null;
+		// we'll only start timer once we have found a valid user to handle
+		// meaning NOW if we have not handled any user from a previous run
+		$startTime = ($lastHandledUser === '') ? time() : null;
 		foreach ($users as $user) {
-			if ($startTime === null) {
-				// Skip all user before lastMappedUser.
-				if ($lastMappedUser !== $user->getUID()) {
-					continue;
-				}
+			$userId = $user->getUID();
 
-				$startTime = time();
+			// if we already handled a previous run, we start timer only when we face the last handled user
+			if ($startTime === null) {
+				if ($userId === $lastHandledUser) {
+					$startTime = time();
+				}
+				continue;
 			}
+
+			$this->config->setAppValue('core', 'metadataGenerationLastHandledUser', $userId);
+			$this->scanFilesForUser($user->getUID());
 
 			// Stop if execution time is more than one hour.
-			if (time() - $startTime > 60 * 60) {
+			if (time() - $startTime > 3600) {
 				return;
 			}
-
-			$this->scanFilesForUser($user->getUID());
-			$this->config->setAppValue('core', 'metadataGenerationLastHandledUser', $user->getUID());
 		}
 
 		$this->jobList->remove(GenerateMetadataJob::class);
+		$this->config->deleteAppValue('core', 'metadataGenerationLastHandledUser');
 	}
 
 	private function scanFilesForUser(string $userId): void {
@@ -105,12 +101,16 @@ class GenerateMetadataJob extends TimedJob {
 			}
 
 			try {
-				$this->filesMetadataManager->refreshMetadata(
-					$node,
-					IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
-				);
-			} catch (\Throwable $ex) {
-				$this->logger->warning("Error while generating metadata for fileid ".$node->getId(), ['exception' => $ex]);
+				$this->filesMetadataManager->getMetadata($node->getId(), false);
+			} catch (FilesMetadataNotFoundException) {
+				try {
+					$this->filesMetadataManager->refreshMetadata(
+						$node,
+						IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
+					);
+				} catch (\Throwable $ex) {
+					$this->logger->warning("Error while generating metadata for fileid " . $node->getId(), ['exception' => $ex]);
+				}
 			}
 		}
 	}
