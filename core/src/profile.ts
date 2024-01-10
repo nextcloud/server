@@ -20,17 +20,14 @@
  *
  */
 
-import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
-import { translate as t } from '@nextcloud/l10n'
-import VTooltip from 'v-tooltip'
-
-import logger from './logger.js'
+import Vue from 'vue'
 
 import Profile from './views/Profile.vue'
 import ProfileSections from './profile/ProfileSections.js'
 
-__webpack_nonce__ = btoa(getRequestToken())
+// @ts-expect-error Script nonce required for webpack loading additional scripts
+__webpack_nonce__ = btoa(getRequestToken() ?? '')
 
 if (!window.OCA) {
 	window.OCA = {}
@@ -41,19 +38,8 @@ if (!window.OCA.Core) {
 }
 Object.assign(window.OCA.Core, { ProfileSections: new ProfileSections() })
 
-Vue.use(VTooltip)
-
-Vue.mixin({
-	props: {
-		logger,
-	},
-	methods: {
-		t,
-	},
-})
-
 const View = Vue.extend(Profile)
 
 window.addEventListener('DOMContentLoaded', () => {
-	new View().$mount('#vue-profile')
+	new View().$mount('#content')
 })
