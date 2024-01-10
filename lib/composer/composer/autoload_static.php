@@ -1075,7 +1075,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\OCS\\V1Response' => __DIR__ . '/../../..' . '/lib/private/AppFramework/OCS/V1Response.php',
         'OC\\AppFramework\\OCS\\V2Response' => __DIR__ . '/../../..' . '/lib/private/AppFramework/OCS/V2Response.php',
         'OC\\AppFramework\\Routing\\RouteActionHandler' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Routing/RouteActionHandler.php',
-        'OC\\AppFramework\\Routing\\RouteConfig' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Routing/RouteConfig.php',
         'OC\\AppFramework\\Routing\\RouteParser' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Routing/RouteParser.php',
         'OC\\AppFramework\\ScopedPsrLogger' => __DIR__ . '/../../..' . '/lib/private/AppFramework/ScopedPsrLogger.php',
         'OC\\AppFramework\\Services\\AppConfig' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Services/AppConfig.php',

@@ -87,7 +87,7 @@ class RouteParser {
 
 		/*
 		 * The route name has to be lowercase, for symfony to match it correctly.
-		 * This is required because smyfony allows mixed casing for controller names in the routes.
+		 * This is required because symfony allows mixed casing for controller names in the routes.
 		 * To avoid breaking all the existing route names, registering and matching will only use the lowercase names.
 		 * This is also safe on the PHP side because class and method names collide regardless of the casing.
 		 */

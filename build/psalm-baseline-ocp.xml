@@ -6,9 +6,6 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/public/AppFramework/App.php">
-    <InternalMethod>
-      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
-    </InternalMethod>
     <UndefinedClass>
       <code><![CDATA[\OC]]></code>
     </UndefinedClass>
