@@ -26,8 +26,8 @@
 		<NcAvatar :user="contact.user"
 			:show-user-status="false"
 			:hide-favorite="false"
-			:disable-menu="true" 
-			class="contact__avatar"/>
+			:disable-menu="true"
+			class="contact__avatar" />
 		<div class="contact__body">
 			<div>{{ contact.displayName }}</div>
 			<div @click.stop="(event) => event">
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import {NcActionLink, NcButton, NcActionText, NcActions, NcAvatar} from '@nextcloud/vue'
+import { NcActionLink, NcActionText, NcActions, NcAvatar } from '@nextcloud/vue'
 
 export default {
 	name: 'Contact',
@@ -70,7 +70,6 @@ export default {
 		NcActionText,
 		NcActions,
 		NcAvatar,
-		NcButton,
 	},
 	props: {
 		contact: {
@@ -101,6 +100,7 @@ export default {
 	&:hover {
 		background: var(--color-background-hover);
 		border-radius: var(--border-radius-pill);
+		cursor: pointer;
 	}
 
 	&__action {
@@ -114,6 +114,7 @@ export default {
 
 	&__avatar {
 		display: inherit;
+		cursor: pointer;
 	}
 
 	&__body {
@@ -123,6 +124,7 @@ export default {
 		align-items: center;
 		margin-left: 10px;
 		min-width: 0;
+		cursor: pointer;
 
 		div {
 			position: relative;
@@ -130,7 +132,7 @@ export default {
 			overflow-x: hidden;
 			text-overflow: ellipsis;
 		}
-		
+
 		&:focus-visible {
 			box-shadow: 0 0 0 4px var(--color-main-background) !important;
 			outline: 2px solid var(--color-main-text) !important;
@@ -148,6 +150,7 @@ export default {
 	}
 
 	button.other-actions {
+		cursor: pointer;
 		width: 44px;
 
 		&:focus {

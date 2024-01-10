@@ -37,9 +37,9 @@
 				<Magnify :size="20" />
 			</NcTextField>
 			<ul v-if="filteredContactList.length > 0" class="searchable-list__list">
-				<Contact v-for="contact in filteredContactList" 
-					:key="contact.id" 
-					:contact="contact" 
+				<Contact v-for="contact in filteredContactList"
+					:key="contact.id"
+					:contact="contact"
 					@click.native="itemSelected(contact)" />
 			</ul>
 			<div v-else class="searchable-list__empty-content">
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { NcPopover, NcTextField, NcAvatar, NcEmptyContent } from '@nextcloud/vue'
+import { NcPopover, NcTextField, NcEmptyContent } from '@nextcloud/vue'
 import Contact from '../ContactsMenu/Contact.vue'
 
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
@@ -68,7 +68,6 @@ export default {
 		NcTextField,
 		Magnify,
 		AlertCircleOutline,
-		NcAvatar,
 		NcEmptyContent,
 		Contact,
 	},
