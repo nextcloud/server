@@ -183,6 +183,7 @@ OC.L10N.register(
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Tato instance postrádá některé potřebné PHP moduly. Je třeba je nainstalovat: %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Této instanci chybí některé doporučené moduly pro PHP. V zájmu lepšího výkonu a kompatibility, je důrazně doporučeno je nainstalovat: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP modul OPcache není načten. Pro lepší výkon je doporučeno načíst ho do vaší PHP instalace.",
+    "Correctly configured" : "Správně nastaveno",
     "PHP version" : "Verze PHP",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Nyní  provozujete na PHP %s. Od Nextcloud 27 je PHP 8.0 už označeno jako zastaralé. Nextcloud 28 pak už může vyžadovat alespoň PHP 8.1. Co možná nejdříve přejděte na některou z oficiálně podporovaných verzí PHP, poskytovaných PHP Group.",
     "You are currently running PHP %s." : "Nyní provozujete na PHP %s.",

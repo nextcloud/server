@@ -82,7 +82,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Subcarpeta remota",
-    "Secure https://" : "—Seguro— https://",
+    "Secure https://" : "https:// Seguro",
     "FTP" : "FTP",
     "Host" : "Servidor",
     "Secure ftps://" : "ftps:// Seguro",
