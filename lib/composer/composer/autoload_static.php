@@ -745,6 +745,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Translation\\ITranslationManager' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationManager.php',
         'OCP\\Translation\\ITranslationProvider' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationProvider.php',
         'OCP\\Translation\\ITranslationProviderWithId' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationProviderWithId.php',
+        'OCP\\Translation\\ITranslationProviderWithUserId' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationProviderWithUserId.php',
         'OCP\\Translation\\LanguageTuple' => __DIR__ . '/../../..' . '/lib/public/Translation/LanguageTuple.php',
         'OCP\\UserInterface' => __DIR__ . '/../../..' . '/lib/public/UserInterface.php',
         'OCP\\UserMigration\\IExportDestination' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IExportDestination.php',

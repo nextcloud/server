@@ -712,6 +712,7 @@ return array(
     'OCP\\Translation\\ITranslationManager' => $baseDir . '/lib/public/Translation/ITranslationManager.php',
     'OCP\\Translation\\ITranslationProvider' => $baseDir . '/lib/public/Translation/ITranslationProvider.php',
     'OCP\\Translation\\ITranslationProviderWithId' => $baseDir . '/lib/public/Translation/ITranslationProviderWithId.php',
+    'OCP\\Translation\\ITranslationProviderWithUserId' => $baseDir . '/lib/public/Translation/ITranslationProviderWithUserId.php',
     'OCP\\Translation\\LanguageTuple' => $baseDir . '/lib/public/Translation/LanguageTuple.php',
     'OCP\\UserInterface' => $baseDir . '/lib/public/UserInterface.php',
     'OCP\\UserMigration\\IExportDestination' => $baseDir . '/lib/public/UserMigration/IExportDestination.php',
