@@ -1118,7 +1118,7 @@ class SessionTest extends \Test\TestCase {
 
 		$userSession->expects($this->once())
 			->method('isTokenPassword')
-			->willReturn(true);
+			->willReturn(false);
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john@foo.bar', 'I-AM-AN-PASSWORD')
