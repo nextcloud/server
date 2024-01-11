@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
-    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
-    "Chose destination" : "Välj destination"
+    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
 },
 "nplurals=2; plural=(n != 1);");

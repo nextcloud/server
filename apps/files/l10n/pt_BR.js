@@ -169,6 +169,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} has completed." : "A transferência da propriedade de {path} de {user} foi concluída.",
     "in %s" : "em %s",
     "File Management" : "Gerenciamento de Arquivos",
+    "Current directory path" : "Caminho do diretório atual",
     "Reload current directory" : "Recarregar diretório atual",
     "Go to the \"{dir}\" directory" : "Vá para o diretório \"{dir}\"",
     "Drag and drop files here to upload" : "Arraste e solte os arquivos aqui para fazer upload",
@@ -321,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista não é totalmente renderizada por motivos de desempenho. Os arquivos serão renderizados conforme você navega pela lista.",
     "Search for an account" : "Pesquisar uma conta",
     "Choose" : "Escolher",
-    "No files or folders have been deleted yet" : "Nenhum arquivo ou pasta foi excluído ainda",
-    "Chose destination" : "Escolha o destino"
+    "No files or folders have been deleted yet" : "Nenhum arquivo ou pasta foi excluído ainda"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

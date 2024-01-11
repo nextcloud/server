@@ -320,7 +320,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
-    "Chose destination" : "Escoller o destino"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
 },
 "nplurals=2; plural=(n != 1);");
