@@ -140,6 +140,7 @@ OC.L10N.register(
     "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "현재 MariaDB \"%s\" 버전이 사용되고 있습니다. Nextcloud 21 및 그 이상의 버전은 이를 지원하지 않습니다. MariaDB 10.2 이상을 사용하십시오.",
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "현재 MySQL \"%s\" 버전이 사용되고 있습니다. Nextcloud 21 및 그 이상의 버전은 이를 지원하지 않습니다. MySQL 8.0 혹은 MariaDB 10.2 이상을 사용하십시오.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "현재 PostgreSQL \"%s\" 버전이 사용되고 있습니다. Nextcloud 21 및 그 이상의 버전은 이를 지원하지 않습니다. PostgreSQL 9.6 이상을 사용하십시오.",
+    "Architecture" : "건축",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "데이터베이스가 \"READ COMMITTED\" 트랜잭션 격리 수준에서 실행되고 있지 않습니다. 여러 작업이 동시에 실행될 때 문제가 발생할 수 있습니다.",
     "Profile information" : "프로필 정보",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "프로필 사진, 전체 이름, 이메일, 전화번호, 주소, 웹사이트, 트위터, 조직, 직책, 표제, 소개문구 및 프로필 활성화 여부",

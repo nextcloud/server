@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋賬號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
-    "Chose destination" : "選擇目標地"
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
 },
 "nplurals=1; plural=0;");
