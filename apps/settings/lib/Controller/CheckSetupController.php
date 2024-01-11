@@ -234,6 +234,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
+	 * @NoCSRFRequired
 	 * @return RedirectResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
