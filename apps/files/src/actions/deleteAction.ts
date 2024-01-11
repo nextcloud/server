@@ -24,17 +24,42 @@ import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
+import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 
 import logger from '../logger.js'
+import { getCurrentUser } from '@nextcloud/auth'
+
+const isAllUnshare = (nodes: Node[]) => {
+	return !nodes.some(node => node.owner === getCurrentUser()?.uid)
+}
+
+const isMixedUnshareAndDelete = (nodes: Node[]) => {
+	const hasUnshareItems = nodes.some(node => node.owner !== getCurrentUser()?.uid)
+	const hasDeleteItems = nodes.some(node => node.owner === getCurrentUser()?.uid)
+	return hasUnshareItems && hasDeleteItems
+}
 
 export const action = new FileAction({
 	id: 'delete',
 	displayName(nodes: Node[], view: View) {
+		if (isMixedUnshareAndDelete(nodes)) {
+			return t('files', 'Delete and unshare')
+		}
+
+		if (isAllUnshare(nodes)) {
+			return t('files', 'Unshare')
+		}
+
 		return view.id === 'trashbin'
 			? t('files', 'Delete permanently')
 			: t('files', 'Delete')
 	},
-	iconSvgInline: () => TrashCanSvg,
+	iconSvgInline: (nodes: Node[]) => {
+		if (isAllUnshare(nodes)) {
+			return CloseSvg
+		}
+		return TrashCanSvg
+	},
 
 	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes
