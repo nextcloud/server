@@ -43,13 +43,13 @@
 					:href="action.hyperlink"
 					class="other-actions">
 					<template #icon>
-						<img class="contact__action__icon" :src="action.icon">
+						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionLink>
 				<NcActionText v-else :key="idx" class="other-actions">
 					<template #icon>
-						<img class="contact__action__icon" :src="action.icon">
+						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionText>
