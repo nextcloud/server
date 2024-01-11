@@ -137,15 +137,15 @@ class AppConfigControllerTest extends TestCase {
 				->with($app)
 				->willThrowException($throws);
 
-			$this->config->expects($this->never())
-				->method('getAppKeys');
+			$this->appConfig->expects($this->never())
+				->method('getKeys');
 		} else {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
 
-			$this->config->expects($this->once())
-				->method('getAppKeys')
+			$this->appConfig->expects($this->once())
+				->method('getKeys')
 				->with($app)
 				->willReturn($keys);
 		}
