@@ -122,7 +122,7 @@ import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
@@ -437,6 +437,10 @@ export default defineComponent({
 	mounted() {
 		this.fetchContent()
 		subscribe('files:node:updated', this.onUpdatedNode)
+	},
+
+	unmounted() {
+		unsubscribe('files:node:updated', this.onUpdatedNode)
 	},
 
 	methods: {
