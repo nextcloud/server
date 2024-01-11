@@ -456,8 +456,17 @@ class Session implements IUserSession, Emitter {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
-			$users = $this->manager->getByEmail($user);
-			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
+
+			if ($isTokenPassword) {
+				$dbToken = $this->tokenProvider->getToken($password);
+				$userFromToken = $this->manager->get($dbToken->getUID());
+				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user;
+			} else {
+				$users = $this->manager->getByEmail($user);
+				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
+			}
+
+			if (!$isValidEmailLogin) {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
