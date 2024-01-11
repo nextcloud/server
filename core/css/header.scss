@@ -171,6 +171,9 @@
 
 	/* Right header standard */
 	.header-right {
+		> .header-menu:not(.user-menu) {
+			filter: var(--background-image-invert-if-bright);
+		}
 		> div,
 		> form {
 			height: 100%;
