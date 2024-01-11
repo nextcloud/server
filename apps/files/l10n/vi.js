@@ -312,7 +312,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "anh sách này không được hiển thị đầy đủ vì lý do hiệu suất. Các tập tin sẽ được hiển thị khi bạn điều hướng qua danh sách.",
     "Search for an account" : "Tìm kiếm tài khoản",
     "Choose" : "Chọn",
-    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa",
-    "Chose destination" : "Chọn điểm đến"
+    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa"
 },
 "nplurals=1; plural=0;");

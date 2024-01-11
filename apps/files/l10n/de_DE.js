@@ -5,7 +5,7 @@ OC.L10N.register(
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : "Löschen",
-    "Tags" : "Tags",
+    "Tags" : "Schlagworte",
     "Show list view" : "Listenansicht anzeigen",
     "Show grid view" : "Rasteransicht anzeigen",
     "Home" : "Home",
@@ -114,7 +114,7 @@ OC.L10N.register(
     "Not favorited" : "Nicht favorisiert",
     "Remove from favorites" : "Von Favoriten entfernen",
     "Add to favorites" : "Zu den Favoriten hinzufügen",
-    "An error occurred while trying to update the tags" : "Es ist ein Fehler beim Aktualisieren der Tags aufgetreten",
+    "An error occurred while trying to update the tags" : "Es ist ein Fehler beim Aktualisieren der Schlagworte aufgetreten",
     "Added to favorites" : "Zu den Favoriten hinzugefügt",
     "Removed from favorites" : "Aus den Favoriten entfernt",
     "You added {file} to your favorites" : "Sie haben {file} zu Ihren Favoriten hinzugefügt",
@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
-    "Chose destination" : "Ziel wählen"
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },
 "nplurals=2; plural=(n != 1);");

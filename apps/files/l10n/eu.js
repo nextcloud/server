@@ -310,7 +310,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
-    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
-    "Chose destination" : "Aukeratu helburua"
+    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
 },
 "nplurals=2; plural=(n != 1);");

@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Search for an account" : "Cerqueu un compte",
     "Choose" : "Tria",
-    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
-    "Chose destination" : "Tria una destinació"
+    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
 },
 "nplurals=2; plural=(n != 1);");
