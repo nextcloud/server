@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Оваа листа не е целосно прикажана поради заштеда на перформанси. Датотеките ќе се прикажуваат додека се движите низ листата.",
     "Search for an account" : "Пребарај сметка",
     "Choose" : "Избери",
-    "No files or folders have been deleted yet" : "Нема датотеки или папки што се избришани",
-    "Chose destination" : "Избери дестинација"
+    "No files or folders have been deleted yet" : "Нема датотеки или папки што се избришани"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

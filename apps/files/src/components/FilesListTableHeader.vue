@@ -26,53 +26,47 @@
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
-		<!-- Actions multiple if some are selected -->
-		<FilesListTableHeaderActions v-if="!isNoneSelected"
-			:current-view="currentView"
-			:selected-nodes="selectedNodes" />
-
 		<!-- Columns display -->
-		<template v-else>
-			<!-- Link to file -->
-			<th class="files-list__column files-list__row-name files-list__column--sortable"
-				:aria-sort="ariaSortForMode('basename')">
-				<!-- Icon or preview -->
-				<span class="files-list__row-icon" />
 
-				<!-- Name -->
-				<FilesListTableHeaderButton :name="t('files', 'Name')" mode="basename" />
-			</th>
+		<!-- Link to file -->
+		<th class="files-list__column files-list__row-name files-list__column--sortable"
+			:aria-sort="ariaSortForMode('basename')">
+			<!-- Icon or preview -->
+			<span class="files-list__row-icon" />
 
-			<!-- Actions -->
-			<th class="files-list__row-actions" />
+			<!-- Name -->
+			<FilesListTableHeaderButton :name="t('files', 'Name')" mode="basename" />
+		</th>
 
-			<!-- Size -->
-			<th v-if="isSizeAvailable"
-				:class="{'files-list__column--sortable': isSizeAvailable}"
-				class="files-list__column files-list__row-size"
-				:aria-sort="ariaSortForMode('size')">
-				<FilesListTableHeaderButton :name="t('files', 'Size')" mode="size" />
-			</th>
+		<!-- Actions -->
+		<th class="files-list__row-actions" />
 
-			<!-- Mtime -->
-			<th v-if="isMtimeAvailable"
-				:class="{'files-list__column--sortable': isMtimeAvailable}"
-				class="files-list__column files-list__row-mtime"
-				:aria-sort="ariaSortForMode('mtime')">
-				<FilesListTableHeaderButton :name="t('files', 'Modified')" mode="mtime" />
-			</th>
+		<!-- Size -->
+		<th v-if="isSizeAvailable"
+			class="files-list__column files-list__row-size"
+			:class="{ 'files-list__column--sortable': isSizeAvailable }"
+			:aria-sort="ariaSortForMode('size')">
+			<FilesListTableHeaderButton :name="t('files', 'Size')" mode="size" />
+		</th>
 
-			<!-- Custom views columns -->
-			<th v-for="column in columns"
-				:key="column.id"
-				:class="classForColumn(column)"
-				:aria-sort="ariaSortForMode(column.id)">
-				<FilesListTableHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
-				<span v-else>
-					{{ column.title }}
-				</span>
-			</th>
-		</template>
+		<!-- Mtime -->
+		<th v-if="isMtimeAvailable"
+			class="files-list__column files-list__row-mtime"
+			:class="{ 'files-list__column--sortable': isMtimeAvailable }"
+			:aria-sort="ariaSortForMode('mtime')">
+			<FilesListTableHeaderButton :name="t('files', 'Modified')" mode="mtime" />
+		</th>
+
+		<!-- Custom views columns -->
+		<th v-for="column in columns"
+			:key="column.id"
+			:class="classForColumn(column)"
+			:aria-sort="ariaSortForMode(column.id)">
+			<FilesListTableHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
+			<span v-else>
+				{{ column.title }}
+			</span>
+		</th>
 	</tr>
 </template>
 

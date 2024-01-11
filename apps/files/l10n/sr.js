@@ -321,7 +321,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
     "Search for an account" : "Претражите налог",
     "Choose" : "Изаберите",
-    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер",
-    "Chose destination" : "Изаберите одредиште"
+    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

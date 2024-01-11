@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
-    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
-    "Chose destination" : "目的地を選ぶ"
+    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません"
 },
 "nplurals=1; plural=0;");
