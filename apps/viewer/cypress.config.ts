@@ -1,4 +1,4 @@
-import { configureNextcloud, startNextcloud, stopNextcloud, waitOnNextcloud } from './cypress/dockerNode'
+import { configureNextcloud, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/cypress/docker'
 import { defineConfig } from 'cypress'
 
 import getCompareSnapshotsPlugin from 'cypress-visual-regression/dist/plugin'

@@ -77,7 +77,7 @@
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/browserslist-config": "^3.0.0",
-    "@nextcloud/cypress": "^1.0.0-beta.2",
+    "@nextcloud/cypress": "^1.0.0-beta.7",
     "@nextcloud/eslint-config": "^8.3.0",
     "@nextcloud/stylelint-config": "^2.3.1",
     "@nextcloud/webpack-vue-config": "^6.0.0",
