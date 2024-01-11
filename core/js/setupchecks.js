@@ -307,6 +307,15 @@
 			return deferred.promise();
 		},
 
+		escapeHTML: function(text) {
+			return text.toString()
+				.split('&').join('&amp;')
+				.split('<').join('&lt;')
+				.split('>').join('&gt;')
+				.split('"').join('&quot;')
+				.split('\'').join('&#039;')
+		},
+
 		/**
 		* @param message      The message string containing placeholders.
 		* @param parameters   An object with keys as placeholders and values as their replacements.
@@ -317,11 +326,13 @@
 			for (var [placeholder, parameter] of Object.entries(parameters)) {
 				var replacement;
 				if (parameter.type === 'user') {
-					replacement = '@' + parameter.name;
+					replacement = '@' + this.escapeHTML(parameter.name);
 				} else if (parameter.type === 'file') {
-					replacement = parameter.path || parameter.name;
+					replacement = this.escapeHTML(parameter.path) || this.escapeHTML(parameter.name);
+				} else if (parameter.type === 'highlight') {
+					replacement = '<a href="' + encodeURI(parameter.link) + '">' + this.escapeHTML(parameter.name) + '</a>';
 				} else {
-					replacement = parameter.name;
+					replacement = this.escapeHTML(parameter.name);
 				}
 				message = message.replace('{' + placeholder + '}', replacement);
 			}
@@ -340,6 +351,9 @@
 			}
 
 			var message = setupCheck.description;
+			if (message) {
+				message = this.escapeHTML(message)
+			}
 			if (setupCheck.descriptionParameters) {
 				message = this.richToParsed(message, setupCheck.descriptionParameters);
 			}
