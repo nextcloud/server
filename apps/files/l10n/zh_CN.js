@@ -315,7 +315,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Search for an account" : "搜索一个账户",
     "Choose" : "选择",
-    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹",
-    "Chose destination" : "选择目的地"
+    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹"
 },
 "nplurals=1; plural=0;");

@@ -320,7 +320,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Search for an account" : "Fiók keresése",
     "Choose" : "Válasszon",
-    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
-    "Chose destination" : "Válasszon célt"
+    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
 },
 "nplurals=2; plural=(n != 1);");

@@ -322,7 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
-    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
-    "Chose destination" : "Zvolte cíl"
+    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
