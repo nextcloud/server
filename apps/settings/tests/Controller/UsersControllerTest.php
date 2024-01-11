@@ -137,6 +137,10 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @return UsersController | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getController($isAdmin = false, $mockedMethods = []) {
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->willReturn($isAdmin);
+
 		if (empty($mockedMethods)) {
 			return new UsersController(
 				'settings',
@@ -145,7 +149,6 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->config,
-				$isAdmin,
 				$this->l,
 				$this->mailer,
 				$this->l10nFactory,
@@ -167,7 +170,6 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->groupManager,
 						$this->userSession,
 						$this->config,
-						$isAdmin,
 						$this->l,
 						$this->mailer,
 						$this->l10nFactory,
