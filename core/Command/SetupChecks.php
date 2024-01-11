@@ -59,13 +59,11 @@ class SetupChecks extends Base {
 					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
 				}
 			}
-			if ($parameter['type'] === 'user') {
-				$replacements[] = '@' . $parameter['name'];
-			} elseif ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'] ?? $parameter['name'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
+			$replacements[] = match($parameter['type']) {
+				'user' => '@' . $parameter['name'],
+				'file' => $parameter['path'] ?? $parameter['name'],
+				default => $parameter['name'],
+			};
 		}
 		return str_replace($placeholders, $replacements, $message);
 	}
