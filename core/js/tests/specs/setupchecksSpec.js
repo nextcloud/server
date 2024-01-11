@@ -232,7 +232,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -279,7 +278,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -326,7 +324,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -373,7 +370,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -419,7 +415,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -465,7 +460,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -542,7 +536,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -594,7 +587,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -643,7 +635,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -689,7 +680,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -732,7 +722,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
@@ -760,52 +749,6 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 
-		it('should return an error if imagick is not enabled', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					suggestedOverwriteCliURL: '',
-					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
-					isImagickEnabled: false,
-					areWebauthnExtensionsEnabled: true,
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
-
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -824,7 +767,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -869,7 +811,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -921,7 +862,6 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
