@@ -37,6 +37,7 @@ use OCP\TextProcessing\IProvider;
 use OCP\TextProcessing\IProviderWithId;
 use OCP\TextProcessing\ITaskType;
 use OCP\Translation\ITranslationManager;
+use OCP\Translation\ITranslationProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -62,7 +63,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		$translationPreferences = [];
 		foreach ($this->translationManager->getProviders() as $provider) {
 			$translationProviders[] = [
-				'class' => $provider::class,
+				'class' => $provider instanceof ITranslationProviderWithId ? $provider->getId() : $provider::class,
 				'name' => $provider->getName(),
 			];
 			$translationPreferences[] = $provider::class;
