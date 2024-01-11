@@ -53,7 +53,6 @@ class CodeIntegrity implements ISetupCheck {
 		} elseif ($this->checker->hasPassedCheck()) {
 			return SetupResult::success($this->l10n->t('No altered files'));
 		} else {
-			// FIXME: If setup check can link to settings pages this should link to /settings/integrity/failed and /settings/integrity/rescan?requesttoken=TOKEN
 			return SetupResult::error(
 				$this->l10n->t('Some files have not passed the integrity check. {link1} {link2}'),
 				$this->urlGenerator->linkToDocs('admin-code-integrity'),
@@ -68,7 +67,6 @@ class CodeIntegrity implements ISetupCheck {
 						'type' => 'highlight',
 						'id' => 'rescanFailedIntegrityCheck',
 						'name' => 'Rescan…',
-						//, ['requesttoken' => '']?
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.rescanFailedIntegrityCheck'),
 					],
 				],
