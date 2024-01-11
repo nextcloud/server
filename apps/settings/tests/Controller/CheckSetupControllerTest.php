@@ -191,10 +191,6 @@ class CheckSetupControllerTest extends TestCase {
 				'relativeTime' => '2 hours ago',
 				'backgroundJobsUrl' => 'https://example.org',
 			]);
-		$this->checker
-			->expects($this->once())
-			->method('hasPassedCheck')
-			->willReturn(true);
 
 		$this->checkSetupController
 			->expects($this->once())
