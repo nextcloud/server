@@ -76,6 +76,8 @@
 					<NcRichContenteditable ref="editor"
 						:auto-complete="autoComplete"
 						:contenteditable="!loading"
+						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
+						:placeholder="t('comments', 'Write a comment …')"
 						:value="localMessage"
 						:user-data="userData"
 						aria-describedby="tab-comments__editor-description"
@@ -189,6 +191,7 @@ export default {
 			// Only change data locally and update the original
 			// parent data when the request is sent and resolved
 			localMessage: '',
+			submitted: false,
 		}
 	},
 
@@ -249,6 +252,7 @@ export default {
 		 */
 		updateLocalMessage(message) {
 			this.localMessage = message.toString()
+			this.submitted = false
 		},
 
 		/**
