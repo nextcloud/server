@@ -208,6 +208,7 @@ $header-icon-size: 20px;
 			text-overflow: ellipsis;
 			overflow: hidden;
 			letter-spacing: -0.5px;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		&:hover,
