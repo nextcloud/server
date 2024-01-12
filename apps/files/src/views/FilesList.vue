@@ -105,7 +105,7 @@ import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
@@ -406,6 +406,11 @@ export default defineComponent({
 
 	mounted() {
 		this.fetchContent()
+		subscribe('files:node:updated', this.onUpdatedNode)
+	},
+
+	unmounted() {
+		unsubscribe('files:node:updated', this.onUpdatedNode)
 	},
 
 	methods: {
@@ -489,6 +494,17 @@ export default defineComponent({
 			// Use parseInt(upload.response?.headers?.['oc-fileid']) to get the fileid
 			if (needsRefresh) {
 				// fetchContent will cancel the previous ongoing promise
+				this.fetchContent()
+			}
+		},
+
+		/**
+		 * Refreshes the current folder on update.
+		 *
+		 * @param {Node} node is the file/folder being updated.
+ 		 */
+		onUpdatedNode(node) {
+			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
 			}
 		},
