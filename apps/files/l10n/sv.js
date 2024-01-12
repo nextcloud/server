@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "Skapar fil",
     "Blank" : "Tom",
     "Unable to create new file from template" : "Kunde inte skapa fil från mall",
+    "Unshare" : "Sluta dela",
     "Delete permanently" : "Ta bort permanent",
     "Destination is not a folder" : "Destinationen är inte en mapp",
     "This file/folder is already in that directory" : "Den här filen/mappen finns redan i den katalogen",

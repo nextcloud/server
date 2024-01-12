@@ -215,6 +215,7 @@ OC.L10N.register(
     "Creating file" : "Membuat berkas",
     "Blank" : "Kosong",
     "Unable to create new file from template" : "Tidak dapat membuat berkas baru dari templat",
+    "Unshare" : "Batalkan berbagi",
     "Delete permanently" : "Hapus secara permanen",
     "Templates" : "Templat",
     "Unable to initialize the templates directory" : "Tidak dapat membuat direktori templat",

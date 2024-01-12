@@ -151,6 +151,7 @@ OC.L10N.register(
     "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
     "Create" : "Krei",
     "Creating file" : "Kreante dosieron",
+    "Unshare" : "Malkunhavigi",
     "Delete permanently" : "Forigi por ĉiam",
     "Open details" : "Montri detalojn",
     "Templates" : "Ŝablonoj",

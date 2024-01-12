@@ -177,6 +177,7 @@ OC.L10N.register(
     "Create" : "Loo",
     "Blank" : "Tühi",
     "Unable to create new file from template" : "Faili loomine mallist ebaõnnestus",
+    "Unshare" : "Lõpeta jagamine",
     "Delete permanently" : "Kustuta jäädavalt",
     "Open folder {displayName}" : "Ava kaust {displayName}",
     "Create new templates folder" : "Loo uus mallide kaust",

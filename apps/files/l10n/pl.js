@@ -256,6 +256,7 @@ OC.L10N.register(
     "Creating file" : "Tworzenie pliku",
     "Blank" : "Pusty",
     "Unable to create new file from template" : "Nie można utworzyć nowego pliku z szablonu",
+    "Unshare" : "Zatrzymaj udostępnianie",
     "Delete permanently" : "Usuń bezpowrotnie",
     "Destination is not a folder" : "Miejsce docelowe nie jest katalogiem",
     "This file/folder is already in that directory" : "Ten plik/katalog znajduje się już w tym katalogu",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vous utilisez déjà un thème personnalisé. Les paramètres de l'application Theming peuvent être remplacés par ceux-ci.",
     "Theming" : "Personnaliser l'apparence",
     "Appearance and accessibility" : "Apparence et accessibilité",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Le module PHP \"imagick\" n'est pas actif mais l'application Theming est activée. Pour que la génération du Favicon fonctionne correctement, ce module doit être installé et actif.",
     "Dark theme with high contrast mode" : "Thème sombre avec mode de contraste élevé",
     "Enable dark high contrast mode" : "Activer le mode sombre à contraste élevé",
     "Similar to the high contrast mode, but with dark colours." : "Similaire au mode de contraste élevé, mais avec des couleurs sombres.",

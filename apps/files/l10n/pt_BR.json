@@ -261,6 +261,7 @@
     "Creating file" : "Criando arquivo",
     "Blank" : "Em branco",
     "Unable to create new file from template" : "Incapaz de criar novo arquivo a partir do modelo",
+    "Unshare" : "Descompartilhar",
     "Delete permanently" : "Remover permanentemente",
     "Destination is not a folder" : "O destino não é uma pasta",
     "This file/folder is already in that directory" : "Este arquivo/pasta já está nesse diretório",

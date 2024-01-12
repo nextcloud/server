@@ -27,6 +27,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Używasz już własnego motywu. Ustawienia aplikacji Theming mogą zostać nadpisane.",
     "Theming" : "Motyw",
     "Appearance and accessibility" : "Wygląd i dostępność",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Moduł PHP \"imagick\" nie jest włączony, pomimo że aplikacja motywu jest. Aby generowanie favicon działało poprawnie, musisz zainstalować i włączyć ten moduł.",
     "Dark theme with high contrast mode" : "Ciemny motyw z trybem wysokiego kontrastu",
     "Enable dark high contrast mode" : "Włącz ciemny tryb wysokiego kontrastu",
     "Similar to the high contrast mode, but with dark colours." : "Podobny do trybu wysokiego kontrastu, ale z ciemnymi kolorami.",

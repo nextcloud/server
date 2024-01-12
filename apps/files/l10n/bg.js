@@ -230,6 +230,7 @@ OC.L10N.register(
     "Creating file" : "Създаване на файл ",
     "Blank" : "Празен",
     "Unable to create new file from template" : "Не може да се създаде нов файл от шаблон",
+    "Unshare" : "Прекратяване на споделянето",
     "Delete permanently" : "Изтрий завинаги",
     "Open details" : "Отваряне на подробности",
     "Create new templates folder" : "Създаване на нова папка за шаблони",
