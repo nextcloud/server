@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["رفض المشاركات","رفض المشاركة","رفض المشاركات","رفض المشاركات","رفض المشاركات","أرفُض المشاركات"],
     "_Restore share_::_Restore shares_" : ["استعادة المشاركات","استعادة المشاركة","استعادة المشاركات","استعادة المشاركات","استعادة المشاركات","إستعادة المشاركات"],
     "Shared" : "مُشارَكة",
+    "Shared multiple times with different people" : "تمّت مشاركته عدة مرات مع أشخاص متعددين",
     "Shared by {ownerDisplayName}" : "تمّت مشاركته من قِبَل {ownerDisplayName}",
     "Show sharing options" : "أعرُض خيارات المشاركة",
     "Link to a file" : "رابط إلى ملف",
