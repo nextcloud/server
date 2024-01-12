@@ -79,6 +79,10 @@ class Connection extends PrimaryReadReplicaConnection {
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;
 
+	protected ?float $transactionActiveSince = null;
+
+	protected $tableDirtyWrites = [];
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
@@ -255,11 +259,33 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
+		$tables = $this->getQueriedTables($sql);
+		if (count(array_intersect($this->tableDirtyWrites, $tables)) === 0 && !$this->isTransactionActive()) {
+			// No tables read that could have been written already in the same request and no transaction active
+			// so we can switch back to the replica for reading as long as no writes happen that switch back to the primary
+			// We cannot log here as this would log too early in the server boot process
+			$this->ensureConnectedToReplica();
+		} else {
+			// Read to a table that was previously written to
+			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
+			$this->logger->debug('dirty table reads: ' . $sql, ['tables' => $this->tableDirtyWrites, 'reads' => $tables, 'exception' => new \Exception()]);
+		}
+
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
+	}
+
+	/**
+	 * Helper function to get the list of tables affected by a given query
+	 * used to track dirty tables that received a write with the current request
+	 */
+	private function getQueriedTables(string $sql): array {
+		$re = '/(\*PREFIX\*\w+)/mi';
+		preg_match_all($re, $sql, $matches);
+		return array_map([$this, 'replaceTablePrefix'], $matches[0] ?? []);
 	}
 
 	/**
@@ -288,6 +314,9 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int {
+		$tables = $this->getQueriedTables($sql);
+		$this->tableDirtyWrites = array_unique(array_merge($this->tableDirtyWrites, $tables));
+		$this->logger->debug('dirty table writes: ' . $sql, ['tables' => $this->tableDirtyWrites]);
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
@@ -306,6 +335,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			// FIXME:  Improve to log the actual target db host
 			$isPrimary = $this->connections['primary'] === $this->_conn;
 			$prefix .= ' ' . ($isPrimary === true ? 'primary' : 'replica') . ' ';
+			$prefix .= ' ' . $this->getTransactionNestingLevel() . ' ';
 
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
@@ -615,6 +645,37 @@ class Connection extends PrimaryReadReplicaConnection {
 		$after = $this->isConnectedToPrimary();
 		if (!$before && $after) {
 			$this->logger->debug('Switched to primary database', ['exception' => new \Exception()]);
+		}
+		return $result;
+	}
+
+	public function beginTransaction() {
+		if (!$this->inTransaction()) {
+			$this->transactionActiveSince = microtime(true);
+		}
+		return parent::beginTransaction();
+	}
+
+	public function commit() {
+		$result = parent::commit();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction')]);
+			}
+		}
+		return $result;
+	}
+
+	public function rollBack() {
+		$result = parent::rollBack();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+			}
 		}
 		return $result;
 	}
