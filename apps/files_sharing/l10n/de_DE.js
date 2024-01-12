@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Freigabe ablehnen","Freigaben ablehnen"],
     "_Restore share_::_Restore shares_" : ["Freigabe wiederherstellen","Freigaben wiederherstellen"],
     "Shared" : "Geteilt",
+    "Shared multiple times with different people" : "Mehrmals mit verschiedenen Personen geteilt",
     "Shared by {ownerDisplayName}" : "Geteilt von {ownerDisplayName}",
     "Show sharing options" : "Freigabeoptionen anzeigen",
     "Link to a file" : "Mit einer Datei verknüpfen",

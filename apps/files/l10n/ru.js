@@ -200,13 +200,10 @@ OC.L10N.register(
     "Unselect all" : "Отменить выделение для всех",
     "\"{displayName}\" failed on some elements " : "«{displayName}» неудачно для некоторых элементов",
     "\"{displayName}\" batch action executed successfully" : "Пакетное действие \"{displayName}\" выполнено успешно",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} и {summaryFolder}",
     "List of files and folders." : "Список файлов и каталогов.",
     "Column headers with buttons are sortable." : "Заголовки столбцов с кнопками можно сортировать.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "File not found" : "Файл не найден",
-    "_{count} file_::_{count} files_" : ["{count} файл","{count} файла","{count} файлов","{count} файлов"],
-    "_{count} folder_::_{count} folders_" : ["{count} папка","{count} папки","{count} папок","{count} папок"],
     "Storage informations" : "Сведения о хранилище",
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
     "{relative}% used" : "Использовано {relative}%",
@@ -323,6 +320,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "Choose" : "Выберите",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} и {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} файл","{count} файла","{count} файлов","{count} файлов"],
+    "_{count} folder_::_{count} folders_" : ["{count} папка","{count} папки","{count} папок","{count} папок"]
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

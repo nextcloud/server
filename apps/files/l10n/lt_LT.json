@@ -169,11 +169,8 @@
     "Could not copy {file}. {message}" : "Nepavyko nukopijuoti {file}. {message}",
     "Could not move {file}. {message}" : "Nepavyko perkelti {file}. {message}",
     "Select all" : "Pažymėti viską",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} ir {summaryFolder}",
     "List of files and folders." : "Failų ir aplankų sąrašas.",
     "File not found" : "Failas nerastas",
-    "_{count} file_::_{count} files_" : ["{count} failas","{count} failai","{count} failų","{count} failas"],
-    "_{count} folder_::_{count} folders_" : ["{count} aplankas","{count} aplankai","{count} aplankų","{count} aplankas"],
     "Storage informations" : "Informacija apie saugyklą",
     "Your storage is full, files can not be updated or synced anymore!" : "Jūsų saugykla pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
     "Transfer ownership of a file or folder" : "Perduoti failo ar aplanko nuosavybę",
@@ -233,6 +230,9 @@
     "Deleted shares" : "Ištrinti viešiniai",
     "Pending shares" : "Laukiantys viešiniai",
     "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
-    "Choose" : "Pasirinkite"
+    "Choose" : "Pasirinkite",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} ir {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} failas","{count} failai","{count} failų","{count} failas"],
+    "_{count} folder_::_{count} folders_" : ["{count} aplankas","{count} aplankai","{count} aplankų","{count} aplankas"]
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

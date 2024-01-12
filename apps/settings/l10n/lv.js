@@ -99,6 +99,7 @@ OC.L10N.register(
     "Cancel" : "Atcelt",
     "Confirm" : "Apstiprināt",
     "Submit" : "Iesniegt",
+    "Remove group" : "Noņemt grupu",
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",

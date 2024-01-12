@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Одбиј дељење","Одбиј дељења","Одбиј дељења"],
     "_Restore share_::_Restore shares_" : ["Обнови дељење","Обнови дељења","Обнови дељења"],
     "Shared" : "Подељено",
+    "Shared multiple times with different people" : "Дељено више пута са разним људима",
     "Shared by {ownerDisplayName}" : "Поделио {ownerDisplayName}",
     "Show sharing options" : "Прикажи опције дељења",
     "Link to a file" : "Веза ка фајлу",

@@ -200,13 +200,10 @@ OC.L10N.register(
     "Unselect all" : "Unselect all",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" failed on some elements ",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" batch action executed successfully",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} and {summaryFolder}",
     "List of files and folders." : "List of files and folders.",
     "Column headers with buttons are sortable." : "Column headers with buttons are sortable.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.",
     "File not found" : "File not found",
-    "_{count} file_::_{count} files_" : ["{count} file","{count} files"],
-    "_{count} folder_::_{count} folders_" : ["{count} folder","{count} folders"],
     "Storage informations" : "Storage informations",
     "{usedQuotaByte} used" : "{usedQuotaByte} used",
     "{relative}% used" : "{relative}% used",
@@ -323,6 +320,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
-    "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
+    "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} and {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} file","{count} files"],
+    "_{count} folder_::_{count} folders_" : ["{count} folder","{count} folders"]
 },
 "nplurals=2; plural=(n!=1);");
