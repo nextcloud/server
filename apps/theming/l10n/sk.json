@@ -21,6 +21,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používate vlastný motív vzhľadu. Predošlé nastavenia tým môžu byť prepísané.",
     "Theming" : "Zmena vzhľadu",
     "Appearance and accessibility" : "Vzhľad a správanie",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP modul „imagick“ nie je povolený, hoci tematická aplikácia áno. Aby generovanie favicon správne fungovalo, musíte nainštalovať a povoliť tento modul.",
     "Dark theme with high contrast mode" : "Tmavá téma s vysokým kontrastom",
     "Enable dark high contrast mode" : "Zapnúť režim vysokého kontrastu",
     "Similar to the high contrast mode, but with dark colours." : "Podobné ako v režime vysokého kontrastu, ale s tmavými farbami.",

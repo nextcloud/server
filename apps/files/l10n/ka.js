@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "Creating file",
     "Blank" : "Blank",
     "Unable to create new file from template" : "Unable to create new file from template",
+    "Unshare" : "Unshare",
     "Delete permanently" : "Delete permanently",
     "Destination is not a folder" : "Destination is not a folder",
     "This file/folder is already in that directory" : "This file/folder is already in that directory",

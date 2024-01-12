@@ -22,6 +22,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruger allerede et brugerdefineret tema. Theming app-indstillinger kan blive overskrevet af det.",
     "Theming" : "Temaer",
     "Appearance and accessibility" : "Udseende og tilgængelighed",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP-modulet \"imagick\" er ikke aktiveret, selvom tema-appen er det. For at favicon-generering skal fungere korrekt, skal du installere og aktivere dette modul.",
     "Dark theme with high contrast mode" : "Mørkt tema med høj kontrast",
     "Enable dark high contrast mode" : "Aktiver mørkt høj kontrast tilstand",
     "Similar to the high contrast mode, but with dark colours." : "Som høj kontrast tilstand, men med mørke farver.",

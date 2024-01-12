@@ -252,6 +252,7 @@
     "Creating file" : "Se crează fișierul",
     "Blank" : "Gol",
     "Unable to create new file from template" : "Nu s-a putut creea un fisier nou pentru acest șablon",
+    "Unshare" : "Oprește partajarea",
     "Delete permanently" : "Șterge permanent",
     "Destination is not a folder" : "Destinația nu este un folder",
     "This file/folder is already in that directory" : "Acest fișier/folder există în acel dosar",

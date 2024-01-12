@@ -23,6 +23,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruker et tilpasset tema. Innstillinger i app for tilpasning av tema kan bli overskrevet av disse.",
     "Theming" : "Temavalg",
     "Appearance and accessibility" : "Utseende og tilgjengelighet",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP-modulen \"imagick\" er ikke aktivert selv om tema-appen er det. For at favicongenerering skal fungere riktig, må du installere og aktivere denne modulen.",
     "Dark theme" : "Mørkt tema",
     "Enable dark theme" : "Aktiver mørkt tema",
     "Using the default system appearance." : "Bruker standard systemutseende.",

@@ -261,6 +261,7 @@
     "Creating file" : "파일 만들기",
     "Blank" : "여백",
     "Unable to create new file from template" : "템플릿으로 새 파일을 만들 수 없음",
+    "Unshare" : "공유 해제",
     "Delete permanently" : "영구히 삭제",
     "Destination is not a folder" : "대상이 폴더가 아닙니다.",
     "This file/folder is already in that directory" : "이 파일/폴더가 이미 그 경로에 있습니다.",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "أنت تستخدم الآن ثيمة مُخصّصة. إعدادات تطبيق الثيمات يُمكن أن يتم الكتابة عليها بسبب ذلك. ",
     "Theming" : "تخصيص القالب",
     "Appearance and accessibility" : "المظهر appearance، و سهولة الوصول accessibility",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "وحدة PHP ـ \"imahick\" غير مُفعّلة بالرغم من تفعيل تطبيق الثيمات theming. حتى يتم توليد الأيقونة الأساسية favicon بشكل صحيح يتوجب تنصيب و تفعيل هذه الوحدة.",
     "Dark theme with high contrast mode" : "ثيمة داكنة dark مع وضعية تباين عالي",
     "Enable dark high contrast mode" : "فَعِّل وضعية التباين العالي الدّاكن",
     "Similar to the high contrast mode, but with dark colours." : "مُماثلة لوضعية التباين العالي، لكن بألوان داكنة",

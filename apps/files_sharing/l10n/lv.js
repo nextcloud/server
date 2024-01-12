@@ -119,6 +119,7 @@ OC.L10N.register(
     "remote group" : "attālinātā grupa",
     "guest" : "viesis",
     "Unshare" : "Pārtraukt koplietošanu",
+    "Internal link" : "Iekšējā saite",
     "Only works for users with access to this file" : "Darbojas tikai lietotājiem, kuriem ir piekļuve šai datnei",
     "Link copied" : "Saite nokopēta",
     "Password protection" : "Password protection",

@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "إنشاء ملف",
     "Blank" : "فارغ",
     "Unable to create new file from template" : "تعذر إنشاء الملف الجديد من القالب",
+    "Unshare" : "إلغاء المُشارَكة",
     "Delete permanently" : "حذف بشكل دائم",
     "Destination is not a folder" : "المَقصَد ليس مُجلّداً",
     "This file/folder is already in that directory" : "هذا الملف/المجلد موجود سلفاً في ذلك المجلد",

@@ -26,6 +26,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "あなたはすでにカスタムテーマを使用しています。 テーマ設定の設定が上書きされる可能性があります。",
     "Theming" : "テーマ",
     "Appearance and accessibility" : "外観とアクセシビリティ",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "テーマ別アプリは有効ですが、PHPモジュール「imagick」が有効ではありません。ファビコン生成を正しく行うには、このモジュールをインストールし、有効化する必要があります。",
     "Dark theme with high contrast mode" : "ハイコントラストモードのダークテーマ",
     "Enable dark high contrast mode" : "ハイコントラストモードのダークテーマを有効化",
     "Similar to the high contrast mode, but with dark colours." : "暗い色調でのハイコントラストモード",

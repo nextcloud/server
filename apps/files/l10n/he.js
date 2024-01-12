@@ -177,6 +177,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "לא ניתן לשנות את מצב ההעדפה של הקובץ",
     "Error while loading the file data" : "שגיאה בטעינת נתוני הקובץ",
     "Create" : "יצירה",
+    "Unshare" : "ביטול שיתוף",
     "Delete permanently" : "מחיקה לצמיתות",
     "Open details" : "פתיחת פרטים",
     "No favorites yet" : "אין מועדפים עדיין",

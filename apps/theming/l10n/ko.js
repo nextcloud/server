@@ -20,6 +20,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "사용자 정의 테마를 사용하고 있습니다. 테마 앱에서 해당 설정을 덮어쓸 수 있습니다.",
     "Theming" : "테마",
     "Appearance and accessibility" : "외형과 접근성",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "테마 앱이 활성화되었으나, PHP 모듈 “imagick”이 활성화되지 않았습니다. 파비콘 생성을 위해 해당 모듈을 설치하고 활성화하십시오.",
     "Dark theme with high contrast mode" : "고대비 모드의 어두운 테마",
     "Dark theme" : "어두운 테마",
     "Enable dark theme" : "어두운 테마 활성화",

@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "Создание файла",
     "Blank" : "Пустой",
     "Unable to create new file from template" : "Не удалось создать файл на основе шаблона",
+    "Unshare" : "Отозвать общий доступ",
     "Delete permanently" : "Удалить навсегда",
     "Destination is not a folder" : "Указанное назначение не является папкой",
     "This file/folder is already in that directory" : "Файл или папка уже расположены в этой папке",
