@@ -196,12 +196,9 @@
     "Unselect all" : "Desautatu dena",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\"-k huts egin du elementu batzuetan",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" multzoko ekintza behar bezala exekutatu da",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} eta {summaryFolder}",
     "List of files and folders." : "Fitxategi eta karpeten zerrenda.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "File not found" : "Ez da fitxategia aurkitu",
-    "_{count} file_::_{count} files_" : ["fitxategi {count}","{count} fitxategi"],
-    "_{count} folder_::_{count} folders_" : ["karpeta {count}","{count} karpeta"],
     "Storage informations" : "Biltegiaren informazioak",
     "{usedQuotaByte} used" : "{usedQuotaByte} erabilita",
     "{relative}% used" : "%{relative} erabilita",
@@ -309,6 +306,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
-    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
+    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} eta {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["fitxategi {count}","{count} fitxategi"],
+    "_{count} folder_::_{count} folders_" : ["karpeta {count}","{count} karpeta"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

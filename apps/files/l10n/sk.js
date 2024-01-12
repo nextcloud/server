@@ -198,13 +198,10 @@ OC.L10N.register(
     "Select all" : "Vybrať všetko",
     "Unselect all" : "Zrušiť výber",
     "\"{displayName}\" batch action executed successfully" : "Hromadná operácia \"{displayName}\" bola úspešne vykonaná",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} a {summaryFolder}",
     "List of files and folders." : "Zoznam súborov a priečinkov.",
     "Column headers with buttons are sortable." : "Stĺpce hlavičiek s tlačidlami sú triediteľné.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzať zoznamom.",
     "File not found" : "Súbor nenájdený",
-    "_{count} file_::_{count} files_" : ["{count} súbor","{count} súbory","{count} súborov","{count} súborov"],
-    "_{count} folder_::_{count} folders_" : ["{count} priečinok","{count} priečinky","{count} priečinkov","{count} priečinkov"],
     "Storage informations" : "Úložiskové informácie",
     "{usedQuotaByte} used" : "{usedQuotaByte} použitých",
     "{relative}% used" : "{relative}% použitých",
@@ -318,6 +315,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzat zoznamom.",
     "Search for an account" : "Vyhľadať účet",
     "Choose" : "Vybrať",
-    "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané"
+    "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} a {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} súbor","{count} súbory","{count} súborov","{count} súborov"],
+    "_{count} folder_::_{count} folders_" : ["{count} priečinok","{count} priečinky","{count} priečinkov","{count} priečinkov"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["拒絕分享"],
     "_Restore share_::_Restore shares_" : ["還原分享"],
     "Shared" : "已分享",
+    "Shared multiple times with different people" : "與不同的人多次分享",
     "Shared by {ownerDisplayName}" : "由 {ownerDisplayName} 分享",
     "Show sharing options" : "顯示分享選項",
     "Link to a file" : "檔案連結",

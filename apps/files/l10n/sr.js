@@ -200,13 +200,10 @@ OC.L10N.register(
     "Unselect all" : "Поништи цео избор",
     "\"{displayName}\" failed on some elements " : "„{displayName}” није успело на неким елементима",
     "\"{displayName}\" batch action executed successfully" : "Пакетна акција „{displayName}” се успешно извршила",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} и {summaryFolder}",
     "List of files and folders." : "Листа фајлова и фолдера.",
     "Column headers with buttons are sortable." : "Заглавља колона са дугмићима могу да се соритрају.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
     "File not found" : "Фајл није нађен",
-    "_{count} file_::_{count} files_" : ["{count} фајл","{count} фајла","{count} фајлова"],
-    "_{count} folder_::_{count} folders_" : ["{count} фолдер","{count} фолдера","{count} фолдера"],
     "Storage informations" : "Информације о складишту`",
     "{usedQuotaByte} used" : "{usedQuotaByte} искоришћено",
     "{relative}% used" : "{relative}% искоришћено",
@@ -263,6 +260,7 @@ OC.L10N.register(
     "Creating file" : "Креирање фајла",
     "Blank" : "Празно",
     "Unable to create new file from template" : "Из шаблона није могао да се креира нови фајл",
+    "Delete and unshare" : "Обриши и прекини дељење",
     "Unshare" : "Укини дељење",
     "Delete permanently" : "Обриши заувек",
     "Destination is not a folder" : "Одредиште није фолдер",
@@ -323,6 +321,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
     "Search for an account" : "Претражите налог",
     "Choose" : "Изаберите",
-    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер"
+    "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} и {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} фајл","{count} фајла","{count} фајлова"],
+    "_{count} folder_::_{count} folders_" : ["{count} фолдер","{count} фолдера","{count} фолдера"]
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

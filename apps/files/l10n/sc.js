@@ -191,8 +191,6 @@ OC.L10N.register(
     "Unselect all" : "Deseletziona totu",
     "List of files and folders." : "Lista de archìvios e cartellas.",
     "File not found" : "Archìviu no agatadu",
-    "_{count} file_::_{count} files_" : ["{count} archìviu","{count} archìvios"],
-    "_{count} folder_::_{count} folders_" : ["{count} cartella","{count} cartellas"],
     "Storage informations" : "Informatziones de s'archiviatzione",
     "{usedQuotaByte} used" : "{usedQuotaByte} impreadu",
     "{relative}% used" : "{relative}% impreadu",
@@ -295,6 +293,8 @@ OC.L10N.register(
     "This file has the tag {tag}" : "Custu archìviu tenet s'eticheta {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}",
     "Open folder {name}" : "Aberi sa cartella {name}",
-    "Choose" : "Sèbera"
+    "Choose" : "Sèbera",
+    "_{count} file_::_{count} files_" : ["{count} archìviu","{count} archìvios"],
+    "_{count} folder_::_{count} folders_" : ["{count} cartella","{count} cartellas"]
 },
 "nplurals=2; plural=(n != 1);");

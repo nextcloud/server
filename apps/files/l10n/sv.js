@@ -200,13 +200,10 @@ OC.L10N.register(
     "Unselect all" : "Avmarkera alla",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" misslyckades med vissa element",
     "\"{displayName}\" batch action executed successfully" : "Batchåtgärden \"{displayName}\" har utförts",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} och {summaryFolder}",
     "List of files and folders." : "Lista över filer och mappar.",
     "Column headers with buttons are sortable." : "Kolumnrubriker med knappar är sorterbara.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "File not found" : "Filen kunde inte hittas",
-    "_{count} file_::_{count} files_" : ["{count} fil","{count} filer"],
-    "_{count} folder_::_{count} folders_" : ["{count} mapp","{count} mappar"],
     "Storage informations" : "Lagringsinformation",
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
     "{relative}% used" : "{relative}% använt",
@@ -323,6 +320,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
-    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
+    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} och {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} fil","{count} filer"],
+    "_{count} folder_::_{count} folders_" : ["{count} mapp","{count} mappar"]
 },
 "nplurals=2; plural=(n != 1);");

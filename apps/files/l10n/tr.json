@@ -198,13 +198,10 @@
     "Unselect all" : "Tümünü bırak",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" toplu işlemi bazı bileşenlerde tamamlanamadı",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" toplu işlemi tamamlandı",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} ve {summaryFolder}",
     "List of files and folders." : "Dosya ve klasörlerin listesi.",
     "Column headers with buttons are sortable." : "Düğmeler olan sütunlar sıralanabilir.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "File not found" : "Dosya bulunamadı",
-    "_{count} file_::_{count} files_" : ["{count} dosya","{count} dosya"],
-    "_{count} folder_::_{count} folders_" : ["{count} klasör","{count} klasör"],
     "Storage informations" : "Depolama bilgileri",
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{relative}% used" : "%{relative} kullanılmış",
@@ -321,6 +318,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
-    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
+    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} ve {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} dosya","{count} dosya"],
+    "_{count} folder_::_{count} folders_" : ["{count} klasör","{count} klasör"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

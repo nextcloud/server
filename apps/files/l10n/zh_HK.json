@@ -198,13 +198,10 @@
     "Unselect all" : "取消全選",
     "\"{displayName}\" failed on some elements " : "“{displayName}” 在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "成功執行 “{displayName}” 批處理操作",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} 及 {summaryFolder}",
     "List of files and folders." : "檔案與資料夾清單。",
     "Column headers with buttons are sortable." : "具有按鈕的縱列標題可排序。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "File not found" : "找不到檔案",
-    "_{count} file_::_{count} files_" : ["{count} 檔案"],
-    "_{count} folder_::_{count} folders_" : ["{count} 資料夾"],
     "Storage informations" : "儲存資訊",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte} ",
     "{relative}% used" : "已使用 {relative}%",
@@ -321,6 +318,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋賬號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} 及 {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} 檔案"],
+    "_{count} folder_::_{count} folders_" : ["{count} 資料夾"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }
