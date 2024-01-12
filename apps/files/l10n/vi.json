@@ -196,12 +196,9 @@
     "Unselect all" : "Bỏ chọn tất cả",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" không thành công trên một số thành phần",
     "\"{displayName}\" batch action executed successfully" : "Hành động hàng loạt \"{displayName}\" được thực hiện thành công",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} và {summaryFolder}",
     "List of files and folders." : "Danh sách các tập tin và thư mục.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Danh sách này không được hiển thị đầy đủ vì lý do hiệu suất. Các tập tin sẽ được hiển thị khi bạn điều hướng qua danh sách.",
     "File not found" : "Không tìm thấy tập tin",
-    "_{count} file_::_{count} files_" : ["{count} tệp"],
-    "_{count} folder_::_{count} folders_" : ["{count} thư mục"],
     "Storage informations" : "Thông tin lưu trữ",
     "{usedQuotaByte} used" : "{usedQuotaByte} đã được sử dụng",
     "{relative}% used" : "{tương đối}% đã sử dụng",
@@ -311,6 +308,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "anh sách này không được hiển thị đầy đủ vì lý do hiệu suất. Các tập tin sẽ được hiển thị khi bạn điều hướng qua danh sách.",
     "Search for an account" : "Tìm kiếm tài khoản",
     "Choose" : "Chọn",
-    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa"
+    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} và {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} tệp"],
+    "_{count} folder_::_{count} folders_" : ["{count} thư mục"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

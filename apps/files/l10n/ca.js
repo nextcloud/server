@@ -200,13 +200,10 @@ OC.L10N.register(
     "Unselect all" : "Anul·la tota la selecció",
     "\"{displayName}\" failed on some elements " : "S'ha produït un error en l'acció «{displayName}» per a alguns elements",
     "\"{displayName}\" batch action executed successfully" : "L'acció per lots «{displayName}» s'ha executat correctament",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} i {summaryFolder}",
     "List of files and folders." : "Llista de fitxers i carpetes.",
     "Column headers with buttons are sortable." : "Les capçaleres de columna amb botons es poder ordenar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "File not found" : "No s'ha trobat el fitxer",
-    "_{count} file_::_{count} files_" : ["{count} fitxer","{count} fitxers"],
-    "_{count} folder_::_{count} folders_" : ["{count} carpeta","{count} carpetes"],
     "Storage informations" : "Informació d'emmagatzematge",
     "{usedQuotaByte} used" : "{usedQuotaByte} en ús",
     "{relative}% used" : "{relative}% en ús",
@@ -323,6 +320,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Search for an account" : "Cerqueu un compte",
     "Choose" : "Tria",
-    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
+    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} i {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} fitxer","{count} fitxers"],
+    "_{count} folder_::_{count} folders_" : ["{count} carpeta","{count} carpetes"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -199,13 +199,10 @@ OC.L10N.register(
     "Unselect all" : "Auswahl aufheben",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" ist bei einigen Elementen fehlgeschlagen",
     "\"{displayName}\" batch action executed successfully" : "Stapelaktion \"{displayName}\" erfolgreich ausgeführt",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} und {summaryFolder}",
     "List of files and folders." : "Liste der Dateien und Ordner",
     "Column headers with buttons are sortable." : "Spaltenüberschriften mit Schaltflächen sind sortierbar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Diese Liste wird aus Performance-Gründen nicht vollständig angezeigt. Die Dateien werden angezeigt, wenn du durch die Liste navigierst.",
     "File not found" : "Datei nicht gefunden",
-    "_{count} file_::_{count} files_" : ["{count} Datei","{count} Dateien"],
-    "_{count} folder_::_{count} folders_" : ["{count} Ordner","{count} Ordner"],
     "Storage informations" : "Speicherinformationen",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{relative}% used" : "{relative}% verwendet",
@@ -321,6 +318,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste wird aus Performance-Gründen nicht vollständig angezeigt. Die Dateien werden gerendert, wenn du durch die Liste navigierst.",
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} und {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} Datei","{count} Dateien"],
+    "_{count} folder_::_{count} folders_" : ["{count} Ordner","{count} Ordner"]
 },
 "nplurals=2; plural=(n != 1);");

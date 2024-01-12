@@ -194,12 +194,9 @@
     "Unselect all" : "Deselectează tot",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" a eșuat asupra unor elemente ",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" acțiunea batch a fost executată cu succes",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} și {summaryFolder}",
     "List of files and folders." : "Listă fișiere și foldere",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați prin listă.",
     "File not found" : "Fișierul nu a fost găsit",
-    "_{count} file_::_{count} files_" : ["{count} fișier","{count} fișiere","{count} fișiere"],
-    "_{count} folder_::_{count} folders_" : ["{count} folder","{count} foldere","{count} foldere"],
     "Storage informations" : "Informații despre stocare",
     "{usedQuotaByte} used" : "{usedQuotaByte} utilizați",
     "{relative}% used" : "{relative}% utilizat",
@@ -309,6 +306,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați în listă.",
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
-    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă"
+    "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} și {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} fișier","{count} fișiere","{count} fișiere"],
+    "_{count} folder_::_{count} folders_" : ["{count} folder","{count} foldere","{count} foldere"]
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

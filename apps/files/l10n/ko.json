@@ -198,13 +198,10 @@
     "Unselect all" : "모두 선택 해제",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" 이 일부 요소들에서 실패함",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" 일괄 작업을 성공적으로 실행함",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile}(과)와 {summaryFolder}",
     "List of files and folders." : "파일과 폴더의 목록",
     "Column headers with buttons are sortable." : "버튼이 있는 열 머리글은 정렬할 수 있습니다.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "성능 상의 이유로 목록을 전부 표시하지 않았습니다. 목록을 탐색하면 파일들이 표시됩니다.",
     "File not found" : "파일을 찾을 수 없음",
-    "_{count} file_::_{count} files_" : ["{count}개 파일"],
-    "_{count} folder_::_{count} folders_" : ["{count}개 폴더"],
     "Storage informations" : "저장소 정보",
     "{usedQuotaByte} used" : "{usedQuotaByte} 사용",
     "{relative}% used" : "{relative}% 사용",
@@ -261,6 +258,7 @@
     "Creating file" : "파일 만들기",
     "Blank" : "여백",
     "Unable to create new file from template" : "템플릿으로 새 파일을 만들 수 없음",
+    "Delete and unshare" : "삭제 및 공유 해제",
     "Unshare" : "공유 해제",
     "Delete permanently" : "영구히 삭제",
     "Destination is not a folder" : "대상이 폴더가 아닙니다.",
@@ -321,6 +319,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
-    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
+    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile}(과)와 {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count}개 파일"],
+    "_{count} folder_::_{count} folders_" : ["{count}개 폴더"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }
