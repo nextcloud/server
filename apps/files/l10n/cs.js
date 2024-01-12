@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "Vytváření souboru",
     "Blank" : "Prázdný",
     "Unable to create new file from template" : "Nedaří se vytvořit soubor ze šablony",
+    "Unshare" : "Přestat sdílet",
     "Delete permanently" : "Nevratně smazat",
     "Destination is not a folder" : "Cíl není složka",
     "This file/folder is already in that directory" : "V oné složce se už daný soubor/složka nachází",

@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "Dosya ekleniyor",
     "Blank" : "Boş",
     "Unable to create new file from template" : "Kalıptan yeni dosya eklenemedi",
+    "Unshare" : "Paylaşımdan kaldır",
     "Delete permanently" : "Kalıcı olarak sil",
     "Destination is not a folder" : "Hedef bir klasör değil",
     "This file/folder is already in that directory" : "Dosya ya da klasör bu klasörde zaten var",

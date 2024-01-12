@@ -192,6 +192,7 @@ OC.L10N.register(
     "Creating file" : "Stvaranje datoteke",
     "Blank" : "Prazno",
     "Unable to create new file from template" : "Nije moguće stvoriti novu datoteku iz predloška",
+    "Unshare" : "Prestani dijeliti",
     "Delete permanently" : "Trajno izbrišite",
     "Open details" : "Otvori pojedinosti",
     "Templates" : "Predlošci",

@@ -26,6 +26,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Вече използвате персонализирана тема. Настройките на приложението за теми могат да бъдат презаписани от това.",
     "Theming" : "Теми",
     "Appearance and accessibility" : "Изглед и достъпност",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP модулът \"imagick\" не е активиран, въпреки че приложението за теми е активирано. За да работи правилно генерирането на аватари тип favicon, трябва да инсталирате и активирате този модул.",
     "Dark theme with high contrast mode" : "Тъмна тема с режим на висок контраст",
     "Enable dark high contrast mode" : "Активиране на тъмен режим с висок контраст",
     "Similar to the high contrast mode, but with dark colours." : "Подобно на режима с висок контраст, но с тъмни цветове.",

@@ -164,6 +164,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Dibosupl eo cheñch stad pennroll ar restr",
     "Error while loading the file data" : "Ur fazi zo bet en ur gargañ roadennoùar restr",
     "Create" : "Krouiñ",
+    "Unshare" : "Na eskemm ken",
     "Delete permanently" : "Lamet da viken",
     "No favorites yet" : "Pennroll ebet evit ar poent",
     "Files and folders you mark as favorite will show up here" : "Ar restroù ha teuliadoù ouzhpennet en ho pennrolloù a vo diskwelet amañ",

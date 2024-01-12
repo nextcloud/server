@@ -263,6 +263,7 @@ OC.L10N.register(
     "Creating file" : "Креирање на датотека",
     "Blank" : "Празно",
     "Unable to create new file from template" : "Неможе да се креира датотека од шаблон",
+    "Unshare" : "Отстрани споделување",
     "Delete permanently" : "Избриши",
     "Destination is not a folder" : "Дестинацијата не е папка",
     "This file/folder is already in that directory" : "Оваа папка/датотека се наоѓа веќе во таа папка",
