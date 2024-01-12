@@ -235,6 +235,7 @@ OC.L10N.register(
     "Switch to list view" : "Zur Listenansicht wechseln",
     "Switch to grid view" : "Zur Rasteransicht wechseln",
     "Error during upload: {message}" : "Fehler beim Hochladen: {message}",
+    "Error during upload, status code {status}" : "Fehler beim Hochladen, Statuscode {status}",
     "Unknown error during upload" : "Unbekannter Fehler beim Hochladen",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
     "Files settings" : "Dateien-Einstellungen",
