@@ -22,18 +22,16 @@
 import '@nextcloud/dialogs/style.css'
 import type { Folder, Node, View } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
 // eslint-disable-next-line n/no-extraneous-import
 import { AxiosError } from 'axios'
 import { basename, join } from 'path'
 import { emit } from '@nextcloud/event-bus'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
-import { Permission, FileAction, FileType, NodeStatus } from '@nextcloud/files'
+import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
@@ -69,6 +67,30 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
  * @return {Promise<void>} A promise that resolves when the copy/move is done
  */
 export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, method: MoveCopyAction.COPY | MoveCopyAction.MOVE, overwrite = false) => {
+	/**
+	 * Create an unique name for a node
+	 * @param node Node that is copied
+	 * @param otherNodes Other nodes in the target directory to check for unique name
+	 * @return Either the node basename, if unique, or the name with a `(copy N)` suffix that is unique
+	 */
+	const makeUniqueName = (node: Node, otherNodes: Node[]|FileStat[]) => {
+		const basename = node.basename.slice(0, node.basename.lastIndexOf('.'))
+		let index = 0
+
+		const currentName = () => {
+			switch (index) {
+			case 0: return node.basename
+			case 1: return `${basename} (copy)${node.extension ?? ''}`
+			default: return `${basename} ${t('files', '(copy %n)', undefined, index)}${node.extension ?? ''}` // TRANSLATORS: Meaning it is the n'th copy of a file
+			}
+		}
+
+		while (otherNodes.some((other: Node|FileStat) => currentName() === other.basename)) {
+			index += 1
+		}
+		return currentName()
+	}
+
 	if (!destination) {
 		return
 	}
@@ -77,22 +99,23 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 		throw new Error(t('files', 'Destination is not a folder'))
 	}
 
-	if (node.dirname === destination.path) {
+	// Do not allow to MOVE a node to the same folder it is already located
+	if (method === MoveCopyAction.MOVE && node.dirname === destination.path) {
 		throw new Error(t('files', 'This file/folder is already in that directory'))
 	}
 
 	/**
 	 * Example:
-	 * node: /foo/bar/file.txt -> path = /foo/bar
-	 * destination: /foo
-	 * Allow move of /foo does not start with /foo/bar so allow
+	 * - node: /foo/bar/file.txt -> path = /foo/bar/file.txt, destination: /foo
+	 *   Allow move of /foo does not start with /foo/bar/file.txt so allow
+	 * - node: /foo , destination: /foo/bar
+	 *   Do not allow as it would copy foo within itself
+	 * - node: /foo/bar.txt, destination: /foo
+	 *   Allow copy a file to the same directory
 	 */
 	if (destination.path.startsWith(node.path)) {
 		throw new Error(t('files', 'You cannot move a file/folder onto itself or into a subfolder of itself'))
 	}
-
-	const relativePath = join(destination.path, node.basename)
-	const destinationUrl = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}${relativePath}`)
 
 	// Set loading state
 	Vue.set(node, 'status', NodeStatus.LOADING)
@@ -100,19 +123,31 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 	const queue = getQueue()
 	return await queue.add(async () => {
 		try {
-			await axios({
-				method: method === MoveCopyAction.COPY ? 'COPY' : 'MOVE',
-				url: node.encodedSource,
-				headers: {
-					Destination: encodeURI(destinationUrl),
-					Overwrite: overwrite ? undefined : 'F',
-				},
-			})
+			const client = davGetClient()
+			const currentPath = join(davRootPath, node.path)
+			const destinationPath = join(davRootPath, destination.path)
 
-			// If we're moving, update the node
-			// if we're copying, we don't need to update the node
-			// the view will refresh itself
-			if (method === MoveCopyAction.MOVE) {
+			if (method === MoveCopyAction.COPY) {
+				let target = node.basename
+				// If we do not allow overwriting then find an unique name
+				if (!overwrite) {
+					const otherNodes = await client.getDirectoryContents(destinationPath) as FileStat[]
+					target = makeUniqueName(node, otherNodes)
+				}
+				await client.copyFile(currentPath, join(destinationPath, target))
+				// If the node is copied into current directory the view needs to be updated
+				if (node.dirname === destination.path) {
+					const { data } = await client.stat(
+						join(destinationPath, target),
+						{
+							details: true,
+							data: davGetDefaultPropfind(),
+						},
+					) as ResponseDataDetailed<FileStat>
+					emit('files:node:created', davResultToNode(data))
+				}
+			} else {
+				await client.moveFile(currentPath, join(destinationPath, node.basename))
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
 				emit('files:node:deleted', node)
@@ -129,6 +164,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 					throw new Error(error.message)
 				}
 			}
+			logger.debug(error as Error)
 			throw new Error()
 		} finally {
 			Vue.set(node, 'status', undefined)
@@ -165,16 +201,6 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 			const dirnames = nodes.map(node => node.dirname)
 			const paths = nodes.map(node => node.path)
 
-			if (dirnames.includes(path)) {
-				// This file/folder is already in that directory
-				return buttons
-			}
-
-			if (paths.includes(path)) {
-				// You cannot move a file/folder onto itself
-				return buttons
-			}
-
 			if (action === MoveCopyAction.COPY || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
 					label: target ? t('files', 'Copy to {target}', { target }) : t('files', 'Copy'),
@@ -187,6 +213,17 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 						} as MoveCopyResult)
 					},
 				})
+			}
+
+			// Invalid MOVE targets (but valid copy targets)
+			if (dirnames.includes(path)) {
+				// This file/folder is already in that directory
+				return buttons
+			}
+
+			if (paths.includes(path)) {
+				// You cannot move a file/folder onto itself
+				return buttons
 			}
 
 			if (action === MoveCopyAction.MOVE || action === MoveCopyAction.MOVE_OR_COPY) {
@@ -207,7 +244,8 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 		})
 
 		const picker = filePicker.build()
-		picker.pick().catch(() => {
+		picker.pick().catch((error) => {
+			logger.debug(error as Error)
 			reject(new Error(t('files', 'Cancelled move or copy operation')))
 		})
 	})
@@ -236,7 +274,13 @@ export const action = new FileAction({
 
 	async exec(node: Node, view: View, dir: string) {
 		const action = getActionForNodes([node])
-		const result = await openFilePickerForAction(action, dir, [node])
+		let result
+		try {
+			result = await openFilePickerForAction(action, dir, [node])
+		} catch (e) {
+			logger.error(e as Error)
+			return false
+		}
 		try {
 			await handleCopyMoveNodeTo(node, result.destination, result.action)
 			return true

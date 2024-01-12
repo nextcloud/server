@@ -131,4 +131,43 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('new-folder').should('be.visible')
 		getRowForFile('original.txt').should('be.visible')
 	})
+
+	it('Can copy a file to same folder', () => {
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		// intercept the copy so we can wait for it
+		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+
+		getRowForFile('original.txt').should('be.visible')
+		triggerActionForFile('original.txt', 'move-copy')
+
+		// click copy
+		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
+
+		cy.wait('@copyFile')
+		getRowForFile('original.txt').should('be.visible')
+		getRowForFile('original (copy).txt').should('be.visible')
+	})
+
+	it('Can copy a file multiple times to same folder', () => {
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original (copy).txt')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		// intercept the copy so we can wait for it
+		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+
+		getRowForFile('original.txt').should('be.visible')
+		triggerActionForFile('original.txt', 'move-copy')
+
+		// click copy
+		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
+
+		cy.wait('@copyFile')
+		getRowForFile('original.txt').should('be.visible')
+		getRowForFile('original (copy 2).txt').should('be.visible')
+	})
 })
