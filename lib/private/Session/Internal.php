@@ -36,6 +36,7 @@ namespace OC\Session;
 use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function OCP\Log\logger;
 
 /**
  * Class Internal
@@ -222,6 +223,8 @@ class Internal extends Session {
 		if (\OC::hasSessionRelaxedExpiry()) {
 			$sessionParams['read_and_close'] = $readAndClose;
 		}
-		$this->invoke('session_start', [$sessionParams], $silence);
+		if ($this->invoke('session_start', [$sessionParams], $silence) === false) {
+			logger('core')->critical('session_start failed');
+		}
 	}
 }
