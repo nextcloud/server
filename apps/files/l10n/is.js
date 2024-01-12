@@ -199,13 +199,10 @@ OC.L10N.register(
     "Unselect all" : "Afvelja allt",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" aðgerð mistókst á einhverjum atriðum",
     "\"{displayName}\" batch action executed successfully" : "Tókst að framkvæma \"{displayName}\" magnvinnsluaðgerð",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
     "List of files and folders." : "Listi yfir skrár og möppur.",
     "Column headers with buttons are sortable." : "Dálkfyrirsagnir með hnöppum eru raðanlegar",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "File not found" : "Skrá finnst ekki",
-    "_{count} file_::_{count} files_" : ["{count} skrá","{count} skrár"],
-    "_{count} folder_::_{count} folders_" : ["{count} mappa","{count} möppur"],
     "Storage informations" : "Upplýsingar um geymslurými",
     "{usedQuotaByte} used" : "{usedQuotaByte} notað",
     "{relative}% used" : "{relative}% notað",
@@ -321,6 +318,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "Search for an account" : "Leita að notandaaðgangi",
     "Choose" : "Velja",
-    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt"
+    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} skrá","{count} skrár"],
+    "_{count} folder_::_{count} folders_" : ["{count} mappa","{count} möppur"]
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

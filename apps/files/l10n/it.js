@@ -200,13 +200,10 @@ OC.L10N.register(
     "Unselect all" : "Deseleziona tutto",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" è fallita su alcuni elementi",
     "\"{displayName}\" batch action executed successfully" : "L'azione batch \"{displayName}\" è stata eseguita con successo",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} e {summaryFolder}",
     "List of files and folders." : "Lista di file e cartelle.",
     "Column headers with buttons are sortable." : "Le intestazioni di colonna con pulsanti sono ordinabili.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Questa lista non è stata mostrata completamente per ragioni di prestazioni. I file verranno mostrati durante la navigazione della lista.",
     "File not found" : "File non trovato",
-    "_{count} file_::_{count} files_" : ["{count} file","{count} file","{count} file"],
-    "_{count} folder_::_{count} folders_" : ["{count} cartella","{count} cartelle","{count} cartelle"],
     "Storage informations" : "Informazioni di archiviazione",
     "{usedQuotaByte} used" : "{usedQuotaByte} usato",
     "{relative}% used" : "{relative}% usato",
@@ -323,6 +320,9 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Questa lista non è stata mostrata completamente per ragioni di performances. I file verranno mostrati durante la navigazione della lista.",
     "Search for an account" : "Cerca un account",
     "Choose" : "Scegli",
-    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato"
+    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} e {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} file","{count} file","{count} file"],
+    "_{count} folder_::_{count} folders_" : ["{count} cartella","{count} cartelle","{count} cartelle"]
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

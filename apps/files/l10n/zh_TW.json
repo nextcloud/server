@@ -198,13 +198,10 @@
     "Unselect all" : "取消全選",
     "\"{displayName}\" failed on some elements " : "「{displayName}」在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "「{displayName}」批次動作執行成功",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} 與 {summaryFolder}",
     "List of files and folders." : "檔案與資料夾清單。",
     "Column headers with buttons are sortable." : "帶有按鈕的欄位標題是可排序的。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "File not found" : "找不到檔案",
-    "_{count} file_::_{count} files_" : ["{count} 個檔案"],
-    "_{count} folder_::_{count} folders_" : ["{count} 個資料夾"],
     "Storage informations" : "儲存空間資訊",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{relative}% used" : "已使用 {relative}%",
@@ -261,6 +258,7 @@
     "Creating file" : "正在建立檔案",
     "Blank" : "空白",
     "Unable to create new file from template" : "無法從範本建立新檔案",
+    "Delete and unshare" : "刪除並取消分享",
     "Unshare" : "取消分享",
     "Delete permanently" : "永久刪除",
     "Destination is not a folder" : "目的地不是資料夾",
@@ -321,6 +319,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋帳號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} 與 {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} 個檔案"],
+    "_{count} folder_::_{count} folders_" : ["{count} 個資料夾"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

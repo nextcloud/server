@@ -196,13 +196,10 @@
     "Unselect all" : "取消全选",
     "\"{displayName}\" failed on some elements " : "“{displayName}”在某些元素上失败",
     "\"{displayName}\" batch action executed successfully" : "批量操作“{displayName}”运行成功",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} 及 {summaryFolder}",
     "List of files and folders." : "文件与文件夹列表。",
     "Column headers with buttons are sortable." : "带有按钮的列标题可进行排序。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出于性能考虑，此列表未完全呈现。文件将在您浏览列表时呈现。",
     "File not found" : "文件未找到",
-    "_{count} file_::_{count} files_" : ["{count} 个文件"],
-    "_{count} folder_::_{count} folders_" : ["{count} 个文件夹"],
     "Storage informations" : "存储信息",
     "{usedQuotaByte} used" : "{usedQuotaByte} 已使用",
     "{relative}% used" : "{relative}% 已使用",
@@ -314,6 +311,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Search for an account" : "搜索一个账户",
     "Choose" : "选择",
-    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹"
+    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} 及 {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} 个文件"],
+    "_{count} folder_::_{count} folders_" : ["{count} 个文件夹"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

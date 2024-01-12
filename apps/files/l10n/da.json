@@ -196,12 +196,9 @@
     "Unselect all" : "Fravælg alle",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" fejlede i nogle aspekter.",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\"-handling blev udført korrekt",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
     "List of files and folders." : "Liste med filer og mapper.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "File not found" : "Filen blev ikke fundet",
-    "_{count} file_::_{count} files_" : ["{count} fil","{count} filer"],
-    "_{count} folder_::_{count} folders_" : ["{count} mapper","{count} mapper"],
     "Storage informations" : "Lagerinformationer",
     "{usedQuotaByte} used" : "{usedQuotaByte} brugt",
     "{relative}% used" : "{relative}% brugt",
@@ -311,6 +308,9 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "Search for an account" : "Søg efter en konto",
     "Choose" : "Vælg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu"
+    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu",
+    "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
+    "_{count} file_::_{count} files_" : ["{count} fil","{count} filer"],
+    "_{count} folder_::_{count} folders_" : ["{count} mapper","{count} mapper"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
