@@ -85,7 +85,7 @@
 			</template>
 			<template v-else>
 				{{ t('updatenotification', 'Your version is up to date.') }}
-				<span :title="lastCheckedOnString" :aria-label="lastCheckedOnString" class="icon-info svg" />
+				<a :title="lastCheckedOnString" :aria-label="lastCheckedOnString" href="https://nextcloud.com/changelog/" class="icon-info details" target="_blank"></a>
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -237,7 +237,7 @@ export default {
 		},
 
 		lastCheckedOnString() {
-			return t('updatenotification', 'Checked on {lastCheckedDate}', {
+			return t('updatenotification', 'Checked on {lastCheckedDate} - Open changelog', {
 				lastCheckedDate: this.lastCheckedDate,
 			})
 		},
