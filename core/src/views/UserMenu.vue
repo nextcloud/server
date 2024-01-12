@@ -241,8 +241,7 @@ export default {
 						background-color: var(--color-primary-element);
 						color: var(--color-primary-element-text);
 
-						img,
-						svg {
+						img {
 							filter: var(--primary-invert-if-dark);
 						}
 					}
@@ -261,8 +260,7 @@ export default {
 						margin-right: 10px;
 					}
 
-					img,
-					svg {
+					img {
 						filter: var(--background-invert-if-dark);
 					}
 				}

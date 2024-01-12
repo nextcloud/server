@@ -25,16 +25,19 @@
 		<button v-if="!inline"
 			class="user-status-menu-item"
 			@click.stop="openModal">
-			<span aria-hidden="true" :class="statusIcon" class="user-status-icon" />
+			<NcUserStatusIcon class="user-status-icon"
+				:status="statusType"
+				aria-hidden="true" />
 			{{ visibleMessage }}
 		</button>
 
 		<!-- Dashboard Status -->
 		<NcButton v-else
-			:icon="statusIcon"
 			@click.stop="openModal">
 			<template #icon>
-				<span aria-hidden="true" :class="statusIcon" class="user-status-icon" />
+				<NcUserStatusIcon class="user-status-icon"
+					:status="statusType"
+					aria-hidden="true" />
 			</template>
 			{{ visibleMessage }}
 		</NcButton>
@@ -47,6 +50,7 @@
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService.js'
@@ -57,6 +61,7 @@ export default {
 
 	components: {
 		NcButton,
+		NcUserStatusIcon,
 		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
 	mixins: [OnlineStatusMixin],
