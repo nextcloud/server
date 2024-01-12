@@ -160,6 +160,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Create" : "Criar",
+    "Unshare" : "Cancelar partilha",
     "Delete permanently" : "Eliminar permanentemente",
     "Templates" : "Modelos",
     "No favorites yet" : "Sem favoritos",

@@ -27,6 +27,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Већ користите прилагођену тему. Поставке ове апликације ће прегажене са њом.",
     "Theming" : "Изглед",
     "Appearance and accessibility" : "Изглед и приступачност",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP модул „imagick” није укључен мада је укључена апликација за теме. Да би генерисање favicon сличице функционисало како треба, морате да инсталирате и укључите овај модул.",
     "Dark theme with high contrast mode" : "Тамна тема са режимом високог контраста",
     "Enable dark high contrast mode" : "Укључи тамни режим високог контраста",
     "Similar to the high contrast mode, but with dark colours." : "Слично као режим високог контраста, али са тамним бојама.",

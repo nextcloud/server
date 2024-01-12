@@ -235,6 +235,7 @@
     "Creating file" : "Creando archivo.",
     "Blank" : "En blanco",
     "Unable to create new file from template" : "No se pudo crear un nuevo archivo a partir de la plantilla.",
+    "Unshare" : "Dejar de compartir",
     "Delete permanently" : "Borrar permanentemente",
     "Open folder {displayName}" : "Abrir carpeta {displayName}.",
     "Open details" : "Abrir detalles.",

@@ -261,6 +261,7 @@
     "Creating file" : "Створення файлу",
     "Blank" : "Порожньо",
     "Unable to create new file from template" : "Неможливо створити новий файл з шаблону",
+    "Unshare" : "Закрити доступ",
     "Delete permanently" : "Вилучити назавжди",
     "Destination is not a folder" : "Місце призначення не є каталогом",
     "This file/folder is already in that directory" : "Такий файл чи каталог вже присутні в цьому каталозі",

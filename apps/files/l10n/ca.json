@@ -261,6 +261,7 @@
     "Creating file" : "S'està creant el fitxer",
     "Blank" : "En blanc",
     "Unable to create new file from template" : "No s'ha pogut crear el fitxer a partir de la plantilla",
+    "Unshare" : "Deixa de compartir",
     "Delete permanently" : "Suprimeix permanentment",
     "Destination is not a folder" : "La destinació no és una carpeta",
     "This file/folder is already in that directory" : "Aquest fitxer o carpeta ja existeix en aquesta carpeta",

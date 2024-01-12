@@ -24,6 +24,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Je gebruikt al een aangepast thema. Theming app opties kunnen daardoor worden overschreven.",
     "Theming" : "Uiterlijk",
     "Appearance and accessibility" : "Weergave en toegankelijkheid",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "De PHP-module \"imagick\" is niet ingeschakeld, hoewel de thema-app dat wel is. Om ervoor te zorgen dat het genereren van favicons correct werkt, moet je deze module installeren en inschakelen.",
     "Dark theme with high contrast mode" : "Donker thema met hoog contrast modus",
     "Enable dark high contrast mode" : "Donkere hoog contrast modus inschakelen",
     "Similar to the high contrast mode, but with dark colours." : "Vergelijkbaar met de hoog contrast modus, maar met donkere kleuren",
