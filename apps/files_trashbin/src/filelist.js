@@ -193,7 +193,7 @@ import PQueue from 'p-queue'
 				this.fileMultiSelectMenu.toggleLoading('restore', true)
 				var restorePromises = files.map(function(file) {
 					return self.deleteOperationQueue.add(async () => {
-						self.client.move(OC.joinPaths('trash', self.getCurrentDirectory(), file), OC.joinPaths('restore', file), true)
+						await self.client.move(OC.joinPaths('trash', self.getCurrentDirectory(), file), OC.joinPaths('restore', file), true)
 						self._removeCallback([file])
 					})
 				})
