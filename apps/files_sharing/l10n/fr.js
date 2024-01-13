@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Rejeter le partage","Rejeter les partages","Rejeter les partages"],
     "_Restore share_::_Restore shares_" : ["Restaurer le partage","Restaurer les partages","Restaurer les partages"],
     "Shared" : "Partagé",
+    "Shared multiple times with different people" : "Partagé plusieurs fois avec plusieurs personnes",
     "Shared by {ownerDisplayName}" : "Partagé par {ownerDisplayName}",
     "Show sharing options" : "Afficher les options de partage",
     "Link to a file" : "Relier à un fichier",

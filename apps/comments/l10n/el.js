@@ -15,6 +15,7 @@ OC.L10N.register(
     "Edit comment" : "Επεξεργασία σχολίου",
     "Delete comment" : "Διαγραφή σχολίου",
     "Cancel edit" : "Ακύρωση επεξεργασίας",
+    "New comment" : "Νέο σχόλιο",
     "Post comment" : "Αναρτήστε σχόλιο",
     "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "No more messages" : "Δεν υπάρχουν άλλα μηνύματα",
