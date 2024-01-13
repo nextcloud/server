@@ -15,6 +15,7 @@ OC.L10N.register(
     "Edit comment" : "Kommentar bearbeiten",
     "Delete comment" : "Kommentar löschen",
     "Cancel edit" : "Bearbeiten abbrechen",
+    "New comment" : "Neuer Kommentar",
     "Post comment" : "Kommentar veröffentlichen",
     "@ for mentions, : for emoji, / for smart picker" : "@ für Erwähnungen, : für Emoji, / für Smart Picker",
     "Could not reload comments" : "Kommentare konnten nicht erneut geladen werden",

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Edit comment" : "Taisyti komentarą",
     "Delete comment" : "Ištrinti komentarą",
     "Cancel edit" : "Atsisakyti taisymo",
+    "New comment" : "Naujas komentaras",
     "Post comment" : "Paskelbti komentarą",
     "No comments yet, start the conversation!" : "Komentarų kol kas nėra, pradėkite pokalbį!",
     "Retry" : "Bandyti dar kartą",

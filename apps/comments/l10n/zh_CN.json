@@ -13,6 +13,7 @@
     "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",
     "Cancel edit" : "取消编辑",
+    "New comment" : "新评论",
     "Post comment" : "发表评论",
     "@ for mentions, : for emoji, / for smart picker" : "使用“@”提及，“:”输入表情符号，“/”唤起智能选择",
     "Could not reload comments" : "无法重载评论",

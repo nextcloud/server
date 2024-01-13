@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Avvisa delning","Avvisa delningar"],
     "_Restore share_::_Restore shares_" : ["Återställ delning","Återställ delningar"],
     "Shared" : "Delad",
+    "Shared multiple times with different people" : "Delad flera gånger med olika personer",
     "Shared by {ownerDisplayName}" : "Delad av {ownerDisplayName}",
     "Show sharing options" : "Visa delningsalternativ",
     "Link to a file" : "Länka till en fil",
