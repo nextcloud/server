@@ -103,7 +103,6 @@ class CertificateManager implements ICertificateManager {
 		if (!$this->view->is_dir($path)) {
 			return false;
 		}
-		$result = [];
 		$handle = $this->view->opendir($path);
 		if (!is_resource($handle)) {
 			return false;
