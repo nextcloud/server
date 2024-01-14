@@ -66,7 +66,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 				'class' => $provider instanceof ITranslationProviderWithId ? $provider->getId() : $provider::class,
 				'name' => $provider->getName(),
 			];
-			$translationPreferences[] = $provider::class;
+			$translationPreferences[] = $provider instanceof ITranslationProviderWithId ? $provider->getId() : $provider::class;
 		}
 
 		$sttProviders = [];
