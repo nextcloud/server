@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -51,13 +52,18 @@ class DarkTheme extends DefaultTheme implements ITheme {
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
-		$colorMainText = '#D8D8D8';
+		$colorMainText = '#EBEBEB';
 		$colorMainBackground = '#171717';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
-		$colorTextMaxcontrast = $this->util->darken($colorMainText, 30);
+		$colorTextMaxcontrast = $this->util->darken($colorMainText, 32);
 
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
+
+		$colorError = '#FF3333';
+		$colorWarning = '#FFCC00';
+		$colorSuccess = '#3B973B';
+		$colorInfo = '#00AEFF';
 
 		return array_merge(
 			$defaultVariables,
@@ -66,6 +72,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-main-text' => $colorMainText,
 				'--color-main-background' => $colorMainBackground,
 				'--color-main-background-rgb' => $colorMainBackgroundRGB,
+				'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .85)',
 
 				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 15),
 
@@ -78,9 +85,26 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-text-maxcontrast' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
-				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 2),
-				'--color-text-light' => $this->util->darken($colorMainText, 10),
-				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
+				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 6),
+				'--color-text-light' => 'var(--color-main-text)', // deprecated
+				'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
+
+				'--color-error' => $colorError,
+				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+				'--color-error-hover' => $this->util->lighten($colorError, 10),
+				'--color-error-text' => $this->util->lighten($colorError, 15),
+				'--color-warning' => $colorWarning,
+				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+				'--color-warning-hover' => $this->util->lighten($colorWarning, 10),
+				'--color-warning-text' => $colorWarning,
+				'--color-success' => $colorSuccess,
+				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+				'--color-success-hover' => $this->util->lighten($colorSuccess, 10),
+				'--color-success-text' => $this->util->lighten($colorSuccess, 15),
+				'--color-info' => $colorInfo,
+				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
+				'--color-info-text' => $colorInfo,
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',

@@ -25,17 +25,17 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Settings\Personal\Security;
 
-use OCP\AppFramework\Services\IInitialState;
-use OCP\IUserSession;
-use function array_map;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
+use function array_map;
 
 class Authtokens implements ISettings {
 
@@ -55,10 +55,10 @@ class Authtokens implements ISettings {
 	private $userSession;
 
 	public function __construct(IAuthTokenProvider $tokenProvider,
-								ISession $session,
-								IUserSession $userSession,
-								IInitialState $initialState,
-								?string $UserId) {
+		ISession $session,
+		IUserSession $userSession,
+		IInitialState $initialState,
+		?string $UserId) {
 		$this->tokenProvider = $tokenProvider;
 		$this->session = $session;
 		$this->initialState = $initialState;

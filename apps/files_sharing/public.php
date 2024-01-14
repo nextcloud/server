@@ -25,7 +25,7 @@
 // This file is just used to redirect the legacy sharing URLs (< ownCloud 8) to the new ones
 
 $urlGenerator = \OC::$server->getURLGenerator();
-$token = isset($_GET['t']) ? $_GET['t'] : '';
+$token = $_GET['t'] ?? '';
 $route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare' : 'files_sharing.sharecontroller.showShare';
 
 if ($token !== '') {

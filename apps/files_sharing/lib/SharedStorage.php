@@ -37,23 +37,24 @@ use OC\Files\Cache\NullWatcher;
 use OC\Files\Cache\Watcher;
 use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
-use OC\Files\Storage\Home;
-use OC\User\DisplayNameCache;
-use OCP\Files\Folder;
-use OCP\Files\IHomeStorage;
-use OCP\Files\Node;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Home;
 use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\User\DisplayNameCache;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Folder;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
@@ -80,10 +81,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/** @var string */
 	private $user;
 
-	/**
-	 * @var \OCP\ILogger
-	 */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var  IStorage */
 	private $nonMaskedStorage;
@@ -100,7 +98,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
-		$this->logger = \OC::$server->getLogger();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
@@ -173,7 +171,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->cache = new FailedCache();
 			$this->rootPath = '';
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
 		if (!$this->nonMaskedStorage) {
@@ -415,7 +413,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->cache = new \OCA\Files_Sharing\Cache(
 			$storage,
 			$sourceRoot,
-			\OC::$server->get(DisplayNameCache::class)
+			\OC::$server->get(DisplayNameCache::class),
+			$this->getShare()
 		);
 		return $this->cache;
 	}

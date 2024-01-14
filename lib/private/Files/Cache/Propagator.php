@@ -24,7 +24,7 @@
 
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Exception\RetryableException;
+use OC\DB\Exceptions\DbalException;
 use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
@@ -71,7 +71,7 @@ class Propagator implements IPropagator {
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		// Do not propagate changes in ignored paths
 		foreach ($this->ignore as $ignore) {
-			if (strpos($internalPath, $ignore) === 0) {
+			if (str_starts_with($internalPath, $ignore)) {
 				return;
 			}
 		}
@@ -136,7 +136,11 @@ class Propagator implements IPropagator {
 			try {
 				$builder->executeStatement();
 				break;
-			} catch (RetryableException $e) {
+			} catch (DbalException $e) {
+				if (!$e->isRetryable()) {
+					throw $e;
+				}
+
 				/** @var LoggerInterface $loggerInterface */
 				$loggerInterface = \OCP\Server::get(LoggerInterface::class);
 				$loggerInterface->warning('Retrying propagation query after retryable exception.', [ 'exception' => $e ]);

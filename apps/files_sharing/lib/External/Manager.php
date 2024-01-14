@@ -472,7 +472,7 @@ class Manager {
 		}
 
 		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
-		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 
 		$url = rtrim($remote, '/') . $endpoint . '/' . $remoteId . '/' . $feedback . '?format=' . Share::RESPONSE_FORMAT;
 		$fields = ['token' => $token];
@@ -604,6 +604,10 @@ class Manager {
 			$mountPointObj = $this->mountManager->find($mountPoint);
 		} catch (NotFoundException $e) {
 			$this->logger->error('Mount point to remove share not found', ['mountPoint' => $mountPoint]);
+			return false;
+		}
+		if (!$mountPointObj instanceof Mount) {
+			$this->logger->error('Mount point to remove share is not an external share, share probably doesn\'t exist', ['mountPoint' => $mountPoint]);
 			return false;
 		}
 		$id = $mountPointObj->getStorage()->getCache()->getId('');

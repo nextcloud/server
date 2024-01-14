@@ -58,9 +58,7 @@ OC.L10N.register(
     "Custom mimetype" : "Персонализиран mimetype",
     "Please enter a valid time span" : "Моля, въведете валиден период от време",
     "Select a request URL" : "Избор на URL адрес за заявка",
-    "Predefined URLs" : "Предефинирани URL-и",
     "Files WebDAV" : "Файлове WebDAV",
-    "Others" : "Други",
     "Custom URL" : "Персонализиран URL адрес",
     "Select a user agent" : "Избор на потребителски агент",
     "Android client" : "Android клиент",
@@ -111,10 +109,6 @@ OC.L10N.register(
     "Request user agent" : "Потребителски агент на заявка",
     "User group membership" : "Членство към потребителска група",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Select a tag" : "Избор на етикет",
-    "No results" : "Няма резултати",
-    "%s (invisible)" : "%s (невидим)",
-    "%s (restricted)" : "%s (ограничен)"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n != 1);");

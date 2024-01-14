@@ -1,130 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="lib/private/legacy/OC_Template.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
-    <NoInterfaceProperties occurrences="1">
-      <code>$this-&gt;request-&gt;server</code>
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
   </file>
   <file src="lib/public/AppFramework/App.php">
-    <InternalMethod occurrences="1">
-      <code>new RouteConfig($this-&gt;container, $router, $routes)</code>
+    <InternalMethod>
+      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
     </InternalMethod>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/AppFramework/Db/Entity.php">
-    <InvalidNullableReturnType occurrences="1">
+    <InvalidNullableReturnType>
       <code>string</code>
     </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
+    <NullableReturnStatement>
       <code>$column</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/public/AppFramework/Http/JSONResponse.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;data</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
-    <UndefinedClass occurrences="2">
+    <UndefinedClass>
       <code>\OC</code>
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/BackgroundJob/TimedJob.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
+  <file src="lib/public/Cache/CappedMemoryCache.php">
+    <MissingTemplateParam>
+      <code>\ArrayAccess</code>
+    </MissingTemplateParam>
   </file>
   <file src="lib/public/Defaults.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Diagnostics/IQueryLogger.php">
-    <LessSpecificImplementedReturnType occurrences="1">
+    <LessSpecificImplementedReturnType>
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
+  <file src="lib/public/EventDispatcher/GenericEvent.php">
+    <MissingTemplateParam>
+      <code>ArrayAccess</code>
+      <code>IteratorAggregate</code>
+    </MissingTemplateParam>
+  </file>
   <file src="lib/public/Federation/Exceptions/ActionNotSupportedException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Federation/Exceptions/AuthenticationFailedException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Federation/Exceptions/BadRequestException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Federation/Exceptions/ProviderAlreadyExistsException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Federation/Exceptions/ProviderDoesNotExistsException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Files.php">
-    <FalsableReturnStatement occurrences="1">
+    <FalsableReturnStatement>
       <code>\OC_App::getStorage($app)</code>
     </FalsableReturnStatement>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
+  <file src="lib/public/Files/Cache/ICacheEntry.php">
+    <MissingTemplateParam>
+      <code>ArrayAccess</code>
+    </MissingTemplateParam>
+  </file>
   <file src="lib/public/Files/LockNotAcquiredException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Files/StorageAuthException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Files/StorageBadConfigException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Files/StorageConnectionException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Files/StorageNotAvailableException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
   <file src="lib/public/Files/StorageTimeoutException.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
   </file>
+  <file src="lib/public/L10N/ILanguageIterator.php">
+    <MissingTemplateParam>
+      <code>\Iterator</code>
+    </MissingTemplateParam>
+  </file>
   <file src="lib/public/Template.php">
-    <UndefinedFunction occurrences="7">
+    <UndefinedFunction>
       <code>\html_select_options($options, $selected, $params)</code>
       <code>\human_file_size($bytes)</code>
       <code>\image_path($app, $image)</code>
@@ -135,7 +143,7 @@
     </UndefinedFunction>
   </file>
   <file src="lib/public/Util.php">
-    <UndefinedClass occurrences="14">
+    <UndefinedClass>
       <code>\OC</code>
       <code>\OC</code>
       <code>\OC</code>

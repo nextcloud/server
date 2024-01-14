@@ -50,7 +50,6 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -74,8 +73,6 @@ class UsersControllerTest extends \Test\TestCase {
 	private $userSession;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -639,8 +636,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param ?string $oldDisplayName
 	 */
 	public function testSaveUserSettings($data,
-										 $oldEmailAddress,
-										 $oldDisplayName
+		$oldEmailAddress,
+		$oldDisplayName
 	) {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
@@ -951,9 +948,9 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testCanAdminChangeUserPasswords($encryptionEnabled,
-													$encryptionModuleLoaded,
-													$masterKeyEnabled,
-													$expected) {
+		$encryptionModuleLoaded,
+		$masterKeyEnabled,
+		$expected) {
 		$controller = $this->getController();
 
 		$this->encryptionManager->expects($this->any())

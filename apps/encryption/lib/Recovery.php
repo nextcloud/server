@@ -69,11 +69,11 @@ class Recovery {
 	 * @param View $view
 	 */
 	public function __construct(IUserSession $userSession,
-								Crypt $crypt,
-								KeyManager $keyManager,
-								IConfig $config,
-								IFile $file,
-								View $view) {
+		Crypt $crypt,
+		KeyManager $keyManager,
+		IConfig $config,
+		IFile $file,
+		View $view) {
 		$this->user = ($userSession->isLoggedIn()) ? $userSession->getUser() : null;
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;

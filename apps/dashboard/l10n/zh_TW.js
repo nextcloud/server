@@ -23,11 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "晚安，{name}",
     "Hello" : "嗨",
     "Hello, {name}" : "嗨，{name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供\n您即將到來的約會概覽、緊急電子郵件、聊天訊息、\n到來的工單、最新的推文以及更多！使用者可以新增\n他們喜愛的小工具與變更他們喜愛的背景。",
-    "Change background image" : "變更背景圖片",
-    "Pick from Files" : "從檔案選取",
-    "Default images" : "預設圖片",
-    "Plain background" : "簡單背景",
-    "Insert from {productName}" : "插入自 {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供\n您即將到來的約會概覽、緊急電子郵件、聊天訊息、\n到來的工單、最新的推文以及更多！使用者可以新增\n他們喜愛的小工具與變更他們喜愛的背景。"
 },
 "nplurals=1; plural=0;");

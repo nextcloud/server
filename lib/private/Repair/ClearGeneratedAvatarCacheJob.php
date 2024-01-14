@@ -20,9 +20,9 @@
  */
 namespace OC\Repair;
 
-use OCP\BackgroundJob\QueuedJob;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OC\Avatar\AvatarManager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 
 class ClearGeneratedAvatarCacheJob extends QueuedJob {
 	protected AvatarManager $avatarManager;

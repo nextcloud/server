@@ -70,11 +70,11 @@ class VerifyUserData extends Job {
 	private $config;
 
 	public function __construct(IAccountManager $accountManager,
-								IUserManager $userManager,
-								IClientService $clientService,
-								ILogger $logger,
-								ITimeFactory $timeFactory,
-								IConfig $config
+		IUserManager $userManager,
+		IClientService $clientService,
+		ILogger $logger,
+		ITimeFactory $timeFactory,
+		IConfig $config
 	) {
 		parent::__construct($timeFactory);
 		$this->accountManager = $accountManager;

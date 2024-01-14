@@ -57,9 +57,9 @@ class CardDeletedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,
-								array $addressBookData,
-								array $shares,
-								array $cardData) {
+		array $addressBookData,
+		array $shares,
+		array $cardData) {
 		parent::__construct();
 		$this->addressBookId = $addressBookId;
 		$this->addressBookData = $addressBookData;

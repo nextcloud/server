@@ -23,6 +23,7 @@
 <template>
 	<AccountPropertySection v-bind.sync="phone"
 		:placeholder="t('settings', 'Your phone number')"
+		autocomplete="tel"
 		type="tel"
 		:on-validate="onValidate" />
 </template>

@@ -31,8 +31,10 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\Mount\MountPoint;
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
+use OC\Files\Storage\Temporary;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
@@ -191,11 +193,16 @@ class ManagerTest extends TestCase {
 	}
 
 	private function setupMounts() {
-		$this->mountManager->clear();
+		$this->clearMounts();
 		$mounts = $this->testMountProvider->getMountsForUser($this->user, new StorageFactory());
 		foreach ($mounts as $mount) {
 			$this->mountManager->addMount($mount);
 		}
+	}
+
+	private function clearMounts() {
+		$this->mountManager->clear();
+		$this->mountManager->addMount(new MountPoint(Temporary::class, '', []));
 	}
 
 	public function testAddUserShare() {
@@ -235,7 +242,7 @@ class ManagerTest extends TestCase {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		} else {
-			$this->manager->expects($this->any())->method('tryOCMEndPoint')
+			$this->manager->method('tryOCMEndPoint')
 				->withConsecutive(
 					['http://localhost', 'token1', '2342', 'accept'],
 					['http://localhost', 'token3', '2342', 'decline'],
@@ -415,7 +422,7 @@ class ManagerTest extends TestCase {
 
 		$this->assertEmpty(self::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');
 
-		$this->mountManager->clear();
+		$this->clearMounts();
 		self::invokePrivate($this->manager, 'setupMounts');
 		$this->assertNotMount($shareData1['name']);
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');

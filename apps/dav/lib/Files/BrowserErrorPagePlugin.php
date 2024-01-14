@@ -70,9 +70,9 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	}
 
 	/**
-	 * @param \Exception $ex
+	 * @param \Throwable $ex
 	 */
-	public function logException(\Exception $ex) {
+	public function logException(\Throwable $ex): void {
 		if ($ex instanceof Exception) {
 			$httpCode = $ex->getHTTPCode();
 			$headers = $ex->getHTTPHeaders($this->server);

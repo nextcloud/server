@@ -34,27 +34,18 @@ use OC\Security\CSRF\TokenStorage\SessionStorage;
  * @package OC\Security\CSRF
  */
 class CsrfTokenManager {
-	/** @var CsrfTokenGenerator */
-	private $tokenGenerator;
-	/** @var SessionStorage */
-	private $sessionStorage;
-	/** @var CsrfToken|null */
-	private $csrfToken = null;
+	private SessionStorage $sessionStorage;
+	private ?CsrfToken $csrfToken = null;
 
-	/**
-	 * @param CsrfTokenGenerator $tokenGenerator
-	 * @param SessionStorage $storageInterface
-	 */
-	public function __construct(CsrfTokenGenerator $tokenGenerator,
-								SessionStorage $storageInterface) {
-		$this->tokenGenerator = $tokenGenerator;
+	public function __construct(
+		private CsrfTokenGenerator $tokenGenerator,
+		SessionStorage $storageInterface,
+	) {
 		$this->sessionStorage = $storageInterface;
 	}
 
 	/**
 	 * Returns the current CSRF token, if none set it will create a new one.
-	 *
-	 * @return CsrfToken
 	 */
 	public function getToken(): CsrfToken {
 		if (!\is_null($this->csrfToken)) {
@@ -74,8 +65,6 @@ class CsrfTokenManager {
 
 	/**
 	 * Invalidates any current token and sets a new one.
-	 *
-	 * @return CsrfToken
 	 */
 	public function refreshToken(): CsrfToken {
 		$value = $this->tokenGenerator->generateToken();
@@ -87,16 +76,13 @@ class CsrfTokenManager {
 	/**
 	 * Remove the current token from the storage.
 	 */
-	public function removeToken() {
+	public function removeToken(): void {
 		$this->csrfToken = null;
 		$this->sessionStorage->removeToken();
 	}
 
 	/**
 	 * Verifies whether the provided token is valid.
-	 *
-	 * @param CsrfToken $token
-	 * @return bool
 	 */
 	public function isTokenValid(CsrfToken $token): bool {
 		if (!$this->sessionStorage->hasToken()) {

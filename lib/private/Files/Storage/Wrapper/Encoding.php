@@ -28,8 +28,8 @@
  */
 namespace OC\Files\Storage\Wrapper;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Storage\IStorage;
 use OCP\ICache;
 
@@ -300,7 +300,7 @@ class Encoding extends Wrapper {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		return $this->storage->file_get_contents($this->findPathToUse($path));

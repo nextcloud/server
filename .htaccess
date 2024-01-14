@@ -40,7 +40,7 @@
   </IfModule>
 
   # Add cache control for static resources
-  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)$">
+  <FilesMatch "\.(css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite)$">
     <If "%{QUERY_STRING} =~ /(^|&)v=/">
       Header set Cache-Control "max-age=15778463, immutable"
     </If>
@@ -90,6 +90,7 @@
   RewriteRule ^remote/(.*) remote.php [QSA,L]
   RewriteRule ^(?:build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
   RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) /index.php [QSA,L]
+  RewriteRule ^ocm-provider/?$ index.php [QSA,L]
   RewriteRule ^(?:\.(?!well-known)|autotest|occ|issue|indie|db_|console).* - [R=404,L]
 </IfModule>
 

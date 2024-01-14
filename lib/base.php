@@ -67,7 +67,6 @@ declare(strict_types=1);
  */
 
 use OC\Encryption\HookManager;
-use OC\EventDispatcher\SymfonyAdapter;
 use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
@@ -75,6 +74,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
@@ -113,8 +113,6 @@ class OC {
 	public static array $APPSROOTS = [];
 
 	public static string $configDir;
-
-	public static int $VERSION_MTIME = 0;
 
 	/**
 	 * requested app
@@ -161,6 +159,9 @@ class OC {
 				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'] ?? null,
 			],
 		];
+		if (isset($_SERVER['REMOTE_ADDR'])) {
+			$params['server']['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+		}
 		$fakeRequest = new \OC\AppFramework\Http\Request(
 			$params,
 			new \OC\AppFramework\Http\RequestId($_SERVER['UNIQUE_ID'] ?? '', new \OC\Security\SecureRandom()),
@@ -309,6 +310,7 @@ class OC {
 	 * Prints the upgrade page
 	 */
 	private static function printUpgradePage(\OC\SystemConfig $systemConfig): void {
+		$cliUpgradeLink = $systemConfig->getValue('upgrade.cli-upgrade-link', '');
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
@@ -355,6 +357,7 @@ class OC {
 			$template->assign('productName', 'nextcloud'); // for now
 			$template->assign('version', OC_Util::getVersionString());
 			$template->assign('tooBig', $tooBig);
+			$template->assign('cliUpgradeLink', $cliUpgradeLink);
 
 			$template->printPage();
 			die();
@@ -394,8 +397,8 @@ class OC {
 
 		if (!empty($incompatibleShippedApps)) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
-			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
-			throw new \OCP\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
+			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
+			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
@@ -583,6 +586,11 @@ class OC {
 	}
 
 	public static function init(): void {
+		// prevent any XML processing from loading external entities
+		libxml_set_external_entity_loader(static function () {
+			return null;
+		});
+
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 
@@ -600,10 +608,9 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		// Add default composer PSR-4 autoloader
+		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		OC::$VERSION_MTIME = filemtime(OC::$SERVERROOT . '/version.php');
-		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . OC::$VERSION_MTIME));
+		self::$composerAutoloader->setApcuPrefix(null);
 
 		try {
 			self::initPaths();
@@ -862,7 +869,7 @@ class OC {
 					// reset brute force delay for this IP address and username
 					$uid = $userSession->getUser()->getUID();
 					$request = Server::get(IRequest::class);
-					$throttler = Server::get(\OC\Security\Bruteforce\Throttler::class);
+					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 				}
 
@@ -929,7 +936,7 @@ class OC {
 	}
 
 	private static function registerResourceCollectionHooks(): void {
-		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
+		\OC\Collaboration\Resources\Listener::register(Server::get(IEventDispatcher::class));
 	}
 
 	private static function registerFileReferenceEventListener(): void {
@@ -981,16 +988,17 @@ class OC {
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
+			$logger = Server::get(\Psr\Log\LoggerInterface::class);
 			$setupHelper = new OC\Setup(
 				$systemConfig,
 				Server::get(\bantu\IniGetWrapper\IniGetWrapper::class),
 				Server::get(\OCP\L10N\IFactory::class)->get('lib'),
 				Server::get(\OCP\Defaults::class),
-				Server::get(\Psr\Log\LoggerInterface::class),
+				$logger,
 				Server::get(\OCP\Security\ISecureRandom::class),
 				Server::get(\OC\Installer::class)
 			);
-			$controller = new OC\Core\Controller\SetupController($setupHelper);
+			$controller = new OC\Core\Controller\SetupController($setupHelper, $logger);
 			$controller->run($_POST);
 			exit();
 		}
@@ -1113,7 +1121,7 @@ class OC {
 			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
-				$l->t('404'),
+				'404',
 				$l->t('The page could not be found on the server.'),
 				404
 			);
@@ -1124,8 +1132,14 @@ class OC {
 	 * Check login: apache auth, auth token, basic auth
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
+		if ($request->getHeader('X-Nextcloud-Federation')) {
+			return false;
+		}
 		$userSession = Server::get(\OC\User\Session::class);
 		if (OC_User::handleApacheAuth()) {
+			return true;
+		}
+		if (self::tryAppAPILogin($request)) {
 			return true;
 		}
 		if ($userSession->tryTokenLogin($request)) {
@@ -1137,7 +1151,7 @@ class OC {
 			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request, Server::get(\OC\Security\Bruteforce\Throttler::class))) {
+		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {
 			return true;
 		}
 		return false;
@@ -1163,6 +1177,22 @@ class OC {
 					break;
 				}
 			}
+		}
+	}
+
+	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
+		$appManager = Server::get(OCP\App\IAppManager::class);
+		if (!$request->getHeader('AUTHORIZATION-APP-API')) {
+			return false;
+		}
+		if (!$appManager->isInstalled('app_api')) {
+			return false;
+		}
+		try {
+			$appAPIService = Server::get(OCA\AppAPI\Service\AppAPIService::class);
+			return $appAPIService->validateExAppRequestToNC($request);
+		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			return false;
 		}
 	}
 }

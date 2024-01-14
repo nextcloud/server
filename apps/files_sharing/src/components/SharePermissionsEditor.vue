@@ -26,7 +26,6 @@
 			<!-- file -->
 			<NcActionCheckbox v-if="!isFolder"
 				:checked="shareHasPermissions(atomicPermissions.UPDATE)"
-				:disabled="saving"
 				@update:checked="toggleSharePermissions(atomicPermissions.UPDATE)">
 				{{ t('files_sharing', 'Allow editing') }}
 			</NcActionCheckbox>
@@ -37,21 +36,18 @@
 					<NcActionRadio :checked="sharePermissionEqual(bundledPermissions.READ_ONLY)"
 						:value="bundledPermissions.READ_ONLY"
 						:name="randomFormName"
-						:disabled="saving"
 						@change="setSharePermissions(bundledPermissions.READ_ONLY)">
 						{{ t('files_sharing', 'Read only') }}
 					</NcActionRadio>
 
 					<NcActionRadio :checked="sharePermissionEqual(bundledPermissions.UPLOAD_AND_UPDATE)"
 						:value="bundledPermissions.UPLOAD_AND_UPDATE"
-						:disabled="saving"
 						:name="randomFormName"
 						@change="setSharePermissions(bundledPermissions.UPLOAD_AND_UPDATE)">
 						{{ t('files_sharing', 'Allow upload and editing') }}
 					</NcActionRadio>
 					<NcActionRadio :checked="sharePermissionEqual(bundledPermissions.FILE_DROP)"
 						:value="bundledPermissions.FILE_DROP"
-						:disabled="saving"
 						:name="randomFormName"
 						class="sharing-entry__action--public-upload"
 						@change="setSharePermissions(bundledPermissions.FILE_DROP)">
@@ -71,22 +67,22 @@
 				<!-- custom permissions -->
 				<span v-else :class="{error: !sharePermissionsSetIsValid}">
 					<NcActionCheckbox :checked="shareHasPermissions(atomicPermissions.READ)"
-						:disabled="saving || !canToggleSharePermissions(atomicPermissions.READ)"
+						:disabled="!canToggleSharePermissions(atomicPermissions.READ)"
 						@update:checked="toggleSharePermissions(atomicPermissions.READ)">
 						{{ t('files_sharing', 'Read') }}
 					</NcActionCheckbox>
 					<NcActionCheckbox :checked="shareHasPermissions(atomicPermissions.CREATE)"
-						:disabled="saving || !canToggleSharePermissions(atomicPermissions.CREATE)"
+						:disabled="!canToggleSharePermissions(atomicPermissions.CREATE)"
 						@update:checked="toggleSharePermissions(atomicPermissions.CREATE)">
 						{{ t('files_sharing', 'Upload') }}
 					</NcActionCheckbox>
 					<NcActionCheckbox :checked="shareHasPermissions(atomicPermissions.UPDATE)"
-						:disabled="saving || !canToggleSharePermissions(atomicPermissions.UPDATE)"
+						:disabled="!canToggleSharePermissions(atomicPermissions.UPDATE)"
 						@update:checked="toggleSharePermissions(atomicPermissions.UPDATE)">
 						{{ t('files_sharing', 'Edit') }}
 					</NcActionCheckbox>
 					<NcActionCheckbox :checked="shareHasPermissions(atomicPermissions.DELETE)"
-						:disabled="saving || !canToggleSharePermissions(atomicPermissions.DELETE)"
+						:disabled="!canToggleSharePermissions(atomicPermissions.DELETE)"
 						@update:checked="toggleSharePermissions(atomicPermissions.DELETE)">
 						{{ t('files_sharing', 'Delete') }}
 					</NcActionCheckbox>

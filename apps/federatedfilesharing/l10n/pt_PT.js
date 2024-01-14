@@ -35,12 +35,6 @@ OC.L10N.register(
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud",
     "Copy to clipboard" : "Copiar para área de transferência",
-    "Copied!" : "Copiado!",
-    "Copy" : "Copiar",
-    "Not supported!" : "Não suportado!",
-    "Press ⌘-C to copy." : "Pressione ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Pressione Ctrl-C para copiar.",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud, veja %s",
-    "Open documentation" : "Abrir documentação"
+    "Copied!" : "Copiado!"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

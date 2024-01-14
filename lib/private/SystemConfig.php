@@ -55,6 +55,7 @@ class SystemConfig {
 		'secret' => true,
 		'updater.secret' => true,
 		'trusted_proxies' => true,
+		'preview_imaginary_url' => true,
 		'proxyuserpwd' => true,
 		'sentry.dsn' => true,
 		'sentry.public-dsn' => true,
@@ -117,6 +118,9 @@ class SystemConfig {
 					'password' => true,
 				],
 			],
+		],
+		'onlyoffice' => [
+			'jwt_secret' => true,
 		],
 	];
 

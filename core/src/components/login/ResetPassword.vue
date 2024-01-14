@@ -27,7 +27,6 @@
 				name="user"
 				autocapitalize="off"
 				:label="t('core', 'Account name or email')"
-				:label-visible="true"
 				required
 				@change="updateUsername" />
 			<LoginButton :value="t('core', 'Reset password')" />

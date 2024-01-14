@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,10 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\Util;
-use OCA\Theming\ImageManager;
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\Util;
 
 trait CommonThemeTrait {
 	public Util $util;
@@ -37,11 +38,12 @@ trait CommonThemeTrait {
 	 * This is shared between multiple themes because colorMainBackground and colorMainText
 	 * will change in between.
 	 */
-	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
-		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
-		$colorPrimaryElementDefault = $this->util->elementColor($this->defaultPrimaryColor);
+	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText, bool $highContrast = false): array {
+		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground, $highContrast);
+		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+		$invertPrimaryTextColor = $this->util->invertTextColor($colorPrimaryElement);
 
 		// primary related colours
 		return [
@@ -52,7 +54,8 @@ trait CommonThemeTrait {
 			// ⚠️ Using 'no' as a value to make sure we specify an
 			// invalid one with no fallback. 'unset' could here fallback to some
 			// other theme with media queries
-			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+			'--primary-invert-if-bright' => $this->util->invertTextColor($colorPrimaryElement) ? 'invert(100%)' : 'no',
+			'--primary-invert-if-dark' => $this->util->invertTextColor($colorPrimaryElement) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-default' => $this->defaultPrimaryColor,
@@ -61,17 +64,18 @@ trait CommonThemeTrait {
 			'--color-primary-light' => $colorPrimaryLight,
 			'--color-primary-light-text' => $this->util->mix($this->primaryColor, $this->util->invertTextColor($colorPrimaryLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
-			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-default-hover' => $this->util->mix($colorPrimaryElementDefault, $colorMainBackground, 60),
-			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
-			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
+			'--color-primary-element-hover' => $invertPrimaryTextColor ? $this->util->lighten($colorPrimaryElement, 4) : $this->util->darken($colorPrimaryElement, 4),
+			'--color-primary-element-text' => $invertPrimaryTextColor ? '#000000' : '#ffffff',
+			// mostly used for disabled states
+			'--color-primary-element-text-dark' => $invertPrimaryTextColor ? $this->util->lighten('#000000', 4) : $this->util->darken('#ffffff', 4),
+
+			// used for hover/focus states
 			'--color-primary-element-light' => $colorPrimaryElementLight,
-			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
-			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
+			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
 
 			// to use like this: background-image: var(--gradient-primary-background);
 			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',
@@ -92,26 +96,27 @@ trait CommonThemeTrait {
 		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
 		$variables['--color-background-plain'] = $this->defaultPrimaryColor;
 
+		// Register image variables only if custom-defined
+		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
+			if ($this->imageManager->hasImage($image)) {
+				$imageUrl = $this->imageManager->getImageUrl($image);
+				// --image-background is overridden by user theming if logged in
+				$variables["--image-$image"] = "url('" . $imageUrl . "')";
+			}
+		}
+
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted) {
 			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
 			$variables['--image-background-plain'] = 'yes';
+			$variables['--image-background'] = 'no';
 			// If no background image is set, we need to check against the shown primary colour
 			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
 		}
 
-		// Register image variables only if custom-defined
-		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
-			if ($this->imageManager->hasImage($image)) {
-				$imageUrl = $this->imageManager->getImageUrl($image);
-				// --image-background is overridden by user theming
-				$variables["--image-$image"] = "url('" . $imageUrl . "')";
-			}
-		}
-
 		if ($hasCustomLogoHeader) {
-			$variables["--image-logoheader-custom"] = 'true';
+			$variables['--image-logoheader-custom'] = 'true';
 		}
 
 		return $variables;
@@ -125,15 +130,17 @@ trait CommonThemeTrait {
 		if ($user !== null
 			&& !$this->themingDefaults->isUserThemingDisabled()
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
+			$adminBackgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
-			$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
+			$isPrimaryBright = $this->util->invertTextColor($this->themingDefaults->getColorPrimary());
 
 			// The user removed the background
 			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
 				return [
-					'--image-background' => 'no',
-					'--color-background-plain' => $this->primaryColor,
+					// Might be defined already by admin theming, needs to be overridden
+					'--image-background' => 'none',
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
 					// If no background image is set, we need to check against the shown primary colour
 					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
@@ -145,6 +152,15 @@ trait CommonThemeTrait {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+				];
+			}
+
+			// The user is using the default background and admin removed the background image
+			if ($backgroundImage === BackgroundService::BACKGROUND_DEFAULT && $adminBackgroundDeleted) {
+				return [
+					// --image-background is not defined in this case
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
 			}
 

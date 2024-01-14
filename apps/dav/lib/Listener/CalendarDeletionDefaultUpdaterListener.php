@@ -31,7 +31,6 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use function strpos;
 
 /**
  * @template-implements IEventListener<\OCA\DAV\Events\CalendarDeletedEvent>
@@ -45,7 +44,7 @@ class CalendarDeletionDefaultUpdaterListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IConfig $config,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->config = $config;
 		$this->logger = $logger;
 	}
@@ -61,7 +60,7 @@ class CalendarDeletionDefaultUpdaterListener implements IEventListener {
 
 		try {
 			$principalUri = $event->getCalendarData()['principaluri'];
-			if (strpos($principalUri, 'principals/users') !== 0) {
+			if (!str_starts_with($principalUri, 'principals/users')) {
 				$this->logger->debug('Default calendar needs no update because the deleted calendar does not belong to a user principal');
 				return;
 			}

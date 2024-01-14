@@ -27,22 +27,19 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\BackgroundJobs;
 
-use OCP\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
 
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(ITimeFactory $time,
-								IConfig  $config) {
+	public function __construct(
+		ITimeFactory $time,
+		private IConfig $config,
+	) {
 		parent::__construct($time);
-
-		$this->config = $config;
 
 		$this->setInterval(60 * 60 * 3);
 	}

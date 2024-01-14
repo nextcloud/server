@@ -62,16 +62,16 @@ class CheckUser extends Command {
 			->setName('ldap:check-user')
 			->setDescription('checks whether a user exists on LDAP.')
 			->addArgument(
-					'ocName',
-					InputArgument::REQUIRED,
-					'the user name as used in Nextcloud, or the LDAP DN'
-					 )
+				'ocName',
+				InputArgument::REQUIRED,
+				'the user name as used in Nextcloud, or the LDAP DN'
+			)
 			->addOption(
-					'force',
-					null,
-					InputOption::VALUE_NONE,
-					'ignores disabled LDAP configuration'
-					 )
+				'force',
+				null,
+				InputOption::VALUE_NONE,
+				'ignores disabled LDAP configuration'
+			)
 			->addOption(
 				'update',
 				null,

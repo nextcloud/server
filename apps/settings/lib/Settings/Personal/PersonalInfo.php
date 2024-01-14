@@ -36,6 +36,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Personal;
 
+use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -51,7 +52,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OC\Profile\ProfileManager;
 use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
@@ -333,8 +333,8 @@ class PersonalInfo implements ISettings {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) === 0));
-		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) !== 0));
+		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => str_starts_with($localeCode['code'], $userLang)));
+		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => !str_starts_with($localeCode['code'], $userLang)));
 
 		if (!$userLocale) {
 			$userLocale = [

@@ -1,3 +1,7 @@
+/*! https://mths.be/base64 v1.0.0 by @mathias | MIT license */
+
+/*! https://mths.be/he v1.2.0 by @mathias | MIT license */
+
 /**
  * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -63,3 +67,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/**
+* @license nested-property https://github.com/cosmosio/nested-property
+*
+* The MIT License (MIT)
+*
+* Copyright (c) 2014-2020 Olivier Scherrer <pode.fr@gmail.com>
+*/

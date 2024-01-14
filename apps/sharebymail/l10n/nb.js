@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillater brukere å dele en personalisert lenke til ei fil eller mappe ved å skrive inn en e-postadresse.",
     "Send password by mail" : "Send passord via e-post",
     "Reply to initiator" : "Svar til initiativtaker",
-    "Unable to update share by mail config" : "Kan ikke oppdatere deling via e-postkonfigurasjon",
-    "Shared with %1$s" : "Delt med %1$s",
-    "Shared with %1$s by %2$s" : "Delt med %1$s via %2$s",
-    "Unshared from %1$s" : "Opphevde deling fra %1$s",
-    "Unshared from %1$s by %2$s" : "Delt fra %1$s av %2$s",
-    "Password for mail share sent to %1$s" : "Passord for e-postlager sendt til %1$s",
-    "You shared %1$s with %2$s by mail" : "Du delte %1$s med %2$s via e-post",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s delte %1$s med %2$s via e-post",
-    "You unshared %1$s from %2$s by mail" : "Du opphevde delingen %1$s med %2$s via e-post",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$sopphevet deling av %1$s fra %2$s via e-post",
-    "Password to access %1$s was sent to %2s" : "Passord for tilgang til %1$s sendt til %2s",
-    "Password to access %1$s was sent to you" : "Passord for tilgang til %1$s ble sendt til deg"
+    "Unable to update share by mail config" : "Kan ikke oppdatere deling via e-postkonfigurasjon"
 },
 "nplurals=2; plural=(n != 1);");

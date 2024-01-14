@@ -17,6 +17,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -36,7 +37,14 @@
 namespace OC\Core\Controller;
 
 use Exception;
+use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
+use OC\Core\Exception\ResetPasswordException;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -52,14 +60,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Security\VerificationToken\InvalidTokenException;
-use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Core\Events\BeforePasswordResetEvent;
-use OC\Core\Events\PasswordResetEvent;
-use OC\Core\Exception\ResetPasswordException;
-use OC\Security\RateLimiting\Exception\RateLimitExceededException;
-use OC\Security\RateLimiting\Limiter;
+use OCP\Security\VerificationToken\IVerificationToken;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -72,55 +74,30 @@ use function reset;
  *
  * @package OC\Core\Controller
  */
+#[IgnoreOpenAPI]
 class LostController extends Controller {
-	protected IURLGenerator $urlGenerator;
-	protected IUserManager $userManager;
-	protected Defaults $defaults;
-	protected IL10N $l10n;
 	protected string $from;
-	protected IManager $encryptionManager;
-	protected IConfig $config;
-	protected IMailer $mailer;
-	private LoggerInterface $logger;
-	private Manager $twoFactorManager;
-	private IInitialState $initialState;
-	private IVerificationToken $verificationToken;
-	private IEventDispatcher $eventDispatcher;
-	private Limiter $limiter;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager,
-		Defaults $defaults,
-		IL10N $l10n,
-		IConfig $config,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
+		private Defaults $defaults,
+		private IL10N $l10n,
+		private IConfig $config,
 		string $defaultMailAddress,
-		IManager $encryptionManager,
-		IMailer $mailer,
-		LoggerInterface $logger,
-		Manager $twoFactorManager,
-		IInitialState $initialState,
-		IVerificationToken $verificationToken,
-		IEventDispatcher $eventDispatcher,
-		Limiter $limiter
+		private IManager $encryptionManager,
+		private IMailer $mailer,
+		private LoggerInterface $logger,
+		private Manager $twoFactorManager,
+		private IInitialState $initialState,
+		private IVerificationToken $verificationToken,
+		private IEventDispatcher $eventDispatcher,
+		private Limiter $limiter,
 	) {
 		parent::__construct($appName, $request);
-		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
-		$this->defaults = $defaults;
-		$this->l10n = $l10n;
 		$this->from = $defaultMailAddress;
-		$this->encryptionManager = $encryptionManager;
-		$this->config = $config;
-		$this->mailer = $mailer;
-		$this->logger = $logger;
-		$this->twoFactorManager = $twoFactorManager;
-		$this->initialState = $initialState;
-		$this->verificationToken = $verificationToken;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->limiter = $limiter;
 	}
 
 	/**
@@ -201,7 +178,7 @@ class LostController extends Controller {
 		}
 
 		$user = trim($user);
-		
+
 		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
@@ -225,8 +202,10 @@ class LostController extends Controller {
 
 	/**
 	 * @PublicPage
+	 * @BruteForceProtection(action=passwordResetEmail)
+	 * @AnonRateThrottle(limit=10, period=300)
 	 */
-	public function setPassword(string $token, string $userId, string $password, bool $proceed): array {
+	public function setPassword(string $token, string $userId, string $password, bool $proceed): JSONResponse {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
 			$encryptionModules = $this->encryptionManager->getEncryptionModules();
 			foreach ($encryptionModules as $module) {
@@ -234,7 +213,7 @@ class LostController extends Controller {
 				$instance = call_user_func($module['callback']);
 				// this way we can find out whether per-user keys are used or a system wide encryption key
 				if ($instance->needDetailedAccessList()) {
-					return $this->error('', ['encryption' => true]);
+					return new JSONResponse($this->error('', ['encryption' => true]));
 				}
 			}
 		}
@@ -262,12 +241,16 @@ class LostController extends Controller {
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
 		} catch (HintException $e) {
-			return $this->error($e->getHint());
+			$response = new JSONResponse($this->error($e->getHint()));
+			$response->throttle();
+			return $response;
 		} catch (Exception $e) {
-			return $this->error($e->getMessage());
+			$response = new JSONResponse($this->error($e->getMessage()));
+			$response->throttle();
+			return $response;
 		}
 
-		return $this->success(['user' => $userId]);
+		return new JSONResponse($this->success(['user' => $userId]));
 	}
 
 	/**

@@ -33,37 +33,32 @@ namespace OC\Console;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC_App;
-use OCP\AppFramework\QueryException;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 	private SymfonyApplication $application;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-	/** @var IRequest */
-	private $request;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var MemoryInfo */
-	private $memoryInfo;
+	private IEventDispatcher $dispatcher;
+	private IRequest $request;
+	private LoggerInterface $logger;
+	private MemoryInfo $memoryInfo;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $dispatcher,
-								IRequest $request,
-								LoggerInterface $logger,
-								MemoryInfo $memoryInfo) {
+		IEventDispatcher $dispatcher,
+		IRequest $request,
+		LoggerInterface $logger,
+		MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
@@ -74,8 +69,6 @@ class Application {
 	}
 
 	/**
-	 * @param InputInterface $input
-	 * @param ConsoleOutputInterface $output
 	 * @throws \Exception
 	 */
 	public function loadCommands(
@@ -204,18 +197,20 @@ class Application {
 	 * @throws \Exception
 	 */
 	public function run(InputInterface $input = null, OutputInterface $output = null) {
-		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, new ConsoleEvent(
+		$event = new ConsoleEvent(
 			ConsoleEvent::EVENT_RUN,
 			$this->request->server['argv']
-		));
+		);
+		$this->dispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, $event);
 		return $this->application->run($input, $output);
 	}
 
 	private function loadCommandsFromInfoXml($commands) {
 		foreach ($commands as $command) {
 			try {
-				$c = \OC::$server->query($command);
-			} catch (QueryException $e) {
+				$c = \OCP\Server::get($command);
+			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($command)) {
 					try {
 						$c = new $command();

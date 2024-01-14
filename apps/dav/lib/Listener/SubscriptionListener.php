@@ -42,7 +42,7 @@ class SubscriptionListener implements IEventListener {
 	private LoggerInterface $logger;
 
 	public function __construct(IJobList $jobList, RefreshWebcalService $refreshWebcalService, ReminderBackend $reminderBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->jobList = $jobList;
 		$this->refreshWebcalService = $refreshWebcalService;
 		$this->reminderBackend = $reminderBackend;

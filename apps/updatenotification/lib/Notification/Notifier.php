@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Notification;
 
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -200,6 +201,6 @@ class Notifier implements INotifier {
 	}
 
 	protected function getAppInfo($appId, $languageCode) {
-		return \OC_App::getAppInfo($appId, false, $languageCode);
+		return \OCP\Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
 	}
 }

@@ -1,0 +1,138 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "files_trashbin",
+        "version": "0.0.1",
+        "description": "This application enables users to restore files that were deleted from the system.",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "files"
+                ],
+                "properties": {
+                    "files": {
+                        "type": "object",
+                        "required": [
+                            "undelete"
+                        ],
+                        "properties": {
+                            "undelete": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/index.php/apps/files_trashbin/preview": {
+            "get": {
+                "operationId": "preview-get-preview",
+                "summary": "Get the preview for a file",
+                "tags": [
+                    "preview"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "fileId",
+                        "in": "query",
+                        "description": "ID of the file",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": -1
+                        }
+                    },
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "Width of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 32
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Height of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 32
+                        }
+                    },
+                    {
+                        "name": "a",
+                        "in": "query",
+                        "description": "Whether to not crop the preview",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Preview returned",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Getting preview is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Preview not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": []
+}

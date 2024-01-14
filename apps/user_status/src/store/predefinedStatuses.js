@@ -35,7 +35,7 @@ const mutations = {
 	 * @param {object} status The status to add
 	 */
 	addPredefinedStatus(state, status) {
-		state.predefinedStatuses.push(status)
+		state.predefinedStatuses = [...state.predefinedStatuses, status]
 	},
 }
 

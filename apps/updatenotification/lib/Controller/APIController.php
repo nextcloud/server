@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\UpdateNotification\Controller;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OCA\UpdateNotification\ResponseDefinitions;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -37,6 +38,9 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
+/**
+ * @psalm-import-type UpdateNotificationApp from ResponseDefinitions
+ */
 class APIController extends OCSController {
 
 	/** @var IConfig */
@@ -70,12 +74,12 @@ class APIController extends OCSController {
 	];
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IAppManager $appManager,
-								AppFetcher $appFetcher,
-								IFactory $l10nFactory,
-								IUserSession $userSession) {
+		IRequest $request,
+		IConfig $config,
+		IAppManager $appManager,
+		AppFetcher $appFetcher,
+		IFactory $l10nFactory,
+		IUserSession $userSession) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -86,8 +90,14 @@ class APIController extends OCSController {
 	}
 
 	/**
-	 * @param string $newVersion
-	 * @return DataResponse
+	 * List available updates for apps
+	 *
+	 * @param string $newVersion Server version to check updates for
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{missing: UpdateNotificationApp[], available: UpdateNotificationApp[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
+	 *
+	 * 200: Apps returned
+	 * 404: New versions not found
 	 */
 	public function getAppList(string $newVersion): DataResponse {
 		if (!$this->config->getSystemValue('appstoreenabled', true)) {
@@ -131,7 +141,7 @@ class APIController extends OCSController {
 		$this->language = $this->l10nFactory->getUserLanguage($this->userSession->getUser());
 
 		// Ignore apps that are deployed from git
-		$installedApps = array_filter($installedApps, function(string $appId) {
+		$installedApps = array_filter($installedApps, function (string $appId) {
 			try {
 				return !file_exists($this->appManager->getAppPath($appId) . '/.git');
 			} catch (AppPathNotFoundException $e) {
@@ -157,13 +167,15 @@ class APIController extends OCSController {
 	 * Get translated app name
 	 *
 	 * @param string $appId
-	 * @return string[]
+	 * @return UpdateNotificationApp
 	 */
 	protected function getAppDetails(string $appId): array {
 		$app = $this->appManager->getAppInfo($appId, false, $this->language);
+		/** @var ?string $name */
+		$name = $app['name'];
 		return [
 			'appId' => $appId,
-			'appName' => $app['name'] ?? $appId,
+			'appName' => $name ?? $appId,
 		];
 	}
 }

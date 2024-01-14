@@ -628,7 +628,33 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
+		$this->assertSame('10.4.0.4', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithMultipleTrustedRemotes() {
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->willReturnMap([
+				['trusted_proxies', [], ['10.0.0.2', '::1']],
+				['forwarded_for_headers', ['HTTP_X_FORWARDED_FOR'], ['HTTP_X_FORWARDED']],
+			]);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '10.0.0.2',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4, ::1',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('10.4.0.4', $request->getRemoteAddress());
 	}
 
 	public function testGetRemoteAddressIPv6WithSingleTrustedRemote() {
@@ -657,7 +683,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
+		$this->assertSame('10.4.0.4', $request->getRemoteAddress());
 	}
 
 	public function testGetRemoteAddressVerifyPriorityHeader() {
@@ -670,9 +696,9 @@ class RequestTest extends \Test\TestCase {
 			)-> willReturnOnConsecutiveCalls(
 				['10.0.0.2'],
 				[
-					'HTTP_CLIENT_IP',
-					'HTTP_X_FORWARDED_FOR',
 					'HTTP_X_FORWARDED',
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_CLIENT_IP',
 				],
 			);
 
@@ -703,9 +729,9 @@ class RequestTest extends \Test\TestCase {
 			)-> willReturnOnConsecutiveCalls(
 				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
 				[
-					'HTTP_CLIENT_IP',
+					'HTTP_X_FORWARDED',
 					'HTTP_X_FORWARDED_FOR',
-					'HTTP_X_FORWARDED'
+					'HTTP_CLIENT_IP',
 				],
 			);
 
@@ -1263,6 +1289,63 @@ class RequestTest extends \Test\TestCase {
 				true
 			]
 		];
+	}
+
+	public function dataMatchClientVersion(): array {
+		return [
+			[
+				'Mozilla/5.0 (Android) Nextcloud-android/3.24.1',
+				Request::USER_AGENT_CLIENT_ANDROID,
+				'3.24.1',
+			],
+			[
+				'Mozilla/5.0 (iOS) Nextcloud-iOS/4.8.2',
+				Request::USER_AGENT_CLIENT_IOS,
+				'4.8.2',
+			],
+			[
+				'Mozilla/5.0 (Windows) mirall/3.8.1',
+				Request::USER_AGENT_CLIENT_DESKTOP,
+				'3.8.1',
+			],
+			[
+				'Mozilla/5.0 (Android) Nextcloud-Talk v17.10.0',
+				Request::USER_AGENT_TALK_ANDROID,
+				'17.10.0',
+			],
+			[
+				'Mozilla/5.0 (iOS) Nextcloud-Talk v17.0.1',
+				Request::USER_AGENT_TALK_IOS,
+				'17.0.1',
+			],
+			[
+				'Mozilla/5.0 (Windows) Nextcloud-Talk v0.6.0',
+				Request::USER_AGENT_TALK_DESKTOP,
+				'0.6.0',
+			],
+			[
+				'Mozilla/5.0 (Windows) Nextcloud-Outlook v1.0.0',
+				Request::USER_AGENT_OUTLOOK_ADDON,
+				'1.0.0',
+			],
+			[
+				'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v1.0.0',
+				Request::USER_AGENT_THUNDERBIRD_ADDON,
+				'1.0.0',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataMatchClientVersion
+	 * @param string $testAgent
+	 * @param string $userAgent
+	 * @param string $version
+	 */
+	public function testMatchClientVersion(string $testAgent, string $userAgent, string $version): void {
+		preg_match($userAgent, $testAgent, $matches);
+
+		$this->assertSame($version, $matches[1]);
 	}
 
 	public function testInsecureServerHostServerNameHeader() {

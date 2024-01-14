@@ -27,17 +27,19 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
+use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -47,43 +49,40 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
+/**
+ * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
+ * @psalm-import-type CoreLoginFlowV2 from ResponseDefinitions
+ */
 class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
 
-	private LoginFlowV2Service $loginFlowV2Service;
-	private IURLGenerator $urlGenerator;
-	private IUserSession $userSession;
-	private ISession $session;
-	private ISecureRandom $random;
-	private Defaults $defaults;
-	private ?string $userId;
-	private IL10N $l10n;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								LoginFlowV2Service $loginFlowV2Service,
-								IURLGenerator $urlGenerator,
-								ISession $session,
-								IUserSession $userSession,
-								ISecureRandom $random,
-								Defaults $defaults,
-								?string $userId,
-								IL10N $l10n) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoginFlowV2Service $loginFlowV2Service,
+		private IURLGenerator $urlGenerator,
+		private ISession $session,
+		private IUserSession $userSession,
+		private ISecureRandom $random,
+		private Defaults $defaults,
+		private ?string $userId,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->loginFlowV2Service = $loginFlowV2Service;
-		$this->urlGenerator = $urlGenerator;
-		$this->session = $session;
-		$this->userSession = $userSession;
-		$this->random = $random;
-		$this->defaults = $defaults;
-		$this->userId = $userId;
-		$this->l10n = $l10n;
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 *
+	 * Poll the login flow credentials
+	 *
+	 * @param string $token Token of the flow
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2Credentials, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Login flow credentials returned
+	 * 404: Login flow not found or completed
 	 */
 	public function poll(string $token): JSONResponse {
 		try {
@@ -92,13 +91,14 @@ class ClientFlowLoginV2Controller extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new JSONResponse($creds);
+		return new JSONResponse($creds->jsonSerialize());
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
+	#[IgnoreOpenAPI]
 	#[UseSession]
 	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
@@ -116,6 +116,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
+	#[IgnoreOpenAPI]
 	#[UseSession]
 	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
@@ -149,6 +150,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
+	#[IgnoreOpenAPI]
 	#[UseSession]
 	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
 		if ($stateToken === null) {
@@ -282,6 +284,12 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 *
+	 * Init a login flow
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2, array{}>
+	 *
+	 * 200: Login flow init returned
 	 */
 	public function init(): JSONResponse {
 		// Get client user agent
@@ -363,9 +371,9 @@ class ClientFlowLoginV2Controller extends Controller {
 	private function getServerPath(): string {
 		$serverPostfix = '';
 
-		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+		if (str_contains($this->request->getRequestUri(), '/index.php')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} elseif (strpos($this->request->getRequestUri(), '/login/v2') !== false) {
+		} elseif (str_contains($this->request->getRequestUri(), '/login/v2')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/v2'));
 		}
 

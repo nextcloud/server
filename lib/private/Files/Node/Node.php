@@ -7,6 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -32,25 +33,25 @@ namespace OC\Files\Node;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
+use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
-// FIXME: this class really should be abstract
-class Node implements \OCP\Files\Node {
+// FIXME: this class really should be abstract (+1)
+class Node implements INode {
 	/**
 	 * @var \OC\Files\View $view
 	 */
 	protected $view;
 
-	/**
-	 * @var \OC\Files\Node\Root $root
-	 */
-	protected $root;
+	protected IRootFolder $root;
 
 	/**
 	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
@@ -59,10 +60,7 @@ class Node implements \OCP\Files\Node {
 
 	protected ?FileInfo $fileInfo;
 
-	/**
-	 * @var Node|null
-	 */
-	protected $parent;
+	protected ?INode $parent;
 
 	private bool $infoHasSubMountsIncluded;
 
@@ -72,7 +70,7 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
@@ -128,10 +126,20 @@ class Node implements \OCP\Files\Node {
 	 */
 	protected function sendHooks($hooks, array $args = null) {
 		$args = !empty($args) ? $args : [$this];
-		$dispatcher = \OC::$server->getEventDispatcher();
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		foreach ($hooks as $hook) {
-			$this->root->emit('\OC\Files', $hook, $args);
-			$dispatcher->dispatch('\OCP\Files::' . $hook, new GenericEvent($args));
+			if (method_exists($this->root, 'emit')) {
+				$this->root->emit('\OC\Files', $hook, $args);
+			}
+
+			if (in_array($hook, ['preWrite', 'postWrite', 'preCreate', 'postCreate', 'preTouch', 'postTouch', 'preDelete', 'postDelete'], true)) {
+				$event = new GenericEvent($args[0]);
+			} else {
+				$event = new GenericEvent($args);
+			}
+
+			$dispatcher->dispatch('\OCP\Files::' . $hook, $event);
 		}
 	}
 
@@ -290,17 +298,32 @@ class Node implements \OCP\Files\Node {
 		return $this->getFileInfo(false)->isCreatable();
 	}
 
-	/**
-	 * @return Node
-	 */
-	public function getParent() {
+	public function getParent(): INode|IRootFolder {
 		if ($this->parent === null) {
 			$newPath = dirname($this->path);
 			if ($newPath === '' || $newPath === '.' || $newPath === '/') {
 				return $this->root;
 			}
 
-			$this->parent = $this->root->get($newPath);
+			// Manually fetch the parent if the current node doesn't have a file info yet
+			try {
+				$fileInfo = $this->getFileInfo();
+			} catch (NotFoundException) {
+				$this->parent = $this->root->get($newPath);
+				/** @var \OCP\Files\Folder $this->parent */
+				return $this->parent;
+			}
+
+			// gather the metadata we already know about our parent
+			$parentData = [
+				'path' => $newPath,
+				'fileid' => $fileInfo->getParentId(),
+			];
+
+			// and create lazy folder with it instead of always querying
+			$this->parent = new LazyFolder($this->root, function () use ($newPath) {
+				return $this->root->get($newPath);
+			}, $parentData);
 		}
 
 		return $this->parent;
@@ -328,13 +351,7 @@ class Node implements \OCP\Files\Node {
 	 * @return bool
 	 */
 	public function isValidPath($path) {
-		if (!$path || $path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		if (strstr($path, '/../') || strrchr($path, '/') === '/..') {
-			return false;
-		}
-		return true;
+		return Filesystem::isValidPath($path);
 	}
 
 	public function isMounted() {
@@ -402,7 +419,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return INode
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException if copy not allowed or failed
@@ -428,7 +445,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return INode
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException if move not allowed or failed
@@ -476,5 +493,17 @@ class Node implements \OCP\Files\Node {
 
 	public function getUploadTime(): int {
 		return $this->getFileInfo()->getUploadTime();
+	}
+
+	public function getParentId(): int {
+		return $this->fileInfo->getParentId();
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
 	}
 }

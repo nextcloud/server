@@ -21,11 +21,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Selamat malam, {name}",
     "Hello" : "Halo",
     "Hello, {name}" : "Halo, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Mulai hari Anda sama berita\n\nDasbor Nextcloud memberi Anda ikhtisar janji temu Anda yang akan datang, surel mendesak, pesan obrolan, tiket masuk, tweet terbaru, dan lebih banyak! Pengguna bisa tambahkan widget-widget yang mereka suka dan berubah mereka dapat mengubah latar belakang sesuai keinginan mereka.",
-    "Change background image" : "Ubah gambar latar belakang",
-    "Pick from Files" : "Pilih dari File",
-    "Default images" : "Gambar bawaan",
-    "Plain background" : "Latar belakang polos",
-    "Insert from {productName}" : "Sisipkan dari {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Mulai hari Anda sama berita\n\nDasbor Nextcloud memberi Anda ikhtisar janji temu Anda yang akan datang, surel mendesak, pesan obrolan, tiket masuk, tweet terbaru, dan lebih banyak! Pengguna bisa tambahkan widget-widget yang mereka suka dan berubah mereka dapat mengubah latar belakang sesuai keinginan mereka."
 },
 "nplurals=1; plural=0;");

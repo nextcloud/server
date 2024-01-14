@@ -22,25 +22,30 @@
 
 <template>
 	<div class="system-tags">
-		<label for="system-tags-input">{{ t('systemtags', 'Search or create collaborative tags') }}</label>
-		<NcSelectTags class="system-tags__select"
-			input-id="system-tags-input"
-			:placeholder="t('systemtags', 'Collaborative tags …')"
-			:options="sortedTags"
-			:value="selectedTags"
-			:create-option="createOption"
-			:taggable="true"
-			:passthru="true"
-			:fetch-tags="false"
-			:loading="loading"
-			@input="handleInput"
-			@option:selected="handleSelect"
-			@option:created="handleCreate"
-			@option:deselected="handleDeselect">
-			<template #no-options>
-				{{ t('systemtags', 'No tags to select, type to create a new tag') }}
-			</template>
-		</NcSelectTags>
+		<NcLoadingIcon v-if="loadingTags"
+			:name="t('systemtags', 'Loading collaborative tags …')"
+			:size="32" />
+		<template v-else>
+			<label for="system-tags-input">{{ t('systemtags', 'Search or create collaborative tags') }}</label>
+			<NcSelectTags class="system-tags__select"
+				input-id="system-tags-input"
+				:placeholder="t('systemtags', 'Collaborative tags …')"
+				:options="sortedTags"
+				:value="selectedTags"
+				:create-option="createOption"
+				:taggable="true"
+				:passthru="true"
+				:fetch-tags="false"
+				:loading="loading"
+				@input="handleInput"
+				@option:selected="handleSelect"
+				@option:created="handleCreate"
+				@option:deselected="handleDeselect">
+				<template #no-options>
+					{{ t('systemtags', 'No tags to select, type to create a new tag') }}
+				</template>
+			</NcSelectTags>
+		</template>
 	</div>
 </template>
 
@@ -48,32 +53,28 @@
 // FIXME Vue TypeScript ESLint errors
 /* eslint-disable */
 import Vue from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
 
 import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
 
+import { defaultBaseTag } from '../utils.js'
+import { fetchLastUsedTagIds, fetchTags } from '../services/api.js'
 import {
-	createTag,
-	deleteTag,
-	fetchLastUsedTagIds,
-	fetchSelectedTags,
-	fetchTags,
-	selectTag,
-} from '../services/api.js'
+	createTagForFile,
+	deleteTagForFile,
+	fetchTagsForFile,
+	setTagForFile,
+} from '../services/files.js'
 
-import type { BaseTag, Tag, TagWithId } from '../types.js'
-
-const defaultBaseTag: BaseTag = {
-	userVisible: true,
-	userAssignable: true,
-	canAssign: true,
-}
+import type { Tag, TagWithId } from '../types.js'
 
 export default Vue.extend({
 	name: 'SystemTags',
 
 	components: {
+		NcLoadingIcon,
 		NcSelectTags,
 	},
 
@@ -88,6 +89,7 @@ export default Vue.extend({
 		return {
 			sortedTags: [] as TagWithId[],
 			selectedTags: [] as TagWithId[],
+			loadingTags: false,
 			loading: false,
 		}
 	},
@@ -123,12 +125,14 @@ export default Vue.extend({
 		fileId: {
 			immediate: true,
 			async handler() {
+				this.loadingTags = true
 				try {
-					this.selectedTags = await fetchSelectedTags(this.fileId)
+					this.selectedTags = await fetchTagsForFile(this.fileId)
 					this.$emit('has-tags', this.selectedTags.length > 0)
 				} catch (error) {
 					showError(t('systemtags', 'Failed to load selected tags'))
 				}
+				this.loadingTags = false
 			},
 		},
 	},
@@ -165,14 +169,15 @@ export default Vue.extend({
 		},
 
 		async handleSelect(tags: Tag[]) {
-			const selectedTag = tags[tags.length - 1]
-			if (!selectedTag.id) {
+			const lastTag = tags[tags.length - 1]
+			if (!lastTag.id) {
 				// Ignore created tags handled by `handleCreate()`
 				return
 			}
+			const selectedTag = lastTag as TagWithId
 			this.loading = true
 			try {
-				await selectTag(this.fileId, selectedTag)
+				await setTagForFile(selectedTag, this.fileId)
 				const sortToFront = (a: TagWithId, b: TagWithId) => {
 					if (a.id === selectedTag.id) {
 						return -1
@@ -191,7 +196,7 @@ export default Vue.extend({
 		async handleCreate(tag: Tag) {
 			this.loading = true
 			try {
-				const id = await createTag(this.fileId, tag)
+				const id = await createTagForFile(tag, this.fileId)
 				const createdTag = { ...tag, id }
 				this.sortedTags.unshift(createdTag)
 				this.selectedTags.push(createdTag)
@@ -201,10 +206,10 @@ export default Vue.extend({
 			this.loading = false
 		},
 
-		async handleDeselect(tag: Tag) {
+		async handleDeselect(tag: TagWithId) {
 			this.loading = true
 			try {
-				await deleteTag(this.fileId, tag)
+				await deleteTagForFile(tag, this.fileId)
 			} catch (error) {
 				showError(t('systemtags', 'Failed to delete tag'))
 			}

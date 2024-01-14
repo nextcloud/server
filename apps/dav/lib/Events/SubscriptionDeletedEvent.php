@@ -53,8 +53,8 @@ class SubscriptionDeletedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $subscriptionId,
-								array $subscriptionData,
-								array $shares) {
+		array $subscriptionData,
+		array $shares) {
 		parent::__construct();
 		$this->subscriptionId = $subscriptionId;
 		$this->subscriptionData = $subscriptionData;

@@ -36,8 +36,8 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	/** @var UserStoragesService */
 	protected $storagesService;
 
-	/** @var int */
-	protected $numericStorageId;
+	/** @var int id of the external storage (mount) (not the numeric id of the resulting storage!) */
+	protected $numericExternalStorageId;
 
 	/**
 	 * @param UserStoragesService $storagesService
@@ -51,7 +51,7 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	public function __construct(
 		UserStoragesService $storagesService,
 		StorageConfig $storageConfig,
-		$storageId,
+		$externalStorageId,
 		$storage,
 		$mountpoint,
 		$arguments = null,
@@ -61,7 +61,7 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	) {
 		parent::__construct($storageConfig, $storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId);
 		$this->storagesService = $storagesService;
-		$this->numericStorageId = $storageId;
+		$this->numericExternalStorageId = $externalStorageId;
 	}
 
 	/**
@@ -71,7 +71,7 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function moveMount($target) {
-		$storage = $this->storagesService->getStorage($this->numericStorageId);
+		$storage = $this->storagesService->getStorage($this->numericExternalStorageId);
 		// remove "/$user/files" prefix
 		$targetParts = explode('/', trim($target, '/'), 3);
 		$storage->setMountPoint($targetParts[2]);
@@ -86,7 +86,7 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function removeMount() {
-		$this->storagesService->removeStorage($this->numericStorageId);
+		$this->storagesService->removeStorage($this->numericExternalStorageId);
 		return true;
 	}
 }

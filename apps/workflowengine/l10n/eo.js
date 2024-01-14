@@ -44,9 +44,7 @@ OC.L10N.register(
     "Custom mimetype" : "Propra MIME-tipo",
     "Please enter a valid time span" : "Entajpu validan intertempon",
     "Select a request URL" : "Elekti petan retadreson",
-    "Predefined URLs" : "Antaŭdifinitaj retadresoj",
     "Files WebDAV" : "Dosieroj WebDAV",
-    "Others" : "Aliaj",
     "Custom URL" : "Propra retadreso",
     "Select a user agent" : "Elekti retumil-identigilo („user-agent“)",
     "Android client" : "Androida kliento",
@@ -88,10 +86,6 @@ OC.L10N.register(
     "Request user agent" : "Retumil-identigilo („user-agent“)",
     "User group membership" : "Grupano",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de",
-    "Select a tag" : "Elekti etikedon",
-    "No results" : "Neniu rezulto",
-    "%s (invisible)" : "%s (nevidebla)",
-    "%s (restricted)" : "%s (limigita)"
+    "is not member of" : "ne estas membro de"
 },
 "nplurals=2; plural=(n != 1);");

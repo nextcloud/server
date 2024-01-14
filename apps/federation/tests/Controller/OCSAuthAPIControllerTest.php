@@ -38,7 +38,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class OCSAuthAPIControllerTest extends TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
 
@@ -54,7 +53,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|DbHandler */
 	private $dbHandler;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
 	private $logger;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */

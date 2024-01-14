@@ -36,17 +36,11 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class CoreNotifier implements INotifier {
-	/** @var IConfig */
-	private $config;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var IURLGenerator */
-	private $url;
-
-	public function __construct(IConfig $config, IFactory $factory, IURLGenerator $url) {
-		$this->config = $config;
-		$this->l10nFactory = $factory;
-		$this->url = $url;
+	public function __construct(
+		private IConfig $config,
+		private IFactory $factory,
+		private IURLGenerator $url,
+	) {
 	}
 
 	/**
@@ -66,14 +60,14 @@ class CoreNotifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getName(): string {
-		return $this->l10nFactory->get('core')->t('Nextcloud Server');
+		return $this->factory->get('core')->t('Nextcloud Server');
 	}
 
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'core') {
 			throw new \InvalidArgumentException();
 		}
-		$l = $this->l10nFactory->get('core', $languageCode);
+		$l = $this->factory->get('core', $languageCode);
 
 		if ($notification->getSubject() === 'repair_exposing_links') {
 			$notification->setParsedSubject($l->t('Some of your link shares have been removed'));

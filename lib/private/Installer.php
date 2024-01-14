@@ -48,10 +48,12 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC_App;
 use OC_Helper;
+use OCP\App\IAppManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\Migration\IOutput;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -113,7 +115,7 @@ class Installer {
 		}
 
 		$l = \OC::$server->getL10N('core');
-		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true, $l->getLanguageCode());
+		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($basedir . '/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
 			throw new \Exception(
@@ -164,7 +166,7 @@ class Installer {
 		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
 		//set the installed version
-		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id'], false));
+		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
 		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
@@ -333,10 +335,10 @@ class Installer {
 					// Check if appinfo/info.xml has the same app ID as well
 					if ((PHP_VERSION_ID < 80000)) {
 						$loadEntities = libxml_disable_entity_loader(false);
-						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
 						libxml_disable_entity_loader($loadEntities);
 					} else {
-						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
 					}
 					if ((string)$xml->id !== $appId) {
 						throw new \Exception(
@@ -349,7 +351,7 @@ class Installer {
 					}
 
 					// Check if the version is lower than before
-					$currentVersion = OC_App::getAppVersion($appId);
+					$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
 					$newVersion = (string)$xml->version;
 					if (version_compare($currentVersion, $newVersion) === 1) {
 						throw new \Exception(
@@ -423,7 +425,7 @@ class Installer {
 
 		foreach ($this->apps as $app) {
 			if ($app['id'] === $appId) {
-				$currentVersion = OC_App::getAppVersion($appId);
+				$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
 
 				if (!isset($app['releases'][0]['version'])) {
 					return false;
@@ -535,7 +537,10 @@ class Installer {
 	 *                         working ownCloud at the end instead of an aborted update.
 	 * @return array Array of error messages (appid => Exception)
 	 */
-	public static function installShippedApps($softErrors = false) {
+	public static function installShippedApps($softErrors = false, ?IOutput $output = null) {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing shipped apps');
+		}
 		$appManager = \OC::$server->getAppManager();
 		$config = \OC::$server->getConfig();
 		$errors = [];
@@ -550,7 +555,7 @@ class Installer {
 									  && $config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
-											Installer::installShippedApp($filename);
+											Installer::installShippedApp($filename, $output);
 										} catch (HintException $e) {
 											if ($e->getPrevious() instanceof TableExistsException) {
 												$errors[$filename] = $e;
@@ -559,7 +564,7 @@ class Installer {
 											throw $e;
 										}
 									} else {
-										Installer::installShippedApp($filename);
+										Installer::installShippedApp($filename, $output);
 									}
 									$config->setAppValue($filename, 'enabled', 'yes');
 								}
@@ -577,9 +582,12 @@ class Installer {
 	/**
 	 * install an app already placed in the app folder
 	 * @param string $app id of the app to install
-	 * @return integer
+	 * @return string
 	 */
-	public static function installShippedApp($app) {
+	public static function installShippedApp($app, ?IOutput $output = null) {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing ' . $app);
+		}
 		//install the database
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
@@ -587,21 +595,27 @@ class Installer {
 		$config = \OC::$server->getConfig();
 
 		$ms = new MigrationService($app, \OC::$server->get(Connection::class));
+		if ($output instanceof IOutput) {
+			$ms->setOutput($output);
+		}
 		$previousVersion = $config->getAppValue($app, 'installed_version', false);
 		$ms->migrate('latest', !$previousVersion);
 
 		//run appinfo/install.php
 		self::includeAppScript("$appPath/appinfo/install.php");
 
-		$info = OC_App::getAppInfo($app);
+		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
 		if (is_null($info)) {
 			return false;
+		}
+		if ($output instanceof IOutput) {
+			$output->debug('Registering tasks of ' . $app);
 		}
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 
-		$config->setAppValue($app, 'installed_version', OC_App::getAppVersion($app));
+		$config->setAppValue($app, 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($app));
 		if (array_key_exists('ocsid', $info)) {
 			$config->setAppValue($app, 'ocsid', $info['ocsid']);
 		}

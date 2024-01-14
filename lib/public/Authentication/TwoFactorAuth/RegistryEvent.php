@@ -31,13 +31,14 @@ use OCP\IUser;
 
 /**
  * @since 15.0.0
+ * @deprecated 28.0.0 Use TwoFactorProviderForUserRegistered or TwoFactorProviderForUserUnregistered instead
+ * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered
+ * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered
  */
 class RegistryEvent extends Event {
-	/** @var IProvider */
-	private $provider;
+	private IProvider $provider;
 
-	/** @IUser */
-	private $user;
+	private IUser $user;
 
 	/**
 	 * @since 15.0.0

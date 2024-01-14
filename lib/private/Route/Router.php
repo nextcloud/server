@@ -230,9 +230,9 @@ class Router implements IRouter {
 	 * @return \OC\Route\Route
 	 */
 	public function create($name,
-						   $pattern,
-						   array $defaults = [],
-						   array $requirements = []) {
+		$pattern,
+		array $defaults = [],
+		array $requirements = []) {
 		$route = new Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
@@ -247,23 +247,23 @@ class Router implements IRouter {
 	 */
 	public function findMatchingRoute(string $url): array {
 		$this->eventLogger->start('route:match', 'Match route');
-		if (substr($url, 0, 6) === '/apps/') {
+		if (str_starts_with($url, '/apps/')) {
 			// empty string / 'apps' / $app / rest of the route
 			[, , $app,] = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
+		} elseif (str_starts_with($url, '/ocsapp/apps/')) {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
 			[, , , $app,] = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} elseif (substr($url, 0, 10) === '/settings/') {
+		} elseif (str_starts_with($url, '/settings/')) {
 			$this->loadRoutes('settings');
-		} elseif (substr($url, 0, 6) === '/core/') {
+		} elseif (str_starts_with($url, '/core/')) {
 			\OC::$REQUESTEDAPP = $url;
 			if (!$this->config->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();
@@ -277,7 +277,7 @@ class Router implements IRouter {
 		try {
 			$parameters = $matcher->match($url);
 		} catch (ResourceNotFoundException $e) {
-			if (substr($url, -1) !== '/') {
+			if (!str_ends_with($url, '/')) {
 				// We allow links to apps/files? for backwards compatibility reasons
 				// However, since Symfony does not allow empty route names, the route
 				// we need to match is '/', so we need to append the '/' here.
@@ -354,14 +354,14 @@ class Router implements IRouter {
 	 * @return string
 	 */
 	public function generate($name,
-							 $parameters = [],
-							 $absolute = false) {
+		$parameters = [],
+		$absolute = false) {
 		$referenceType = UrlGenerator::ABSOLUTE_URL;
 		if ($absolute === false) {
 			$referenceType = UrlGenerator::ABSOLUTE_PATH;
 		}
 		$name = $this->fixLegacyRootName($name);
-		if (strpos($name, '.') !== false) {
+		if (str_contains($name, '.')) {
 			[$appName, $other] = explode('.', $name, 3);
 			// OCS routes are prefixed with "ocs."
 			if ($appName === 'ocs') {

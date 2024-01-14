@@ -48,7 +48,7 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import { encodeFilePath } from '../utils/fileUtils.js'
+import { encodeFilePath } from '../utils/fileUtils.ts'
 import { getToken, isPublic } from '../utils/davUtils.js'
 
 // preview width generation
@@ -182,7 +182,7 @@ export default {
 		border-radius: var(--border-radius-large);
 
 		input:checked + label > & {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 
 		&--failed {

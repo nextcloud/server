@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
 import { defineStore } from 'pinia'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
@@ -27,12 +26,11 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-import type { ViewConfigs, ViewConfigStore, ViewId } from '../types'
-import type { ViewConfig } from '../types'
+import type { ViewConfigs, ViewConfigStore, ViewId, ViewConfig } from '../types'
 
 const viewConfig = loadState('files', 'viewConfigs', {}) as ViewConfigs
 
-export const useViewConfigStore = function() {
+export const useViewConfigStore = function(...args) {
 	const store = defineStore('viewconfig', {
 		state: () => ({
 			viewConfig,
@@ -69,26 +67,26 @@ export const useViewConfigStore = function() {
 			 * The key param must be a valid key of a File object
 			 * If not found, will be searched within the File attributes
 			 */
-			setSortingBy(key: string = 'basename', view: string = 'files') {	
+			setSortingBy(key = 'basename', view = 'files') {
 				// Save new config
 				this.update(view, 'sorting_mode', key)
 				this.update(view, 'sorting_direction', 'asc')
 			},
-	
+
 			/**
 			 * Toggle the sorting direction
 			 */
-			toggleSortingDirection(view: string = 'files') {
-				const config = this.getConfig(view) || { 'sorting_direction': 'asc' }
+			toggleSortingDirection(view = 'files') {
+				const config = this.getConfig(view) || { sorting_direction: 'asc' }
 				const newDirection = config.sorting_direction === 'asc' ? 'desc' : 'asc'
-	
+
 				// Save new config
 				this.update(view, 'sorting_direction', newDirection)
-			}
-		}
+			},
+		},
 	})
 
-	const viewConfigStore = store(...arguments)
+	const viewConfigStore = store(...args)
 
 	// Make sure we only register the listeners once
 	if (!viewConfigStore._initialized) {
@@ -100,4 +98,3 @@ export const useViewConfigStore = function() {
 
 	return viewConfigStore
 }
-

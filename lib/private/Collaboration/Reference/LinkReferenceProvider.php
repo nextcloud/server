@@ -54,24 +54,16 @@ class LinkReferenceProvider implements IReferenceProvider {
 		'image/webp'
 	];
 
-	private IClientService $clientService;
-	private LoggerInterface $logger;
-	private SystemConfig $systemConfig;
-	private IAppDataFactory $appDataFactory;
-	private IURLGenerator $urlGenerator;
-	private Limiter $limiter;
-	private IUserSession $userSession;
-	private IRequest $request;
-
-	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator, Limiter $limiter, IUserSession $userSession, IRequest $request) {
-		$this->clientService = $clientService;
-		$this->logger = $logger;
-		$this->systemConfig = $systemConfig;
-		$this->appDataFactory = $appDataFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->limiter = $limiter;
-		$this->userSession = $userSession;
-		$this->request = $request;
+	public function __construct(
+		private IClientService $clientService,
+		private LoggerInterface $logger,
+		private SystemConfig $systemConfig,
+		private IAppDataFactory $appDataFactory,
+		private IURLGenerator $urlGenerator,
+		private Limiter $limiter,
+		private IUserSession $userSession,
+		private IRequest $request,
+	) {
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -119,7 +111,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 		$linkContentType = $headResponse->getHeader('Content-Type');
 		$expectedContentType = 'text/html';
 		$suffixedExpectedContentType = $expectedContentType . ';';
-		$startsWithSuffixed = substr($linkContentType, 0, strlen($suffixedExpectedContentType)) === $suffixedExpectedContentType;
+		$startsWithSuffixed = str_starts_with($linkContentType, $suffixedExpectedContentType);
 		// check the header begins with the expected content type
 		if ($linkContentType !== $expectedContentType && !$startsWithSuffixed) {
 			$this->logger->debug('Skip resolving links pointing to content type that is not "text/html"');
@@ -151,22 +143,27 @@ class LinkReferenceProvider implements IReferenceProvider {
 
 		if ($object->images) {
 			try {
-				$appData = $this->appDataFactory->get('core');
-				try {
-					$folder = $appData->getFolder('opengraph');
-				} catch (NotFoundException $e) {
-					$folder = $appData->newFolder('opengraph');
-				}
-				$response = $client->get($object->images[0]->url, [ 'timeout' => 10 ]);
-				$contentType = $response->getHeader('Content-Type');
-				$contentLength = $response->getHeader('Content-Length');
+				$host = parse_url($object->images[0]->url, PHP_URL_HOST);
+				if ($host === false || $host === null) {
+					$this->logger->warning('Could not detect host of open graph image URI for ' . $reference->getId());
+				} else {
+					$appData = $this->appDataFactory->get('core');
+					try {
+						$folder = $appData->getFolder('opengraph');
+					} catch (NotFoundException $e) {
+						$folder = $appData->newFolder('opengraph');
+					}
+					$response = $client->get($object->images[0]->url, ['timeout' => 10]);
+					$contentType = $response->getHeader('Content-Type');
+					$contentLength = $response->getHeader('Content-Length');
 
-				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_PREVIEW_SIZE) {
-					$stream = Utils::streamFor($response->getBody());
-					$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
-					$reference->setImageContentType($contentType);
-					$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
-					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
+					if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_PREVIEW_SIZE) {
+						$stream = Utils::streamFor($response->getBody());
+						$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
+						$reference->setImageContentType($contentType);
+						$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
+						$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
+					}
 				}
 			} catch (GuzzleException $e) {
 				$this->logger->info('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);

@@ -71,6 +71,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private string $productName;
 	private string $url;
 	private string $color;
+	private string $docBaseUrl;
 
 	private string $iTunesAppId;
 	private string $iOSClientUrl;
@@ -90,14 +91,14 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IAppManager $appManager
 	 */
 	public function __construct(IConfig $config,
-								IL10N $l,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								Util $util,
-								ImageManager $imageManager,
-								IAppManager $appManager,
-								INavigationManager $navigationManager
+		IL10N $l,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		ICacheFactory $cacheFactory,
+		Util $util,
+		ImageManager $imageManager,
+		IAppManager $appManager,
+		INavigationManager $navigationManager
 	) {
 		parent::__construct();
 		$this->config = $config;
@@ -120,6 +121,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->iOSClientUrl = parent::getiOSClientUrl();
 		$this->AndroidClientUrl = parent::getAndroidClientUrl();
 		$this->FDroidClientUrl = parent::getFDroidClientUrl();
+		$this->docBaseUrl = parent::getDocBaseUrl();
 	}
 
 	public function getName() {
@@ -163,14 +165,23 @@ class ThemingDefaults extends \OC_Defaults {
 		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
 	}
 
+	public function getDocBaseUrl() {
+		return (string)$this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
+	}
+
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
 		$baseUrl = $this->getBaseUrl();
-		if ($baseUrl !== '') {
-			$footer = '<a href="' . $baseUrl . '" target="_blank"' .
-				' rel="noreferrer noopener" class="entity-name">' . $this->getEntity() . '</a>';
-		} else {
-			$footer = '<span class="entity-name">' .$this->getEntity() . '</span>';
+		$entity = $this->getEntity();
+		$footer = '';
+
+		if ($entity !== '') {
+			if ($baseUrl !== '') {
+				$footer = '<a href="' . $baseUrl . '" target="_blank"' .
+					' rel="noreferrer noopener" class="entity-name">' . $entity . '</a>';
+			} else {
+				$footer = '<span class="entity-name">' .$entity . '</span>';
+			}
 		}
 		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
 
@@ -249,8 +260,9 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getDefaultColorPrimary(): string {
 		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			$color = '#0082c9';
+			return BackgroundService::DEFAULT_COLOR;
 		}
+
 		return $color;
 	}
 
@@ -404,7 +416,7 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest', ['app' => $app ]);
 		}
-		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
+		if (str_starts_with($image, 'filetypes/') && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
 
@@ -481,6 +493,7 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'background':
 			case 'favicon':
 				$this->imageManager->delete($setting);
+				$this->config->deleteAppValue('theming', $setting . 'Mime');
 				break;
 		}
 

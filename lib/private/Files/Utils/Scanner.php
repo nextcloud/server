@@ -41,11 +41,11 @@ use OCA\Files_Sharing\SharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileScannedEvent;
 use OCP\Files\Events\BeforeFolderScannedEvent;
-use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Events\FileCacheUpdated;
-use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\Events\FileScannedEvent;
 use OCP\Files\Events\FolderScannedEvent;
+use OCP\Files\Events\NodeAddedToCache;
+use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
@@ -251,9 +251,13 @@ class Scanner extends PublicEmitter {
 				$this->postProcessEntry($storage, $path);
 				$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage) {
 				$this->postProcessEntry($storage, $path);
-				$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+				if ($fileId) {
+					$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
+				} else {
+					$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+				}
 			});
 
 			if (!$storage->file_exists($relativePath)) {

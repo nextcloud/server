@@ -24,6 +24,7 @@ use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchComparison;
@@ -462,12 +463,13 @@ class FolderTest extends NodeTest {
 	}
 
 	public function testIsSubNode() {
-		$file = new Node(null, $this->view, '/foo/bar');
-		$folder = new Folder(null, $this->view, '/foo');
+		$rootFolderMock = $this->createMock(IRootFolder::class);
+		$file = new Node($rootFolderMock, $this->view, '/foo/bar');
+		$folder = new Folder($rootFolderMock, $this->view, '/foo');
 		$this->assertTrue($folder->isSubNode($file));
 		$this->assertFalse($folder->isSubNode($folder));
 
-		$file = new Node(null, $this->view, '/foobar');
+		$file = new Node($rootFolderMock, $this->view, '/foobar');
 		$this->assertFalse($folder->isSubNode($file));
 	}
 

@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -104,6 +105,9 @@ $application->registerRoutes($this, [
 		// Well known requests https://tools.ietf.org/html/rfc5785
 		['name' => 'WellKnown#handle', 'url' => '.well-known/{service}'],
 
+		// OCM Provider requests https://github.com/cs3org/OCM-API
+		['name' => 'OCM#discovery', 'url' => '/ocm-provider/'],
+
 		// Unsupported browser
 		['name' => 'UnsupportedBrowser#index', 'url' => 'unsupported'],
 	],
@@ -146,6 +150,19 @@ $application->registerRoutes($this, [
 
 		['root' => '/translation', 'name' => 'TranslationApi#languages', 'url' => '/languages', 'verb' => 'GET'],
 		['root' => '/translation', 'name' => 'TranslationApi#translate', 'url' => '/translate', 'verb' => 'POST'],
+
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#taskTypes', 'url' => '/tasktypes', 'verb' => 'GET'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#schedule', 'url' => '/schedule', 'verb' => 'POST'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#deleteTask', 'url' => '/task/{id}', 'verb' => 'DELETE'],
+		['root' => '/textprocessing', 'name' => 'TextProcessingApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
+
+		['root' => '/text2image', 'name' => 'TextToImageApi#isAvailable', 'url' => '/is_available', 'verb' => 'GET'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#schedule', 'url' => '/schedule', 'verb' => 'POST'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#getTask', 'url' => '/task/{id}', 'verb' => 'GET'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#getImage', 'url' => '/task/{id}/image/{index}', 'verb' => 'GET'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#deleteTask', 'url' => '/task/{id}', 'verb' => 'DELETE'],
+		['root' => '/text2image', 'name' => 'TextToImageApi#listTasksByApp', 'url' => '/tasks/app/{appId}', 'verb' => 'GET'],
 	],
 ]);
 

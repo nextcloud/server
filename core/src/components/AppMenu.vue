@@ -20,7 +20,8 @@
   -->
 
 <template>
-	<nav class="app-menu">
+	<nav class="app-menu"
+		:aria-label="t('core', 'Applications menu')">
 		<ul class="app-menu-main">
 			<li v-for="app in mainAppList"
 				:key="app.id"
@@ -146,8 +147,6 @@ $header-icon-size: 20px;
 		height: 50px;
 		position: relative;
 		display: flex;
-		opacity: .7;
-		filter: var(--background-image-invert-if-bright);
 
 		&.app-menu-entry__active {
 			opacity: 1;
@@ -178,6 +177,7 @@ $header-icon-size: 20px;
 			width: calc(100% - 4px);
 			height: calc(100% - 4px);
 			margin: 2px;
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
 			color: var(--color-primary-text);
 			position: relative;
 		}
@@ -188,15 +188,16 @@ $header-icon-size: 20px;
 			height: $header-icon-size;
 			padding: calc((100% - $header-icon-size) / 2);
 			box-sizing: content-box;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		.app-menu-entry--label {
 			opacity: 0;
 			position: absolute;
 			font-size: 12px;
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
 			color: var(--color-primary-text);
 			text-align: center;
-			bottom: -5px;
 			left: 50%;
 			top: 45%;
 			display: block;
@@ -207,6 +208,7 @@ $header-icon-size: 20px;
 			text-overflow: ellipsis;
 			overflow: hidden;
 			letter-spacing: -0.5px;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		&:hover,
@@ -247,14 +249,18 @@ $header-icon-size: 20px;
 }
 
 ::v-deep .app-menu-more .button-vue--vue-tertiary {
-	color: var(--color-primary-text);
 	opacity: .7;
 	margin: 3px;
 	filter: var(--background-image-invert-if-bright);
 
-	&:hover {
-		opacity: 1;
-		background-color: transparent !important;
+	/* Remove all background and align text color if not expanded */
+	&:not([aria-expanded="true"]) {
+		color: var(--color-primary-element-text);
+
+		&:hover {
+			opacity: 1;
+			background-color: transparent !important;
+		}
 	}
 
 	&:focus-visible {
@@ -267,6 +273,12 @@ $header-icon-size: 20px;
 	.app-icon {
 		position: relative;
 		height: 44px;
+		width: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		/* Icons are bright so invert them if bright color theme == bright background is used */
+		filter: var(--background-invert-if-bright);
 
 		&.has-unread::after {
 			background-color: var(--color-main-text);
@@ -275,7 +287,6 @@ $header-icon-size: 20px;
 		img {
 			width: $header-icon-size;
 			height: $header-icon-size;
-			padding: calc((50px - $header-icon-size) / 2);
 		}
 	}
 }
@@ -284,7 +295,7 @@ $header-icon-size: 20px;
 	content: "";
 	width: 8px;
 	height: 8px;
-	background-color: var(--color-primary-text);
+	background-color: var(--color-primary-element-text);
 	border-radius: 50%;
 	position: absolute;
 	display: block;

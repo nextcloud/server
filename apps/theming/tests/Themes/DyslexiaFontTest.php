@@ -22,7 +22,6 @@
  */
 namespace OCA\Theming\Tests\Service;
 
-use OC\App\AppManager;
 use OC\Route\Router;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;

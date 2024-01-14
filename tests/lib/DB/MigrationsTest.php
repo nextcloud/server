@@ -101,10 +101,10 @@ class MigrationsTest extends \Test\TestCase {
 			->method('migrateToSchema');
 
 		$wrappedSchema = $this->createMock(Schema::class);
-		$wrappedSchema->expects($this->once())
+		$wrappedSchema->expects($this->exactly(2))
 			->method('getTables')
 			->willReturn([]);
-		$wrappedSchema->expects($this->once())
+		$wrappedSchema->expects($this->exactly(2))
 			->method('getSequences')
 			->willReturn([]);
 

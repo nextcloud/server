@@ -34,14 +34,13 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ImageManagerTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	protected $config;
 	/** @var IAppData|MockObject */
@@ -52,7 +51,7 @@ class ImageManagerTest extends TestCase {
 	private $urlGenerator;
 	/** @var ICacheFactory|MockObject */
 	private $cacheFactory;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var ITempManager|MockObject */
 	private $tempManager;
@@ -65,7 +64,7 @@ class ImageManagerTest extends TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->rootFolder = $this->createMock(ISimpleFolder::class);
 		$this->imageManager = new ImageManager(
@@ -143,7 +142,7 @@ class ImageManagerTest extends TestCase {
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
 				['theming', 'logoMime', '']
-				)
+			)
 			->willReturn(0);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
@@ -322,7 +321,7 @@ class ImageManagerTest extends TestCase {
 		$folders[2]->expects($this->never())->method('delete');
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('theming','cachebuster','0')
+			->with('theming', 'cachebuster', '0')
 			->willReturn('2');
 		$this->rootFolder->expects($this->once())
 			->method('getDirectoryListing')
@@ -389,5 +388,31 @@ class ImageManagerTest extends TestCase {
 		}
 
 		$this->imageManager->updateImage($key, $tmpFile);
+	}
+
+	public function testUnsupportedImageType(): void {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Unsupported image type: text/plain');
+
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$oldFile = $this->createMock(ISimpleFile::class);
+
+		$folder->expects($this->any())
+			->method('getFile')
+			->willReturn($oldFile);
+
+		$this->rootFolder
+			->expects($this->any())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+
+		$folder->expects($this->once())
+			->method('newFile')
+			->with('favicon')
+			->willReturn($file);
+
+		$this->imageManager->updateImage('favicon', __DIR__ . '/../../../tests/data/lorem.txt');
 	}
 }

@@ -37,6 +37,7 @@ use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
+use Doctrine\DBAL\Exception\RetryableException;
 use Doctrine\DBAL\Exception\ServerException;
 use Doctrine\DBAL\Exception\SyntaxErrorException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -72,6 +73,10 @@ class DbalException extends Exception {
 			is_int($original->getCode()) ? $original->getCode() : 0,
 			empty($message) ? $original->getMessage() : $message
 		);
+	}
+
+	public function isRetryable(): bool {
+		return $this->original instanceof RetryableException;
 	}
 
 	public function getReason(): ?int {

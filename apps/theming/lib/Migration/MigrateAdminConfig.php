@@ -28,7 +28,6 @@ namespace OCA\Theming\Migration;
 
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IL10N;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -61,7 +60,7 @@ class MigrateAdminConfig implements IRepairStep {
 			$images = $this->appData->getFolder('images');
 			$output->info('Migrating administration images');
 
-				// get or init the global folder if any
+			// get or init the global folder if any
 			try {
 				$global = $this->appData->getFolder('global');
 			} catch (NotFoundException $e) {

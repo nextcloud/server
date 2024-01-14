@@ -36,7 +36,7 @@ class HomeCache extends Cache {
 	 *
 	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
-	 * @return int
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($path !== '/' and $path !== '' and $path !== 'files' and $path !== 'files_trashbin' and $path !== 'files_versions') {

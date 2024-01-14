@@ -68,7 +68,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->mimeDetector->method('detectPath')
 			->willReturnCallback(function ($path) {
 				foreach ($this->extensions as $extension => $mime) {
-					if (strpos($path, $extension) !== false) {
+					if (str_contains($path, $extension)) {
 						return $mime;
 					}
 				}
@@ -78,7 +78,7 @@ class FileMimeTypeTest extends TestCase {
 			->willReturnCallback(function ($path) {
 				$body = file_get_contents($path);
 				foreach ($this->content as $match => $mime) {
-					if (strpos($body, $match) !== false) {
+					if (str_contains($body, $match)) {
 						return $mime;
 					}
 				}
@@ -127,7 +127,7 @@ class FileMimeTypeTest extends TestCase {
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
 		$check->setFileInfo($storage, 'foo/bar.txt');
 
-		$this->assertTrue($check->executeCheck('is', 'text/plain-path-detected'));
+		$this->assertTrue($check->executeCheck('is', 'text/plain-content-detected'));
 	}
 
 	public function testFallback() {
@@ -142,7 +142,7 @@ class FileMimeTypeTest extends TestCase {
 	public function testFromCacheCached() {
 		$storage = new Temporary([]);
 		$storage->mkdir('foo');
-		$storage->file_put_contents('foo/bar.txt', 'asd');
+		$storage->file_put_contents('foo/bar.txt', 'text-content');
 		$storage->getScanner()->scan('');
 
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
@@ -156,7 +156,7 @@ class FileMimeTypeTest extends TestCase {
 
 		$newCheck = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
 		$newCheck->setFileInfo($storage, 'foo/bar.txt');
-		$this->assertTrue($newCheck->executeCheck('is', 'text/plain-path-detected'));
+		$this->assertTrue($newCheck->executeCheck('is', 'text/plain-content-detected'));
 	}
 
 	public function testExistsCached() {

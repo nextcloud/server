@@ -5,7 +5,7 @@
     "Cancel" : "Скасувати",
     "Add remote share" : "Додати віддалений каталог",
     "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор ",
-    "Server to server sharing is not enabled on this server" : "На даному сервері вимкнута можливість передачі даних між серверами",
+    "Server to server sharing is not enabled on this server" : "На цьому сервері вимкнута можливість передавання даних між серверами",
     "Couldn't establish a federated share." : "Не вдалося встановити об’єднаний спільний доступ.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Не вдалося встановити спільний доступ до об'єднаної хмари, можливо, пароль неправильний.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Запит на Federated Share надіслано, ви отримаєте запрошення. Перевірте сповіщення.",
@@ -49,14 +49,6 @@
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
     "Copy to clipboard" : "Копіювати до буферу обміну",
     "Clipboard is not available" : "Буфер обміну недоступний",
-    "Copied!" : "Скопійовано!",
-    "Copy" : "Копіювати",
-    "Not supported!" : "Не підтримується!",
-    "Press ⌘-C to copy." : "Натисніть ⌘-C для копіювання.",
-    "Press Ctrl-C to copy." : "Натисніть Ctrl-C для копіювання.",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s) (від імені %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див %s",
-    "Open documentation" : "Відкрити документацію"
+    "Copied!" : "Скопійовано!"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

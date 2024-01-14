@@ -22,9 +22,7 @@
 
 <template>
 	<div class="language">
-		<select :id="inputId"
-			:placeholder="t('settings', 'Language')"
-			@change="onLanguageChange">
+		<select :id="inputId" @change="onLanguageChange">
 			<option v-for="commonLanguage in commonLanguages"
 				:key="commonLanguage.code"
 				:selected="language.code === commonLanguage.code"
@@ -88,7 +86,7 @@ export default {
 		allLanguages() {
 			return Object.freeze(
 				[...this.commonLanguages, ...this.otherLanguages]
-					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {})
+					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {}),
 			)
 		},
 	},

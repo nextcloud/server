@@ -154,6 +154,7 @@ function prepareDocker() {
 	tar --create --file="$NEXTCLOUD_LOCAL_TAR" \
 		--exclude=".git" \
 		--exclude="./config/config.php" \
+		--exclude="./config/*.config.php" \
 		--exclude="./data" \
 		--exclude="./data-autotest" \
 		--exclude="./tests" \

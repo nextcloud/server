@@ -43,6 +43,7 @@ use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -60,8 +61,6 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 /**
- * Class ApiController
- *
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
@@ -75,15 +74,15 @@ class ApiController extends Controller {
 	private ViewConfig $viewConfig;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserSession $userSession,
-								TagService $tagService,
-								IPreview $previewManager,
-								IManager $shareManager,
-								IConfig $config,
-								?Folder $userFolder,
-								UserConfig $userConfig,
-								ViewConfig $viewConfig) {
+		IRequest $request,
+		IUserSession $userSession,
+		TagService $tagService,
+		IPreview $previewManager,
+		IManager $shareManager,
+		IConfig $config,
+		?Folder $userFolder,
+		UserConfig $userConfig,
+		ViewConfig $viewConfig) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
@@ -104,10 +103,14 @@ class ApiController extends Controller {
 	 * @NoCSRFRequired
 	 * @StrictCookieRequired
 	 *
-	 * @param int $x
-	 * @param int $y
+	 * @param int $x Width of the thumbnail
+	 * @param int $y Height of the thumbnail
 	 * @param string $file URL-encoded filename
-	 * @return DataResponse|FileDisplayResponse
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array{message?: string}, array{}>
+	 *
+	 * 200: Thumbnail returned
+	 * 400: Getting thumbnail is not possible
+	 * 404: File not found
 	 */
 	public function getThumbnail($x, $y, $file) {
 		if ($x < 1 || $y < 1) {
@@ -384,23 +387,11 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Get sorting-order for custom sorting
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @param string $folderpath
-	 * @return string
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function getNodeType($folderpath) {
-		$node = $this->userFolder->get($folderpath);
-		return $node->getType();
-	}
-
-	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @PublicPage
 	 */
+	#[IgnoreOpenAPI]
 	public function serviceWorker(): StreamResponse {
 		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');
 		$response->setHeaders([

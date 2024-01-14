@@ -19,46 +19,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import { getCurrentUser } from '@nextcloud/auth'
-import { File, Folder, parseWebdavPermissions } from '@nextcloud/files'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import type { ContentsWithRoot } from '../../../files/src/services/Navigation.ts'
+import type { ContentsWithRoot } from '@nextcloud/files'
+
+import { File, Folder, davParsePermissions, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 
 import client, { rootPath } from './client'
 
 const data = `<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:"
-	xmlns:oc="http://owncloud.org/ns"
-	xmlns:nc="http://nextcloud.org/ns">
+<d:propfind ${getDavNameSpaces()}>
 	<d:prop>
 		<nc:trashbin-filename />
 		<nc:trashbin-deletion-time />
 		<nc:trashbin-original-location />
 		<nc:trashbin-title />
-		<d:getlastmodified />
-		<d:getetag />
-		<d:getcontenttype />
-		<d:resourcetype />
-		<oc:fileid />
-		<oc:permissions />
-		<oc:size />
-		<d:getcontentlength />
+		${getDavProperties()}
 	</d:prop>
 </d:propfind>`
 
-
 const resultToNode = function(node: FileStat): File | Folder {
-	const permissions = parseWebdavPermissions(node.props?.permissions)
+	const permissions = davParsePermissions(node.props?.permissions)
 	const owner = getCurrentUser()?.uid as string
 	const previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32', node.props)
 
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
 		source: generateRemoteUrl('dav' + rootPath + node.filename),
-		mtime: new Date(node.lastmod),
+		// do not show the mtime column
+		// mtime: new Date(node.lastmod),
 		mime: node.mime as string,
 		size: node.props?.size as number || 0,
 		permissions,
@@ -73,12 +63,14 @@ const resultToNode = function(node: FileStat): File | Folder {
 		},
 	}
 
+	delete nodeData.attributes.props
+
 	return node.type === 'file'
 		? new File(nodeData)
 		: new Folder(nodeData)
 }
 
-export const getContents =  async (path: string = '/'): Promise<ContentsWithRoot> => {
+export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	// TODO: use only one request when webdav-client supports it
 	// @see https://github.com/perry-mitchell/webdav-client/pull/334
 	const rootResponse = await client.stat(path, {

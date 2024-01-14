@@ -26,17 +26,11 @@ declare(strict_types=1);
 namespace OC\Core\Data;
 
 class LoginFlowV2Credentials implements \JsonSerializable {
-	/** @var string */
-	private $server;
-	/** @var string */
-	private $loginName;
-	/** @var string */
-	private $appPassword;
-
-	public function __construct(string $server, string $loginName, string $appPassword) {
-		$this->server = $server;
-		$this->loginName = $loginName;
-		$this->appPassword = $appPassword;
+	public function __construct(
+		private string $server,
+		private string $loginName,
+		private string $appPassword,
+	) {
 	}
 
 	/**

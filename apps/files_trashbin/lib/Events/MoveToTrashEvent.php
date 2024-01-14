@@ -33,6 +33,7 @@ use OCP\Files\Node;
  * Event to allow other apps to disable the trash bin for specific files
  *
  * @package OCA\Files_Trashbin\Events
+ * @since 28.0.0 Dispatched as a typed event
  */
 class MoveToTrashEvent extends Event {
 

@@ -16,9 +16,9 @@ const CalDavSettingsView = new View({
 				'generateBirthdayCalendar'
 			),
 			sendEventReminders: loadState('dav', 'sendEventReminders'),
-			sendEventRemindersToSharedGroupMembers: loadState(
+			sendEventRemindersToSharedUsers: loadState(
 				'dav',
-				'sendEventRemindersToSharedGroupMembers'
+				'sendEventRemindersToSharedUsers'
 			),
 			sendEventRemindersPush: loadState('dav', 'sendEventRemindersPush'),
 		}

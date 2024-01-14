@@ -33,11 +33,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
-	protected IAppManager $manager;
-
-	public function __construct(IAppManager $manager) {
+	public function __construct(
+		protected IAppManager $manager,
+	) {
 		parent::__construct();
-		$this->manager = $manager;
 	}
 
 	protected function configure() {

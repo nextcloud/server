@@ -19,9 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../../files/src/services/Navigation.ts'
-import type { Navigation } from '../../files/src/services/Navigation.ts'
-
 import { translate as t, translate } from '@nextcloud/l10n'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 import moment from '@nextcloud/moment'
@@ -30,12 +27,16 @@ import { getContents } from './services/trashbin'
 
 // Register restore action
 import './actions/restoreAction'
+import { Column, View, getNavigation } from '@nextcloud/files'
 
-const Navigation = window.OCP.Files.Navigation as NavigationService
-Navigation.register({
+const Navigation = getNavigation()
+Navigation.register(new View({
 	id: 'trashbin',
 	name: t('files_trashbin', 'Deleted files'),
 	caption: t('files_trashbin', 'List of files that have been deleted.'),
+
+	emptyTitle: t('files_trashbin', 'No deleted files'),
+	emptyCaption: t('files_trashbin', 'Files and folders you have deleted will show up here'),
 
 	icon: DeleteSvg,
 	order: 50,
@@ -44,7 +45,7 @@ Navigation.register({
 	defaultSortKey: 'deleted',
 
 	columns: [
-		{
+		new Column({
 			id: 'deleted',
 			title: t('files_trashbin', 'Deleted'),
 			render(node) {
@@ -65,8 +66,8 @@ Navigation.register({
 				const deletionTimeB = nodeB.attributes?.['trashbin-deletion-time'] || nodeB?.mtime || 0
 				return deletionTimeB - deletionTimeA
 			},
-		},
+		}),
 	],
 
 	getContents,
-} as Navigation)
+}))

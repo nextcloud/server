@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
@@ -32,6 +33,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
+use OCP\FilesMetadata\IMetadataQuery;
 
 /**
  * Tools for transforming search queries into database queries
@@ -45,6 +47,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte',
+		ISearchComparison::COMPARE_DEFINED => 'isNotNull',
 	];
 
 	protected static $searchOperatorNegativeMap = [
@@ -55,6 +58,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'gt',
+		ISearchComparison::COMPARE_DEFINED => 'isNull',
 	];
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
@@ -69,33 +73,38 @@ class SearchBuilder {
 	}
 
 	/**
-	 * Whether or not the tag tables should be joined to complete the search
-	 *
-	 * @param ISearchOperator $operator
-	 * @return boolean
+	 * @return string[]
 	 */
-	public function shouldJoinTags(ISearchOperator $operator) {
+	public function extractRequestedFields(ISearchOperator $operator): array {
 		if ($operator instanceof ISearchBinaryOperator) {
-			return array_reduce($operator->getArguments(), function ($shouldJoin, ISearchOperator $operator) {
-				return $shouldJoin || $this->shouldJoinTags($operator);
-			}, false);
-		} elseif ($operator instanceof ISearchComparison) {
-			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite' || $operator->getField() === 'systemtag';
+			return array_reduce($operator->getArguments(), function (array $fields, ISearchOperator $operator) {
+				return array_unique(array_merge($fields, $this->extractRequestedFields($operator)));
+			}, []);
+		} elseif ($operator instanceof ISearchComparison && !$operator->getExtra()) {
+			return [$operator->getField()];
 		}
-		return false;
+		return [];
 	}
 
 	/**
 	 * @param IQueryBuilder $builder
 	 * @param ISearchOperator[] $operators
 	 */
-	public function searchOperatorArrayToDBExprArray(IQueryBuilder $builder, array $operators) {
-		return array_filter(array_map(function ($operator) use ($builder) {
-			return $this->searchOperatorToDBExpr($builder, $operator);
+	public function searchOperatorArrayToDBExprArray(
+		IQueryBuilder $builder,
+		array $operators,
+		?IMetadataQuery $metadataQuery = null
+	) {
+		return array_filter(array_map(function ($operator) use ($builder, $metadataQuery) {
+			return $this->searchOperatorToDBExpr($builder, $operator, $metadataQuery);
 		}, $operators));
 	}
 
-	public function searchOperatorToDBExpr(IQueryBuilder $builder, ISearchOperator $operator) {
+	public function searchOperatorToDBExpr(
+		IQueryBuilder $builder,
+		ISearchOperator $operator,
+		?IMetadataQuery $metadataQuery = null
+	) {
 		$expr = $builder->expr();
 
 		if ($operator instanceof ISearchBinaryOperator) {
@@ -107,29 +116,37 @@ class SearchBuilder {
 				case ISearchBinaryOperator::OPERATOR_NOT:
 					$negativeOperator = $operator->getArguments()[0];
 					if ($negativeOperator instanceof ISearchComparison) {
-						return $this->searchComparisonToDBExpr($builder, $negativeOperator, self::$searchOperatorNegativeMap);
+						return $this->searchComparisonToDBExpr($builder, $negativeOperator, self::$searchOperatorNegativeMap, $metadataQuery);
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
 					// no break
 				case ISearchBinaryOperator::OPERATOR_AND:
-					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
+					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments(), $metadataQuery));
 				case ISearchBinaryOperator::OPERATOR_OR:
-					return call_user_func_array([$expr, 'orX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
+					return call_user_func_array([$expr, 'orX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments(), $metadataQuery));
 				default:
 					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
 			}
 		} elseif ($operator instanceof ISearchComparison) {
-			return $this->searchComparisonToDBExpr($builder, $operator, self::$searchOperatorMap);
+			return $this->searchComparisonToDBExpr($builder, $operator, self::$searchOperatorMap, $metadataQuery);
 		} else {
 			throw new \InvalidArgumentException('Invalid operator type: ' . get_class($operator));
 		}
 	}
 
-	private function searchComparisonToDBExpr(IQueryBuilder $builder, ISearchComparison $comparison, array $operatorMap) {
-		$this->validateComparison($comparison);
+	private function searchComparisonToDBExpr(
+		IQueryBuilder $builder,
+		ISearchComparison $comparison,
+		array $operatorMap,
+		?IMetadataQuery $metadataQuery = null
+	) {
+		if ($comparison->getExtra()) {
+			[$field, $value, $type] = $this->getExtraOperatorField($comparison, $metadataQuery);
+		} else {
+			[$field, $value, $type] = $this->getOperatorFieldAndValue($comparison);
+		}
 
-		[$field, $value, $type] = $this->getOperatorFieldAndValue($comparison);
 		if (isset($operatorMap[$type])) {
 			$queryOperator = $operatorMap[$type];
 			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value));
@@ -139,9 +156,12 @@ class SearchBuilder {
 	}
 
 	private function getOperatorFieldAndValue(ISearchComparison $operator) {
+		$this->validateComparison($operator);
+
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
+
 		if ($field === 'mimetype') {
 			$value = (string)$value;
 			if ($operator->getType() === ISearchComparison::COMPARE_EQUAL) {
@@ -152,7 +172,7 @@ class SearchBuilder {
 					$field = 'mimepart';
 					$value = (int)$this->mimetypeLoader->getId($matches[1]);
 					$type = ISearchComparison::COMPARE_EQUAL;
-				} elseif (strpos($value, '%') !== false) {
+				} elseif (str_contains($value, '%')) {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				} else {
 					$field = 'mimetype';
@@ -174,6 +194,8 @@ class SearchBuilder {
 		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true)) {
 			$field = 'path_hash';
 			$value = md5((string)$value);
+		} elseif ($field === 'owner') {
+			$field = 'uid_owner';
 		}
 		return [$field, $value, $type];
 	}
@@ -190,6 +212,9 @@ class SearchBuilder {
 			'favorite' => 'boolean',
 			'fileid' => 'integer',
 			'storage' => 'integer',
+			'share_with' => 'string',
+			'share_type' => 'integer',
+			'owner' => 'string',
 		];
 		$comparisons = [
 			'mimetype' => ['eq', 'like'],
@@ -202,6 +227,9 @@ class SearchBuilder {
 			'favorite' => ['eq'],
 			'fileid' => ['eq'],
 			'storage' => ['eq'],
+			'share_with' => ['eq'],
+			'share_type' => ['eq'],
+			'owner' => ['eq'],
 		];
 
 		if (!isset($types[$operator->getField()])) {
@@ -214,6 +242,24 @@ class SearchBuilder {
 		if (!in_array($operator->getType(), $comparisons[$operator->getField()])) {
 			throw new \InvalidArgumentException('Unsupported comparison for field  ' . $operator->getField() . ': ' . $operator->getType());
 		}
+	}
+
+
+	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
+		$field = $operator->getField();
+		$value = $operator->getValue();
+		$type = $operator->getType();
+
+		switch($operator->getExtra()) {
+			case IMetadataQuery::EXTRA:
+				$metadataQuery->joinIndex($field); // join index table if not joined yet
+				$field = $metadataQuery->getMetadataValueField($field);
+				break;
+			default:
+				throw new \InvalidArgumentException('Invalid extra type: ' . $operator->getExtra());
+		}
+
+		return [$field, $value, $type];
 	}
 
 	private function getParameterForValue(IQueryBuilder $builder, $value) {
@@ -231,24 +277,32 @@ class SearchBuilder {
 	/**
 	 * @param IQueryBuilder $query
 	 * @param ISearchOrder[] $orders
+	 * @param IMetadataQuery|null $metadataQuery
 	 */
-	public function addSearchOrdersToQuery(IQueryBuilder $query, array $orders) {
+	public function addSearchOrdersToQuery(IQueryBuilder $query, array $orders, ?IMetadataQuery $metadataQuery = null): void {
 		foreach ($orders as $order) {
 			$field = $order->getField();
-			if ($field === 'fileid') {
-				$field = 'file.fileid';
-			}
+			switch ($order->getExtra()) {
+				case IMetadataQuery::EXTRA:
+					$metadataQuery->joinIndex($field); // join index table if not joined yet
+					$field = $metadataQuery->getMetadataValueField($order->getField());
+					break;
 
-			// Mysql really likes to pick an index for sorting if it can't fully satisfy the where
-			// filter with an index, since search queries pretty much never are fully filtered by index
-			// mysql often picks an index for sorting instead of the much more useful index for filtering.
-			//
-			// By changing the order by to an expression, mysql isn't smart enough to see that it could still
-			// use the index, so it instead picks an index for the filtering
-			if ($field === 'mtime') {
-				$field = $query->func()->add($field, $query->createNamedParameter(0));
-			}
+				default:
+					if ($field === 'fileid') {
+						$field = 'file.fileid';
+					}
 
+					// Mysql really likes to pick an index for sorting if it can't fully satisfy the where
+					// filter with an index, since search queries pretty much never are fully filtered by index
+					// mysql often picks an index for sorting instead of the much more useful index for filtering.
+					//
+					// By changing the order by to an expression, mysql isn't smart enough to see that it could still
+					// use the index, so it instead picks an index for the filtering
+					if ($field === 'mtime') {
+						$field = $query->func()->add($field, $query->createNamedParameter(0));
+					}
+			}
 			$query->addOrderBy($field, $order->getDirection());
 		}
 	}

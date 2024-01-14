@@ -3,9 +3,16 @@
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
 
-name: Pull request checks
+name: Block merges for EOL
 
 on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: block-merge-eol-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   block-merges-eol:
@@ -24,7 +31,7 @@ jobs:
           # retrieve version number from branch reference
           server_major=$(echo "${{ github.base_ref }}" | sed -En 's/stable//p')
           echo "server_major=$server_major" >> $GITHUB_ENV
- 
+
       - name: Checking if ${{ env.server_major }} is EOL
         run: |
-          php -r 'echo json_encode(require_once "config.php");' | jq --arg version "${{ env.server_major }}" '.stable[$version]["100"].eol' | grep --silent -i 'false'
+          php -r 'echo json_encode(require_once "config.php");' | jq --arg version "${{ env.server_major }}" '.stable[$version]["100"].eol // .beta[$version]["100"].eol' | grep --silent -i 'false'

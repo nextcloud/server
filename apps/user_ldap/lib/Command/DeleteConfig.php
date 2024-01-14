@@ -47,10 +47,10 @@ class DeleteConfig extends Command {
 			->setName('ldap:delete-config')
 			->setDescription('deletes an existing LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 		;
 	}
 

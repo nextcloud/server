@@ -33,10 +33,11 @@
  */
 namespace OCA\User_LDAP;
 
-use OCP\Profiler\IProfiler;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCP\IConfig;
+use OCP\Profiler\IProfiler;
 use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {
@@ -204,7 +205,7 @@ class LDAP implements ILDAPWrapper {
 		}
 
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
-			if (strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
+			if (str_contains($message, 'Partial search results returned: Sizelimit exceeded')) {
 				return true;
 			}
 			$oldHandler($no, $message, $file, $line);
@@ -317,6 +318,14 @@ class LDAP implements ILDAPWrapper {
 
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
+		if(strcasecmp($functionName, 'ldap_bind') === 0) {
+			// The arguments are not key value pairs
+			// \OCA\User_LDAP\LDAP::bind passes 3 arguments, the 3rd being the pw
+			// Remove it via direct array access for now, although a better solution could be found mebbe?
+			// @link https://github.com/nextcloud/server/issues/38461
+			$args[2] = IConfig::SENSITIVE_VALUE;
+		}
+
 		$this->logger->debug('Calling LDAP function {func} with parameters {args}', [
 			'app' => 'user_ldap',
 			'func' => $functionName,

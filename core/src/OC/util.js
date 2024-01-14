@@ -124,7 +124,7 @@ export default {
 	 */
 	formatDate(timestamp, format) {
 		if (window.TESTING === undefined) {
-			console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+			OC.debug && console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		}
 		format = format || 'LLL'
 		return moment(timestamp).format(format)
@@ -136,7 +136,7 @@ export default {
 	 */
 	relativeModifiedDate(timestamp) {
 		if (window.TESTING === undefined) {
-			console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+			OC.debug && console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		}
 		const diff = moment().diff(moment(timestamp))
 		if (diff >= 0 && diff < 45000) {

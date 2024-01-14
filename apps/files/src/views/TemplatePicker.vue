@@ -24,7 +24,7 @@
 	<NcModal v-if="opened"
 		:clear-view-delay="-1"
 		class="templates-picker"
-		size="normal"
+		size="large"
 		@close="close">
 		<form class="templates-picker__form"
 			:style="style"
@@ -47,9 +47,6 @@
 
 			<!-- Cancel and submit -->
 			<div class="templates-picker__buttons">
-				<button @click="close">
-					{{ t('files', 'Cancel') }}
-				</button>
 				<input type="submit"
 					class="primary"
 					:value="t('files', 'Create')"
@@ -63,21 +60,24 @@
 	</NcModal>
 </template>
 
-<script>
-import { normalize } from 'path'
+<script lang="ts">
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { File } from '@nextcloud/files'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { normalize, extname, join } from 'path'
 import { showError } from '@nextcloud/dialogs'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import Vue from 'vue'
 
-import { getCurrentDirectory } from '../utils/davUtils.js'
 import { createFromTemplate, getTemplates } from '../services/Templates.js'
 import TemplatePreview from '../components/TemplatePreview.vue'
 
 const border = 2
 const margin = 8
-const width = margin * 20
 
-export default {
+export default Vue.extend({
 	name: 'TemplatePicker',
 
 	components: {
@@ -105,15 +105,14 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * Strip away extension from name
-		 *
-		 * @return {string}
-		 */
+		extension() {
+			return extname(this.name)
+		},
 		nameWithoutExt() {
-			return this.name.indexOf('.') > -1
-				? this.name.split('.').slice(0, -1).join('.')
-				: this.name
+			// Strip extension from name if defined
+			return !this.extension
+				? this.name
+				: this.name.slice(0, 0 - this.extension.length)
 		},
 
 		emptyTemplate() {
@@ -127,15 +126,28 @@ export default {
 		},
 
 		selectedTemplate() {
+			if (!this.provider) {
+				return null
+			}
+
 			return this.provider.templates.find(template => template.fileid === this.checked)
 		},
 
 		/**
-		 * Style css vars bin,d
+		 * Style css vars bind
 		 *
 		 * @return {object}
 		 */
 		style() {
+			if (!this.provider) {
+				return {}
+			}
+
+			// Fallback to 16:9 landscape ratio
+			const ratio = this.provider.ratio ? this.provider.ratio : 1.77
+			// Landscape templates should be wider than tall ones
+			// We fit 3 templates per row at max for landscape and 4 for portrait
+			const width = ratio > 1 ? margin * 30 : margin * 20
 			return {
 				'--margin': margin + 'px',
 				'--width': width + 'px',
@@ -153,8 +165,7 @@ export default {
 		 * @param {string} name the file name to create
 		 * @param {object} provider the template provider picked
 		 */
-		async open(name, provider) {
-
+		async open(name: string, provider) {
 			this.checked = this.emptyTemplate.fileid
 			this.name = name
 			this.provider = provider
@@ -198,12 +209,11 @@ export default {
 
 		async onSubmit() {
 			this.loading = true
-			const currentDirectory = getCurrentDirectory()
-			const fileList = OCA?.Files?.App?.currentFileList
+			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
 			if (this.nameWithoutExt === this.name) {
-				this.logger.debug('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
+				this.logger.warn('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
 				this.name = this.name + this.provider?.extension
 			}
 
@@ -215,35 +225,43 @@ export default {
 				)
 				this.logger.debug('Created new file', fileInfo)
 
-				// Fetch FileInfo and model
-				const data = await fileList?.addAndFetchFileInfo(this.name).then((status, data) => data)
-				const model = new OCA.Files.FileInfoModel(data, {
-					filesClient: fileList?.filesClient,
+				const owner = getCurrentUser()?.uid || null
+				const node = new File({
+					id: fileInfo.fileid,
+					source: generateRemoteUrl(join('dav/files', owner, fileInfo.filename)),
+					root: `/files/${owner}`,
+					mime: fileInfo.mime,
+					mtime: new Date(fileInfo.lastmod * 1000),
+					owner,
+					size: fileInfo.size,
+					permissions: fileInfo.permissions,
+					attributes: {
+						...fileInfo,
+						'has-preview': fileInfo.hasPreview,
+					},
 				})
 
-				// Run default action
-				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
-				if (fileAction) {
-					fileAction.action(fileInfo.basename, {
-						$file: fileList?.findFileEl(this.name),
-						dir: currentDirectory,
-						fileList,
-						fileActions: fileList?.fileActions,
-						fileInfoModel: model,
-					})
-				}
+				// Update files list
+				emit('files:node:created', node)
 
+				// Open the new file
+				window.OCP.Files.Router.goToRoute(
+					null, // use default route
+					{ view: 'files', fileid: node.fileid },
+					{ dir: node.dirname, openfile: true },
+				)
+
+				// Close the picker
 				this.close()
 			} catch (error) {
-				this.logger.error('Error while creating the new file from template')
-				console.error(error)
+				this.logger.error('Error while creating the new file from template', { error })
 				showError(this.t('files', 'Unable to create new file from template'))
 			} finally {
 				this.loading = false
 			}
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -275,7 +293,7 @@ export default {
 
 	&__buttons {
 		display: flex;
-		justify-content: space-between;
+		justify-content: end;
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
 		bottom: 0;

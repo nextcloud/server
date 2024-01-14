@@ -20,11 +20,6 @@ OC.L10N.register(
     "Good evening" : "Salude",
     "Good evening, {name}" : "Salude, {name}",
     "Hello" : "Salude",
-    "Hello, {name}" : "Salude, {name}",
-    "Change background image" : "Càmbia immàgine de isfundu",
-    "Pick from Files" : "Sèbera dae archìvios",
-    "Default images" : "Imàgines predefinidas",
-    "Plain background" : "Isfundu simpre",
-    "Insert from {productName}" : "Inserta dae {productName}"
+    "Hello, {name}" : "Salude, {name}"
 },
 "nplurals=2; plural=(n != 1);");

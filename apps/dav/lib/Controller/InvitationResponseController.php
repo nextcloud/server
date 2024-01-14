@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,6 +30,7 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
@@ -36,6 +38,7 @@ use OCP\IRequest;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
+#[IgnoreOpenAPI]
 class InvitationResponseController extends Controller {
 
 	/** @var IDBConnection */
@@ -57,8 +60,8 @@ class InvitationResponseController extends Controller {
 	 * @param InvitationResponseServer $responseServer
 	 */
 	public function __construct(string $appName, IRequest $request,
-								IDBConnection $db, ITimeFactory $timeFactory,
-								InvitationResponseServer $responseServer) {
+		IDBConnection $db, ITimeFactory $timeFactory,
+		InvitationResponseServer $responseServer) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;
@@ -166,8 +169,9 @@ class InvitationResponseController extends Controller {
 		$query->select('*')
 			->from('calendar_invitations')
 			->where($query->expr()->eq('token', $query->createNamedParameter($token)));
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$stmt->closeCursor();
 
 		if (!$row) {
 			return null;

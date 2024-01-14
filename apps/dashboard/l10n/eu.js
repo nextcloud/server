@@ -23,11 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Gabon, {name}",
     "Hello" : "Kaixo",
     "Hello, {name}" : "Kaixo, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Hasi eguna informatuta\n\nNextcloud Panela zure eguneko abiapuntua da, zure hurrengo \nhitzorduen ikuspegi orokorra, premiazko mezu elektronikoak, txat \nmezuak, sarrerako txartelak, azken txioak eta askoz gehiago erakutsiz! \nErabiltzaileek trepetak gehi ditzakete eta atzealdea aldatu nahieran.",
-    "Change background image" : "Aldatu atzeko planoko irudia",
-    "Pick from Files" : "Aukeratu fitxategietatik",
-    "Default images" : "Irudi lehenetsiak",
-    "Plain background" : "Atzeko plano arrunta",
-    "Insert from {productName}" : "Txertatu hemendik: {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Hasi eguna informatuta\n\nNextcloud Panela zure eguneko abiapuntua da, zure hurrengo \nhitzorduen ikuspegi orokorra, premiazko mezu elektronikoak, txat \nmezuak, sarrerako txartelak, azken txioak eta askoz gehiago erakutsiz! \nErabiltzaileek trepetak gehi ditzakete eta atzealdea aldatu nahieran."
 },
 "nplurals=2; plural=(n != 1);");

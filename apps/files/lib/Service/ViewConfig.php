@@ -28,8 +28,8 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class ViewConfig {
-	const CONFIG_KEY = 'files_views_configs';
-	const ALLOWED_CONFIGS = [
+	public const CONFIG_KEY = 'files_views_configs';
+	public const ALLOWED_CONFIGS = [
 		[
 			// The default sorting key for the files list view
 			'key' => 'sorting_mode',
@@ -64,7 +64,7 @@ class ViewConfig {
 	 * @return string[]
 	 */
 	public function getAllowedConfigKeys(): array {
-		return array_map(function($config) {
+		return array_map(function ($config) {
 			return $config['key'];
 		}, self::ALLOWED_CONFIGS);
 	}
@@ -155,7 +155,7 @@ class ViewConfig {
 		}
 
 		// Extend undefined values with defaults
-		return array_reduce(self::ALLOWED_CONFIGS, function($carry, $config) use ($view, $configs) {
+		return array_reduce(self::ALLOWED_CONFIGS, function ($carry, $config) use ($view, $configs) {
 			$key = $config['key'];
 			$carry[$key] = $configs[$view][$key] ?? $this->getDefaultConfigValue($key);
 			return $carry;
@@ -176,7 +176,7 @@ class ViewConfig {
 		$configs = json_decode($this->config->getUserValue($userId, Application::APP_ID, self::CONFIG_KEY, '[]'), true);
 		$views = array_keys($configs);
 		
-		return array_reduce($views, function($carry, $view) use ($configs) {
+		return array_reduce($views, function ($carry, $view) use ($configs) {
 			$carry[$view] = $this->getConfig($view);
 			return $carry;
 		}, []);

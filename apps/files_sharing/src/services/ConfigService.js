@@ -22,7 +22,14 @@
  *
  */
 
+import { loadState } from '@nextcloud/initial-state'
+import { getCapabilities } from '@nextcloud/capabilities'
+
 export default class Config {
+
+	constructor() {
+		this._shareConfig = loadState('files_sharing', 'shareConfig', {})
+	}
 
 	/**
 	 * Is public upload allowed on link shares ?
@@ -32,8 +39,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPublicUploadEnabled() {
-		return document.getElementsByClassName('files-filestable')[0]
-			&& document.getElementsByClassName('files-filestable')[0].dataset.allowPublicUpload === 'yes'
+		return this._shareConfig.allowPublicUploads
 	}
 
 	/**
@@ -208,7 +214,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isMailShareAllowed() {
-		const capabilities = OC.getCapabilities()
+		const capabilities = getCapabilities()
 		// eslint-disable-next-line camelcase
 		return capabilities?.files_sharing?.sharebymail !== undefined
 			// eslint-disable-next-line camelcase
@@ -267,7 +273,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPasswordForMailSharesRequired() {
-		return (OC.getCapabilities().files_sharing.sharebymail === undefined) ? false : OC.getCapabilities().files_sharing.sharebymail.password.enforced
+		return (getCapabilities().files_sharing.sharebymail === undefined) ? false : getCapabilities().files_sharing.sharebymail.password.enforced
 	}
 
 	/**
@@ -276,7 +282,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get shouldAlwaysShowUnique() {
-		return (OC.getCapabilities().files_sharing?.sharee?.always_show_unique === true)
+		return (getCapabilities().files_sharing?.sharee?.always_show_unique === true)
 	}
 
 	/**
@@ -321,7 +327,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get passwordPolicy() {
-		const capabilities = OC.getCapabilities()
+		const capabilities = getCapabilities()
 		return capabilities.password_policy ? capabilities.password_policy : {}
 	}
 

@@ -33,11 +33,11 @@ use OCA\Files_Trashbin\Listeners\LoadAdditionalScripts;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
 use OCA\Files_Trashbin\UserMigration\TrashbinMigrator;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\App\IAppManager;
 use OCP\ILogger;
 use OCP\IServerContainer;
 

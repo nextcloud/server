@@ -39,8 +39,6 @@
 namespace OC\User;
 
 use OC;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
@@ -51,6 +49,9 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
@@ -63,9 +64,9 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Session
@@ -119,14 +120,14 @@ class Session implements IUserSession, Emitter {
 	private $dispatcher;
 
 	public function __construct(Manager $manager,
-								ISession $session,
-								ITimeFactory $timeFactory,
-								?IProvider $tokenProvider,
-								IConfig $config,
-								ISecureRandom $random,
-								ILockdownManager $lockdownManager,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher
+		ISession $session,
+		ITimeFactory $timeFactory,
+		?IProvider $tokenProvider,
+		IConfig $config,
+		ISecureRandom $random,
+		ILockdownManager $lockdownManager,
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher
 	) {
 		$this->manager = $manager;
 		$this->session = $session;
@@ -418,17 +419,17 @@ class Session implements IUserSession, Emitter {
 	 * @param string $user
 	 * @param string $password
 	 * @param IRequest $request
-	 * @param OC\Security\Bruteforce\Throttler $throttler
+	 * @param IThrottler $throttler
 	 * @throws LoginException
 	 * @throws PasswordLoginForbiddenException
 	 * @return boolean
 	 */
 	public function logClientIn($user,
-								$password,
-								IRequest $request,
-								OC\Security\Bruteforce\Throttler $throttler) {
+		$password,
+		IRequest $request,
+		IThrottler $throttler) {
 		$remoteAddress = $request->getRemoteAddress();
-		$currentDelay = $throttler->sleepDelay($remoteAddress, 'login');
+		$currentDelay = $throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
 			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
@@ -455,8 +456,17 @@ class Session implements IUserSession, Emitter {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
-			$users = $this->manager->getByEmail($user);
-			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
+
+			if ($isTokenPassword) {
+				$dbToken = $this->tokenProvider->getToken($password);
+				$userFromToken = $this->manager->get($dbToken->getUID());
+				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user;
+			} else {
+				$users = $this->manager->getByEmail($user);
+				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
+			}
+
+			if (!$isValidEmailLogin) {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
@@ -479,7 +489,7 @@ class Session implements IUserSession, Emitter {
 		$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
 
 		if ($currentDelay === 0) {
-			$throttler->sleepDelay($remoteAddress, 'login');
+			$throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 		}
 	}
 
@@ -561,7 +571,8 @@ class Session implements IUserSession, Emitter {
 			}
 
 			// trigger any other initialization
-			\OC::$server->getEventDispatcher()->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+			\OC::$server->get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+			\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
 		}
 	}
 
@@ -570,11 +581,11 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @todo do not allow basic auth if the user is 2FA enforced
 	 * @param IRequest $request
-	 * @param OC\Security\Bruteforce\Throttler $throttler
+	 * @param IThrottler $throttler
 	 * @return boolean if the login was successful
 	 */
 	public function tryBasicAuthLogin(IRequest $request,
-									  OC\Security\Bruteforce\Throttler $throttler) {
+		IThrottler $throttler) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
 			try {
 				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
@@ -781,6 +792,11 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
+			$this->logger->debug('Session token is invalid because it does not exist', [
+				'app' => 'core',
+				'user' => $user,
+				'exception' => $ex,
+			]);
 			return false;
 		}
 
@@ -792,12 +808,18 @@ class Session implements IUserSession, Emitter {
 			$this->logger->error('App token login name does not match', [
 				'tokenLoginName' => $dbToken->getLoginName(),
 				'sessionLoginName' => $user,
+				'app' => 'core',
+				'user' => $dbToken->getUID(),
 			]);
 
 			return false;
 		}
 
 		if (!$this->checkTokenCredentials($dbToken, $token)) {
+			$this->logger->warning('Session token credentials are invalid', [
+				'app' => 'core',
+				'user' => $user,
+			]);
 			return false;
 		}
 
@@ -818,7 +840,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
-		if (strpos($authHeader, 'Bearer ') === 0) {
+		if (str_starts_with($authHeader, 'Bearer ')) {
 			$token = substr($authHeader, 7);
 		} else {
 			// No auth header, let's try session id
@@ -873,9 +895,9 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in {uid} but could not verify token', [
+			$this->logger->info('Tried to log in but could not verify token', [
 				'app' => 'core',
-				'uid' => $uid,
+				'user' => $uid,
 			]);
 			return false;
 		}
@@ -883,18 +905,31 @@ class Session implements IUserSession, Emitter {
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = $this->random->generate(32);
 		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+		$this->logger->debug('Remember-me token replaced', [
+			'app' => 'core',
+			'user' => $uid,
+		]);
 
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$this->logger->debug('Session token replaced', [
+				'app' => 'core',
+				'user' => $uid,
+			]);
 		} catch (SessionNotAvailableException $ex) {
-			$this->logger->warning('Could not renew session token for {uid} because the session is unavailable', [
+			$this->logger->critical('Could not renew session token for {uid} because the session is unavailable', [
 				'app' => 'core',
 				'uid' => $uid,
+				'user' => $uid,
 			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
-			$this->logger->warning('Renewing session token failed', ['app' => 'core']);
+			$this->logger->error('Renewing session token failed: ' . $ex->getMessage(), [
+				'app' => 'core',
+				'user' => $uid,
+				'exception' => $ex,
+			]);
 			return false;
 		}
 
@@ -933,10 +968,17 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'logout', [$user]);
 		if ($user !== null) {
 			try {
-				$this->tokenProvider->invalidateToken($this->session->getId());
+				$token = $this->session->getId();
+				$this->tokenProvider->invalidateToken($token);
+				$this->logger->debug('Session token invalidated before logout', [
+					'user' => $user->getUID(),
+				]);
 			} catch (SessionNotAvailableException $ex) {
 			}
 		}
+		$this->logger->debug('Logging out', [
+			'user' => $user === null ? null : $user->getUID(),
+		]);
 		$this->setUser(null);
 		$this->setLoginName(null);
 		$this->setToken(null);

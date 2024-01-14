@@ -41,8 +41,9 @@ if (\OCP\Util::needUpgrade()
 	exit;
 }
 
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use OCP\Security\Bruteforce\MaxDelayReached;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /*
  * Try the appframework routes
@@ -62,6 +63,9 @@ try {
 	}
 
 	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
+} catch (MaxDelayReached $ex) {
+	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	OC_API::respond(new \OC\OCS\Result(null, OCP\AppFramework\Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage()), $format);
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
 

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Password per accedere a «%1$s» condivisa con te da %2$s",
     "Password to access »%s«" : "Password per accedere a «%s»",
     "It is protected with the following password:" : "È protetta con la password seguente:",
+    "This password will expire at %s" : "Questa password scadrà il %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s ha condiviso «%2$s» con te e vuole aggiungere:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha condiviso «%2$s» con te e vuole aggiungere",
     "»%s« added a note to a file shared with you" : "«%s» ha aggiunto una nota a un file condiviso con te",
@@ -40,16 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Consente agli utenti di condividere un collegamento personalizzato a un file o a una cartella inserendo un indirizzo di posta elettronica.",
     "Send password by mail" : "Invia password tramite posta",
     "Reply to initiator" : "Rispondi all'iniziatore",
-    "Shared with %1$s" : "Condivisa con %1$s",
-    "Shared with %1$s by %2$s" : "Condivisa con %1$s da %2$s",
-    "Unshared from %1$s" : "Condivisione rimossa da %1$s",
-    "Unshared from %1$s by %2$s" : "Condivisione rimossa da %1$s da %2$s",
-    "Password for mail share sent to %1$s" : "Password per la condivisione tramite posta inviata a %1$s",
-    "You shared %1$s with %2$s by mail" : "Hai condiviso %1$s con %2$s tramite posta",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s ha condiviso %1$s con %2$s tramite email",
-    "You unshared %1$s from %2$s by mail" : "Hai rimosso la condivisione %1$s da %2$s tramite posta",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s ha rimosso la condivisione %1$s da %2$s tramite posta",
-    "Password to access %1$s was sent to %2s" : "La password per accedere a %1$s è stata inviata a %2s",
-    "Password to access %1$s was sent to you" : "La password per accedere a %1$s ti è stata inviata"
+    "Unable to update share by mail config" : "Impossibile aggiornare la configurazione della condivisione per email"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

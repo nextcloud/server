@@ -56,7 +56,7 @@ import { getToken as getRequestToken } from './OC/requesttoken.js'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
-		console.warn.apply(console, arguments)
+		OC.debug && console.warn.apply(console, arguments)
 	}
 }
 

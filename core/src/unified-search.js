@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 Fon E. Noel NFEBE <fenn25.fn@gmail.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Fon E. Noel NFEBE <fenn25.fn@gmail.com>
  *
  * @license AGPL-3.0-or-later
  *

@@ -116,42 +116,34 @@ class Loader implements IMimeTypeLoader {
 	 * @return int inserted ID
 	 */
 	protected function store($mimetype) {
-		$row = $this->atomic(function () use ($mimetype) {
-			try {
+		try {
+			$mimetypeId = $this->atomic(function () use ($mimetype) {
 				$insert = $this->dbConnection->getQueryBuilder();
 				$insert->insert('mimetypes')
 					->values([
 						'mimetype' => $insert->createNamedParameter($mimetype)
 					])
 					->executeStatement();
-				return [
-					'mimetype' => $mimetype,
-					'id' => $insert->getLastInsertId(),
-				];
-			} catch (DbalException $e) {
-				if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-					throw $e;
-				}
-				$qb = $this->dbConnection->getQueryBuilder();
-				$row = $qb->select('id')
-					->from('mimetypes')
-					->where($qb->expr()->eq('mimetype', $qb->createNamedParameter($mimetype)))
-					->executeQuery()
-					->fetchOne();
-				if ($row) {
-					return [
-						'mimetype' => $mimetype,
-						'id' => $row['id'],
-					];
-				}
+				return $insert->getLastInsertId();
+			}, $this->dbConnection);
+		} catch (DbalException $e) {
+			if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+
+			$qb = $this->dbConnection->getQueryBuilder();
+			$qb->select('id')
+				->from('mimetypes')
+				->where($qb->expr()->eq('mimetype', $qb->createNamedParameter($mimetype)));
+			$result = $qb->executeQuery();
+			$id = $result->fetchOne();
+			$result->closeCursor();
+			if ($id === false) {
 				throw new \Exception("Database threw an unique constraint on inserting a new mimetype, but couldn't return the ID for this very mimetype");
 			}
-		}, $this->dbConnection);
 
-		if (!$row) {
-			throw new \Exception("Failed to get mimetype id for $mimetype after trying to store it");
+			$mimetypeId = (int) $id;
 		}
-		$mimetypeId = (int) $row['id'];
 
 		$this->mimetypes[$mimetypeId] = $mimetype;
 		$this->mimetypeIds[$mimetype] = $mimetypeId;

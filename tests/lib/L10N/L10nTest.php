@@ -85,6 +85,15 @@ class L10nTest extends TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
+	public function testGermanPluralWithCzechLocaleTranslations() {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'cs_CZ', [$transFile]);
+
+		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
+		$this->assertEquals('5 Dateien', (string) $l->n('%n file', '%n files', 5));
+	}
+
 	public function dataPlaceholders(): array {
 		return [
 			['Ordered placeholders one %s two %s', 'Placeholder one 1 two 2'],
@@ -109,34 +118,34 @@ class L10nTest extends TestCase {
 	public function localizationData() {
 		return [
 			// timestamp as string
-			['February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', '1234567890'],
-			['13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', '1234567890'],
+			["February 13, 2009, 11:31:30\xE2\x80\xAFPM UTC", 'en', 'en_US', 'datetime', '1234567890'],
+			['13. Februar 2009, 23:31:30 UTC', 'de', 'de_DE', 'datetime', '1234567890'],
 			['February 13, 2009', 'en', 'en_US', 'date', '1234567890'],
 			['13. Februar 2009', 'de', 'de_DE', 'date', '1234567890'],
-			['11:31:30 PM GMT+0', 'en', 'en_US', 'time', '1234567890'],
-			['23:31:30 GMT+0', 'de', 'de_DE', 'time', '1234567890'],
+			["11:31:30\xE2\x80\xAFPM UTC", 'en', 'en_US', 'time', '1234567890'],
+			['23:31:30 UTC', 'de', 'de_DE', 'time', '1234567890'],
 
 			// timestamp as int
-			['February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', 1234567890],
-			['13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', 1234567890],
+			["February 13, 2009, 11:31:30\xE2\x80\xAFPM UTC", 'en', 'en_US', 'datetime', 1234567890],
+			['13. Februar 2009, 23:31:30 UTC', 'de', 'de_DE', 'datetime', 1234567890],
 			['February 13, 2009', 'en', 'en_US', 'date', 1234567890],
 			['13. Februar 2009', 'de', 'de_DE', 'date', 1234567890],
-			['11:31:30 PM GMT+0', 'en', 'en_US', 'time', 1234567890],
-			['23:31:30 GMT+0', 'de', 'de_DE', 'time', 1234567890],
+			["11:31:30\xE2\x80\xAFPM UTC", 'en', 'en_US', 'time', 1234567890],
+			['23:31:30 UTC', 'de', 'de_DE', 'time', 1234567890],
 
 			// DateTime object
-			['February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', new DateTime('@1234567890')],
-			['13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', new DateTime('@1234567890')],
+			["February 13, 2009, 11:31:30\xE2\x80\xAFPM GMT+0", 'en', 'en_US', 'datetime', new DateTime('@1234567890')],
+			['13. Februar 2009, 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', new DateTime('@1234567890')],
 			['February 13, 2009', 'en', 'en_US', 'date', new DateTime('@1234567890')],
 			['13. Februar 2009', 'de', 'de_DE', 'date', new DateTime('@1234567890')],
-			['11:31:30 PM GMT+0', 'en', 'en_US', 'time', new DateTime('@1234567890')],
+			["11:31:30\xE2\x80\xAFPM GMT+0", 'en', 'en_US', 'time', new DateTime('@1234567890')],
 			['23:31:30 GMT+0', 'de', 'de_DE', 'time', new DateTime('@1234567890')],
 
 			// en_GB
-			['13 February 2009 at 23:31:30 GMT+0', 'en_GB', 'en_GB', 'datetime', new DateTime('@1234567890')],
+			['13 February 2009, 23:31:30 GMT+0', 'en_GB', 'en_GB', 'datetime', new DateTime('@1234567890')],
 			['13 February 2009', 'en_GB', 'en_GB', 'date', new DateTime('@1234567890')],
 			['23:31:30 GMT+0', 'en_GB', 'en_GB', 'time', new DateTime('@1234567890')],
-			['13 February 2009 at 23:31:30 GMT+0', 'en-GB', 'en_GB', 'datetime', new DateTime('@1234567890')],
+			['13 February 2009, 23:31:30 GMT+0', 'en-GB', 'en_GB', 'datetime', new DateTime('@1234567890')],
 			['13 February 2009', 'en-GB', 'en_GB', 'date', new DateTime('@1234567890')],
 			['23:31:30 GMT+0', 'en-GB', 'en_GB', 'time', new DateTime('@1234567890')],
 		];

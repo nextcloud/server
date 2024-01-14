@@ -49,12 +49,12 @@ class AppFetcher extends Fetcher {
 	private $ignoreMaxVersion;
 
 	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								CompareVersion $compareVersion,
-								LoggerInterface $logger,
-								IRegistry $registry) {
+		IClientService $clientService,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		CompareVersion $compareVersion,
+		LoggerInterface $logger,
+		IRegistry $registry) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
@@ -99,7 +99,7 @@ class AppFetcher extends Fetcher {
 			foreach ($app['releases'] as $release) {
 				// Exclude all nightly and pre-releases if required
 				if (($allowNightly || $release['isNightly'] === false)
-					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
+					&& ($allowPreReleases || !str_contains($release['version'], '-'))) {
 					// Exclude all versions not compatible with the current version
 					try {
 						$versionParser = new VersionParser();

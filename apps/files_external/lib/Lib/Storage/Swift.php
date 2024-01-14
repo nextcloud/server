@@ -126,9 +126,10 @@ class Swift extends \OC\Files\Storage\Common {
 	 * @throws \OCP\Files\StorageNotAvailableException
 	 */
 	private function fetchObject(string $path) {
-		if ($this->objectCache->hasKey($path)) {
+		$cached = $this->objectCache->get($path);
+		if ($cached !== null) {
 			// might be "false" if object did not exist from last check
-			return $this->objectCache->get($path);
+			return $cached;
 		}
 		try {
 			$object = $this->getContainer()->getObject($path);
@@ -295,7 +296,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$path .= '/';
 		}
 
-//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
+		//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
 
 		try {
 			$files = [];

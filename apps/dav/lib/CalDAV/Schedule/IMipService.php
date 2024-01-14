@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /*
  * DAV App
@@ -6,6 +7,7 @@ declare(strict_types=1);
  * @copyright 2022 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -56,10 +58,10 @@ class IMipService {
 	];
 
 	public function __construct(URLGenerator $urlGenerator,
-								IConfig $config,
-								IDBConnection $db,
-								ISecureRandom $random,
-								L10NFactory $l10nFactory) {
+		IConfig $config,
+		IDBConnection $db,
+		ISecureRandom $random,
+		L10NFactory $l10nFactory) {
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->db = $db;
@@ -98,11 +100,45 @@ class IMipService {
 			return $default;
 		}
 		$newstring = $vevent->$property->getValue();
-		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring ) {
+		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
 			$oldstring = $oldVEvent->$property->getValue();
 			return sprintf($strikethrough, $oldstring, $newstring);
 		}
 		return $newstring;
+	}
+
+	/**
+	 * Like generateDiffString() but linkifies the property values if they are urls.
+	 */
+	private function generateLinkifiedDiffString(VEvent $vevent, VEvent $oldVEvent, string $property, string $default): ?string {
+		if (!isset($vevent->$property)) {
+			return $default;
+		}
+		/** @var string|null $newString */
+		$newString = $vevent->$property->getValue();
+		$oldString = isset($oldVEvent->$property) ? $oldVEvent->$property->getValue() : null;
+		if ($oldString !== $newString) {
+			return sprintf(
+				"<span style='text-decoration: line-through'>%s</span><br />%s",
+				$this->linkify($oldString) ?? $oldString ?? '',
+				$this->linkify($newString) ?? $newString ?? ''
+			);
+		}
+		return $this->linkify($newString) ?? $newString;
+	}
+
+	/**
+	 * Convert a given url to a html link element or return null otherwise.
+	 */
+	private function linkify(?string $url): ?string {
+		if ($url === null) {
+			return null;
+		}
+		if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
+			return null;
+		}
+
+		return sprintf('<a href="%1$s">%1$s</a>', htmlspecialchars($url));
 	}
 
 	/**
@@ -121,11 +157,15 @@ class IMipService {
 
 		$data['meeting_url_html'] = self::readPropertyWithDefault($vEvent, 'URL', $defaultVal);
 
+		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
+			$data['meeting_location_html'] = $locationHtml;
+		}
+
 		if(!empty($oldVEvent)) {
 			$oldMeetingWhen = $this->generateWhenString($oldVEvent);
-			$data['meeting_title_html']	= $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
+			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
-			$data['meeting_location_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
+			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
 
 			$oldUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
 			$data['meeting_url_html'] = !empty($oldUrl) && $oldUrl !== $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
@@ -242,10 +282,12 @@ class IMipService {
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
 		$newMeetingWhen = $this->generateWhenString($vEvent);
-		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');;
+		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
+		;
 		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
 		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
 		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
+		$newLocationHtml = $this->linkify($newLocation) ?? $newLocation;
 
 		$data = [];
 		$data['meeting_when_html'] = $newMeetingWhen === '' ?: sprintf($strikethrough, $newMeetingWhen);
@@ -256,7 +298,7 @@ class IMipService {
 		$data['meeting_description'] = $newDescription;
 		$data['meeting_url_html'] = $newUrl !== '' ? sprintf($strikethrough, $newUrl) : '';
 		$data['meeting_url'] = isset($vEvent->URL) ? (string)$vEvent->URL : '';
-		$data['meeting_location_html'] = $newLocation !== '' ? sprintf($strikethrough, $newLocation) : '';
+		$data['meeting_location_html'] = $newLocationHtml !== '' ? sprintf($strikethrough, $newLocationHtml) : '';
 		$data['meeting_location'] = $newLocation;
 		return $data;
 	}
@@ -443,7 +485,7 @@ class IMipService {
 				htmlspecialchars($organizer->getNormalizedValue()),
 				htmlspecialchars($organizerName ?: $organizerEmail));
 			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if(isset($organizer['PARTSTAT']) ) {
+			if(isset($organizer['PARTSTAT'])) {
 				/** @var Parameter $partstat */
 				$partstat = $organizer['PARTSTAT'];
 				if(strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
@@ -632,5 +674,18 @@ class IMipService {
 			}
 		}
 		return null;
+	}
+
+	public function isRoomOrResource(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if(!$cuType instanceof Parameter) {
+			return false;
+		}
+		$type = $cuType->getValue() ?? 'INDIVIDUAL';
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
+			// Don't send emails to things
+			return true;
+		}
+		return false;
 	}
 }

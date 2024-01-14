@@ -23,11 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Dobry wieczór, {name}",
     "Hello" : "Witaj",
     "Hello, {name}" : "Witaj, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Rozpocznij dzień z informacjami\n\nPulpit nawigacyjny Nextcloud to Twój punkt początkowy dnia, dając Tobie\nprzegląd nadchodzących spotkań, pilnych wiadomości e-mail, wiadomości\nna czacie, zgłoszeń przychodzących, najnowszych tweetów i wiele więcej!\nUżytkownicy mogą dodawać widżety, które podobają się i zmieniać tło\nwedług własnych upodobań.",
-    "Change background image" : "Zmień obraz tła",
-    "Pick from Files" : "Wybierz z Plików",
-    "Default images" : "Obrazy domyślne",
-    "Plain background" : "Zwykłe tło",
-    "Insert from {productName}" : "Wstaw z {productName}"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Rozpocznij dzień z informacjami\n\nPulpit nawigacyjny Nextcloud to Twój punkt początkowy dnia, dając Tobie\nprzegląd nadchodzących spotkań, pilnych wiadomości e-mail, wiadomości\nna czacie, zgłoszeń przychodzących, najnowszych tweetów i wiele więcej!\nUżytkownicy mogą dodawać widżety, które podobają się i zmieniać tło\nwedług własnych upodobań."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

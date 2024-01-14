@@ -29,7 +29,6 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -40,6 +39,8 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
 use ReflectionMethod;
 
 /**
@@ -55,7 +56,7 @@ class CORSMiddleware extends Middleware {
 	private $reflector;
 	/** @var Session */
 	private $session;
-	/** @var Throttler */
+	/** @var IThrottler */
 	private $throttler;
 	/** @var IConfig */
 	private $config;
@@ -107,6 +108,10 @@ class CORSMiddleware extends Middleware {
 
 			// Allow to use the current session if a CSRF token is provided
 			if ($this->request->passesCSRFCheck()) {
+				return;
+			}
+			// Skip CORS check for requests with AppAPI auth.
+			if ($this->session->getSession() instanceof ISession && $this->session->getSession()->get('app_api') === true) {
 				return;
 			}
 			$this->session->logout();

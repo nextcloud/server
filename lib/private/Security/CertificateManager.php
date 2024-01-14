@@ -44,21 +44,14 @@ use Psr\Log\LoggerInterface;
  * Manage trusted certificates for users
  */
 class CertificateManager implements ICertificateManager {
-	protected View $view;
-	protected IConfig $config;
-	protected LoggerInterface $logger;
-	protected ISecureRandom $random;
-
 	private ?string $bundlePath = null;
 
-	public function __construct(View $view,
-								IConfig $config,
-								LoggerInterface $logger,
-								ISecureRandom $random) {
-		$this->view = $view;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->random = $random;
+	public function __construct(
+		protected View $view,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected ISecureRandom $random,
+	) {
 	}
 
 	/**
@@ -83,8 +76,14 @@ class CertificateManager implements ICertificateManager {
 		while (false !== ($file = readdir($handle))) {
 			if ($file != '.' && $file != '..') {
 				try {
-					$result[] = new Certificate($this->view->file_get_contents($path . $file), $file);
+					$content = $this->view->file_get_contents($path . $file);
+					if ($content !== false) {
+						$result[] = new Certificate($content, $file);
+					} else {
+						$this->logger->error("Failed to read certificate from $path");
+					}
 				} catch (\Exception $e) {
+					$this->logger->error("Failed to read certificate from $path", ['exception' => $e]);
 				}
 			}
 		}
@@ -138,6 +137,10 @@ class CertificateManager implements ICertificateManager {
 		$tmpPath = $certPath . '.tmp' . $this->random->generate(10, ISecureRandom::CHAR_DIGITS);
 		$fhCerts = $this->view->fopen($tmpPath, 'w');
 
+		if (!is_resource($fhCerts)) {
+			throw new \RuntimeException('Unable to open file handler to create certificate bundle "' . $tmpPath . '".');
+		}
+
 		// Write user certificates
 		foreach ($certs as $cert) {
 			$file = $path . '/uploads/' . $cert->getName();
@@ -168,7 +171,6 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return \OCP\ICertificate
 	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate(string $certificate, string $name): ICertificate {
@@ -195,9 +197,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Remove the certificate and re-generate the certificate bundle
-	 *
-	 * @param string $name
-	 * @return bool
 	 */
 	public function removeCertificate(string $name): bool {
 		if (!Filesystem::isValidPath($name)) {
@@ -215,8 +214,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Get the path to the certificate bundle
-	 *
-	 * @return string
 	 */
 	public function getCertificateBundle(): string {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
@@ -228,7 +225,7 @@ class CertificateManager implements ICertificateManager {
 	 */
 	public function getAbsoluteBundlePath(): string {
 		try {
-			if (!$this->bundlePath) {
+			if ($this->bundlePath === null) {
 				if (!$this->hasCertificates()) {
 					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 				}
@@ -237,13 +234,16 @@ class CertificateManager implements ICertificateManager {
 					$this->createCertificateBundle();
 				}
 
-				$this->bundlePath = $this->view->getLocalFile($this->getCertificateBundle()) ?: null;
-			}
-			if ($this->bundlePath === null) {
-				throw new \Exception('Failed to get absolute bundle path');
+				$certificateBundle = $this->getCertificateBundle();
+				$this->bundlePath = $this->view->getLocalFile($certificateBundle) ?: null;
+
+				if ($this->bundlePath === null) {
+					throw new \RuntimeException('Unable to get certificate bundle "' . $certificateBundle . '".');
+				}
 			}
 			return $this->bundlePath;
 		} catch (\Exception $e) {
+			$this->logger->error('Failed to get absolute bundle path. Fallback to default ca-bundle.crt', ['exception' => $e]);
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 	}
@@ -254,8 +254,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Check if we need to re-bundle the certificates because one of the sources has updated
-	 *
-	 * @return bool
 	 */
 	private function needsRebundling(): bool {
 		$targetBundle = $this->getCertificateBundle();
@@ -269,8 +267,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * get mtime of ca-bundle shipped by Nextcloud
-	 *
-	 * @return int
 	 */
 	protected function getFilemtimeOfCaBundle(): int {
 		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');

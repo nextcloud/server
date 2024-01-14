@@ -34,8 +34,7 @@
 			:is-supported-scope="supportedScopes.includes(federationScope.name)"
 			:name="federationScope.name"
 			:tooltip-disabled="federationScope.tooltipDisabled"
-			:tooltip="federationScope.tooltip"
-			:aria-label="federationScope.tooltip" />
+			:tooltip="federationScope.tooltip" />
 	</NcActions>
 </template>
 
@@ -195,17 +194,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.federation-actions,
-	.federation-actions--additional {
-		opacity: 0.4 !important;
-
-		&:hover,
-		&:focus,
-		&:active {
-			opacity: 0.8 !important;
-		}
-	}
-
 	.federation-actions--additional {
 		&::v-deep button {
 			// TODO remove this hack

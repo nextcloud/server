@@ -34,12 +34,10 @@ use OCP\IInitialStateService;
 
 /** @template-implements IEventListener<Event|RenderReferenceEvent> */
 class RenderReferenceEventListener implements IEventListener {
-	private IReferenceManager $manager;
-	private IInitialStateService $initialStateService;
-
-	public function __construct(IReferenceManager $manager, IInitialStateService $initialStateService) {
-		$this->manager = $manager;
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		private IReferenceManager $manager,
+		private IInitialStateService $initialStateService,
+	) {
 	}
 
 	public static function register(IEventDispatcher $eventDispatcher): void {

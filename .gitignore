@@ -24,6 +24,7 @@
 !/apps/sharebymail
 !/apps/encryption
 !/apps/files_external
+!/apps/files_reminders
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
@@ -154,12 +155,14 @@ Vagrantfile
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml
+/coverage
 
 # Tests - dependencies
 tests/acceptance/vendor/
 
 composer.phar
 /lib/composer/bin
+/lib/composer/bamarni
 /vendor-bin/**/vendor
 
 ./.htaccess

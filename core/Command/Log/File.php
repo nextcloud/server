@@ -36,10 +36,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class File extends Command implements Completion\CompletionAwareInterface {
-	protected IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
 	}
 

@@ -26,10 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_Versions\Db;
 
-use OCA\Files_Versions\Db\VersionEntity;
-use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
-use OCP\DB\IResult;
+use OCP\IDBConnection;
 
 /**
  * @extends QBMapper<VersionEntity>

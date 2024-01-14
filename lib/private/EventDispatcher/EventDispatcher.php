@@ -27,16 +27,17 @@ declare(strict_types=1);
  */
 namespace OC\EventDispatcher;
 
-use Psr\Log\LoggerInterface;
-use function get_class;
 use OC\Broadcast\Events\BroadcastEvent;
+use OC\Log;
 use OCP\Broadcast\Events\IBroadcastEvent;
 use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
+use function get_class;
 
 class EventDispatcher implements IEventDispatcher {
 	/** @var SymfonyDispatcher */
@@ -49,27 +50,33 @@ class EventDispatcher implements IEventDispatcher {
 	private $logger;
 
 	public function __construct(SymfonyDispatcher $dispatcher,
-								IServerContainer $container,
-								LoggerInterface $logger) {
+		IServerContainer $container,
+		LoggerInterface $logger) {
 		$this->dispatcher = $dispatcher;
 		$this->container = $container;
 		$this->logger = $logger;
+
+		// inject the event dispatcher into the logger
+		// this is done here because there is a cyclic dependency between the event dispatcher and logger
+		if ($this->logger instanceof Log || $this->logger instanceof Log\PsrLoggerAdapter) {
+			$this->logger->setEventDispatcher($this);
+		}
 	}
 
 	public function addListener(string $eventName,
-								callable $listener,
-								int $priority = 0): void {
+		callable $listener,
+		int $priority = 0): void {
 		$this->dispatcher->addListener($eventName, $listener, $priority);
 	}
 
 	public function removeListener(string $eventName,
-								   callable $listener): void {
+		callable $listener): void {
 		$this->dispatcher->removeListener($eventName, $listener);
 	}
 
 	public function addServiceListener(string $eventName,
-									   string $className,
-									   int $priority = 0): void {
+		string $className,
+		int $priority = 0): void {
 		$listener = new ServiceEventListener(
 			$this->container,
 			$className,
@@ -83,7 +90,7 @@ class EventDispatcher implements IEventDispatcher {
 	 * @deprecated
 	 */
 	public function dispatch(string $eventName,
-							 Event $event): void {
+		Event $event): void {
 		$this->dispatcher->dispatch($event, $eventName);
 
 		if ($event instanceof ABroadcastedEvent && !$event->isPropagationStopped()) {

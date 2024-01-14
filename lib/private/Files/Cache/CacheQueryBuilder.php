@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -28,6 +29,8 @@ namespace OC\Files\Cache;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -35,16 +38,40 @@ use Psr\Log\LoggerInterface;
  * Query builder with commonly used helpers for filecache queries
  */
 class CacheQueryBuilder extends QueryBuilder {
-	private $alias = null;
+	private ?string $alias = null;
 
-	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
+	public function __construct(
+		IDBConnection $connection,
+		SystemConfig $systemConfig,
+		LoggerInterface $logger,
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
 		parent::__construct($connection, $systemConfig, $logger);
 	}
 
+	public function selectTagUsage(): self {
+		$this
+			->select('systemtag.name', 'systemtag.id', 'systemtag.visibility', 'systemtag.editable')
+			->selectAlias($this->createFunction('COUNT(filecache.fileid)'), 'number_files')
+			->selectAlias($this->createFunction('MAX(filecache.fileid)'), 'ref_file_id')
+			->from('filecache', 'filecache')
+			->leftJoin('filecache', 'systemtag_object_mapping', 'systemtagmap', $this->expr()->andX(
+				$this->expr()->eq('filecache.fileid', $this->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+				$this->expr()->eq('systemtagmap.objecttype', $this->createNamedParameter('files'))
+			))
+			->leftJoin('systemtagmap', 'systemtag', 'systemtag', $this->expr()->andX(
+				$this->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'),
+				$this->expr()->eq('systemtag.visibility', $this->createNamedParameter(true))
+			))
+			->groupBy('systemtag.name', 'systemtag.id', 'systemtag.visibility', 'systemtag.editable');
+
+		return $this;
+	}
+
 	public function selectFileCache(string $alias = null, bool $joinExtendedCache = true) {
-		$name = $alias ? $alias : 'filecache';
+		$name = $alias ?: 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", "$name.name", 'mimetype', 'mimepart', 'size', 'mtime',
-			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum', 'unencrypted_size')
+			'storage_mtime', 'encrypted', 'etag', "$name.permissions", 'checksum', 'unencrypted_size')
 			->from('filecache', $name);
 
 		if ($joinExtendedCache) {
@@ -106,5 +133,16 @@ class CacheQueryBuilder extends QueryBuilder {
 		$this->andWhere($this->expr()->in("{$alias}parent", $this->createParameter($parameter)));
 
 		return $this;
+	}
+
+	/**
+	 * join metadata to current query builder and returns an helper
+	 *
+	 * @return IMetadataQuery|null NULL if no metadata have never been generated
+	 */
+	public function selectMetadata(): ?IMetadataQuery {
+		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
+		$metadataQuery?->retrieveMetadata();
+		return $metadataQuery;
 	}
 }

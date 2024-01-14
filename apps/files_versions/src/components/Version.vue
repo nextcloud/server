@@ -18,19 +18,27 @@
 <template>
 	<div>
 		<NcListItem class="version"
-			:title="versionLabel"
-			:href="downloadURL"
+			:name="versionLabel"
 			:force-display-actions="true"
-			data-files-versions-version>
+			data-files-versions-version
+			@click="click">
 			<template #icon>
-				<img lazy="true"
-					:src="previewURL"
+				<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
+				<img v-else-if="(isCurrent || version.hasPreview) && !previewErrored"
+					:src="version.previewUrl"
 					alt=""
-					height="256"
-					width="256"
+					decoding="async"
+					fetchpriority="low"
+					loading="lazy"
+					class="version__image"
+					@load="previewLoaded = true"
+					@error="previewErrored = true">
+				<div v-else
 					class="version__image">
+					<ImageOffOutline :size="20" />
+				</div>
 			</template>
-			<template #subtitle>
+			<template #subname>
 				<div class="version__info">
 					<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
 					<!-- Separate dot to improve alignement -->
@@ -39,13 +47,21 @@
 				</div>
 			</template>
 			<template #actions>
-				<NcActionButton	v-if="capabilities.files.version_labeling === true"
+				<NcActionButton v-if="enableLabeling"
 					:close-after-click="true"
 					@click="openVersionLabelModal">
 					<template #icon>
 						<Pencil :size="22" />
 					</template>
 					{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
+				</NcActionButton>
+				<NcActionButton v-if="!isCurrent && canView && canCompare"
+					:close-after-click="true"
+					@click="compareVersion">
+					<template #icon>
+						<FileCompare :size="22" />
+					</template>
+					{{ t('files_versions', 'Compare to current version') }}
 				</NcActionButton>
 				<NcActionButton v-if="!isCurrent"
 					:close-after-click="true"
@@ -63,7 +79,7 @@
 					</template>
 					{{ t('files_versions', 'Download version') }}
 				</NcActionLink>
-				<NcActionButton v-if="!isCurrent && capabilities.files.version_deletion === true"
+				<NcActionButton v-if="!isCurrent && enableDeletion"
 					:close-after-click="true"
 					@click="deleteVersion">
 					<template #icon>
@@ -79,15 +95,15 @@
 			<form class="version-label-modal"
 				@submit.prevent="setVersionLabel(formVersionLabelValue)">
 				<label>
-					<div class="version-label-modal__title">{{ t('photos', 'Version name') }}</div>
+					<div class="version-label-modal__title">{{ t('files_versions', 'Version name') }}</div>
 					<NcTextField ref="labelInput"
 						:value.sync="formVersionLabelValue"
-						:placeholder="t('photos', 'Version name')"
+						:placeholder="t('files_versions', 'Version name')"
 						:label-outside="true" />
 				</label>
 
 				<div class="version-label-modal__info">
-					{{ t('photos', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
+					{{ t('files_versions', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
 				</div>
 
 				<div class="version-label-modal__actions">
@@ -109,14 +125,22 @@
 <script>
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
-import { NcActionButton, NcActionLink, NcListItem, NcModal, NcButton, NcTextField, Tooltip } from '@nextcloud/vue'
+import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import moment from '@nextcloud/moment'
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
-import { generateUrl, getRootUrl } from '@nextcloud/router'
+import { getRootUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
@@ -130,9 +154,11 @@ export default {
 		NcTextField,
 		BackupRestore,
 		Download,
+		FileCompare,
 		Pencil,
 		Check,
 		Delete,
+		ImageOffOutline,
 	},
 	directives: {
 		tooltip: Tooltip,
@@ -171,9 +197,23 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		loadPreview: {
+			type: Boolean,
+			default: false,
+		},
+		canView: {
+			type: Boolean,
+			default: false,
+		},
+		canCompare: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
+			previewLoaded: false,
+			previewErrored: false,
 			showVersionLabelForm: false,
 			formVersionLabelValue: this.version.label,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
@@ -184,19 +224,21 @@ export default {
 		 * @return {string}
 		 */
 		versionLabel() {
+			const label = this.version.label ?? ''
+
 			if (this.isCurrent) {
-				if (this.version.label === undefined || this.version.label === '') {
-					return translate('files_versions', 'Current version')
+				if (label === '') {
+					return t('files_versions', 'Current version')
 				} else {
-					return `${this.version.label} (${translate('files_versions', 'Current version')})`
+					return `${label} (${t('files_versions', 'Current version')})`
 				}
 			}
 
-			if (this.isFirstVersion && this.version.label === '') {
-				return translate('files_versions', 'Initial version')
+			if (this.isFirstVersion && label === '') {
+				return t('files_versions', 'Initial version')
 			}
 
-			return this.version.label
+			return label
 		},
 
 		/**
@@ -210,23 +252,19 @@ export default {
 			}
 		},
 
-		/**
-		 * @return {string}
-		 */
-		previewURL() {
-			if (this.isCurrent) {
-				return generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
-					fileId: this.fileInfo.id,
-					fileEtag: this.fileInfo.etag,
-				})
-			} else {
-				return this.version.preview
-			}
-		},
-
 		/** @return {string} */
 		formattedDate() {
 			return moment(this.version.mtime).format('LLL')
+		},
+
+		/** @return {boolean} */
+		enableLabeling() {
+			return this.capabilities.files.version_labeling === true
+		},
+
+		/** @return {boolean} */
+		enableDeletion() {
+			return this.capabilities.files.version_deletion === true
 		},
 	},
 	methods: {
@@ -250,6 +288,23 @@ export default {
 		deleteVersion() {
 			this.$emit('delete', this.version)
 		},
+
+		click() {
+			if (!this.canView) {
+				window.location = this.downloadURL
+				return
+			}
+			this.$emit('click', { version: this.version })
+		},
+
+		compareVersion() {
+			if (!this.canView) {
+				throw new Error('Cannot compare version of this file')
+			}
+			this.$emit('compare', { version: this.version })
+		},
+
+		t,
 	},
 }
 </script>
@@ -275,6 +330,11 @@ export default {
 		height: 3rem;
 		border: 1px solid var(--color-border);
 		border-radius: var(--border-radius-large);
+
+		// Useful to display no preview icon.
+		display: flex;
+		justify-content: center;
+		color: var(--color-text-light);
 	}
 }
 

@@ -141,8 +141,10 @@ export default {
 			const urlParams = new URLSearchParams(window.location.search)
 			if (urlParams.has('redirect_url')) {
 				const redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
-				window.location = redirectPath
-				return
+				if (redirectPath.startsWith('/')) {
+					window.location = generateUrl(redirectPath)
+					return
+				}
 			}
 			window.location = generateUrl('/')
 		},

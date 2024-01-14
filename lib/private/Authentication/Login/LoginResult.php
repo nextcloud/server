@@ -25,6 +25,8 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Login;
 
+use OC\Core\Controller\LoginController;
+
 class LoginResult {
 	/** @var bool */
 	private $success;
@@ -59,6 +61,9 @@ class LoginResult {
 		return $result;
 	}
 
+	/**
+	 * @param LoginController::LOGIN_MSG_*|null $msg
+	 */
 	public static function failure(LoginData $data, string $msg = null): LoginResult {
 		$result = new static(false, $data);
 		if ($msg !== null) {

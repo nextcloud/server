@@ -22,28 +22,25 @@
 
 <template>
 	<div>
-		<NcMultiselect :value="currentValue"
+		<NcSelect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a user agent')"
 			label="label"
-			track-by="pattern"
 			:options="options"
-			:multiple="false"
-			:tagging="false"
+			:clearable="false"
 			@input="setValue">
-			<template slot="singleLabel" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon" />
-				<!-- v-html can be used here as t() always passes our translated strings though DOMPurify.sanitize -->
-				<!-- eslint-disable-next-line vue/no-v-html -->
-				<span class="option__title option__title_single" v-html="props.option.label" />
+			<template #option="option">
+				<span class="option__icon" :class="option.icon" />
+				<span class="option__title">
+					<NcEllipsisedOption :name="String(option.label)" />
+				</span>
 			</template>
-			<template slot="option" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon" />
-				<!-- eslint-disable-next-line vue/no-v-html -->
-				<span v-if="props.option.$groupLabel" class="option__title" v-html="props.option.$groupLabel" />
-				<!-- eslint-disable-next-line vue/no-v-html -->
-				<span v-else class="option__title" v-html="props.option.label" />
+			<template #selected-option="selectedOption">
+				<span class="option__icon" :class="selectedOption.icon" />
+				<span class="option__title">
+					<NcEllipsisedOption :name="String(selectedOption.label)" />
+				</span>
 			</template>
-		</NcMultiselect>
+		</NcSelect>
 		<input v-if="!isPredefined"
 			type="text"
 			:value="currentValue.pattern"
@@ -52,13 +49,15 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import valueMixin from '../../mixins/valueMixin.js'
 
 export default {
 	name: 'RequestUserAgent',
 	components: {
-		NcMultiselect,
+		NcEllipsisedOption,
+		NcSelect,
 	},
 	mixins: [
 		valueMixin,
@@ -67,10 +66,10 @@ export default {
 		return {
 			newValue: '',
 			predefinedTypes: [
-				{ pattern: 'android', label: t('workflowengine', 'Android client'), icon: 'icon-phone' },
-				{ pattern: 'ios', label: t('workflowengine', 'iOS client'), icon: 'icon-phone' },
-				{ pattern: 'desktop', label: t('workflowengine', 'Desktop client'), icon: 'icon-desktop' },
-				{ pattern: 'mail', label: t('workflowengine', 'Thunderbird & Outlook addons'), icon: 'icon-mail' },
+				{ id: 'android', label: t('workflowengine', 'Android client'), icon: 'icon-phone' },
+				{ id: 'ios', label: t('workflowengine', 'iOS client'), icon: 'icon-phone' },
+				{ id: 'desktop', label: t('workflowengine', 'Desktop client'), icon: 'icon-desktop' },
+				{ id: 'mail', label: t('workflowengine', 'Thunderbird & Outlook addons'), icon: 'icon-mail' },
 			],
 		}
 	},
@@ -80,7 +79,7 @@ export default {
 		},
 		matchingPredefined() {
 			return this.predefinedTypes
-				.find((type) => this.newValue === type.pattern)
+				.find((type) => this.newValue === type.id)
 		},
 		isPredefined() {
 			return !!this.matchingPredefined
@@ -89,7 +88,7 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom user agent'),
-				pattern: '',
+				id: '',
 			}
 		},
 		currentValue() {
@@ -99,7 +98,7 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom user agent'),
-				pattern: this.newValue,
+				id: this.newValue,
 			}
 		},
 	},
@@ -112,7 +111,7 @@ export default {
 		setValue(value) {
 			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
-				this.newValue = value.pattern
+				this.newValue = value.id
 				this.$emit('input', this.newValue)
 			}
 		},
@@ -124,31 +123,24 @@ export default {
 }
 </script>
 <style scoped>
-	.multiselect, input[type='text'] {
+	.v-select,
+	input[type='text'] {
 		width: 100%;
+	}
+	input[type='text'] {
+		min-height: 48px;
 	}
 
-	.multiselect .multiselect__content-wrapper li>span {
-		display: flex;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.multiselect::v-deep .multiselect__single {
-		width: 100%;
-		display: flex;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
 	.option__icon {
 		display: inline-block;
 		min-width: 30px;
-		background-position: left;
+		background-position: center;
+		vertical-align: middle;
 	}
+
 	.option__title {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		display: inline-flex;
+		width: calc(100% - 36px);
+		vertical-align: middle;
 	}
 </style>

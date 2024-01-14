@@ -94,7 +94,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 				}
 				if (_.isFunction(fileData.canDownload) && !fileData.canDownload()) {
 					delete fileActions.actions.all.Download
-					if (fileData.permissions & OC.PERMISSION_UPDATE === 0) {
+					if ((fileData.permissions & OC.PERMISSION_UPDATE) === 0) {
 						// neither move nor copy is allowed, remove the action completely
 						delete fileActions.actions.all.MoveCopy
 					}

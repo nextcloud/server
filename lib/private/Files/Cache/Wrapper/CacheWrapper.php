@@ -33,8 +33,10 @@ use OC\Files\Cache\Cache;
 use OC\Files\Cache\QuerySearchHelper;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
+use OCP\IDBConnection;
 
 class CacheWrapper extends Cache {
 	/**
@@ -47,9 +49,15 @@ class CacheWrapper extends Cache {
 	 */
 	public function __construct($cache) {
 		$this->cache = $cache;
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->querySearchHelper = \OC::$server->get(QuerySearchHelper::class);
+		if ($cache instanceof Cache) {
+			$this->mimetypeLoader = $cache->mimetypeLoader;
+			$this->connection = $cache->connection;
+			$this->querySearchHelper = $cache->querySearchHelper;
+		} else {
+			$this->mimetypeLoader = \OC::$server->get(IMimeTypeLoader::class);
+			$this->connection = \OC::$server->get(IDBConnection::class);
+			$this->querySearchHelper = \OC::$server->get(QuerySearchHelper::class);
+		}
 	}
 
 	protected function getCache() {
@@ -250,7 +258,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
-	 * @return int
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($this->getCache() instanceof Cache) {

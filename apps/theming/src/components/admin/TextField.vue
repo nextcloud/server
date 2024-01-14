@@ -24,7 +24,6 @@
 	<div class="field">
 		<NcTextField :value.sync="localValue"
 			:label="displayName"
-			:label-visible="true"
 			:placeholder="placeholder"
 			:type="type"
 			:maxlength="maxlength"
@@ -41,7 +40,7 @@
 </template>
 
 <script>
-import { NcTextField } from '@nextcloud/vue'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 

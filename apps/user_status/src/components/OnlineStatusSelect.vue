@@ -23,7 +23,7 @@
 	<div class="user-status-online-select">
 		<input :id="id"
 			:checked="checked"
-			class="user-status-online-select__input"
+			class="hidden-visually user-status-online-select__input"
 			type="radio"
 			name="user-status-online"
 			@change="onChange">
@@ -82,16 +82,6 @@ $icon-size: 24px;
 $label-padding: 8px;
 
 .user-status-online-select {
-	// Inputs are here for keyboard navigation, they are not visually visible
-	&__input {
-		position: absolute;
-		top: auto;
-		left: -10000px;
-		overflow: hidden;
-		width: 1px;
-		height: 1px;
-	}
-
 	&__label {
 		position: relative;
 		display: block;
@@ -119,14 +109,13 @@ $label-padding: 8px;
 		}
 	}
 
-	&__input:checked + &__label,
-	&__input:focus + &__label,
-	&__label:hover {
-		border-color: var(--color-primary);
+	&__input:checked + &__label {
+		outline: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 4px var(--color-main-background);
 	}
 
-	&__label:active {
-		border-color: var(--color-border-dark);
+	&__input:focus-visible + &__label {
+		outline: 2px solid var(--color-primary-element) !important;
 	}
 
 	&__subline {

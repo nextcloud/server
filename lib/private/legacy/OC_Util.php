@@ -68,7 +68,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -326,9 +325,10 @@ class OC_Util {
 			return;
 		}
 
+		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
+		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
@@ -692,20 +692,6 @@ class OC_Util {
 			];
 		}
 
-		if (function_exists('xml_parser_create') &&
-			LIBXML_LOADED_VERSION < 20700) {
-			$version = LIBXML_LOADED_VERSION;
-			$major = floor($version / 10000);
-			$version -= ($major * 10000);
-			$minor = floor($version / 100);
-			$version -= ($minor * 100);
-			$patch = $version;
-			$errors[] = [
-				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [$major . '.' . $minor . '.' . $patch]),
-				'hint' => $l->t('To fix this issue update your libxml2 version and restart your web server.')
-			];
-		}
-
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
@@ -729,48 +715,9 @@ class OC_Util {
 			}
 		}
 
-		$errors = array_merge($errors, self::checkDatabaseVersion());
-
 		// Cache the result of this function
 		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
 
-		return $errors;
-	}
-
-	/**
-	 * Check the database version
-	 *
-	 * @return array errors array
-	 */
-	public static function checkDatabaseVersion() {
-		$l = \OC::$server->getL10N('lib');
-		$errors = [];
-		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
-		if ($dbType === 'pgsql') {
-			// check PostgreSQL version
-			// TODO latest postgresql 8 released was 8 years ago, maybe remove the
-			// check completely?
-			try {
-				/** @var IDBConnection $connection */
-				$connection = \OC::$server->get(IDBConnection::class);
-				$result = $connection->executeQuery('SHOW SERVER_VERSION');
-				$data = $result->fetch();
-				$result->closeCursor();
-				if (isset($data['server_version'])) {
-					$version = $data['server_version'];
-					if (version_compare($version, '9.0.0', '<')) {
-						$errors[] = [
-							'error' => $l->t('PostgreSQL >= 9 required.'),
-							'hint' => $l->t('Please upgrade your database version.')
-						];
-					}
-				}
-			} catch (\Doctrine\DBAL\Exception $e) {
-				$logger = \OC::$server->getLogger();
-				$logger->warning('Error occurred while checking PostgreSQL version, assuming >= 9');
-				$logger->logException($e);
-			}
-		}
 		return $errors;
 	}
 
@@ -1001,7 +948,7 @@ class OC_Util {
 			$content = false;
 		}
 
-		if (strpos($url, 'https:') === 0) {
+		if (str_starts_with($url, 'https:')) {
 			$url = 'http:' . substr($url, 6);
 		} else {
 			$url = 'https:' . substr($url, 5);
@@ -1174,7 +1121,7 @@ class OC_Util {
 		}
 
 		foreach (str_split($trimmed) as $char) {
-			if (strpos(\OCP\Constants::FILENAME_INVALID_CHARS, $char) !== false) {
+			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
 				return false;
 			}
 		}

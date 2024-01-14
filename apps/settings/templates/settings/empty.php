@@ -21,4 +21,4 @@
  *
  */
 
-	# used for Personal/Additional settings as fallback for legacy settings
+# used for Personal/Additional settings as fallback for legacy settings

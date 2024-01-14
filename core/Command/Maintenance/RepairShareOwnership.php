@@ -26,11 +26,11 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Maintenance;
 
-use Symfony\Component\Console\Command\Command;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,15 +38,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class RepairShareOwnership extends Command {
-	private IDBConnection $dbConnection;
-	private IUserManager $userManager;
-
 	public function __construct(
-		IDBConnection $dbConnection,
-		IUserManager $userManager
+		private IDBConnection $dbConnection,
+		private IUserManager $userManager,
 	) {
-		$this->dbConnection = $dbConnection;
-		$this->userManager = $userManager;
 		parent::__construct();
 	}
 

@@ -40,20 +40,20 @@ class SetConfig extends Command {
 			->setName('ldap:set-config')
 			->setDescription('modifies an LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 			->addArgument(
-					'configKey',
-					InputArgument::REQUIRED,
-					'the configuration key'
-					 )
+				'configKey',
+				InputArgument::REQUIRED,
+				'the configuration key'
+			)
 			->addArgument(
-					'configValue',
-					InputArgument::REQUIRED,
-					'the new configuration value'
-					 )
+				'configValue',
+				InputArgument::REQUIRED,
+				'the new configuration value'
+			)
 		;
 	}
 

@@ -23,6 +23,7 @@
 <template>
 	<AccountPropertySection v-bind.sync="website"
 		:placeholder="t('settings', 'Your website')"
+		autocomplete="url"
 		type="url"
 		:on-validate="onValidate" />
 </template>

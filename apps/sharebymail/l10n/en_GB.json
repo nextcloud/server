@@ -39,17 +39,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
     "Send password by mail" : "Send password by mail",
     "Reply to initiator" : "Reply to initiator",
-    "Unable to update share by mail config" : "Unable to update share by mail config",
-    "Shared with %1$s" : "Shared with %1$s",
-    "Shared with %1$s by %2$s" : "Shared with %1$s by %2$s",
-    "Unshared from %1$s" : "Unshared from %1$s",
-    "Unshared from %1$s by %2$s" : "Unshared from %1$s by %2$s",
-    "Password for mail share sent to %1$s" : "Password for mail share sent to %1$s",
-    "You shared %1$s with %2$s by mail" : "You shared %1$s with %2$s by mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s shared %1$s with %2$s by mail",
-    "You unshared %1$s from %2$s by mail" : "You unshared %1$s from %2$s by mail",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s unshared %1$s from %2$s by mail",
-    "Password to access %1$s was sent to %2s" : "Password to access %1$s was sent to %2s",
-    "Password to access %1$s was sent to you" : "Password to access %1$s was sent to you"
+    "Unable to update share by mail config" : "Unable to update share by mail config"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
