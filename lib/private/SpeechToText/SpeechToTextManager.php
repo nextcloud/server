@@ -36,10 +36,12 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
+use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -56,6 +58,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private LoggerInterface $logger,
 		private IJobList $jobList,
 		private IConfig $config,
+		private IUserSession $userSession,
 	) {
 	}
 
@@ -122,6 +125,9 @@ class SpeechToTextManager implements ISpeechToTextManager {
 			$provider = current(array_filter($providers, function ($provider) use ($classNameOrId) {
 				if ($provider instanceof ISpeechToTextProviderWithId) {
 					return $provider->getId() === $classNameOrId;
+				}
+				if ($provider instanceof ISpeechToTextProviderWithUserId) {
+					$provider->setUserId($this->userSession->getUser()?->getUID());
 				}
 				return $provider::class === $classNameOrId;
 			}));
