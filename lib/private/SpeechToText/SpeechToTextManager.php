@@ -126,9 +126,6 @@ class SpeechToTextManager implements ISpeechToTextManager {
 				if ($provider instanceof ISpeechToTextProviderWithId) {
 					return $provider->getId() === $classNameOrId;
 				}
-				if ($provider instanceof ISpeechToTextProviderWithUserId) {
-					$provider->setUserId($this->userSession->getUser()?->getUID());
-				}
 				return $provider::class === $classNameOrId;
 			}));
 			if ($provider !== false) {
@@ -138,6 +135,9 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		foreach ($providers as $provider) {
 			try {
+				if ($provider instanceof ISpeechToTextProviderWithUserId) {
+					$provider->setUserId($this->userSession->getUser()?->getUID());
+				}
 				return $provider->transcribeFile($file);
 			} catch (\Throwable $e) {
 				$this->logger->info('SpeechToText transcription using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
