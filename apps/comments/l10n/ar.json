@@ -13,6 +13,8 @@
     "Edit comment" : "تعديل التعليق",
     "Delete comment" : "حذف التعليق",
     "Cancel edit" : "إلغاء التعديل",
+    "New comment" : "ملاحظة جديدة",
+    "Write a comment …" : "أكتُب ملاحظةً ...",
     "Post comment" : "أضف تعليق",
     "@ for mentions, : for emoji, / for smart picker" : "@ للإشارات،    : للإيموجي،    / للاقط الذكي",
     "Could not reload comments" : "تعذّرت إعادة تحميل الملاحظات",
