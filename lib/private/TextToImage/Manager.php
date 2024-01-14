@@ -43,6 +43,7 @@ use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
 use OCP\TextToImage\IManager;
 use OCP\TextToImage\IProvider;
+use OCP\TextToImage\IProviderWithUserId;
 use OCP\TextToImage\Task;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -158,6 +159,9 @@ class Manager implements IManager {
 					}
 				}
 				$this->logger->debug('Calling Text2Image provider\'s generate method');
+				if ($provider instanceof IProviderWithUserId) {
+					$provider->setUserId($task->getUserId());
+				}
 				$provider->generate($task->getInput(), $resources);
 				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
 					if (is_resource($resources[$i])) {

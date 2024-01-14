@@ -706,6 +706,7 @@ return array(
     'OCP\\TextToImage\\Exception\\TextToImageException' => $baseDir . '/lib/public/TextToImage/Exception/TextToImageException.php',
     'OCP\\TextToImage\\IManager' => $baseDir . '/lib/public/TextToImage/IManager.php',
     'OCP\\TextToImage\\IProvider' => $baseDir . '/lib/public/TextToImage/IProvider.php',
+    'OCP\\TextToImage\\IProviderWithUserId' => $baseDir . '/lib/public/TextToImage/IProviderWithUserId.php',
     'OCP\\TextToImage\\Task' => $baseDir . '/lib/public/TextToImage/Task.php',
     'OCP\\Translation\\CouldNotTranslateException' => $baseDir . '/lib/public/Translation/CouldNotTranslateException.php',
     'OCP\\Translation\\IDetectLanguageProvider' => $baseDir . '/lib/public/Translation/IDetectLanguageProvider.php',
