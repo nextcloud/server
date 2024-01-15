@@ -122,7 +122,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->setupCheckManager,
 			])
 			->setMethods([
-				'getLastCronInfo',
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
@@ -152,14 +151,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getHeader');
 		$this->clientService->expects($this->never())
 			->method('newClient');
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getLastCronInfo')
-			->willReturn([
-				'diffInSeconds' => 123,
-				'relativeTime' => '2 hours ago',
-				'backgroundJobsUrl' => 'https://example.org',
-			]);
 
 		$this->checkSetupController
 			->expects($this->once())
