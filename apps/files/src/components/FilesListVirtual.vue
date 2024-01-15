@@ -80,8 +80,9 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useUserConfigStore } from '../store/userconfig.ts'
+import { getSummaryFor } from '../utils/fileUtils'
 import { useSelectionStore } from '../store/selection.js'
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -146,25 +147,14 @@ export default defineComponent({
 			return this.userConfigStore.userConfig
 		},
 
-		files() {
-			return this.nodes.filter(node => node.type === 'file')
-		},
-
 		fileId() {
 			return parseInt(this.$route.params.fileid) || null
 		},
 
-		summaryFile() {
-			const count = this.files.length
-			return n('files', '{count} file', '{count} files', count, { count })
-		},
-		summaryFolder() {
-			const count = this.nodes.length - this.files.length
-			return n('files', '{count} folder', '{count} folders', count, { count })
-		},
 		summary() {
-			return t('files', '{summaryFile} and {summaryFolder}', this)
+			return getSummaryFor(this.nodes)
 		},
+
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
 			if (this.filesListWidth < 768) {
