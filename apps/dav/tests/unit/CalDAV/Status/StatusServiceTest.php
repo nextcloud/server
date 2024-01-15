@@ -229,6 +229,50 @@ class StatusServiceTest extends TestCase {
 		$this->service->processCalendarStatus('admin');
 	}
 
+	public function testCalendarNoEventObjects(): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'admin',
+		]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->availabilityCoordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn(null);
+		$this->availabilityCoordinator->expects(self::never())
+			->method('isInEffect');
+		$this->cache->expects(self::once())
+			->method('get')
+			->willReturn(null);
+		$this->cache->expects(self::once())
+			->method('set');
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$this->createMock(CalendarImpl::class)]);
+		$this->calendarManager->expects(self::once())
+			->method('newQuery')
+			->willReturn(new CalendarQuery('admin'));
+		$this->timeFactory->expects(self::exactly(2))
+			->method('getDateTime')
+			->willReturn(new \DateTime());
+		$this->userStatusService->expects(self::once())
+			->method('findByUserId')
+			->willThrowException(new DoesNotExistException(''));
+		$this->calendarManager->expects(self::once())
+			->method('searchForPrincipal')
+			->willReturn([['objects' => []]]);
+		$this->userStatusService->expects(self::once())
+			->method('revertUserStatus');
+		$this->logger->expects(self::once())
+			->method('debug');
+		$this->userStatusService->expects(self::never())
+			->method('setUserStatus');
+
+
+		$this->service->processCalendarStatus('admin');
+	}
+
 	public function testCalendarEvent(): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'admin',
