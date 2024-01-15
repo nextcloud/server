@@ -86,13 +86,6 @@ class CheckSetupControllerTest extends TestCase {
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
 
-	/**
-	 * Holds a list of directories created during tests.
-	 *
-	 * @var array
-	 */
-	private $dirsToRemove = [];
-
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -143,19 +136,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
-	}
-
-	/**
-	 * Removes directories created during tests.
-	 *
-	 * @after
-	 * @return void
-	 */
-	public function removeTestDirectories() {
-		foreach ($this->dirsToRemove as $dirToRemove) {
-			rmdir($dirToRemove);
-		}
-		$this->dirsToRemove = [];
 	}
 
 	public function testCheck() {
