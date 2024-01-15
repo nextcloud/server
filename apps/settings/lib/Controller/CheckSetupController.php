@@ -45,7 +45,6 @@
  */
 namespace OCA\Settings\Controller;
 
-use GuzzleHttp\Exception\ClientException;
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
 use OCP\AppFramework\Controller;
@@ -53,7 +52,6 @@ use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -67,8 +65,6 @@ use Psr\Log\LoggerInterface;
 class CheckSetupController extends Controller {
 	/** @var IConfig */
 	private $config;
-	/** @var IClientService */
-	private $clientService;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var IL10N */
@@ -86,7 +82,6 @@ class CheckSetupController extends Controller {
 	public function __construct($AppName,
 		IRequest $request,
 		IConfig $config,
-		IClientService $clientService,
 		IURLGenerator $urlGenerator,
 		IL10N $l10n,
 		Checker $checker,
@@ -97,7 +92,6 @@ class CheckSetupController extends Controller {
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
-		$this->clientService = $clientService;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->checker = $checker;
@@ -127,73 +121,6 @@ class CheckSetupController extends Controller {
 			return true;
 		}
 		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Public for the sake of unit-testing
-	 *
-	 * @return array
-	 */
-	protected function getCurlVersion() {
-		return curl_version();
-	}
-
-	/**
-	 * Check if the used SSL lib is outdated. Older OpenSSL and NSS versions do
-	 * have multiple bugs which likely lead to problems in combination with
-	 * functionality required by ownCloud such as SNI.
-	 *
-	 * @link https://github.com/owncloud/core/issues/17446#issuecomment-122877546
-	 * @link https://bugzilla.redhat.com/show_bug.cgi?id=1241172
-	 * @return string
-	 */
-	private function isUsedTlsLibOutdated() {
-		// Don't run check when:
-		// 1. Server has `has_internet_connection` set to false
-		// 2. AppStore AND S2S is disabled
-		if (!$this->config->getSystemValue('has_internet_connection', true)) {
-			return '';
-		}
-		if (!$this->config->getSystemValue('appstoreenabled', true)
-			&& $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'no'
-			&& $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'no') {
-			return '';
-		}
-
-		$versionString = $this->getCurlVersion();
-		if (isset($versionString['ssl_version'])) {
-			$versionString = $versionString['ssl_version'];
-		} else {
-			return '';
-		}
-
-		$features = $this->l10n->t('installing and updating apps via the App Store or Federated Cloud Sharing');
-		if (!$this->config->getSystemValue('appstoreenabled', true)) {
-			$features = $this->l10n->t('Federated Cloud Sharing');
-		}
-
-		// Check if NSS and perform heuristic check
-		if (str_starts_with($versionString, 'NSS/')) {
-			try {
-				$firstClient = $this->clientService->newClient();
-				$firstClient->get('https://nextcloud.com/');
-
-				$secondClient = $this->clientService->newClient();
-				$secondClient->get('https://nextcloud.com/');
-			} catch (ClientException $e) {
-				if ($e->getResponse()->getStatusCode() === 400) {
-					return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['NSS', $versionString, $features]);
-				}
-			} catch (\Exception $e) {
-				$this->logger->warning('error checking curl', [
-					'app' => 'settings',
-					'exception' => $e,
-				]);
-				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the Nextcloud log file for more details.');
-			}
-		}
-
-		return '';
 	}
 
 	/**
@@ -365,7 +292,6 @@ Raw output
 		return new DataResponse(
 			[
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
-				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),

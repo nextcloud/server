@@ -188,12 +188,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(data.isUsedTlsLibOutdated) {
-						messages.push({
-							msg: data.isUsedTlsLibOutdated,
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if(!data.isCorrectMemcachedPHPModuleInstalled) {
 						messages.push({
 							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the {linkstart}memcached wiki about both modules ↗{linkend}.')
