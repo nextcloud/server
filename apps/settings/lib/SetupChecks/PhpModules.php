@@ -49,11 +49,10 @@ class PhpModules implements ISetupCheck {
 		'zlib',
 	];
 	protected const RECOMMENDED_MODULES = [
-		'intl',
-		'sysvsem',
 		'exif',
+		'intl',
 		'sodium',
-		'bz2',
+		'sysvsem',
 	];
 
 	public function __construct(
