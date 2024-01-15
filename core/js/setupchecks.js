@@ -217,7 +217,7 @@
 					}
 					if (data.isBruteforceThrottled) {
 						messages.push({
-							msg: t('core', 'Your remote address was identified as "{remoteAddress}" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}.', { remoteAddress: data.bruteforceRemoteAddress })
+							msg: t('core', 'Your remote address was identified as "{remoteAddress}" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}.', { remoteAddress: data.bruteforceRemoteAddress })
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR

@@ -868,7 +868,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your remote address was identified as "::1" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">documentation ↗</a>.',
+					msg: 'Your remote address was identified as "::1" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 				}]);
 				done();
