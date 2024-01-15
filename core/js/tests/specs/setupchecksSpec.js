@@ -223,7 +223,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -268,7 +267,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -313,7 +311,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -358,7 +355,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					isSettimelimitAvailable: true,
@@ -401,7 +397,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -445,7 +440,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -521,7 +515,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -571,7 +564,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -618,7 +610,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -662,7 +653,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -703,7 +693,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -746,7 +735,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -789,7 +777,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
@@ -839,7 +826,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,

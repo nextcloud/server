@@ -302,18 +302,6 @@ Raw output
 		);
 	}
 
-	protected function getSuggestedOverwriteCliURL(): string {
-		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
-		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
-
-		// Check correctness by checking if it is a valid URL
-		if (filter_var($currentOverwriteCliUrl, FILTER_VALIDATE_URL)) {
-			$suggestedOverwriteCliUrl = '';
-		}
-
-		return $suggestedOverwriteCliUrl;
-	}
-
 	protected function getLastCronInfo(): array {
 		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
 		return [
@@ -400,7 +388,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),

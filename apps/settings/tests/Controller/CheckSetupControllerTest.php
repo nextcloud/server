@@ -220,7 +220,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'suggestedOverwriteCliURL' => '',
 				'cronInfo' => [
 					'diffInSeconds' => 123,
 					'relativeTime' => '2 hours ago',

@@ -108,6 +108,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
         'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => __DIR__ . '/..' . '/../lib/SetupChecks/MaintenanceWindowStart.php',
         'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => __DIR__ . '/..' . '/../lib/SetupChecks/MemcacheConfigured.php',
+        'OCA\\Settings\\SetupChecks\\OverwriteCliUrl' => __DIR__ . '/..' . '/../lib/SetupChecks/OverwriteCliUrl.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpFreetypeSupport.php',
         'OCA\\Settings\\SetupChecks\\PhpGetEnv' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpGetEnv.php',
