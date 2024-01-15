@@ -52,6 +52,7 @@ OC.L10N.register(
     "User settings" : "הגדרות משתמש",
     "Keyboard shortcuts" : "קיצורי מקלדת",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "גישה אוניברסלית מאוד חשובה לנו, אנו נצמדים לתקני אינטרנט ובודקים כדי לוודא שהכול שמיש גם ללא עכבר ומול תכניות סיוע כגון מקריאי מסך. אנו חותרים להיות תואמים ל{guidelines}הנחיות הנגישות לתוכן אינטרנט{linkend} 2.1 ברמת AA ועם ערכת הניגודיות הגבוהה אפילו ברמת AAA.",
+    "Move down" : "להוריד למטה",
     "Change color" : "החלפת צבע",
     "Reset to default" : "איפוס לבררת מחדל",
     "Upload" : "העלאה",

@@ -21,13 +21,13 @@ OC.L10N.register(
     "Retry" : "Poskusi znova",
     "Failed to mark comments as read" : "Označevanje opomb kot prebranih je spodletelo",
     "Unable to load the comments list" : "Ni mogoče naložiti seznama opomb",
-    "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} nova opomba","{unread} novi opombi","{unread} nove opombe","{unread} novih opomb"],
     "Comment" : "Opomba",
     "An error occurred while trying to edit the comment" : "Prišlo je do napake med poskusom urejanja opombe",
     "Comment deleted" : "Opomba je izbrisana",
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
     "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
-    "%1$s commented" : "%1$s napiše opombo"
+    "%1$s commented" : "%1$s napiše opombo",
+    "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"]
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

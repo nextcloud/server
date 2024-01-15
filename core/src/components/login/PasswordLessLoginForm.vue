@@ -10,7 +10,6 @@
 				:value="user"
 				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 				:error="!validCredentials"
-				:label-visible="true"
 				:label="t('core', 'Username or email')"
 				:placeholder="t('core', 'Username or email')"
 				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"

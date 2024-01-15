@@ -24,7 +24,6 @@
 	<div class="field">
 		<NcTextField :value.sync="localValue"
 			:label="displayName"
-			:label-visible="true"
 			:placeholder="placeholder"
 			:type="type"
 			:maxlength="maxlength"

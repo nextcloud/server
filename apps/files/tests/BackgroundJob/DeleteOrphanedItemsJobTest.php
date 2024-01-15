@@ -26,6 +26,8 @@ namespace OCA\Files\Tests\BackgroundJob;
 use OCA\Files\BackgroundJob\DeleteOrphanedItems;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class DeleteOrphanedItemsJobTest
@@ -35,15 +37,15 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * @package Test\BackgroundJob
  */
 class DeleteOrphanedItemsJobTest extends \Test\TestCase {
-	/** @var \OCP\IDBConnection */
-	protected $connection;
-
+	protected IDBConnection $connection;
+	protected LoggerInterface $logger;
 	protected ITimeFactory $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	protected function cleanMapping($table) {
@@ -98,7 +100,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('systemtag_object_mapping');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems($this->timeFactory);
+		$job = new DeleteOrphanedItems($this->timeFactory, $this->connection, $this->logger);
 		$this->invokePrivate($job, 'cleanSystemTags');
 
 		$mapping = $this->getMappings('systemtag_object_mapping');
@@ -147,7 +149,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('vcategory_to_object');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems($this->timeFactory);
+		$job = new DeleteOrphanedItems($this->timeFactory, $this->connection, $this->logger);
 		$this->invokePrivate($job, 'cleanUserTags');
 
 		$mapping = $this->getMappings('vcategory_to_object');
@@ -198,7 +200,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('comments');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems($this->timeFactory);
+		$job = new DeleteOrphanedItems($this->timeFactory, $this->connection, $this->logger);
 		$this->invokePrivate($job, 'cleanComments');
 
 		$mapping = $this->getMappings('comments');
@@ -247,7 +249,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('comments_read_markers');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems($this->timeFactory);
+		$job = new DeleteOrphanedItems($this->timeFactory, $this->connection, $this->logger);
 		$this->invokePrivate($job, 'cleanCommentMarkers');
 
 		$mapping = $this->getMappings('comments_read_markers');

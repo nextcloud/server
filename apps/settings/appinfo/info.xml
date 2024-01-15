@@ -19,6 +19,7 @@
 	<settings>
 		<admin>OCA\Settings\Settings\Admin\Mail</admin>
 		<admin>OCA\Settings\Settings\Admin\Overview</admin>
+		<admin>OCA\Settings\Settings\Admin\ArtificialIntelligence</admin>
 		<admin>OCA\Settings\Settings\Admin\Server</admin>
 		<admin>OCA\Settings\Settings\Admin\Sharing</admin>
 		<admin>OCA\Settings\Settings\Admin\Security</admin>
@@ -27,6 +28,7 @@
 		<admin-section>OCA\Settings\Sections\Admin\Delegation</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Groupware</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Overview</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\ArtificialIntelligence</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Security</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Server</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Sharing</admin-section>

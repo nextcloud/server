@@ -27,7 +27,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -93,9 +92,6 @@ class AppManagerTest extends TestCase {
 	/** @var ICacheFactory|MockObject */
 	protected $cacheFactory;
 
-	/** @var EventDispatcherInterface|MockObject */
-	protected $legacyEventDispatcher;
-
 	/** @var IEventDispatcher|MockObject */
 	protected $eventDispatcher;
 
@@ -114,7 +110,6 @@ class AppManagerTest extends TestCase {
 		$this->appConfig = $this->getAppConfig();
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
-		$this->legacyEventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cacheFactory->expects($this->any())
@@ -127,7 +122,6 @@ class AppManagerTest extends TestCase {
 			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
-			$this->legacyEventDispatcher,
 			$this->eventDispatcher,
 			$this->logger
 		);
@@ -176,7 +170,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -224,7 +218,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -280,7 +274,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -476,7 +470,7 @@ class AppManagerTest extends TestCase {
 	public function testGetAppsNeedingUpgrade() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -527,7 +521,7 @@ class AppManagerTest extends TestCase {
 	public function testGetIncompatibleApps() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->legacyEventDispatcher, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -613,22 +607,98 @@ class AppManagerTest extends TestCase {
 			// none specified, default to files
 			[
 				'',
+				'',
+				'{}',
+				true,
 				'files',
+			],
+			// none specified, without fallback
+			[
+				'',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
+				'',
+				'{}',
+				true,
 				'files',
+			],
+			// unexisting or inaccessible app specified, without fallbacks
+			[
+				'unexist',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// non-standard app
 			[
 				'settings',
+				'',
+				'{}',
+				true,
+				'settings',
+			],
+			// non-standard app, without fallback
+			[
+				'settings',
+				'',
+				'{}',
+				false,
 				'settings',
 			],
 			// non-standard app with fallback
 			[
 				'unexist,settings',
+				'',
+				'{}',
+				true,
 				'settings',
+			],
+			// user-customized defaultapp
+			[
+				'',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with systemwide
+			[
+				'unexist,settings',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with system wide and apporder
+			[
+				'unexist,settings',
+				'files',
+				'{"settings":[1],"files":[2]}',
+				true,
+				'files',
+			],
+			// user-customized apporder fallback
+			[
+				'',
+				'',
+				'{"settings":[1],"files":[2]}',
+				true,
+				'settings',
+			],
+			// user-customized apporder, but called without fallback
+			[
+				'',
+				'',
+				'{"settings":[1],"files":[2]}',
+				false,
+				'',
 			],
 		];
 	}
@@ -636,7 +706,7 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider provideDefaultApps
 	 */
-	public function testGetDefaultAppForUser($defaultApps, $expectedApp) {
+	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
 		$user = $this->newUser('user1');
 
 		$this->userSession->expects($this->once())
@@ -648,6 +718,13 @@ class AppManagerTest extends TestCase {
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);
 
-		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
+		$this->config->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', $userDefaultApps],
+				['user1', 'core', 'apporder', '[]', $userApporder],
+			]);
+
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
 }

@@ -36,17 +36,25 @@ style('systemtags', 'settings');
 	<h3 id="systemtag_create"><?php p($l->t('Create a new tag')); ?></h3>
 
 	<div class="systemtag-input">
-		<input type="text" id="systemtag_name" name="systemtag_name" placeholder="<?php p($l->t('Name')); ?>">
+		<div class="systemtag-input--name">
+			<label for="systemtag_name"><?php p($l->t('Tag name')); ?></label>
+			<input type="text" id="systemtag_name" name="systemtag_name" placeholder="<?php p($l->t('Name')); ?>">
+		</div>
 
-		<select id="systemtag_level">
-			<option value="3"><?php p($l->t('Public')); ?></option>
-			<option value="2"><?php p($l->t('Restricted')); ?></option>
-			<option value="0"><?php p($l->t('Invisible')); ?></option>
-		</select>
+		<div class="systemtag-input--level">
+			<label for="systemtag_level"><?php p($l->t('Tag level')); ?></label>
+			<select id="systemtag_level">
+				<option value="3"><?php p($l->t('Public')); ?></option>
+				<option value="2"><?php p($l->t('Restricted')); ?></option>
+				<option value="0"><?php p($l->t('Invisible')); ?></option>
+			</select>
+		</div>
 
-		<a id="systemtag_delete" class="hidden button"><span><?php p($l->t('Delete')); ?></span></a>
-		<a id="systemtag_reset" class="button"><span><?php p($l->t('Reset')); ?></span></a>
-		<a id="systemtag_submit" class="button"><span><?php p($l->t('Create')); ?></span></a>
+		<div class="systemtag-input--actions">
+			<a id="systemtag_delete" class="hidden button systemtag-input--actions-button"><span><?php p($l->t('Delete')); ?></span></a>
+			<a id="systemtag_reset" class="button systemtag-input--actions-button"><span><?php p($l->t('Reset')); ?></span></a>
+			<a id="systemtag_submit" class="button systemtag-input--actions-button"><span><?php p($l->t('Create')); ?></span></a>
+		</div>
 	</div>
 
 </form>

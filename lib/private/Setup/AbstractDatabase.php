@@ -88,7 +88,7 @@ abstract class AbstractDatabase {
 		$dbName = $config['dbname'];
 		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
 		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
-		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
+		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
 
 		$createUserConfig = $this->config->getValue("setup_create_db_user", true);
 		// accept `false` both as bool and string, since setting config values from env will result in a string

@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Недавние статусы",
+    "No recent status changes" : "Недавние изменения статуса отсуствуют ",
     "In a meeting" : "На встрече",
     "Commuting" : "В пути",
     "Out sick" : "Болею",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Не удалось сохранить статус",
     "There was an error clearing the status" : "Не удалось убрать статус",
     "There was an error reverting the status" : "Произошла ошибка при сбросе статуса",
-    "No recent status changes" : "Недавние изменения статуса отсуствуют ",
-    "Away" : "Отошёл",
-    "Do not disturb" : "Не беспокоить",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Не очищать",
     "Today" : "Сегодня",
     "This week" : "Эта неделя",
     "Online" : "На связи",
+    "Away" : "Отошёл",
+    "Do not disturb" : "Не беспокоить",
     "Invisible" : "Невидимка",
     "Offline" : "Автономно",
     "There was an error saving the new status" : "Не удалось сохранить новый статус",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 час",
     "4 hours" : "4 часа",
     "Mute all notifications" : "Отключить все уведомления",
-    "Appear offline" : "Возможно, не в сети"
+    "Appear offline" : "Возможно, не в сети",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

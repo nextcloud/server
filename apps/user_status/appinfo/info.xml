@@ -5,7 +5,7 @@
 	<name>User status</name>
 	<summary>User status</summary>
 	<description><![CDATA[User status]]></description>
-	<version>1.8.0</version>
+	<version>1.8.1</version>
 	<licence>agpl</licence>
 	<author mail="oc.list@georgehrke.com" >Georg Ehrke</author>
 	<namespace>UserStatus</namespace>

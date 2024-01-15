@@ -31,6 +31,7 @@ const userConfig = loadState('files', 'config', {
 	show_hidden: false,
 	crop_image_previews: true,
 	sort_favorites_first: true,
+	grid_view: false,
 }) as UserConfig
 
 export const useUserConfigStore = function(...args) {

@@ -61,22 +61,24 @@ namespace OCA\Core;
  * }
  *
  * @psalm-type CoreOpenGraphObject = array{
+ *     id: string,
+ *     name: string,
+ *     description: ?string,
+ *     thumb: ?string,
+ *     link: string,
+ * }
+ *
+ * @psalm-type CoreResource = array{
  *     richObjectType: string,
  *     richObject: array<string, mixed>,
- *     openGraphObject: array{
- *         id: string,
- *         name: string,
- *         description: ?string,
- *         thumb: ?string,
- *         link: string,
- *     },
+ *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }
  *
  * @psalm-type CoreCollection = array{
  *     id: int,
  *     name: string,
- *     resources: CoreOpenGraphObject[],
+ *     resources: CoreResource[],
  * }
  *
  * @psalm-type CoreReference = array{
@@ -122,9 +124,25 @@ namespace OCA\Core;
  *     label: string,
  *     icon: string,
  *     source: string,
- *     status: string,
+ *     status: array{
+ *       status: string,
+ *       message: ?string,
+ *       icon: ?string,
+ *       clearAt: ?int,
+ *     }|string,
  *     subline: string,
  *     shareWithDisplayNameUnique: string,
+ * }
+ *
+ * @psalm-type CoreTextProcessingTask = array{
+ *     id: ?int,
+ *     type: string,
+ *     status: 0|1|2|3|4,
+ *     userId: ?string,
+ *     appId: string,
+ *     input: string,
+ *     output: ?string,
+ *     identifier: string,
  * }
  */
 class ResponseDefinitions {

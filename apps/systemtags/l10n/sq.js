@@ -37,11 +37,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "U ndryshyan <strong>etiketa sistemi</strong>për një kartelë",
     "Tags" : "Etiketa",
     "Collaborative tags" : "Etiketa bashkëpunuese",
-    "Tagged files" : "Kartela të etiketuara",
-    "Select tags to filter by" : "Përzgjidhni etiketa sipas të cilat të bëhet filtrimi",
     "No tags found" : "Asnjë etiket nuk u gjet",
-    "Please select tags to filter by" : "Ju lutemi, përzgjidhni etiketa sipas të cilat të bëhet filtrimi",
-    "No files found for the selected tags" : "S’u gjetën kartela për etiketat e përzgjedhura",
     "Create a new tag" : "Krijo një etiketë të re",
     "Name" : "Emër",
     "Public" : "Publik",
@@ -52,6 +48,10 @@ OC.L10N.register(
     "No files in here" : "S’ka kartela këtu",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Size" : "Madhësi",
-    "Modified" : "Ndryshuar më"
+    "Modified" : "Ndryshuar më",
+    "Tagged files" : "Kartela të etiketuara",
+    "Select tags to filter by" : "Përzgjidhni etiketa sipas të cilat të bëhet filtrimi",
+    "Please select tags to filter by" : "Ju lutemi, përzgjidhni etiketa sipas të cilat të bëhet filtrimi",
+    "No files found for the selected tags" : "S’u gjetën kartela për etiketat e përzgjedhura"
 },
 "nplurals=2; plural=(n != 1);");

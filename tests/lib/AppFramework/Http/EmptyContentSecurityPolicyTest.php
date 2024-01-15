@@ -75,6 +75,13 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
+	public function testGetPolicyScriptAllowWasmEval() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src  'wasm-unsafe-eval';frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->allowEvalWasm(true);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
 	public function testGetPolicyStyleDomainValid() {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.owncloud.com;frame-ancestors 'none'";
 

@@ -90,7 +90,6 @@ class CssController extends Controller {
 		$expires->setTimestamp($this->timeFactory->getTime());
 		$expires->add(new \DateInterval('PT'.$ttl.'S'));
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 

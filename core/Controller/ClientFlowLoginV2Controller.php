@@ -288,6 +288,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * Init a login flow
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2, array{}>
+	 *
+	 * 200: Login flow init returned
 	 */
 	public function init(): JSONResponse {
 		// Get client user agent

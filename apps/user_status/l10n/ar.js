@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "آخر الحالات",
+    "No recent status changes" : "لم يتم تغيير الحالة مؤخراً",
     "In a meeting" : "في اجتماع",
     "Commuting" : "تجوال",
     "Out sick" : "إجازة مرضية",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "حدث خطأ اثناء حفظ الحالة",
     "There was an error clearing the status" : "حدث خطأ اثناء حذف الحالة",
     "There was an error reverting the status" : "حدث خطأ أثناء استرجاع الحالة",
-    "No recent status changes" : "لم يتم تغيير الحالة مؤخراً",
-    "Away" : "بالخارج",
-    "Do not disturb" : "عدم الازعاج",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "غير محدد",
     "Today" : "اليوم",
     "This week" : "هذا الأسبوع",
     "Online" : "متصل",
+    "Away" : "بالخارج",
+    "Do not disturb" : "عدم الازعاج",
     "Invisible" : "عدم الظهور",
     "Offline" : "غير متصل",
     "There was an error saving the new status" : "حدث خطأ اثناء حفظ الحالة الجديدة",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 ساعة",
     "4 hours" : "4 ساعات",
     "Mute all notifications" : "عدم اظهار جميع التنبيهات",
-    "Appear offline" : "الحالة غير متصل"
+    "Appear offline" : "الحالة غير متصل",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

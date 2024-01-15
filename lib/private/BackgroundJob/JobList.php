@@ -35,11 +35,16 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\IParallelAwareJob;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
+use function get_class;
+use function json_encode;
+use function md5;
+use function strlen;
 
 class JobList implements IJobList {
 	protected IDBConnection $connection;
@@ -54,11 +59,10 @@ class JobList implements IJobList {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @param IJob|class-string<IJob> $job
-	 * @param mixed $argument
-	 */
-	public function add($job, $argument = null): void {
+	public function add($job, $argument = null, int $firstCheck = null): void {
+		if ($firstCheck === null) {
+			$firstCheck = $this->timeFactory->getTime();
+		}
 		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
@@ -78,16 +82,20 @@ class JobList implements IJobList {
 					'argument' => $query->createNamedParameter($argumentJson),
 					'argument_hash' => $query->createNamedParameter(md5($argumentJson)),
 					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
-					'last_checked' => $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT),
+					'last_checked' => $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT),
 				]);
 		} else {
 			$query->update('jobs')
 				->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
-				->set('last_checked', $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT))
+				->set('last_checked', $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT))
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
 				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
 		}
 		$query->executeStatement();
+	}
+
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void {
+		$this->add($job, $argument, $runAfter);
 	}
 
 	/**
@@ -218,19 +226,33 @@ class JobList implements IJobList {
 			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
 		}
 
-		$update = $this->connection->getQueryBuilder();
-		$update->update('jobs')
-			->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
-			->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
-			->where($update->expr()->eq('id', $update->createParameter('jobid')))
-			->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
-			->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
-
 		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		if ($row) {
+			$job = $this->buildJob($row);
+
+			if ($job instanceof IParallelAwareJob && !$job->getAllowParallelRuns() && $this->hasReservedJob(get_class($job))) {
+				$this->logger->debug('Skipping ' . get_class($job) . ' job with ID ' . $job->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
+
+				$update = $this->connection->getQueryBuilder();
+				$update->update('jobs')
+					->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime() + 1))
+					->where($update->expr()->eq('id', $update->createParameter('jobid')));
+				$update->setParameter('jobid', $row['id']);
+				$update->executeStatement();
+
+				return $this->getNext($onlyTimeSensitive);
+			}
+
+			$update = $this->connection->getQueryBuilder();
+			$update->update('jobs')
+				->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
+				->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
+				->where($update->expr()->eq('id', $update->createParameter('jobid')))
+				->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
+				->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
 			$update->setParameter('jobid', $row['id']);
 			$update->setParameter('reserved_at', $row['reserved_at']);
 			$update->setParameter('last_checked', $row['last_checked']);
@@ -240,7 +262,6 @@ class JobList implements IJobList {
 				// Background job already executed elsewhere, try again.
 				return $this->getNext($onlyTimeSensitive);
 			}
-			$job = $this->buildJob($row);
 
 			if ($job === null) {
 				// set the last_checked to 12h in the future to not check failing jobs all over again

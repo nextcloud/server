@@ -264,7 +264,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	public function imagePathProvider(): array {
 		return [
 			['core', 'favicon-mask.svg', \OC::$WEBROOT . '/core/img/favicon-mask.svg'],
-			['files', 'external.svg', \OC::$WEBROOT . '/apps/files/img/external.svg'],
+			['files', 'folder.svg', \OC::$WEBROOT . '/apps/files/img/folder.svg'],
 		];
 	}
 

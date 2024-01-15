@@ -157,7 +157,7 @@ class SyncService {
 		$certPath = $this->getCertPath();
 		$client->setThrowExceptions(true);
 
-		if ($certPath !== '' && strpos($url, 'http://') !== 0) {
+		if ($certPath !== '' && !str_starts_with($url, 'http://')) {
 			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 		}
 

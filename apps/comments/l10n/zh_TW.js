@@ -16,18 +16,19 @@ OC.L10N.register(
     "Delete comment" : "刪除留言",
     "Cancel edit" : "取消編輯",
     "Post comment" : "張貼留言",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "「@」表示提及、「:」表示表情符號、「/」表示智慧型選取程式",
     "No comments yet, start the conversation!" : "尚無留言，開始討論！",
     "No more messages" : "沒有更多訊息",
     "Retry" : "重試",
     "Failed to mark comments as read" : "無法將留言標記為已讀",
     "Unable to load the comments list" : "無法載入留言列表",
-    "_%n unread comment_::_%n unread comments_" : ["%n 則未讀留言"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} 則新留言"],
     "Comment" : "留言",
     "An error occurred while trying to edit the comment" : "嘗試編輯此留言時錯誤",
     "Comment deleted" : "留言已刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除留言時發生錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤",
-    "%1$s commented" : "%1$s 已留言"
+    "%1$s commented" : "%1$s 已留言",
+    "_%n unread comment_::_%n unread comments_" : ["%n 則未讀留言"]
 },
 "nplurals=1; plural=0;");

@@ -24,6 +24,7 @@
  * @author Sascha Sambale <mastixmc@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -51,6 +52,7 @@ use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -74,10 +76,9 @@ use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Template;
 
 /**
- * Class ShareController
- *
  * @package OCA\Files_Sharing\Controllers
  */
+#[IgnoreOpenAPI]
 class ShareController extends AuthPublicShareController {
 	protected ?Share\IShare $share = null;
 

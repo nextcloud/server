@@ -21,7 +21,7 @@
 
 <template>
 	<NcModal size="normal"
-		:title="$t('user_status', 'Set status')"
+		:name="$t('user_status', 'Set status')"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -58,7 +58,7 @@
 					:icon="backupIcon"
 					:message="backupMessage"
 					@select="revertBackupFromServer" />
-				<PredefinedStatusesList :is-custom-status="isCustomStatus" @select-status="selectPredefinedMessage" />
+				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 				<ClearAtSelect :clear-at="clearAt"
 					@select-clear-at="setClearAt" />
 				<div class="status-buttons">

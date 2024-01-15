@@ -18,13 +18,13 @@
     "No more messages" : "Ingen flere meldinger",
     "Retry" : "Prøv igjen",
     "Unable to load the comments list" : "Kan ikke laste inn kommentarlisten",
-    "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"],
     "_1 new comment_::_{unread} new comments_" : ["[uleste] nye kommentarer","{uleste} nye kommentarer"],
     "Comment" : "Kommentar",
     "An error occurred while trying to edit the comment" : "Det oppsto en feil under forsøk på å redigere kommentaren",
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Det oppsto en feil under forsøk på å slette kommentaren",
     "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren",
-    "%1$s commented" : "%1$s kommentert"
+    "%1$s commented" : "%1$s kommentert",
+    "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

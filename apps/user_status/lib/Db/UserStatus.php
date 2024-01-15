@@ -52,6 +52,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setClearAt(int|null $clearAt)
  * @method setIsBackup(bool $true): void
  * @method getIsBackup(): bool
+ * @method int getStatusMessageTimestamp()
+ * @method void setStatusMessageTimestamp(int $statusTimestamp)
  */
 class UserStatus extends Entity {
 
@@ -82,6 +84,9 @@ class UserStatus extends Entity {
 	/** @var bool $isBackup */
 	public $isBackup;
 
+	/** @var int */
+	protected $statusMessageTimestamp = 0;
+
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('status', 'string');
@@ -92,5 +97,6 @@ class UserStatus extends Entity {
 		$this->addType('customMessage', 'string');
 		$this->addType('clearAt', 'int');
 		$this->addType('isBackup', 'boolean');
+		$this->addType('statusMessageTimestamp', 'int');
 	}
 }

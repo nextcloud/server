@@ -74,7 +74,7 @@
 				<!-- Search filters -->
 				<NcActions v-if="availableFilters.length > 1"
 					class="unified-search__filters"
-					placement="bottom"
+					placement="bottom-end"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
 					<NcActionButton v-for="filter in availableFilters"
@@ -367,9 +367,12 @@ export default {
 
 		document.addEventListener('keydown', (event) => {
 			// if not already opened, allows us to trigger default browser on second keydown
-			if (event.ctrlKey && event.key === 'f' && !this.open) {
+			if (event.ctrlKey && event.code === 'KeyF' && !this.open) {
 				event.preventDefault()
 				this.open = true
+			} else if (event.ctrlKey && event.key === 'f' && this.open) {
+				// User wants to use the native browser search, so we close ours again
+				this.open = false
 			}
 
 			// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
@@ -596,16 +599,16 @@ export default {
 				if (data.ocs.data.entries.length < this.defaultLimit) {
 					this.$set(this.reached, type, true)
 				}
-			} else
+			} else {
+				// If no cursor, we might have all the results already,
+				// let's fake pagination and show the next xxx entries
+				if (this.limits[type] && this.limits[type] >= 0) {
+					this.limits[type] += this.defaultLimit
 
-			// If no cursor, we might have all the results already,
-			// let's fake pagination and show the next xxx entries
-			if (this.limits[type] && this.limits[type] >= 0) {
-				this.limits[type] += this.defaultLimit
-
-				// Check if we reached end of pagination
-				if (this.limits[type] >= this.results[type].length) {
-					this.$set(this.reached, type, true)
+					// Check if we reached end of pagination
+					if (this.limits[type] >= this.results[type].length) {
+						this.$set(this.reached, type, true)
+					}
 				}
 			}
 
@@ -869,7 +872,6 @@ $input-padding: 6px;
 		::v-deep .empty-content__title {
 			font-weight: normal;
             font-size: var(--default-font-size);
-			padding: 0 15px;
 			text-align: center;
 		}
 	}

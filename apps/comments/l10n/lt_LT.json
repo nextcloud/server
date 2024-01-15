@@ -15,13 +15,13 @@
     "No comments yet, start the conversation!" : "Komentarų kol kas nėra, pradėkite pokalbį!",
     "Retry" : "Bandyti dar kartą",
     "Unable to load the comments list" : "Nepavyko įkelti komentarų sąrašo",
-    "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytas komentaras"],
     "_1 new comment_::_{unread} new comments_" : ["1 neskaitytas komentaras","{unread} neskaityti komentarai","{unread} neskaitytų komentarų","{unread} neskaitytas komentaras"],
     "Comment" : "Komentaras",
     "An error occurred while trying to edit the comment" : "Bandant taisyti komentarą, įvyko klaida",
     "Comment deleted" : "Komentaras ištrintas",
     "An error occurred while trying to delete the comment" : "Bandant ištrinti komentarą, įvyko klaida",
     "An error occurred while trying to create the comment" : "Bandant sukurti komentarą, įvyko klaida",
-    "%1$s commented" : "%1$s pakomentavo"
+    "%1$s commented" : "%1$s pakomentavo",
+    "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytas komentaras"]
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

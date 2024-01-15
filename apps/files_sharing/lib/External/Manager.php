@@ -472,7 +472,7 @@ class Manager {
 		}
 
 		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
-		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 
 		$url = rtrim($remote, '/') . $endpoint . '/' . $remoteId . '/' . $feedback . '?format=' . Share::RESPONSE_FORMAT;
 		$fields = ['token' => $token];

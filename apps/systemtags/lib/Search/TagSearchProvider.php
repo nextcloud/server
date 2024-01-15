@@ -120,10 +120,7 @@ class TagSearchProvider implements IProvider {
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$fileQuery = new SearchQuery(
-			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_OR, [
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'tagname', '%' . $query->getTerm() . '%'),
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
-			]),
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
 			$query->getLimit(),
 			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [

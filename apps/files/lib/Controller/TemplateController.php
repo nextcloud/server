@@ -55,6 +55,8 @@ class TemplateController extends OCSController {
 	 * List the available templates
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array<FilesTemplateFileCreator>, array{}>
+	 *
+	 * 200: Available templates returned
 	 */
 	public function list(): DataResponse {
 		return new DataResponse($this->templateManager->listTemplates());

@@ -134,6 +134,8 @@ class RequestHandlerController extends OCSController {
 	 * @param string|null $ownerFederatedId Federated ID of the receiver
 	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Share created successfully
 	 */
 	public function createShare(
 		?string $remote = null,
@@ -284,6 +286,8 @@ class RequestHandlerController extends OCSController {
 	 * @param string|null $token Shared secret between servers
 	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Share declined successfully
 	 */
 	public function declineShare(int $id, ?string $token = null) {
 		$notification = [
@@ -316,6 +320,8 @@ class RequestHandlerController extends OCSController {
 	 * @param string|null $token Shared secret between servers
 	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Share unshared successfully
 	 */
 	public function unshare(int $id, ?string $token = null) {
 		if (!$this->isS2SEnabled()) {

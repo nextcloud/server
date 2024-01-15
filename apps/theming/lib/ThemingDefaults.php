@@ -255,8 +255,9 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getDefaultColorPrimary(): string {
 		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			$color = '#0082c9';
+			return BackgroundService::DEFAULT_COLOR;
 		}
+
 		return $color;
 	}
 
@@ -487,6 +488,7 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'background':
 			case 'favicon':
 				$this->imageManager->delete($setting);
+				$this->config->deleteAppValue('theming', $setting . 'Mime');
 				break;
 		}
 

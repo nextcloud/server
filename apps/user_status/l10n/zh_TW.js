@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "最近的狀態",
+    "No recent status changes" : "最近沒有狀態變更",
     "In a meeting" : "會議中",
     "Commuting" : "通勤中",
     "Out sick" : "生病",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "儲存狀態時發生錯誤",
     "There was an error clearing the status" : "變更狀態時發生錯誤",
     "There was an error reverting the status" : "還原狀態時發生錯誤",
-    "No recent status changes" : "最近沒有狀態變更",
-    "Away" : "外出",
-    "Do not disturb" : "請勿打擾",
-    "{status}, {timestamp}" : "{status}，{timestamp}",
     "Don't clear" : "不要清空",
     "Today" : "今天",
     "This week" : "本週",
     "Online" : "上線",
+    "Away" : "外出",
+    "Do not disturb" : "請勿打擾",
     "Invisible" : "隱藏",
     "Offline" : "離線",
     "There was an error saving the new status" : "儲存新狀態時發生錯誤",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1小時",
     "4 hours" : "4小時",
     "Mute all notifications" : "所有通知靜音",
-    "Appear offline" : "顯示為離線"
+    "Appear offline" : "顯示為離線",
+    "{status}, {timestamp}" : "{status}，{timestamp}"
 },
 "nplurals=1; plural=0;");

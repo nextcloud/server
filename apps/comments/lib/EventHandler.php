@@ -34,12 +34,10 @@ use OCP\Comments\ICommentsEventHandler;
  * @package OCA\Comments
  */
 class EventHandler implements ICommentsEventHandler {
-	private ActivityListener $activityListener;
-	private NotificationListener $notificationListener;
-
-	public function __construct(ActivityListener $activityListener, NotificationListener $notificationListener) {
-		$this->activityListener = $activityListener;
-		$this->notificationListener = $notificationListener;
+	public function __construct(
+		private ActivityListener $activityListener,
+		private NotificationListener $notificationListener,
+	) {
 	}
 
 	public function handle(CommentsEvent $event): void {

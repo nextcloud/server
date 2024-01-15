@@ -13,6 +13,7 @@ OC.L10N.register(
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "命名版本会保留，且当你的存储配额已满时，它将被从自动清理中排除。",
     "Remove version name" : "删除版本名",
     "Save version name" : "保存版本名",
+    "Current version" : "当前版本",
     "Initial version restored" : "已还原最初版本",
     "Version restored" : "版本已还原",
     "Could not restore version" : "无法还原版本",

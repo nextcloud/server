@@ -49,7 +49,7 @@ const confirm = () => {
 			t('settings', 'Do you really want to wipe your data from this device?'),
 			t('settings', 'Confirm wipe'),
 			resolve,
-			true
+			true,
 		)
 	})
 }

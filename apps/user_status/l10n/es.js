@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Estados recientes",
+    "No recent status changes" : "No hay cambios de estado recientes",
     "In a meeting" : "En una reunión",
     "Commuting" : "De viaje",
     "Out sick" : "Ausente por enfermedad",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Ha habido un error al guardar el estado",
     "There was an error clearing the status" : "Ha habido un error al eliminar el estado",
     "There was an error reverting the status" : "Ocurrió un error al revertir el estado",
-    "No recent status changes" : "No hay cambios de estado recientes",
-    "Away" : "Ausente",
-    "Do not disturb" : "No molestar",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "No eliminar",
     "Today" : "Hoy",
     "This week" : "Esta semana",
     "Online" : "En línea",
+    "Away" : "Ausente",
+    "Do not disturb" : "No molestar",
     "Invisible" : "Invisible",
     "Offline" : "Sin conexión",
     "There was an error saving the new status" : "Ha habido un error al guardar el nuevo estado",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas las notificaciones",
-    "Appear offline" : "Aparecer sin conexión"
+    "Appear offline" : "Aparecer sin conexión",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

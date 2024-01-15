@@ -3,7 +3,6 @@
     "See %s" : "Se %s",
     "Sample configuration detected" : "Eksempeloppsett oppdaget",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Det ble oppdaget at eksempeloppsettet er blitt kopiert. Dette kan ødelegge installasjonen din og støttes ikke. Les dokumentasjonen før du gjør endringer i config.php",
-    "404" : "404",
     "The page could not be found on the server." : "Siden ble ikke funnet på serveren.",
     "%s email verification" : "%s e-postbekreftelse",
     "Email verification" : "E-postbekreftelse",
@@ -196,6 +195,7 @@
     "Full name" : "Fullt navn",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Bare disse tegnene tillates i et brukernavn: \"a-z\", \"A-Z\", \"0-9\" og \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Krever minst libxml2 2.7.0. Per nå er %s installert.",
-    "To fix this issue update your libxml2 version and restart your web server." : "For å fikse dette problemet, oppdater din libxml2 versjon og start webserveren på nytt."
+    "To fix this issue update your libxml2 version and restart your web server." : "For å fikse dette problemet, oppdater din libxml2 versjon og start webserveren på nytt.",
+    "404" : "404"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

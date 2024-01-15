@@ -118,6 +118,9 @@ class SystemConfig {
 				],
 			],
 		],
+		'onlyoffice' => [
+			'jwt_secret' => true,
+		],
 	];
 
 	/** @var Config */

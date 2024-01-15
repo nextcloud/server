@@ -14,18 +14,19 @@
     "Delete comment" : "Hozzászólás törlése",
     "Cancel edit" : "Változások elvetése",
     "Post comment" : "Hozzászólás közzététele",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” az említésekhez, „:” az emodzsikhoz, „/” az okos választához",
     "No comments yet, start the conversation!" : "Még nincsenek hozzászólások, kezdje el a beszélgetést!",
     "No more messages" : "Nincs több üzenet",
     "Retry" : "Újra",
     "Failed to mark comments as read" : "A hozzászólások olvasottnak jelölése sikertelen",
     "Unable to load the comments list" : "A hozzászólások betöltése sikertelen",
-    "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"],
     "_1 new comment_::_{unread} new comments_" : ["1 új hozzászólás","{unread} új hozzászólás"],
     "Comment" : "Hozzászólás",
     "An error occurred while trying to edit the comment" : "Hiba történt a megjegyzés szerkesztése közben",
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "%1$s commented" : "%1$s hozzászólt"
+    "%1$s commented" : "%1$s hozzászólt",
+    "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

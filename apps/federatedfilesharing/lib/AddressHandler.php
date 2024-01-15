@@ -130,9 +130,9 @@ class AddressHandler {
 	 * @return string
 	 */
 	public function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
+		if (str_starts_with($url, 'https://')) {
 			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
+		} elseif (str_starts_with($url, 'http://')) {
 			return substr($url, strlen('http://'));
 		}
 
@@ -146,8 +146,8 @@ class AddressHandler {
 	 * @return bool
 	 */
 	public function urlContainProtocol($url) {
-		if (strpos($url, 'https://') === 0 ||
-			strpos($url, 'http://') === 0) {
+		if (str_starts_with($url, 'https://') ||
+			str_starts_with($url, 'http://')) {
 			return true;
 		}
 

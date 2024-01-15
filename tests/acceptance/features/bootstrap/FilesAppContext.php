@@ -196,7 +196,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function tabHeaderInDetailsViewNamed($tabHeaderName) {
-		return Locator::forThe()->xpath("//li[normalize-space() = '$tabHeaderName']")->
+		return Locator::forThe()->xpath("//span[contains(@class, 'app-sidebar-tabs__tab') and normalize-space() = '$tabHeaderName']")->
 				descendantOf(self::tabHeadersInDetailsView())->
 				describedAs("Tab header named $tabHeaderName in details view in Files app");
 	}

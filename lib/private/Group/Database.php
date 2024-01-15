@@ -33,6 +33,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
@@ -61,12 +62,11 @@ class Database extends ABackend implements
 	IRemoveFromGroupBackend,
 	ISetDisplayNameBackend,
 	ISearchableGroupBackend,
+	IBatchMethodsBackend,
 	INamedBackend {
-	/** @var string[] */
+	/** @var array<string, array{gid: string, displayname: string}> */
 	private $groupCache = [];
-
-	/** @var IDBConnection */
-	private $dbConn;
+	private ?IDBConnection $dbConn;
 
 	/**
 	 * \OC\Group\Database constructor.
@@ -270,7 +270,7 @@ class Database extends ABackend implements
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('gid')
+		$query->select('gid', 'displayname')
 			->from('groups')
 			->orderBy('gid', 'ASC');
 
@@ -293,6 +293,10 @@ class Database extends ABackend implements
 
 		$groups = [];
 		while ($row = $result->fetch()) {
+			$this->groupCache[$row['gid']] = [
+				'displayname' => $row['displayname'],
+				'gid' => $row['gid'],
+			];
 			$groups[] = $row['gid'];
 		}
 		$result->closeCursor();
@@ -329,6 +333,43 @@ class Database extends ABackend implements
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function groupsExists(array $gids): array {
+		$notFoundGids = [];
+		$existingGroups = [];
+
+		// In case the data is already locally accessible, not need to do SQL query
+		// or do a SQL query but with a smaller in clause
+		foreach ($gids as $gid) {
+			if (isset($this->groupCache[$gid])) {
+				$existingGroups[] = $gid;
+			} else {
+				$notFoundGids[] = $gid;
+			}
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('gid', 'displayname')
+				->from('groups')
+				->where($qb->expr()->in('gid', $qb->createParameter('ids')));
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $qb->executeQuery();
+			while ($row = $result->fetch()) {
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
+				];
+				$existingGroups[] = (string)$row['gid'];
+			}
+			$result->closeCursor();
+		}
+
+		return $existingGroups;
 	}
 
 	/**
@@ -486,6 +527,43 @@ class Database extends ABackend implements
 		}
 
 		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getGroupsDetails(array $gids): array {
+		$notFoundGids = [];
+		$details = [];
+
+		// In case the data is already locally accessible, not need to do SQL query
+		// or do a SQL query but with a smaller in clause
+		foreach ($gids as $gid) {
+			if (isset($this->groupCache[$gid])) {
+				$details[$gid] = ['displayName' => $this->groupCache[$gid]['displayname']];
+			} else {
+				$notFoundGids[] = $gid;
+			}
+		}
+
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$query = $this->dbConn->getQueryBuilder();
+			$query->select('gid', 'displayname')
+				->from('groups')
+				->where($query->expr()->in('gid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
+
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
+				];
+			}
+			$result->closeCursor();
+		}
+
+		return $details;
 	}
 
 	public function setDisplayName(string $gid, string $displayName): bool {

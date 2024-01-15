@@ -30,7 +30,7 @@
 			:icon="status.icon"
 			:message="status.message"
 			:clear-at="status.clearAt"
-			:selected="!isCustomStatus && lastSelected === status.id"
+			:selected="lastSelected === status.id"
 			@select="selectStatus(status)" />
 	</ul>
 	<div v-else
@@ -48,13 +48,6 @@ export default {
 	components: {
 		PredefinedStatus,
 	},
-	props: {
-		/** If the current selected status is a custom one */
-		isCustomStatus: {
-			type: Boolean,
-			required: true,
-		},
-	},
 	data() {
 		return {
 			lastSelected: null,
@@ -63,9 +56,20 @@ export default {
 	computed: {
 		...mapState({
 			predefinedStatuses: state => state.predefinedStatuses.predefinedStatuses,
+			messageId: state => state.userStatus.messageId,
 		}),
 		...mapGetters(['statusesHaveLoaded']),
 	},
+
+	watch: {
+		messageId: {
+		   immediate: true,
+		   handler() {
+			   this.lastSelected = this.messageId
+		   },
+	   },
+	},
+
 	/**
 	 * Loads all predefined statuses from the server
 	 * when this component is mounted

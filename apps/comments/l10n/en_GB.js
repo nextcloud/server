@@ -16,18 +16,19 @@ OC.L10N.register(
     "Delete comment" : "Delete comment",
     "Cancel edit" : "Cancel edit",
     "Post comment" : "Post comment",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker",
     "No comments yet, start the conversation!" : "No comments yet, start the conversation!",
     "No more messages" : "No more messages",
     "Retry" : "Retry",
     "Failed to mark comments as read" : "Failed to mark comments as read",
     "Unable to load the comments list" : "Unable to load the comments list",
-    "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"],
     "_1 new comment_::_{unread} new comments_" : ["1 new comment","{unread} new comments"],
     "Comment" : "Comment",
     "An error occurred while trying to edit the comment" : "An error occurred while trying to edit the comment",
     "Comment deleted" : "Comment deleted",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
     "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "%1$s commented" : "%1$s commented"
+    "%1$s commented" : "%1$s commented",
+    "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"]
 },
 "nplurals=2; plural=(n != 1);");

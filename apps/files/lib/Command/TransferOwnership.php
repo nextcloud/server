@@ -46,26 +46,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TransferOwnership extends Command {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var OwnershipTransferService */
-	private $transferService;
-
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IUserManager $userManager,
-								OwnershipTransferService $transferService,
-								IConfig $config) {
+	public function __construct(
+		private IUserManager $userManager,
+		private OwnershipTransferService $transferService,
+		private IConfig $config,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->transferService = $transferService;
-		$this->config = $config;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files:transfer-ownership')
 			->setDescription('All files and folders are moved to another user - outgoing shares and incoming user file shares (optionally) are moved as well.')
@@ -107,7 +96,7 @@ class TransferOwnership extends Command {
 
 		if ($input->getArgument(('source-user')) === $input->getArgument('destination-user')) {
 			$output->writeln("<error>Ownership can't be transferred when Source and Destination users are the same user. Please check your input.</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$sourceUserObject = $this->userManager->get($input->getArgument('source-user'));
@@ -115,12 +104,12 @@ class TransferOwnership extends Command {
 
 		if (!$sourceUserObject instanceof IUser) {
 			$output->writeln("<error>Unknown source user " . $input->getArgument('source-user') . "</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		if (!$destinationUserObject instanceof IUser) {
 			$output->writeln("<error>Unknown destination user " . $input->getArgument('destination-user') . "</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		try {
@@ -137,13 +126,12 @@ class TransferOwnership extends Command {
 					$includeIncoming = $this->config->getSystemValue('transferIncomingShares', false);
 					if (gettype($includeIncoming) !== 'boolean') {
 						$output->writeln("<error> config.php: 'transfer-incoming-shares': wrong usage. Transfer aborted.</error>");
-						return 1;
+						return self::FAILURE;
 					}
 					break;
 				default:
 					$output->writeln("<error>Option --transfer-incoming-shares: wrong usage. Transfer aborted.</error>");
-					return 1;
-					break;
+					return self::FAILURE;
 			}
 
 			$this->transferService->transfer(
@@ -157,9 +145,9 @@ class TransferOwnership extends Command {
 			);
 		} catch (TransferOwnershipException $e) {
 			$output->writeln("<error>" . $e->getMessage() . "</error>");
-			return $e->getCode() !== 0 ? $e->getCode() : 1;
+			return $e->getCode() !== 0 ? $e->getCode() : self::FAILURE;
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

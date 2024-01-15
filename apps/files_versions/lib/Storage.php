@@ -350,7 +350,7 @@ class Storage {
 				// move each version one by one to the target directory
 				$rootView->$operation(
 					'/' . $sourceOwner . '/files_versions/' . $sourcePath.'.v' . $v['version'],
-					'/' . $targetOwner . '/files_versions/' . $targetPath.'.v'.$v['version']
+					'/' . $targetOwner . '/files_versions/' . $targetPath.'.v' . $v['version']
 				);
 			}
 		}
@@ -913,6 +913,21 @@ class Storage {
 			}
 
 			foreach ($toDelete as $key => $path) {
+				// Make sure to cleanup version table relations as expire does not pass deleteVersion
+				try {
+					/** @var VersionsMapper $versionsMapper */
+					$versionsMapper = \OC::$server->get(VersionsMapper::class);
+					$file = \OC::$server->get(IRootFolder::class)->getUserFolder($uid)->get($filename);
+					$pathparts = pathinfo($path);
+					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
+					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
+					if ($versionEntity->getLabel() !== '') {
+						continue;
+					}
+					$versionsMapper->delete($versionEntity);
+				} catch (DoesNotExistException $e) {
+				}
+
 				\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
 				self::deleteVersion($versionsFileview, $path);
 				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);

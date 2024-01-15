@@ -14,18 +14,19 @@
     "Delete comment" : "Обриши коментар",
     "Cancel edit" : "Поништи измену",
     "Post comment" : "Објави коментар",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” за помињања, „:” за емођи, „/” за паметни бирач",
     "No comments yet, start the conversation!" : "Још нема коментара. Започните дискусију!",
     "No more messages" : "Нема више порука",
     "Retry" : "Покушај поново",
     "Failed to mark comments as read" : "Није успело означавање коментара као прочитаних",
     "Unable to load the comments list" : "Не могуи да учитам списак коментара",
-    "_%n unread comment_::_%n unread comments_" : ["%nнепрочитани коментар","%nнепрочитана коментара ","%n непрочитаних коментара"],
     "_1 new comment_::_{unread} new comments_" : ["1 нови коментар","{unread} нова коментара","{unread} нова коментара"],
     "Comment" : "Коментар",
     "An error occurred while trying to edit the comment" : "Грешка приликом покушаја мењања коментара",
     "Comment deleted" : "Коментар обрисан",
     "An error occurred while trying to delete the comment" : "Грешка приликом покушаја брисања коментара",
     "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара",
-    "%1$s commented" : "%1$s коментарисао"
+    "%1$s commented" : "%1$s коментарисао",
+    "_%n unread comment_::_%n unread comments_" : ["%nнепрочитани коментар","%nнепрочитана коментара ","%n непрочитаних коментара"]
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

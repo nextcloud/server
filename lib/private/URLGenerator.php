@@ -147,7 +147,7 @@ class URLGenerator implements IURLGenerator {
 			$app_path = $this->getAppManager()->getAppPath($appName);
 			// Check if the app is in the app folder
 			if (file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) === 'php') {
+				if (str_ends_with($file, 'php')) {
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $appName;
 					if ($frontControllerActive) {
 						$urlLinkTo = \OC::$WEBROOT . '/apps/' . $appName;

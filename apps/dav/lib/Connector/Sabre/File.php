@@ -63,6 +63,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -77,8 +78,7 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 
 class File extends Node implements IFile {
-	protected $request;
-
+	protected IRequest $request;
 	protected IL10N $l10n;
 
 	/** @var array<string, FileMetadata> */
@@ -89,21 +89,26 @@ class File extends Node implements IFile {
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\FileInfo $info
-	 * @param \OCP\Share\IManager $shareManager
-	 * @param \OC\AppFramework\Http\Request $request
+	 * @param ?\OCP\Share\IManager $shareManager
+	 * @param ?IRequest $request
+	 * @param ?IL10N $l10n
 	 */
-	public function __construct(View $view, FileInfo $info, IManager $shareManager = null, Request $request = null) {
+	public function __construct(View $view, FileInfo $info, IManager $shareManager = null, IRequest $request = null, IL10N $l10n = null) {
 		parent::__construct($view, $info, $shareManager);
 
-		// Querying IL10N directly results in a dependency loop
-		/** @var IL10NFactory $l10nFactory */
-		$l10nFactory = \OC::$server->get(IL10NFactory::class);
-		$this->l10n = $l10nFactory->get(Application::APP_ID);
+		if ($l10n) {
+			$this->l10n = $l10n;
+		} else {
+			// Querying IL10N directly results in a dependency loop
+			/** @var IL10NFactory $l10nFactory */
+			$l10nFactory = \OC::$server->get(IL10NFactory::class);
+			$this->l10n = $l10nFactory->get(Application::APP_ID);
+		}
 
 		if (isset($request)) {
 			$this->request = $request;
 		} else {
-			$this->request = \OC::$server->getRequest();
+			$this->request = \OC::$server->get(IRequest::class);
 		}
 	}
 
@@ -149,7 +154,8 @@ class File extends Node implements IFile {
 		$this->verifyPath();
 
 		// chunked handling
-		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+		$chunkedHeader = $this->request->getHeader('oc-chunked');
+		if ($chunkedHeader) {
 			try {
 				return $this->createFileChunked($data);
 			} catch (\Exception $e) {
@@ -272,8 +278,9 @@ class File extends Node implements IFile {
 
 			if ($result === false) {
 				$expected = -1;
-				if (isset($_SERVER['CONTENT_LENGTH'])) {
-					$expected = (int)$_SERVER['CONTENT_LENGTH'];
+				$lengthHeader = $this->request->getHeader('content-length');
+				if ($lengthHeader) {
+					$expected = (int)$lengthHeader;
 				}
 				if ($expected !== 0) {
 					throw new Exception(
@@ -291,8 +298,9 @@ class File extends Node implements IFile {
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-				$expected = (int)$_SERVER['CONTENT_LENGTH'];
+			$lengthHeader = $this->request->getHeader('content-length');
+			if ($lengthHeader && $this->request->getMethod() === 'PUT') {
+				$expected = (int)$lengthHeader;
 				if ($count !== $expected) {
 					throw new BadRequest(
 						$this->l10n->t(
@@ -374,8 +382,9 @@ class File extends Node implements IFile {
 			}
 
 			// allow sync clients to send the mtime along in a header
-			if (isset($this->request->server['HTTP_X_OC_MTIME'])) {
-				$mtime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_MTIME']);
+			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+			if ($mtimeHeader !== '') {
+				$mtime = $this->sanitizeMtime($mtimeHeader);
 				if ($this->fileView->touch($this->path, $mtime)) {
 					$this->header('X-OC-MTime: accepted');
 				}
@@ -386,8 +395,9 @@ class File extends Node implements IFile {
 			];
 
 			// allow sync clients to send the creation time along in a header
-			if (isset($this->request->server['HTTP_X_OC_CTIME'])) {
-				$ctime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_CTIME']);
+			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+			if ($ctimeHeader) {
+				$ctime = $this->sanitizeMtime($ctimeHeader);
 				$fileInfoUpdate['creation_time'] = $ctime;
 				$this->header('X-OC-CTime: accepted');
 			}
@@ -400,8 +410,9 @@ class File extends Node implements IFile {
 
 			$this->refreshInfo();
 
-			if (isset($this->request->server['HTTP_OC_CHECKSUM'])) {
-				$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
+			$checksumHeader = $this->request->getHeader('oc-checksum');
+			if ($checksumHeader) {
+				$checksum = trim($checksumHeader);
 				$this->setChecksum($checksum);
 			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
 				$this->setChecksum('');
@@ -557,7 +568,7 @@ class File extends Node implements IFile {
 		$mimeType = $this->info->getMimetype();
 
 		// PROPFIND needs to return the correct mime type, for consistency with the web UI
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
+		if ($this->request->getMethod() === 'PROPFIND') {
 			return $mimeType;
 		}
 		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
@@ -599,9 +610,10 @@ class File extends Node implements IFile {
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
 
 		//detect aborted upload
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = (int)$_SERVER['CONTENT_LENGTH'];
+		if ($this->request->getMethod() === 'PUT') {
+			$lengthHeader = $this->request->getHeader('content-length');
+			if ($lengthHeader) {
+				$expected = (int)$lengthHeader;
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
 					throw new BadRequest(
@@ -667,8 +679,9 @@ class File extends Node implements IFile {
 				}
 
 				// allow sync clients to send the mtime along in a header
-				if (isset($this->request->server['HTTP_X_OC_MTIME'])) {
-					$mtime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_MTIME']);
+				$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+				if ($mtimeHeader !== '') {
+					$mtime = $this->sanitizeMtime($mtimeHeader);
 					if ($targetStorage->touch($targetInternalPath, $mtime)) {
 						$this->header('X-OC-MTime: accepted');
 					}
@@ -684,8 +697,9 @@ class File extends Node implements IFile {
 				// FIXME: should call refreshInfo but can't because $this->path is not the of the final file
 				$info = $this->fileView->getFileInfo($targetPath);
 
-				if (isset($this->request->server['HTTP_OC_CHECKSUM'])) {
-					$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
+				$checksumHeader = $this->request->getHeader('oc-checksum');
+				if ($checksumHeader) {
+					$checksum = trim($checksumHeader);
 					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
 				} elseif ($info->getChecksum() !== null && $info->getChecksum() !== '') {
 					$this->fileView->putFileInfo($this->path, ['checksum' => '']);

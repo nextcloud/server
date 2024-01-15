@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Legutóbbi állapotok",
+    "No recent status changes" : "Nincsenek legutóbbi állapotváltozások",
     "In a meeting" : "Találkozón",
     "Commuting" : "Ingázás",
     "Out sick" : "Betegszabadságon",
@@ -28,14 +29,12 @@ OC.L10N.register(
     "There was an error saving the status" : "Hiba történt az állapot mentése során",
     "There was an error clearing the status" : "Hiba történt az állapot törlése sorá",
     "There was an error reverting the status" : "Hiba történt az állapot visszaállítása során",
-    "No recent status changes" : "Nincsenek legutóbbi állapotváltozások",
-    "Away" : "Távol",
-    "Do not disturb" : "Ne zavarjanak",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Ne törölje",
     "Today" : "Ma",
     "This week" : "Ezen a héten",
     "Online" : "Elérhető",
+    "Away" : "Távol",
+    "Do not disturb" : "Ne zavarjanak",
     "Invisible" : "Láthatatlan",
     "Offline" : "Nem kapcsolódott",
     "There was an error saving the new status" : "Hiba történt az új állapot mentése sorá",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "1 hour" : "1 óra",
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
-    "Appear offline" : "Megjelenés nem kapcsolódottként"
+    "Appear offline" : "Megjelenés nem kapcsolódottként",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

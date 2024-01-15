@@ -32,6 +32,8 @@ namespace OC\Files\Node;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
+use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -40,7 +42,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
 class Node implements INode {
@@ -58,10 +59,7 @@ class Node implements INode {
 
 	protected ?FileInfo $fileInfo;
 
-	/**
-	 * @var Node|null
-	 */
-	protected $parent;
+	protected ?INode $parent;
 
 	private bool $infoHasSubMountsIncluded;
 
@@ -71,7 +69,7 @@ class Node implements INode {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
@@ -127,7 +125,8 @@ class Node implements INode {
 	 */
 	protected function sendHooks($hooks, array $args = null) {
 		$args = !empty($args) ? $args : [$this];
-		$dispatcher = \OC::$server->getEventDispatcher();
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		foreach ($hooks as $hook) {
 			if (method_exists($this->root, 'emit')) {
 				$this->root->emit('\OC\Files', $hook, $args);
@@ -298,7 +297,25 @@ class Node implements INode {
 				return $this->root;
 			}
 
-			$this->parent = $this->root->get($newPath);
+			// Manually fetch the parent if the current node doesn't have a file info yet
+			try {
+				$fileInfo = $this->getFileInfo();
+			} catch (NotFoundException) {
+				$this->parent = $this->root->get($newPath);
+				/** @var \OCP\Files\Folder $this->parent */
+				return $this->parent;
+			}
+
+			// gather the metadata we already know about our parent
+			$parentData = [
+				'path' => $newPath,
+				'fileid' => $fileInfo->getParentId(),
+			];
+
+			// and create lazy folder with it instead of always querying
+			$this->parent = new LazyFolder($this->root, function () use ($newPath) {
+				return $this->root->get($newPath);
+			}, $parentData);
 		}
 
 		return $this->parent;
@@ -326,13 +343,7 @@ class Node implements INode {
 	 * @return bool
 	 */
 	public function isValidPath($path) {
-		if (!$path || $path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		if (strstr($path, '/../') || strrchr($path, '/') === '/..') {
-			return false;
-		}
-		return true;
+		return Filesystem::isValidPath($path);
 	}
 
 	public function isMounted() {
@@ -474,5 +485,9 @@ class Node implements INode {
 
 	public function getUploadTime(): int {
 		return $this->getFileInfo()->getUploadTime();
+	}
+
+	public function getParentId(): int {
+		return $this->fileInfo->getParentId();
 	}
 }

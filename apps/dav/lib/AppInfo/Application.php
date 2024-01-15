@@ -69,6 +69,7 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
@@ -88,6 +89,7 @@ use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
+use OCA\DAV\SetupChecks\NeedsSystemAddressBookSync;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\AppFramework\App;
@@ -100,7 +102,6 @@ use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\IServerContainer;
 use OCP\IUser;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -123,12 +124,12 @@ class Application extends App implements IBootstrap {
 				$c->get(LoggerInterface::class)
 			);
 		});
-		$context->registerService(AppCalendarPlugin::class, function(ContainerInterface $c) {
+		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
-			  $c->get(ICalendarManager::class),
-			  $c->get(LoggerInterface::class)
+				$c->get(ICalendarManager::class),
+				$c->get(LoggerInterface::class)
 			);
-		  });
+		});
 
 		/*
 		 * Register capabilities
@@ -200,6 +201,8 @@ class Application extends App implements IBootstrap {
 
 		$context->registerUserMigrator(CalendarMigrator::class);
 		$context->registerUserMigrator(ContactsMigrator::class);
+
+		$context->registerSetupCheck(NeedsSystemAddressBookSync::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -224,13 +227,10 @@ class Application extends App implements IBootstrap {
 			}
 		});
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function ($event) use ($container) {
-			if ($event instanceof GenericEvent) {
-				$user = $event->getSubject();
-				/** @var SyncService $syncService */
-				$syncService = $container->query(SyncService::class);
-				$syncService->updateUser($user);
-			}
+		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container) {
+			/** @var SyncService $syncService */
+			$syncService = \OCP\Server::get(SyncService::class);
+			$syncService->updateUser($event->getUser());
 		});
 
 

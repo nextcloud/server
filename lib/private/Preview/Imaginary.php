@@ -106,6 +106,15 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
+		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
+
+		switch ($preview_format) { // Change the format to the correct one
+			case 'webp':
+				$mimeType = 'webp';
+				break;
+			default:
+		}
+
 		$operations = [];
 
 		if ($convert) {
@@ -121,7 +130,16 @@ class Imaginary extends ProviderV2 {
 			];
 		}
 
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		switch ($mimeType) {
+			case 'jpeg':
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+				break;
+			case 'webp':
+				$quality = $this->config->getAppValue('preview', 'webp_quality', '80');
+				break;
+			default:
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		}
 
 		$operations[] = [
 			'operation' => ($crop ? 'smartcrop' : 'fit'),
@@ -148,14 +166,14 @@ class Imaginary extends ProviderV2 {
 					'connect_timeout' => 3,
 				]);
 		} catch (\Exception $e) {
-			$this->logger->error('Imaginary preview generation failed: ' . $e->getMessage(), [
+			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);
 			return null;
 		}
 
 		if ($response->getStatusCode() !== 200) {
-			$this->logger->error('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
+			$this->logger->info('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
 			return null;
 		}
 

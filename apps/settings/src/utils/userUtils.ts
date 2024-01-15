@@ -33,6 +33,8 @@ export const defaultQuota = {
 /**
  * Return `true` if the logged in user does not have permissions to view the
  * data of `user`
+ * @param user
+ * @param user.id
  */
 export const isObfuscated = (user: { id: string, [key: string]: any }) => {
 	const keys = Object.keys(user)

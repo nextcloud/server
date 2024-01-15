@@ -59,6 +59,7 @@
     "Your password will expire today." : "Twoje hasło wygasa dzisiaj.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Twoje hasło wygaśnie w ciągu %n dnia.","Twoje hasło wygaśnie w ciągu %n dni.","Twoje hasło wygaśnie w ciągu %n dni.","Twoje hasło wygaśnie w ciągu %n dni."],
     "LDAP/AD integration" : "Integracja z LDAP/AD",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Znaleziono nieprawidłowe identyfikatory UUID użytkowników lub grup LDAP. Sprawdź ustawienia \"Zastąp wykrywanie UUID\" w części eksperckiej konfiguracji LDAP i użyj \"occ ldap:update-uuid\", aby je zaktualizować.",
     "_%n group found_::_%n groups found_" : ["Znaleziono %n grupę","Znaleziono %n grupy","Znaleziono %n grup","Znaleziono %n grup"],
     "> 1000 groups found" : "> 1000 znalezionych grup",
     "> 1000 users found" : "> 1000 znalezionych użytkowników",

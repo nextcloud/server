@@ -39,11 +39,11 @@ use OCP\TextProcessing\Task as OCPTask;
  * @method string getOutput()
  * @method setStatus(int $type)
  * @method int getStatus()
- * @method setUserId(string $type)
- * @method string getuserId()
+ * @method setUserId(?string $userId)
+ * @method string|null getUserId()
  * @method setAppId(string $type)
  * @method string getAppId()
- * @method setIdentifier(string $type)
+ * @method setIdentifier(string $identifier)
  * @method string getIdentifier()
  */
 class Task extends Entity {

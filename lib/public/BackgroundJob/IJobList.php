@@ -58,6 +58,19 @@ interface IJobList {
 	public function add($job, $argument = null): void;
 
 	/**
+	 * Add a job to the list but only run it after the given timestamp
+	 *
+	 * For cron background jobs this means the job will likely run shortly after the timestamp
+	 * has been reached. For ajax background jobs the job might only run when users are active
+	 * on the instance again.
+	 *
+	 * @param class-string<IJob> $job
+	 * @param mixed $argument The serializable argument to be passed to $job->run() when the job is executed
+	 * @since 28.0.0
+	 */
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void;
+
+	/**
 	 * Remove a job from the list
 	 *
 	 * @param IJob|class-string<IJob> $job

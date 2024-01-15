@@ -59,6 +59,8 @@
     "Your password will expire today." : "Ditt lösenord kommer att gå ut idag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Ditt lösenord kommer gå ut inom %n dag.","Ditt lösenord kommer gå ut inom %n dagar."],
     "LDAP/AD integration" : "LDAP/AD-integration",
+    "Checking for invalid LDAP UUIDs" : "Söker efter ogiltiga LDAP UUIDs",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Ogiltiga UUID för LDAP-användare eller -grupper har hittats. Granska dina \"Åsidosätt UUID-detektering\"-inställningar i expertdelen av LDAP-konfigurationen och använd \"occ ldap:update-uuid\" för att uppdatera dem.",
     "_%n group found_::_%n groups found_" : ["%n grupp hittades","%n grupper hittades"],
     "> 1000 groups found" : "> 1000 grupper hittades",
     "> 1000 users found" : "> 1000 användare hittades",

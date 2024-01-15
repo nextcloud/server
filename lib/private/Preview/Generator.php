@@ -44,8 +44,6 @@ use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
@@ -59,8 +57,6 @@ class Generator {
 	private $appData;
 	/** @var GeneratorHelper */
 	private $helper;
-	/** @var EventDispatcherInterface */
-	private $legacyEventDispatcher;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -69,14 +65,12 @@ class Generator {
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		EventDispatcherInterface $legacyEventDispatcher,
 		IEventDispatcher $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
 		$this->helper = $helper;
-		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -104,10 +98,6 @@ class Generator {
 			'mode' => $mode,
 		];
 
-		$this->legacyEventDispatcher->dispatch(
-			IPreview::EVENT,
-			new GenericEvent($file, $specification)
-		);
 		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
 			$file,
 			$width,
@@ -147,23 +137,6 @@ class Generator {
 		$previewVersion = '';
 		if ($file instanceof IVersionedPreviewFile) {
 			$previewVersion = $file->getPreviewVersion() . '-';
-		}
-
-		// If imaginary is enabled, and we request a small thumbnail,
-		// let's not generate the max preview for performance reasons
-		if (count($specifications) === 1
-			&& ($specifications[0]['width'] <= 256 || $specifications[0]['height'] <= 256)
-			&& preg_match(Imaginary::supportedMimeTypes(), $mimeType)
-			&& $this->config->getSystemValueString('preview_imaginary_url', 'invalid') !== 'invalid') {
-			$crop = $specifications[0]['crop'] ?? false;
-			$preview = $this->getSmallImagePreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion, $crop);
-
-			if ($preview->getSize() === 0) {
-				$preview->delete();
-				throw new NotFoundException('Cached preview size 0, invalid!');
-			}
-
-			return $preview;
 		}
 
 		// Get the max preview and infer the max preview sizes from that
@@ -239,25 +212,6 @@ class Generator {
 		}
 
 		return $preview;
-	}
-
-	/**
-	 * Generate a small image straight away without generating a max preview first
-	 * Preview generated is 256x256
-	 *
-	 * @param ISimpleFile[] $previewFiles
-	 *
-	 * @throws NotFoundException
-	 */
-	private function getSmallImagePreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
-		$width = 256;
-		$height = 256;
-
-		try {
-			return $this->getCachedPreview($previewFiles, $width, $height, $crop, $mimeType, $prefix);
-		} catch (NotFoundException $e) {
-			return $this->generateProviderPreview($previewFolder, $file, $width, $height, $crop, false, $mimeType, $prefix);
-		}
 	}
 
 	/**
@@ -661,6 +615,8 @@ class Generator {
 				return 'png';
 			case 'image/jpeg':
 				return 'jpg';
+			case 'image/webp':
+				return 'webp';
 			case 'image/gif':
 				return 'gif';
 			default:

@@ -109,14 +109,13 @@ $label-padding: 8px;
 		}
 	}
 
-	&__input:checked + &__label,
-	&__input:focus + &__label,
-	&__label:hover {
-		border-color: var(--color-primary-element);
+	&__input:checked + &__label {
+		outline: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 4px var(--color-main-background);
 	}
 
-	&__label:active {
-		border-color: var(--color-border-dark);
+	&__input:focus-visible + &__label {
+		outline: 2px solid var(--color-primary-element) !important;
 	}
 
 	&__subline {

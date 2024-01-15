@@ -31,7 +31,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function contactsMenuButton() {
-		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']//*[@class = 'header-menu__trigger']")->
+		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']//*[contains(@class, 'header-menu__trigger')]")->
 				describedAs("Contacts menu button");
 	}
 
@@ -39,7 +39,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function contactsMenu() {
-		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']//*[@id = 'contactsmenu-menu']")->
+		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']//*[@class = 'contactsmenu__menu']")->
 				describedAs("Contacts menu");
 	}
 
@@ -47,7 +47,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function contactsMenuSearchInput() {
-		return Locator::forThe()->id("contactsmenu-search")->
+		return Locator::forThe()->id("contactsmenu__menu__search")->
 				descendantOf(self::contactsMenu())->
 				describedAs("Contacts menu search input");
 	}
@@ -56,7 +56,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function noResultsMessage() {
-		return Locator::forThe()->xpath("//*[@class = 'emptycontent' and normalize-space() = 'No contacts found']")->
+		return Locator::forThe()->xpath("//*[@class = 'empty-content' and normalize-space() = 'No contacts found']")->
 				descendantOf(self::contactsMenu())->
 				describedAs("No results message in Contacts menu");
 	}
@@ -65,7 +65,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function menuItemFor($contactName) {
-		return Locator::forThe()->xpath("//*[@class = 'full-name' and normalize-space() = '$contactName']")->
+		return Locator::forThe()->xpath("//*[@class = 'contact__body__full-name' and normalize-space() = '$contactName']")->
 				descendantOf(self::contactsMenu())->
 				describedAs($contactName . " contact in Contacts menu");
 	}

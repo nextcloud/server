@@ -41,7 +41,7 @@ class TaskMapper extends QBMapper {
 		IDBConnection $db,
 		private ITimeFactory $timeFactory,
 	) {
-		parent::__construct($db, 'llm_tasks', Task::class);
+		parent::__construct($db, 'textprocessing_tasks', Task::class);
 	}
 
 	/**
@@ -57,6 +57,46 @@ class TaskMapper extends QBMapper {
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
 		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $id
+	 * @param string|null $userId
+	 * @return Task
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function findByIdAndUser(int $id, ?string $userId): Task {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
+		if ($userId === null) {
+			$qb->andWhere($qb->expr()->isNull('user_id'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		}
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param string $appId
+	 * @param string|null $identifier
+	 * @return array
+	 * @throws Exception
+	 */
+	public function findUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)))
+			->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
+		if ($identifier !== null) {
+			$qb->andWhere($qb->expr()->eq('identifier', $qb->createPositionalParameter($identifier)));
+		}
+		return $this->findEntities($qb);
 	}
 
 	/**

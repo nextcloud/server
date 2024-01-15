@@ -43,3 +43,20 @@ Cypress.Commands.add('mount', (component, optionsOrProps) => {
 		return cy.wrap(instance).as('component')
 	})
 })
+
+Cypress.Commands.add('mockInitialState', (app: string, key: string, value: any) => {
+	cy.document().then(($document) => {
+		const input = $document.createElement('input')
+		input.setAttribute('type', 'hidden')
+		input.setAttribute('id', `initial-state-${app}-${key}`)
+		input.setAttribute('value', btoa(JSON.stringify(value)))
+		$document.body.appendChild(input)
+	})
+})
+
+Cypress.Commands.add('unmockInitialState', (app?: string, key?: string) => {
+	cy.document().then(($document) => {
+		$document.querySelectorAll('body > input[type="hidden"]' + (app ? `[id="initial-state-${app}-${key}"]` : ''))
+			.forEach((node) => $document.body.removeChild(node))
+	})
+})

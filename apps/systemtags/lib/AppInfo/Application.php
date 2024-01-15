@@ -25,8 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\SystemTags\AppInfo;
 
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\SystemTags\Search\TagSearchProvider;
 use OCA\SystemTags\Activity\Listener;
+use OCA\SystemTags\Capabilities;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -44,6 +46,7 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerSearchProvider(TagSearchProvider::class);
+		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -52,10 +55,10 @@ class Application extends App implements IBootstrap {
 			 * @todo move the OCP events and then move the registration to `register`
 			 */
 			$dispatcher->addListener(
-				'OCA\Files::loadAdditionalScripts',
+				LoadAdditionalScriptsEvent::class,
 				function () {
 					\OCP\Util::addScript('core', 'systemtags');
-					\OCP\Util::addScript(self::APP_ID, 'systemtags');
+					\OCP\Util::addInitScript(self::APP_ID, 'init');
 				}
 			);
 
@@ -75,17 +78,6 @@ class Application extends App implements IBootstrap {
 			};
 			$dispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
 			$dispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
-		});
-
-		\OCA\Files\App::getNavigationManager()->add(function () {
-			$l = \OC::$server->getL10N(self::APP_ID);
-			return [
-				'id' => 'systemtagsfilter',
-				'appname' => self::APP_ID,
-				'script' => 'list.php',
-				'order' => 25,
-				'name' => $l->t('Tags'),
-			];
 		});
 	}
 }

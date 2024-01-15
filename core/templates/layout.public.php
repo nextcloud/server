@@ -38,14 +38,22 @@ p($theme->getTitle());
 
 	<header id="header">
 		<div class="header-left">
-			<div class="logo logo-icon svg"></div>
-			<span id="nextcloud" class="header-appname">
+			<div id="nextcloud" class="header-appname">
+				<?php if ($_['logoUrl']): ?>
+					<a href="<?php print_unescaped($_['logoUrl']); ?>"
+					   aria-label="<?php p($l->t('Go to %s', [$_['logoUrl']])); ?>">
+						<div class="logo logo-icon"></div>
+					</a>
+				<?php else: ?>
+					<div class="logo logo-icon"></div>
+				<?php endif; ?>
+
 				<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
 					<?php p($template->getHeaderTitle()); ?>
 				<?php } else { ?>
 					<?php	p($theme->getName()); ?>
 				<?php } ?>
-			</span>
+			</div>
 			<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
 				<div class="header-shared-by">
 					<?php p($template->getHeaderDetails()); ?>

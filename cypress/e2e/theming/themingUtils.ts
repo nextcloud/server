@@ -21,18 +21,29 @@
  */
 import { colord } from 'colord'
 
+export const defaultPrimary = '#0082c9'
+export const defaultAccessiblePrimary = '#006aa3'
+export const defaultBackground = 'kamil-porembinski-clouds.jpg'
+
 /**
  * Validate the current page body css variables
  *
  * @param {string} expectedColor the expected color
- * @param {string} expectedBackground the expected background
+ * @param {string|null} expectedBackground the expected background
  */
-export const validateBodyThemingCss = function(expectedColor = '#0082c9', expectedBackground = 'kamil-porembinski-clouds.jpg') {
+export const validateBodyThemingCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
 	return cy.window().then((win) => {
 		const guestBackgroundColor = getComputedStyle(win.document.body).backgroundColor
 		const guestBackgroundImage = getComputedStyle(win.document.body).backgroundImage
-		return colord(guestBackgroundColor).isEqual(expectedColor)
-			&& guestBackgroundImage.includes(expectedBackground)
+		
+		const isValidBackgroundColor = colord(guestBackgroundColor).isEqual(expectedColor)
+		const isValidBackgroundImage = !expectedBackground
+			? guestBackgroundImage === 'none'
+			: guestBackgroundImage.includes(expectedBackground)
+
+		console.debug({ guestBackgroundColor: colord(guestBackgroundColor).toHex(), guestBackgroundImage, expectedColor, expectedBackground, isValidBackgroundColor, isValidBackgroundImage })
+
+		return isValidBackgroundColor && isValidBackgroundImage
 	})
 }
 
@@ -42,7 +53,7 @@ export const validateBodyThemingCss = function(expectedColor = '#0082c9', expect
  * @param {string} expectedColor the expected color
  * @param {string} expectedBackground the expected background
  */
-export const validateUserThemingDefaultCss = function(expectedColor = '#0082c9', expectedBackground = 'kamil-porembinski-clouds.jpg') {
+export const validateUserThemingDefaultCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
 	return cy.window().then((win) => {
 		const defaultSelectButton = win.document.querySelector('[data-user-theming-background-default]')
 		const customColorSelectButton = win.document.querySelector('[data-user-theming-background-color]')
@@ -53,7 +64,14 @@ export const validateUserThemingDefaultCss = function(expectedColor = '#0082c9',
 		const defaultOptionBackground = getComputedStyle(defaultSelectButton).backgroundImage
 		const defaultOptionBorderColor = getComputedStyle(defaultSelectButton).borderColor
 		const colorPickerOptionColor = getComputedStyle(customColorSelectButton).backgroundColor
-		return defaultOptionBackground.includes(expectedBackground)
+
+		const isValidBackgroundImage = !expectedBackground
+			? defaultOptionBackground === 'none'
+			: defaultOptionBackground.includes(expectedBackground)
+		
+		console.debug(colord(defaultOptionBorderColor).toHex(), colord(colorPickerOptionColor).toHex(), expectedColor, isValidBackgroundImage)
+
+		return isValidBackgroundImage
 			&& colord(defaultOptionBorderColor).isEqual(expectedColor)
 			&& colord(colorPickerOptionColor).isEqual(expectedColor)
 	})

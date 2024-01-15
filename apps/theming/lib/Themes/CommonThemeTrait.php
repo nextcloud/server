@@ -97,7 +97,7 @@ trait CommonThemeTrait {
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
-				// --image-background is overridden by user theming
+				// --image-background is overridden by user theming if logged in
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
 		}
@@ -127,15 +127,17 @@ trait CommonThemeTrait {
 		if ($user !== null
 			&& !$this->themingDefaults->isUserThemingDisabled()
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
+			$adminBackgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
-			$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
+			$isPrimaryBright = $this->util->invertTextColor($this->themingDefaults->getColorPrimary());
 
 			// The user removed the background
 			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
 				return [
-					'--image-background' => 'no',
-					'--color-background-plain' => $this->primaryColor,
+					// Might be defined already by admin theming, needs to be overridden
+					'--image-background' => 'none',
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
 					// If no background image is set, we need to check against the shown primary colour
 					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
@@ -147,6 +149,15 @@ trait CommonThemeTrait {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+				];
+			}
+
+			// The user is using the default background and admin removed the background image
+			if ($backgroundImage === BackgroundService::BACKGROUND_DEFAULT && $adminBackgroundDeleted) {
+				return [
+					// --image-background is not defined in this case
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
 			}
 

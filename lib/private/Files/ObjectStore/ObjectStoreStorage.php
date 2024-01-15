@@ -559,6 +559,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 
 		if ($exists) {
+			// Always update the unencrypted size, for encryption the Encryption wrapper will update this afterwards anyways
+			$stat['unencrypted_size'] = $stat['size'];
 			$this->getCache()->update($fileId, $stat);
 		} else {
 			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {

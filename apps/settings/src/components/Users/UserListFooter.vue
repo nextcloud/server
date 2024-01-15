@@ -112,6 +112,7 @@ export default Vue.extend({
 
 		&--loading {
 			left: 0;
+			min-width: var(--avatar-cell-width);
 			width: var(--avatar-cell-width);
 			align-items: center;
 			padding: 0;
@@ -119,6 +120,7 @@ export default Vue.extend({
 
 		&--count {
 			left: var(--avatar-cell-width);
+			min-width: var(--cell-width);
 			width: var(--cell-width);
 		}
 	}

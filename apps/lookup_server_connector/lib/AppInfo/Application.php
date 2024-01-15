@@ -30,6 +30,7 @@ namespace OCA\LookupServerConnector\AppInfo;
 
 use Closure;
 use OCA\LookupServerConnector\UpdateLookupServer;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -58,15 +59,10 @@ class Application extends App implements IBootstrap {
 	 */
 	private function registerEventListeners(IEventDispatcher $dispatcher,
 											ContainerInterface $appContainer): void {
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function ($event) use ($appContainer) {
-			if ($event instanceof GenericEvent) {
-				/** @var IUser $user */
-				$user = $event->getSubject();
-
-				/** @var UpdateLookupServer $updateLookupServer */
-				$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
-				$updateLookupServer->userUpdated($user);
-			}
+		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($appContainer) {
+			/** @var UpdateLookupServer $updateLookupServer */
+			$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
+			$updateLookupServer->userUpdated($event->getUser());
 		});
 	}
 }

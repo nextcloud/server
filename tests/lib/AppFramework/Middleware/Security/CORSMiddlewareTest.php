@@ -15,21 +15,22 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\Security\Bruteforce\IThrottler;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\AppFramework\Middleware\Security\Mock\CORSMiddlewareController;
 
 class CORSMiddlewareTest extends \Test\TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|MockObject */
 	private $session;
-	/** @var Throttler */
+	/** @var IThrottler|MockObject */
 	private $throttler;
 	/** @var CORSMiddlewareController */
 	private $controller;
@@ -38,7 +39,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
 		$this->session = $this->createMock(Session::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->controller = new CORSMiddlewareController(
 			'test',
 			$this->createMock(IRequest::class)

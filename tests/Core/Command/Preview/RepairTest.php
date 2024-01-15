@@ -142,7 +142,7 @@ class RepairTest extends TestCase {
 		$previewFolder->expects($this->once())
 			->method('getDirectoryListing')
 			->willReturn($directories);
-		$this->rootFolder->expects($this->at(0))
+		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with("appdata_/preview")
 			->willReturn($previewFolder);

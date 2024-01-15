@@ -26,7 +26,7 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Federated Cloud Sharing" : "Nube federada compartida",
     "Sharing" : "Compartindo",
-    "Federated file sharing" : "Compartir ficheiros en federación",
+    "Federated file sharing" : "Compartición federada de ficheiros",
     "Provide federated file sharing across servers" : "Fornece a compartición federada de ficheiros entre servidores",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Axuste a forma como as persoas poden compartir entre servidores. Isto inclúe tamén as comparticións entre usuarios deste servidor se están a usar a compartición federada.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permitirlle aos usuarios deste servidor enviar comparticións a outros servidores (esta opción tamén permite o acceso de WebDAV a comparticións públicas)",
@@ -37,7 +37,7 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Permitirlle aos usuarios publicar os seus datos nun caderno de  enderezos global e público",
     "Unable to update federated files sharing config" : "Non é posíbel actualizar a configuración de uso compartido de ficheiros federados",
     "Federated Cloud" : "Nube federada",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode compartir con calquera persoa que empregue servidores Nextcloud, ou outro servidor ou  servizo compatíbel co Open Cloud Mesh (OCM)! Simplemente, introduza o seu ID de nube federada no diálogo de compartir. É algo como persona@cloud.exemplo.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode compartir con calquera persoa que empregue servidores Nextcloud, ou outro servidor ou  servizo compatíbel co Open Cloud Mesh (OCM)! Simplemente, introduza o seu ID de nube federada no diálogo de compartir. É algo como persona@cloud.example.com",
     "Your Federated Cloud ID:" : "ID da súa nube federada:",
     "Share it so your friends can share files with you:" : "Compártao para que as súas amizades poidan compartir ficheiros con Vde.:",
     "Facebook" : "Facebook",
@@ -47,13 +47,13 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Comparte comigo a través de Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparte comigo a través do meu #Nextcloud Federated Cloud ID, ver {url}",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Comparte comigo a través do meu ID da nube federada de #Nextcloud",
     "Cloud ID copied to the clipboard" : "O identificador de nube (Cloud ID) (foi copiado no portapapeis",
     "Copy to clipboard" : "Copiar no portapapeis.",
     "Clipboard is not available" : "O portapapeis non está dispoñíbel",
     "Copied!" : "Copiado!",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Vde. recibiu «%3$s» como un elemento compartido remoto de %4$s (%1$s) (de parte de %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Vde. recibiu «%3$s» como un elemento compartido remoto de %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud , vexa %s"
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparte comigo a través do meu ID da nube federada de #Nextcloud , vexa %s"
 },
 "nplurals=2; plural=(n != 1);");

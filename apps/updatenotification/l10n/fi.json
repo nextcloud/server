@@ -24,6 +24,8 @@
     "The update check is not yet finished. Please refresh the page." : "Päivitystarkistus ei ole vielä valmis. Päivitä sivu.",
     "Your version is up to date." : "Versiosi on ajan tasalla.",
     "A non-default update server is in use to be checked for updates:" : "Käytössä on muu kuin oletusarvoinen päivityspalvelin, jota käytetään päivitysten tarkistamiseen:",
+    "Update channel" : "Päivityskanava",
+    "Current update channel:" : "Nykyinen päivityskanava:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Voit aina päivittää uudempaan versioon, mutta et voi palata aikaisempaan vakaaseen versioon.",
     "Notify members of the following groups about available updates:" : "Ilmoita seuraavien ryhmien jäsenille saatavilla olevista päivityksistä:",
     "No groups" : "Ei ryhmiä",

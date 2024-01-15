@@ -24,12 +24,12 @@ namespace Test\Share20;
 
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\ShareAttributes;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -79,8 +79,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
 	protected $urlGenerator;
 
-	/** @var IConfig|MockObject */
-	protected $config;
+	/** @var ITimeFactory|MockObject */
+	protected $timeFactory;
 
 	protected function setUp(): void {
 		$this->dbConn = \OC::$server->getDatabaseConnection();
@@ -92,9 +92,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->defaults = $this->getMockBuilder(Defaults::class)->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
+		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable("2023-05-04 00:00 Europe/Berlin"));
 
 		//Empty share table
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
@@ -108,7 +109,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->timeFactory
 		);
 	}
 
@@ -469,7 +470,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->config
+				$this->timeFactory
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -564,7 +565,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->config
+				$this->timeFactory
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -724,11 +725,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
 
-		// nothing from setSharedWithDisplayName/setSharedWithAvatar is saved in DB
+		// Data is kept after creation
 		$this->assertSame('Displayed Name', $share->getSharedWithDisplayName());
 		$this->assertSame('/path/to/image.svg', $share->getSharedWithAvatar());
-		$this->assertSame(null, $share2->getSharedWithDisplayName());
-		$this->assertSame(null, $share2->getSharedWithAvatar());
+		$this->assertSame('Displayed Name', $share2->getSharedWithDisplayName());
+		$this->assertSame('/path/to/image.svg', $share2->getSharedWithAvatar());
 
 		$this->assertSame(
 			[
@@ -794,11 +795,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
 
-		// nothing from setSharedWithDisplayName/setSharedWithAvatar is saved in DB
+		// Data is kept after creation
 		$this->assertSame('Displayed Name', $share->getSharedWithDisplayName());
 		$this->assertSame('/path/to/image.svg', $share->getSharedWithAvatar());
-		$this->assertSame(null, $share2->getSharedWithDisplayName());
-		$this->assertSame(null, $share2->getSharedWithAvatar());
+		$this->assertSame('Displayed Name', $share2->getSharedWithDisplayName());
+		$this->assertSame('/path/to/image.svg', $share2->getSharedWithAvatar());
 
 		$this->assertSame(
 			[
@@ -2524,7 +2525,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->timeFactory
 		);
 
 		$password = md5(time());
@@ -2622,7 +2623,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->timeFactory
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2718,7 +2719,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->timeFactory
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');

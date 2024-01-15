@@ -27,7 +27,7 @@
     "Federated file sharing" : "Souporaba v zveznem oblaku",
     "Provide federated file sharing across servers" : "Omogoči zvezno souporabo prek različnih strežnikov",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Prilagodite možnosti, kako si lahko uporabniki izmenjujejo vsebino med strežniki. Nastavitev vključuje dejavnosti me uporabniki na tem strežniku in med zveznimi povezavami z zunanjimi strežniki.",
-    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Dovoli uporabnikom tega strežnika pošiljanje povezav za souporabo na druge strežnike (možnost omogoči tudi dostop prek WebDAV do javnih povezav).",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Dovoli uporabnikom tega strežnika pošiljanje povezav za souporabo na druge strežnike (možnost omogoči tudi dostop prek WebDAV do javnih povezav)",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map v souporabo z drugih strežnikov",
     "Allow users on this server to send shares to groups on other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo v skupine na drugih strežnikih",
     "Allow users on this server to receive group shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje skupinskih mest souporabe z drugih strežnikov",

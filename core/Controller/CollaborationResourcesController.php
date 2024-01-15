@@ -44,7 +44,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type CoreOpenGraphObject from ResponseDefinitions
+ * @psalm-import-type CoreResource from ResponseDefinitions
  * @psalm-import-type CoreCollection from ResponseDefinitions
  */
 class CollaborationResourcesController extends OCSController {
@@ -313,7 +313,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return CoreOpenGraphObject[]
+	 * @return CoreResource[]
 	 */
 	protected function prepareResources(array $resources): array {
 		$result = [];
@@ -331,7 +331,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return CoreOpenGraphObject
+	 * @return CoreResource
 	 */
 	protected function prepareResource(IResource $resource): array {
 		if (!$resource->canAccess($this->userSession->getUser())) {

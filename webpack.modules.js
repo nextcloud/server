@@ -26,6 +26,7 @@ module.exports = {
 		comments: path.join(__dirname, 'apps/comments/src', 'comments.js'),
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
 		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
+		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
 	},
 	core: {
 		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
@@ -51,14 +52,21 @@ module.exports = {
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
+		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
 		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.js'),
+	},
+	files_external: {
+		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
+	},
+	files_reminders: {
+		main: path.join(__dirname, 'apps/files_reminders/src', 'main.ts'),
 	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
 		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing_tab.js'),
-		files_sharing: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing.ts'),
+		init: path.join(__dirname, 'apps/files_sharing/src', 'init.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 	},
@@ -79,6 +87,7 @@ module.exports = {
 		apps: path.join(__dirname, 'apps/settings/src', 'apps.js'),
 		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
 		'vue-settings-admin-basic-settings': path.join(__dirname, 'apps/settings/src', 'main-admin-basic-settings.js'),
+		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src', 'main-admin-ai.js'),
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),
 		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
 		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
@@ -92,7 +101,7 @@ module.exports = {
 		'vue-settings-admin-sharebymail': path.join(__dirname, 'apps/sharebymail/src', 'main-admin.js'),
 	},
 	systemtags: {
-		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
+		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
 	},
 	theming: {
 		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
@@ -105,7 +114,6 @@ module.exports = {
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'init.js'),
 	},
 	user_status: {
-		dashboard: path.join(__dirname, 'apps/user_status/src', 'dashboard.js'),
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
 	},
 	weather_status: {

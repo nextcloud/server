@@ -163,8 +163,8 @@ class DateTimeFormatterTest extends TestCase {
 
 	public function formatDateTimeData() {
 		return [
-			[1350129205, null, 'October 13, 2012 at 11:53:25 AM GMT+0'],
-			[1350129205, new \DateTimeZone('Europe/Berlin'), 'October 13, 2012 at 1:53:25 PM GMT+2'],
+			[1350129205, null, "October 13, 2012, 11:53:25\xE2\x80\xAFAM UTC"],
+			[1350129205, new \DateTimeZone('Europe/Berlin'), "October 13, 2012, 1:53:25\xE2\x80\xAFPM GMT+2"],
 		];
 	}
 
@@ -175,7 +175,7 @@ class DateTimeFormatterTest extends TestCase {
 		$this->assertEquals($expected, (string) $this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}
 
-	
+
 	public function testFormatDateWithInvalidTZ() {
 		$this->expectException(\Exception::class);
 

@@ -140,4 +140,15 @@ class FactoryTest extends \Test\TestCase {
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
 		new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache);
 	}
+
+	public function testCreateInMemory(): void {
+		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
+		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, null, null, null);
+
+		$cache = $factory->createInMemory();
+		$cache->set('test', 48);
+
+		self::assertSame(48, $cache->get('test'));
+	}
 }

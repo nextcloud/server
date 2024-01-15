@@ -60,6 +60,9 @@ window.addEventListener('DOMContentLoaded', function() {
 			TabInstance.update(fileInfo)
 		},
 		setIsActive(isActive) {
+			if (!TabInstance) {
+				return
+			}
 			TabInstance.setIsActive(isActive)
 		},
 		destroy() {

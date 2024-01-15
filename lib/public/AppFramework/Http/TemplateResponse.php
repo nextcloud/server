@@ -66,15 +66,6 @@ class TemplateResponse extends Response {
 	public const RENDER_AS_PUBLIC = 'public';
 
 	/**
-	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
-	 */
-	public const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
-	/**
-	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
-	 */
-	public const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
-
-	/**
 	 * name of the template
 	 * @var string
 	 */

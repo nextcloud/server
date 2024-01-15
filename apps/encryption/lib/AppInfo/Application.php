@@ -39,6 +39,7 @@ use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 class Application extends \OCP\AppFramework\App {
 	/**
@@ -69,7 +70,7 @@ class Application extends \OCP\AppFramework\App {
 			$hookManager->registerHook([
 				new UserHooks($container->query(KeyManager::class),
 					$server->getUserManager(),
-					$server->getLogger(),
+					$server->get(LoggerInterface::class),
 					$container->query(Setup::class),
 					$server->getUserSession(),
 					$container->query(Util::class),
@@ -93,15 +94,15 @@ class Application extends \OCP\AppFramework\App {
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
 				return new Encryption(
-				$container->query(Crypt::class),
-				$container->query(KeyManager::class),
-				$container->query(Util::class),
-				$container->query(Session::class),
-				$container->query(EncryptAll::class),
-				$container->query(DecryptAll::class),
-				$container->getServer()->getLogger(),
-				$container->getServer()->getL10N($container->getAppName())
-			);
+					$container->query(Crypt::class),
+					$container->query(KeyManager::class),
+					$container->query(Util::class),
+					$container->query(Session::class),
+					$container->query(EncryptAll::class),
+					$container->query(DecryptAll::class),
+					$container->getServer()->get(LoggerInterface::class),
+					$container->getServer()->getL10N($container->getAppName())
+				);
 			});
 	}
 }

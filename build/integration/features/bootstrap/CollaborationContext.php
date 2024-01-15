@@ -73,6 +73,9 @@ class CollaborationContext implements Context {
 			if (isset($expected['source'])) {
 				$data['source'] = $suggestion['source'];
 			}
+			if (isset($expected['status'])) {
+				$data['status'] = json_encode($suggestion['status']);
+			}
 			return $data;
 		}, $suggestions, $formData->getHash()));
 	}

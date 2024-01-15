@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Dashboard" : "ダッシュボード",
     "Dashboard app" : "ダッシュボードアプリ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "一日の始まりに情報を提供\n\nNextcloudダッシュボードは、一日のスタート地点であり、今後の予定、緊急のEメール、チャットメッセージ、受信チケット、最新のツイートなどの概要を提供します！ユーザーは好きなウィジェットを追加したり、背景を自分好みに変更することができます。",
+    "\"{title} icon\"" : "\"{title} アイコン\"",
     "Customize" : "カスタマイズ",
     "Edit widgets" : "ウィジェットを編集",
     "Get more widgets from the App Store" : "アプリストアから他のガジェットを入手",

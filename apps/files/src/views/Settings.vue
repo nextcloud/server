@@ -22,10 +22,10 @@
 <template>
 	<NcAppSettingsDialog :open="open"
 		:show-navigation="true"
-		:title="t('files', 'Files settings')"
+		:name="t('files', 'Files settings')"
 		@update:open="onClose">
 		<!-- Settings API-->
-		<NcAppSettingsSection id="settings" :title="t('files', 'Files settings')">
+		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
 			<NcCheckboxRadioSwitch :checked="userConfig.sort_favorites_first"
 				@update:checked="setConfig('sort_favorites_first', $event)">
 				{{ t('files', 'Sort favorites first') }}
@@ -38,19 +38,23 @@
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch :checked="userConfig.grid_view"
+				@update:checked="setConfig('grid_view', $event)">
+				{{ t('files', 'Enable the grid view') }}
+			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->
 		<NcAppSettingsSection v-if="settings.length !== 0"
 			id="more-settings"
-			:title="t('files', 'Additional settings')">
+			:name="t('files', 'Additional settings')">
 			<template v-for="setting in settings">
 				<Setting :key="setting.name" :el="setting.el" />
 			</template>
 		</NcAppSettingsSection>
 
 		<!-- Webdav URL-->
-		<NcAppSettingsSection id="webdav" :title="t('files', 'WebDAV')">
+		<NcAppSettingsSection id="webdav" :name="t('files', 'WebDAV')">
 			<NcInputField id="webdav-url-input"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"

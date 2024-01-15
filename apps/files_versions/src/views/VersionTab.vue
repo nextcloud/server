@@ -19,11 +19,15 @@
 	<ul data-files-versions-versions-list>
 		<Version v-for="version in orderedVersions"
 			:key="version.mtime"
+			:can-view="canView"
+			:can-compare="canCompare"
 			:load-preview="isActive"
 			:version="version"
 			:file-info="fileInfo"
 			:is-current="version.mtime === fileInfo.mtime"
 			:is-first-version="version.mtime === initialVersionMtime"
+			@click="openVersion"
+			@compare="compareVersion"
 			@restore="handleRestore"
 			@label-update="handleLabelUpdate"
 			@delete="handleDelete" />
@@ -31,7 +35,13 @@
 </template>
 
 <script>
+import path from 'path'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
+
 import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.js'
 import Version from '../components/Version.vue'
 
@@ -40,6 +50,9 @@ export default {
 	components: {
 		Version,
 	},
+	mixins: [
+		isMobile,
+	],
 	data() {
 		return {
 			fileInfo: null,
@@ -48,6 +61,12 @@ export default {
 			versions: [],
 			loading: false,
 		}
+	},
+	mounted() {
+		subscribe('files_versions:restore:restored', this.fetchVersions)
+	},
+	beforeUnmount() {
+		unsubscribe('files_versions:restore:restored', this.fetchVersions)
 	},
 	computed: {
 		/**
@@ -77,6 +96,37 @@ export default {
 			return this.versions
 				.map(version => version.mtime)
 				.reduce((a, b) => Math.min(a, b))
+		},
+
+		viewerFileInfo() {
+			// We need to remap bitmask to dav permissions as the file info we have is converted through client.js
+			let davPermissions = ''
+			if (this.fileInfo.permissions & 1) {
+				davPermissions += 'R'
+			}
+			if (this.fileInfo.permissions & 2) {
+				davPermissions += 'W'
+			}
+			if (this.fileInfo.permissions & 8) {
+				davPermissions += 'D'
+			}
+			return {
+				...this.fileInfo,
+				mime: this.fileInfo.mimetype,
+				basename: this.fileInfo.name,
+				filename: this.fileInfo.path + '/' + this.fileInfo.name,
+				permissions: davPermissions,
+				fileid: this.fileInfo.id,
+			}
+		},
+
+		/** @return {boolean} */
+		canView() {
+			return window.OCA.Viewer?.mimetypesCompare?.includes(this.fileInfo.mimetype)
+		},
+
+		canCompare() {
+			return !this.isMobile
 		},
 	},
 	methods: {
@@ -124,6 +174,16 @@ export default {
 				mtime: version.mtime,
 			}
 
+			const restoreStartedEventState = {
+				preventDefault: false,
+				fileInfo: this.fileInfo,
+				version,
+			}
+			emit('files_versions:restore:requested', restoreStartedEventState)
+			if (restoreStartedEventState.preventDefault) {
+				return
+			}
+
 			try {
 				await restoreVersion(version)
 				if (version.label !== '') {
@@ -133,10 +193,11 @@ export default {
 				} else {
 					showSuccess(t('files_versions', 'Version restored'))
 				}
-				await this.fetchVersions()
+				emit('files_versions:restore:restored', version)
 			} catch (exception) {
 				this.fileInfo = oldFileInfo
 				showError(t('files_versions', 'Could not restore version'))
+				emit('files_versions:restore:failed', version)
 			}
 		},
 
@@ -181,6 +242,35 @@ export default {
 		 */
 		resetState() {
 			this.$set(this, 'versions', [])
+		},
+
+		openVersion({ version }) {
+			// Open current file view instead of read only
+			if (version.mtime === this.fileInfo.mtime) {
+				OCA.Viewer.open({ fileInfo: this.viewerFileInfo })
+				return
+			}
+
+			// Versions previews are too small for our use case, so we override hasPreview and previewUrl
+			// which makes the viewer render the original file.
+			// We also point to the original filename if the version is the current one.
+			const versions = this.versions.map(version => ({
+				...version,
+				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', this.fileInfo.path, this.fileInfo.name) : version.filename,
+				hasPreview: false,
+				previewUrl: undefined,
+			}))
+
+			OCA.Viewer.open({
+				fileInfo: versions.find(v => v.source === version.source),
+				enableSidebar: false,
+			})
+		},
+
+		compareVersion({ version }) {
+			const versions = this.versions.map(version => ({ ...version, hasPreview: false, previewUrl: undefined }))
+
+			OCA.Viewer.compare(this.viewerFileInfo, versions.find(v => v.source === version.source))
 		},
 	},
 }

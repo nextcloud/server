@@ -46,8 +46,6 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_diff;
 use function array_filter;
 
@@ -87,9 +85,6 @@ class Manager {
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
 	/** @psalm-var array<string, bool> */
 	private $userIsTwoFactorAuthenticated = [];
 
@@ -102,8 +97,7 @@ class Manager {
 								LoggerInterface $logger,
 								TokenProvider $tokenProvider,
 								ITimeFactory $timeFactory,
-								IEventDispatcher $eventDispatcher,
-								EventDispatcherInterface $legacyDispatcher) {
+								IEventDispatcher $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -114,14 +108,10 @@ class Manager {
 		$this->tokenProvider = $tokenProvider;
 		$this->timeFactory = $timeFactory;
 		$this->dispatcher = $eventDispatcher;
-		$this->legacyDispatcher = $legacyDispatcher;
 	}
 
 	/**
 	 * Determine whether the user must provide a second factor challenge
-	 *
-	 * @param IUser $user
-	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
 		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
@@ -145,18 +135,13 @@ class Manager {
 
 	/**
 	 * Get a 2FA provider by its ID
-	 *
-	 * @param IUser $user
-	 * @param string $challengeProviderId
-	 * @return IProvider|null
 	 */
-	public function getProvider(IUser $user, string $challengeProviderId) {
+	public function getProvider(IUser $user, string $challengeProviderId): ?IProvider {
 		$providers = $this->getProviderSet($user)->getProviders();
 		return $providers[$challengeProviderId] ?? null;
 	}
 
 	/**
-	 * @param IUser $user
 	 * @return IActivatableAtLogin[]
 	 * @throws Exception
 	 */
@@ -284,9 +269,6 @@ class Manager {
 			$tokenId = $token->getId();
 			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', (string)$tokenId);
 
-			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->legacyDispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
-
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
 
@@ -294,9 +276,6 @@ class Manager {
 				'provider' => $provider->getDisplayName(),
 			]);
 		} else {
-			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->legacyDispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
-
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
 

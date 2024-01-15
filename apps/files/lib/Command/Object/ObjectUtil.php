@@ -30,12 +30,10 @@ use OCP\IDBConnection;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ObjectUtil {
-	private IConfig $config;
-	private IDBConnection $connection;
-
-	public function __construct(IConfig $config, IDBConnection $connection) {
-		$this->config = $config;
-		$this->connection = $connection;
+	public function __construct(
+		private IConfig $config,
+		private IDBConnection $connection,
+	) {
 	}
 
 	private function getObjectStoreConfig(): ?array {
@@ -50,9 +48,9 @@ class ObjectUtil {
 				$config['multibucket'] = false;
 			}
 			return $config;
-		} else {
-			return null;
 		}
+
+		return null;
 	}
 
 	public function getObjectStore(?string $bucket, OutputInterface $output): ?IObjectStore {
@@ -91,20 +89,21 @@ class ObjectUtil {
 	 * Check if an object is referenced in the database
 	 */
 	public function objectExistsInDb(string $object): int|false {
-		if (str_starts_with($object, 'urn:oid:')) {
-			$fileId = (int)substr($object, strlen('urn:oid:'));
-			$query = $this->connection->getQueryBuilder();
-			$query->select('fileid')
-				->from('filecache')
-				->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
-			$result = $query->executeQuery();
-			if ($result->fetchOne() !== false) {
-				return $fileId;
-			} else {
-				return false;
-			}
-		} else {
+		if (!str_starts_with($object, 'urn:oid:')) {
 			return false;
 		}
+
+		$fileId = (int)substr($object, strlen('urn:oid:'));
+		$query = $this->connection->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		$result = $query->executeQuery();
+
+		if ($result->fetchOne() === false) {
+			return false;
+		}
+
+		return $fileId;
 	}
 }

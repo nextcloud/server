@@ -1,6 +1,10 @@
 default:
   autoload:
     '': "%paths.base%/../features/bootstrap"
+  formatters:
+    pretty:
+      output_styles:
+        comment: [ 'bright-blue' ]
   suites:
     default:
       paths:

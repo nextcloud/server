@@ -85,7 +85,7 @@ class CommentsPlugin extends ServerPlugin {
 	 */
 	public function initialize(Server $server) {
 		$this->server = $server;
-		if (strpos($this->server->getRequestUri(), 'comments/') !== 0) {
+		if (!str_starts_with($this->server->getRequestUri(), 'comments/')) {
 			return;
 		}
 

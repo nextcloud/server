@@ -23,7 +23,6 @@
 
 import './app.js'
 import './templates.js'
-import './filesplugin.js'
 import './activitytabviewplugin.js'
 
 window.OCA.Comments = OCA.Comments

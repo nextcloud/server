@@ -37,11 +37,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>სისტემური ტეგები</strong> ფაილისთვის შეიცვალა",
     "Tags" : "ტეგები",
     "Collaborative tags" : "თანამშრომლობის ტეგები",
-    "Tagged files" : "დატაგული ფაილები",
-    "Select tags to filter by" : "ფილტრაციისთვის აირჩიეთ ტეგები",
     "No tags found" : "ტეგები ვერ მოიძებნა",
-    "Please select tags to filter by" : "ფილტრაციისთვის გთხოვთ აირჩიოთ ტეგები",
-    "No files found for the selected tags" : "არჩეული ტეგების მიხედვით ფაილების პოვნა ვერ მოხერხდა",
     "Create a new tag" : "ახალი ტეგის შექმნა",
     "Name" : "სახელი",
     "Public" : "ღია",
@@ -52,6 +48,10 @@ OC.L10N.register(
     "No files in here" : "აქ ფაილები არაა",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
     "Size" : "ზომა",
-    "Modified" : "შეცვლილია"
+    "Modified" : "შეცვლილია",
+    "Tagged files" : "დატაგული ფაილები",
+    "Select tags to filter by" : "ფილტრაციისთვის აირჩიეთ ტეგები",
+    "Please select tags to filter by" : "ფილტრაციისთვის გთხოვთ აირჩიოთ ტეგები",
+    "No files found for the selected tags" : "არჩეული ტეგების მიხედვით ფაილების პოვნა ვერ მოხერხდა"
 },
 "nplurals=2; plural=(n!=1);");

@@ -42,9 +42,9 @@ export default {
 		},
 		forceEnableButtonText() {
 			if (this.app.needsDownload) {
-				return t('settings', 'Enable untested app')
+				return t('settings', 'Allow untested app')
 			}
-			return t('settings', 'Enable untested app')
+			return t('settings', 'Allow untested app')
 		},
 		enableButtonTooltip() {
 			if (this.app.needsDownload) {

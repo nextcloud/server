@@ -31,6 +31,7 @@ use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheck {
 	public function __construct(
@@ -38,6 +39,7 @@ class VersionCheck {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IRegistry $registry,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -86,6 +88,8 @@ class VersionCheck {
 		try {
 			$xml = $this->getUrlContent($url);
 		} catch (\Exception $e) {
+			$this->logger->info('Version could not be fetched from updater server: ' . $url, ['exception' => $e]);
+
 			return false;
 		}
 

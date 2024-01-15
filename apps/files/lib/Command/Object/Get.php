@@ -31,10 +31,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Get extends Command {
-	private ObjectUtil $objectUtils;
-
-	public function __construct(ObjectUtil $objectUtils) {
-		$this->objectUtils = $objectUtils;
+	public function __construct(
+		private ObjectUtil $objectUtils,
+	) {
 		parent::__construct();
 	}
 
@@ -52,29 +51,29 @@ class Get extends Command {
 		$outputName = $input->getArgument('output');
 		$objectStore = $this->objectUtils->getObjectStore($input->getOption("bucket"), $output);
 		if (!$objectStore) {
-			return 1;
+			return self::FAILURE;
 		}
 
 		if (!$objectStore->objectExists($object)) {
 			$output->writeln("<error>Object $object does not exist</error>");
-			return 1;
-		} else {
-			try {
-				$source = $objectStore->readObject($object);
-			} catch (\Exception $e) {
-				$msg = $e->getMessage();
-				$output->writeln("<error>Failed to read $object from object store: $msg</error>");
-				return 1;
-			}
-			$target = $outputName === '-' ? STDOUT : fopen($outputName, 'w');
-			if (!$target) {
-				$output->writeln("<error>Failed to open $outputName for writing</error>");
-				return 1;
-			}
-
-			stream_copy_to_stream($source, $target);
-			return 0;
+			return self::FAILURE;
 		}
+
+		try {
+			$source = $objectStore->readObject($object);
+		} catch (\Exception $e) {
+			$msg = $e->getMessage();
+			$output->writeln("<error>Failed to read $object from object store: $msg</error>");
+			return self::FAILURE;
+		}
+		$target = $outputName === '-' ? STDOUT : fopen($outputName, 'w');
+		if (!$target) {
+			$output->writeln("<error>Failed to open $outputName for writing</error>");
+			return self::FAILURE;
+		}
+
+		stream_copy_to_stream($source, $target);
+		return self::SUCCESS;
 	}
 
 }

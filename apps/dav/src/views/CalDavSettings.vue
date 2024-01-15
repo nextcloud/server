@@ -1,5 +1,5 @@
 <template>
-	<NcSettingsSection :title="$t('dav', 'Calendar server')"
+	<NcSettingsSection :name="$t('dav', 'Calendar server')"
 		:doc-url="userSyncCalendarsDocUrl">
 		<!-- Can use v-html as:
 			- $t passes the translated string through DOMPurify.sanitize,

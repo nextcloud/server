@@ -1,5 +1,6 @@
 { "translations": {
     "Recent statuses" : "최근 상태",
+    "No recent status changes" : "최근 상태 변경 없음",
     "In a meeting" : "회의 중",
     "Commuting" : "이동 중",
     "Out sick" : "병가",
@@ -17,14 +18,12 @@
     "Set status message" : "상태 메시지 설정",
     "There was an error saving the status" : "상태 저장에 오류가 발생했습니다.",
     "There was an error clearing the status" : "상태 해제에 오류가 발생했습니다.",
-    "No recent status changes" : "최근 상태 변경 없음",
-    "Away" : "자리 비움",
-    "Do not disturb" : "방해 금지",
-    "{status}, {timestamp}" : "{status},{timestamp}",
     "Don't clear" : "지우지 않음",
     "Today" : "오늘",
     "This week" : "이번 주",
     "Online" : "접속 중",
+    "Away" : "자리 비움",
+    "Do not disturb" : "방해 금지",
     "Invisible" : "숨겨짐",
     "Offline" : "오프라인",
     "There was an error saving the new status" : "새로운 상태 저장에 오류가 발생했습니다.",
@@ -32,6 +31,7 @@
     "1 hour" : "한 시간",
     "4 hours" : "4 시간",
     "Mute all notifications" : "모든 알림을 음소거",
-    "Appear offline" : "접속 안함으로 표시"
+    "Appear offline" : "접속 안함으로 표시",
+    "{status}, {timestamp}" : "{status},{timestamp}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

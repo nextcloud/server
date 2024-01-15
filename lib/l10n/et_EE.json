@@ -145,13 +145,13 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "See on tõenäoliselt põhjustatud puhver/kiirendist nagu Zend OPcache või eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moodulid on paigaldatud, kuid neid näitatakse endiselt kui puuduolevad?",
     "Please ask your server administrator to restart the web server." : "Palu oma serveri haldajal veebiserver taaskäivitada.",
-    "Please upgrade your database version." : "Palun uuenda oma andmebaasi versioon",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Palun muuda kataloogi õigused 0770-ks, et kataloogi sisu poleks teistele kasutajatele nähtav",
     "Your data directory is invalid." : "Sinu andmekataloog on vigane",
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
     "Full name" : "Täisnimi",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised sümbolid: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vaja on vähemalt libxml2 2.7.0. Hetkel on installitud %s."
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vaja on vähemalt libxml2 2.7.0. Hetkel on installitud %s.",
+    "Please upgrade your database version." : "Palun uuenda oma andmebaasi versioon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

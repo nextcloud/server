@@ -34,6 +34,13 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OC\User\LazyUser;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\GroupInterface;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
@@ -46,8 +53,6 @@ use OCP\Group\Events\GroupChangedEvent;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Group implements IGroup {
 	/** @var null|string  */
@@ -64,23 +69,14 @@ class Group implements IGroup {
 
 	/** @var Backend[] */
 	private $backends;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 	/** @var \OC\User\Manager|IUserManager  */
 	private $userManager;
 	/** @var PublicEmitter */
 	private $emitter;
 
-
-	/**
-	 * @param string $gid
-	 * @param Backend[] $backends
-	 * @param EventDispatcherInterface $dispatcher
-	 * @param IUserManager $userManager
-	 * @param PublicEmitter $emitter
-	 * @param string $displayName
-	 */
-	public function __construct(string $gid, array $backends, EventDispatcherInterface $dispatcher, IUserManager $userManager, PublicEmitter $emitter = null, ?string $displayName = null) {
+	public function __construct(string $gid, array $backends, IEventDispatcher $dispatcher, IUserManager $userManager, PublicEmitter $emitter = null, ?string $displayName = null) {
 		$this->gid = $gid;
 		$this->backends = $backends;
 		$this->dispatcher = $dispatcher;
@@ -112,12 +108,12 @@ class Group implements IGroup {
 	public function setDisplayName(string $displayName): bool {
 		$displayName = trim($displayName);
 		if ($displayName !== '') {
-			$this->dispatcher->dispatch(new BeforeGroupChangedEvent($this, 'displayName', $displayName, $this->displayName));
+			$this->dispatcher->dispatchTyped(new BeforeGroupChangedEvent($this, 'displayName', $displayName, $this->displayName));
 			foreach ($this->backends as $backend) {
 				if (($backend instanceof ISetDisplayNameBackend)
 					&& $backend->setDisplayName($this->gid, $displayName)) {
 					$this->displayName = $displayName;
-					$this->dispatcher->dispatch(new GroupChangedEvent($this, 'displayName', $displayName, ''));
+					$this->dispatcher->dispatchTyped(new GroupChangedEvent($this, 'displayName', $displayName, ''));
 					return true;
 				}
 			}
@@ -180,9 +176,7 @@ class Group implements IGroup {
 			return;
 		}
 
-		$this->dispatcher->dispatch(IGroup::class . '::preAddUser', new GenericEvent($this, [
-			'user' => $user,
-		]));
+		$this->dispatcher->dispatchTyped(new BeforeUserAddedEvent($this, $user));
 
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\Group', 'preAddUser', [$this, $user]);
@@ -194,9 +188,7 @@ class Group implements IGroup {
 					$this->users[$user->getUID()] = $user;
 				}
 
-				$this->dispatcher->dispatch(IGroup::class . '::postAddUser', new GenericEvent($this, [
-					'user' => $user,
-				]));
+				$this->dispatcher->dispatchTyped(new UserAddedEvent($this, $user));
 
 				if ($this->emitter) {
 					$this->emitter->emit('\OC\Group', 'postAddUser', [$this, $user]);
@@ -213,9 +205,7 @@ class Group implements IGroup {
 	 */
 	public function removeUser($user) {
 		$result = false;
-		$this->dispatcher->dispatch(IGroup::class . '::preRemoveUser', new GenericEvent($this, [
-			'user' => $user,
-		]));
+		$this->dispatcher->dispatchTyped(new BeforeUserRemovedEvent($this, $user));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\Group', 'preRemoveUser', [$this, $user]);
 		}
@@ -226,9 +216,7 @@ class Group implements IGroup {
 			}
 		}
 		if ($result) {
-			$this->dispatcher->dispatch(IGroup::class . '::postRemoveUser', new GenericEvent($this, [
-				'user' => $user,
-			]));
+			$this->dispatcher->dispatchTyped(new UserRemovedEvent($this, $user));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\Group', 'postRemoveUser', [$this, $user]);
 			}
@@ -352,7 +340,7 @@ class Group implements IGroup {
 		}
 
 		$result = false;
-		$this->dispatcher->dispatch(IGroup::class . '::preDelete', new GenericEvent($this));
+		$this->dispatcher->dispatchTyped(new BeforeGroupDeletedEvent($this));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\Group', 'preDelete', [$this]);
 		}
@@ -362,7 +350,7 @@ class Group implements IGroup {
 			}
 		}
 		if ($result) {
-			$this->dispatcher->dispatch(IGroup::class . '::postDelete', new GenericEvent($this));
+			$this->dispatcher->dispatchTyped(new GroupDeletedEvent($this));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\Group', 'postDelete', [$this]);
 			}

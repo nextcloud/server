@@ -92,6 +92,7 @@
     "Appearance and accessibility" : "Weergave en toegankelijkheid",
     "Apps" : "Apps",
     "Personal settings" : "Persoonlijke instellingen",
+    "Administration settings" : "Beheerder instellingen",
     "Settings" : "Instellingen",
     "Log out" : "Uitloggen",
     "Users" : "Gebruikers",
@@ -226,8 +227,6 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dit wordt vermoedelijk veroorzaakt door een cache/accelerator, zoals Zend OPcache of eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP modules zijn geïnstalleerd, maar ze worden nog steeds als ontbrekend aangegeven?",
     "Please ask your server administrator to restart the web server." : "Vraag je beheerder de webserver opnieuw te starten.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 is vereist.",
-    "Please upgrade your database version." : "Werk je databaseversie bij.",
     "Your data directory is readable by other users." : "Je datamap is leesbaar voor andere gebruikers.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Wijzig de machtiging in 0770 zodat de directory niet door andere gebruikers bekeken kan worden.",
     "Your data directory must be an absolute path." : "Je datamap moet een absolute bestandslocatie hebben.",
@@ -249,6 +248,8 @@
     "Full name" : "Volledige naam",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Alleen de volgende tekens zijn toegestaan in een gebruikersnaam: \"a-z\", \"A-Z\", \"0-9\", en \"_.@-\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "De minimale versie van libxml2 versie is 2.7.0. Momenteel is  versie%s geïnstalleerd.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Om dit probleem op te lossen, moet je de libxml2 versie bijwerken en je webserver herstarten."
+    "To fix this issue update your libxml2 version and restart your web server." : "Om dit probleem op te lossen, moet je de libxml2 versie bijwerken en je webserver herstarten.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 is vereist.",
+    "Please upgrade your database version." : "Werk je databaseversie bij."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

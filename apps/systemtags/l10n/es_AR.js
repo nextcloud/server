@@ -37,11 +37,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "Las <strong>etiquetas</strong> para un archivo han sido modificadas",
     "Tags" : "Etiquetas",
     "Collaborative tags" : "Etiquetas colaborativas",
-    "Tagged files" : "Archivos etiquetados",
-    "Select tags to filter by" : "Seleccione las etiquetas para el filtro",
     "No tags found" : "No se encontraron etiquetas",
-    "Please select tags to filter by" : "Favor de seleccionar etiquetas para el filtro",
-    "No files found for the selected tags" : "No se encontraron archivos para las etiquetas seleccionadas",
     "Name" : "Nombre",
     "Public" : "Público",
     "Restricted" : "Restringido",
@@ -51,6 +47,10 @@ OC.L10N.register(
     "No files in here" : "No hay archivos aquí",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "Tagged files" : "Archivos etiquetados",
+    "Select tags to filter by" : "Seleccione las etiquetas para el filtro",
+    "Please select tags to filter by" : "Favor de seleccionar etiquetas para el filtro",
+    "No files found for the selected tags" : "No se encontraron archivos para las etiquetas seleccionadas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

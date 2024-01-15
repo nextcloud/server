@@ -50,23 +50,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Notify extends Base {
-	private GlobalStoragesService $globalService;
-	private IDBConnection $connection;
-	private LoggerInterface $logger;
-	/** @var IUserManager */
-	private $userManager;
-
 	public function __construct(
-		GlobalStoragesService $globalService,
-		IDBConnection $connection,
-		LoggerInterface $logger,
-		IUserManager $userManager
+		private GlobalStoragesService $globalService,
+		private IDBConnection $connection,
+		private LoggerInterface $logger,
+		private IUserManager $userManager
 	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->connection = $connection;
-		$this->logger = $logger;
-		$this->userManager = $userManager;
 	}
 
 	protected function configure(): void {
@@ -110,32 +100,24 @@ class Notify extends Base {
 	private function getUserOption(InputInterface $input): ?string {
 		if ($input->getOption('user')) {
 			return (string)$input->getOption('user');
-		} elseif (isset($_ENV['NOTIFY_USER'])) {
-			return $_ENV['NOTIFY_USER'];
-		} elseif (isset($_SERVER['NOTIFY_USER'])) {
-			return $_SERVER['NOTIFY_USER'];
-		} else {
-			return null;
 		}
+
+		return $_ENV['NOTIFY_USER'] ?? $_SERVER['NOTIFY_USER'] ?? null;
 	}
 
 	private function getPasswordOption(InputInterface $input): ?string {
 		if ($input->getOption('password')) {
 			return (string)$input->getOption('password');
-		} elseif (isset($_ENV['NOTIFY_PASSWORD'])) {
-			return $_ENV['NOTIFY_PASSWORD'];
-		} elseif (isset($_SERVER['NOTIFY_PASSWORD'])) {
-			return $_SERVER['NOTIFY_PASSWORD'];
-		} else {
-			return null;
 		}
+
+		return $_ENV['NOTIFY_PASSWORD'] ?? $_SERVER['NOTIFY_PASSWORD'] ?? null;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
 		if (is_null($mount)) {
 			$output->writeln('<error>Mount not found</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$noAuth = false;
 
@@ -178,11 +160,11 @@ class Notify extends Base {
 			if ($noAuth) {
 				$output->writeln('<error>Username and/or password required</error>');
 			}
-			return 1;
+			return self::FAILURE;
 		}
 		if (!$storage instanceof INotifyStorage) {
 			$output->writeln('<error>Mount of type "' . $mount->getBackend()->getText() . '" does not support active update notifications</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$dryRun = $input->getOption('dry-run');
@@ -204,7 +186,7 @@ class Notify extends Base {
 			}
 			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output, $dryRun);
 		});
-		return 0;
+		return self::SUCCESS;
 	}
 
 	private function createStorage(StorageConfig $mount): IStorage {
@@ -212,7 +194,7 @@ class Notify extends Base {
 		return new $class($mount->getBackendOptions());
 	}
 
-	private function markParentAsOutdated($mountId, $path, OutputInterface $output, bool $dryRun) {
+	private function markParentAsOutdated($mountId, $path, OutputInterface $output, bool $dryRun): void {
 		$parent = ltrim(dirname($path), '/');
 		if ($parent === '.') {
 			$parent = '';
@@ -253,22 +235,17 @@ class Notify extends Base {
 		}
 	}
 
-	private function logUpdate(IChange $change, OutputInterface $output) {
-		switch ($change->getType()) {
-			case INotifyStorage::NOTIFY_ADDED:
-				$text = 'added';
-				break;
-			case INotifyStorage::NOTIFY_MODIFIED:
-				$text = 'modified';
-				break;
-			case INotifyStorage::NOTIFY_REMOVED:
-				$text = 'removed';
-				break;
-			case INotifyStorage::NOTIFY_RENAMED:
-				$text = 'renamed';
-				break;
-			default:
-				return;
+	private function logUpdate(IChange $change, OutputInterface $output): void {
+		$text = match ($change->getType()) {
+			INotifyStorage::NOTIFY_ADDED => 'added',
+			INotifyStorage::NOTIFY_MODIFIED => 'modified',
+			INotifyStorage::NOTIFY_REMOVED => 'removed',
+			INotifyStorage::NOTIFY_RENAMED => 'renamed',
+			default => '',
+		};
+
+		if ($text === '') {
+			return;
 		}
 
 		$text .= ' ' . $change->getPath();
@@ -324,7 +301,7 @@ class Notify extends Base {
 	}
 
 
-	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output) {
+	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output): void {
 		usleep(100 * 1000); //give time for the notify to start
 		if (!$storage->file_put_contents('/.nc_test_file.txt', 'test content')) {
 			$output->writeln("Failed to create test file for self-test");

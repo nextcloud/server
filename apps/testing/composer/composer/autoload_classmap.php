@@ -13,4 +13,6 @@ return array(
     'OCA\\Testing\\Controller\\LockingController' => $baseDir . '/../lib/Controller/LockingController.php',
     'OCA\\Testing\\Controller\\RateLimitTestController' => $baseDir . '/../lib/Controller/RateLimitTestController.php',
     'OCA\\Testing\\Locking\\FakeDBLockingProvider' => $baseDir . '/../lib/Locking/FakeDBLockingProvider.php',
+    'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => $baseDir . '/../lib/Provider/FakeTextProcessingProvider.php',
+    'OCA\\Testing\\Provider\\FakeTranslationProvider' => $baseDir . '/../lib/Provider/FakeTranslationProvider.php',
 );

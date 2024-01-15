@@ -42,6 +42,12 @@ interface IManager {
 	public function hasProviders(): bool;
 
 	/**
+	 * @return IProvider[]
+	 * @since 27.1.0
+	 */
+	public function getProviders(): array;
+
+	/**
 	 * @return class-string<ITaskType>[]
 	 * @since 27.1.0
 	 */
@@ -67,6 +73,14 @@ interface IManager {
 	public function scheduleTask(Task $task) : void;
 
 	/**
+	 * Delete a task that has been scheduled before
+	 *
+	 * @param Task $task The task to delete
+	 * @since 27.1.0
+	 */
+	public function deleteTask(Task $task): void;
+
+	/**
 	 * @param int $id The id of the task
 	 * @return Task
 	 * @throws RuntimeException If the query failed
@@ -74,4 +88,23 @@ interface IManager {
 	 * @since 27.1.0
 	 */
 	public function getTask(int $id): Task;
+
+	/**
+	 * @param int $id The id of the task
+	 * @param string|null $userId The user id that scheduled the task
+	 * @return Task
+	 * @throws RuntimeException If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 27.1.0
+	 */
+	public function getUserTask(int $id, ?string $userId): Task;
+
+	/**
+	 * @param string $userId
+	 * @param string $appId
+	 * @param string|null $identifier
+	 * @return array
+	 * @since 27.1.0
+	 */
+	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array;
 }

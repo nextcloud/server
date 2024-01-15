@@ -48,7 +48,6 @@ namespace OCA\Settings\Controller;
 use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use GuzzleHttp\Exception\ClientException;
 use OC;
@@ -62,12 +61,6 @@ use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\Lock\DBLockingProvider;
 use OC\MemoryInfo;
-use OCA\Settings\SetupChecks\CheckUserCertificates;
-use OCA\Settings\SetupChecks\LdapInvalidUuids;
-use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
-use OCA\Settings\SetupChecks\PhpDefaultCharset;
-use OCA\Settings\SetupChecks\PhpOutputBuffering;
-use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
@@ -90,7 +83,9 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
 #[IgnoreOpenAPI]
@@ -123,6 +118,8 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IThrottler */
+	private $throttler;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
@@ -131,6 +128,7 @@ class CheckSetupController extends Controller {
 	private $appManager;
 	/** @var IServerContainer */
 	private $serverContainer;
+	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -148,10 +146,12 @@ class CheckSetupController extends Controller {
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
 								IDBConnection $connection,
+								IThrottler $throttler,
 								ITempManager $tempManager,
 								IManager $manager,
 								IAppManager $appManager,
-								IServerContainer $serverContainer
+								IServerContainer $serverContainer,
+								ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
@@ -162,6 +162,7 @@ class CheckSetupController extends Controller {
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
 		$this->db = $db;
+		$this->throttler = $throttler;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
@@ -172,6 +173,16 @@ class CheckSetupController extends Controller {
 		$this->manager = $manager;
 		$this->appManager = $appManager;
 		$this->serverContainer = $serverContainer;
+		$this->setupCheckManager = $setupCheckManager;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @return DataResponse
+	 */
+	public function setupCheckManager(): DataResponse {
+		return new DataResponse($this->setupCheckManager->runAll());
 	}
 
 	/**
@@ -180,54 +191,6 @@ class CheckSetupController extends Controller {
 	 */
 	private function isFairUseOfFreePushService(): bool {
 		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Checks if the server can connect to the internet using HTTPS and HTTP
-	 * @return bool
-	 */
-	private function hasInternetConnectivityProblems(): bool {
-		if ($this->config->getSystemValue('has_internet_connection', true) === false) {
-			return false;
-		}
-
-		$siteArray = $this->config->getSystemValue('connectivity_check_domains', [
-			'www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'
-		]);
-
-		foreach ($siteArray as $site) {
-			if ($this->isSiteReachable($site)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Checks if the Nextcloud server can connect to a specific URL
-	 * @param string $site site domain or full URL with http/https protocol
-	 * @return bool
-	 */
-	private function isSiteReachable(string $site): bool {
-		try {
-			$client = $this->clientService->newClient();
-			// if there is no protocol, test http:// AND https://
-			if (preg_match('/^https?:\/\//', $site) !== 1) {
-				$httpSite = 'http://' . $site . '/';
-				$client->get($httpSite);
-				$httpsSite = 'https://' . $site . '/';
-				$client->get($httpsSite);
-			} else {
-				$client->get($site);
-			}
-		} catch (\Exception $e) {
-			$this->logger->error('Cannot connect to: ' . $site, [
-				'app' => 'internet_connection_check',
-				'exception' => $e,
-			]);
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -320,25 +283,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Whether the version is outdated
-	 *
-	 * @return bool
-	 */
-	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 80100;
-	}
-
-	/**
-	 * Whether the php version is still supported (at time of release)
-	 * according to: https://www.php.net/supported-versions.php
-	 *
-	 * @return array
-	 */
-	private function isPhpSupported(): array {
-		return ['eol' => $this->isPhpOutdated(), 'version' => PHP_VERSION];
-	}
-
-	/**
 	 * Check if the reverse proxy configuration is working as expected
 	 *
 	 * @return bool
@@ -370,7 +314,8 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	private function isCorrectMemcachedPHPModuleInstalled() {
-		if ($this->config->getSystemValue('memcache.distributed', null) !== '\OC\Memcache\Memcached') {
+		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
+		if ($memcacheDistributedClass === null || ltrim($memcacheDistributedClass, '\\') !== \OC\Memcache\Memcached::class) {
 			return true;
 		}
 
@@ -634,7 +579,7 @@ Raw output
 
 	protected function hasValidTransactionIsolationLevel(): bool {
 		try {
-			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
+			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 				return true;
 			}
 
@@ -832,7 +777,7 @@ Raw output
 		];
 
 		$schema = new SchemaWrapper($this->db);
-		$isSqlite = $this->db->getDatabasePlatform() instanceof SqlitePlatform;
+		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
 		$pendingColumns = [];
 
 		foreach ($tables as $tableName => $columns) {
@@ -899,13 +844,6 @@ Raw output
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
 	public function check() {
-		$phpDefaultCharset = new PhpDefaultCharset();
-		$phpOutputBuffering = new PhpOutputBuffering();
-		$legacySSEKeyFormat = new LegacySSEKeyFormat($this->l10n, $this->config, $this->urlGenerator);
-		$checkUserCertificates = new CheckUserCertificates($this->l10n, $this->config, $this->urlGenerator);
-		$supportedDatabases = new SupportedDatabase($this->l10n, $this->connection);
-		$ldapInvalidUuids = new LdapInvalidUuids($this->appManager, $this->l10n, $this->serverContainer);
-
 		return new DataResponse(
 			[
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
@@ -919,13 +857,13 @@ Raw output
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
-				'serverHasInternetConnectionProblems' => $this->hasInternetConnectivityProblems(),
+				'isBruteforceThrottled' => $this->throttler->getAttempts($this->request->getRemoteAddress()) !== 0,
+				'bruteforceRemoteAddress' => $this->request->getRemoteAddress(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
 				'isRandomnessSecure' => $this->isRandomnessSecure(),
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
-				'phpSupported' => $this->isPhpSupported(),
 				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
@@ -950,14 +888,8 @@ Raw output
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 				'imageMagickLacksSVGSupport' => $this->imageMagickLacksSVGSupport(),
-				PhpDefaultCharset::class => ['pass' => $phpDefaultCharset->run(), 'description' => $phpDefaultCharset->description(), 'severity' => $phpDefaultCharset->severity()],
-				PhpOutputBuffering::class => ['pass' => $phpOutputBuffering->run(), 'description' => $phpOutputBuffering->description(), 'severity' => $phpOutputBuffering->severity()],
-				LegacySSEKeyFormat::class => ['pass' => $legacySSEKeyFormat->run(), 'description' => $legacySSEKeyFormat->description(), 'severity' => $legacySSEKeyFormat->severity(), 'linkToDocumentation' => $legacySSEKeyFormat->linkToDocumentation()],
-				CheckUserCertificates::class => ['pass' => $checkUserCertificates->run(), 'description' => $checkUserCertificates->description(), 'severity' => $checkUserCertificates->severity(), 'elements' => $checkUserCertificates->elements()],
-				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
-				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
-				LdapInvalidUuids::class => ['pass' => $ldapInvalidUuids->run(), 'description' => $ldapInvalidUuids->description(), 'severity' => $ldapInvalidUuids->severity()],
+				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);
 	}

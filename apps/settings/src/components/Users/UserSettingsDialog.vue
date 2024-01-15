@@ -23,9 +23,9 @@
 <template>
 	<NcAppSettingsDialog :open.sync="isModalOpen"
 		:show-navigation="true"
-		:title="t('settings', 'User management settings')">
+		:name="t('settings', 'User management settings')">
 		<NcAppSettingsSection id="visibility-settings"
-			:title="t('settings', 'Visibility')">
+			:name="t('settings', 'Visibility')">
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="showLanguages"
 				:checked.sync="showLanguages">
@@ -49,7 +49,7 @@
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="email-settings"
-			:title="t('settings', 'Send email')">
+			:name="t('settings', 'Send email')">
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="sendWelcomeMail"
 				:checked.sync="sendWelcomeMail"
@@ -59,7 +59,7 @@
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="default-settings"
-			:title="t('settings', 'Defaults')">
+			:name="t('settings', 'Defaults')">
 			<label for="default-quota-select">{{ t('settings', 'Default quota') }}</label>
 			<NcSelect v-model="defaultQuota"
 				input-id="default-quota-select"

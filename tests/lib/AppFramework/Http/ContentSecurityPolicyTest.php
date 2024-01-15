@@ -456,6 +456,13 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
+	public function testGetPolicyUnsafeWasmEval() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'wasm-unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->allowEvalWasm(true);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
 	public function testGetPolicyNonce() {
 		$nonce = 'my-nonce';
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";

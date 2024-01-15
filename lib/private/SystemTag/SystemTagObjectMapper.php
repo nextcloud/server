@@ -29,37 +29,22 @@ namespace OC\SystemTag;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagNotFoundException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public const RELATION_TABLE = 'systemtag_object_mapping';
 
-	/** @var ISystemTagManager */
-	protected $tagManager;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var EventDispatcherInterface */
-	protected $dispatcher;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param IDBConnection $connection database connection
-	 * @param ISystemTagManager $tagManager system tag manager
-	 * @param EventDispatcherInterface $dispatcher
-	 */
-	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager, EventDispatcherInterface $dispatcher) {
-		$this->connection = $connection;
-		$this->tagManager = $tagManager;
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected ISystemTagManager $tagManager,
+		protected IEventDispatcher $dispatcher,
+	) {
 	}
 
 	/**

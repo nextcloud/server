@@ -237,6 +237,7 @@ class StatusService {
 		$userStatus->setCustomIcon(null);
 		$userStatus->setCustomMessage(null);
 		$userStatus->setClearAt($clearAt);
+		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
 			return $this->mapper->insert($userStatus);
@@ -291,6 +292,7 @@ class StatusService {
 		$userStatus->setCustomIcon(null);
 		$userStatus->setCustomMessage(null);
 		$userStatus->setClearAt(null);
+		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() !== null) {
 			$this->mapper->update($userStatus);
@@ -340,6 +342,7 @@ class StatusService {
 		$userStatus->setCustomIcon($statusIcon);
 		$userStatus->setCustomMessage($message);
 		$userStatus->setClearAt($clearAt);
+		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
 			return $this->mapper->insert($userStatus);
@@ -384,6 +387,7 @@ class StatusService {
 		$userStatus->setCustomMessage(null);
 		$userStatus->setCustomIcon(null);
 		$userStatus->setClearAt(null);
+		$userStatus->setStatusMessageTimestamp(0);
 
 		$this->mapper->update($userStatus);
 		return true;
@@ -465,6 +469,7 @@ class StatusService {
 		$status->setCustomIcon(null);
 		$status->setCustomMessage(null);
 		$status->setClearAt(null);
+		$status->setStatusMessageTimestamp(0);
 
 		$this->mapper->update($status);
 	}
@@ -478,6 +483,7 @@ class StatusService {
 		if ($predefinedMessage !== null) {
 			$status->setCustomMessage($predefinedMessage['message']);
 			$status->setCustomIcon($predefinedMessage['icon']);
+			$status->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 		}
 	}
 

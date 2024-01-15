@@ -130,7 +130,7 @@ abstract class Proxy {
 	 * @param string $method string, the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
 	 * @param bool $passOnWhen
-	 * @return mixed, the result of the specified method
+	 * @return mixed the result of the specified method
 	 */
 	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
 		if (!$this->isSingleBackend()) {

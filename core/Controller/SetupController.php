@@ -32,13 +32,14 @@
 namespace OC\Core\Controller;
 
 use OC\Setup;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class SetupController {
 	private string $autoConfigFile;
 
 	public function __construct(
 		protected Setup $setupHelper,
+		protected LoggerInterface $logger,
 	) {
 		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
 	}
@@ -78,7 +79,7 @@ class SetupController {
 		}
 	}
 
-	private function displaySetupForbidden() {
+	private function displaySetupForbidden(): void {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
@@ -98,7 +99,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
-	private function finishSetup() {
+	private function finishSetup(): void {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
@@ -114,7 +115,7 @@ class SetupController {
 
 	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
-			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
+			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
 			$post = array_merge($post, $AUTOCONFIG);

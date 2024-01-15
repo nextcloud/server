@@ -32,10 +32,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Get extends Command {
-	private FileUtils $fileUtils;
-
-	public function __construct(FileUtils $fileUtils) {
-		$this->fileUtils = $fileUtils;
+	public function __construct(
+		private FileUtils $fileUtils,
+	) {
 		parent::__construct();
 	}
 
@@ -54,36 +53,35 @@ class Get extends Command {
 
 		if (!$node) {
 			$output->writeln("<error>file $fileInput not found</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
-		if ($node instanceof File) {
-			$isTTY = stream_isatty(STDOUT);
-			if ($outputName === null && $isTTY && $node->getMimePart() !== 'text') {
-				$output->writeln([
-					"<error>Warning: Binary output can mess up your terminal</error>",
-					"         Use <info>occ files:get $fileInput -</info> to output it to the terminal anyway",
-					"         Or <info>occ files:get $fileInput <FILE></info> to save to a file instead"
-				]);
-				return 1;
-			}
-			$source = $node->fopen('r');
-			if (!$source) {
-				$output->writeln("<error>Failed to open $fileInput for reading</error>");
-				return 1;
-			}
-			$target = ($outputName === null || $outputName === '-') ? STDOUT : fopen($outputName, 'w');
-			if (!$target) {
-				$output->writeln("<error>Failed to open $outputName for reading</error>");
-				return 1;
-			}
-
-			stream_copy_to_stream($source, $target);
-			return 0;
-		} else {
+		if (!($node instanceof File)) {
 			$output->writeln("<error>$fileInput is a directory</error>");
-			return 1;
+			return self::FAILURE;
 		}
-	}
 
+		$isTTY = stream_isatty(STDOUT);
+		if ($outputName === null && $isTTY && $node->getMimePart() !== 'text') {
+			$output->writeln([
+				"<error>Warning: Binary output can mess up your terminal</error>",
+				"         Use <info>occ files:get $fileInput -</info> to output it to the terminal anyway",
+				"         Or <info>occ files:get $fileInput <FILE></info> to save to a file instead"
+			]);
+			return self::FAILURE;
+		}
+		$source = $node->fopen('r');
+		if (!$source) {
+			$output->writeln("<error>Failed to open $fileInput for reading</error>");
+			return self::FAILURE;
+		}
+		$target = ($outputName === null || $outputName === '-') ? STDOUT : fopen($outputName, 'w');
+		if (!$target) {
+			$output->writeln("<error>Failed to open $outputName for reading</error>");
+			return self::FAILURE;
+		}
+
+		stream_copy_to_stream($source, $target);
+		return self::SUCCESS;
+	}
 }

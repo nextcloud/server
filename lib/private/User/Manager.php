@@ -52,10 +52,10 @@ use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -88,9 +88,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	/** @var IConfig */
 	private $config;
 
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
 	/** @var ICache */
 	private $cache;
 
@@ -100,11 +97,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	private DisplayNameCache $displayNameCache;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $oldDispatcher,
 								ICacheFactory $cacheFactory,
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
-		$this->dispatcher = $oldDispatcher;
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
@@ -211,7 +206,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->eventDispatcher, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
@@ -341,6 +336,35 @@ class Manager extends PublicEmitter implements IUserManager {
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
 		return $users;
+	}
+
+	/**
+	 * @return IUser[]
+	 */
+	public function getDisabledUsers(?int $limit = null, int $offset = 0): array {
+		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
+		$users = array_combine(
+			$users,
+			array_map(
+				fn (string $uid): IUser => new LazyUser($uid, $this),
+				$users
+			)
+		);
+
+		$tempLimit = ($limit === null ? null : $limit + $offset);
+		foreach ($this->backends as $backend) {
+			if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+				break;
+			}
+			if ($backend instanceof IProvideEnabledStateBackend) {
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				foreach ($backendUsers as $uid) {
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
+				}
+			}
+		}
+
+		return array_slice($users, $offset, $limit);
 	}
 
 	/**

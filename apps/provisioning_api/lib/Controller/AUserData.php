@@ -36,6 +36,7 @@ use OC\Group\Manager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
+use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
@@ -52,6 +53,10 @@ use OCP\L10N\IFactory;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
+/**
+ * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
+ * @psalm-import-type ProvisioningApiUserDetailsQuota from ResponseDefinitions
+ */
 abstract class AUserData extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
 
@@ -99,12 +104,12 @@ abstract class AUserData extends OCSController {
 	 *
 	 * @param string $userId
 	 * @param bool $includeScopes
-	 * @return array
+	 * @return ProvisioningApiUserDetails|null
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
 	 */
-	protected function getUserData(string $userId, bool $includeScopes = false): array {
+	protected function getUserData(string $userId, bool $includeScopes = false): ?array {
 		$currentLoggedInUser = $this->userSession->getUser();
 		assert($currentLoggedInUser !== null, 'No user logged in');
 
@@ -123,7 +128,7 @@ abstract class AUserData extends OCSController {
 		} else {
 			// Check they are looking up themselves
 			if ($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
-				return $data;
+				return null;
 			}
 		}
 
@@ -225,7 +230,7 @@ abstract class AUserData extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return array
+	 * @return string[]
 	 * @throws OCSException
 	 */
 	protected function getUserSubAdminGroupsData(string $userId): array {
@@ -247,7 +252,7 @@ abstract class AUserData extends OCSController {
 
 	/**
 	 * @param string $userId
-	 * @return array
+	 * @return ProvisioningApiUserDetailsQuota
 	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {

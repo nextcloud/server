@@ -64,7 +64,6 @@ button:not(
 ),
 .button,
 .pager li a {
-	margin: 3px 3px 3px 0;
 	padding: 7px 14px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
@@ -74,21 +73,30 @@ button:not(
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
-	&:not(:disabled):not(.primary) {
-		&:hover,
-		&:focus,
-		&.active {
-		/* active class used for multiselect */
-			border-color: var(--color-primary-element);
-			outline: none;
-		}
-		&:active {
-			outline: none;
-			background-color: var(--color-main-background);
-			color: var(--color-text-light);
+	&:not(.app-navigation-entry-button) {
+		margin: 3px 3px 3px 0;
+	}
+	&:not(
+		:disabled,
+		.primary
+	) {
+		&:not(.app-navigation-entry-button) {
+			&:hover,
+			&:focus,
+			&.active {
+				/* active class used for multiselect */
+				border-color: var(--color-primary-element);
+				outline: none;
+			}
+			&:active {
+				outline: none;
+				background-color: var(--color-main-background);
+				color: var(--color-text-light);
+			}
 		}
 		&:focus-visible {
-			box-shadow: 0 0 0 2px var(--color-primary-element);
+			box-shadow: 0 0 0 4px var(--color-main-background) !important;
+			outline: 2px solid var(--color-main-text) !important;
 		}
 	}
 	&:disabled {

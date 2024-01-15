@@ -33,7 +33,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function appsList() {
-		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@id='apps-list']")->
+		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//*[@id='apps-list']")->
 				describedAs("Apps list in Apps Management");
 	}
 
@@ -86,7 +86,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function enableAllBundleButton($bundle) {
-		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input[@value='Enable all']")->
+		return Locator::forThe()->xpath("//th[//*[normalize-space() = '$bundle']]//button[normalize-space() = 'Download and enable all']")->
 				descendantOf(self::appsList())->
 				describedAs("Button to enable bundles");
 	}
@@ -95,7 +95,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForApp($app) {
-		return Locator::forThe()->xpath("//div[@class='app-name'][normalize-space() = '$app']/..")->
+		return Locator::forThe()->xpath("//*[@class='app-name'][normalize-space() = '$app']/..")->
 				descendantOf(self::appsList())->
 				describedAs("Row for app $app in Apps Management");
 	}
@@ -104,7 +104,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function emptyAppList() {
-		return Locator::forThe()->xpath("//div[@id='apps-list-empty']")->
+		return Locator::forThe()->xpath("//*[@id='apps-list-empty']")->
 				descendantOf(self::appsList())->
 				describedAs("Empty apps list view");
 	}

@@ -175,7 +175,7 @@ class AppConfig implements IAppConfig {
 	/**
 	 * Get all apps using the config
 	 *
-	 * @return array an array of app ids
+	 * @return string[] an array of app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
@@ -373,7 +373,7 @@ class AppConfig implements IAppConfig {
 		} else {
 			$appIds = $this->getApps();
 			$values = array_map(function ($appId) use ($key) {
-				return isset($this->cache[$appId][$key]) ? $this->cache[$appId][$key] : null;
+				return $this->cache[$appId][$key] ?? null;
 			}, $appIds);
 			$result = array_combine($appIds, $values);
 

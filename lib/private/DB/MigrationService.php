@@ -58,7 +58,7 @@ class MigrationService {
 	/**
 	 * @throws \Exception
 	 */
-	public function __construct($appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null) {
+	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null) {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		if ($output === null) {
@@ -100,18 +100,15 @@ class MigrationService {
 
 	/**
 	 * Returns the name of the app for which this migration is executed
-	 *
-	 * @return string
 	 */
-	public function getApp() {
+	public function getApp(): string {
 		return $this->appName;
 	}
 
 	/**
-	 * @return bool
 	 * @codeCoverageIgnore - this will implicitly tested on installation
 	 */
-	private function createMigrationTable() {
+	private function createMigrationTable(): bool {
 		if ($this->migrationTableCreated) {
 			return false;
 		}
@@ -188,7 +185,7 @@ class MigrationService {
 			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())))
 			->orderBy('version');
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
@@ -197,15 +194,17 @@ class MigrationService {
 
 	/**
 	 * Returns all versions which are available in the migration folder
-	 *
-	 * @return array
+	 * @return list<string>
 	 */
-	public function getAvailableVersions() {
+	public function getAvailableVersions(): array {
 		$this->ensureMigrationsAreLoaded();
 		return array_map('strval', array_keys($this->migrations));
 	}
 
-	protected function findMigrations() {
+	/**
+	 * @return array<string, string>
+	 */
+	protected function findMigrations(): array {
 		$directory = realpath($this->migrationsPath);
 		if ($directory === false || !file_exists($directory) || !is_dir($directory)) {
 			return [];
@@ -322,10 +321,9 @@ class MigrationService {
 	/**
 	 * Return the explicit version for the aliases; current, next, prev, latest
 	 *
-	 * @param string $alias
 	 * @return mixed|null|string
 	 */
-	public function getMigration($alias) {
+	public function getMigration(string $alias) {
 		switch ($alias) {
 			case 'current':
 				return $this->getCurrentVersion();
@@ -342,29 +340,22 @@ class MigrationService {
 		return '0';
 	}
 
-	/**
-	 * @param string $version
-	 * @param int $delta
-	 * @return null|string
-	 */
-	private function getRelativeVersion($version, $delta) {
+	private function getRelativeVersion(string $version, int $delta): ?string {
 		$this->ensureMigrationsAreLoaded();
 
 		$versions = $this->getAvailableVersions();
-		array_unshift($versions, 0);
+		array_unshift($versions, '0');
+		/** @var int $offset */
 		$offset = array_search($version, $versions, true);
 		if ($offset === false || !isset($versions[$offset + $delta])) {
 			// Unknown version or delta out of bounds.
 			return null;
 		}
 
-		return (string) $versions[$offset + $delta];
+		return (string)$versions[$offset + $delta];
 	}
 
-	/**
-	 * @return string
-	 */
-	private function getCurrentVersion() {
+	private function getCurrentVersion(): string {
 		$m = $this->getMigratedVersions();
 		if (count($m) === 0) {
 			return '0';
@@ -374,11 +365,9 @@ class MigrationService {
 	}
 
 	/**
-	 * @param string $version
-	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	private function getClass($version) {
+	private function getClass(string $version): string {
 		$this->ensureMigrationsAreLoaded();
 
 		if (isset($this->migrations[$version])) {
@@ -390,21 +379,16 @@ class MigrationService {
 
 	/**
 	 * Allows to set an IOutput implementation which is used for logging progress and messages
-	 *
-	 * @param IOutput $output
 	 */
-	public function setOutput(IOutput $output) {
+	public function setOutput(IOutput $output): void {
 		$this->output = $output;
 	}
 
 	/**
 	 * Applies all not yet applied versions up to $to
-	 *
-	 * @param string $to
-	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function migrate($to = 'latest', $schemaOnly = false) {
+	public function migrate(string $to = 'latest', bool $schemaOnly = false): void {
 		if ($schemaOnly) {
 			$this->migrateSchemaOnly($to);
 			return;
@@ -425,11 +409,9 @@ class MigrationService {
 
 	/**
 	 * Applies all not yet applied versions up to $to
-	 *
-	 * @param string $to
 	 * @throws \InvalidArgumentException
 	 */
-	public function migrateSchemaOnly($to = 'latest') {
+	public function migrateSchemaOnly(string $to = 'latest'): void {
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 

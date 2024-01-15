@@ -298,6 +298,10 @@ class Connection extends LDAPUtility {
 		return json_decode(base64_decode($this->cache->get($key) ?? ''), true);
 	}
 
+	public function getConfigPrefix(): string {
+		return $this->configPrefix;
+	}
+
 	/**
 	 * @param string $key
 	 * @param mixed $value

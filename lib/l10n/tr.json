@@ -6,7 +6,6 @@
     "Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory." : "%1$s uygulaması yok ya da bu sunucuyla uyumlu olmayan bir sürümü var. Lütfen apps klasörünü kontrol edin.",
     "Sample configuration detected" : "Örnek yapılandırma algılandı",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Örnek yapılandırmanın kopyalanmış olabileceği tespit edildi. Bu durum kurulumunuzu bozabilir ve desteklenmez. Lütfen config.php dosyasında değişiklik yapmadan önce belgeleri okuyun",
-    "404" : "404",
     "The page could not be found on the server." : "Sayfa sunucuda bulunamadı.",
     "%s email verification" : "%s e-posta doğrulaması",
     "Email verification" : "E-posta doğrulaması",
@@ -154,6 +153,7 @@
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
     "Click the button below to open it." : "Açmak için aşağıdaki düğmeye tıklayın.",
     "The requested share does not exist anymore" : "Erişilmek istenilen paylaşım artık yok",
+    "The requested share comes from a disabled user" : "Erişilmek istenilen paylaşım etkisizleştirilmiş bir kullanıcıdan geliyor",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Kullanıcı sayısı sınırına ulaşıldığından kullanıcı eklenemedi. Ayrıntılı bilgi almak için bildirimlerinize bakın.",
     "Could not find category \"%s\"" : "\"%s\" kategorisi bulunamadı",
     "Sunday" : "Pazar",
@@ -242,8 +242,6 @@
     "Please ask your server administrator to restart the web server." : "Lütfen site sunucusunu yeniden başlatması için BT yöneticinizle görüşün.",
     "The required %s config variable is not configured in the config.php file." : "Gereken %s yapılandırma değişkeni config.php dosyasında ayarlanmamış.",
     "Please ask your server administrator to check the Nextcloud configuration." : "Lütfen Nextcloud yapılandırmasını denetlemesi için BT yöneticinizle görüşün.",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 gerekli.",
-    "Please upgrade your database version." : "Lütfen veri tabanı sürümünüzü yükseltin.",
     "Your data directory is readable by other users." : "Veri klasörünüz diğer kullanıcılar tarafından okunabilir.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Lütfen izinleri 0770 olarak ayarlayarak diğer kullanıcıların klasörü görebilmesini sağlayın.",
     "Your data directory must be an absolute path." : "Veri klasörünüz mutlak bir yol olmalıdır.",
@@ -262,9 +260,9 @@
     "Storage is temporarily not available" : "Depolama geçici olarak kullanılamıyor",
     "Storage connection timeout. %s" : "Depolama bağlantısı zaman aşımı. %s",
     "Free prompt" : "Ücretsiz bilgi istemi",
-    "Runs an arbitrary prompt through the built-in language model." : "Yerleşik dil modeli ile isteğe bağlı bir bilgi istemi çalıştırır.",
+    "Runs an arbitrary prompt through the language model." : "Dil modeli ile isteğe bağlı bir bilgi istemi çalıştırır.",
     "Generate headline" : "Başlık oluşturulsun",
-    "Generates a possible headline for a text" : "Bir metin için olası bir başlık oluşturur",
+    "Generates a possible headline for a text." : "Bir metin için olası bir başlık oluşturur.",
     "Summarize" : "Özetlensin",
     "Summarizes text by reducing its length without losing key information." : "Temel içeriği kaybetmeden uzunluğunu kısaltarak metni özetler.",
     "Extract topics" : "Başlıklar ayıklansın",
@@ -274,6 +272,9 @@
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Kullanıcı sayısı sınırına ulaşıldığından kullanıcı eklenemedi. Ayrıntılı bilgi almak için bildirimlerinize bakın.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 sürümü en az 2.7.0 olmalıdır. Şu anda %s kurulu.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Bu sorunu çözmek için libxml2 sürümünüzü güncelleyin ve site sunucusunu yeniden başlatın."
+    "To fix this issue update your libxml2 version and restart your web server." : "Bu sorunu çözmek için libxml2 sürümünüzü güncelleyin ve site sunucusunu yeniden başlatın.",
+    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 gerekli.",
+    "Please upgrade your database version." : "Lütfen veri tabanı sürümünüzü yükseltin.",
+    "404" : "404"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

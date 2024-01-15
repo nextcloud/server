@@ -37,10 +37,8 @@ namespace OC\Accounts;
 
 use Exception;
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
@@ -51,19 +49,20 @@ use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_flip;
 use function iterator_to_array;
 use function json_decode;
@@ -109,7 +108,7 @@ class AccountManager implements IAccountManager {
 	public function __construct(
 		private IDBConnection $connection,
 		private IConfig $config,
-		private EventDispatcherInterface $eventDispatcher,
+		private IEventDispatcher $dispatcher,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
 		private IVerificationToken $verificationToken,
@@ -118,6 +117,7 @@ class AccountManager implements IAccountManager {
 		private IFactory $l10nFactory,
 		private IURLGenerator $urlGenerator,
 		private ICrypto $crypto,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
 		$this->internalCache = new CappedMemoryCache();
 	}
@@ -138,13 +138,9 @@ class AccountManager implements IAccountManager {
 			$defaultRegion = 'EN';
 		}
 
-		$phoneUtil = PhoneNumberUtil::getInstance();
-		try {
-			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
-			if ($phoneUtil->isValidNumber($phoneNumber)) {
-				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-			}
-		} catch (NumberParseException $e) {
+		$phoneNumber = $this->phoneNumberUtil->convertToStandardFormat($input, $defaultRegion);
+		if ($phoneNumber !== null) {
+			return $phoneNumber;
 		}
 
 		throw new InvalidArgumentException(self::PROPERTY_PHONE);
@@ -255,10 +251,10 @@ class AccountManager implements IAccountManager {
 		}
 
 		if ($updated) {
-			$this->eventDispatcher->dispatch(
-				'OC\AccountManager::userUpdated',
-				new GenericEvent($user, $data)
-			);
+			$this->dispatcher->dispatchTyped(new UserUpdatedEvent(
+				$user,
+				$data,
+			));
 		}
 
 		return $data;
@@ -744,6 +740,10 @@ class AccountManager implements IAccountManager {
 			return $cached;
 		}
 		$account = $this->parseAccountData($user, $this->getUser($user));
+		if ($user->getBackend() instanceof IGetDisplayNameBackend) {
+			$property = $account->getProperty(self::PROPERTY_DISPLAYNAME);
+			$account->setProperty(self::PROPERTY_DISPLAYNAME, $user->getDisplayName(), $property->getScope(), $property->getVerified());
+		}
 		$this->internalCache->set($user->getUID(), $account);
 		return $account;
 	}

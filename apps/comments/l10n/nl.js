@@ -20,13 +20,13 @@ OC.L10N.register(
     "No more messages" : "Geen berichten meer",
     "Retry" : "Opnieuw proberen",
     "Unable to load the comments list" : "Kan reactielijst niet laden",
-    "_%n unread comment_::_%n unread comments_" : ["%n ongelezen reactie","%n ongelezen reacties"],
     "_1 new comment_::_{unread} new comments_" : ["1 nieuwe reactie","{unread} nieuwe reacties"],
     "Comment" : "Reactie",
     "An error occurred while trying to edit the comment" : "Er trad een fout op bij het bewerken van de reactie",
     "Comment deleted" : "Reactie verwijderd",
     "An error occurred while trying to delete the comment" : "Er trad een fout op bij het verwijderen van de reactie",
     "An error occurred while trying to create the comment" : "Er trad een fout op bij het creëren van de reactie",
-    "%1$s commented" : "%1$s heeft gereageerd"
+    "%1$s commented" : "%1$s heeft gereageerd",
+    "_%n unread comment_::_%n unread comments_" : ["%n ongelezen reactie","%n ongelezen reacties"]
 },
 "nplurals=2; plural=(n != 1);");

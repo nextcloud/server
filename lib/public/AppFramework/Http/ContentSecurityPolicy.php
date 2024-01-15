@@ -44,6 +44,8 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	protected $inlineScriptAllowed = false;
 	/** @var bool Whether eval in JS scripts is allowed */
 	protected $evalScriptAllowed = false;
+	/** @var bool Whether WebAssembly compilation is allowed */
+	protected ?bool $evalWasmAllowed = false;
 	/** @var bool Whether strict-dynamic should be set */
 	protected $strictDynamicAllowed = false;
 	/** @var array Domains from which scripts can get loaded */

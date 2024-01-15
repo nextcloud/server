@@ -19,18 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { ServerTag, Tag, TagWithId } from '../types.js'
 
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 
 import { davClient } from './davClient.js'
-import { formatTag, parseIdFromLocation, parseTags } from '../utils.js'
+import { formatTag, parseIdFromLocation, parseTags } from '../utils'
 import { logger } from '../logger.js'
-
-import type { FileStat, ResponseDataDetailed } from 'webdav'
-
-import type { ServerTag, Tag, TagWithId } from '../types.js'
 
 const fetchTagsBody = `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">

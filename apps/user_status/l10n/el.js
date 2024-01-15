@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "Recent statuses" : "Πρόσφατες καταστάσεις",
+    "No recent status changes" : "Δεν υπάρχουν πρόσφατες αλλαγές κατάστασης",
     "In a meeting" : "Σε συνάντηση",
     "Commuting" : "Μετακίνηση προς την εργασία",
     "Out sick" : "Αναρρωτική άδεια",
@@ -19,14 +20,12 @@ OC.L10N.register(
     "Set status message" : "Ορισμός μηνύματος κατάστασης",
     "There was an error saving the status" : "Παρουσιάστηκε σφάλμα κατά την αποθήκευση της κατάστασης",
     "There was an error clearing the status" : "Παρουσιάστηκε σφάλμα κατά την εκκαθάριση της κατάστασης",
-    "No recent status changes" : "Δεν υπάρχουν πρόσφατες αλλαγές κατάστασης",
-    "Away" : "Λείπω",
-    "Do not disturb" : "Μην ενοχλείτε",
-    "{status}, {timestamp}" : "{status}, {timestamp}",
     "Don't clear" : "Να μη γίνεται εκκαθάριση",
     "Today" : "Σήμερα",
     "This week" : "Αυτή την εβδομάδα",
     "Online" : "Σε σύνδεση",
+    "Away" : "Λείπω",
+    "Do not disturb" : "Μην ενοχλείτε",
     "Invisible" : "Αόρατος",
     "Offline" : "Εκτός σύνδεσης",
     "There was an error saving the new status" : "Παρουσιάστηκε σφάλμα κατά την αποθήκευση της νέας κατάστασης",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "1 hour" : "1 ώρα",
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
-    "Appear offline" : "Εμφάνιση εκτός σύνδεσης"
+    "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
+    "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -5,6 +5,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -82,11 +83,19 @@ class PublicPreviewController extends PublicShareController {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param string $file
-	 * @param int $x
-	 * @param int $y
-	 * @param bool $a
-	 * @return DataResponse|FileDisplayResponse
+	 * Get a preview for a shared file
+	 *
+	 * @param string $token Token of the share
+	 * @param string $file File in the share
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param bool $a Whether to not crop the preview
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 403: Getting preview is not allowed
+	 * 404: Share or preview not found
 	 */
 	public function getPreview(
 		string $token,
@@ -138,8 +147,15 @@ class PublicPreviewController extends PublicShareController {
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
-	 * @param $token
-	 * @return DataResponse|FileDisplayResponse
+	 * Get a direct link preview for a shared file
+	 *
+	 * @param string $token Token of the share
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 403: Getting preview is not allowed
+	 * 404: Share or preview not found
 	 */
 	public function directLink(string $token) {
 		// No token no image

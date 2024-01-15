@@ -139,16 +139,14 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'view#index',
+				'name' => 'view#indexView',
 				'url' => '/{view}',
 				'verb' => 'GET',
-				'postfix' => 'view',
 			],
 			[
-				'name' => 'view#index',
+				'name' => 'view#indexViewFileid',
 				'url' => '/{view}/{fileid}',
 				'verb' => 'GET',
-				'postfix' => 'fileid',
 			],
 		],
 		'ocs' => [

@@ -80,7 +80,7 @@
 			scope="col">
 			<span>{{ t('settings', 'Last login') }}</span>
 		</th>
-		<th class="header__cell header__cell--large"
+		<th class="header__cell header__cell--large header__cell--fill"
 			scope="col">
 			<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 			<span>{{ t('settings', 'Manager') }}</span>
@@ -127,6 +127,7 @@ export default Vue.extend({
 
 		passwordLabel(): string {
 			if (this.hasObfuscated) {
+				// TRANSLATORS This string is for a column header labelling either a password or a message that the current user has insufficient permissions
 				return t('settings', 'Password or insufficient permissions message')
 			}
 			return t('settings', 'Password')

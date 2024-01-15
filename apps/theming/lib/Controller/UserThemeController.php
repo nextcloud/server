@@ -178,6 +178,8 @@ class UserThemeController extends OCSController {
 	 * Delete the background
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, ThemingBackground, array{}>
+	 *
+	 * 200: Background deleted successfully
 	 */
 	public function deleteBackground(): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');

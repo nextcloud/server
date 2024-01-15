@@ -11,12 +11,14 @@
 /apps/federation/appinfo/info.xml             @datenangebot
 /apps/files/appinfo/info.xml                  @skjnldsv @Pytal @ArtificialOwl @come-nc @artonge @icewind1991 @szaimen @susnux @Fenn-CS
 /apps/files_external/appinfo/info.xml         @icewind1991 @artonge
+/apps/files_reminders/appinfo/info.xml        @Pytal
 /apps/files_sharing/appinfo/info.xml          @skjnldsv @come-nc
 /apps/files_trashbin/appinfo/info.xml         @Pytal @icewind1991
 /apps/files_versions/appinfo/info.xml         @artonge @icewind1991
 /apps/oauth2/appinfo/info.xml                 @julien-nc @ChristophWurst
 /apps/provisioning_api/appinfo/info.xml       @provokateurin @nickvergessen
 /apps/settings/appinfo/info.xml               @Pytal @JuliaKirschenheuter
+/apps/sharebymail/appinfo/info.xml            @Altahrim
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
 /apps/theming/appinfo/info.xml                @skjnldsv @juliushaertl
 /apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
@@ -28,12 +30,31 @@
 
 # Security team
 /resources/config/ca-bundle.crt     @ChristophWurst @miaulalala @nickvergessen
+/.drone.yml                         @nickvergessen
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members
 **/TwoFactorAuth                    @ChristophWurst @miaulalala @nickvergessen @st3iny
 /apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen @st3iny
 /core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen @st3iny
+
+# Limit login to IP
+# Watch login routes for https://github.com/nextcloud/limit_login_to_ip
+/core/routes.php	@Altahrim
+
+# OpenAPI
+openapi.json            @provokateurin
+ResponseDefinitions.php @provokateurin
+
+# Talk team
+/lib/private/Comments               @nickvergessen
+/lib/private/Federation             @nickvergessen
+/lib/private/Talk                   @nickvergessen
+/lib/public/Comments                @nickvergessen
+/lib/public/Federation              @nickvergessen
+/lib/public/OCM                     @nickvergessen
+/lib/public/Talk                    @nickvergessen
+/lib/public/UserStatus              @nickvergessen
 
 # Personal interest
 */Activity/*                        @nickvergessen

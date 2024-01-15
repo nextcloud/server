@@ -11,6 +11,7 @@ OC.L10N.register(
     "Weather service" : "خدمت هواشناسی",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "برای محرمانگیتان، داده‌های آب و هوا از طرف کارساز نکست‌کلودتان درخواست می‌شود تا خدمت آب و هوا هیچ اطّلاعات شخصی‌ای دریافت نکند.",
     "Weather data from Met.no" : "اطلاعات هواشناسی از Met.no",
+    "geocoding with Nominatim" : "geocoding with Nominatim",
     "elevation data from OpenTopoData" : "داده‌های ارتفاع از OpenTopoData",
     "Weather" : "آب و هوا",
     "Status" : "وضعیت",

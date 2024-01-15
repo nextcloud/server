@@ -1,5 +1,5 @@
 <template>
-	<NcSettingsSection id="updatenotification" :title="t('updatenotification', 'Update')">
+	<NcSettingsSection id="updatenotification" :name="t('updatenotification', 'Update')">
 		<div class="update">
 			<template v-if="isNewVersionAvailable">
 				<NcNoteCard v-if="versionIsEol" type="warning">
@@ -60,13 +60,13 @@
 					</span>
 					<NcActions v-if="whatsNewData || changelogURL"
 						:force-menu="true"
-						:menu-title="t('updatenotification', 'What\'s new?')"
+						:menu-name="t('updatenotification', 'What\'s new?')"
 						type="tertiary">
 						<template #icon>
 							<IconNewBox :size="20" />
 						</template>
 						<template #default>
-							<NcActionCaption v-for="changes,index in whatsNewData" :key="index" :title="changes" />
+							<NcActionCaption v-for="changes,index in whatsNewData" :key="index" :name="changes" />
 							<NcActionLink v-if="changelogURL"
 								:href="changelogURL"
 								close-after-click
@@ -102,7 +102,7 @@
 		<div class="update-channel-selector">
 			<span>{{ t('updatenotification', 'Current update channel:') }}</span>
 			<NcActions :force-menu="true"
-				:menu-title="localizedChannelName"
+				:menu-name="localizedChannelName"
 				type="tertiary">
 				<template #icon>
 					<IconChevronDown :size="20" />
@@ -482,9 +482,6 @@ export default {
 					cursor: pointer;
 				}
 			}
-			&:first-of-type {
-				margin-top: 0;
-			}
 		}
 		h4 {
 			margin-block-end: 0.7rem;
@@ -510,6 +507,9 @@ export default {
 			cursor: pointer;
 			margin-left: 3px;
 			display: inline-block;
+			padding: 10px;
+			border-radius: 10px;
+			border: 2px solid var(--color-border-dark);
 			.icon-update-menu {
 				cursor: inherit;
 				.icon-triangle-s {
