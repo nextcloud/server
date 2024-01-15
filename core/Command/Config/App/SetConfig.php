@@ -35,9 +35,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class SetConfig extends Base {
-	private InputInterface $input;
-	private OutputInterface $output;
-
 	public function __construct(
 		protected IAppConfig $appConfig,
 	) {
@@ -97,8 +94,6 @@ class SetConfig extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
-		$this->input = $input;
-		$this->output = $output;
 
 		if (!($this->appConfig instanceof AppConfig)) {
 			throw new \Exception('Only compatible with OC\AppConfig as it uses internal methods');
@@ -126,19 +121,19 @@ class SetConfig extends Base {
 		 */
 		$updated = false;
 		if (!$input->hasParameterOption('--value')) {
-			if (!$input->getOption('lazy') && $this->appConfig->isLazy($appName, $configName) && $this->ask('NOT LAZY')) {
+			if (!$input->getOption('lazy') && $this->appConfig->isLazy($appName, $configName) && $this->ask($input, $output, 'NOT LAZY')) {
 				$updated = $this->appConfig->updateLazy($appName, $configName, false);
 			}
-			if ($input->getOption('lazy') && !$this->appConfig->isLazy($appName, $configName) && $this->ask('LAZY')) {
+			if ($input->getOption('lazy') && !$this->appConfig->isLazy($appName, $configName) && $this->ask($input, $output, 'LAZY')) {
 				$updated = $this->appConfig->updateLazy($appName, $configName, true) || $updated;
 			}
-			if (!$input->getOption('sensitive') && $this->appConfig->isSensitive($appName, $configName) && $this->ask('NOT SENSITIVE')) {
+			if (!$input->getOption('sensitive') && $this->appConfig->isSensitive($appName, $configName) && $this->ask($input, $output, 'NOT SENSITIVE')) {
 				$updated = $this->appConfig->updateSensitive($appName, $configName, false) || $updated;
 			}
-			if ($input->getOption('sensitive') && !$this->appConfig->isSensitive($appName, $configName) && $this->ask('SENSITIVE')) {
+			if ($input->getOption('sensitive') && !$this->appConfig->isSensitive($appName, $configName) && $this->ask($input, $output, 'SENSITIVE')) {
 				$updated = $this->appConfig->updateSensitive($appName, $configName, true) || $updated;
 			}
-			if ($typeString !== null && $type !== $this->appConfig->getValueType($appName, $configName) && $this->ask($typeString)) {
+			if ($type !== null && $type !== $this->appConfig->getValueType($appName, $configName) && $typeString !== null && $this->ask($input, $output, $typeString)) {
 				$updated = $this->appConfig->updateType($appName, $configName, $type) || $updated;
 			}
 		} else {
@@ -149,7 +144,7 @@ class SetConfig extends Base {
 			 */
 			try {
 				$currType = $this->appConfig->getValueType($appName, $configName);
-				if ($type === null || $type === $currType || !$this->ask($typeString)) {
+				if ($typeString === null || $type === $currType || !$this->ask($input, $output, $typeString)) {
 					$type = $currType;
 				} else {
 					$updated = $this->appConfig->updateType($appName, $configName, $type);
@@ -166,7 +161,7 @@ class SetConfig extends Base {
 			$lazy = $input->getOption('lazy');
 			try {
 				$currLazy = $this->appConfig->isLazy($appName, $configName);
-				if ($lazy === null || $lazy === $currLazy || !$this->ask(($lazy) ? 'LAZY' : 'NOT LAZY')) {
+				if ($lazy === null || $lazy === $currLazy || !$this->ask($input, $output, ($lazy) ? 'LAZY' : 'NOT LAZY')) {
 					$lazy = $currLazy;
 				}
 			} catch (AppConfigUnknownKeyException) {
@@ -179,7 +174,7 @@ class SetConfig extends Base {
 			$sensitive = $input->getOption('sensitive');
 			try {
 				$currSensitive = $this->appConfig->isLazy($appName, $configName);
-				if ($sensitive === null || $sensitive === $currSensitive || !$this->ask(($sensitive) ? 'LAZY' : 'NOT LAZY')) {
+				if ($sensitive === null || $sensitive === $currSensitive || !$this->ask($input, $output, ($sensitive) ? 'LAZY' : 'NOT LAZY')) {
 					$sensitive = $currSensitive;
 				}
 			} catch (AppConfigUnknownKeyException) {
@@ -249,26 +244,26 @@ class SetConfig extends Base {
 		return 0;
 	}
 
-	private function ask(string $request): bool {
+	private function ask(InputInterface $input, OutputInterface $output, string $request): bool {
 		$helper = $this->getHelper('question');
-		if ($this->input->getOption('no-interaction')) {
+		if ($input->getOption('no-interaction')) {
 			return true;
 		}
 
-		$this->output->writeln(sprintf('You are about to set config value %s as <info>%s</info>',
-			'<info>' . $this->input->getArgument('app') . '</info>/<info>' . $this->input->getArgument('name') . '</info>',
+		$output->writeln(sprintf('You are about to set config value %s as <info>%s</info>',
+			'<info>' . $input->getArgument('app') . '</info>/<info>' . $input->getArgument('name') . '</info>',
 			strtoupper($request)
 		));
-		$this->output->writeln('');
-		$this->output->writeln('<comment>This might break thing, affect performance on your instance or its security!</comment>');
+		$output->writeln('');
+		$output->writeln('<comment>This might break thing, affect performance on your instance or its security!</comment>');
 
 		$result = (strtolower((string)$helper->ask(
-			$this->input,
-			$this->output,
+			$input,
+			$output,
 			new Question('<comment>Confirm this action by typing \'yes\'</comment>: '))) === 'yes');
 
-		$this->output->writeln(($result) ? 'done' : 'cancelled');
-		$this->output->writeln('');
+		$output->writeln(($result) ? 'done' : 'cancelled');
+		$output->writeln('');
 
 		return $result;
 	}

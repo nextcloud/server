@@ -38,31 +38,32 @@ use OCP\Exceptions\AppConfigUnknownKeyException;
  * **Note:** since 29.0.0, it supports **lazy loading**
  *
  * ### What is lazy loading ?
+ * In order to avoid loading useless config values into memory for each request,
+ * only non-lazy values are now loaded.
  *
- * By default, app config values are all loaded in memory; but in order to avoid
- * loading useless config values in memory on each request on the cloud, it has
- * been made possible to set your config keys as lazy.
- * When set as lazy, the values will only be loaded in memory when needed.
- * In fact, the cloud will load all config set as lazy loaded when a first one
- * is requested.
+ * Once a value that is lazy is requested, all lazy values will be loaded.
  *
- * It is advised to set a config key as lazy when its value is only needed during
- * really specific request, in part of code that is not called frequently.
+ * Similarly, some methods from this class are marked with a warning about ignoring
+ * lazy loading. Use them wisely and only on parts of the code that are called
+ * during specific requests or actions to avoid loading the lazy values all the time.
  *
- * **Note:** some methods from this class are marked with a warning about ignoring
- * lazy filtering, meaning it will load in memory all apps config values. use them
- * wisely and only in part of code called during specific request/action.
- *
- * @since 29.0.0 supports lazy loading
  * @since 7.0.0
+ * @since 29.0.0 - Supporting types and lazy loading
  */
 interface IAppConfig {
+	/** @since 29.0.0 */
 	public const VALUE_SENSITIVE = 1;
+	/** @since 29.0.0 */
 	public const VALUE_MIXED = 2;
+	/** @since 29.0.0 */
 	public const VALUE_STRING = 4;
+	/** @since 29.0.0 */
 	public const VALUE_INT = 8;
+	/** @since 29.0.0 */
 	public const VALUE_FLOAT = 16;
+	/** @since 29.0.0 */
 	public const VALUE_BOOL = 32;
+	/** @since 29.0.0 */
 	public const VALUE_ARRAY = 64;
 
 	/**
@@ -170,7 +171,6 @@ interface IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 * @see getValueInt()
-	 * @see getValueBigInt()
 	 * @see getValueFloat()
 	 * @see getValueBool()
 	 * @see getValueArray()
@@ -191,33 +191,11 @@ interface IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 * @see getValueString()
-	 * @see getValueBigInt()
 	 * @see getValueFloat()
 	 * @see getValueBool()
 	 * @see getValueArray()
 	 */
 	public function getValueInt(string $app, string $key, int $default = 0, bool $lazy = false): int;
-
-	/**
-	 * Get config value assigned to a config key.
-	 * If config key is not found in database, default value is returned.
-	 * If config key is set as lazy loaded, the $lazy argument needs to be set to TRUE.
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param int|float $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return int|float stored config value or $default if not set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueString()
-	 * @see getValueInt()
-	 * @see getValueFloat()
-	 * @see getValueBool()
-	 * @see getValueArray()
-	 */
-	public function getValueBigInt(string $app, string $key, int|float $default = 0, bool $lazy = false): int|float;
 
 	/**
 	 * Get config value assigned to a config key.
@@ -234,7 +212,6 @@ interface IAppConfig {
 	 * @see IAppConfig for explanation about lazy loading
 	 * @see getValueString()
 	 * @see getValueInt()
-	 * @see getValueBigInt()
 	 * @see getValueBool()
 	 * @see getValueArray()
 	 */
@@ -255,7 +232,6 @@ interface IAppConfig {
 	 * @see IAppConfig for explanation about lazy loading
 	 * @see getValueString()
 	 * @see getValueInt()
-	 * @see getValueBigInt()
 	 * @see getValueFloat()
 	 * @see getValueArray()
 	 */
@@ -276,7 +252,6 @@ interface IAppConfig {
 	 * @see IAppConfig for explanation about lazy loading
 	 * @see getValueString()
 	 * @see getValueInt()
-	 * @see getValueBigInt()
 	 * @see getValueFloat()
 	 * @see getValueBool()
 	 */
@@ -317,9 +292,8 @@ interface IAppConfig {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see setValueInt()
-	 * @see setValueBigInt()
 	 * @see setValueFloat()
 	 * @see setValueBool()
 	 * @see setValueArray()
@@ -328,6 +302,11 @@ interface IAppConfig {
 
 	/**
 	 * Store a config key and its value in database
+	 *
+	 * When handling huge value around and/or above 2,147,483,647, a debug log will be generated
+	 * on 64bits system, as php int type reach its limit (and throw an exception) on 32bits when using huge numbers.
+	 *
+	 * When using huge numbers, it is advised to use {@see \OCP\Util::numericToNumber()} and {@see setValueString()}
 	 *
 	 * If config key is already known with the exact same config value, the database is not updated.
 	 * If config key is not supposed to be read during the boot of the cloud, it is advised to set it as lazy loaded.
@@ -342,43 +321,16 @@ interface IAppConfig {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see setValueString()
-	 * @see setValueBigInt()
 	 * @see setValueFloat()
 	 * @see setValueBool()
 	 * @see setValueArray()
 	 */
 	public function setValueInt(string $app, string $key, int $value, bool $lazy = false, bool $sensitive = false): bool;
 
-
 	/**
-	 * Store a config key and its value in database
-	 *
-	 * If config key is already known with the exact same config value, the database is not updated.
-	 * If config key is not supposed to be read during the boot of the cloud, it is advised to set it as lazy loaded.
-	 *
-	 * If config value was previously stored as sensitive or lazy loaded, status cannot be altered without using {@see deleteKey()} first
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param int|float $value config value
-	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
-	 * @param bool $lazy set config as lazy loaded
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
-	 * @see setValueString()
-	 * @see setValueBigInt()
-	 * @see setValueFloat()
-	 * @see setValueBool()
-	 * @see setValueArray()
-	 */
-	public function setValueBigInt(string $app, string $key, int|float $value, bool $lazy = false, bool $sensitive = false): bool;
-
-	/**
-	 * Store a config key and its value in database
+	 * Store a config key and its value in database.
 	 *
 	 * If config key is already known with the exact same config value, the database is not updated.
 	 * If config key is not supposed to be read during the boot of the cloud, it is advised to set it as lazy loaded.
@@ -393,10 +345,9 @@ interface IAppConfig {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see setValueString()
 	 * @see setValueInt()
-	 * @see setValueBigInt()
 	 * @see setValueBool()
 	 * @see setValueArray()
 	 */
@@ -417,10 +368,9 @@ interface IAppConfig {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see setValueString()
 	 * @see setValueInt()
-	 * @see setValueBigInt()
 	 * @see setValueFloat()
 	 * @see setValueArray()
 	 */
@@ -442,10 +392,9 @@ interface IAppConfig {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see setValueString()
 	 * @see setValueInt()
-	 * @see setValueBigInt()
 	 * @see setValueFloat()
 	 * @see setValueBool()
 	 */

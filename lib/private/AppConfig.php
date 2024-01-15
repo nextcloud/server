@@ -46,30 +46,26 @@ use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
  * This class provides an easy way for apps to store config values in the
  * database.
  *
- * **Note:** since 29.0.0, it supports **lazy grouping**
+ * **Note:** since 29.0.0, it supports **lazy loading**
  *
- * ### What is lazy grouping ?
- * In order to avoid loading useless config values in memory for each request on
- * the cloud, it has been made possible to group your config keys.
- * Each group, called _lazy group_, is only loaded in memory when one its config
- * keys is retrieved.
+ * ### What is lazy loading ?
+ * In order to avoid loading useless config values into memory for each request,
+ * only non-lazy values are now loaded.
  *
- * It is advised to only use the default lazy group, named '' (empty string), for
- * config keys used in the registered part of your code that is called even when
- * your app is not boot (as in event listeners, ...)
+ * Once a value that is lazy is requested, all lazy values will be loaded.
  *
- * **WARNING:** some methods from this class are marked with a warning about ignoring
- * lazy grouping, use them wisely and only on part of code called during
- * specific request/action
+ * Similarly, some methods from this class are marked with a warning about ignoring
+ * lazy loading. Use them wisely and only on parts of the code that are called
+ * during specific requests or actions to avoid loading the lazy values all the time.
  *
  * @since 7.0.0
+ * @since 29.0.0 - Supporting types and lazy loading
  */
 class AppConfig implements IAppConfig {
 	private const APP_MAX_LENGTH = 32;
@@ -149,12 +145,10 @@ class AppConfig implements IAppConfig {
 		}
 
 		if ($lazy) {
-			$cache = &$this->lazyCache;
-		} else {
-			$cache = &$this->fastCache;
+			return isset($this->lazyCache[$app][$key]);
 		}
 
-		return isset($cache[$app][$key]);
+		return isset($this->fastCache[$app][$key]);
 	}
 
 	/**
@@ -254,9 +248,9 @@ class AppConfig implements IAppConfig {
 
 		/** @var array<array-key, array<array-key, mixed>> $cache */
 		if ($lazy) {
-			$cache = &$this->lazyCache;
+			$cache = $this->lazyCache;
 		} else {
-			$cache = &$this->fastCache;
+			$cache = $this->fastCache;
 		}
 
 		foreach (array_keys($cache) as $app) {
@@ -270,12 +264,12 @@ class AppConfig implements IAppConfig {
 
 
 	/**
-	 * Get any config value, will be returned as string.
-	 * If value does not exist, will return $default
+	 * Get the config value as string.
+	 * If the value does not exist the given default will be returned.
 	 *
-	 * $lazy can be NULL to ignore lazy loading
+	 * Set lazy to `null` to ignore it and get the value from either source.
 	 *
-	 * **WARNING:** Method is internal and **MUST** not be used as it is best to set a real value type
+	 * **WARNING:** Method is internal and **SHOULD** not be used, as it is better to get the value with a type.
 	 *
 	 * @param string $app id of the app
 	 * @param string $key config key
@@ -285,13 +279,12 @@ class AppConfig implements IAppConfig {
 	 * @return string the value or $default
 	 * @internal
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see getValueString()
 	 * @see getValueInt()
-	 * @see getValueBigInt()
 	 * @see getValueFloat()
 	 * @see getValueBool()
-	 * @see setValueArray()
+	 * @see getValueArray()
 	 */
 	public function getValueMixed(
 		string $app,
@@ -321,11 +314,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueInt()
-	 * @see getValueBigInt()
-	 * @see getValueFloat()
-	 * @see getValueBool()
-	 * @see getValueArray()
 	 */
 	public function getValueString(
 		string $app,
@@ -349,11 +337,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueString()
-	 * @see getValueBigInt()
-	 * @see getValueFloat()
-	 * @see getValueBool()
-	 * @see getValueArray()
 	 */
 	public function getValueInt(
 		string $app,
@@ -369,34 +352,6 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app id of the app
 	 * @param string $key config key
-	 * @param int|float $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return int|float stored config value or $default if not set in database
-	 * @throws InvalidArgumentException if one of the argument format is invalid
-	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueString()
-	 * @see getValueInt()
-	 * @see getValueFloat()
-	 * @see getValueBool()
-	 * @see getValueArray()
-	 */
-	public function getValueBigInt(
-		string $app,
-		string $key,
-		int|float $default = 0,
-		bool $lazy = false
-	): int|float {
-		return Util::numericToNumber($this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_INT));
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
 	 * @param float $default default value
 	 * @param bool $lazy search within lazy loaded config
 	 *
@@ -405,11 +360,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueString()
-	 * @see getValueInt()
-	 * @see getValueBigInt()
-	 * @see getValueBool()
-	 * @see getValueArray()
 	 */
 	public function getValueFloat(string $app, string $key, float $default = 0, bool $lazy = false): float {
 		return (float)$this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_FLOAT);
@@ -428,11 +378,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueString()
-	 * @see getValueInt()
-	 * @see getValueBigInt()
-	 * @see getValueFloat()
-	 * @see getValueArray()
 	 */
 	public function getValueBool(string $app, string $key, bool $default = false, bool $lazy = false): bool {
 		$b = strtolower($this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL));
@@ -452,11 +397,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see getValueString()
-	 * @see getValueInt()
-	 * @see getValueBigInt()
-	 * @see getValueFloat()
-	 * @see getValueBool()
 	 */
 	public function getValueArray(
 		string $app,
@@ -510,12 +450,10 @@ class AppConfig implements IAppConfig {
 		}
 
 		if ($lazy) {
-			$cache = &$this->lazyCache;
-		} else {
-			$cache = &$this->fastCache;
+			return $this->lazyCache[$app][$key] ?? $default;
 		}
 
-		return $cache[$app][$key] ?? $default;
+		return $this->fastCache[$app][$key] ?? $default;
 	}
 
 	/**
@@ -537,7 +475,11 @@ class AppConfig implements IAppConfig {
 		$this->assertParams($app, $key);
 		$this->loadConfigAll();
 
-		$type = $this->valueTypes[$app][$key] ?? throw new AppConfigUnknownKeyException('unknown config key');
+		if (!isset($this->valueTypes[$app][$key])) {
+			throw new AppConfigUnknownKeyException('unknown config key');
+		}
+
+		$type = $this->valueTypes[$app][$key];
 		$type &= ~self::VALUE_SENSITIVE;
 		return $type;
 	}
@@ -558,10 +500,9 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED
 	 * @internal
 	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy grouping
+	 * @see IAppConfig for explanation about lazy loading
 	 * @see setValueString()
 	 * @see setValueInt()
-	 * @see setValueBigInt()
 	 * @see setValueFloat()
 	 * @see setValueBool()
 	 * @see setValueArray()
@@ -596,11 +537,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see setValueInt()
-	 * @see setValueBigInt()
-	 * @see setValueFloat()
-	 * @see setValueBool()
-	 * @see setValueArray()
 	 */
 	public function setValueString(
 		string $app,
@@ -631,11 +567,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see setValueString()
-	 * @see setValueBigInt()
-	 * @see setValueFloat()
-	 * @see setValueBool()
-	 * @see setValueArray()
 	 */
 	public function setValueInt(
 		string $app,
@@ -644,6 +575,10 @@ class AppConfig implements IAppConfig {
 		bool $lazy = false,
 		bool $sensitive = false
 	): bool {
+		if ($value > 2147400000) {
+			$this->logger->debug('You are trying to store an integer value around/above 2,147,483,647. This is a reminder that reaching this theoretical limit on 32 bits system will result to an exception.');
+		}
+
 		return $this->setTypedValue(
 			$app,
 			$key,
@@ -652,43 +587,6 @@ class AppConfig implements IAppConfig {
 			self::VALUE_INT | ($sensitive ? self::VALUE_SENSITIVE : 0)
 		);
 	}
-
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param int|float $value config value
-	 * @param bool $lazy set config as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 * @see setValueString()
-	 * @see setValueInt()
-	 * @see setValueFloat()
-	 * @see setValueBool()
-	 * @see setValueArray()
-	 */
-	public function setValueBigInt(
-		string $app,
-		string $key,
-		int|float $value,
-		bool $lazy = false,
-		bool $sensitive = false
-	): bool {
-		return $this->setTypedValue(
-			$app,
-			$key,
-			(string)$value,
-			$lazy,
-			self::VALUE_INT | ($sensitive ? self::VALUE_SENSITIVE : 0)
-		);
-	}
-
 
 	/**
 	 * @inheritDoc
@@ -703,11 +601,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see setValueString()
-	 * @see setValueInt()
-	 * @see setValueBigInt()
-	 * @see setValueBool()
-	 * @see setValueArray()
 	 */
 	public function setValueFloat(
 		string $app,
@@ -737,11 +630,6 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see setValueString()
-	 * @see setValueInt()
-	 * @see setValueBigInt()
-	 * @see setValueFloat()
-	 * @see setValueArray()
 	 */
 	public function setValueBool(
 		string $app,
@@ -772,11 +660,6 @@ class AppConfig implements IAppConfig {
 	 * @throws JsonException
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
-	 * @see setValueString()
-	 * @see setValueInt()
-	 * @see setValueBigInt()
-	 * @see setValueFloat()
-	 * @see setValueBool()
 	 */
 	public function setValueArray(
 		string $app,
@@ -860,6 +743,15 @@ class AppConfig implements IAppConfig {
 			}
 
 			/**
+			 * This should only happen during the upgrade process from 28 to 29.
+			 * We only log a warning and set it to VALUE_MIXED.
+			 */
+			if ($currType === 0) {
+				$this->logger->warning('Value type is set to zero (0) in database. This is fine only during the upgrade process from 28 to 29.', ['app' => $app, 'key' => $key]);
+				$currType = self::VALUE_MIXED;
+			}
+
+			/**
 			 * we only accept a different type from the one stored in database
 			 * if the one stored in database is not-defined (VALUE_MIXED)
 			 */
@@ -869,6 +761,7 @@ class AppConfig implements IAppConfig {
 					$currType = $this->convertTypeToString($currType);
 					$type = $this->convertTypeToString($type);
 				} catch (AppConfigIncorrectTypeException) {
+					// can be ignored, this was just needed for a better exception message.
 				}
 				throw new AppConfigTypeConflictException('conflict between new type (' . $type . ') and old type (' . $currType . ')');
 			}
@@ -1049,9 +942,9 @@ class AppConfig implements IAppConfig {
 		$lazy = $this->isLazy($app, $key);
 
 		if ($lazy) {
-			$cache = &$this->lazyCache;
+			$cache = $this->lazyCache;
 		} else {
-			$cache = &$this->fastCache;
+			$cache = $this->fastCache;
 		}
 
 		$type = $this->getValueType($app, $key);
@@ -1066,8 +959,8 @@ class AppConfig implements IAppConfig {
 			'app' => $app,
 			'key' => $key,
 			'value' => $cache[$app][$key] ?? throw new AppConfigUnknownKeyException('unknown config key'),
-			'lazy' => $lazy,
 			'type' => $type,
+			'lazy' => $lazy,
 			'typeString' => $typeString,
 			'sensitive' => $this->isSensitive($app, $key, null)
 		];
@@ -1197,7 +1090,7 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * Confirm the string set for app, key and lazyGroup fit the database description
+	 * Confirm the string set for app and key fit the database description
 	 *
 	 * @param string $app assert $app fit in database
 	 * @param string $configKey assert config key fit in database

@@ -83,20 +83,9 @@ class GetConfig extends Base {
 
 		if ($input->getOption('details')) {
 			$details = $this->appConfig->getDetails($appName, $configName);
-			$format = $input->getOption('output') ?? 'plain';
-			if ($format === 'json') {
-				$output->writeln(json_encode($details));
-			} elseif ($format === 'json_pretty') {
-				$output->writeln(json_encode($details, JSON_PRETTY_PRINT));
-			} else {
-				$output->writeln('App:                  ' . $details['app'] ?? '');
-				$output->writeln('Config Key:           ' . $details['key'] ?? '');
-				$output->writeln('Config Value:         ' . $details['value'] ?? '');
-				$output->writeln('Value type:           ' . $details['typeString'] ?? '');
-				$output->writeln('Lazy loaded:          ' . (($details['lazy'] ?? false) ? 'Yes' : 'No'));
-				$output->writeln('Sensitive:            ' . (($details['sensitive'] ?? false) ? 'Yes' : 'No'));
-			}
-
+			$details['type'] = $details['typeString'];
+			unset($details['typeString']);
+			$this->writeArrayInOutputFormat($input, $output, $details);
 			return 0;
 		}
 

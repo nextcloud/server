@@ -31,7 +31,9 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-// Create new field in appconfig for the new IAppConfig API, including lazy grouping.
+/**
+ * Create new fields for type and lazy loading in appconfig for the new IAppConfig API.
+ */
 class Version29000Date20231126110901 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
