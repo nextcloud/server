@@ -124,20 +124,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks if set_time_limit is not disabled.
-	 *
-	 * @return bool
-	 */
-	private function isSettimelimitAvailable() {
-		if (function_exists('set_time_limit')
-			&& !str_contains(ini_get('disable_functions'), 'set_time_limit')) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * @NoCSRFRequired
 	 * @return RedirectResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
@@ -275,7 +261,6 @@ Raw output
 			[
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
