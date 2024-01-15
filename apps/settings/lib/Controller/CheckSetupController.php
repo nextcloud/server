@@ -55,7 +55,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
@@ -78,8 +77,6 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IDateTimeFormatter */
-	private $dateTimeFormatter;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
@@ -94,7 +91,6 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		IDateTimeFormatter $dateTimeFormatter,
 		ITempManager $tempManager,
 		IManager $manager,
 		ISetupCheckManager $setupCheckManager,
@@ -106,7 +102,6 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->tempManager = $tempManager;
 		$this->manager = $manager;
 		$this->setupCheckManager = $setupCheckManager;
@@ -302,25 +297,6 @@ Raw output
 		);
 	}
 
-	protected function getLastCronInfo(): array {
-		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
-		return [
-			'diffInSeconds' => time() - $lastCronRun,
-			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
-			'backgroundJobsUrl' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'server']) . '#backgroundjobs',
-		];
-	}
-
-	protected function getCronErrors() {
-		$errors = json_decode($this->config->getAppValue('core', 'cronErrors', ''), true);
-
-		if (is_array($errors)) {
-			return $errors;
-		}
-
-		return [];
-	}
-
 	private function isTemporaryDirectoryWritable(): bool {
 		try {
 			if (!empty($this->tempManager->getTempBaseDir())) {
@@ -388,8 +364,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'cronInfo' => $this->getLastCronInfo(),
-				'cronErrors' => $this->getCronErrors(),
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),

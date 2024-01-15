@@ -180,28 +180,6 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (data.cronErrors.length > 0) {
-						var listOfCronErrors = "";
-						data.cronErrors.forEach(function(element){
-							listOfCronErrors += '<li>';
-							listOfCronErrors += element.error;
-							listOfCronErrors += ' ';
-							listOfCronErrors += element.hint;
-							listOfCronErrors += '</li>';
-						});
-						messages.push({
-							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + '<ul>' + listOfCronErrors + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						})
-					}
-					if (data.cronInfo.diffInSeconds > 3600) {
-						messages.push({
-							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong. {linkstart}Check the background job settings ↗{linkend}.', {relativeTime: data.cronInfo.relativeTime})
-									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.cronInfo.backgroundJobsUrl + '">')
-									.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
 					if (!data.isFairUseOfFreePushService) {
 						messages.push({
 							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications are limited to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at {linkstart}https://nextcloud.com/enterprise{linkend}.')
