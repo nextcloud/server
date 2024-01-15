@@ -144,7 +144,7 @@ class SetConfig extends Base {
 			 */
 			try {
 				$currType = $this->appConfig->getValueType($appName, $configName);
-				if ($typeString === null || $type === $currType || !$this->ask($input, $output, $typeString)) {
+				if ($type === null || $typeString === null || $type === $currType || !$this->ask($input, $output, $typeString)) {
 					$type = $currType;
 				} else {
 					$updated = $this->appConfig->updateType($appName, $configName, $type);

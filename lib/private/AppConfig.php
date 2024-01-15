@@ -575,8 +575,8 @@ class AppConfig implements IAppConfig {
 		bool $lazy = false,
 		bool $sensitive = false
 	): bool {
-		if ($value > 2147400000) {
-			$this->logger->debug('You are trying to store an integer value around/above 2,147,483,647. This is a reminder that reaching this theoretical limit on 32 bits system will result to an exception.');
+		if ($value > 2000000000) {
+			$this->logger->debug('You are trying to store an integer value around/above 2,147,483,647. This is a reminder that reaching this theoretical limit on 32 bits system will throw an exception.');
 		}
 
 		return $this->setTypedValue(
