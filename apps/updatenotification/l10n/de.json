@@ -18,7 +18,7 @@
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Bitte beachte, dass der Web Updater bei mehr als 100 Benutzern nicht empfohlen wird! Bitte verwende stattdessen den Befehlszeilen-Updater!",
     "Open updater" : "Updater öffnen",
     "Download now" : "Jetzt herunterladen",
-    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Der Web-Updater ist deaktiviert. Bitte verwenden Sie zum Aktualisieren den Befehlszeilen-Updater oder den entsprechenden Update-Mechanismus für Ihre Installationsmethode (z. B. Docker pull).",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Der Web-Updater ist deaktiviert. Bitte verwende zum Aktualisieren den Befehlszeilen-Updater oder den entsprechenden Update-Mechanismus für deine Installationsmethode (z. B. Docker pull).",
     "What's new?" : "Was ist neu?",
     "View changelog" : "Liste der Änderungen anschauen",
     "The update check is not yet finished. Please refresh the page." : "Die Aktualisierungsprüfung ist noch nicht abgeschlossen. Bitte die Seite neu laden.",
