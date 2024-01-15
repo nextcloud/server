@@ -109,10 +109,13 @@ abstract class Fetcher {
 			];
 		}
 
-		// If we have a valid subscription key, send it to the appstore
-		$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
-		if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
-			$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
+		if ($this->config->getSystemValueString('appstoreurl', 'https://apps.nextcloud.com/api/v1') === 'https://apps.nextcloud.com/api/v1') {
+			// If we have a valid subscription key, send it to the appstore
+			$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
+			if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
+				$options['headers'] ??= [];
+				$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
+			}
 		}
 
 		$client = $this->clientService->newClient();
