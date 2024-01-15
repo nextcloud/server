@@ -159,6 +159,7 @@ OC.L10N.register(
     "Actions for \"{title}\"" : "Ενέργειες για \"{title}\"",
     "Error, please enter proper password and/or expiration date" : "Σφάλμα, παρακαλώ εισάγετε τον σωστό κωδικό πρόσβασης και/ή ημερομηνία λήξης",
     "Link share created" : "Δημιουργήθηκε ο σύνδεσμος κοινής χρήσης",
+    "View only" : "Μόνο για προβολή",
     "Can edit" : "Δυνατότητα επεξεργασίας",
     "File drop" : "Απόθεση αρχείου",
     "Search for share recipients" : "Αναζήτηση για παραλήπτες διαμοιρασμού",
