@@ -42,7 +42,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
@@ -77,8 +76,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
-	private $dateTimeFormatter;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -107,7 +104,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
@@ -121,7 +117,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dateTimeFormatter,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->setupCheckManager,
@@ -142,7 +137,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['files_external', 'user_certificate_scan', '', '["a", "b"]'],
-				['core', 'cronErrors', '', ''],
 				['dav', 'needs_system_address_book_sync', 'no', 'no'],
 			]);
 		$this->config->expects($this->any())
@@ -215,12 +209,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'cronInfo' => [
-					'diffInSeconds' => 123,
-					'relativeTime' => '2 hours ago',
-					'backgroundJobsUrl' => 'https://example.org',
-				],
-				'cronErrors' => [],
 				'isUsedTlsLibOutdated' => '',
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
@@ -248,7 +236,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dateTimeFormatter,
 				$this->tempManager,
 				$this->notificationManager,
 				$this->setupCheckManager,
@@ -917,7 +904,6 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dateTimeFormatter,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->setupCheckManager,
@@ -963,7 +949,6 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dateTimeFormatter,
 			$this->tempManager,
 			$this->notificationManager,
 			$this->setupCheckManager,
