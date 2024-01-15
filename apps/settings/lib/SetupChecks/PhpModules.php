@@ -66,7 +66,7 @@ class PhpModules implements ISetupCheck {
 	}
 
 	public function getCategory(): string {
-		return 'system';
+		return 'php';
 	}
 
 	public function run(): SetupResult {

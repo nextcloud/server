@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -263,7 +262,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -302,7 +300,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -331,44 +328,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if set_time_limit is unavailable', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					isFairUseOfFreePushService: true,
-					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isSettimelimitAvailable: false,
-					areWebauthnExtensionsEnabled: true,
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
 		it('should return a warning if the memory limit is below the recommended value', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -380,7 +339,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -449,7 +407,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -493,7 +450,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -534,7 +490,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -572,7 +527,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -607,7 +561,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
@@ -644,7 +597,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: false,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -681,7 +633,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -725,7 +676,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,

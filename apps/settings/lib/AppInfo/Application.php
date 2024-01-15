@@ -69,6 +69,7 @@ use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
 use OCA\Settings\SetupChecks\OverwriteCliUrl;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
+use OCA\Settings\SetupChecks\PhpDisabledFunctions;
 use OCA\Settings\SetupChecks\PhpFreetypeSupport;
 use OCA\Settings\SetupChecks\PhpGetEnv;
 use OCA\Settings\SetupChecks\PhpMemoryLimit;
@@ -187,6 +188,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(MemcacheConfigured::class);
 		$context->registerSetupCheck(OverwriteCliUrl::class);
 		$context->registerSetupCheck(PhpDefaultCharset::class);
+		$context->registerSetupCheck(PhpDisabledFunctions::class);
 		$context->registerSetupCheck(PhpFreetypeSupport::class);
 		$context->registerSetupCheck(PhpGetEnv::class);
 		$context->registerSetupCheck(PhpMemoryLimit::class);

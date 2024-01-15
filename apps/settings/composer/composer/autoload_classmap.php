@@ -97,6 +97,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => $baseDir . '/../lib/SetupChecks/MemcacheConfigured.php',
     'OCA\\Settings\\SetupChecks\\OverwriteCliUrl' => $baseDir . '/../lib/SetupChecks/OverwriteCliUrl.php',
     'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => $baseDir . '/../lib/SetupChecks/PhpDefaultCharset.php',
+    'OCA\\Settings\\SetupChecks\\PhpDisabledFunctions' => $baseDir . '/../lib/SetupChecks/PhpDisabledFunctions.php',
     'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => $baseDir . '/../lib/SetupChecks/PhpFreetypeSupport.php',
     'OCA\\Settings\\SetupChecks\\PhpGetEnv' => $baseDir . '/../lib/SetupChecks/PhpGetEnv.php',
     'OCA\\Settings\\SetupChecks\\PhpMemoryLimit' => $baseDir . '/../lib/SetupChecks/PhpMemoryLimit.php',
