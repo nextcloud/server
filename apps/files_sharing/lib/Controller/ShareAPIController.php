@@ -66,6 +66,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -120,20 +121,6 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * Share20OCS constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IManager $shareManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param IURLGenerator $urlGenerator
-	 * @param string $userId
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IServerContainer $serverContainer
-	 * @param IUserStatusManager $userStatusManager
 	 */
 	public function __construct(
 		string $appName,
@@ -149,7 +136,8 @@ class ShareAPIController extends OCSController {
 		IAppManager $appManager,
 		IServerContainer $serverContainer,
 		IUserStatusManager $userStatusManager,
-		IPreview $previewManager
+		IPreview $previewManager,
+		private IDateTimeZone $dateTimeZone,
 	) {
 		parent::__construct($appName, $request);
 
@@ -1679,11 +1667,12 @@ class ShareAPIController extends OCSController {
 	 */
 	private function parseDate(string $expireDate): \DateTime {
 		try {
-			$date = new \DateTime(trim($expireDate, "\""));
+			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
 		} catch (\Exception $e) {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
+		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$date->setTime(0, 0, 0);
 
 		return $date;
