@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -264,7 +263,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -304,7 +302,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -334,44 +331,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if the wrong memcache PHP module is installed', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: false,
-					isSettimelimitAvailable: true,
-					areWebauthnExtensionsEnabled: true,
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">memcached wiki about both modules ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
 		it('should return an error if set_time_limit is unavailable', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -383,7 +342,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: false,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -422,7 +380,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -492,7 +449,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -537,7 +493,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: true,
@@ -579,7 +534,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -618,7 +572,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -654,7 +607,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -692,7 +644,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: false,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -730,7 +681,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -775,7 +725,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
