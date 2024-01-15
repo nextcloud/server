@@ -692,6 +692,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\SpeechToText\\ISpeechToTextManager' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/ISpeechToTextManager.php',
         'OCP\\SpeechToText\\ISpeechToTextProvider' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/ISpeechToTextProvider.php',
         'OCP\\SpeechToText\\ISpeechToTextProviderWithId' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/ISpeechToTextProviderWithId.php',
+        'OCP\\SpeechToText\\ISpeechToTextProviderWithUserId' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/ISpeechToTextProviderWithUserId.php',
         'OCP\\Support\\CrashReport\\ICollectBreadcrumbs' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/ICollectBreadcrumbs.php',
         'OCP\\Support\\CrashReport\\IMessageReporter' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IMessageReporter.php',
         'OCP\\Support\\CrashReport\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IRegistry.php',
