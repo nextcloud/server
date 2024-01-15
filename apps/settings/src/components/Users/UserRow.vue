@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
   -
-	- @author Christopher Ng <chrng8@gmail.com>
+  - @author Christopher Ng <chrng8@gmail.com>
   - @author Gary Kim <gary@garykim.dev>
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
@@ -294,6 +294,7 @@
 </template>
 
 <script>
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 
@@ -306,8 +307,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
-import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
-import {formatFileSize, parseFileSize} from "@nextcloud/files";
+import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts';
 
 export default {
 	name: 'UserRow',
@@ -828,15 +828,18 @@ export default {
 				quota = unlimitedQuota
 			}
 			this.loading.quota = true
+
 			// ensure we only send the preset id
 			quota = quota.id ? quota.id : quota
 
 			try {
+				// If human readable format, convert to raw float format
+				// Else just send the raw string
+				const value = (parseFileSize(quota, true) || quota).toString()
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-		  		// translate from locale string format to raw float format so backend can read it
-					value: '' + parseFileSize(quota, true)
+					value,
 				})
 			} catch (error) {
 				console.error(error)
