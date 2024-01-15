@@ -48,6 +48,7 @@ use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
@@ -60,7 +61,7 @@ use OCP\OCM\IOCMDiscoveryService;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage {
+class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage, IStorageDebugInfo {
 	private ICloudId $cloudId;
 	private string $mountPoint;
 	private string $token;
@@ -452,5 +453,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	public function free_space($path) {
 		return parent::free_space("");
+	}
+
+	function debugInfo(): string {
+		return "external share from {$this->getRemoteUser()}@{$this->getRemote()}";
 	}
 }

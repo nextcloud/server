@@ -52,6 +52,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
@@ -59,7 +60,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage {
+class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage, IStorageDebugInfo {
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
@@ -561,5 +562,40 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	public function getUnjailedPath($path) {
 		$this->init();
 		return parent::getUnjailedPath($path);
+	}
+
+	function debugInfo(): string {
+		$share = $this->getShare();
+		$shares = $this->groupedShares;
+		$sharedBy = array_map(function (IShare $share) {
+			$shareType = $this->formatShareType($share);
+			if ($shareType) {
+				return $share->getSharedBy() . " (via " . $shareType . " " . $share->getSharedWith() . ")";
+			} else {
+				return $share->getSharedBy();
+			}
+		}, $shares);
+		$description = "shared by " . implode(', ', $sharedBy);
+		if ($share->getSharedBy() !== $share->getShareOwner()) {
+			$description .= " owned by " . $share->getShareOwner();
+		}
+		return $description;
+	}
+
+	private function formatShareType(IShare $share): ?string {
+		switch ($share->getShareType()) {
+			case IShare::TYPE_GROUP:
+				return "group";
+			case IShare::TYPE_CIRCLE:
+				return "circle";
+			case IShare::TYPE_DECK:
+				return "deck";
+			case IShare::TYPE_ROOM:
+				return "room";
+			case IShare::TYPE_USER:
+				return null;
+			default:
+				return "Unknown (" . $share->getShareType() . ")";
+		}
 	}
 }

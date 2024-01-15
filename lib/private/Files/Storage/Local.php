@@ -52,6 +52,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\IConfig;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -59,7 +60,7 @@ use Psr\Log\LoggerInterface;
 /**
  * for local filestore, we only have to map the paths
  */
-class Local extends \OC\Files\Storage\Common {
+class Local extends \OC\Files\Storage\Common implements IStorageDebugInfo {
 	protected $datadir;
 
 	protected $dataDirLength;
@@ -649,5 +650,9 @@ class Local extends \OC\Files\Storage\Common {
 		} else {
 			return $result;
 		}
+	}
+
+	public function debugInfo(): string {
+		return "Local storage rooted at " . $this->datadir;
 	}
 }

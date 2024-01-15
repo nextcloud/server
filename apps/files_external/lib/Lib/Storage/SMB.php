@@ -37,6 +37,7 @@
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\ACL;
+use Icewind\SMB\AnonymousAuth;
 use Icewind\SMB\BasicAuth;
 use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
@@ -47,7 +48,9 @@ use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\OutOfSpaceException;
 use Icewind\SMB\Exception\TimedOutException;
+use Icewind\SMB\IAuth;
 use Icewind\SMB\IFileInfo;
+use Icewind\SMB\KerberosAuth;
 use Icewind\SMB\Native\NativeServer;
 use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
@@ -64,11 +67,12 @@ use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\INotifyStorage;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use Psr\Log\LoggerInterface;
 
-class SMB extends Common implements INotifyStorage {
+class SMB extends Common implements INotifyStorage, IStorageDebugInfo {
 	/**
 	 * @var \Icewind\SMB\IServer
 	 */
@@ -98,10 +102,14 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $checkAcl;
 
+	private array $params;
+	private IAuth $auth;
+
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
 		}
+		$this->params = $params;
 
 		if (isset($params['auth'])) {
 			$auth = $params['auth'];
@@ -133,6 +141,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 		}
 		$serverFactory = new ServerFactory($options);
+		$this->auth = $auth;
 		$this->server = $serverFactory->createServer($params['host'], $auth);
 		$this->share = $this->server->getShare(trim($params['share'], '/'));
 
@@ -781,5 +790,20 @@ class SMB extends Common implements INotifyStorage {
 		$path = '/' . ltrim($path, '/');
 		$shareNotifyHandler = $this->share->notify($this->buildPath($path));
 		return new SMBNotifyHandler($shareNotifyHandler, $this->root);
+	}
+
+	public function debugInfo(): string {
+		$share = "//{$this->server->getHost()}/{$this->share->getName()}{$this->root}";
+		if (isset($this->params['user'])) {
+			$share = "{$this->params['user']}@$share";
+		}
+		if ($this->auth instanceof KerberosAuth) {
+			$auth = "kerberos";
+		} else if ($this->auth instanceof AnonymousAuth) {
+			$auth = "anonymous";
+		} else {
+			$auth = "password";
+		}
+		return "SMB share $share using $auth authentication";
 	}
 }

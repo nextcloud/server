@@ -26,9 +26,10 @@
 namespace OC\Files\ObjectStore;
 
 use OC\User\User;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\IUser;
 
-class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IHomeStorage {
+class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IHomeStorage, IStorageDebugInfo {
 	/**
 	 * The home user storage requires a user object to create a unique storage id
 	 * @param array $params
@@ -64,5 +65,9 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 	 */
 	public function getUser($path = null): IUser {
 		return $this->user;
+	}
+
+	public function debugInfo(): string {
+		return "Home storage for {$this->user->getUID()} in {$this->getObjectStore()->getStorageId()} object store";
 	}
 }

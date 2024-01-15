@@ -36,6 +36,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Share\IShare;
 use OCP\Util;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -123,48 +124,17 @@ class FileUtils {
 	 */
 	public function formatMountType(IMountPoint $mountPoint): string {
 		$storage = $mountPoint->getStorage();
-		if ($storage && $storage->instanceOfStorage(IHomeStorage::class)) {
-			return "home storage";
-		} elseif ($mountPoint instanceof SharedMount) {
-			$share = $mountPoint->getShare();
-			$shares = $mountPoint->getGroupedShares();
-			$sharedBy = array_map(function (IShare $share) {
-				$shareType = $this->formatShareType($share);
-				if ($shareType) {
-					return $share->getSharedBy() . " (via " . $shareType . " " . $share->getSharedWith() . ")";
-				} else {
-					return $share->getSharedBy();
-				}
-			}, $shares);
-			$description = "shared by " . implode(', ', $sharedBy);
-			if ($share->getSharedBy() !== $share->getShareOwner()) {
-				$description .= " owned by " . $share->getShareOwner();
-			}
-			return $description;
-		} elseif ($mountPoint instanceof GroupMountPoint) {
-			return "groupfolder " . $mountPoint->getFolderId();
-		} elseif ($mountPoint instanceof ExternalMountPoint) {
-			return "external storage " . $mountPoint->getStorageConfig()->getId();
-		} elseif ($mountPoint instanceof CircleMount) {
-			return "circle";
-		}
-		return get_class($mountPoint);
-	}
 
-	public function formatShareType(IShare $share): ?string {
-		switch ($share->getShareType()) {
-			case IShare::TYPE_GROUP:
-				return "group";
-			case IShare::TYPE_CIRCLE:
-				return "circle";
-			case IShare::TYPE_DECK:
-				return "deck";
-			case IShare::TYPE_ROOM:
-				return "room";
-			case IShare::TYPE_USER:
-				return null;
-			default:
-				return "Unknown (" . $share->getShareType() . ")";
+		if ($mountPoint instanceof ExternalMountPoint) {
+			$prefix = "external storage " . $mountPoint->getStorageConfig()->getId() . ": ";
+		} elseif ($mountPoint instanceof CircleMount) {
+			$prefix = "circle: ";
+		}
+		if ($storage->instanceOfStorage(IStorageDebugInfo::class)) {
+			/** @var IStorageDebugInfo $storage */
+			return $prefix . $storage->debugInfo();
+		} else {
+			return $prefix . get_class($mountPoint);
 		}
 	}
 

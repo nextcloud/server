@@ -48,6 +48,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
@@ -67,7 +68,7 @@ use Sabre\HTTP\RequestInterface;
  *
  * @package OC\Files\Storage
  */
-class DAV extends Common {
+class DAV extends Common implements IStorageDebugInfo {
 	/** @var string */
 	protected $password;
 	/** @var string */
@@ -930,5 +931,9 @@ class DAV extends Common {
 		} catch (\Exception $e) {
 			$this->convertException($e, $directory);
 		}
+	}
+
+	function debugInfo(): string {
+		return "webdav share {$this->user}@{$this->host}/{$this->root}";
 	}
 }

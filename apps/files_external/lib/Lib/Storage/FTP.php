@@ -28,10 +28,11 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Files\StorageNotAvailableException;
 use Psr\Log\LoggerInterface;
 
-class FTP extends Common {
+class FTP extends Common implements IStorageDebugInfo {
 	use CopyDirectory;
 
 	private $root;
@@ -376,5 +377,9 @@ class FTP extends Common {
 
 			yield $data;
 		}
+	}
+
+	function debugInfo(): string {
+		return "ftp share {$this->username}@{$this->host}/{$this->root}";
 	}
 }

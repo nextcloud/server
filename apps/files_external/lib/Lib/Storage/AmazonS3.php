@@ -49,12 +49,13 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class AmazonS3 extends \OC\Files\Storage\Common {
+class AmazonS3 extends \OC\Files\Storage\Common implements IStorageDebugInfo {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
@@ -786,5 +787,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			// and have the scanner figure out if anything has actually changed
 			return true;
 		}
+	}
+
+	function debugInfo(): string {
+		return "s3 bucket {$this->bucket}";
 	}
 }

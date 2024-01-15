@@ -108,4 +108,8 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	public function getOwner($path) {
 		return $this->user->getUID();
 	}
+
+	public function debugInfo(): string {
+		return "Home storage for {$this->user->getUID()} at {$this->getSourcePath('')}";
+	}
 }

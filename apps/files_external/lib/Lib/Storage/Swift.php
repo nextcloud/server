@@ -47,12 +47,13 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\SwiftFactory;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\Storage\IStorageDebugInfo;
 use OCP\Files\StorageBadConfigException;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Models\StorageObject;
 use Psr\Log\LoggerInterface;
 
-class Swift extends \OC\Files\Storage\Common {
+class Swift extends \OC\Files\Storage\Common implements IStorageDebugInfo {
 	/** @var SwiftFactory */
 	private $connectionFactory;
 	/**
@@ -626,5 +627,9 @@ class Swift extends \OC\Files\Storage\Common {
 	 */
 	public static function checkDependencies() {
 		return true;
+	}
+
+	function debugInfo(): string {
+		return "swift bucket {$this->bucket}";
 	}
 }

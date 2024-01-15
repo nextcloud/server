@@ -43,13 +43,14 @@ use OC\Files\Storage\Common;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\Storage\IStorageDebugInfo;
 use phpseclib\Net\SFTP\Stream;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
  * provide access to SFTP servers.
  */
-class SFTP extends Common {
+class SFTP extends Common implements IStorageDebugInfo {
 	private $host;
 	private $user;
 	private $root;
@@ -583,5 +584,9 @@ class SFTP extends Common {
 
 		$keys = ['size', 'mtime', 'mimetype', 'etag', 'storage_mtime', 'permissions', 'name'];
 		return array_intersect_key($stat, array_flip($keys));
+	}
+
+	function debugInfo(): string {
+		return "sftp share {$this->user}@{$this->host}/{$this->root}";
 	}
 }
