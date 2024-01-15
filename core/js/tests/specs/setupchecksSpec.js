@@ -226,10 +226,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -270,10 +266,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -314,10 +306,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -358,10 +346,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -401,10 +385,6 @@ describe('OC.SetupChecks tests', function() {
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: false,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -444,10 +424,6 @@ describe('OC.SetupChecks tests', function() {
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -518,10 +494,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -567,10 +539,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -613,10 +581,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -656,10 +620,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -696,10 +656,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
@@ -738,10 +694,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: false,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -780,10 +732,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
@@ -829,10 +777,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
 					isSettimelimitAvailable: true,
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					},
 					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
