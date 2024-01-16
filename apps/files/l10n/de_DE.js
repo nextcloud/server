@@ -322,9 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} und {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} Datei","{count} Dateien"],
-    "_{count} folder_::_{count} folders_" : ["{count} Ordner","{count} Ordner"]
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
 },
 "nplurals=2; plural=(n != 1);");

@@ -321,9 +321,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "이 목록은 성능 상의 이유로 완전히 표시되지 않았습니다. 목록을 탐색하면 파일이 표시됩니다.",
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
-    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile}(과)와 {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count}개 파일"],
-    "_{count} folder_::_{count} folders_" : ["{count}개 폴더"]
+    "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다."
 },
 "nplurals=1; plural=0;");

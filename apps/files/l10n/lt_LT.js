@@ -232,9 +232,6 @@ OC.L10N.register(
     "Deleted shares" : "Ištrinti viešiniai",
     "Pending shares" : "Laukiantys viešiniai",
     "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
-    "Choose" : "Pasirinkite",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} ir {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} failas","{count} failai","{count} failų","{count} failas"],
-    "_{count} folder_::_{count} folders_" : ["{count} aplankas","{count} aplankai","{count} aplankų","{count} aplankas"]
+    "Choose" : "Pasirinkite"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

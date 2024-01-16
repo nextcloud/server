@@ -235,6 +235,7 @@ OC.L10N.register(
     "Switch to list view" : "切換至列表檢視",
     "Switch to grid view" : "切換到網格檢視",
     "Error during upload: {message}" : "上傳時發生錯誤：{message}",
+    "Error during upload, status code {status}" : "上傳時發生錯誤，狀態碼 {status}",
     "Unknown error during upload" : "上傳時發生未知的錯誤",
     "Open the files app settings" : "開啟檔案應用程式設定",
     "Files settings" : "檔案設定",
@@ -321,9 +322,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋帳號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} 與 {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} 個檔案"],
-    "_{count} folder_::_{count} folders_" : ["{count} 個資料夾"]
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
 },
 "nplurals=1; plural=0;");

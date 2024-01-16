@@ -318,9 +318,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
-    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} と {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} ファイル"],
-    "_{count} folder_::_{count} folders_" : ["{count} フォルダ"]
+    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

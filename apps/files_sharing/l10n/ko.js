@@ -92,7 +92,7 @@ OC.L10N.register(
     "Please specify a valid federated group ID" : "유효한 연합 그룹 ID를 지정하세요.",
     "You cannot share to a Circle if the app is not enabled" : "서클 앱이 활성화되어 있지 않으면 서클로 공유할 수 없음",
     "Please specify a valid circle" : "올바른 서클을 지정하십시오",
-    "Sharing %s failed because the back end does not support room shares" : "%s 공유 실패. 백엔드에서 방 공유를 지원하지 않습니다",
+    "Sharing %s failed because the back end does not support room shares" : "%s 공유 실패. 백엔드에서 대화방 공유를 지원하지 않습니다",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "백엔드가 ScienceMesh 공유를 지원하지 않기 때문에 %s의 공유가 실패했습니다.",
     "Unknown share type" : "알 수 없는 공유 형식",
     "Not a directory" : "디렉터리가 아님",

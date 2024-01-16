@@ -318,9 +318,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
-    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} a {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} soubor","{count} soubory","{count} souborů","{count} soubory"],
-    "_{count} folder_::_{count} folders_" : ["{count} složka","{count} složky","{count} složek","{count} složky"]
+    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
