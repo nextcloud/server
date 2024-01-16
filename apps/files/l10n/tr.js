@@ -320,9 +320,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
-    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} ve {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} dosya","{count} dosya"],
-    "_{count} folder_::_{count} folders_" : ["{count} klasör","{count} klasör"]
+    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
 },
 "nplurals=2; plural=(n > 1);");

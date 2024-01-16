@@ -320,9 +320,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
-    "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} and {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} file","{count} files"],
-    "_{count} folder_::_{count} folders_" : ["{count} folder","{count} folders"]
+    "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
 },
 "nplurals=2; plural=(n!=1);");

@@ -304,9 +304,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "Choose" : "Valitse",
-    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} ja {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} tiedosto","{count} tiedostoa"],
-    "_{count} folder_::_{count} folders_" : ["{count} kansio","{count} kansiota"]
+    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
 },
 "nplurals=2; plural=(n != 1);");

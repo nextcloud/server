@@ -320,9 +320,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Cette liste n'est pas affichée en totalité pour des raisons de performances. Les fichiers seront affichés au fur et à mesure que vous parcourrez la liste.",
     "Search for an account" : "Chercher un compte",
     "Choose" : "Choisir",
-    "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} et {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} fichier","{count} fichiers","{count} fichiers"],
-    "_{count} folder_::_{count} folders_" : ["{count} dossier","{count} dossiers","{count} dossiers"]
+    "No files or folders have been deleted yet" : "Aucun fichier ou dossier n'a encore été supprimé"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

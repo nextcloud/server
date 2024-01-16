@@ -316,9 +316,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
-    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} και {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} αρχείο","{count} αρχεία"],
-    "_{count} folder_::_{count} folders_" : ["{count} φάκελος","{count} φακέλοι"]
+    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
 },
 "nplurals=2; plural=(n != 1);");
