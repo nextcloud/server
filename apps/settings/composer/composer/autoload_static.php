@@ -95,6 +95,8 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\BruteForceThrottler' => __DIR__ . '/..' . '/../lib/SetupChecks/BruteForceThrottler.php',
         'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckUserCertificates.php',
         'OCA\\Settings\\SetupChecks\\CodeIntegrity' => __DIR__ . '/..' . '/../lib/SetupChecks/CodeIntegrity.php',
+        'OCA\\Settings\\SetupChecks\\CronErrors' => __DIR__ . '/..' . '/../lib/SetupChecks/CronErrors.php',
+        'OCA\\Settings\\SetupChecks\\CronInfo' => __DIR__ . '/..' . '/../lib/SetupChecks/CronInfo.php',
         'OCA\\Settings\\SetupChecks\\DatabaseHasMissingColumns' => __DIR__ . '/..' . '/../lib/SetupChecks/DatabaseHasMissingColumns.php',
         'OCA\\Settings\\SetupChecks\\DatabaseHasMissingIndices' => __DIR__ . '/..' . '/../lib/SetupChecks/DatabaseHasMissingIndices.php',
         'OCA\\Settings\\SetupChecks\\DatabaseHasMissingPrimaryKeys' => __DIR__ . '/..' . '/../lib/SetupChecks/DatabaseHasMissingPrimaryKeys.php',
