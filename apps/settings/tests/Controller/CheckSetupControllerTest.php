@@ -118,7 +118,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
-				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
 	}
@@ -141,11 +140,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->request->expects($this->never())
 			->method('getHeader');
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isMysqlUsedWithoutUTF8MB4')
-			->willReturn(false);
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -186,7 +180,6 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataResponse(
 			[
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
-				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
 				'isFairUseOfFreePushService' => false,
@@ -651,50 +644,6 @@ Array
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
-	}
-
-	public function dataForIsMysqlUsedWithoutUTF8MB4() {
-		return [
-			['sqlite', false, false],
-			['sqlite', true, false],
-			['postgres', false, false],
-			['postgres', true, false],
-			['oci', false, false],
-			['oci', true, false],
-			['mysql', false, true],
-			['mysql', true, false],
-		];
-	}
-
-	/**
-	 * @dataProvider dataForIsMysqlUsedWithoutUTF8MB4
-	 */
-	public function testIsMysqlUsedWithoutUTF8MB4(string $db, bool $useUTF8MB4, bool $expected) {
-		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($db, $useUTF8MB4) {
-				if ($key === 'dbtype') {
-					return $db;
-				}
-				if ($key === 'mysql.utf8mb4') {
-					return $useUTF8MB4;
-				}
-				return $default;
-			});
-
-		$checkSetupController = new CheckSetupController(
-			'settings',
-			$this->request,
-			$this->config,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->checker,
-			$this->logger,
-			$this->tempManager,
-			$this->notificationManager,
-			$this->setupCheckManager,
-		);
-
-		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
 	}
 
 	public function dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed() {
