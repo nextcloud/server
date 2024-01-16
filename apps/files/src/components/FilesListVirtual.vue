@@ -266,7 +266,6 @@ export default defineComponent({
 		onDragOver(event: DragEvent) {
 			// Detect if we're only dragging existing files or not
 			const isForeignFile = event.dataTransfer?.types.includes('Files')
-
 			if (isForeignFile) {
 				// Only handle uploading of existing Nextcloud files
 				// See DragAndDropNotice for handling of foreign files
