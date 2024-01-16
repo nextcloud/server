@@ -75,12 +75,14 @@ export const pickRandomColor = function(): Cypress.Chainable<string> {
 	// Pick one of the first 8 options
 	const randColour = Math.floor(Math.random() * 8)
 
-	// Open picker
-	cy.get('button').contains('Change color').click()
+	const colorPreviewSelector = '[data-user-theming-background-color],[data-admin-theming-setting-primary-color]'
 
-	// Return selected colour
-	return cy.get('.color-picker__simple-color-circle').eq(randColour).then(($el) => {
-		$el.trigger('click')
-		return $el.css('background-color')
-	})
+	// Open picker
+	cy.contains('button', 'Change color').click()
+
+	// Click on random color
+	cy.get('.color-picker__simple-color-circle').eq(randColour).click()
+
+	// Get the selected color from the color preview block
+	return cy.get(colorPreviewSelector).then(($el) => $el.css('background-color'))
 }
