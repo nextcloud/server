@@ -341,7 +341,9 @@
     "Connect to your account" : "连接到您的账号",
     "Please log in before granting %1$s access to your %2$s account." : "在授权 %1$s 访问您的账号 %2$s 之前，请先登录。",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "如果您不打算设置新设备或应用程序，则有人试图欺骗您，以授予他们访问数据的权限。 在这种情况下，请勿继续操作，而应与系统管理员联系。",
+    "App password" : "应用密码",
     "Grant access" : "授权访问",
+    "Alternative log in using app password" : "使用应用密码进行登录",
     "Account access" : "账号访问",
     "Currently logged in as %1$s (%2$s)." : "当前正以 %1$s (%2$s) 身份登陆。",
     "You are about to grant %1$s access to your %2$s account." : "您正在授权 %1$s 访问您的账号 %2$s 。",
@@ -448,7 +450,6 @@
     "The page could not be found on the server." : "无法在服务器上找到此页面",
     "App token" : "App 令牌",
     "Alternative log in using app token" : "使用应用程序令牌替代登录",
-    "Your remote address was identified as \"{remoteAddress}\" and is bruteforce throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的远端地址识别为「{remoteAddress}」，且目前正受到强力限制，导致降低了各种请求的性能。若远端地址不是您的地址，可能代表代理服务器设置不正确。可以在{linkstart}文件 ↗{linkend}中找到进一步的信息。",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "数据库被用于事务文件锁。为了增强性能，请设置memcache（如果可用）。获取更多信息请参见{linkstart}文档↗{linkend}。",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27已弃用PHP 8.0。Nextcloud 28可能需要PHP 8.1或更高版本。请尽快升级至一个 {linkstart}PHP Group ↗{linkend}提供官方支持的版本。",
     "Avatar of {fullName}" : "{fullName}的头像"

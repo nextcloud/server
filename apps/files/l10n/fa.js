@@ -293,8 +293,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "این لیست به دلایل اجرایی به طور کامل ارائه نشده است. در حین حرکت در لیست، فایل ها ارائه می شوند.",
     "Search for an account" : "جستجو برای یک حساب کاربری",
     "Choose" : "انتخاب کنید",
-    "No files or folders have been deleted yet" : "هنوز هیچ فایل یا پوشه ای حذف نشده است",
-    "_{count} file_::_{count} files_" : ["{count} پرونده","{count} پرونده"],
-    "_{count} folder_::_{count} folders_" : ["{count} پوشه","{count} پوشه"]
+    "No files or folders have been deleted yet" : "هنوز هیچ فایل یا پوشه ای حذف نشده است"
 },
 "nplurals=2; plural=(n > 1);");
