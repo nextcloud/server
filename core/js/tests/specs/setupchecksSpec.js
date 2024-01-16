@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
 					generic: {
@@ -260,7 +259,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
 					generic: {
@@ -296,7 +294,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
 					generic: {
@@ -333,7 +330,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
 					generic: {
@@ -399,7 +395,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
 					generic: {
@@ -444,7 +439,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					temporaryDirectoryWritable: true,
@@ -479,7 +473,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					temporaryDirectoryWritable: true,
@@ -501,40 +494,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if there is not enough free space in the temp directory', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
 		it('should return an info if there is no default phone region', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -545,7 +504,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
 					generic: {
@@ -586,7 +544,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: false,
 					generic: {

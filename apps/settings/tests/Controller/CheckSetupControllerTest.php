@@ -118,7 +118,6 @@ class CheckSetupControllerTest extends TestCase {
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
 	}
 
@@ -140,11 +139,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->request->expects($this->never())
 			->method('getHeader');
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed')
-			->willReturn(true);
 
 		$this->urlGenerator->method('linkToDocs')
 			->willReturnCallback(function (string $key): string {
@@ -180,7 +174,6 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataResponse(
 			[
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
@@ -644,49 +637,5 @@ Array
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
-	}
-
-	public function dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed() {
-		return [
-			['singlebucket', 'OC\\Files\\ObjectStore\\Swift', true],
-			['multibucket', 'OC\\Files\\ObjectStore\\Swift', true],
-			['singlebucket', 'OC\\Files\\ObjectStore\\Custom', true],
-			['multibucket', 'OC\Files\\ObjectStore\\Custom', true],
-			['singlebucket', 'OC\Files\ObjectStore\Swift', true],
-			['multibucket', 'OC\Files\ObjectStore\Swift', true],
-			['singlebucket', 'OC\Files\ObjectStore\Custom', true],
-			['multibucket', 'OC\Files\ObjectStore\Custom', true],
-		];
-	}
-
-	/**
-	 * @dataProvider dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed
-	 */
-	public function testIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(string $mode, string $className, bool $expected) {
-		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($mode, $className) {
-				if ($key === 'objectstore' && $mode === 'singlebucket') {
-					return ['class' => $className];
-				}
-				if ($key === 'objectstore_multibucket' && $mode === 'multibucket') {
-					return ['class' => $className];
-				}
-				return $default;
-			});
-
-		$checkSetupController = new CheckSetupController(
-			'settings',
-			$this->request,
-			$this->config,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->checker,
-			$this->logger,
-			$this->tempManager,
-			$this->notificationManager,
-			$this->setupCheckManager,
-		);
-
-		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
 	}
 }
