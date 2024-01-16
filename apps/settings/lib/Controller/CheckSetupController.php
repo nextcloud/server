@@ -202,16 +202,6 @@ Raw output
 		return false;
 	}
 
-	protected function areWebauthnExtensionsEnabled(): bool {
-		if (!extension_loaded('bcmath')) {
-			return false;
-		}
-		if (!extension_loaded('gmp')) {
-			return false;
-		}
-		return true;
-	}
-
 	protected function isMysqlUsedWithoutUTF8MB4(): bool {
 		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
 	}
@@ -261,7 +251,6 @@ Raw output
 			[
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
