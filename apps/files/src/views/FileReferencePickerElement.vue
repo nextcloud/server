@@ -31,6 +31,8 @@
 <script>
 import { FilePickerVue } from '@nextcloud/dialogs'
 import { generateUrl } from '@nextcloud/router'
+import logger from '../logger.js'
+
 export default {
 	name: 'FileReferencePickerElement',
 	components: {
@@ -52,15 +54,17 @@ export default {
 				{
 					label: t('files', 'Choose'),
 					type: 'primary',
-					callback: (node) => this.submit(node.fileid),
+					callback: (nodes) => {
+						logger.debug('FileReferencePicker - Nodes picked', { nodes })
+						this.submit(nodes[0].fileid)
+					},
 				},
 			],
 		}
 	},
 	methods: {
 		submit(fileId) {
-			const fileLink = window.location.protocol + '//' + window.location.host
-				+ generateUrl('/f/{fileId}', { fileId })
+			const fileLink = `${window.location.protocol}//${window.location.host}${generateUrl('/f/{fileId}', { fileId })}`
 			this.$emit('submit', fileLink)
 		},
 	},
