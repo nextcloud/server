@@ -115,8 +115,6 @@ export default defineComponent({
 			event.preventDefault()
 
 			const isForeignFile = event.dataTransfer?.types.includes('Files')
-
-			logger.debug('Drag over DragAndDropNotice', { isForeignFile, event })
 			if (isForeignFile) {
 				// Only handle uploading of outside files (not Nextcloud files)
 				this.dragover = true
