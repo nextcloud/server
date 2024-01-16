@@ -230,16 +230,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if(!data.hasPassedCodeIntegrityCheck) {
-						messages.push({
-							msg: t('core', 'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})')
-								.replace('{linkstart1}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.codeIntegrityCheckerDocumentation + '">')
-								.replace('{linkstart2}', '<a href="' + OC.generateUrl('/settings/integrity/failed') + '">')
-								.replace('{linkstart3}', '<a href="' + OC.generateUrl('/settings/integrity/rescan?requesttoken={requesttoken}', {'requesttoken': OC.requestToken}) + '">')
-								.replace(/{linkend}/g, '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
 					if(!data.isSettimelimitAvailable) {
 						messages.push({
 							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
@@ -317,6 +307,15 @@
 			return deferred.promise();
 		},
 
+		escapeHTML: function(text) {
+			return text.toString()
+				.split('&').join('&amp;')
+				.split('<').join('&lt;')
+				.split('>').join('&gt;')
+				.split('"').join('&quot;')
+				.split('\'').join('&#039;')
+		},
+
 		/**
 		* @param message      The message string containing placeholders.
 		* @param parameters   An object with keys as placeholders and values as their replacements.
@@ -327,11 +326,13 @@
 			for (var [placeholder, parameter] of Object.entries(parameters)) {
 				var replacement;
 				if (parameter.type === 'user') {
-					replacement = '@' + parameter.name;
+					replacement = '@' + this.escapeHTML(parameter.name);
 				} else if (parameter.type === 'file') {
-					replacement = parameter.path || parameter.name;
+					replacement = this.escapeHTML(parameter.path) || this.escapeHTML(parameter.name);
+				} else if (parameter.type === 'highlight') {
+					replacement = '<a href="' + encodeURI(parameter.link) + '">' + this.escapeHTML(parameter.name) + '</a>';
 				} else {
-					replacement = parameter.name;
+					replacement = this.escapeHTML(parameter.name);
 				}
 				message = message.replace('{' + placeholder + '}', replacement);
 			}
@@ -350,6 +351,9 @@
 			}
 
 			var message = setupCheck.description;
+			if (message) {
+				message = this.escapeHTML(message)
+			}
 			if (setupCheck.descriptionParameters) {
 				message = this.richToParsed(message, setupCheck.descriptionParameters);
 			}

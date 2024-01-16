@@ -51,6 +51,7 @@ use OCA\Settings\Search\UserSearch;
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\CodeIntegrity;
 use OCA\Settings\SetupChecks\DatabaseHasMissingColumns;
 use OCA\Settings\SetupChecks\DatabaseHasMissingIndices;
 use OCA\Settings\SetupChecks\DatabaseHasMissingPrimaryKeys;
@@ -169,6 +170,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(AppDirsWithDifferentOwner::class);
 		$context->registerSetupCheck(BruteForceThrottler::class);
 		$context->registerSetupCheck(CheckUserCertificates::class);
+		$context->registerSetupCheck(CodeIntegrity::class);
 		$context->registerSetupCheck(DatabaseHasMissingColumns::class);
 		$context->registerSetupCheck(DatabaseHasMissingIndices::class);
 		$context->registerSetupCheck(DatabaseHasMissingPrimaryKeys::class);

@@ -226,7 +226,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -272,7 +271,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -318,7 +316,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -364,7 +361,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -409,7 +405,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: false,
 					cronErrors: [],
 					cronInfo: {
@@ -454,7 +449,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -530,7 +524,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -581,7 +574,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -629,7 +621,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -674,7 +665,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -716,7 +706,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -748,7 +737,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -761,7 +749,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -805,7 +792,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
@@ -837,7 +823,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective ISO 3166-1 code of the region to your config file. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">documentation ↗</a>.',
+					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add &quot;default_phone_region&quot; with the respective ISO 3166-1 code of the region to your config file. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -856,7 +842,6 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isFairUseOfFreePushService: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
 					isSettimelimitAvailable: true,
 					cronErrors: [],
 					cronInfo: {
