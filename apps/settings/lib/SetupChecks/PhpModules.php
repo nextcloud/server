@@ -69,6 +69,18 @@ class PhpModules implements ISetupCheck {
 		return 'php';
 	}
 
+	protected function getRecommendedModuleDescription(string $module): string {
+		return match($module) {
+			'bz2' => $this->l10n->t('required for extraction of apps compressed as bz2'),
+			'intl' => $this->l10n->t('increases language translation performance and fixes sorting of non-ASCII characters'),
+			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
+			'bcmath' => $this->l10n->t('for WebAuthn passwordless login'),
+			'gmp' => $this->l10n->t('for WebAuthn passwordless login, and SFTP storage'),
+			'exif' => $this->l10n->t('for image rotation in pictures app'),
+			default => '',
+		};
+	}
+
 	public function run(): SetupResult {
 		$missingRecommendedModules = $this->getMissingModules(self::RECOMMENDED_MODULES);
 		$missingRequiredModules = $this->getMissingModules(self::REQUIRED_MODULES);
@@ -78,8 +90,15 @@ class PhpModules implements ISetupCheck {
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
 		} elseif (!empty($missingRecommendedModules)) {
+			$moduleList = implode(
+				"\n",
+				array_map(
+					fn (string $module) => '- '.$module.' '.$this->getRecommendedModuleDescription($module),
+					$missingRecommendedModules
+				)
+			);
 			return SetupResult::info(
-				$this->l10n->t('This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s.', implode(', ', $missingRecommendedModules)),
+				$this->l10n->t("This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s", $moduleList),
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
 		} else {

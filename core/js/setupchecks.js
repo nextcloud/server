@@ -188,15 +188,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if (!data.areWebauthnExtensionsEnabled) {
-						messages.push({
-							msg: t(
-								'core',
-								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 
 					if (data.isMysqlUsedWithoutUTF8MB4) {
 						messages.push({
