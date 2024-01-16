@@ -25,6 +25,7 @@
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent">
 				<template #actions>
+					<!-- Sharing button -->
 					<NcButton v-if="canShare && filesListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
@@ -37,11 +38,27 @@
 							<ShareVariantIcon v-else :size="20" />
 						</template>
 					</NcButton>
+
+					<!-- Disabled upload button -->
+					<NcButton v-if="!canUpload || isQuotaExceeded"
+						:aria-label="cantUploadLabel"
+						:title="cantUploadLabel"
+						class="files-list__header-upload-button--disabled"
+						:disabled="true"
+						type="secondary">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('files', 'Add') }}
+					</NcButton>
+
 					<!-- Uploader -->
-					<UploadPicker v-if="currentFolder && canUpload"
+					<UploadPicker v-else-if="currentFolder"
 						:content="dirContents"
 						:destination="currentFolder"
 						:multiple="true"
+						class="files-list__header-upload-button"
+						@failed="onUploadFail"
 						@uploaded="onUpload" />
 				</template>
 			</BreadCrumbs>
@@ -110,6 +127,8 @@ import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
+import { Parser } from 'xml2js'
+import { showError } from '@nextcloud/dialogs'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
@@ -123,6 +142,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
@@ -156,6 +176,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
+		PlusIcon,
 		ShareVariantIcon,
 		UploadPicker,
 		ViewGridIcon,
@@ -365,6 +386,15 @@ export default defineComponent({
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+		isQuotaExceeded() {
+			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+		cantUploadLabel() {
+			if (this.isQuotaExceeded) {
+				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
+			}
+			return this.t('files', 'You don’t have permission to upload or create files here')
+		},
 
 		/**
 		 * Check if current folder has share permissions
@@ -496,6 +526,39 @@ export default defineComponent({
 				// fetchContent will cancel the previous ongoing promise
 				this.fetchContent()
 			}
+		},
+
+		async onUploadFail(upload: Upload) {
+			const status = upload.response?.status || 0
+
+			// Check known status codes
+			if (status === 507) {
+				showError(this.t('files', 'Not enough free space'))
+				return
+			} else if (status === 404 || status === 409) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			} else if (status === 403) {
+				showError(this.t('files', 'Operation is blocked by access control'))
+				return
+			} else if (status !== 0) {
+				showError(this.t('files', 'Error when assembling chunks, status code {status}', { status }))
+				return
+			}
+
+			// Else we try to parse the response error message
+			try {
+				const parser = new Parser({ trim: true, explicitRoot: false })
+				const response = await parser.parseStringPromise(upload.response?.data)
+				const message = response['s:message'][0] as string
+				if (typeof message === 'string' && message.trim() !== '') {
+					// Unfortunatly, the server message is not translated
+					showError(this.t('files', 'Error during upload: {message}', { message }))
+					return
+				}
+			} catch (error) {}
+
+			showError(this.t('files', 'Unknown error during upload'))
 		},
 
 		/**
