@@ -23,7 +23,7 @@
 
 <template>
 	<section>
-		<NcSettingsSection :name="t('theming', 'Appearance and accessibility')"
+		<NcSettingsSection :name="t('theming', 'Appearance and accessibility settings')"
 			:limit-width="false"
 			class="theming">
 			<!-- eslint-disable-next-line vue/no-v-html -->
