@@ -320,9 +320,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "Choose" : "Выберите",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} и {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} файл","{count} файла","{count} файлов","{count} файлов"],
-    "_{count} folder_::_{count} folders_" : ["{count} папка","{count} папки","{count} папок","{count} папок"]
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

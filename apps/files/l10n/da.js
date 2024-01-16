@@ -310,9 +310,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "Search for an account" : "Søg efter en konto",
     "Choose" : "Vælg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} og {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} fil","{count} filer"],
-    "_{count} folder_::_{count} folders_" : ["{count} mapper","{count} mapper"]
+    "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu"
 },
 "nplurals=2; plural=(n != 1);");

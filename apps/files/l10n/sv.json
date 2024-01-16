@@ -320,9 +320,6 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
-    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
-    "{summaryFile} and {summaryFolder}" : "{summaryFile} och {summaryFolder}",
-    "_{count} file_::_{count} files_" : ["{count} fil","{count} filer"],
-    "_{count} folder_::_{count} folders_" : ["{count} mapp","{count} mappar"]
+    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
