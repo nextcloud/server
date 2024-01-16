@@ -63,6 +63,7 @@ use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -730,8 +731,9 @@ class OC_App {
 		static $versions;
 
 		if (!$versions) {
-			$appConfig = \OC::$server->getAppConfig();
-			$versions = $appConfig->getValues(false, 'installed_version');
+			/** @var IAppConfig $appConfig */
+			$appConfig = \OCP\Server::get(IAppConfig::class);
+			$versions = $appConfig->searchValues('installed_version');
 		}
 		return $versions;
 	}
