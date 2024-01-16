@@ -45,32 +45,21 @@
  */
 namespace OCA\Settings\Controller;
 
-use bantu\IniGetWrapper\IniGetWrapper;
-use DirectoryIterator;
 use GuzzleHttp\Exception\ClientException;
-use OC;
 use OC\AppFramework\Http;
-use OC\DB\Connection;
-use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\DB\Types;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
@@ -89,26 +78,12 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var Connection */
-	private $db;
-	/** @var ILockingProvider */
-	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var IniGetWrapper */
-	private $iniGetWrapper;
-	/** @var IDBConnection */
-	private $connection;
 	/** @var ITempManager */
 	private $tempManager;
 	/** @var IManager */
 	private $manager;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IServerContainer */
-	private $serverContainer;
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
@@ -119,16 +94,9 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		IEventDispatcher $dispatcher,
-		Connection $db,
-		ILockingProvider $lockingProvider,
 		IDateTimeFormatter $dateTimeFormatter,
-		IniGetWrapper $iniGetWrapper,
-		IDBConnection $connection,
 		ITempManager $tempManager,
 		IManager $manager,
-		IAppManager $appManager,
-		IServerContainer $serverContainer,
 		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
@@ -138,16 +106,9 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
-		$this->db = $db;
-		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->iniGetWrapper = $iniGetWrapper;
-		$this->connection = $connection;
 		$this->tempManager = $tempManager;
 		$this->manager = $manager;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
 		$this->setupCheckManager = $setupCheckManager;
 	}
 
@@ -340,83 +301,6 @@ Raw output
 		);
 	}
 
-	/**
-	 * Checks whether a PHP OPcache is properly set up
-	 * @return string[] The list of OPcache setup recommendations
-	 */
-	protected function getOpcacheSetupRecommendations(): array {
-		// If the module is not loaded, return directly to skip inapplicable checks
-		if (!extension_loaded('Zend OPcache')) {
-			return [$this->l10n->t('The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.')];
-		}
-
-		$recommendations = [];
-
-		// Check whether Nextcloud is allowed to use the OPcache API
-		$isPermitted = true;
-		$permittedPath = $this->iniGetWrapper->getString('opcache.restrict_api');
-		if (isset($permittedPath) && $permittedPath !== '' && !str_starts_with(\OC::$SERVERROOT, rtrim($permittedPath, '/'))) {
-			$isPermitted = false;
-		}
-
-		if (!$this->iniGetWrapper->getBool('opcache.enable')) {
-			$recommendations[] = $this->l10n->t('OPcache is disabled. For better performance, it is recommended to apply <code>opcache.enable=1</code> to your PHP configuration.');
-
-			// Check for saved comments only when OPcache is currently disabled. If it was enabled, opcache.save_comments=0 would break Nextcloud in the first place.
-			if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
-				$recommendations[] = $this->l10n->t('OPcache is configured to remove code comments. With OPcache enabled, <code>opcache.save_comments=1</code> must be set for Nextcloud to function.');
-			}
-
-			if (!$isPermitted) {
-				$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
-			}
-		} elseif (!$isPermitted) {
-			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
-		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
-			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply <code>opcache.file_cache_only=0</code> to your PHP configuration and use the file cache as second level cache only.');
-		} else {
-			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
-			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
-			if (isset($disabledFunctions) && str_contains($disabledFunctions, 'opcache_get_status')) {
-				return [];
-			}
-
-			$status = opcache_get_status(false);
-
-			// Recommend to raise value, if more than 90% of max value is reached
-			if (
-				empty($status['opcache_statistics']['max_cached_keys']) ||
-				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
-			) {
-				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
-			}
-
-			if (
-				empty($status['memory_usage']['free_memory']) ||
-				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
-			) {
-				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.memory_consumption</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
-			}
-
-			if (
-				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') / 4) &&
-				(
-					empty($status['interned_strings_usage']['free_memory']) ||
-					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
-				)
-			) {
-				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
-			}
-		}
-
-		return $recommendations;
-	}
-
-	protected function isSqliteUsed() {
-		return str_contains($this->config->getSystemValue('dbtype'), 'sqlite');
-	}
-
 	protected function getSuggestedOverwriteCliURL(): string {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
@@ -458,62 +342,6 @@ Raw output
 		return false;
 	}
 
-	/**
-	 * Iterates through the configured app roots and
-	 * tests if the subdirectories are owned by the same user than the current user.
-	 *
-	 * @return array
-	 */
-	protected function getAppDirsWithDifferentOwner(): array {
-		$currentUser = posix_getuid();
-		$appDirsWithDifferentOwner = [[]];
-
-		foreach (OC::$APPSROOTS as $appRoot) {
-			if ($appRoot['writable'] === true) {
-				$appDirsWithDifferentOwner[] = $this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot);
-			}
-		}
-
-		$appDirsWithDifferentOwner = array_merge(...$appDirsWithDifferentOwner);
-		sort($appDirsWithDifferentOwner);
-
-		return $appDirsWithDifferentOwner;
-	}
-
-	/**
-	 * Tests if the directories for one apps directory are writable by the current user.
-	 *
-	 * @param int $currentUser The current user
-	 * @param array $appRoot The app root config
-	 * @return string[] The none writable directory paths inside the app root
-	 */
-	private function getAppDirsWithDifferentOwnerForAppRoot(int $currentUser, array $appRoot): array {
-		$appDirsWithDifferentOwner = [];
-		$appsPath = $appRoot['path'];
-		$appsDir = new DirectoryIterator($appRoot['path']);
-
-		foreach ($appsDir as $fileInfo) {
-			if ($fileInfo->isDir() && !$fileInfo->isDot()) {
-				$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-				$appDirUser = fileowner($absAppPath);
-				if ($appDirUser !== $currentUser) {
-					$appDirsWithDifferentOwner[] = $absAppPath;
-				}
-			}
-		}
-
-		return $appDirsWithDifferentOwner;
-	}
-
-	protected function isImagickEnabled(): bool {
-		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
-			if (!extension_loaded('imagick')) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	protected function areWebauthnExtensionsEnabled(): bool {
 		if (!extension_loaded('bcmath')) {
 			return false;
@@ -526,49 +354,6 @@ Raw output
 
 	protected function isMysqlUsedWithoutUTF8MB4(): bool {
 		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
-	}
-
-	protected function hasBigIntConversionPendingColumns(): array {
-		// copy of ConvertFilecacheBigInt::getColumnsByTable()
-		$tables = [
-			'activity' => ['activity_id', 'object_id'],
-			'activity_mq' => ['mail_id'],
-			'authtoken' => ['id'],
-			'bruteforce_attempts' => ['id'],
-			'federated_reshares' => ['share_id'],
-			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
-			'filecache_extended' => ['fileid'],
-			'files_trash' => ['auto_id'],
-			'file_locks' => ['id'],
-			'file_metadata' => ['id'],
-			'jobs' => ['id'],
-			'mimetypes' => ['id'],
-			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
-			'share_external' => ['id', 'parent'],
-			'storages' => ['numeric_id'],
-		];
-
-		$schema = new SchemaWrapper($this->db);
-		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
-		$pendingColumns = [];
-
-		foreach ($tables as $tableName => $columns) {
-			if (!$schema->hasTable($tableName)) {
-				continue;
-			}
-
-			$table = $schema->getTable($tableName);
-			foreach ($columns as $columnName) {
-				$column = $table->getColumn($columnName);
-				$isAutoIncrement = $column->getAutoincrement();
-				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
-					$pendingColumns[] = $tableName . '.' . $columnName;
-				}
-			}
-		}
-
-		return $pendingColumns;
 	}
 
 	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
@@ -607,10 +392,6 @@ Raw output
 		return false;
 	}
 
-	protected function imageMagickLacksSVGSupport(): bool {
-		return extension_loaded('imagick') && count(\Imagick::queryFormats('SVG')) === 0;
-	}
-
 	/**
 	 * @return DataResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
@@ -627,18 +408,11 @@ Raw output
 				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
-				'OpcacheSetupRecommendations' => $this->getOpcacheSetupRecommendations(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'isSqliteUsed' => $this->isSqliteUsed(),
-				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
-				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
-				'isImagickEnabled' => $this->isImagickEnabled(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
-				'imageMagickLacksSVGSupport' => $this->imageMagickLacksSVGSupport(),
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				'generic' => $this->setupCheckManager->runAll(),
 			]
