@@ -292,11 +292,17 @@ class AppConfig implements IAppConfig {
 		string $default = '',
 		?bool $lazy = false
 	): string {
+		try {
+			$lazy = ($lazy === null) ? $this->isLazy($app, $key) : $lazy;
+		} catch (AppConfigUnknownKeyException $e) {
+			return $default;
+		}
+
 		return $this->getTypedValue(
 			$app,
 			$key,
 			$default,
-			($lazy === null) ? $this->isLazy($app, $key) : $lazy,
+			$lazy,
 			self::VALUE_MIXED
 		);
 	}
