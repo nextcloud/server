@@ -118,6 +118,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 				'--color-border' => $this->util->lighten($colorMainBackground, 50),
 				'--color-border-dark' => $this->util->lighten($colorMainBackground, 50),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 55),
 			]
 		);
 	}
