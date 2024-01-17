@@ -109,6 +109,9 @@ class AppConfig implements IAppConfig {
 		'notify_push' => [
 			'/^cookie$/',
 		],
+		'serverinfo' => [
+			'/^token$/',
+		],
 		'spreed' => [
 			'/^bridge_bot_password$/',
 			'/^hosted-signaling-server-(.*)$/',
