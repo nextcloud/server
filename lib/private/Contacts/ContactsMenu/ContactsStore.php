@@ -334,14 +334,15 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (isset($contact['UID'])) {
+		if (!empty($contact['UID'])) {
 			$uid = $contact['UID'];
 			$entry->setId($uid);
 			$entry->setProperty('isUser', false);
+			// overloaded usage so leaving as-is for now
 			if (isset($contact['isLocalSystemBook'])) {
 				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
 				$entry->setProperty('isUser', true);
-			} elseif (isset($contact['FN'])) {
+			} elseif (!empty($contact['FN'])) {
 				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $contact['FN'], 'size' => 64]);
 			} else {
 				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $uid, 'size' => 64]);
@@ -349,23 +350,23 @@ class ContactsStore implements IContactsStore {
 			$entry->setAvatar($avatar);
 		}
 
-		if (isset($contact['FN'])) {
+		if (!empty($contact['FN'])) {
 			$entry->setFullName($contact['FN']);
 		}
 
 		$avatarPrefix = "VALUE=uri:";
-		if (isset($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
+		if (!empty($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
 			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}
 
-		if (isset($contact['EMAIL'])) {
+		if (!empty($contact['EMAIL'])) {
 			foreach ($contact['EMAIL'] as $email) {
 				$entry->addEMailAddress($email);
 			}
 		}
 
 		// Provide profile parameters for core/src/OC/contactsmenu/contact.handlebars template
-		if (isset($contact['UID']) && isset($contact['FN'])) {
+		if (!empty($contact['UID']) && !empty($contact['FN'])) {
 			$targetUserId = $contact['UID'];
 			$targetUser = $this->userManager->get($targetUserId);
 			if (!empty($targetUser)) {
