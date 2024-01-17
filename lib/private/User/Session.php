@@ -842,13 +842,16 @@ class Session implements IUserSession, Emitter {
 		$authHeader = $request->getHeader('Authorization');
 		if (str_starts_with($authHeader, 'Bearer ')) {
 			$token = substr($authHeader, 7);
-		} else {
-			// No auth header, let's try session id
+		} elseif ($request->getCookie($this->config->getSystemValueString('instanceid')) !== null) {
+			// No auth header, let's try session id, but only if this is an existing
+			// session and the request has a session cookie
 			try {
 				$token = $this->session->getId();
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
+		} else {
+			return false;
 		}
 
 		if (!$this->loginWithToken($token)) {
