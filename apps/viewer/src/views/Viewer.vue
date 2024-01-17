@@ -193,7 +193,7 @@ import Vue from 'vue'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { registerFileAction, FileAction, Permission, DefaultType } from '@nextcloud/files'
+import { registerFileAction, FileAction, Permission, DefaultType, Node } from '@nextcloud/files'
 import getSortingConfig from '../services/FileSortingConfig.ts'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
@@ -1113,12 +1113,19 @@ export default {
 		},
 
 		// Update etag of updated file to break cache.
+		/**
+		 *
+		 * @param {Node} node
+		 */
 		async handleFileUpdated(node) {
 			const index = this.fileList.findIndex(({ fileid: currentFileId }) => currentFileId === node.fileid)
 
-			this.fileList.splice(index, 1, { ...node, etag: node.etag })
+			// Ensure compatibility with the legacy data model that the Viewer is using. (see "model.ts").
+			// This can be removed once Viewer is migrated to the new Node API.
+			node.etag = node.attributes.etag
+			this.fileList.splice(index, 1, node)
 			if (node.fileid === this.currentFile.fileid) {
-				this.currentFile.etag = node.etag
+				this.currentFile.etag = node.attributes.etag
 			}
 		},
 
