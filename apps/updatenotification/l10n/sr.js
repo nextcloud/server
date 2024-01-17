@@ -37,7 +37,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Означени канал за ажурирање не подржава обавештења о новим верзијама.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Доступна је нова верзија: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Имајте на уму да се након новог издања ажурирање појављује само након првог малог издања или касније. Нове верзије издајемо својим корисницима у временском размаку, а понекад и прескочимо верзију онда када се открију проблеми. Сазнајте више о ажурирањима и каналима издања на {link}",
-    "Checked on {lastCheckedDate}" : "Проверено {lastCheckedDate}",
     "Checking apps for compatible versions" : "Проверава се постојање компатибилних верзија апликација",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Проверите да у config.php фајлу немате <samp>appstoreenabled</samp> постављено на „false“.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Није успело повезивање са Продавницом апликација или није враћено ниједно ажурирање. Потражите ручно ажурирања или обезбедите да ваш сервер има приступ интернету и да има могучност успостављања везе са Продавницом апликација.",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> апликација нема верзију која је компатибилна са верзијом ове Nextcloud инстанце.","<strong>%n</strong> апликација немају верзију која је компатибилна са верзијом ове Nextcloud инстанце.","<strong>%n</strong> апликација нема верзију која је компатибилна са верзијом ове Nextcloud инстанце."],
     "Please use the command line updater to update." : "Молимо вас да за ажурирање употребите алат из командне линије.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Можете да промените канал ажурирања испод, што ће такође да утиче и на страницу за управљање апликацијама. Нпр. када се пребаците на бета канал, на страници за управљање апликацијама ће вам се нудити и бета ажурирања апликација.",
-    "Update channel:" : "Канал за ажурирање:"
+    "Update channel:" : "Канал за ажурирање:",
+    "Checked on {lastCheckedDate}" : "Проверено {lastCheckedDate}"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

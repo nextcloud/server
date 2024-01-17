@@ -30,13 +30,13 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "선택한 업데이트 채널은 서버 업데이트를 지원하지 않습니다.",
     "A new version is available: <strong>{newVersionString}</strong>" : "새 버전을 사용할 수 있음: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "메이저 업그레이드는 해당 버전의 첫 마이너 업데이트 혹은 그 후의 업데이트에 대해 제공됩니다. 새로운 버전은 단계적으로 적용되며, 문제가 발생할 경우 배포를 중단하고 다음 업데이트로 건너뛸 수 있습니다. 업데이트와 릴리즈 채널에 대한 자세한 정보는 다음의 링크를 참고하십시오. {link}",
-    "Checked on {lastCheckedDate}" : "{lastCheckedDate}에 확인함",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.php에서 <samp>appstoreenabled</samp> 설정이 false가 아닌지 확인하십시오.",
     "Stable" : "안정판",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "최신 안정 버전입니다. 일반 사용에 적합하며 항상 최신 주 버전으로 업데이트됩니다.",
     "Beta" : "베타",
     "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "아래에서 업데이트 채널을 번경할 수 있으며, 이는 앱 관리 페이지에도 적용됩니다. 예를 들어 베타 채널로 변경할 경우, 앱 관리 페이지에서 각 앱에 대한 베타 업데이트가 제공됩니다.",
-    "Update channel:" : "업데이트 채널:"
+    "Update channel:" : "업데이트 채널:",
+    "Checked on {lastCheckedDate}" : "{lastCheckedDate}에 확인함"
 },
 "nplurals=1; plural=0;");

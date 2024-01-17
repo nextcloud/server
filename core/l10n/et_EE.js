@@ -234,9 +234,6 @@ OC.L10N.register(
     "See the documentation" : "Vaata dokumentatsiooni",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "See rakendus vajab toimimiseks JavaScripti. Palun {linkstart}luba JavaScript{linkend} ning laadi see leht uuesti.",
     "Go to %s" : "Mine %s",
-    "This action requires you to confirm your password" : "See tegevus nõuab parooli kinnitamist",
-    "Confirm your password" : "Kinnita oma parool",
-    "Confirm" : "Kinnita",
     "Connect to your account" : "Ühenda oma konto",
     "Please log in before granting %1$s access to your %2$s account." : "Enne rakendusele %1$s oma %2$s kontole ligipääsu andmist logi sisse.",
     "Grant access" : "Anna ligipääs",
@@ -300,6 +297,9 @@ OC.L10N.register(
     "Copy to {folder}" : "Kopeeri kausta {folder}",
     "Move to {folder}" : "Liiguta kausta {folder}",
     "Authentication required" : "Autentimine on vajalik",
-    "Failed to authenticate, try again" : "Autentimine ebaõnnestus, proovi uuesti"
+    "This action requires you to confirm your password" : "See tegevus nõuab parooli kinnitamist",
+    "Confirm" : "Kinnita",
+    "Failed to authenticate, try again" : "Autentimine ebaõnnestus, proovi uuesti",
+    "Confirm your password" : "Kinnita oma parool"
 },
 "nplurals=2; plural=(n != 1);");

@@ -37,7 +37,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "选中的更新通道不支持服务器升级。",
     "A new version is available: <strong>{newVersionString}</strong>" : "有可用的新版本： <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "注意，在新版本发布之后，更新只在第一个次要版本或更高版本之后出现。随着时间的推移，我们会向用户推出新的版本，有时会在发现问题时跳过某个版本。要了解关于更新和发布通道的更多信息，点击 {link}。",
-    "Checked on {lastCheckedDate}" : "检查时间 {lastCheckedDate}",
     "Checking apps for compatible versions" : "正在检查应用程序的兼容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "请确认 config.php 没有设置<samp>appstoreenabled </samp> 为 false。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "无法连接到应用商店或没有返回任何更新。手动搜索更新，或者确保你的服务器可以上网且可以连接到应用商店。",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>个应用没有与这个 Nextcloud 版本兼容的版本可用"],
     "Please use the command line updater to update." : "请使用命令行更新器来更新",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "你可以在下面改变更新渠道，这也会影响到应用管理页面。例如：切换到测试版渠道后，测试版应用程序的更新将在应用程序管理页面提供给你。",
-    "Update channel:" : "更新通道："
+    "Update channel:" : "更新通道：",
+    "Checked on {lastCheckedDate}" : "检查时间 {lastCheckedDate}"
 },
 "nplurals=1; plural=0;");

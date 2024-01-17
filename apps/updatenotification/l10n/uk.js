@@ -37,7 +37,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Вибраний канал оновлення не підтримує оновлення сервера.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Доступна нова версія: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Зауважте, що після нового випуску оновлення з’являється лише після першого другорядного випуску або пізніше. Ми розгортаємо нові версії з часом для наших користувачів і іноді пропускаємо версію, коли виявляються проблеми. Дізнайтеся більше про оновлення та канали випусків на {link}",
-    "Checked on {lastCheckedDate}" : "Перевірень {lastCheckedDate}",
     "Checking apps for compatible versions" : "Перевірка програм на наявність сумісних версій",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Будь ласка, переконайтеся, що ваш config.php не встановлює для <samp>appstoreenabled</samp> значення false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Неможливо з'єднатися із App Store або оновлення не надійшли взагалі. Шукайте оновлення вручну або переконайтеся, що ваш сервер має доступ до Інтернету та може з'єднатися із App Store.",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
     "Please use the command line updater to update." : "Для оновлення використовуйте програму оновлення командного рядка.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Ви можете змінити канал оновлення нижче, що також впливає на сторінку керування програмами. наприклад після переходу на бета-канал оновлення бета-версії програми будуть запропоновані вам на сторінці керування програмами.",
-    "Update channel:" : "Канал оновлення:"
+    "Update channel:" : "Канал оновлення:",
+    "Checked on {lastCheckedDate}" : "Перевірень {lastCheckedDate}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Rechazar recurso compartido","Rechazar recursos compartidos","Rechazar recursos compartidos"],
     "_Restore share_::_Restore shares_" : ["Restaurar recurso compartido","Restaurar recursos compartidos","Restaurar recursos compartidos"],
     "Shared" : "Compartido",
+    "Shared multiple times with different people" : "Compartido múltiples veces con diferentes personas",
     "Shared by {ownerDisplayName}" : "Compartido por {ownerDisplayName}",
     "Show sharing options" : "Mostrar opciones de compartir",
     "Link to a file" : "Enlace al archivo",
