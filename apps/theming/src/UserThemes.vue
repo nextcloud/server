@@ -69,7 +69,6 @@
 			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
 			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="shortcutsDisabled"
-				name="shortcuts_disabled"
 				type="switch"
 				@change="changeShortcutsDisabled">
 				{{ t('theming', 'Disable all keyboard shortcuts') }}
