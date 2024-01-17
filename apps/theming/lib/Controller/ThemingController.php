@@ -386,6 +386,7 @@ class ThemingController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @BruteForceProtection(action=manifest)
 	 *
 	 * @return Http\JSONResponse
 	 */
@@ -397,6 +398,12 @@ class ThemingController extends Controller {
 			$startUrl = $this->urlGenerator->getBaseUrl();
 			$description = $this->themingDefaults->getSlogan();
 		} else {
+			if (!$this->appManager->isEnabledForUser($app)) {
+				$response = new Http\JSONResponse([], Http::STATUS_NOT_FOUND);
+				$response->throttle(['action' => 'manifest', 'app' => $app]);
+				return $response;
+			}
+
 			$info = $this->appManager->getAppInfo($app, false, $this->l10n->getLanguageCode());
 			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
 			$shortName = $info['name'];
