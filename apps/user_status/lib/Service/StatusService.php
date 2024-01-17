@@ -172,8 +172,6 @@ class StatusService {
 			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
 		}
 
-
-
 		if ($statusTimestamp === null) {
 			$statusTimestamp = $this->timeFactory->getTime();
 		}
@@ -257,21 +255,38 @@ class StatusService {
 			throw new InvalidMessageIdException('Message-Id "' . $messageId . '" is not supported');
 		}
 
+		try {
+			$userStatus = $this->mapper->findByUserId($userId);
+		} catch (DoesNotExistException $e) {
+			// We don't need to do anything
+			$userStatus = new UserStatus();
+			$userStatus->setUserId($userId);
+		}
+
+		// CALL trumps CALENDAR status, but we don't need to do anything but overwrite the message
+		if ($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY && $messageId === IUserStatus::MESSAGE_CALL) {
+			$userStatus->setStatus($status);
+			$userStatus->setStatusTimestamp($this->timeFactory->getTime());
+			$userStatus->setIsUserDefined(true);
+			$userStatus->setIsBackup(false);
+			$userStatus->setMessageId($messageId);
+			$userStatus->setCustomIcon(null);
+			$userStatus->setCustomMessage($customMessage);
+			$userStatus->setClearAt(null);
+			$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
+			return $this->mapper->update($userStatus);
+		}
+
 		if ($createBackup) {
 			if ($this->backupCurrentStatus($userId) === false) {
 				return null; // Already a status set automatically => abort.
 			}
 
 			// If we just created the backup
+			// we need to create a new status to insert
+			// Unfortunatley there's no way to unset the DB ID on an Entity
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($userId);
-		} else {
-			try {
-				$userStatus = $this->mapper->findByUserId($userId);
-			} catch (DoesNotExistException $ex) {
-				$userStatus = new UserStatus();
-				$userStatus->setUserId($userId);
-			}
 		}
 
 		$userStatus->setStatus($status);
