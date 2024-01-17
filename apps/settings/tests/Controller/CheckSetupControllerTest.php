@@ -40,7 +40,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -49,7 +48,6 @@ use OCP\IURLGenerator;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -66,8 +64,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $request;
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IClientService | \PHPUnit\Framework\MockObject\MockObject*/
-	private $clientService;
 	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
@@ -90,8 +86,6 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
-		$this->clientService = $this->getMockBuilder(IClientService::class)
-			->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)
@@ -112,7 +106,6 @@ class CheckSetupControllerTest extends TestCase {
 				'settings',
 				$this->request,
 				$this->config,
-				$this->clientService,
 				$this->urlGenerator,
 				$this->l10n,
 				$this->checker,
@@ -149,8 +142,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->request->expects($this->never())
 			->method('getHeader');
-		$this->clientService->expects($this->never())
-			->method('newClient');
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -200,7 +191,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'isUsedTlsLibOutdated' => '',
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'isSettimelimitAvailable' => true,
@@ -214,192 +204,6 @@ class CheckSetupControllerTest extends TestCase {
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
-	}
-
-	public function testGetCurlVersion() {
-		$checkSetupController = $this->getMockBuilder(CheckSetupController::class)
-			->setConstructorArgs([
-				'settings',
-				$this->request,
-				$this->config,
-				$this->clientService,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->tempManager,
-				$this->notificationManager,
-				$this->setupCheckManager,
-			])
-			->setMethods(null)->getMock();
-
-		$this->assertArrayHasKey('ssl_version', $this->invokePrivate($checkSetupController, 'getCurlVersion'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithAnotherLibrary() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'SSLlib']);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithMisbehavingCurl() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn([]);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithMatchingOpenSslVersion() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.1d']);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithMatchingOpenSslVersion1() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.2b']);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsBuggyNss400() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'NSS/1.0.2b']);
-		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
-			->disableOriginalConstructor()->getMock();
-		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
-			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()->getMock();
-		$response->expects($this->once())
-			->method('getStatusCode')
-			->willReturn(400);
-		$exception->expects($this->once())
-			->method('getResponse')
-			->willReturn($response);
-
-		$client->expects($this->once())
-			->method('get')
-			->with('https://nextcloud.com/', [])
-			->will($this->throwException($exception));
-
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->willReturn($client);
-
-		$this->assertSame('cURL is using an outdated NSS version (NSS/1.0.2b). Please update your operating system or features such as installing and updating apps via the App Store or Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-
-	public function testIsBuggyNss200() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'NSS/1.0.2b']);
-		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
-			->disableOriginalConstructor()->getMock();
-		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
-			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()->getMock();
-		$response->expects($this->once())
-			->method('getStatusCode')
-			->willReturn(200);
-		$exception->expects($this->once())
-			->method('getResponse')
-			->willReturn($response);
-
-		$client->expects($this->once())
-			->method('get')
-			->with('https://nextcloud.com/', [])
-			->will($this->throwException($exception));
-
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->willReturn($client);
-
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithInternetDisabled() {
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->willReturn(false);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithAppstoreDisabledAndServerToServerSharingEnabled() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getSystemValue')
-			->willReturnMap([
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['files_sharing', 'outgoing_server2server_share_enabled', 'yes', 'no'],
-				['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'yes'],
-			]);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn([]);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithAppstoreDisabledAndServerToServerSharingDisabled() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getSystemValue')
-			->willReturnMap([
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['files_sharing', 'outgoing_server2server_share_enabled', 'yes', 'no'],
-				['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'no'],
-			]);
-
-		$this->checkSetupController
-			->expects($this->never())
-			->method('getCurlVersion')
-			->willReturn([]);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
 	}
 
 	public function testRescanFailedIntegrityCheck() {
@@ -890,7 +694,6 @@ Array
 			'settings',
 			$this->request,
 			$this->config,
-			$this->clientService,
 			$this->urlGenerator,
 			$this->l10n,
 			$this->checker,
@@ -935,7 +738,6 @@ Array
 			'settings',
 			$this->request,
 			$this->config,
-			$this->clientService,
 			$this->urlGenerator,
 			$this->l10n,
 			$this->checker,
