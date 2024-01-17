@@ -35,7 +35,6 @@
     "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Une nouvelle version est disponible : <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Notez qu’après une nouvelle version, la mise à jour n’apparaît qu’après la première version mineure ou ultérieure. Nous déployons de nouvelles versions réparties sur le temps à nos utilisateurs et nous sautons parfois une version lorsque des problèmes sont trouvés. Pour en savoir plus sur les mises à jour et les canaux de diffusion, visitez {link}",
-    "Checked on {lastCheckedDate}" : "Vérifié le {lastCheckedDate}",
     "Checking apps for compatible versions" : "Vérification de la compatibilité des applications",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Veuillez vous assurer que le paramètre <samp>appstoreenabled</samp> n'est pas défini à false dans votre config.php.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Impossible de se connecter au magasin d'applications ou aucune mise à jour n'est disponible. Recherchez manuellement les mises à jour ou assurez-vous que votre serveur a accès à Internet et peut se connecter au magasin d'applications.",
@@ -49,6 +48,7 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> application n'a pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible avec cette version de Nextcloud disponible."],
     "Please use the command line updater to update." : "Veuillez utiliser le programme de mise à jour en ligne de commande pour mettre à jour. ",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Vous pouvez modifier le canal de distribution ci-dessous mais ceci changera aussi le canal pour les applications. Par exemple, après avoir choisi le canal Beta, les applications en version Beta seront aussi proposées dans les mises à jour.",
-    "Update channel:" : "Canal de mise à jour :"
+    "Update channel:" : "Canal de mise à jour :",
+    "Checked on {lastCheckedDate}" : "Vérifié le {lastCheckedDate}"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

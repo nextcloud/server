@@ -92,7 +92,7 @@
     "Please specify a valid circle" : "請指定一個有效的circle",
     "Sharing %s failed because the back end does not support room shares" : "分享 %s 失敗，因為後端不支援聊天室分享",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "分享 %s 失敗，因為後端不支援 ScienceMesh 分享",
-    "Unknown share type" : "未知的分享類型",
+    "Unknown share type" : "分享類型不詳",
     "Not a directory" : "這不是一個資料夾",
     "Could not lock node" : "無法鎖定節點",
     "Could not lock path" : "無法鎖定路徑",

@@ -37,7 +37,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Seçilmiş güncelleme kanalı sunucunun güncellemelerini desteklemiyor.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Yeni bir sürüm yayınlanmış: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Yeni bir sürümden sonra güncellemenin yalnızca ilk yeni küçük sürüm ya da daha sonraki sürümler yayınlandığında görüntüleneceğini unutmayın. Yeni sürümleri kullanıcılarımıza zamanla dağıtıyoruz ve bazen sorunlarla karşılaştığımızda bir sürümü atlayabiliyoruz. Güncellemeler ve yayın kanalları hakkında ayrıntılı bilgi almak için {link} adresine bakabilirsiniz.",
-    "Checked on {lastCheckedDate}" : "Son denetim: {lastCheckedDate}",
     "Checking apps for compatible versions" : "Uygulamalar uyumlu sürümler için denetleniyor",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Lütfen config.php dosyasındaki <samp>appstoreenabled</samp> seçeneğinin false olarak ayarlanmadığından emin olun.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var.","<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var."],
     "Please use the command line updater to update." : "Lütfen güncellemek için komut satırı güncelleyiciyi kullanın.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Uygulama yönetimi sayfasını da etkileyen aşağıdaki güncelleme kanalını değiştirebilirsiniz. Örneğin. beta kanalına geçtikten sonra, uygulama yönetimi sayfasında beta uygulama güncellemeleri sunulur.",
-    "Update channel:" : "Güncelleme kanalı:"
+    "Update channel:" : "Güncelleme kanalı:",
+    "Checked on {lastCheckedDate}" : "Son denetim: {lastCheckedDate}"
 },
 "nplurals=2; plural=(n > 1);");
