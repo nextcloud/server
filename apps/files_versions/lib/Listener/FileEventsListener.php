@@ -58,11 +58,13 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class FileEventsListener implements IEventListener {
 	private IRootFolder $rootFolder;
 	private VersionsMapper $versionsMapper;
+	private IUserSession $userSession;
 	/**
 	 * @var array<int, array>
 	 */
@@ -83,11 +85,13 @@ class FileEventsListener implements IEventListener {
 		VersionsMapper $versionsMapper,
 		IMimeTypeLoader $mimeTypeLoader,
 		LoggerInterface $logger,
+		IUserSession $userSession,
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->versionsMapper = $versionsMapper;
 		$this->mimeTypeLoader = $mimeTypeLoader;
 		$this->logger = $logger;
+		$this->userSession = $userSession;
 	}
 
 	public function handle(Event $event): void {
@@ -352,14 +356,28 @@ class FileEventsListener implements IEventListener {
 	 * If no user is connected, use the node's owner.
 	 */
 	private function getPathForNode(Node $node): ?string {
-		try {
-			return $this->rootFolder
-				->getUserFolder(\OC_User::getUser())
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user) {
+			$path = $this->rootFolder
+				->getUserFolder($user)
 				->getRelativePath($node->getPath());
-		} catch (\Throwable $ex) {
-			return $this->rootFolder
-				->getUserFolder($node->getOwner()->getUid())
-				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
 		}
+
+		$owner = $node->getOwner()?->getUid();
+		if ($owner) {
+			$path = $this->rootFolder
+				->getUserFolder($owner)
+				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
+		}
+
+		return null;
 	}
 }
