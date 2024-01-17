@@ -155,8 +155,8 @@ $CONFIG = [
  * Specify read only replicas to be used by Nextcloud when querying the database
  */
 'dbreplica' => [
-	['user' => 'replica1', 'password', 'host' => '', 'dbname' => ''],
-	['user' => 'replica1', 'password', 'host' => '', 'dbname' => ''],
+	['user' => 'nextcloud', 'password' => 'password1', 'host' => 'replica1', 'dbname' => ''],
+	['user' => 'nextcloud', 'password' => 'password2', 'host' => 'replica2', 'dbname' => ''],
 ],
 
 /**
