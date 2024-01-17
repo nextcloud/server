@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Hafna",
     "More options …" : "Fleiri valkostir ...",
     "More options at %s" : "Fleiri valkostir á %s",
-    "In a meeting" : "Á fundi",
     "Contacts" : "Tengiliðir",
     "{actor} created address book {addressbook}" : "{actor} útbjó nafnaskrána {addressbook}",
     "You created address book {addressbook}" : "Þú bjóst til nafnaskrána {addressbook}",

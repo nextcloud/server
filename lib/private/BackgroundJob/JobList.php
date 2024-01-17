@@ -88,6 +88,7 @@ class JobList implements IJobList {
 			$query->update('jobs')
 				->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
 				->set('last_checked', $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT))
+				->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
 				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
 		}

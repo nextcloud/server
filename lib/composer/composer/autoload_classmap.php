@@ -1017,6 +1017,7 @@ return array(
     'OC\\Core\\Command\\Background\\Ajax' => $baseDir . '/core/Command/Background/Ajax.php',
     'OC\\Core\\Command\\Background\\Base' => $baseDir . '/core/Command/Background/Base.php',
     'OC\\Core\\Command\\Background\\Cron' => $baseDir . '/core/Command/Background/Cron.php',
+    'OC\\Core\\Command\\Background\\Delete' => $baseDir . '/core/Command/Background/Delete.php',
     'OC\\Core\\Command\\Background\\Job' => $baseDir . '/core/Command/Background/Job.php',
     'OC\\Core\\Command\\Background\\ListCommand' => $baseDir . '/core/Command/Background/ListCommand.php',
     'OC\\Core\\Command\\Background\\WebCron' => $baseDir . '/core/Command/Background/WebCron.php',

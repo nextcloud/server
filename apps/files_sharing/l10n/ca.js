@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Rebutja l'element compartit","Rebutja els elements compartits"],
     "_Restore share_::_Restore shares_" : ["Restaura l'element compartit","Restaura els elements compartits"],
     "Shared" : "S'ha compartit",
+    "Shared multiple times with different people" : "S'ha compartit diverses vegades amb persones diferents",
     "Shared by {ownerDisplayName}" : "Compartit per {ownerDisplayName}",
     "Show sharing options" : "Mostra les opcions d'ús compartit",
     "Link to a file" : "Enllaç a un fitxer",

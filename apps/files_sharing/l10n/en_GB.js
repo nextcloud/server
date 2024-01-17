@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Reject share","Reject shares"],
     "_Restore share_::_Restore shares_" : ["Restore share","Restore shares"],
     "Shared" : "Shared",
+    "Shared multiple times with different people" : "Shared multiple times with different people",
     "Shared by {ownerDisplayName}" : "Shared by {ownerDisplayName}",
     "Show sharing options" : "Show sharing options",
     "Link to a file" : "Link to a file",

@@ -33,6 +33,11 @@
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
+		<template v-if="!isNoneSelected" #header-overlay>
+			<FilesListTableHeaderActions :current-view="currentView"
+				:selected-nodes="selectedNodes" />
+		</template>
+
 		<template #before>
 			<!-- Headers -->
 			<FilesListHeader v-for="header in sortedHeaders"
@@ -75,6 +80,8 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { getSummaryFor } from '../utils/fileUtils'
+import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 import FileEntry from './FileEntry.vue'
@@ -85,6 +92,7 @@ import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.js'
+import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -94,6 +102,7 @@ export default defineComponent({
 		FilesListTableFooter,
 		FilesListTableHeader,
 		VirtualList,
+		FilesListTableHeaderActions,
 	},
 
 	mixins: [
@@ -117,8 +126,10 @@ export default defineComponent({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const selectionStore = useSelectionStore()
 		return {
 			userConfigStore,
+			selectionStore,
 		}
 	},
 
@@ -128,7 +139,6 @@ export default defineComponent({
 			FileEntryGrid,
 			headers: getFileListHeaders(),
 			scrollToIndex: 0,
-			dndNoticeHeight: 0,
 		}
 	},
 
@@ -137,25 +147,14 @@ export default defineComponent({
 			return this.userConfigStore.userConfig
 		},
 
-		files() {
-			return this.nodes.filter(node => node.type === 'file')
-		},
-
 		fileId() {
 			return parseInt(this.$route.params.fileid) || null
 		},
 
-		summaryFile() {
-			const count = this.files.length
-			return n('files', '{count} file', '{count} files', count, { count })
-		},
-		summaryFolder() {
-			const count = this.nodes.length - this.files.length
-			return n('files', '{count} folder', '{count} folders', count, { count })
-		},
 		summary() {
-			return t('files', '{summaryFile} and {summaryFolder}', this)
+			return getSummaryFor(this.nodes)
 		},
+
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
 			if (this.filesListWidth < 768) {
@@ -185,6 +184,14 @@ export default defineComponent({
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
 			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
+		},
+
+		selectedNodes() {
+			return this.selectionStore.selected
+		},
+
+		isNoneSelected() {
+			return this.selectedNodes.length === 0
 		},
 	},
 
@@ -259,7 +266,10 @@ export default defineComponent({
 		onDragOver(event: DragEvent) {
 			// Detect if we're only dragging existing files or not
 			const isForeignFile = event.dataTransfer?.types.includes('Files')
+
 			if (isForeignFile) {
+				// Only handle uploading of existing Nextcloud files
+				// See DragAndDropNotice for handling of foreign files
 				return
 			}
 
@@ -296,6 +306,7 @@ export default defineComponent({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
+	position: relative;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -329,6 +340,22 @@ export default defineComponent({
 
 		.files-list__table {
 			display: block;
+		}
+
+		.files-list__thead-overlay {
+			position: absolute;
+			top: 0;
+			left: var(--row-height); // Save space for a row checkbox
+			right: 0;
+			z-index: 1000;
+
+			display: flex;
+			align-items: center;
+
+			// Reuse row styles
+			background-color: var(--color-main-background);
+			border-bottom: 1px solid var(--color-border);
+			height: var(--row-height);
 		}
 
 		.files-list__thead,
@@ -545,10 +572,12 @@ export default defineComponent({
 				}
 
 				// Keyboard indicator a11y
-				&:focus .files-list__row-name-text,
-				&:focus-visible .files-list__row-name-text {
+				&:focus .files-list__row-name-text {
 					outline: 2px solid var(--color-main-text) !important;
 					border-radius: 20px;
+				}
+				&:focus:not(:focus-visible) .files-list__row-name-text {
+					outline: none !important;
 				}
 			}
 

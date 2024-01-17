@@ -34,28 +34,19 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
-use bantu\IniGetWrapper\IniGetWrapper;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
-use OC;
-use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Controller\CheckSetupController;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Lock\ILockingProvider;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -86,35 +77,14 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $dispatcher;
-	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
-	private $db;
-	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
-	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $iniGetWrapper;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $connection;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var IServerContainer|MockObject */
-	private $serverContainer;
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
-
-	/**
-	 * Holds a list of directories created during tests.
-	 *
-	 * @var array
-	 */
-	private $dirsToRemove = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -134,21 +104,12 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->db = $this->getMockBuilder(Connection::class)
-			->disableOriginalConstructor()->getMock();
-		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
-		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
-		$this->connection = $this->getMockBuilder(IDBConnection::class)
-			->disableOriginalConstructor()->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
@@ -160,16 +121,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dispatcher,
-				$this->db,
-				$this->lockingProvider,
 				$this->dateTimeFormatter,
-				$this->iniGetWrapper,
-				$this->connection,
 				$this->tempManager,
 				$this->notificationManager,
-				$this->appManager,
-				$this->serverContainer,
 				$this->setupCheckManager,
 			])
 			->setMethods([
@@ -177,29 +131,11 @@ class CheckSetupControllerTest extends TestCase {
 				'getSuggestedOverwriteCliURL',
 				'getCurlVersion',
 				'isPhpOutdated',
-				'getOpcacheSetupRecommendations',
-				'isSqliteUsed',
 				'isPHPMailerUsed',
-				'getAppDirsWithDifferentOwner',
-				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
-				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
-	}
-
-	/**
-	 * Removes directories created during tests.
-	 *
-	 * @after
-	 * @return void
-	 */
-	public function removeTestDirectories() {
-		foreach ($this->dirsToRemove as $dirToRemove) {
-			rmdir($dirToRemove);
-		}
-		$this->dirsToRemove = [];
 	}
 
 	public function testCheck() {
@@ -225,13 +161,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('newClient');
 		$this->checkSetupController
 			->expects($this->once())
-			->method('getOpcacheSetupRecommendations')
-			->willReturn(['recommendation1', 'recommendation2']);
-		$this->checkSetupController
-			->method('isSqliteUsed')
-			->willReturn(false);
-		$this->checkSetupController
-			->expects($this->once())
 			->method('getSuggestedOverwriteCliURL')
 			->willReturn('');
 		$this->checkSetupController
@@ -249,23 +178,8 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->checkSetupController
 			->expects($this->once())
-			->method('getAppDirsWithDifferentOwner')
-			->willReturn([]);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isImagickEnabled')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
 			->method('areWebauthnExtensionsEnabled')
 			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('hasBigIntConversionPendingColumns')
-			->willReturn([]);
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -307,9 +221,6 @@ class CheckSetupControllerTest extends TestCase {
 				}
 				return '';
 			});
-		$sqlitePlatform = $this->getMockBuilder(SqlitePlatform::class)->getMock();
-		$this->connection->method('getDatabasePlatform')
-			->willReturn($sqlitePlatform);
 
 		$expected = new DataResponse(
 			[
@@ -325,18 +236,11 @@ class CheckSetupControllerTest extends TestCase {
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
-				'OpcacheSetupRecommendations' => ['recommendation1', 'recommendation2'],
 				'isSettimelimitAvailable' => true,
-				'isSqliteUsed' => false,
-				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
-				'appDirsWithDifferentOwner' => [],
-				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
-				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
-				'imageMagickLacksSVGSupport' => false,
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
 				'generic' => [],
@@ -356,16 +260,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dispatcher,
-				$this->db,
-				$this->lockingProvider,
 				$this->dateTimeFormatter,
-				$this->iniGetWrapper,
-				$this->connection,
 				$this->tempManager,
 				$this->notificationManager,
-				$this->appManager,
-				$this->serverContainer,
 				$this->setupCheckManager,
 			])
 			->setMethods(null)->getMock();
@@ -415,56 +312,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getCurlVersion')
 			->willReturn(['ssl_version' => 'OpenSSL/1.0.2b']);
 		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	/**
-	 * Setups a temp directory and some subdirectories.
-	 * Then calls the 'getAppDirsWithDifferentOwner' method.
-	 * The result is expected to be empty since
-	 * there are no directories with different owners than the current user.
-	 *
-	 * @return void
-	 */
-	public function testAppDirectoryOwnersOk() {
-		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
-		mkdir($tempDir);
-		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
-		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app2');
-		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app1';
-		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app2';
-		$this->dirsToRemove[] = $tempDir;
-		OC::$APPSROOTS = [
-			[
-				'path' => $tempDir,
-				'url' => '/apps',
-				'writable' => true,
-			],
-		];
-		$this->assertSame(
-			[],
-			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
-		);
-	}
-
-	/**
-	 * Calls the check for a none existing app root that is marked as not writable.
-	 * It's expected that no error happens since the check shouldn't apply.
-	 *
-	 * @return void
-	 */
-	public function testAppDirectoryOwnersNotWritable() {
-		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
-		OC::$APPSROOTS = [
-			[
-				'path' => $tempDir,
-				'url' => '/apps',
-				'writable' => false,
-			],
-		];
-		$this->assertSame(
-			[],
-			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
-		);
 	}
 
 	public function testIsBuggyNss400() {
@@ -1082,16 +929,9 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dispatcher,
-			$this->db,
-			$this->lockingProvider,
 			$this->dateTimeFormatter,
-			$this->iniGetWrapper,
-			$this->connection,
 			$this->tempManager,
 			$this->notificationManager,
-			$this->appManager,
-			$this->serverContainer,
 			$this->setupCheckManager,
 		);
 
@@ -1135,16 +975,9 @@ Array
 			$this->l10n,
 			$this->checker,
 			$this->logger,
-			$this->dispatcher,
-			$this->db,
-			$this->lockingProvider,
 			$this->dateTimeFormatter,
-			$this->iniGetWrapper,
-			$this->connection,
 			$this->tempManager,
 			$this->notificationManager,
-			$this->appManager,
-			$this->serverContainer,
 			$this->setupCheckManager,
 		);
 

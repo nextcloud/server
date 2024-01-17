@@ -16,7 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Izbriši opombo",
     "Cancel edit" : "Prekliči urejanje",
     "Post comment" : "Objavi opombo",
-    "@ for mentions, : for emoji, / for smart picker" : "@ za omenjanje, za izrazne ikone, / za pametni izbirnik",
+    "@ for mentions, : for emoji, / for smart picker" : "@ za omenjanje osebe, : za izris izraznih ikon, / za pametni izbirnik",
     "Could not reload comments" : "Opomb ni mogoče posodobiti",
     "No comments yet, start the conversation!" : "Ni še odzivov, bodite prvi!",
     "No more messages" : "Ni drugih sporočil",

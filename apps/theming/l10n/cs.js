@@ -29,6 +29,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používáte svůj vlastní motiv vzhledu. Nastavení aplikace pro změnu motivu vzhledu tím mohou být přepsána.",
     "Theming" : "Motiv vzhledu",
     "Appearance and accessibility" : "Vzhled a zpřístupnění",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Ačkoli je zapnutá aplikace pro opatřování motivem vzhledu, není zapnutý PHP modul „imagick“. Aby vytváření ikon webů správně fungovalo, je zapotřebí tento modul nainstalovat a zapnout.",
     "Dark theme with high contrast mode" : "Tmavý motiv vzhledu s režimem vysokého kontrastu",
     "Enable dark high contrast mode" : "Používat tmavý režim s vysokým kontrastem",
     "Similar to the high contrast mode, but with dark colours." : "Podobné režimu s vysokým kontrastem, ale s tmavými barvami.",

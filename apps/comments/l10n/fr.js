@@ -15,6 +15,8 @@ OC.L10N.register(
     "Edit comment" : "Modifier le commentaire",
     "Delete comment" : "Supprimer le commentaire",
     "Cancel edit" : "Annuler les modifications",
+    "New comment" : "Nouveau commentaire",
+    "Write a comment …" : "Écrire un commentaire…",
     "Post comment" : "Publier le commentaire",
     "@ for mentions, : for emoji, / for smart picker" : "@ pour les mentions, : pour les émojis, / pour le sélecteur intelligent",
     "Could not reload comments" : "Impossible de rafraichir les commentaires",

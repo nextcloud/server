@@ -32,13 +32,15 @@
 			<!-- shares content -->
 			<div class="sharingTab__content">
 				<!-- shared with me information -->
-				<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
-					<template #avatar>
-						<NcAvatar :user="sharedWithMe.user"
-							:display-name="sharedWithMe.displayName"
-							class="sharing-entry__avatar" />
-					</template>
-				</SharingEntrySimple>
+				<ul>
+					<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
+						<template #avatar>
+							<NcAvatar :user="sharedWithMe.user"
+								:display-name="sharedWithMe.displayName"
+								class="sharing-entry__avatar" />
+						</template>
+					</SharingEntrySimple>
+				</ul>
 
 				<!-- add new share input -->
 				<SharingInput v-if="!loading"

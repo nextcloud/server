@@ -445,16 +445,18 @@ class ThemingController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @BruteForceProtection(action=manifest)
 	 *
 	 * Get the manifest for an app
 	 *
 	 * @param string $app ID of the app
 	 * @psalm-suppress LessSpecificReturnStatement The content of the Manifest doesn't need to be described in the return type
-	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
 	 *
 	 * 200: Manifest returned
+	 * 404: App not found
 	 */
-	public function getManifest(string $app) {
+	public function getManifest(string $app): JSONResponse {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
@@ -462,6 +464,12 @@ class ThemingController extends Controller {
 			$startUrl = $this->urlGenerator->getBaseUrl();
 			$description = $this->themingDefaults->getSlogan();
 		} else {
+			if (!$this->appManager->isEnabledForUser($app)) {
+				$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
+				$response->throttle(['action' => 'manifest', 'app' => $app]);
+				return $response;
+			}
+
 			$info = $this->appManager->getAppInfo($app, false, $this->l10n->getLanguageCode());
 			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
 			$shortName = $info['name'];

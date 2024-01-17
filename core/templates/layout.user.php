@@ -37,7 +37,7 @@ p($theme->getTitle());
 		<link rel="apple-touch-icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path($_['appid'], 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
-		<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>">
+		<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>" crossorigin="use-credentials">
 		<?php emit_css_loading_tags($_); ?>
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
@@ -68,7 +68,6 @@ p($theme->getTitle());
 			</div>
 
 			<div class="header-right">
-			    <div id="global-search"></div>
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>
@@ -88,7 +87,10 @@ p($theme->getTitle());
 
 		<main id="content" class="app-<?php p($_['appid']) ?>">
 			<h1 class="hidden-visually" id="page-heading-level-1">
-				<?php p(!empty($_['pageTitle'])?$_['pageTitle']:$theme->getName()); ?>
+				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] != $_['pageTitle'])
+					? $_['application'].': '.$_['pageTitle']
+					: (!empty($_['pageTitle']) ? $_['pageTitle'] : $theme->getName())
+				); ?>
 			</h1>
 			<?php print_unescaped($_['content']); ?>
 		</main>

@@ -23,6 +23,7 @@
 <template>
 	<tr class="footer">
 		<th scope="row">
+			<!-- TRANSLATORS Label for a table footer which summarizes the columns of the table -->
 			<span class="hidden-visually">{{ t('settings', 'Total rows summary') }}</span>
 		</th>
 		<td class="footer__cell footer__cell--loading">

@@ -240,32 +240,11 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(data.OpcacheSetupRecommendations.length > 0) {
-						var listOfOPcacheRecommendations = "";
-						data.OpcacheSetupRecommendations.forEach(function(element){
-							listOfOPcacheRecommendations += '<li>' + element + '</li>';
-						});
-						messages.push({
-							msg: t('core', 'The PHP OPcache module is not properly configured. See the {linkstart}documentation ↗{linkend} for more information.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-opcache') + '">')
-								.replace('{linkend}', '</a>') + '<ul>' + listOfOPcacheRecommendations + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
-					}
 					if(!data.isSettimelimitAvailable) {
 						messages.push({
 							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
-					}
-					if (!data.isImagickEnabled) {
-						messages.push({
-							msg: t(
-								'core',
-								'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.'
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
 					}
 					if (!data.areWebauthnExtensionsEnabled) {
 						messages.push({
@@ -276,49 +255,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.imageMagickLacksSVGSupport) {
-						messages.push({
-							msg: t('core', 'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-					if (data.pendingBigIntConversionColumns.length > 0) {
-						var listOfPendingBigIntConversionColumns = "";
-						data.pendingBigIntConversionColumns.forEach(function(element){
-							listOfPendingBigIntConversionColumns += '<li>' + element + '</li>';
-						});
-						messages.push({
-							msg: t('core', 'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running "occ db:convert-filecache-bigint" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion') + '">')
-								.replace('{linkend}', '</a>') + '<ul>' + listOfPendingBigIntConversionColumns + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-					if (data.isSqliteUsed) {
-						messages.push({
-							msg: t('core', 'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.') + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
-							t('core', 'To migrate to another database use the command line tool: "occ db:convert-type", or see the {linkstart}documentation ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.databaseConversionDocumentation + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 
-					if(data.appDirsWithDifferentOwner && data.appDirsWithDifferentOwner.length > 0) {
-						var appDirsWithDifferentOwner = data.appDirsWithDifferentOwner.reduce(
-							function(appDirsWithDifferentOwner, directory) {
-								return appDirsWithDifferentOwner + '<li>' + directory + '</li>';
-							},
-							''
-						);
-						messages.push({
-							msg: t('core', 'Some app directories are owned by a different user than the web server one. ' +
-									'This may be the case if apps have been installed manually. ' +
-									'Check the permissions of the following app directories:')
-									+ '<ul>' + appDirsWithDifferentOwner + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if (data.isMysqlUsedWithoutUTF8MB4) {
 						messages.push({
 							msg: t('core', 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read {linkstart}the documentation page about this ↗{linkend}.')
@@ -380,6 +317,28 @@
 			return deferred.promise();
 		},
 
+		/**
+		* @param message      The message string containing placeholders.
+		* @param parameters   An object with keys as placeholders and values as their replacements.
+		*
+		* @return The message with placeholders replaced by values.
+		*/
+		richToParsed: function (message, parameters) {
+			for (var [placeholder, parameter] of Object.entries(parameters)) {
+				var replacement;
+				if (parameter.type === 'user') {
+					replacement = '@' + parameter.name;
+				} else if (parameter.type === 'file') {
+					replacement = parameter.path || parameter.name;
+				} else {
+					replacement = parameter.name;
+				}
+				message = message.replace('{' + placeholder + '}', replacement);
+			}
+
+			return message;
+		},
+
 		addGenericSetupCheck: function(data, check, messages) {
 			var setupCheck = data[check] || { pass: true, description: '', severity: 'info', linkToDoc: null}
 
@@ -391,6 +350,9 @@
 			}
 
 			var message = setupCheck.description;
+			if (setupCheck.descriptionParameters) {
+				message = this.richToParsed(message, setupCheck.descriptionParameters);
+			}
 			if (setupCheck.linkToDoc) {
 				message += ' ' + t('core', 'For more details see the {linkstart}documentation ↗{linkend}.')
 					.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + setupCheck.linkToDoc + '">')

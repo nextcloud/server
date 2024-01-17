@@ -92,6 +92,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Job(\OC::$server->getJobList(), \OC::$server->getLogger()));
 	$application->add(new OC\Core\Command\Background\ListCommand(\OC::$server->getJobList()));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Background\Delete::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
 

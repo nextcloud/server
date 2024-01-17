@@ -25,12 +25,12 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Settings\Personal\Security;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;

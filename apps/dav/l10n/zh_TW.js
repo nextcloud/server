@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "拒絕",
     "More options …" : "更多選項……",
     "More options at %s" : "%s 有更多選項",
-    "In a meeting" : "會議中",
     "Contacts" : "聯絡人",
     "{actor} created address book {addressbook}" : "{actor} 建立了通訊錄 {addressbook}",
     "You created address book {addressbook}" : "您建立了通訊錄 {addressbook}",

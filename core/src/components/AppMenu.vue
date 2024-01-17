@@ -160,7 +160,7 @@ $header-icon-size: 20px;
 				width: 12px;
 				height: 5px;
 				border-radius: 3px;
-				background-color: var(--color-primary-element-text);
+				background-color: var(--color-primary-text);
 				left: 50%;
 				bottom: 6px;
 				display: block;
@@ -177,7 +177,8 @@ $header-icon-size: 20px;
 			width: calc(100% - 4px);
 			height: calc(100% - 4px);
 			margin: 2px;
-			color: var(--color-primary-element-text);
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
+			color: var(--color-primary-text);
 			position: relative;
 		}
 
@@ -194,7 +195,8 @@ $header-icon-size: 20px;
 			opacity: 0;
 			position: absolute;
 			font-size: 12px;
-			color: var(--color-primary-element-text);
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
+			color: var(--color-primary-text);
 			text-align: center;
 			left: 50%;
 			top: 45%;
@@ -206,6 +208,7 @@ $header-icon-size: 20px;
 			text-overflow: ellipsis;
 			overflow: hidden;
 			letter-spacing: -0.5px;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		&:hover,

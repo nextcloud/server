@@ -39,8 +39,6 @@
 namespace OC\User;
 
 use OC;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
@@ -51,6 +49,8 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
@@ -456,8 +456,17 @@ class Session implements IUserSession, Emitter {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
-			$users = $this->manager->getByEmail($user);
-			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
+
+			if ($isTokenPassword) {
+				$dbToken = $this->tokenProvider->getToken($password);
+				$userFromToken = $this->manager->get($dbToken->getUID());
+				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user;
+			} else {
+				$users = $this->manager->getByEmail($user);
+				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
+			}
+
+			if (!$isValidEmailLogin) {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}

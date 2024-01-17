@@ -33,7 +33,6 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -47,6 +46,7 @@ use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;

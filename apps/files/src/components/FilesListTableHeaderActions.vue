@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<th class="files-list__column files-list__row-actions-batch" colspan="2">
+	<div class="files-list__column files-list__row-actions-batch">
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
@@ -38,7 +38,7 @@
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
 		</NcActions>
-	</th>
+	</div>
 </template>
 
 <script lang="ts">
@@ -185,6 +185,12 @@ export default Vue.extend({
 						.filter((fileid, index) => results[index] === false)
 					this.selectionStore.set(failedIds)
 
+					if (results.some(result => result === null)) {
+						// If some actions returned null, we assume that the dev
+						// is handling the error messages and we stay silent
+						return
+					}
+
 					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
 					return
 				}
@@ -212,15 +218,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .files-list__row-actions-batch {
 	flex: 1 1 100% !important;
-
-	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	::v-deep .button-vue__wrapper {
-		width: 100%;
-		span.button-vue__text {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
+	max-width: 100%;
 }
 </style>
