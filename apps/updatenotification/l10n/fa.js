@@ -36,7 +36,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",
     "A new version is available: <strong>{newVersionString}</strong>" : "A new version is available: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}",
-    "Checked on {lastCheckedDate}" : "Checked on {lastCheckedDate}",
     "Checking apps for compatible versions" : "Checking apps for compatible versions",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
     "Please use the command line updater to update." : "Please use the command line updater to update.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.",
-    "Update channel:" : "کانال به‌روزرسانی"
+    "Update channel:" : "کانال به‌روزرسانی",
+    "Checked on {lastCheckedDate}" : "Checked on {lastCheckedDate}"
 },
 "nplurals=2; plural=(n > 1);");
