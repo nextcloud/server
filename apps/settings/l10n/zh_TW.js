@@ -164,6 +164,8 @@ OC.L10N.register(
     "Internet connectivity" : "網際網路連線",
     "Internet connectivity is disabled in configuration file." : "已在設定檔中停用網際網路連線。",
     "This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features." : "此伺服器沒有網際網路連線（無法與多個端點取得聯繫），有些功能，像是外部儲存、應用程式更新版通知將無法運作。從遠端存取資料或是寄送電子郵件通知可能也無法運作。建議您設定好網際網路連線以使用所有功能。",
+    "JavaScript modules support" : "JavaScript 模組支援",
+    "Your webserver does not serve `.mjs` files using the JavaScript MIME type. This will break some apps by preventing browsers from executing the JavaScript files. You should configure your webserver to serve `.mjs` files with either the `text/javascript` or `application/javascript` MIME type." : "您的網頁伺服器並未使用 JavaScript MIME 類型來提供 `.mjs` 檔案。這將會阻止瀏覽器執行 JavaScript 檔案，因而破壞某些應用程式。您應該設定您的網頁伺服器，以使用 `text/javascript` 或 `application/javascript` 來提供 `.mjs` 檔案。",
     "Old server-side-encryption" : "舊的伺服器端加密",
     "Disabled" : "已停用",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "啟用了舊的伺服器端加密格式。我們建議停用它。",
