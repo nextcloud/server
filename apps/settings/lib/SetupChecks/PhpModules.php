@@ -76,7 +76,7 @@ class PhpModules implements ISetupCheck {
 			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
 			'bcmath' => $this->l10n->t('for WebAuthn passwordless login'),
 			'gmp' => $this->l10n->t('for WebAuthn passwordless login, and SFTP storage'),
-			'exif' => $this->l10n->t('for image rotation in pictures app'),
+			'exif' => $this->l10n->t('for picture rotation in server and metadata extraction in the Photos app'),
 			default => '',
 		};
 	}
