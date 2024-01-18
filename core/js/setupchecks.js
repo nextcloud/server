@@ -180,34 +180,6 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (data.suggestedOverwriteCliURL !== '') {
-						messages.push({
-							msg: t('core', 'Please make sure to set the "overwrite.cli.url" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: "{suggestedOverwriteCliURL}". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if (data.cronErrors.length > 0) {
-						var listOfCronErrors = "";
-						data.cronErrors.forEach(function(element){
-							listOfCronErrors += '<li>';
-							listOfCronErrors += element.error;
-							listOfCronErrors += ' ';
-							listOfCronErrors += element.hint;
-							listOfCronErrors += '</li>';
-						});
-						messages.push({
-							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + '<ul>' + listOfCronErrors + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						})
-					}
-					if (data.cronInfo.diffInSeconds > 3600) {
-						messages.push({
-							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong. {linkstart}Check the background job settings ↗{linkend}.', {relativeTime: data.cronInfo.relativeTime})
-									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.cronInfo.backgroundJobsUrl + '">')
-									.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
 					if (!data.isFairUseOfFreePushService) {
 						messages.push({
 							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications are limited to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at {linkstart}https://nextcloud.com/enterprise{linkend}.')
@@ -216,28 +188,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(data.isUsedTlsLibOutdated) {
-						messages.push({
-							msg: data.isUsedTlsLibOutdated,
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if(!data.isCorrectMemcachedPHPModuleInstalled) {
 						messages.push({
 							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the {linkstart}memcached wiki about both modules ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">')
 								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(!data.hasPassedCodeIntegrityCheck) {
-						messages.push({
-							msg: t('core', 'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})')
-								.replace('{linkstart1}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.codeIntegrityCheckerDocumentation + '">')
-								.replace('{linkstart2}', '<a href="' + OC.generateUrl('/settings/integrity/failed') + '">')
-								.replace('{linkstart3}', '<a href="' + OC.generateUrl('/settings/integrity/rescan?requesttoken={requesttoken}', {'requesttoken': OC.requestToken}) + '">')
-								.replace(/{linkend}/g, '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
 					if(!data.isSettimelimitAvailable) {
@@ -317,6 +273,15 @@
 			return deferred.promise();
 		},
 
+		escapeHTML: function(text) {
+			return text.toString()
+				.split('&').join('&amp;')
+				.split('<').join('&lt;')
+				.split('>').join('&gt;')
+				.split('"').join('&quot;')
+				.split('\'').join('&#039;')
+		},
+
 		/**
 		* @param message      The message string containing placeholders.
 		* @param parameters   An object with keys as placeholders and values as their replacements.
@@ -327,11 +292,13 @@
 			for (var [placeholder, parameter] of Object.entries(parameters)) {
 				var replacement;
 				if (parameter.type === 'user') {
-					replacement = '@' + parameter.name;
+					replacement = '@' + this.escapeHTML(parameter.name);
 				} else if (parameter.type === 'file') {
-					replacement = parameter.path || parameter.name;
+					replacement = this.escapeHTML(parameter.path) || this.escapeHTML(parameter.name);
+				} else if (parameter.type === 'highlight') {
+					replacement = '<a href="' + encodeURI(parameter.link) + '">' + this.escapeHTML(parameter.name) + '</a>';
 				} else {
-					replacement = parameter.name;
+					replacement = this.escapeHTML(parameter.name);
 				}
 				message = message.replace('{' + placeholder + '}', replacement);
 			}
@@ -350,6 +317,9 @@
 			}
 
 			var message = setupCheck.description;
+			if (message) {
+				message = this.escapeHTML(message)
+			}
 			if (setupCheck.descriptionParameters) {
 				message = this.richToParsed(message, setupCheck.descriptionParameters);
 			}
