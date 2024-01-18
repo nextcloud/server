@@ -93,6 +93,11 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		// The file id of the peer live photo file
+		metadataFilesLivePhoto: {
+			type: Number,
+			default: undefined,
+		},
 	},
 
 	data() {

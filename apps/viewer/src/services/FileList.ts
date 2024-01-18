@@ -20,6 +20,7 @@
  *
  */
 
+import { getDavNameSpaces, getDavProperties } from '@nextcloud/files'
 import { getClient } from './WebdavClient'
 import { genFileInfo, type FileInfo } from '../utils/fileUtils'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
@@ -35,28 +36,10 @@ export default async function(path: string, options = {}): Promise<FileInfo[]> {
 
 	const response = await getClient().getDirectoryContents(fixedPath, Object.assign({
 		data: `<?xml version="1.0"?>
-			<d:propfind  xmlns:d="DAV:"
-				xmlns:oc="http://owncloud.org/ns"
-				xmlns:nc="http://nextcloud.org/ns"
-				xmlns:ocs="http://open-collaboration-services.org/ns">
+			<d:propfind ${getDavNameSpaces()}>
 				<d:prop>
-					<d:getlastmodified />
-					<d:getcontenttype />
-					<d:resourcetype />
-					<oc:fileid />
-					<oc:permissions />
-					<oc:size />
-					<d:getcontentlength />
-					<nc:has-preview />
-					<nc:mount-type />
-					<nc:is-encrypted />
-					<ocs:share-permissions />
 					<oc:tags />
-					<oc:favorite />
-					<oc:comments-unread />
-					<oc:owner-id />
-					<oc:owner-display-name />
-					<oc:share-types />
+					${getDavProperties()}
 				</d:prop>
 			</d:propfind>`,
 		details: true,

@@ -112,13 +112,12 @@ const genFileInfo = function(obj: FileStat): FileInfo {
 /**
  * Generate absolute dav remote path of the file
  *
- * @param {object} fileInfo The fileInfo
- * @param {string} fileInfo.filename the file full path
- * @param {string} fileInfo.basename the file name
- * @param {string} fileInfo.source the file source if any
- * @return {string}
+ * @param fileInfo The fileInfo
+ * @param fileInfo.filename the file full path
+ * @param fileInfo.basename the file name
+ * @param fileInfo.source the file source if any
  */
-const getDavPath = function({ filename, basename, source = '' }: {filename: string, basename: string, source: string}) {
+function getDavPath({ filename, basename, source = '' }: { filename: string, basename: string, source?: string }): string|null {
 	// TODO: allow proper dav access without the need of basic auth
 	// https://github.com/nextcloud/server/issues/19700
 	if (isPublic()) {

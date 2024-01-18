@@ -56,13 +56,13 @@
 <script>
 // eslint-disable-next-line n/no-missing-import
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
-import logger from '../services/logger.js'
 import { imagePath } from '@nextcloud/router'
+import logger from '../services/logger.js'
+import { findLivePhotoPeerFromName } from '../utils/livePhotoUtils'
+import { getPreviewIfAny } from '../utils/previewUtils'
 
 const VuePlyr = () => import(/* webpackChunkName: 'plyr' */'@skjnldsv/vue-plyr')
 
-const liveExt = ['jpg', 'jpeg', 'png']
-const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
 const blankVideo = imagePath('viewer', 'blank.mp4')
 
 export default {
@@ -78,16 +78,14 @@ export default {
 	},
 
 	computed: {
-		livePhoto() {
-			return this.fileList.find(file => {
-				// if same filename and extension is allowed
-				return file.filename !== this.filename
-					&& file.basename.startsWith(this.name)
-					&& liveExtRegex.test(file.basename)
-			})
-		},
 		livePhotoPath() {
-			return this.livePhoto && this.getPreviewIfAny(this.livePhoto)
+			const peerFile = findLivePhotoPeerFromName(this, this.fileList)
+
+			if (peerFile === undefined) {
+				return undefined
+			}
+
+			return getPreviewIfAny(peerFile)
 		},
 		player() {
 			return this.$refs.plyr.player
@@ -101,7 +99,7 @@ export default {
 				loadSprite: false,
 				fullscreen: {
 					iosNative: true,
-				}
+				},
 			}
 		},
 	},
