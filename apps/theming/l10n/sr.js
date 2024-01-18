@@ -74,6 +74,7 @@ OC.L10N.register(
     "User settings" : "Корисничка подешавања",
     "Disable user theming" : "Искључи корисничке теме",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Мада можете да изаберете и прилагодите своју инстанцу, корисници такође могу да промене своју позадину и боје. Ако желите да форсирате своје прилагођавање, укључите ово подешавање.",
+    "Appearance and accessibility settings" : "Подешавања изгледа и приступачности",
     "Background" : "Позадина",
     "Customization has been disabled by your administrator" : "Администратор је искључио могућност прилагођавања",
     "Set a custom background" : "Постави пролагођену позадину",

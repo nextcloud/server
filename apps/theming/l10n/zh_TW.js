@@ -74,6 +74,7 @@ OC.L10N.register(
     "User settings" : "使用者設定",
     "Disable user theming" : "停用使用者佈景主題",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "雖然您可以選取並自訂您的站台，但使用者仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以將其開啟。",
+    "Appearance and accessibility settings" : "外觀與無障礙存取設定",
     "Background" : "背景圖片",
     "Customization has been disabled by your administrator" : "您的管理員已停用自訂",
     "Set a custom background" : "設定自訂背景",
