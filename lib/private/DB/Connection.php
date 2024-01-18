@@ -260,13 +260,16 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
 		$tables = $this->getQueriedTables($sql);
-		if (count(array_intersect($this->tableDirtyWrites, $tables)) === 0 && !$this->isTransactionActive()) {
+		if ($this->isTransactionActive()) {
+			// Transacted queries go to the primary. The consistency of the primary guarantees that we can not run
+			// into a dirty read.
+		} elseif (count(array_intersect($this->tableDirtyWrites, $tables)) === 0) {
 			// No tables read that could have been written already in the same request and no transaction active
 			// so we can switch back to the replica for reading as long as no writes happen that switch back to the primary
 			// We cannot log here as this would log too early in the server boot process
 			$this->ensureConnectedToReplica();
 		} else {
-			// Read to a table that was previously written to
+			// Read to a table that has been written to previously
 			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
 			$this->logger->debug('dirty table reads: ' . $sql, ['tables' => $this->tableDirtyWrites, 'reads' => $tables, 'exception' => new \Exception()]);
 		}
