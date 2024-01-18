@@ -285,6 +285,10 @@ class Connection extends PrimaryReadReplicaConnection {
 					'exception' => new \Exception(),
 				],
 			);
+			// To prevent a dirty read on a replica that is slightly out of sync, we
+			// switch back to the primary. This is detrimental for performance but
+			// safer for consistency.
+			$this->ensureConnectedToPrimary();
 		}
 
 		$sql = $this->replaceTablePrefix($sql);
