@@ -164,7 +164,11 @@ class AppConfig implements IAppConfig {
 		$this->assertParams($app, $key);
 		$this->loadConfig($lazy);
 
-		return $this->isTyped(self::VALUE_SENSITIVE, $this->valueTypes[$app][$key] ?? throw new AppConfigUnknownKeyException('unknown config key'));
+		if (!isset($this->valueTypes[$app][$key])) {
+			throw new AppConfigUnknownKeyException('unknown config key');
+		}
+
+		return $this->isTyped(self::VALUE_SENSITIVE, $this->valueTypes[$app][$key]);
 	}
 
 	/**
@@ -961,10 +965,14 @@ class AppConfig implements IAppConfig {
 			$typeString = (string)$type;
 		}
 
+		if (!isset($cache[$app][$key])) {
+			throw new AppConfigUnknownKeyException('unknown config key');
+		}
+
 		return [
 			'app' => $app,
 			'key' => $key,
-			'value' => $cache[$app][$key] ?? throw new AppConfigUnknownKeyException('unknown config key'),
+			'value' => $cache[$app][$key],
 			'type' => $type,
 			'lazy' => $lazy,
 			'typeString' => $typeString,
