@@ -115,7 +115,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-border' => $this->util->lighten($colorMainBackground, 7),
 				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 30),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
 
 				'--background-invert-if-dark' => 'invert(100%)',
 				'--background-invert-if-bright' => 'no',
