@@ -45,7 +45,7 @@ class OverwriteCliUrl implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Overwrite cli URL');
+		return $this->l10n->t('Overwrite CLI URL');
 	}
 
 	public function run(): SetupResult {
