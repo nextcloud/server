@@ -48,7 +48,7 @@ namespace OCA\Settings\Controller;
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -61,7 +61,7 @@ use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CheckSetupController extends Controller {
 	/** @var IConfig */
 	private $config;
