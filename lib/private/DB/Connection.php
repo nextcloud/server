@@ -331,7 +331,6 @@ class Connection extends PrimaryReadReplicaConnection {
 	public function executeStatement($sql, array $params = [], array $types = []): int {
 		$tables = $this->getQueriedTables($sql);
 		$this->tableDirtyWrites = array_unique(array_merge($this->tableDirtyWrites, $tables));
-		$this->logger->debug('dirty table writes: ' . $sql, ['tables' => $this->tableDirtyWrites]);
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
@@ -652,16 +651,6 @@ class Connection extends PrimaryReadReplicaConnection {
 		} else {
 			return new Migrator($this, $config, $dispatcher);
 		}
-	}
-
-	protected function performConnect(?string $connectionName = null): bool {
-		$before = $this->isConnectedToPrimary();
-		$result = parent::performConnect($connectionName);
-		$after = $this->isConnectedToPrimary();
-		if (!$before && $after) {
-			$this->logger->debug('Switched to primary database', ['exception' => new \Exception()]);
-		}
-		return $result;
 	}
 
 	public function beginTransaction() {
