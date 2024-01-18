@@ -43,7 +43,6 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
@@ -72,8 +71,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $tempManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
 	/** @var ISetupCheckManager|MockObject */
@@ -98,7 +95,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
@@ -110,7 +106,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->tempManager,
 				$this->notificationManager,
 				$this->setupCheckManager,
 			])
@@ -176,7 +171,6 @@ class CheckSetupControllerTest extends TestCase {
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
 				'isFairUseOfFreePushService' => false,
-				'temporaryDirectoryWritable' => false,
 				'generic' => [],
 			]
 		);

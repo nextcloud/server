@@ -82,7 +82,7 @@ use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
-use OCA\Settings\SetupChecks\TempSpaceAvailableIfS3PrimaryStorage;
+use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
@@ -203,7 +203,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(ReadOnlyConfig::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
-		$context->registerSetupCheck(TempSpaceAvailableIfS3PrimaryStorage::class);
+		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
 
 		$context->registerUserMigrator(AccountMigrator::class);

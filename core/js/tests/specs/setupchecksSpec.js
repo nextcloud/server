@@ -225,7 +225,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -260,7 +259,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -295,7 +293,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -331,7 +328,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -396,7 +392,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -441,7 +436,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -475,7 +469,6 @@ describe('OC.SetupChecks tests', function() {
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -505,7 +498,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -529,39 +521,6 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add &quot;default_phone_region&quot; with the respective ISO 3166-1 code of the region to your config file. For more details see the <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
-		it('should return an info if the temporary directory is either non-existent or non-writable', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					isFairUseOfFreePushService: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: false,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The temporary directory of this instance points to an either non-existing or non-writable directory.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});

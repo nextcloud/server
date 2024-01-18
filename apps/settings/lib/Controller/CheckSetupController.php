@@ -55,7 +55,6 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
@@ -73,8 +72,6 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var ITempManager */
-	private $tempManager;
 	/** @var IManager */
 	private $manager;
 	private ISetupCheckManager $setupCheckManager;
@@ -86,7 +83,6 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		ITempManager $tempManager,
 		IManager $manager,
 		ISetupCheckManager $setupCheckManager,
 	) {
@@ -96,7 +92,6 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->tempManager = $tempManager;
 		$this->manager = $manager;
 		$this->setupCheckManager = $setupCheckManager;
 	}
@@ -192,16 +187,6 @@ Raw output
 		);
 	}
 
-	private function isTemporaryDirectoryWritable(): bool {
-		try {
-			if (!empty($this->tempManager->getTempBaseDir())) {
-				return true;
-			}
-		} catch (\Exception $e) {
-		}
-		return false;
-	}
-
 	/**
 	 * @return DataResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
@@ -212,7 +197,6 @@ Raw output
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
-				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);
