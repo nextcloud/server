@@ -124,24 +124,6 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks if the correct memcache module for PHP is installed. Only
-	 * fails if memcached is configured and the working module is not installed.
-	 *
-	 * @return bool
-	 */
-	private function isCorrectMemcachedPHPModuleInstalled() {
-		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
-		if ($memcacheDistributedClass === null || ltrim($memcacheDistributedClass, '\\') !== \OC\Memcache\Memcached::class) {
-			return true;
-		}
-
-		// there are two different memcache modules for PHP
-		// we only support memcached and not memcache
-		// https://code.google.com/p/memcached/wiki/PHPClientComparison
-		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
-	}
-
-	/**
 	 * Checks if set_time_limit is not disabled.
 	 *
 	 * @return bool
@@ -293,7 +275,6 @@ Raw output
 			[
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
