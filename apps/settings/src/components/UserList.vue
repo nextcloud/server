@@ -262,6 +262,7 @@ import Vue from 'vue'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
 
 import userRow from './UserList/UserRow.vue'
 
@@ -486,10 +487,10 @@ export default {
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			const validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = parseFileSize(quota, true)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				this.newUser.quota = { id: quota, label: quota }
 				return this.newUser.quota
 			}
