@@ -350,16 +350,24 @@ class FileEventsListener implements IEventListener {
 	private function getPathForNode(Node $node): ?string {
 		$user = $this->userSession->getUser()?->getUID();
 		if ($user) {
-			return $this->rootFolder
+			$path = $this->rootFolder
 				->getUserFolder($user)
 				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
 		}
 
 		$owner = $node->getOwner()?->getUid();
 		if ($owner) {
-			return $this->rootFolder
+			$path = $this->rootFolder
 				->getUserFolder($owner)
 				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
 		}
 
 		return null;
