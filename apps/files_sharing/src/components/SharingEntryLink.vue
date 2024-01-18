@@ -56,7 +56,7 @@
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
-			@close="onNewLinkShare">
+			@close="onCancel">
 			<!-- pending data menu -->
 			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
 				{{ errors.pending }}
