@@ -33,7 +33,7 @@ use OC\Core\Service\LoginFlowV2Service;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -98,7 +98,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
@@ -116,7 +116,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
@@ -150,7 +150,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
 		if ($stateToken === null) {
