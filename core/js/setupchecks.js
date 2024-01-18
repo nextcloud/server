@@ -188,12 +188,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(!data.isSettimelimitAvailable) {
-						messages.push({
-							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if (!data.areWebauthnExtensionsEnabled) {
 						messages.push({
 							msg: t(
