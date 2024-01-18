@@ -188,12 +188,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (window.oc_debug) {
-						messages.push({
-							msg: t('core', 'This instance is running in debug mode. Only enable this for local development and not in production environments.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (Object.keys(data.generic).length > 0) {
 						Object.keys(data.generic).forEach(function(key){
 							Object.keys(data.generic[key]).forEach(function(title){
