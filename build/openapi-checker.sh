@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-for path in core/openapi.json apps/*/openapi.json; do
-	composer exec generate-spec "$(dirname "$path")" "$path" || exit 1
+for path in core apps/*; do
+	if [ ! -f "$path/.noopenapi" ] && [[ "$(git check-ignore "$path")" != "$path" ]]; then
+		composer exec generate-spec "$path" "$path/openapi.json" || exit 1
+	fi
 done
 
 files="$(git diff --name-only)"
