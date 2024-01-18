@@ -43,7 +43,7 @@
 /core/routes.php	@Altahrim
 
 # OpenAPI
-openapi.json            @provokateurin
+openapi*.json           @provokateurin
 ResponseDefinitions.php @provokateurin
 
 # Talk team
