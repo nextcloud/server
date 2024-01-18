@@ -72,6 +72,7 @@
     "User settings" : "Paramètres utilisateurs",
     "Disable user theming" : "Désactiver la gestion du thème par l'utilisateur",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Bien que vous puissiez sélectionner et personnaliser votre instance, les utilisateurs peuvent modifier leur arrière-plan et leurs couleurs. Si vous voulez imposer votre personnalisation, vous pouvez activer cette option.",
+    "Appearance and accessibility settings" : "Paramètres d'apparence et d'accessibilité",
     "Background" : "Arrière-plan",
     "Customization has been disabled by your administrator" : "La personnalisation a été désactivée par votre administrateur",
     "Set a custom background" : "Définir un arrière-plan personnalisé",
