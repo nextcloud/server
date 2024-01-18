@@ -111,3 +111,12 @@ export interface UploaderStore {
 export interface DragAndDropStore {
 	dragging: FileId[]
 }
+
+export interface TemplateFile {
+	app: string
+	label: string
+	extension: string
+	iconClass?: string
+	mimetypes: string[]
+	ratio?: number
+}

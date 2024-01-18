@@ -39,6 +39,7 @@ import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import logger from '../logger'
+import { getUniqueName } from '../utils/fileUtils'
 
 /**
  * Return the action that is possible for the given nodes
@@ -67,30 +68,6 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
  * @return {Promise<void>} A promise that resolves when the copy/move is done
  */
 export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, method: MoveCopyAction.COPY | MoveCopyAction.MOVE, overwrite = false) => {
-	/**
-	 * Create an unique name for a node
-	 * @param node Node that is copied
-	 * @param otherNodes Other nodes in the target directory to check for unique name
-	 * @return Either the node basename, if unique, or the name with a `(copy N)` suffix that is unique
-	 */
-	const makeUniqueName = (node: Node, otherNodes: Node[]|FileStat[]) => {
-		const basename = node.basename.slice(0, node.basename.lastIndexOf('.'))
-		let index = 0
-
-		const currentName = () => {
-			switch (index) {
-			case 0: return node.basename
-			case 1: return `${basename} (copy)${node.extension ?? ''}`
-			default: return `${basename} ${t('files', '(copy %n)', undefined, index)}${node.extension ?? ''}` // TRANSLATORS: Meaning it is the n'th copy of a file
-			}
-		}
-
-		while (otherNodes.some((other: Node|FileStat) => currentName() === other.basename)) {
-			index += 1
-		}
-		return currentName()
-	}
-
 	if (!destination) {
 		return
 	}
@@ -122,6 +99,13 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 	const queue = getQueue()
 	return await queue.add(async () => {
+		const copySuffix = (index: number) => {
+			if (index === 1) {
+				return t('files', '(copy)') // TRANSLATORS: Mark a file as a copy of another file
+			}
+			return t('files', '(copy %n)', undefined, index) // TRANSLATORS: Meaning it is the n'th copy of a file
+		}
+
 		try {
 			const client = davGetClient()
 			const currentPath = join(davRootPath, node.path)
@@ -132,7 +116,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				// If we do not allow overwriting then find an unique name
 				if (!overwrite) {
 					const otherNodes = await client.getDirectoryContents(destinationPath) as FileStat[]
-					target = makeUniqueName(node, otherNodes)
+					target = getUniqueName(node.basename, otherNodes.map((n) => n.basename), copySuffix)
 				}
 				await client.copyFile(currentPath, join(destinationPath, target))
 				// If the node is copied into current directory the view needs to be updated
