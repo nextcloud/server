@@ -1,0 +1,49 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "systemtags",
+        "version": "0.0.1",
+        "description": "Collaborative tagging functionality which shares tags among users.",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "systemtags"
+                ],
+                "properties": {
+                    "systemtags": {
+                        "type": "object",
+                        "required": [
+                            "enabled"
+                        ],
+                        "properties": {
+                            "enabled": {
+                                "type": "boolean",
+                                "enum": [
+                                    true
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {},
+    "tags": []
+}
