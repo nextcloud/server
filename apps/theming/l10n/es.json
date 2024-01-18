@@ -72,6 +72,7 @@
     "User settings" : "Configuración de usuario",
     "Disable user theming" : "Deshabilitar tematización de usuario",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Aunque puede seleccionar y personalizar su instancia, los usuarios pueden cambiar su fondo y colores. Si quiere forzar su personalización, puede activar esto.",
+    "Appearance and accessibility settings" : "Ajustes de apariencia y accesibilidad",
     "Background" : "Imagen de fondo",
     "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por el administrador",
     "Set a custom background" : "Establecer un fondo personalizado",

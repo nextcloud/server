@@ -333,7 +333,7 @@ OC.L10N.register(
     "Skip to navigation of app" : "Passer à la navigation d'application",
     "Go to %s" : "Aller à %s",
     "Get your own free account" : "Obtenez votre compte personnel gratuit",
-    "Connect to your account" : "Connectez vous à votre compte",
+    "Connect to your account" : "Connectez-vous à votre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Veuillez vous connecter avant d'autoriser %1$s à accéder à votre compte %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si vous n'essayez pas d'ajouter un nouveau périphérique ou une nouvelle application, quelqu'un fait une tentative d'accès à vos données. Dans ce cas, ne continuez pas et contactez votre administrateur système.",
     "App password" : "Mot de passe d'application",

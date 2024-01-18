@@ -37,6 +37,7 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "選定的更新頻道不支援伺服器更新。",
     "A new version is available: <strong>{newVersionString}</strong>" : "新版本可用：<strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "請注意，新版本釋出後，僅會在有第一個次要版本或更新的版本時顯示。我們會逐步向使用者推送新版本，並在發現問題時跳過特定版本。在 {link} 取得關於更新與釋出頻道的更多資訊",
+    "Checked on {lastCheckedDate} - Open changelog" : "檢查於 {lastCheckedDate} - 開啟變更紀錄",
     "Checking apps for compatible versions" : "正在檢查應用程式的相容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "請確定您的 config.php 中並沒有將 <samp>appstoreenabled</samp> 的值設定為 false。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "無法連線至應用程式商店，或是應用程式商店回傳無任何更新。請手動搜尋更新或確定您的伺服器的網際網路連線正常，並可連線至應用程式商店。",
