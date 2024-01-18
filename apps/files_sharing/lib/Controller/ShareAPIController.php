@@ -66,6 +66,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -90,7 +91,6 @@ use Psr\Log\LoggerInterface;
  * @package OCA\Files_Sharing\API
  */
 class ShareAPIController extends OCSController {
-
 	/** @var IManager */
 	private $shareManager;
 	/** @var IGroupManager */
@@ -120,20 +120,6 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * Share20OCS constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IManager $shareManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param IURLGenerator $urlGenerator
-	 * @param string $userId
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IServerContainer $serverContainer
-	 * @param IUserStatusManager $userStatusManager
 	 */
 	public function __construct(
 		string $appName,
@@ -149,7 +135,8 @@ class ShareAPIController extends OCSController {
 		IAppManager $appManager,
 		IServerContainer $serverContainer,
 		IUserStatusManager $userStatusManager,
-		IPreview $previewManager
+		IPreview $previewManager,
+		private IDateTimeZone $dateTimeZone,
 	) {
 		parent::__construct($appName, $request);
 
@@ -244,7 +231,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
 			$result['share_with_displayname_unique'] = $sharedWith !== null ? (
-				 !empty($sharedWith->getSystemEMailAddress()) ? $sharedWith->getSystemEMailAddress() : $sharedWith->getUID()
+				!empty($sharedWith->getSystemEMailAddress()) ? $sharedWith->getSystemEMailAddress() : $sharedWith->getUID()
 			) : $share->getSharedWith();
 			$result['status'] = [];
 
@@ -265,7 +252,6 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
-
 			// "share_with" and "share_with_displayname" for passwords of link
 			// shares was deprecated in Nextcloud 15, use "password" instead.
 			$result['share_with'] = $share->getPassword();
@@ -343,7 +329,7 @@ class ShareAPIController extends OCSController {
 
 		$result['attributes'] = null;
 		if ($attributes = $share->getAttributes()) {
-			$result['attributes'] =  \json_encode($attributes->toArray());
+			$result['attributes'] = \json_encode($attributes->toArray());
 		}
 
 		return $result;
@@ -600,7 +586,6 @@ class ShareAPIController extends OCSController {
 		if ($permissions === null) {
 			if ($shareType === IShare::TYPE_LINK
 				|| $shareType === IShare::TYPE_EMAIL) {
-
 				// to keep legacy default behaviour, we ignore the setting below for link shares
 				$permissions = Constants::PERMISSION_READ;
 			} else {
@@ -687,7 +672,6 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_LINK
 			|| $shareType === IShare::TYPE_EMAIL) {
-
 			// Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
@@ -1104,7 +1088,6 @@ class ShareAPIController extends OCSController {
 	 * @throws SharingRightsException
 	 */
 	public function getInheritedShares(string $path): DataResponse {
-
 		// get Node from (string) path.
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
 		try {
@@ -1258,7 +1241,6 @@ class ShareAPIController extends OCSController {
 		 */
 		if ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
-
 			/**
 			 * We do not allow editing link shares that the current user
 			 * doesn't own. This is confusing and lead to errors when
@@ -1296,8 +1278,8 @@ class ShareAPIController extends OCSController {
 				}
 
 				if (!$this->hasPermission($newPermissions, Constants::PERMISSION_READ) && (
-						$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
-					)) {
+					$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
+				)) {
 					throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
 				}
 			}
@@ -1679,11 +1661,12 @@ class ShareAPIController extends OCSController {
 	 */
 	private function parseDate(string $expireDate): \DateTime {
 		try {
-			$date = new \DateTime(trim($expireDate, "\""));
+			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
 		} catch (\Exception $e) {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
+		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$date->setTime(0, 0, 0);
 
 		return $date;
@@ -2097,6 +2080,5 @@ class ShareAPIController extends OCSController {
 				}
 			}
 		}
-
 	}
 }

@@ -46,8 +46,8 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
-use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -72,7 +72,6 @@ use OCP\UserStatus\IManager as IUserStatusManager;
  * @group DB
  */
 class ShareAPIControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName = 'files_sharing';
 
@@ -118,6 +117,9 @@ class ShareAPIControllerTest extends TestCase {
 	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
+	/** @var IDateTimeZone|\PHPUnit\Framework\MockObject\MockObject */
+	private $dateTimeZone;
+
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
@@ -148,6 +150,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturnCallback(function ($fileInfo) {
 				return $fileInfo->getMimeType() === 'mimeWithPreview';
 			});
+		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -163,7 +166,8 @@ class ShareAPIControllerTest extends TestCase {
 			$this->appManager,
 			$this->serverContainer,
 			$this->userStatusManager,
-			$this->previewManager
+			$this->previewManager,
+			$this->dateTimeZone,
 		);
 	}
 
@@ -187,6 +191,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 	}
@@ -775,6 +780,7 @@ class ShareAPIControllerTest extends TestCase {
 					$this->serverContainer,
 					$this->userStatusManager,
 					$this->previewManager,
+					$this->dateTimeZone,
 				])->setMethods(['canAccessShare'])
 				->getMock();
 
@@ -1399,6 +1405,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1738,6 +1745,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1832,6 +1840,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2175,7 +2184,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				$date = new \DateTime('2000-01-01');
-				$date->setTime(0,0,0);
+				$date->setTime(0, 0, 0);
 
 				return $share->getNode() === $path &&
 				$share->getShareType() === IShare::TYPE_LINK &&
@@ -2241,6 +2250,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2307,6 +2317,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2546,6 +2557,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2734,7 +2746,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) {
 				$date = new \DateTime('2000-01-01');
-				$date->setTime(0,0,0);
+				$date->setTime(0, 0, 0);
 
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
@@ -3020,7 +3032,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
 		$node->method('getId')->willReturn(42);
@@ -3072,7 +3084,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
 		$userFolder->method('getById')
@@ -3130,7 +3142,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
 		$userFolder->method('getById')
@@ -3170,7 +3182,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
 		$userFolder->method('getById')
@@ -3224,7 +3236,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
 		$node->method('getId')
@@ -3319,7 +3331,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) {
 				$date = new \DateTime('2010-12-23');
-				$date->setTime(0,0,0);
+				$date->setTime(0, 0, 0);
 
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'password' &&
