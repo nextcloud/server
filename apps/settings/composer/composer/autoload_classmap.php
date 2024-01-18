@@ -88,6 +88,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\DatabasePendingBigIntConversions' => $baseDir . '/../lib/SetupChecks/DatabasePendingBigIntConversions.php',
     'OCA\\Settings\\SetupChecks\\DefaultPhoneRegionSet' => $baseDir . '/../lib/SetupChecks/DefaultPhoneRegionSet.php',
     'OCA\\Settings\\SetupChecks\\EmailTestSuccessful' => $baseDir . '/../lib/SetupChecks/EmailTestSuccessful.php',
+    'OCA\\Settings\\SetupChecks\\FairUseOfFreePushService' => $baseDir . '/../lib/SetupChecks/FairUseOfFreePushService.php',
     'OCA\\Settings\\SetupChecks\\FileLocking' => $baseDir . '/../lib/SetupChecks/FileLocking.php',
     'OCA\\Settings\\SetupChecks\\ForwardedForHeaders' => $baseDir . '/../lib/SetupChecks/ForwardedForHeaders.php',
     'OCA\\Settings\\SetupChecks\\InternetConnectivity' => $baseDir . '/../lib/SetupChecks/InternetConnectivity.php',
