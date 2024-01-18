@@ -44,7 +44,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -71,8 +70,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
 
@@ -95,7 +92,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
@@ -106,7 +102,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->notificationManager,
 				$this->setupCheckManager,
 			])
 			->setMethods([
@@ -170,7 +165,6 @@ class CheckSetupControllerTest extends TestCase {
 			[
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
-				'isFairUseOfFreePushService' => false,
 				'generic' => [],
 			]
 		);

@@ -223,7 +223,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
@@ -257,7 +256,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
@@ -291,7 +289,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
@@ -325,7 +322,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'https://server',
 					generic: {
@@ -390,7 +386,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
@@ -433,7 +428,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					generic: {
@@ -466,7 +460,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
 					generic: {
@@ -496,7 +489,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					isFairUseOfFreePushService: true,
 					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {

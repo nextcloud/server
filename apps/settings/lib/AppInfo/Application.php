@@ -60,6 +60,7 @@ use OCA\Settings\SetupChecks\DatabaseHasMissingPrimaryKeys;
 use OCA\Settings\SetupChecks\DatabasePendingBigIntConversions;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
+use OCA\Settings\SetupChecks\FairUseOfFreePushService;
 use OCA\Settings\SetupChecks\FileLocking;
 use OCA\Settings\SetupChecks\ForwardedForHeaders;
 use OCA\Settings\SetupChecks\InternetConnectivity;
@@ -205,6 +206,9 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(SystemIs64bit::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
+		if (!\OCP\Server::get(\OCP\Support\Subscription\IRegistry::class)->delegateHasValidSubscription()) {
+			$context->registerSetupCheck(FairUseOfFreePushService::class);
+		}
 
 		$context->registerUserMigrator(AccountMigrator::class);
 	}
