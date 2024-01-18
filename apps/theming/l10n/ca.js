@@ -74,6 +74,7 @@ OC.L10N.register(
     "User settings" : "Paràmetres de l'usuari",
     "Disable user theming" : "Inhabilita els temes d'usuari",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Tot i que podeu seleccionar i personalitzar la instància, els usuaris poden canviar el fons i els colors. Si voleu forçar la vostra personalització, podeu activar-ho.",
+    "Appearance and accessibility settings" : "Paràmetres d'aparença i accessibilitat",
     "Background" : "Fons",
     "Customization has been disabled by your administrator" : "L'administrador ha inhabilitat la personalització",
     "Set a custom background" : "Definiu un fons personalitzat",

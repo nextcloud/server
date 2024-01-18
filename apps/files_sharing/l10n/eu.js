@@ -209,6 +209,7 @@ OC.L10N.register(
     "Create" : "Sortu",
     "Share" : "Partekatu",
     "Delete share" : "Ezabatu partekatzea",
+    "Share with" : "Partekatu honekin",
     "Save share" : "Gorde partekatzea",
     "Update share" : "Eguneratu partekatzea",
     "Others with access" : "Sarbidea duten beste erabiltzaileak",
