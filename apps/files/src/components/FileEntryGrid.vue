@@ -37,10 +37,10 @@
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox :display-name="displayName"
-			:fileid="fileid"
+		<FileEntryCheckbox :fileid="fileid"
 			:is-loading="isLoading"
-			:nodes="nodes" />
+			:nodes="nodes"
+			:source="source" />
 
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
