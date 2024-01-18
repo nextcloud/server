@@ -466,7 +466,10 @@ export default defineComponent({
 				return
 			}
 
-			logger.debug('Drag started')
+			logger.debug('Drag started', { event })
+
+			// Make sure that we're not dragging a file like the preview
+			event.dataTransfer?.clearData?.()
 
 			// Reset any renaming
 			this.renamingStore.$reset()
