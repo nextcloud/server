@@ -71,7 +71,7 @@ export default {
 
 			&-icon {
 				// ensure the icon has the correct color
-				color: var(--color-primary-text) !important;
+				color: var(--color-background-plain-text) !important;
 			}
 		}
 	}

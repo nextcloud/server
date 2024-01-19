@@ -12,8 +12,7 @@
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
-			<Magnify class="unified-search__trigger"
-				:size="22/* fit better next to other 20px icons */" />
+			<Magnify class="unified-search__trigger-icon" :size="20" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -706,6 +705,10 @@ $input-height: 34px;
 $input-padding: 10px;
 
 .unified-search {
+	&__trigger-icon {
+		color: var(--color-background-plain-text) !important;
+	}
+
 	&__input-wrapper {
 		position: sticky;
 		// above search results

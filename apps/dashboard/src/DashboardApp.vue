@@ -471,8 +471,8 @@ export default {
 	background-attachment: fixed;
 
 	> h2 {
-		// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
-		color: var(--color-primary-text);
+		// this is shown directly on the background image / color
+		color: var(--color-background-plain-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
