@@ -9,6 +9,5 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Dashboard\\Controller\\DashboardApiController' => $baseDir . '/../lib/Controller/DashboardApiController.php',
     'OCA\\Dashboard\\Controller\\DashboardController' => $baseDir . '/../lib/Controller/DashboardController.php',
-    'OCA\\Dashboard\\Controller\\LayoutApiController' => $baseDir . '/../lib/Controller/LayoutApiController.php',
     'OCA\\Dashboard\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );
