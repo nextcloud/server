@@ -189,4 +189,32 @@ class DashboardApiController extends OCSController {
 
 		return new DataResponse($items);
 	}
+
+	/**
+	 * Update the layout
+	 *
+	 * @NoAdminRequired
+	 * @param string $layout The new layout
+	 * @return DataResponse<Http::STATUS_OK, array{layout: string}, array{}>
+	 *
+	 * 200: Statuses updated successfully
+	 */
+	public function updateLayout(string $layout): DataResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
+		return new DataResponse(['layout' => $layout]);
+	}
+
+	/**
+	 * Update the statuses
+	 *
+	 * @NoAdminRequired
+	 * @param string $statuses The new statuses
+	 * @return DataResponse<Http::STATUS_OK, array{statuses: string}, array{}>
+	 *
+	 * 200: Statuses updated successfully
+	 */
+	public function updateStatuses(string $statuses): DataResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', $statuses);
+		return new DataResponse(['statuses' => $statuses]);
+	}
 }

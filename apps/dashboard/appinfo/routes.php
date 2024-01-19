@@ -28,12 +28,12 @@ declare(strict_types=1);
 return [
 	'routes' => [
 		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
-		['name' => 'dashboard#updateStatuses', 'url' => '/statuses', 'verb' => 'POST'],
 	],
 	'ocs' => [
 		['name' => 'dashboardApi#getWidgets', 'url' => '/api/v1/widgets', 'verb' => 'GET'],
 		['name' => 'dashboardApi#getWidgetItems', 'url' => '/api/v1/widget-items', 'verb' => 'GET'],
 		['name' => 'dashboardApi#getWidgetItemsV2', 'url' => '/api/v2/widget-items', 'verb' => 'GET'],
+		['name' => 'dashboardApi#updateLayout', 'url' => '/api/v3/layout', 'verb' => 'POST'],
+		['name' => 'dashboardApi#updateStatuses', 'url' => '/api/v3/statuses', 'verb' => 'POST'],
 	]
 ];
