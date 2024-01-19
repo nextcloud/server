@@ -30,7 +30,7 @@ declare(strict_types=1);
  */
 namespace OCA\Dashboard\Controller;
 
-use JsonException;
+use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -54,7 +54,8 @@ class DashboardController extends Controller {
 		private IManager $dashboardManager,
 		private IConfig $config,
 		private IL10N $l10n,
-		private ?string $userId
+		private ?string $userId,
+		private DashboardService $service,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -68,8 +69,6 @@ class DashboardController extends Controller {
 		\OCP\Util::addStyle('dashboard', 'dashboard');
 		\OCP\Util::addScript('dashboard', 'main', 'theming');
 
-		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
-		$userLayout = array_filter(explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault)), fn (string $value) => $value !== '');
 		$widgets = array_map(function (IWidget $widget) {
 			return [
 				'id' => $widget->getId(),
@@ -78,19 +77,10 @@ class DashboardController extends Controller {
 				'url' => $widget->getUrl()
 			];
 		}, $this->dashboardManager->getWidgets());
-		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '');
-		try {
-			// Parse the old format
-			$statuses = json_decode($configStatuses, true, 512, JSON_THROW_ON_ERROR);
-			// We avoid getting an empty array as it will not produce an object in UI's JS
-			$statuses = array_keys(array_filter($statuses, static fn (bool $value) => $value));
-		} catch (JsonException $e) {
-			$statuses = array_filter(explode(',', $configStatuses), fn (string $value) => $value !== '');
-		}
 
 		$this->initialState->provideInitialState('panels', $widgets);
-		$this->initialState->provideInitialState('statuses', $statuses);
-		$this->initialState->provideInitialState('layout', $userLayout);
+		$this->initialState->provideInitialState('statuses', $this->service->getStatuses());
+		$this->initialState->provideInitialState('layout', $this->service->getLayout());
 		$this->initialState->provideInitialState('appStoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');

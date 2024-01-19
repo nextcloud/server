@@ -10,4 +10,5 @@ return array(
     'OCA\\Dashboard\\Controller\\DashboardApiController' => $baseDir . '/../lib/Controller/DashboardApiController.php',
     'OCA\\Dashboard\\Controller\\DashboardController' => $baseDir . '/../lib/Controller/DashboardController.php',
     'OCA\\Dashboard\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
+    'OCA\\Dashboard\\Service\\DashboardService' => $baseDir . '/../lib/Service/DashboardService.php',
 );

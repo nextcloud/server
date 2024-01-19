@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\ResponseDefinitions;
+use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -60,6 +61,7 @@ class DashboardApiController extends OCSController {
 		private IManager $dashboardManager,
 		private IConfig $config,
 		private ?string $userId,
+		private DashboardService $service,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -191,6 +193,18 @@ class DashboardApiController extends OCSController {
 	}
 
 	/**
+	 * Get the layout
+	 *
+	 * @NoAdminRequired
+	 * @return DataResponse<Http::STATUS_OK, array{layout: list<string>}, array{}>
+	 *
+	 * 200: Layout returned
+	 */
+	public function getLayout(): DataResponse {
+		return new DataResponse(['layout' => $this->service->getLayout()]);
+	}
+
+	/**
 	 * Update the layout
 	 *
 	 * @NoAdminRequired
@@ -202,6 +216,18 @@ class DashboardApiController extends OCSController {
 	public function updateLayout(array $layout): DataResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', implode(',', $layout));
 		return new DataResponse(['layout' => $layout]);
+	}
+
+	/**
+	 * Get the statuses
+	 *
+	 * @NoAdminRequired
+	 * @return DataResponse<Http::STATUS_OK, array{statuses: list<string>}, array{}>
+	 *
+	 * 200: Statuses returned
+	 */
+	public function getStatuses(): DataResponse {
+		return new DataResponse(['statuses' => $this->service->getStatuses()]);
 	}
 
 	/**
