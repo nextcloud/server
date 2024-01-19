@@ -224,7 +224,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Color that is used for the header as well as for mail headers
+	 * Color that is used for highlighting elements like important buttons
 	 */
 	public function getColorPrimary(): string {
 		$user = $this->userSession->getUser();
@@ -238,16 +238,12 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined primary color
 		if (!empty($user)) {
-			$themingBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
-			// If the user selected a specific colour
-			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackgroundColor)) {
-				return $themingBackgroundColor;
+			// we need the background color as a fallback for backwards compatibility with Nextcloud 28 and older
+			$userBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
+			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'primary_color', $userBackgroundColor);
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
+				return $userPrimaryColor;
 			}
-		}
-
-		// If the default color is not valid, return the default background one
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
-			return BackgroundService::DEFAULT_COLOR;
 		}
 
 		// Finally, return the system global primary color
@@ -255,15 +251,53 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Return the default color primary
+	 * Color that is used for the page background (e.g. the header)
 	 */
-	public function getDefaultColorPrimary(): string {
-		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			return BackgroundService::DEFAULT_COLOR;
+	public function getColorBackground(): string {
+		$user = $this->userSession->getUser();
+
+		// admin-defined background color
+		$defaultColor = $this->getDefaultColorBackground();
+
+		if ($this->isUserThemingDisabled()) {
+			return $defaultColor;
 		}
 
-		return $color;
+		// user-defined background color
+		if (!empty($user)) {
+			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
+				return $userPrimaryColor;
+			}
+		}
+
+		// Finally, return the system global background color
+		return $defaultColor;
+	}
+
+	/**
+	 * Return the default primary color
+	 */
+	public function getDefaultColorPrimary(): string {
+		// try admin color
+		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'primary_color', '');
+		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
+			return $defaultColor;
+		}
+
+		// Fall back to background color
+		return $this->getDefaultColorBackground();
+	}
+
+	/**
+	 * Default background color only taking admin setting into account
+	 */
+	public function getDefaultColorBackground(): string {
+		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
+		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
+			$defaultColor = BackgroundService::DEFAULT_COLOR;
+		}
+		return $defaultColor;
 	}
 
 	/**
@@ -344,6 +378,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * @return array scss variables to overwrite
+	 * @deprecated since Nextcloud 22 - https://github.com/nextcloud/server/issues/9940
 	 */
 	public function getScssVariables() {
 		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
@@ -366,7 +401,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
 		$variables['image-login-plain'] = 'false';
 
-		if ($this->config->getAppValue('theming', 'color', '') !== '') {
+		if ($this->config->getAppValue('theming', 'primary_color', '') !== '') {
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
@@ -501,7 +536,16 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Color of text in the header and primary buttons
+	 * Color of text in the header menu
+	 *
+	 * @return string
+	 */
+	public function getTextColorBackground() {
+		return $this->util->invertTextColor($this->getColorBackground()) ? '#000000' : '#ffffff';
+	}
+
+	/**
+	 * Color of text on primary buttons and other elements
 	 *
 	 * @return string
 	 */

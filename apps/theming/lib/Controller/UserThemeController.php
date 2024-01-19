@@ -241,7 +241,8 @@ class UserThemeController extends OCSController {
 
 		return new JSONResponse([
 			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
-			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}

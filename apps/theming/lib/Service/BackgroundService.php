@@ -237,7 +237,7 @@ class BackgroundService {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', $fileName);
-		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$fileName]['primary_color']);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'primary_color', self::SHIPPED_BACKGROUNDS[$fileName]['primary_color']);
 	}
 
 	/**
