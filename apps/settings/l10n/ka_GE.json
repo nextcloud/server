@@ -80,6 +80,7 @@
     "Unlimited" : "ულიმიტო",
     "Verifying" : "მოწმდება",
     "Disabled" : "არაა მოქმედი",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP-ს ფუნქცია \"set_time_limit\" არაა ხელმისაწვდომი. ამან შეიძლება ქმედებისას გამოიწვიოს სკრიპტების შეჩერება, ინსტალაციის შეწყვეტა. რეკომენდირებულია ამ ფუნქციის ჩართვა.",
     "Supported" : "მხარდაჭერილია",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "თქვენს PHP-ს არ აქვს FreeType-ის მხარდაჭერა, რაც გამოწვევს დარღვეულ პროფილის სურათებს და პარამეტრების ინტერფეისს.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "როგორც ჩანს PHP სისტემის გარემოს ცვლადების მიღებისთვის არაა სწორად მოწყობილი. ეს ტესტი getenv(\"PATH\")-ით აბრუნებს მხოლოდ ცარიელ პასუხს.",

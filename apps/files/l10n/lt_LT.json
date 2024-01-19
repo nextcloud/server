@@ -209,6 +209,8 @@
     "Unshare" : "Nustoti bendrinti",
     "Delete permanently" : "Ištrinti negrįžtamai",
     "The file does not exist anymore" : "Failo daugiau nebėra",
+    "Copy to {target}" : "Kopijuoti į {target}",
+    "Move to {target}" : "Perkelti į {target}",
     "Templates" : "Šablonai",
     "Unable to initialize the templates directory" : "Nepavyko inicijuoti šablonų katalogo",
     "No favorites yet" : "Kol kas nėra mėgstamų",

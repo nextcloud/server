@@ -99,6 +99,7 @@ OC.L10N.register(
     "Unlimited" : "Ilimitado",
     "Verifying" : "A verificar",
     "Disabled" : "Desactivado",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "A função PHP \"set_time_limit\" não está disponível. Isto pode resultar na paragem de scripts a meio da execução, corrompendo a instalação. A activação desta função é altamente recomendada.",
     "Supported" : "Suportado",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "O seu PHP não suporta FreeType, podendo resultar em fotos de perfil e interface de definições corrompidos. ",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "O PHP não parece estar bem configurado para consultar variáveis do ambiente do sistema. O teste com getenv(\"PATH\") apenas devolveu uma resposta em branco.",
