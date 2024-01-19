@@ -149,6 +149,7 @@
     "Disabled" : "Отключено",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Задействован устаревший режим шифрования файлов на стороне сервера. Рекомендуется отключить такое шифрование.",
     "PHP default charset" : "Кодировка PHP по умолчанию",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "Недоступна функция PHP «set_time_limit». В случае остановки выполнения сценариев во время работы это может привести к повреждению установки сервера Nextcloud. Настоятельно рекомендуется включить эту функцию.",
     "Supported" : "Поддерживается",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Установленная версия PHP не поддерживает библиотеку FreeType, что приводит к неверному отображению изображений профиля и интерфейса настроек.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP не настроен правильно для получения переменных системного окружения. Запрос getenv(\"PATH\") возвращает пустые результаты.",

@@ -124,6 +124,7 @@ OC.L10N.register(
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Vanha palvelinpuolen salausmenetelmä on käytössä. Suosittelemme sen ottamista pois käytöstä.",
     "Maintenance window start" : "Huoltoikkunan alku",
     "PHP default charset" : "PHP:n oletusmerkistö",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP-funktio \"set_time_limit\" ei ole käytettävissä. Tämä saattaa johtaa siihen, että skriptien suoritus päättyy ennenaikaisesti ja Nextcloud-asennus rikkoutuu. Funktion käyttäminen on erittäin suositeltavaa.",
     "Supported" : "Tuettu",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "PHP-asennuksessasi ei ole FreeType-tukea, ja siitä aiheutuu profiilikuvien sekä asetuskäyttöliittymän rikkoutuminen.",
     "PHP memory limit" : "PHP:n muistiraja",

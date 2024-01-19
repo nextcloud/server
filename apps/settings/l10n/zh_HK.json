@@ -177,14 +177,14 @@
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "伺服器未設定維修視窗的開始時間。這意味著每天耗費大量資源的後台作業也會在您主要使用的時間內執行。我們建議將其設定為低使用率的時間，以減少用戶受到這些繁重任務帶來的負載影響。",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "維修視窗以執行繁重的後台作業是在 {start}:00 UTC 和 {end}:00 UTC 之間。",
     "Memcache" : "Memcache",
-    "Configured" : "已配置",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "未設定記憶體快取。要強化效能，請設定記憶體快取（若可用）。",
-    "Overwrite cli URL" : "覆寫 CLI URL",
+    "Configured" : "已配置",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "您 config.php 中的「overwrite.cli.url」選項正確設定為「%s」。",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "您 config.php 中的「overwrite.cli.url」選項設定為「%s」，這是正確的 URL。建議的 URL 為「%s」。",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "請確定將 config.php 檔案中的「overwrite.cli.url」選項設定為您的用戶主要用於存取此 Nextcloud 的 URL。建議：「%s」。否則，透過 cron 產生的 URL 可能會出現問題。（不過，建議的 URL 可能不是您的使用者主要用於存取此 Nextcloud 的 URL。最好是仔細檢查以防萬一。）",
     "PHP default charset" : "PHP 默認字元集",
     "PHP configuration option \"default_charset\" should be UTF-8" : "PHP 配置選項 \"default_charset\" 應為 UTF-8",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "無法取得 PHP 中的 \"set_time_limit\" 函式。這可能導致執行過程被終止並造成不完整安裝。我們強烈建議啟用該函式。",
     "Freetype" : "Freetype",
     "Supported" : "支援",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "您的 PHP 並未啟用 FreeType 支援，導致大頭貼產生器和設定界面無法使用。",
@@ -723,6 +723,7 @@
     "Edit display name" : "編輯顯示名稱",
     "Select manager" : "選擇管理者",
     "User's table" : "用戶的表格",
-    "Select user manager" : "選擇用戶管理者"
+    "Select user manager" : "選擇用戶管理者",
+    "Overwrite cli URL" : "覆寫 CLI URL"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

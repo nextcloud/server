@@ -73,6 +73,7 @@ OC.L10N.register(
     "Unlimited" : "Illimitat",
     "Verifying" : "Verificacion",
     "Disabled" : "Desactivat",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "La foncion « set_time_limit\" » es pas disponibla. Aquò poiriá menar a una execucion copada al mièg camin, e a una copadura de l’installacion. L’activacion d’aquesta foncion es forçadament recomandada.",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Vòstre PHP prend pas en carga FreeType, çò que causa lo rompement dels imatges de perfil e de l’interfàcia de paramètres.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP sembla corrèctament configurat per interpretar las variablas d’environament del sistèma. La pròva amb getenv(\"PATH\") a pas tornar una responda voida.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "La configuracion lectura-sola es estada activada. Aquò empacha de configurar d’unes paramètres via l’interfàcia web. Pasmens, òm deu far venir lo fichièr modificable manualament per cada mesa a jorn.",

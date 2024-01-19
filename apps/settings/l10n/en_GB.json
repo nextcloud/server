@@ -177,14 +177,14 @@
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC",
     "Memcache" : "Memcache",
-    "Configured" : "Configured",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "No memory cache has been configured. To enhance performance, please configure a memcache, if available.",
-    "Overwrite cli URL" : "Overwrite CLI URL",
+    "Configured" : "Configured",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\".",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\".",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)",
     "PHP default charset" : "PHP default charset",
     "PHP configuration option \"default_charset\" should be UTF-8" : "PHP configuration option \"default_charset\" should be UTF-8",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.",
     "Freetype" : "Freetype",
     "Supported" : "Supported",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.",
@@ -723,6 +723,7 @@
     "Edit display name" : "Edit display name",
     "Select manager" : "Select manager",
     "User's table" : "User's table",
-    "Select user manager" : "Select user manager"
+    "Select user manager" : "Select user manager",
+    "Overwrite cli URL" : "Overwrite CLI URL"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

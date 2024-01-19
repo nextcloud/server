@@ -177,14 +177,14 @@
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "Није подешено време почетка периода за одржавање сервера. То значи да ће се током времена уобичајене употребе такође извршавати и дневни позадински послови који захтевају доста ресурса. Препоручујемо вам да га подесите у време када се систем не користи интензивно, тако да оптерећење које изазивају ови обимни задаци има мањи утицај на кориснике.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "Период одржавања за извршавање захтевних позадинских послова је између {start}:00 UTC и {end}:00 UTC",
     "Memcache" : "Memcache",
-    "Configured" : "подешено",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "Није подешено никакво кеширање у меморији. Да бисте побољшали перформансе, молимо вас да конфигуришете memcache, ако је то могуће.",
-    "Overwrite cli URL" : "Overwrite cli URL",
+    "Configured" : "подешено",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "„overwrite.cli.url” опција у вашем config.php је исправно постављена на „%s”.",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "„overwrite.cli.url” опција у вашем config.php је исправно постављена на „%s” и то је исправни URL. Препоручени URL. је „%s”.",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Молимо вас да обезбедите да је опција „overwrite.cli.url” у config.php фајлу постављена на URL који ваши корисници углавном користе за приступ овој Nextcloud инстанци. Предлог: „%s”. У супротном може доћи до проблема са генерисањем URL преко cron. (Мада је могуће да предложени URL није URL који ваши корисници углавном користе да приступе овој Nextcloud инстанци. У сваком случају је најбоље да се ово провери.)",
     "PHP default charset" : "Подразумевани PHP скуп знакова",
     "PHP configuration option \"default_charset\" should be UTF-8" : "PHP кофигурациона опција „default_charset би требало да има вредност UTF-8",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP функција „set_time_limit“ није доступна. Ово може да узрокује да се скрипте закоче у сред извршавања, и тако покваре инсталацију. Препоручује се да омогућите ову функцију.",
     "Freetype" : "Freetype",
     "Supported" : "Подржана",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Ваша PHP инсталација нема подршку за FreeType. Ово ће довести до неисправних профилних слика и неисправног интерфејса за подешавања.",
@@ -723,6 +723,7 @@
     "Edit display name" : "Уреди име за приказ",
     "Select manager" : "Избор менаџера",
     "User's table" : "Корисникова табела",
-    "Select user manager" : "Избор менаџера корисника"
+    "Select user manager" : "Избор менаџера корисника",
+    "Overwrite cli URL" : "Overwrite cli URL"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

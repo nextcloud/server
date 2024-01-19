@@ -179,14 +179,14 @@ OC.L10N.register(
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "El servidor no tiene un tiempo de inicio de la ventana de mantenimiento configurado. Esto significa que los trabajos en segundo plano diarios que consumen recursos de manera intensiva serán ejecutados durante el tiempo regular de uso. Recomendamos establecerlo a una franja horaria de poco uso, de manera que el impacto a los usuarios disminuya por la carga causada a raíz estas tareas intensivas.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "La ventana de mantenimiento para ejecutar trabajos en segundo plano intensivos está entre {start}:00 UTC y {end}:00 UTC",
     "Memcache" : "Memcache",
-    "Configured" : "Configurado",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "No hay un caché en memoria configurado. Para mejorar el rendimiento, configura memcache, si está disponible.",
-    "Overwrite cli URL" : "Sobreecribir el URL de la línea de comandos",
+    "Configured" : "Configurado",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "La opción \"overwrite.cli.url\" en su config.php está correctamente establecida como \"%s\".",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "La opción \"overwrite.cli.url\" en su config.php está establecida como \"%s\". que es una URL correcta. La URL sugerida es \"%s\",",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Asegúrese de establecer la opción \"overwrite.cli.url\" en su archivo config.php con la URL que sus usuarios suelen utilizar para acceder a Nextcloud. Sugerencia: \"%s\". De lo contrario, podría haber problemas con la generación de URLs a través de cron. (Sin embargo, es posible que la URL sugerida no sea la que sus usuarios suelen utilizar para acceder a Nextcloud. Lo mejor es verificar esto en cualquier caso.)",
     "PHP default charset" : "Conjunto de caracteres predeterminado de PHP",
     "PHP configuration option \"default_charset\" should be UTF-8" : "La opción de configuración PHP \"default_charset\" debería ser UTF-8",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "La función PHP \"set_time_limit\" no está disponible. Esto podría resultar en scripts detenidos a mitad de ejecución, rompiendo tu instalación. Activar esta función está fuertemente recomendado.",
     "Freetype" : "FreeType",
     "Supported" : "Soportada",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Tu PHP no tiene soporte FreeType, lo que provoca una rotura en las imágenes de perfil y en la interfaz de los ajustes.",
@@ -725,6 +725,7 @@ OC.L10N.register(
     "Edit display name" : "Editar nombre a mostrar",
     "Select manager" : "Seleccione administrador",
     "User's table" : "Tabla de usuario",
-    "Select user manager" : "Seleccione administrador de usuarios"
+    "Select user manager" : "Seleccione administrador de usuarios",
+    "Overwrite cli URL" : "Sobreecribir el URL de la línea de comandos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
