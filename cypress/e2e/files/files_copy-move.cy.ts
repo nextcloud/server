@@ -100,6 +100,37 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('new-folder').should('not.exist')
 	})
 
+	// This was a bug previously
+	it('Can move a file to folder with similar name', () => {
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original')
+			.mkdir(currentUser, '/original folder')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		// intercept the copy so we can wait for it
+		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
+
+		getRowForFile('original').should('be.visible')
+		triggerActionForFile('original', 'move-copy')
+
+		// select new folder
+		cy.get('.file-picker [data-filename="original folder"]').should('be.visible').click()
+		// click copy
+		cy.get('.file-picker').contains('button', 'Move to original folder').should('be.visible').click()
+
+		cy.wait('@moveFile')
+		// wait until visible again
+		getRowForFile('original folder').should('be.visible')
+
+		// original should be moved -> not exist anymore
+		getRowForFile('original').should('not.exist')
+		getRowForFile('original folder').should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+
+		cy.url().should('contain', 'dir=/original%20folder')
+		getRowForFile('original').should('be.visible')
+		getRowForFile('original folder').should('not.exist')
+	})
+
 	it('Can move a file to its parent folder', () => {
 		cy.mkdir(currentUser, '/new-folder')
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/new-folder/original.txt')
