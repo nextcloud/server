@@ -194,13 +194,13 @@ class DashboardApiController extends OCSController {
 	 * Update the layout
 	 *
 	 * @NoAdminRequired
-	 * @param string $layout The new layout
-	 * @return DataResponse<Http::STATUS_OK, array{layout: string}, array{}>
+	 * @param list<string> $layout The new layout
+	 * @return DataResponse<Http::STATUS_OK, array{layout: list<string>}, array{}>
 	 *
 	 * 200: Statuses updated successfully
 	 */
-	public function updateLayout(string $layout): DataResponse {
-		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
+	public function updateLayout(array $layout): DataResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'layout', implode(',', $layout));
 		return new DataResponse(['layout' => $layout]);
 	}
 
@@ -208,13 +208,13 @@ class DashboardApiController extends OCSController {
 	 * Update the statuses
 	 *
 	 * @NoAdminRequired
-	 * @param string $statuses The new statuses
-	 * @return DataResponse<Http::STATUS_OK, array{statuses: string}, array{}>
+	 * @param list<string> $statuses The new statuses
+	 * @return DataResponse<Http::STATUS_OK, array{statuses: list<string>}, array{}>
 	 *
 	 * 200: Statuses updated successfully
 	 */
-	public function updateStatuses(string $statuses): DataResponse {
-		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', $statuses);
+	public function updateStatuses(array $statuses): DataResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', implode(',', $statuses));
 		return new DataResponse(['statuses' => $statuses]);
 	}
 }

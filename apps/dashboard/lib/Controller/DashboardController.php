@@ -30,6 +30,7 @@ declare(strict_types=1);
  */
 namespace OCA\Dashboard\Controller;
 
+use JsonException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -68,7 +69,7 @@ class DashboardController extends Controller {
 		\OCP\Util::addScript('dashboard', 'main', 'theming');
 
 		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
-		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
+		$userLayout = array_filter(explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault)), fn (string $value) => $value !== '');
 		$widgets = array_map(function (IWidget $widget) {
 			return [
 				'id' => $widget->getId(),
@@ -78,10 +79,14 @@ class DashboardController extends Controller {
 			];
 		}, $this->dashboardManager->getWidgets());
 		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '');
-		$statuses = json_decode($configStatuses, true);
-		// We avoid getting an empty array as it will not produce an object in UI's JS
-		// It does not matter if some statuses are missing from the array, missing ones are considered enabled
-		$statuses = ($statuses && count($statuses) > 0) ? $statuses : ['weather' => true];
+		try {
+			// Parse the old format
+			$statuses = json_decode($configStatuses, true, 512, JSON_THROW_ON_ERROR);
+			// We avoid getting an empty array as it will not produce an object in UI's JS
+			$statuses = array_keys(array_filter($statuses, static fn (bool $value) => $value));
+		} catch (JsonException $e) {
+			$statuses = array_filter(explode(',', $configStatuses), fn (string $value) => $value !== '');
+		}
 
 		$this->initialState->provideInitialState('panels', $widgets);
 		$this->initialState->provideInitialState('statuses', $statuses);

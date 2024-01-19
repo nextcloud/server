@@ -448,12 +448,15 @@
                 ],
                 "parameters": [
                     {
-                        "name": "layout",
+                        "name": "layout[]",
                         "in": "query",
                         "description": "The new layout",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
@@ -495,7 +498,10 @@
                                                     ],
                                                     "properties": {
                                                         "layout": {
-                                                            "type": "string"
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -526,12 +532,15 @@
                 ],
                 "parameters": [
                     {
-                        "name": "statuses",
+                        "name": "statuses[]",
                         "in": "query",
                         "description": "The new statuses",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
@@ -573,7 +582,10 @@
                                                     ],
                                                     "properties": {
                                                         "statuses": {
-                                                            "type": "string"
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
                                                         }
                                                     }
                                                 }
