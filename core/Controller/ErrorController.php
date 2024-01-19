@@ -28,10 +28,10 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ErrorController extends \OCP\AppFramework\Controller {
 	/**
 	 * @PublicPage

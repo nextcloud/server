@@ -29,7 +29,7 @@ namespace OC\Core\Controller;
 
 use OC\Profile\ProfileManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -42,7 +42,7 @@ use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ProfilePageController extends Controller {
 	public function __construct(
 		string $appName,
