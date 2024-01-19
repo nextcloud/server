@@ -151,7 +151,8 @@ trait CommonThemeTrait {
 				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
-					'--color-background-plain' => $this->primaryColor,
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
 			}
 

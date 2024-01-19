@@ -213,7 +213,6 @@ class BackgroundService {
 	 * @throws NoUserException
 	 */
 	public function setFileBackground($path): void {
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		/** @var File $file */
@@ -224,7 +223,13 @@ class BackgroundService {
 			throw new InvalidArgumentException('Invalid image file');
 		}
 
+		$meanColor = $this->calculateMeanColor($image);
+		if ($meanColor !== false) {
+			$this->setColorBackground($meanColor);
+		}
+
 		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
 	}
 
 	public function setShippedBackground($fileName): void {
@@ -235,6 +240,9 @@ class BackgroundService {
 		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$fileName]['primary_color']);
 	}
 
+	/**
+	 * Set the background to color only
+	 */
 	public function setColorBackground(string $color): void {
 		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new InvalidArgumentException('The given color is invalid');
@@ -275,5 +283,61 @@ class BackgroundService {
 		} catch (NotFoundException $e) {
 			return $rootFolder->newFolder($this->userId);
 		}
+	}
+
+	/**
+	 * Calculate mean color of an given image
+	 * It only takes the upper part into account so that a matching text color can be derived for the app menu
+	 */
+	private function calculateMeanColor(\OCP\Image $image): false|string {
+		/**
+		 * Small helper to ensure one channel is returned as 8byte hex
+		 */
+		function toHex(int $channel) {
+			$hex = dechex($channel);
+			return match (strlen($hex)) {
+				0 => '00',
+				1 => '0'.$hex,
+				2 => $hex,
+				default => 'ff',
+			};
+		}
+
+		$tempImage = new \OCP\Image();
+
+		// Crop to only analyze top bar
+		$resource = $image->cropNew(0, 0, $image->width(), min(max(50, (int)($image->height() * 0.125)), $image->height()));
+		if ($resource === false) {
+			return false;
+		}
+
+		$tempImage->setResource($resource);
+		if (!$tempImage->preciseResize(100, 7)) {
+			return false;
+		}
+
+		$resource = $tempImage->resource();
+		if ($resource === false) {
+			return false;
+		}
+
+		$reds = [];
+		$greens = [];
+		$blues = [];
+		for ($y = 0; $y < 7; $y++) {
+			for ($x = 0; $x < 100; $x++) {
+				$value = imagecolorat($resource, $x, $y);
+				if ($value === false) {
+					continue;
+				}
+				$reds[] = ($value >> 16) & 0xFF;
+				$greens[] = ($value >> 8) & 0xFF;
+				$blues[] = $value & 0xFF;
+			}
+		}
+		$meanColor = '#' . toHex((int)(array_sum($reds) / count($reds)));
+		$meanColor .= toHex((int)(array_sum($greens) / count($greens)));
+		$meanColor .= toHex((int)(array_sum($blues) / count($blues)));
+		return $meanColor;
 	}
 }
