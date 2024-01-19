@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Грешка прикиком чувања слике",
     "Unsaved changes" : "Несачуване измене",
     "Drop changes" : "Откажи измене",
+    "LIVE" : "УЖИВО",
     "Your browser does not support videos." : "Ваш веб читач не подржава видео записе.",
     "Edit" : "Измени",
     "Exit full screen" : "Напусти пун екран",

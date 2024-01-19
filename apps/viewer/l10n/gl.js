@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Produciuse un erro ao gardar a imaxe",
     "Unsaved changes" : "Cambios sen gardar",
     "Drop changes" : "Desbotar os cambios",
+    "LIVE" : "DIRECTO",
     "Your browser does not support videos." : "O seu navegador non admite vídeos",
     "Edit" : "Editar",
     "Exit full screen" : "Saír da pantalla completa",

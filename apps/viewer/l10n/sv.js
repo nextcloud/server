@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Det gick inte att spara bilden",
     "Unsaved changes" : "Ej sparade ändringar",
     "Drop changes" : "Släng ändringar",
+    "LIVE" : "LIVE",
     "Your browser does not support videos." : "Din webbläsare har inte stöd för video.",
     "Edit" : "Ändra",
     "Exit full screen" : "Avsluta fullskärm",

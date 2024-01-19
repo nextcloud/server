@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Error guardando imágen",
     "Unsaved changes" : "Cambios sin guardar",
     "Drop changes" : "Descartar cambios",
+    "LIVE" : "EN VIVO",
     "Your browser does not support videos." : "Tu navegador no soporta videos.",
     "Edit" : "Editar",
     "Exit full screen" : "Salir de pantalla completa",

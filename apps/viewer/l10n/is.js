@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Villa við að vista mynd",
     "Unsaved changes" : "Óvistaðar breytingar",
     "Drop changes" : "Henda breytingum",
+    "LIVE" : "BEINT",
     "Your browser does not support videos." : "Vafrinn þinn styður ekki myndskeið.",
     "Edit" : "Breyta",
     "Exit full screen" : "Fara úr skjáfylliham",

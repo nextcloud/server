@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "图片保存错误",
     "Unsaved changes" : "未保存的更改",
     "Drop changes" : "取消更改",
+    "LIVE" : "即时",
     "Your browser does not support videos." : "您的浏览器不支持视频。",
     "Edit" : "编辑",
     "Exit full screen" : "退出全屏",

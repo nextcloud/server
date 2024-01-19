@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Feil under lagring av bildet",
     "Unsaved changes" : "Ulagrede endringer",
     "Drop changes" : "Slipp endringer",
+    "LIVE" : "LIVE",
     "Your browser does not support videos." : "Nettleseren din støtter ikke videoer.",
     "Edit" : "Rediger",
     "Open sidebar" : "Åpne sidepanel",
