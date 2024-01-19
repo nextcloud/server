@@ -169,10 +169,10 @@ OC.L10N.register(
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "Servern har ingen konfigurerad starttid för underhållsfönster. Detta innebär att resurskrävande dagliga bakgrundsjobb också kommer att köras under din huvudsakliga användningstid. Vi rekommenderar att du ställer in det till en tid med låg användning, så att användarna påverkas mindre av belastningen som orsakas av dessa tunga uppgifter.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "Underhållsfönstret för att utföra tunga bakgrundsjobb är mellan {start}:00 UTC och {end}:00 UTC",
     "Memcache" : "Memcache",
-    "Configured" : "Konfigurerad",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "Inget minnescache har konfigurerats. För att förbättra prestanda, vänligen konfigurera en memcache, om tillgänglig.",
-    "Overwrite cli URL" : "Skriv över cli-URL",
+    "Configured" : "Konfigurerad",
     "PHP default charset" : "PHP standardteckenuppsättning",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP-funktionen \"set_time_limit\" är inte tillgänglig. Detta kan leda till att skript stoppas i mitten av utförandet och bryter din installation. Aktivering av denna funktion rekommenderas starkt.",
     "Supported" : "Stöds",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Din PHP har inte FreeType-stöd, vilket resulterar i brott i profilbilder och inställningsgränssnittet.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP verkar inte vara korrekt inställd för att fråga efter systemmiljövariabler. Testet med getenv(\"PATH\") ger bara ett tomt svar.",
@@ -690,6 +690,7 @@ OC.L10N.register(
     "Edit display name" : "Ändra visningsnamn",
     "Select manager" : "Välj chef",
     "User's table" : "Användartabell",
-    "Select user manager" : "Välj användaradministratör"
+    "Select user manager" : "Välj användaradministratör",
+    "Overwrite cli URL" : "Skriv över cli-URL"
 },
 "nplurals=2; plural=(n != 1);");

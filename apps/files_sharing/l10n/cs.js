@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Odmítnout sdílení","Odmítnout sdílení","Odmítnout sdílení","Odmítnout sdílení"],
     "_Restore share_::_Restore shares_" : ["Obnovit sdílení","Obnovit sdílení","Obnovit sdílení","Obnovit sdílení"],
     "Shared" : "Sdíleno",
+    "Shared multiple times with different people" : "Nasdílet několikrát různým lidem",
     "Shared by {ownerDisplayName}" : "Nasdílel(a) {ownerDisplayName}",
     "Show sharing options" : "Zobrazit předvolby pro sdílení",
     "Link to a file" : "Odkaz na soubor",

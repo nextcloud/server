@@ -179,14 +179,14 @@ OC.L10N.register(
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "لم يسبق تعيين وقت لبدء فترة الصيانة لهذا الخادوم. و هذا يعني أن تنفيذ مهام الخلفية اليومية كثيفة الموارد سيتم أثناء أوقات العمل المعتادة على النظام. نوصي بضبط وقت بدء فترة الصيانة على الأوقات التي تكون فيها كثافة العمل على النظام منخفضة؛ بحيث يكون تأثر المستخدمين بالحمل الناتج عن هذه المهام الثقيلة أقل ما يمكن.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "فترة الصيانة لتنفيذ مهام الخلفية الثقيلة هو بين {start}:00  و {end}:00 بالتوقيت العالمي الموحد UTC",
     "Memcache" : "Memcache",
-    "Configured" : "تمّ تكوينها",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "لم يتم تكوين ذاكرة تخزين مؤقت memcache. لتحسين الأداء، يرجى تكوين ذاكرة التخزين المؤقت، إذا كانت متوفرة.",
-    "Overwrite cli URL" : "استبدال عنوان cli URL",
+    "Configured" : "تمّ تكوينها",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "خيار \"overwrite.cli.url\" في ملفك config.php تمّ تعيينه بشكل صحيح إلى  \"%s\".",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "خيار \"overwrite.cli.url\" في ملفك config.php تمّ تعيينه إلى  \"%s\" و الذي هو عنوان URL صحيح. عنوان URL المقترح هو \"%s\".",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "يرجى التأكد من تعيين خيار \"overwrite.cli.url\" في ملف config.php الخاص بك على عنوان URL الذي يستعمله مستخدمو نكست كلاود عندك. مُقتَرح: \"%s\". وإلّا فقد تكون هناك مشاكل في إنشاء عنوان URL عبر cron .(من الممكن أن يكون عنوان URL المقترح ليس هو عنوان URL الذي يستعمله مستخدمو نكست كلاود عندك. من الأفضل إعادة التحقق من ذلك على أي حال.).",
     "PHP default charset" : "مجموعة الأحرف الافتراضية charset لـ PHP",
     "PHP configuration option \"default_charset\" should be UTF-8" : "خيار إعداد الـ PHP ـ \"default_charset\" يجب أن يكون UTF-8",
+    "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "وظيفة PHP \"set_time_limit\" غير متاحة. قد يؤدي هذا إلى توقف البرامج النصية في منتصف التنفيذ ، مما يؤدي إلى تعطيل التثبيت. يوصى بشدة بتمكين هذه الوظيفة.",
     "Freetype" : "Freetype",
     "Supported" : "مدعومٌ",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "لا يحتوي PHP على دعم FreeType ، مما يؤدي إلى كسر صور الملف الشخصي وواجهة الإعدادات.",
@@ -725,6 +725,7 @@ OC.L10N.register(
     "Edit display name" : "عَدِّل اسم العرض",
     "Select manager" : "إختَر المُدير",
     "User's table" : "جدول المستخدِمين",
-    "Select user manager" : "إختَر مدير المستخدِم user manager"
+    "Select user manager" : "إختَر مدير المستخدِم user manager",
+    "Overwrite cli URL" : "استبدال عنوان cli URL"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
