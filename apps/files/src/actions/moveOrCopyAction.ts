@@ -89,8 +89,10 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 	 *   Do not allow as it would copy foo within itself
 	 * - node: /foo/bar.txt, destination: /foo
 	 *   Allow copy a file to the same directory
+	 * - node: "/foo/bar", destination: "/foo/bar 1"
+	 *   Allow to move or copy but we need to check with trailing / otherwise it would report false positive
 	 */
-	if (destination.path.startsWith(node.path)) {
+	if (`${destination.path}/`.startsWith(`${node.path}/`)) {
 		throw new Error(t('files', 'You cannot move a file/folder onto itself or into a subfolder of itself'))
 	}
 
