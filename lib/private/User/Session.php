@@ -460,7 +460,8 @@ class Session implements IUserSession, Emitter {
 			if ($isTokenPassword) {
 				$dbToken = $this->tokenProvider->getToken($password);
 				$userFromToken = $this->manager->get($dbToken->getUID());
-				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user;
+				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user
+					&& $this->validateTokenLoginName($userFromToken->getEMailAddress(), $dbToken);
 			} else {
 				$users = $this->manager->getByEmail($user);
 				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
@@ -815,6 +816,27 @@ class Session implements IUserSession, Emitter {
 		$this->lockdownManager->setToken($dbToken);
 
 		$this->tokenProvider->updateTokenActivity($dbToken);
+
+		return true;
+	}
+
+	/**
+	 * Check if login names match
+	 */
+	private function validateTokenLoginName(?string $loginName, IToken $token): bool {
+		if ($token->getLoginName() !== $loginName) {
+			// TODO: this makes it impossible to use different login names on browser and client
+			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
+			//      allow to use the client token with the login name 'user'.
+			$this->logger->error('App token login name does not match', [
+				'tokenLoginName' => $token->getLoginName(),
+				'sessionLoginName' => $loginName,
+				'app' => 'core',
+				'user' => $token->getUID(),
+			]);
+
+			return false;
+		}
 
 		return true;
 	}
