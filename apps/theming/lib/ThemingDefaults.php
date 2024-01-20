@@ -7,6 +7,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Bauch <bauch@struktur.de>
@@ -55,16 +56,6 @@ use OCP\IUserSession;
 
 class ThemingDefaults extends \OC_Defaults {
 
-	private IConfig $config;
-	private IL10N $l;
-	private ImageManager $imageManager;
-	private IUserSession $userSession;
-	private IURLGenerator $urlGenerator;
-	private ICacheFactory $cacheFactory;
-	private Util $util;
-	private IAppManager $appManager;
-	private INavigationManager $navigationManager;
-
 	private string $name;
 	private string $title;
 	private string $entity;
@@ -80,36 +71,20 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * ThemingDefaults constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 * @param ImageManager $imageManager
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICacheFactory $cacheFactory
-	 * @param Util $util
-	 * @param IAppManager $appManager
 	 */
-	public function __construct(IConfig $config,
-		IL10N $l,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		ICacheFactory $cacheFactory,
-		Util $util,
-		ImageManager $imageManager,
-		IAppManager $appManager,
-		INavigationManager $navigationManager
+	public function __construct(
+		private IConfig $config,
+		private IL10N $l,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
+		private Util $util,
+		private ImageManager $imageManager,
+		private IAppManager $appManager,
+		private INavigationManager $navigationManager,
+		private BackgroundService $backgroundService,
 	) {
 		parent::__construct();
-		$this->config = $config;
-		$this->l = $l;
-		$this->imageManager = $imageManager;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
-		$this->util = $util;
-		$this->appManager = $appManager;
-		$this->navigationManager = $navigationManager;
 
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
@@ -520,8 +495,14 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'slogan':
 				$returnValue = $this->getSlogan();
 				break;
-			case 'color':
+			case 'primary_color':
 				$returnValue = $this->getDefaultColorPrimary();
+				break;
+			case 'background_color':
+				if ($this->imageManager->hasImage('background')) {
+					$file = $this->imageManager->getImage('background');
+					$this->backgroundService->setGlobalBackground($file->read());
+				}
 				break;
 			case 'logo':
 			case 'logoheader':

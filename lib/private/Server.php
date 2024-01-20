@@ -171,6 +171,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
@@ -1190,7 +1191,8 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(IURLGenerator::class),
 					$this->get(ICacheFactory::class),
 					$this->get(LoggerInterface::class),
-					$this->get(ITempManager::class)
+					$this->get(ITempManager::class),
+					$this->get(BackgroundService::class),
 				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
@@ -1201,7 +1203,8 @@ class Server extends ServerContainer implements IServerContainer {
 					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
 					$imageManager,
 					$c->get(IAppManager::class),
-					$c->get(INavigationManager::class)
+					$c->get(INavigationManager::class),
+					$c->get(BackgroundService::class),
 				);
 			}
 			return new \OC_Defaults();

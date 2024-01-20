@@ -286,21 +286,19 @@ class BackgroundService {
 	}
 
 	/**
-	 * Storing the data in appdata/theming/users/USERID
-	 *
-	 * @return ISimpleFolder
-	 * @throws NotPermittedException
+	 * Called when a new global background (backgroundMime) is uploaded (admin setting)
+	 * This sets all necessary app config values
+	 * @param resource|string $path
 	 */
-	private function getAppDataFolder(): ISimpleFolder {
-		try {
-			$rootFolder = $this->appData->getFolder('users');
-		} catch (NotFoundException $e) {
-			$rootFolder = $this->appData->newFolder('users');
-		}
-		try {
-			return $rootFolder->getFolder($this->userId);
-		} catch (NotFoundException $e) {
-			return $rootFolder->newFolder($this->userId);
+	public function setGlobalBackground($path): void {
+		$image = new \OCP\Image();
+		$handle = is_resource($path) ? $path : fopen($path, 'rb');
+
+		if ($handle && $image->loadFromFileHandle($handle) !== false) {
+			$meanColor = $this->calculateMeanColor($image);
+			if ($meanColor !== false) {
+				$this->config->setAppValue(Application::APP_ID, 'background_color', $meanColor);
+			}
 		}
 	}
 
@@ -358,5 +356,24 @@ class BackgroundService {
 		$meanColor .= toHex((int)(array_sum($greens) / count($greens)));
 		$meanColor .= toHex((int)(array_sum($blues) / count($blues)));
 		return $meanColor;
+	}
+
+	/**
+	 * Storing the data in appdata/theming/users/USERID
+	 *
+	 * @return ISimpleFolder
+	 * @throws NotPermittedException
+	 */
+	private function getAppDataFolder(): ISimpleFolder {
+		try {
+			$rootFolder = $this->appData->getFolder('users');
+		} catch (NotFoundException $e) {
+			$rootFolder = $this->appData->newFolder('users');
+		}
+		try {
+			return $rootFolder->getFolder($this->userId);
+		} catch (NotFoundException $e) {
+			return $rootFolder->newFolder($this->userId);
+		}
 	}
 }

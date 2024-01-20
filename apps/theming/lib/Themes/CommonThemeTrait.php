@@ -132,7 +132,7 @@ trait CommonThemeTrait {
 			&& !$this->themingDefaults->isUserThemingDisabled()
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
-			$backgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', $this->themingDefaults->getColorPrimary());
+			$backgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', $this->themingDefaults->getColorBackground());
 
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
 			$isBackgroundBright = $this->util->invertTextColor($backgroundColor);
