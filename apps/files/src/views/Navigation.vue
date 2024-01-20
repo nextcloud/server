@@ -25,9 +25,9 @@
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
-				:allow-collapse="true"
+				allow-collapse
 				:data-cy-files-navigation-item="view.id"
-				:exact="true"
+				:exact="useExactRouteMatching(view)"
 				:icon="view.iconClass"
 				:name="view.name"
 				:open="isExpanded(view)"
@@ -41,7 +41,7 @@
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"
-					:exact="true"
+					:exact-path="true"
 					:icon="child.iconClass"
 					:name="child.name"
 					:to="generateToNavigation(child)">
@@ -128,7 +128,7 @@ export default {
 		},
 
 		currentView(): View {
-			return this.views.find(view => view.id === this.currentViewId)
+			return this.views.find(view => view.id === this.currentViewId)!
 		},
 
 		views(): View[] {
@@ -145,19 +145,19 @@ export default {
 				})
 		},
 
-		childViews(): View[] {
+		childViews(): Record<string, View[]> {
 			return this.views
 				// filter parent views
 				.filter(view => !!view.parent)
 				// create a map of parents and their children
 				.reduce((list, view) => {
-					list[view.parent] = [...(list[view.parent] || []), view]
+					list[view.parent!] = [...(list[view.parent!] || []), view]
 					// Sort children by order
-					list[view.parent].sort((a, b) => {
+					list[view.parent!].sort((a, b) => {
 						return a.order - b.order
 					})
 					return list
-				}, {})
+				}, {} as Record<string, View[]>)
 		},
 	},
 
@@ -180,6 +180,16 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Only use exact route matching on routes with child views
+		 * Because if a view does not have children (like the files view) then multiple routes might be matched for it
+		 * Like for the 'files' view this does not work because of optional 'fileid' param so /files and /files/1234 are both in the 'files' view
+		 * @param view The view to check
+		 */
+		useExactRouteMatching(view: View) {
+			return this.childViews[view.id]?.length > 0
+		},
+
 		showView(view: View) {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
