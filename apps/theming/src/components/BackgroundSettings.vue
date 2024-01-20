@@ -116,7 +116,6 @@ const defaultShippedBackground = loadState('theming', 'defaultShippedBackground'
 
 const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
 
-console.warn(loadState('theming', 'data', {}))
 export default {
 	name: 'BackgroundSettings',
 

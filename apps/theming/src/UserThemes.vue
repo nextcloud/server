@@ -53,6 +53,13 @@
 			</div>
 		</NcSettingsSection>
 
+		<NcSettingsSection :name="t('theming', 'Primary color')"
+			:description="isUserThemingDisabled
+				? t('theming', 'Customization has been disabled by your administrator')
+				: t('theming', 'Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.')">
+			<UserPrimaryColor @refresh-styles="refreshGlobalStyles" />
+		</NcSettingsSection>
+
 		<NcSettingsSection :name="t('theming', 'Background and color')"
 			class="background"
 			data-user-theming-background-disabled>
@@ -65,8 +72,8 @@
 			</template>
 		</NcSettingsSection>
 
-		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')">
-			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
+		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')"
+			:description="t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.')">
 			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="shortcutsDisabled"
 				type="switch"
@@ -89,6 +96,8 @@ import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
 import UserAppMenuSection from './components/UserAppMenuSection.vue'
+import UserPrimaryColor from './components/UserPrimaryColor.vue'
+import { emit } from '@nextcloud/event-bus'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
@@ -105,6 +114,7 @@ export default {
 		NcSettingsSection,
 		BackgroundSettings,
 		UserAppMenuSection,
+		UserPrimaryColor,
 	},
 
 	data() {
@@ -182,11 +192,7 @@ export default {
 				newTheme.onload = () => theme.remove()
 				document.head.append(newTheme)
 			})
-		},
-
-		updateBackground(data) {
-			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
-			this.refreshGlobalStyles()
+			emit('theming:global-styles-refreshed')
 		},
 
 		changeTheme({ enabled, id }) {
