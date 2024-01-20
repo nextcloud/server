@@ -30,15 +30,15 @@
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__input-wrapper">
-				<NcTextField :value.sync="searchTerm"
-					trailing-button-icon="close"
+				<NcTextField id="contactsmenu__menu__search"
 					ref="contactsMenuInput"
+					trailing-button-icon="close"
+					class="contactsmenu__menu__search"
+					:value.sync="searchTerm"
 					:label="t('core', 'Search contacts')"
 					:trailing-button-label="t('core','Reset search')"
 					:show-trailing-button="searchTerm !== ''"
 					:placeholder="t('core', 'Search contacts …')"
-					id="contactsmenu__menu__search"
-					class="contactsmenu__menu__search"
 					@input="onInputDebounced"
 					@trailing-button-click="onReset" />
 			</div>
@@ -230,6 +230,12 @@ export default {
 				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
 			}
 		}
+	}
+
+	// NOTE when migrating to Vue3, while not deprecated, a better solution would be to style the child slotted element
+	// LINK https://stackoverflow.com/a/55368933
+	:deep span {
+		cursor: pointer !important;
 	}
 }
 </style>
