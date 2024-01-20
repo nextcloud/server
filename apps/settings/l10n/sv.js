@@ -171,6 +171,7 @@ OC.L10N.register(
     "Memcache" : "Memcache",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "Inget minnescache har konfigurerats. För att förbättra prestanda, vänligen konfigurera en memcache, om tillgänglig.",
     "Configured" : "Konfigurerad",
+    "Overwrite CLI URL" : "Skriv över CLI-URL",
     "PHP default charset" : "PHP standardteckenuppsättning",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP-funktionen \"set_time_limit\" är inte tillgänglig. Detta kan leda till att skript stoppas i mitten av utförandet och bryter din installation. Aktivering av denna funktion rekommenderas starkt.",
     "Supported" : "Stöds",
