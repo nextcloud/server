@@ -10,6 +10,8 @@ OC.L10N.register(
     "Error saving image" : "خطأ في حفظ الصور",
     "Unsaved changes" : "تغييرات لم يتم حفظها",
     "Drop changes" : "إسقاط التغييرات",
+    "Play the live photo" : "شغِّل الفيديو الحي",
+    "LIVE" : "مُباشِر",
     "Your browser does not support videos." : "متصفحك لا يدعم الفيديوهات.",
     "Edit" : "تعديل",
     "Exit full screen" : "خروج من ملء الشاشة",

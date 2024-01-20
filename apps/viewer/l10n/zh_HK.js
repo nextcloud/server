@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "儲存圖像時發生錯誤",
     "Unsaved changes" : "未儲存變更",
     "Drop changes" : "取消更改",
+    "Play the live photo" : "播放 Live Photo",
     "LIVE" : "直播",
     "Your browser does not support videos." : "您的瀏覽器不支援視訊。",
     "Edit" : "編輯",
