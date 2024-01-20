@@ -20,13 +20,16 @@
   -
   -->
 <template>
-	<div class="header-menu">
-		<NcButton class="unified-search__button" :aria-label="t('core', 'Unified search')" @click="toggleUnifiedSearch">
+	<div class="header-menu unified-search-menu">
+		<NcButton class="header-menu__trigger"
+			:aria-label="t('core', 'Unified search')"
+			type="tertiary-no-background"
+			@click="toggleUnifiedSearch">
 			<template #icon>
-				<Magnify class="unified-search__trigger" :size="22" />
+				<Magnify class="header-menu__trigger-icon" :size="20" />
 			</template>
 		</NcButton>
-		<UnifiedSearchModal :class="'unified-search-modal'" :is-visible="showUnifiedSearch" @update:isVisible="handleModalVisibilityChange" />
+		<UnifiedSearchModal :is-visible="showUnifiedSearch" @update:isVisible="handleModalVisibilityChange" />
 	</div>
 </template>
 
@@ -62,35 +65,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header-menu {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	.unified-search__button {
+// this is needed to allow us overriding component styles (focus-visible)
+#header {
+	.header-menu {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--header-height);
-		// height: var(--header-height);
-		margin: 0;
-		padding: 0;
-		cursor: pointer;
-		opacity: .85;
-		background-color: transparent;
-		border: none;
-		filter: none !important;
-		color: var(--color-primary-text) !important;
 
-		&:hover {
-			background-color: transparent !important;
+		&__trigger {
+			height: var(--header-height);
+			width: var(--header-height) !important;
+
+			&:focus-visible {
+				// align with other header menu entries
+				outline: none !important;
+				box-shadow: none !important;
+			}
+
+			&:not(:hover,:focus,:focus-visible) {
+				opacity: .85;
+			}
+
+			&-icon {
+				// ensure the icon has the correct color
+				color: var(--color-background-plain-text) !important;
+			}
 		}
-	}
-}
-
-.unified-search-modal {
-	::v-deep .modal-container {
-		height: 80%;
 	}
 }
 </style>

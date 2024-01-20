@@ -542,6 +542,7 @@ export default {
 .unified-search-modal {
 	box-sizing: border-box;
 	height: 100%;
+	min-height: 80vh;
 
 	display: flex;
 	flex-direction: column;
