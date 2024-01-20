@@ -43,7 +43,7 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
 class BackgroundService {
-	public const DEFAULT_COLOR = '#0082c9';
+	public const DEFAULT_COLOR = '#00679e';
 	public const DEFAULT_BACKGROUND_COLOR = '#00679e';
 
 	/**
@@ -300,9 +300,10 @@ class BackgroundService {
 			$meanColor = $this->calculateMeanColor($image);
 			if ($meanColor !== false) {
 				$this->config->setAppValue(Application::APP_ID, 'background_color', $meanColor);
+				return $meanColor;
 			}
-			return $meanColor;
 		}
+		return null;
 	}
 
 	/**

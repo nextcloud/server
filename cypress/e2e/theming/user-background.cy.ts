@@ -80,7 +80,7 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
+		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background, '#652e11'))
 	})
 
 	it('Select a bright shipped background', function() {
@@ -95,21 +95,21 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#869171', background))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', background, '#dee0d3'))
 	})
 
 	it('Remove background', function() {
-		cy.intercept('*/apps/theming/background/custom').as('clearBackground')
+		cy.intercept('*/apps/theming/background/color').as('clearBackground')
 
 		// Clear background
-		cy.get('[data-user-theming-background-clear]').click()
+		cy.get('[data-user-theming-background-color]').click()
 
 		// Set the accessibility state
-		cy.get('[data-user-theming-background-clear]').should('have.attr', 'aria-pressed', 'true')
+		cy.get('[data-user-theming-background-color]').should('have.attr', 'aria-pressed', 'true')
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#869171', null))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', null, '#dee0d3'))
 	})
 })
 
@@ -129,14 +129,12 @@ describe('User select a custom color', function() {
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		pickRandomColor()
+		cy.get('[data-user-theming-background-color]').click()
+		cy.get('.color-picker__simple-color-circle').eq(5).click()
 
 		// Validate custom colour change
 		cy.wait('@setColor')
-		cy.waitUntil(() => cy.window().then((win) => {
-			const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
-			return primary !== defaultPrimary && primary !== defaultPrimary
-		}))
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null, '#a5b872'))
 	})
 })
 
@@ -154,10 +152,11 @@ describe('User select a bright custom color and remove background', function() {
 	})
 
 	it('Remove background', function() {
-		cy.intercept('*/apps/theming/background/custom').as('clearBackground')
+		cy.intercept('*/apps/theming/background/color').as('clearBackground')
 
 		// Clear background
-		cy.get('[data-user-theming-background-clear]').click()
+		cy.get('[data-user-theming-background-color]').click()
+		cy.get('[data-user-theming-background-color]').click()
 
 		// Validate clear background
 		cy.wait('@clearBackground')
@@ -168,7 +167,8 @@ describe('User select a bright custom color and remove background', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
 		// Pick one of the bright color preset
-		cy.contains('button', 'Change color').click()
+		cy.get('[data-user-theming-background-color]').scrollIntoView()
+		cy.get('[data-user-theming-background-color]').click()
 		cy.get('.color-picker__simple-color-circle:eq(4)').click()
 
 		// Validate custom colour change
@@ -194,7 +194,7 @@ describe('User select a bright custom color and remove background', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
+		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background, '#652e11'))
 	})
 
 	it('See the header NOT being inverted this time', function() {
@@ -240,15 +240,13 @@ describe('User select a custom background', function() {
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#4c0c04', 'apps/theming/background?v='))
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, 'apps/theming/background?v=', '#2f2221'))
 	})
 })
 
 describe('User changes settings and reload the page', function() {
 	const image = 'image.jpg'
-	const primaryFromImage = '#4c0c04'
-
-	let selectedColor = ''
+	const colorFromImage = '#2f2221'
 
 	before(function() {
 		cy.createRandomUser().then((user: User) => {
@@ -280,28 +278,39 @@ describe('User changes settings and reload the page', function() {
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss(primaryFromImage, 'apps/theming/background?v='))
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, 'apps/theming/background?v=', colorFromImage))
 	})
 
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		cy.contains('button', 'Change color').click()
+		cy.get('[data-user-theming-background-color]').click()
 		cy.get('.color-picker__simple-color-circle:eq(5)').click()
+		cy.get('[data-user-theming-background-color]').click()
 
 		// Validate clear background
 		cy.wait('@setColor')
-		cy.waitUntil(() => cy.window().then((win) => {
-			selectedColor = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
-			return selectedColor !== primaryFromImage
-		}))
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null, '#a5b872'))
+	})
+
+	it('Select a custom primary color', function() {
+		cy.intercept('/ocs/v2.php/apps/provisioning_api/api/v1/config/users/theming/primary_color').as('setPrimaryColor')
+
+		cy.get('[data-user-theming-primary-color-trigger]').scrollIntoView()
+		cy.get('[data-user-theming-primary-color-trigger]').click()
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.wait(500)
+		cy.get('.color-picker__simple-color-circle').should('be.visible')
+		cy.get('.color-picker__simple-color-circle:eq(2)').click()
+		cy.get('[data-user-theming-primary-color-trigger]').click()
+
+		// Validate clear background
+		cy.wait('@setPrimaryColor')
+		cy.waitUntil(() => validateBodyThemingCss('#c98879', null, '#a5b872'))
 	})
 
 	it('Reload the page and validate persistent changes', function() {
 		cy.reload()
-		cy.waitUntil(() => validateBodyThemingCss(selectedColor, 'apps/theming/background?v='))
-
-		// validate accessibility state
-		cy.get('[data-user-theming-background-custom]').should('have.attr', 'aria-pressed', 'true')
+		cy.waitUntil(() => validateBodyThemingCss('#c98879', null, '#a5b872'))
 	})
 })

@@ -455,82 +455,38 @@ class ThemingDefaultsTest extends TestCase {
 			'with fallback default' => [
 				'disableTheming' => 'no',
 				'primaryColor' => '',
-				'backgroundColor' => '',
-				'userBackgroundColor' => '',
-				'userPrimaryColor' => '',
-				'expected' => BackgroundService::DEFAULT_COLOR,
-			],
-			'with custom admin background' => [
-				'disableTheming' => 'no',
-				'primaryColor' => '',
-				'backgroundColor' => '#123',
-				'userBackgroundColor' => '',
-				'userPrimaryColor' => '',
-				'expected' => '#123',
-			],
-			'with custom invalid admin background' => [
-				'disableTheming' => 'no',
-				'primaryColor' => '',
-				'backgroundColor' => 'invalid-name',
-				'userBackgroundColor' => '',
 				'userPrimaryColor' => '',
 				'expected' => BackgroundService::DEFAULT_COLOR,
 			],
 			'with custom admin primary' => [
 				'disableTheming' => 'no',
 				'primaryColor' => '#aaa',
-				'backgroundColor' => '',
-				'userBackgroundColor' => '',
 				'userPrimaryColor' => '',
 				'expected' => '#aaa',
 			],
 			'with custom invalid admin primary' => [
 				'disableTheming' => 'no',
 				'primaryColor' => 'invalid',
-				'backgroundColor' => '',
-				'userBackgroundColor' => '',
 				'userPrimaryColor' => '',
 				'expected' => BackgroundService::DEFAULT_COLOR,
-			],
-			'with custom user background' => [
-				'disableTheming' => 'no',
-				'primaryColor' => '',
-				'backgroundColor' => '',
-				'userBackgroundColor' => '#456',
-				'userPrimaryColor' => '#456',
-				'expected' => '#456',
 			],
 			'with custom invalid user primary' => [
 				'disableTheming' => 'no',
 				'primaryColor' => '',
-				'backgroundColor' => '',
-				'userBackgroundColor' => '',
 				'userPrimaryColor' => 'invalid-name',
 				'expected' => BackgroundService::DEFAULT_COLOR,
 			],
 			'with custom user primary' => [
 				'disableTheming' => 'no',
 				'primaryColor' => '',
-				'backgroundColor' => '',
-				'userBackgroundColor' => '',
 				'userPrimaryColor' => '#bbb',
 				'expected' => '#bbb',
 			],
-			'with custom invalid user background' => [
-				'disableTheming' => 'no',
-				'primaryColor' => '',
-				'backgroundColor' => '',
-				'userBackgroundColor' => 'invalid-name',
-				'userPrimaryColor' => '',
-				'expected' => BackgroundService::DEFAULT_COLOR,
-			],
-			'with custom admin and user background' => [
-				'disableTheming' => 'no',
-				'primaryColor' => '',
-				'backgroundColor' => '#123',
-				'userBackgroundColor' => '#456',
-				'userPrimaryColor' => '#456',
-				'expected' => '#456',
+			'with disabled user theming primary' => [
+				'disableTheming' => 'yes',
+				'primaryColor' => '#aaa',
+				'userPrimaryColor' => '#bbb',
+				'expected' => '#aaa',
 			],
 		];
 	}
@@ -538,7 +494,7 @@ class ThemingDefaultsTest extends TestCase {
 	/**
 	 * @dataProvider dataGetColorPrimary
 	 */
-	public function testGetColorPrimary(string $disableTheming, string $primaryColor, string $backgroundColor, string $userBackgroundColor, $userPrimaryColor, $expected) {
+	public function testGetColorPrimary(string $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected) {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -552,15 +508,12 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturnMap([
 				['theming', 'disable-user-theming', 'no', $disableTheming],
 				['theming', 'primary_color', '', $primaryColor],
-				['theming', 'background_color', '', $backgroundColor],
 			]);
 		$this->config
 			->expects($this->any())
 			->method('getUserValue')
-			->willReturnMap([
-				['user', 'theming', 'background_color', '', $userBackgroundColor],
-				['user', 'theming', 'primary_color', $userBackgroundColor, $userPrimaryColor],
-			]);
+			->with('user', 'theming', 'primary_color', '')
+			->willReturn($userPrimaryColor);
 
 		$this->assertEquals($expected, $this->template->getColorPrimary());
 	}
@@ -668,15 +621,10 @@ class ThemingDefaultsTest extends TestCase {
 			->method('deleteAppValue')
 			->with('theming', 'primary_color');
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'primary_color', null],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getColorPrimary(),
-			);
+			->with('theming', 'cachebuster', '0')
+			->willReturn('15');
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')

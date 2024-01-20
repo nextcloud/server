@@ -71,8 +71,8 @@ class OC_Defaults {
 		$this->defaultFDroidClientUrl = $config->getSystemValue('customclient_fdroid', 'https://f-droid.org/packages/com.nextcloud.client/');
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
 		$this->defaultDocVersion = \OC_Util::getVersion()[0]; // used to generate doc links
-		$this->defaultColorBackground = '#0069c3';
-		$this->defaultColorPrimary = '#0082c9';
+		$this->defaultColorBackground = '#00679e';
+		$this->defaultColorPrimary = '#00679e';
 		$this->defaultTextColorPrimary = '#ffffff';
 		$this->defaultProductName = 'Nextcloud';
 

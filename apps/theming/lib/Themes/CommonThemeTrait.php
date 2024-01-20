@@ -61,7 +61,6 @@ trait CommonThemeTrait {
 			'--primary-invert-if-dark' => $this->util->invertTextColor($colorPrimaryElement) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
-			'--color-primary-default' => $this->defaultPrimaryColor,
 			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
 			'--color-primary-light' => $colorPrimaryLight,
@@ -105,7 +104,7 @@ trait CommonThemeTrait {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
-			} else if ($image === 'background') {
+			} elseif ($image === 'background') {
 				// Apply default background if nothing is configured
 				$variables['--image-background'] = "url('" . $this->themingDefaults->getBackground() . "')";
 			}
