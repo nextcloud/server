@@ -47,10 +47,21 @@
 					@update:theming="$emit('update:theming')" />
 
 				<!-- Primary color picker -->
-				<ColorPickerField :name="colorPickerField.name"
-					:default-value="colorPickerField.defaultValue"
-					:display-name="colorPickerField.displayName"
-					:value.sync="colorPickerField.value"
+				<ColorPickerField :name="primaryColorPickerField.name"
+					:description="primaryColorPickerField.description"
+					:default-value="primaryColorPickerField.defaultValue"
+					:display-name="primaryColorPickerField.displayName"
+					:value.sync="primaryColorPickerField.value"
+					data-admin-theming-setting-primary-color
+					@update:theming="$emit('update:theming')" />
+
+				<!-- Background color picker -->
+				<ColorPickerField :name="backgroundColorPickerField.name"
+					:description="backgroundColorPickerField.description"
+					:default-value="defaultBackground"
+					:display-name="backgroundColorPickerField.displayName"
+					:value.sync="backgroundColorPickerField.value"
+					data-admin-theming-setting-primary-color
 					@update:theming="$emit('update:theming')" />
 
 				<!-- Default background picker -->
@@ -122,8 +133,8 @@ import AppMenuSection from './components/admin/AppMenuSection.vue'
 
 const {
 	backgroundMime,
+	backgroundColor,
 	canThemeIcons,
-	color,
 	docUrl,
 	docUrlIcons,
 	faviconMime,
@@ -133,6 +144,7 @@ const {
 	logoMime,
 	name,
 	notThemableErrorMessage,
+	primaryColor,
 	privacyPolicyUrl,
 	slogan,
 	url,
@@ -170,11 +182,19 @@ const textFields = [
 	},
 ]
 
-const colorPickerField = {
-	name: 'color',
-	value: color,
+const primaryColorPickerField = {
+	name: 'primary_color',
+	value: primaryColor,
 	defaultValue: '#0082c9',
-	displayName: t('theming', 'Color'),
+	displayName: t('theming', 'Primary color'),
+	description: t('theming', 'The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema.'),
+}
+
+const backgroundColorPickerField = {
+	name: 'background_color',
+	value: backgroundColor,
+	displayName: t('theming', 'Background color'),
+	description: t('theming', 'Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons.'),
 }
 
 const fileInputFields = [
@@ -267,7 +287,8 @@ export default {
 	data() {
 		return {
 			textFields,
-			colorPickerField,
+			backgroundColorPickerField,
+			primaryColorPickerField,
 			fileInputFields,
 			advancedTextFields,
 			advancedFileInputFields,
@@ -279,7 +300,35 @@ export default {
 			docUrlIcons,
 			isThemable,
 			notThemableErrorMessage,
+
+			defaultBackground: this.calculateDefaultBackground(),
 		}
+	},
+
+	watch: {
+		backgroundColorPickerField: {
+			deep: true,
+			handler() {
+				this.defaultBackground = this.calculateDefaultBackground()
+			},
+		},
+	},
+
+	methods: {
+		calculateDefaultBackground() {
+			const toHex = (num) => `00${num.toString(16)}`.slice(-2)
+			const style = window.getComputedStyle(document.body).backgroundImage
+			const match = style.match(/url\("(http.+)"\)/)
+			if (!match) {
+				return '#0082c9'
+			}
+			const context = document.createElement('canvas').getContext('2d')
+			const img = new Image()
+			img.src = match[1]
+			context.imageSmoothingEnabled = true
+			context.drawImage(img, 0, 0, 1, 1)
+			return '#' + [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)].map(toHex).join('')
+		},
 	},
 }
 </script>

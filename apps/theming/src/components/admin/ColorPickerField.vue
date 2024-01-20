@@ -26,14 +26,16 @@
 		<div class="field__row">
 			<NcColorPicker :value.sync="localValue"
 				:advanced-fields="true"
-				data-admin-theming-setting-primary-color-picker
 				@update:value="debounceSave">
-				<NcButton type="secondary"
-					:id="id">
+				<NcButton :id="id"
+					class="field__button"
+					type="primary"
+					:aria-label="t('theming', 'Select a custom color')"
+					data-admin-theming-setting-primary-color-picker>
 					<template #icon>
 						<Palette :size="20" />
 					</template>
-					{{ t('theming', 'Change color') }}
+					{{ value }}
 				</NcButton>
 			</NcColorPicker>
 			<div class="field__color-preview" data-admin-theming-setting-primary-color />
@@ -46,6 +48,9 @@
 					<Undo :size="20" />
 				</template>
 			</NcButton>
+		</div>
+		<div v-if="description" class="description">
+			{{ description }}
 		</div>
 
 		<NcNoteCard v-if="errorMessage"
@@ -86,6 +91,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		description: {
+			type: String,
+			default: '',
+		},
 		value: {
 			type: String,
 			required: true,
@@ -110,6 +119,9 @@ export default {
 
 <style lang="scss" scoped>
 @import './shared/field.scss';
+.description {
+	color: var(--color-text-maxcontrast);
+}
 
 .field {
 	&__color-preview {

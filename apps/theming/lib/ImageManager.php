@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  * @author Gary Kim <gary@garykim.dev>
  * @author Jacob Neplokh <me@jacobneplokh.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>

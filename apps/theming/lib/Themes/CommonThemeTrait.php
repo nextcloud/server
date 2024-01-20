@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -143,8 +144,8 @@ trait CommonThemeTrait {
 				'--background-image-invert-if-bright' => $isBackgroundBright ? 'invert(100%)' : 'no',
 			];
 
-			// The user removed the background
-			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
+			// Only use a background color without an image
+			if ($backgroundImage === BackgroundService::BACKGROUND_COLOR) {
 				// Might be defined already by admin theming, needs to be overridden
 				$variables['--image-background'] = 'none';
 			}
