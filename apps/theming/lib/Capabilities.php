@@ -85,6 +85,7 @@ class Capabilities implements IPublicCapability {
 	 *         color-element-dark: string,
 	 *         logo: string,
 	 *         background: string,
+	 *         background-text: string,
 	 *         background-plain: bool,
 	 *         background-default: bool,
 	 *         logoheader: string,

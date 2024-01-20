@@ -78,6 +78,14 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn('#0082c9');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
+			->willReturn('#0082c9');
 
 		$this->themingDefaults
 			->expects($this->any())
