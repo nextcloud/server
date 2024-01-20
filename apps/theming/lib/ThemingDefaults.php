@@ -261,7 +261,13 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		// Fall back to background color
-		return $this->getDefaultColorBackground();
+		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
+		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
+			return $defaultColor;
+		}
+
+		// worst case fall back to default primary color
+		return BackgroundService::DEFAULT_COLOR;
 	}
 
 	/**
@@ -270,7 +276,7 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getDefaultColorBackground(): string {
 		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
-			$defaultColor = BackgroundService::DEFAULT_COLOR;
+			$defaultColor = BackgroundService::DEFAULT_BACKGROUND_COLOR;
 		}
 		return $defaultColor;
 	}

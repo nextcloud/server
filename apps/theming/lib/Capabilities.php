@@ -101,7 +101,8 @@ class Capabilities implements IPublicCapability {
 		$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
 
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
-		$backgroundColor = $this->theming->getDefaultColorBackground();
+		$backgroundColor = $this->theming->getColorBackground();
+		$backgroundText = $this->theming->getTextColorBackground();
 		$backgroundPlain = $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $backgroundColor !== BackgroundService::DEFAULT_COLOR);
 		$background = $backgroundPlain ? $backgroundColor : $this->url->getAbsoluteURL($this->theming->getBackground());
 
@@ -114,8 +115,6 @@ class Capabilities implements IPublicCapability {
 			 */
 			$color = $this->theming->getColorPrimary();
 			$colorText = $this->theming->getTextColorPrimary();
-			$backgroundColor = $this->theming->getColorBackground();
-			$backgroundText = $this->theming->getTextColorBackground();
 
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {

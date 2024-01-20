@@ -29,10 +29,12 @@ namespace OCA\Theming\Themes;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 
 trait CommonThemeTrait {
 	public Util $util;
+	public ThemingDefaults $themingDefaults;
 
 	/**
 	 * Generate primary-related variables
@@ -89,13 +91,15 @@ trait CommonThemeTrait {
 	protected function generateGlobalBackgroundVariables(): array {
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		$hasCustomLogoHeader = $this->util->isLogoThemed();
-		$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
-
-		$variables = [];
+		$backgroundColor = $this->themingDefaults->getColorBackground();
 
 		// Default last fallback values
-		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
-		$variables['--color-background-plain'] = $this->primaryColor;
+		$variables = [
+			'--color-background-plain' => $backgroundColor,
+			'--color-background-plain-text' => $this->util->invertTextColor($backgroundColor) ? '#000000' : '#ffffff',
+			'--image-background-default' => "url('" . $this->themingDefaults->getBackground() . "')",
+			'--background-image-invert-if-bright' => $this->util->invertTextColor($backgroundColor) ? 'invert(100%)' : 'no',
+		];
 
 		// Register image variables only if custom-defined
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
@@ -106,17 +110,13 @@ trait CommonThemeTrait {
 			}
 		}
 
-		// If primary as background has been request or if we have a custom primary colour
-		// let's not define the background image
+		// If a background has been requested let's not define the background image
 		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->primaryColor;
-			$variables['--image-background-plain'] = 'yes';
-			$variables['--image-background'] = 'no';
-			// If no background image is set, we need to check against the shown primary colour
-			$variables['--background-image-invert-if-bright'] = $isPrimaryBright ? 'invert(100%)' : 'no';
+			$variables['--image-background'] = 'none';
 		}
 
 		if ($hasCustomLogoHeader) {
+			// prevent inverting the logo on bright colors if customized
 			$variables['--image-logoheader-custom'] = 'true';
 		}
 

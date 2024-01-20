@@ -44,6 +44,7 @@ use OCP\PreConditionNotMetException;
 
 class BackgroundService {
 	public const DEFAULT_COLOR = '#0082c9';
+	public const DEFAULT_BACKGROUND_COLOR = '#00679e';
 	public const DEFAULT_ACCESSIBLE_COLOR = '#00679e';
 
 	/**
@@ -161,7 +162,7 @@ class BackgroundService {
 			'attribution' => 'Clouds (Kamil Porembiński, CC BY-SA)',
 			'description' => 'Background picture of white clouds on in front of a blue sky',
 			'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
-			'background_color' => '#00679e',
+			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
 			'primary_color' => self::DEFAULT_COLOR,
 		],
 		'bernard-spragg-new-zealand-fern.jpg' => [
@@ -219,6 +220,7 @@ class BackgroundService {
 	public function setDefaultBackground(): void {
 		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_image');
 		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_color');
+		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'primary_color');
 	}
 
 	/**
