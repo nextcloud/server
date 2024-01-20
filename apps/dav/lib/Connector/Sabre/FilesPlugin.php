@@ -237,7 +237,8 @@ class FilesPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$date = \DateTime::createFromFormat('U', $node->getLastModified());
+		$date = new \DateTime();
+		$date->setTimestamp($node->getLastModified());
 		$date = $date->setTimezone(new \DateTimeZone('UTC'));
 		$response->setHeader('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
 		$response->setHeader('OC-File-Type', '1');
