@@ -222,8 +222,7 @@ export default defineComponent({
 		},
 
 		currentView(): View {
-			return (this.$navigation.active
-				|| this.$navigation.views.find(view => view.id === 'files')) as View
+			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
 		},
 
 		/**

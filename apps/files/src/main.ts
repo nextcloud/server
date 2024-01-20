@@ -34,7 +34,8 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 // Init Navigation Service
-const Navigation = getNavigation()
+// This only works with Vue 2 - with Vue 3 this will not modify the source but return just a oberserver
+const Navigation = Vue.observable(getNavigation())
 Vue.prototype.$navigation = Navigation
 
 // Init Files App Settings Service
