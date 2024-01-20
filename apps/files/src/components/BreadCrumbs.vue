@@ -9,7 +9,7 @@
 			dir="auto"
 			:to="section.to"
 			:title="titleForSection(index, section)"
-			:aria-description="ariaForSection(index, section)"
+			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
 				<Home :size="20"/>
@@ -118,8 +118,8 @@ export default Vue.extend({
 			return null
 		},
 
-		ariaForSection(index, section) {
-			if (index === section.length - 1) {
+		ariaForSection(section) {
+			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			}
 			return null
