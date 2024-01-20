@@ -9,7 +9,7 @@ done
 files="$(git diff --name-only)"
 changed=false
 for file in $files; do
-    if [[ $file == *"openapi.json" ]]; then
+    if [[ $file == *"openapi"*".json" ]]; then
         changed=true
         break
     fi
