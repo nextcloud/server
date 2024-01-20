@@ -52,7 +52,7 @@ use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -78,7 +78,7 @@ use OCP\Template;
 /**
  * @package OCA\Files_Sharing\Controllers
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ShareController extends AuthPublicShareController {
 	protected ?Share\IShare $share = null;
 

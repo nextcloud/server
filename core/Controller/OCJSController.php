@@ -34,7 +34,7 @@ use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -46,7 +46,7 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class OCJSController extends Controller {
 	private JSConfigHelper $helper;
 

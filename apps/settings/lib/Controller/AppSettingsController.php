@@ -43,7 +43,7 @@ use OC_App;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -55,7 +55,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AppSettingsController extends Controller {
 
 	/** @var \OCP\IL10N */

@@ -44,7 +44,7 @@ use OCA\Files\Service\ViewConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
@@ -67,7 +67,7 @@ use OCP\Share\IManager;
 /**
  * @package OCA\Files\Controller
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ViewController extends Controller {
 	private IURLGenerator $urlGenerator;
 	private IL10N $l10n;

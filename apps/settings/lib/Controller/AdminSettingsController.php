@@ -28,7 +28,7 @@ namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
@@ -39,7 +39,7 @@ use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AdminSettingsController extends Controller {
 	use CommonSettingsTrait;
 

@@ -31,6 +31,7 @@ namespace OCA\Federation\Controller;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -47,6 +48,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\Federation\Controller
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class OCSAuthAPIController extends OCSController {
 	private ISecureRandom $secureRandom;
 	private IJobList $jobList;

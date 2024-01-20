@@ -31,7 +31,7 @@ use OC\Authentication\WebAuthn\Manager;
 use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISession;
@@ -39,7 +39,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialCreationOptions;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class WebAuthnController extends Controller {
 	private const WEBAUTHN_REGISTRATION = 'webauthn_registration';
 
