@@ -1320,16 +1320,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "description": "Required to be true for the API request to pass",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean",
-                            "default": true
-                        }
                     }
                 ],
                 "responses": {
@@ -1348,27 +1338,7 @@
                         "description": "Getting preview is not possible",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1376,27 +1346,7 @@
                         "description": "Getting preview is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1404,27 +1354,7 @@
                         "description": "Share or preview not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -1498,16 +1428,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "description": "Required to be true for the API request to pass",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean",
-                            "default": true
-                        }
                     }
                 ],
                 "responses": {
@@ -1526,27 +1446,7 @@
                         "description": "Getting preview is not possible",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1554,27 +1454,7 @@
                         "description": "Getting preview is not allowed",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -1582,27 +1462,7 @@
                         "description": "Share or preview not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -2609,7 +2469,7 @@
         },
         "/ocs/v2.php/apps/files_sharing/api/v1/deletedshares": {
             "get": {
-                "operationId": "deleted_shareapi-list",
+                "operationId": "deleted_shareapi-index",
                 "summary": "Get a list of all deleted shares",
                 "tags": [
                     "deleted_shareapi"
