@@ -28,6 +28,7 @@ OC.L10N.register(
     "Bad Signature" : "Firma non valida",
     "Missing Signature" : "Firma mancante",
     "one-time password for server-side-encryption" : "password monouso per la cifratura lato server",
+    "Encryption password" : "Password di cifratura",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile decifrare questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile leggere questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
     "Default encryption module" : "Modulo di cifratura predefinito",
