@@ -51,7 +51,7 @@ OC.L10N.register(
     "Original" : "Originale",
     "Custom" : "Personalizzato",
     "Square" : "Quadrato",
-    "Landscape" : "Paesaggio",
+    "Landscape" : "Orizzontale",
     "Portrait" : "Ritratto",
     "Ellipse" : "Ellisse",
     "Classic TV" : "TV classica",

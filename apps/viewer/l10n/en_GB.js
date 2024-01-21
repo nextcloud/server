@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Error saving image",
     "Unsaved changes" : "Unsaved changes",
     "Drop changes" : "Drop changes",
+    "Play the live photo" : "Play the live photo",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Your browser does not support videos.",
     "Edit" : "Edit",
