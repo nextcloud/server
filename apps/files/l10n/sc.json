@@ -185,8 +185,6 @@
     "Could not rename \"{oldName}\"" : "Impossìbile torrare a numenare \"{oldName}\"",
     "Could not copy {file}. {message}" : "Impossìbile copiare {file}. {message}",
     "Could not move {file}. {message}" : "Impossìbile tramudare {file}. {message}",
-    "Select all" : "Seletziona totu",
-    "Unselect all" : "Deseletziona totu",
     "List of files and folders." : "Lista de archìvios e cartellas.",
     "File not found" : "Archìviu no agatadu",
     "Storage informations" : "Informatziones de s'archiviatzione",
@@ -273,6 +271,7 @@
     "Files and folders you recently modified will show up here." : "Is cartellas e is archìvios chi apas modificadu de reghente ant a èssere mustrados inoghe.",
     "Toggle %1$s sublist" : "Passa a sa sutalista %1$s",
     "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
+    "Select all" : "Seletziona totu",
     "Upload too large" : "Carrigamentu tropu mannu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Is archìvios chi boles carrigare passant sa mannària màssima de carrigamentu de archìvios in custu serbidore.",
     "Text file" : "Archìviu de testu",
@@ -291,6 +290,7 @@
     "This file has the tag {tag}" : "Custu archìviu tenet s'eticheta {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}",
     "Open folder {name}" : "Aberi sa cartella {name}",
+    "Unselect all" : "Deseletziona totu",
     "Choose" : "Sèbera"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
