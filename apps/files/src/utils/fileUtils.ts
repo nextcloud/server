@@ -21,6 +21,25 @@
  */
 import { FileType, type Node } from '@nextcloud/files'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { basename, extname } from 'path'
+
+// TODO: move to @nextcloud/files
+/**
+ * Create an unique file name
+ * @param name The initial name to use
+ * @param otherNames Other names that are already used
+ * @param suffix A function that takes an index an returns a suffix to add, defaults to '(index)'
+ * @return Either the initial name, if unique, or the name with the suffix so that the name is unique
+ */
+export const getUniqueName = (name: string, otherNames: string[], suffix = (n: number) => `(${n})`): string => {
+	let newName = name
+	let i = 1
+	while (otherNames.includes(newName)) {
+		const ext = extname(name)
+		newName = `${basename(name, ext)} ${suffix(i++)}${ext}`
+	}
+	return newName
+}
 
 export const encodeFilePath = function(path) {
 	const pathSections = (path.startsWith('/') ? path : `/${path}`).split('/')

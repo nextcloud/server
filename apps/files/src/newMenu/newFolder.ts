@@ -21,7 +21,7 @@
  */
 import type { Entry, Node } from '@nextcloud/files'
 
-import { basename, extname } from 'path'
+import { basename } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Folder } from '@nextcloud/files'
@@ -31,6 +31,7 @@ import axios from '@nextcloud/axios'
 
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
 
+import { getUniqueName } from '../utils/fileUtils.ts'
 import logger from '../logger'
 
 type createFolderResponse = {
@@ -53,17 +54,6 @@ const createNewFolder = async (root: Folder, name: string): Promise<createFolder
 		fileid: parseInt(response.headers['oc-fileid']),
 		source,
 	}
-}
-
-// TODO: move to @nextcloud/files
-export const getUniqueName = (name: string, names: string[]): string => {
-	let newName = name
-	let i = 1
-	while (names.includes(newName)) {
-		const ext = extname(name)
-		newName = `${basename(name, ext)} (${i++})${ext}`
-	}
-	return newName
 }
 
 export const entry = {
