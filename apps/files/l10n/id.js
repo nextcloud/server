@@ -168,8 +168,6 @@ OC.L10N.register(
     "File Management" : "Pengelolaan Berkas",
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas di sini",
     "Folder name" : "Nama folder",
-    "Select all" : "Pilih Semua",
-    "Unselect all" : "Batalkan semua pemilihan",
     "File not found" : "Berkas tidak ditemukan",
     "Storage informations" : "Informasi penyimpanan",
     "{usedQuotaByte} used" : "{usedQuotaByte} digunakan",
@@ -224,6 +222,7 @@ OC.L10N.register(
     "All files" : "Semua berkas",
     "Toggle %1$s sublist" : "Alih %1$s subdaftar",
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
+    "Select all" : "Pilih Semua",
     "Upload too large" : "Yang diunggah terlalu besar",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
     "Text file" : "Berkas teks",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
+    "Unselect all" : "Batalkan semua pemilihan",
     "Choose" : "Pilih"
 },
 "nplurals=1; plural=0;");

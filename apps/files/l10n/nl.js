@@ -170,8 +170,6 @@ OC.L10N.register(
     "File name" : "Bestandsnaam",
     "Folder name" : "Mapnaam",
     "Name cannot be empty" : "Naam mag niet leeg zijn",
-    "Select all" : "Alles selecteren",
-    "Unselect all" : "Alle deselecteren",
     "File not found" : "Bestand niet gevonden",
     "{usedQuotaByte} used" : "{usedQuotaByte} gebruikt",
     "{relative}% used" : "{relative}% gebruikt",
@@ -224,6 +222,7 @@ OC.L10N.register(
     "All files" : "Alle bestanden",
     "Toggle %1$s sublist" : "Omschakelen%1$s sublijsten",
     "No entries found in this folder" : "Niets gevonden in deze map",
+    "Select all" : "Alles selecteren",
     "Upload too large" : "Upload is te groot",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
     "Text file" : "Tekstbestand",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Shared with you" : "Gedeeld met jou",
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
+    "Unselect all" : "Alle deselecteren",
     "Choose" : "Kies"
 },
 "nplurals=2; plural=(n != 1);");
