@@ -226,9 +226,14 @@ class ViewController extends Controller {
 
 		// Get all the user favorites to create a submenu
 		try {
-			$favElements = $this->activityHelper->getFavoriteFilePaths($userId);
+			$userFolder = $this->rootFolder->getUserFolder($userId);
+			$favElements = $this->activityHelper->getFavoriteNodes($userId, true);
+			$favElements = array_map(fn (Folder $node) => [
+				'fileid' => $node->getId(),
+				'path' => $userFolder->getRelativePath($node->getPath()),
+			], $favElements);
 		} catch (\RuntimeException $e) {
-			$favElements['folders'] = [];
+			$favElements = [];
 		}
 
 		// If the file doesn't exists in the folder and
@@ -260,7 +265,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
-		$this->initialState->provideInitialState('favoriteFolders', $favElements['folders'] ?? []);
+		$this->initialState->provideInitialState('favoriteFolders', $favElements);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
