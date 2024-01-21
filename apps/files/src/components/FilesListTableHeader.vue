@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
@@ -142,9 +142,7 @@ export default Vue.extend({
 		},
 
 		selectAllBind() {
-			const label = this.isNoneSelected || this.isSomeSelected
-				? this.t('files', 'Select all')
-				: this.t('files', 'Unselect all')
+			const label = t('files', 'Toggle selection for all files and folders')
 			return {
 				'aria-label': label,
 				checked: this.isAllSelected,
@@ -203,7 +201,7 @@ export default Vue.extend({
 			this.selectionStore.reset()
 		},
 
-		t: translate,
+		t,
 	},
 })
 </script>
