@@ -21,7 +21,11 @@
   -->
 
 <template>
-	<tr :class="{'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
+	<tr :class="{
+			'files-list__row--dragover': dragover,
+			'files-list__row--loading': isLoading,
+			'files-list__row--active': isActive,
+		}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
@@ -97,7 +101,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { formatFileSize } from '@nextcloud/files'
+import { Permission, formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
 
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -231,6 +235,13 @@ export default defineComponent({
 				return moment(this.source.mtime).format('LLL')
 			}
 			return ''
+		},
+
+		/**
+		 * This entry is the current active node
+		 */
+		isActive() {
+			return this.fileid === this.currentFileId?.toString?.()
 		},
 	},
 
