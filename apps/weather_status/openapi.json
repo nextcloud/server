@@ -185,6 +185,53 @@
                     }
                 }
             },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "lat": {
+                        "type": "string"
+                    },
+                    "lon": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "LocationWithMode": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Mode"
+                    }
+                ]
+            },
+            "LocationWithSuccess": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Success"
+                    }
+                ]
+            },
+            "Mode": {
+                "type": "object",
+                "required": [
+                    "mode"
+                ],
+                "properties": {
+                    "mode": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
             "OCSMeta": {
                 "type": "object",
                 "required": [
@@ -206,6 +253,17 @@
                     },
                     "itemsperpage": {
                         "type": "string"
+                    }
+                }
+            },
+            "Success": {
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "properties": {
+                    "success": {
+                        "type": "boolean"
                     }
                 }
             }
@@ -271,15 +329,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/Success"
                                                 }
                                             }
                                         }
@@ -340,32 +390,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success",
-                                                        "lat",
-                                                        "lon",
-                                                        "address"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "lat": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "lon": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "address": {
-                                                            "type": "string",
-                                                            "nullable": true
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/LocationWithSuccess"
                                                 }
                                             }
                                         }
@@ -426,30 +451,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "lat",
-                                                        "lon",
-                                                        "address",
-                                                        "mode"
-                                                    ],
-                                                    "properties": {
-                                                        "lat": {
-                                                            "type": "number",
-                                                            "format": "float"
-                                                        },
-                                                        "lon": {
-                                                            "type": "number",
-                                                            "format": "float"
-                                                        },
-                                                        "address": {
-                                                            "type": "string"
-                                                        },
-                                                        "mode": {
-                                                            "type": "integer",
-                                                            "format": "int64"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/LocationWithMode"
                                                 }
                                             }
                                         }
@@ -537,32 +539,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success",
-                                                        "lat",
-                                                        "lon",
-                                                        "address"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "lat": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "lon": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "address": {
-                                                            "type": "string",
-                                                            "nullable": true
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/LocationWithSuccess"
                                                 }
                                             }
                                         }
@@ -623,10 +600,25 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/Forecast"
-                                                    }
+                                                    "oneOf": [
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/Forecast"
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "error"
+                                                            ],
+                                                            "properties": {
+                                                                "error": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
                                                 }
                                             }
                                         }
@@ -656,15 +648,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/Success"
                                                 }
                                             }
                                         }
@@ -799,15 +783,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/Success"
                                                 }
                                             }
                                         }
