@@ -25,7 +25,7 @@
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
-				allow-collapse
+				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
 				:exact="useExactRouteMatching(view)"
 				:icon="view.iconClass"
@@ -186,7 +186,7 @@ export default {
 		 * Like for the 'files' view this does not work because of optional 'fileid' param so /files and /files/1234 are both in the 'files' view
 		 * @param view The view to check
 		 */
-		useExactRouteMatching(view: View) {
+		useExactRouteMatching(view: View): boolean {
 			return this.childViews[view.id]?.length > 0
 		},
 
@@ -225,8 +225,8 @@ export default {
 		 */
 		generateToNavigation(view: View) {
 			if (view.params) {
-				const { dir, fileid } = view.params
-				return { name: 'filelist', params: view.params, query: { dir, fileid } }
+				const { dir } = view.params
+				return { name: 'filelist', params: view.params, query: { dir } }
 			}
 			return { name: 'filelist', params: { view: view.id } }
 		},
