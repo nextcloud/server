@@ -110,10 +110,12 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@ebe8b24c4428922d0f793a5c4c96853a633180e3 # v6.6.0
         with:
-          ci-build-id: ${{ github.sha }}-${{ github.run_number }}
+          # Unavailable without cypress cloud
+          # ci-build-id: ${{ github.sha }}-${{ github.run_number }}
           component: ${{ matrix.containers == 'component' }}
-          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
-          tag: ${{ github.event_name }}
+          # Unavailable without cypress cloud
+          # group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
+          # tag: ${{ github.event_name }}
         env:
           # Use github service for server
           NEXTCLOUD_HOST: localhost
