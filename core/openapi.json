@@ -919,6 +919,63 @@
                 }
             }
         },
+        "/index.php/login/confirm": {
+            "post": {
+                "operationId": "login-confirm-password",
+                "summary": "Confirm the user password",
+                "tags": [
+                    "login"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "The password of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password confirmation succeeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "lastLogin"
+                                    ],
+                                    "properties": {
+                                        "lastLogin": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Password confirmation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/index.php/login/v2/poll": {
             "post": {
                 "operationId": "client_flow_login_v2-poll",
