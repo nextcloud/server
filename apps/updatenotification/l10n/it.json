@@ -24,7 +24,7 @@
     "Your version is up to date." : "La tua versione è aggiornata.",
     "A non-default update server is in use to be checked for updates:" : "Stai utilizzando un server non predefinito per controllare gli aggiornamenti:",
     "Update channel" : "Canale di aggiornamento",
-    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Cambiare il canale di aggiornamento influisce anche la pagina di gestione delle app. Es. dopo il passaggio al canale beta, ti verranno offerti gli aggiornamenti delle app beta nella pagina di gestione delle app.",
+    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Cambiare il canale di aggiornamento influisce anche la pagina di gestione delle applicazioni. Es. dopo il passaggio al canale beta, ti verranno offerti gli aggiornamenti delle applicazioni beta nella pagina di gestione delle applicazioni.",
     "Current update channel:" : "Canale di aggiornamento attuale:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Puoi aggiornare sempre a una nuova versione. Ma non puoi mai tornare a una versione precedente.",
     "Notify members of the following groups about available updates:" : "Notifica ai membri dei seguenti gruppi la disponibilità di aggiornamenti:",
@@ -46,7 +46,7 @@
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> applicazione non ha una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud."],
     "Please use the command line updater to update." : "Usa lo strumento di aggiornamento da riga di comando per aggiornare.",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Puoi modificare il canale di aggiornamento di seguito che influisce anche sulla pagina di gestione delle app. Per esempio. dopo il passaggio al canale beta, gli aggiornamenti dell'app beta ti verranno offerti nella pagina di gestione delle app.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Puoi modificare il canale di aggiornamento di seguito che influisce anche sulla pagina di gestione delle applicazione. Per esempio. dopo il passaggio al canale beta, gli aggiornamenti dell'applicazione beta ti verranno offerti nella pagina di gestione delle applicazione.",
     "Update channel:" : "Canale di aggiornamento:",
     "Checked on {lastCheckedDate}" : "Controllato il {lastCheckedDate}"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
