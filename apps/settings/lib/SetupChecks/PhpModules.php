@@ -73,7 +73,6 @@ class PhpModules implements ISetupCheck {
 
 	protected function getRecommendedModuleDescription(string $module): string {
 		return match($module) {
-			'bz2' => $this->l10n->t('required for extraction of apps compressed as bz2'),
 			'intl' => $this->l10n->t('increases language translation performance and fixes sorting of non-ASCII characters'),
 			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
 			'bcmath' => $this->l10n->t('for WebAuthn passwordless login'),
