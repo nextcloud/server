@@ -262,6 +262,8 @@
     "Destination is not a folder" : "La destination n'est pas un dossier",
     "This file/folder is already in that directory" : "Ce fichier/dossier se trouve déjà dans ce dossier",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Vous ne pouvez pas déplacer un fichier/dossier sur lui-même ou dans un sous-dossier de celui-ci",
+    "(copy)" : "(copier)",
+    "(copy %n)" : "(copier %n)",
     "A file or folder with that name already exists in this folder" : "Un fichier ou un dossier portant ce nom existe déjà dans ce dossier",
     "The files is locked" : "Le fichier est verrouillé",
     "The file does not exist anymore" : "Le fichier n'existe plus",
