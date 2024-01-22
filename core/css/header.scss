@@ -172,7 +172,20 @@
 	/* Right header standard */
 	.header-right {
 		> .header-menu:not(.user-menu) {
-			filter: var(--background-image-invert-if-bright);
+			// For general
+			> .header-menu__trigger {
+				filter: var(--background-image-invert-if-bright) !important;
+			}
+
+			// For assistant button
+			> .trigger {
+				filter: var(--background-image-invert-if-bright) !important;
+			}
+
+			// For unified search button
+			.unified-search__trigger {
+				filter: var(--background-image-invert-if-bright) !important;
+			}
 		}
 		> div,
 		> form {
