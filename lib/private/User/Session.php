@@ -883,6 +883,8 @@ class Session implements IUserSession, Emitter {
 		if ($dbToken->getRemember() === IToken::DO_NOT_REMEMBER) {
 			// Set the session variable so we know this is an app password
 			$this->session->set('app_password', $token);
+			// Set the last-password-confirm session to make the sudo mode work
+			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 		}
 
 		return true;
