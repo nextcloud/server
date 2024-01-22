@@ -67,6 +67,23 @@ namespace OCA\WeatherStatus;
  *         },
  *     },
  * }
+ *
+ * @psalm-type WeatherStatusSuccess = array{
+ *     success: bool,
+ * }
+ *
+ * @psalm-type WeatherStatusMode = array{
+ *     mode: int,
+ * }
+ * @psalm-type WeatherStatusLocation = array{
+ *     lat?: string,
+ *     lon?: string,
+ *     address?: ?string,
+ * }
+ *
+ * @psalm-type WeatherStatusLocationWithSuccess = WeatherStatusLocation&WeatherStatusSuccess
+ *
+ * @psalm-type WeatherStatusLocationWithMode = WeatherStatusLocation&WeatherStatusMode
  */
 class ResponseDefinitions {
 }
