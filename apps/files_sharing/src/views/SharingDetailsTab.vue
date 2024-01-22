@@ -16,8 +16,7 @@
 			</span>
 		</div>
 		<div class="sharingTabDetailsView__wrapper">
-			<div ref="quickPermissions"
-				class="sharingTabDetailsView__quick-permissions">
+			<div ref="quickPermissions" class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
 						:checked.sync="sharingPermission"
@@ -743,7 +742,7 @@ export default {
 			}
 
 		},
-		initializePermissions() {
+		handleShareType() {
 			if (this.share.share_type) {
 				this.share.type = this.share.share_type
 			}
@@ -752,22 +751,33 @@ export default {
 			if ('shareType' in this.share) {
 				this.share.type = this.share.shareType
 			}
+		},
+		handleDefaultPermissions() {
 			if (this.isNewShare) {
-				if (this.isPublicShare) {
-					this.sharingPermission = BUNDLED_PERMISSIONS.READ_ONLY.toString()
+				const defaultPermissions = this.config.defaultPermissions
+				if (defaultPermissions === BUNDLED_PERMISSIONS.READ_ONLY || defaultPermissions === BUNDLED_PERMISSIONS.ALL) {
+					this.sharingPermission = defaultPermissions.toString()
 				} else {
-					this.sharingPermission = BUNDLED_PERMISSIONS.ALL.toString()
-				}
-
-			} else {
-				if (this.hasCustomPermissions || this.share.setCustomPermissions) {
 					this.sharingPermission = 'custom'
+					this.share.permissions = defaultPermissions
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
-				} else {
-					this.sharingPermission = this.share.permissions.toString()
 				}
 			}
+		},
+		handleCustomPermissions() {
+			if (!this.isNewShare && (this.hasCustomPermissions || this.share.setCustomPermissions)) {
+				this.sharingPermission = 'custom'
+				this.advancedSectionAccordionExpanded = true
+				this.setCustomPermissions = true
+			} else {
+				this.sharingPermission = this.share.permissions.toString()
+			}
+		},
+		initializePermissions() {
+			this.handleShareType()
+			this.handleDefaultPermissions()
+			this.handleCustomPermissions()
 		},
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
