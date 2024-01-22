@@ -31,6 +31,7 @@
  */
 namespace OC\Core\Controller;
 
+use DateTime;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
@@ -305,6 +306,7 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
 			$accessToken->setHashedCode(hash('sha512', $code));
 			$accessToken->setTokenId($generatedToken->getId());
+			$accessToken->setCodeCreatedAt((new DateTime())->getTimestamp());
 			$this->accessTokenMapper->insert($accessToken);
 
 			$redirectUri = $client->getRedirectUri();
