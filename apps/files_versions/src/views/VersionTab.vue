@@ -16,22 +16,30 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-	<ul data-files-versions-versions-list>
-		<Version v-for="version in orderedVersions"
-			:key="version.mtime"
-			:can-view="canView"
-			:can-compare="canCompare"
-			:load-preview="isActive"
-			:version="version"
-			:file-info="fileInfo"
-			:is-current="version.mtime === fileInfo.mtime"
-			:is-first-version="version.mtime === initialVersionMtime"
-			@click="openVersion"
-			@compare="compareVersion"
-			@restore="handleRestore"
-			@label-update="handleLabelUpdate"
-			@delete="handleDelete" />
-	</ul>
+	<VirtualScrolling :sections="sections"
+		:header-height="0">
+		<template slot-scope="{visibleSections}">
+			<ul data-files-versions-versions-list>
+				<template v-if="visibleSections.length === 1">
+					<Version v-for="(row) of visibleSections[0].rows"
+						:key="row.items[0].mtime"
+						:can-view="canView"
+						:can-compare="canCompare"
+						:load-preview="isActive"
+						:version="row.items[0]"
+						:file-info="fileInfo"
+						:is-current="row.items[0].mtime === fileInfo.mtime"
+						:is-first-version="row.items[0].mtime === initialVersionMtime"
+						@click="openVersion"
+						@compare="compareVersion"
+						@restore="handleRestore"
+						@label-update="handleLabelUpdate"
+						@delete="handleDelete" />
+				</template>
+			</ul>
+		</template>
+		<NcLoadingIcon v-if="loading" slot="loader" class="files-list-viewer__loader" />
+	</VirtualScrolling>
 </template>
 
 <script>
@@ -41,14 +49,18 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
+import { NcLoadingIcon } from '@nextcloud/vue'
 
 import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.js'
 import Version from '../components/Version.vue'
+import VirtualScrolling from '../components/VirtualScrolling.vue'
 
 export default {
 	name: 'VersionTab',
 	components: {
 		Version,
+		VirtualScrolling,
+		NcLoadingIcon,
 	},
 	mixins: [
 		isMobile,
@@ -69,6 +81,11 @@ export default {
 		unsubscribe('files_versions:restore:restored', this.fetchVersions)
 	},
 	computed: {
+		sections() {
+			const rows = this.orderedVersions.map(version => ({ key: version.mtime, height: 68, sectionKey: 'versions', items: [version] }))
+			return [{ key: 'versions', rows, height: 68 * this.orderedVersions.length }]
+		},
+
 		/**
 		 * Order versions by mtime.
 		 * Put the current version at the top.
