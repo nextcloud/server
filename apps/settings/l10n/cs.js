@@ -139,6 +139,8 @@ OC.L10N.register(
     "Some files have not passed the integrity check. {link1} {link2}" : "Některé soubory neprošly kontrolou neporušennosti. {link1} {link2}",
     "Cron errors" : "Chyby plánovače",
     "The last cron job ran without errors." : "Nejnovější naplánovaná úloha proběhla bez problémů.",
+    "Last background job execution ran %s. Something seems wrong. {link}." : "Poslední vykonání úlohy na pozadí bylo %s. Něco se zdá být špatného. {link}.",
+    "Last background job execution ran %s." : "Poslední vykonání úlohy na pozadí bylo %s.",
     "Database missing columns" : "V databázi chybí sloupce",
     "Missing optional column \"%s\" in table \"%s\"." : "Chybí volitelný sloupec „%s“ v tabulce „%s“.",
     "The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running \"occ db:add-missing-columns\" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability." : "V databázi chybí některé volitelné sloupce. Protože přidání sloupců do rozsáhlých tabulek může trvat dlouho, nebyly přidány automaticky (jsou volitelné). Spuštěním příkazu „occ db:add-missing-columns“ je možné tyto chybějící sloupce přidat ručně a to za provozu instance. Po přidání se může zlepšit doba reakce a použitelnost některých funkcí.",
@@ -176,6 +178,8 @@ OC.L10N.register(
     "Memcache" : "Memcache",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "Nebylo nastaveno žádné ukládání do mezipaměti. Pokud chcete vylepšit výkon, nastavte memcache (pokud je k dispozici).",
     "Configured" : "Nastaveno",
+    "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "Volba „overwrite.cli.url“ ve vašem config.php je správně nastavená na „%s“.",
+    "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "Volba „overwrite.cli.url“ ve vašem config.php je nastavená na „%s“, což je správná URL. Doporučená URL je „%s“.",
     "PHP default charset" : "Výchozí znaková sada pro PHP",
     "PHP configuration option \"default_charset\" should be UTF-8" : "Volba nastavení PHP „default_charset“ by měla být UTF-8",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "PHP funkce „set_time_limit“ není dostupná. To může způsobit ukončení skriptů uprostřed provádění a další problémy s instalací. Doporučujeme tuto funkci povolit.",
@@ -190,6 +194,10 @@ OC.L10N.register(
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Tato instance postrádá některé potřebné PHP moduly. Je třeba je nainstalovat: %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Této instanci chybí některé doporučené moduly pro PHP. V zájmu lepšího výkonu a kompatibility, je důrazně doporučeno je nainstalovat: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP modul OPcache není načten. Pro lepší výkon je doporučeno načíst ho do vaší PHP instalace.",
+    "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache je vypnuté. Pro lepší výkon je doporučeno mít v nastavení PHP „opcache.enable=1“.",
+    "The shared memory based OPcache is disabled. For better performance, it is recommended to apply \"opcache.file_cache_only=0\" to your PHP configuration and use the file cache as second level cache only." : "OPcache založené na sdílené paměti je vypnuté. Pro lepší výkon je doporučeno mít v nastavení PHP „opcache.file_cache_only=0“ a používat souborovou mezipaměť až jako druhý stupeň mezipaměti.",
+    "OPcache is not working as it should, opcache_get_status() returns false, please check configuration." : "OPcache nefunguje, jak by mělo, opcache_get_status() vrací negaci (false) – zkontrolujte nastavení.",
+    "The PHP OPcache module is not properly configured. %s." : "PHP modul OPcache není správně nastavený: %s.",
     "Correctly configured" : "Správně nastaveno",
     "PHP version" : "Verze PHP",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Nyní  provozujete na PHP %s. Od Nextcloud 27 je PHP 8.0 už označeno jako zastaralé. Nextcloud 28 pak už může vyžadovat alespoň PHP 8.1. Co možná nejdříve přejděte na některou z oficiálně podporovaných verzí PHP, poskytovaných PHP Group.",
@@ -707,6 +715,7 @@ OC.L10N.register(
     "Edit display name" : "Upravit zobrazovaný název",
     "Select manager" : "Vybrat nástroj pro správu",
     "User's table" : "Tabulka uživatele",
-    "Select user manager" : "Vyberte nástroj pro správu uživatelů"
+    "Select user manager" : "Vyberte nástroj pro správu uživatelů",
+    "Overwrite cli URL" : "Přepsat URL cli"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

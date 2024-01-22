@@ -264,6 +264,8 @@ OC.L10N.register(
     "Destination is not a folder" : "La destinazione non è una cartella",
     "This file/folder is already in that directory" : "Questo file/cartella è già in quella cartella",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Non puoi spostare un file/cartella in se stesso o in una sottocartella di se stesso",
+    "(copy)" : "(copia)",
+    "(copy %n)" : "(copia %n)",
     "A file or folder with that name already exists in this folder" : "Esiste già un file o una cartella con quel nome in questa cartella",
     "The files is locked" : "Il file è bloccato",
     "The file does not exist anymore" : "Il file non esiste più",
