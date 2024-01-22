@@ -47,6 +47,7 @@ class SetupResult implements \JsonSerializable {
 	/**
 	 * @brief Private constructor, use success()/info()/warning()/error() instead
 	 * @param self::SUCCESS|self::INFO|self::WARNING|self::ERROR $severity
+	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
 	 * @since 28.0.2 throws \OCP\RichObjectStrings\InvalidObjectExeption
@@ -66,8 +67,10 @@ class SetupResult implements \JsonSerializable {
 	 * @brief Create a success result object
 	 * @param ?string $description Translated detailed description to display to the user
 	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
+	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
+	 * @since 28.0.2 throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 */
 	public static function success(?string $description = null, ?string $linkToDoc = null, ?array $descriptionParameters = null): self {
 		return new self(self::SUCCESS, $description, $descriptionParameters, $linkToDoc);
@@ -77,8 +80,10 @@ class SetupResult implements \JsonSerializable {
 	 * @brief Create an info result object
 	 * @param ?string $description Translated detailed description to display to the user
 	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
+	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
+	 * @since 28.0.2 throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 */
 	public static function info(?string $description = null, ?string $linkToDoc = null, ?array $descriptionParameters = null): self {
 		return new self(self::INFO, $description, $descriptionParameters, $linkToDoc);
@@ -88,8 +93,10 @@ class SetupResult implements \JsonSerializable {
 	 * @brief Create a warning result object
 	 * @param ?string $description Translated detailed description to display to the user
 	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
+	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
+	 * @since 28.0.2 throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 */
 	public static function warning(?string $description = null, ?string $linkToDoc = null, ?array $descriptionParameters = null): self {
 		return new self(self::WARNING, $description, $descriptionParameters, $linkToDoc);
@@ -99,8 +106,10 @@ class SetupResult implements \JsonSerializable {
 	 * @brief Create an error result object
 	 * @param ?string $description Translated detailed description to display to the user
 	 * @param ?string $linkToDoc URI of related relevent documentation, be it from Nextcloud or another project
+	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
+	 * @since 28.0.2 throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 */
 	public static function error(?string $description = null, ?string $linkToDoc = null, ?array $descriptionParameters = null): self {
 		return new self(self::ERROR, $description, $descriptionParameters, $linkToDoc);
