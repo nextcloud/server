@@ -144,7 +144,7 @@ class OauthApiController extends Controller {
 			}
 
 			// check authorization code expiration
-			$now = (new DateTime())->getTimestamp();
+			$now = $this->timeFactory->getTime();
 			$codeCreatedAt = $accessToken->getCodeCreatedAt();
 			if ($codeCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
 				// we know this token is not useful anymore

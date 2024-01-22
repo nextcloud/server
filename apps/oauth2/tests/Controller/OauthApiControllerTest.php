@@ -140,9 +140,8 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn($accessToken);
 
 		$tsNow = $codeCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER + $expiredSince;
-		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
-		$this->timeFactory->method('now')
-			->willReturn($dateNow);
+		$this->timeFactory->method('getTime')
+			->willReturn($tsNow);
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
 	}
@@ -167,9 +166,8 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn($accessToken);
 
 		$tsNow = $codeCreatedAt + 1;
-		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
-		$this->timeFactory->method('now')
-			->willReturn($dateNow);
+		$this->timeFactory->method('getTime')
+			->willReturn($tsNow);
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
 	}
@@ -194,9 +192,8 @@ class OauthApiControllerTest extends TestCase {
 
 		// 'now' is before the token's authorization code expiration
 		$tsNow = $codeCreatedAt + OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER - 1;
-		$dateNow = (new \DateTimeImmutable())->setTimestamp($tsNow);
-		$this->timeFactory->method('now')
-			->willReturn($dateNow);
+		$this->timeFactory->method('getTime')
+			->willReturn($tsNow);
 
 		$this->clientMapper->method('getByUid')
 			->with(42)
