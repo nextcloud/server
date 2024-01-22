@@ -129,6 +129,7 @@
     "A background job is pending that checks for user imported SSL certificates. Please check back later." : "È in sospeso un processo in background che controlla i certificati SSL importati dall'utente. Controlla più tardi.",
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Sono presenti alcuni certificati SSL importati dagli utenti, che non vengono più utilizzati con Nextcloud 21. Possono essere importati dalla riga di comando tramite il comando \"occ security:certificates:import\". I loro percorsi all'interno della cartella dei dati sono mostrati di seguito.",
     "Code integrity" : "Integrità del codice",
+    "No altered files" : "Nessun file modificato",
     "Cron errors" : "Errori di cron",
     "Database missing columns" : "Colonne mancanti nel database",
     "Missing optional column \"%s\" in table \"%s\"." : "Manca la colonna facoltativa \"%s\" nella tabella \"%s\".",
@@ -157,6 +158,7 @@
     "Internet connectivity" : "Connessione internet",
     "Internet connectivity is disabled in configuration file." : "La connessione internet è disattivata nel file di configurazione.",
     "This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features." : "Questo server non ha una connessione a Internet funzionante: diversi dispositivi finali non sono raggiungibili. Ciò significa che alcune delle funzionalità come il montaggio di archivi esterni, le notifiche degli aggiornamenti o l'installazione di applicazioni di terze parti non funzioneranno. Anche l'accesso remoto ai file e l'invio di email di notifica potrebbero non funzionare. Attiva la connessione a Internet del server se desideri disporre di tutte le funzionalità.",
+    "JavaScript modules support" : "Supporto dei moduli JavaScript ",
     "Old server-side-encryption" : "Vecchia crittografia lato server",
     "Disabled" : "Disabilitata",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Il vecchio formato di cifratura lato server è abilitato. Ti consigliamo di disabilitarlo.",
@@ -331,6 +333,10 @@
     "Username" : "Nome utente",
     "Password" : "Password",
     "Show QR code for mobile apps" : "Mostra il codice QR per le applicazioni mobili",
+    "App password copied!" : "Password dell'applicazione copiata!",
+    "Copy app password" : "Copia password dell'applicazione",
+    "Login name copied!" : "Nome di accesso copiato!",
+    "Copy login name" : "Copia nome di accesso",
     "Could not copy app password. Please copy it manually." : "Impossibile copiare la password dell'applicazione. Copiala a mano.",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "Per un buon funzionamento del server, è importante configurare le operazioni in background correttamente. \"Cron\" è l'impostazione consigliata. Vedi la documentazione per ulteriori informazioni.",
     "Last job execution ran {time}. Something seems wrong." : "Ultima esecuzione di cron: {time}. Potrebbe esserci un problema.",
@@ -691,6 +697,7 @@
     "Edit display name" : "Modifica nome visualizzato",
     "Select manager" : "Seleziona responsabile",
     "User's table" : "Tabella dell'utente",
-    "Select user manager" : "Seleziona responsabile utente"
+    "Select user manager" : "Seleziona responsabile utente",
+    "Overwrite cli URL" : "Sovrascrivi URL della riga di comando"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
