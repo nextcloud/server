@@ -39,12 +39,15 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 class OauthApiController extends Controller {
+	// the authorization code expires after 10 minutes
+	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
 
 	public function __construct(
 		string $appName,
@@ -54,9 +57,9 @@ class OauthApiController extends Controller {
 		private ClientMapper $clientMapper,
 		private TokenProvider $tokenProvider,
 		private ISecureRandom $secureRandom,
-		private ITimeFactory $time,
+		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
-		private Throttler $throttler
+		private Throttler $throttler,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -67,13 +70,17 @@ class OauthApiController extends Controller {
 	 * @BruteForceProtection(action=oauth2GetToken)
 	 *
 	 * @param string $grant_type
-	 * @param string $code
-	 * @param string $refresh_token
-	 * @param string $client_id
-	 * @param string $client_secret
+	 * @param string|null $code
+	 * @param string|null $refresh_token
+	 * @param string|null $client_id
+	 * @param string|null $client_secret
 	 * @return JSONResponse
+	 * @throws Exception
 	 */
-	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret): JSONResponse {
+	public function getToken(
+		string $grant_type, ?string $code, ?string $refresh_token,
+		?string $client_id, ?string $client_secret
+	): JSONResponse {
 
 		// We only handle two types
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
@@ -97,6 +104,33 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 			$response->throttle(['invalid_request' => 'token not found', 'code' => $code]);
 			return $response;
+		}
+
+		if ($grant_type === 'authorization_code') {
+			// check this token is in authorization code state
+			$deliveredTokenCount = $accessToken->getTokenCount();
+			if ($deliveredTokenCount > 0) {
+				$response = new JSONResponse([
+					'error' => 'invalid_request',
+				], Http::STATUS_BAD_REQUEST);
+				$response->throttle(['invalid_request' => 'authorization_code_received_for_active_token']);
+				return $response;
+			}
+
+			// check authorization code expiration
+			$now = $this->timeFactory->now()->getTimestamp();
+			$codeCreatedAt = $accessToken->getCodeCreatedAt();
+			if ($codeCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
+				// we know this token is not useful anymore
+				$this->accessTokenMapper->delete($accessToken);
+
+				$response = new JSONResponse([
+					'error' => 'invalid_request',
+				], Http::STATUS_BAD_REQUEST);
+				$expiredSince = $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER - $codeCreatedAt;
+				$response->throttle(['invalid_request' => 'authorization_code_expired', 'expired_since' => $expiredSince]);
+				return $response;
+			}
 		}
 
 		try {
@@ -159,13 +193,18 @@ class OauthApiController extends Controller {
 		);
 
 		// Expiration is in 1 hour again
-		$appToken->setExpires($this->time->getTime() + 3600);
+		$appToken->setExpires($this->timeFactory->getTime() + 3600);
 		$this->tokenProvider->updateToken($appToken);
 
 		// Generate a new refresh token and encrypt the new apptoken in the DB
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
+		// increase the number of delivered oauth token
+		// this helps with cleaning up DB access token when authorization code has expired
+		// and it never delivered any oauth token
+		$tokenCount = $accessToken->getTokenCount();
+		$accessToken->setTokenCount($tokenCount + 1);
 		$this->accessTokenMapper->update($accessToken);
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
