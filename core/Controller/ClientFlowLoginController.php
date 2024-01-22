@@ -44,6 +44,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
@@ -68,22 +69,26 @@ class ClientFlowLoginController extends Controller {
 	private AccessTokenMapper $accessTokenMapper;
 	private ICrypto $crypto;
 	private IEventDispatcher $eventDispatcher;
+	private ITimeFactory $timeFactory;
 
 	public const STATE_NAME = 'client.flow.state.token';
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IUserSession $userSession,
-								IL10N $l10n,
-								Defaults $defaults,
-								ISession $session,
-								IProvider $tokenProvider,
-								ISecureRandom $random,
-								IURLGenerator $urlGenerator,
-								ClientMapper $clientMapper,
-								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto,
-								IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IUserSession $userSession,
+		IL10N $l10n,
+		Defaults $defaults,
+		ISession $session,
+		IProvider $tokenProvider,
+		ISecureRandom $random,
+		IURLGenerator $urlGenerator,
+		ClientMapper $clientMapper,
+		AccessTokenMapper $accessTokenMapper,
+		ICrypto $crypto,
+		IEventDispatcher $eventDispatcher,
+		ITimeFactory $timeFactory
+	) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -96,6 +101,7 @@ class ClientFlowLoginController extends Controller {
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->crypto = $crypto;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->timeFactory = $timeFactory;
 	}
 
 	private function getClientName(): string {
@@ -305,6 +311,7 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
 			$accessToken->setHashedCode(hash('sha512', $code));
 			$accessToken->setTokenId($generatedToken->getId());
+			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
 			$this->accessTokenMapper->insert($accessToken);
 
 			$redirectUri = $client->getRedirectUri();
