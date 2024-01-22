@@ -31,6 +31,17 @@ export default class Config {
 	}
 
 	/**
+	 * Get default share permissions, if any
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	 get defaultPermissions() {
+		return this._shareConfig.defaultPermissions
+	}
+
+	/**
 	 * Is public upload allowed on link shares ?
 	 *
 	 * @return {boolean}
