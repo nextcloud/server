@@ -51,6 +51,7 @@ class LoadSidebarListener implements IEventListener {
 
 		$shareConfig = [
 			'allowPublicUploads' => $this->shareManager->shareApiLinkAllowPublicUpload(),
+			'defaultPermissions' => $this->shareManager->shareApiDefaultPermissions(),
 		];
 
 		$this->initialState->provideInitialState('shareConfig', $shareConfig);
