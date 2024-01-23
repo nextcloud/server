@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -262,7 +261,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -300,7 +298,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -339,7 +336,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -407,7 +403,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -450,7 +445,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -490,7 +484,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -527,7 +520,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
@@ -561,7 +553,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
@@ -587,42 +578,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if gmp or bcmath are not enabled', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: false,
-					isMysqlUsedWithoutUTF8MB4: false,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
 		it('should return an info if there is no default phone region', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -633,7 +588,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
@@ -676,7 +630,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					areWebauthnExtensionsEnabled: true,
 					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
