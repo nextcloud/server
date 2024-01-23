@@ -277,7 +277,7 @@ OC.L10N.register(
     "Create new templates folder" : "新しいテンプレートフォルダーを作成",
     "Templates" : "テンプレート",
     "Unable to initialize the templates directory" : "テンプレートディレクトリを初期化できませんでした",
-    "Created new folder \"{name}\"" : "新規フォルダ \"{name}\" を作成した",
+    "Created new folder \"{name}\"" : "新規フォルダ \"{name}\" を作成しました",
     "One of the dropped files could not be processed" : "ドロップされたファイルの1つが処理できませんでした",
     "Uploading \"{filename}\" failed" : "\"{filename}\" のアップロードに失敗しました",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} フォルダ"],

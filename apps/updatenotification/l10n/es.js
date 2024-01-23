@@ -29,7 +29,7 @@ OC.L10N.register(
     "Update channel" : "Canal de actualización",
     "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Cambiar el canal de actualización también afecta a la página de administración de aplicaciones. P. ej., al cambiar al canal beta, se le ofrecerán actualizaciones de aplicaciones beta en la página de administración de aplicaciones.",
     "Current update channel:" : "Canal de actualización actual:",
-    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Siempre puedes actualizar a una versión más reciente. Pero no podrás desactualizar a la versión anterior.",
+    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Siempre puede actualizar a una versión más nueva. Pero nunca podrá retroceder a una versión anterior.",
     "Notify members of the following groups about available updates:" : "Notificar a los miembros de los siguientes grupos sobre actualizaciones disponibles:",
     "No groups" : "Sin grupos",
     "Only notifications for app updates are available." : "Solo están disponibles las notificaciones para actualizaciones de apps.",
