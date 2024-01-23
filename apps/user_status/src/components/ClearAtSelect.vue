@@ -25,6 +25,7 @@
 			{{ $t('user_status', 'Clear status after') }}
 		</label>
 		<NcSelect input-id="clearStatus"
+			label-outside
 			class="clear-at-select__select"
 			:options="options"
 			:value="option"
