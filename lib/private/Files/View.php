@@ -287,12 +287,12 @@ class View {
 		$this->updaterEnabled = true;
 	}
 
-	protected function writeUpdate(Storage $storage, string $internalPath, ?int $time = null): void {
+	protected function writeUpdate(Storage $storage, string $internalPath, ?int $time = null, ?int $sizeDifference = null): void {
 		if ($this->updaterEnabled) {
 			if (is_null($time)) {
 				$time = time();
 			}
-			$storage->getUpdater()->update($internalPath, $time);
+			$storage->getUpdater()->update($internalPath, $time, $sizeDifference);
 		}
 	}
 
@@ -1173,7 +1173,9 @@ class View {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
-					$this->writeUpdate($storage, $internalPath);
+					$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && in_array('create', $hooks, true));
+					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
+					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
 				}
 				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam);
