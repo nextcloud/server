@@ -45,8 +45,8 @@ interface IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * @param string $appId
-	 * @return mixed
+	 * @param string|null $lang
+	 * @return array|null
 	 * @since 14.0.0
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null);
@@ -65,7 +65,7 @@ interface IAppManager {
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently loggedin user will be used
+	 * @param \OCP\IUser|null $user (optional) if not defined, the currently loggedin user will be used
 	 * @return bool
 	 * @since 8.0.0
 	 */
