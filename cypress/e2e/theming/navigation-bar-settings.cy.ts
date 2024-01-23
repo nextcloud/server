@@ -49,7 +49,7 @@ describe('Admin theming set default apps', () => {
 
 	it('Toggle the "use custom default app" switch', () => {
 		cy.get('[data-cy-switch-default-app] input').should('not.be.checked')
-		cy.get('[data-cy-switch-default-app] label').click()
+		cy.get('[data-cy-switch-default-app] .checkbox-content').click()
 		cy.get('[data-cy-switch-default-app] input').should('be.checked')
 	})
 
@@ -84,7 +84,7 @@ describe('Admin theming set default apps', () => {
 		cy.get('[data-cy-switch-default-app]').scrollIntoView()
 
 		cy.get('[data-cy-switch-default-app] input').should('be.checked')
-		cy.get('[data-cy-switch-default-app] label').click()
+		cy.get('[data-cy-switch-default-app] .checkbox-content').click()
 		cy.get('[data-cy-switch-default-app] input').should('be.not.checked')
 	})
 
