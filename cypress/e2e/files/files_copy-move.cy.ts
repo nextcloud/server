@@ -146,7 +146,7 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		triggerActionForFile('original.txt', 'move-copy')
 
 		// select new folder
-		cy.get('.file-picker a[title="Home"]').should('be.visible').click()
+		cy.get('.file-picker button[title="Home"]').should('be.visible').click()
 		// click move
 		cy.get('.file-picker').contains('button', 'Move').should('be.visible').click()
 
