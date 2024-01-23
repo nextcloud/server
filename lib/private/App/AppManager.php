@@ -289,7 +289,7 @@ class AppManager implements IAppManager {
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently logged in user will be used
+	 * @param \OCP\IUser|null $user (optional) if not defined, the currently logged in user will be used
 	 * @return bool
 	 */
 	public function isEnabledForUser($appId, $user = null) {
@@ -702,10 +702,7 @@ class AppManager implements IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * @param string $appId app id
-	 *
-	 * @param bool $path
-	 * @param null $lang
+	 * @param string|null $lang
 	 * @return array|null app info
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
@@ -817,7 +814,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getDefaultEnabledApps():array {
+	public function getDefaultEnabledApps(): array {
 		$this->loadShippedJson();
 
 		return $this->defaultEnabled;
