@@ -25,7 +25,7 @@
     "Could not complete login" : "No se ha podido completar el inicio de sesión",
     "State token missing" : "No se encontró token de estado",
     "Your login token is invalid or has expired" : "Tu token de login no es válido o ha caducado",
-    "This community release of Nextcloud is unsupported and push notifications are limited." : "Esta versión comunitaria de Nextcloud ya no está soportada y las notificaciones push son limitadas.",
+    "This community release of Nextcloud is unsupported and push notifications are limited." : "Esta versión comunitaria de Nextcloud ya no está soportada y las notificaciones push están limitadas.",
     "Login" : "Iniciar sesión",
     "Password reset is disabled" : "El restablecimiento de la contraseña está deshabilitado",
     "Could not reset password because the token is expired" : "No se puede restablecer la contraseña porque el token de autenticación ha caducado.",
