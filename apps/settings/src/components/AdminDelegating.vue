@@ -4,7 +4,6 @@
 		:doc-url="authorizedSettingsDocLink">
 		<div class="setting-list">
 			<div v-for="setting in availableSettings" :key="setting.class">
-				<label :for="setting.id">{{ setting.sectionName }}</label>
 				<GroupSelect :available-groups="availableGroups" :authorized-groups="authorizedGroups" :setting="setting" />
 			</div>
 		</div>

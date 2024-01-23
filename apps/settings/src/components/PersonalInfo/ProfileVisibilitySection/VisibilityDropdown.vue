@@ -28,6 +28,7 @@
 		</label>
 		<NcSelect :input-id="inputId"
 			class="visibility-container__select"
+			label-outside
 			:clearable="false"
 			:options="visibilityOptions"
 			:value="visibilityObject"

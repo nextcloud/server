@@ -36,11 +36,8 @@
 					:title="t('settings', 'All')"
 					value="">
 				<br />
-				<label for="limitToGroups">
-					<span>{{ t('settings', 'Limit app usage to groups') }}</span>
-				</label>
 				<NcSelect v-if="isLimitedToGroups(app)"
-					input-id="limitToGroups"
+					:input-label="t('settings', 'Limit app usage to groups')"
 					:options="groups"
 					:value="appGroups"
 					:limit="5"

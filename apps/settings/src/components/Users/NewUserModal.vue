@@ -82,12 +82,8 @@
 					:class="{ 'icon-loading-small': loading.groups }"
 					:value="newUser.groups"
 					:required="!settings.isAdmin" />
-				<label class="modal__label"
-					for="new-user-groups">
-					{{ !settings.isAdmin ? t('settings', 'Groups (required)') : t('settings', 'Groups') }}
-				</label>
 				<NcSelect class="modal__select"
-					input-id="new-user-groups"
+					:input-label="!settings.isAdmin ? t('settings', 'Groups (required)') : t('settings', 'Groups')"
 					:placeholder="t('settings', 'Set user groups')"
 					:disabled="loading.groups || loading.all"
 					:options="canAddGroups"
@@ -104,13 +100,9 @@
 			</div>
 			<div v-if="subAdminsGroups.length > 0 && settings.isAdmin"
 				class="modal__item">
-				<label class="modal__label"
-					for="new-user-sub-admin">
-					{{ t('settings', 'Administered groups') }}
-				</label>
 				<NcSelect v-model="newUser.subAdminsGroups"
 					class="modal__select"
-					input-id="new-user-sub-admin"
+					:input-label="t('settings', 'Administered groups')"
 					:placeholder="t('settings', 'Set user as admin for …')"
 					:options="subAdminsGroups"
 					:close-on-select="false"
@@ -118,13 +110,9 @@
 					label="name" />
 			</div>
 			<div class="modal__item">
-				<label class="modal__label"
-					for="new-user-quota">
-					{{ t('settings', 'Quota') }}
-				</label>
 				<NcSelect v-model="newUser.quota"
 					class="modal__select"
-					input-id="new-user-quota"
+					:input-label="t('settings', 'Quota')"
 					:placeholder="t('settings', 'Set user quota')"
 					:options="quotaOptions"
 					:clearable="false"
@@ -133,13 +121,9 @@
 			</div>
 			<div v-if="showConfig.showLanguages"
 				class="modal__item">
-				<label class="modal__label"
-					for="new-user-language">
-					{{ t('settings', 'Language') }}
-				</label>
 				<NcSelect	v-model="newUser.language"
 					class="modal__select"
-					input-id="new-user-language"
+					:input-label="t('settings', 'Language')"
 					:placeholder="t('settings', 'Set default language')"
 					:clearable="false"
 					:selectable="option => !option.languages"
@@ -148,15 +132,10 @@
 					label="name" />
 			</div>
 			<div :class="['modal__item managers', { 'icon-loading-small': loading.manager }]">
-				<label class="modal__label"
-					for="new-user-manager">
-					<!-- TRANSLATORS This string describes a manager in the context of an organization -->
-					{{ t('settings', 'Manager') }}
-				</label>
 				<NcSelect v-model="newUser.manager"
 					class="modal__select"
-					input-id="new-user-manager"
-					:placeholder="managerLabel"
+					:input-label="managerLabel"
+					:placeholder="managerPlaceholder"
 					:options="possibleManagers"
 					:user-select="true"
 					label="displayname"
@@ -211,7 +190,9 @@ export default {
 		return {
 			possibleManagers: [],
 			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set user manager'),
+			managerLabel: t('settings', 'Manager'),
+			// TRANSLATORS This string describes a manager in the context of an organization
+			managerPlaceholder: t('settings', 'Set user manager'),
 		}
 	},
 
@@ -422,11 +403,6 @@ export default {
 		color: var(--color-text-maxcontrast);
 		margin-top: 8px;
 		align-self: flex-start;
-	}
-
-	&__label {
-		display: block;
-		padding: 4px 0;
 	}
 
 	&__select {

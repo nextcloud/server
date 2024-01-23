@@ -123,6 +123,7 @@
 				</label>
 				<NcSelect data-cy-user-list-input-groups
 					:data-loading="loading.groups || undefined"
+					label-outside
 					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
@@ -156,6 +157,7 @@
 				</label>
 				<NcSelect data-cy-user-list-input-subadmins
 					:data-loading="loading.subadmins || undefined"
+					label-outside
 					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
 					:disabled="isLoadingField"
@@ -183,6 +185,7 @@
 					{{ t('settings', 'Select user quota') }}
 				</label>
 				<NcSelect v-model="editedUserQuota"
+					label-outside
 					:close-on-select="true"
 					:create-option="validateQuota"
 					data-cy-user-list-input-quota
@@ -219,6 +222,7 @@
 				<NcSelect :id="'language' + uniqueId"
 					data-cy-user-list-input-language
 					:data-loading="loading.languages || undefined"
+					label-outside
 					:allow-empty="false"
 					:disabled="isLoadingField"
 					:loading="loading.languages"
@@ -265,6 +269,7 @@
 					class="select--fill"
 					data-cy-user-list-input-manager
 					:data-loading="loading.manager || undefined"
+					label-outside
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
 					:disabled="isLoadingField"

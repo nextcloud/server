@@ -1,6 +1,6 @@
 <template>
 	<NcSelect v-model="selected"
-		:input-id="setting.id"
+		:input-label="setting.sectionName"
 		class="group-select"
 		:placeholder="t('settings', 'None')"
 		label="displayName"
