@@ -396,6 +396,28 @@ export default {
 	right: -8px;
 }
 
+// Fix wrong color for active icons
+@media (prefers-color-scheme: dark) { body {
+	.app-navigation-entry.active .app-navigation-entry-icon {
+		filter: var(--primary-invert-if-bright);
+	}
+}}
+@media (prefers-color-scheme: light) { body {
+	.app-navigation-entry.active .app-navigation-entry-icon {
+		filter: var(--primary-invert-if-dark);
+	}
+}}
+[data-themes*=dark] {
+	.app-navigation-entry.active .app-navigation-entry-icon {
+		filter: var(--primary-invert-if-bright);
+	}
+}
+[data-themes*=light] {
+	.app-navigation-entry.active .app-navigation-entry-icon {
+		filter: var(--primary-invert-if-dark);
+	}
+}
+
 .app-sidebar-tabs__release {
 	h2 {
 		border-bottom: 1px solid var(--color-border);
