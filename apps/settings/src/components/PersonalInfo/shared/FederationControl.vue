@@ -28,8 +28,6 @@
 		:disabled="disabled">
 		<NcActionButton v-for="federationScope in federationScopes"
 			:key="federationScope.name"
-			class="federation-actions__btn"
-			:class="{ 'federation-actions__btn--active': scope === federationScope.name }"
 			:close-after-click="true"
 			:disabled="!supportedScopes.includes(federationScope.name)"
 			:icon="federationScope.iconClass"
@@ -206,14 +204,6 @@ export default {
 			min-height: 30px !important;
 			width: 30px !important;
 			min-width: 30px !important;
-		}
-	}
-
-	&__btn {
-		&--active {
-			background-color: var(--color-primary-element-light) !important;
-			box-shadow: inset 2px 0 var(--color-primary-element) !important;
-			border-radius: 0px !important;
 		}
 	}
 }
