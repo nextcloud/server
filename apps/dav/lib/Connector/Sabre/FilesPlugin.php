@@ -35,6 +35,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OC\Files\SymlinkManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
@@ -73,6 +74,7 @@ class FilesPlugin extends ServerPlugin {
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 	public const CREATIONDATE_PROPERTYNAME = '{DAV:}creationdate';
 	public const DISPLAYNAME_PROPERTYNAME = '{DAV:}displayname';
+	public const RESOURCETYPE_PROPERTYNAME = '{DAV:}resourcetype';
 	public const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	public const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	public const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
@@ -103,6 +105,7 @@ class FilesPlugin extends ServerPlugin {
 	private IConfig $config;
 	private IRequest $request;
 	private IPreview $previewManager;
+	private SymlinkManager $symlinkManager;
 
 	public function __construct(Tree $tree,
 		IConfig $config,
@@ -118,6 +121,7 @@ class FilesPlugin extends ServerPlugin {
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
 		$this->previewManager = $previewManager;
+		$this->symlinkManager = new SymlinkManager();
 	}
 
 	/**
@@ -159,7 +163,8 @@ class FilesPlugin extends ServerPlugin {
 		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$this->server->on('afterBind', [$this, 'sendFileIdHeader']);
 		$this->server->on('afterWriteContent', [$this, 'sendFileIdHeader']);
-		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('method:GET', [$this,'httpGet']);
+		$this->server->on('afterMethod:GET', [$this,'afterHttpGet']);
 		$this->server->on('afterMethod:GET', [$this, 'handleDownloadToken']);
 		$this->server->on('afterResponse', function ($request, ResponseInterface $response) {
 			$body = $response->getBody();
@@ -224,13 +229,35 @@ class FilesPlugin extends ServerPlugin {
 		}
 	}
 
+	public function httpGet(RequestInterface $request, ResponseInterface $response): bool {
+		// only handle symlinks
+		$node = $this->tree->getNodeForPath($request->getPath());
+		if (!($node instanceof \OCA\DAV\Connector\Sabre\File
+				&& $this->symlinkManager->isSymlink($node->getFileInfo()))) {
+			return true;
+		}
+
+		$date = new \DateTime();
+		$date->setTimestamp($node->getLastModified());
+		$date = $date->setTimezone(new \DateTimeZone('UTC'));
+		$response->setHeader('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
+		$response->setHeader('OC-File-Type', '1');
+		$response->setHeader('OC-ETag', $node->getEtag());
+		$response->setHeader('ETag', $node->getEtag());
+		$response->setBody($node->get());
+		$response->setStatus(200);
+		// do not continue processing this request
+		return false;
+	}
+
+
 	/**
 	 * Add headers to file download
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
-	public function httpGet(RequestInterface $request, ResponseInterface $response) {
+	public function afterHttpGet(RequestInterface $request, ResponseInterface $response): void {
 		// Only handle valid files
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) {
@@ -430,6 +457,14 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
+			});
+
+			$propFind->handle(self::RESOURCETYPE_PROPERTYNAME, function() use ($node) {
+				$info = $node->getFileInfo();
+				if ($this->symlinkManager->isSymlink($info)) {
+					return new \Sabre\DAV\Xml\Property\ResourceType(['{DAV:}symlink']);
+				}
+				return null;
 			});
 		}
 

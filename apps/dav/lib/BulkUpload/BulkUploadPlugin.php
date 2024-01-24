@@ -23,6 +23,7 @@
 
 namespace OCA\DAV\BulkUpload;
 
+use OC\Files\SymlinkManager;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 use OCP\AppFramework\Http;
 use OCP\Files\DavUtil;
@@ -37,12 +38,18 @@ class BulkUploadPlugin extends ServerPlugin {
 	private Folder $userFolder;
 	private LoggerInterface $logger;
 
+	/**
+	 * @var SymlinkManager
+	 */
+	private $symlinkManager;
+
 	public function __construct(
 		Folder $userFolder,
 		LoggerInterface $logger
 	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;
+		$this->symlinkManager = new SymlinkManager();
 	}
 
 	/**
@@ -92,6 +99,14 @@ class BulkUploadPlugin extends ServerPlugin {
 				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
 				$node->touch($mtime);
 				$node = $this->userFolder->getById($node->getId())[0];
+
+				if (isset($headers['oc-file-type']) && $headers['oc-file-type'] == 1) {
+					$this->symlinkManager->storeSymlink($node);
+				} elseif ($this->symlinkManager->isSymlink($node)) {
+					// uploaded file is not a symlink, but there was a symlink
+					// at the same location before
+					$this->symlinkManager->deleteSymlink($node);
+				}
 
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
