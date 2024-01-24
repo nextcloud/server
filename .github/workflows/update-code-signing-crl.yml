@@ -43,3 +43,4 @@ jobs:
           labels: |
             dependencies
             3. to review
+          reviewers: mgallien, miaulalala, nickvergessen
