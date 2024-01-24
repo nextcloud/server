@@ -176,7 +176,6 @@
     "The PHP memory limit is below the recommended value of %s." : "Das PHP-Speicherllmit liegt unterhalb des empfohlenen Wertes von %s.",
     "PHP modules" : "PHP-Module",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Dieser Instanz fehlen einige erforderliche PHP-Module. Folgende Module müssen installiert sein:%s .",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "In dieser Instanz fehlen einige empfohlene PHP-Module. Für eine verbesserte Leistung und bessere Kompatibilität wird dringend empfohlen, sie zu installieren: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "Das PHP-OPcache-Modul ist nicht geladen. Für eine bessere Leistung empfiehlt es sich, das Modul in deiner PHP-Installation zu laden.",
     "PHP version" : "PHP-Version",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Du verwendest derzeit PHP %s. PHP 8.0 ist ab Nextcloud 27 veraltet. Nextcloud 28 erfordert mindestens PHP 8.1. Bitte aktualisiere so schnell wie möglich auf eine der offiziell unterstützten PHP-Versionen der PHP Gruppe.",
@@ -680,6 +679,7 @@
     "Edit display name" : "Anzeigename bearbeiten",
     "Select manager" : "Manager auswählen",
     "User's table" : "Benutzertabelle",
-    "Select user manager" : "Benutzermanager wählen"
+    "Select user manager" : "Benutzermanager wählen",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "In dieser Instanz fehlen einige empfohlene PHP-Module. Für eine verbesserte Leistung und bessere Kompatibilität wird dringend empfohlen, sie zu installieren: %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

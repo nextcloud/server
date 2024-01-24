@@ -201,7 +201,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "目前的 PHP 的記憶體限制設定低於建議值 %s。",
     "PHP modules" : "PHP 模組",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "此站台缺少一些必要的 PHP 模組。必須安裝這些模組：%s。",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "此站台缺少一些建議的 PHP 模組。為了改善效能與相容性，強烈建立您安裝這些模組：%s。",
     "PHP opcache" : "PHP opcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "未加載 PHP OPcache 模塊。為獲得更佳性能，建議將其加載到您的 PHP 安裝中。",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "已停用 OPcache。要得到更好的效能，建議在您的 PHP 設定中套用 \"opcache.enable=1\"。",
@@ -731,6 +730,7 @@ OC.L10N.register(
     "Select manager" : "選擇管理者",
     "User's table" : "用戶的表格",
     "Select user manager" : "選擇用戶管理者",
-    "Overwrite cli URL" : "覆寫 CLI URL"
+    "Overwrite cli URL" : "覆寫 CLI URL",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "此站台缺少一些建議的 PHP 模組。為了改善效能與相容性，強烈建立您安裝這些模組：%s。"
 },
 "nplurals=1; plural=0;");

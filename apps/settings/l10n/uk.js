@@ -181,7 +181,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "Обмеження пам'яті PHP нижче рекомендованого значення %s.",
     "PHP modules" : "Модулі PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "На цьому примірнику бракує окремі обов'язкові модулі PHP, зокрема, необхідно встановити такі: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "На цьому примірнику бракує окремих рекомендованих модулів PHP. Для кращої продуктивности та сумісности наполегливо рекомендуємо встановити такі модулі: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "Модуль PHP OPcache не завантажується. Для кращої продуктивності рекомендується завантажити його у вашу установку PHP.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache вимкнено. Для кращої продуктивності рекомендовано встановити значення \"opcache.enable=1\" у конфігураційному файлі PHP.",
     "The shared memory based OPcache is disabled. For better performance, it is recommended to apply \"opcache.file_cache_only=0\" to your PHP configuration and use the file cache as second level cache only." : "OPcache для розділеної пам'яти вимкнено. Для кращої продуктивності рекомендовано встановити значення \"opcache.file_cache_only=0\" у конфігураційному файлі PHP, використовувати кеш файлів лише як кеш другого рівня.",
@@ -349,7 +348,7 @@ OC.L10N.register(
     "Could not copy app password. Please copy it manually." : "Не вдалося скопіювати пароль застосунку. Скопіюйте його вручну.",
     "Could not copy login name. Please copy it manually." : "Не вдалося скопіювати лоґін. Спробуйте зробити це самостійно",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "Для належної роботи сервера важливо правильно налаштувати фонові завдання. Рекомендованим налаштуванням є Cron. Для отримання додаткової інформації перегляньте документацію.",
-    "Last job execution ran {time}. Something seems wrong." : "Останнє завдання виконано {раз}. Щось здається не так.",
+    "Last job execution ran {time}. Something seems wrong." : "Останнє завдання виконано {time}. Щось здається не так.",
     "Last job ran {relativeTime}." : "Останнє завдання виконано {relativeTime}.",
     "Background job did not run yet!" : "Фонове завдання ще не виконано!",
     "AJAX" : "AJAX",
@@ -707,6 +706,7 @@ OC.L10N.register(
     "Edit display name" : "Редагувати ім'я для показу",
     "Select manager" : "Виберіть менеджера",
     "User's table" : "Таблиця користувача",
-    "Select user manager" : "Виберіть менеджера користувача"
+    "Select user manager" : "Виберіть менеджера користувача",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "На цьому примірнику бракує окремих рекомендованих модулів PHP. Для кращої продуктивности та сумісности наполегливо рекомендуємо встановити такі модулі: %s."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -174,7 +174,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "PHP 메모리 제한이 추천값인 %s보다 작습니다.",
     "PHP modules" : "PHP 모듈",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "이 인스턴스에 필수 PHP 모듈 중 일부가 존재하지 않습니다. 다음 모듈을 설치하십시오: %s",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "이 인스턴스에 권장 PHP 모듈 중 일부가 존재하지 않습니다. 성능 향상과 호환성을 위하여 다음 PHP 모듈을 설치하는 것이 좋습니다: %s",
     "PHP opcache" : "PHP opcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP OPcache 모듈이 로드되지 않았습니다. 더 나은 성능을 위해 이를 PHP에 로드하는 것이 권장됩니다.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "Opcache가 비활성화되었습니다. 성능 향상을 위해, PHP 설정에 \"opcache.enable=1\"을 적용하십시오.",
@@ -560,6 +559,7 @@ OC.L10N.register(
     "Expire after" : "다음 날짜 후 만료",
     "day(s)" : "일",
     "Set default expiration date" : "기본 만료 날짜 설정",
-    "Edit display name" : "표시 이름 수정"
+    "Edit display name" : "표시 이름 수정",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "이 인스턴스에 권장 PHP 모듈 중 일부가 존재하지 않습니다. 성능 향상과 호환성을 위하여 다음 PHP 모듈을 설치하는 것이 좋습니다: %s"
 },
 "nplurals=1; plural=0;");

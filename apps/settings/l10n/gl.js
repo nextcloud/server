@@ -175,7 +175,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "O límite de memoria de PHP está por baixo do valor recomendado de %s.",
     "PHP modules" : "PHP modules",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "A esta instancia fáltanlle algúns módulos PHP necesarios. Precísase da súa instalación: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "A esta instancia fáltanlle algúns módulos PHP recomendados. Para mellorar o rendemento e unha mellor compatibilidade é moi recomendábel instalalos: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "O módulo PHP OPcache non está cargado. Para un mellor rendemento, recoméndase cargalo na súa instalación de PHP.",
     "PHP version" : "PHP version",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Actualmente está a executar PHP %s. PHP 8.0 é obsoleto en Nextcloud 27. Nextcloud 28 pode precisar polo menos PHP 8.1. Actualice a unha das versións de PHP oficialmente compatíbeis fornecidas polo Grupo PHP o antes posíbel.",
@@ -680,6 +679,7 @@ OC.L10N.register(
     "Edit display name" : "Editar o nome para amosar",
     "Select manager" : "Seleccionar o xestor",
     "User's table" : "Táboa de usuarios",
-    "Select user manager" : "Seleccione o xestor de usuarios"
+    "Select user manager" : "Seleccione o xestor de usuarios",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "A esta instancia fáltanlle algúns módulos PHP recomendados. Para mellorar o rendemento e unha mellor compatibilidade é moi recomendábel instalalos: %s."
 },
 "nplurals=2; plural=(n != 1);");
