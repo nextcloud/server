@@ -1315,6 +1315,7 @@ $CONFIG = [
 	'OC\Preview\BMP',
 	'OC\Preview\GIF',
 	'OC\Preview\JPEG',
+	'OC\Preview\JXL',
 	'OC\Preview\Krita',
 	'OC\Preview\MarkDown',
 	'OC\Preview\MP3',

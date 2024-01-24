@@ -243,7 +243,7 @@ class AvatarController extends Controller {
 
 			if ($image->valid()) {
 				$mimeType = $image->mimeType();
-				if ($mimeType !== 'image/jpeg' && $mimeType !== 'image/png') {
+				if ($mimeType !== 'image/jpeg' && $mimeType !== 'image/jxl' && $mimeType !== 'image/png') {
 					return new JSONResponse(
 						['data' => ['message' => $this->l10n->t('Unknown filetype')]],
 						Http::STATUS_OK

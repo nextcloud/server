@@ -49,6 +49,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 		'image/png',
 		'image/jpg',
 		'image/jpeg',
+		'image/jxl',
 		'image/gif',
 		'image/svg+xml',
 		'image/webp'

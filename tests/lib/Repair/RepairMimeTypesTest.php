@@ -116,11 +116,13 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	public function testRenameImageTypes() {
 		$currentMimeTypes = [
 			['test.jp2', 'application/octet-stream'],
+			['test.jxl', 'application/octet-stream'],
 			['test.webp', 'application/octet-stream'],
 		];
 
 		$fixedMimeTypes = [
 			['test.jp2', 'image/jp2'],
+			['test.jxl', 'image/jxl'],
 			['test.webp', 'image/webp'],
 		];
 
@@ -187,6 +189,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			['test.jp2', 'image/jp2'],
 			['test.jps', 'image/jpeg'],
 			['test.MPO', 'image/jpeg'],
+			['test.jxl', 'image/jxl'],
 			['test.webp', 'image/webp'],
 			['test.conf', 'text/plain'],
 			['test.cnf', 'text/plain'],
@@ -241,6 +244,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			['test.jp2', 'image/jp2'],
 			['test.jps', 'image/jpeg'],
 			['test.MPO', 'image/jpeg'],
+			['test.jxl', 'image/jxl'],
 			['test.webp', 'image/webp'],
 			['test.conf', 'text/plain'],
 			['test.cnf', 'text/plain'],
