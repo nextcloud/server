@@ -21,28 +21,32 @@
 -->
 
 <template>
-	<NcActions :class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
+	<NcActions class="federation-actions"
+		:class="{ 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
 		:default-icon="scopeIcon"
 		:disabled="disabled">
-		<FederationControlAction v-for="federationScope in federationScopes"
+		<NcActionButton v-for="federationScope in federationScopes"
 			:key="federationScope.name"
-			:active-scope="scope"
-			:display-name="federationScope.displayName"
-			:handle-scope-change="changeScope"
-			:icon-class="federationScope.iconClass"
-			:is-supported-scope="supportedScopes.includes(federationScope.name)"
-			:name="federationScope.name"
-			:tooltip-disabled="federationScope.tooltipDisabled"
-			:tooltip="federationScope.tooltip" />
+			class="federation-actions__btn"
+			:class="{ 'federation-actions__btn--active': scope === federationScope.name }"
+			:close-after-click="true"
+			:disabled="!supportedScopes.includes(federationScope.name)"
+			:icon="federationScope.iconClass"
+			:name="federationScope.displayName"
+			type="radio"
+			:value="federationScope.name"
+			:model-value="scope"
+			@update:modelValue="changeScope">
+			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
+		</NcActionButton>
 	</NcActions>
 </template>
 
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import { loadState } from '@nextcloud/initial-state'
-
-import FederationControlAction from './FederationControlAction.vue'
 
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
@@ -66,7 +70,7 @@ export default {
 
 	components: {
 		NcActions,
-		FederationControlAction,
+		NcActionButton,
 	},
 
 	props: {
@@ -194,14 +198,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.federation-actions--additional {
-		&::v-deep button {
+.federation-actions {
+	&--additional {
+		&:deep(button) {
 			// TODO remove this hack
-			padding-bottom: 7px;
 			height: 30px !important;
 			min-height: 30px !important;
 			width: 30px !important;
 			min-width: 30px !important;
 		}
 	}
+
+	&__btn {
+		&--active {
+			background-color: var(--color-primary-element-light) !important;
+			box-shadow: inset 2px 0 var(--color-primary-element) !important;
+			border-radius: 0px !important;
+		}
+	}
+}
 </style>
