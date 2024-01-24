@@ -199,7 +199,6 @@
     "The PHP memory limit is below the recommended value of %s." : "The PHP memory limit is below the recommended value of %s.",
     "PHP modules" : "وحدات الـ PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "يفتقد هذا الخادوم إلى بعض الأجزاء modules من PHP  و التي يتوجب تثبيتها: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "هذا الخادوم يفتقد إلى بعض الأجزاء modules من PHP المُوصى بها. لتحسين الأداء و التوافقية يُنصح بشدة بتثبيتها: %s.",
     "PHP opcache" : "PHP opcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "لم يتم تحميل وحدة PHP OPcache. للحصول على أداء أفضل، يوصى بتحميلها حيث تمّ تحميل PHP عندك.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache مُعطَّلةٌ. لتحسين الأداء، يُوصى بتطبيق\"opcache.enable=1\" في إعدادات PHP لديك.",
@@ -729,6 +728,7 @@
     "Select manager" : "إختَر المُدير",
     "User's table" : "جدول المستخدِمين",
     "Select user manager" : "إختَر مدير المستخدِم user manager",
-    "Overwrite cli URL" : "استبدال عنوان cli URL"
+    "Overwrite cli URL" : "استبدال عنوان cli URL",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "هذا الخادوم يفتقد إلى بعض الأجزاء modules من PHP المُوصى بها. لتحسين الأداء و التوافقية يُنصح بشدة بتثبيتها: %s."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

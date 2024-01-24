@@ -199,7 +199,6 @@
     "The PHP memory limit is below the recommended value of %s." : "Das PHP-Speicherllmit liegt unterhalb des empfohlenen Wertes von %s.",
     "PHP modules" : "PHP-Module",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Dieser Instanz fehlen einige erforderliche PHP-Module. Folgende Module müssen installiert sein:%s .",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "In dieser Instanz fehlen einige empfohlene PHP-Module. Für eine verbesserte Leistung und bessere Kompatibilität wird dringend empfohlen, sie zu installieren: %s.",
     "PHP opcache" : "PHP OPcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "Das PHP-OPcache-Modul ist nicht geladen. Für eine bessere Leistung empfiehlt es sich, das Modul in Ihre PHP-Installation zu laden.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache ist deaktiviert. Für eine bessere Leistung empfiehlt es sich, in der PHP-Konfiguration \"opcache.enable=1\" zu setzen.",
@@ -729,6 +728,7 @@
     "Select manager" : "Manager auswählen",
     "User's table" : "Benutzertabelle",
     "Select user manager" : "Benutzermanager wählen",
-    "Overwrite cli URL" : "CLI-URL überschreiben"
+    "Overwrite cli URL" : "CLI-URL überschreiben",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "In dieser Instanz fehlen einige empfohlene PHP-Module. Für eine verbesserte Leistung und bessere Kompatibilität wird dringend empfohlen, sie zu installieren: %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

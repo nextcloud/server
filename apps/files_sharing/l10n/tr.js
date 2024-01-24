@@ -232,6 +232,7 @@ OC.L10N.register(
     "_Reject share_::_Reject shares_" : ["Paylaşımı reddet","Paylaşımları reddet"],
     "_Restore share_::_Restore shares_" : ["Paylaşımı geri yükle","Paylaşımları geri yükle"],
     "Shared" : "Paylaşılan",
+    "Shared multiple times with different people" : "Farklı kişilerle birkaç kez paylaşılmış",
     "Shared by {ownerDisplayName}" : "{ownerDisplayName} tarafından paylaşılmış",
     "Show sharing options" : "Paylaşım seçeneklerini görüntüle",
     "Link to a file" : "Bir dosya bağlantısı",

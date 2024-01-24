@@ -178,7 +178,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "The PHP memory limit is below the recommended value of %s.",
     "PHP modules" : "PHP modules",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "This instance is missing some required PHP modules. It is required to install them: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.",
     "PHP version" : "PHP version",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.",
@@ -696,6 +695,7 @@ OC.L10N.register(
     "Edit display name" : "Edit display name",
     "Select manager" : "Select manager",
     "User's table" : "User's table",
-    "Select user manager" : "Select user manager"
+    "Select user manager" : "Select user manager",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s."
 },
 "nplurals=2; plural=(n!=1);");

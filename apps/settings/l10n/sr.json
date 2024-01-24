@@ -199,7 +199,6 @@
     "The PHP memory limit is below the recommended value of %s." : "Ограничење PHP меморије је испод препоручене вредности од %s.",
     "PHP modules" : "PHP модули",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Овој инстанци недостају неки неопходни PHP модули. Потребно је да се инсталирају: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Овој инстанци недостају неки препоручени PHP модули. Препоручује се да их инсталирате због побољшања перформанси и за бољу компатибилност: %s.",
     "PHP opcache" : "PHP opcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP модул OPcache није учитан. Да би се постигле боље перформансе, препоручује се да га учитате у своју PHP инсталацију.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache је искључен. Да би се постигле боље перформансе, препоручује се да у своју PHP конфигурацију поставите „opcache.enable=1”.",
@@ -729,6 +728,7 @@
     "Select manager" : "Избор менаџера",
     "User's table" : "Корисникова табела",
     "Select user manager" : "Избор менаџера корисника",
-    "Overwrite cli URL" : "Overwrite cli URL"
+    "Overwrite cli URL" : "Overwrite cli URL",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Овој инстанци недостају неки препоручени PHP модули. Препоручује се да их инсталирате због побољшања перформанси и за бољу компатибилност: %s."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

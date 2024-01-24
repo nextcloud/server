@@ -159,7 +159,6 @@
     "The PHP memory limit is below the recommended value of %s." : "Minnismörk PHP eru lægri en gildið sem mælt er með; %s.",
     "PHP modules" : "PHP-einingar",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Í þetta kerfistilvik vantar ýmsar nauðsynlegar PHP-einingar. Mælt er eindregið með að setja þær upp: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Í þetta kerfistilvik vantar ýmsar PHP-einingar sem mælt er með. Til að bæta afköst og betri samhæfni er mælt eindregið með að setja þær upp: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP Opcache er ekki hlaðið inn. Fyrir betri afköst mælum við með að því sé hlaðið inn í PHP-uppsetninguna þína.",
     "PHP version" : "PHP-útgáfa",
     "You are currently running PHP %s." : "Þú ert núna að keyra PHP %s.",
@@ -633,6 +632,7 @@
     "Edit display name" : "Breyta birtingarnafni",
     "Select manager" : "Veldu stýringu",
     "User's table" : "Tafla notandans",
-    "Select user manager" : "Veldu notendastýringu"
+    "Select user manager" : "Veldu notendastýringu",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Í þetta kerfistilvik vantar ýmsar PHP-einingar sem mælt er með. Til að bæta afköst og betri samhæfni er mælt eindregið með að setja þær upp: %s."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

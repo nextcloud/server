@@ -181,7 +181,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "Minnesgränsen för PHP är under det rekommenderade värdet på %s.",
     "PHP modules" : "PHP-moduler",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Den här instansen saknar några nödvändiga PHP-moduler. Det är nödvändigt att installera dem: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Den här instansen saknar några rekommenderade PHP-moduler. För förbättrad prestanda och bättre kompatibilitet rekommenderas starkt att du installerar dem: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP OPcache-modulen är inte laddad. För bättre prestanda rekommenderas det att ladda den i din PHP-installation.",
     "Correctly configured" : "Korrekt konfigurerad",
     "PHP version" : "PHP-version",
@@ -692,6 +691,7 @@ OC.L10N.register(
     "Select manager" : "Välj chef",
     "User's table" : "Användartabell",
     "Select user manager" : "Välj användaradministratör",
-    "Overwrite cli URL" : "Skriv över cli-URL"
+    "Overwrite cli URL" : "Skriv över cli-URL",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Den här instansen saknar några rekommenderade PHP-moduler. För förbättrad prestanda och bättre kompatibilitet rekommenderas starkt att du installerar dem: %s."
 },
 "nplurals=2; plural=(n != 1);");
