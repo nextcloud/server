@@ -131,8 +131,9 @@
 			<em v-html="noteDelayedStableString" />
 		</p>
 
-		<h4>{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}</h4>
 		<NcSelect v-model="notifyGroups"
+			id="notify-members-settings-select-wrapper"
+			:input-label="t('updatenotification', 'Notify members of the following groups about available updates:')"
 			:options="groups"
 			:multiple="true"
 			label="displayname"
@@ -483,9 +484,6 @@ export default {
 				}
 			}
 		}
-		h4 {
-			margin-block-end: 0.7rem;
-		}
 		.update-channel-selector {
 			display: flex;
 			align-items: center;
@@ -546,6 +544,14 @@ export default {
 	.update-menu .icon-star:hover,
 	.update-menu .icon-star:focus {
 		background-image: var(--icon-starred);
+	}
+	/* override NcSelect styling so that label can have correct width */
+	#notify-members-settings-select-wrapper {
+		width: fit-content;
+
+		.vs__dropdown-toggle {
+			min-width: 100%;
+		}
 	}
 }
 </style>
