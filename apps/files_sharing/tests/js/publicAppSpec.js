@@ -30,8 +30,8 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	var $preview;
 
 	beforeEach(function() {
-		originalWebroot = OC.webroot;
-		OC.webroot = '/owncloud';
+		originalWebroot = window._oc_webroot;
+		window._oc_webroot = '/owncloud';
 		protocolStub = sinon.stub(OC, 'getProtocol').returns('https');
 		hostStub = sinon.stub(OC, 'getHost').returns('example.com:9876');
 
@@ -45,7 +45,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	});
 
 	afterEach(function() {
-		OC.webroot = originalWebroot;
+		window._oc_webroot = originalWebroot;
 		protocolStub.restore();
 		hostStub.restore();
 	});
