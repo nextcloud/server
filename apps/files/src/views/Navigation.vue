@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { emit } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
@@ -85,7 +85,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
-import type { Navigation, View } from '@nextcloud/files'
+import type { View } from '@nextcloud/files'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 
@@ -99,14 +99,6 @@ export default {
 		NcAppNavigationItem,
 		NcIconSvgWrapper,
 		SettingsModal,
-	},
-
-	props: {
-		// eslint-disable-next-line vue/prop-name-casing
-		Navigation: {
-			type: Object as Navigation,
-			required: true,
-		},
 	},
 
 	setup() {
@@ -132,7 +124,7 @@ export default {
 		},
 
 		views(): View[] {
-			return this.Navigation.views
+			return this.$navigation.views
 		},
 
 		parentViews(): View[] {
@@ -164,7 +156,7 @@ export default {
 	watch: {
 		currentView(view, oldView) {
 			if (view.id !== oldView?.id) {
-				this.Navigation.setActive(view)
+				this.$navigation.setActive(view)
 				logger.debug('Navigation changed', { id: view.id, view })
 
 				this.showView(view)
@@ -193,7 +185,7 @@ export default {
 		showView(view: View) {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
-			this.Navigation.setActive(view)
+			this.$navigation.setActive(view)
 			setPageHeading(view.name)
 			emit('files:navigation:changed', view)
 		},
@@ -201,6 +193,7 @@ export default {
 		/**
 		 * Expand/collapse a a view with children and permanently
 		 * save this setting in the server.
+		 * @param view
 		 */
 		onToggleExpand(view: View) {
 			// Invert state
@@ -213,6 +206,7 @@ export default {
 		/**
 		 * Check if a view is expanded by user config
 		 * or fallback to the default value.
+		 * @param view
 		 */
 		isExpanded(view: View): boolean {
 			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
@@ -222,6 +216,7 @@ export default {
 
 		/**
 		 * Generate the route to a view
+		 * @param view
 		 */
 		generateToNavigation(view: View) {
 			if (view.params) {
