@@ -54,13 +54,12 @@ export const validateBodyThemingCss = function(expectedColor = defaultPrimary, e
  */
 export const validateUserThemingDefaultCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
 	const defaultSelectButton = Cypress.$('[data-user-theming-background-default]')
-	const customColor = Cypress.$('[data-user-theming-background-color]')
-	if (defaultSelectButton.length === 0 || customColor.length === 0) {
+	if (defaultSelectButton.length === 0) {
 		return false
 	}
 
 	const defaultOptionBackground = defaultSelectButton.css('background-image')
-	const colorPickerOptionColor = customColor.css('background-color')
+	const colorPickerOptionColor = defaultSelectButton.css('background-color')
 
 	const isValidBackgroundImage = !expectedBackground
 		? defaultOptionBackground === 'none'
@@ -77,11 +76,19 @@ export const pickRandomColor = function(): Cypress.Chainable<string> {
 
 	const colorPreviewSelector = '[data-user-theming-background-color],[data-admin-theming-setting-primary-color]'
 
+	let oldColor = ''
+	cy.get(colorPreviewSelector).then(($el) => {
+		oldColor = $el.css('background-color')
+	})
+
 	// Open picker
 	cy.contains('button', 'Change color').click()
 
 	// Click on random color
 	cy.get('.color-picker__simple-color-circle').eq(randColour).click()
+
+	// Wait for color change
+	cy.waitUntil(() => Cypress.$(colorPreviewSelector).css('background-color') !== oldColor)
 
 	// Get the selected color from the color preview block
 	return cy.get(colorPreviewSelector).then(($el) => $el.css('background-color'))
