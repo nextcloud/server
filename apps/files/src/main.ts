@@ -9,6 +9,7 @@ import router from './router/router'
 import RouterService from './services/RouterService'
 import SettingsModel from './models/Setting.js'
 import SettingsService from './services/Settings.js'
+import FilesApp from './FilesApp.vue'
 
 // @ts-expect-error __webpack_nonce__ is injected by webpack
 __webpack_nonce__ = btoa(getRequestToken())
@@ -42,23 +43,8 @@ const Settings = new SettingsService()
 Object.assign(window.OCA.Files, { Settings })
 Object.assign(window.OCA.Files.Settings, { Setting: SettingsModel })
 
-// Init Navigation View
-const View = Vue.extend(NavigationView)
-const FilesNavigationRoot = new View({
-	name: 'FilesNavigationRoot',
-	propsData: {
-		Navigation,
-	},
+const FilesAppVue = Vue.extend(FilesApp)
+new FilesAppVue({
 	router,
 	pinia,
-})
-FilesNavigationRoot.$mount('#app-navigation-files')
-
-// Init content list view
-const ListView = Vue.extend(FilesListView)
-const FilesList = new ListView({
-	name: 'FilesListRoot',
-	router,
-	pinia,
-})
-FilesList.$mount('#app-content-vue')
+}).$mount('#content')
