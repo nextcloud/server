@@ -184,7 +184,6 @@
     "The PHP memory limit is below the recommended value of %s." : "La limite de mémoire PHP est sous la valeur recommandée de %s.",
     "PHP modules" : "Modules PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Cette instance ne dispose pas de plusieurs modules nécessaires sur cette instance. Il est obligatoire de les installer : %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Cette instance ne dispose pas de plusieurs modules PHP recommandés. Il est recommandé de les installer pour améliorer les performances, et la compatibilité : %s.",
     "PHP opcache" : "opcache PHP",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "Le module PHP 'OPcache' n'est pas chargé. Pour de meilleures performances, il est recommandé de le charger dans votre installation PHP.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache est désactivé. Pour de meilleures performances, il est recommandé de définir « opcache.enable=1 » dans votre fichier configuration PHP.",
@@ -706,6 +705,7 @@
     "Edit display name" : "Modifier le nom d'affichage",
     "Select manager" : "Sélectionnez un gestionnaire",
     "User's table" : "Tableau des utilisateurs",
-    "Select user manager" : "Sélectionner le gestionnaire des utilisateurs"
+    "Select user manager" : "Sélectionner le gestionnaire des utilisateurs",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Cette instance ne dispose pas de plusieurs modules PHP recommandés. Il est recommandé de les installer pour améliorer les performances, et la compatibilité : %s."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -172,7 +172,6 @@
     "The PHP memory limit is below the recommended value of %s." : "Omejitev pomnilnika PHP je pod priporočeno mejo %s.",
     "PHP modules" : "Moduli PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Namestitev PHP ne vključuje nekaterih priporočenih modulov. Priporočljivo jih je namestiti: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Namestitev PHP ne vključuje nekaterih priporočenih modulov. Za izboljšanje delovanja in boljšo skladnost jih je zelo priporočljivo omogočiti ali namestiti: %s",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "Modul PHP OPcache ni naložen. Za najboljše delovanje je priporočljivo modul dodati k uporabljeni namestitvi PHP.",
     "PHP version" : "Različica PHP",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Trenutno je nameščena različica PHP %s. Podpora PHP 8.0 je z različico programa Nextcloud 27 opuščena. Za okolje Nextcloud 28 je zahtevana vsaj podpora PHP 8.1. Priporočena je nadgradnja na uradno podprte različice PHP, ki jih zagotavlja skupnost.",
@@ -660,6 +659,7 @@
     "Edit display name" : "Uredi prikazno ime",
     "Select manager" : "Izbor upravljalnika",
     "User's table" : "Uporabniška razpredelnica",
-    "Select user manager" : "Izbor upravljalnika uporabnikov"
+    "Select user manager" : "Izbor upravljalnika uporabnikov",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Namestitev PHP ne vključuje nekaterih priporočenih modulov. Za izboljšanje delovanja in boljšo skladnost jih je zelo priporočljivo omogočiti ali namestiti: %s"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

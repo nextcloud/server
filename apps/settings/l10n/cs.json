@@ -190,7 +190,6 @@
     "The PHP memory limit is below the recommended value of %s." : "Limit paměti pro PHP je nastaven na níže než doporučenou hodnotu %s.",
     "PHP modules" : "PHP moduly",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Tato instance postrádá některé potřebné PHP moduly. Je třeba je nainstalovat: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Této instanci chybí některé doporučené moduly pro PHP. V zájmu lepšího výkonu a kompatibility, je důrazně doporučeno je nainstalovat: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP modul OPcache není načten. Pro lepší výkon je doporučeno načíst ho do vaší PHP instalace.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache je vypnuté. Pro lepší výkon je doporučeno mít v nastavení PHP „opcache.enable=1“.",
     "The shared memory based OPcache is disabled. For better performance, it is recommended to apply \"opcache.file_cache_only=0\" to your PHP configuration and use the file cache as second level cache only." : "OPcache založené na sdílené paměti je vypnuté. Pro lepší výkon je doporučeno mít v nastavení PHP „opcache.file_cache_only=0“ a používat souborovou mezipaměť až jako druhý stupeň mezipaměti.",
@@ -714,6 +713,7 @@
     "Select manager" : "Vybrat nástroj pro správu",
     "User's table" : "Tabulka uživatele",
     "Select user manager" : "Vyberte nástroj pro správu uživatelů",
-    "Overwrite cli URL" : "Přepsat URL cli"
+    "Overwrite cli URL" : "Přepsat URL cli",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Této instanci chybí některé doporučené moduly pro PHP. V zájmu lepšího výkonu a kompatibility, je důrazně doporučeno je nainstalovat: %s."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
