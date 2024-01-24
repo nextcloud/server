@@ -157,7 +157,6 @@ OC.L10N.register(
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP не настроен правильно для получения переменных системного окружения. Запрос getenv(\"PATH\") возвращает пустые результаты.",
     "PHP modules" : "Модули PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "В этом экземпляре отсутствуют некоторые рекомендуемые модули PHP. Рекомендуется установить: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "В этом экземпляре отсутствуют некоторые рекомендуемые модули PHP. Для повышения производительности и лучшей совместимости настоятельно рекомендуется установить: %s.",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "Модуль OPcache подсистемы PHP не загружен. Для повышения производительности рекомендуется его установить.",
     "PHP version" : "Версия PHP",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "В настоящее время вы используете PHP %s. PHP 8.0 больше не поддерживается в Nextcloud 27. Для Nextcloud 28 может потребоваться как минимум PHP 8.1. Пожалуйста, как можно скорее обновитесь до одной из официально поддерживаемых версий PHP, предоставленных PHP Group.",
@@ -626,6 +625,7 @@ OC.L10N.register(
     "Edit display name" : "Редактировать отображаемое имя",
     "Select manager" : "Выбрать руководителя",
     "User's table" : "Таблица пользователя",
-    "Select user manager" : "Выбрать руководителя"
+    "Select user manager" : "Выбрать руководителя",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "В этом экземпляре отсутствуют некоторые рекомендуемые модули PHP. Для повышения производительности и лучшей совместимости настоятельно рекомендуется установить: %s."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

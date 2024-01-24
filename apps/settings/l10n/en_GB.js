@@ -201,7 +201,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "The PHP memory limit is below the recommended value of %s.",
     "PHP modules" : "PHP modules",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "This instance is missing some required PHP modules. It is required to install them: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s.",
     "PHP opcache" : "PHP opcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation.",
     "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration." : "OPcache is disabled. For better performance, it is recommended to apply \"opcache.enable=1\" to your PHP configuration.",
@@ -731,6 +730,7 @@ OC.L10N.register(
     "Select manager" : "Select manager",
     "User's table" : "User's table",
     "Select user manager" : "Select user manager",
-    "Overwrite cli URL" : "Overwrite CLI URL"
+    "Overwrite cli URL" : "Overwrite CLI URL",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s."
 },
 "nplurals=2; plural=(n != 1);");

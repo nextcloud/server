@@ -165,7 +165,6 @@
     "The PHP memory limit is below the recommended value of %s." : "PHP 内存限制低于建议值 %s。",
     "PHP modules" : "PHP模块",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "该实例缺少一些必须的PHP模块。必须安装以下模块：%s",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "该实例缺少一些推荐的PHP模块。强烈建议您安装以下模块以提升性能和兼容性：%s",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "未加载 PHP OPcache 模块。为了更好的性能，建议将其加载到您的 PHP 安装中。",
     "PHP version" : "PHP版本",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "您当前正在使用 PHP %s。在 Nextcloud 27 中 PHP 8.0 已过时，而在 Nextcloud 28 中可能最低需要 PHP 8.1。请尽快升级 PHP 至官方支持的最新版本。",
@@ -667,6 +666,7 @@
     "Edit display name" : "编辑显示名称",
     "Select manager" : "选择管理者",
     "User's table" : "用户的表格",
-    "Select user manager" : "选择用户管理者"
+    "Select user manager" : "选择用户管理者",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "该实例缺少一些推荐的PHP模块。强烈建议您安装以下模块以提升性能和兼容性：%s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

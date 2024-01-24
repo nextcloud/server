@@ -180,7 +180,6 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "O limite de memória do PHP está abaixo do valor recomendado de %s.",
     "PHP modules" : "Módulos PHP",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Esta instância está faltando alguns módulos PHP necessários. É necessário instalá-los:: %s.",
-    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Esta instância está faltando alguns módulos PHP recomendados. Para melhor desempenho e melhor compatibilidade é altamente recomendável instalá-los:%s.",
     "PHP opcache" : "PHP opcache",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "O módulo PHP OPcache não está carregado. Para um melhor desempenho, é recomendável carregá-lo em sua instalação do PHP.",
     "PHP version" : "Versão do PHP",
@@ -686,6 +685,7 @@ OC.L10N.register(
     "Edit display name" : "Editar nome de exibição",
     "Select manager" : "Selecione o gerente",
     "User's table" : "Selecione o gerente",
-    "Select user manager" : "Selecione o gerenciador de usuários"
+    "Select user manager" : "Selecione o gerenciador de usuários",
+    "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s." : "Esta instância está faltando alguns módulos PHP recomendados. Para melhor desempenho e melhor compatibilidade é altamente recomendável instalá-los:%s."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
