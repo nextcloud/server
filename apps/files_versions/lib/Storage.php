@@ -63,6 +63,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -603,6 +604,10 @@ class Storage {
 			} catch (NotFoundException $e) {
 				// Original node not found, delete the version
 				return true;
+			} catch (StorageNotAvailableException | StorageInvalidException $e) {
+				// Storage can't be used, but it might only be temporary so we can't always delete the version
+				// since we can't determine if the version is named we take the safe route and don't expire
+				return false;
 			} catch (DoesNotExistException $ex) {
 				// Version on FS can have no equivalent in the DB if they were created before the version naming feature.
 				// So we ignore DoesNotExistException.
