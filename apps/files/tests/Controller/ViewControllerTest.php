@@ -184,11 +184,6 @@ class ViewControllerTest extends TestCase {
 		$expected = new Http\TemplateResponse(
 			'files',
 			'index',
-			[
-				'fileNotFound' => 0,
-				'id-app-content' => '#app-content-vue',
-				'id-app-navigation' => '#app-navigation-vue',
-			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
