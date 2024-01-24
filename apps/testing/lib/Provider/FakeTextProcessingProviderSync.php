@@ -23,14 +23,16 @@
 namespace OCA\Testing\Provider;
 
 use OCP\TextProcessing\FreePromptTaskType;
-use OCP\TextProcessing\IProvider;
+use OCP\TextProcessing\IProviderWithExpectedRuntime;
 use OCP\TextProcessing\ITaskType;
 
-/** @template-implements IProvider<FreePromptTaskType|ITaskType> */
-class FakeTextProcessingProvider implements IProvider {
+/**
+ * @template-implements IProviderWithExpectedRuntime<FreePromptTaskType|ITaskType>
+ */
+class FakeTextProcessingProviderSync implements IProviderWithExpectedRuntime {
 
 	public function getName(): string {
-		return 'Fake text processing provider (asynchronous)';
+		return 'Fake text processing provider (synchronous)';
 	}
 
 	public function process(string $prompt): string {
@@ -39,5 +41,9 @@ class FakeTextProcessingProvider implements IProvider {
 
 	public function getTaskType(): string {
 		return FreePromptTaskType::class;
+	}
+
+	public function getExpectedRuntime(): int {
+		return 1;
 	}
 }
