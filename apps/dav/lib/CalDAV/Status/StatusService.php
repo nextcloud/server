@@ -77,12 +77,13 @@ class StatusService {
 			return;
 		}
 
-		$userStatusTimestamp = null;
-		$currentStatus = null;
 		try {
 			$currentStatus = $this->userStatusService->findByUserId($userId);
-			$userStatusTimestamp = $currentStatus->getIsUserDefined() ? $currentStatus->getStatusTimestamp() : null;
+			// Was the status set by anything other than the calendar automation?
+			$userStatusTimestamp = $currentStatus->getIsUserDefined() && $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY ? $currentStatus->getStatusTimestamp() : null;
 		} catch (DoesNotExistException) {
+			$userStatusTimestamp = null;
+			$currentStatus = null;
 		}
 
 		if($currentStatus !== null && $currentStatus->getMessageId() === IUserStatus::MESSAGE_CALL
@@ -123,19 +124,21 @@ class StatusService {
 			return;
 		}
 
-		// One event that fulfills all status conditions is enough
-		// 1. Not an OOO event
-		// 2. Current user status was not set after the start of this event
-		// 3. Event is not set to be transparent
-		$count = count($applicableEvents);
-		$this->logger->debug("Found $count applicable event(s), changing user status", ['user' => $userId]);
-		$this->userStatusService->setUserStatus(
-			$userId,
-			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
-			true
-		);
-
+		// Only update the status if it's neccesary otherwise we mess up the timestamp
+		if($currentStatus === null || $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY) {
+			// One event that fulfills all status conditions is enough
+			// 1. Not an OOO event
+			// 2. Current user status (that is not a calendar status) was not set after the start of this event
+			// 3. Event is not set to be transparent
+			$count = count($applicableEvents);
+			$this->logger->debug("Found $count applicable event(s), changing user status", ['user' => $userId]);
+			$this->userStatusService->setUserStatus(
+				$userId,
+				IUserStatus::AWAY,
+				IUserStatus::MESSAGE_CALENDAR_BUSY,
+				true
+			);
+		}
 	}
 
 	private function getCalendarEvents(User $user): array {
