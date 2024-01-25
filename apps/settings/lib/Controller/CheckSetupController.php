@@ -202,10 +202,6 @@ Raw output
 		return false;
 	}
 
-	protected function isMysqlUsedWithoutUTF8MB4(): bool {
-		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
-	}
-
 	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
 		$objectStore = $this->config->getSystemValue('objectstore', null);
 		$objectStoreMultibucket = $this->config->getSystemValue('objectstore_multibucket', null);
@@ -251,7 +247,6 @@ Raw output
 			[
 				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),

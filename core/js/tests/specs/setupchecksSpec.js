@@ -224,7 +224,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -261,7 +260,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -298,7 +296,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -336,7 +333,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -403,7 +399,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -435,41 +430,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return an error if the php version is no longer supported', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: true,
-					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
-					reverseProxyGeneratedURL: 'https://server',
-					temporaryDirectoryWritable: true,
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.example.org/admin-mysql-utf8mb4">the documentation page about this ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
     // THe following test is invalid as the code in core/js/setupchecks.js is calling
     // window.location.protocol which always return http during tests
     // if there is a way to trick window.location.protocol during test, then we could re-activate it
@@ -484,7 +444,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
@@ -520,7 +479,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
@@ -553,7 +511,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -588,7 +545,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: true,
@@ -630,7 +586,6 @@ describe('OC.SetupChecks tests', function() {
 				},
 				JSON.stringify({
 					isFairUseOfFreePushService: true,
-					isMysqlUsedWithoutUTF8MB4: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: false,

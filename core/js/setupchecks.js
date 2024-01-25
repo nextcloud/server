@@ -189,14 +189,6 @@
 						});
 					}
 
-					if (data.isMysqlUsedWithoutUTF8MB4) {
-						messages.push({
-							msg: t('core', 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
 						messages.push({
 							msg: t('core', 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'),
