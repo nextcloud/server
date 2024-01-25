@@ -51,7 +51,6 @@
 					:default-value="colorPickerField.defaultValue"
 					:display-name="colorPickerField.displayName"
 					:value.sync="colorPickerField.value"
-					data-admin-theming-setting-primary-color
 					@update:theming="$emit('update:theming')" />
 
 				<!-- Default background picker -->
