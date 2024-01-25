@@ -32,7 +32,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
- * Create new fields for type and lazy loading in appconfig for the new IAppConfig API.
+ * Create new column for type and remove previous lazy column in appconfig (will be recreated by Version29000Date20240124132202) for the new IAppConfig API.
  */
 class Version29000Date20240124132201 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
