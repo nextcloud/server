@@ -51,7 +51,7 @@
     "@nextcloud/moment": "^1.2.1",
     "@nextcloud/password-confirmation": "^4.0.4",
     "@nextcloud/paths": "^2.1.0",
-    "@nextcloud/router": "^2.0.0",
+    "@nextcloud/router": "^2.2.1",
     "@nextcloud/sharing": "^0.1.0",
     "@nextcloud/vue": "^7.12.2",
     "@nextcloud/vue-dashboard": "^2.0.1",
