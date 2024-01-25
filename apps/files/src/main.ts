@@ -3,8 +3,6 @@ import { createPinia, PiniaVuePlugin } from 'pinia'
 import { getNavigation } from '@nextcloud/files'
 import { getRequestToken } from '@nextcloud/auth'
 
-import FilesListView from './views/FilesList.vue'
-import NavigationView from './views/Navigation.vue'
 import router from './router/router'
 import RouterService from './services/RouterService'
 import SettingsModel from './models/Setting.js'
@@ -35,7 +33,8 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 // Init Navigation Service
-const Navigation = getNavigation()
+// This only works with Vue 2 - with Vue 3 this will not modify the source but return just a oberserver
+const Navigation = Vue.observable(getNavigation())
 Vue.prototype.$navigation = Navigation
 
 // Init Files App Settings Service
