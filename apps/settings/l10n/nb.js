@@ -251,6 +251,7 @@ OC.L10N.register(
     "Your profile picture" : "Ditt profilbilde",
     "Upload profile picture" : "Last opp profilbilde",
     "Remove profile picture" : "Fjern profilbilde",
+    "The file must be a PNG or JPG" : "Filen må være en .PNG eller .JPG",
     "Picture provided by original account" : "Bilde kommer fra opprinnelig konto",
     "Set as profile picture" : "Angi som profilbilde",
     "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "Vær oppmerksom på at det kan ta opptil 24 timer før profilbildet ditt blir oppdatert overalt.",
