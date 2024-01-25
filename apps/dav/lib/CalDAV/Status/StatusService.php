@@ -125,7 +125,7 @@ class StatusService {
 		}
 
 		// Only update the status if it's neccesary otherwise we mess up the timestamp
-		if($currentStatus !== null && $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY) {
+		if($currentStatus === null || $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY) {
 			// One event that fulfills all status conditions is enough
 			// 1. Not an OOO event
 			// 2. Current user status (that is not a calendar status) was not set after the start of this event
