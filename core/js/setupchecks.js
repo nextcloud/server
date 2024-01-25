@@ -189,18 +189,6 @@
 						});
 					}
 
-					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
-						messages.push({
-							msg: t('core', 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (!data.temporaryDirectoryWritable) {
-						messages.push({
-							msg: t('core', 'The temporary directory of this instance points to an either non-existing or non-writable directory.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
 						messages.push({
 							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
