@@ -121,6 +121,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\PhpOpcacheSetup' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOpcacheSetup.php',
         'OCA\\Settings\\SetupChecks\\PhpOutdated' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutdated.php',
         'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutputBuffering.php',
+        'OCA\\Settings\\SetupChecks\\PushService' => __DIR__ . '/..' . '/../lib/SetupChecks/PushService.php',
         'OCA\\Settings\\SetupChecks\\RandomnessSecure' => __DIR__ . '/..' . '/../lib/SetupChecks/RandomnessSecure.php',
         'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ReadOnlyConfig.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',

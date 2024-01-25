@@ -56,7 +56,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
@@ -72,8 +71,6 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IManager */
-	private $manager;
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
@@ -83,7 +80,6 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		IManager $manager,
 		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
@@ -92,7 +88,6 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->manager = $manager;
 		$this->setupCheckManager = $setupCheckManager;
 	}
 
@@ -103,19 +98,6 @@ class CheckSetupController extends Controller {
 	 */
 	public function setupCheckManager(): DataResponse {
 		return new DataResponse($this->setupCheckManager->runAll());
-	}
-
-	/**
-	 * Check if is fair use of free push service
-	 * @return bool
-	 */
-	private function isFairUseOfFreePushService(): bool {
-		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
-		if ($rateLimitReached >= (time() - 7 * 24 * 3600)) {
-			// Notifications app is showing a message already
-			return true;
-		}
-		return $this->manager->isFairUseOfFreePushService();
 	}
 
 	/**
@@ -194,7 +176,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 				'generic' => $this->setupCheckManager->runAll(),
