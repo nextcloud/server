@@ -96,7 +96,6 @@
 			data-cy-files-content-empty>
 			<template #action>
 				<NcButton v-if="dir !== '/'"
-					:aria-label="t('files', 'Go to the previous folder')"
 					type="primary"
 					:to="toPreviousDir">
 					{{ t('files', 'Go back') }}
@@ -341,7 +340,9 @@ export default defineComponent({
 		 */
 		toPreviousDir(): Route {
 			const dir = this.dir.split('/').slice(0, -1).join('/') || '/'
-			return { ...this.$route, query: { dir } }
+			const fileid = this.pathsStore.getPath(this.currentView?.id, dir)?.toString()
+			// @ts-expect-error Route expect params to be string, but we need to explicitly set undefined when there is no fileid
+			return { ...this.$route, params: { fileid }, query: { dir } }
 		},
 
 		shareAttributes(): number[]|undefined {
@@ -567,7 +568,7 @@ export default defineComponent({
 		 * Refreshes the current folder on update.
 		 *
 		 * @param {Node} node is the file/folder being updated.
- 		 */
+		 */
 		onUpdatedNode(node) {
 			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
