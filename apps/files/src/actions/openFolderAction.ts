@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { join } from 'path'
 import { Permission, Node, FileType, View, FileAction, DefaultType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
@@ -49,7 +48,7 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec(node: Node, view: View) {
 		if (!node || node.type !== FileType.Folder) {
 			return false
 		}
@@ -57,7 +56,7 @@ export const action = new FileAction({
 		window.OCP.Files.Router.goToRoute(
 			null,
 			{ view: view.id, fileid: node.fileid },
-			{ dir: join(dir, node.basename) },
+			{ dir: node.path },
 		)
 		return null
 	},
