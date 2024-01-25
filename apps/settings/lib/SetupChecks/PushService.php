@@ -25,22 +25,26 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
+use OCP\Support\Subscription\IRegistry;
 
-class FairUseOfFreePushService implements ISetupCheck {
+class PushService implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
 		private IManager $notificationsManager,
+		private IRegistry $subscriptionRegistry,
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Free push service');
+		return $this->l10n->t('Push service');
 	}
 
 	public function getCategory(): string {
@@ -52,7 +56,7 @@ class FairUseOfFreePushService implements ISetupCheck {
 	 */
 	private function isFairUseOfFreePushService(): bool {
 		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
-		if ($rateLimitReached >= (time() - 7 * 24 * 3600)) {
+		if ($rateLimitReached >= ($this->timeFactory->now()->getTimestamp() - 7 * 24 * 3600)) {
 			// Notifications app is showing a message already
 			return true;
 		}
@@ -60,8 +64,12 @@ class FairUseOfFreePushService implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
+		if ($this->subscriptionRegistry->delegateHasValidSubscription()) {
+			return SetupResult::success($this->l10n->t('Valid enterprise license'));
+		}
+
 		if ($this->isFairUseOfFreePushService()) {
-			return SetupResult::success();
+			return SetupResult::success($this->l10n->t('Free push service'));
 		}
 
 		return SetupResult::error(
