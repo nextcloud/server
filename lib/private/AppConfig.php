@@ -46,6 +46,7 @@ use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -70,6 +71,8 @@ use Psr\Log\LoggerInterface;
 class AppConfig implements IAppConfig {
 	private const APP_MAX_LENGTH = 32;
 	private const KEY_MAX_LENGTH = 64;
+	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
+	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
 
 	/** @var array<string, array<string, mixed>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys
@@ -92,7 +95,8 @@ class AppConfig implements IAppConfig {
 
 	public function __construct(
 		protected IDBConnection $connection,
-		private LoggerInterface $logger,
+		protected LoggerInterface $logger,
+		protected ICrypto $crypto,
 	) {
 	}
 
@@ -469,12 +473,26 @@ class AppConfig implements IAppConfig {
 
 		/**
 		 * - the pair $app/$key cannot exist in both array,
-		 * - we should still returns an existing non-lazy value even if current method
+		 * - we should still return an existing non-lazy value even if current method
 		 *   is called with $lazy is true
 		 *
 		 * This way, lazyCache will be empty until the load for lazy config value is requested.
 		 */
-		return $this->lazyCache[$app][$key] ?? $this->fastCache[$app][$key] ?? $default;
+		if (isset($this->lazyCache[$app][$key])) {
+			$value = $this->lazyCache[$app][$key];
+		} elseif (isset($this->fastCache[$app][$key])) {
+			$value = $this->fastCache[$app][$key];
+		} else {
+			return $default;
+		}
+
+		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $knownType);
+		if ($sensitive && str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+			// Only decrypt values that are stored encrypted
+			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+		}
+
+		return $value;
 	}
 
 	/**
@@ -736,10 +754,15 @@ class AppConfig implements IAppConfig {
 		 * no update if key is already known with set lazy status, or value is
 		 * different, or sensitivity switched from false to true.
 		 */
-		if ($this->hasKey($app, $key, $lazy)
+		if (!$sensitive
+			&& $this->hasKey($app, $key, $lazy)
 			&& $value === $this->getTypedValue($app, $key, $value, $lazy, $type)
-			&& (!$sensitive || $this->isSensitive($app, $key, $lazy))) {
+			&& !$this->isSensitive($app, $key, $lazy)) {
 			return false;
+		}
+
+		if ($sensitive) {
+			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
 		}
 
 		$refreshCache = false;
@@ -893,18 +916,34 @@ class AppConfig implements IAppConfig {
 			return false;
 		}
 
+		$lazy = $this->isLazy($app, $key);
+		if ($lazy) {
+			$cache = $this->lazyCache;
+		} else {
+			$cache = $this->fastCache;
+		}
+
+		if (!isset($cache[$app][$key])) {
+			throw new AppConfigUnknownKeyException('unknown config key');
+		}
+
 		/**
 		 * type returned by getValueType() is already cleaned from sensitive flag
 		 * we just need to update it based on $sensitive and store it in database
 		 */
 		$type = $this->getValueType($app, $key);
+		$value = $cache[$app][$key];
 		if ($sensitive) {
-			$type = $type | self::VALUE_SENSITIVE;
+			$type |= self::VALUE_SENSITIVE;
+			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
+		} else {
+			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
 		}
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('appconfig')
 			   ->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+			   ->set('configvalue', $update->createNamedParameter($value))
 			   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
