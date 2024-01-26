@@ -1,0 +1,186 @@
+name: PHPUnit files_external S3
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+concurrency:
+  group: files-external-s3-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - 'apps/files_external/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
+  files-external-s3-minio:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+
+    strategy:
+      matrix:
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
+        include:
+          - php-versions: '8.3'
+            coverage: true
+
+    name: php${{ matrix.php-versions }}-s3
+
+    services:
+      minio:
+        image: bitnami/minio
+        env:
+          MINIO_ROOT_USER: nextcloud
+          MINIO_ROOT_PASSWORD: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
+          MINIO_DEFAULT_BUCKETS: nextcloud
+        ports:
+          - "9000:9000"
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        env:
+          OBJECT_STORE_KEY: nextcloud
+          OBJECT_STORE_SECRET: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
+        run: |
+          composer install
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ app:enable --force files_external
+          echo "<?php return ['run' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => '$OBJECT_STORE_KEY','secret' => '$OBJECT_STORE_SECRET', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+
+      - name: Wait for S3
+        run: |
+          sleep 10
+          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
+
+      - name: PHPUnit
+        run: composer run test:files_external -- \
+          apps/files_external/tests/Storage/Amazons3Test.php \
+          apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
+          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+
+      - name: Upload code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.xml
+          flags: phpunit-files-external-s3
+
+      - name: S3 logs
+        if: always()
+        run: |
+          docker ps -a
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
+
+  files-external-s3-localstack:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+
+    strategy:
+      matrix:
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
+        include:
+          - php-versions: '8.3'
+            coverage: true
+
+    name: php${{ matrix.php-versions }}-s3
+
+    services:
+      localstack:
+        env:
+          SERVICES: s3
+          DEBUG: 1
+        image: localstack/localstack
+        ports:
+          - "4566:4566"
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        run: |
+          composer install
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ app:enable --force files_external
+          echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+
+      - name: PHPUnit
+        run: composer run test:files_external -- \
+          apps/files_external/tests/Storage/Amazons3Test.php \
+          apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
+          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+
+      - name: Upload code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.xml
+          flags: phpunit-files-external-s3
+
+      - name: S3 logs
+        if: always()
+        run: |
+          docker ps -a
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
+
+  s3-external-summary:
+    runs-on: ubuntu-latest
+    needs: [changes, files-external-s3-minio, files-external-s3-localstack]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.files-external-s3-minio.result != 'success' && needs.files-external-s3-localstack.result != 'success' }}; then exit 1; fi
