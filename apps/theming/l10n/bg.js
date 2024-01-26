@@ -85,9 +85,9 @@ OC.L10N.register(
     "No background" : "Без фон",
     "Select a background from your files" : "Избор на фон от вашите файлове",
     "Theme selection is enforced" : "Изборът на тема е приложен",
-    "Select a custom color" : "Избор на персонализиран цвят",
     "Reset to default" : "Настройки по подразбиране",
     "Upload" : "Качване",
-    "Remove background image" : "Премахни фоновото изображение"
+    "Remove background image" : "Премахни фоновото изображение",
+    "Select a custom color" : "Избор на персонализиран цвят"
 },
 "nplurals=2; plural=(n != 1);");

@@ -54,17 +54,17 @@ OC.L10N.register(
     "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
     "No tags found" : "Không tìm thấy nhãn",
-    "No files in here" : "Không có tệp ở đây",
-    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
-    "Name" : "Tên",
-    "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi",
     "Tag name is empty" : "Tên thẻ đang trống",
     "Select tag …" : "Lựa chọn thẻ",
     "Tagged files" : "Các tệp được dán nhãn",
     "Select tags to filter by" : "Chọn nhãn để lọc theo",
     "Please select tags to filter by" : "Vui lòng chọn các nhãn để lọc theo",
     "No files found for the selected tags" : "Không tìm thấy tệp cho các nhãn đã chọn",
-    "Create a new tag" : "Tạo một thẻ mới"
+    "Create a new tag" : "Tạo một thẻ mới",
+    "Name" : "Tên",
+    "No files in here" : "Không có tệp ở đây",
+    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
+    "Size" : "Kích cỡ",
+    "Modified" : "Thay đổi"
 },
 "nplurals=1; plural=0;");

@@ -7,11 +7,6 @@
     "Restore" : "Gjenopprett",
     "No deleted files" : "Ingen slettede filer",
     "Deleted" : "Slettet",
-    "You will be able to recover deleted files from here" : "Du vil kunne gjenopprette slettede filer herfra",
-    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
-    "Select all" : "Velg alle",
-    "Name" : "Navn",
-    "Actions" : "Handlinger",
     "Delete permanently" : "Slett permanent",
     "Error while restoring file from trash bin" : "Feil ved gjenoppretting av fil fra søppelbøtten",
     "Error while removing file from trash bin" : "Feil ved fjerning av fil fra søppelbøtten",
@@ -20,6 +15,11 @@
     "Error while removing files from trash bin" : "Feil ved fjerning av filer fra søppelbøtten",
     "This operation is forbidden" : "Operasjonen er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",
+    "You will be able to recover deleted files from here" : "Du vil kunne gjenopprette slettede filer herfra",
+    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
+    "Select all" : "Velg alle",
+    "Name" : "Navn",
+    "Actions" : "Handlinger",
     "Delete" : "Slett"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -80,9 +80,9 @@ OC.L10N.register(
     "No background" : "Geen achtergrond",
     "Select background" : "Selecteer achtergrond",
     "Theme selection is enforced" : "Themaselectie is afgedwongen",
-    "Select a custom color" : "Selecteer een aangepaste kleur",
     "Reset to default" : "Herstellen naar standaard",
     "Upload" : "Uploaden",
-    "Remove background image" : "Achtergrond beeld verwijderen"
+    "Remove background image" : "Achtergrond beeld verwijderen",
+    "Select a custom color" : "Selecteer een aangepaste kleur"
 },
 "nplurals=2; plural=(n != 1);");

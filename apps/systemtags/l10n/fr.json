@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "Impossible de charger les étiquettes du fichier",
     "Failed to set tag for file" : "Impossible d'affecter une étiquette au fichier",
     "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
-    "No files in here" : "Aucun fichier",
-    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
-    "Name" : "Nom",
-    "Size" : "Taille",
-    "Modified" : "Modifié",
     "Tag name is empty" : "Le nom de l'étiquette est vide",
     "Select tag …" : "Sélectionner une étiquette…",
     "Tagged files" : "Fichiers étiquetés",
     "Select tags to filter by" : "Indiquez les étiquettes à filtrer",
     "Please select tags to filter by" : "Veuillez sélectionner les étiquettes à filtrer",
     "No files found for the selected tags" : "Aucun fichier pour les étiquettes sélectionnées",
-    "Create a new tag" : "Créer une nouvelle étiquette"
+    "Create a new tag" : "Créer une nouvelle étiquette",
+    "Name" : "Nom",
+    "No files in here" : "Aucun fichier",
+    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
+    "Size" : "Taille",
+    "Modified" : "Modifié"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

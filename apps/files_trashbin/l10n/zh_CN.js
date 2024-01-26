@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "无已删除文件",
     "Files and folders you have deleted will show up here" : "此处将显示您删除的文件和文件夹",
     "Deleted" : "已删除",
-    "You will be able to recover deleted files from here" : "您可以在此处恢复已删除的文件",
-    "No entries found in this folder" : "此文件夹中无项目",
-    "Select all" : "全部选择",
-    "Name" : "名称",
-    "Actions" : "操作",
     "Delete permanently" : "永久删除",
     "Error while restoring file from trash bin" : "从回收站中恢复文件时出错",
     "Error while removing file from trash bin" : "从回收站恢复文件时出错",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "从回收站删除文件时出错",
     "This operation is forbidden" : "操作被禁止",
     "This directory is unavailable, please check the logs or contact the administrator" : "此目录不可用，请检查日志或联系管理员",
+    "You will be able to recover deleted files from here" : "您可以在此处恢复已删除的文件",
+    "No entries found in this folder" : "此文件夹中无项目",
+    "Select all" : "全部选择",
+    "Name" : "名称",
+    "Actions" : "操作",
     "Delete" : "删除"
 },
 "nplurals=1; plural=0;");

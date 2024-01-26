@@ -106,9 +106,9 @@ OC.L10N.register(
     "Default app priority" : "Prioridade padrão do aplicativo",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Se um aplicativo não estiver habilitado para um usuário, o próximo aplicativo com prioridade mais baixa será usado.",
     "Could not set global default apps" : "Não foi possível definir aplicativos padrão globais",
-    "Select a custom color" : "Selecione uma cor personalizada",
     "Reset to default" : "Redefinir para o padrão",
     "Upload" : "Enviar",
-    "Remove background image" : "Excluir a imagem de fundo"
+    "Remove background image" : "Excluir a imagem de fundo",
+    "Select a custom color" : "Selecione uma cor personalizada"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

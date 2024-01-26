@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "هیچ فایل حذف شده وجود ندارد",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
     "Deleted" : "حذف شده",
-    "You will be able to recover deleted files from here" : "شما قادر خواهید بود فایل های حذف شده را از اینجا بازیابی کنید",
-    "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
-    "Select all" : "انتخاب همه",
-    "Name" : "نام",
-    "Actions" : "فعالیت ها",
     "Delete permanently" : "حذف قطعی",
     "Error while restoring file from trash bin" : "Error while restoring file from trash bin",
     "Error while removing file from trash bin" : "Error while removing file from trash bin",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Error while removing files from trash bin",
     "This operation is forbidden" : "این عملیات غیرمجاز است",
     "This directory is unavailable, please check the logs or contact the administrator" : "پوشه‌ در دسترس نیست، لطفا لاگ‌ها را بررسی کنید یا به مدیر سیستم اطلاع دهید",
+    "You will be able to recover deleted files from here" : "شما قادر خواهید بود فایل های حذف شده را از اینجا بازیابی کنید",
+    "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
+    "Select all" : "انتخاب همه",
+    "Name" : "نام",
+    "Actions" : "فعالیت ها",
     "Delete" : "حذف"
 },
 "nplurals=2; plural=(n > 1);");

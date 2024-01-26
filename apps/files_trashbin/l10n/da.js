@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Ingen slettede filer",
     "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet, vil blive listet her",
     "Deleted" : "Slettet",
-    "You will be able to recover deleted files from here" : "Du vil kunne gendanne slettede filer herfra",
-    "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
-    "Select all" : "Vælg alle",
-    "Name" : "Navn",
-    "Actions" : "Handlinger",
     "Delete permanently" : "Slet permanent",
     "Error while restoring file from trash bin" : "Fejl under gendannelse af fil fra papirkurven",
     "Error while removing file from trash bin" : "Fejl under fjernelse af fil fra papirkurven",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Fejl under fjernelse af filer fra papirkurven",
     "This operation is forbidden" : "Denne operation er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappe er utilgængelig, tjek venligst loggene eller kontakt administratoren",
+    "You will be able to recover deleted files from here" : "Du vil kunne gendanne slettede filer herfra",
+    "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
+    "Select all" : "Vælg alle",
+    "Name" : "Navn",
+    "Actions" : "Handlinger",
     "Delete" : "Slet"
 },
 "nplurals=2; plural=(n != 1);");

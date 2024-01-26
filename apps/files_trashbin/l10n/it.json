@@ -9,11 +9,6 @@
     "No deleted files" : "Nessun file eliminato",
     "Files and folders you have deleted will show up here" : "I file e le cartelle che hai eliminato saranno mostrati qui",
     "Deleted" : "Eliminati",
-    "You will be able to recover deleted files from here" : "Potrai ripristinare i file eliminati da qui",
-    "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
-    "Select all" : "Seleziona tutto",
-    "Name" : "Nome",
-    "Actions" : "Azioni",
     "Delete permanently" : "Elimina definitivamente",
     "Error while restoring file from trash bin" : "Errore durante il ripristino del file dal cestino",
     "Error while removing file from trash bin" : "Errore durante la rimozione del file dal cestino",
@@ -22,6 +17,11 @@
     "Error while removing files from trash bin" : "Errore durante la rimozione dei file dal cestino",
     "This operation is forbidden" : "Questa operazione è vietata",
     "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
+    "You will be able to recover deleted files from here" : "Potrai ripristinare i file eliminati da qui",
+    "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
+    "Select all" : "Seleziona tutto",
+    "Name" : "Nome",
+    "Actions" : "Azioni",
     "Delete" : "Elimina"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
