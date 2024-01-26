@@ -105,9 +105,9 @@ OC.L10N.register(
     "Default app priority" : "デフォルトアプリの優先順位",
     "If an app is not enabled for a user, the next app with lower priority is used." : "あるアプリがユーザーに対して有効になっていない場合、次の優先順位のアプリが使用されます。",
     "Could not set global default apps" : "グローバルなデフォルトアプリを設定できなかった",
-    "Select a custom color" : "カスタムカラーを選択",
     "Reset to default" : "デフォルトに戻す",
     "Upload" : "アップロード",
-    "Remove background image" : "背景画像を削除"
+    "Remove background image" : "背景画像を削除",
+    "Select a custom color" : "カスタムカラーを選択"
 },
 "nplurals=1; plural=0;");

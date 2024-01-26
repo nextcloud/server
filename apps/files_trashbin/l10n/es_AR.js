@@ -8,14 +8,14 @@ OC.L10N.register(
     "Restore" : "Recuperar",
     "No deleted files" : "No hay archivos eliminados",
     "Deleted" : "Eliminado",
+    "Delete permanently" : "Borrar permanentemente",
+    "This operation is forbidden" : "Esta operación está prohibida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio no está disponible, compruebe los registros o póngase en contacto con el administrador",
     "You will be able to recover deleted files from here" : "Podrás recuperar archivos eliminados desde aquí",
     "No entries found in this folder" : "No se encontraron entradas en esta carpeta",
     "Select all" : "Seleccionar todo",
     "Name" : "Nombre",
     "Actions" : "Acciones",
-    "Delete permanently" : "Borrar permanentemente",
-    "This operation is forbidden" : "Esta operación está prohibida",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio no está disponible, compruebe los registros o póngase en contacto con el administrador",
     "Delete" : "Eliminar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

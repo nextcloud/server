@@ -87,9 +87,9 @@ OC.L10N.register(
     "Select background" : "Hautatu atzeko planoa",
     "No background has been selected" : "Ez da atzeko planorik hautatu",
     "Theme selection is enforced" : "Gaiaren hautaketa behartuta dago",
-    "Select a custom color" : "Hautatu kolore pertsonalizatu bat",
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Igo",
-    "Remove background image" : "Kendu atzeko-planoko irudia"
+    "Remove background image" : "Kendu atzeko-planoko irudia",
+    "Select a custom color" : "Hautatu kolore pertsonalizatu bat"
 },
 "nplurals=2; plural=(n != 1);");

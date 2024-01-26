@@ -8,14 +8,14 @@ OC.L10N.register(
     "Restore" : "Riprìstina",
     "No deleted files" : "Archìvios no cantzellados",
     "Deleted" : "Cantzelladu",
+    "Delete permanently" : "Cantzella in manera definitiva",
+    "This operation is forbidden" : "Custa operatzione no est permìtida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Custa cartella no est a disponimentu, controlla is informes o cuntata s'amministratzione",
     "You will be able to recover deleted files from here" : "As a pòdere recuperare is archìvios cantzellados dae inoghe",
     "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
     "Select all" : "Seletziona totu",
     "Name" : "Nùmene",
     "Actions" : "Atziones",
-    "Delete permanently" : "Cantzella in manera definitiva",
-    "This operation is forbidden" : "Custa operatzione no est permìtida",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Custa cartella no est a disponimentu, controlla is informes o cuntata s'amministratzione",
     "Delete" : "Cantzella"
 },
 "nplurals=2; plural=(n != 1);");

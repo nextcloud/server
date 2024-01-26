@@ -15,6 +15,8 @@ OC.L10N.register(
     "Edit comment" : "Редагувати коментар",
     "Delete comment" : "Вилучити коментар",
     "Cancel edit" : "Скасувати редагування",
+    "New comment" : "Новий коментар",
+    "Write a comment …" : "Додати коментар ...",
     "Post comment" : "Опублікувати коментар",
     "@ for mentions, : for emoji, / for smart picker" : "@ for згадування, : для емоційок, / для асистента з вибору",
     "Could not reload comments" : "Не вдалося перезавантажити коментарі",

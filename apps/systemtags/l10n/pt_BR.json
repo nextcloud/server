@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "Falha ao carregar etiquetas para arquivo",
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
-    "No files in here" : "Nenhum arquivo aqui",
-    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
-    "Name" : "Nome",
-    "Size" : "Tamanho",
-    "Modified" : "Modificado",
     "Tag name is empty" : "O nome da etiqueta está vazia",
     "Select tag …" : "Selecionar etiqueta...",
     "Tagged files" : "Arquivos etiquetados",
     "Select tags to filter by" : "Selecione etiquetas a filtrar",
     "Please select tags to filter by" : "Por favor selecione etiquetas a filtrar",
     "No files found for the selected tags" : "Nenhum arquivo encontrado para as etiquetas selecionadas",
-    "Create a new tag" : "Criar uma nova etiqueta"
+    "Create a new tag" : "Criar uma nova etiqueta",
+    "Name" : "Nome",
+    "No files in here" : "Nenhum arquivo aqui",
+    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
+    "Size" : "Tamanho",
+    "Modified" : "Modificado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -109,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "默認應用程式優先程度",
     "If an app is not enabled for a user, the next app with lower priority is used." : "若未對某個用戶啟用某個應用程式，則使用下一個優先程度較低的應用程式。",
     "Could not set global default apps" : "無法設定全域默認應用程式",
-    "Select a custom color" : "選擇自訂色彩",
     "Reset to default" : "恢復預設值",
     "Upload" : "上傳",
-    "Remove background image" : "移除背景圖片"
+    "Remove background image" : "移除背景圖片",
+    "Select a custom color" : "選擇自訂色彩"
 },
 "nplurals=1; plural=0;");

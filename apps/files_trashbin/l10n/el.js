@@ -9,11 +9,6 @@ OC.L10N.register(
     "Restore" : "Επαναφορά",
     "No deleted files" : "Κανένα διαγεγραμμένο αρχείο",
     "Deleted" : "Διαγραμμένα",
-    "You will be able to recover deleted files from here" : "Θα έχετε την δυνατότητα επαναφοράς διαγεγραμμένων αρχείων από εδώ",
-    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
-    "Select all" : "Επιλογή όλων",
-    "Name" : "Όνομα",
-    "Actions" : "Ενέργειες",
     "Delete permanently" : "Μόνιμη διαγραφή",
     "Error while restoring file from trash bin" : "Σφάλμα κατά την επαναφορά αρχείου από τον κάδο",
     "Error while removing file from trash bin" : "Σφάλμα κατά την κατάργηση αρχείου από τον κάδο",
@@ -22,6 +17,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Σφάλμα κατά την κατάργηση αρχείων από τον κάδο",
     "This operation is forbidden" : "Αυτή η ενέργεια δεν επιτρέπεται",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ο κατάλογος δεν είναι διαθέσιμος, παρακαλώ ελέγξτε τα αρχεία καταγραφής ή επικοινωνήστε με το διαχειριστή",
+    "You will be able to recover deleted files from here" : "Θα έχετε την δυνατότητα επαναφοράς διαγεγραμμένων αρχείων από εδώ",
+    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
+    "Select all" : "Επιλογή όλων",
+    "Name" : "Όνομα",
+    "Actions" : "Ενέργειες",
     "Delete" : "Διαγραφή"
 },
 "nplurals=2; plural=(n != 1);");
