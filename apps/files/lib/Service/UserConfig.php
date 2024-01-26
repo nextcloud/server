@@ -48,6 +48,12 @@ class UserConfig {
 			'allowed' => [true, false],
 		],
 		[
+			// Whether to sort folders before files in the list or not
+			'key' => 'sort_folders_first',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
 			// Whether to show the files list in grid view or not
 			'key' => 'grid_view',
 			'default' => false,

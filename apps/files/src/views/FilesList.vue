@@ -257,7 +257,7 @@ export default defineComponent({
 				// 1: Sort favorites first if enabled
 				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
 				// 2: Sort folders first if sorting by name
-				...(this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : []),
+				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
 				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
 				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
 				// 4: Use displayName if available, fallback to name
@@ -269,7 +269,7 @@ export default defineComponent({
 				// (for 1): always sort favorites before normal files
 				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
 				// (for 2): always sort folders before files
-				...(this.sortingMode === 'basename' ? ['asc'] : []),
+				...(this.userConfig.sort_folders_first ? ['asc'] : []),
 				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
 				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
 				// (also for 3 so make sure not to conflict with 2 and 3)
