@@ -27,12 +27,13 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
-const userConfig = loadState('files', 'config', {
+const userConfig = loadState<UserConfig>('files', 'config', {
 	show_hidden: false,
 	crop_image_previews: true,
 	sort_favorites_first: true,
+	sort_folders_first: true,
 	grid_view: false,
-}) as UserConfig
+})
 
 export const useUserConfigStore = function(...args) {
 	const store = defineStore('userconfig', {
