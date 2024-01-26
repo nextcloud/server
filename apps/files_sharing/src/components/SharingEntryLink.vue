@@ -125,7 +125,9 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
-					<NcActionButton :disabled="saving" @click.prevent="openSharingDetails">
+					<NcActionButton :disabled="saving"
+						:close-after-click="true"
+						@click.prevent="openSharingDetails">
 						<template #icon>
 							<Tune />
 						</template>
