@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/**'
       - '3rdparty/**'
+      - 'build/integration/**'
       - '**/*.php'
       - '**/lib/**'
       - '**/tests/**'
@@ -13,12 +14,12 @@ on:
       - 'composer.lock'
 
 concurrency:
-  group: s3-external-integration-${{ github.head_ref || github.run_id }}
+  group: integration-s3-primary-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
-  s3-primary-integration-tests-minio:
-    runs-on: ubuntu-20.04
+  integration-s3-primary:
+    runs-on: ubuntu-latest
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -33,14 +34,16 @@ jobs:
 
     services:
       redis:
-        image: redis
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
-          - "6379:6379"
+          - 6379:6379/tcp
       minio:
+        image: bitnami/minio
         env:
-          MINIO_ACCESS_KEY: minio
-          MINIO_SECRET_KEY: minio123
-        image: bitnami/minio:2021.12.29
+          MINIO_ROOT_USER: nextcloud
+          MINIO_ROOT_PASSWORD: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
+          MINIO_DEFAULT_BUCKETS: nextcloud
         ports:
           - "9000:9000"
 
@@ -51,10 +54,13 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd, redis
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: 'none'
+          ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -66,7 +72,7 @@ jobs:
       - name: Set up Nextcloud
         run: |
           mkdir data
-          echo '<?php $CONFIG=["${{ matrix.key }}" => ["class" => "OC\Files\ObjectStore\S3", "arguments" => ["bucket" => "nextcloud", "autocreate" => true, "key" => "minio", "secret" => "minio123", "hostname" => "localhost", "port" => 9000, "use_ssl" => false, "use_path_style" => true, "uploadPartSize" => 52428800]]];' > config/config.php
+          echo '<?php $CONFIG=["${{ matrix.key }}" => ["class" => "OC\Files\ObjectStore\S3", "arguments" => ["bucket" => "nextcloud", "autocreate" => true, "key" => "nextcloud", "secret" => "bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=", "hostname" => "localhost", "port" => 9000, "use_ssl" => false, "use_path_style" => true, "uploadPartSize" => 52428800]]];' > config/config.php
           echo '<?php $CONFIG=["redis" => ["host" => "localhost", "port" => 6379], "memcache.local" => "\OC\Memcache\Redis", "memcache.distributed" => "\OC\Memcache\Redis"];' > config/redis.config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f index.php
@@ -74,7 +80,7 @@ jobs:
       - name: Integration
         run: |
           cd build/integration
-          bash run.sh --tags "~@failure-s3" features/webdav-related.feature
+          bash run.sh --tags "~@failure-s3" dav_features/webdav-related.feature
 
       - name: S3 logs
         if: always()
@@ -86,10 +92,10 @@ jobs:
 
   s3-primary-integration-summary:
     runs-on: ubuntu-latest
-    needs: [s3-primary-integration-tests-minio]
+    needs: [integration-s3-primary]
 
     if: always()
 
     steps:
       - name: Summary status
-        run: if ${{ needs.s3-primary-integration-tests-minio.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.integration-s3-primary.result != 'success' }}; then exit 1; fi

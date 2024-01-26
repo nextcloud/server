@@ -54,6 +54,8 @@ trait WebDav {
 	private array $parsedResponse = [];
 	private string $s3MultipartDestination;
 	private string $uploadId;
+	/** @var string[] */
+	private array $parts = [];
 
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
@@ -475,28 +477,28 @@ trait WebDav {
 			</d:prop>
 			<d:literal>image/png</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>image/jpeg</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>image/heic</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>video/mp4</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
