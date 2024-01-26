@@ -46,9 +46,10 @@ export const action = new FileAction({
 			return t('files', 'Delete and unshare')
 		}
 
-		if (isAllUnshare(nodes)) {
-			return t('files', 'Unshare')
-		}
+		// Temporary disabled until fixed on 28.0.3
+		// if (isAllUnshare(nodes)) {
+		// 	return t('files', 'Unshare')
+		// }
 
 		return view.id === 'trashbin'
 			? t('files', 'Delete permanently')
