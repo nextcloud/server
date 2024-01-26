@@ -83,6 +83,9 @@ class AppConfig implements IAppConfig {
 	/**
 	 * $migrationCompleted is only needed to manage the previous structure
 	 * of the database during the upgrading process to nc29.
+	 *
+	 * only when upgrading from a version prior 28.0.2
+	 *
 	 * @TODO: remove this value in Nextcloud 30+
 	 */
 	private bool $migrationCompleted = true;
@@ -735,7 +738,7 @@ class AppConfig implements IAppConfig {
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
 			   ->setValue('appid', $insert->createNamedParameter($app))
-			   ->setValue('lazy', $insert->createNamedParameter($lazy, IQueryBuilder::PARAM_BOOL))
+			   ->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
 			   ->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 			   ->setValue('configkey', $insert->createNamedParameter($key))
 			   ->setValue('configvalue', $insert->createNamedParameter($value));
@@ -788,7 +791,7 @@ class AppConfig implements IAppConfig {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('appconfig')
 				   ->set('configvalue', $update->createNamedParameter($value))
-				   ->set('lazy', $update->createNamedParameter($lazy, IQueryBuilder::PARAM_BOOL))
+				   ->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
 				   ->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 				   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
@@ -925,7 +928,7 @@ class AppConfig implements IAppConfig {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('appconfig')
-			   ->set('lazy', $update->createNamedParameter($lazy, IQueryBuilder::PARAM_BOOL))
+			   ->set('lazy', $update->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT))
 			   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
@@ -1157,21 +1160,13 @@ class AppConfig implements IAppConfig {
 		if (!$this->migrationCompleted) {
 			$qb->select('appid', 'configkey', 'configvalue');
 		} else {
-			$qb->select('appid', 'configkey', 'configvalue', 'type', 'lazy');
+			// we only need value from lazy when loadConfig does not specify it
+			$qb->select('appid', 'configkey', 'configvalue', 'type');
+
 			if ($lazy !== null) {
-				if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
-					// Oracle does not like empty string nor false boolean !?
-					if ($lazy) {
-						$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter('1', IQueryBuilder::PARAM_INT)));
-					} else {
-						$qb->where($qb->expr()->orX(
-							$qb->expr()->isNull('lazy'),
-							$qb->expr()->eq('lazy', $qb->createNamedParameter('0', IQueryBuilder::PARAM_INT))
-						));
-					}
-				} else {
-					$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy, IQueryBuilder::PARAM_BOOL)));
-				}
+				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+			} else {
+				$qb->addSelect('lazy');
 			}
 		}
 
@@ -1195,9 +1190,8 @@ class AppConfig implements IAppConfig {
 
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
-			// if migration is not completed, 'lazy' and 'type' does not exist in $row
-			// also on oracle, lazy can be null ...
-			if ($row['lazy'] ?? false) {
+			// most of the time, 'lazy' is not in the select because its value is already known
+			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
 				$cache = &$this->lazyCache;
 			} else {
 				$cache = &$this->fastCache;
@@ -1282,6 +1276,15 @@ class AppConfig implements IAppConfig {
 	 * @deprecated
 	 */
 	public function setValue($app, $key, $value) {
+		/**
+		 * TODO: would it be overkill, or decently improve performance, to catch
+		 * call to this method with $key='enabled' and 'hide' config value related
+		 * to $app when the app is disabled (by modifying entry in database: lazy=lazy+2)
+		 * or enabled (lazy=lazy-2)
+		 *
+		 * this solution would remove the loading of config values from disabled app
+		 * unless calling the method {@see loadConfigAll()}
+		 */
 		return $this->setTypedValue($app, $key, (string)$value, false, self::VALUE_MIXED);
 	}
 

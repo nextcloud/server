@@ -27,45 +27,41 @@ namespace OC\Core\Migrations;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Create new fields for type and lazy loading in appconfig for the new IAppConfig API.
  */
-class Version29000Date20231126110901 extends SimpleMigrationStep {
+class Version28000Date20231126110901 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-
-		$table = $schema->getTable('appconfig');
-		if ($table->hasColumn('lazy')) {
-			return null;
-		}
-
-		/**
-		 * This code is now useless, after a discussion about boolean on oracle;
-		 * it has been decided to use another type for the lazy field
-		 *
-		 * a better migration process is available there:
-		 *
-		 * @see Version29000Date20240124132201 for the revert of current migration
-		 * @see Version29000Date20240124132202 for the new migration process
-		 */
 		return null;
 
+		/**
+		 * this migration was needed during Nextcloud 28 to prep the migration to 29 and a
+		 * new IAppConfig as its API require 'lazy' and 'type' database field.
+		 *
+		 * some changes in the migration process and the expected result have made its execution
+		 * useless, therefore ignored.
+		 *
+		 * @see Version29000Date20240124132201
+		 * @see Version29000Date20240124132202
+		 */
+		//		/** @var ISchemaWrapper $schema */
+		//		$schema = $schemaClosure();
+		//
+		//		if (!$schema->hasTable('appconfig')) {
+		//			return null;
+		//		}
+		//
+		//		$table = $schema->getTable('appconfig');
+		//		if ($table->hasColumn('lazy')) {
+		//			return null;
+		//		}
+		//
 		//		// type=2 means value is typed as MIXED
 		//		$table->addColumn('type', Types::INTEGER, ['notnull' => true, 'default' => 2]);
 		//		$table->addColumn('lazy', Types::BOOLEAN, ['notnull' => false, 'default' => false]);
-		//
-		//		if ($table->hasIndex('appconfig_config_key_index')) {
-		//			$table->dropIndex('appconfig_config_key_index');
-		//		}
-		//
-		//		$table->addIndex(['lazy'], 'ac_lazy_i');
-		//		$table->addIndex(['appid', 'lazy'], 'ac_app_lazy_i');
-		//		$table->addIndex(['appid', 'lazy', 'configkey'], 'ac_app_lazy_key_i');
 		//
 		//		return $schema;
 	}
