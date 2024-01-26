@@ -73,14 +73,10 @@ jobs:
 
     services:
       redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
-          - 6379:6379
+          - 6379:6379/tcp
       openldap:
         image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
         ports:
