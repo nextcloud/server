@@ -8,14 +8,14 @@ OC.L10N.register(
     "Restore" : "Restaŭri",
     "No deleted files" : "Neniu dosiero foriĝis",
     "Deleted" : "Forigita",
+    "Delete permanently" : "Forigi por ĉiam",
+    "This operation is forbidden" : "Ĉi tiu operacio malpermesatas",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ĉi tiu dosierujo maldisponeblas, bonvolu kontroli la protokolojn aŭ kontakti la administranton",
     "You will be able to recover deleted files from here" : "Vi eblos restaŭrigi forigitaj dosieroj el tie",
     "No entries found in this folder" : "Neniu enigo troviĝis en ĉi tiu dosierujo",
     "Select all" : "Elekti ĉion",
     "Name" : "Nomo",
     "Actions" : "Agoj",
-    "Delete permanently" : "Forigi por ĉiam",
-    "This operation is forbidden" : "Ĉi tiu operacio malpermesatas",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Ĉi tiu dosierujo maldisponeblas, bonvolu kontroli la protokolojn aŭ kontakti la administranton",
     "Delete" : "Forigi"
 },
 "nplurals=2; plural=(n != 1);");

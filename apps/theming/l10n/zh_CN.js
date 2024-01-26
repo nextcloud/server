@@ -84,9 +84,9 @@ OC.L10N.register(
     "No background" : "没有背景",
     "Select a background from your files" : "从文件中选择背景",
     "Theme selection is enforced" : "主题由管理员指定",
-    "Select a custom color" : "自定义颜色",
     "Reset to default" : "重置为默认设置",
     "Upload" : "上传",
-    "Remove background image" : "删除背景图片"
+    "Remove background image" : "删除背景图片",
+    "Select a custom color" : "自定义颜色"
 },
 "nplurals=1; plural=0;");

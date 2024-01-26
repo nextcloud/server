@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "No hay archivos borrados",
     "Files and folders you have deleted will show up here" : "Los archivos y carpetas que has eliminado aparecerán aquí. ",
     "Deleted" : "Borrado",
-    "You will be able to recover deleted files from here" : "Podrás recuperar archivos borrados desde aquí",
-    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
-    "Select all" : "Seleccionar todo",
-    "Name" : "Nombre",
-    "Actions" : "Acciones",
     "Delete permanently" : "Borrar permanentemente",
     "Error while restoring file from trash bin" : "Error al restaurar el archivo desde la papelera.",
     "Error while removing file from trash bin" : "Error al eliminar el archivo de la papelera.",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Se produjo un error al eliminar los archivos de la papelera.",
     "This operation is forbidden" : "Esta opración está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio no está disponible, por favor verifica las bitácoras o contacta al administrador",
+    "You will be able to recover deleted files from here" : "Podrás recuperar archivos borrados desde aquí",
+    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
+    "Select all" : "Seleccionar todo",
+    "Name" : "Nombre",
+    "Actions" : "Acciones",
     "Delete" : "Borrar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

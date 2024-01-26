@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Silinmiş bir dosya yok",
     "Files and folders you have deleted will show up here" : "Sildiğiniz dosya ve klasörler burada görüntülenir",
     "Deleted" : "Silindi",
-    "You will be able to recover deleted files from here" : "Silinmiş dosyalarınızı buradan geri yükleyebilirsiniz",
-    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
-    "Select all" : "Tümünü seç",
-    "Name" : "Ad",
-    "Actions" : "İşlemler",
     "Delete permanently" : "Kalıcı olarak sil",
     "Error while restoring file from trash bin" : "Dosya çöp kutusundan geri yüklenirken sorun çıktı",
     "Error while removing file from trash bin" : "Dosya çöp kutusundan silinirken sorun çıktı",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Dosyalar çöp kutusundan silinirken sorun çıktı",
     "This operation is forbidden" : "Bu işlem yapılamaz",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu klasör kullanılamıyor. Lütfen günlüğü denetleyin ya da BT yöneticiniz ile görüşün",
+    "You will be able to recover deleted files from here" : "Silinmiş dosyalarınızı buradan geri yükleyebilirsiniz",
+    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
+    "Select all" : "Tümünü seç",
+    "Name" : "Ad",
+    "Actions" : "İşlemler",
     "Delete" : "Sil"
 },
 "nplurals=2; plural=(n > 1);");

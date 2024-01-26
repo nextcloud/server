@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Нет удалённых файлов",
     "Files and folders you have deleted will show up here" : "Файлы и каталоги, которые вы удалили, будут отображаться здесь",
     "Deleted" : "Удалён",
-    "You will be able to recover deleted files from here" : "Отсюда могут быть восстановлены удалённые файлы",
-    "No entries found in this folder" : "В этой папке ничего нет",
-    "Select all" : "Выбрать все",
-    "Name" : "Имя",
-    "Actions" : "Действия",
     "Delete permanently" : "Окончательно удалить",
     "Error while restoring file from trash bin" : "Произошла ошибка при попытке восстановить файл из корзины",
     "Error while removing file from trash bin" : "Ошибка при попытке удалить файл из корзины",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Ошибка при попытке удалить файлы из корзины",
     "This operation is forbidden" : "Операция запрещена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Этот каталог недоступен. Проверьте системные журналы или свяжитесь с администратором",
+    "You will be able to recover deleted files from here" : "Отсюда могут быть восстановлены удалённые файлы",
+    "No entries found in this folder" : "В этой папке ничего нет",
+    "Select all" : "Выбрать все",
+    "Name" : "Имя",
+    "Actions" : "Действия",
     "Delete" : "Удалить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

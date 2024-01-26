@@ -9,11 +9,6 @@
     "No deleted files" : "لا توجد ملفات محذوفة",
     "Files and folders you have deleted will show up here" : "الملفات و المجلدات التي قُمتَ أنت بحذفها ستظهر هنا",
     "Deleted" : "محذوفة",
-    "You will be able to recover deleted files from here" : "يُمكنك استعادة الملفات المحذوفة من هنا",
-    "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
-    "Select all" : "تحديد الكل ",
-    "Name" : "اسم",
-    "Actions" : "الإجراءات",
     "Delete permanently" : "حذف بشكل دائم",
     "Error while restoring file from trash bin" : "خطأ في استعادة ملف من سلة المحذوفات",
     "Error while removing file from trash bin" : "خطأ في حذف ملف من سلة المحذوفات",
@@ -22,6 +17,11 @@
     "Error while removing files from trash bin" : "خطأ في حذف ملفات من سلة المحذوفات",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
     "This directory is unavailable, please check the logs or contact the administrator" : "هذا المجلد غير متوفر؛ الرجاء مراجعة سجل الأخطاء أو الاتصال بمدير النظام",
+    "You will be able to recover deleted files from here" : "يُمكنك استعادة الملفات المحذوفة من هنا",
+    "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
+    "Select all" : "تحديد الكل ",
+    "Name" : "اسم",
+    "Actions" : "الإجراءات",
     "Delete" : "حذف"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

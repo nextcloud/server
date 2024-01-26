@@ -8,11 +8,6 @@ OC.L10N.register(
     "Restore" : "Vrati",
     "No deleted files" : "Nema izbrisanih datoteka",
     "Deleted" : "Izbrisano",
-    "You will be able to recover deleted files from here" : "Ovdje ćete moći vratiti izbrisane datoteke",
-    "No entries found in this folder" : "U ovoj mapi nisu pronađeni nikakvi zapisi",
-    "Select all" : "Odaberi sve",
-    "Name" : "Naziv",
-    "Actions" : "Radnje",
     "Delete permanently" : "Trajno izbrišite",
     "Error while restoring file from trash bin" : "Pogreška prilikom vraćanja datoteke iz kante za smeće",
     "Error while removing file from trash bin" : "Pogreška prilikom uklanjanja datoteke iz kante za smeće",
@@ -21,6 +16,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Pogreška prilikom uklanjanja datoteka iz kante za smeće",
     "This operation is forbidden" : "Ova radnja je zabranjena",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ovaj direktorij je nedostupan, provjerite zapise ili se obratite administratoru",
+    "You will be able to recover deleted files from here" : "Ovdje ćete moći vratiti izbrisane datoteke",
+    "No entries found in this folder" : "U ovoj mapi nisu pronađeni nikakvi zapisi",
+    "Select all" : "Odaberi sve",
+    "Name" : "Naziv",
+    "Actions" : "Radnje",
     "Delete" : "Izbriši"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

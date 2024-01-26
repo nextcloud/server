@@ -106,9 +106,9 @@ OC.L10N.register(
     "Default app priority" : "Default app priority",
     "If an app is not enabled for a user, the next app with lower priority is used." : "If an app is not enabled for a user, the next app with lower priority is used.",
     "Could not set global default apps" : "Could not set global default apps",
-    "Select a custom color" : "Select a custom color",
     "Reset to default" : "Reset to default",
     "Upload" : "Upload",
-    "Remove background image" : "Remove background image"
+    "Remove background image" : "Remove background image",
+    "Select a custom color" : "Select a custom color"
 },
 "nplurals=2; plural=(n!=1);");

@@ -44,16 +44,16 @@ OC.L10N.register(
     "Invisible" : "Neredzama",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sadarbības birkas ir pieejamas visiem lietotājiem. Ierobežotās birkas ir redzamas lietotājiem, bet viņi tās nevar piešķirt. Neredzamās birkas ir paredzētas iekšējai lietošanai, jo lietotāji nevar tās redzēt vai piešķirt.",
     "No tags found" : "Netika atrasta neviena birka",
-    "No files in here" : "Šeit nav datņu",
-    "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
-    "Name" : "Nosaukums",
-    "Size" : "Izmērs",
-    "Modified" : "Mainīts",
     "Select tag …" : "Izvēlies birku...",
     "Tagged files" : "Atzīmētās datnes",
     "Select tags to filter by" : "Izvēlieties birkas, pēc kurām filtrēt",
     "Please select tags to filter by" : "Lūdzu, izvēlieties birkas, pēc kurām filtrēt",
     "No files found for the selected tags" : "Datnes ar atlasītajām birkām netika atrastas",
-    "Create a new tag" : "Izveidot jaunu birku"
+    "Create a new tag" : "Izveidot jaunu birku",
+    "Name" : "Nosaukums",
+    "No files in here" : "Šeit nav datņu",
+    "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
+    "Size" : "Izmērs",
+    "Modified" : "Mainīts"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

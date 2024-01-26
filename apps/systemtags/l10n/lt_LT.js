@@ -54,17 +54,17 @@ OC.L10N.register(
     "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
     "No tags found" : "Nerasta jokių žymių",
     "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
-    "No files in here" : "Čia failų nėra",
-    "No entries found in this folder" : "Šiame aplanke nerasta jokių įrašų",
-    "Name" : "Pavadinimas",
-    "Size" : "Dydis",
-    "Modified" : "Pakeista",
     "Tag name is empty" : "Žymės pavadinimas yra tuščias",
     "Select tag …" : "Pasirinkite žymę…",
     "Tagged files" : "Pažymėti failai",
     "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
     "Please select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
     "No files found for the selected tags" : "Pasirinktai žymei, nerasti jokie failai.",
-    "Create a new tag" : "Sukurti naują žymę"
+    "Create a new tag" : "Sukurti naują žymę",
+    "Name" : "Pavadinimas",
+    "No files in here" : "Čia failų nėra",
+    "No entries found in this folder" : "Šiame aplanke nerasta jokių įrašų",
+    "Size" : "Dydis",
+    "Modified" : "Pakeista"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
