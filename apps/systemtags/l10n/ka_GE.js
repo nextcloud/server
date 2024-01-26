@@ -42,16 +42,16 @@ OC.L10N.register(
     "Restricted" : "აკრძალული",
     "Invisible" : "უჩინარი",
     "No tags found" : "ტეგები ვერ მოიძებნა",
-    "No files in here" : "აქ ფაილები არაა",
-    "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
-    "Name" : "სახელი",
-    "Size" : "ზომა",
-    "Modified" : "შეცვლილია",
     "Select tag …" : "ტეგის არჩევა …",
     "Tagged files" : "დატაგული ფაილები",
     "Select tags to filter by" : "ფილტრაციისთვის აირჩიეთ ტეგები",
     "Please select tags to filter by" : "ფილტრაციისთვის გთხოვთ აირჩიოთ ტეგები",
     "No files found for the selected tags" : "არჩეული ტეგების მიხედვით ფაილების პოვნა ვერ მოხერხდა",
-    "Create a new tag" : "ახალი ტეგის შექმნა"
+    "Create a new tag" : "ახალი ტეგის შექმნა",
+    "Name" : "სახელი",
+    "No files in here" : "აქ ფაილები არაა",
+    "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
+    "Size" : "ზომა",
+    "Modified" : "შეცვლილია"
 },
 "nplurals=2; plural=(n!=1);");

@@ -65,17 +65,17 @@
     "Tags you have created will show up here." : "Ознаките што ги имате креирано ќе се појават овде",
     "Failed to load last used tags" : "Неуспешно вчитување на последно користените ознаки",
     "Missing \"Content-Location\" header" : "Недостасува \"Content-Location\" заглавие",
-    "No files in here" : "Тука нема датотеки",
-    "No entries found in this folder" : "Нема ништо во оваа папка",
-    "Name" : "Име",
-    "Size" : "Големина",
-    "Modified" : "Променето",
     "Tag name is empty" : "Името на ознаката е празна",
     "Select tag …" : "Избери ознака ...",
     "Tagged files" : "Означени датотеки",
     "Select tags to filter by" : "Изберете филтер за ознака",
     "Please select tags to filter by" : "Изберете ознака за да филтрирате",
     "No files found for the selected tags" : "Нема пронајдено датотеки за селектираната ознака",
-    "Create a new tag" : "Креирајте нова ознака"
+    "Create a new tag" : "Креирајте нова ознака",
+    "Name" : "Име",
+    "No files in here" : "Тука нема датотеки",
+    "No entries found in this folder" : "Нема ништо во оваа папка",
+    "Size" : "Големина",
+    "Modified" : "Променето"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

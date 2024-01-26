@@ -104,9 +104,9 @@
     "Default app priority" : "Domyślny priorytet aplikacji",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Jeśli aplikacja nie jest włączona dla użytkownika, używana jest następna aplikacja o niższym priorytecie.",
     "Could not set global default apps" : "Nie można ustawić globalnych aplikacji domyślnych",
-    "Select a custom color" : "Wybierz kolor niestandardowy",
     "Reset to default" : "Przywróć domyślne",
     "Upload" : "Wyślij",
-    "Remove background image" : "Usuń obraz tła"
+    "Remove background image" : "Usuń obraz tła",
+    "Select a custom color" : "Wybierz kolor niestandardowy"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

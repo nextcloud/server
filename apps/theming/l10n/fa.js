@@ -85,9 +85,9 @@ OC.L10N.register(
     "No background" : "No background",
     "Select a background from your files" : "Select a background from your files",
     "Theme selection is enforced" : "گزینش زمینه اجباری است",
-    "Select a custom color" : "گزینش رنگی شخصی",
     "Reset to default" : "بازنشانی به پیش‌گزیده",
     "Upload" : "بارگذاری",
-    "Remove background image" : "برداشتن تصویر پس‌زمینه"
+    "Remove background image" : "برداشتن تصویر پس‌زمینه",
+    "Select a custom color" : "گزینش رنگی شخصی"
 },
 "nplurals=2; plural=(n > 1);");

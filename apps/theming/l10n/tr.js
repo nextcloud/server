@@ -109,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "Varsayılan uygulama önceliği",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Bir uygulama bir kullanıcıda etkin değilse, daha düşük öncelikli bir sonraki uygulama kullanılır.",
     "Could not set global default apps" : "Genel varsayılan uygulamalar ayarlanamadı",
-    "Select a custom color" : "Özel bir renk seçin",
     "Reset to default" : "Varsayılanlara dön",
     "Upload" : "Yükle",
-    "Remove background image" : "Arka plan görselini kaldır"
+    "Remove background image" : "Arka plan görselini kaldır",
+    "Select a custom color" : "Özel bir renk seçin"
 },
 "nplurals=2; plural=(n > 1);");

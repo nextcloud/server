@@ -108,9 +108,9 @@ OC.L10N.register(
     "Default app priority" : "Priorita výchozí aplikace",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Pokud aplikace není pro daného uživatele zapnutá, bude použita hned další aplikace v pořadí priority.",
     "Could not set global default apps" : "Nepodařilo se nastavit globálně výchozí aplikace",
-    "Select a custom color" : "Vybrat uživatelsky určenou barvu",
     "Reset to default" : "Vrátit zpět na výchozí hodnoty",
     "Upload" : "Nahrát",
-    "Remove background image" : "Odebrat obrázek z pozadí"
+    "Remove background image" : "Odebrat obrázek z pozadí",
+    "Select a custom color" : "Vybrat uživatelsky určenou barvu"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -85,9 +85,9 @@ OC.L10N.register(
     "No background" : "Sin fondo",
     "Select a background from your files" : "Selecciona un fondo de tus archivos",
     "Theme selection is enforced" : "La selección de temas es obligatoria",
-    "Select a custom color" : "Seleccionar un color personalizado",
     "Reset to default" : "Restablecer al predeterminado",
     "Upload" : "Cargar",
-    "Remove background image" : "Eliminar imagen de fondo"
+    "Remove background image" : "Eliminar imagen de fondo",
+    "Select a custom color" : "Seleccionar un color personalizado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

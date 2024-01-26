@@ -53,17 +53,17 @@ OC.L10N.register(
     "Failed to load tags" : "Ŝargo de la etikedoj malsukcesis",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Kunlaboraj etikedoj disponeblas al ĉiuj uzantoj. Limigitaj etikedoj videblas de uzantoj, kiuj tamen ne povas atribui ilin. Nevideblaj etikedoj servas por interna uzo, ĉar uzantoj nek vidas nek povas atribui ilin.",
     "No tags found" : "Neniu etikedo troviĝis ",
-    "No files in here" : "Neniu dosiero estas ĉi tie",
-    "No entries found in this folder" : "Neniu elemento troviĝas en ĉi tiu dosierujo",
-    "Name" : "Nomo",
-    "Size" : "Grando",
-    "Modified" : "Modifita",
     "Tag name is empty" : "Etikednomo malplenas",
     "Select tag …" : "Elekti etikedon…",
     "Tagged files" : "Etikeditaj dosieroj",
     "Select tags to filter by" : "Elekti etikedojn, per kiuj filtri",
     "Please select tags to filter by" : "Bonvolu elekti etikedojn, per kiuj filtri",
     "No files found for the selected tags" : "Neniu dosiero troviĝis por la elektitaj etikedoj",
-    "Create a new tag" : "Krei novan etikedon"
+    "Create a new tag" : "Krei novan etikedon",
+    "Name" : "Nomo",
+    "No files in here" : "Neniu dosiero estas ĉi tie",
+    "No entries found in this folder" : "Neniu elemento troviĝas en ĉi tiu dosierujo",
+    "Size" : "Grando",
+    "Modified" : "Modifita"
 },
 "nplurals=2; plural=(n != 1);");

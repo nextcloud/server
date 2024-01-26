@@ -101,9 +101,9 @@ OC.L10N.register(
     "Default app priority" : "Sjálfgefinn forgangur forrits",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Ef forrit er ekki virkjað fyrir notanda, verður næsta forrit með lægri forgangi notað.",
     "Could not set global default apps" : "Gat ekki sett víðvær sjálfgefin forrit",
-    "Select a custom color" : "Veldu sérsniðinn lit",
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Upload" : "Senda inn",
-    "Remove background image" : "Fjarlægja bakgrunnsmynd"
+    "Remove background image" : "Fjarlægja bakgrunnsmynd",
+    "Select a custom color" : "Veldu sérsniðinn lit"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

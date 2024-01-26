@@ -107,9 +107,9 @@
     "Default app priority" : "أسبقية التطبيق التلقائي",
     "If an app is not enabled for a user, the next app with lower priority is used." : "إذا لم يكن التطبيق مخوَّلاً للمستخدِم، فإن التطبيق التالي في الأسبقية سيقع استعماله.",
     "Could not set global default apps" : "تعذّر تعيين التطبيقات التلقائية العامة",
-    "Select a custom color" : "إختر لوناً مُخصّصاً",
     "Reset to default" : "اعادة تعيين الافتراضيات",
     "Upload" : "تحميل",
-    "Remove background image" : "إزالة صورة الخلفية"
+    "Remove background image" : "إزالة صورة الخلفية",
+    "Select a custom color" : "إختر لوناً مُخصّصاً"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

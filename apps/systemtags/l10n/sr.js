@@ -81,17 +81,17 @@ OC.L10N.register(
     "Failed to load tags for file" : "Није успело учитавање ознака за фајл",
     "Failed to set tag for file" : "Није успело постављање ознака за фајл",
     "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
-    "No files in here" : "Овде нема фајлова",
-    "No entries found in this folder" : "Нема ничега у овој фасцикли",
-    "Name" : "Назив",
-    "Size" : "Величина",
-    "Modified" : "Измењен",
     "Tag name is empty" : "Име ознаке је празно",
     "Select tag …" : "Одаберите ознаку …",
     "Tagged files" : "Означени фајлови",
     "Select tags to filter by" : "Одаберите ознаке по којима да се филтрира",
     "Please select tags to filter by" : "Одаберите ознаке по којима да се филтрира",
     "No files found for the selected tags" : "Ниједан фајл није нађен за одабране ознаке",
-    "Create a new tag" : "Направи нову ознаку"
+    "Create a new tag" : "Направи нову ознаку",
+    "Name" : "Назив",
+    "No files in here" : "Овде нема фајлова",
+    "No entries found in this folder" : "Нема ничега у овој фасцикли",
+    "Size" : "Величина",
+    "Modified" : "Измењен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

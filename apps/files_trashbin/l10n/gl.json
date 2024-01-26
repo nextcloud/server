@@ -9,11 +9,6 @@
     "No deleted files" : "Non hai ficheiros eliminados",
     "Files and folders you have deleted will show up here" : "Os ficheiros e cartafoles que eliminou amosaranse aquí",
     "Deleted" : "Eliminado",
-    "You will be able to recover deleted files from here" : "Poderá recuperar ficheiros eliminados de aquí",
-    "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
-    "Select all" : "Seleccionar todo",
-    "Name" : "Nome",
-    "Actions" : "Accións",
     "Delete permanently" : "Eliminar definitivamente",
     "Error while restoring file from trash bin" : "Produciuse un erro ao restaurar o ficheiro do cesto do lixo",
     "Error while removing file from trash bin" : "Produciuse un erro ao retirar o ficheiro do cesto do lixo",
@@ -22,6 +17,11 @@
     "Error while removing files from trash bin" : "Produciuse un erro ao retirar ficheiros do cesto do lixo",
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto coa administración desta instancia.",
+    "You will be able to recover deleted files from here" : "Poderá recuperar ficheiros eliminados de aquí",
+    "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
+    "Select all" : "Seleccionar todo",
+    "Name" : "Nome",
+    "Actions" : "Accións",
     "Delete" : "Eliminar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

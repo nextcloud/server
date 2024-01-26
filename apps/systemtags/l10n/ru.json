@@ -69,17 +69,17 @@
     "Tags you have created will show up here." : "Здесь будут отображаться созданные вами теги.",
     "Failed to load last used tags" : "Не удалось загрузить последние использованные метки",
     "Missing \"Content-Location\" header" : "Отсутствует заголовок «Content-Location»",
-    "No files in here" : "Здесь нет файлов",
-    "No entries found in this folder" : "В этой папке не найдено ни одной записи",
-    "Name" : "Имя",
-    "Size" : "Размер",
-    "Modified" : "Изменён",
     "Tag name is empty" : "Имя метки пусто",
     "Select tag …" : "Выберите метку…",
     "Tagged files" : "Помеченные файлы",
     "Select tags to filter by" : "Выберите метки для отбора",
     "Please select tags to filter by" : "Выберите метки для отбора",
     "No files found for the selected tags" : "Не найдено файлов с выбранными метками",
-    "Create a new tag" : "Создать метку"
+    "Create a new tag" : "Создать метку",
+    "Name" : "Имя",
+    "No files in here" : "Здесь нет файлов",
+    "No entries found in this folder" : "В этой папке не найдено ни одной записи",
+    "Size" : "Размер",
+    "Modified" : "Изменён"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

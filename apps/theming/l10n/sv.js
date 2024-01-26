@@ -104,9 +104,9 @@ OC.L10N.register(
     "Default app priority" : "Prioritet för standardappar",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Om en app inte är aktiverad för en användare används nästa app med lägre prioritet.",
     "Could not set global default apps" : "Det gick inte att ställa in globala standardappar",
-    "Select a custom color" : "Välj en anpassad färg",
     "Reset to default" : "Återställ till grundinställningar",
     "Upload" : "Ladda upp",
-    "Remove background image" : "Ta bort bakgrundsbild"
+    "Remove background image" : "Ta bort bakgrundsbild",
+    "Select a custom color" : "Välj en anpassad färg"
 },
 "nplurals=2; plural=(n != 1);");

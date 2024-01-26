@@ -81,17 +81,17 @@ OC.L10N.register(
     "Failed to load tags for file" : "Kunde inte läsa in taggar för filen",
     "Failed to set tag for file" : "Kunde inte sätta tagg för filen",
     "Failed to delete tag for file" : "Kunde inte ta bort tagg för filen",
-    "No files in here" : "Inga filer här inne",
-    "No entries found in this folder" : "Ingenting hittades i denna mapp",
-    "Name" : "Namn",
-    "Size" : "Storlek",
-    "Modified" : "Modifierad",
     "Tag name is empty" : "Taggens namn är tomt",
     "Select tag …" : "Välj tagg ...",
     "Tagged files" : "Taggade filer",
     "Select tags to filter by" : "Välj taggar att filtrera efter",
     "Please select tags to filter by" : "Vänligen välj taggar att filtrera efter",
     "No files found for the selected tags" : "Inga filer hittades för de valda taggarna",
-    "Create a new tag" : "Skapa en ny tagg"
+    "Create a new tag" : "Skapa en ny tagg",
+    "Name" : "Namn",
+    "No files in here" : "Inga filer här inne",
+    "No entries found in this folder" : "Ingenting hittades i denna mapp",
+    "Size" : "Storlek",
+    "Modified" : "Modifierad"
 },
 "nplurals=2; plural=(n != 1);");

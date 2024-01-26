@@ -58,17 +58,17 @@ OC.L10N.register(
     "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
-    "No files in here" : "Täällä ei ole tiedostoja",
-    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
-    "Name" : "Nimi",
-    "Size" : "Koko",
-    "Modified" : "Muokattu",
     "Tag name is empty" : "Tunnisteen nimi on tyhjä",
     "Select tag …" : "Valitse tunniste ...",
     "Tagged files" : "Tunnisteella merkityt tiedostot",
     "Select tags to filter by" : "Valitse suodatettavat tunnisteet",
     "Please select tags to filter by" : "Valitse suodatettavat tunnisteet",
     "No files found for the selected tags" : "Tiedostoja ei löytynyt valituilla tunnisteilla",
-    "Create a new tag" : "Luo uusi tunniste"
+    "Create a new tag" : "Luo uusi tunniste",
+    "Name" : "Nimi",
+    "No files in here" : "Täällä ei ole tiedostoja",
+    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
+    "Size" : "Koko",
+    "Modified" : "Muokattu"
 },
 "nplurals=2; plural=(n != 1);");

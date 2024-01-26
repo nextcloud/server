@@ -10,11 +10,6 @@ OC.L10N.register(
     "List of files that have been deleted." : "Списък на файловете, които са били изтрити.",
     "No deleted files" : "Няма изтрити файлове",
     "Deleted" : "Изтрито",
-    "You will be able to recover deleted files from here" : "От тук можете да възстановите изтрити файлове",
-    "No entries found in this folder" : "Няма намерени записи в тази папка",
-    "Select all" : "Избери всички",
-    "Name" : "Име",
-    "Actions" : "Действия",
     "Delete permanently" : "Изтрий завинаги",
     "Error while restoring file from trash bin" : "Грешка при възстановяване на файла от кошчето",
     "Error while removing file from trash bin" : "Грешка при премахване на файла от кошчето",
@@ -23,6 +18,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Грешка при премахване на файлове от кошчето",
     "This operation is forbidden" : "Операцията е забранена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Директорията не е налична. Моля проверете журнала или се свържете с администратор",
+    "You will be able to recover deleted files from here" : "От тук можете да възстановите изтрити файлове",
+    "No entries found in this folder" : "Няма намерени записи в тази папка",
+    "Select all" : "Избери всички",
+    "Name" : "Име",
+    "Actions" : "Действия",
     "Delete" : "Изтрий"
 },
 "nplurals=2; plural=(n != 1);");

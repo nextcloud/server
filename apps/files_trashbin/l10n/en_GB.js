@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "No deleted files",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
     "Deleted" : "Deleted",
-    "You will be able to recover deleted files from here" : "You will be able to recover deleted files from here",
-    "No entries found in this folder" : "No entries found in this folder",
-    "Select all" : "Select all",
-    "Name" : "Name",
-    "Actions" : "Actions",
     "Delete permanently" : "Delete permanently",
     "Error while restoring file from trash bin" : "Error while restoring file from trash bin",
     "Error while removing file from trash bin" : "Error while removing file from trash bin",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Error while removing files from trash bin",
     "This operation is forbidden" : "This operation is forbidden",
     "This directory is unavailable, please check the logs or contact the administrator" : "This directory is unavailable, please check the logs or contact the administrator",
+    "You will be able to recover deleted files from here" : "You will be able to recover deleted files from here",
+    "No entries found in this folder" : "No entries found in this folder",
+    "Select all" : "Select all",
+    "Name" : "Name",
+    "Actions" : "Actions",
     "Delete" : "Delete"
 },
 "nplurals=2; plural=(n != 1);");

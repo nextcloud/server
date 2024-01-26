@@ -103,9 +103,9 @@
     "Default app priority" : "Ưu tiên ứng dụng mặc định",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Nếu một ứng dụng không được bật cho người dùng thì ứng dụng tiếp theo có mức độ ưu tiên thấp hơn sẽ được sử dụng.",
     "Could not set global default apps" : "Không thể đặt ứng dụng mặc định chung",
-    "Select a custom color" : "Chọn màu tùy chỉnh",
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
-    "Remove background image" : "Xóa bỏ ảnh nền"
+    "Remove background image" : "Xóa bỏ ảnh nền",
+    "Select a custom color" : "Chọn màu tùy chỉnh"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
