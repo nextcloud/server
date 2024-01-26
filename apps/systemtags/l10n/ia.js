@@ -42,14 +42,14 @@ OC.L10N.register(
     "Restricted" : "Restringite",
     "Invisible" : "Invisibile",
     "No tags found" : "Nulle etiquettas trovate",
-    "No files in here" : "Nulle files ci",
-    "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
-    "Name" : "Nomine",
-    "Size" : "Dimension",
-    "Modified" : "Modificate",
     "Tagged files" : "Files etiquettate",
     "Select tags to filter by" : "Selectionar etiquettas a filtrar per",
     "Please select tags to filter by" : "Per favor, selectiona etiquettas a filtrar per",
-    "No files found for the selected tags" : "Nulle files trovate in correspondentia a le etiquettas selectionate"
+    "No files found for the selected tags" : "Nulle files trovate in correspondentia a le etiquettas selectionate",
+    "Name" : "Nomine",
+    "No files in here" : "Nulle files ci",
+    "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
+    "Size" : "Dimension",
+    "Modified" : "Modificate"
 },
 "nplurals=2; plural=(n != 1);");

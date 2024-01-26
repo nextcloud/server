@@ -73,9 +73,9 @@ OC.L10N.register(
     "Move up" : "Μετακίνηση επάνω",
     "Move down" : "Μετακίνηση Κάτω",
     "Change color" : "Αλλαγή χρώματος",
-    "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος",
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",
     "Upload" : "Μεταφόρτωση",
-    "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου"
+    "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
+    "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος"
 },
 "nplurals=2; plural=(n != 1);");

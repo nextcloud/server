@@ -69,17 +69,17 @@
     "Tags you have created will show up here." : "A saját címkék itt jelennek meg.",
     "Failed to load last used tags" : "A legutóbb használt címkék betöltése sikertelen",
     "Missing \"Content-Location\" header" : "Hiányzó „Content-Location” fejléc",
-    "No files in here" : "Itt nincsenek fájlok",
-    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
-    "Name" : "Név",
-    "Size" : "Méret",
-    "Modified" : "Módosítva",
     "Tag name is empty" : "A címke neve üres",
     "Select tag …" : "Válasszon címkét…",
     "Tagged files" : "Címkézett fájlok",
     "Select tags to filter by" : "Válasszon címkéket a szűréshez:",
     "Please select tags to filter by" : "Válasszon címkéket a szűréshez:",
     "No files found for the selected tags" : "Nem található fájl a kiválasztott címkéhez",
-    "Create a new tag" : "Új címke létrehozása"
+    "Create a new tag" : "Új címke létrehozása",
+    "Name" : "Név",
+    "No files in here" : "Itt nincsenek fájlok",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
+    "Size" : "Méret",
+    "Modified" : "Módosítva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

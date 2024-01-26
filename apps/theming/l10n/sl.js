@@ -83,9 +83,9 @@ OC.L10N.register(
     "No background" : "Brez ozadja",
     "Select a background from your files" : "Izbor ozadja med datotekami",
     "Theme selection is enforced" : "Izbira teme je vsiljena",
-    "Select a custom color" : "Izbor barve po meri",
     "Reset to default" : "Ponastavi na privzeto",
     "Upload" : "Pošlji",
-    "Remove background image" : "Odstrani sliko ozadja"
+    "Remove background image" : "Odstrani sliko ozadja",
+    "Select a custom color" : "Izbor barve po meri"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -10,11 +10,6 @@ OC.L10N.register(
     "List of files that have been deleted." : "Kustutatud failide loend.",
     "No deleted files" : "Kustutatud faile pole",
     "Deleted" : "Kustutatud",
-    "You will be able to recover deleted files from here" : "Siit saad kustutatud faile taastada",
-    "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
-    "Select all" : "Vali kõik",
-    "Name" : "Nimi",
-    "Actions" : "Tegevused",
     "Delete permanently" : "Kustuta jäädavalt",
     "Error while restoring file from trash bin" : "Faili prügikastist taastamine ebaõnnestus",
     "Error while removing file from trash bin" : "Faili prügikastist eemaldamine ebaõnnestus",
@@ -23,6 +18,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Failide prügikastist eemaldamine ebaõnnestus",
     "This operation is forbidden" : "See toiming on keelatud",
     "This directory is unavailable, please check the logs or contact the administrator" : "See kataloog pole saadaval, palun kontrolli logifaile või võta ühendust administraatoriga",
+    "You will be able to recover deleted files from here" : "Siit saad kustutatud faile taastada",
+    "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
+    "Select all" : "Vali kõik",
+    "Name" : "Nimi",
+    "Actions" : "Tegevused",
     "Delete" : "Kustuta"
 },
 "nplurals=2; plural=(n != 1);");

@@ -81,17 +81,17 @@ OC.L10N.register(
     "Failed to load tags for file" : "Fitxategiarentzako etiketak kargatzeak huts egin du",
     "Failed to set tag for file" : "Fitxategiarentzako etiketa ezartzeak huts egin du",
     "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
-    "No files in here" : "Ez dago fitxategirik hemen",
-    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
-    "Name" : "Izena",
-    "Size" : "Tamaina",
-    "Modified" : "Aldatuta",
     "Tag name is empty" : "Etiketaren izena hutsik dago",
     "Select tag …" : "Hautatu etiketa ...",
     "Tagged files" : "Etiketatutako fitxategiak",
     "Select tags to filter by" : "Hautatu etiketak iragazteko",
     "Please select tags to filter by" : "Hautatu etiketak iragazteko",
     "No files found for the selected tags" : "Ez da fitxategirik aurkitu hautatutako etiketetarako",
-    "Create a new tag" : "Sortu etiketa berria"
+    "Create a new tag" : "Sortu etiketa berria",
+    "Name" : "Izena",
+    "No files in here" : "Ez dago fitxategirik hemen",
+    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
+    "Size" : "Tamaina",
+    "Modified" : "Aldatuta"
 },
 "nplurals=2; plural=(n != 1);");

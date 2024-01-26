@@ -8,11 +8,6 @@ OC.L10N.register(
     "Restore" : "Herstellen",
     "No deleted files" : "Geen verwijderde bestanden",
     "Deleted" : "Verwijderd",
-    "You will be able to recover deleted files from here" : "Van hieruit kun je verwijderde bestanden terugzetten",
-    "No entries found in this folder" : "Niets gevonden in deze map",
-    "Select all" : "Alles selecteren",
-    "Name" : "Naam",
-    "Actions" : "Acties",
     "Delete permanently" : "Definitief verwijderen",
     "Error while restoring file from trash bin" : "Fout bij het herstellen vanaf de prullenbak",
     "Error while removing file from trash bin" : "Fout bij het verwijderen van de prullenbak",
@@ -21,6 +16,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Fout bij het verwijderen van bestanden in de prullenbak",
     "This operation is forbidden" : "Deze taak is verboden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Controleer de logs of neem contact op met de beheerder",
+    "You will be able to recover deleted files from here" : "Van hieruit kun je verwijderde bestanden terugzetten",
+    "No entries found in this folder" : "Niets gevonden in deze map",
+    "Select all" : "Alles selecteren",
+    "Name" : "Naam",
+    "Actions" : "Acties",
     "Delete" : "Verwijder"
 },
 "nplurals=2; plural=(n != 1);");

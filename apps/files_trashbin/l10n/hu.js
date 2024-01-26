@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Nincs törölt fájl",
     "Files and folders you have deleted will show up here" : "A törölt fájlok és mappák itt jelennek meg",
     "Deleted" : "Törölve",
-    "You will be able to recover deleted files from here" : "Innen vissza tudja állítani a törölt fáljokat",
-    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
-    "Select all" : "Összes kijelölése",
-    "Name" : "Név",
-    "Actions" : "Műveletek",
     "Delete permanently" : "Végleges törlés",
     "Error while restoring file from trash bin" : "Hiba a fájl kukából történő helyreállításakor",
     "Error while removing file from trash bin" : "Hiba a fájl kukából történő eltávolításakor",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Hiba a fájlok kukából történő eltávolításakor",
     "This operation is forbidden" : "Ez egy tiltott művelet",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem érhető el, ellenőrizze a naplófájlokat vagy lépjen kapcsolatba a rendszergazdával",
+    "You will be able to recover deleted files from here" : "Innen vissza tudja állítani a törölt fáljokat",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
+    "Select all" : "Összes kijelölése",
+    "Name" : "Név",
+    "Actions" : "Műveletek",
     "Delete" : "Törlés"
 },
 "nplurals=2; plural=(n != 1);");

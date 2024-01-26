@@ -81,17 +81,17 @@ OC.L10N.register(
     "Failed to load tags for file" : "Не вдалося завантажити мітки для файлу",
     "Failed to set tag for file" : "Не вдалося встановити мітку для файлу",
     "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу",
-    "No files in here" : "Тут немає файлів",
-    "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
-    "Name" : "Ім’я",
-    "Size" : "Розмір",
-    "Modified" : "Змінено",
     "Tag name is empty" : "Назва мітки порожня",
     "Select tag …" : "Виберіть мітку…",
     "Tagged files" : "Файли з мітками",
     "Select tags to filter by" : "Фільтр вибору мітки за",
     "Please select tags to filter by" : "Виберіть мітки для подальшого фільтрування",
     "No files found for the selected tags" : "Не знайдено файлів з такими мітками",
-    "Create a new tag" : "Додати нову мітку"
+    "Create a new tag" : "Додати нову мітку",
+    "Name" : "Ім’я",
+    "No files in here" : "Тут немає файлів",
+    "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
+    "Size" : "Розмір",
+    "Modified" : "Змінено"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

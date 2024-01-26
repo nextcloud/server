@@ -10,11 +10,6 @@ OC.L10N.register(
     "No deleted files" : "Ei poistettuja tiedostoja",
     "Files and folders you have deleted will show up here" : "Poistamasi tiedostot ja kansiot näkyvät täällä",
     "Deleted" : "Poistettu",
-    "You will be able to recover deleted files from here" : "Voit palauttaa poistettuja tiedostoja tätä kautta",
-    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
-    "Select all" : "Valitse kaikki",
-    "Name" : "Nimi",
-    "Actions" : "Toiminnot",
     "Delete permanently" : "Poista pysyvästi",
     "Error while restoring file from trash bin" : "Virhe palauttaessa tiedostoa roskakorista",
     "Error while removing file from trash bin" : "Virhe poistaessa tiedostoa roskakorista",
@@ -23,6 +18,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Virhe poistaessa tiedostoja roskakorista",
     "This operation is forbidden" : "Tämä toiminto on kielletty",
     "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
+    "You will be able to recover deleted files from here" : "Voit palauttaa poistettuja tiedostoja tätä kautta",
+    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
+    "Select all" : "Valitse kaikki",
+    "Name" : "Nimi",
+    "Actions" : "Toiminnot",
     "Delete" : "Poista"
 },
 "nplurals=2; plural=(n != 1);");

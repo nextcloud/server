@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Žádné smazané soubory",
     "Files and folders you have deleted will show up here" : "Zde budou zobrazeny soubory a složky, které jste smazali",
     "Deleted" : "Smazáno",
-    "You will be able to recover deleted files from here" : "Odtud budete moci obnovovat smazané soubory",
-    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
-    "Select all" : "Vybrat vše",
-    "Name" : "Název",
-    "Actions" : "Akce",
     "Delete permanently" : "Trvale odstranit",
     "Error while restoring file from trash bin" : "Chyba při obnovování souboru z Koše",
     "Error while removing file from trash bin" : "Chyba při odebírání souboru z Koše",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Chyba při odebírání souborů z Koše",
     "This operation is forbidden" : "Tato operace je zakázána",
     "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný – zkontrolujte záznamy událostí nebo se obraťte na správce",
+    "You will be able to recover deleted files from here" : "Odtud budete moci obnovovat smazané soubory",
+    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
+    "Select all" : "Vybrat vše",
+    "Name" : "Název",
+    "Actions" : "Akce",
     "Delete" : "Smazat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

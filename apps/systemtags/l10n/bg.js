@@ -64,17 +64,17 @@ OC.L10N.register(
     "No tags found" : "Не са открити етикети",
     "Failed to load last used tags" : "Неуспешно зареждане на последно използвани етикети",
     "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/.",
-    "No files in here" : "Няма файлове",
-    "No entries found in this folder" : "Няма намерени записи в тази папка",
-    "Name" : "Име",
-    "Size" : "Размер",
-    "Modified" : "Променен на",
     "Tag name is empty" : "Името на етикет е празно",
     "Select tag …" : "Изберете етикет...",
     "Tagged files" : "Отбелязани файлове",
     "Select tags to filter by" : "Филтриране по етикет",
     "Please select tags to filter by" : "Моля изберете етикети, за филтрирането",
     "No files found for the selected tags" : "Няма намерени файлове за избраните етикети",
-    "Create a new tag" : "Създаване на нов етикет"
+    "Create a new tag" : "Създаване на нов етикет",
+    "Name" : "Име",
+    "No files in here" : "Няма файлове",
+    "No entries found in this folder" : "Няма намерени записи в тази папка",
+    "Size" : "Размер",
+    "Modified" : "Променен на"
 },
 "nplurals=2; plural=(n != 1);");

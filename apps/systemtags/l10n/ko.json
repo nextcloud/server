@@ -52,17 +52,17 @@
     "This file has the tag {tag}" : "이 파일에 {tag} 태그가 있음",
     "This file has the tags {firstTags} and {lastTag}" : "이 파일에 {firstTags}와 {lastTag} 태그가 있음",
     "No tags found" : "태그를 찾을 수 없음",
-    "No files in here" : "여기에 파일 없음",
-    "No entries found in this folder" : "이 폴더에 항목 없음",
-    "Name" : "이름",
-    "Size" : "크기",
-    "Modified" : "수정됨",
     "Tag name is empty" : "태그 이름이 비었습니다.",
     "Select tag …" : "태그 선택 …",
     "Tagged files" : "태그 된 파일",
     "Select tags to filter by" : "필터링할 태그 선택",
     "Please select tags to filter by" : "필터링할 태그를 선택하십시오",
     "No files found for the selected tags" : "선택한 태그가 붙은 파일을 찾을 수 없음",
-    "Create a new tag" : "새 태그 만들기"
+    "Create a new tag" : "새 태그 만들기",
+    "Name" : "이름",
+    "No files in here" : "여기에 파일 없음",
+    "No entries found in this folder" : "이 폴더에 항목 없음",
+    "Size" : "크기",
+    "Modified" : "수정됨"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

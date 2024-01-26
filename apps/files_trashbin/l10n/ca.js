@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "No hi ha cap fitxer suprimit",
     "Files and folders you have deleted will show up here" : "Els fitxers i les carpetes que suprimiu es mostraran aquí",
     "Deleted" : "S'ha suprimit",
-    "You will be able to recover deleted files from here" : "Des d'aquí podreu recuperar els fitxers suprimits",
-    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
-    "Select all" : "Selecciona-ho tot",
-    "Name" : "Nom",
-    "Actions" : "Accions",
     "Delete permanently" : "Suprimeix de manera permanent",
     "Error while restoring file from trash bin" : "S'ha produït un error en restaurar el fitxer de la paperera",
     "Error while removing file from trash bin" : "S'ha produït un error en suprimir el fitxer de la paperera",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "S'ha produït un error en suprimir els fitxers de la paperera",
     "This operation is forbidden" : "Aquesta operació no està permesa",
     "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Consulteu els registres o contacteu amb l'administrador.",
+    "You will be able to recover deleted files from here" : "Des d'aquí podreu recuperar els fitxers suprimits",
+    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
+    "Select all" : "Selecciona-ho tot",
+    "Name" : "Nom",
+    "Actions" : "Accions",
     "Delete" : "Suprimeix"
 },
 "nplurals=2; plural=(n != 1);");

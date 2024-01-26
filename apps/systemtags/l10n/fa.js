@@ -66,17 +66,17 @@ OC.L10N.register(
     "No tags found" : "هیچ برچسبی یافت نشد",
     "Failed to load last used tags" : "Failed to load last used tags",
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
-    "No files in here" : "هیچ فایلی اینجا وجود ندارد",
-    "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
-    "Name" : "نام",
-    "Size" : "اندازه",
-    "Modified" : "تغییر یافته",
     "Tag name is empty" : "Tag name is empty",
     "Select tag …" : "Select tag …",
     "Tagged files" : "Tagged files",
     "Select tags to filter by" : "Select tags to filter by",
     "Please select tags to filter by" : "Please select tags to filter by",
     "No files found for the selected tags" : "No files found for the selected tags",
-    "Create a new tag" : "Create a new tag"
+    "Create a new tag" : "Create a new tag",
+    "Name" : "نام",
+    "No files in here" : "هیچ فایلی اینجا وجود ندارد",
+    "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
+    "Size" : "اندازه",
+    "Modified" : "تغییر یافته"
 },
 "nplurals=2; plural=(n > 1);");

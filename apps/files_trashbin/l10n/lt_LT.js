@@ -8,11 +8,6 @@ OC.L10N.register(
     "Restore" : "Atkurti",
     "No deleted files" : "Jokių ištrintų failų",
     "Deleted" : "Ištrinta",
-    "You will be able to recover deleted files from here" : "Čia galėsite atkurti ištrintus failus ",
-    "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
-    "Select all" : "Pažymėti viską",
-    "Name" : "Pavadinimas",
-    "Actions" : "Veiksmai",
     "Delete permanently" : "Ištrinti negrįžtamai",
     "Error while restoring file from trash bin" : "Klaida atkuriant failą iš šiukšlinės",
     "Error while removing file from trash bin" : "Klaida šalinant failą iš šiukšlinės",
@@ -21,6 +16,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Klaida šalinant failus iš šiukšlinės",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Šis katalogas neprieinamas, peržiūrėkite žurnalo įrašus arba susisiekite su administratoriumi",
+    "You will be able to recover deleted files from here" : "Čia galėsite atkurti ištrintus failus ",
+    "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
+    "Select all" : "Pažymėti viską",
+    "Name" : "Pavadinimas",
+    "Actions" : "Veiksmai",
     "Delete" : "Ištrinti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
