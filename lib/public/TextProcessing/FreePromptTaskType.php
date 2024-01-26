@@ -61,6 +61,6 @@ class FreePromptTaskType implements ITaskType {
 	 * @since 27.1.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Runs an arbitrary prompt through the language model.');
+		return $this->l->t('Send a request to the Assistant, for example: write a first draft of a presentation, give me suggestions for a presentation, write a draft reply to my colleague.');
 	}
 }
