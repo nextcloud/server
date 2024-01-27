@@ -1,1 +1,1 @@
-"use strict";(self.webpackChunknextcloud=self.webpackChunknextcloud||[]).push([[6318],{46318:(e,u,t)=>{t.r(u),t.d(u,{NcAutoCompleteResult:()=>c.N,NcMentionBubble:()=>l.N,default:()=>c.a});var l=t(94637),c=t(14783)}}]);
+"use strict";(self.webpackChunknextcloud=self.webpackChunknextcloud||[]).push([[6318],{46318:(e,u,t)=>{t.r(u),t.d(u,{NcAutoCompleteResult:()=>c.N,NcMentionBubble:()=>l.N,default:()=>c.a});var l=t(94637),c=t(14799)}}]);
