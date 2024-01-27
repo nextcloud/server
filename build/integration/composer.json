@@ -11,6 +11,6 @@
 		"guzzlehttp/guzzle": "^7.8",
 		"phpunit/phpunit": "^9.6",
 		"sabre/dav": "^4.6",
-		"symfony/event-dispatcher": "^5.4"
+		"symfony/event-dispatcher": "^6.0"
 	}
 }
