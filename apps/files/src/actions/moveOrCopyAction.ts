@@ -29,7 +29,7 @@ import type { MoveCopyResult } from './moveOrCopyActionUtils'
 import { AxiosError } from 'axios'
 import { basename, join } from 'path'
 import { emit } from '@nextcloud/event-bus'
-import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
+import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
@@ -232,7 +232,11 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 		const picker = filePicker.build()
 		picker.pick().catch((error) => {
 			logger.debug(error as Error)
-			reject(new Error(t('files', 'Cancelled move or copy operation')))
+			if (error instanceof FilePickerClosed) {
+				reject(new Error(t('files', 'Cancelled move or copy operation')))
+			} else {
+				reject(new Error(t('files', 'Move or copy operation failed')))
+			}
 		})
 	})
 }
