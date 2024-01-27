@@ -73,7 +73,7 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { UserConfig } from '../types'
 
-import { getFileListHeaders, Folder, View, getFileActions } from '@nextcloud/files'
+import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
@@ -248,7 +248,7 @@ export default defineComponent({
 			}
 
 			const node = this.nodes.find(n => n.fileid === openFileInfo.id) as NcNode
-			if (node === undefined) {
+			if (node === undefined || node.type === FileType.Folder) {
 				return
 			}
 
