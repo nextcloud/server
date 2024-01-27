@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "Restaurar versão",
     "Download version" : "Baixar versão",
     "Delete version" : "Excluir versão",
+    "Current version" : "Versão atual",
+    "Initial version" : "Versão inicial",
     "Version name" : "Nome da versão",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "As versões nomeadas são mantidas e excluídas das limpezas automáticas quando sua cota de armazenamento está cheia.",
     "Remove version name" : "Remover nome da versão",
     "Save version name" : "Salvar nome da versão",
-    "Current version" : "Versão atual",
-    "Initial version" : "Versão inicial",
     "Initial version restored" : "Versão inicial restaurada",
     "Version restored" : "Versão restaurada",
     "Could not restore version" : "Não foi possível restaurar esta versão",
-    "Could not set version name" : "Não foi possível definir o nome da versão",
     "Could not delete version" : "Não foi possível excluir a versão",
-    "${version.label} restored" : "${version.label} restaurado"
+    "${version.label} restored" : "${version.label} restaurado",
+    "Could not set version name" : "Não foi possível definir o nome da versão"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

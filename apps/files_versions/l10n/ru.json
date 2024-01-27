@@ -8,17 +8,17 @@
     "Restore version" : "Востановить версию",
     "Download version" : "Скачать версию",
     "Delete version" : "Удалить версию",
+    "Current version" : "Текущая версия",
+    "Initial version" : "Первоначальная версия",
     "Version name" : "Название версии",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именованные версии исключены из автоматического удаления старых версий файлов при исчерпании квоты дискового пространства.",
     "Remove version name" : "Удалить название версии",
     "Save version name" : "Сохранить название версии",
-    "Current version" : "Текущая версия",
-    "Initial version" : "Первоначальная версия",
     "Initial version restored" : "Восстановлена первоначальная версия",
     "Version restored" : "Версия восстановлена",
     "Could not restore version" : "Не удалось восстановить версию",
-    "Could not set version name" : "Не удалось обозначить версию",
     "Could not delete version" : "Не удалось удалить версию",
-    "${version.label} restored" : "Восстановлена версия «${version.label}»"
+    "${version.label} restored" : "Восстановлена версия «${version.label}»",
+    "Could not set version name" : "Не удалось обозначить версию"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

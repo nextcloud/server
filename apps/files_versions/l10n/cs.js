@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "Obnovit verzi",
     "Download version" : "Stáhnout si verzi",
     "Delete version" : "Smazat verzi",
+    "Current version" : "Stávající verze",
+    "Initial version" : "Počáteční verze",
     "Version name" : "Název verze",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Výslovně verze jsou trvalé a vynechány z automatického čištění při vyčerpání vaší kvóty na úložišti.",
     "Remove version name" : "Odebrat název verze",
     "Save version name" : "Uložit název verze",
-    "Current version" : "Stávající verze",
-    "Initial version" : "Počáteční verze",
     "Initial version restored" : "Počáteční verze obnovena",
     "Version restored" : "Verze obnovena",
     "Could not restore version" : "Verzi se nedaří obnovit",
-    "Could not set version name" : "Nedaří se nastavit název verze",
     "Could not delete version" : "Nedaří se smazat verzi",
-    "${version.label} restored" : "${version.label} obnoveno"
+    "${version.label} restored" : "${version.label} obnoveno",
+    "Could not set version name" : "Nedaří se nastavit název verze"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
