@@ -7,7 +7,7 @@ At Nextcloud we want to make sure to have everything in place to enable designer
 ## 🚢 How to contribute design
 
 We have a dedicated page with more in-detail guidelines on our website: 
-https://nextcloud.com/design/
+https://nextcloud.com/design/(test)
 
 **TL;DR**
 
