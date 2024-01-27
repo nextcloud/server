@@ -452,6 +452,7 @@ OC.L10N.register(
     "Confirm your password" : "암호 확인",
     "App token" : "앱 토큰",
     "Alternative log in using app token" : "앱 토큰으로 대체 로그인",
+    "Your remote address was identified as \"{remoteAddress}\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "당신의 원격지 주소는 \"{remoteAddress}\"(으)로 식별되며, 현재 무차별 대입 공격 방어를 위해 여러 요청의 성능을 저하시켰습니다. 위 원격지 주소가 당신의 주소가 아니라면, 프록시 설정이 제대로 되지 않았음을 나타냅니다. 자세한 내용은 {linkstart}문서 ↗{linkend}를 참조하십시오.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "데이터베이스는 트랜잭션 파일 잠금에 사용됩니다. 성능을 향상하려면 가능한 경우 memcache를 구성하세요. 자세한 내용은 {linkstart} 문서 ↗{linkend} 를 참조하세요.",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27에서 PHP 8.0 지원이 중단되었습니다. Nextcloud 28은 PHP 8.1 이상이 필요합니다.  {linkstart}공식 지원되는 버전의 PHP{linkend}로 업그레이드 하십시오.",
     "Avatar of {fullName}" : "{fullName}의 아바타"

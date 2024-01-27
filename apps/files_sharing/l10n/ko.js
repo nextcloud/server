@@ -210,6 +210,8 @@ OC.L10N.register(
     "Share with {userName}" : "{userName}와(과) 공유",
     "Share with group" : "그룹과 공유",
     "Share in conversation" : "대화방과 공유",
+    "Share with remote" : "원격지에 공유",
+    "Share with remote group" : "원격 그룹과 공유",
     "Share with" : "다음과 공유",
     "Save share" : "공유 저장",
     "Update share" : "공유 업데이트",

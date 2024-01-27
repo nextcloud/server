@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "استعادة النسخة",
     "Download version" : "تنزيل النسخة",
     "Delete version" : "حذف النسخة",
+    "Current version" : "الإصدار الحالي",
+    "Initial version" : "النسخة الأساسية",
     "Version name" : "اسم النسخة",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "النُّسخ المُسمّاة محفوظة و مُستثناة من التنظيف التلقائي عند تضاؤل المٌتاح من الحصة التخزينية.",
     "Remove version name" : "إلغ اسم النسخة",
     "Save version name" : "إحفظ اسم النسخة",
-    "Current version" : "الإصدار الحالي",
-    "Initial version" : "النسخة الأساسية",
     "Initial version restored" : "استعادة النسخة الأساسية",
     "Version restored" : "تمّت استعادة النسخة",
     "Could not restore version" : "لم يُمكن استعادة النسخة",
-    "Could not set version name" : "لم يُمكن تعيين اسم للنسخة",
     "Could not delete version" : "لم يُمكن حذف النسخة",
-    "${version.label} restored" : "${version.label} تمّت استعادتها"
+    "${version.label} restored" : "${version.label} تمّت استعادتها",
+    "Could not set version name" : "لم يُمكن تعيين اسم للنسخة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

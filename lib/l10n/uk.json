@@ -89,7 +89,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Застосунок \"%s\" не може бути встановлений через те, що файл appinfo не може бути прочитано.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Застосунок \"%s\" неможливо встановити, оскільки він не сумісний з цією версією сервера.",
     "__language_name__" : "Українська",
-    "This is an automatically sent email, please do not reply." : "Це автоматично надісланий електронний лист, будь ласка, не відповідайте.",
+    "This is an automatically sent email, please do not reply." : "Це автоматично надісланий електронний лист, будь ласка, не відповідайте на нього.",
     "Help" : "Допомога",
     "Appearance and accessibility" : "Тема та вигляд",
     "Apps" : "Застосунки",
