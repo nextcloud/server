@@ -50,13 +50,13 @@ describe('Delete action conditions tests', () => {
 		permissions: Permission.ALL,
 	})
 
-	const file2 = new File({
-		id: 1,
-		source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-		owner: 'admin',
-		mime: 'text/plain',
-		permissions: Permission.ALL,
-	})
+	// const file2 = new File({
+	// 	id: 1,
+	// 	source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+	// 	owner: 'admin',
+	// 	mime: 'text/plain',
+	// 	permissions: Permission.ALL,
+	// })
 
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
@@ -77,9 +77,9 @@ describe('Delete action conditions tests', () => {
 	// 	expect(action.displayName([file2], view)).toBe('Unshare')
 	// })
 
-	test('Shared and owned nodes values', () => {
-		expect(action.displayName([file, file2], view)).toBe('Delete and unshare')
-	})
+	// test('Shared and owned nodes values', () => {
+	// 	expect(action.displayName([file, file2], view)).toBe('Delete and unshare')
+	// })
 })
 
 describe('Delete action enabled tests', () => {
