@@ -8,17 +8,17 @@
     "Restore version" : "Рестаурирај верзију",
     "Download version" : "Преузми верзију",
     "Delete version" : "Обриши верзију",
+    "Current version" : "Тренутна верзија",
+    "Initial version" : "Почетна верзија",
     "Version name" : "Назив верзије",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именоване верзије су постојане и изузете су из аутоматског чишћења када се испуни ваша диск квота.",
     "Remove version name" : "Уклони назив верзије",
     "Save version name" : "Сачувај назив верзије",
-    "Current version" : "Тренутна верзија",
-    "Initial version" : "Почетна верзија",
     "Initial version restored" : "Рестаурирана је почетна верзија",
     "Version restored" : "Верзија је рестаурирана",
     "Could not restore version" : "Верзија није могла да се рестаурира",
-    "Could not set version name" : "Назив верзије није могао да се постави",
     "Could not delete version" : "Верзија није могла да се обрише",
-    "${version.label} restored" : "${version.label} је рестаурирана"
+    "${version.label} restored" : "${version.label} је рестаурирана",
+    "Could not set version name" : "Назив верзије није могао да се постави"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
