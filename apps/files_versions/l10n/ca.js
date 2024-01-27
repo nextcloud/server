@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "Recupera la versió",
     "Download version" : "Baixa la versió",
     "Delete version" : "Suprimeix la versió",
+    "Current version" : "Versió actual",
+    "Initial version" : "Versió inicial",
     "Version name" : "Nom de la versió",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Les versions amb nom es conserven i s'exclouen de les neteges automàtiques quan teniu l'emmagatzematge ple.",
     "Remove version name" : "Suprimeix el nom de la versió",
     "Save version name" : "Desa el nom de la versió",
-    "Current version" : "Versió actual",
-    "Initial version" : "Versió inicial",
     "Initial version restored" : "S'ha recuperat la versió inicial",
     "Version restored" : "S'ha recuperat la versió",
     "Could not restore version" : "No s'ha pogut recuperar la versió",
-    "Could not set version name" : "No s'ha pogut definir el nom de la versió",
     "Could not delete version" : "No s'ha pogut suprimir la versió",
-    "${version.label} restored" : "S'ha recuperat la versió ${version.label}"
+    "${version.label} restored" : "S'ha recuperat la versió ${version.label}",
+    "Could not set version name" : "No s'ha pogut definir el nom de la versió"
 },
 "nplurals=2; plural=(n != 1);");
