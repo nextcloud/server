@@ -339,14 +339,21 @@ export default defineComponent({
 
 		.files-list__table {
 			display: block;
+
+			&.files-list__table--with-thead-overlay {
+				// Hide the table header below the overlay
+				margin-top: calc(-1 * var(--row-height));
+			}
 		}
 
 		.files-list__thead-overlay {
-			position: absolute;
+			// Pinned on top when scrolling
+			position: sticky;
 			top: 0;
-			left: var(--row-height); // Save space for a row checkbox
-			right: 0;
-			z-index: 1000;
+			// Save space for a row checkbox
+			margin-left: var(--row-height);
+			// More than .files-list__thead
+			z-index: 20;
 
 			display: flex;
 			align-items: center;
