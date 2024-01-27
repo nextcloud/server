@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "このバージョンを復元する",
     "Download version" : "このバージョンをダウンロード",
     "Delete version" : "このバージョンを削除",
+    "Current version" : "現在のバージョン",
+    "Initial version" : "最初のバージョン",
     "Version name" : "名前付きバージョン",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "名前付きバージョンは永続化され、ストレージクォータがいっぱいになっていても自動クリーンアップから除外されます。",
     "Remove version name" : "バージョン名を削除",
     "Save version name" : "バージョン名を保存",
-    "Current version" : "現在のバージョン",
-    "Initial version" : "最初のバージョン",
     "Initial version restored" : "初期バージョンを復旧",
     "Version restored" : "指定のバージョンが復旧されました",
     "Could not restore version" : "このバージョンを復旧できません",
-    "Could not set version name" : "バージョン名を設定できませんでした",
     "Could not delete version" : "指定のバージョンを削除できませんでした",
-    "${version.label} restored" : "${version.label} が復旧されました"
+    "${version.label} restored" : "${version.label} が復旧されました",
+    "Could not set version name" : "バージョン名を設定できませんでした"
 },
 "nplurals=1; plural=0;");

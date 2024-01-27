@@ -193,6 +193,7 @@ OC.L10N.register(
     "Share" : "Del med andre",
     "Shared by link" : "Delt med lenke",
     "Shared" : "Delt",
+    "Switch to list view" : "Bytt til listevisning",
     "Open the files app settings" : "Åpne Filer-appens innstillinger",
     "Files settings" : "Filinnstillinger",
     "Show hidden files" : "Vis skjulte filer",

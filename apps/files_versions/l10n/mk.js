@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "Врати ја оваа верзија",
     "Download version" : "Преземи верзија",
     "Delete version" : "Избриши верзија",
+    "Current version" : "Моментална верзија",
+    "Initial version" : "Првична верзија",
     "Version name" : "Име на верзијата",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именуваните верзии опстојуваат и се исклучени од автоматско чистење кога вашата квота за складирање е полна.",
     "Remove version name" : "Избриши име на верзијата",
     "Save version name" : "Зачувај име на верзија",
-    "Current version" : "Моментална верзија",
-    "Initial version" : "Првична верзија",
     "Initial version restored" : "Почетната верзијата е вратена",
     "Version restored" : "Верзијата е вратена",
     "Could not restore version" : "Неможе да се врати верзијата",
-    "Could not set version name" : "Неможе да се постави име на верзијата",
     "Could not delete version" : "Неможе да се избрише верзијата",
-    "${version.label} restored" : "${version.label} вратена"
+    "${version.label} restored" : "${version.label} вратена",
+    "Could not set version name" : "Неможе да се постави име на верзијата"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
