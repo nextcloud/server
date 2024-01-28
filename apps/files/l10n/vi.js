@@ -250,7 +250,6 @@ OC.L10N.register(
     "Creating file" : "‎Tạo tệp‎",
     "Blank" : "‎Trống‎",
     "Unable to create new file from template" : "‎Không thể tạo tệp mới từ mẫu‎",
-    "Unshare" : "Bỏ chia sẻ",
     "Delete permanently" : "Xoá vĩnh viễn",
     "Destination is not a folder" : "Đích đến không phải là một thư mục",
     "This file/folder is already in that directory" : "Tệp/thư mục này đã có trong thư mục đó",

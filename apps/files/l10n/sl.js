@@ -250,7 +250,6 @@ OC.L10N.register(
     "Creating file" : "Poteka ustvarjanje datoteke",
     "Blank" : "Prazno",
     "Unable to create new file from template" : "Nove datoteke iz predloge ni mogoče ustvariti",
-    "Unshare" : "Odstrani povezavo",
     "Delete permanently" : "Trajno izbriši",
     "Destination is not a folder" : "Ciljno mesto ni mapa",
     "This file/folder is already in that directory" : "Ta datoteka oziroma mapa je že v določeni mapi",

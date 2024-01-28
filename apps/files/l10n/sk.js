@@ -254,7 +254,6 @@ OC.L10N.register(
     "Creating file" : "Vytvára sa súbor",
     "Blank" : "Prázdne",
     "Unable to create new file from template" : "Nemôžem vytvoriť nový súbor zo šablóny",
-    "Unshare" : "Zrušiť zdieľanie",
     "Delete permanently" : "Zmazať  natrvalo",
     "Destination is not a folder" : "Cieľ nie je priečinok",
     "This file/folder is already in that directory" : "Tento súbor/priečinok sa už v danom adresári nachádza",
