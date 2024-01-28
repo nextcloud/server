@@ -203,6 +203,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
     "Create" : "Opprett",
     "Share" : "Del",
+    "Delete share" : "Slett delt ressurs",
     "Others with access" : "Andre med tilgang",
     "No other users with access found" : "Ingen andre brukere med tilgang funnet",
     "Toggle list of others with access to this directory" : "Endre liste over andre brukere med tilgang til denne mappen",

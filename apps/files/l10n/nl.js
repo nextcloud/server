@@ -210,7 +210,6 @@ OC.L10N.register(
     "Creating file" : "Maken bestand",
     "Blank" : "Blanco",
     "Unable to create new file from template" : "Kan geen nieuw bestand maken vanuit het sjabloon",
-    "Unshare" : "Delen opheffen",
     "Delete permanently" : "Permanent verwijderen",
     "Copy to {target}" : "Kopieer naar {target}",
     "Move to {target}" : "Verplaats naar {target}",

@@ -261,8 +261,6 @@ OC.L10N.register(
     "Creating file" : "正在建立檔案",
     "Blank" : "空白",
     "Unable to create new file from template" : "無法從範本建立新檔案",
-    "Delete and unshare" : "刪除並取消分享",
-    "Unshare" : "取消分享",
     "Delete permanently" : "永久刪除",
     "Destination is not a folder" : "目的地不是資料夾",
     "This file/folder is already in that directory" : "此檔案/資料夾已在該目錄中",

@@ -207,7 +207,6 @@ OC.L10N.register(
     "Create a new file with the selected template" : "Sukurti naują failą naudojant pasirinktą šabloną",
     "Creating file" : "Sukuriamas failas",
     "Unable to create new file from template" : "Nepavyko sukurti naujo failo iš šablono",
-    "Unshare" : "Nustoti bendrinti",
     "Delete permanently" : "Ištrinti negrįžtamai",
     "The file does not exist anymore" : "Failo daugiau nebėra",
     "Copy to {target}" : "Kopijuoti į {target}",

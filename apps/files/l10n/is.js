@@ -256,7 +256,6 @@ OC.L10N.register(
     "Creating file" : "Bý til skrá",
     "Blank" : "Tóm",
     "Unable to create new file from template" : "Tekst ekki að búa til nýja skrá út frá sniðmáti",
-    "Unshare" : "Hætta deilingu",
     "Delete permanently" : "Eyða varanlega",
     "Destination is not a folder" : "Áfangastaðurinn er ekki mappa",
     "This file/folder is already in that directory" : "Þessi skrá/mappa er þegar í þessari möppu",

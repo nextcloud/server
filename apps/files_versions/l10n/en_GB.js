@@ -19,6 +19,7 @@ OC.L10N.register(
     "Initial version restored" : "Initial version restored",
     "Version restored" : "Version restored",
     "Could not restore version" : "Could not restore version",
+    "Could not set version label" : "Could not set version label",
     "Could not delete version" : "Could not delete version",
     "${version.label} restored" : "${version.label} restored",
     "Could not set version name" : "Could not set version name"

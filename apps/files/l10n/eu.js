@@ -248,7 +248,6 @@ OC.L10N.register(
     "Creating file" : "Fitxategia sortzen",
     "Blank" : "Hutsik",
     "Unable to create new file from template" : "Ezin da fitxategi berria sortu txantiloitik",
-    "Unshare" : "Ez partekatu",
     "Delete permanently" : "Ezabatu betirako",
     "Destination is not a folder" : "Helburua ez da karpeta bat",
     "This file/folder is already in that directory" : "Fitxategi/karpeta hau dagoeneko karpeta horretan dago",
