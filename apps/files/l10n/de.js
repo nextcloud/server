@@ -256,7 +256,6 @@ OC.L10N.register(
     "Creating file" : "Datei erstellen",
     "Blank" : "Leer",
     "Unable to create new file from template" : "Neue Datei konnte nicht aus Vorlage erstellt werden",
-    "Unshare" : "Freigabe aufheben",
     "Delete permanently" : "Endgültig löschen",
     "Destination is not a folder" : "Ziel ist kein Ordner",
     "This file/folder is already in that directory" : "Diese Datei oder Ordner ist bereits in diesem Verzeichnis vorhanden",

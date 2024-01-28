@@ -256,7 +256,6 @@ OC.L10N.register(
     "Creating file" : "Fájl létrehozása",
     "Blank" : "Üres",
     "Unable to create new file from template" : "Nem lehet új fájlt létrehozni a sablonból",
-    "Unshare" : "Megosztás visszavonása",
     "Delete permanently" : "Végleges törlés",
     "Destination is not a folder" : "A cél nem mappa",
     "This file/folder is already in that directory" : "Ez a fájl/mappa már létezik a mappában",

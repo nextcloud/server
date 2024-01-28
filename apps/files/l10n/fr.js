@@ -261,8 +261,6 @@ OC.L10N.register(
     "Creating file" : "Créer un fichier",
     "Blank" : "Vide",
     "Unable to create new file from template" : "Impossible de créer un nouveau fichier à partir du modèle",
-    "Delete and unshare" : "Supprimer et ne plus partager",
-    "Unshare" : "Ne plus partager",
     "Delete permanently" : "Supprimer définitivement",
     "Destination is not a folder" : "La destination n'est pas un dossier",
     "This file/folder is already in that directory" : "Ce fichier/dossier se trouve déjà dans ce dossier",
