@@ -242,7 +242,6 @@ OC.L10N.register(
     "Creating file" : "Creende s'archìviu",
     "Blank" : "Isbòidu",
     "Unable to create new file from template" : "Non faghet a creare un'archìviu nou dae su modellu",
-    "Unshare" : "Annulla sa cumpartzidura",
     "Delete permanently" : "Cantzella in manera definitiva",
     "Destination is not a folder" : "Sa destinatzione no est una cartella",
     "This file/folder is already in that directory" : "Custu archìviu o cartella est giai in cussu diretòriu",

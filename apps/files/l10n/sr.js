@@ -261,8 +261,6 @@ OC.L10N.register(
     "Creating file" : "Креирање фајла",
     "Blank" : "Празно",
     "Unable to create new file from template" : "Из шаблона није могао да се креира нови фајл",
-    "Delete and unshare" : "Обриши и прекини дељење",
-    "Unshare" : "Укини дељење",
     "Delete permanently" : "Обриши заувек",
     "Destination is not a folder" : "Одредиште није фолдер",
     "This file/folder is already in that directory" : "Овај фајл/фолдер се већ налази у том директоријуму",
