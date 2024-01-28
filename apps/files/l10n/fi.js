@@ -248,7 +248,6 @@ OC.L10N.register(
     "Creating file" : "Luodaan tiedostoa",
     "Blank" : "Tyhjä",
     "Unable to create new file from template" : "Uutta tiedostoa mallipohjasta ei voi luoda",
-    "Unshare" : "Poista jako",
     "Delete permanently" : "Poista pysyvästi",
     "Destination is not a folder" : "Kohde ei ole kansio",
     "This file/folder is already in that directory" : "Tämä tiedosto/kansio on jo kyseisessä kansiossa",

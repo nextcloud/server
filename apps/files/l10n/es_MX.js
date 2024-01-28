@@ -209,7 +209,6 @@ OC.L10N.register(
     "Creating file" : "Creando el archivo",
     "Blank" : "Vacío",
     "Unable to create new file from template" : "No se ha podido crear un nuevo archivo desde la plantilla",
-    "Unshare" : "Dejar de compartir",
     "Delete permanently" : "Borrar permanentemente",
     "Templates" : "Plantillas",
     "Unable to initialize the templates directory" : "No se ha podido iniciar la carpeta de plantillas",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Initial version restored" : "初始版本已還原",
     "Version restored" : "版本已還原",
     "Could not restore version" : "無法還原版本",
+    "Could not set version label" : "無法設置版本標籤",
     "Could not delete version" : "無法刪除版本",
     "${version.label} restored" : "已還原˙ ${version.label}",
     "Could not set version name" : "無法設定版本名稱"

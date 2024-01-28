@@ -259,8 +259,6 @@
     "Creating file" : "ファイル作成",
     "Blank" : "ブランク",
     "Unable to create new file from template" : "テンプレートから新しいファイルを作成できません",
-    "Delete and unshare" : "削除して共有を解除",
-    "Unshare" : "共有の解除",
     "Delete permanently" : "永久に削除",
     "Destination is not a folder" : "宛先がフォルダではありません",
     "This file/folder is already in that directory" : "このファイル/フォルダはすでにそのディレクトリにあります",

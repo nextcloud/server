@@ -245,7 +245,6 @@ OC.L10N.register(
     "Creating file" : "ایجاد فایل",
     "Blank" : "جای خالی",
     "Unable to create new file from template" : "امکان ایجاد فایل جدید از الگو وجود ندارد",
-    "Unshare" : "لغو اشتراک‌گذاری",
     "Delete permanently" : "حذف قطعی",
     "Copy to {target}" : "رونوشت به {target}",
     "Move to {target}" : "جابجایی به {target}",
