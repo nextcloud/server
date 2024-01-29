@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 
+/** @template-implements IEventListener<BeforeTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
 
 	private IInitialState $initialState;

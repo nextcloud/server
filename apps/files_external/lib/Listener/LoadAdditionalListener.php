@@ -34,7 +34,7 @@ use OCP\IConfig;
 use OCP\Util;
 
 /**
- * @template-implements IEventListener<Event|LoadAdditionalScriptsEvent>
+ * @template-implements IEventListener<LoadAdditionalScriptsEvent>
  */
 class LoadAdditionalListener implements IEventListener {
 

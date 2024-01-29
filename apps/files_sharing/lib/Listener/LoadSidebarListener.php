@@ -35,7 +35,7 @@ use OCP\Share\IManager;
 use OCP\Util;
 
 /**
- * @template-implements IEventListener<Event>
+ * @template-implements IEventListener<LoadSidebar>
  */
 class LoadSidebarListener implements IEventListener {
 

@@ -36,6 +36,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use function sprintf;
 
+/** @template-implements IEventListener<CardCreatedEvent|CardUpdatedEvent|CardDeletedEvent> */
 class CardListener implements IEventListener {
 	/** @var ActivityBackend */
 	private $activityBackend;

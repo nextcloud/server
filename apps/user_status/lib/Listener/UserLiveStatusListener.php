@@ -43,6 +43,7 @@ use Psr\Log\LoggerInterface;
  * Class UserDeletedListener
  *
  * @package OCA\UserStatus\Listener
+ * @template-implements IEventListener<UserLiveStatusEvent>
  */
 class UserLiveStatusListener implements IEventListener {
 	private UserStatusMapper $mapper;
