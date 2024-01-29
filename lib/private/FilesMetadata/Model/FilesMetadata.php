@@ -480,7 +480,7 @@ class FilesMetadata implements IFilesMetadata {
 			// if value does not exist, or type has changed, we keep on the writing
 		}
 
-		$valueWrapper = new MetadataValueWrapper(IMetadataValueWrapper::TYPE_STRING_LIST);
+		$valueWrapper = new MetadataValueWrapper(IMetadataValueWrapper::TYPE_INT_LIST);
 		$this->metadata[$key] = $valueWrapper->setValueIntList($value)->setIndexed($index);
 		$this->updated = true;
 
