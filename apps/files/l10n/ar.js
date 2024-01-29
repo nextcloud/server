@@ -242,6 +242,7 @@ OC.L10N.register(
     "File cannot be accessed" : "الملف لم يمكن الوصول إليه",
     "You might not have have permissions to view it, ask the sender to share it" : "يمكن ألاّ تكون لديك صلاحية لعرضه، أطلب من المُرسل إن يشاركه معك",
     "Sort favorites first" : "فرز المفضلات أولا",
+    "Sort folders before files" : "فرز المجلدات قبل الملفات",
     "Show hidden files" : "عرض الملفات المخفية",
     "Crop image previews" : "اقتصاص صورة العروض",
     "Enable the grid view" : "تمكين المنظور الصندوقي",

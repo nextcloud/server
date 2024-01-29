@@ -242,6 +242,7 @@ OC.L10N.register(
     "File cannot be accessed" : "Auf die Datei kann nicht zugegriffen werden",
     "You might not have have permissions to view it, ask the sender to share it" : "Möglicherweise haben Sie nicht die Berechtigung zur Anzeige. Bitten Sie den Absender, die Datei freizugeben.",
     "Sort favorites first" : "Favoriten zuerst sortieren",
+    "Sort folders before files" : "Ordner vor Dateien sortieren",
     "Show hidden files" : "Versteckte Dateien anzeigen",
     "Crop image previews" : "Bildvorschauen zuschneiden",
     "Enable the grid view" : "Rasteransicht aktivieren",
