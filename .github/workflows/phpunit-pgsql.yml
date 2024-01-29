@@ -58,7 +58,7 @@ jobs:
         include:
           - php-versions: '8.3'
             postgres-versions: '15'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -111,7 +111,7 @@ jobs:
 
       - name: PHPUnit database tests
         run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
-  
+
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v3

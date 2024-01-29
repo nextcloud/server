@@ -50,7 +50,7 @@ jobs:
         php-versions: ['8.0', '8.1', '8.2', '8.3']
         include:
           - php-versions: '8.3'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
