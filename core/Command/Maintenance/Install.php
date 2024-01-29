@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,12 +36,9 @@ namespace OC\Core\Command\Maintenance;
 use bantu\IniGetWrapper\IniGetWrapper;
 use InvalidArgumentException;
 use OC\Console\TimestampFormatter;
-use OC\Installer;
 use OC\Migration\ConsoleOutput;
 use OC\Setup;
 use OC\SystemConfig;
-use OCP\Defaults;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,7 +56,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('maintenance:install')
 			->setDescription('install Nextcloud')
@@ -76,15 +76,7 @@ class Install extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
 		$server = \OC::$server;
-		$setupHelper = new Setup(
-			$this->config,
-			$this->iniGetWrapper,
-			$server->getL10N('lib'),
-			$server->query(Defaults::class),
-			$server->get(LoggerInterface::class),
-			$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
-		);
+		$setupHelper = \OCP\Server::get(\OC\Setup::class);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
