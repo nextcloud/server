@@ -18,12 +18,14 @@
 					:label="t('core', 'Search apps, files, tags, messages') + '...'"
 					@update:value="debouncedFind" />
 				<div class="unified-search-modal__filters">
-					<NcActions :menu-name="t('core', 'Apps and Settings')" :open.sync="providerActionMenuIsOpen">
+					<NcActions :menu-name="t('core', 'Places')" :open.sync="providerActionMenuIsOpen">
 						<template #icon>
 							<ListBox :size="20" />
 						</template>
+						<!-- Provider id's may be duplicated since, plugin filters could depend on a provider that is already in the defaults.
+						provider.id concatenated to provider.name is used to create the item id, if same then, there should be an issue. -->
 						<NcActionButton v-for="provider in providers"
-							:key="provider.id"
+							:key="`${provider.id}-${provider.name.replace(/\s/g, '')}`"
 							@click="addProviderFilter(provider)">
 							<template #icon>
 								<img :src="provider.icon" class="filter-button__icon" alt="">
@@ -150,8 +152,9 @@ import SearchableList from '../components/UnifiedSearch/SearchableList.vue'
 import SearchResult from '../components/UnifiedSearch/SearchResult.vue'
 
 import debounce from 'debounce'
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { useBrowserLocation } from '@vueuse/core'
+import { mapState } from 'vuex'
 import { getProviders, search as unifiedSearch, getContacts } from '../services/UnifiedSearchService.js'
 
 export default {
@@ -217,6 +220,9 @@ export default {
 	},
 
 	computed: {
+		...mapState({
+			externalFilters: state => state.search.externalFilters,
+		}),
 		userContacts() {
 			return this.contacts
 		},
@@ -258,8 +264,13 @@ export default {
 
 	},
 	mounted() {
+		subscribe('nextcloud:unified-search:add-filter', this.handlePluginFilter)
 		getProviders().then((providers) => {
 			this.providers = providers
+			this.externalFilters.forEach(filter => {
+				this.providers.push(filter)
+			})
+			this.providers = this.groupProvidersByApp(this.providers)
 			console.debug('Search providers', this.providers)
 		})
 		getContacts({ searchTerm: '' }).then((contacts) => {
@@ -284,6 +295,7 @@ export default {
 					type: provider.id,
 					query,
 					cursor: null,
+					extraQueries: provider.extraParams,
 				}
 
 				if (filters.dateFilterIsApplied) {
@@ -412,12 +424,27 @@ export default {
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
 			if (!providerFilter.id) return
+			if (providerFilter.isPluginFilter) {
+				providerFilter.callback()
+			}
 			this.providerResultLimit = loadMoreResultsForProvider ? this.providerResultLimit : 5
 			this.providerActionMenuIsOpen = false
-			const existingFilter = this.filteredProviders.find(existing => existing.id === providerFilter.id)
-			if (!existingFilter) {
-				this.filteredProviders.push({ id: providerFilter.id, name: providerFilter.name, icon: providerFilter.icon, type: 'provider', filters: providerFilter.filters })
+			// With the possibility for other apps to add new filters
+			// Resulting in a possible id/provider collision
+			// If a user tries to apply a filter that seems to already exist, we remove the current one and add the new one.
+			const existingFilterIndex = this.filteredProviders.findIndex(existing => existing.id === providerFilter.id)
+			if (existingFilterIndex > -1) {
+				this.filteredProviders.splice(existingFilterIndex, 1)
+				this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			}
+			this.filteredProviders.push({
+				id: providerFilter.id,
+				name: providerFilter.name,
+				icon: providerFilter.icon,
+				type: providerFilter.type || 'provider',
+				filters: providerFilter.filters,
+				isPluginFilter: providerFilter.isPluginFilter || false,
+			})
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			console.debug('Search filters (newly added)', this.filters)
 			this.debouncedFind(this.searchQuery)
@@ -535,6 +562,42 @@ export default {
 			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
 			this.updateDateFilter()
 		},
+		handlePluginFilter(addFilterEvent) {
+			for (let i = 0; i < this.filteredProviders.length; i++) {
+				const provider = this.filteredProviders[i]
+				if (provider.id === addFilterEvent.id) {
+					provider.name = addFilterEvent.filterUpdateText
+					// Filters attached may only make sense with certain providers,
+					// So, find the provider attached, add apply the extra parameters to those providers only
+					const compatibleProviderIndex = this.providers.findIndex(provider => provider.id === addFilterEvent.id)
+					if (compatibleProviderIndex > -1) {
+						provider.extraParams = addFilterEvent.filterParams
+						this.filteredProviders[i] = provider
+					}
+					break
+				}
+			}
+			console.debug('Search scope set to conversation', addFilterEvent)
+			this.debouncedFind(this.searchQuery)
+		},
+		groupProvidersByApp(filters) {
+			const groupedByProviderApp = {}
+
+			filters.forEach(filter => {
+				const provider = filter.appId ? filter.appId : 'general'
+				if (!groupedByProviderApp[provider]) {
+					groupedByProviderApp[provider] = []
+				}
+				groupedByProviderApp[provider].push(filter)
+			})
+
+			const flattenedArray = []
+			Object.values(groupedByProviderApp).forEach(group => {
+				flattenedArray.push(...group)
+			})
+
+			return flattenedArray
+		},
 		focusInput() {
 			this.$refs.searchInput.$el.children[0].children[0].focus()
 		},
@@ -557,7 +620,7 @@ export default {
 	padding-block: 10px 0;
 
 	// inline padding on direct children to make sure the scrollbar is on the modal container
-	> * {
+	>* {
 		padding-inline: 20px;
 	}
 
