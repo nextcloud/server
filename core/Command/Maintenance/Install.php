@@ -75,7 +75,6 @@ class Install extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
-		$server = \OC::$server;
 		$setupHelper = \OCP\Server::get(\OC\Setup::class);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
@@ -198,9 +197,9 @@ class Install extends Command {
 
 	/**
 	 * @param OutputInterface $output
-	 * @param $errors
+	 * @param array<string|array> $errors
 	 */
-	protected function printErrors(OutputInterface $output, $errors) {
+	protected function printErrors(OutputInterface $output, array $errors): void {
 		foreach ($errors as $error) {
 			if (is_array($error)) {
 				$output->writeln('<error>' . $error['error'] . '</error>');
