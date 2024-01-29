@@ -8,7 +8,7 @@ OC.L10N.register(
     "Tags" : "Schlagworte",
     "Show list view" : "Listenansicht anzeigen",
     "Show grid view" : "Rasteransicht anzeigen",
-    "Home" : "Home",
+    "Home" : "Startverzeichnis",
     "Close" : "Schließen",
     "Could not create folder \"{dir}\"" : "Der Ordner konnte nicht erstellt werden \"{dir}\"",
     "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
