@@ -180,7 +180,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\SystemTag\Add::class));
 	$application->add(Server::get(Command\SystemTag\Edit::class));
 
-	$application->add(new Command\Security\ListCertificates(\OC::$server->getCertificateManager(), \OC::$server->getL10N('core')));
+	$application->add(Server::get(Command\Security\ListCertificates::class));
 	$application->add(Server::get(Command\Security\ImportCertificate::class));
 	$application->add(Server::get(Command\Security\RemoveCertificate::class));
 	$application->add(Server::get(Command\Security\BruteforceAttempts::class));
