@@ -73,7 +73,9 @@ class AddMissingIndices extends Command {
 		$this->dispatcher->dispatchTyped($event);
 
 		$missingIndices = $event->getMissingIndices();
-		if ($missingIndices !== []) {
+		$toReplaceIndices = $event->getIndicesToReplace();
+
+		if ($missingIndices !== [] || $toReplaceIndices !== []) {
 			$schema = new SchemaWrapper($this->connection);
 
 			foreach ($missingIndices as $missingIndex) {
@@ -97,13 +99,57 @@ class AddMissingIndices extends Command {
 							$table->addIndex($missingIndex['columns'], $missingIndex['indexName'], [], $missingIndex['options']);
 						}
 
-
-						$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-						if ($dryRun && $sqlQueries !== null) {
-							$output->writeln($sqlQueries);
+						if (!$dryRun) {
+							$this->connection->migrateToSchema($schema->getWrappedSchema());
 						}
 						$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
 					}
+				}
+			}
+
+			foreach ($toReplaceIndices as $toReplaceIndex) {
+				if ($schema->hasTable($toReplaceIndex['tableName'])) {
+					$table = $schema->getTable($toReplaceIndex['tableName']);
+
+					$allOldIndicesExists = true;
+					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
+						if (!$table->hasIndex($oldIndexName)) {
+							$allOldIndicesExists = false;
+						}
+					}
+
+					if (!$allOldIndicesExists) {
+						continue;
+					}
+
+					$output->writeln('<info>Adding additional ' . $toReplaceIndex['newIndexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+
+					if ($toReplaceIndex['uniqueIndex']) {
+						$table->addUniqueIndex($toReplaceIndex['columns'], $toReplaceIndex['newIndexName'], $toReplaceIndex['options']);
+					} else {
+						$table->addIndex($toReplaceIndex['columns'], $toReplaceIndex['newIndexName'], [], $toReplaceIndex['options']);
+					}
+
+					if (!$dryRun) {
+						$this->connection->migrateToSchema($schema->getWrappedSchema());
+					}
+
+					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
+						$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+						$table->dropIndex($oldIndexName);
+					}
+
+					if (!$dryRun) {
+						$this->connection->migrateToSchema($schema->getWrappedSchema());
+					}
+					$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
+				}
+			}
+
+			if ($dryRun) {
+				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+				if ($sqlQueries !== null) {
+					$output->writeln($sqlQueries);
 				}
 			}
 		}
