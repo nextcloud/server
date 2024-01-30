@@ -84,7 +84,7 @@ class Search extends Command {
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	protected function validateOffsetAndLimit($offset, $limit): void {
+	protected function validateOffsetAndLimit(int $offset, int $limit): void {
 		if ($limit < 0) {
 			throw new \InvalidArgumentException('limit must be  0 or greater');
 		}
