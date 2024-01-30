@@ -40,7 +40,6 @@ use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use OC\IntegrityCheck\Iterator\ExcludeFoldersByPathFilterIterator;
 use OCP\App\IAppManager;
 use OCP\Files\IMimeTypeDetector;
-use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -59,20 +58,44 @@ use phpseclib\File\X509;
  */
 class Checker {
 	public const CACHE_KEY = 'oc.integritycheck.checker';
+	/** @var EnvironmentHelper */
+	private $environmentHelper;
+	/** @var AppLocator */
+	private $appLocator;
+	/** @var FileAccessHelper */
+	private $fileAccessHelper;
+	/** @var IConfig|null */
+	private $config;
+	/** @var ICache */
+	private $cache;
+	/** @var IAppManager|null */
+	private $appManager;
+	/** @var IMimeTypeDetector */
+	private $mimeTypeDetector;
 
-	private ICache $cache;
-
-	public function __construct(
-		private EnvironmentHelper $environmentHelper,
-		private FileAccessHelper $fileAccessHelper,
-		private AppLocator $appLocator,
-		private ?IConfig $config,
-		private ?IAppConfig $appConfig,
+	/**
+	 * @param EnvironmentHelper $environmentHelper
+	 * @param FileAccessHelper $fileAccessHelper
+	 * @param AppLocator $appLocator
+	 * @param IConfig|null $config
+	 * @param ICacheFactory $cacheFactory
+	 * @param IAppManager|null $appManager
+	 * @param IMimeTypeDetector $mimeTypeDetector
+	 */
+	public function __construct(EnvironmentHelper $environmentHelper,
+		FileAccessHelper $fileAccessHelper,
+		AppLocator $appLocator,
+		?IConfig $config,
 		ICacheFactory $cacheFactory,
-		private ?IAppManager $appManager,
-		private IMimeTypeDetector $mimeTypeDetector,
-	) {
+		?IAppManager $appManager,
+		IMimeTypeDetector $mimeTypeDetector) {
+		$this->environmentHelper = $environmentHelper;
+		$this->fileAccessHelper = $fileAccessHelper;
+		$this->appLocator = $appLocator;
+		$this->config = $config;
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
+		$this->appManager = $appManager;
+		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
 	/**
@@ -91,7 +114,15 @@ class Checker {
 		 * applicable for very specific scenarios and we should not advertise it
 		 * too prominent. So please do not add it to config.sample.php.
 		 */
-		return !($this->config?->getSystemValueBool('integrity.check.disabled', false) ?? false);
+		$isIntegrityCheckDisabled = false;
+		if ($this->config !== null) {
+			$isIntegrityCheckDisabled = $this->config->getSystemValueBool('integrity.check.disabled', false);
+		}
+		if ($isIntegrityCheckDisabled) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -412,7 +443,10 @@ class Checker {
 			return json_decode($cachedResults, true);
 		}
 
-		return $this->appConfig?->getValueArray('core', self::CACHE_KEY, lazy: true) ?? [];
+		if ($this->config !== null) {
+			return json_decode($this->config->getAppValue('core', self::CACHE_KEY, '{}'), true);
+		}
+		return [];
 	}
 
 	/**
@@ -427,7 +461,9 @@ class Checker {
 		if (!empty($result)) {
 			$resultArray[$scope] = $result;
 		}
-		$this->appConfig?->setValueArray('core', self::CACHE_KEY, $resultArray, lazy: true);
+		if ($this->config !== null) {
+			$this->config->setAppValue('core', self::CACHE_KEY, json_encode($resultArray));
+		}
 		$this->cache->set(self::CACHE_KEY, json_encode($resultArray));
 	}
 
@@ -436,7 +472,7 @@ class Checker {
 	 * Clean previous results for a proper rescanning. Otherwise
 	 */
 	private function cleanResults() {
-		$this->appConfig->deleteKey('core', self::CACHE_KEY);
+		$this->config->deleteAppValue('core', self::CACHE_KEY);
 		$this->cache->remove(self::CACHE_KEY);
 	}
 
