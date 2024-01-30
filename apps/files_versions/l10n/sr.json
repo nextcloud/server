@@ -17,6 +17,7 @@
     "Initial version restored" : "Рестаурирана је почетна верзија",
     "Version restored" : "Верзија је рестаурирана",
     "Could not restore version" : "Верзија није могла да се рестаурира",
+    "Could not set version label" : "Није могла да се постави ознака назива верзије",
     "Could not delete version" : "Верзија није могла да се обрише",
     "${version.label} restored" : "${version.label} је рестаурирана",
     "Could not set version name" : "Назив верзије није могао да се постави"

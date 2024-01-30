@@ -78,7 +78,6 @@
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "您的网页服务器没有正确配置以解析“{url}”。这很可能与 web 服务器配置没有更新以发布这个文件夹有关。请将您的配置与 Apache 的“.htaccess”文件中的默认重写规则或与这个{linkstart}文档页面↗{linkend}中提供的 Nginx 配置进行比较。在 Nginx 配置中通常需要修改以“location ~”开头的行。",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "您的网页服务器未正确设置以服务 .woff2 文件。这通常是一个 Nginx 配置的问题。对于 Nextcloud 15，需要更改一个设置才能发布 .woff2 文件。请将您的 Nginx 配置与我们{linkstart}文档↗{linkend}中的推荐配置进行比较。",
     "You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}." : "您正通过安全连接访问您的实例，然而您的实例正生成不安全的 URL。这很可能意味着您位于反向代理的后面，覆盖的配置变量没有正确设置。可以阅读{linkstart}有关此问题的文档页 ↗{linkend}",
-    "This instance is running in debug mode. Only enable this for local development and not in production environments." : "此实例正在调试模式下运行。仅在本地开发而非生产环境时启用该模式。",
     "Error occurred while checking server setup" : "检查服务器设置时出错",
     "For more details see the {linkstart}documentation ↗{linkend}." : "更多细节，请参见{linkstart}文档 ↗{linkend}。",
     "Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的数据目录和文件似乎可以从互联网访问。这是因为 .htaccess 文件无效。强烈建议您配置您的 web 服务器，使数据目录不再可访问，或将数据目录移到 web 服务器文档根目录之外。",
@@ -452,6 +451,7 @@
     "Alternative log in using app token" : "使用应用程序令牌替代登录",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "数据库被用于事务文件锁。为了增强性能，请设置memcache（如果可用）。获取更多信息请参见{linkstart}文档↗{linkend}。",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27已弃用PHP 8.0。Nextcloud 28可能需要PHP 8.1或更高版本。请尽快升级至一个 {linkstart}PHP Group ↗{linkend}提供官方支持的版本。",
+    "This instance is running in debug mode. Only enable this for local development and not in production environments." : "此实例正在调试模式下运行。仅在本地开发而非生产环境时启用该模式。",
     "Avatar of {fullName}" : "{fullName}的头像"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
