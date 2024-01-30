@@ -282,10 +282,8 @@ class OC_App {
 
 	/**
 	 * Get the path where to install apps
-	 *
-	 * @return string|false
 	 */
-	public static function getInstallPath() {
+	public static function getInstallPath(): string|null {
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
