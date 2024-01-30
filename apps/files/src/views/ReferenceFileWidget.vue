@@ -27,7 +27,7 @@
 				{{ t('files', 'File cannot be accessed') }}
 			</p>
 			<p class="widget-file--description">
-				{{ t('files', 'You might not have have permissions to view it, ask the sender to share it') }}
+				{{ t('files', 'The file could not be found or you do not have permissions to view it. Ask the sender to share it.') }}
 			</p>
 		</div>
 	</div>
