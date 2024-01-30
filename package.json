@@ -57,7 +57,7 @@
     "@nextcloud/router": "^2.2.1",
     "@nextcloud/sharing": "^0.1.0",
     "@nextcloud/upload": "^1.0.4",
-    "@nextcloud/vue": "^8.5.0",
+    "@nextcloud/vue": "^8.5.1",
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^10.7.2",
     "@vueuse/core": "^10.7.2",
