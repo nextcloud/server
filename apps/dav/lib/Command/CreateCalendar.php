@@ -28,6 +28,7 @@ namespace OCA\DAV\Command;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -83,17 +84,16 @@ class CreateCalendar extends Command {
 		$logger = \OC::$server->get(LoggerInterface::class);
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$config = \OC::$server->get(IConfig::class);
-
 		$name = $input->getArgument('name');
 		$caldav = new CalDavBackend(
 			$this->dbConnection,
 			$principalBackend,
 			$this->userManager,
-			$this->groupManager,
 			$random,
 			$logger,
 			$dispatcher,
-			$config
+			$config,
+			\OC::$server->get(Backend::class),
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 		return self::SUCCESS;

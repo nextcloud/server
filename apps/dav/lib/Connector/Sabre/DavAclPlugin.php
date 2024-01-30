@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CardDAV\AddressBook;
 use Sabre\CalDAV\Principal\User;
 use Sabre\DAV\Exception\NotFound;
@@ -57,6 +58,9 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			switch (get_class($node)) {
 				case AddressBook::class:
 					$type = 'Addressbook';
+					break;
+				case Calendar::class:
+					$type = 'Calendar';
 					break;
 				default:
 					$type = 'Node';
