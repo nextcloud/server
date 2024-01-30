@@ -55,7 +55,7 @@ jobs:
         php-versions: ['8.0', '8.1', '8.2', '8.3']
         include:
           - php-versions: '8.1'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: SQLite (PHP ${{ matrix.php-versions }})
 

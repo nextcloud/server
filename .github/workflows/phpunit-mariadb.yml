@@ -57,7 +57,7 @@ jobs:
         include:
           - php-versions: '8.3'
             mariadb-versions: '10.6'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
