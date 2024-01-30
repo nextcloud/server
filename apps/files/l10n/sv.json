@@ -240,6 +240,7 @@
     "File cannot be accessed" : "Det går inte att komma åt filen",
     "You might not have have permissions to view it, ask the sender to share it" : "Du kanske inte har behörighet att se den, be avsändaren att dela den",
     "Sort favorites first" : "Sortera favoriter först",
+    "Sort folders before files" : "Sortera mappar före filer",
     "Show hidden files" : "Visa dolda filer",
     "Crop image previews" : "Beskär förhandsgranskningar för bilder",
     "Enable the grid view" : "Aktivera rutnätsvy",
