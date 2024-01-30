@@ -995,6 +995,15 @@ $CONFIG = [
 'loglevel_frontend' => 2,
 
 /**
+ * Loglevel used by the dirty database query detection. Useful to identify
+ * potential database bugs in production. Set this to loglevel or higher to
+ * see dirty queries in the logs.
+ *
+ * Defaults to ``0`` (debug)
+ */
+'loglevel_dirty_database_queries' => 0,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
