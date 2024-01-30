@@ -62,6 +62,7 @@ use OCP\Files\Node;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<BeforeNodeCopiedEvent|BeforeNodeDeletedEvent|BeforeNodeRenamedEvent|BeforeNodeTouchedEvent|BeforeNodeWrittenEvent|NodeCopiedEvent|NodeCreatedEvent|NodeDeletedEvent|NodeRenamedEvent|NodeTouchedEvent|NodeWrittenEvent> */
 class FileEventsListener implements IEventListener {
 	/**
 	 * @var array<int, array>

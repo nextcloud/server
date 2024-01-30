@@ -31,6 +31,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 
+/** @template-implements IEventListener<NodeDeletedEvent> */
 class NodeDeletedListener implements IEventListener {
 	public function __construct(
 		private ReminderService $reminderService,

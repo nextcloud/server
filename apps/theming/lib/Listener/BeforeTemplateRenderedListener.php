@@ -29,6 +29,7 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\JSDataService;
 use OCA\Theming\Service\ThemeInjectionService;
+use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -38,6 +39,7 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 
+/** @template-implements IEventListener<BeforeTemplateRenderedEvent|BeforeLoginTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
 
 	private IInitialState $initialState;
@@ -66,7 +68,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			fn () => $this->container->get(JSDataService::class),
 		);
 
-		/** @var BeforeTemplateRenderedEvent $event */
+		/** @var BeforeTemplateRenderedEvent|BeforeLoginTemplateRenderedEvent $event */
 		if ($event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_USER) {
 			$this->initialState->provideLazyInitialState('shortcutsDisabled', function () {
 				if ($this->userSession->getUser()) {

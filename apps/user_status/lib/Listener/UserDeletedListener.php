@@ -34,6 +34,7 @@ use OCP\User\Events\UserDeletedEvent;
  * Class UserDeletedListener
  *
  * @package OCA\UserStatus\Listener
+ * @template-implements IEventListener<UserDeletedEvent>
  */
 class UserDeletedListener implements IEventListener {
 
