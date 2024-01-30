@@ -1284,6 +1284,9 @@ export default {
 			background-color: rgba(255, 255, 255, .08) !important;
 			outline: 2px solid var(--color-primary-element) !important;
 		}
+		&.action-item__menutoggle {
+			background-color: transparent;
+		}
 	}
 
 	&.theme--undefined.modal-mask {
