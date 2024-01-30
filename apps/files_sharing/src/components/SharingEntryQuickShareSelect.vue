@@ -1,32 +1,25 @@
 <template>
-	<div ref="quickShareDropdownContainer"
-		:class="{ 'active': showDropdown, 'share-select': true }">
-		<span :id="dropdownId"
-			class="trigger-text"
-			:aria-expanded="showDropdown"
-			:aria-haspopup="true"
-			aria-label="Quick share options dropdown"
-			@click="toggleDropdown">
-			{{ selectedOption }}
+	<NcActions ref="quickShareActions"
+		class="share-select"
+		:menu-name="selectedOption"
+		:aria-label="ariaLabel"
+		type="tertiary-no-background"
+		force-name>
+		<template #icon>
 			<DropdownIcon :size="15" />
-		</span>
-		<div v-if="showDropdown"
-			ref="quickShareDropdown"
-			class="share-select-dropdown"
-			:aria-labelledby="dropdownId"
-			tabindex="0"
-			@keydown.down="handleArrowDown"
-			@keydown.up="handleArrowUp"
-			@keydown.esc="closeDropdown">
-			<button v-for="option in options"
-				:key="option"
-				:class="{ 'dropdown-item': true, 'selected': option === selectedOption }"
-				:aria-selected="option === selectedOption"
-				@click="selectOption(option)">
-				{{ option }}
-			</button>
-		</div>
-	</div>
+		</template>
+		<NcActionButton v-for="option in options"
+			:key="option.label"
+			type="radio"
+			:model-value="option.label === selectedOption"
+			close-after-click
+			@click="selectOption(option.label)">
+			<template #icon>
+				<component :is="option.icon" />
+			</template>
+			{{ option.label }}
+		</NcActionButton>
+	</NcActions>
 </template>
 
 <script>
@@ -34,37 +27,48 @@ import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
 import ShareTypes from '../mixins/ShareTypes.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import IconEyeOutline from 'vue-material-design-icons/EyeOutline.vue'
+import IconPencil from 'vue-material-design-icons/Pencil.vue'
+import IconFileUpload from 'vue-material-design-icons/FileUpload.vue'
+import IconTune from 'vue-material-design-icons/Tune.vue'
 
 import {
 	BUNDLED_PERMISSIONS,
 	ATOMIC_PERMISSIONS,
 } from '../lib/SharePermissionsToolBox.js'
 
-import { createFocusTrap } from 'focus-trap'
-
 export default {
+	name: 'SharingEntryQuickShareSelect',
+
 	components: {
 		DropdownIcon,
+		NcActions,
+		NcActionButton,
 	},
+
 	mixins: [SharesMixin, ShareDetails, ShareTypes],
+
 	props: {
 		share: {
 			type: Object,
 			required: true,
 		},
-		toggle: {
-			type: Boolean,
-			default: false,
-		},
 	},
+
+	emits: ['open-sharing-details'],
+
 	data() {
 		return {
 			selectedOption: '',
-			showDropdown: this.toggle,
-			focusTrap: null,
 		}
 	},
+
 	computed: {
+		ariaLabel() {
+			return t('files_sharing', 'Quick share options, the current selected is "{selectedOption}"', { selectedOption: this.selectedOption })
+		},
 		canViewText() {
 			return t('files_sharing', 'View only')
 		},
@@ -91,11 +95,23 @@ export default {
 
 		},
 		options() {
-			const options = [this.canViewText, this.canEditText]
+			const options = [{
+				label: this.canViewText,
+				icon: IconEyeOutline,
+			}, {
+				label: this.canEditText,
+				icon: IconPencil,
+			}]
 			if (this.supportsFileDrop) {
-				options.push(this.fileDropText)
+				options.push({
+					label: this.fileDropText,
+					icon: IconFileUpload,
+				})
 			}
-			options.push(this.customPermissionsText)
+			options.push({
+				label: this.customPermissionsText,
+				icon: IconTune,
+			})
 
 			return options
 		},
@@ -119,96 +135,23 @@ export default {
 				return BUNDLED_PERMISSIONS.READ_ONLY
 			}
 		},
-		dropdownId() {
-			// Generate a unique ID for ARIA attributes
-			return `dropdown-${Math.random().toString(36).substr(2, 9)}`
-		},
 	},
-	watch: {
-		toggle(toggleValue) {
-			this.showDropdown = toggleValue
-		},
+
+	created() {
+		this.selectedOption = this.preSelectedOption
 	},
-	mounted() {
-		this.initializeComponent()
-		window.addEventListener('click', this.handleClickOutside)
-	},
-	beforeDestroy() {
-		// Remove the global click event listener to prevent memory leaks
-		window.removeEventListener('click', this.handleClickOutside)
-	},
+
 	methods: {
-		toggleDropdown() {
-			this.showDropdown = !this.showDropdown
-			if (this.showDropdown) {
-				this.$nextTick(() => {
-					this.useFocusTrap()
-				})
-			} else {
-				this.clearFocusTrap()
-			}
-		},
-		closeDropdown() {
-			this.clearFocusTrap()
-			this.showDropdown = false
-		},
-		selectOption(option) {
-			this.selectedOption = option
-			if (option === this.customPermissionsText) {
+		selectOption(optionLabel) {
+			this.selectedOption = optionLabel
+			if (optionLabel === this.customPermissionsText) {
 				this.$emit('open-sharing-details')
 			} else {
 				this.share.permissions = this.dropDownPermissionValue
 				this.queueUpdate('permissions')
+				// TODO: Add a focus method to NcActions or configurable returnFocus enabling to NcActionButton with closeAfterClick
+				this.$refs.quickShareActions.$refs.menuButton.$el.focus()
 			}
-			this.showDropdown = false
-		},
-		initializeComponent() {
-			this.selectedOption = this.preSelectedOption
-		},
-		handleClickOutside(event) {
-			const dropdownContainer = this.$refs.quickShareDropdownContainer
-
-			if (dropdownContainer && !dropdownContainer.contains(event.target)) {
-				this.showDropdown = false
-			}
-		},
-		useFocusTrap() {
-			// Create global stack if undefined
-			// Use in with trapStack to avoid conflicting traps
-			Object.assign(window, { _nc_focus_trap: window._nc_focus_trap || [] })
-			const dropdownElement = this.$refs.quickShareDropdown
-			this.focusTrap = createFocusTrap(dropdownElement, {
-				allowOutsideClick: true,
-				trapStack: window._nc_focus_trap,
-			})
-
-			this.focusTrap.activate()
-		},
-		clearFocusTrap() {
-			this.focusTrap?.deactivate()
-			this.focusTrap = null
-		},
-		shiftFocusForward() {
-			const currentElement = document.activeElement
-			let nextElement = currentElement.nextElementSibling
-			if (!nextElement) {
-				nextElement = this.$refs.quickShareDropdown.firstElementChild
-			}
-			nextElement.focus()
-		},
-		shiftFocusBackward() {
-			const currentElement = document.activeElement
-			let previousElement = currentElement.previousElementSibling
-			if (!previousElement) {
-				previousElement = this.$refs.quickShareDropdown.lastElementChild
-			}
-			previousElement.focus()
-		},
-		handleArrowUp() {
-			this.shiftFocusBackward()
-		},
-		handleArrowDown() {
-			this.shiftFocusForward()
 		},
 	},
 
@@ -217,65 +160,31 @@ export default {
 
 <style lang="scss" scoped>
 .share-select {
-	position: relative;
-	cursor: pointer;
+	display: block;
 
-	.trigger-text {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		font-size: 12.5px;
-		gap: 2px;
-		color: var(--color-primary-element);
-	}
+	// TODO: NcActions should have a slot for custom trigger button like NcPopover
+	// Overrider NcActionms button to make it small
+	:deep(.action-item__menutoggle) {
+		color: var(--color-primary-element) !important;
+		font-size: 12.5px !important;
+		height: auto !important;
+		min-height: auto !important;
 
-	.share-select-dropdown {
-		position: absolute;
-		display: flex;
-		flex-direction: column;
-		top: 100%;
-		left: 0;
-		background-color: var(--color-main-background);
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-		border: 1px solid var(--color-border);
-		padding: 4px 0;
-		z-index: 1;
-
-		.dropdown-item {
-			padding: 8px;
-			font-size: 12px;
-			background: none;
-			border: none;
-			border-radius: 0;
-			font: inherit;
-			cursor: pointer;
-			color: inherit;
-			outline: none;
-			width: 100%;
-			white-space: nowrap;
-			text-align: left;
-
-			&:hover {
-				background-color: var(--color-background-dark);
-			}
-
-			&.selected {
-				background-color: var(--color-background-dark);
-			}
+		.button-vue__text {
+			font-weight: normal !important;
 		}
-	}
 
-	/* Optional: Add a transition effect for smoother dropdown animation */
-	.share-select-dropdown {
-		max-height: 0;
-		overflow: hidden;
-		transition: max-height 0.3s ease;
-	}
+		.button-vue__icon {
+			height: 24px !important;
+			min-height: 24px !important;
+			width: 24px !important;
+			min-width: 24px !important;
+		}
 
-	&.active .share-select-dropdown {
-		max-height: 200px;
-		/* Adjust the value to your desired height */
+		.button-vue__wrapper {
+			// Emulate NcButton's alignment=center-reverse
+			flex-direction: row-reverse !important;
+		}
 	}
 }
 </style>
