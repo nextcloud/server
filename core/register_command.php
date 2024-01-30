@@ -55,8 +55,9 @@ use OC\Core\Command;
 use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 
-$application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
+$application->add(new CompletionCommand());
 $application->add(Server::get(Command\Status::class));
 $application->add(Server::get(Command\Check::class));
 $application->add(Server::get(Command\L10n\CreateJs::class));
