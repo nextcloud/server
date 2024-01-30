@@ -40,7 +40,7 @@ class MysqlUnicodeSupport implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('MySQL unicode support');
+		return $this->l10n->t('MySQL Unicode support');
 	}
 
 	public function getCategory(): string {
