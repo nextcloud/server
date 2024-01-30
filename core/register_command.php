@@ -53,6 +53,7 @@ declare(strict_types=1);
 
 use OC\Core\Command;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
@@ -61,10 +62,17 @@ $application->add(new CompletionCommand());
 $application->add(Server::get(Command\Status::class));
 $application->add(Server::get(Command\Check::class));
 $application->add(Server::get(Command\L10n\CreateJs::class));
-$application->add(Server::get(Command\Integrity\SignApp::class));
-$application->add(Server::get(Command\Integrity\SignCore::class));
-$application->add(Server::get(Command\Integrity\CheckApp::class));
-$application->add(Server::get(Command\Integrity\CheckCore::class));
+$application->add(new \OC\Core\Command\Integrity\SignApp(
+	Server::get('IntegrityCodeChecker'),
+	new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
+	Server::get(IURLGenerator::class)
+));
+$application->add(new \OC\Core\Command\Integrity\SignCore(
+	Server::get('IntegrityCodeChecker'),
+	new \OC\IntegrityCheck\Helpers\FileAccessHelper()
+));
+$application->add(new \OC\Core\Command\Integrity\CheckApp(Server::get('IntegrityCodeChecker')));
+$application->add(new \OC\Core\Command\Integrity\CheckCore(Server::get('IntegrityCodeChecker')));
 
 $config = Server::get(IConfig::class);
 
