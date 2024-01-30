@@ -255,7 +255,8 @@ class Updater extends BasicEmitter {
 		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
-		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$repair = \OCP\Server::get(Repair::class);
+		$repair->setRepairSteps(Repair::getBeforeUpgradeRepairSteps());
 		$repair->run();
 
 		$this->doCoreUpgrade();
@@ -296,7 +297,8 @@ class Updater extends BasicEmitter {
 		}
 
 		// post-upgrade repairs
-		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$repair = \OCP\Server::get(Repair::class);
+		$repair->setRepairSteps(Repair::getRepairSteps());
 		$repair->run();
 
 		//Invalidate update feed

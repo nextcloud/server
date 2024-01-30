@@ -73,7 +73,7 @@ class BackgroundRepair extends TimedJob {
 		}
 
 		$step = $argument['step'];
-		$repair = new Repair([], $this->dispatcher, \OC::$server->get(LoggerInterface::class));
+		$repair = \OCP\Server::get(Repair::class);
 		try {
 			$repair->addStep($step);
 		} catch (\Exception $ex) {

@@ -55,7 +55,6 @@ use OC\Core\Command;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 
 $application->add(new CompletionCommand());
@@ -149,12 +148,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Maintenance\UpdateTheme::class));
 
 	$application->add(Server::get(Command\Upgrade::class));
-	$application->add(new Command\Maintenance\Repair(
-		new \OC\Repair([], Server::get(\OCP\EventDispatcher\IEventDispatcher::class), Server::get(LoggerInterface::class)),
-		\OC::$server->getConfig(),
-		Server::get(\OCP\EventDispatcher\IEventDispatcher::class),
-		\OC::$server->getAppManager()
-	));
+	$application->add(Server::get(Command\Maintenance\Repair::class));
 	$application->add(Server::get(Command\Maintenance\RepairShareOwnership::class));
 
 	$application->add(Server::get(Command\Preview\Generate::class));
