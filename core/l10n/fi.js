@@ -72,7 +72,6 @@ OC.L10N.register(
     "Already up to date" : "Kaikki on jo ajan tasalla",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Verkkopalvelintasi ei ole määritelty oikein käsittelemään osoitetta \"{url}\". Lisätietoa löytyy  {linkstart}dokumentaatiosta ↗{linkend}.",
-    "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Tämä instanssi toimii vianjäljitystilassa. Käytä vianjäljitystilaa vain paikalliseen kehitykseen, älä koskaan käytä sitä tuotantoympäristössä.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Lue lisätietoja {linkstart}dokumentaatiosta ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-header \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Kyseessä on mahdollinen tietoturvaan tai -suojaan liittyvä riski, joten on suositeltavaa muuttaa asetuksen arvoa.",
@@ -399,6 +398,7 @@ OC.L10N.register(
     "Confirm your password" : "Vahvista salasanasi",
     "App token" : "Sovellusvaltuutus",
     "Alternative log in using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovelluspolettia",
+    "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Tämä instanssi toimii vianjäljitystilassa. Käytä vianjäljitystilaa vain paikalliseen kehitykseen, älä koskaan käytä sitä tuotantoympäristössä.",
     "Avatar of {fullName}" : "Käyttäjän {fullName} kuva"
 },
 "nplurals=2; plural=(n != 1);");
