@@ -125,7 +125,6 @@ export default {
 		return {
 			clearAt: null,
 			editedMessage: '',
-			isCustomStatus: true,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -213,7 +212,6 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
-			this.isCustomStatus = true
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -229,7 +227,6 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.isCustomStatus = true
 			this.editedMessage = message
 		},
 		/**
@@ -246,7 +243,6 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
-			this.isCustomStatus = false
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,
@@ -266,13 +262,11 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				if (this.isCustomStatus) {
-					await this.$store.dispatch('setCustomMessage', {
-						message: this.editedMessage,
-						icon: this.icon,
-						clearAt: this.clearAt,
-					})
-				}
+				await this.$store.dispatch('setCustomMessage', {
+					message: this.editedMessage,
+					icon: this.icon,
+					clearAt: this.clearAt,
+				})
 			} catch (err) {
 				showError(this.$t('user_status', 'There was an error saving the status'))
 				console.debug(err)
