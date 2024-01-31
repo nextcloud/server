@@ -243,6 +243,11 @@ export default Vue.extend({
 
 	methods: {
 		scrollTo(index: number) {
+			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
+			if (targetRow < this.rowCount) {
+				logger.debug('VirtualList: Skip scrolling. nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+				return
+			}
 			this.index = index
 			// Scroll to one row and a half before the index
 			const scrollTop = (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
