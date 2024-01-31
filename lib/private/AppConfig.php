@@ -462,11 +462,14 @@ class AppConfig implements IAppConfig {
 			throw new AppConfigTypeConflictException('conflict with value type from database');
 		}
 
-		if ($lazy) {
-			return $this->lazyCache[$app][$key] ?? $default;
-		}
-
-		return $this->fastCache[$app][$key] ?? $default;
+		/**
+		 * - the pair $app/$key cannot exist in both array,
+		 * - we should still returns an existing non-lazy value even if current method
+		 *   is called with $lazy is true
+		 *
+		 * This way, lazyCache will be empty until the load for lazy config value is requested.
+		 */
+		return $this->lazyCache[$app][$key] ?? $this->fastCache[$app][$key] ?? $default;
 	}
 
 	/**
