@@ -104,24 +104,24 @@ class AppConfigTest extends TestCase {
 
 
 	// TODO: fix this in core: getAllAppValues() should returns values based on their types instead of all string
-//	public function testGetAllAppValues(): void {
-//		$this->assertSame(
-//			[
-//				'key1' => 'value1',
-//				'key2' => 'value0',
-//				'key6' => 1,
-//				'key7' => [
-//					'test1' => 1,
-//					'test2' => 2
-//				],
-//				'test8' => 1,
-//				'key3' => 'value0',
-//				'key4' => 3,
-//				'key5' => 3.14
-//			],
-//			$this->appConfig->getAllAppValues()
-//		);
-//	}
+	//	public function testGetAllAppValues(): void {
+	//		$this->assertSame(
+	//			[
+	//				'key1' => 'value1',
+	//				'key2' => 'value0',
+	//				'key6' => 1,
+	//				'key7' => [
+	//					'test1' => 1,
+	//					'test2' => 2
+	//				],
+	//				'test8' => 1,
+	//				'key3' => 'value0',
+	//				'key4' => 3,
+	//				'key5' => 3.14
+	//			],
+	//			$this->appConfig->getAllAppValues()
+	//		);
+	//	}
 
 
 	public function testSetAppValue(): void {
