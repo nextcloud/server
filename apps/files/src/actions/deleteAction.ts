@@ -21,6 +21,7 @@
  */
 import { emit } from '@nextcloud/event-bus'
 import { Permission, Node, View, FileAction, FileType } from '@nextcloud/files'
+import { showInfo } from '@nextcloud/dialogs'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
@@ -58,55 +59,57 @@ const isAllFolders = (nodes: Node[]) => {
 	return !nodes.some(node => node.type !== FileType.Folder)
 }
 
+const displayName = (nodes: Node[], view: View) => {
+	/**
+	 * If we're in the trashbin, we can only delete permanently
+	 */
+	if (view.id === 'trashbin') {
+		return t('files', 'Delete permanently')
+	}
+
+	/**
+	 * If we're in the sharing view, we can only unshare
+	 */
+	if (isMixedUnshareAndDelete(nodes)) {
+		return t('files', 'Delete and unshare')
+	}
+
+	/**
+	 * If those nodes are all the root node of a
+	 * share, we can only unshare them.
+	 */
+	if (canUnshareOnly(nodes)) {
+		return n('files', 'Leave this share', 'Leave these shares', nodes.length)
+	}
+
+	/**
+	 * If those nodes are all the root node of an
+	 * external storage, we can only disconnect it.
+	 */
+	if (canDisconnectOnly(nodes)) {
+		return n('files', 'Disconnect storage', 'Disconnect storages', nodes.length)
+	}
+
+	/**
+	 * If we're only selecting files, use proper wording
+	 */
+	if (isAllFiles(nodes)) {
+		return n('files', 'Delete file', 'Delete files', nodes.length)
+	}
+
+	/**
+	 * If we're only selecting folders, use proper wording
+	 */
+	if (isAllFolders(nodes)) {
+		return n('files', 'Delete folder', 'Delete folders', nodes.length)
+	}
+
+	return t('files', 'Delete')
+}
+
 export const action = new FileAction({
 	id: 'delete',
-	displayName(nodes: Node[], view: View) {
-		/**
-		 * If we're in the trashbin, we can only delete permanently
-		 */
-		if (view.id === 'trashbin') {
-			return t('files', 'Delete permanently')
-		}
-
-		/**
-		 * If we're in the sharing view, we can only unshare
-		 */
-		if (isMixedUnshareAndDelete(nodes)) {
-			return t('files', 'Delete and unshare')
-		}
-
-		/**
-		 * If those nodes are all the root node of a
-		 * share, we can only unshare them.
-		 */
-		if (canUnshareOnly(nodes)) {
-			return n('files', 'Leave this share', 'Leave these shares', nodes.length)
-		}
-
-		/**
-		 * If those nodes are all the root node of an
-		 * external storage, we can only disconnect it.
-		 */
-		if (canDisconnectOnly(nodes)) {
-			return n('files', 'Disconnect storage', 'Disconnect storages', nodes.length)
-		}
-
-		/**
-		 * If we're only selecting files, use proper wording
-		 */
-		if (isAllFiles(nodes)) {
-		 return n('files', 'Delete file', 'Delete files', nodes.length)
-		}
-
-		/**
-		 * If we're only selecting folders, use proper wording
-		 */
-		if (isAllFolders(nodes)) {
-			return n('files', 'Delete folder', 'Delete folders', nodes.length)
-		}
-
-		return t('files', 'Delete')
-	},
+	displayName,
 	iconSvgInline: (nodes: Node[]) => {
 		if (canUnshareOnly(nodes)) {
 			return CloseSvg
@@ -139,7 +142,35 @@ export const action = new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view: View, dir: string) {
+
+	async execBatch(nodes: Node[], view: View, dir: string): Promise<(boolean | null)[]> {
+		const confirm = await new Promise<boolean>(resolve => {
+			if (nodes.length >= 5 && !canUnshareOnly(nodes) && !canDisconnectOnly(nodes)) {
+				// TODO use a proper dialog from @nextcloud/dialogs when available
+				window.OC.dialogs.confirmDestructive(
+					t('files', 'You are about to delete {count} items.', { count: nodes.length }),
+					t('files', 'Confirm deletion'),
+					{
+						type: window.OC.dialogs.YES_NO_BUTTONS,
+						confirm: displayName(nodes, view),
+						confirmClasses: 'error',
+						cancel: t('files', 'Cancel'),
+					},
+					(decision: boolean) => {
+						resolve(decision)
+					},
+				)
+				return
+			}
+			resolve(true)
+		})
+
+		// If the user cancels the deletion, we don't want to do anything
+		if (confirm === false) {
+			showInfo(t('files', 'Deletion cancelled'))
+			return Promise.all(nodes.map(() => false))
+		}
+
 		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 
