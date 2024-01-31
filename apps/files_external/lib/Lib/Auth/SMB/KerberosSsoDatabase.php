@@ -24,30 +24,50 @@
 
 namespace OCA\Files_External\Lib\Auth\SMB;
 
+use Icewind\SMB\KerberosTicket;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
-use OCP\Authentication\LoginCredentials\IStore;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCP\IL10N;
+use OCP\ISession;
+use OCP\IUser;
+use OCP\Security\ICredentialsManager;
 
-class KerberosApacheAuth extends AuthMechanism {
-	/** @var IStore */
-	private $credentialsStore;
+class KerberosSsoDatabase extends AuthMechanism {
+	private ICredentialsManager $credentialsManager;
 
-	public function __construct(IL10N $l, IStore $credentialsStore) {
+	public function __construct(IL10N $l, ICredentialsManager $credentialsManager) {
 		$realm = new DefinitionParameter('default_realm', 'Default realm');
 		$realm
 			->setType(DefinitionParameter::VALUE_TEXT)
 			->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 			->setTooltip($l->t('Kerberos default realm, defaults to "WORKGROUP"'));
 		$this
-			->setIdentifier('smb::kerberosapache')
+			->setIdentifier('smb::kerberos_sso_database')
 			->setScheme(self::SCHEME_SMB)
-			->setText($l->t('Kerberos ticket SSO'))
+			->setText($l->t('Kerberos ticket SSO, save in database'))
 			->addParameter($realm);
-		$this->credentialsStore = $credentialsStore;
+		$this->credentialsManager = $credentialsManager;
 	}
 
-	public function getCredentialsStore(): IStore {
-		return $this->credentialsStore;
+	public function getTicket(?IUser $user): KerberosTicket {
+		if (!isset($user)) {
+			throw new InsufficientDataForMeaningfulAnswerException('No kerberos ticket saved');
+		}
+		try {
+			$envTicket = KerberosTicket::fromEnv();
+		} catch (\Exception $e) {
+			$envTicket = null;
+		}
+		if ($envTicket) {
+			$this->credentialsManager->store($user->getUID(), 'kerberos_ticket', base64_encode($envTicket->save()));
+			return $envTicket;
+		}
+
+		$savedTicket = $this->credentialsManager->retrieve($user->getUID(), 'kerberos_ticket');
+		if (!$savedTicket) {
+			throw new InsufficientDataForMeaningfulAnswerException('No kerberos ticket saved');
+		}
+		return KerberosTicket::load(base64_decode($savedTicket));
 	}
 }

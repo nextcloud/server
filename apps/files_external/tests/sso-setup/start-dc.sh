@@ -2,14 +2,14 @@
 set -e
 
 function getContainerHealth {
-  docker inspect --format "{{.State.Health.Status}}" $1
+  docker inspect --format "{{.State.Health.Status}}" "$1"
 }
 
 function waitContainer {
-  while STATUS=$(getContainerHealth $1); [ $STATUS != "healthy" ]; do
-    if [ $STATUS == "unhealthy" ]; then
+  while STATUS=$(getContainerHealth "$1"); [ "$STATUS" != "healthy" ]; do
+    if [ "$STATUS" == "unhealthy" ]; then
       echo "Failed!" 1>&2
-      exit -1
+      exit 1
     fi
     printf . 1>&2
     lf=$'\n'
@@ -26,5 +26,7 @@ mkdir -p /tmp/shared
 docker run -dit --name dc -v /tmp/shared:/shared --hostname krb.domain.test --cap-add SYS_ADMIN icewind1991/samba-krb-test-dc 1>&2
 
 waitContainer dc
+
+sleep 5
 
 docker inspect dc --format '{{.NetworkSettings.IPAddress}}'

@@ -24,30 +24,45 @@
 
 namespace OCA\Files_External\Lib\Auth\SMB;
 
+use Icewind\SMB\KerberosTicket;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
-use OCP\Authentication\LoginCredentials\IStore;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCP\IL10N;
+use OCP\ISession;
 
-class KerberosApacheAuth extends AuthMechanism {
-	/** @var IStore */
-	private $credentialsStore;
+class KerberosSsoSession extends AuthMechanism {
+	private ISession $session;
 
-	public function __construct(IL10N $l, IStore $credentialsStore) {
+	public function __construct(IL10N $l, ISession $session) {
 		$realm = new DefinitionParameter('default_realm', 'Default realm');
 		$realm
 			->setType(DefinitionParameter::VALUE_TEXT)
 			->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 			->setTooltip($l->t('Kerberos default realm, defaults to "WORKGROUP"'));
 		$this
-			->setIdentifier('smb::kerberosapache')
+			->setIdentifier('smb::kerberos_sso_session')
 			->setScheme(self::SCHEME_SMB)
-			->setText($l->t('Kerberos ticket SSO'))
+			->setText($l->t('Kerberos ticket SSO, save in session'))
 			->addParameter($realm);
-		$this->credentialsStore = $credentialsStore;
+		$this->session = $session;
 	}
 
-	public function getCredentialsStore(): IStore {
-		return $this->credentialsStore;
+	public function getTicket(): KerberosTicket {
+		try {
+			$envTicket = KerberosTicket::fromEnv();
+		} catch (\Exception $e) {
+			$envTicket = null;
+		}
+		if ($envTicket) {
+			$this->session->set('kerberos_ticket', base64_encode($envTicket->save()));
+			return $envTicket;
+		}
+
+		$savedTicket = $this->session->get('kerberos_ticket');
+		if (!$savedTicket) {
+			throw new InsufficientDataForMeaningfulAnswerException('No kerberos ticket saved');
+		}
+		return KerberosTicket::load(base64_decode($savedTicket));
 	}
 }

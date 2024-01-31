@@ -8,7 +8,7 @@
 		"classmap-authoritative": true
 	},
 	"require": {
-		"icewind/smb": "3.5.4",
+		"icewind/smb": "3.6.0",
 		"icewind/streams": "0.7.7"
 	}
 }
