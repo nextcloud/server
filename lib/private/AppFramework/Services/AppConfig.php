@@ -36,9 +36,9 @@ use OCP\IConfig;
 class AppConfig implements IAppConfig {
 	public function __construct(
 		private IConfig $config,
-		private string $appName,
 		/** @var \OC\AppConfig */
 		private \OCP\IAppConfig $appConfig,
+		private string $appName,
 	) {
 	}
 
