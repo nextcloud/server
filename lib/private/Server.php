@@ -982,10 +982,10 @@ class Server extends ServerContainer implements IServerContainer {
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 				$config = $c->get(\OCP\IConfig::class);
+				$appConfig = $c->get(\OCP\IAppConfig::class);
 				$appManager = $c->get(IAppManager::class);
 			} else {
-				$config = null;
-				$appManager = null;
+				$config = $appConfig = $appManager = null;
 			}
 
 			return new Checker(
@@ -993,6 +993,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new FileAccessHelper(),
 				new AppLocator(),
 				$config,
+				$appConfig,
 				$c->get(ICacheFactory::class),
 				$appManager,
 				$c->get(IMimeTypeDetector::class)
