@@ -129,7 +129,7 @@ OC.L10N.register(
     "Allow upload and editing" : "Autoriser le téléversement et la modification",
     "File drop (upload only)" : "Dépôt de fichier (envoi uniquement)",
     "Custom permissions" : "Personnaliser les permissions",
-    "Read" : "Lecture",
+    "Read" : "Lire",
     "Upload" : "Envoi",
     "Edit" : "Editer",
     "Bundled permissions" : "Autorisations groupées",

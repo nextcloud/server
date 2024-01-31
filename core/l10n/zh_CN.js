@@ -451,6 +451,7 @@ OC.L10N.register(
     "Confirm your password" : "确认您的密码",
     "App token" : "App 令牌",
     "Alternative log in using app token" : "使用应用程序令牌替代登录",
+    "Your remote address was identified as \"{remoteAddress}\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly. Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的远程地址为「{remoteAddress}」，目前正在受到攻击限速，系统请求性能降低。如果这非您的远程地址，则可能表明代理配置不正确。您可以在{linkstart}文档↗{linkend}中找到更多信息。",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "数据库被用于事务文件锁。为了增强性能，请设置memcache（如果可用）。获取更多信息请参见{linkstart}文档↗{linkend}。",
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27已弃用PHP 8.0。Nextcloud 28可能需要PHP 8.1或更高版本。请尽快升级至一个 {linkstart}PHP Group ↗{linkend}提供官方支持的版本。",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "此实例正在调试模式下运行。仅在本地开发而非生产环境时启用该模式。",
