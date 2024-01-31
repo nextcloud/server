@@ -6,4 +6,4 @@ The Code of Conduct is shared by all contributors and users who engage with the 
 
 You can find our full code of conduct on our website: https://nextcloud.com/code-of-conduct/
 
-Please, keep our CoC in mind when you contribute! That way, everyone can be a part of our community in a productive, positive, creative and fun way.
+Please, keep our CoC in mind when you contribute! That way, everyone can be a part of our community in a productive, positive, creative and fun way. We need to think how to create a good product.
