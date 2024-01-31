@@ -37,6 +37,13 @@
 			<NcCheckboxRadioSwitch :checked.sync="settings.onlyShareWithGroupMembers">
 				{{ t('settings', 'Restrict users to only share with users in their groups') }}
 			</NcCheckboxRadioSwitch>
+			<div v-show="settings.onlyShareWithGroupMembers" id="settings-sharing-api-excluded-groups" class="sharing__labeled-entry sharing__input">
+				<label for="settings-sharing-only-group-members-excluded-groups">{{ t('settings', 'Ignore the following groups when checking group membership') }}</label>
+				<NcSettingsSelectGroup id="settings-sharing-only-group-members-excluded-groups"
+					v-model="settings.onlyShareWithGroupMembersExcludeGroupList"
+					:label="t('settings', 'Ignore the following groups when checking group membership')"
+					style="width: 100%" />
+			</div>
 		</div>
 
 		<div v-show="settings.enabled" id="settings-sharing-api" class="sharing__section">
@@ -216,6 +223,7 @@ interface IShareSettings {
 	passwordExcludedGroups: string[]
 	passwordExcludedGroupsFeatureEnabled: boolean
 	onlyShareWithGroupMembers: boolean
+	onlyShareWithGroupMembersExcludeGroupList: string[]
 	defaultExpireDate: boolean
 	expireAfterNDays: string
 	enforceExpireDate: boolean

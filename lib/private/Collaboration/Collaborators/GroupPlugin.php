@@ -49,11 +49,16 @@ class GroupPlugin implements ISearchPlugin {
 		private IConfig $config,
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
+		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
 	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->groupSharingDisabled = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'no';
+
+		if ($this->shareWithGroupOnly) {
+			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
+		}
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
@@ -81,6 +86,9 @@ class GroupPlugin implements ISearchPlugin {
 				return $group->getGID();
 			}, $userGroups);
 			$groupIds = array_intersect($groupIds, $userGroups);
+
+			// ShareWithGroupOnly filtering
+			$groupIds = array_diff($groupIds, $this->shareWithGroupOnlyExcludeGroupsList);
 		}
 
 		$lowerSearch = strtolower($search);
