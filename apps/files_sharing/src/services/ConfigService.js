@@ -21,13 +21,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import { loadState } from '@nextcloud/initial-state'
+import { getCapabilities } from '@nextcloud/capabilities'
 
 export default class Config {
 
 	constructor() {
-		this._shareConfig = loadState('files_sharing', 'shareConfig', {})
+		this._capabilities = getCapabilities()
 	}
 
 	/**
@@ -38,7 +37,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	 get defaultPermissions() {
-		return this._shareConfig.defaultPermissions
+		return this._capabilities.files_sharing?.default_permissions
 	}
 
 	/**
@@ -49,7 +48,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPublicUploadEnabled() {
-		return this._shareConfig.allowPublicUploads
+		return this._capabilities.files_sharing?.public.upload
 	}
 
 	/**
@@ -224,11 +223,10 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isMailShareAllowed() {
-		const capabilities = OC.getCapabilities()
 		// eslint-disable-next-line camelcase
-		return capabilities?.files_sharing?.sharebymail !== undefined
+		return this._capabilities?.files_sharing?.sharebymail !== undefined
 			// eslint-disable-next-line camelcase
-			&& capabilities?.files_sharing?.public?.enabled === true
+			&& this._capabilities?.files_sharing?.public?.enabled === true
 	}
 
 	/**
@@ -283,7 +281,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPasswordForMailSharesRequired() {
-		return (OC.getCapabilities().files_sharing.sharebymail === undefined) ? false : OC.getCapabilities().files_sharing.sharebymail.password.enforced
+		return (this._capabilities.files_sharing.sharebymail === undefined) ? false : this._capabilities.files_sharing.sharebymail.password.enforced
 	}
 
 	/**
@@ -292,7 +290,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get shouldAlwaysShowUnique() {
-		return (OC.getCapabilities().files_sharing?.sharee?.always_show_unique === true)
+		return (this._capabilities.files_sharing?.sharee?.always_show_unique === true)
 	}
 
 	/**
@@ -337,8 +335,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get passwordPolicy() {
-		const capabilities = OC.getCapabilities()
-		return capabilities.password_policy ? capabilities.password_policy : {}
+		return this._capabilities.password_policy ? this._capabilities.password_policy : {}
 	}
 
 }

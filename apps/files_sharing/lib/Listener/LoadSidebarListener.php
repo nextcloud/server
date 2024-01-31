@@ -51,12 +51,5 @@ class LoadSidebarListener implements IEventListener
 		}
 
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
-
-		$shareConfig = [
-			'allowPublicUploads' => $this->shareManager->shareApiLinkAllowPublicUpload(),
-			'defaultPermissions' => $this->shareManager->shareApiDefaultPermissions(),
-		];
-
-		$this->initialState->provideInitialState('shareConfig', $shareConfig);
 	}
 }
