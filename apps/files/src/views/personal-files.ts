@@ -20,23 +20,21 @@
  *
  */
 import { translate as t } from '@nextcloud/l10n'
-import type { Folder, Node } from '@nextcloud/files'
-
-import FolderHome from '@mdi/svg/svg/folder-home.svg?raw'
 import { View, getNavigation } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
 
 import { getContents } from '../services/PersonalFiles'
+import FolderHome from '@mdi/svg/svg/folder-home.svg?raw'
 import logger from '../logger'
-import { subscribe } from '@nextcloud/event-bus'
 
 /**
  * NOTE since we are only filtering at the root level, we only need to use the
  * getContents methods only on this default folder view / route / path.
+ * Every other subroot from the main root with be rendered normally, as it
+ * would be in the all-files paths.
 */
 export default () => {
 	logger.debug("Loading root level personal files view...")
-
+	
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: 'personal-files',
@@ -47,18 +45,18 @@ export default () => {
 		emptyCaption: t('files', 'Files that are not shared will show up here.'),
 
 		icon: FolderHome,
-		order: 1,
+		order: 5,
 
 		getContents,
 	}))
 
 	/**
-	 * Update root personal files navigation when a folder is no longer shared
+	 * Update personal files view when a folder is no longer shared
 	 */
 	// subscribe()
 
 	/**
-	 * Remove root personal files navigation when a folder is shared
+	 * Update personal files view when a folder is shared from the user
 	 */
 	// subscribe() 
 

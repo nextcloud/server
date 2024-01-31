@@ -19,23 +19,68 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/** 
- * @types
- */
-import type { ContentsWithRoot } from '@nextcloud/files'
-
 import { CancelablePromise } from 'cancelable-promise'
-import { davGetClient } from "@nextcloud/files";
+import type { FileStat, ResponseDataDetailed } from 'webdav';
+import { davGetDefaultPropfind} from "@nextcloud/files";
+import { Folder, File, type ContentsWithRoot } from '@nextcloud/files'
+import { getCurrentUser } from '@nextcloud/auth';
 
-const client = davGetClient()
+import logger from '../logger'
+import { resultToNode } from './Files';
+import { getClient } from './WebdavClient';
 
-// TODO filter out the root file path for personal / non shared / non group folder files and nodes
+const client = getClient()
+
+/**
+ * @brief filters each file/folder on its shared statuses
+ * MOVE TO @nextcloud/files 
+ * 
+ * eventually, this should be the WebDAV search, similar to
+ * 
+ * @param {FileStat} node that contains  
+ * @return {Boolean}
+ */
+export const davNotShared = function(node: FileStat): Boolean {
+	// could use further filtering based on this issues description
+	// https://github.com/nextcloud/server/issues/42919
+	return 	node.props?.['owner-id'] === getCurrentUser()?.uid.toString()
+			&& node.props?.['share-types'] === ""
+}
+
 export const getContents = (path: string = "/"): Promise<ContentsWithRoot> => {
     const controller = new AbortController()
+	// FIXME we would filter each file during the WebDAV query, instead of after getting all the files
+	// and then filtering from there
+	const propfindPayload = davGetDefaultPropfind() // change the davGet here
+
     return new CancelablePromise(async (resolve, reject, onCancel) => {
         onCancel(() => controller.abort())
         try {
+			const contentsResponse = await client.getDirectoryContents(path, {
+				details: true,
+				data: propfindPayload,
+				includeSelf: true,
+				signal: controller.signal,
+			}) as ResponseDataDetailed<FileStat[]>
 
+			const root = contentsResponse.data[0]
+			const contents = contentsResponse.data.slice(1)
+
+			if (root.filename !== path) {
+				throw new Error('Root node does not match requested path')
+			}
+
+			resolve({
+				folder: resultToNode(root) as Folder,
+				contents: contents.filter(davNotShared).map(result => {
+					try {
+						return resultToNode(result)
+					} catch (error) {
+						logger.error(`Invalid node detected '${result.basename}'`, { error })
+						return null
+					}
+				}).filter(Boolean) as File[],
+			})
         } catch (error) {
             reject(error)
         }
