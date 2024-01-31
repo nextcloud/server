@@ -37,6 +37,7 @@ class AppConfig implements IAppConfig {
 	public function __construct(
 		private IConfig $config,
 		private string $appName,
+		/** @var \OC\AppConfig */
 		private \OCP\IAppConfig $appConfig,
 	) {
 	}
@@ -61,7 +62,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 */
 	public function hasAppKey(string $key, ?bool $lazy = false): bool {
-		return $this->appConfig->hasKey($this->appName, $key);
+		return $this->appConfig->hasKey($this->appName, $key, $lazy);
 	}
 
 	/**
@@ -73,7 +74,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 */
 	public function isSensitive(string $key, ?bool $lazy = false): bool {
-		return $this->appConfig->isSensitive($this->appName, $key);
+		return $this->appConfig->isSensitive($this->appName, $key, $lazy);
 	}
 
 	/**
@@ -109,9 +110,10 @@ class AppConfig implements IAppConfig {
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
 	 * @since 20.0.0
-	 * @deprecated use {@see setAppValueString()}
+	 * @deprecated 29.0.0 use {@see setAppValueString()}
 	 */
 	public function setAppValue(string $key, string $value): void {
+		/** @psalm-suppress InternalMethod */
 		$this->appConfig->setValueMixed($this->appName, $key, $value);
 	}
 
@@ -229,10 +231,12 @@ class AppConfig implements IAppConfig {
 	 * @param string $default
 	 *
 	 * @since 20.0.0
-	 * @deprecated use {@see getAppValueString()}
+	 * @deprecated 29.0.0 use {@see getAppValueString()}
 	 * @return string
 	 */
 	public function getAppValue(string $key, string $default = ''): string {
+		/** @psalm-suppress InternalMethod */
+		/** @psalm-suppress UndefinedInterfaceMethod */
 		return $this->appConfig->getValueMixed($this->appName, $key, $default);
 	}
 

@@ -100,7 +100,7 @@ interface IAppConfig {
 	 * @param string $value the value that should be stored
 	 * @return void
 	 * @since 20.0.0
-	 * @deprecated use {@see setAppValueString()}
+	 * @deprecated 29.0.0 use {@see setAppValueString()}
 	 */
 	public function setAppValue(string $key, string $value): void;
 
@@ -211,7 +211,7 @@ interface IAppConfig {
 	 *
 	 * @return string the saved value
 	 * @since 20.0.0
-	 * @deprecated use {@see getAppValueString()}
+	 * @deprecated 29.0.0 use {@see getAppValueString()}
 	 */
 	public function getAppValue(string $key, string $default = ''): string;
 

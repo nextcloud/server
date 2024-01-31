@@ -345,7 +345,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\AppConfig(
 				$c->get(IConfig::class),
-				$c->get('AppName')
+				$c->get('AppName'),
+				$c->get(\OCP\IAppConfig::class)
 			);
 		});
 		$this->registerService(IInitialState::class, function (ContainerInterface $c) {
