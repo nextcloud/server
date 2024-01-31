@@ -28,6 +28,7 @@ use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\Memcache\NullCache;
 use OCP\App\IAppManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use phpseclib\Crypt\RSA;
@@ -45,6 +46,8 @@ class CheckerTest extends TestCase {
 	private $fileAccessHelper;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -58,6 +61,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
 		$this->appLocator = $this->createMock(AppLocator::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->mimeTypeDetector = $this->createMock(\OC\Files\Type\Detection::class);
@@ -76,6 +80,7 @@ class CheckerTest extends TestCase {
 			$this->fileAccessHelper,
 			$this->appLocator,
 			$this->config,
+			$this->appConfig,
 			$this->cacheFactory,
 			$this->appManager,
 			$this->mimeTypeDetector
@@ -1025,6 +1030,7 @@ class CheckerTest extends TestCase {
 				$this->fileAccessHelper,
 				$this->appLocator,
 				$this->config,
+				$this->appConfig,
 				$this->cacheFactory,
 				$this->appManager,
 				$this->mimeTypeDetector,
@@ -1089,9 +1095,9 @@ class CheckerTest extends TestCase {
 				true,
 				false,
 			);
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('deleteAppValue')
+			->method('deleteKey')
 			->with('core', 'oc.integritycheck.checker');
 
 		$this->checker->runInstanceVerification();
