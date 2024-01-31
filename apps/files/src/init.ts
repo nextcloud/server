@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { addNewFileMenuEntry, registerFileAction } from '@nextcloud/files'
+import { addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@nextcloud/files'
 
 import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
@@ -39,6 +39,8 @@ import registerFilesView from './views/files'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
 import './init-templates'
+
+import { initLivePhotos } from './services/LivePhotos'
 
 // Register file actions
 registerFileAction(deleteAction)
@@ -62,3 +64,7 @@ registerRecentView()
 
 // Register preview service worker
 registerPreviewServiceWorker()
+
+registerDavProperty('nc:hidden', { nc: 'http://nextcloud.org/ns' })
+
+initLivePhotos()

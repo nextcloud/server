@@ -33,10 +33,12 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
+/** @template-implements IEventListener<LoadAdditionalScriptsEvent> */
 class LoadAdditionalScriptsListener implements IEventListener {
 	public function __construct(
 		private IAppManager $appManager,
-	) {}
+	) {
+	}
 
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadAdditionalScriptsEvent)) {
@@ -47,6 +49,6 @@ class LoadAdditionalScriptsListener implements IEventListener {
 			return;
 		}
 
-		Util::addScript(Application::APP_ID, 'main');
+		Util::addInitScript(Application::APP_ID, 'init');
 	}
 }

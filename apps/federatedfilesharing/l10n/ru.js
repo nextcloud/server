@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Идентификатор облака скопирован в буфер обмена",
     "Copy to clipboard" : "Копировать в буфер",
     "Clipboard is not available" : "Буфер обмена недоступен",
-    "Copied!" : "Скопировано!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Вам предоставлен общий доступ к ресурсу «%3$s»  расположенному на сервере %4$s (%1$s) (от лица %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Вам предоставлен доступ к «%3$s» в качестве удалённого ресурса из %4$s (%1$s)",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ, смотрите %s"
+    "Copied!" : "Скопировано!"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

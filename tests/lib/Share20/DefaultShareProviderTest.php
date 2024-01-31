@@ -133,8 +133,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * @return int
 	 */
 	private function addShareToDB($shareType, $sharedWith, $sharedBy, $shareOwner,
-			$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
-			$parent = null) {
+		$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
+		$parent = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share');
 

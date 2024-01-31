@@ -35,5 +35,22 @@ interface IMemcacheTTL extends IMemcache {
 	 * @param int $ttl time to live in seconds
 	 * @since 8.2.2
 	 */
-	public function setTTL($key, $ttl);
+	public function setTTL(string $key, int $ttl);
+
+	/**
+	 * Get the ttl for an existing value, in seconds till expiry
+	 *
+	 * @return int|false
+	 * @since 27
+	 */
+	public function getTTL(string $key): int|false;
+	/**
+	 * Set the ttl for an existing value if the value matches
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl time to live in seconds
+	 * @since 27
+	 */
+	public function compareSetTTL(string $key, $value, int $ttl): bool;
 }

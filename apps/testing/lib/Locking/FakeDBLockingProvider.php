@@ -23,10 +23,9 @@
  */
 namespace OCA\Testing\Locking;
 
+use OC\Lock\DBLockingProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
-use Psr\Log\LoggerInterface;
-use OC\Lock\DBLockingProvider;
 
 class FakeDBLockingProvider extends DBLockingProvider {
 	// Lock for 10 hours just to be sure

@@ -22,12 +22,12 @@
 
 namespace Test;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class UpdaterTest extends TestCase {
 	/** @var IConfig|MockObject */

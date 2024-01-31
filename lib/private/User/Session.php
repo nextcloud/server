@@ -39,8 +39,6 @@
 namespace OC\User;
 
 use OC;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
@@ -51,6 +49,8 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
@@ -120,14 +120,14 @@ class Session implements IUserSession, Emitter {
 	private $dispatcher;
 
 	public function __construct(Manager $manager,
-								ISession $session,
-								ITimeFactory $timeFactory,
-								?IProvider $tokenProvider,
-								IConfig $config,
-								ISecureRandom $random,
-								ILockdownManager $lockdownManager,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher
+		ISession $session,
+		ITimeFactory $timeFactory,
+		?IProvider $tokenProvider,
+		IConfig $config,
+		ISecureRandom $random,
+		ILockdownManager $lockdownManager,
+		LoggerInterface $logger,
+		IEventDispatcher $dispatcher
 	) {
 		$this->manager = $manager;
 		$this->session = $session;
@@ -425,9 +425,9 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean
 	 */
 	public function logClientIn($user,
-								$password,
-								IRequest $request,
-								IThrottler $throttler) {
+		$password,
+		IRequest $request,
+		IThrottler $throttler) {
 		$remoteAddress = $request->getRemoteAddress();
 		$currentDelay = $throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
 
@@ -456,8 +456,18 @@ class Session implements IUserSession, Emitter {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
-			$users = $this->manager->getByEmail($user);
-			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
+
+			if ($isTokenPassword) {
+				$dbToken = $this->tokenProvider->getToken($password);
+				$userFromToken = $this->manager->get($dbToken->getUID());
+				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user
+					&& $this->validateTokenLoginName($userFromToken->getEMailAddress(), $dbToken);
+			} else {
+				$users = $this->manager->getByEmail($user);
+				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
+			}
+
+			if (!$isValidEmailLogin) {
 				$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 				return false;
 			}
@@ -576,7 +586,7 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean if the login was successful
 	 */
 	public function tryBasicAuthLogin(IRequest $request,
-									  IThrottler $throttler) {
+		IThrottler $throttler) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
 			try {
 				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
@@ -783,7 +793,7 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
-			$this->logger->warning('Session token is invalid because it does not exist', [
+			$this->logger->debug('Session token is invalid because it does not exist', [
 				'app' => 'core',
 				'user' => $user,
 				'exception' => $ex,
@@ -791,18 +801,7 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// Check if login names match
-		if (!is_null($user) && $dbToken->getLoginName() !== $user) {
-			// TODO: this makes it impossible to use different login names on browser and client
-			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
-			//      allow to use the client token with the login name 'user'.
-			$this->logger->error('App token login name does not match', [
-				'tokenLoginName' => $dbToken->getLoginName(),
-				'sessionLoginName' => $user,
-				'app' => 'core',
-				'user' => $dbToken->getUID(),
-			]);
-
+		if (!is_null($user) && !$this->validateTokenLoginName($user, $dbToken)) {
 			return false;
 		}
 
@@ -823,6 +822,27 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Check if login names match
+	 */
+	private function validateTokenLoginName(?string $loginName, IToken $token): bool {
+		if ($token->getLoginName() !== $loginName) {
+			// TODO: this makes it impossible to use different login names on browser and client
+			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
+			//      allow to use the client token with the login name 'user'.
+			$this->logger->error('App token login name does not match', [
+				'tokenLoginName' => $token->getLoginName(),
+				'sessionLoginName' => $loginName,
+				'app' => 'core',
+				'user' => $token->getUID(),
+			]);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Tries to login the user with auth token header
 	 *
 	 * @param IRequest $request
@@ -833,13 +853,16 @@ class Session implements IUserSession, Emitter {
 		$authHeader = $request->getHeader('Authorization');
 		if (str_starts_with($authHeader, 'Bearer ')) {
 			$token = substr($authHeader, 7);
-		} else {
-			// No auth header, let's try session id
+		} elseif ($request->getCookie($this->config->getSystemValueString('instanceid')) !== null) {
+			// No auth header, let's try session id, but only if this is an existing
+			// session and the request has a session cookie
 			try {
 				$token = $this->session->getId();
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
+		} else {
+			return false;
 		}
 
 		if (!$this->loginWithToken($token)) {
@@ -916,9 +939,10 @@ class Session implements IUserSession, Emitter {
 			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
-			$this->logger->error('Renewing session token failed', [
+			$this->logger->error('Renewing session token failed: ' . $ex->getMessage(), [
 				'app' => 'core',
 				'user' => $uid,
+				'exception' => $ex,
 			]);
 			return false;
 		}

@@ -29,7 +29,6 @@
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
@@ -40,8 +39,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IEmojiHelper;
-use OCP\IUser;
 use OCP\IInitialStateService;
+use OCP\IUser;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -66,11 +65,11 @@ class Manager implements ICommentsManager {
 	protected array $displayNameResolvers = [];
 
 	public function __construct(IDBConnection $dbConn,
-								LoggerInterface $logger,
-								IConfig $config,
-								ITimeFactory $timeFactory,
-								IEmojiHelper $emojiHelper,
-								IInitialStateService $initialStateService) {
+		LoggerInterface $logger,
+		IConfig $config,
+		ITimeFactory $timeFactory,
+		IEmojiHelper $emojiHelper,
+		IInitialStateService $initialStateService) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
 		$this->config = $config;
@@ -97,7 +96,8 @@ class Manager implements ICommentsManager {
 			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
-		$data['reference_id'] = $data['reference_id'] ?? null;
+		$data['reference_id'] = $data['reference_id'];
+		$data['meta_data'] = json_decode($data['meta_data'], true);
 		if ($this->supportReactions()) {
 			if ($data['reactions'] !== null) {
 				$list = json_decode($data['reactions'], true);
@@ -536,8 +536,8 @@ class Manager implements ICommentsManager {
 	 * @param int $id the comment to look for
 	 */
 	protected function getLastKnownComment(string $objectType,
-										   string $objectId,
-										   int $id): ?IComment {
+		string $objectId,
+		int $id): ?IComment {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('*')
 			->from('comments')
@@ -1150,22 +1150,6 @@ class Manager implements ICommentsManager {
 	 * @return bool
 	 */
 	protected function insert(IComment $comment): bool {
-		try {
-			$result = $this->insertQuery($comment, true);
-		} catch (InvalidFieldNameException $e) {
-			// The reference id field was only added in Nextcloud 19.
-			// In order to not cause too long waiting times on the update,
-			// it was decided to only add it lazy, as it is also not a critical
-			// feature, but only helps to have a better experience while commenting.
-			// So in case the reference_id field is missing,
-			// we simply save the comment without that field.
-			$result = $this->insertQuery($comment, false);
-		}
-
-		return $result;
-	}
-
-	protected function insertQuery(IComment $comment, bool $tryWritingReferenceId): bool {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$values = [
@@ -1181,11 +1165,9 @@ class Manager implements ICommentsManager {
 			'object_type' => $qb->createNamedParameter($comment->getObjectType()),
 			'object_id' => $qb->createNamedParameter($comment->getObjectId()),
 			'expire_date' => $qb->createNamedParameter($comment->getExpireDate(), 'datetime'),
+			'reference_id' => $qb->createNamedParameter($comment->getReferenceId()),
+			'meta_data' => $qb->createNamedParameter(json_encode($comment->getMetaData())),
 		];
-
-		if ($tryWritingReferenceId) {
-			$values['reference_id'] = $qb->createNamedParameter($comment->getReferenceId());
-		}
 
 		$affectedRows = $qb->insert('comments')
 			->values($values)
@@ -1289,12 +1271,7 @@ class Manager implements ICommentsManager {
 		$this->sendEvent(CommentsEvent::EVENT_PRE_UPDATE, $this->get($comment->getId()));
 		$this->uncache($comment->getId());
 
-		try {
-			$result = $this->updateQuery($comment, true);
-		} catch (InvalidFieldNameException $e) {
-			// See function insert() for explanation
-			$result = $this->updateQuery($comment, false);
-		}
+		$result = $this->updateQuery($comment);
 
 		if ($comment->getVerb() === 'reaction_deleted') {
 			$this->deleteReaction($comment);
@@ -1305,7 +1282,7 @@ class Manager implements ICommentsManager {
 		return $result;
 	}
 
-	protected function updateQuery(IComment $comment, bool $tryWritingReferenceId): bool {
+	protected function updateQuery(IComment $comment): bool {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb
 			->update('comments')
@@ -1320,14 +1297,11 @@ class Manager implements ICommentsManager {
 			->set('latest_child_timestamp', $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'))
 			->set('object_type', $qb->createNamedParameter($comment->getObjectType()))
 			->set('object_id', $qb->createNamedParameter($comment->getObjectId()))
-			->set('expire_date', $qb->createNamedParameter($comment->getExpireDate(), 'datetime'));
-
-		if ($tryWritingReferenceId) {
-			$qb->set('reference_id', $qb->createNamedParameter($comment->getReferenceId()));
-		}
-
-		$affectedRows = $qb->where($qb->expr()->eq('id', $qb->createNamedParameter($comment->getId())))
-			->execute();
+			->set('expire_date', $qb->createNamedParameter($comment->getExpireDate(), 'datetime'))
+			->set('reference_id', $qb->createNamedParameter($comment->getReferenceId()))
+			->set('meta_data', $qb->createNamedParameter(json_encode($comment->getMetaData())))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($comment->getId())));
+		$affectedRows = $qb->executeStatement();
 
 		if ($affectedRows === 0) {
 			throw new NotFoundException('Comment to update does ceased to exist');

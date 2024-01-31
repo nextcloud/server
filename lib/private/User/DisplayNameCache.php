@@ -37,6 +37,7 @@ use OCP\User\Events\UserDeletedEvent;
  * This saves fetching the user from a user backend and later on fetching
  * their preferences. It's generally not an issue if this data is slightly
  * outdated.
+ * @template-implements IEventListener<UserChangedEvent|UserDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
 	private array $cache = [];

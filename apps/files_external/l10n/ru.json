@@ -1,4 +1,10 @@
 { "translations": {
+    "Grant access" : "Предоставить доступ",
+    "Error configuring OAuth1" : "Ошибка настройки OAuth1",
+    "Please provide a valid app key and secret." : "Укажите верные ключ и секрет приложения.",
+    "Error configuring OAuth2" : "Ошибка настройки OAuth2",
+    "Generate keys" : "Создать ключи",
+    "Error generating key pair" : "Ошибка создания пары ключей",
     "Type to select user or group." : "Введите имя пользователя или группы.",
     "(Group)" : "(Группа)",
     "Compatibility with Mac NFD encoding (slow)" : "Совместимость с кодировкой Mac NFD (медленно)",
@@ -87,6 +93,7 @@
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Общий ресурс",
     "Show hidden files" : "Показать скрытые файлы",
+    "Case sensitive file system" : "Файловая система чувствительная к регистру",
     "Verify ACL access when listing files" : "Проверять права ACL при получении списка файлов",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "При получении списка файлов возможно проверять права доступа и исключать из списка файлы, к которым отсутствуют права чтения. Такая проверка снижает производительность.",
     "Timeout" : "Тайм-аут",
@@ -108,7 +115,7 @@
     "There was an error with this external storage." : "Произошла ошибка с этим внешним хранилищем.",
     "We were unable to check the external storage {basename}" : "Нам не удалось проверить внешнее хранилище {basename}",
     "Examine this faulty external storage configuration" : "Проверьте эту конфигурацию внешнего хранилища, она содержит ошибки",
-    "Open in files" : "Открыть в Файлах",
+    "Open in Files" : "Открыть в Файлах",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Произошла ошибка с этим внешним хранилищем. Вы хотите просмотреть конфигурацию точки монтирования на странице настроек?",
     "External mount error" : "Ошибка внешнего подключения",
     "List of external storage." : "Список внешних хранилищ.",
@@ -133,12 +140,6 @@
     "Advanced settings" : "Расширенные настройки",
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
-    "Grant access" : "Предоставить доступ",
-    "Error configuring OAuth1" : "Ошибка настройки OAuth1",
-    "Please provide a valid app key and secret." : "Укажите верные ключ и секрет приложения.",
-    "Error configuring OAuth2" : "Ошибка настройки OAuth2",
-    "Generate keys" : "Создать ключи",
-    "Error generating key pair" : "Ошибка создания пары ключей",
     "Empty response from the server" : "Получен пустой ответ сервера",
     "Couldn't access. Please log out and in again to activate this mount point" : "Не удалось получить доступ. Для активации этой точки подключения выйдите и снова войдите в систему",
     "Couldn't get the information from the remote server: {code} {type}" : "Не удалось получить информацию от удалённого сервера: {code} {type}",
@@ -150,6 +151,7 @@
     "Credentials saved" : "Учётные данные сохранены",
     "Credentials saving failed" : "Ошибка сохранения учётных данных",
     "Credentials required" : "Требуются учётные данные",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Отключение этого параметра позволит использовать файловую систему с учетом регистра, но приведет к снижению производительности",
     "Name" : "Имя"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

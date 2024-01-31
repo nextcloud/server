@@ -53,12 +53,12 @@ class ServerFactory {
 	}
 
 	public function createServer(string $baseURI,
-								 string $requestURI,
-								 IRootFolder $rootFolder,
-								 DirectMapper $mapper,
-								 ITimeFactory $timeFactory,
-								 IThrottler $throttler,
-								 IRequest $request): Server {
+		string $requestURI,
+		IRootFolder $rootFolder,
+		DirectMapper $mapper,
+		ITimeFactory $timeFactory,
+		IThrottler $throttler,
+		IRequest $request): Server {
 		$home = new DirectHome($rootFolder, $mapper, $timeFactory, $throttler, $request, $this->eventDispatcher);
 		$server = new Server($home);
 

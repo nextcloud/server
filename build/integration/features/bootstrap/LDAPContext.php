@@ -104,7 +104,7 @@ class LDAPContext implements Context {
 		$this->asAn('admin');
 		$this->creatingAnLDAPConfigurationAt('/apps/user_ldap/api/v1/config');
 		$data = new TableNode([
-			['configData[ldapHost]', 'openldap'],
+			['configData[ldapHost]', getenv('LDAP_HOST') ?: 'openldap'],
 			['configData[ldapPort]', '389'],
 			['configData[ldapBase]', 'dc=nextcloud,dc=ci'],
 			['configData[ldapAgentName]', 'cn=admin,dc=nextcloud,dc=ci'],
@@ -141,6 +141,9 @@ class LDAPContext implements Context {
 		$this->asAn('admin');
 		$configData = $table->getRows();
 		foreach ($configData as &$row) {
+			if (str_contains($row[0], 'Host') && getenv('LDAP_HOST')) {
+				$row[1] = str_replace('openldap', getenv('LDAP_HOST'), $row[1]);
+			}
 			$row[0] = 'configData[' . $row[0] . ']';
 		}
 		$this->settingTheLDAPConfigurationTo(new TableNode($configData));

@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<tr :class="{'files-list__row--visible': visible, 'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
+	<tr :class="{'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
@@ -37,11 +37,10 @@
 		<span v-if="source.attributes.failed" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox v-if="visible"
-			:display-name="displayName"
-			:fileid="fileid"
+		<FileEntryCheckbox :fileid="fileid"
 			:is-loading="isLoading"
-			:nodes="nodes" />
+			:nodes="nodes"
+			:source="source" />
 
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
@@ -69,8 +68,7 @@
 			:grid-mode="true"
 			:loading.sync="loading"
 			:opened.sync="openedMenu"
-			:source="source"
-			:visible="visible" />
+			:source="source" />
 	</tr>
 </template>
 
@@ -82,6 +80,7 @@ import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } 
 import { getUploader } from '@nextcloud/upload'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import Vue from 'vue'
 
@@ -115,10 +114,6 @@ export default Vue.extend({
 
 	inheritAttrs: false,
 	props: {
-		visible: {
-			type: Boolean,
-			default: false,
-		},
 		source: {
 			type: [Folder, NcFile, Node] as PropType<Node>,
 			required: true,
@@ -287,8 +282,14 @@ export default Vue.extend({
 			event.stopPropagation()
 		},
 
-		execDefaultAction(...args) {
-			this.$refs.actions.execDefaultAction(...args)
+		execDefaultAction(event) {
+			if (event.ctrlKey || event.metaKey) {
+				event.preventDefault()
+				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
+				return false
+			}
+
+			this.$refs.actions.execDefaultAction(event)
 		},
 
 		openDetailsIfAvailable(event) {

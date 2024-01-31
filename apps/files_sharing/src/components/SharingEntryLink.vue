@@ -43,12 +43,10 @@
 
 			<!-- clipboard -->
 			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionLink :href="shareLink"
-					target="_blank"
-					:title="copyLinkTooltip"
+				<NcActionButton	:title="copyLinkTooltip"
 					:aria-label="copyLinkTooltip"
 					:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-					@click.stop.prevent="copyLink" />
+					@click.prevent="copyLink" />
 			</NcActions>
 		</div>
 
@@ -58,7 +56,7 @@
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
-			@close="onNewLinkShare">
+			@close="onCancel">
 			<!-- pending data menu -->
 			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
 				{{ errors.pending }}
@@ -97,13 +95,13 @@
 			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
-				:disabled="saving || isExpiryDateEnforced"
+				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
 				:value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
-				:max="dateMaxEnforced"
+				:max="maxExpirationDateEnforced"
 				@input="onExpirationChange">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
@@ -127,7 +125,9 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
-					<NcActionButton :disabled="saving" @click.prevent="openSharingDetails">
+					<NcActionButton :disabled="saving"
+						:close-after-click="true"
+						@click.prevent="openSharingDetails">
 						<template #icon>
 							<Tune />
 						</template>
@@ -299,12 +299,6 @@ export default {
 			if (this.isEmailShareType
 				&& this.title !== this.share.shareWith) {
 				return this.share.shareWith
-			}
-			return null
-		},
-		dateMaxEnforced() {
-			if (this.config.isDefaultExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
 			}
 			return null
 		},
@@ -755,8 +749,8 @@ export default {
 		padding-left: 10px;
 		display: flex;
 		justify-content: space-between;
-		width: 80%;
-		min-width: 80%;
+		flex: 1 0;
+		min-width: 0;
 
 	&__desc {
 		display: flex;

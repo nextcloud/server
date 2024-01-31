@@ -39,8 +39,6 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ICacheFactory;
-use OCP\IUserManager;
 use OCP\Share\IShare;
 
 /**
@@ -161,6 +159,10 @@ class Cache extends CacheJail {
 				$entry['permissions'] &= $this->share->getPermissions();
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);
+			}
+
+			if ($this->share->getNodeId() === $entry['fileid']) {
+				$entry['name'] = basename($this->share->getTarget());
 			}
 		} catch (StorageNotAvailableException $e) {
 			// thrown by FailedStorage e.g. when the sharer does not exist anymore

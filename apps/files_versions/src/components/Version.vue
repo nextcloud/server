@@ -16,109 +16,78 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-	<div>
-		<NcListItem class="version"
-			:name="versionLabel"
-			:force-display-actions="true"
-			data-files-versions-version
-			@click="click">
-			<template #icon>
-				<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
-				<img v-else-if="isCurrent || version.hasPreview"
-					:src="version.previewUrl"
-					alt=""
-					decoding="async"
-					fetchpriority="low"
-					loading="lazy"
-					class="version__image"
-					@load="previewLoaded = true">
-				<div v-else
-					class="version__image">
-					<ImageOffOutline :size="20" />
-				</div>
-			</template>
-			<template #subname>
-				<div class="version__info">
-					<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
-					<!-- Separate dot to improve alignement -->
-					<span class="version__info__size">•</span>
-					<span class="version__info__size">{{ version.size | humanReadableSize }}</span>
-				</div>
-			</template>
-			<template #actions>
-				<NcActionButton v-if="enableLabeling"
-					:close-after-click="true"
-					@click="openVersionLabelModal">
-					<template #icon>
-						<Pencil :size="22" />
-					</template>
-					{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
-				</NcActionButton>
-				<NcActionButton v-if="!isCurrent && canView && canCompare"
-					:close-after-click="true"
-					@click="compareVersion">
-					<template #icon>
-						<FileCompare :size="22" />
-					</template>
-					{{ t('files_versions', 'Compare to current version') }}
-				</NcActionButton>
-				<NcActionButton v-if="!isCurrent"
-					:close-after-click="true"
-					@click="restoreVersion">
-					<template #icon>
-						<BackupRestore :size="22" />
-					</template>
-					{{ t('files_versions', 'Restore version') }}
-				</NcActionButton>
-				<NcActionLink :href="downloadURL"
-					:close-after-click="true"
-					:download="downloadURL">
-					<template #icon>
-						<Download :size="22" />
-					</template>
-					{{ t('files_versions', 'Download version') }}
-				</NcActionLink>
-				<NcActionButton v-if="!isCurrent && enableDeletion"
-					:close-after-click="true"
-					@click="deleteVersion">
-					<template #icon>
-						<Delete :size="22" />
-					</template>
-					{{ t('files_versions', 'Delete version') }}
-				</NcActionButton>
-			</template>
-		</NcListItem>
-		<NcModal v-if="showVersionLabelForm"
-			:title="t('files_versions', 'Name this version')"
-			@close="showVersionLabelForm = false">
-			<form class="version-label-modal"
-				@submit.prevent="setVersionLabel(formVersionLabelValue)">
-				<label>
-					<div class="version-label-modal__title">{{ t('files_versions', 'Version name') }}</div>
-					<NcTextField ref="labelInput"
-						:value.sync="formVersionLabelValue"
-						:placeholder="t('files_versions', 'Version name')"
-						:label-outside="true" />
-				</label>
-
-				<div class="version-label-modal__info">
-					{{ t('files_versions', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
-				</div>
-
-				<div class="version-label-modal__actions">
-					<NcButton :disabled="formVersionLabelValue.trim().length === 0" @click="setVersionLabel('')">
-						{{ t('files_versions', 'Remove version name') }}
-					</NcButton>
-					<NcButton type="primary" native-type="submit">
-						<template #icon>
-							<Check />
-						</template>
-						{{ t('files_versions', 'Save version name') }}
-					</NcButton>
-				</div>
-			</form>
-		</NcModal>
-	</div>
+	<NcListItem class="version"
+		:name="versionLabel"
+		:force-display-actions="true"
+		data-files-versions-version
+		@click="click">
+		<template #icon>
+			<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
+			<img v-else-if="(isCurrent || version.hasPreview) && !previewErrored"
+				:src="version.previewUrl"
+				alt=""
+				decoding="async"
+				fetchpriority="low"
+				loading="lazy"
+				class="version__image"
+				@load="previewLoaded = true"
+				@error="previewErrored = true">
+			<div v-else
+				class="version__image">
+				<ImageOffOutline :size="20" />
+			</div>
+		</template>
+		<template #subname>
+			<div class="version__info">
+				<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
+				<!-- Separate dot to improve alignement -->
+				<span class="version__info__size">•</span>
+				<span class="version__info__size">{{ version.size | humanReadableSize }}</span>
+			</div>
+		</template>
+		<template #actions>
+			<NcActionButton v-if="enableLabeling"
+				:close-after-click="true"
+				@click="labelUpdate">
+				<template #icon>
+					<Pencil :size="22" />
+				</template>
+				{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
+			</NcActionButton>
+			<NcActionButton v-if="!isCurrent && canView && canCompare"
+				:close-after-click="true"
+				@click="compareVersion">
+				<template #icon>
+					<FileCompare :size="22" />
+				</template>
+				{{ t('files_versions', 'Compare to current version') }}
+			</NcActionButton>
+			<NcActionButton v-if="!isCurrent"
+				:close-after-click="true"
+				@click="restoreVersion">
+				<template #icon>
+					<BackupRestore :size="22" />
+				</template>
+				{{ t('files_versions', 'Restore version') }}
+			</NcActionButton>
+			<NcActionLink :href="downloadURL"
+				:close-after-click="true"
+				:download="downloadURL">
+				<template #icon>
+					<Download :size="22" />
+				</template>
+				{{ t('files_versions', 'Download version') }}
+			</NcActionLink>
+			<NcActionButton v-if="!isCurrent && enableDeletion"
+				:close-after-click="true"
+				@click="deleteVersion">
+				<template #icon>
+					<Delete :size="22" />
+				</template>
+				{{ t('files_versions', 'Delete version') }}
+			</NcActionButton>
+		</template>
+	</NcListItem>
 </template>
 
 <script>
@@ -126,15 +95,11 @@ import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import moment from '@nextcloud/moment'
 import { translate as t } from '@nextcloud/l10n'
@@ -148,14 +113,10 @@ export default {
 		NcActionLink,
 		NcActionButton,
 		NcListItem,
-		NcModal,
-		NcButton,
-		NcTextField,
 		BackupRestore,
 		Download,
 		FileCompare,
 		Pencil,
-		Check,
 		Delete,
 		ImageOffOutline,
 	},
@@ -179,7 +140,7 @@ export default {
 		},
 	},
 	props: {
-		/** @type {Vue.PropOptions<import('../utils/versions.js').Version>} */
+		/** @type {Vue.PropOptions<import('../utils/versions.ts').Version>} */
 		version: {
 			type: Object,
 			required: true,
@@ -212,8 +173,7 @@ export default {
 	data() {
 		return {
 			previewLoaded: false,
-			showVersionLabelForm: false,
-			formVersionLabelValue: this.version.label,
+			previewErrored: false,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
 		}
 	},
@@ -266,21 +226,12 @@ export default {
 		},
 	},
 	methods: {
-		openVersionLabelModal() {
-			this.showVersionLabelForm = true
-			this.$nextTick(() => {
-				this.$refs.labelInput.$el.getElementsByTagName('input')[0].focus()
-			})
+		labelUpdate() {
+			this.$emit('label-update-request')
 		},
 
 		restoreVersion() {
 			this.$emit('restore', this.version)
-		},
-
-		setVersionLabel(label) {
-			this.formVersionLabelValue = label
-			this.showVersionLabelForm = false
-			this.$emit('label-update', this.version, label)
 		},
 
 		deleteVersion() {
@@ -333,30 +284,6 @@ export default {
 		display: flex;
 		justify-content: center;
 		color: var(--color-text-light);
-	}
-}
-
-.version-label-modal {
-	display: flex;
-	justify-content: space-between;
-	flex-direction: column;
-	height: 250px;
-	padding: 16px;
-
-	&__title {
-		margin-bottom: 12px;
-		font-weight: 600;
-	}
-
-	&__info {
-		margin-top: 12px;
-		color: var(--color-text-maxcontrast);
-	}
-
-	&__actions {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 64px;
 	}
 }
 </style>

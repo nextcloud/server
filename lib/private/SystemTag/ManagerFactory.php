@@ -40,25 +40,16 @@ use OCP\SystemTag\ISystemTagObjectMapper;
  */
 class ManagerFactory implements ISystemTagManagerFactory {
 	/**
-	 * Server container
-	 *
-	 * @var IServerContainer
-	 */
-	private $serverContainer;
-
-	/**
 	 * Constructor for the system tag manager factory
-	 *
-	 * @param IServerContainer $serverContainer server container
 	 */
-	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		private IServerContainer $serverContainer,
+	) {
 	}
 
 	/**
 	 * Creates and returns an instance of the system tag manager
 	 *
-	 * @return ISystemTagManager
 	 * @since 9.0.0
 	 */
 	public function getManager(): ISystemTagManager {
@@ -73,7 +64,6 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 * Creates and returns an instance of the system tag object
 	 * mapper
 	 *
-	 * @return ISystemTagObjectMapper
 	 * @since 9.0.0
 	 */
 	public function getObjectMapper(): ISystemTagObjectMapper {

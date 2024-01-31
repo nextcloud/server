@@ -16,9 +16,12 @@ OC.L10N.register(
     "Delete comment" : "Șterge comentariul",
     "Cancel edit" : "Anulați editarea",
     "Post comment" : "Postează comentariu",
+    "@ for mentions, : for emoji, / for smart picker" : "@ pentru mențiuni, : pentru emoji, / pentru smart picker",
+    "Could not reload comments" : "Nu se pot reîncărca comentariile",
     "No comments yet, start the conversation!" : "Nici un comentariu încă, începe conversația!",
     "No more messages" : "Nu mai sunt mesaje",
     "Retry" : "Reîncearcă",
+    "Failed to mark comments as read" : "Eroare la marcarea comentariilor ca citite",
     "Unable to load the comments list" : "Lista de comentarii nu poate fi încărcată",
     "_1 new comment_::_{unread} new comments_" : ["1 nou comentariu","{unread} noi comentarii","{unread} comentarii noi"],
     "Comment" : "Comentariu",
@@ -26,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Comentariul a fost șters",
     "An error occurred while trying to delete the comment" : "A apărut o eroare la încercarea de a șterge comentariul",
     "An error occurred while trying to create the comment" : "A apărut o eroare la încercarea de a crea comentariul",
-    "%1$s commented" : "%1$s a comentat",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu necitit","%n comentarii necitite","%n comentarii necitite"]
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

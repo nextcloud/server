@@ -9,11 +9,6 @@
     "No deleted files" : "Ez dago ezabatutako fitxategirik",
     "Files and folders you have deleted will show up here" : "Ezabatu dituzun fitxategi eta karpetak hemen agertuko dira",
     "Deleted" : "Ezabatuta",
-    "You will be able to recover deleted files from here" : "Hemendik ezabatutako fitxategiak berreskuratu ahalko dituzu",
-    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
-    "Select all" : "Hautatu dena",
-    "Name" : "Izena",
-    "Actions" : "Ekintzak",
     "Delete permanently" : "Ezabatu betirako",
     "Error while restoring file from trash bin" : "Errorea gertatu da fitxategia zakarrontzitik leheneratzean",
     "Error while removing file from trash bin" : "Errorea gertatu da fitxategia zakarrontzitik ezabatzean",
@@ -22,6 +17,11 @@
     "Error while removing files from trash bin" : "Errorea gertatu da fitxategiak zakarrontzitik ezabatzean",
     "This operation is forbidden" : "Eragiketa hau debekatuta dago",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktorio hau ez dago erabilgarri, begiratu egunkariak edo jarri administratzailearekin harremanetan",
+    "You will be able to recover deleted files from here" : "Hemendik ezabatutako fitxategiak berreskuratu ahalko dituzu",
+    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
+    "Select all" : "Hautatu dena",
+    "Name" : "Izena",
+    "Actions" : "Ekintzak",
     "Delete" : "Ezabatu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

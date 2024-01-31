@@ -36,11 +36,14 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
+use Sabre\CalDAV\ICalendarObject;
+use Sabre\CalDAV\Schedule\ISchedulingObject;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Xml\Property\LocalHref;
+use Sabre\DAVACL\IACL;
 use Sabre\DAVACL\IPrincipal;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -50,6 +53,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\FreeBusyGenerator;
 use Sabre\VObject\ITip;
+use Sabre\VObject\ITip\SameOrganizerForAllComponentsException;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
@@ -161,7 +165,29 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$this->pathOfCalendarObjectChange = $request->getPath();
 		}
 
-		parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+		try {
+			parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+		} catch (SameOrganizerForAllComponentsException $e) {
+			$this->handleSameOrganizerException($e, $vCal, $calendarPath);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function beforeUnbind($path): void {
+		try {
+			parent::beforeUnbind($path);
+		} catch (SameOrganizerForAllComponentsException $e) {
+			$node = $this->server->tree->getNodeForPath($path);
+			if (!$node instanceof ICalendarObject || $node instanceof ISchedulingObject) {
+				throw $e;
+			}
+
+			/** @var VCalendar $vCal */
+			$vCal = Reader::read($node->get());
+			$this->handleSameOrganizerException($e, $vCal, $path);
+		}
 	}
 
 	/**
@@ -629,5 +655,45 @@ EOF;
 		$calendarHome->getCalDAVBackend()->createCalendar($principalUri, $uri, [
 			'{DAV:}displayname' => $displayName,
 		]);
+	}
+
+	/**
+	 * Try to handle the given exception gracefully or throw it if necessary.
+	 *
+	 * @throws SameOrganizerForAllComponentsException If the exception should not be ignored
+	 */
+	private function handleSameOrganizerException(
+		SameOrganizerForAllComponentsException $e,
+		VCalendar $vCal,
+		string $calendarPath,
+	): void {
+		// This is very hacky! However, we want to allow saving events with multiple
+		// organizers. Those events are not RFC compliant, but sometimes imported from major
+		// external calendar services (e.g. Google). If the current user is not an organizer of
+		// the event we ignore the exception as no scheduling messages will be sent anyway.
+
+		// It would be cleaner to patch Sabre to validate organizers *after* checking if
+		// scheduling messages are necessary. Currently, organizers are validated first and
+		// afterwards the broker checks if messages should be scheduled. So the code will throw
+		// even if the organizers are not relevant. This is to ensure compliance with RFCs but
+		// a bit too strict for real world usage.
+
+		if (!isset($vCal->VEVENT)) {
+			throw $e;
+		}
+
+		$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+		if (!($calendarNode instanceof IACL)) {
+			// Should always be an instance of IACL but just to be sure
+			throw $e;
+		}
+
+		$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
+		foreach ($vCal->VEVENT as $vevent) {
+			if (in_array($vevent->ORGANIZER->getNormalizedValue(), $addresses, true)) {
+				// User is an organizer => throw the exception
+				throw $e;
+			}
+		}
 	}
 }

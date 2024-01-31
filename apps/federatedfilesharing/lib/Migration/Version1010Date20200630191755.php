@@ -28,8 +28,8 @@ declare(strict_types=1);
 namespace OCA\FederatedFileSharing\Migration;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -55,7 +55,7 @@ class Version1010Date20200630191755 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->setPrimaryKey(['share_id'], 'federated_res_pk');
-//			$table->addUniqueIndex(['share_id'], 'share_id_index');
+			//			$table->addUniqueIndex(['share_id'], 'share_id_index');
 		}
 		return $schema;
 	}

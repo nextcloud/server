@@ -15,7 +15,10 @@ OC.L10N.register(
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Eliminar comentario",
     "Cancel edit" : "Cancelar a edición",
+    "New comment" : "Comentario novo",
     "Post comment" : "Publicar comentario",
+    "@ for mentions, : for emoji, / for smart picker" : "@ para mencións, : para «emoji», / para selector intelixente",
+    "Could not reload comments" : "Non foi posíbel volver cargar os comentarios",
     "No comments yet, start the conversation!" : "Aínda non hai comentarios, comeza a conversa!",
     "No more messages" : "Non hai máis mensaxes",
     "Retry" : "Tentar de novo",
@@ -27,7 +30,6 @@ OC.L10N.register(
     "Comment deleted" : "Comentario eliminado",
     "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
     "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
-    "%1$s commented" : "%1$s comentados",
     "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"]
 },
 "nplurals=2; plural=(n != 1);");

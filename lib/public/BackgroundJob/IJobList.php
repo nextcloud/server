@@ -160,7 +160,8 @@ interface IJobList {
 	public function resetBackgroundJob(IJob $job): void;
 
 	/**
-	 * Checks whether a job of the passed class is reserved to run
+	 * Checks whether a job of the passed class was reserved to run
+	 * in the last 6h
 	 *
 	 * @param string|null $className
 	 * @return bool

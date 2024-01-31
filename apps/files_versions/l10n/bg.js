@@ -9,20 +9,16 @@ OC.L10N.register(
     "Restore version" : "Възстановяване на версия",
     "Download version" : "Изтегляне на версия",
     "Delete version" : "Изтриване на версия",
+    "Current version" : "Текуща версия",
     "Version name" : "Име на версия",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именуваните версии се запазват и се изключват от автоматичните почиствания, когато квотата за хранилище е пълна.",
     "Remove version name" : "Премахване на име на версия",
     "Save version name" : "Записване на име на версия",
-    "Current version" : "Текуща версия",
     "Initial version restored" : "Възстановяване на първоначалната версия",
     "Version restored" : "Версията е възстановена",
     "Could not restore version" : "Версията не можа да се възстанови",
-    "Could not set version name" : "Не можа да се зададе име на версия",
     "Could not delete version" : "Версията не можа да се изтрие",
     "${version.label} restored" : "${version.label} възстановен/а/",
-    "Failed to revert {file} to revision {timestamp}." : "Грешка при връщане на {file} към версия {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n байт","%n байта"],
-    "Restore" : "Възтановяване",
-    "No other versions available" : "Няма версии"
+    "Could not set version name" : "Не можа да се зададе име на версия"
 },
 "nplurals=2; plural=(n != 1);");

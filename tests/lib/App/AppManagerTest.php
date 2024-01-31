@@ -609,20 +609,47 @@ class AppManagerTest extends TestCase {
 				'',
 				'',
 				'{}',
+				true,
 				'files',
+			],
+			// none specified, without fallback
+			[
+				'',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
 				'',
 				'{}',
+				true,
 				'files',
+			],
+			// unexisting or inaccessible app specified, without fallbacks
+			[
+				'unexist',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// non-standard app
 			[
 				'settings',
 				'',
 				'{}',
+				true,
+				'settings',
+			],
+			// non-standard app, without fallback
+			[
+				'settings',
+				'',
+				'{}',
+				false,
 				'settings',
 			],
 			// non-standard app with fallback
@@ -630,20 +657,74 @@ class AppManagerTest extends TestCase {
 				'unexist,settings',
 				'',
 				'{}',
+				true,
 				'settings',
+			],
+			// system default app and user apporder
+			[
+				// system default is settings
+				'unexist,settings',
+				'',
+				// apporder says default app is files (order is lower)
+				'{"files_id":{"app":"files","order":1},"settings_id":{"app":"settings","order":2}}',
+				true,
+				// system default should override apporder
+				'settings'
 			],
 			// user-customized defaultapp
 			[
+				'',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with systemwide
+			[
 				'unexist,settings',
 				'files',
-				'{"settings":[1],"files":[2]}',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with system wide and apporder
+			[
+				'unexist,settings',
+				'files',
+				'{"settings_id":{"app":"settings","order":1},"files_id":{"app":"files","order":2}}',
+				true,
 				'files',
 			],
 			// user-customized apporder fallback
 			[
 				'',
 				'',
-				'{"settings":[1],"files":[2]}',
+				'{"settings_id":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				true,
+				'settings',
+			],
+			// user-customized apporder fallback with missing app key (entries added by closures does not always have an app key set (Nextcloud 27 spreed app for example))
+			[
+				'',
+				'',
+				'{"spreed":{"order":1},"files":{"app":"files","order":2}}',
+				true,
+				'files',
+			],
+			// user-customized apporder, but called without fallback
+			[
+				'',
+				'',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				false,
+				'',
+			],
+			// user-customized apporder with an app that has multiple routes
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"settings_id_2":{"app":"settings","order":3},"id_files":{"app":"files","order":2}}',
+				true,
 				'settings',
 			],
 		];
@@ -652,7 +733,7 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider provideDefaultApps
 	 */
-	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $expectedApp) {
+	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
 		$user = $this->newUser('user1');
 
 		$this->userSession->expects($this->once())
@@ -671,6 +752,6 @@ class AppManagerTest extends TestCase {
 				['user1', 'core', 'apporder', '[]', $userApporder],
 			]);
 
-		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
 }

@@ -36,7 +36,7 @@ class SetUserTimezoneCommand extends ALoginCommand {
 	private $session;
 
 	public function __construct(IConfig $config,
-								ISession $session) {
+		ISession $session) {
 		$this->config = $config;
 		$this->session = $session;
 	}

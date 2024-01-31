@@ -113,7 +113,7 @@ class Plugin extends ServerPlugin {
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = Invite::class;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
-		$this->server->on('propFind',    [$this, 'propFind']);
+		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
 	/**

@@ -28,7 +28,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class UserConfig {
-	const ALLOWED_CONFIGS = [
+	public const ALLOWED_CONFIGS = [
 		[
 			// Whether to crop the files previews or not in the files list
 			'key' => 'crop_image_previews',
@@ -44,6 +44,12 @@ class UserConfig {
 		[
 			// Whether to sort favorites first in the list or not
 			'key' => 'sort_favorites_first',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to sort folders before files in the list or not
+			'key' => 'sort_folders_first',
 			'default' => true,
 			'allowed' => [true, false],
 		],
@@ -68,7 +74,7 @@ class UserConfig {
 	 * @return string[]
 	 */
 	public function getAllowedConfigKeys(): array {
-		return array_map(function($config) {
+		return array_map(function ($config) {
 			return $config['key'];
 		}, self::ALLOWED_CONFIGS);
 	}
@@ -142,7 +148,7 @@ class UserConfig {
 		}
 
 		$userId = $this->user->getUID();
-		$userConfigs = array_map(function(string $key) use ($userId) {
+		$userConfigs = array_map(function (string $key) use ($userId) {
 			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, $this->getDefaultConfigValue($key));
 			// If the default is expected to be a boolean, we need to cast the value
 			if (is_bool($this->getDefaultConfigValue($key)) && is_string($value)) {

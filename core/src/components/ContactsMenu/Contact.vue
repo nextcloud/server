@@ -21,31 +21,19 @@
 
 <template>
 	<li class="contact">
-		<a v-if="contact.profileUrl && contact.avatar"
-			:href="contact.profileUrl"
-			class="contact__avatar-wrapper">
-			<NcAvatar class="contact__avatar"
-				:is-no-user="true"
-				:display-name="contact.avatarLabel"
-				:url="contact.avatar" />
-		</a>
-		<a v-else-if="contact.profileUrl"
-			:href="contact.profileUrl">
-			<NcAvatar class="contact__avatar"
-				:is-no-user="true"
-				:display-name="contact.avatarLabel" />
-		</a>
-		<NcAvatar v-else
-			class="contact__avatar"
-			:is-no-user="true"
+		<NcAvatar class="contact__avatar"
+			:size="44"
+			:user="contact.isUser ? contact.uid : undefined"
+			:is-no-user="!contact.isUser"
+			:disable-menu="true"
 			:display-name="contact.avatarLabel"
-			:url="contact.avatar" />
-
+			:preloaded-user-status="preloadedUserStatus" />
 		<a class="contact__body"
 			:href="contact.profileUrl || contact.topAction?.hyperlink">
 			<div class="contact__body__full-name">{{ contact.fullName }}</div>
 			<div v-if="contact.lastMessage" class="contact__body__last-message">{{ contact.lastMessage }}</div>
-			<div class="contact__body__email-address">{{ contact.emailAddresses[0] }}</div>
+			<div v-if="contact.statusMessage" class="contact__body__status-message">{{ contact.statusMessage }}</div>
+			<div v-else class="contact__body__email-address">{{ contact.emailAddresses[0] }}</div>
 		</a>
 		<NcActions v-if="actions.length"
 			:inline="contact.topAction ? 1 : 0">
@@ -55,13 +43,13 @@
 					:href="action.hyperlink"
 					class="other-actions">
 					<template #icon>
-						<img class="contact__action__icon" :src="action.icon">
+						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionLink>
 				<NcActionText v-else :key="idx" class="other-actions">
 					<template #icon>
-						<img class="contact__action__icon" :src="action.icon">
+						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionText>
@@ -97,6 +85,16 @@ export default {
 			}
 			return this.contact.actions
 		},
+		preloadedUserStatus() {
+			if (this.contact.status) {
+				return {
+					status: this.contact.status,
+					message: this.contact.statusMessage,
+					icon: this.contact.statusIcon,
+				}
+			}
+			return undefined
+		}
 	},
 }
 </script>
@@ -113,27 +111,21 @@ export default {
 			width: 20px;
 			height: 20px;
 			padding: 12px;
-			opacity: 0.5;
-
-			&:hover {
-				opacity: 1;
-			}
+			filter: var(--background-invert-if-dark);
 		}
 	}
 
 	&__avatar-wrapper {
-		height: 32px;
 	}
 
 	&__avatar {
-		height: 32px;
-		width: 32px;
 		display: inherit;
 	}
 
 	&__body {
 		flex-grow: 1;
-		padding-left: 8px;
+		padding-left: 10px;
+		margin-left: 10px;
 		min-width: 0;
 
 		div {
@@ -141,27 +133,32 @@ export default {
 			width: 100%;
 			overflow-x: hidden;
 			text-overflow: ellipsis;
+			margin: -1px 0;
+		}
+		div:first-of-type {
+			margin-top: 0;
+		}
+		div:last-of-type {
+			margin-bottom: 0;
 		}
 
-		.last-message, .email-address {
+		&__last-message, &__status-message, &__email-address {
 			color: var(--color-text-maxcontrast);
+		}
+
+		&:focus-visible {
+			box-shadow: 0 0 0 4px var(--color-main-background) !important;
+			outline: 2px solid var(--color-main-text) !important;
 		}
 	}
 
 	.other-actions {
 		width: 16px;
 		height: 16px;
-		opacity: .5;
 		cursor: pointer;
 
 		img {
 			filter: var(--background-invert-if-dark);
-		}
-
-		&:hover,
-		&:active,
-		&:focus {
-			opacity: 1;
 		}
 	}
 

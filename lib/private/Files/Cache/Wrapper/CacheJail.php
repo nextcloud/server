@@ -52,8 +52,6 @@ class CacheJail extends CacheWrapper {
 	public function __construct($cache, $root) {
 		parent::__construct($cache);
 		$this->root = $root;
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
 		if ($cache instanceof CacheJail) {
 			$this->unjailedRoot = $cache->getSourcePath($root);

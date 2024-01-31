@@ -37,7 +37,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	private $appId;
 
 	public function __construct(LoggerInterface $inner,
-								string $appId) {
+		string $appId) {
 		$this->inner = $inner;
 		$this->appId = $appId;
 	}

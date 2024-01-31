@@ -901,6 +901,33 @@ class Group_LDAPTest extends TestCase {
 		$this->assertTrue(in_array('groupF', $returnedGroups));
 	}
 
+	/**
+	 * regression tests against a case where a json object was stored instead of expected list
+	 * @see https://github.com/nextcloud/server/issues/42374
+	 */
+	public function testGetUserGroupsOfflineUserUnexpectedJson() {
+		$this->enableGroups();
+
+		$offlineUser = $this->createMock(OfflineUser::class);
+
+		$this->config->expects($this->any())
+			->method('getUserValue')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', $this->anything())
+			// results in a json object: {"0":"groupB","2":"groupF"}
+			->willReturn(\json_encode([0 => 'groupB', 2 => 'groupF']));
+
+		$this->access->userManager->expects($this->any())
+			->method('get')
+			->with('userX')
+			->willReturn($offlineUser);
+
+		$this->initBackend();
+		$returnedGroups = $this->groupBackend->getUserGroups('userX');
+		$this->assertCount(2, $returnedGroups);
+		$this->assertTrue(in_array('groupB', $returnedGroups));
+		$this->assertTrue(in_array('groupF', $returnedGroups));
+	}
+
 	public function testGetUserGroupsUnrecognizedOfflineUser() {
 		$this->enableGroups();
 		$dn = 'cn=userX,dc=foobar';
@@ -1030,7 +1057,7 @@ class Group_LDAPTest extends TestCase {
 				}
 				[$memberFilter] = explode('&', $filter);
 				if ($memberFilter === 'member='.$dn) {
-						return [$group1, $group2];
+					return [$group1, $group2];
 					return [];
 				} elseif ($memberFilter === 'member='.$group2['dn'][0]) {
 					return [$group3];

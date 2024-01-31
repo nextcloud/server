@@ -23,13 +23,13 @@
 
 namespace OC\Preview;
 
+use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
-use OCP\Image;
 
-use OC\StreamImage;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
@@ -78,6 +78,9 @@ class Imaginary extends ProviderV2 {
 
 		// Object store
 		$stream = $file->fopen('r');
+		if (!$stream || !is_resource($stream) || feof($stream)) {
+			return null;
+		}
 
 		$httpClient = $this->service->newClient();
 
@@ -165,7 +168,7 @@ class Imaginary extends ProviderV2 {
 					'timeout' => 120,
 					'connect_timeout' => 3,
 				]);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);

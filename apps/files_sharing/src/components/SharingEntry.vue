@@ -158,8 +158,8 @@ export default {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		width: 80%;
-		min-width: 80%;
+		flex: 1 0;
+		min-width: 0;
 
 		&__desc {
 			display: inline-block;

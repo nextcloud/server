@@ -19,6 +19,7 @@ declare(strict_types=1);
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Patrik Kernstock <info@pkern.at>
@@ -91,14 +92,15 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Job(\OC::$server->getJobList(), \OC::$server->getLogger()));
 	$application->add(new OC\Core\Command\Background\ListCommand(\OC::$server->getJobList()));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Background\Delete::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
 
 	$application->add(new OC\Core\Command\Config\App\DeleteConfig(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\App\GetConfig(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\App\SetConfig(\OC::$server->getConfig()));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Config\App\GetConfig::class));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Config\App\SetConfig::class));
 	$application->add(new OC\Core\Command\Config\Import(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\ListConfigs(\OC::$server->getSystemConfig(), \OC::$server->getAppConfig()));
+	$application->add(\OCP\Server::get(\OC\Core\Command\Config\ListConfigs::class));
 	$application->add(new OC\Core\Command\Config\System\DeleteConfig(\OC::$server->getSystemConfig()));
 	$application->add(new OC\Core\Command\Config\System\GetConfig(\OC::$server->getSystemConfig()));
 	$application->add(new OC\Core\Command\Config\System\SetConfig(\OC::$server->getSystemConfig()));
@@ -169,7 +171,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
 
-	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->query(\OC\Installer::class)));
+	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
 		new \OC\Repair([], \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class)),
 		\OC::$server->getConfig(),
@@ -214,6 +216,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));
 	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceResetAttempts::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\SetupChecks::class));
+	$application->add(\OCP\Server::get(\OC\Core\Command\FilesMetadata\Get::class));
 } else {
 	$application->add(\OC::$server->get(\OC\Core\Command\Maintenance\Install::class));
 }

@@ -198,7 +198,6 @@
     "Storage is temporarily not available" : "Armazenamento temporariamente indisponível",
     "Storage connection timeout. %s" : "Tempo de ligação ao armazenamento expirou. %s",
     "Full name" : "Nome completo",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Apenas os seguintes caracteres são permitidos num nome de utilizador: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-'\"",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Necessária pelo menos libxml2 2.7.0. Atualmente %s está instalada.",
     "To fix this issue update your libxml2 version and restart your web server." : "Para corrigir este problema actualize a versão da libxml2 e reinicie o seu servidor web.",
     "PostgreSQL >= 9 required." : "Necessário PostgreSQL >= 9",

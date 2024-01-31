@@ -55,10 +55,10 @@ class Application {
 	private MemoryInfo $memoryInfo;
 
 	public function __construct(IConfig $config,
-								IEventDispatcher $dispatcher,
-								IRequest $request,
-								LoggerInterface $logger,
-								MemoryInfo $memoryInfo) {
+		IEventDispatcher $dispatcher,
+		IRequest $request,
+		LoggerInterface $logger,
+		MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());

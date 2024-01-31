@@ -153,8 +153,8 @@ OC.L10N.register(
     "Contacts and groups" : "Контакты и группы",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "точка подключения WebDAV",
-    "Availability" : "Доступность",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Если вы настроите свое рабочее время, другие пользователи будут видеть, когда вас нет в офисе, когда они планируют встречу.",
+    "First day" : "Первый день",
+    "Save" : "Сохранить",
     "Time zone:" : "Часовой пояс:",
     "to" : "по",
     "Delete slot" : "Удалить интервал",
@@ -168,10 +168,11 @@ OC.L10N.register(
     "Saturday" : "Суббота",
     "Sunday" : "Воскресенье",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Автоматически изменять статус на «Не беспокоить» вне интервала доступности для отключения уведомлений.",
-    "Save" : "Сохранить",
     "Failed to load availability" : "Не удалось получить сведения о доступности",
     "Saved availability" : "Сведения о доступности сохранены",
     "Failed to save availability" : "Не удалось сохранить сведения о доступности",
+    "Availability" : "Доступность",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Если вы настроите свое рабочее время, другие пользователи будут видеть, когда вас нет в офисе, когда они планируют встречу.",
     "Calendar server" : "Сервер календаря",
     "Send invitations to attendees" : "Отправить приглашения",
     "Automatically generate a birthday calendar" : "Создавать календарь дней рождения автоматически",
@@ -188,7 +189,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
-    "Your attendance was updated successfully." : "Статус участия обновлён.",
-    "%1$s has responded your invitation" : "%1$s ответил на ваше приглашение"
+    "Your attendance was updated successfully." : "Статус участия обновлён."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

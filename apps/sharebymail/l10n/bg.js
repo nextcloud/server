@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволява на потребителите да споделят персонализирана връзка към файл или папка чрез въвеждане на имейл адрес.",
     "Send password by mail" : "Изпращане на парола по имейл",
     "Reply to initiator" : "Отговор към инициатора",
-    "Unable to update share by mail config" : "Не може да се актуализира конфигурацията за споделяне по поща",
-    "Shared with %1$s" : "Споделено с %1$s",
-    "Shared with %1$s by %2$s" : "Споделено с %1$s чрез %2$s",
-    "Unshared from %1$s" : "Прекратено споделяне от %1$s",
-    "Unshared from %1$s by %2$s" : "Прекратено споделяне от %1$s от %2$s",
-    "Password for mail share sent to %1$s" : "Паролата за мейл споделяне е изпратена на %1$s",
-    "You shared %1$s with %2$s by mail" : "Споделихте %1$s с %2$s чрез мейл",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s сподели %1$s с %2$s чрез мейл",
-    "You unshared %1$s from %2$s by mail" : "Споделихте %1$s от %2$s чрез имейл",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s прекрати споделяне %1$s от %2$s по имейл",
-    "Password to access %1$s was sent to %2s" : "Паролата за достъп %1$s беше изпратена до %2s",
-    "Password to access %1$s was sent to you" : "Паролата за достъп до %1$s ви беше изпратена"
+    "Unable to update share by mail config" : "Не може да се актуализира конфигурацията за споделяне по поща"
 },
 "nplurals=2; plural=(n != 1);");

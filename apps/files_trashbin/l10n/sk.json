@@ -7,11 +7,6 @@
     "Restore" : "Obnoviť",
     "No deleted files" : "Žiadne zmazané súbory",
     "Deleted" : "Zmazané",
-    "You will be able to recover deleted files from here" : "Tu budete mať možnosť obnoviť zmazané súbory",
-    "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
-    "Select all" : "Vybrať všetko",
-    "Name" : "Názov",
-    "Actions" : "Akcie",
     "Delete permanently" : "Zmazať  natrvalo",
     "Error while restoring file from trash bin" : "Chyba pri obnovovaní súboru z koša",
     "Error while removing file from trash bin" : "Chyba pri mazaní súboru z koša",
@@ -20,6 +15,11 @@
     "Error while removing files from trash bin" : "Chyba pri mazaní súborov z koša",
     "This operation is forbidden" : "Táto operácia je zakázaná",
     "This directory is unavailable, please check the logs or contact the administrator" : "Priečinok je nedostupný, skontrolujte prosím logy, alebo kontaktujte správcu",
+    "You will be able to recover deleted files from here" : "Tu budete mať možnosť obnoviť zmazané súbory",
+    "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
+    "Select all" : "Vybrať všetko",
+    "Name" : "Názov",
+    "Actions" : "Akcie",
     "Delete" : "Zmazať"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

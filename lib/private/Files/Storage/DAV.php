@@ -55,11 +55,11 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
-use Psr\Log\LoggerInterface;
 use Sabre\HTTP\RequestInterface;
 
 /**
@@ -921,7 +921,7 @@ class DAV extends Common {
 			}
 
 			foreach ($responses as $file => $response) {
-				$file = urldecode($file);
+				$file = rawurldecode($file);
 				$file = substr($file, strlen($this->root));
 				$file = $this->cleanPath($file);
 				$this->statCache->set($file, $response);

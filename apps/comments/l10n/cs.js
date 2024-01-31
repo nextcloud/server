@@ -15,8 +15,11 @@ OC.L10N.register(
     "Edit comment" : "Upravit komentář",
     "Delete comment" : "Smazat komentář",
     "Cancel edit" : "Zrušit úpravu",
+    "New comment" : "Nový komentář",
+    "Write a comment …" : "Napsat komentář…",
     "Post comment" : "Odeslat komentář",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@“ pro zmínění, „:“ pro emotikony, „/“ pro inteligentní výběr",
+    "@ for mentions, : for emoji, / for smart picker" : "@ pro zmínění, : pro emotikony, / pro inteligentní výběr",
+    "Could not reload comments" : "Znovunačtení komentářů se nezdařilo",
     "No comments yet, start the conversation!" : "Zatím bez komentářů, začněte konverzaci!",
     "No more messages" : "Žádné další zprávy",
     "Retry" : "Zkusit znovu",
@@ -28,7 +31,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentář smazán",
     "An error occurred while trying to delete the comment" : "Došlo k chybě při pokusu o smazání komentáře",
     "An error occurred while trying to create the comment" : "Došlo k chybě při pokusu o vytvoření komentáře",
-    "%1$s commented" : "%1$s okomentováno",
     "_%n unread comment_::_%n unread comments_" : ["%n nepřečtený komentář","%n nepřečtené komentáře","%n nepřečtených komentářů","%n nepřečtené komentáře"]
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

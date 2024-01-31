@@ -61,7 +61,7 @@ class UserManagement extends Action {
 	 */
 	public function assign(string $uid): void {
 		$this->log(
-		'UserID assigned: "%s"',
+			'UserID assigned: "%s"',
 			[ 'uid' => $uid ],
 			[ 'uid' ]
 		);

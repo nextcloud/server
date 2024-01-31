@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
@@ -30,8 +31,8 @@ namespace OCA\Theming;
  */
 interface ITheme {
 
-	const TYPE_THEME = 1;
-	const TYPE_FONT = 2;
+	public const TYPE_THEME = 1;
+	public const TYPE_FONT = 2;
 
 	/**
 	 * Unique theme id

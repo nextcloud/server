@@ -56,10 +56,10 @@ class RecoveryController extends Controller {
 	 * @param Recovery $recovery
 	 */
 	public function __construct($AppName,
-								IRequest $request,
-								IConfig $config,
-								IL10N $l10n,
-								Recovery $recovery) {
+		IRequest $request,
+		IConfig $config,
+		IL10N $l10n,
+		Recovery $recovery) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->l = $l10n;

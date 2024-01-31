@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Cloud-ID wurde in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
-    "Copied!" : "Kopiert!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Sie haben \"%3$s\" als externe Freigabe von %4$s (%1$s) erhalten (im Auftrag von %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Sie haben \"%3$s\" als externe Freigabe von %4$s (%1$s) erhalten",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe %s"
+    "Copied!" : "Kopiert!"
 },
 "nplurals=2; plural=(n != 1);");

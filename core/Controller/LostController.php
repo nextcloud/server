@@ -37,8 +37,14 @@
 namespace OC\Core\Controller;
 
 use Exception;
+use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
+use OC\Core\Exception\ResetPasswordException;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -54,14 +60,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Security\VerificationToken\InvalidTokenException;
-use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Core\Events\BeforePasswordResetEvent;
-use OC\Core\Events\PasswordResetEvent;
-use OC\Core\Exception\ResetPasswordException;
-use OC\Security\RateLimiting\Exception\RateLimitExceededException;
-use OC\Security\RateLimiting\Limiter;
+use OCP\Security\VerificationToken\IVerificationToken;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -74,7 +74,7 @@ use function reset;
  *
  * @package OC\Core\Controller
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class LostController extends Controller {
 	protected string $from;
 

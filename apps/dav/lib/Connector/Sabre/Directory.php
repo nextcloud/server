@@ -34,7 +34,6 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
-use OC\Metadata\FileMetadata;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
@@ -50,6 +49,7 @@ use OCP\IRequest;
 use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Locked;
@@ -57,7 +57,6 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
-use OCP\Share\IManager as IShareManager;
 
 class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
 	/**
@@ -69,9 +68,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	/** Cached quota info */
 	private ?array $quotaInfo = null;
 	private ?CachingTree $tree = null;
-
-	/** @var array<string, array<int, FileMetadata>> */
-	private array $metadata = [];
 
 	/**
 	 * Sets up the node, expects a full path name

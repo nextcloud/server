@@ -20,7 +20,6 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vær oppmerksom på at web-oppdaterer ikke anbefales med mer enn 100 brukere! Bruk kommandolinjen i stedet!",
     "Open updater" : "Åpne oppdaterer",
     "Download now" : "Last ned nå",
-    "Please use the command line updater to update." : "Bruk kommandolinjen for å oppdatere.",
     "What's new?" : "Hva er nytt?",
     "View changelog" : "Se endringslogg",
     "The update check is not yet finished. Please refresh the page." : "Oppdateringssjekken er ikke ferdig, vennligst oppdater siden.",
@@ -33,7 +32,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av serveren.",
     "A new version is available: <strong>{newVersionString}</strong>" : "En ny versjon er tilgjengelig: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Merk at etter en ny utgivelse vises oppdateringen først etter den første mindre utgivelsen eller senere. Vi ruller ut nye versjoner spredt over tid til brukerne våre og hopper noen ganger over en versjon når problemer blir funnet. Finn ut mer om oppdateringer og utgivelseskanaler på {link}",
-    "Checked on {lastCheckedDate}" : "Sist sjekket {lastCheckedDate}",
     "Checking apps for compatible versions" : "Sjekker apper for kompatible versjoner",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Forsikre deg om at <samp>appstoreenabled</samp> ikke er satt til false i config.php.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kunne ikke koble til appbutikken eller ingen oppdateringer har blitt returnert i det hele tatt. Søk manuelt etter oppdateringer eller sørg for at serveren din har tilgang til internett og kan koble til appbutikken.",
@@ -45,8 +43,9 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En pre-release versjon bare for testing av nye funksjoner, ikke for produksjonsmiljøer.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig.","<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig."],
-    "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig.",
+    "Please use the command line updater to update." : "Bruk kommandolinjen for å oppdatere.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan endre oppdateringskanalen nedenfor som også påvirker appadministrasjonssiden. F.eks. etter å ha byttet til betakanalen, vil betaappoppdateringer bli tilbudt deg på appadministrasjonssiden.",
-    "Update channel:" : "Oppdateringskanal:"
+    "Update channel:" : "Oppdateringskanal:",
+    "Checked on {lastCheckedDate}" : "Sist sjekket {lastCheckedDate}"
 },
 "nplurals=2; plural=(n != 1);");

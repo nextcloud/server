@@ -34,8 +34,8 @@ class PreviewProviderRegistration extends ServiceRegistration {
 	private $mimeTypeRegex;
 
 	public function __construct(string $appId,
-								string $service,
-								string $mimeTypeRegex) {
+		string $service,
+		string $mimeTypeRegex) {
 		parent::__construct($appId, $service);
 		$this->mimeTypeRegex = $mimeTypeRegex;
 	}

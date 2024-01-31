@@ -9,18 +9,16 @@ OC.L10N.register(
     "Restore version" : "Obnoviť verziu",
     "Download version" : "Stiahnuť verziu",
     "Delete version" : "Odstrániť verziu",
+    "Current version" : "Aktuálna verzia",
+    "Initial version" : "Úvodná verzia",
     "Version name" : "Názov verzie",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Pomenované verzie sa zachovajú a po naplnení kvóty úložiska budú vylúčené z automatického čistenia.",
     "Remove version name" : "Odstrániť názov verzie",
     "Save version name" : "Uložiť názov verzie",
-    "Current version" : "Aktuálna verzia",
+    "Initial version restored" : "Úvodná verzia bola obnovená",
     "Version restored" : "Verzia bola obnovená",
     "Could not restore version" : "Nepodarilo sa obnoviť verziu",
     "Could not delete version" : "Nepodarilo sa odstrániť verziu",
-    "${version.label} restored" : "${version.label} obnovené",
-    "Failed to revert {file} to revision {timestamp}." : "Zlyhalo obnovenie súboru {file} na verziu {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n bajt","%n bajtov","%n bajtov","%n bajtov"],
-    "Restore" : "Obnoviť",
-    "No other versions available" : "Žiadne ďalšie verzie nie sú dostupné"
+    "${version.label} restored" : "${version.label} obnovené"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

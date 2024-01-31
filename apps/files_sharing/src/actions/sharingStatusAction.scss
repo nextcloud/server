@@ -30,6 +30,8 @@
 svg.sharing-status__avatar {
 	height: 32px !important;
 	width: 32px !important;
+	max-height: 32px !important;
+	max-width: 32px !important;
 	border-radius: 32px;
 	overflow: hidden;
 }

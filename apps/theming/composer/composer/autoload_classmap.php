@@ -31,6 +31,7 @@ return array(
     'OCA\\Theming\\Settings\\AdminSection' => $baseDir . '/../lib/Settings/AdminSection.php',
     'OCA\\Theming\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\Theming\\Settings\\PersonalSection' => $baseDir . '/../lib/Settings/PersonalSection.php',
+    'OCA\\Theming\\SetupChecks\\PhpImagickModule' => $baseDir . '/../lib/SetupChecks/PhpImagickModule.php',
     'OCA\\Theming\\Themes\\CommonThemeTrait' => $baseDir . '/../lib/Themes/CommonThemeTrait.php',
     'OCA\\Theming\\Themes\\DarkHighContrastTheme' => $baseDir . '/../lib/Themes/DarkHighContrastTheme.php',
     'OCA\\Theming\\Themes\\DarkTheme' => $baseDir . '/../lib/Themes/DarkTheme.php',

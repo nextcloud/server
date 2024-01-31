@@ -59,6 +59,7 @@ OC.L10N.register(
     "Add new flow" : "새 흐름 추가",
     "When" : "언제",
     "and" : "그리고",
+    "Add a new filter" : "새 필터 추가",
     "Cancel" : "취소",
     "Delete" : "삭제",
     "The configuration is invalid" : "설정이 잘못됨",
@@ -98,8 +99,6 @@ OC.L10N.register(
     "Request user agent" : "요청 사용자 에이전트",
     "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
-    "is not member of" : "구성원이 아님",
-    "Predefined URLs" : "사전 정의된 URL",
-    "Others" : "기타"
+    "is not member of" : "구성원이 아님"
 },
 "nplurals=1; plural=0;");

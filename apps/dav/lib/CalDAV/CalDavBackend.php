@@ -208,36 +208,22 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	protected array $userDisplayNames;
 
-	private IDBConnection $db;
 	private Backend $calendarSharingBackend;
-	private Principal $principalBackend;
-	private IUserManager $userManager;
-	private ISecureRandom $random;
-	private LoggerInterface $logger;
-	private IEventDispatcher $dispatcher;
-	private IConfig $config;
-	private bool $legacyEndpoint;
 	private string $dbObjectPropertiesTable = 'calendarobjects_props';
 	private array $cachedObjects = [];
 
-	public function __construct(IDBConnection $db,
-								Principal $principalBackend,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								ISecureRandom $random,
-								LoggerInterface $logger,
-								IEventDispatcher $dispatcher,
-								IConfig $config,
-								bool $legacyEndpoint = false) {
-		$this->db = $db;
-		$this->principalBackend = $principalBackend;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IDBConnection $db,
+		private Principal $principalBackend,
+		private IUserManager $userManager,
+		IGroupManager $groupManager,
+		private ISecureRandom $random,
+		private LoggerInterface $logger,
+		private IEventDispatcher $dispatcher,
+		private IConfig $config,
+		private bool $legacyEndpoint = false,
+	) {
 		$this->calendarSharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'calendar');
-		$this->random = $random;
-		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
-		$this->config = $config;
-		$this->legacyEndpoint = $legacyEndpoint;
 	}
 
 	/**
@@ -281,14 +267,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($qb->expr()->isNotNull('deleted_at'))
 			->andWhere($qb->expr()->lt('deleted_at', $qb->createNamedParameter($deletedBefore)));
 		$result = $qb->executeQuery();
-		$raw = $result->fetchAll();
-		$result->closeCursor();
-		return array_map(function ($row) {
-			return [
+		$calendars = [];
+		while (($row = $result->fetch()) !== false) {
+			$calendars[] = [
 				'id' => (int) $row['id'],
 				'deleted_at' => (int) $row['deleted_at'],
 			];
-		}, $raw);
+		}
+		$result->closeCursor();
+		return $calendars;
 	}
 
 	/**
@@ -1011,7 +998,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->executeQuery();
 
 		$result = [];
-		foreach ($stmt->fetchAll() as $row) {
+		while (($row = $stmt->fetch()) !== false) {
 			$result[] = [
 				'id' => $row['id'],
 				'uri' => $row['uri'],
@@ -1038,7 +1025,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->executeQuery();
 
 		$result = [];
-		foreach ($stmt->fetchAll() as $row) {
+		while (($row = $stmt->fetch()) !== false) {
 			$result[] = [
 				'id' => $row['id'],
 				'uri' => $row['uri'],
@@ -1854,8 +1841,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @return array
 	 */
-	public function search(array $calendarInfo, $pattern, array $searchProperties,
-						   array $options, $limit, $offset) {
+	public function search(
+		array $calendarInfo,
+		$pattern,
+		array $searchProperties,
+		array $options,
+		$limit,
+		$offset
+	) {
 		$outerQuery = $this->db->getQueryBuilder();
 		$innerQuery = $this->db->getQueryBuilder();
 
@@ -1925,13 +1918,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$result = $outerQuery->executeQuery();
-		$calendarObjects = array_filter($result->fetchAll(), function (array $row) use ($options) {
+		$calendarObjects = [];
+		while (($row = $result->fetch()) !== false) {
 			$start = $options['timerange']['start'] ?? null;
 			$end = $options['timerange']['end'] ?? null;
 
 			if ($start === null || !($start instanceof DateTimeInterface) || $end === null || !($end instanceof DateTimeInterface)) {
 				// No filter required
-				return true;
+				$calendarObjects[] = $row;
+				continue;
 			}
 
 			$isValid = $this->validateFilterForObject($row, [
@@ -1956,8 +1951,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				// Put the stream back to the beginning so it can be read another time
 				rewind($row['calendardata']);
 			}
-			return $isValid;
-		});
+			if ($isValid) {
+				$calendarObjects[] = $row;
+			}
+		}
 		$result->closeCursor();
 
 		return array_map(function ($o) use ($options) {
@@ -2069,11 +2066,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function searchPrincipalUri(string $principalUri,
-									   string $pattern,
-									   array $componentTypes,
-									   array $searchProperties,
-									   array $searchParameters,
-									   array $options = []): array {
+		string $pattern,
+		array $componentTypes,
+		array $searchProperties,
+		array $searchParameters,
+		array $options = []
+	): array {
 		return $this->atomic(function () use ($principalUri, $pattern, $componentTypes, $searchProperties, $searchParameters, $options) {
 			$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
 
@@ -2155,13 +2153,27 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if (isset($options['offset'])) {
 				$calendarObjectIdQuery->setFirstResult($options['offset']);
 			}
+			if (isset($options['timerange'])) {
+				if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
+					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->gt(
+						'lastoccurence',
+						$calendarObjectIdQuery->createNamedParameter($options['timerange']['start']->getTimeStamp()),
+					));
+				}
+				if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
+					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->lt(
+						'firstoccurence',
+						$calendarObjectIdQuery->createNamedParameter($options['timerange']['end']->getTimeStamp()),
+					));
+				}
+			}
 
 			$result = $calendarObjectIdQuery->executeQuery();
-			$matches = $result->fetchAll();
+			$matches = [];
+			while (($row = $result->fetch()) !== false) {
+				$matches[] = (int) $row['objectid'];
+			}
 			$result->closeCursor();
-			$matches = array_map(static function (array $match):int {
-				return (int) $match['objectid'];
-			}, $matches);
 
 			$query = $this->db->getQueryBuilder();
 			$query->select('calendardata', 'uri', 'calendarid', 'calendartype')
@@ -2169,16 +2181,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->where($query->expr()->in('id', $query->createNamedParameter($matches, IQueryBuilder::PARAM_INT_ARRAY)));
 
 			$result = $query->executeQuery();
-			$calendarObjects = $result->fetchAll();
-			$result->closeCursor();
-
-			return array_map(function (array $array): array {
+			$calendarObjects = [];
+			while (($array = $result->fetch()) !== false) {
 				$array['calendarid'] = (int)$array['calendarid'];
 				$array['calendartype'] = (int)$array['calendartype'];
 				$array['calendardata'] = $this->readBlob($array['calendardata']);
 
-				return $array;
-			}, $calendarObjects);
+				$calendarObjects[] = $array;
+			}
+			$result->closeCursor();
+			return $calendarObjects;
 		}, $this->db);
 	}
 
@@ -2656,9 +2668,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
 				->executeQuery();
 
-		$result = [];
-		foreach ($stmt->fetchAll() as $row) {
-			$result[] = [
+		$results = [];
+		while (($row = $stmt->fetch()) !== false) {
+			$results[] = [
 				'calendardata' => $row['calendardata'],
 				'uri' => $row['uri'],
 				'lastmodified' => $row['lastmodified'],
@@ -2668,7 +2680,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 		$stmt->closeCursor();
 
-		return $result;
+		return $results;
 	}
 
 	/**
@@ -3046,14 +3058,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->where($query->expr()->eq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)))
 				->executeQuery();
 
-			$ids = $result->fetchAll();
-			$result->closeCursor();
-			foreach ($ids as $id) {
+			while (($row = $result->fetch()) !== false) {
 				$this->deleteCalendar(
-					$id['id'],
+					$row['id'],
 					true // No data to keep in the trashbin, if the user re-enables then we regenerate
 				);
 			}
+			$result->closeCursor();
 		}, $this->db);
 	}
 
@@ -3070,7 +3081,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$stmt = $query->executeQuery();
 
 			$uris = [];
-			foreach ($stmt->fetchAll() as $row) {
+			while (($row = $stmt->fetch()) !== false) {
 				$uris[] = $row['uri'];
 			}
 			$stmt->closeCursor();
@@ -3081,11 +3092,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
 				->executeStatement();
 
+			$query = $this->db->getQueryBuilder();
 			$query->delete('calendarchanges')
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
 				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
 				->executeStatement();
 
+			$query = $this->db->getQueryBuilder();
 			$query->delete($this->dbObjectPropertiesTable)
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
 				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
@@ -3183,7 +3196,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$maxId = (int) $result->fetchOne();
 		$result->closeCursor();
 		if (!$maxId || $maxId < $keep) {
-		    return 0;
+			return 0;
 		}
 
 		$query = $this->db->getQueryBuilder();

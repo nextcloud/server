@@ -41,7 +41,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
     "Share it so your friends can share files with you:" : "Teile es, so dass deine Freunde Dateien mit dir teilen können:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
+    "Twitter" : "X",
     "Diaspora" : "Diaspora",
     "Add to your website" : "Zu deiner Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
@@ -51,9 +51,6 @@ OC.L10N.register(
     "Cloud ID copied to the clipboard" : "Cloud-ID in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
-    "Copied!" : "Kopiert!",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du hast \"%3$s\" als externe Freigabe von %4$s (%1$s) empfangen (im Auftrag von %5$s (%2$s))",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du hast  \"%3$s\" als externe Freigabe von %4$s (%1$s) erhalten",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Über meine #Nextcloud Federated-Cloud-ID teilen, siehe %s"
+    "Copied!" : "Kopiert!"
 },
 "nplurals=2; plural=(n != 1);");

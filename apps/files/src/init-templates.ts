@@ -21,6 +21,7 @@
  *
  */
 import type { Entry } from '@nextcloud/files'
+import type { TemplateFile } from './types'
 
 import { Folder, Node, Permission, addNewFileMenuEntry, removeNewFileMenuEntry } from '@nextcloud/files'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -35,7 +36,7 @@ import Vue from 'vue'
 import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 
 import TemplatePickerView from './views/TemplatePicker.vue'
-import { getUniqueName } from './newMenu/newFolder'
+import { getUniqueName } from './utils/fileUtils.ts'
 import { getCurrentUser } from '@nextcloud/auth'
 
 // Set up logger
@@ -58,9 +59,9 @@ TemplatePickerRoot.id = 'template-picker'
 document.body.appendChild(TemplatePickerRoot)
 
 // Retrieve and init templates
-let templates = loadState('files', 'templates', [])
+let templates = loadState<TemplateFile[]>('files', 'templates', [])
 let templatesPath = loadState('files', 'templates_path', false)
-logger.debug('Templates providers', templates)
+logger.debug('Templates providers', { templates })
 logger.debug('Templates folder', { templatesPath })
 
 // Init vue app

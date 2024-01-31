@@ -26,11 +26,11 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Maintenance;
 
-use Symfony\Component\Console\Command\Command;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

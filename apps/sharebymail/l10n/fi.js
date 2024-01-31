@@ -33,14 +33,6 @@ OC.L10N.register(
     "Could not find share" : "Jakoa ei löytynyt",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Salli käyttäjien jakaa personoitu linkki tiedostoon tai kansioon syöttämällä sähköpostiosoitteen.",
     "Send password by mail" : "Lähetä salasana sähköpostitse",
-    "Reply to initiator" : "Vastaa aloitteentekijälle",
-    "Shared with %1$s" : "Jaettu käyttäjälle %1$s",
-    "Shared with %1$s by %2$s" : "Jaettu käyttäjälle %1$s käyttäjän %2$s toimesta",
-    "Password for mail share sent to %1$s" : "Salasana sähköpostijakoon lähetettiin osoitteeseen %1$s",
-    "You shared %1$s with %2$s by mail" : "Jaoit tiedoston %1$s sähköpostitse osoitteeseen %2$s",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s jakoi tiedoston %1$s sähköpostitse osoitteeseen %2$s",
-    "You unshared %1$s from %2$s by mail" : "Lopetit kohteen %1$s jaon käyttäjältä %2$s sähköpostitse",
-    "Password to access %1$s was sent to %2s" : "Salasana kohteen %1$s käyttämiseksi lähetettiin käyttäjälle %2s",
-    "Password to access %1$s was sent to you" : "Salasana kohteen %1$s käyttämiseksi lähetettiin sinulle"
+    "Reply to initiator" : "Vastaa aloitteentekijälle"
 },
 "nplurals=2; plural=(n != 1);");

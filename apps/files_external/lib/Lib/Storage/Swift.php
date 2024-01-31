@@ -296,7 +296,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$path .= '/';
 		}
 
-//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
+		//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
 
 		try {
 			$files = [];

@@ -41,17 +41,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
     "Reply to initiator" : "返信先を共有開始者にする",
-    "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました",
-    "Shared with %1$s" : "%1$s と共有",
-    "Shared with %1$s by %2$s" : "%2$s で %1$s と共有",
-    "Unshared from %1$s" : "%1$s から共有解除しました",
-    "Unshared from %1$s by %2$s" : "%2$sで%1$s から共有解除しました",
-    "Password for mail share sent to %1$s" : "%1$sにメール共有するパスワード",
-    "You shared %1$s with %2$s by mail" : "メールで %2$s と %1$s を共有しました",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s がメールで %2$s と %1$s を共有しました",
-    "You unshared %1$s from %2$s by mail" : "メールで %2$s と %1$s を共有解除しました",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$sがメールで %2$s と %1$s を共有解除しました",
-    "Password to access %1$s was sent to %2s" : "%1$sにアクセスするパスワードを %2s に送信しました",
-    "Password to access %1$s was sent to you" : "%1$sにアクセスするパスワードを あなたに送信しました"
+    "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました"
 },
 "nplurals=1; plural=0;");

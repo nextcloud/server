@@ -50,7 +50,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setCustomMessage(string|null $customMessage)
  * @method int|null getClearAt()
  * @method void setClearAt(int|null $clearAt)
- * @method setIsBackup(bool $true): void
+ * @method setIsBackup(bool $isBackup): void
  * @method getIsBackup(): bool
  * @method int getStatusMessageTimestamp()
  * @method void setStatusMessageTimestamp(int $statusTimestamp)

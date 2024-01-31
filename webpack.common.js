@@ -7,6 +7,9 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
 
 const modules = require('./webpack.modules.js')
+const { readFileSync } = require('fs')
+
+const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -205,6 +208,10 @@ module.exports = {
 				},
 			}],
 		}),
+
+		// Make appName & appVersion available as a constants for '@nextcloud/vue' components
+		new webpack.DefinePlugin({ appName: JSON.stringify('Nextcloud') }),
+		new webpack.DefinePlugin({ appVersion: JSON.stringify(appVersion) }),
 	],
 	externals: {
 		OC: 'OC',

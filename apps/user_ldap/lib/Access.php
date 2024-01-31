@@ -2016,12 +2016,12 @@ class Access extends LDAPUtility {
 			}
 			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
 			return [true, $pageSize, $this->lastCookie];
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
-			 * due to pages with zero results.
-			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-			 * if we don't have a previous paged search.
-			 */
+		/* ++ Fixing RHDS searches with pages with zero results ++
+		 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
+		 * due to pages with zero results.
+		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
+		 * if we don't have a previous paged search.
+		 */
 		} elseif ($this->lastCookie !== '') {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to

@@ -15,8 +15,11 @@ OC.L10N.register(
     "Edit comment" : "コメントを編集",
     "Delete comment" : "コメントを削除",
     "Cancel edit" : "編集をキャンセル",
+    "New comment" : "新しいコメント",
+    "Write a comment …" : "コメントを書く...",
     "Post comment" : "コメントを投稿",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "メンションには \"@\"、絵文字には \":\"、スマートピッカーには \"/\"",
+    "@ for mentions, : for emoji, / for smart picker" : "メンションには@、絵文字には:、スマートピッカーには/",
+    "Could not reload comments" : "コメントをリロードできませんでした",
     "No comments yet, start the conversation!" : "まだコメントはありません、会話を開始してください！",
     "No more messages" : "これ以上のメッセージはありません",
     "Retry" : "再試行",
@@ -28,7 +31,6 @@ OC.L10N.register(
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "%1$s commented" : "%1$s がコメントを追加",
     "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"]
 },
 "nplurals=1; plural=0;");

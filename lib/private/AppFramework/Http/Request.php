@@ -118,10 +118,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @see https://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars,
-								IRequestId $requestId,
-								IConfig $config,
-								CsrfTokenManager $csrfTokenManager = null,
-								string $stream = 'php://input') {
+		IRequestId $requestId,
+		IConfig $config,
+		CsrfTokenManager $csrfTokenManager = null,
+		string $stream = 'php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = [];
 		$this->requestId = $requestId;
@@ -573,7 +573,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		return IpUtils::checkIp($remoteAddress, $trustedProxies);
+		try {
+			return IpUtils::checkIp($remoteAddress, $trustedProxies);
+		} catch (\Throwable) {
+			// We can not log to our log here as the logger is using `getRemoteAddress` which uses the function, so we would have a cyclic dependency
+			// Reaching this line means `trustedProxies` is in invalid format.
+			error_log('Nextcloud trustedProxies has malformed entries');
+			return false;
+		}
 	}
 
 	/**
@@ -593,14 +600,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				// only have one default, so we cannot ship an insecure product out of the box
 			]);
 
-			foreach ($forwardedForHeaders as $header) {
+			// Read the x-forwarded-for headers and values in reverse order as per
+			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
+			foreach (array_reverse($forwardedForHeaders) as $header) {
 				if (isset($this->server[$header])) {
-					foreach (explode(',', $this->server[$header]) as $IP) {
+					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
 						$IP = trim($IP);
 
 						// remove brackets from IPv6 addresses
 						if (str_starts_with($IP, '[') && str_ends_with($IP, ']')) {
 							$IP = substr($IP, 1, -1);
+						}
+
+						if ($this->isTrustedProxy($trustedProxies, $IP)) {
+							continue;
 						}
 
 						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
@@ -616,14 +629,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Check overwrite condition
-	 * @param string $type
 	 * @return bool
 	 */
-	private function isOverwriteCondition(string $type = ''): bool {
+	private function isOverwriteCondition(): bool {
 		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
-		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
-		|| $type !== 'protocol';
+		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
 	/**
@@ -633,7 +644,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getServerProtocol(): string {
 		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
-			&& $this->isOverwriteCondition('protocol')) {
+			&& $this->isOverwriteCondition()) {
 			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 

@@ -184,9 +184,6 @@ class ViewControllerTest extends TestCase {
 		$expected = new Http\TemplateResponse(
 			'files',
 			'index',
-			[
-				'fileNotFound' => 0,
-			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');

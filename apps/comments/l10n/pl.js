@@ -15,7 +15,10 @@ OC.L10N.register(
     "Edit comment" : "Edytuj komentarz",
     "Delete comment" : "Usuń komentarz",
     "Cancel edit" : "Anuluj edycję",
+    "New comment" : "Nowy komentarz",
     "Post comment" : "Wyślij komentarz",
+    "@ for mentions, : for emoji, / for smart picker" : "@ dla wzmianek, : dla emoji, / dla inteligentnego wybierania",
+    "Could not reload comments" : "Nie można ponownie załadować komentarzy",
     "No comments yet, start the conversation!" : "Brak komentarzy, rozpocznij rozmowę!",
     "No more messages" : "Nie ma więcej wiadomości",
     "Retry" : "Powtórz",
@@ -27,7 +30,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentarz usunięty",
     "An error occurred while trying to delete the comment" : "Wystąpił błąd podczas próby usunięcia komentarza",
     "An error occurred while trying to create the comment" : "Wystąpił błąd podczas próby utworzenia komentarza",
-    "%1$s commented" : "%1$s skomentował",
     "_%n unread comment_::_%n unread comments_" : ["%n nieprzeczytany komentarz","%n nieprzeczytane komentarze","%n nieprzeczytanych komentarzy","%n nieprzeczytanych komentarzy"]
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

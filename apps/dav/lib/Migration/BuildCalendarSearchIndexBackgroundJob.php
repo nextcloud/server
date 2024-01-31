@@ -55,10 +55,10 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
-								CalDavBackend $calDavBackend,
-								ILogger $logger,
-								IJobList $jobList,
-								ITimeFactory $timeFactory) {
+		CalDavBackend $calDavBackend,
+		ILogger $logger,
+		IJobList $jobList,
+		ITimeFactory $timeFactory) {
 		$this->db = $db;
 		$this->calDavBackend = $calDavBackend;
 		$this->logger = $logger;

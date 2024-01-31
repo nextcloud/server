@@ -15,6 +15,7 @@ OC.L10N.register(
     "Edit comment" : "Επεξεργασία σχολίου",
     "Delete comment" : "Διαγραφή σχολίου",
     "Cancel edit" : "Ακύρωση επεξεργασίας",
+    "New comment" : "Νέο σχόλιο",
     "Post comment" : "Αναρτήστε σχόλιο",
     "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "No more messages" : "Δεν υπάρχουν άλλα μηνύματα",
@@ -26,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
     "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "%1$s commented" : "%1$s σχολίασε",
     "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"]
 },
 "nplurals=2; plural=(n != 1);");

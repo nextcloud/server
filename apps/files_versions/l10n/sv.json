@@ -8,21 +8,18 @@
     "Restore version" : "Återställ version",
     "Download version" : "Ladda ner version",
     "Delete version" : "Ta bort version",
+    "Current version" : "Aktuell version",
+    "Initial version" : "Första versionen",
     "Version name" : "Namn på version",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Namngivna versioner finns kvar och utesluts från automatiska rensningar när din lagringskvot är full.",
     "Remove version name" : "Ta bort versionsnamn",
     "Save version name" : "Spara versionsnamn",
-    "Current version" : "Aktuell version",
-    "Initial version" : "Första versionen",
     "Initial version restored" : "Ursprunglig version återställd",
     "Version restored" : "Version återställd",
     "Could not restore version" : "Kunde inte återställa versionen",
-    "Could not set version name" : "Det gick inte att ange versionsnamn",
+    "Could not set version label" : "Det gick inte att ange versionsetikett",
     "Could not delete version" : "Det gick inte att ta bort versionen",
     "${version.label} restored" : "${version.label} återställd",
-    "Failed to revert {file} to revision {timestamp}." : "Misslyckades att återställa {file} till version {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
-    "Restore" : "Återskapa",
-    "No other versions available" : "Inga andra versioner tillgängliga"
+    "Could not set version name" : "Det gick inte att ange versionsnamn"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

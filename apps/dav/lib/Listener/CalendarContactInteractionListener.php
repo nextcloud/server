@@ -45,6 +45,7 @@ use Throwable;
 use function strlen;
 use function substr;
 
+/** @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarShareUpdatedEvent> */
 class CalendarContactInteractionListener implements IEventListener {
 	private const URI_USERS = 'principals/users/';
 
@@ -64,10 +65,10 @@ class CalendarContactInteractionListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IEventDispatcher $dispatcher,
-								IUserSession $userSession,
-								Principal $principalConnector,
-								IMailer $mailer,
-								LoggerInterface $logger) {
+		IUserSession $userSession,
+		Principal $principalConnector,
+		IMailer $mailer,
+		LoggerInterface $logger) {
 		$this->dispatcher = $dispatcher;
 		$this->userSession = $userSession;
 		$this->principalConnector = $principalConnector;

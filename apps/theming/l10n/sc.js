@@ -52,20 +52,11 @@ OC.L10N.register(
     "Background" : "Isfundu",
     "Keyboard shortcuts" : "Curtziadòrgios de tecladu",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "S'atzessu universale est de importu mannu pro nois. Sighimus is istandard de sa rete e chircamus de fàghere chi totu si potzat impreare chene cursore puru, e cun programmas de assistèntzia comente leghidores de ischermu. S'intentu nostru est de acumprire is inditos de is {guidelines}Lìinas ghia cuntenutos de rete{linkend} 2.1 a su livellu AA, cun su tema de cuntrastu artu a su livellu AAA.",
+    "Move up" : "Tràmuda fache a susu",
+    "Move down" : "Tràmuda fache a bàsciu",
     "Change color" : "Càmbia colore",
     "Reset to default" : "Torra a is impostatziones predefinidas",
     "Upload" : "Càrriga",
-    "Remove background image" : "Boga immàgine de fundu",
-    "Loading preview…" : "Carrigamentu anteprima...",
-    "Admin" : "Amministradore",
-    "Name cannot be empty" : "Su nùmene non podet èssere isbòidu",
-    "Pick from Files" : "Sèbera dae archìvios",
-    "Custom color" : "Personaliza colore",
-    "Plain background" : "Isfundu simpre",
-    "Insert from {productName}" : "Inserta dae {productName}",
-    "Open documentation" : "Aberi sa documentatzione",
-    "https://…" : "https://…",
-    "Upload new login background" : "Càrriga fundu de intrada nou",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa s'estensione Imagemagick de PHP cun suportu pro is immàgines SVG pro generare in automàticu favicon basadas subra de su logo carrigadu e su colore."
+    "Remove background image" : "Boga immàgine de fundu"
 },
 "nplurals=2; plural=(n != 1);");

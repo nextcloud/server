@@ -48,8 +48,8 @@ class AppPasswordCreatedActivityListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IActivityManager $activityManager,
-								IUserSession $userSession,
-								LoggerInterface $logger) {
+		IUserSession $userSession,
+		LoggerInterface $logger) {
 		$this->activityManager = $activityManager;
 		$this->userSession = $userSession;
 		$this->logger = $logger;

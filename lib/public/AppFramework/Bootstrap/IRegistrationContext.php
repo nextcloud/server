@@ -37,10 +37,11 @@ use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
-use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
 use OCP\SpeechToText\ISpeechToTextProvider;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\TextToImage\IProvider as ITextToImageProvider;
 use OCP\Translation\ITranslationProvider;
 
 /**
@@ -231,6 +232,16 @@ interface IRegistrationContext {
 	public function registerTextProcessingProvider(string $providerClass): void;
 
 	/**
+	 * Register a custom text2image provider class that provides the possibility to generate images
+	 * through the OCP\TextToImage APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITextToImageProvider> $providerClass
+	 * @since 28.0.0
+	 */
+	public function registerTextToImageProvider(string $providerClass): void;
+
+	/**
 	 * Register a custom template provider class that is able to inject custom templates
 	 * in addition to the user defined ones
 	 *
@@ -371,4 +382,13 @@ interface IRegistrationContext {
 	 * @since 26.0.0
 	 */
 	public function registerPublicShareTemplateProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\SetupCheck\ISetupCheck that
+	 * will handle the implementation of a setup check
+	 *
+	 * @param class-string<\OCP\SetupCheck\ISetupCheck> $setupCheckClass
+	 * @since 28.0.0
+	 */
+	public function registerSetupCheck(string $setupCheckClass): void;
 }

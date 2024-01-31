@@ -27,19 +27,19 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -98,7 +98,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
@@ -116,7 +116,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
@@ -150,7 +150,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
 		if ($stateToken === null) {

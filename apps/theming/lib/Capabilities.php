@@ -27,9 +27,13 @@
  */
 namespace OCA\Theming;
 
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Service\BackgroundService;
 use OCP\Capabilities\IPublicCapability;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 
 /**
  * Class Capabilities
@@ -50,17 +54,20 @@ class Capabilities implements IPublicCapability {
 	/** @var IConfig */
 	protected $config;
 
+	protected IUserSession $userSession;
+
 	/**
 	 * @param ThemingDefaults $theming
 	 * @param Util $util
 	 * @param IURLGenerator $url
 	 * @param IConfig $config
 	 */
-	public function __construct(ThemingDefaults $theming, Util $util, IURLGenerator $url, IConfig $config) {
+	public function __construct(ThemingDefaults $theming, Util $util, IURLGenerator $url, IConfig $config, IUserSession $userSession) {
 		$this->theming = $theming;
 		$this->util = $util;
 		$this->url = $url;
 		$this->config = $config;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -86,23 +93,56 @@ class Capabilities implements IPublicCapability {
 	 * }
 	 */
 	public function getCapabilities() {
+		$color = $this->theming->getDefaultColorPrimary();
+		// Same as in DefaultTheme
+		if ($color === BackgroundService::DEFAULT_COLOR) {
+			$color = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
+		}
+		$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
+
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
-		$color = $this->theming->getColorPrimary();
+		$backgroundPlain = $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $color !== '#0082c9');
+		$background = $backgroundPlain ? $color : $this->url->getAbsoluteURL($this->theming->getBackground());
+
+		$user = $this->userSession->getUser();
+		if ($user instanceof IUser) {
+			/**
+			 * Mimics the logic of generateUserBackgroundVariables() that generates the CSS variables.
+			 * Also needs to be updated if the logic changes.
+			 * @see \OCA\Theming\Themes\CommonThemeTrait::generateUserBackgroundVariables()
+			 */
+			$color = $this->theming->getColorPrimary();
+			if ($color === BackgroundService::DEFAULT_COLOR) {
+				$color = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
+			}
+			$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
+
+			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
+			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {
+				$backgroundPlain = false;
+				$background = $this->url->linkToRouteAbsolute('theming.userTheme.getBackground');
+			} elseif (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
+				$backgroundPlain = false;
+				$background = $this->url->linkTo(Application::APP_ID, "img/background/$backgroundImage");
+			} elseif ($backgroundImage !== BackgroundService::BACKGROUND_DEFAULT) {
+				$backgroundPlain = true;
+				$background = $color;
+			}
+		}
+
 		return [
 			'theming' => [
 				'name' => $this->theming->getName(),
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $color,
-				'color-text' => $this->theming->getTextColorPrimary(),
+				'color-text' => $colorText,
 				'color-element' => $this->util->elementColor($color),
 				'color-element-bright' => $this->util->elementColor($color),
 				'color-element-dark' => $this->util->elementColor($color, false),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
-				'background' => $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $this->theming->getColorPrimary() !== '#0082c9') ?
-					$this->theming->getColorPrimary() :
-					$this->url->getAbsoluteURL($this->theming->getBackground()),
-				'background-plain' => $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $this->theming->getColorPrimary() !== '#0082c9'),
+				'background' => $background,
+				'background-plain' => $backgroundPlain,
 				'background-default' => !$this->util->isBackgroundThemed(),
 				'logoheader' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'favicon' => $this->url->getAbsoluteURL($this->theming->getLogo()),

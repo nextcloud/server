@@ -51,7 +51,7 @@ use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
 
 /**
- * @psalm-import-type FilesSharingDeletedShare from ResponseDefinitions
+ * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
  */
 class DeletedShareAPIController extends OCSController {
 
@@ -77,14 +77,14 @@ class DeletedShareAPIController extends OCSController {
 	private $serverContainer;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								ShareManager $shareManager,
-								string $UserId,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IRootFolder $rootFolder,
-								IAppManager $appManager,
-								IServerContainer $serverContainer) {
+		IRequest $request,
+		ShareManager $shareManager,
+		string $UserId,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IAppManager $appManager,
+		IServerContainer $serverContainer) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManager;
@@ -99,7 +99,7 @@ class DeletedShareAPIController extends OCSController {
 	/**
 	 * @suppress PhanUndeclaredClassMethod
 	 *
-	 * @return FilesSharingDeletedShare
+	 * @return Files_SharingDeletedShare
 	 */
 	private function formatShare(IShare $share): array {
 		$result = [
@@ -187,7 +187,7 @@ class DeletedShareAPIController extends OCSController {
 	 *
 	 * Get a list of all deleted shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingDeletedShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingDeletedShare[], array{}>
 	 *
 	 * 200: Deleted shares returned
 	 */

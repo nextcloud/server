@@ -47,7 +47,7 @@ export default Vue.extend({
 		 */
 		isAscSorting(): boolean {
 			const sortingDirection = this.getConfig(this.currentView.id)?.sorting_direction
-			return sortingDirection === 'asc'
+			return sortingDirection !== 'desc'
 		},
 	},
 

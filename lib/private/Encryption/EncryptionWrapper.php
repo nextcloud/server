@@ -53,8 +53,8 @@ class EncryptionWrapper {
 	 * EncryptionWrapper constructor.
 	 */
 	public function __construct(ArrayCache $arrayCache,
-								Manager $manager,
-								LoggerInterface $logger
+		Manager $manager,
+		LoggerInterface $logger
 	) {
 		$this->arrayCache = $arrayCache;
 		$this->manager = $manager;

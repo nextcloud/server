@@ -20,17 +20,18 @@
   -
   -->
 <template>
-	<td class="files-list__row-checkbox">
+	<td class="files-list__row-checkbox"
+		@keyup.esc.exact="resetSelection">
 		<NcLoadingIcon v-if="isLoading" />
 		<NcCheckboxRadioSwitch v-else
-			:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
+			:aria-label="ariaLabel"
 			:checked="isSelected"
 			@update:checked="onSelectionChange" />
 	</td>
 </template>
 
 <script lang="ts">
-import { Node } from '@nextcloud/files'
+import { Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import Vue, { PropType } from 'vue'
 
@@ -50,10 +51,6 @@ export default Vue.extend({
 	},
 
 	props: {
-		displayName: {
-			type: String,
-			required: true,
-		},
 		fileid: {
 			type: String,
 			required: true,
@@ -64,6 +61,10 @@ export default Vue.extend({
 		},
 		nodes: {
 			type: Array as PropType<Node[]>,
+			required: true,
+		},
+		source: {
+			type: Object as PropType<Node>,
 			required: true,
 		},
 	},
@@ -86,6 +87,14 @@ export default Vue.extend({
 		},
 		index() {
 			return this.nodes.findIndex((node: Node) => node.fileid === parseInt(this.fileid))
+		},
+		isFile() {
+			return this.source.type === FileType.File
+		},
+		ariaLabel() {
+			return this.isFile
+				? t('files', 'Toggle selection for file "{displayName}"', { displayName: this.source.basename })
+				: t('files', 'Toggle selection for folder "{displayName}"', { displayName: this.source.basename })
 		},
 	},
 
@@ -123,6 +132,10 @@ export default Vue.extend({
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)
 			this.selectionStore.setLastIndex(newSelectedIndex)
+		},
+
+		resetSelection() {
+			this.selectionStore.reset()
 		},
 
 		t,

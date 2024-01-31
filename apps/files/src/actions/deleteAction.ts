@@ -34,7 +34,9 @@ export const action = new FileAction({
 			? t('files', 'Delete permanently')
 			: t('files', 'Delete')
 	},
-	iconSvgInline: () => TrashCanSvg,
+	iconSvgInline: () => {
+		return TrashCanSvg
+	},
 
 	enabled(nodes: Node[]) {
 		return nodes.length > 0 && nodes

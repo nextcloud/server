@@ -35,9 +35,17 @@
 				:preloaded-user-status="userStatus" />
 		</template>
 		<ul>
-			<UserMenuEntry v-for="entry in settingsNavEntries"
-				v-bind="entry"
-				:key="entry.id" />
+			<ProfileUserMenuEntry :id="profileEntry.id"
+				:name="profileEntry.name"
+				:href="profileEntry.href"
+				:active="profileEntry.active" />
+			<UserMenuEntry v-for="entry in otherEntries"
+				:id="entry.id"
+				:key="entry.id"
+				:name="entry.name"
+				:href="entry.href"
+				:active="entry.active"
+				:icon="entry.icon" />
 		</ul>
 	</NcHeaderMenu>
 </template>
@@ -54,11 +62,27 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
 
 import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
+import ProfileUserMenuEntry from '../components/UserMenu/ProfileUserMenuEntry.vue'
 import UserMenuEntry from '../components/UserMenu/UserMenuEntry.vue'
 
 import logger from '../logger.js'
 
+/**
+ * @typedef SettingNavEntry
+ * @property {string} id - id of the entry, used as HTML ID, for example, "settings"
+ * @property {string} name - Label of the entry, for example, "Personal Settings"
+ * @property {string} icon - Icon of the entry, for example, "/apps/settings/img/personal.svg"
+ * @property {'settings'|'link'|'guest'} type - Type of the entry
+ * @property {string} href - Link of the entry, for example, "/settings/user"
+ * @property {boolean} active - Whether the entry is active
+ * @property {number} order - Order of the entry
+ * @property {number} unread - Number of unread pf this items
+ * @property {string} classes - Classes for custom styling
+ */
+
+/** @type {Record<string, SettingNavEntry>} */
 const settingsNavEntries = loadState('core', 'settingsNavEntries', [])
+const { profile: profileEntry, ...otherEntries } = settingsNavEntries
 
 const translateStatus = (status) => {
 	const statusMap = Object.fromEntries(
@@ -77,12 +101,14 @@ export default {
 	components: {
 		NcAvatar,
 		NcHeaderMenu,
+		ProfileUserMenuEntry,
 		UserMenuEntry,
 	},
 
 	data() {
 		return {
-			settingsNavEntries,
+			profileEntry,
+			otherEntries,
 			displayName: getCurrentUser()?.displayName,
 			userId: getCurrentUser()?.uid,
 			isLoadingUserStatus: true,
@@ -210,19 +236,22 @@ export default {
 						outline: none !important;
 					}
 
-					&:active,
-					&.active {
+					&:active:not(:focus-visible),
+					&.active:not(:focus-visible) {
 						background-color: var(--color-primary-element);
 						color: var(--color-primary-element-text);
+
+						img {
+							filter: var(--primary-invert-if-dark);
+						}
 					}
 
 					span {
 						padding-bottom: 0;
-						color: var(--color-main-text);
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
-						max-width: 110px;
+						max-width: 210px;
 					}
 
 					img {
@@ -231,8 +260,7 @@ export default {
 						margin-right: 10px;
 					}
 
-					img,
-					svg {
+					img {
 						filter: var(--background-invert-if-dark);
 					}
 				}

@@ -89,9 +89,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private DisplayNameCache $displayNameCache;
 
 	public function __construct(\OC\User\Manager $userManager,
-								IEventDispatcher $dispatcher,
-								LoggerInterface $logger,
-								ICacheFactory $cacheFactory) {
+		IEventDispatcher $dispatcher,
+		LoggerInterface $logger,
+		ICacheFactory $cacheFactory) {
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
@@ -371,7 +371,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
-		return array_search($group, $this->getUserIdGroupIds($userId)) !== false;
+		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
 	/**

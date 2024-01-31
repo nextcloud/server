@@ -73,14 +73,14 @@ class NewUserMailHelper {
 	 * @param string $fromAddress
 	 */
 	public function __construct(Defaults $themingDefaults,
-								IURLGenerator $urlGenerator,
-								IFactory $l10nFactory,
-								IMailer $mailer,
-								ISecureRandom $secureRandom,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								ICrypto $crypto,
-								$fromAddress) {
+		IURLGenerator $urlGenerator,
+		IFactory $l10nFactory,
+		IMailer $mailer,
+		ISecureRandom $secureRandom,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		ICrypto $crypto,
+		$fromAddress) {
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10nFactory = $l10nFactory;
@@ -170,7 +170,7 @@ class NewUserMailHelper {
 	 * @throws \Exception If mail could not be sent
 	 */
 	public function sendMail(IUser $user,
-							 IEMailTemplate $emailTemplate): void {
+		IEMailTemplate $emailTemplate): void {
 
 		// Be sure to never try to send to an empty e-mail
 		$email = $user->getEMailAddress();

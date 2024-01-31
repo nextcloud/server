@@ -10,20 +10,16 @@ OC.L10N.register(
     "Restore version" : "Restore version",
     "Download version" : "Download version",
     "Delete version" : "Delete version",
+    "Current version" : "نسخه فعلی",
     "Version name" : "Version name",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.",
     "Remove version name" : "Remove version name",
     "Save version name" : "Save version name",
-    "Current version" : "نسخه فعلی",
     "Initial version restored" : "Initial version restored",
     "Version restored" : "Version restored",
     "Could not restore version" : "Could not restore version",
-    "Could not set version name" : "Could not set version name",
     "Could not delete version" : "Could not delete version",
     "${version.label} restored" : "${version.label} restored",
-    "Failed to revert {file} to revision {timestamp}." : "برگرداندن {file} به نسخه {timestamp} با شکست روبرو شد",
-    "_%n byte_::_%n bytes_" : ["%n بایت","%n بایت"],
-    "Restore" : "بازیابی",
-    "No other versions available" : "نسخه ی دیگری در دسترس نیست"
+    "Could not set version name" : "Could not set version name"
 },
 "nplurals=2; plural=(n > 1);");

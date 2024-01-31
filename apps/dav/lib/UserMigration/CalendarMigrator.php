@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\UserMigration;
 
-use function Safe\substr;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
@@ -50,10 +49,10 @@ use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Sabre\VObject\Reader as VObjectReader;
 use Sabre\VObject\UUIDUtil;
-use Safe\Exceptions\StringsException;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use function substr;
 
 class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
@@ -185,12 +184,13 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	private function getUniqueCalendarUri(IUser $user, string $initialCalendarUri): string {
 		$principalUri = $this->getPrincipalUri($user);
-		try {
-			$initialCalendarUri = substr($initialCalendarUri, 0, strlen(CalendarMigrator::MIGRATED_URI_PREFIX)) === CalendarMigrator::MIGRATED_URI_PREFIX
-				? $initialCalendarUri
-				: CalendarMigrator::MIGRATED_URI_PREFIX . $initialCalendarUri;
-		} catch (StringsException $e) {
-			throw new CalendarMigratorException('Failed to get unique calendar URI', 0, $e);
+
+		$initialCalendarUri = substr($initialCalendarUri, 0, strlen(CalendarMigrator::MIGRATED_URI_PREFIX)) === CalendarMigrator::MIGRATED_URI_PREFIX
+			? $initialCalendarUri
+			: CalendarMigrator::MIGRATED_URI_PREFIX . $initialCalendarUri;
+
+		if ($initialCalendarUri === '') {
+			throw new CalendarMigratorException('Failed to get unique calendar URI');
 		}
 
 		$existingCalendarUris = array_map(

@@ -23,7 +23,6 @@ const path = require('path')
 
 module.exports = {
 	comments: {
-		comments: path.join(__dirname, 'apps/comments/src', 'comments.js'),
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
 		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
 		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
@@ -35,10 +34,11 @@ module.exports = {
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
-		profile: path.join(__dirname, 'core/src', 'profile.js'),
+		profile: path.join(__dirname, 'core/src', 'profile.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
+		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 	},
@@ -60,7 +60,7 @@ module.exports = {
 		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
 	},
 	files_reminders: {
-		main: path.join(__dirname, 'apps/files_reminders/src', 'main.ts'),
+		init: path.join(__dirname, 'apps/files_reminders/src', 'init.ts'),
 	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
@@ -90,6 +90,7 @@ module.exports = {
 		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src', 'main-admin-ai.js'),
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),
 		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
+		'vue-settings-admin-sharing': path.join(__dirname, 'apps/settings/src', 'admin-settings-sharing.ts'),
 		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
 		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
@@ -102,6 +103,7 @@ module.exports = {
 	},
 	systemtags: {
 		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
+		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),
 	},
 	theming: {
 		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),

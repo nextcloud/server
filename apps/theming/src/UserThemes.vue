@@ -23,7 +23,7 @@
 
 <template>
 	<section>
-		<NcSettingsSection :name="t('theming', 'Appearance and accessibility')"
+		<NcSettingsSection :name="t('theming', 'Appearance and accessibility settings')"
 			:limit-width="false"
 			class="theming">
 			<!-- eslint-disable-next-line vue/no-v-html -->
@@ -69,12 +69,13 @@
 			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
 			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="shortcutsDisabled"
-				name="shortcuts_disabled"
 				type="switch"
 				@change="changeShortcutsDisabled">
 				{{ t('theming', 'Disable all keyboard shortcuts') }}
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
+
+		<UserAppMenuSection />
 	</section>
 </template>
 
@@ -87,14 +88,13 @@ import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.
 
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
+import UserAppMenuSection from './components/UserAppMenuSection.vue'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
-
-console.debug('Available themes', availableThemes)
 
 export default {
 	name: 'UserThemes',
@@ -104,6 +104,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 		BackgroundSettings,
+		UserAppMenuSection,
 	},
 
 	data() {
