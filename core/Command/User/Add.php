@@ -205,6 +205,8 @@ class Add extends Command {
 				} catch (\Exception $e) {
 					$output->writeln('Unable to send the invitation mail to ' . $email);
 				}
+			} else {
+				$output->writeln(\sprintf('No mail sent because newUser.sendEmail is inactive, the temporary password is: %s', $password));
 			}
 		}
 
