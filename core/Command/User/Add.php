@@ -103,6 +103,19 @@ class Add extends Command {
 		$password = '';
 		$sendPasswordEmail = false;
 
+		$email = $input->getOption('email');
+		if (!empty($email)) {
+			if (!$this->mailer->validateMailAddress($email)) {
+				$output->writeln(\sprintf(
+					'<error>The given E-Mail address "%s" is invalid</error>',
+					$email,
+				));
+
+				return 1;
+			}
+		}
+
+		// Setup password.
 		if ($input->getOption('password-from-env')) {
 			$password = getenv('OC_PASS');
 
@@ -110,17 +123,7 @@ class Add extends Command {
 				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
 				return 1;
 			}
-		} elseif ($input->getOption('email') !== '') {
-			if (!$this->mailer->validateMailAddress($input->getOption(('email')))) {
-				$output->writeln(\sprintf(
-					'<error>The given E-Mail address "%s" is invalid</error>',
-					$input->getOption('email'),
-				));
-
-				return 1;
-			}
-
-			$output->writeln('Setting a temporary password.');
+		} elseif (!empty($email)) {
 
 			$passwordEvent = new GenerateSecurePasswordEvent();
 			$this->eventDispatcher->dispatchTyped($passwordEvent);
@@ -170,6 +173,10 @@ class Add extends Command {
 			$output->writeln('Display name set to "' . $user->getDisplayName() . '"');
 		}
 
+		if (!empty($email)) {
+			$user->setSystemEMailAddress($email);
+		}
+
 		$groups = $input->getOption('group');
 
 		if (!empty($groups)) {
@@ -195,8 +202,6 @@ class Add extends Command {
 
 		// Send email to user if we set a temporary password
 		if ($sendPasswordEmail) {
-			$email = $input->getOption('email');
-			$user->setSystemEMailAddress($email);
 
 			if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
 				try {
