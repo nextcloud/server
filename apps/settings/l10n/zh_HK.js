@@ -156,6 +156,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline." : "資料庫的有些欄位缺少 big int 格式轉換。因為欄位格式轉換需要一些時間，所以沒有自動轉換。您可以執行 \"occ db:convert-filecache-bigint\" 手動完成轉換，轉換時 Nextcloud 服務必須處於離線狀態。",
     "Debug mode" : "排除錯誤模式",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "此實例以除錯模式執行。僅在近端開發且非生產環境時才啟用這個。",
+    "Debug mode is disabled." : "排除錯誤模式已停用。",
     "Default phone region" : "默認電話區域",
     "Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add \"default_phone_region\" with the respective ISO 3166-1 code of the region to your config file." : "您的安裝尚未設置默認的電話號碼區域。這是在個人資料設定中驗證沒有國家代碼的電話號碼所必需的。要允許沒有有國家代碼的電話號碼，請在您的配置檔案添加「default_phone_region」並設置相應的 ISO 3166-1 區域代碼。",
     "Email test" : "電郵測試",
