@@ -35,7 +35,7 @@ if ! [ -x "$PHPUNIT" ]; then
 	if [ -x "$PWD/build/integration/vendor/phpunit/phpunit/phpunit" ]; then
 		PHPUNIT="$PWD/build/integration/vendor/phpunit/phpunit/phpunit"
 	else
-		echo "phpunit executable not found, please install phpunit version >= 9.6" >&2
+		echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
 		exit 3
 	fi
 fi
@@ -44,8 +44,8 @@ PHPUNIT_VERSION=$("$PHPUNIT" --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f2)
 
-if ! [ $PHPUNIT_MAJOR_VERSION -gt 9 -o \( $PHPUNIT_MAJOR_VERSION -eq 9 -a $PHPUNIT_MINOR_VERSION -ge 6 \) ]; then
-	echo "phpunit version >= 9.6 required. Version found: $PHPUNIT_VERSION" >&2
+if ! [ $PHPUNIT_MAJOR_VERSION -gt 9 -o \( $PHPUNIT_MAJOR_VERSION -eq 9 -a $PHPUNIT_MINOR_VERSION -ge 0 \) ]; then
+	echo "phpunit version >= 9.0 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
 
