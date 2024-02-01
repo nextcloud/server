@@ -1846,19 +1846,19 @@ class View {
 			[$storage, $internalPath] = $this->resolvePath($path);
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name is too long'));
 		} catch (InvalidDirectoryException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
 		} catch (EmptyFileNameException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
 		}
 	}
