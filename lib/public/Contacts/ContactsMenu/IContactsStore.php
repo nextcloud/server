@@ -30,8 +30,6 @@ use OCP\IUser;
  * @since 13.0.0
  */
 interface IContactsStore {
-
-
 	/**
 	 * @param IUser $user
 	 * @param string|null $filter

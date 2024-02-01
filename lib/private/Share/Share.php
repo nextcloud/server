@@ -50,7 +50,6 @@ use Psr\Log\LoggerInterface;
  *  - post_shared
  */
 class Share extends Constants {
-
 	/** CRUDS permissions (Create, Read, Update, Delete, Share) using a bitmask
 	 * Construct permissions for share() and setPermissions with Or (|) e.g.
 	 * Give user read and update permissions: PERMISSION_READ | PERMISSION_UPDATE
@@ -64,7 +63,7 @@ class Share extends Constants {
 	 * Apps are required to handle permissions on their own, this class only
 	 * stores and manages the permissions of shares
 	 *
-	 * @see lib/public/constants.php
+	 * @see lib/public/Constants.php
 	 */
 
 	/**
@@ -244,7 +243,7 @@ class Share extends Constants {
 	 *   * defacto $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-										 $parameters = null, $includeCollections = false) {
+		$parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE,
 			null, -1, $includeCollections);
 	}
@@ -350,8 +349,8 @@ class Share extends Constants {
 	 *   * defacto $limit, $itemsShareWithBySource, $checkExpireDate, $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItems($itemType, ?string $item = null, ?int $shareType = null, $shareWith = null,
-									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
-									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
+		$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
+		$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
 		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return [];
 		}
@@ -943,9 +942,9 @@ class Share extends Constants {
 	 * @return string
 	 */
 	public static function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
+		if (str_starts_with($url, 'https://')) {
 			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
+		} elseif (str_starts_with($url, 'http://')) {
 			return substr($url, strlen('http://'));
 		}
 

@@ -2,6 +2,7 @@
   - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -21,7 +22,7 @@
 
 <template>
 	<div class="guest-box login-box">
-		<div v-if="!hideLoginForm || directLogin">
+		<template v-if="!hideLoginForm || directLogin">
 			<transition name="fade" mode="out-in">
 				<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''">
 					<LoginForm :username.sync="user"
@@ -65,7 +66,7 @@
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
 					key="reset"
-					class="login-additional">
+					class="login-additional login-passwordless">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
@@ -73,9 +74,12 @@
 						:is-localhost="isLocalhost"
 						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
-					<a href="#" class="login-box__link" @click.prevent="passwordlessLogin = false">
+					<NcButton type="tertiary"
+						:aria-label="t('core', 'Back to login form')"
+						:wide="true"
+						@click="passwordlessLogin = false">
 						{{ t('core', 'Back') }}
-					</a>
+					</NcButton>
 				</div>
 				<div v-else-if="!loading && canResetPassword"
 					key="reset"
@@ -93,14 +97,14 @@
 						@done="passwordResetFinished" />
 				</div>
 			</transition>
-		</div>
-		<div v-else>
+		</template>
+		<template v-else>
 			<transition name="fade" mode="out-in">
 				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
 					{{ t('core', 'Please contact your administrator.') }}
 				</NcNoteCard>
 			</transition>
-		</div>
+		</template>
 
 		<div id="alternative-logins" class="alternative-logins">
 			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
@@ -109,8 +113,7 @@
 				:wide="true"
 				:class="[alternativeLogin.class]"
 				role="link"
-				:href="alternativeLogin.href"
-				@click="goTo(alternativeLogin.href)">
+				:href="alternativeLogin.href">
 				{{ alternativeLogin.name }}
 			</NcButton>
 		</div>
@@ -184,9 +187,6 @@ export default {
 			this.resetPasswordTarget = ''
 			this.directLogin = true
 		},
-		goTo(href) {
-			window.location.href = href
-		},
 	},
 }
 </script>
@@ -197,7 +197,9 @@ body {
 }
 
 .login-box {
-	width: 300px;
+	// Same size as dashboard panels
+	width: 320px;
+	box-sizing: border-box;
 
 	&__link {
 		display: block;
@@ -207,6 +209,7 @@ body {
 		font-weight: normal !important;
 	}
 }
+
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .3s;
 }
@@ -221,6 +224,12 @@ body {
 
 	.button-vue {
 		box-sizing: border-box;
+	}
+}
+
+.login-passwordless {
+	.button-vue {
+		margin-top: 0.5rem;
 	}
 }
 </style>

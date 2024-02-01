@@ -45,18 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Sijainnin asettamisessa tapahtui virhe.",
     "There was an error saving the mode." : "Tilan tallennuksessa tapahtui virhe.",
     "There was an error using personal address." : "Henkilökohtaisen osoitteen käytössä tapahtui virhe.",
-    "Set location for weather" : "Aseta sijainti säätiedoille",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Kirkas taivas klo {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Pilvistä klo {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Pilvetöntä klo {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Pilvetöntä {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Puolipilvistä klo {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Sumuista klo {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Kevyttä sadetta klo {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Sadetta klo {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Rankkasadetta klo {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Sadekuuroja klo {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Kevyitä sadekuuroja klo {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Rankkoja sadekuuroja klo {time}"
+    "Set location for weather" : "Aseta sijainti säätiedoille"
 },
 "nplurals=2; plural=(n != 1);");

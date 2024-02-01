@@ -37,8 +37,6 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface IIndexOptions {
-
-
 	/**
 	 * Get the value (as a string) for an option.
 	 *

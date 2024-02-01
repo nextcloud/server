@@ -8,20 +8,23 @@
 
 namespace Test\BackgroundJob;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ILogger;
 
 class JobTest extends \Test\TestCase {
 	private $run = false;
+	private ITimeFactory $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->run = false;
+		$this->timeFactory = \OC::$server->get(ITimeFactory::class);
 	}
 
 	public function testRemoveAfterException() {
 		$jobList = new DummyJobList();
 		$e = new \Exception();
-		$job = new TestJob($this, function () use ($e) {
+		$job = new TestJob($this->timeFactory, $this, function () use ($e) {
 			throw $e;
 		});
 		$jobList->add($job);
@@ -30,8 +33,7 @@ class JobTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$logger->expects($this->once())
-			->method('logException')
-			->with($e);
+			->method('error');
 
 		$this->assertCount(1, $jobList->getAll());
 		$job->execute($jobList, $logger);
@@ -41,7 +43,7 @@ class JobTest extends \Test\TestCase {
 
 	public function testRemoveAfterError() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this, function () {
+		$job = new TestJob($this->timeFactory, $this, function () {
 			$test = null;
 			$test->someMethod();
 		});
@@ -51,8 +53,7 @@ class JobTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$logger->expects($this->once())
-			->method('logException')
-			->with($this->isInstanceOf(\Throwable::class));
+			->method('error');
 
 		$this->assertCount(1, $jobList->getAll());
 		$job->execute($jobList, $logger);

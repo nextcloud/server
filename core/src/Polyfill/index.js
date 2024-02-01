@@ -20,8 +20,3 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import './console'
-import './closest'
-import './windows-phone'
-import 'focus-visible'

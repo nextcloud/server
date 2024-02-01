@@ -29,7 +29,6 @@ use OCP\Authentication\Exceptions\PasswordUnavailableException;
  * @since 12
  */
 interface ICredentials {
-
 	/**
 	 * Get the user UID
 	 *

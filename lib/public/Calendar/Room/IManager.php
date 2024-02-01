@@ -30,7 +30,6 @@ namespace OCP\Calendar\Room;
  * @deprecated 24.0.0
  */
 interface IManager {
-
 	/**
 	 * Registers a room backend
 	 *

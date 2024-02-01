@@ -79,7 +79,6 @@ class RouteConfig {
 	 * The routes and resource will be registered to the \OCP\Route\IRouter
 	 */
 	public function register() {
-
 		// parse simple
 		$this->processIndexRoutes($this->routes);
 

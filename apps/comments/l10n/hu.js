@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Hozzászólások",
     "You commented" : "Hozzászólt",
-    "%1$s commented" : "%1$s hozzászólt",
     "{author} commented" : "{author} hozzászólt",
     "You commented on %1$s" : "Hozzászólt ehhez: %1$s",
     "You commented on {file}" : "Hozzászólt ehhez: {file}",
@@ -17,18 +16,19 @@ OC.L10N.register(
     "Delete comment" : "Hozzászólás törlése",
     "Cancel edit" : "Változások elvetése",
     "Post comment" : "Hozzászólás közzététele",
+    "@ for mentions, : for emoji, / for smart picker" : "@ az említésekhez, : az emodzsikhoz, / az okos választóhoz",
+    "Could not reload comments" : "Nem sikerült a megjegyzések újratöltése.",
     "No comments yet, start the conversation!" : "Még nincsenek hozzászólások, kezdje el a beszélgetést!",
     "No more messages" : "Nincs több üzenet",
     "Retry" : "Újra",
+    "Failed to mark comments as read" : "A hozzászólások olvasottnak jelölése sikertelen",
     "Unable to load the comments list" : "A hozzászólások betöltése sikertelen",
-    "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"],
     "_1 new comment_::_{unread} new comments_" : ["1 új hozzászólás","{unread} új hozzászólás"],
     "Comment" : "Hozzászólás",
     "An error occurred while trying to edit the comment" : "Hiba történt a megjegyzés szerkesztése közben",
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
-    "{user} mentioned you in a comment on “{file}”" : "{user} megemlítette egy hozzászólásban ennél: „{file}”"
+    "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"]
 },
 "nplurals=2; plural=(n != 1);");

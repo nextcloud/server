@@ -33,11 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateConfig extends Command {
 	public const SUPPORTED_KEYS = [
-		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color'
-	];
-
-	public const SUPPORTED_IMAGE_KEYS = [
-		'background', 'logo', 'favicon', 'logoheader'
+		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'disable-user-theming'
 	];
 
 	private $themingDefaults;
@@ -87,14 +83,14 @@ class UpdateConfig extends Command {
 				$value = $this->config->getAppValue('theming', $key, '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
-			foreach (self::SUPPORTED_IMAGE_KEYS as $key) {
+			foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $key) {
 				$value = $this->config->getAppValue('theming', $key . 'Mime', '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
 			return 0;
 		}
 
-		if (!in_array($key, self::SUPPORTED_KEYS, true) && !in_array($key, self::SUPPORTED_IMAGE_KEYS, true)) {
+		if (!in_array($key, self::SUPPORTED_KEYS, true) && !in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
 			$output->writeln('<error>Invalid config key provided</error>');
 			return 1;
 		}
@@ -115,8 +111,13 @@ class UpdateConfig extends Command {
 			return 0;
 		}
 
-		if (in_array($key, self::SUPPORTED_IMAGE_KEYS, true)) {
-			if (strpos($value, '/') !== 0) {
+		if ($key === 'background' && $value === 'backgroundColor') {
+			$this->themingDefaults->undo($key);
+			$key = $key . 'Mime';
+		}
+
+		if (in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
+			if (!str_starts_with($value, '/')) {
 				$output->writeln('<error>The image file needs to be provided as an absolute path: ' . $value . '.</error>');
 				return 1;
 			}

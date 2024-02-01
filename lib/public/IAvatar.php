@@ -34,7 +34,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * @since 6.0.0
  */
 interface IAvatar {
-
 	/**
 	 * Get the users avatar
 	 *

@@ -29,11 +29,11 @@
 
 namespace OCA\Files_Sharing;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
@@ -44,7 +44,7 @@ use OCP\Share\Events\VerifyMountPointEvent;
 /**
  * Shared mount points can be moved by the user
  */
-class SharedMount extends MountPoint implements MoveableMount {
+class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	/**
 	 * @var \OCA\Files_Sharing\SharedStorage $storage
 	 */
@@ -104,7 +104,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 		array $mountpoints,
 		CappedMemoryCache $folderExistCache
 	) {
-		$cacheKey = $this->user->getUID() . '/' . $share->getTarget();
+		$cacheKey = $this->user->getUID() . '/' . $share->getId() . '/' . $share->getTarget();
 		$cached = $this->cache->get($cacheKey);
 		if ($cached !== null) {
 			return $cached;
@@ -117,8 +117,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 
-		if ($folderExistCache->hasKey($parent)) {
-			$parentExists = $folderExistCache->get($parent);
+		$cached = $folderExistCache->get($parent);
+		if ($cached) {
+			$parentExists = $cached;
 		} else {
 			$parentExists = $this->recipientView->is_dir($parent);
 			$folderExistCache->set($parent, $parentExists);
@@ -251,6 +252,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	public function getShare() {
 		return $this->superShare;
+	}
+
+	/**
+	 * @return \OCP\Share\IShare[]
+	 */
+	public function getGroupedShares(): array {
+		return $this->groupedShares;
 	}
 
 	/**

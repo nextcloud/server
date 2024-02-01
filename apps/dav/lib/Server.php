@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -10,6 +11,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -63,6 +65,7 @@ use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\LazySearchBackend;
@@ -70,9 +73,12 @@ use OCA\DAV\Profiler\ProfilerPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
+use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\SabrePluginEvent;
@@ -99,15 +105,16 @@ class Server {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->get(LoggerInterface::class);
-		$dispatcher = \OC::$server->getEventDispatcher();
-		/** @var IEventDispatcher $newDispatcher */
-		$newDispatcher = \OC::$server->query(IEventDispatcher::class);
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
+
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\AppleQuirksPlugin());
 
 		// Backends
 		$authBackend = new Auth(
@@ -134,7 +141,7 @@ class Server {
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
 
 		$newAuthEvent = new SabrePluginAuthInitEvent($this->server);
-		$newDispatcher->dispatchTyped($newAuthEvent);
+		$dispatcher->dispatchTyped($newAuthEvent);
 
 		$bearerAuthBackend = new BearerAuth(
 			\OC::$server->getUserSession(),
@@ -170,14 +177,16 @@ class Server {
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), $logger));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
-			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
+			if (\OC::$server->getConfig()->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes') {
+				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
+			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
@@ -201,11 +210,7 @@ class Server {
 		}
 
 		// system tags plugins
-		$this->server->addPlugin(new SystemTagPlugin(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserSession()
-		));
+		$this->server->addPlugin(\OC::$server->get(SystemTagPlugin::class));
 
 		// comments plugin
 		$this->server->addPlugin(new CommentsPlugin(
@@ -215,10 +220,13 @@ class Server {
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
+		$this->server->addPlugin(new ChunkingV2Plugin(\OCP\Server::get(ICacheFactory::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
 
 		// allow setup of additional plugins
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+		$typedEvent = new SabrePluginAddEvent($this->server);
+		$dispatcher->dispatchTyped($typedEvent);
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
@@ -310,7 +318,8 @@ class Server {
 						$user,
 						\OC::$server->getRootFolder(),
 						\OC::$server->getShareManager(),
-						$view
+						$view,
+						\OCP\Server::get(IFilesMetadataManager::class)
 					));
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
@@ -321,7 +330,8 @@ class Server {
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->query(BirthdayService::class),
+					$user
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->getUserSession(),
@@ -369,10 +379,11 @@ class Server {
 	private function requestIsForSubtree(array $subTrees): bool {
 		foreach ($subTrees as $subTree) {
 			$subTree = trim($subTree, ' /');
-			if (strpos($this->server->getRequestUri(), $subTree.'/') === 0) {
+			if (str_starts_with($this->server->getRequestUri(), $subTree . '/')) {
 				return true;
 			}
 		}
 		return false;
 	}
+
 }

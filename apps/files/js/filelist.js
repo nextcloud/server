@@ -173,7 +173,8 @@
 		_filter: '',
 
 		/**
-		 * @type Backbone.Model
+		 * @type UserConfig
+		 * @see /apps/files/lib/Service/UserConfig.php
 		 */
 		_filesConfig: undefined,
 
@@ -252,10 +253,7 @@
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			} else {
-				this._filesConfig = new OC.Backbone.Model({
-					'showhidden': false,
-					'cropimagepreviews': true
-				});
+				this._filesConfig = OCP.InitialState.loadState('files', 'config', {})
 			}
 
 			if (options.dragOptions) {
@@ -281,25 +279,29 @@
 			this.$header = $el.find('.filelist-header');
 			this.$footer = $el.find('.filelist-footer');
 
-			if (!_.isUndefined(this._filesConfig)) {
-				this._filesConfig.on('change:showhidden', function() {
-					var showHidden = this.get('showhidden');
-					self.$el.toggleClass('hide-hidden-files', !showHidden);
+			// Legacy mapper for new vue components
+			window._nc_event_bus.subscribe('files:config:updated', ({ key, value }) => {
+				// Replace existing config with new one
+				Object.assign(this._filesConfig, { [key]: value })
+
+				if (key === 'show_hidden') {
+					self.$el.toggleClass('hide-hidden-files', !value);
 					self.updateSelectionSummary();
 
-					if (!showHidden) {
-						// hiding files could make the page too small, need to try rendering next page
+					// hiding files could make the page too small, need to try rendering next page
+					if (!value) {
 						self._onScroll();
 					}
-				});
-
-				this._filesConfig.on('change:cropimagepreviews', function() {
+				}
+				if (key === 'crop_image_previews') {
 					self.reload();
-				});
+				}
+			})
 
-				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
+			var config = OCP.InitialState.loadState('files', 'config', {})
+			if (config.show_hidden === false) {
+				this.$el.addClass('hide-hidden-files');
 			}
-
 
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
@@ -381,6 +383,9 @@
 				}
 			});
 
+			window._nc_event_bus.subscribe('files_sharing:share:created', () => { self.reload(true) });
+			window._nc_event_bus.subscribe('files_sharing:share:deleted', () => { self.reload(true) });
+
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
 			this.$fileList.on("droppedOnFavorites", function (event, file) {
@@ -413,7 +418,7 @@
 				this._setCurrentDir(options.dir || '/', false);
 			}
 
-			if(options.openFile) {
+			if (options.openFile) {
 				// Wait for some initialisation process to be over before triggering the default action.
 				_.defer(() => {
 					try {
@@ -431,7 +436,9 @@
 							OCA.Files.Files.handleDownload(url);
 						}
 
-						OCA.Files.Sidebar.open(fileInfo.path);
+						if (document.documentElement.clientWidth > 1024) {
+							OCA.Files.Sidebar.open(fileInfo.path);
+						}
 					} catch (error) {
 						console.error(`Failed to trigger default action on the file for URL: ${location.href}`, error)
 					}
@@ -659,7 +666,7 @@
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
-			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
+			OC.debug && console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
 				OCA.Files.Sidebar.setActiveTab(tabId);
@@ -700,8 +707,10 @@
 			tr.addClass('highlighted');
 			this._currentFileModel = model;
 
+			const secondaryActionsOpen = Boolean(tr.find('.actions-secondary-vue').length)
+
 			// open sidebar and set file
-			if (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== '')) {
+			if (!secondaryActionsOpen && (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== ''))) {
 				OCA.Files.Sidebar.open(path.replace('//', '/'))
 			}
 		},
@@ -755,16 +764,13 @@
 		 */
 		_onShow: function(e) {
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
-			if (this.shown) {
-				if (e.itemId === this.id) {
-					this._setCurrentDir('/', false);
-				}
-				// Only reload if we don't navigate to a different directory
-				if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
-					this.reload();
-				}
+			if (e.itemId === this.id) {
+				this._setCurrentDir('/', false);
 			}
-			this.shown = true;
+			// Only reload if we don't navigate to a different directory
+			if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
+				this.reload();
+			}
 		},
 
 		/**
@@ -976,6 +982,8 @@
 			// Select only visible checkboxes to filter out unmatched file in search
 			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
+			// For prevents the selection of encrypted folders when clicking on the "Select all" checkbox
+			this.$fileList.find('tr[data-e2eencrypted="true"]').find('td.selection > .selectCheckBox:visible').prop('checked', false).closest('tr').toggleClass('selected', false);
 
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
@@ -984,7 +992,7 @@
 					var fileData = this.files[i];
 					var fileRow = this.$fileList.find('tr[data-id=' + fileData.id + ']');
 					// do not select already selected ones
-					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
+					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id]) && (!fileData.isEncrypted)) {
 						this._selectedFiles[fileData.id] = fileData;
 						this._selectionSummary.add(fileData);
 					}
@@ -1405,7 +1413,7 @@
 				fileData,
 				newTrs = [],
 				isAllSelected = this.isAllSelected(),
-				showHidden = this._filesConfig.get('showhidden');
+				showHidden = this._filesConfig.show_hidden;
 
 			if (index >= this.files.length) {
 				return false;
@@ -1423,6 +1431,10 @@
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
 					tr.find('.selectCheckBox').prop('checked', true);
+				}
+				if (tr.attr('data-e2eencrypted') === 'true') {
+    					tr.toggleClass('selected', false);
+    					tr.find('td.selection > .selectCheckBox:visible').prop('checked', false);
 				}
 				if (animate) {
 					tr.addClass('appear transparent');
@@ -1786,7 +1798,7 @@
 
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
-				simpleSize = OC.Util.humanFileSize(parseInt(fileData.size, 10), true);
+				simpleSize = OC.Util.humanFileSize(parseInt(fileData.size, 10), true, false);
 				// rgb(118, 118, 118) / #767676
 				// min. color contrast for normal text on white background according to WCAG AA
 				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)), 2));
@@ -1850,9 +1862,7 @@
 				"title": formatted,
 				"data-timestamp": mtime,
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
-			}).text(text)
-			  .tooltip({placement: 'top'})
-			);
+			}).text(text));
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;
@@ -2176,8 +2186,10 @@
 
 			if (persist && OC.getCurrentUser().uid) {
 				$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
-					mode: sort,
-					direction: direction
+					// Compatibility with new files-to-vue API
+					mode: sort === 'name' ? 'basename' : sort,
+					direction: direction,
+					view: 'files'
 				});
 			}
 		},
@@ -2194,7 +2206,7 @@
 		 *
 		 * @return ajax call object
 		 */
-		reload: function() {
+		reload: function(keepOpen) {
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
 			if (this._currentFileModel) {
@@ -2209,7 +2221,7 @@
 					properties: this._getWebdavProperties()
 				}
 			);
-			if (this._detailsView) {
+			if (this._detailsView && !keepOpen) {
 				// close sidebar
 				this._updateDetailsView(null);
 			}
@@ -2367,7 +2379,7 @@
 			 * Images are cropped to a square by default. Append a=1 to the URL
 			 *  if the user wants to see images with original aspect ratio.
 			 */
-			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
+			urlSpec.a = this._filesConfig.crop_image_previews ? 0 : 1;
 
 			if (typeof urlSpec.fileId !== 'undefined') {
 				delete urlSpec.file;
@@ -2597,7 +2609,7 @@
 							var oldSize = oldFile.data('size');
 							var newSize = oldSize + newFile.data('size');
 							oldFile.data('size', newSize);
-							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize, false, false));
 
 							self.remove(fileName);
 						}
@@ -2740,7 +2752,7 @@
 							var oldSize = oldFile.data('size');
 							var newSize = oldSize + newFile.data('size');
 							oldFile.data('size', newSize);
-							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize, false, false));
 						}
 						self.reload();
 					})
@@ -2808,12 +2820,23 @@
 		},
 
 		openLocalClient: function(path) {
-			var scheme = 'nc://';
-			var command = 'open';
-			var uid = OC.getCurrentUser().uid;
-			var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
+			var link = OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json';
 
-			window.location.href = url;
+			$.post(link, {
+				path
+			})
+				.success(function(result) {
+					var scheme = 'nc://';
+					var command = 'open';
+					var uid = OC.getCurrentUser().uid;
+					var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
+					url += '?token=' + result.ocs.data.token;
+
+					window.location.href = url;
+				})
+				.fail(function() {
+					OC.Notification.show(t('files', 'Failed to redirect to client'))
+				})
 		},
 
 		/**
@@ -2876,7 +2899,6 @@
 			};
 
 			function restore() {
-				input.tooltip('hide');
 				tr.data('renaming',false);
 				form.remove();
 				td.children('a.name').children(':not(.thumbnail-wrapper)').show();
@@ -2897,7 +2919,6 @@
 
 				try {
 					var newName = input.val().trim();
-					input.tooltip('hide');
 					form.remove();
 
 					if (newName !== oldName) {
@@ -2957,9 +2978,6 @@
 					}
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('_fixTitle');
-					input.tooltip('show');
 					input.addClass('error');
 				}
 				return false;
@@ -2968,13 +2986,9 @@
 				// verify filename on typing
 				try {
 					checkInput();
-					input.tooltip('hide');
 					input.removeClass('error');
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('_fixTitle');
-					input.tooltip('show');
 					input.addClass('error');
 				}
 				if (event.keyCode === 27) {
@@ -3289,7 +3303,7 @@
 
 			this.$el.find('tfoot').append($tr);
 
-			return new OCA.Files.FileSummary($tr, {config: this._filesConfig});
+			return new OCA.Files.FileSummary($tr, { config: this._filesConfig });
 		},
 		updateEmptyContent: function() {
 			var permissions = this.getDirectoryPermissions();
@@ -3335,7 +3349,9 @@
 			}
 			if (file.length === 1) {
 				_.defer(function() {
-					this.showDetailsView(file[0]);
+					if (document.documentElement.clientWidth > 1024) {
+						this.showDetailsView(file[0]);
+					}
 				}.bind(this));
 			}
 			this.highlightFiles(file, function($tr) {
@@ -3437,7 +3453,7 @@
 			var summary = this._selectionSummary.summary;
 			var selection;
 
-			var showHidden = !!this._filesConfig.get('showhidden');
+			var showHidden = !!this._filesConfig.show_hidden;
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 				this.$el.find('.column-name a.name>span:first').text(t('files','Name'));
 				this.$el.find('.column-size a>span:first').text(t('files','Size'));
@@ -3447,7 +3463,7 @@
 			}
 			else {
 				this.$el.find('.selectedActions').removeClass('hidden');
-				this.$el.find('.column-size a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
+				this.$el.find('.column-size a>span:first').text(OC.Util.humanFileSize(summary.totalSize, false, false));
 
 				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
@@ -3830,12 +3846,12 @@
 				return;
 			}
 			var $newButton = $(OCA.Files.Templates['template_addbutton']({
-				addText: t('files', 'New file/folder menu'),
+				addText: t('files', 'New'),
+				addLongText: t('files', 'New file/folder menu'),
 				iconClass: 'icon-add',
 			}));
 
 			$actionsContainer.prepend($newButton);
-			$newButton.tooltip({'placement': 'bottom'});
 			$newButton.attr('aria-expanded', 'false');
 			$newButton.click(_.bind(this._onClickNewButton, this));
 			this._newButton = $newButton;
@@ -3846,7 +3862,6 @@
 			if (!$target.hasClass('.button')) {
 				$target = $target.closest('.button');
 			}
-			this._newButton.tooltip('hide');
 			$target.attr('aria-expanded', 'true');
 			event.preventDefault();
 			if ($target.hasClass('disabled')) {
@@ -3856,7 +3871,7 @@
 				this._newFileMenu = new OCA.Files.NewFileMenu({
 					fileList: this
 				});
-				$('.actions').append(this._newFileMenu.$el);
+				this.$el.find('.files-controls .actions').append(this._newFileMenu.$el);
 			}
 			this._newFileMenu.showAt($target);
 
@@ -3867,7 +3882,7 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
+			OC.debug && console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
 				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
@@ -3893,7 +3908,7 @@
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
+			OC.debug && console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
 			if (detailView.el) {
 				OCA.Files.Sidebar.registerSecondaryView(detailView)
 			}

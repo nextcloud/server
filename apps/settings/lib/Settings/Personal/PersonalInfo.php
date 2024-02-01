@@ -36,6 +36,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Personal;
 
+use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -51,7 +52,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OC\Profile\ProfileManager;
 use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
@@ -138,7 +138,6 @@ class PersonalInfo implements ISettings {
 		$messageParameters = $this->getMessageParameters($account);
 
 		$parameters = [
-			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
@@ -155,9 +154,11 @@ class PersonalInfo implements ISettings {
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
 			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
+			'defaultPhoneRegion' => $this->config->getSystemValueString('default_phone_region'),
 			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
 			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
+			'fediverse' => $this->getProperty($account, IAccountManager::PROPERTY_FEDIVERSE),
 			'languageMap' => $this->getLanguageMap($user),
 			'localeMap' => $this->getLocaleMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
@@ -171,6 +172,7 @@ class PersonalInfo implements ISettings {
 		$accountParameters = [
 			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 
@@ -331,8 +333,8 @@ class PersonalInfo implements ISettings {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) === 0));
-		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) !== 0));
+		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => str_starts_with($localeCode['code'], $userLang)));
+		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => !str_starts_with($localeCode['code'], $userLang)));
 
 		if (!$userLocale) {
 			$userLocale = [

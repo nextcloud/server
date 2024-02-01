@@ -80,7 +80,6 @@ class QBTestMapper extends QBMapper {
  * @package Test\AppFramework\Db
  */
 class QBMapperTest extends \Test\TestCase {
-
 	/**
 	 * @var \PHPUnit\Framework\MockObject\MockObject|IDBConnection
 	 */

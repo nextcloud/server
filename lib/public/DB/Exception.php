@@ -39,7 +39,6 @@ use Exception as BaseException;
  * @since 21.0.0
  */
 class Exception extends BaseException {
-
 	/**
 	 * Nextcloud lost connection to the database
 	 *
@@ -111,7 +110,7 @@ class Exception extends BaseException {
 	public const REASON_NON_UNIQUE_FIELD_NAME = 10;
 
 	/**
-	 * A not null contraint was violated
+	 * A not null constraint was violated
 	 *
 	 * @since 21.0.0
 	 */

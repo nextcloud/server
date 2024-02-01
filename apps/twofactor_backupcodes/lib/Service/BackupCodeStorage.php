@@ -52,9 +52,9 @@ class BackupCodeStorage {
 	private $eventDispatcher;
 
 	public function __construct(BackupCodeMapper $mapper,
-								ISecureRandom $random,
-								IHasher $hasher,
-								IEventDispatcher $eventDispatcher) {
+		ISecureRandom $random,
+		IHasher $hasher,
+		IEventDispatcher $eventDispatcher) {
 		$this->mapper = $mapper;
 		$this->hasher = $hasher;
 		$this->random = $random;

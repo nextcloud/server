@@ -63,7 +63,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -85,7 +85,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->backgroundJob->run(['userId' => 'user123']);
 	}
 
-	public function testRunAndReset() {
+	public function testRunAndReset(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -107,7 +107,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->backgroundJob->run(['userId' => 'user123', 'purgeBeforeGenerating' => true]);
 	}
 
-	public function testRunGloballyDisabled() {
+	public function testRunGloballyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -122,7 +122,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->backgroundJob->run(['userId' => 'user123']);
 	}
 
-	public function testRunUserDisabled() {
+	public function testRunUserDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')

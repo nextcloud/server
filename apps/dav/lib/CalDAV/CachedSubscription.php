@@ -28,7 +28,6 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
-use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
@@ -38,7 +37,7 @@ use Sabre\DAV\PropPatch;
  * Class CachedSubscription
  *
  * @package OCA\DAV\CalDAV
- * @property BackendInterface|CalDavBackend $caldavBackend
+ * @property CalDavBackend $caldavBackend
  */
 class CachedSubscription extends \Sabre\CalDAV\Calendar {
 
@@ -112,7 +111,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 		return parent::getOwner();
 	}
 
-	
+
 	public function delete() {
 		$this->caldavBackend->deleteSubscription($this->calendarInfo['id']);
 	}
@@ -170,11 +169,11 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 
 	/**
 	 * @param string $name
-	 * @param null|resource|string $calendarData
+	 * @param null|resource|string $data
 	 * @return null|string
 	 * @throws MethodNotAllowed
 	 */
-	public function createFile($name, $calendarData = null) {
+	public function createFile($name, $data = null) {
 		throw new MethodNotAllowed('Creating objects in cached subscription is not allowed');
 	}
 

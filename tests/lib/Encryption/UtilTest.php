@@ -4,8 +4,6 @@ namespace Test\Encryption;
 
 use OC\Encryption\Util;
 use OC\Files\View;
-use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -13,7 +11,6 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
-
 	/**
 	 * block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
@@ -182,42 +179,30 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	public function dataTestIsSystemWideMountPoint() {
-		return [
-			[false, 'non-matching mount point name', [], [], '/mp_another'],
-			[true, 'applicable to all', [], []],
-			[true, 'applicable to user directly', ['user1'], []],
-			[true, 'applicable to group directly', [], ['group1']],
-			[false, 'non-applicable to current user', ['user2'], []],
-			[false, 'non-applicable to current user\'s group', [], ['group2']],
-			[true, 'mount point without leading slash', [], [], 'mp'],
-		];
+	/**
+	 * @dataProvider dataTestParseRawHeader
+	 */
+	public function testParseRawHeader($rawHeader, $expected) {
+		$result = $this->util->parseRawHeader($rawHeader);
+		$this->assertSameSize($expected, $result);
+		foreach ($result as $key => $value) {
+			$this->assertArrayHasKey($key, $expected);
+			$this->assertSame($expected[$key], $value);
+		}
 	}
 
-	/**
-	 * @dataProvider dataTestIsSystemWideMountPoint
-	 */
-	public function testIsSystemWideMountPoint($expectedResult, $expectationText, $applicableUsers, $applicableGroups, $mountPointName = '/mp') {
-		$this->groupManager->method('isInGroup')
-			 ->will($this->returnValueMap([
-			 	['user1', 'group1', true], // user is only in group1
-			 	['user1', 'group2', false],
-			 ]));
-
-		$storages = [];
-
-		$storageConfig = $this->createMock(StorageConfig::class);
-		$storageConfig->method('getMountPoint')->willReturn($mountPointName);
-		$storageConfig->method('getApplicableUsers')->willReturn($applicableUsers);
-		$storageConfig->method('getApplicableGroups')->willReturn($applicableGroups);
-		$storages[] = $storageConfig;
-
-		$storagesServiceMock = $this->createMock(GlobalStoragesService::class);
-		$storagesServiceMock->expects($this->atLeastOnce())->method('getAllStorages')
-			->willReturn($storages);
-
-		$this->overwriteService(GlobalStoragesService::class, $storagesServiceMock);
-
-		$this->assertEquals($expectedResult, $this->util->isSystemWideMountPoint('/files/mp', 'user1'), 'Test case: ' . $expectationText);
+	public function dataTestParseRawHeader() {
+		return [
+			[str_pad('HBEGIN:oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, [Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
+			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, ['custom_header' => 'foo', Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
+			[str_pad('HelloWorld', $this->headerSize, '-', STR_PAD_RIGHT), []],
+			['', []],
+			[str_pad('HBEGIN:oc_encryption_module:0', $this->headerSize, '-', STR_PAD_RIGHT)
+				, []],
+			[str_pad('oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, []],
+		];
 	}
 }

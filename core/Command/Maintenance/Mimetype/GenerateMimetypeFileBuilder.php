@@ -30,17 +30,15 @@ namespace OC\Core\Command\Maintenance\Mimetype;
 class GenerateMimetypeFileBuilder {
 	/**
 	 * Generate mime type list file
-	 * @param $aliases
+	 *
+	 * @param array $aliases
 	 * @return string
 	 */
 	public function generateFile(array $aliases): string {
 		// Remove comments
-		$keys = array_filter(array_keys($aliases), function ($k) {
-			return $k[0] === '_';
-		});
-		foreach ($keys as $key) {
-			unset($aliases[$key]);
-		}
+		$aliases = array_filter($aliases, static function ($key) {
+			return !($key === '' || $key[0] === '_');
+		}, ARRAY_FILTER_USE_KEY);
 
 		// Fetch all files
 		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');

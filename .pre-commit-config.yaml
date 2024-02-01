@@ -13,5 +13,5 @@ repos:
   - id: php-lint
   - id: php-cs-fixer
     files: \.(php)$
-    exclude: ^(config|data|composer)
+    exclude: ^(config|data|composer|lib\/composer)
     args: []

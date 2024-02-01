@@ -31,7 +31,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddBruteForceCleanupJob implements IRepairStep {
-
 	/** @var IJobList */
 	protected $jobList;
 

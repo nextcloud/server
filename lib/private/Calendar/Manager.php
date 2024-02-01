@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,7 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -45,37 +47,22 @@ use function array_map;
 use function array_merge;
 
 class Manager implements IManager {
-
 	/**
 	 * @var ICalendar[] holds all registered calendars
 	 */
-	private $calendars = [];
+	private array $calendars = [];
 
 	/**
 	 * @var \Closure[] to call to load/register calendar providers
 	 */
-	private $calendarLoaders = [];
+	private array $calendarLoaders = [];
 
-	/** @var Coordinator */
-	private $coordinator;
-
-	/** @var ContainerInterface */
-	private $container;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	private ITimeFactory $timeFactory;
-
-
-	public function __construct(Coordinator $coordinator,
-								ContainerInterface $container,
-								LoggerInterface $logger,
-								ITimeFactory $timeFactory) {
-		$this->coordinator = $coordinator;
-		$this->container = $container;
-		$this->logger = $logger;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		private Coordinator $coordinator,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
+	) {
 	}
 
 	/**
@@ -91,7 +78,13 @@ class Manager implements IManager {
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
-	public function search($pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null) {
+	public function search(
+		$pattern,
+		array $searchProperties = [],
+		array $options = [],
+		$limit = null,
+		$offset = null,
+	): array {
 		$this->loadCalendars();
 		$result = [];
 		foreach ($this->calendars as $calendar) {
@@ -111,29 +104,25 @@ class Manager implements IManager {
 	 * @return bool true if enabled, false if not
 	 * @since 13.0.0
 	 */
-	public function isEnabled() {
+	public function isEnabled(): bool {
 		return !empty($this->calendars) || !empty($this->calendarLoaders);
 	}
 
 	/**
 	 * Registers a calendar
 	 *
-	 * @param ICalendar $calendar
-	 * @return void
 	 * @since 13.0.0
 	 */
-	public function registerCalendar(ICalendar $calendar) {
+	public function registerCalendar(ICalendar $calendar): void {
 		$this->calendars[$calendar->getKey()] = $calendar;
 	}
 
 	/**
 	 * Unregisters a calendar
 	 *
-	 * @param ICalendar $calendar
-	 * @return void
 	 * @since 13.0.0
 	 */
-	public function unregisterCalendar(ICalendar $calendar) {
+	public function unregisterCalendar(ICalendar $calendar): void {
 		unset($this->calendars[$calendar->getKey()]);
 	}
 
@@ -141,19 +130,18 @@ class Manager implements IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * calendars are actually requested
 	 *
-	 * @param \Closure $callable
-	 * @return void
 	 * @since 13.0.0
 	 */
-	public function register(\Closure $callable) {
+	public function register(\Closure $callable): void {
 		$this->calendarLoaders[] = $callable;
 	}
 
 	/**
 	 * @return ICalendar[]
+	 *
 	 * @since 13.0.0
 	 */
-	public function getCalendars() {
+	public function getCalendars(): array {
 		$this->loadCalendars();
 
 		return array_values($this->calendars);
@@ -161,10 +149,10 @@ class Manager implements IManager {
 
 	/**
 	 * removes all registered calendar instances
-	 * @return void
+	 *
 	 * @since 13.0.0
 	 */
-	public function clear() {
+	public function clear(): void {
 		$this->calendars = [];
 		$this->calendarLoaders = [];
 	}
@@ -172,7 +160,7 @@ class Manager implements IManager {
 	/**
 	 * loads all calendars
 	 */
-	private function loadCalendars() {
+	private function loadCalendars(): void {
 		foreach ($this->calendarLoaders as $callable) {
 			$callable($this);
 		}
@@ -180,8 +168,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $principalUri
-	 * @param array $calendarUris
 	 * @return ICreateFromString[]
 	 */
 	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array {
@@ -239,11 +225,25 @@ class Manager implements IManager {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function handleIMipReply(string $principalUri, string $sender, string $recipient, string $calendarData): bool {
-		/** @var VCalendar $vObject */
+	public function handleIMipReply(
+		string $principalUri,
+		string $sender,
+		string $recipient,
+		string $calendarData,
+	): bool {
+		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
 
 		// First, we check if the correct method is passed to us
 		if (strcasecmp('REPLY', $vObject->{'METHOD'}->getValue()) !== 0) {
@@ -280,7 +280,7 @@ class Manager implements IManager {
 		// Drawback: attendees that have been deleted will still be able to update their partstat
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
-			if ($calendar instanceof ICreateFromString) {
+			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
 				if (!empty($o)) {
 					$found = $calendar;
@@ -308,10 +308,26 @@ class Manager implements IManager {
 	 * @since 25.0.0
 	 * @throws \OCP\DB\Exception
 	 */
-	public function handleIMipCancel(string $principalUri, string $sender, ?string $replyTo, string $recipient, string $calendarData): bool {
+	public function handleIMipCancel(
+		string $principalUri,
+		string $sender,
+		?string $replyTo,
+		string $recipient,
+		string $calendarData,
+	): bool {
+		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
 
 		// First, we check if the correct method is passed to us
 		if (strcasecmp('CANCEL', $vObject->{'METHOD'}->getValue()) !== 0) {
@@ -358,7 +374,7 @@ class Manager implements IManager {
 		// Drawback: attendees that have been deleted will still be able to update their partstat
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
-			if ($calendar instanceof ICreateFromString) {
+			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($recipient, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
 				if (!empty($o)) {
 					$found = $calendar;

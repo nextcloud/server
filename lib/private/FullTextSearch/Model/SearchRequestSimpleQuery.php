@@ -37,8 +37,6 @@ use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
  * @package OC\FullTextSearch\Model
  */
 final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonSerializable {
-
-
 	/** @var int */
 	private $type = 0;
 

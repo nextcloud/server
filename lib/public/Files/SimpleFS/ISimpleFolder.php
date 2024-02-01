@@ -80,4 +80,21 @@ interface ISimpleFolder {
 	 * @since 11.0.0
 	 */
 	public function getName(): string;
+
+	/**
+	 * Get the folder named $name from the current folder
+	 *
+	 * @throws NotFoundException
+	 * @since 25.0.0
+	 */
+	public function getFolder(string $name): ISimpleFolder;
+
+	/**
+	 * Creates a new folder with $name in the current folder
+	 *
+	 * @param string|resource|null $content @since 19.0.0
+	 * @throws NotPermittedException
+	 * @since 25.0.0
+	 */
+	public function newFolder(string $path): ISimpleFolder;
 }

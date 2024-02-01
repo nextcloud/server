@@ -33,7 +33,6 @@ use Closure;
  * @since 20.0.0
  */
 interface IInitialState {
-
 	/**
 	 * Allows an app to provide its initial state to the template system.
 	 * Use this if you know your initial state sill be used for example if

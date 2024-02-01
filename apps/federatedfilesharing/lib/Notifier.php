@@ -102,15 +102,12 @@ class Notifier implements INotifier {
 				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 
 				$params = $notification->getSubjectParameters();
+				$displayName = (count($params) > 3) ? $params[3] : '';
 				if ($params[0] !== $params[1] && $params[1] !== null) {
-					$remoteInitiator = $this->createRemoteUser($params[0]);
+					$remoteInitiator = $this->createRemoteUser($params[0], $displayName);
 					$remoteOwner = $this->createRemoteUser($params[1]);
 					$params[3] = $remoteInitiator['name'] . '@' . $remoteInitiator['server'];
 					$params[4] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
-
-					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
-					);
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
@@ -125,13 +122,8 @@ class Notifier implements INotifier {
 						]
 					);
 				} else {
-					$remoteOwner = $this->createRemoteUser($params[0]);
+					$remoteOwner = $this->createRemoteUser($params[0], $displayName);
 					$params[3] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
-
-					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
-					);
-
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user}'),
@@ -175,19 +167,21 @@ class Notifier implements INotifier {
 
 	/**
 	 * @param string $cloudId
+	 * @param string $displayName - overwrite display name
+	 *
 	 * @return array
 	 */
-	protected function createRemoteUser($cloudId, $displayName = null) {
+	protected function createRemoteUser(string $cloudId, string $displayName = '') {
 		try {
 			$resolvedId = $this->cloudIdManager->resolveCloudId($cloudId);
-			if ($displayName === null) {
+			if ($displayName === '') {
 				$displayName = $this->getDisplayName($resolvedId);
 			}
 			$user = $resolvedId->getUser();
 			$server = $resolvedId->getRemote();
 		} catch (HintException $e) {
 			$user = $cloudId;
-			$displayName = $cloudId;
+			$displayName = ($displayName !== '') ? $displayName : $cloudId;
 			$server = '';
 		}
 
@@ -208,9 +202,9 @@ class Notifier implements INotifier {
 	protected function getDisplayName(ICloudId $cloudId): string {
 		$server = $cloudId->getRemote();
 		$user = $cloudId->getUser();
-		if (strpos($server, 'http://') === 0) {
+		if (str_starts_with($server, 'http://')) {
 			$server = substr($server, strlen('http://'));
-		} elseif (strpos($server, 'https://') === 0) {
+		} elseif (str_starts_with($server, 'https://')) {
 			$server = substr($server, strlen('https://'));
 		}
 

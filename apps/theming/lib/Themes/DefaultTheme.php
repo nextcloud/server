@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -34,34 +35,46 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Server;
 
 class DefaultTheme implements ITheme {
 	use CommonThemeTrait;
 
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
+	public IUserSession $userSession;
 	public IURLGenerator $urlGenerator;
 	public ImageManager $imageManager;
 	public IConfig $config;
 	public IL10N $l;
+	public IAppManager $appManager;
 
+	public string $defaultPrimaryColor;
 	public string $primaryColor;
 
 	public function __construct(Util $util,
-								ThemingDefaults $themingDefaults,
-								IURLGenerator $urlGenerator,
-								ImageManager $imageManager,
-								IConfig $config,
-								IL10N $l) {
+		ThemingDefaults $themingDefaults,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		ImageManager $imageManager,
+		IConfig $config,
+		IL10N $l,
+		IAppManager $appManager) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
+		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->imageManager = $imageManager;
 		$this->config = $config;
 		$this->l = $l;
+		$this->appManager = $appManager;
 
+		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
+
+		// Override primary colors (if set) to improve accessibility
+		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
+			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
+		}
 	}
 
 	public function getId(): string {
@@ -91,13 +104,17 @@ class DefaultTheme implements ITheme {
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
+		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
+		$colorTextMaxcontrast = '#6b6b6b'; // 4.5 : 1 for hover background and background dark
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
-		$hasCustomPrimaryColour = !empty($this->config->getAppValue(Application::APP_ID, 'color'));
+		$colorError = '#DB0606';
+		$colorWarning = '#A37200';
+		$colorSuccess = '#2d7b41';
+		$colorInfo = '#0071ad';
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -119,22 +136,31 @@ class DefaultTheme implements ITheme {
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $colorMainText,
-			'--color-text-maxcontrast' => $this->util->lighten($colorMainText, 33),
-			'--color-text-light' => $colorMainText,
-			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
+			'--color-text-maxcontrast' => $colorTextMaxcontrast,
+			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
+			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
+			'--color-text-light' => 'var(--color-main-text)', // deprecated
+			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 
-			// info/warning/success feedback colours
-			'--color-error' => '#e9322d',
-			'--color-error-rgb' => join(',', $this->util->hexToRGB('#e9322d')),
-			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
-			'--color-warning' => '#eca700',
-			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
-			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
-			'--color-success' => '#46ba61',
-			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
-			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
+			// error/warning/success/info feedback colours
+			'--color-error' => $colorError,
+			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
+			'--color-error-text' => $this->util->darken($colorError, 5),
+			'--color-warning' => $colorWarning,
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+			'--color-warning-hover' => $this->util->darken($colorWarning, 5),
+			'--color-warning-text' => $this->util->darken($colorWarning, 7),
+			'--color-success' => $colorSuccess,
+			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 80),
+			'--color-success-text' => $this->util->darken($colorSuccess, 4),
+			'--color-info' => $colorInfo,
+			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
+			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
+			'--color-info-text' => $this->util->darken($colorInfo, 4),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
@@ -145,8 +171,9 @@ class DefaultTheme implements ITheme {
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
 
-			'--font-face' => "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', Arial, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
 
 			// TODO: support "(prefers-reduced-motion)"
@@ -156,6 +183,7 @@ class DefaultTheme implements ITheme {
 			// Default variables --------------------------------------------
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
+			'--border-radius-rounded' => '28px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 
@@ -175,69 +203,15 @@ class DefaultTheme implements ITheme {
 
 			// mobile. Keep in sync with core/js/js.js
 			'--breakpoint-mobile' => '1024px',
-
-			// invert filter if primary is too bright
-			// to be used for legacy reasons only. Use inline
-			// svg with proper css variable instead or material
-			// design icons.
-			// ⚠️ Using 'no' as a value to make sure we specify an
-			// invalid one with no fallback. 'unset' could here fallback to some
-			// other theme with media queries
-			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
-
-			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
+			'--background-image-invert-if-bright' => 'no',
 		];
 
 		// Primary variables
 		$variables = array_merge($variables, $this->generatePrimaryVariables($colorMainBackground, $colorMainText));
-
-		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
-		// If primary as background has been request or if we have a custom primary colour
-		// let's not define the background image
-		if ($backgroundDeleted || $hasCustomPrimaryColour) {
-			$variables["--image-background-plain"] = 'true';
-		}
-
-		// Register image variables only if custom-defined
-		foreach (['logo', 'logoheader', 'favicon', 'background'] as $image) {
-			if ($this->imageManager->hasImage($image)) {
-				$imageUrl = $this->imageManager->getImageUrl($image);
-				if ($image === 'background') {
-					// If background deleted is set, ignoring variable
-					if ($backgroundDeleted) {
-						continue;
-					}
-					$variables['--image-background-size'] = 'cover';
-					$variables['--image-main-background'] = "url('" . $imageUrl . "')";
-				}
-				$variables["--image-$image"] = "url('" . $imageUrl . "')";
-			}
-		}
-
-		if ($hasCustomLogoHeader) {
-			$variables["--image-logoheader-custom"] = 'true';
-		}
-
-		$appManager = Server::get(IAppManager::class);
-		$userSession = Server::get(IUserSession::class);
-		$user = $userSession->getUser();
-		if ($appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
-			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
-
-			if ($themingBackground === 'custom') {
-				// Custom
-				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "')";
-			} elseif ($themingBackground !== 'default' && substr($themingBackground, 0, 1) !== '#') {
-				// Shipped background
-				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
-			} elseif (substr($themingBackground, 0, 1) === '#') {
-				// Color
-				unset($variables['--image-main-background']);
-				$variables['--color-main-background-plain'] = $this->primaryColor;
-			}
-		}
+		$variables = array_merge($variables, $this->generateGlobalBackgroundVariables());
+		$variables = array_merge($variables, $this->generateUserBackgroundVariables());
 
 		return $variables;
 	}

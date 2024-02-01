@@ -90,7 +90,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 */
 	public function propFind(PropFind $propFind, INode $node) {
 		$propFind->handle('{DAV:}supportedlock', function () {
-			return new SupportedLock(true);
+			return new SupportedLock();
 		});
 		$propFind->handle('{DAV:}lockdiscovery', function () use ($propFind) {
 			return new LockDiscovery([]);
@@ -125,7 +125,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function fakeLockProvider(RequestInterface $request,
-									 ResponseInterface $response) {
+		ResponseInterface $response) {
 		$lockInfo = new LockInfo();
 		$lockInfo->token = md5($request->getPath());
 		$lockInfo->uri = $request->getPath();
@@ -151,7 +151,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function fakeUnlockProvider(RequestInterface $request,
-									 ResponseInterface $response) {
+		ResponseInterface $response) {
 		$response->setStatus(204);
 		$response->setHeader('Content-Length', '0');
 		return false;

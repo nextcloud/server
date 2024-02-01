@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v3.5.2",
-            "version_normalized": "3.5.2.0",
+            "version": "v3.5.4",
+            "version_normalized": "3.5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "0a425bd21acf7ae112b135dca34640e1b1a825c3"
+                "reference": "76995aa11c14e39bccd0f2370ed63b2f8f623a6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/0a425bd21acf7ae112b135dca34640e1b1a825c3",
-                "reference": "0a425bd21acf7ae112b135dca34640e1b1a825c3",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/76995aa11c14e39bccd0f2370ed63b2f8f623a6d",
+                "reference": "76995aa11c14e39bccd0f2370ed63b2f8f623a6d",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
                 "phpunit/phpunit": "^8.5|^9.3.8",
                 "psalm/phar": "^4.3"
             },
-            "time": "2022-01-20T14:51:51+00:00",
+            "time": "2022-05-30T15:18:19+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -46,23 +46,23 @@
             "description": "php wrapper for smbclient and libsmbclient-php",
             "support": {
                 "issues": "https://github.com/icewind1991/SMB/issues",
-                "source": "https://github.com/icewind1991/SMB/tree/v3.5.2"
+                "source": "https://github.com/icewind1991/SMB/tree/v3.5.4"
             },
             "install-path": "../icewind/smb"
         },
         {
             "name": "icewind/streams",
-            "version": "v0.7.4",
-            "version_normalized": "0.7.4.0",
+            "version": "v0.7.7",
+            "version_normalized": "0.7.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/Streams.git",
-                "reference": "93bce472202d36d9808c30eaa52a1dc72b39e04c"
+                "reference": "64200fd7cfcc7f550c3c695c48d8fd8bba97fecb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/93bce472202d36d9808c30eaa52a1dc72b39e04c",
-                "reference": "93bce472202d36d9808c30eaa52a1dc72b39e04c",
+                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/64200fd7cfcc7f550c3c695c48d8fd8bba97fecb",
+                "reference": "64200fd7cfcc7f550c3c695c48d8fd8bba97fecb",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
                 "phpstan/phpstan": "^0.12",
                 "phpunit/phpunit": "^9"
             },
-            "time": "2021-03-12T15:48:22+00:00",
+            "time": "2023-03-16T14:52:25+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -94,7 +94,7 @@
             "description": "A set of generic stream wrappers",
             "support": {
                 "issues": "https://github.com/icewind1991/Streams/issues",
-                "source": "https://github.com/icewind1991/Streams/tree/v0.7.4"
+                "source": "https://github.com/icewind1991/Streams/tree/v0.7.7"
             },
             "install-path": "../icewind/streams"
         }

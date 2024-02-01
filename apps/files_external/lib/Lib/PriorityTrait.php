@@ -47,13 +47,4 @@ trait PriorityTrait {
 		$this->priority = $priority;
 		return $this;
 	}
-
-	/**
-	 * @param PriorityTrait $a
-	 * @param PriorityTrait $b
-	 * @return int
-	 */
-	public static function priorityCompare(PriorityTrait $a, PriorityTrait $b) {
-		return ($a->getPriority() - $b->getPriority());
-	}
 }

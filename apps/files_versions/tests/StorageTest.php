@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace OCA\files_versions\tests;
 
 use OCA\Files_Versions\Expiration;
-use OCA\Files_Versions\Hooks;
 use OCA\Files_Versions\Storage;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -51,7 +50,7 @@ class StorageTest extends TestCase {
 			});
 		$this->overwriteService(Expiration::class, $expiration);
 
-		Hooks::connectHooks();
+		\OC::$server->boot();
 
 		$this->createUser('version_test', '');
 		$this->loginAsUser('version_test');

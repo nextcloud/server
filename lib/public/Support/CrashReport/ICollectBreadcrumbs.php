@@ -29,7 +29,6 @@ namespace OCP\Support\CrashReport;
  * @since 15.0.0
  */
 interface ICollectBreadcrumbs extends IReporter {
-
 	/**
 	 * Collect breadcrumbs for crash reports
 	 *

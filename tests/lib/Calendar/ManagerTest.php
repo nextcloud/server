@@ -28,6 +28,7 @@ use OC\Calendar\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -35,8 +36,13 @@ use Sabre\VObject\Document;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
-class ManagerTest extends TestCase {
+/*
+ * This allows us to create Mock object supporting both interfaces
+ */
+interface ICreateFromStringAndHandleImipMessage extends ICreateFromString, IHandleImipMessage {
+}
 
+class ManagerTest extends TestCase {
 	/** @var Coordinator|MockObject */
 	private $coordinator;
 
@@ -334,7 +340,7 @@ class ManagerTest extends TestCase {
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
-		$calendar = $this->createMock(ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromStringAndHandleImipMessage::class);
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
@@ -371,7 +377,7 @@ class ManagerTest extends TestCase {
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
-		$calendar = $this->createMock(ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromStringAndHandleImipMessage::class);
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
@@ -495,7 +501,7 @@ class ManagerTest extends TestCase {
 		$sender = 'clint@stardew-blacksmiths.com';
 		$recipient = 'pierre@general-store.com';
 		$replyTo = 'linus@stardew-tent-living.com';
-		$calendar = $this->createMock(ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromStringAndHandleImipMessage::class);
 		$calendarData = $this->getVCalendarCancel();
 
 		$this->time->expects(self::once())
@@ -532,7 +538,7 @@ class ManagerTest extends TestCase {
 		$sender = 'linus@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
 		$replyTo = null;
-		$calendar = $this->createMock(ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromStringAndHandleImipMessage::class);
 		$calendarData = $this->getVCalendarCancel();
 
 		$this->time->expects(self::once())

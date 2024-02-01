@@ -53,9 +53,9 @@ class SectionSearch implements IProvider {
 	protected $l;
 
 	public function __construct(IManager $settingsManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								IL10N $l) {
+		IGroupManager $groupManager,
+		IURLGenerator $urlGenerator,
+		IL10N $l) {
 		$this->settingsManager = $settingsManager;
 		$this->groupManager = $groupManager;
 		$this->urlGenerator = $urlGenerator;
@@ -143,7 +143,7 @@ class SectionSearch implements IProvider {
 					$section->getName(),
 					$subline,
 					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
-					'icon-settings'
+					'icon-settings-dark'
 				);
 			}
 		}

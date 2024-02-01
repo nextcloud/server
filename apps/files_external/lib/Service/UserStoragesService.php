@@ -127,6 +127,9 @@ class UserStoragesService extends StoragesService {
 	 * @throws NotFoundException if the given storage does not exist in the config
 	 */
 	public function updateStorage(StorageConfig $updatedStorage) {
+		// verify ownership through $this->isApplicable() and otherwise throws an exception
+		$this->getStorage($updatedStorage->getId());
+
 		$updatedStorage->setApplicableUsers([$this->getUser()->getUID()]);
 		return parent::updateStorage($updatedStorage);
 	}
@@ -134,7 +137,7 @@ class UserStoragesService extends StoragesService {
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::VISIBILITY_* constants
+	 * @return int BackendService::VISIBILITY_* constants
 	 */
 	public function getVisibilityType() {
 		return BackendService::VISIBILITY_PERSONAL;
@@ -142,5 +145,11 @@ class UserStoragesService extends StoragesService {
 
 	protected function isApplicable(StorageConfig $config) {
 		return ($config->getApplicableUsers() === [$this->getUser()->getUID()]) && $config->getType() === StorageConfig::MOUNT_TYPE_PERSONAl;
+	}
+
+	public function removeStorage($id) {
+		// verify ownership through $this->isApplicable() and otherwise throws an exception
+		$this->getStorage($id);
+		parent::removeStorage($id);
 	}
 }

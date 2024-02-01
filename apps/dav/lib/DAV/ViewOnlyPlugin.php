@@ -23,12 +23,13 @@ namespace OCA\DAV\DAV;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
+use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
-use Sabre\DAV\Exception\NotFound;
 
 /**
  * Sabre plugin for restricting file share receiver download:
@@ -70,11 +71,14 @@ class ViewOnlyPlugin extends ServerPlugin {
 		try {
 			assert($this->server !== null);
 			$davNode = $this->server->tree->getNodeForPath($path);
-			if (!($davNode instanceof DavFile)) {
+			if ($davNode instanceof DavFile) {
+				// Restrict view-only to nodes which are shared
+				$node = $davNode->getNode();
+			} elseif ($davNode instanceof VersionFile) {
+				$node = $davNode->getVersion()->getSourceFile();
+			} else {
 				return true;
 			}
-			// Restrict view-only to nodes which are shared
-			$node = $davNode->getNode();
 
 			$storage = $node->getStorage();
 
@@ -93,7 +97,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 			// Check if read-only and on whether permission can download is both set and disabled.
 			$canDownload = $attributes->getAttribute('permissions', 'download');
 			if ($canDownload !== null && !$canDownload) {
-				throw new Forbidden('Access to this resource has been denied because it is in view-only mode.');
+				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
 			}
 		} catch (NotFound $e) {
 			// File not found

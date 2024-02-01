@@ -64,15 +64,15 @@ trait CopyDirectory {
 	 */
 	abstract public function mkdir($path);
 
-	public function copy($path1, $path2) {
-		if ($this->is_dir($path1)) {
-			if ($this->file_exists($path2)) {
-				$this->unlink($path2);
+	public function copy($source, $target) {
+		if ($this->is_dir($source)) {
+			if ($this->file_exists($target)) {
+				$this->unlink($target);
 			}
-			$this->mkdir($path2);
-			return $this->copyRecursive($path1, $path2);
+			$this->mkdir($target);
+			return $this->copyRecursive($source, $target);
 		} else {
-			return parent::copy($path1, $path2);
+			return parent::copy($source, $target);
 		}
 	}
 

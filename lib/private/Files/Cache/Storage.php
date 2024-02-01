@@ -239,7 +239,7 @@ class Storage {
 
 			$query = $db->getQueryBuilder();
 			$query->delete('storages')
-				->where($query->expr()->eq('numeric_id', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($query->expr()->in('numeric_id', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
 			$query->executeStatement();
 
 			$query = $db->getQueryBuilder();

@@ -34,7 +34,6 @@ use OCP\IConfig;
  * fixes cyclic DI: AllConfig needs AppConfig needs Database needs AllConfig
  */
 class SystemConfig {
-
 	/** @var array */
 	protected $sensitiveValues = [
 		'instanceid' => true,
@@ -56,6 +55,7 @@ class SystemConfig {
 		'secret' => true,
 		'updater.secret' => true,
 		'trusted_proxies' => true,
+		'preview_imaginary_url' => true,
 		'proxyuserpwd' => true,
 		'sentry.dsn' => true,
 		'sentry.public-dsn' => true,
@@ -70,6 +70,10 @@ class SystemConfig {
 		'license-key' => true,
 		'redis' => [
 			'host' => true,
+			'password' => true,
+		],
+		'redis.cluster' => [
+			'seeds' => true,
 			'password' => true,
 		],
 		'objectstore' => [
@@ -115,13 +119,14 @@ class SystemConfig {
 				],
 			],
 		],
+		'onlyoffice' => [
+			'jwt_secret' => true,
+		],
 	];
 
-	/** @var Config */
-	private $config;
-
-	public function __construct(Config $config) {
-		$this->config = $config;
+	public function __construct(
+		private Config $config,
+	) {
 	}
 
 	/**

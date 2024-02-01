@@ -28,11 +28,12 @@ namespace OCA\TwoFactorBackupCodes\Listener;
 
 use OCA\TwoFactorBackupCodes\BackgroundJob\RememberBackupCodesJob;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\Authentication\TwoFactorAuth\RegistryEvent;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
+/** @template-implements IEventListener<TwoFactorProviderForUserUnregistered> */
 class ProviderDisabled implements IEventListener {
 
 	/** @var IRegistry */
@@ -42,13 +43,13 @@ class ProviderDisabled implements IEventListener {
 	private $jobList;
 
 	public function __construct(IRegistry $registry,
-								IJobList $jobList) {
+		IJobList $jobList) {
 		$this->registry = $registry;
 		$this->jobList = $jobList;
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof RegistryEvent)) {
+		if (!($event instanceof TwoFactorProviderForUserUnregistered)) {
 			return;
 		}
 

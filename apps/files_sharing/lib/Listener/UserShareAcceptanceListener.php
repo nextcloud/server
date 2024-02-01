@@ -36,6 +36,7 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
+/** @template-implements IEventListener<ShareCreatedEvent> */
 class UserShareAcceptanceListener implements IEventListener {
 
 	/** @var IConfig */

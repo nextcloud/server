@@ -24,36 +24,31 @@ namespace OCA\Files\Controller;
 
 use Exception;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DirectEditingViewController extends Controller {
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IManager */
-	private $directEditingManager;
-
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct($appName, IRequest $request, IEventDispatcher $eventDispatcher, IManager $manager, ILogger $logger) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		private IEventDispatcher $eventDispatcher,
+		private IManager $directEditingManager,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->eventDispatcher = $eventDispatcher;
-		$this->directEditingManager = $manager;
-		$this->logger = $logger;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @UseSession
 	 *
 	 * @param string $token
 	 * @return Response
@@ -63,7 +58,7 @@ class DirectEditingViewController extends Controller {
 		try {
 			return $this->directEditingManager->edit($token);
 		} catch (Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new NotFoundResponse();
 		}
 	}

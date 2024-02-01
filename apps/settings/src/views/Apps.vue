@@ -22,38 +22,45 @@
 
 <template>
 	<NcContent app-name="settings"
-		:class="{ 'with-app-sidebar': app}"
-		:content-class="{ 'icon-loading': loadingList }"
-		:navigation-class="{ 'icon-loading': loading }">
+		:class="{ 'with-app-sidebar': app}">
 		<!-- Categories & filters -->
-		<NcAppNavigation>
+		<NcAppNavigation :class="{ 'icon-loading': loading }"
+			:aria-label="t('settings', 'Apps')">
 			<template #list>
 				<NcAppNavigationItem id="app-category-your-apps"
 					:to="{ name: 'apps' }"
 					:exact="true"
 					icon="icon-category-installed"
-					:title="t('settings', 'Your apps')" />
+					:name="$options.APPS_SECTION_ENUM.installed" />
 				<NcAppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
-					:title="t('settings', 'Active apps')" />
+					:name="$options.APPS_SECTION_ENUM.enabled" />
 				<NcAppNavigationItem id="app-category-disabled"
 					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 					icon="icon-category-disabled"
-					:title="t('settings', 'Disabled apps')" />
+					:name="$options.APPS_SECTION_ENUM.disabled" />
 				<NcAppNavigationItem v-if="updateCount > 0"
 					id="app-category-updates"
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
-					:title="t('settings', 'Updates')">
-					<NcAppNavigationCounter slot="counter">
-						{{ updateCount }}
-					</NcAppNavigationCounter>
+					:name="$options.APPS_SECTION_ENUM.updates">
+					<template #counter>
+						<NcCounterBubble>{{ updateCount }}</NcCounterBubble>
+					</template>
+				</NcAppNavigationItem>
+				<NcAppNavigationItem v-if="isSubscribed"
+					id="app-category-supported"
+					:to="{ name: 'apps-category', params: { category: 'supported' } }"
+					:name="$options.APPS_SECTION_ENUM.supported">
+					<template #icon>
+						<IconStarShooting :size="20" />
+					</template>
 				</NcAppNavigationItem>
 				<NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
-					:title="t('settings', 'App bundles')" />
+					:name="$options.APPS_SECTION_ENUM['app-bundles']" />
 
 				<NcAppNavigationSpacer />
 
@@ -62,7 +69,7 @@
 					<NcAppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
-						:title="t('settings', 'Featured apps')" />
+						:name="$options.APPS_SECTION_ENUM.featured" />
 
 					<NcAppNavigationItem v-for="cat in categories"
 						:key="'icon-category-' + cat.ident"
@@ -71,17 +78,19 @@
 							name: 'apps-category',
 							params: { category: cat.ident },
 						}"
-						:title="cat.displayName" />
+						:name="cat.displayName" />
 				</template>
 
 				<NcAppNavigationItem id="app-developer-docs"
-					:title="t('settings', 'Developer documentation') + ' ↗'"
+					:name="t('settings', 'Developer documentation') + ' ↗'"
 					@click="openDeveloperDocumentation" />
 			</template>
 		</NcAppNavigation>
 
 		<!-- Apps list -->
-		<NcAppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
+		<NcAppContent class="app-settings-content"
+			:class="{ 'icon-loading': loadingList }"
+			:page-heading="pageHeading">
 			<AppList :category="category" :app="app" :search="searchQuery" />
 		</NcAppContent>
 
@@ -98,11 +107,11 @@
 				<!-- Featured/Supported badges -->
 				<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
 					<span v-if="app.level === 300"
-						v-tooltip.auto="t('settings', 'This app is supported via your current Nextcloud subscription.')"
+						:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
 						class="supported icon-checkmark-color">
 						{{ t('settings', 'Supported') }}</span>
 					<span v-if="app.level === 200"
-						v-tooltip.auto="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
+						:title="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
 						class="official icon-checkmark">
 						{{ t('settings', 'Featured') }}</span>
 					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
@@ -139,34 +148,38 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer'
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer.js'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
+import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import IconStarShooting from 'vue-material-design-icons/StarShooting.vue'
 
-import AppList from '../components/AppList'
-import AppDetails from '../components/AppDetails'
-import AppManagement from '../mixins/AppManagement'
-import AppScore from '../components/AppList/AppScore'
-import Markdown from '../components/Markdown'
+import AppList from '../components/AppList.vue'
+import AppDetails from '../components/AppDetails.vue'
+import AppManagement from '../mixins/AppManagement.js'
+import AppScore from '../components/AppList/AppScore.vue'
+import Markdown from '../components/Markdown.vue'
+
+import { APPS_SECTION_ENUM } from './../constants/AppsConstants.js'
 
 Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Apps',
-
+	APPS_SECTION_ENUM,
 	components: {
 		NcAppContent,
 		AppDetails,
 		AppList,
+		IconStarShooting,
 		NcAppNavigation,
-		NcAppNavigationCounter,
 		NcAppNavigationItem,
 		NcAppNavigationSpacer,
+		NcCounterBubble,
 		AppScore,
 		NcAppSidebar,
 		NcAppSidebarTab,
@@ -195,6 +208,13 @@ export default {
 	},
 
 	computed: {
+		pageHeading() {
+			if (this.$options.APPS_SECTION_ENUM[this.category]) {
+				return this.$options.APPS_SECTION_ENUM[this.category]
+			}
+			const category = this.$store.getters.getCategoryById(this.category)
+			return category.displayName
+		},
 		loading() {
 			return this.$store.getters.loading('categories')
 		},
@@ -238,20 +258,26 @@ export default {
 				: authorName(this.app.author)
 			const license = t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
 
-			const subtitle = t('settings', 'by {author}\n{license}', { author, license })
+			const subname = t('settings', 'by {author}\n{license}', { author, license })
 
 			return {
-				subtitle,
 				background: this.app.screenshot && this.screenshotLoaded
 					? this.app.screenshot
 					: this.app.preview,
 				compact: !(this.app.screenshot && this.screenshotLoaded),
-				title: this.app.name,
-
+				name: this.app.name,
+				subname,
 			}
 		},
 		changelog() {
 			return (release) => release.translations.en.changelog
+		},
+		/**
+		 * Check if the current instance has a support subscription from the Nextcloud GmbH
+		 */
+		isSubscribed() {
+			// For customers of the Nextcloud GmbH the app level will be set to `300` for apps that are supported in their subscription
+			return this.apps.some(app => app.level === 300)
 		},
 	},
 
@@ -273,7 +299,7 @@ export default {
 	},
 
 	beforeMount() {
-		this.$store.dispatch('getCategories')
+		this.$store.dispatch('getCategories', { shouldRefetchCategories: true })
 		this.$store.dispatch('getAllApps')
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
@@ -320,7 +346,7 @@ export default {
 		.app-sidebar-header--compact .app-sidebar-header__figure {
 			background-size: 32px;
 
-			filter: invert(1);
+			filter: var(--background-invert-if-bright);
 		}
 	}
 

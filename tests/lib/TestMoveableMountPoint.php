@@ -27,7 +27,6 @@ use OC\Files\Mount;
  * Test moveable mount for mocking
  */
 class TestMoveableMountPoint extends Mount\MountPoint implements Mount\MoveableMount {
-
 	/**
 	 * Move the mount point to $target
 	 *

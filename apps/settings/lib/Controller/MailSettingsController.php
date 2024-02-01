@@ -60,12 +60,12 @@ class MailSettingsController extends Controller {
 	 * @param IMailer $mailer
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer) {
+		IRequest $request,
+		IL10N $l10n,
+		IConfig $config,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		IMailer $mailer) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -85,20 +85,18 @@ class MailSettingsController extends Controller {
 	 * @param string $mail_smtpmode
 	 * @param string $mail_smtpsecure
 	 * @param string $mail_smtphost
-	 * @param string $mail_smtpauthtype
 	 * @param int $mail_smtpauth
 	 * @param string $mail_smtpport
 	 * @return DataResponse
 	 */
 	public function setMailSettings($mail_domain,
-									$mail_from_address,
-									$mail_smtpmode,
-									$mail_smtpsecure,
-									$mail_smtphost,
-									$mail_smtpauthtype,
-									$mail_smtpauth,
-									$mail_smtpport,
-									$mail_sendmailmode) {
+		$mail_from_address,
+		$mail_smtpmode,
+		$mail_smtpsecure,
+		$mail_smtphost,
+		$mail_smtpauth,
+		$mail_smtpport,
+		$mail_sendmailmode) {
 		$params = get_defined_vars();
 		$configs = [];
 		foreach ($params as $key => $value) {

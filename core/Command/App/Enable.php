@@ -39,14 +39,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Command implements CompletionAwareInterface {
-	protected IAppManager $appManager;
-	protected IGroupManager $groupManager;
 	protected int $exitCode = 0;
 
-	public function __construct(IAppManager $appManager, IGroupManager $groupManager) {
+	public function __construct(
+		protected IAppManager $appManager,
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
-		$this->appManager = $appManager;
-		$this->groupManager = $groupManager;
 	}
 
 	protected function configure(): void {
@@ -109,7 +108,7 @@ class Enable extends Command implements CompletionAwareInterface {
 			}
 
 			$installer->installApp($appId, $forceEnable);
-			$appVersion = \OC_App::getAppVersion($appId);
+			$appVersion = $this->appManager->getAppVersion($appId);
 
 			if ($groupIds === []) {
 				$this->appManager->enableApp($appId, $forceEnable);

@@ -29,7 +29,6 @@ namespace OCP\User\Backend;
  * @since 21.0.1
  */
 interface ISearchKnownUsersBackend {
-
 	/**
 	 * @param string $searcher
 	 * @param string $pattern

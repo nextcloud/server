@@ -36,15 +36,6 @@ OC.L10N.register(
     "There was an error setting the location address." : "Estis eraro agordante adreson de la loko.",
     "There was an error setting the location." : "Estis eraro agordante la lokon.",
     "There was an error saving the mode." : "Estis eraro konservante la reĝimon.",
-    "Set location for weather" : "Agordi lokon por vetero",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Sennuba ĉielo je la {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nube je la {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Bela tago je la {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Bela nokto je la {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parte nube je la {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Nebule je la {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Pluveto je la {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Pluvo je la {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Pluvego je la {time}"
+    "Set location for weather" : "Agordi lokon por vetero"
 },
 "nplurals=2; plural=(n != 1);");

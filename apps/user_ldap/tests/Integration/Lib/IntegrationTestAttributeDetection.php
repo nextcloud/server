@@ -28,8 +28,11 @@ use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../Bootstrap.php';
 
@@ -51,12 +54,12 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$groupMapper->clear();
 		$this->access->setGroupMapper($groupMapper);
 
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->query(UserPluginManager::class));
+		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
 		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
 
-		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class));
+		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class), \OC::$server->get(IConfig::class));
 		$groupManger = \OC::$server->getGroupManager();
 		$groupManger->clearBackends();
 		$groupManger->addBackend($groupBackend);

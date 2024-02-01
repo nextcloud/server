@@ -22,11 +22,10 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
 
 const state = {
 	apps: [],
@@ -34,6 +33,7 @@ const state = {
 	updateCount: 0,
 	loading: {},
 	loadingList: false,
+	gettingCategoriesPromise: null,
 }
 
 const mutations = {
@@ -46,6 +46,10 @@ const mutations = {
 	initCategories(state, { categories, updateCount }) {
 		state.categories = categories
 		state.updateCount = updateCount
+	},
+
+	updateCategories(state, categoriesPromise) {
+		state.gettingCategoriesPromise = categoriesPromise
 	},
 
 	setUpdateCount(state, updateCount) {
@@ -84,6 +88,13 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
+	},
+
+	setInstallState(state, { appId, canInstall }) {
+		const app = state.apps.find(app => app.id === appId)
+		if (app) {
+			app.canInstall = canInstall === true
+		}
 	},
 
 	disableApp(state, appId) {
@@ -155,6 +166,9 @@ const getters = {
 	},
 	getUpdateCount(state) {
 		return state.updateCount
+	},
+	getCategoryById: (state) => (selectedCategoryId) => {
+		return state.categories.find((category) => category.id === selectedCategoryId)
 	},
 }
 
@@ -230,8 +244,7 @@ const actions = {
 			context.commit('startLoading', 'install')
 			return api.post(generateUrl('settings/apps/force'), { appId })
 				.then((response) => {
-					// TODO: find a cleaner solution
-					location.reload()
+					context.commit('setInstallState', { appId, canInstall: true })
 				})
 				.catch((error) => {
 					context.commit('stopLoading', apps)
@@ -241,6 +254,10 @@ const actions = {
 						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+				.finally(() => {
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
@@ -313,18 +330,25 @@ const actions = {
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
-	getCategories(context) {
-		context.commit('startLoading', 'categories')
-		return api.get(generateUrl('settings/apps/categories'))
-			.then((response) => {
-				if (response.data.length > 0) {
-					context.commit('appendCategories', response.data)
+	async getCategories(context, { shouldRefetchCategories = false } = {}) {
+		if (shouldRefetchCategories || !context.state.gettingCategoriesPromise) {
+			context.commit('startLoading', 'categories')
+			try {
+				const categoriesPromise = api.get(generateUrl('settings/apps/categories'))
+				context.commit('updateCategories', categoriesPromise)
+				const categoriesPromiseResponse = await categoriesPromise
+				if (categoriesPromiseResponse.data.length > 0) {
+					context.commit('appendCategories', categoriesPromiseResponse.data)
 					context.commit('stopLoading', 'categories')
 					return true
 				}
+				context.commit('stopLoading', 'categories')
 				return false
-			})
-			.catch((error) => context.commit('API_FAILURE', error))
+			} catch (error) {
+				context.commit('API_FAILURE', error)
+			}
+		}
+		return context.state.gettingCategoriesPromise
 	},
 
 }

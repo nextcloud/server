@@ -45,18 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Une erreur s'est produite lors de la définition de l'emplacement.",
     "There was an error saving the mode." : "Une erreur s'est produite lors de l'enregistrement du mode.",
     "There was an error using personal address." : "Une erreur s'est produite lors de l'utilisation de l'adresse personnelle.",
-    "Set location for weather" : "Définir l'emplacement pour la météo",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ciel dégagé à {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nuageux à {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Beau jour à {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Bonne nuit à {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Partiellement nuageux à {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Brouillard à {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Faible pluie à {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Pluie à {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Fortes pluies à {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Averses à {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Faibles averses à {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Fortes averses à {time}"
+    "Set location for weather" : "Définir l'emplacement pour la météo"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

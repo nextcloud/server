@@ -23,6 +23,7 @@
 <template>
 	<AccountPropertySection v-bind.sync="phone"
 		:placeholder="t('settings', 'Your phone number')"
+		autocomplete="tel"
 		type="tel"
 		:on-validate="onValidate" />
 </template>
@@ -35,7 +36,10 @@ import AccountPropertySection from './shared/AccountPropertySection.vue'
 
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
-const { phone } = loadState('settings', 'personalInfoParameters', {})
+const {
+	defaultPhoneRegion,
+	phone,
+} = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'PhoneSection',
@@ -52,6 +56,9 @@ export default {
 
 	methods: {
 		onValidate(value) {
+			if (defaultPhoneRegion) {
+				return isValidPhoneNumber(value, defaultPhoneRegion)
+			}
 			return isValidPhoneNumber(value)
 		},
 	},

@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -39,7 +40,6 @@ use OCP\IUser;
  *
  */
 interface IAccountManager {
-
 	/**
 	 * Contact details visible locally only
 	 *
@@ -107,11 +107,13 @@ interface IAccountManager {
 
 	public const PROPERTY_AVATAR = 'avatar';
 	public const PROPERTY_DISPLAYNAME = 'displayname';
+	public const PROPERTY_DISPLAYNAME_LEGACY = 'display-name';
 	public const PROPERTY_PHONE = 'phone';
 	public const PROPERTY_EMAIL = 'email';
 	public const PROPERTY_WEBSITE = 'website';
 	public const PROPERTY_ADDRESS = 'address';
 	public const PROPERTY_TWITTER = 'twitter';
+	public const PROPERTY_FEDIVERSE = 'fediverse';
 
 	/**
 	 * @since 23.0.0
@@ -151,6 +153,7 @@ interface IAccountManager {
 		self::PROPERTY_WEBSITE,
 		self::PROPERTY_ADDRESS,
 		self::PROPERTY_TWITTER,
+		self::PROPERTY_FEDIVERSE,
 		self::PROPERTY_ORGANISATION,
 		self::PROPERTY_ROLE,
 		self::PROPERTY_HEADLINE,

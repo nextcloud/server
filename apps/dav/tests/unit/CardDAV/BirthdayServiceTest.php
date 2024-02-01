@@ -34,12 +34,10 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Property\ICalendar\Duration;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class BirthdayServiceTest extends TestCase {
-
 	/** @var BirthdayService */
 	private $service;
 	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
@@ -71,7 +69,7 @@ class BirthdayServiceTest extends TestCase {
 				return vsprintf($string, $args);
 			});
 
-		$this->service = new BirthdayService($this->calDav,$this->cardDav,
+		$this->service = new BirthdayService($this->calDav, $this->cardDav,
 			$this->groupPrincipalBackend, $this->config,
 			$this->dbConnection, $this->l10n);
 	}
@@ -80,13 +78,14 @@ class BirthdayServiceTest extends TestCase {
 	 * @dataProvider providesVCards
 	 * @param string $expectedSummary
 	 * @param string $expectedDTStart
+	 * @param string $expectedRrule
 	 * @param string $expectedFieldType
 	 * @param string $expectedUnknownYear
 	 * @param string $expectedOriginalYear
 	 * @param string|null $expectedReminder
 	 * @param string | null $data
 	 */
-	public function testBuildBirthdayFromContact($expectedSummary, $expectedDTStart, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $expectedReminder, $data, $fieldType, $prefix, $supports4Bytes, $configuredReminder) {
+	public function testBuildBirthdayFromContact($expectedSummary, $expectedDTStart, $expectedRrule, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $expectedReminder, $data, $fieldType, $prefix, $supports4Bytes, $configuredReminder): void {
 		$this->dbConnection->method('supports4ByteText')->willReturn($supports4Bytes);
 		$cal = $this->service->buildDateFromContact($data, $fieldType, $prefix, $configuredReminder);
 
@@ -96,7 +95,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $cal);
 			$this->assertEquals('-//IDN nextcloud.com//Birthday calendar//EN', $cal->PRODID->getValue());
 			$this->assertTrue(isset($cal->VEVENT));
-			$this->assertEquals('FREQ=YEARLY', $cal->VEVENT->RRULE->getValue());
+			$this->assertEquals($expectedRrule, $cal->VEVENT->RRULE->getValue());
 			$this->assertEquals($expectedSummary, $cal->VEVENT->SUMMARY->getValue());
 			$this->assertEquals($expectedDTStart, $cal->VEVENT->DTSTART->getValue());
 			$this->assertEquals($expectedFieldType, $cal->VEVENT->{'X-NEXTCLOUD-BC-FIELD-TYPE'}->getValue());
@@ -115,7 +114,7 @@ class BirthdayServiceTest extends TestCase {
 		}
 	}
 
-	public function testOnCardDeleteGloballyDisabled() {
+	public function testOnCardDeleteGloballyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -126,7 +125,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
-	public function testOnCardDeleteUserDisabled() {
+	public function testOnCardDeleteUserDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -150,7 +149,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
-	public function testOnCardDeleted() {
+	public function testOnCardDeleted(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -172,15 +171,19 @@ class BirthdayServiceTest extends TestCase {
 			->willReturn([
 				'id' => 1234
 			]);
-		$this->calDav->expects($this->at(1))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf.ics');
-		$this->calDav->expects($this->at(2))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-death.ics');
-		$this->calDav->expects($this->at(3))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-anniversary.ics');
+		$this->calDav->expects($this->exactly(3))
+			->method('deleteCalendarObject')
+			->withConsecutive(
+				[1234, 'default-gump.vcf.ics'],
+				[1234, 'default-gump.vcf-death.ics'],
+				[1234, 'default-gump.vcf-anniversary.ics'],
+			);
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
-	public function testOnCardChangedGloballyDisabled() {
+	public function testOnCardChangedGloballyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -196,7 +199,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	public function testOnCardChangedUserDisabled() {
+	public function testOnCardChangedUserDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -228,7 +231,7 @@ class BirthdayServiceTest extends TestCase {
 	/**
 	 * @dataProvider providesCardChanges
 	 */
-	public function testOnCardChanged($expectedOp) {
+	public function testOnCardChanged($expectedOp): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -279,7 +282,7 @@ class BirthdayServiceTest extends TestCase {
 				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
-				);
+			);
 		}
 		if ($expectedOp === 'update') {
 			$vCal = new VCalendar();
@@ -292,7 +295,7 @@ class BirthdayServiceTest extends TestCase {
 				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
-				);
+			);
 		}
 
 		$service->onCardChanged(666, 'gump.vcf', '');
@@ -304,12 +307,12 @@ class BirthdayServiceTest extends TestCase {
 	 * @param $old
 	 * @param $new
 	 */
-	public function testBirthdayEvenChanged($expected, $old, $new) {
+	public function testBirthdayEvenChanged($expected, $old, $new): void {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));
 	}
 
-	public function testGetAllAffectedPrincipals() {
+	public function testGetAllAffectedPrincipals(): void {
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([
 			[
 				'{http://owncloud.org/ns}group-share' => false,
@@ -348,7 +351,7 @@ class BirthdayServiceTest extends TestCase {
 		], $users);
 	}
 
-	public function testBirthdayCalendarHasComponentEvent() {
+	public function testBirthdayCalendarHasComponentEvent(): void {
 		$this->calDav->expects($this->once())
 			->method('createCalendar')
 			->with('principal001', 'contact_birthdays', [
@@ -359,28 +362,24 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->ensureCalendarExists('principal001');
 	}
 
-	public function testResetForUser() {
-		$this->calDav->expects($this->at(0))
+	public function testResetForUser(): void {
+		$this->calDav->expects($this->once())
 			->method('getCalendarByUri')
 			->with('principals/users/user123', 'contact_birthdays')
 			->willReturn(['id' => 42]);
 
-		$this->calDav->expects($this->at(1))
+		$this->calDav->expects($this->once())
 			->method('getCalendarObjects')
 			->with(42, 0)
 			->willReturn([['uri' => '1.ics'], ['uri' => '2.ics'], ['uri' => '3.ics']]);
 
-		$this->calDav->expects($this->at(2))
+		$this->calDav->expects($this->exactly(3))
 			->method('deleteCalendarObject')
-			->with(42, '1.ics', 0);
-
-		$this->calDav->expects($this->at(3))
-			->method('deleteCalendarObject')
-			->with(42, '2.ics', 0);
-
-		$this->calDav->expects($this->at(4))
-			->method('deleteCalendarObject')
-			->with(42, '3.ics', 0);
+			->withConsecutive(
+				[42, '1.ics', 0],
+				[42, '2.ics', 0],
+				[42, '3.ics', 0],
+			);
 
 		$this->service->resetForUser('user123');
 	}
@@ -412,32 +411,36 @@ class BirthdayServiceTest extends TestCase {
 
 	public function providesVCards() {
 		return [
-			// $expectedSummary, $expectedDTStart, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $expectedReminder, $data, $fieldType, $prefix, $supports4Byte, $configuredReminder
-			[null, null, null, null, null, null, 'yasfewf', '', '', true, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:someday\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345 (1900)', '19700101', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345 (1900)', '19701231', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['Death of 12345 (1900)', '19701231', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
-			['Death of 12345 (1900)', '19701231', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', false, null],
-			['💍 12345 (1900)', '19701231', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
-			['12345 (⚭1900)', '19701231', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', false, null],
-			['🎂 12345', '19701231', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:--1231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345', '19701231', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:16041231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:;VALUE=text:circa 1800\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nN:12345;;;;\r\nBDAY:20031231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345 (900)', '19701231', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['12345 (*1900)', '19700101', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 *', '19701231', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:--1231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 *', '19701231', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:16041231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:;VALUE=text:circa 1800\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nN:12345;;;;\r\nBDAY:20031231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 (*900)', '19701231', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', 'PT9H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, 'PT9H'],
-			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', '-PT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-PT15H'],
-			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', '-P6DT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-P6DT15H'],
+			// $expectedSummary, $expectedDTStart, $expectedRrule, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $expectedReminder, $data, $fieldType, $prefix, $supports4Byte, $configuredReminder
+			[null, null, null, null, null, null, null, 'yasfewf', '', '', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:someday\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['🎂 12345 (1900)', '19700101', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['🎂 12345 (1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['Death of 12345 (1900)', '19701231', 'FREQ=YEARLY', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
+			['Death of 12345 (1900)', '19701231', 'FREQ=YEARLY', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', false, null],
+			['💍 12345 (1900)', '19701231', 'FREQ=YEARLY', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
+			['12345 (⚭1900)', '19701231', 'FREQ=YEARLY', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', false, null],
+			['🎂 12345', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:--1231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['🎂 12345', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:16041231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:;VALUE=text:circa 1800\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nN:12345;;;;\r\nBDAY:20031231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['🎂 12345 (900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['12345 (*1900)', '19700101', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 *', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:--1231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 *', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:16041231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:;VALUE=text:circa 1800\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nN:12345;;;;\r\nBDAY:20031231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 (*900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', 'PT9H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, 'PT9H'],
+			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', '-PT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-PT15H'],
+			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', '-P6DT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-P6DT15H'],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
+			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
+			['🎂 12345 (1902)', '19720229', 'FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=-1', 'BDAY', '0', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19020229\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 		];
 	}
 }

@@ -47,11 +47,4 @@ class CronBusTest extends AsyncBusTest {
 			$job->execute($this->jobList);
 		}
 	}
-
-	public function testClosureFromPreviousVersion() {
-		$serializedClosure = 'C:32:"Opis\\Closure\\SerializableClosure":217:{a:5:{s:3:"use";a:0:{}s:8:"function";s:64:"function () {\\Test\\Command\\AsyncBusTest::$lastCommand = \'opis\';}";s:5:"scope";s:24:"Test\\Command\\CronBusTest";s:4:"this";N;s:4:"self";s:32:"0000000027dcfe2f00000000407fa805";}}';
-		$this->jobList->add('OC\Command\ClosureJob', $serializedClosure);
-		$this->runJobs();
-		$this->assertEquals('opis', AsyncBusTest::$lastCommand);
-	}
 }

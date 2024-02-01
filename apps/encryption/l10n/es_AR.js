@@ -28,8 +28,6 @@ OC.L10N.register(
     "Missing Signature" : "Firma faltante",
     "one-time password for server-side-encryption" : "Contraseña de una-sola-vez para la encripción del lado del servidor",
     "Default encryption module" : "Módulo de encripción predeterminado",
-    "The share will expire on %s." : "El elemento compartido expirará el %s.",
-    "Cheers!" : "¡Saludos!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "La aplicación de encripción esta habilitada pero sus llaves no han sido inicializadas, favor de salir y volver a entrar a la sesion",
     "Encrypt the home storage" : "Encriptar el almacenamiento de inicio",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Habilitar esta opción encripta todos los archivos almacenados en el almacenamiento principal, de otro modo, sólo los archivos en el almacenamiento externo serán encriptados",
@@ -53,7 +51,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus archivos encriptados en caso de perder la contraseña",
     "Enabled" : "Habilitado",
-    "Disabled" : "Deshabilitado",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hola, <br><br>el administrador ha habilitado la encripción del lado del servidor. Sus archivos fueron encriptados usando la contraseña <strong>%s</strong>.<br><br> Favor de iniciar sesisón en la interface web, vaya a la sección \"módulo de encripción básica\" de sus configuraciones personales y actualice su contraseña de encripción ingresando esta contraseña en el campo \"contraseña de inicio de sesión anterior\" y su contraseña de inicio de sesión actual. <br><br>"
+    "Disabled" : "Deshabilitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -55,11 +55,11 @@ class AjaxController extends Controller {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								RSA $rsaMechanism,
-								GlobalAuth $globalAuth,
-								IUserSession $userSession,
-								IGroupManager $groupManager) {
+		IRequest $request,
+		RSA $rsaMechanism,
+		GlobalAuth $globalAuth,
+		IUserSession $userSession,
+		IGroupManager $groupManager) {
 		parent::__construct($appName, $request);
 		$this->rsaMechanism = $rsaMechanism;
 		$this->globalAuth = $globalAuth;
@@ -108,7 +108,7 @@ class AjaxController extends Controller {
 		$currentUser = $this->userSession->getUser();
 
 		// Non-admins can only edit their own credentials
-		$allowedToEdit = ($this->groupManager->isAdmin($currentUser->getUID()) || $currentUser->getUID() === $uid);
+		$allowedToEdit = ($currentUser->getUID() === $uid);
 
 		if ($allowedToEdit) {
 			$this->globalAuth->saveAuth($uid, $user, $password);

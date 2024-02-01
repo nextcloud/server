@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OC\Authentication\Login;
 
 class Chain {
-
 	/** @var PreLoginHookCommand */
 	private $preLoginHookCommand;
 
@@ -64,17 +63,17 @@ class Chain {
 	private $finishRememberedLoginCommand;
 
 	public function __construct(PreLoginHookCommand $preLoginHookCommand,
-								UserDisabledCheckCommand $userDisabledCheckCommand,
-								UidLoginCommand $uidLoginCommand,
-								EmailLoginCommand $emailLoginCommand,
-								LoggedInCheckCommand $loggedInCheckCommand,
-								CompleteLoginCommand $completeLoginCommand,
-								CreateSessionTokenCommand $createSessionTokenCommand,
-								ClearLostPasswordTokensCommand $clearLostPasswordTokensCommand,
-								UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
-								SetUserTimezoneCommand $setUserTimezoneCommand,
-								TwoFactorCommand $twoFactorCommand,
-								FinishRememberedLoginCommand $finishRememberedLoginCommand
+		UserDisabledCheckCommand $userDisabledCheckCommand,
+		UidLoginCommand $uidLoginCommand,
+		EmailLoginCommand $emailLoginCommand,
+		LoggedInCheckCommand $loggedInCheckCommand,
+		CompleteLoginCommand $completeLoginCommand,
+		CreateSessionTokenCommand $createSessionTokenCommand,
+		ClearLostPasswordTokensCommand $clearLostPasswordTokensCommand,
+		UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
+		SetUserTimezoneCommand $setUserTimezoneCommand,
+		TwoFactorCommand $twoFactorCommand,
+		FinishRememberedLoginCommand $finishRememberedLoginCommand
 	) {
 		$this->preLoginHookCommand = $preLoginHookCommand;
 		$this->userDisabledCheckCommand = $userDisabledCheckCommand;

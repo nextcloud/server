@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
+<html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" translate="no" >
 	<head
 <?php if ($_['user_uid']) { ?>
 	data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>"
@@ -9,8 +9,8 @@
 		<title>
 			<?php
 				p(!empty($_['pageTitle']) ? $_['pageTitle'] . ' – ' : '');
-				p($theme->getTitle());
-			?>
+p($theme->getTitle());
+?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 		<?php if ($theme->getiTunesAppId() !== '') { ?>
@@ -20,7 +20,7 @@
 		<link rel="icon" href="<?php print_unescaped(image_path('core', 'favicon.ico')); /* IE11+ supports png */ ?>">
 		<link rel="apple-touch-icon" href="<?php print_unescaped(image_path('core', 'favicon-touch.png')); ?>">
 		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path('core', 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
-		<link rel="manifest" href="<?php print_unescaped(image_path('core', 'manifest.json')); ?>">
+		<link rel="manifest" href="<?php print_unescaped(image_path('core', 'manifest.json')); ?>" crossorigin="use-credentials">
 		<?php emit_css_loading_tags($_); ?>
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
@@ -33,24 +33,28 @@
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login'): ?>
-					<header role="banner">
+					<header>
 						<div id="header">
-							<div class="logo">
-								<h1 class="hidden-visually">
-									<?php p($theme->getName()); ?>
-								</h1>
-							</div>
+							<div class="logo"></div>
 						</div>
 					</header>
 				<?php endif; ?>
 				<main>
+					<h1 class="hidden-visually">
+						<?php p($theme->getName()); ?>
+					</h1>
 					<?php print_unescaped($_['content']); ?>
 				</main>
 			</div>
 		</div>
-		<footer role="contentinfo">
+		<?php
+		$longFooter = $theme->getLongFooter();
+?>
+		<footer class="guest-box <?php if ($longFooter === '') {
+			p('hidden');
+		} ?>">
 			<p class="info">
-				<?php print_unescaped($theme->getLongFooter()); ?>
+				<?php print_unescaped($longFooter); ?>
 			</p>
 		</footer>
 	</body>

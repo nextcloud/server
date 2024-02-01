@@ -26,7 +26,7 @@
  */
 
 /* eslint-disable */
- import { getValue, setValue, getApps, getKeys, deleteKey } from '../OCP/appconfig'
+ import { getValue, setValue, getApps, getKeys, deleteKey } from '../OCP/appconfig.js'
 
 export const appConfig = window.oc_appconfig || {}
 

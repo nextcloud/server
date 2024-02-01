@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentáre",
     "You commented" : "Komentovali ste",
-    "%1$s commented" : "%1$s komentoval",
     "{author} commented" : "{author} komentoval",
     "You commented on %1$s" : "Komentovali ste %1$s",
     "You commented on {file}" : "Komentovali ste {file}",
@@ -21,14 +20,12 @@ OC.L10N.register(
     "No more messages" : "Žiadne ďaĺšie správy",
     "Retry" : "Skúsiť znova",
     "Unable to load the comments list" : "Nie je možné načítať zoznam komentárov",
-    "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov","%n neprečítaných komentárov"],
     "_1 new comment_::_{unread} new comments_" : ["1 nový komentár","{unread} nové komentáre","{unread} nových komentárov","{unread} nových komentárov"],
     "Comment" : "Komentár",
     "An error occurred while trying to edit the comment" : "Vyskytla sa chyba pri editovaní komentára",
     "Comment deleted" : "Komentár bol odstránený",
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
     "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Boli ste spomenutý v \"{file}\", v komentári používateľom ktorý bol už vymazaný",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vás spomenul v komentári k “{file}”"
+    "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov","%n neprečítaných komentárov"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

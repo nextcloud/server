@@ -36,7 +36,6 @@ use OCP\ICacheFactory;
 use OCP\OCS\IDiscoveryService;
 
 class DiscoveryService implements IDiscoveryService {
-
 	/** @var ICache */
 	private $cache;
 
@@ -48,7 +47,7 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param IClientService $clientService
 	 */
 	public function __construct(ICacheFactory $cacheFactory,
-								IClientService $clientService
+		IClientService $clientService
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocs-discovery');
 		$this->client = $clientService->newClient();

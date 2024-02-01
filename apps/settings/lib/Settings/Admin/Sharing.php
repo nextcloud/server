@@ -13,8 +13,9 @@
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,31 +35,25 @@ namespace OCA\Settings\Settings\Admin;
 
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Share\IManager;
 use OCP\Util;
 
 class Sharing implements IDelegatedSettings {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	public function __construct(IConfig $config, IL10N $l, IManager $shareManager, IAppManager $appManager) {
-		$this->config = $config;
-		$this->l = $l;
-		$this->shareManager = $shareManager;
-		$this->appManager = $appManager;
+	public function __construct(
+		private IConfig $config,
+		private IL10N $l,
+		private IManager $shareManager,
+		private IAppManager $appManager,
+		private IURLGenerator $urlGenerator,
+		private IInitialState $initialState,
+		private string $appName,
+	) {
 	}
 
 	/**
@@ -66,85 +61,59 @@ class Sharing implements IDelegatedSettings {
 	 */
 	public function getForm() {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-		$excludeGroupsList = !is_null(json_decode($excludedGroups))
-			? implode('|', json_decode($excludedGroups, true)) : '';
 		$linksExcludedGroups = $this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '');
-		$linksExcludeGroupsList = !is_null(json_decode($linksExcludedGroups))
-			? implode('|', json_decode($linksExcludedGroups, true)) : '';
-
 		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
-		$excludedPasswordGroupsList = !is_null(json_decode($excludedPasswordGroups))
-			? implode('|', json_decode($excludedPasswordGroups, true)) : '';
-
+		$onlyShareWithGroupMembersExcludeGroupList = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 
 		$parameters = [
 			// Built-In Sharing
-			'sharingAppEnabled' => $this->appManager->isEnabledForUser('files_sharing'),
-			'allowGroupSharing' => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
-			'allowLinks' => $this->config->getAppValue('core', 'shareapi_allow_links', 'yes'),
-			'allowLinksExcludeGroups' => $linksExcludeGroupsList,
-			'allowPublicUpload' => $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes'),
-			'allowResharing' => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
-			'allowShareDialogUserEnumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
-			'restrictUserEnumerationToGroup' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no'),
-			'restrictUserEnumerationToPhone' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no'),
-			'restrictUserEnumerationFullMatch' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes'),
-			'restrictUserEnumerationFullMatchUserId' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes'),
-			'restrictUserEnumerationFullMatchEmail' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes'),
-			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no'),
-			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(false),
-			'passwordExcludedGroups' => $excludedPasswordGroupsList,
+			'enabled' => $this->getHumanBooleanConfig('core', 'shareapi_enabled', true),
+			'allowGroupSharing' => $this->getHumanBooleanConfig('core', 'shareapi_allow_group_sharing', true),
+			'allowLinks' => $this->getHumanBooleanConfig('core', 'shareapi_allow_links', true),
+			'allowLinksExcludeGroups' => json_decode($linksExcludedGroups, true) ?? [],
+			'allowPublicUpload' => $this->getHumanBooleanConfig('core', 'shareapi_allow_public_upload', true),
+			'allowResharing' => $this->getHumanBooleanConfig('core', 'shareapi_allow_resharing', true),
+			'allowShareDialogUserEnumeration' => $this->getHumanBooleanConfig('core', 'shareapi_allow_share_dialog_user_enumeration', true),
+			'restrictUserEnumerationToGroup' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_group'),
+			'restrictUserEnumerationToPhone' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_phone'),
+			'restrictUserEnumerationFullMatch' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match', true),
+			'restrictUserEnumerationFullMatchUserId' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid', true),
+			'restrictUserEnumerationFullMatchEmail' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_email', true),
+			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn'),
+			'enforceLinksPassword' => Util::isPublicLinkPasswordRequired(false),
+			'passwordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
 			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
-			'shareAPIEnabled' => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
-			'shareDefaultExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no'),
-			'shareExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
-			'shareEnforceExpireDate' => $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no'),
-			'shareExcludeGroups' => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes',
-			'shareExcludedGroupsList' => $excludeGroupsList,
+			'onlyShareWithGroupMembersExcludeGroupList' => json_decode($onlyShareWithGroupMembersExcludeGroupList) ?? [],
+			'defaultExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_expire_date'),
+			'expireAfterNDays' => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
+			'enforceExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_expire_date'),
+			'excludeGroups' => $this->getHumanBooleanConfig('core', 'shareapi_exclude_groups'),
+			'excludeGroupsList' => json_decode($excludedGroups, true) ?? [],
 			'publicShareDisclaimerText' => $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null),
-			'enableLinkPasswordByDefault' => $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no'),
-			'shareApiDefaultPermissions' => $this->config->getAppValue('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL),
-			'shareApiDefaultPermissionsCheckboxes' => $this->getSharePermissionList(),
-			'shareDefaultInternalExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no'),
-			'shareInternalExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7'),
-			'shareInternalEnforceExpireDate' => $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no'),
-			'shareDefaultRemoteExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no'),
-			'shareRemoteExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7'),
-			'shareRemoteEnforceExpireDate' => $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no'),
+			'enableLinkPasswordByDefault' => $this->getHumanBooleanConfig('core', 'shareapi_enable_link_password_by_default'),
+			'defaultPermissions' => (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL),
+			'defaultInternalExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_internal_expire_date'),
+			'internalExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7'),
+			'enforceInternalExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_internal_expire_date'),
+			'defaultRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_remote_expire_date'),
+			'remoteExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7'),
+			'enforceRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_remote_expire_date'),
 		];
 
-		return new TemplateResponse('settings', 'settings/admin/sharing', $parameters, '');
+		$this->initialState->provideInitialState('sharingAppEnabled', $this->appManager->isEnabledForUser('files_sharing'));
+		$this->initialState->provideInitialState('sharingDocumentation', $this->urlGenerator->linkToDocs('admin-sharing'));
+		$this->initialState->provideInitialState('sharingSettings', $parameters);
+
+		\OCP\Util::addScript($this->appName, 'vue-settings-admin-sharing');
+		return new TemplateResponse($this->appName, 'settings/admin/sharing', [], '');
 	}
 
 	/**
-	 * get share permission list for template
-	 *
-	 * @return array
+	 * Helper function to retrive boolean values from human readable strings ('yes' / 'no')
 	 */
-	private function getSharePermissionList() {
-		return [
-			[
-				'id' => 'cancreate',
-				'label' => $this->l->t('Create'),
-				'value' => Constants::PERMISSION_CREATE
-			],
-			[
-				'id' => 'canupdate',
-				'label' => $this->l->t('Change'),
-				'value' => Constants::PERMISSION_UPDATE
-			],
-			[
-				'id' => 'candelete',
-				'label' => $this->l->t('Delete'),
-				'value' => Constants::PERMISSION_DELETE
-			],
-			[
-				'id' => 'canshare',
-				'label' => $this->l->t('Reshare'),
-				'value' => Constants::PERMISSION_SHARE
-			],
-		];
+	private function getHumanBooleanConfig(string $app, string $key, bool $default = false): bool {
+		return $this->config->getAppValue($app, $key, $default ? 'yes' : 'no') === 'yes';
 	}
 
 	/**

@@ -42,6 +42,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
@@ -55,6 +56,8 @@ class NewUserMailHelperTest extends TestCase {
 	private $urlGenerator;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $l10nFactory;
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
@@ -367,7 +370,9 @@ Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToke
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -601,7 +606,9 @@ Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -822,7 +829,9 @@ Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -859,6 +868,10 @@ EOF;
 			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
+		$message
+			->expects($this->once())
+			->method('setAutoSubmitted')
+			->with(AutoSubmitted::VALUE_AUTO_GENERATED);
 		$this->defaults
 			->expects($this->once())
 			->method('getName')

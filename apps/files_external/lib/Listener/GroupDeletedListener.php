@@ -28,6 +28,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\GroupDeletedEvent;
 
+/** @template-implements IEventListener<GroupDeletedEvent> */
 class GroupDeletedListener implements IEventListener {
 	/** @var DBConfigService */
 	private $config;

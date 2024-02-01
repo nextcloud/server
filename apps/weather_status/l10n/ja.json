@@ -43,18 +43,6 @@
     "There was an error setting the location." : "地域設定時にエラーが発生しました",
     "There was an error saving the mode." : "モードの保存時にエラーが発生しました",
     "There was an error using personal address." : "個人の住所使用時にエラーが発生しました",
-    "Set location for weather" : "天気の地域設定",
-    "{temperature} {unit} Clear sky at {time}" : "{time} の天気は快晴、気温は {temperature} {unit}",
-    "{temperature} {unit} Cloudy at {time}" : "{time} の天気は曇り、気温は {temperature} {unit}",
-    "{temperature} {unit} Fair day at {time}" : "{time} の天気は晴れ、気温は {temperature} {unit}",
-    "{temperature} {unit} Fair night at {time}" : "{time} の天気は晴れ、気温は {temperature} {unit}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{time} の天気は一部曇り、気温は {temperature} {unit}",
-    "{temperature} {unit} Foggy at {time}" : "{time} の天気は霧、気温は {temperature} {unit}",
-    "{temperature} {unit} Light rain at {time}" : "{time} の天気は小雨、気温は {temperature} {unit}",
-    "{temperature} {unit} Rain at {time}" : "{time} の天気は雨、気温は {temperature} {unit}",
-    "{temperature} {unit} Heavy rain at {time}" : "{time} の天気は大雨、気温は {temperature} {unit}",
-    "{temperature} {unit} Rain showers at {time}" : "{time} の天気はにわか雨、気温は {temperature} {unit}",
-    "{temperature} {unit} Light rain showers at {time}" : "{time} の天気は弱いにわか雨、気温は {temperature} {unit}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{time} の天気は強いにわか雨、気温は {temperature} {unit}"
+    "Set location for weather" : "天気の地域設定"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

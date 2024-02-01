@@ -33,11 +33,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
-	protected IAppManager $manager;
-
-	public function __construct(IAppManager $manager) {
+	public function __construct(
+		protected IAppManager $manager,
+	) {
 		parent::__construct();
-		$this->manager = $manager;
 	}
 
 	protected function configure() {
@@ -87,7 +86,7 @@ class ListApps extends Base {
 
 		sort($disabledApps);
 		foreach ($disabledApps as $app) {
-			$apps['disabled'][$app] = $versions[$app] ?? null;
+			$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
 		}
 
 		$this->writeAppList($input, $output, $apps);
@@ -107,11 +106,11 @@ class ListApps extends Base {
 
 				$output->writeln('Disabled:');
 				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
-			break;
+				break;
 
 			default:
 				parent::writeArrayInOutputFormat($input, $output, $items);
-			break;
+				break;
 		}
 	}
 

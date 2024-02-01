@@ -35,15 +35,17 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\Security\Bruteforce\IThrottler;
 
 class PublicShareMiddlewareTest extends \Test\TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
+	private $throttler;
 
 	/** @var PublicShareMiddleware */
 	private $middleware;
@@ -55,11 +57,13 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->middleware = new PublicShareMiddleware(
 			$this->request,
 			$this->session,
-			$this->config
+			$this->config,
+			$this->throttler
 		);
 	}
 

@@ -35,7 +35,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
@@ -43,7 +42,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
-
 	/** @var Notifier */
 	protected $notifier;
 	/** @var IFactory|MockObject */
@@ -135,10 +133,8 @@ class NotifierTest extends TestCase {
 			->method('getSubjectParameters')
 			->willReturn(['files', '678']);
 		$this->notification
-			->expects($this->once())
-			->method('setParsedSubject')
-			->with($message)
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedSubject');
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
@@ -150,10 +146,8 @@ class NotifierTest extends TestCase {
 			->with('Hi {mention-user1}!', ['mention-user1' => ['type' => 'user', 'id' => 'you', 'name' => 'Your name']])
 			->willReturnSelf();
 		$this->notification
-			->expects($this->once())
-			->method('setParsedMessage')
-			->with('Hi @Your name!')
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedMessage');
 		$this->notification
 			->expects($this->once())
 			->method('setIcon')
@@ -256,10 +250,8 @@ class NotifierTest extends TestCase {
 			->method('getSubjectParameters')
 			->willReturn(['files', '678']);
 		$this->notification
-			->expects($this->once())
-			->method('setParsedSubject')
-			->with($message)
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedSubject');
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
@@ -271,10 +263,8 @@ class NotifierTest extends TestCase {
 			->with('Hi {mention-user1}!', ['mention-user1' => ['type' => 'user', 'id' => 'you', 'name' => 'Your name']])
 			->willReturnSelf();
 		$this->notification
-			->expects($this->once())
-			->method('setParsedMessage')
-			->with('Hi @Your name!')
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedMessage');
 		$this->notification
 			->expects($this->once())
 			->method('setIcon')

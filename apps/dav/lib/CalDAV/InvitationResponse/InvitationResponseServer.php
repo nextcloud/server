@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {
-
 	/** @var \OCA\DAV\Connector\Sabre\Server */
 	public $server;
 
@@ -90,7 +89,7 @@ class InvitationResponseServer {
 		// calendar plugins
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		//$this->server->addPlugin(new \OCA\DAV\DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
@@ -127,7 +126,11 @@ class InvitationResponseServer {
 
 	public function isExternalAttendee(string $principalUri): bool {
 		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
-		$aclPlugin = $this->server->getPlugin('acl');
+		$aclPlugin = $this->getServer()->getPlugin('acl');
 		return $aclPlugin->getPrincipalByUri($principalUri) === null;
+	}
+
+	public function getServer(): \OCA\DAV\Connector\Sabre\Server {
+		return $this->server;
 	}
 }

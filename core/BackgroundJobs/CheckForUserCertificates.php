@@ -36,15 +36,13 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class CheckForUserCertificates extends QueuedJob {
-	protected IConfig $config;
-	private IUserManager $userManager;
-	private IRootFolder $rootFolder;
-
-	public function __construct(IConfig $config, IUserManager $userManager, IRootFolder $rootFolder, ITimeFactory $time) {
+	public function __construct(
+		protected IConfig $config,
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		ITimeFactory $time,
+	) {
 		parent::__construct($time);
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
 	}
 
 	/**

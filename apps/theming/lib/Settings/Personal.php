@@ -27,6 +27,8 @@ namespace OCA\Theming\Settings;
 
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
@@ -35,25 +37,21 @@ use OCP\Util;
 
 class Personal implements ISettings {
 
-	protected string $appName;
-	private IConfig $config;
-	private ThemesService $themesService;
-	private IInitialState $initialStateService;
-
-	public function __construct(string $appName,
-								IConfig $config,
-								ThemesService $themesService,
-								IInitialState $initialStateService) {
-		$this->appName = $appName;
-		$this->config = $config;
-		$this->themesService = $themesService;
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		protected string $appName,
+		private string $userId,
+		private IConfig $config,
+		private ThemesService $themesService,
+		private IInitialState $initialStateService,
+		private ThemingDefaults $themingDefaults,
+		private IAppManager $appManager,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 
-		$themes = array_map(function($theme) {
+		$themes = array_map(function ($theme) {
 			return [
 				'id' => $theme->getId(),
 				'type' => $theme->getType(),
@@ -65,14 +63,23 @@ class Personal implements ISettings {
 		}, $this->themesService->getThemes());
 
 		if ($enforcedTheme !== '') {
-			$themes = array_filter($themes, function($theme) use ($enforcedTheme) {
+			$themes = array_filter($themes, function ($theme) use ($enforcedTheme) {
 				return $theme['type'] !== ITheme::TYPE_THEME || $theme['id'] === $enforcedTheme;
 			});
 		}
 
+		// Get the default app enforced by admin
+		$forcedDefaultApp = $this->appManager->getDefaultAppForUser(null, false);
+
 		$this->initialStateService->provideInitialState('themes', array_values($themes));
 		$this->initialStateService->provideInitialState('enforceTheme', $enforcedTheme);
-		Util::addScript($this->appName, 'theming-settings');
+		$this->initialStateService->provideInitialState('isUserThemingDisabled', $this->themingDefaults->isUserThemingDisabled());
+		$this->initialStateService->provideInitialState('navigationBar', [
+			'userAppOrder' => json_decode($this->config->getUserValue($this->userId, 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR),
+			'enforcedDefaultApp' => $forcedDefaultApp
+		]);
+
+		Util::addScript($this->appName, 'personal-theming');
 
 		return new TemplateResponse($this->appName, 'settings-personal');
 	}

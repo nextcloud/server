@@ -33,13 +33,13 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
+use OC\User\DisplayNameCache;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
-use OC\User\DisplayNameCache;
 
 /**
  * Class TestCase
@@ -64,6 +64,10 @@ abstract class TestCase extends \Test\TestCase {
 	 * @var \OC\Files\View
 	 */
 	public $view;
+	/**
+	 * @var \OC\Files\View
+	 */
+	public $view2;
 	public $folder;
 	public $subfolder;
 
@@ -124,6 +128,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		$this->data = 'foobar';
 		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$this->view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		$this->shareManager = \OC::$server->getShareManager();
 		$this->rootFolder = \OC::$server->getRootFolder();

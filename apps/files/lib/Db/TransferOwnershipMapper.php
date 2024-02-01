@@ -29,6 +29,9 @@ namespace OCA\Files\Db;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<TransferOwnership>
+ */
 class TransferOwnershipMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'user_transfer_owner', TransferOwnership::class);

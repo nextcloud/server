@@ -34,7 +34,7 @@ class BrowserErrorPagePluginTest extends \Test\TestCase {
 	 * @param $expectedCode
 	 * @param $exception
 	 */
-	public function test($expectedCode, $exception) {
+	public function test($expectedCode, $exception): void {
 		/** @var BrowserErrorPagePlugin | \PHPUnit\Framework\MockObject\MockObject $plugin */
 		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->setMethods(['sendResponse', 'generateBody'])->getMock();
 		$plugin->expects($this->once())->method('generateBody')->willReturn(':boom:');

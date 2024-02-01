@@ -21,21 +21,23 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
+	<section id="vue-avatar-section">
+		<h3 class="hidden-visually">
+			{{ t('settings', 'Your profile information') }}
+		</h3>
+		<HeaderBar :is-heading="true"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
 
 		<div v-if="!showCropper" class="avatar__container">
 			<div class="avatar__preview">
 				<NcAvatar v-if="!loading"
+					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
-					:disabled-tooltip="true"
+					:disable-tooltip="true"
 					:show-user-status="false"
-					:size="180"
-					:key="version" />
+					:size="180" />
 				<div v-else class="icon-loading" />
 			</div>
 			<template v-if="avatarChangeSupported">
@@ -46,7 +48,7 @@
 							<Upload :size="20" />
 						</template>
 					</NcButton>
-					<NcButton :aria-label="t('settings', 'Choose profile picture from files')"
+					<NcButton :aria-label="t('settings', 'Choose profile picture from Files')"
 						@click="openFilePicker">
 						<template #icon>
 							<Folder :size="20" />
@@ -60,9 +62,8 @@
 						</template>
 					</NcButton>
 				</div>
-				<span>{{ t('settings', 'png or jpg, max. 20 MB') }}</span>
+				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
 				<input ref="input"
-					:id="inputId"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">
@@ -99,15 +100,15 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import VueCropper from 'vue-cropperjs'
-// eslint-disable-next-line node/no-extraneous-import
+// eslint-disable-next-line n/no-extraneous-import
 import 'cropperjs/dist/cropper.css'
 
-import Upload from 'vue-material-design-icons/Upload'
-import Folder from 'vue-material-design-icons/Folder'
-import Delete from 'vue-material-design-icons/Delete'
+import Upload from 'vue-material-design-icons/Upload.vue'
+import Folder from 'vue-material-design-icons/Folder.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
 
 import HeaderBar from './shared/HeaderBar.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
@@ -120,7 +121,6 @@ const VALID_MIME_TYPES = ['image/png', 'image/jpeg']
 const picker = getFilePickerBuilder(t('settings', 'Choose your profile picture'))
 	.setMultiSelect(false)
 	.setMimeTypeFilter(VALID_MIME_TYPES)
-	.setModal(true)
 	.setType(1)
 	.allowDirectories(false)
 	.build()
@@ -168,12 +168,6 @@ export default {
 
 	beforeDestroy() {
 		unsubscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-	},
-
-	computed: {
-		inputId() {
-			return `account-property-${this.avatar.name}`
-		},
 	},
 
 	methods: {
@@ -225,7 +219,10 @@ export default {
 			this.showCropper = false
 			this.loading = true
 
-			this.$refs.cropper.getCroppedCanvas().toBlob(async (blob) => {
+			const canvasData = this.$refs.cropper.getCroppedCanvas()
+			const scaleFactor = canvasData.width > 512 ? 512 / canvasData.width : 1
+
+			this.$refs.cropper.scale(scaleFactor, scaleFactor).getCroppedCanvas().toBlob(async (blob) => {
 				if (blob === null) {
 					showError(t('settings', 'Error cropping profile picture'))
 					this.cancel()
@@ -276,6 +273,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section {
+	grid-row: 1/3;
+}
 .avatar {
 	&__container {
 		margin: 0 auto;
@@ -284,7 +284,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		gap: 16px 0;
-		width: 300px;
+		width: min(100%, 300px);
 
 		span {
 			color: var(--color-text-lighter);

@@ -33,7 +33,6 @@ use function array_values;
  * @since 20.0.0
  */
 final class SearchResult implements JsonSerializable {
-
 	/** @var string */
 	private $name;
 
@@ -55,9 +54,9 @@ final class SearchResult implements JsonSerializable {
 	 * @since 20.0.0
 	 */
 	private function __construct(string $name,
-								 bool $isPaginated,
-								 array $entries,
-								 $cursor = null) {
+		bool $isPaginated,
+		array $entries,
+		$cursor = null) {
 		$this->name = $name;
 		$this->isPaginated = $isPaginated;
 		$this->entries = $entries;
@@ -88,8 +87,8 @@ final class SearchResult implements JsonSerializable {
 	 * @since 20.0.0
 	 */
 	public static function paginated(string $name,
-									array $entries,
-									 $cursor): self {
+		array $entries,
+		$cursor): self {
 		return new self(
 			$name,
 			true,

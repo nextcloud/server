@@ -37,24 +37,28 @@ namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
 use OC\Files\Node\Folder;
+use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Activity\IManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Constants;
+use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
@@ -63,12 +67,9 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
-use OCP\Activity\IManager;
-use OCP\Files\IRootFolder;
-use OCP\Defaults;
-use OC\Share20\Manager;
 
 /**
  * @group DB
@@ -76,7 +77,6 @@ use OC\Share20\Manager;
  * @package OCA\Files_Sharing\Controllers
  */
 class ShareControllerTest extends \Test\TestCase {
-
 	/** @var string */
 	private $user;
 	/** @var string */
@@ -110,6 +110,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $secureRandom;
 	/** @var Defaults|MockObject */
 	private $defaults;
+	/** @var IPublicShareTemplateFactory|MockObject */
+	private $publicShareTemplateFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -131,6 +133,24 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->publicShareTemplateFactory = $this->createMock(IPublicShareTemplateFactory::class);
+		$this->publicShareTemplateFactory
+			->expects($this->any())
+			->method('getProvider')
+			->willReturn(
+				new DefaultPublicShareTemplateProvider(
+					$this->userManager,
+					$this->accountManager,
+					$this->previewManager,
+					$this->federatedShareProvider,
+					$this->urlGenerator,
+					$this->eventDispatcher,
+					$this->l10n,
+					$this->defaults,
+					$this->config,
+					$this->createMock(IRequest::class),
+				)
+			);
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
@@ -138,7 +158,6 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->config,
 			$this->urlGenerator,
 			$this->userManager,
-			$this->createMock(ILogger::class),
 			$this->createMock(IManager::class),
 			$this->shareManager,
 			$this->session,
@@ -149,7 +168,8 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->eventDispatcher,
 			$this->l10n,
 			$this->secureRandom,
-			$this->defaults
+			$this->defaults,
+			$this->publicShareTemplateFactory,
 		);
 
 

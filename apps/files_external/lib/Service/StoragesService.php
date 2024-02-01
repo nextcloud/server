@@ -44,7 +44,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Service class to manage external storage
@@ -119,17 +119,15 @@ abstract class StoragesService {
 			return $config;
 		} catch (\UnexpectedValueException $e) {
 			// don't die if a storage backend doesn't exist
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'Could not load storage.',
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
 				'app' => 'files_external',
+				'exception' => $e,
 			]);
 			return null;
 		} catch (\InvalidArgumentException $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'Could not load storage.',
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
 				'app' => 'files_external',
+				'exception' => $e,
 			]);
 			return null;
 		}
@@ -231,7 +229,7 @@ abstract class StoragesService {
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::VISIBILITY_* constants
+	 * @return int BackendService::VISIBILITY_* constants
 	 */
 	abstract public function getVisibilityType();
 
@@ -510,6 +508,7 @@ abstract class StoragesService {
 			$storage = $storageConfig->getBackend()->wrapStorage($storage);
 			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
 
+			/** @var \OC\Files\Storage\Storage $storage */
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;

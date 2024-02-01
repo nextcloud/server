@@ -29,7 +29,8 @@ use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IDisableEncryptionStorage;
+use OCP\Files\Storage\IStorage;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,7 +41,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Encryption
  */
 class EncryptionWrapper {
-
 	/** @var ArrayCache  */
 	private $arrayCache;
 
@@ -53,8 +53,8 @@ class EncryptionWrapper {
 	 * EncryptionWrapper constructor.
 	 */
 	public function __construct(ArrayCache $arrayCache,
-								Manager $manager,
-								LoggerInterface $logger
+		Manager $manager,
+		LoggerInterface $logger
 	) {
 		$this->arrayCache = $arrayCache;
 		$this->manager = $manager;
@@ -65,18 +65,19 @@ class EncryptionWrapper {
 	 * Wraps the given storage when it is not a shared storage
 	 *
 	 * @param string $mountPoint
-	 * @param Storage $storage
+	 * @param IStorage $storage
 	 * @param IMountPoint $mount
-	 * @return Encryption|Storage
+	 * @param bool $force apply the wrapper even if the storage normally has encryption disabled, helpful for repair steps
+	 * @return Encryption|IStorage
 	 */
-	public function wrapStorage($mountPoint, Storage $storage, IMountPoint $mount) {
+	public function wrapStorage(string $mountPoint, IStorage $storage, IMountPoint $mount, bool $force = false) {
 		$parameters = [
 			'storage' => $storage,
 			'mountPoint' => $mountPoint,
 			'mount' => $mount
 		];
 
-		if (!$storage->instanceOfStorage(Storage\IDisableEncryptionStorage::class) && $mountPoint !== '/') {
+		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
 			$user = \OC::$server->getUserSession()->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;

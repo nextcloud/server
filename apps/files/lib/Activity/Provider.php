@@ -38,12 +38,10 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -79,13 +77,13 @@ class Provider implements IProvider {
 	protected $fileIsEncrypted = false;
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IRootFolder $rootFolder,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -306,19 +304,8 @@ class Provider implements IProvider {
 		return strlen($filename) > 0 && $filename[0] === '.';
 	}
 
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**

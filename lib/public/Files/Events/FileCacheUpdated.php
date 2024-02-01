@@ -32,7 +32,6 @@ use OCP\Files\Storage\IStorage;
  * @since 18.0.0
  */
 class FileCacheUpdated extends Event {
-
 	/** @var IStorage */
 	private $storage;
 
@@ -45,7 +44,7 @@ class FileCacheUpdated extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(IStorage $storage,
-								string $path) {
+		string $path) {
 		parent::__construct();
 		$this->storage = $storage;
 		$this->path = $path;

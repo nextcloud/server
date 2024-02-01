@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Kommentarer",
     "You commented" : "Du kommenterade",
-    "%1$s commented" : "%1$s kommenterade",
     "{author} commented" : "{author} kommenterade",
     "You commented on %1$s" : "Du kommenterade på %1$s",
     "You commented on {file}" : "Du kommenterade på {file}",
@@ -16,19 +15,22 @@ OC.L10N.register(
     "Edit comment" : "Redigera kommentar",
     "Delete comment" : "Ta bort kommentar",
     "Cancel edit" : "Avbryt redigering",
+    "New comment" : "Ny kommentar",
+    "Write a comment …" : "Skriv en kommentar ...",
     "Post comment" : "Publicera kommentar",
+    "@ for mentions, : for emoji, / for smart picker" : "@ för omnämnanden, : för emoji, / för smart picker",
+    "Could not reload comments" : "Kunde inte ladda om kommentarer",
     "No comments yet, start the conversation!" : "Inga kommentarer ännu.",
     "No more messages" : "Inga fler meddelanden",
     "Retry" : "Försök igen",
+    "Failed to mark comments as read" : "Kunde inte markera kommentarer som lästa",
     "Unable to load the comments list" : "Det gick inte att ladda kommentarlistan",
-    "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"],
     "_1 new comment_::_{unread} new comments_" : ["1 ny kommentar","{unread} nya kommentarer"],
     "Comment" : "Kommentar",
     "An error occurred while trying to edit the comment" : "Ett fel uppstod när du försökte redigera kommentaren",
     "Comment deleted" : "Kommentar borttagen",
     "An error occurred while trying to delete the comment" : "Ett fel uppstod när du försökte ta bort kommentaren",
     "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\""
+    "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"]
 },
 "nplurals=2; plural=(n != 1);");

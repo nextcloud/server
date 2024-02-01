@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -32,8 +33,10 @@ namespace OCA\Theming\Controller;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
+use OCA\Theming\ResponseDefinitions;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -47,29 +50,37 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 
+/**
+ * @psalm-import-type ThemingBackground from ResponseDefinitions
+ */
 class UserThemeController extends OCSController {
 
-	protected string $userId;
+	protected ?string $userId = null;
+
 	private IConfig $config;
 	private IUserSession $userSession;
 	private ThemesService $themesService;
+	private ThemingDefaults $themingDefaults;
 	private BackgroundService $backgroundService;
 
-	/**
-	 * Config constructor.
-	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IUserSession $userSession,
-								ThemesService $themesService,
-								BackgroundService $backgroundService) {
+		IRequest $request,
+		IConfig $config,
+		IUserSession $userSession,
+		ThemesService $themesService,
+		ThemingDefaults $themingDefaults,
+		BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->themesService = $themesService;
+		$this->themingDefaults = $themingDefaults;
 		$this->backgroundService = $backgroundService;
-		$this->userId = $userSession->getUser()->getUID();
+
+		$user = $userSession->getUser();
+		if ($user !== null) {
+			$this->userId = $user->getUID();
+		}
 	}
 
 	/**
@@ -78,8 +89,11 @@ class UserThemeController extends OCSController {
 	 * Enable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse
-	 * @throws OCSBadRequestException|PreConditionNotMetException
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSBadRequestException Enabling theme is not possible
+	 * @throws PreConditionNotMetException
+	 *
+	 * 200: Theme enabled successfully
 	 */
 	public function enableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
@@ -95,8 +109,11 @@ class UserThemeController extends OCSController {
 	 * Disable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse
-	 * @throws OCSBadRequestException|PreConditionNotMetException
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSBadRequestException Disabling theme is not possible
+	 * @throws PreConditionNotMetException
+	 *
+	 * 200: Theme disabled successfully
 	 */
 	public function disableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
@@ -113,7 +130,8 @@ class UserThemeController extends OCSController {
 	 *
 	 * @param string $themeId the theme ID
 	 * @return ITheme
-	 * @throws OCSBadRequestException|PreConditionNotMetException
+	 * @throws OCSBadRequestException
+	 * @throws PreConditionNotMetException
 	 */
 	private function validateTheme(string $themeId): ITheme {
 		if ($themeId === '' || !$themeId) {
@@ -137,6 +155,12 @@ class UserThemeController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * Get the background image
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 *
+	 * 200: Background image returned
+	 * 404: Background image not found
 	 */
 	public function getBackground(): Http\Response {
 		$file = $this->backgroundService->getBackground();
@@ -150,37 +174,75 @@ class UserThemeController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Delete the background
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, ThemingBackground, array{}>
+	 *
+	 * 200: Background deleted successfully
 	 */
-	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
-		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'backgroundVersion', '0');
+	public function deleteBackground(): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+		$this->backgroundService->deleteBackgroundImage();
+		return new JSONResponse([
+			'backgroundImage' => null,
+			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'version' => $currentVersion,
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Set the background
+	 *
+	 * @param string $type Type of background
+	 * @param string $value Path of the background image
+	 * @param string|null $color Color for the background
+	 * @return JSONResponse<Http::STATUS_OK, ThemingBackground, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR, array{error: string}, array{}>
+	 *
+	 * 200: Background set successfully
+	 * 400: Setting background is not possible
+	 */
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', string $color = null): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+
+		// Set color if provided
+		if ($color) {
+			$this->backgroundService->setColorBackground($color);
+		}
+
+		// Set background image if provided
 		try {
 			switch ($type) {
-				case 'shipped':
+				case BackgroundService::BACKGROUND_SHIPPED:
 					$this->backgroundService->setShippedBackground($value);
 					break;
-				case 'custom':
+				case BackgroundService::BACKGROUND_CUSTOM:
 					$this->backgroundService->setFileBackground($value);
 					break;
-				case 'color':
-					$this->backgroundService->setColorBackground($value);
-					break;
-				case 'default':
+				case BackgroundService::BACKGROUND_DEFAULT:
+					// Delete both background and color keys
 					$this->backgroundService->setDefaultBackground();
 					break;
 				default:
-					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+					if (!$color) {
+						return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+					}
 			}
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		} catch (\Throwable $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+
 		$currentVersion++;
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'backgroundVersion', (string)$currentVersion);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string)$currentVersion);
+
 		return new JSONResponse([
-			'type' => $type,
-			'value' => $value,
-			'version' => $this->config->getUserValue($this->userId, Application::APP_ID, 'backgroundVersion', $currentVersion)
+			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
+			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'version' => $currentVersion,
 		]);
 	}
 }

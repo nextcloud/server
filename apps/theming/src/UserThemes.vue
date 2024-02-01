@@ -23,10 +23,12 @@
 
 <template>
 	<section>
-		<NcSettingsSection :title="t('theming', 'Appearance and accessibility')"
+		<NcSettingsSection :name="t('theming', 'Appearance and accessibility settings')"
 			:limit-width="false"
 			class="theming">
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="description" />
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="descriptionDetail" />
 
 			<div class="theming__preview-list">
@@ -51,25 +53,29 @@
 			</div>
 		</NcSettingsSection>
 
-		<NcSettingsSection :title="t('theming', 'Keyboard shortcuts')">
-			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
+		<NcSettingsSection :name="t('theming', 'Background')"
+			class="background"
+			data-user-theming-background-disabled>
+			<template v-if="isUserThemingDisabled">
+				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
+			</template>
+			<template v-else>
+				<p>{{ t('theming', 'Set a custom background') }}</p>
+				<BackgroundSettings class="background__grid" @update:background="refreshGlobalStyles" />
+			</template>
+		</NcSettingsSection>
+
+		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')">
+			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
 			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="shortcutsDisabled"
-				name="shortcuts_disabled"
 				type="switch"
 				@change="changeShortcutsDisabled">
 				{{ t('theming', 'Disable all keyboard shortcuts') }}
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
 
-		<NcSettingsSection :title="t('theming', 'Background')"
-			class="background">
-			<p>{{ t('theming', 'Set a custom background') }}</p>
-			<BackgroundSettings class="background__grid"
-				:background="background"
-				:theming-default-background="themingDefaultBackground"
-				@update:background="updateBackground" />
-		</NcSettingsSection>
+		<UserAppMenuSection />
 	</section>
 </template>
 
@@ -77,40 +83,38 @@
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
+import UserAppMenuSection from './components/UserAppMenuSection.vue'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
-const background = loadState('theming', 'background')
-const backgroundVersion = loadState('theming', 'backgroundVersion')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
-
-console.debug('Available themes', availableThemes)
+const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 export default {
 	name: 'UserThemes',
+
 	components: {
 		ItemPreview,
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 		BackgroundSettings,
+		UserAppMenuSection,
 	},
 
 	data() {
 		return {
 			availableThemes,
+
+			// Admin defined configs
 			enforceTheme,
 			shortcutsDisabled,
-			background,
-			backgroundVersion,
-			themingDefaultBackground,
+			isUserThemingDisabled,
 		}
 	},
 
@@ -118,6 +122,7 @@ export default {
 		themes() {
 			return this.availableThemes.filter(theme => theme.type === 1)
 		},
+
 		fonts() {
 			return this.availableThemes.filter(theme => theme.type === 2)
 		},
@@ -131,33 +136,33 @@ export default {
 			// using the `t` replace method escape html, we have to do it manually :/
 			return t(
 				'theming',
-				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.'
+				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.',
 			)
 				.replace('{guidelines}', this.guidelinesLink)
 				.replace('{linkend}', '</a>')
 		},
+
 		guidelinesLink() {
 			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
+
 		descriptionDetail() {
 			return t(
 				'theming',
-				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
+				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!',
 			)
 				.replace('{issuetracker}', this.issuetrackerLink)
 				.replace('{designteam}', this.designteamLink)
 				.replace(/\{linkend\}/g, '</a>')
 		},
+
 		issuetrackerLink() {
 			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
 		},
+
 		designteamLink() {
 			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
-	},
-
-	mounted() {
-		this.updateGlobalStyles()
 	},
 
 	watch: {
@@ -167,27 +172,23 @@ export default {
 	},
 
 	methods: {
+		// Refresh server-side generated theming CSS
+		refreshGlobalStyles() {
+			[...document.head.querySelectorAll('link.theme')].forEach(theme => {
+				const url = new URL(theme.href)
+				url.searchParams.set('v', Date.now())
+				const newTheme = theme.cloneNode()
+				newTheme.href = url.toString()
+				newTheme.onload = () => theme.remove()
+				document.head.append(newTheme)
+			})
+		},
+
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
-			this.backgroundVersion = data.version
-			this.updateGlobalStyles()
-			this.$emit('update:background')
+			this.refreshGlobalStyles()
 		},
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-				// document.body.removeAttribute('data-theme-dark')
-				// document.body.setAttribute('data-theme-light', 'true')
-			} else {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
-				// document.body.removeAttribute('data-theme-light')
-				// document.body.setAttribute('data-theme-dark', 'true')
-			}
-		},
+
 		changeTheme({ enabled, id }) {
 			// Reset selected and select new one
 			this.themes.forEach(theme => {
@@ -201,6 +202,7 @@ export default {
 			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
 		},
+
 		changeFont({ enabled, id }) {
 			// Reset selected and select new one
 			this.fonts.forEach(font => {

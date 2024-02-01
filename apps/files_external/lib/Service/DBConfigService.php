@@ -64,11 +64,7 @@ class DBConfigService {
 		$this->crypto = $crypto;
 	}
 
-	/**
-	 * @param int $mountId
-	 * @return array
-	 */
-	public function getMountById($mountId) {
+	public function getMountById(int $mountId): ?array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts', 'm')
@@ -281,14 +277,17 @@ class DBConfigService {
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_config')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_options')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();

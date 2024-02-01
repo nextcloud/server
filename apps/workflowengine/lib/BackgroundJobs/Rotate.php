@@ -23,14 +23,16 @@
  */
 namespace OCA\WorkflowEngine\BackgroundJobs;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\WorkflowEngine\AppInfo\Application;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\Log\RotationTrait;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
 
-	public function __construct() {
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time);
 		$this->setInterval(60 * 60 * 3);
 	}
 

@@ -60,7 +60,7 @@ abstract class GroupMappingMigration extends SimpleMigrationStep {
 				->setParameter('owncloud_name', $row['owncloud_name'])
 				->setParameter('directory_uuid', $row['directory_uuid'])
 				->setParameter('ldap_dn_hash', $row['ldap_dn_hash'])
-				;
+			;
 
 			$insert->executeStatement();
 		}

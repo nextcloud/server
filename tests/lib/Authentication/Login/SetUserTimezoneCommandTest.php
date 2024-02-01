@@ -31,7 +31,6 @@ use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SetUserTimezoneCommandTest extends ALoginCommandTest {
-
 	/** @var IConfig|MockObject */
 	private $config;
 

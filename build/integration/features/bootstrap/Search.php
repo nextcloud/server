@@ -24,7 +24,6 @@ use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 trait Search {
-
 	// BasicStructure trait is expected to be used in the class that uses this
 	// trait.
 

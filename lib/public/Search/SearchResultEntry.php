@@ -44,7 +44,6 @@ use JsonSerializable;
  * @since 20.0.0
  */
 class SearchResultEntry implements JsonSerializable {
-
 	/**
 	 * @var string
 	 * @since 20.0.0
@@ -99,11 +98,11 @@ class SearchResultEntry implements JsonSerializable {
 	 * @since 20.0.0
 	 */
 	public function __construct(string $thumbnailUrl,
-								string $title,
-								string $subline,
-								string $resourceUrl,
-								string $icon = '',
-								bool $rounded = false) {
+		string $title,
+		string $subline,
+		string $resourceUrl,
+		string $icon = '',
+		bool $rounded = false) {
 		$this->thumbnailUrl = $thumbnailUrl;
 		$this->title = $title;
 		$this->subline = $subline;

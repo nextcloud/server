@@ -46,14 +46,12 @@ class CacheJail extends CacheWrapper {
 	protected $unjailedRoot;
 
 	/**
-	 * @param \OCP\Files\Cache\ICache $cache
+	 * @param ?\OCP\Files\Cache\ICache $cache
 	 * @param string $root
 	 */
 	public function __construct($cache, $root) {
 		parent::__construct($cache);
 		$this->root = $root;
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
 		if ($cache instanceof CacheJail) {
 			$this->unjailedRoot = $cache->getSourcePath($root);
@@ -239,8 +237,8 @@ class CacheJail extends CacheWrapper {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($this->getCache() instanceof Cache) {
@@ -317,7 +315,7 @@ class CacheJail extends CacheWrapper {
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
 						[
 							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
-							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', $this->getGetUnjailedRoot() . '/%'),
+							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', SearchComparison::escapeLikeParameter($this->getGetUnjailedRoot()) . '/%'),
 						],
 					)
 				]
@@ -328,7 +326,7 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
-		if ($this->getGetUnjailedRoot() === '' || strpos($rawEntry->getPath(), $this->getGetUnjailedRoot()) === 0) {
+		if ($this->getGetUnjailedRoot() === '' || str_starts_with($rawEntry->getPath(), $this->getGetUnjailedRoot())) {
 			$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
 			if ($rawEntry) {
 				$jailedPath = $this->getJailedPath($rawEntry->getPath());

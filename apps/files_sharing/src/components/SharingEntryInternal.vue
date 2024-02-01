@@ -1,4 +1,3 @@
-
 <template>
 	<ul>
 		<SharingEntrySimple ref="shareEntrySimple"
@@ -9,27 +8,25 @@
 				<div class="avatar-external icon-external-white" />
 			</template>
 
-			<NcActionLink :href="internalLink"
-				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
-				target="_blank"
+			<NcActionButton :title="copyLinkTooltip"
+				:aria-label="copyLinkTooltip"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.prevent="copyLink">
-				{{ clipboardTooltip }}
-			</NcActionLink>
+				@click="copyLink" />
 		</SharingEntrySimple>
 	</ul>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import SharingEntrySimple from './SharingEntrySimple'
+import { showSuccess } from '@nextcloud/dialogs'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import SharingEntrySimple from './SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingEntryInternal',
 
 	components: {
-		NcActionLink,
+		NcActionButton,
 		SharingEntrySimple,
 	},
 
@@ -59,17 +56,18 @@ export default {
 		},
 
 		/**
-		 * Clipboard v-tooltip message
+		 * Tooltip message
 		 *
 		 * @return {string}
 		 */
-		clipboardTooltip() {
+		copyLinkTooltip() {
 			if (this.copied) {
-				return this.copySuccess
-					? t('files_sharing', 'Link copied')
-					: t('files_sharing', 'Cannot copy, please copy the link manually')
+				if (this.copySuccess) {
+					return ''
+				}
+				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy to clipboard')
+			return t('files_sharing', 'Copy internal link to clipboard')
 		},
 
 		internalLinkSubtitle() {
@@ -83,8 +81,8 @@ export default {
 	methods: {
 		async copyLink() {
 			try {
-				await this.$copyText(this.internalLink)
-				// focus and show the tooltip (note: cannot set ref on NcActionLink)
+				await navigator.clipboard.writeText(this.internalLink)
+				showSuccess(t('files_sharing', 'Link copied'))
 				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()
 				this.copySuccess = true
 				this.copied = true

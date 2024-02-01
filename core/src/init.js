@@ -29,12 +29,12 @@ import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
 
-import { initSessionHeartBeat } from './session-heartbeat'
-import OC from './OC/index'
-import { setUp as setUpContactsMenu } from './components/ContactsMenu'
-import { setUp as setUpMainMenu } from './components/MainMenu'
-import { setUp as setUpUserMenu } from './components/UserMenu'
-import PasswordConfirmation from './OC/password-confirmation'
+import { initSessionHeartBeat } from './session-heartbeat.js'
+import OC from './OC/index.js'
+import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
+import { setUp as setUpMainMenu } from './components/MainMenu.js'
+import { setUp as setUpUserMenu } from './components/UserMenu.js'
+import { interceptRequests } from './utils/xhr-request.js'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
@@ -78,6 +78,8 @@ moment.locale(locale)
  * Initializes core
  */
 export const initCore = () => {
+	interceptRequests()
+
 	$(window).on('unload.main', () => { OC._unloadCalled = true })
 	$(window).on('beforeunload.main', () => {
 		// super-trick thanks to http://stackoverflow.com/a/4651049
@@ -160,6 +162,12 @@ export const initCore = () => {
 			// we need this because dragging stop triggers that
 			animating = false
 		})
+		snapper.on('open', () => {
+			$appNavigation.attr('aria-hidden', 'false')
+		})
+		snapper.on('close', () => {
+			$appNavigation.attr('aria-hidden', 'true')
+		})
 
 		// These are necessary because calling open or close
 		// on snapper during an animation makes it trigger an
@@ -213,6 +221,7 @@ export const initCore = () => {
 
 		// close sidebar when switching navigation entry
 		const $appNavigation = $('#app-navigation')
+		$appNavigation.attr('aria-hidden', 'true')
 		$appNavigation.delegate('a, :button', 'click', event => {
 			const $target = $(event.target)
 			// don't hide navigation when changing settings or adding things
@@ -264,6 +273,7 @@ export const initCore = () => {
 
 		const toggleSnapperOnSize = () => {
 			if ($(window).width() > breakpointMobileWidth) {
+				$appNavigation.attr('aria-hidden', 'false')
 				snapper.close()
 				snapper.disable()
 
@@ -287,5 +297,4 @@ export const initCore = () => {
 	}
 
 	initLiveTimestamps()
-	PasswordConfirmation.init()
 }

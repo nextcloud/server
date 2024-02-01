@@ -41,8 +41,9 @@ if (\OCP\Util::needUpgrade()
 	exit;
 }
 
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use OCP\Security\Bruteforce\MaxDelayReached;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /*
  * Try the appframework routes
@@ -50,6 +51,7 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 try {
 	OC_App::loadApps(['session']);
 	OC_App::loadApps(['authentication']);
+	OC_App::loadApps(['extended_authentication']);
 
 	// load all apps to get all api routes properly setup
 	// FIXME: this should ideally appear after handleLogin but will cause
@@ -61,6 +63,9 @@ try {
 	}
 
 	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
+} catch (MaxDelayReached $ex) {
+	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	OC_API::respond(new \OC\OCS\Result(null, OCP\AppFramework\Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage()), $format);
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
 

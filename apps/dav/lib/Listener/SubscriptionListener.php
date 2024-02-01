@@ -35,6 +35,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<SubscriptionCreatedEvent|SubscriptionDeletedEvent> */
 class SubscriptionListener implements IEventListener {
 	private IJobList $jobList;
 	private RefreshWebcalService $refreshWebcalService;
@@ -42,7 +43,7 @@ class SubscriptionListener implements IEventListener {
 	private LoggerInterface $logger;
 
 	public function __construct(IJobList $jobList, RefreshWebcalService $refreshWebcalService, ReminderBackend $reminderBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->jobList = $jobList;
 		$this->refreshWebcalService = $refreshWebcalService;
 		$this->reminderBackend = $reminderBackend;

@@ -27,8 +27,7 @@
 		<template #avatar>
 			<NcAvatar :user="share.shareWith"
 				:display-name="share.shareWithDisplayName"
-				class="sharing-entry__avatar"
-				tooltip-message="" />
+				class="sharing-entry__avatar" />
 		</template>
 		<NcActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
@@ -49,15 +48,15 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { basename } from '@nextcloud/paths'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 
 // eslint-disable-next-line no-unused-vars
-import Share from '../models/Share'
-import SharesMixin from '../mixins/SharesMixin'
-import SharingEntrySimple from '../components/SharingEntrySimple'
+import Share from '../models/Share.js'
+import SharesMixin from '../mixins/SharesMixin.js'
+import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingEntryInherited',
@@ -103,6 +102,7 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 8px;
+		padding-left: 10px;
 		line-height: 1.2em;
 		p {
 			color: var(--color-text-maxcontrast);

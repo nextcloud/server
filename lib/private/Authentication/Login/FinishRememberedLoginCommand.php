@@ -30,7 +30,6 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class FinishRememberedLoginCommand extends ALoginCommand {
-
 	/** @var Session */
 	private $userSession;
 	/** @var IConfig */
@@ -42,7 +41,7 @@ class FinishRememberedLoginCommand extends ALoginCommand {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
-		if ($loginData->isRememberLogin() && $this->config->getSystemValue('auto_logout', false) === false) {
+		if ($loginData->isRememberLogin() && !$this->config->getSystemValueBool('auto_logout', false)) {
 			$this->userSession->createRememberMeToken($loginData->getUser());
 		}
 

@@ -68,7 +68,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
-	public function getSize(): int {
+	public function getSize(): int|float {
 		return strlen($this->contents);
 	}
 

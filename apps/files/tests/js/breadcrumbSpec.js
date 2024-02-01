@@ -41,7 +41,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		});
 		it('Renders its own container', function() {
 			bc.render();
-			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find("ul").hasClass('breadcrumb')).toEqual(true);
 		});
 		it('Renders root by default', function() {
 			var $crumbs;
@@ -189,7 +189,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			bc.setDirectory(dummyDir);
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('width', 50);
 				$(this).css('padding', 0);
 				$(this).css('margin', 0);
@@ -248,7 +248,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			paddings = [0, 0, 0, 0, 0, 0, 0, 0];
 			margins = [0, 0, 0, 0, 0, 0, 0, 0];
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('width', widths[index]);
 				$(this).css('padding', paddings[index]);
 				$(this).css('margin', margins[index]);
@@ -302,7 +302,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// Each element is 20px wider
 			paddings = [10, 10, 10, 10, 10, 10, 10, 10];
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('padding', paddings[index]);
 			});
 
@@ -329,7 +329,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// Each element is 20px wider
 			margins = [10, 10, 10, 10, 10, 10, 10, 10];
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('margin', margins[index]);
 			});
 

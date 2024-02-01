@@ -39,26 +39,26 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
-use Aws\Result;
 use Aws\S3\Exception\S3Exception;
-use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
-use OCP\ICacheFactory;
-use OCP\IMemcache;
-use OCP\Server;
 use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
+
+	private LoggerInterface $logger;
 
 	public function needsPartFile() {
 		return false;
@@ -88,6 +88,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -255,7 +256,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			]);
 			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -286,18 +290,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	protected function clearBucket() {
 		$this->clearCache();
-		try {
-			$this->getConnection()->clearBucket([
-				"Bucket" => $this->bucket
-			]);
-			return true;
-			// clearBucket() is not working with Ceph, so if it fails we try the slower approach
-		} catch (\Exception $e) {
-			return $this->batchDelete();
-		}
+		return $this->batchDelete();
 	}
 
 	private function batchDelete($path = null) {
+		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
 		$params = [
 			'Bucket' => $this->bucket
 		];
@@ -327,7 +324,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->deleteObject($path);
 			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 		return true;
@@ -415,7 +415,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		try {
 			return $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
@@ -438,7 +441,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -464,7 +470,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->deleteObject($path);
 			$this->invalidateCache($path);
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -485,8 +494,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 				try {
 					return $this->readObject($path);
-				} catch (S3Exception $e) {
-					\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				} catch (\Exception $e) {
+					$this->logger->error($e->getMessage(), [
+						'app' => 'files_external',
+						'exception' => $e,
+					]);
 					return false;
 				}
 			case 'w':
@@ -535,20 +547,25 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		];
 
 		try {
-			if (!$this->file_exists($path)) {
-				$mimeType = $this->mimeDetector->detectPath($path);
-				$this->getConnection()->putObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata,
-					'Body' => '',
-					'ContentType' => $mimeType,
-					'MetadataDirective' => 'REPLACE',
-				]);
-				$this->testTimeout();
+			if ($this->file_exists($path)) {
+				return false;
 			}
+
+			$mimeType = $this->mimeDetector->detectPath($path);
+			$this->getConnection()->putObject([
+				'Bucket' => $this->bucket,
+				'Key' => $this->cleanKey($path),
+				'Metadata' => $metadata,
+				'Body' => '',
+				'ContentType' => $mimeType,
+				'MetadataDirective' => 'REPLACE',
+			]);
+			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -556,65 +573,69 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function copy($path1, $path2, $isFile = null) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target, $isFile = null) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		if ($isFile === true || $this->is_file($path1)) {
+		if ($isFile === true || $this->is_file($source)) {
 			try {
-				$this->getConnection()->copyObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path2),
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
+				$this->copyObject($source, $target, [
+					'StorageClass' => $this->storageClass,
 				]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				$this->logger->error($e->getMessage(), [
+					'app' => 'files_external',
+					'exception' => $e,
+				]);
 				return false;
 			}
 		} else {
-			$this->remove($path2);
+			$this->remove($target);
 
 			try {
-				$this->mkdir($path2);
+				$this->mkdir($target);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				$this->logger->error($e->getMessage(), [
+					'app' => 'files_external',
+					'exception' => $e,
+				]);
 				return false;
 			}
 
-			foreach ($this->getDirectoryContent($path1) as $item) {
-				$source = $path1 . '/' . $item['name'];
-				$target = $path2 . '/' . $item['name'];
-				$this->copy($source, $target, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
+			foreach ($this->getDirectoryContent($source) as $item) {
+				$childSource = $source . '/' . $item['name'];
+				$childTarget = $target . '/' . $item['name'];
+				$this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
 			}
 		}
 
-		$this->invalidateCache($path2);
+		$this->invalidateCache($target);
 
 		return true;
 	}
 
-	public function rename($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function rename($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		if ($this->is_file($path1)) {
-			if ($this->copy($path1, $path2) === false) {
+		if ($this->is_file($source)) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
-			if ($this->unlink($path1) === false) {
-				$this->unlink($path2);
+			if ($this->unlink($source) === false) {
+				$this->unlink($target);
 				return false;
 			}
 		} else {
-			if ($this->copy($path1, $path2) === false) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
-			if ($this->rmdir($path1) === false) {
-				$this->rmdir($path2);
+			if ($this->rmdir($source) === false) {
+				$this->rmdir($target);
 				return false;
 			}
 		}
@@ -642,7 +663,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			unlink($tmpFile);
 			return true;
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
@@ -696,7 +720,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'mimetype' => $this->mimeDetector->detectPath($object['Key']),
 			'mtime' => strtotime($object['LastModified']),
 			'storage_mtime' => strtotime($object['LastModified']),
-			'etag' => $object['ETag'],
+			'etag' => trim($object['ETag'], '"'),
 			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			'size' => (int)($object['Size'] ?? $object['ContentLength']),
 		];

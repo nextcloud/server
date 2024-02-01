@@ -46,7 +46,7 @@ class DirectoryFilter extends DirectoryWrapper {
 	/**
 	 * @param resource $source
 	 * @param callable $filter
-	 * @return resource|bool
+	 * @return resource|false
 	 */
 	public static function wrap($source, callable $filter) {
 		return self::wrapSource($source, [

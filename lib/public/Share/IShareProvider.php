@@ -36,7 +36,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  * @since 9.0.0
  */
 interface IShareProvider {
-
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -71,7 +70,7 @@ interface IShareProvider {
 	 * @return IShare The share object
 	 * @since 17.0.0
 	 */
-//	public function acceptShare(IShare $share, string $recipient): IShare;
+	//	public function acceptShare(IShare $share, string $recipient): IShare;
 
 	/**
 	 * Delete a share

@@ -43,7 +43,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AppPasswordControllerTest extends TestCase {
-
 	/** @var ISession|MockObject */
 	private $session;
 

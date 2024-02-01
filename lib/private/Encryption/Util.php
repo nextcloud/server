@@ -70,7 +70,7 @@ class Util {
 	protected $config;
 
 	/** @var array paths excluded from encryption */
-	protected $excludedPaths;
+	protected array $excludedPaths = [];
 	protected IGroupManager $groupManager;
 	protected IUserManager $userManager;
 
@@ -94,7 +94,7 @@ class Util {
 		$this->config = $config;
 
 		$this->excludedPaths[] = 'files_encryption';
-		$this->excludedPaths[] = 'appdata_' . $config->getSystemValue('instanceid', null);
+		$this->excludedPaths[] = 'appdata_' . $config->getSystemValueString('instanceid');
 		$this->excludedPaths[] = 'files_external';
 	}
 
@@ -308,14 +308,10 @@ class Util {
 		$normalizedPath = Filesystem::normalizePath($path);
 		$root = explode('/', $normalizedPath, 4);
 		if (count($root) > 1) {
-
 			// detect alternative key storage root
 			$rootDir = $this->getKeyStorageRoot();
 			if ($rootDir !== '' &&
-				0 === strpos(
-					Filesystem::normalizePath($path),
-					Filesystem::normalizePath($rootDir)
-				)
+				str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
 			) {
 				return true;
 			}
@@ -360,5 +356,33 @@ class Util {
 	 */
 	public function getKeyStorageRoot(): string {
 		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
+	}
+
+	/**
+	 * parse raw header to array
+	 *
+	 * @param string $rawHeader
+	 * @return array
+	 */
+	public function parseRawHeader(string $rawHeader) {
+		$result = [];
+		if (str_starts_with($rawHeader, Util::HEADER_START)) {
+			$header = $rawHeader;
+			$endAt = strpos($header, Util::HEADER_END);
+			if ($endAt !== false) {
+				$header = substr($header, 0, $endAt + strlen(Util::HEADER_END));
+
+				// +1 to not start with an ':' which would result in empty element at the beginning
+				$exploded = explode(':', substr($header, strlen(Util::HEADER_START) + 1));
+
+				$element = array_shift($exploded);
+				while ($element !== Util::HEADER_END && $element !== null) {
+					$result[$element] = array_shift($exploded);
+					$element = array_shift($exploded);
+				}
+			}
+		}
+
+		return $result;
 	}
 }

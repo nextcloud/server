@@ -22,14 +22,19 @@
  */
 
 import Vue from 'vue'
-import VueClipboard from 'vue-clipboard2'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { getRequestToken } from '@nextcloud/auth'
 
-import SharingTab from './views/SharingTab'
-import ShareSearch from './services/ShareSearch'
-import ExternalLinkActions from './services/ExternalLinkActions'
-import ExternalShareActions from './services/ExternalShareActions'
-import TabSections from './services/TabSections'
+import ShareSearch from './services/ShareSearch.js'
+import ExternalLinkActions from './services/ExternalLinkActions.js'
+import ExternalShareActions from './services/ExternalShareActions.js'
+import TabSections from './services/TabSections.js'
+
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
+import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {
@@ -42,10 +47,8 @@ Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
 
 Vue.prototype.t = t
 Vue.prototype.n = n
-Vue.use(VueClipboard)
 
 // Init Sharing tab component
-const View = Vue.extend(SharingTab)
 let TabInstance = null
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -53,9 +56,12 @@ window.addEventListener('DOMContentLoaded', function() {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 			id: 'sharing',
 			name: t('files_sharing', 'Sharing'),
-			icon: 'icon-share',
+			iconSvg: ShareVariant,
 
 			async mount(el, fileInfo, context) {
+				const SharingTab = (await import('./views/SharingTab.vue')).default
+				const View = Vue.extend(SharingTab)
+
 				if (TabInstance) {
 					TabInstance.$destroy()
 				}

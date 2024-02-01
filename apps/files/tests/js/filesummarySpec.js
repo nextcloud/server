@@ -204,7 +204,8 @@ describe('OCA.Files.FileSummary tests', function() {
 		});
 
 		it('renders hidden count section when hidden files are hidden', function() {
-			config.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
+
 			summary.add({name: 'abc', type: 'file', size: 256000});
 			summary.add({name: 'def', type: 'dir', size: 100});
 			summary.add({name: '.hidden', type: 'dir', size: 512000});
@@ -217,7 +218,8 @@ describe('OCA.Files.FileSummary tests', function() {
 			expect($container.find('.filesize').text()).toEqual('750 KB');
 		});
 		it('does not render hidden count section when hidden files exist but are visible', function() {
-			config.set('showhidden', true);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: true });
+
 			summary.add({name: 'abc', type: 'file', size: 256000});
 			summary.add({name: 'def', type: 'dir', size: 100});
 			summary.add({name: '.hidden', type: 'dir', size: 512000});
@@ -229,7 +231,8 @@ describe('OCA.Files.FileSummary tests', function() {
 			expect($container.find('.filesize').text()).toEqual('750 KB');
 		});
 		it('does not render hidden count section when no hidden files exist', function() {
-			config.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
+
 			summary.add({name: 'abc', type: 'file', size: 256000});
 			summary.add({name: 'def', type: 'dir', size: 100});
 			summary.update();

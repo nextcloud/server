@@ -23,8 +23,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 // Check user and app status
 \OC_JSON::checkAdminUser();
@@ -35,7 +35,7 @@ $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
 	if ($subject === 'user') {
-		$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
+		$mapping = \OCP\Server::get(UserMapping::class);
 		$result = $mapping->clearCb(
 			function ($uid) {
 				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);

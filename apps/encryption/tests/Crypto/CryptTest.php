@@ -29,14 +29,12 @@ namespace OCA\Encryption\Tests\Crypto;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CryptTest extends TestCase {
-
-
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
@@ -54,7 +52,7 @@ class CryptTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger->expects($this->any())
@@ -111,7 +109,7 @@ class CryptTest extends TestCase {
 	 */
 	public function testGenerateHeader($keyFormat, $expected) {
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 			->willReturn('AES-128-CFB');
 
@@ -139,7 +137,7 @@ class CryptTest extends TestCase {
 	 */
 	public function dataTestGenerateHeader() {
 		return [
-			[null, 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:encoding:binary:HEND'],
+			[null, 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash2:encoding:binary:HEND'],
 			['password', 'HBEGIN:cipher:AES-128-CFB:keyFormat:password:encoding:binary:HEND'],
 			['hash', 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:encoding:binary:HEND']
 		];
@@ -147,7 +145,7 @@ class CryptTest extends TestCase {
 
 	public function testGetCipherWithInvalidCipher() {
 		$this->config->expects($this->once())
-				->method('getSystemValue')
+				->method('getSystemValueString')
 				->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 				->willReturn('Not-Existing-Cipher');
 		$this->logger
@@ -155,7 +153,7 @@ class CryptTest extends TestCase {
 			->method('warning')
 			->with('Unsupported cipher (Not-Existing-Cipher) defined in config.php supported. Falling back to AES-256-CTR');
 
-		$this->assertSame('AES-256-CTR',  $this->crypt->getCipher());
+		$this->assertSame('AES-256-CTR', $this->crypt->getCipher());
 	}
 
 	/**
@@ -165,7 +163,7 @@ class CryptTest extends TestCase {
 	 */
 	public function testGetCipher($configValue, $expected) {
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 			->willReturn($configValue);
 
@@ -208,7 +206,7 @@ class CryptTest extends TestCase {
 	 * @dataProvider dataTestSplitMetaData
 	 */
 	public function testSplitMetaData($data, $expected) {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
 			->willReturn(true);
 		$result = self::invokePrivate($this->crypt, 'splitMetaData', [$data, 'AES-256-CFB']);
@@ -235,7 +233,7 @@ class CryptTest extends TestCase {
 	 * @dataProvider dataTestHasSignature
 	 */
 	public function testHasSignature($data, $expected) {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
 			->willReturn(true);
 		$this->assertSame($expected,
@@ -396,7 +394,7 @@ class CryptTest extends TestCase {
 	public function testDecryptPrivateKey($header, $privateKey, $expectedCipher, $isValidKey, $expected) {
 		$this->config->method('getSystemValueBool')
 			->withConsecutive(['encryption.legacy_format_support', false],
-					  ['encryption.use_legacy_base64_encoding', false])
+				['encryption.use_legacy_base64_encoding', false])
 			->willReturnOnConsecutiveCalls(true, false);
 
 		/** @var \OCA\Encryption\Crypto\Crypt | \PHPUnit\Framework\MockObject\MockObject $crypt */
@@ -463,6 +461,19 @@ class CryptTest extends TestCase {
 		// invalid private key
 		$this->assertFalse(
 			$this->invokePrivate($this->crypt, 'isValidPrivateKey', ['foo'])
+		);
+	}
+
+	public function testMultiKeyEncrypt() {
+		$res = openssl_pkey_new();
+		openssl_pkey_export($res, $privateKey);
+		$publicKeyPem = openssl_pkey_get_details($res)['key'];
+		$publicKey = openssl_pkey_get_public($publicKeyPem);
+
+		$shareKeys = $this->crypt->multiKeyEncrypt('content', ['user1' => $publicKey]);
+		$this->assertEquals(
+			'content',
+			$this->crypt->multiKeyDecrypt($shareKeys['user1'], $privateKey)
 		);
 	}
 }

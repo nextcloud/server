@@ -26,10 +26,10 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\LoginCredentials;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ISession;
@@ -38,7 +38,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
-
 	/** @var ISession */
 	private $session;
 
@@ -49,8 +48,8 @@ class Store implements IStore {
 	private $tokenProvider;
 
 	public function __construct(ISession $session,
-								LoggerInterface $logger,
-								IProvider $tokenProvider = null) {
+		LoggerInterface $logger,
+		IProvider $tokenProvider = null) {
 		$this->session = $session;
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;

@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\Response;
  * @since 21.0.0
  */
 interface IResponse {
-
 	/**
 	 * @since 21.0.0
 	 */

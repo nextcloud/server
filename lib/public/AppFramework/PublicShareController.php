@@ -36,14 +36,13 @@ use OCP\ISession;
  *
  * Use this for example for a controller that is not to be called via a webbrowser
  * directly. For example a PublicPreviewController. As this is not meant to be
- * called by a user direclty.
+ * called by a user directly.
  *
  * To show an auth page extend the AuthPublicShareController
  *
  * @since 14.0.0
  */
 abstract class PublicShareController extends Controller {
-
 	/** @var ISession */
 	protected $session;
 
@@ -54,8 +53,8 @@ abstract class PublicShareController extends Controller {
 	 * @since 14.0.0
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								ISession $session) {
+		IRequest $request,
+		ISession $session) {
 		parent::__construct($appName, $request);
 
 		$this->session = $session;
@@ -87,7 +86,7 @@ abstract class PublicShareController extends Controller {
 	 *
 	 * @since 14.0.0
 	 */
-	abstract protected function getPasswordHash(): string;
+	abstract protected function getPasswordHash(): ?string;
 
 	/**
 	 * Is the provided token a valid token

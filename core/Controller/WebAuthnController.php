@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,8 +30,10 @@ namespace OC\Core\Controller;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\WebAuthnChain;
 use OC\Authentication\WebAuthn\Manager;
+use OC\URLGenerator;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISession;
@@ -42,25 +45,23 @@ class WebAuthnController extends Controller {
 	private const WEBAUTHN_LOGIN = 'webauthn_login';
 	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 
-	private Manager $webAuthnManger;
-	private ISession $session;
-	private LoggerInterface $logger;
-	private WebAuthnChain $webAuthnChain;
-
-	public function __construct($appName, IRequest $request, Manager $webAuthnManger, ISession $session, LoggerInterface $logger, WebAuthnChain $webAuthnChain) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Manager $webAuthnManger,
+		private ISession $session,
+		private LoggerInterface $logger,
+		private WebAuthnChain $webAuthnChain,
+		private URLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->webAuthnManger = $webAuthnManger;
-		$this->session = $session;
-		$this->logger = $logger;
-		$this->webAuthnChain = $webAuthnChain;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function startAuthentication(string $loginName): JSONResponse {
 		$this->logger->debug('Starting WebAuthn login');
 
@@ -83,8 +84,8 @@ class WebAuthnController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function finishAuthentication(string $data): JSONResponse {
 		$this->logger->debug('Validating WebAuthn login');
 
@@ -106,6 +107,8 @@ class WebAuthnController extends Controller {
 		);
 		$this->webAuthnChain->process($loginData);
 
-		return new JSONResponse([]);
+		return new JSONResponse([
+			'defaultRedirectUrl' => $this->urlGenerator->linkToDefaultPageUrl(),
+		]);
 	}
 }

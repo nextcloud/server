@@ -47,8 +47,6 @@ use OCP\FullTextSearch\Model\IIndexDocument;
  * @package OC\FullTextSearch\Model
  */
 class IndexDocument implements IIndexDocument, JsonSerializable {
-
-
 	/** @var string */
 	protected $id = '';
 

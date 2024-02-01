@@ -80,7 +80,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
@@ -88,7 +88,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
@@ -98,7 +98,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
@@ -235,7 +235,7 @@ class {{classname}} extends SimpleMigrationStep {
 		$path = $dir . '/' . $className . '.php';
 
 		if (file_put_contents($path, $code) === false) {
-			throw new RuntimeException('Failed to generate new migration step.');
+			throw new RuntimeException('Failed to generate new migration step. Could not write to ' . $path);
 		}
 
 		return $path;

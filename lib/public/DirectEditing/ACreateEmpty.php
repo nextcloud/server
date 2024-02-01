@@ -28,7 +28,6 @@ use OCP\Files\File;
  * @since 18.0.0
  */
 abstract class ACreateEmpty {
-
 	/**
 	 * Unique id for the creator to filter templates
 	 *

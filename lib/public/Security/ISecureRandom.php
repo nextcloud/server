@@ -39,7 +39,6 @@ namespace OCP\Security;
  * @since 8.0.0
  */
 interface ISecureRandom {
-
 	/**
 	 * Flags for characters that can be used for <code>generate($length, $characters)</code>
 	 */
@@ -65,5 +64,5 @@ interface ISecureRandom {
 	 * @since 8.0.0
 	 */
 	public function generate(int $length,
-							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
+		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
 }

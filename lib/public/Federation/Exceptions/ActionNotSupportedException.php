@@ -31,7 +31,6 @@ use OCP\HintException;
  * @since 14.0.0
  */
 class ActionNotSupportedException extends HintException {
-
 	/**
 	 * ActionNotSupportedException constructor.
 	 *

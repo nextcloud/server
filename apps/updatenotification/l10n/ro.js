@@ -8,7 +8,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Serverul de actualizare nu a mai putut fi contactat de %d zile pentru a verifica dacă există actualizări noi.",
     "Please check the Nextcloud and server log files for errors." : "Vă rugăm să verificați dacă există erori în fișierele jurnal Nextcloud și în fișierele jurnal ale serverului.",
     "Update to %1$s is available." : " Actualizarea la %1$s este disponibilă.",
-    "Update for %1$s to version %2$s is available." : "Actualizarea pentru %1$s la versiunea %2$s este disponibilă.",
     "Update for {app} to version %s is available." : "Actualizarea pentru {app} la versiunea %s este disponibilă.",
     "Update notification" : "Notificare de actualizare",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Afișează notificările de actualizare pentru Nextcloud și oferă SSO pentru actualizator.",
@@ -22,10 +21,10 @@ OC.L10N.register(
     "Download now" : "Descarcă acum",
     "Please use the command line updater to update." : "Vă rugăm să utilizați programul de actualizare din linia de comandă pentru a efectua actualizarea.",
     "What's new?" : "Ce este nou?",
+    "View changelog" : "Vezi changelog",
     "The update check is not yet finished. Please refresh the page." : "Verificarea actualizării nu este încă finalizată. Vă rugăm să reîmprospătați pagina.",
     "Your version is up to date." : "Versiunea curentă este la zi.",
-    "Update channel:" : "Canal pentru actualizări:",
-    "View changelog" : "Vezi changelog",
-    "Beta" : "Beta"
+    "Beta" : "Beta",
+    "Update channel:" : "Canal pentru actualizări:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

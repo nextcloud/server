@@ -20,7 +20,8 @@
   -->
 
 <template>
-	<nav class="app-menu">
+	<nav class="app-menu"
+		:aria-label="t('core', 'Applications menu')">
 		<ul class="app-menu-main">
 			<li v-for="app in mainAppList"
 				:key="app.id"
@@ -30,7 +31,10 @@
 				<a :href="app.href"
 					:class="{ 'has-unread': app.unread > 0 }"
 					:aria-label="appLabel(app)"
-					:aria-current="app.active ? 'page' : false">
+					:title="app.name"
+					:aria-current="app.active ? 'page' : false"
+					:target="app.target ? '_blank' : undefined"
+					:rel="app.target ? 'noopener noreferrer' : undefined">
 					<img :src="app.icon" alt="">
 					<div class="app-menu-entry--label">
 						{{ app.name }}
@@ -60,8 +64,9 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 
 export default {
 	name: 'AppMenu',
@@ -95,13 +100,18 @@ export default {
 		this.observer = new ResizeObserver(this.resize)
 		this.observer.observe(this.$el)
 		this.resize()
+		subscribe('nextcloud:app-menu.refresh', this.setApps)
 	},
 	beforeDestroy() {
 		this.observer.disconnect()
+		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 	},
 	methods: {
 		setNavigationCounter(id, counter) {
 			this.$set(this.apps[id], 'unread', counter)
+		},
+		setApps({ apps }) {
+			this.apps = apps
 		},
 		resize() {
 			const availableWidth = this.$el.offsetWidth
@@ -137,7 +147,6 @@ $header-icon-size: 20px;
 		height: 50px;
 		position: relative;
 		display: flex;
-		opacity: .7;
 
 		&.app-menu-entry__active {
 			opacity: 1;
@@ -168,6 +177,7 @@ $header-icon-size: 20px;
 			width: calc(100% - 4px);
 			height: calc(100% - 4px);
 			margin: 2px;
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
 			color: var(--color-primary-text);
 			position: relative;
 		}
@@ -177,17 +187,19 @@ $header-icon-size: 20px;
 			width: $header-icon-size;
 			height: $header-icon-size;
 			padding: calc((100% - $header-icon-size) / 2);
-			filter: var(--primary-invert-if-bright);
+			box-sizing: content-box;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		.app-menu-entry--label {
 			opacity: 0;
 			position: absolute;
 			font-size: 12px;
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
 			color: var(--color-primary-text);
 			text-align: center;
-			bottom: -5px;
 			left: 50%;
+			top: 45%;
 			display: block;
 			min-width: 100%;
 			transform: translateX(-50%);
@@ -195,6 +207,8 @@ $header-icon-size: 20px;
 			width: 100%;
 			text-overflow: ellipsis;
 			overflow: hidden;
+			letter-spacing: -0.5px;
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		&:hover,
@@ -202,11 +216,11 @@ $header-icon-size: 20px;
 			opacity: 1;
 			.app-menu-entry--label {
 				opacity: 1;
-				font-weight: bold;
-				font-size: 14px;
+				font-weight: bolder;
 				bottom: 0;
-				width: auto;
-				overflow: visible;
+				width: 100%;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 		}
 
@@ -220,7 +234,7 @@ $header-icon-size: 20px;
 		opacity: 1;
 
 		img {
-			margin-top: -6px;
+			margin-top: -8px;
 		}
 
 		.app-menu-entry--label {
@@ -235,21 +249,23 @@ $header-icon-size: 20px;
 }
 
 ::v-deep .app-menu-more .button-vue--vue-tertiary {
-	color: var(--color-primary-text);
 	opacity: .7;
 	margin: 3px;
+	filter: var(--background-image-invert-if-bright);
 
-	&:hover {
-		opacity: 1;
-		background-color: transparent !important;
+	/* Remove all background and align text color if not expanded */
+	&:not([aria-expanded="true"]) {
+		color: var(--color-primary-element-text);
+
+		&:hover {
+			opacity: 1;
+			background-color: transparent !important;
+		}
 	}
 
 	&:focus-visible {
 		opacity: 1;
-		background-color: transparent !important;
-		border-radius: var(--border-radius);
-		outline: none;
-		box-shadow: 0 0 0 2px var(--color-primary-text);
+		outline: none !important;
 	}
 }
 
@@ -257,16 +273,20 @@ $header-icon-size: 20px;
 	.app-icon {
 		position: relative;
 		height: 44px;
+		width: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		/* Icons are bright so invert them if bright color theme == bright background is used */
+		filter: var(--background-invert-if-bright);
 
 		&.has-unread::after {
 			background-color: var(--color-main-text);
 		}
 
 		img {
-			filter: var(--background-invert-if-bright);
 			width: $header-icon-size;
 			height: $header-icon-size;
-			padding: calc((50px - $header-icon-size) / 2);
 		}
 	}
 }
@@ -275,7 +295,7 @@ $header-icon-size: 20px;
 	content: "";
 	width: 8px;
 	height: 8px;
-	background-color: var(--color-primary-text);
+	background-color: var(--color-primary-element-text);
 	border-radius: 50%;
 	position: absolute;
 	display: block;

@@ -31,7 +31,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit
  */
 class CapabilitiesTest extends TestCase {
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())
 			->method('getSystemValueBool')
@@ -46,7 +46,7 @@ class CapabilitiesTest extends TestCase {
 		$this->assertSame($expected, $capabilities->getCapabilities());
 	}
 
-	public function testGetCapabilitiesWithBulkUpload() {
+	public function testGetCapabilitiesWithBulkUpload(): void {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())
 			->method('getSystemValueBool')

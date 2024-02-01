@@ -20,7 +20,7 @@
  *
  */
 
-import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService'
+import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService.js'
 
 const state = {
 	predefinedStatuses: [],
@@ -35,11 +35,15 @@ const mutations = {
 	 * @param {object} status The status to add
 	 */
 	addPredefinedStatus(state, status) {
-		state.predefinedStatuses.push(status)
+		state.predefinedStatuses = [...state.predefinedStatuses, status]
 	},
 }
 
-const getters = {}
+const getters = {
+	statusesHaveLoaded(state) {
+		return state.predefinedStatuses.length > 0
+	},
+}
 
 const actions = {
 

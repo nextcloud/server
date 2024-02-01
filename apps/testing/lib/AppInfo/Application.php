@@ -25,6 +25,10 @@
 namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
+use OCA\Testing\Provider\FakeText2ImageProvider;
+use OCA\Testing\Provider\FakeTextProcessingProvider;
+use OCA\Testing\Provider\FakeTextProcessingProviderSync;
+use OCA\Testing\Provider\FakeTranslationProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -36,6 +40,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerTranslationProvider(FakeTranslationProvider::class);
+		$context->registerTextProcessingProvider(FakeTextProcessingProvider::class);
+		$context->registerTextProcessingProvider(FakeTextProcessingProviderSync::class);
+		$context->registerTextToImageProvider(FakeText2ImageProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

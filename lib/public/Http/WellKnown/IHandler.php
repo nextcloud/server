@@ -34,7 +34,6 @@ namespace OCP\Http\WellKnown;
  * @since 21.0.0
  */
 interface IHandler {
-
 	/**
 	 * @param string $service the name of the well known service, e.g. 'webfinger'
 	 * @param IRequestContext $context

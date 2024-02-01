@@ -21,18 +21,6 @@
     "There was an error setting the location." : "B'at àpidu un'errore impostende sa positzione.",
     "There was an error saving the mode." : "B'at àpidu un'errore sarvende sa modalidade.",
     "There was an error using personal address." : "B'at àpidu un'errore impreende s'indiritzu personale.",
-    "Set location for weather" : "Imposta sa positzione pro su tempus",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Chelu lìmpiu a is {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nues a is {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Die bella a is {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Note bella a is {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Unu pagu de nues a is {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Nebidosu a is {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Abba a pagu a is {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Abba a is {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Abba meda a is {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Abba isparta a is {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Abba a pagu isparta a is {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Abba meda isparta a is {time}"
+    "Set location for weather" : "Imposta sa positzione pro su tempus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

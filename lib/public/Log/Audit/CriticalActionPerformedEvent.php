@@ -33,7 +33,6 @@ use OCP\EventDispatcher\Event;
  * @since 22.0.0
  */
 class CriticalActionPerformedEvent extends Event {
-
 	/** @var string */
 	private $logMessage;
 
@@ -50,8 +49,8 @@ class CriticalActionPerformedEvent extends Event {
 	 * @since 22.0.0
 	 */
 	public function __construct(string $logMessage,
-								array $parameters = [],
-								bool $obfuscateParameters = false) {
+		array $parameters = [],
+		bool $obfuscateParameters = false) {
 		parent::__construct();
 		$this->logMessage = $logMessage;
 		$this->parameters = $parameters;

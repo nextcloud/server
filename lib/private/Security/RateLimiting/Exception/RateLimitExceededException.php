@@ -27,8 +27,9 @@ namespace OC\Security\RateLimiting\Exception;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OCP\AppFramework\Http;
+use OCP\Security\RateLimiting\IRateLimitExceededException;
 
-class RateLimitExceededException extends SecurityException {
+class RateLimitExceededException extends SecurityException implements IRateLimitExceededException {
 	public function __construct() {
 		parent::__construct('Rate limit exceeded', Http::STATUS_TOO_MANY_REQUESTS);
 	}

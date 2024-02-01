@@ -29,7 +29,6 @@ use OC\User\Manager;
 use OCP\IUser;
 
 class UidLoginCommand extends ALoginCommand {
-
 	/** @var Manager */
 	private $userManager;
 

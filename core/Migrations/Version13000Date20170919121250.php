@@ -33,7 +33,6 @@ use OCP\Migration\SimpleMigrationStep;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version13000Date20170919121250 extends SimpleMigrationStep {
-
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`

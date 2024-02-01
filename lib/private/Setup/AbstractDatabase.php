@@ -33,11 +33,11 @@ use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\SystemConfig;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
-
 	/** @var IL10N */
 	protected $trans;
 	/** @var string */
@@ -58,6 +58,8 @@ abstract class AbstractDatabase {
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
+	/** @var bool */
+	protected $tryCreateDbUser;
 
 	public function __construct(IL10N $trans, SystemConfig $config, LoggerInterface $logger, ISecureRandom $random) {
 		$this->trans = $trans;
@@ -87,7 +89,11 @@ abstract class AbstractDatabase {
 		$dbName = $config['dbname'];
 		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
 		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
-		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
+		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
+
+		$createUserConfig = $this->config->getValue("setup_create_db_user", true);
+		// accept `false` both as bool and string, since setting config values from env will result in a string
+		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== "false";
 
 		$this->config->setValues([
 			'dbname' => $dbName,
@@ -134,10 +140,12 @@ abstract class AbstractDatabase {
 			}
 			$connectionParams['host'] = $host;
 		}
-
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
+		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
 		$cf = new ConnectionFactory($this->config);
-		return $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection->ensureConnectedToPrimary();
+		return $connection;
 	}
 
 	/**
@@ -145,11 +153,11 @@ abstract class AbstractDatabase {
 	 */
 	abstract public function setupDatabase($username);
 
-	public function runMigrations() {
+	public function runMigrations(?IOutput $output = null) {
 		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {
 			return;
 		}
-		$ms = new MigrationService('core', \OC::$server->get(Connection::class));
+		$ms = new MigrationService('core', \OC::$server->get(Connection::class), $output);
 		$ms->migrate('latest', true);
 	}
 }

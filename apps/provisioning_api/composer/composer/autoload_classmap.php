@@ -20,4 +20,5 @@ return array(
     'OCA\\Provisioning_API\\Listener\\UserDeletedListener' => $baseDir . '/../lib/Listener/UserDeletedListener.php',
     'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => $baseDir . '/../lib/Middleware/Exceptions/NotSubAdminException.php',
     'OCA\\Provisioning_API\\Middleware\\ProvisioningApiMiddleware' => $baseDir . '/../lib/Middleware/ProvisioningApiMiddleware.php',
+    'OCA\\Provisioning_API\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );

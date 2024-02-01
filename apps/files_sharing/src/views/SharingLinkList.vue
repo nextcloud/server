@@ -33,21 +33,26 @@
 			<!-- using shares[index] to work with .sync -->
 			<SharingEntryLink v-for="(share, index) in shares"
 				:key="share.id"
+				:index="shares.length > 1 ? index + 1 : null"
 				:can-reshare="canReshare"
 				:share.sync="shares[index]"
 				:file-info="fileInfo"
 				@add:share="addShare(...arguments)"
 				@update:share="awaitForShare(...arguments)"
-				@remove:share="removeShare" />
+				@remove:share="removeShare"
+				@open-sharing-details="openSharingDetails(share)" />
 		</template>
 	</ul>
 </template>
 
 <script>
+import { getCapabilities } from '@nextcloud/capabilities'
+
 // eslint-disable-next-line no-unused-vars
-import Share from '../models/Share'
-import ShareTypes from '../mixins/ShareTypes'
-import SharingEntryLink from '../components/SharingEntryLink'
+import Share from '../models/Share.js'
+import ShareTypes from '../mixins/ShareTypes.js'
+import SharingEntryLink from '../components/SharingEntryLink.vue'
+import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingLinkList',
@@ -56,7 +61,7 @@ export default {
 		SharingEntryLink,
 	},
 
-	mixins: [ShareTypes],
+	mixins: [ShareTypes, ShareDetails],
 
 	props: {
 		fileInfo: {
@@ -77,7 +82,7 @@ export default {
 
 	data() {
 		return {
-			canLinkShare: OC.getCapabilities().files_sharing.public.enabled,
+			canLinkShare: getCapabilities().files_sharing.public.enabled,
 		}
 	},
 

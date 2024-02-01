@@ -26,8 +26,9 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OCA\Files_Sharing\ISharedMountPoint;
 
-class Mount extends MountPoint implements MoveableMount {
+class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 
 	/**
 	 * @var \OCA\Files_Sharing\External\Manager
@@ -61,11 +62,8 @@ class Mount extends MountPoint implements MoveableMount {
 
 	/**
 	 * Remove the mount points
-	 *
-	 * @return mixed
-	 * @return bool
 	 */
-	public function removeMount() {
+	public function removeMount(): bool {
 		return $this->manager->removeShare($this->mountPoint);
 	}
 

@@ -37,7 +37,6 @@ namespace OCP\AppFramework\Utility;
  * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
  */
 interface IControllerMethodReflector {
-
 	/**
 	 * @param object $object an object or classname
 	 * @param string $method the method which we want to inspect

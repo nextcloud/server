@@ -29,7 +29,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Export extends ListCommand {
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:export')
 			->setDescription('Export mount configurations')
@@ -54,6 +54,6 @@ class Export extends ListCommand {
 		$listInput->setOption('show-password', true);
 		$listInput->setOption('full', true);
 		$listCommand->execute($listInput, $output);
-		return 0;
+		return self::SUCCESS;
 	}
 }

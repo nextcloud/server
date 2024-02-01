@@ -35,7 +35,6 @@ use OCP\IUser;
  * @since 15.0.0
  */
 interface IActivatableByAdmin extends IProvider {
-
 	/**
 	 * Enable this provider for the given user.
 	 *

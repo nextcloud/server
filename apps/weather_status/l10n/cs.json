@@ -43,18 +43,6 @@
     "There was an error setting the location." : "Při nastavování umístění došlo k chybě.",
     "There was an error saving the mode." : "Při ukládání režimu došlo k chybě.",
     "There was an error using personal address." : "Při použití vaší osobní adresy došlo k chybě.",
-    "Set location for weather" : "Nastavit místo pro které předpovídat počasí",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} jasná obloha v {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} zataženo v {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} krásné počasí v {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} bezmračná noc v {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} polojasno v {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} mlhavo v {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} drobný déšť v {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} déšť v {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} hustý déšť {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} přeháňky v {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} lehké přeháňky v {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} intenzivní přeháňky v {time}"
+    "Set location for weather" : "Nastavit místo pro které předpovídat počasí"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

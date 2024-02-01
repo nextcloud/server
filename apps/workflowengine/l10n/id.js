@@ -22,9 +22,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Cek %s tidak valid atau tidak ada",
     "Folder" : "Folder",
     "Images" : "Gambar",
-    "No results" : "Tidak ada hasil",
-    "%s (invisible)" : "%s (tersembunyi)",
-    "%s (restricted)" : "%s (terbatas)",
     "Predefined URLs" : "URL terdefinisi",
     "Files WebDAV" : "Berkas WebDAV",
     "Android client" : "Klien Android",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "Request user agent" : "Minta user agent",
     "User group membership" : "Keanggotaan grup pengguna",
     "is member of" : "anggota dari",
-    "is not member of" : "bukan anggota dari"
+    "is not member of" : "bukan anggota dari",
+    "No results" : "Tidak ada hasil",
+    "%s (invisible)" : "%s (tersembunyi)",
+    "%s (restricted)" : "%s (terbatas)"
 },
 "nplurals=1; plural=0;");

@@ -28,7 +28,6 @@ namespace OCP\Security\VerificationToken;
 
 /** @since 23.0.0 */
 class InvalidTokenException extends \Exception {
-
 	/**
 	 * @since 23.0.0
 	 */

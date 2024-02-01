@@ -1,5 +1,5 @@
 import { render } from '@testing-library/vue'
-import CalDavSettings from './CalDavSettings'
+import CalDavSettings from './CalDavSettings.vue'
 // eslint-disable-next-line no-unused-vars
 import { generateUrl } from '@nextcloud/router'
 
@@ -43,7 +43,7 @@ describe('CalDavSettings', () => {
 						sendInvitations: true,
 						generateBirthdayCalendar: true,
 						sendEventReminders: true,
-						sendEventRemindersToSharedGroupMembers: true,
+						sendEventRemindersToSharedUsers: true,
 						sendEventRemindersPush: true,
 					}
 				},
@@ -65,10 +65,10 @@ describe('CalDavSettings', () => {
 			'Send notifications for events'
 		)
 		expect(sendEventReminders).toBeChecked()
-		const sendEventRemindersToSharedGroupMembers = TLUtils.getByLabelText(
+		const sendEventRemindersToSharedUsers = TLUtils.getByLabelText(
 			'Send reminder notifications to calendar sharees as well'
 		)
-		expect(sendEventRemindersToSharedGroupMembers).toBeChecked()
+		expect(sendEventRemindersToSharedUsers).toBeChecked()
 		const sendEventRemindersPush = TLUtils.getByLabelText(
 			'Enable notifications for events via push'
 		)
@@ -114,7 +114,7 @@ describe('CalDavSettings', () => {
 			'no'
 		)
 
-		expect(sendEventRemindersToSharedGroupMembers).toBeDisabled()
+		expect(sendEventRemindersToSharedUsers).toBeDisabled()
 		expect(sendEventRemindersPush).toBeDisabled()
 
 		OCP.AppConfig.setValue.mockClear()
@@ -126,7 +126,7 @@ describe('CalDavSettings', () => {
 			'yes'
 		)
 
-		expect(sendEventRemindersToSharedGroupMembers).toBeEnabled()
+		expect(sendEventRemindersToSharedUsers).toBeEnabled()
 		expect(sendEventRemindersPush).toBeEnabled()
 		*/
 	})

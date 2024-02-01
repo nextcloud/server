@@ -39,19 +39,14 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {
 	/** @var IL10N */
 	private $l10n;
 
-	/** @var  EventDispatcherInterface | MockObject  */
-	private $eventDispatcher;
-
 	protected function setUp(): void {
 		parent::setUp();
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
@@ -61,7 +56,7 @@ class HookManagerTest extends TestCase {
 			});
 	}
 
-	public function test() {
+	public function test(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -106,11 +101,11 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->firstLogin($user);
 	}
 
-	public function testWithExisting() {
+	public function testWithExisting(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -145,11 +140,11 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
 		$card->expects($this->never())->method('createAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->firstLogin($user);
 	}
 
-	public function testWithBirthdayCalendar() {
+	public function testWithBirthdayCalendar(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -193,11 +188,11 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->firstLogin($user);
 	}
 
-	public function testDeleteCalendar() {
+	public function testDeleteCalendar(): void {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -243,7 +238,7 @@ class HookManagerTest extends TestCase {
 		]);
 		$card->expects($this->once())->method('deleteAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->preDeleteUser(['uid' => 'newUser']);
 		$hm->postDeleteUser(['uid' => 'newUser']);
 	}

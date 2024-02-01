@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentar",
     "You commented" : "Anda berkomentar",
-    "%1$s commented" : "%1$s dikomentari",
     "{author} commented" : "{Pengarang} berkomentar",
     "You commented on %1$s" : "Anda berkomentar pada %1$s",
     "You commented on {file}" : "Anda berkomentar pada {file} ",
@@ -21,14 +20,12 @@ OC.L10N.register(
     "No more messages" : "Tidak ada pesan lagi",
     "Retry" : "Ulangi",
     "Unable to load the comments list" : "Tidak dapat memuat daftar komentar",
-    "_%n unread comment_::_%n unread comments_" : ["%nkomentar belum dibaca"],
     "_1 new comment_::_{unread} new comments_" : ["komentar baru {belum terbaca}"],
     "Comment" : "Komentar",
     "An error occurred while trying to edit the comment" : "Terjadi kesalahan ketika mencoba menyunting komentar",
     "Comment deleted" : "Komentar dihapus",
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
     "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Anda disebut pada \"{file}\", dalam sebuah komentar oleh pengguna yang sejak itu telah dihapus",
-    "{user} mentioned you in a comment on “{file}”" : "{pengguna} menyebut Anda dalam sebuah komentar pada \"{file}\" "
+    "_%n unread comment_::_%n unread comments_" : ["%nkomentar belum dibaca"]
 },
 "nplurals=1; plural=0;");

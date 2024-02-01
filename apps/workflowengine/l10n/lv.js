@@ -22,10 +22,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Pārbaude %s ir nederīga vai nepastāv",
     "Folder" : "Mape",
     "Images" : "Attēli",
-    "No results" : "Nav rezultātu",
-    "%s (invisible)" : "%s (neredzams)",
-    "%s (restricted)" : "%s (ierobežots)",
-    "Predefined URLs" : "Standarta URLs",
     "Files WebDAV" : "WebDAV datnes",
     "Android client" : "Android klients",
     "iOS client" : "iOS klients",
@@ -59,6 +55,8 @@ OC.L10N.register(
     "Request user agent" : "Nepieciešams lietotāja aģents",
     "User group membership" : "Lietotāju grupas piederība",
     "is member of" : "ir biedrs",
-    "is not member of" : "nav biedrs"
+    "is not member of" : "nav biedrs",
+    "Predefined URLs" : "Standarta URLs",
+    "Others" : "Citi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

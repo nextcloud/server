@@ -93,7 +93,10 @@ class HelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sortDataProvider
 	 */
-	public function testSortByName($sort, $sortDescending, $expectedOrder) {
+	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder) {
+		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
+			$this->markTestSkipped('Skip mtime sorting on 32bit');
+		}
 		$files = self::getTestFileList();
 		$files = \OCA\Files\Helper::sortFiles($files, $sort, $sortDescending);
 		$fileNames = [];

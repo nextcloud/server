@@ -23,15 +23,15 @@
 
 namespace OCA\DAV\BulkUpload;
 
+use OCA\DAV\Connector\Sabre\MtimeSanitizer;
+use OCP\AppFramework\Http;
+use OCP\Files\DavUtil;
+use OCP\Files\Folder;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCP\Files\DavUtil;
-use OCP\Files\Folder;
-use OCP\AppFramework\Http;
-use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
 	private Folder $userFolder;
@@ -65,7 +65,7 @@ class BulkUploadPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$multiPartParser = new MultipartRequestParser($request);
+		$multiPartParser = new MultipartRequestParser($request, $this->logger);
 		$writtenFiles = [];
 
 		while (!$multiPartParser->isAtLastBoundary()) {
@@ -75,7 +75,7 @@ class BulkUploadPlugin extends ServerPlugin {
 				// Return early if an error occurs during parsing.
 				$this->logger->error($e->getMessage());
 				$response->setStatus(Http::STATUS_BAD_REQUEST);
-				$response->setBody(json_encode($writtenFiles));
+				$response->setBody(json_encode($writtenFiles, JSON_THROW_ON_ERROR));
 				return false;
 			}
 
@@ -109,7 +109,7 @@ class BulkUploadPlugin extends ServerPlugin {
 		}
 
 		$response->setStatus(Http::STATUS_OK);
-		$response->setBody(json_encode($writtenFiles));
+		$response->setBody(json_encode($writtenFiles, JSON_THROW_ON_ERROR));
 
 		return false;
 	}

@@ -30,6 +30,11 @@
 return [
 	'routes' => [
 		[
+			'name' => 'Theming#updateAppMenu',
+			'url' => '/ajax/updateAppMenu',
+			'verb' => 'PUT',
+		],
+		[
 			'name' => 'Theming#updateStylesheet',
 			'url' => '/ajax/updateStylesheet',
 			'verb' => 'POST'
@@ -37,6 +42,11 @@ return [
 		[
 			'name' => 'Theming#undo',
 			'url' => '/ajax/undoChanges',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'Theming#undoAll',
+			'url' => '/ajax/undoAllChanges',
 			'verb' => 'POST'
 		],
 		[
@@ -87,6 +97,11 @@ return [
 			'name' => 'userTheme#setBackground',
 			'url' => '/background/{type}',
 			'verb' => 'POST',
+		],
+		[
+			'name' => 'userTheme#deleteBackground',
+			'url' => '/background/custom',
+			'verb' => 'DELETE',
 		],
 	],
 	'ocs' => [

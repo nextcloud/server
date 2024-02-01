@@ -29,12 +29,11 @@
 namespace OC\Files\Config;
 
 use OCP\Cache\CappedMemoryCache;
-use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -56,103 +55,104 @@ class UserMountCache implements IUserMountCache {
 	private LoggerInterface $logger;
 	/** @var CappedMemoryCache<array> */
 	private CappedMemoryCache $cacheInfoCache;
+	private IEventLogger $eventLogger;
 
 	/**
 	 * UserMountCache constructor.
 	 */
-	public function __construct(IDBConnection $connection, IUserManager $userManager, LoggerInterface $logger) {
+	public function __construct(
+		IDBConnection $connection,
+		IUserManager $userManager,
+		LoggerInterface $logger,
+		IEventLogger $eventLogger
+	) {
 		$this->connection = $connection;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->eventLogger = $eventLogger;
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
 	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null) {
-		// filter out non-proper storages coming from unit tests
-		$mounts = array_filter($mounts, function (IMountPoint $mount) {
-			return $mount instanceof SharedMount || ($mount->getStorage() && $mount->getStorage()->getCache());
-		});
-		/** @var ICachedMountInfo[] $newMounts */
-		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
+		$this->eventLogger->start('fs:setup:user:register', 'Registering mounts for user');
+		/** @var array<string, ICachedMountInfo> $newMounts */
+		$newMounts = [];
+		foreach ($mounts as $mount) {
 			// filter out any storages which aren't scanned yet since we aren't interested in files from those storages (yet)
-			if ($mount->getStorageRootId() === -1) {
-				return null;
-			} else {
-				return new LazyStorageMountInfo($user, $mount);
+			if ($mount->getStorageRootId() !== -1) {
+				$mountInfo = new LazyStorageMountInfo($user, $mount);
+				$newMounts[$mountInfo->getKey()] = $mountInfo;
 			}
-		}, $mounts);
-		$newMounts = array_values(array_filter($newMounts));
-		$newMountRootIds = array_map(function (ICachedMountInfo $mount) {
-			return $mount->getRootId();
-		}, $newMounts);
-		$newMounts = array_combine($newMountRootIds, $newMounts);
+		}
 
 		$cachedMounts = $this->getMountsForUser($user);
 		if (is_array($mountProviderClasses)) {
 			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses, $newMounts) {
 				// for existing mounts that didn't have a mount provider set
 				// we still want the ones that map to new mounts
-				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountInfo->getRootId()])) {
+				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountInfo->getKey()])) {
 					return true;
 				}
 				return in_array($mountInfo->getMountProvider(), $mountProviderClasses);
 			});
 		}
-		$cachedMountRootIds = array_map(function (ICachedMountInfo $mount) {
-			return $mount->getRootId();
-		}, $cachedMounts);
-		$cachedMounts = array_combine($cachedMountRootIds, $cachedMounts);
 
 		$addedMounts = [];
 		$removedMounts = [];
 
-		foreach ($newMounts as $rootId => $newMount) {
-			if (!isset($cachedMounts[$rootId])) {
+		foreach ($newMounts as $mountKey => $newMount) {
+			if (!isset($cachedMounts[$mountKey])) {
 				$addedMounts[] = $newMount;
 			}
 		}
 
-		foreach ($cachedMounts as $rootId => $cachedMount) {
-			if (!isset($newMounts[$rootId])) {
+		foreach ($cachedMounts as $mountKey => $cachedMount) {
+			if (!isset($newMounts[$mountKey])) {
 				$removedMounts[] = $cachedMount;
 			}
 		}
 
 		$changedMounts = $this->findChangedMounts($newMounts, $cachedMounts);
 
-		foreach ($addedMounts as $mount) {
-			$this->addToCache($mount);
-			/** @psalm-suppress InvalidArgument */
-			$this->mountsForUsers[$user->getUID()][] = $mount;
+		if ($addedMounts || $removedMounts || $changedMounts) {
+			$this->connection->beginTransaction();
+			$userUID = $user->getUID();
+			try {
+				foreach ($addedMounts as $mount) {
+					$this->addToCache($mount);
+					/** @psalm-suppress InvalidArgument */
+					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
+				}
+				foreach ($removedMounts as $mount) {
+					$this->removeFromCache($mount);
+					unset($this->mountsForUsers[$userUID][$mount->getKey()]);
+				}
+				foreach ($changedMounts as $mount) {
+					$this->updateCachedMount($mount);
+					/** @psalm-suppress InvalidArgument */
+					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
+				}
+				$this->connection->commit();
+			} catch (\Throwable $e) {
+				$this->connection->rollBack();
+				throw $e;
+			}
 		}
-		foreach ($removedMounts as $mount) {
-			$this->removeFromCache($mount);
-			$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
-			unset($this->mountsForUsers[$user->getUID()][$index]);
-		}
-		foreach ($changedMounts as $mount) {
-			$this->updateCachedMount($mount);
-		}
+		$this->eventLogger->end('fs:setup:user:register');
 	}
 
 	/**
-	 * @param ICachedMountInfo[] $newMounts
-	 * @param ICachedMountInfo[] $cachedMounts
+	 * @param array<string, ICachedMountInfo> $newMounts
+	 * @param array<string, ICachedMountInfo> $cachedMounts
 	 * @return ICachedMountInfo[]
 	 */
 	private function findChangedMounts(array $newMounts, array $cachedMounts) {
-		$new = [];
-		foreach ($newMounts as $mount) {
-			$new[$mount->getRootId()] = $mount;
-		}
 		$changed = [];
-		foreach ($cachedMounts as $cachedMount) {
-			$rootId = $cachedMount->getRootId();
-			if (isset($new[$rootId])) {
-				$newMount = $new[$rootId];
+		foreach ($cachedMounts as $key => $cachedMount) {
+			if (isset($newMounts[$key])) {
+				$newMount = $newMounts[$key];
 				if (
-					$newMount->getMountPoint() !== $cachedMount->getMountPoint() ||
 					$newMount->getStorageId() !== $cachedMount->getStorageId() ||
 					$newMount->getMountId() !== $cachedMount->getMountId() ||
 					$newMount->getMountProvider() !== $cachedMount->getMountProvider()
@@ -173,7 +173,7 @@ class UserMountCache implements IUserMountCache {
 				'mount_point' => $mount->getMountPoint(),
 				'mount_id' => $mount->getMountId(),
 				'mount_provider_class' => $mount->getMountProvider(),
-			], ['root_id', 'user_id']);
+			], ['root_id', 'user_id', 'mount_point']);
 		} else {
 			// in some cases this is legitimate, like orphaned shares
 			$this->logger->debug('Could not get storage info for mount at ' . $mount->getMountPoint());
@@ -199,7 +199,8 @@ class UserMountCache implements IUserMountCache {
 
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
-			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('mount_point', $builder->createNamedParameter($mount->getMountPoint())));
 		$query->execute();
 	}
 
@@ -219,7 +220,7 @@ class UserMountCache implements IUserMountCache {
 			$row['mount_point'],
 			$row['mount_provider_class'] ?? '',
 			$mount_id,
-			isset($row['path']) ? $row['path'] : '',
+			$row['path'] ?? '',
 		);
 	}
 
@@ -228,20 +229,28 @@ class UserMountCache implements IUserMountCache {
 	 * @return ICachedMountInfo[]
 	 */
 	public function getMountsForUser(IUser $user) {
-		if (!isset($this->mountsForUsers[$user->getUID()])) {
+		$userUID = $user->getUID();
+		if (!isset($this->mountsForUsers[$userUID])) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 				->from('mounts', 'm')
 				->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
-				->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
+				->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($userUID)));
 
 			$result = $query->execute();
 			$rows = $result->fetchAll();
 			$result->closeCursor();
 
-			$this->mountsForUsers[$user->getUID()] = array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
+			$this->mountsForUsers[$userUID] = [];
+			/** @var array<string, ICachedMountInfo> $mounts */
+			foreach ($rows as $row) {
+				$mount = $this->dbRowToMountInfo($row);
+				if ($mount !== null) {
+					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
+				}
+			}
 		}
-		return $this->mountsForUsers[$user->getUID()];
+		return $this->mountsForUsers[$userUID];
 	}
 
 	/**
@@ -444,7 +453,7 @@ class UserMountCache implements IUserMountCache {
 		}, $mounts);
 		$mounts = array_combine($mountPoints, $mounts);
 
-		$current = $path;
+		$current = rtrim($path, '/');
 		// walk up the directory tree until we find a path that has a mountpoint set
 		// the loop will return if a mountpoint is found or break if none are found
 		while (true) {
@@ -468,7 +477,7 @@ class UserMountCache implements IUserMountCache {
 		$path = rtrim($path, '/') . '/';
 		$mounts = $this->getMountsForUser($user);
 		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
-			return $mount->getMountPoint() !== $path && strpos($mount->getMountPoint(), $path) === 0;
+			return $mount->getMountPoint() !== $path && str_starts_with($mount->getMountPoint(), $path);
 		});
 	}
 }

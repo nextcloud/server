@@ -35,7 +35,7 @@ use OCP\Lock\ILockingProvider;
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
 class DownloadTest extends RequestTestCase {
-	public function testDownload() {
+	public function testDownload(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -46,7 +46,7 @@ class DownloadTest extends RequestTestCase {
 		$this->assertEquals(stream_get_contents($response->getBody()), 'bar');
 	}
 
-	public function testDownloadWriteLocked() {
+	public function testDownloadWriteLocked(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -58,7 +58,7 @@ class DownloadTest extends RequestTestCase {
 		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
-	public function testDownloadReadLocked() {
+	public function testDownloadReadLocked(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 

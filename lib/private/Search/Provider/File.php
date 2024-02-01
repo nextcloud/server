@@ -42,7 +42,6 @@ use OCP\Search\PagedProvider;
  * @deprecated 20.0.0
  */
 class File extends PagedProvider {
-
 	/**
 	 * Search for files and folders matching the given query
 	 *
@@ -54,9 +53,9 @@ class File extends PagedProvider {
 	 */
 	public function search($query, int $limit = null, int $offset = null) {
 		/** @var IRootFolder $rootFolder */
-		$rootFolder = \OC::$server->query(IRootFolder::class);
+		$rootFolder = \OCP\Server::get(IRootFolder::class);
 		/** @var IUserSession $userSession */
-		$userSession = \OC::$server->query(IUserSession::class);
+		$userSession = \OCP\Server::get(IUserSession::class);
 		$user = $userSession->getUser();
 		if (!$user) {
 			return [];

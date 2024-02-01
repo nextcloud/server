@@ -40,7 +40,7 @@ class UpdateLanguageCodes implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IDBConnection $connection,
-								IConfig $config) {
+		IConfig $config) {
 		$this->connection = $connection;
 		$this->config = $config;
 	}
@@ -56,7 +56,7 @@ class UpdateLanguageCodes implements IRepairStep {
 	 * {@inheritdoc}
 	 */
 	public function run(IOutput $output) {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 
 		if (version_compare($versionFromBeforeUpdate, '12.0.0.13', '>')) {
 			return;

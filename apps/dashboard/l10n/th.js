@@ -20,12 +20,6 @@ OC.L10N.register(
     "Good evening" : "สวัสดีตอนเย็น",
     "Good evening, {name}" : "สวัสดีตอนเย็น {name}",
     "Hello" : "สวัสดี",
-    "Hello, {name}" : "สวัสดี {name}",
-    "Show something" : "แสดงบางอย่าง",
-    "Change background image" : "เปลี่ยนรูปภาพพื้นหลัง",
-    "Pick from Files" : "เลือกจากไฟล์",
-    "Default images" : "รูปภาพเริ่มต้น",
-    "Plain background" : "พื้นหลังเปล่า",
-    "Insert from {productName}" : "แทรกจาก {productName}"
+    "Hello, {name}" : "สวัสดี {name}"
 },
 "nplurals=1; plural=0;");

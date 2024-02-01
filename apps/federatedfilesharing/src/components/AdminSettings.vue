@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('federatedfilesharing', 'Federated Cloud Sharing')"
+	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud Sharing')"
 		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing.')"
 		:doc-url="sharingFederatedDocUrl">
 		<NcCheckboxRadioSwitch type="switch"
@@ -65,8 +65,8 @@
 </template>
 
 <script>
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'

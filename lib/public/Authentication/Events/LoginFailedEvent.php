@@ -34,7 +34,6 @@ use OCP\EventDispatcher\Event;
  * @since 19.0.0
  */
 class LoginFailedEvent extends Event {
-
 	/** @var string */
 	private $uid;
 

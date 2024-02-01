@@ -18,9 +18,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { getClient } from '../dav/client'
-import logger from './logger'
-import { parseXML } from 'webdav/dist/node/tools/dav'
+import { getClient } from '../dav/client.js'
+import logger from './logger.js'
+import { parseXML } from 'webdav'
 
 import {
 	slotsToVavailability,

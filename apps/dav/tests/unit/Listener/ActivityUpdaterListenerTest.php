@@ -41,7 +41,6 @@ class ActivityUpdaterListenerTest extends TestCase {
 	private $activityBackend;
 	/** @var LoggerInterface|MockObject */
 	private $logger;
-	/** @var ActivityUpdaterListener */
 	private ActivityUpdaterListener $listener;
 
 	protected function setUp(): void {

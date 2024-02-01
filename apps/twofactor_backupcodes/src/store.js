@@ -23,7 +23,7 @@
 
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import { generateCodes } from './service/BackupCodesService'
+import { generateCodes } from './service/BackupCodesService.js'
 
 Vue.use(Vuex)
 

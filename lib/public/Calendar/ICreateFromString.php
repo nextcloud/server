@@ -33,18 +33,10 @@ use OCP\Calendar\Exceptions\CalendarException;
  * @since 23.0.0
  */
 interface ICreateFromString extends ICalendar {
-
 	/**
 	 * @since 23.0.0
 	 *
 	 * @throws CalendarException
 	 */
 	public function createFromString(string $name, string $calendarData): void;
-
-	/**
-	 * @since 25.0.0
-	 *
-	 * @throws CalendarException
-	 */
-	public function handleIMipMessage(string $name, string $calendarData): void;
 }

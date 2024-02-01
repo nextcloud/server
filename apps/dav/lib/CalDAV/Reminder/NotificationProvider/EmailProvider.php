@@ -35,10 +35,11 @@ use DateTime;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\IUser;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VEvent;
@@ -51,17 +52,16 @@ use Sabre\VObject\Property;
  * @package OCA\DAV\CalDAV\Reminder\NotificationProvider
  */
 class EmailProvider extends AbstractProvider {
-
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'EMAIL';
 
 	private IMailer $mailer;
 
 	public function __construct(IConfig $config,
-								IMailer $mailer,
-								LoggerInterface $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator) {
+		IMailer $mailer,
+		LoggerInterface $logger,
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 		$this->mailer = $mailer;
 	}
@@ -70,17 +70,29 @@ class EmailProvider extends AbstractProvider {
 	 * Send out notification via email
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param array $users
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName,
-						 array $users = []):void {
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
+		$organizerEmailAddress = null;
+		if (isset($vevent->ORGANIZER)) {
+			$organizerEmailAddress = $this->getEMailAddressOfAttendee($vevent->ORGANIZER);
+		}
+
 		$emailAddressesOfSharees = $this->getEMailAddressesOfAllUsersWithWriteAccessToCalendar($users);
-		$emailAddressesOfAttendees = $this->getAllEMailAddressesFromEvent($vevent);
+		$emailAddressesOfAttendees = [];
+		if (count($principalEmailAddresses) === 0
+			|| ($organizerEmailAddress && in_array($organizerEmailAddress, $principalEmailAddresses, true))
+		) {
+			$emailAddressesOfAttendees = $this->getAllEMailAddressesFromEvent($vevent);
+		}
 
 		// Quote from php.net:
 		// If the input arrays have the same string keys, then the later value for that key will overwrite the previous one.
@@ -103,7 +115,7 @@ class EmailProvider extends AbstractProvider {
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
 			$this->addSubjectAndHeading($template, $l10n, $vevent);
-			$this->addBulletList($template, $l10n, $calendarDisplayName, $vevent);
+			$this->addBulletList($template, $l10n, $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($lang), $vevent);
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
@@ -119,6 +131,7 @@ class EmailProvider extends AbstractProvider {
 				}
 				$message->setTo([$emailAddress]);
 				$message->useTemplate($template);
+				$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 				try {
 					$failed = $this->mailer->send($message);
@@ -149,9 +162,9 @@ class EmailProvider extends AbstractProvider {
 	 * @param array $eventData
 	 */
 	private function addBulletList(IEMailTemplate $template,
-								   IL10N $l10n,
-								   string $calendarDisplayName,
-								   VEvent $vevent):void {
+		IL10N $l10n,
+		string $calendarDisplayName,
+		VEvent $vevent):void {
 		$template->addBodyListItem($calendarDisplayName, $l10n->t('Calendar:'),
 			$this->getAbsoluteImagePath('actions/info.png'));
 
@@ -190,7 +203,7 @@ class EmailProvider extends AbstractProvider {
 
 		$organizerEMail = substr($organizer->getValue(), 7);
 
-		if ($organizerEMail === false || !$this->mailer->validateMailAddress($organizerEMail)) {
+		if (!$this->mailer->validateMailAddress($organizerEMail)) {
 			return null;
 		}
 
@@ -207,7 +220,7 @@ class EmailProvider extends AbstractProvider {
 	 * @return array<string, string[]>
 	 */
 	private function sortEMailAddressesByLanguage(array $emails,
-												  string $defaultLanguage):array {
+		string $defaultLanguage):array {
 		$sortedByLanguage = [];
 
 		foreach ($emails as $emailAddress => $parameters) {
@@ -261,7 +274,7 @@ class EmailProvider extends AbstractProvider {
 					foreach ($emailAddressesOfDelegates as $addressesOfDelegate) {
 						if (strcasecmp($addressesOfDelegate, 'mailto:') === 0) {
 							$delegateEmail = substr($addressesOfDelegate, 7);
-							if ($delegateEmail !== false && $this->mailer->validateMailAddress($delegateEmail)) {
+							if ($this->mailer->validateMailAddress($delegateEmail)) {
 								$emailAddresses[$delegateEmail] = [];
 							}
 						}
@@ -321,7 +334,7 @@ class EmailProvider extends AbstractProvider {
 			return null;
 		}
 		$attendeeEMail = substr($attendee->getValue(), 7);
-		if ($attendeeEMail === false || !$this->mailer->validateMailAddress($attendeeEMail)) {
+		if (!$this->mailer->validateMailAddress($attendeeEMail)) {
 			return null;
 		}
 
@@ -422,7 +435,7 @@ class EmailProvider extends AbstractProvider {
 	}
 
 	private function isDayEqual(DateTime $dtStart,
-								DateTime $dtEnd):bool {
+		DateTime $dtEnd):bool {
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 

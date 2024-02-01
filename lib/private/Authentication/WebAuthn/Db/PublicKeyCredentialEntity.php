@@ -43,7 +43,6 @@ use Webauthn\PublicKeyCredentialSource;
  * @method void setData(string $data);
  */
 class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
-
 	/** @var string */
 	protected $name;
 

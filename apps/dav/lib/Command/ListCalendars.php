@@ -35,24 +35,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCalendars extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var CalDavBackend */
-	private $caldav;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param CalDavBackend $caldav
-	 */
-	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
+	public function __construct(
+		protected IUserManager $userManager,
+		private CalDavBackend $caldav,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->caldav = $caldav;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:list-calendars')
 			->setDescription('List all calendars of a user')
@@ -100,6 +90,6 @@ class ListCalendars extends Command {
 		} else {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

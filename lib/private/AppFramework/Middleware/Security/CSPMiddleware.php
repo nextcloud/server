@@ -36,7 +36,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class CSPMiddleware extends Middleware {
-
 	/** @var ContentSecurityPolicyManager */
 	private $contentSecurityPolicyManager;
 	/** @var ContentSecurityPolicyNonceManager */
@@ -45,8 +44,8 @@ class CSPMiddleware extends Middleware {
 	private $csrfTokenManager;
 
 	public function __construct(ContentSecurityPolicyManager $policyManager,
-								ContentSecurityPolicyNonceManager $cspNonceManager,
-								CsrfTokenManager $csrfTokenManager) {
+		ContentSecurityPolicyNonceManager $cspNonceManager,
+		CsrfTokenManager $csrfTokenManager) {
 		$this->contentSecurityPolicyManager = $policyManager;
 		$this->cspNonceManager = $cspNonceManager;
 		$this->csrfTokenManager = $csrfTokenManager;

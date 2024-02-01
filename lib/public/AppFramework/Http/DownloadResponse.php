@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,19 +26,27 @@
  */
 namespace OCP\AppFramework\Http;
 
+use OCP\AppFramework\Http;
+
 /**
  * Prompts the user to download the a file
  * @since 7.0.0
+ * @template S of int
+ * @template C of string
+ * @template H of array<string, mixed>
+ * @template-extends Response<int, array<string, mixed>>
  */
 class DownloadResponse extends Response {
 	/**
 	 * Creates a response that prompts the user to download the file
 	 * @param string $filename the name that the downloaded file should have
-	 * @param string $contentType the mimetype that the downloaded file should have
+	 * @param C $contentType the mimetype that the downloaded file should have
+	 * @param S $status
+	 * @param H $headers
 	 * @since 7.0.0
 	 */
-	public function __construct(string $filename, string $contentType) {
-		parent::__construct();
+	public function __construct(string $filename, string $contentType, int $status = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($status, $headers);
 
 		$filename = strtr($filename, ['"' => '\\"', '\\' => '\\\\']);
 

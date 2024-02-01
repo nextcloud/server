@@ -39,7 +39,6 @@ use OCP\IUser;
  * @since 19.0.0
  */
 class ContactInteractedWithEvent extends Event {
-
 	/** @var IUser */
 	private $actor;
 

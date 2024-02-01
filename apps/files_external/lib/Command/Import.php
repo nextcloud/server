@@ -30,6 +30,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\ImportLegacyStoragesService;
+use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -40,49 +41,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Import extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	private $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	private $userService;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/** @var ImportLegacyStoragesService */
-	private $importLegacyStorageService;
-
-	/** @var BackendService */
-	private $backendService;
-
-	public function __construct(GlobalStoragesService $globalService,
-						 UserStoragesService $userService,
-						 IUserSession $userSession,
-						 IUserManager $userManager,
-						 ImportLegacyStoragesService $importLegacyStorageService,
-						 BackendService $backendService
+	public function __construct(
+		private GlobalStoragesService $globalService,
+		private UserStoragesService $userService,
+		private IUserSession $userSession,
+		private IUserManager $userManager,
+		private ImportLegacyStoragesService $importLegacyStorageService,
+		private BackendService $backendService,
 	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userService = $userService;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
-		$this->importLegacyStorageService = $importLegacyStorageService;
-		$this->backendService = $backendService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:import')
 			->setDescription('Import mount configurations')
@@ -114,18 +84,18 @@ class Import extends Base {
 		} else {
 			if (!file_exists($path)) {
 				$output->writeln('<error>File not found: ' . $path . '</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$json = file_get_contents($path);
 		}
 		if (!is_string($json) || strlen($json) < 2) {
 			$output->writeln('<error>Error while reading json</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$data = json_decode($json, true);
 		if (!is_array($data)) {
 			$output->writeln('<error>Error while parsing json</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$isLegacy = isset($data['user']) || isset($data['group']);
@@ -135,7 +105,7 @@ class Import extends Base {
 			foreach ($mounts as $mount) {
 				if ($mount->getBackendOption('password') === false) {
 					$output->writeln('<error>Failed to decrypt password</error>');
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		} else {
@@ -166,7 +136,7 @@ class Import extends Base {
 					$existingMount->getBackendOptions() === $mount->getBackendOptions()
 				) {
 					$output->writeln("<error>Duplicate mount (" . $mount->getMountPoint() . ")</error>");
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		}
@@ -174,7 +144,7 @@ class Import extends Base {
 		if ($input->getOption('dry')) {
 			if (count($mounts) === 0) {
 				$output->writeln('<error>No mounts to be imported</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
 			$listInput = new ArrayInput([], $listCommand->getDefinition());
@@ -186,10 +156,10 @@ class Import extends Base {
 				$storageService->addStorage($mount);
 			}
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
-	private function parseData(array $data) {
+	private function parseData(array $data): StorageConfig {
 		$mount = new StorageConfig($data['mount_id']);
 		$mount->setMountPoint($data['mount_point']);
 		$mount->setBackend($this->getBackendByClass($data['storage']));
@@ -197,12 +167,12 @@ class Import extends Base {
 		$mount->setAuthMechanism($authBackend);
 		$mount->setBackendOptions($data['configuration']);
 		$mount->setMountOptions($data['options']);
-		$mount->setApplicableUsers(isset($data['applicable_users']) ? $data['applicable_users'] : []);
-		$mount->setApplicableGroups(isset($data['applicable_groups']) ? $data['applicable_groups'] : []);
+		$mount->setApplicableUsers($data['applicable_users'] ?? []);
+		$mount->setApplicableGroups($data['applicable_groups'] ?? []);
 		return $mount;
 	}
 
-	private function getBackendByClass($className) {
+	private function getBackendByClass(string $className) {
 		$backends = $this->backendService->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getStorageClass() === $className) {
@@ -211,16 +181,16 @@ class Import extends Base {
 		}
 	}
 
-	protected function getStorageService($userId) {
-		if (!empty($userId)) {
-			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
-				throw new NoUserException("user $userId not found");
-			}
-			$this->userSession->setUser($user);
-			return $this->userService;
-		} else {
+	protected function getStorageService(string $userId): StoragesService {
+		if (empty($userId)) {
 			return $this->globalService;
 		}
+
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
+			throw new NoUserException("user $userId not found");
+		}
+		$this->userSession->setUser($user);
+		return $this->userService;
 	}
 }

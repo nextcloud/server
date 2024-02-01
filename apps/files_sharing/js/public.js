@@ -65,15 +65,13 @@ OCA.Sharing.PublicApp = {
 			// Toggle for grid view
 			this.$showGridView = $('input#showgridview');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
-			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
-				userName: token,
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
-				root: OC.getRootPath() + '/public.php/webdav',
+				root: OC.getRootPath() + '/public.php/dav/files/' + token + '/',
 				useHTTPS: OC.getProtocol() === 'https'
 			});
 
@@ -168,11 +166,10 @@ OCA.Sharing.PublicApp = {
 				return;
 			}
 			// Undocumented Url to public WebDAV endpoint
-			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
+			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/dav/files/'+ token);
 			$.ajax({
 				url: url,
 				headers: {
-					Authorization: 'Basic ' + btoa(token + ':'),
 					Range: 'bytes=0-10000'
 				}
 			}).then(function (data) {
@@ -218,7 +215,7 @@ OCA.Sharing.PublicApp = {
 					// Remove the link. This means that files without a default action fail hard
 					$tr.find('a.name').attr('href', '#');
 
-					this.fileActions.actions.all = {};
+					delete this.fileActions.actions.all.Download;
 				}
 				return $tr;
 			};
@@ -248,7 +245,9 @@ OCA.Sharing.PublicApp = {
 					// also add auth in URL due to POST workaround
 					base = OC.getProtocol() + '://' + token + '@' + OC.getHost() + (OC.getPort() ? ':' + OC.getPort() : '');
 				}
-				return base + OC.getRootPath() + '/public.php/webdav' + encodedPath;
+				
+				// encodedPath starts with a leading slash
+				return base + OC.getRootPath() + '/public.php/dav/files/' + token + encodedPath;
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
@@ -380,7 +379,7 @@ OCA.Sharing.PublicApp = {
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
 			.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
 		this.$showGridView.next('#view-toggle').attr(
-			'data-original-title',
+			'title',
 			isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
 		)
 

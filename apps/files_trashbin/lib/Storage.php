@@ -33,51 +33,38 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
-	/** @var IMountPoint */
-	private $mountPoint;
-
-	/** @var  IUserManager */
-	private $userManager;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var ITrashManager */
-	private $trashManager;
-
-	private $trashEnabled = true;
+	private string $mountPoint;
+	private IUserManager$userManager;
+	private LoggerInterface $logger;
+	private IEventDispatcher $eventDispatcher;
+	private IRootFolder $rootFolder;
+	private ITrashManager $trashManager;
+	private bool $trashEnabled = true;
 
 	/**
 	 * Storage constructor.
 	 *
 	 * @param array $parameters
-	 * @param ITrashManager $trashManager
+	 * @param ITrashManager|null $trashManager
 	 * @param IUserManager|null $userManager
-	 * @param ILogger|null $logger
-	 * @param EventDispatcherInterface|null $eventDispatcher
+	 * @param LoggerInterface|null $logger
+	 * @param IEventDispatcher|null $eventDispatcher
 	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
 		$parameters,
 		ITrashManager $trashManager = null,
 		IUserManager $userManager = null,
-		ILogger $logger = null,
-		EventDispatcherInterface $eventDispatcher = null,
+		LoggerInterface $logger = null,
+		IEventDispatcher $eventDispatcher = null,
 		IRootFolder $rootFolder = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
@@ -153,6 +140,7 @@ class Storage extends Wrapper {
 
 		foreach ($nodes as $node) {
 			$event = $this->createMoveToTrashEvent($node);
+			$this->eventDispatcher->dispatchTyped($event);
 			$this->eventDispatcher->dispatch('OCA\Files_Trashbin::moveToTrash', $event);
 			if ($event->shouldMoveToTrashBin() === false) {
 				return false;
@@ -208,19 +196,27 @@ class Storage extends Wrapper {
 	}
 
 	/**
-	 * Setup the storate wrapper callback
+	 * Setup the storage wrapper callback
 	 */
 	public static function setupStorage() {
-		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
-			return new \OCA\Files_Trashbin\Storage(
-				['storage' => $storage, 'mountPoint' => $mountPoint],
-				\OC::$server->query(ITrashManager::class),
-				\OC::$server->getUserManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getEventDispatcher(),
-				\OC::$server->getLazyRootFolder()
-			);
-		}, 1);
+		$trashManager = \OC::$server->get(ITrashManager::class);
+		$userManager = \OC::$server->get(IUserManager::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$rootFolder = \OC::$server->get(IRootFolder::class);
+		Filesystem::addStorageWrapper(
+			'oc_trashbin',
+			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder) {
+				return new Storage(
+					['storage' => $storage, 'mountPoint' => $mountPoint],
+					$trashManager,
+					$userManager,
+					$logger,
+					$eventDispatcher,
+					$rootFolder,
+				);
+			},
+			1);
 	}
 
 	public function getMountPoint() {

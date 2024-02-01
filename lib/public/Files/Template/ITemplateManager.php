@@ -32,7 +32,6 @@ use OCP\Files\GenericFileException;
  * @since 21.0.0
  */
 interface ITemplateManager {
-
 	/**
 	 * Register a template type support
 	 *

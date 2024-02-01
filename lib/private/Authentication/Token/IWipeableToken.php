@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 interface IWipeableToken extends IToken {
-
 	/**
 	 * Mark the token for remote wipe
 	 */

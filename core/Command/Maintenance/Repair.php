@@ -29,10 +29,6 @@
 namespace OC\Core\Command\Maintenance;
 
 use Exception;
-use OCP\App\IAppManager;
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -40,6 +36,10 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
+use OCP\App\IAppManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,18 +47,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Repair extends Command {
-	protected \OC\Repair $repair;
-	protected IConfig $config;
-	private IEventDispatcher $dispatcher;
 	private ProgressBar $progress;
 	private OutputInterface $output;
-	private IAppManager $appManager;
+	protected bool $errored = false;
 
-	public function __construct(\OC\Repair $repair, IConfig $config, IEventDispatcher $dispatcher, IAppManager $appManager) {
-		$this->repair = $repair;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->appManager = $appManager;
+	public function __construct(
+		protected \OC\Repair $repair,
+		protected IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private IAppManager $appManager,
+	) {
 		parent::__construct();
 	}
 
@@ -104,6 +102,8 @@ class Repair extends Command {
 			}
 		}
 
+
+
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 
@@ -120,7 +120,7 @@ class Repair extends Command {
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
-		return 0;
+		return $this->errored ? 1 : 0;
 	}
 
 	public function handleRepairFeedBack(Event $event): void {
@@ -136,9 +136,10 @@ class Repair extends Command {
 		} elseif ($event instanceof RepairInfoEvent) {
 			$this->output->writeln('<info>     - ' . $event->getMessage() . '</info>');
 		} elseif ($event instanceof RepairWarningEvent) {
-			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage()) . '</comment>';
+			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage() . '</comment>');
 		} elseif ($event instanceof RepairErrorEvent) {
 			$this->output->writeln('<error>     - ERROR: ' . $event->getMessage() . '</error>');
+			$this->errored = true;
 		}
 	}
 }

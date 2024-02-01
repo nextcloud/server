@@ -131,12 +131,12 @@ class PublicCalendarRootTest extends TestCase {
 		}
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$name = $this->publicCalendarRoot->getName();
 		$this->assertEquals('public-calendars', $name);
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$calendar = $this->createPublicCalendar();
 
 		$publicCalendars = $this->backend->getPublicCalendars();
@@ -149,7 +149,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals($calendar, $calendarResult);
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->createPublicCalendar();
 		$calendarResults = $this->publicCalendarRoot->getChildren();
 		$this->assertSame([], $calendarResults);

@@ -33,7 +33,6 @@ use OCP\UserStatus\IUserStatus;
  * @since 20.0.0
  */
 class UserLiveStatusEvent extends Event {
-
 	/**
 	 * @var string
 	 * @since 20.0.0
@@ -61,8 +60,8 @@ class UserLiveStatusEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(IUser $user,
-								string $status,
-								int $timestamp) {
+		string $status,
+		int $timestamp) {
 		parent::__construct();
 		$this->user = $user;
 		$this->status = $status;

@@ -28,8 +28,8 @@
 // Backends
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
+use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
@@ -110,7 +110,7 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
+$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
 
 if ($sendInvitations) {
 	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));

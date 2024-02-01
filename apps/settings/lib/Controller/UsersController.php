@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -54,6 +55,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -71,6 +73,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use function in_array;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
 	/** @var UserManager */
 	private $userManager;
@@ -220,7 +223,7 @@ class UsersController extends Controller {
 
 				foreach ($groups as $key => $group) {
 					// $userCount += (int)$group['usercount'];
-					array_push($groupsNames, $group['name']);
+					$groupsNames[] = $group['name'];
 					// we prevent subadmins from looking up themselves
 					// so we lower the count of the groups he belongs to
 					if (array_key_exists($group['id'], $userGroups)) {
@@ -277,7 +280,7 @@ class UsersController extends Controller {
 		$serverData['newUserRequireEmail'] = $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes';
 		$serverData['newUserSendEmail'] = $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes';
 
-		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
+		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData, 'pageTitle' => $this->l10n->t('Users')]);
 	}
 
 	/**
@@ -358,22 +361,26 @@ class UsersController extends Controller {
 	 * @param string|null $addressScope
 	 * @param string|null $twitter
 	 * @param string|null $twitterScope
+	 * @param string|null $fediverse
+	 * @param string|null $fediverseScope
 	 *
 	 * @return DataResponse
 	 */
 	public function setUserSettings(?string $avatarScope = null,
-									?string $displayname = null,
-									?string $displaynameScope = null,
-									?string $phone = null,
-									?string $phoneScope = null,
-									?string $email = null,
-									?string $emailScope = null,
-									?string $website = null,
-									?string $websiteScope = null,
-									?string $address = null,
-									?string $addressScope = null,
-									?string $twitter = null,
-									?string $twitterScope = null
+		?string $displayname = null,
+		?string $displaynameScope = null,
+		?string $phone = null,
+		?string $phoneScope = null,
+		?string $email = null,
+		?string $emailScope = null,
+		?string $website = null,
+		?string $websiteScope = null,
+		?string $address = null,
+		?string $addressScope = null,
+		?string $twitter = null,
+		?string $twitterScope = null,
+		?string $fediverse = null,
+		?string $fediverseScope = null
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -412,6 +419,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
+			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
@@ -451,6 +459,8 @@ class UsersController extends Controller {
 						'addressScope' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
 						'twitter' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
+						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
 						'message' => $this->l10n->t('Settings saved'),
 					],
 				],
@@ -484,7 +494,7 @@ class UsersController extends Controller {
 
 		$oldEmailAddress = $userAccount->getUser()->getSystemEMailAddress();
 		$oldEmailAddress = strtolower((string)$oldEmailAddress);
-		if ($oldEmailAddress !== $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue()) {
+		if ($oldEmailAddress !== strtolower($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue())) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address
 			if (!$userAccount->getUser()->canChangeDisplayName()) {

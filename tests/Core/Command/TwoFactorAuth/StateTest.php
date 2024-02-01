@@ -35,7 +35,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class StateTest extends TestCase {
-
 	/** @var IRegistry|MockObject */
 	private $registry;
 

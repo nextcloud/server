@@ -19,37 +19,38 @@
   -
   -->
 <template>
-	<div class="custom-input__form">
-		<NcEmojiPicker container=".custom-input__form" @select="setIcon">
-			<NcButton class="custom-input__emoji-button" type="tertiary-no-background">
-				{{ visibleIcon }}
+	<div class="custom-input" role="group">
+		<NcEmojiPicker container=".custom-input" @select="setIcon">
+			<NcButton type="tertiary"
+				:aria-label="t('user_status', 'Emoji for your status message')">
+				<template #icon>
+					{{ visibleIcon }}
+				</template>
 			</NcButton>
 		</NcEmojiPicker>
-		<label class="hidden-visually" for="user_status_message">
-			{{ t('user_status', 'What is your status?') }}
-		</label>
-		<input id="user_status_message"
-			ref="input"
-			maxlength="80"
-			:disabled="disabled"
-			:placeholder="$t('user_status', 'What is your status?')"
-			type="text"
-			:value="message"
-			@change="change"
-			@keyup="change"
-			@paste="change"
-			@keyup.enter="submit">
+		<div class="custom-input__container">
+			<NcTextField ref="input"
+				maxlength="80"
+				:disabled="disabled"
+				:placeholder="t('user_status', 'What is your status?')"
+				:value="message"
+				type="text"
+				:label="t('user_status', 'What is your status?')"
+				@input="onChange" />
+		</div>
 	</div>
 </template>
 
 <script>
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'CustomMessageInput',
 
 	components: {
+		NcTextField,
 		NcButton,
 		NcEmojiPicker,
 	},
@@ -72,8 +73,7 @@ export default {
 
 	emits: [
 		'change',
-		'submit',
-		'icon-selected',
+		'select-icon',
 	],
 
 	computed: {
@@ -97,12 +97,8 @@ export default {
 		 *
 		 * @param {Event} event The Change Event
 		 */
-		change(event) {
+		onChange(event) {
 			this.$emit('change', event.target.value)
-		},
-
-		submit(event) {
-			this.$emit('submit', event.target.value)
 		},
 
 		setIcon(icon) {
@@ -113,18 +109,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-input__form {
-	flex-grow: 1;
-	position: relative;
+.custom-input {
+	display: flex;
+	align-items: flex-end;
+	gap: var(--default-grid-baseline);
+	width: 100%;
 
-	.v-popper {
-		position: absolute;
-	}
-
-	input {
+	&__container {
 		width: 100%;
-		border-radius: 0 var(--border-radius) var(--border-radius) 0;
-		padding-left: 44px !important;
 	}
 }
 </style>

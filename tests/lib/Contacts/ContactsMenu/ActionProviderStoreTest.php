@@ -27,6 +27,7 @@ namespace Tests\Contacts\ContactsMenu;
 use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\ActionProviderStore;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
+use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
 use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
@@ -38,7 +39,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActionProviderStoreTest extends TestCase {
-
 	/** @var IServerContainer|MockObject */
 	private $serverContainer;
 
@@ -60,8 +60,9 @@ class ActionProviderStoreTest extends TestCase {
 	public function testGetProviders() {
 		$user = $this->createMock(IUser::class);
 		$provider1 = $this->createMock(ProfileProvider::class);
-		$provider2 = $this->createMock(EMailProvider::class);
-		$provider3 = $this->createMock(IProvider::class);
+		$provider2 = $this->createMock(LocalTimeProvider::class);
+		$provider3 = $this->createMock(EMailProvider::class);
+		$provider4 = $this->createMock(IProvider::class);
 
 		$this->appManager->expects($this->once())
 			->method('getEnabledAppsForUser')
@@ -75,25 +76,28 @@ class ActionProviderStoreTest extends TestCase {
 					'OCA\Contacts\Provider1',
 				],
 			]);
-		$this->serverContainer->expects($this->exactly(3))
+		$this->serverContainer->expects($this->exactly(4))
 			->method('get')
 			->willReturnMap([
 				[ProfileProvider::class, $provider1],
-				[EMailProvider::class, $provider2],
-				['OCA\Contacts\Provider1', $provider3]
+				[LocalTimeProvider::class, $provider2],
+				[EMailProvider::class, $provider3],
+				['OCA\Contacts\Provider1', $provider4]
 			]);
 
 		$providers = $this->actionProviderStore->getProviders($user);
 
-		$this->assertCount(3, $providers);
+		$this->assertCount(4, $providers);
 		$this->assertInstanceOf(ProfileProvider::class, $providers[0]);
-		$this->assertInstanceOf(EMailProvider::class, $providers[1]);
+		$this->assertInstanceOf(LocalTimeProvider::class, $providers[1]);
+		$this->assertInstanceOf(EMailProvider::class, $providers[2]);
 	}
 
 	public function testGetProvidersOfAppWithIncompleInfo() {
 		$user = $this->createMock(IUser::class);
 		$provider1 = $this->createMock(ProfileProvider::class);
-		$provider2 = $this->createMock(EMailProvider::class);
+		$provider2 = $this->createMock(LocalTimeProvider::class);
+		$provider3 = $this->createMock(EMailProvider::class);
 
 		$this->appManager->expects($this->once())
 			->method('getEnabledAppsForUser')
@@ -103,18 +107,20 @@ class ActionProviderStoreTest extends TestCase {
 			->method('getAppInfo')
 			->with('contacts')
 			->willReturn([/* Empty info.xml */]);
-		$this->serverContainer->expects($this->exactly(2))
+		$this->serverContainer->expects($this->exactly(3))
 			->method('get')
 			->willReturnMap([
 				[ProfileProvider::class, $provider1],
-				[EMailProvider::class, $provider2],
+				[LocalTimeProvider::class, $provider2],
+				[EMailProvider::class, $provider3],
 			]);
 
 		$providers = $this->actionProviderStore->getProviders($user);
 
-		$this->assertCount(2, $providers);
+		$this->assertCount(3, $providers);
 		$this->assertInstanceOf(ProfileProvider::class, $providers[0]);
-		$this->assertInstanceOf(EMailProvider::class, $providers[1]);
+		$this->assertInstanceOf(LocalTimeProvider::class, $providers[1]);
+		$this->assertInstanceOf(EMailProvider::class, $providers[2]);
 	}
 
 

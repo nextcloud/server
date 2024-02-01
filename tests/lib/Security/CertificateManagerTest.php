@@ -48,7 +48,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		\OC_Util::setupFS($this->username);
 
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->any())->method('getSystemValue')
+		$config->expects($this->any())->method('getSystemValueBool')
 			->with('installed', false)->willReturn(true);
 
 		$this->random = $this->createMock(ISecureRandom::class);
@@ -146,9 +146,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testNeedRebundling($CaBundleMtime,
-								$targetBundleMtime,
-								$targetBundleExists,
-								$expected
+		$targetBundleMtime,
+		$targetBundleExists,
+		$expected
 	) {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();

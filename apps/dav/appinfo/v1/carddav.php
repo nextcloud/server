@@ -10,6 +10,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license AGPL-3.0
  *
@@ -72,7 +73,7 @@ $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend)
 $principalCollection->disableListing = !$debugging; // Disable listing
 
 $pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
-$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager);
+$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager, \OC::$server->getUserSession()->getUser(), \OC::$server->get(\OCP\IGroupManager::class));
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
@@ -87,7 +88,7 @@ $server->httpRequest->setUrl(\OC::$server->getRequest()->getRequestUri());
 $server->setBaseUri($baseuri);
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
+$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new Plugin());
 
 $server->addPlugin(new LegacyDAVACL());

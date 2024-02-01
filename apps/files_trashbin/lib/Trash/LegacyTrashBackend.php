@@ -58,11 +58,12 @@ class LegacyTrashBackend implements ITrashBackend {
 			if (!$originalLocation) {
 				$originalLocation = $file->getName();
 			}
+			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 			return new TrashItem(
 				$this,
 				$originalLocation,
 				$file->getMTime(),
-				$parentTrashPath . '/' . $file->getName() . ($isRoot ? '.d' . $file->getMtime() : ''),
+				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
 				$file,
 				$user
 			);
@@ -77,7 +78,7 @@ class LegacyTrashBackend implements ITrashBackend {
 	public function listTrashFolder(ITrashItem $folder): array {
 		$user = $folder->getUser();
 		$entries = Helper::getTrashFiles($folder->getTrashPath(), $user->getUID());
-		return $this->mapTrashItems($entries, $user ,$folder);
+		return $this->mapTrashItems($entries, $user, $folder);
 	}
 
 	public function restoreItem(ITrashItem $item) {

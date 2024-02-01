@@ -32,11 +32,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearCollectionsAccessCache implements IRepairStep {
-
 	/** @var IConfig */
 	private $config;
 
-	/** @var IManager|Manager */
+	/** @var Manager */
 	private $manager;
 
 	public function __construct(IConfig $config, IManager $manager) {
@@ -49,7 +48,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		return version_compare($versionFromBeforeUpdate, '17.0.0.3', '<=');
 	}
 

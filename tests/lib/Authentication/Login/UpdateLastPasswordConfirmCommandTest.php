@@ -30,7 +30,6 @@ use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
-
 	/** @var ISession|MockObject */
 	private $session;
 

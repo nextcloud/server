@@ -21,6 +21,11 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 */
 	private array $jobs = [];
 
+	/**
+	 * @var bool[]
+	 */
+	private array $reserved = [];
+
 	private int $last = 0;
 
 	public function __construct() {
@@ -30,7 +35,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
-	public function add($job, $argument = null): void {
+	public function add($job, $argument = null, int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
 			$job = \OCP\Server::get($job);
@@ -39,6 +44,10 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
+	}
+
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void {
+		$this->add($job, $argument, $runAfter);
 	}
 
 	/**
@@ -72,7 +81,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return $this->jobs;
 	}
 
-	public function getJobs($job, ?int $limit, int $offset): array {
+	public function getJobsIterator($job, ?int $limit, int $offset): array {
 		if ($job instanceof IJob) {
 			$jobClass = get_class($job);
 		} else {
@@ -133,6 +142,14 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	public function setLastRun(IJob $job): void {
 		$job->setLastRun(time());
+	}
+
+	public function hasReservedJob(?string $className = null): bool {
+		return isset($this->reserved[$className ?? '']) && $this->reserved[$className ?? ''];
+	}
+
+	public function setHasReservedJob(?string $className, bool $hasReserved): void {
+		$this->reserved[$className ?? ''] = $hasReserved;
 	}
 
 	public function setExecutionTime(IJob $job, $timeTaken): void {

@@ -150,6 +150,8 @@ trait CommonSettingsTrait {
 		$activeSection = $this->settingsManager->getSection($type, $section);
 		if ($activeSection) {
 			$templateParams['pageTitle'] = $activeSection->getName();
+			$templateParams['activeSectionId'] = $activeSection->getID();
+			$templateParams['activeSectionType'] = $type;
 		}
 
 		return new TemplateResponse('settings', 'settings/frame', $templateParams);

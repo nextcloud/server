@@ -17,12 +17,6 @@ OC.L10N.register(
     "Good evening" : "ღამემშვიდობისა",
     "Good evening, {name}" : "ღამემშვიდობისა, {name}",
     "Hello" : "გამარჯობა",
-    "Hello, {name}" : "გამარჯობა, {name}",
-    "Show something" : "აჩვენე რამე",
-    "Change background image" : "შეცვალე უკანა ფონის სურათი",
-    "Pick from Files" : "აირჩიე ფაილებიდან",
-    "Default images" : "საწყისი სურათები",
-    "Plain background" : "ცარიელი ფონი",
-    "Insert from {productName}" : "შეავსეთ {productName}-დან"
+    "Hello, {name}" : "გამარჯობა, {name}"
 },
 "nplurals=2; plural=(n!=1);");

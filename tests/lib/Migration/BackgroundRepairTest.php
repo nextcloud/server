@@ -21,20 +21,19 @@
 
 namespace Test\Migration;
 
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use OC\BackgroundJob\JobList;
 use OC\Migration\BackgroundRepair;
 use OC\NeedsUpdateException;
 use OC\Repair\Events\RepairStepEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TestRepairStep implements IRepairStep {
-
 	/**
 	 * Returns the step's name
 	 *
@@ -58,7 +57,6 @@ class TestRepairStep implements IRepairStep {
 }
 
 class BackgroundRepairTest extends TestCase {
-
 	/** @var JobList|MockObject */
 	private $jobList;
 

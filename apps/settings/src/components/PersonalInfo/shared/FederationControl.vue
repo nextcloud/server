@@ -21,29 +21,30 @@
 -->
 
 <template>
-	<NcActions :class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
+	<NcActions class="federation-actions"
+		:class="{ 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
 		:default-icon="scopeIcon"
 		:disabled="disabled">
-		<FederationControlAction v-for="federationScope in federationScopes"
+		<NcActionButton v-for="federationScope in federationScopes"
 			:key="federationScope.name"
-			:active-scope="scope"
-			:display-name="federationScope.displayName"
-			:handle-scope-change="changeScope"
-			:icon-class="federationScope.iconClass"
-			:is-supported-scope="supportedScopes.includes(federationScope.name)"
-			:name="federationScope.name"
-			:tooltip-disabled="federationScope.tooltipDisabled"
-			:tooltip="federationScope.tooltip" />
+			:close-after-click="true"
+			:disabled="!supportedScopes.includes(federationScope.name)"
+			:icon="federationScope.iconClass"
+			:name="federationScope.displayName"
+			type="radio"
+			:value="federationScope.name"
+			:model-value="scope"
+			@update:modelValue="changeScope">
+			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
+		</NcActionButton>
 	</NcActions>
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
-
-import FederationControlAction from './FederationControlAction.vue'
 
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
@@ -55,16 +56,19 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import logger from '../../../logger.js'
+import { handleError } from '../../../utils/handlers.js'
 
-const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
+const {
+	federationEnabled,
+	lookupServerUploadEnabled,
+} = loadState('settings', 'accountParameters', {})
 
 export default {
 	name: 'FederationControl',
 
 	components: {
 		NcActions,
-		FederationControlAction,
+		NcActionButton,
 	},
 
 	props: {
@@ -120,15 +124,21 @@ export default {
 		},
 
 		supportedScopes() {
-			if (lookupServerUploadEnabled && !UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
-				return [
-					...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable],
-					SCOPE_ENUM.FEDERATED,
-					SCOPE_ENUM.PUBLISHED,
-				]
+			const scopes = PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]
+
+			if (UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
+				return scopes
 			}
 
-			return PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]
+			if (federationEnabled) {
+				scopes.push(SCOPE_ENUM.FEDERATED)
+			}
+
+			if (lookupServerUploadEnabled) {
+				scopes.push(SCOPE_ENUM.PUBLISHED)
+			}
+
+			return scopes
 		},
 	},
 
@@ -178,8 +188,7 @@ export default {
 				this.initialScope = scope
 			} else {
 				this.$emit('update:scope', this.initialScope)
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 	},
@@ -187,25 +196,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.federation-actions,
-	.federation-actions--additional {
-		opacity: 0.4 !important;
-
-		&:hover,
-		&:focus,
-		&:active {
-			opacity: 0.8 !important;
-		}
-	}
-
-	.federation-actions--additional {
-		&::v-deep button {
+.federation-actions {
+	&--additional {
+		&:deep(button) {
 			// TODO remove this hack
-			padding-bottom: 7px;
 			height: 30px !important;
 			min-height: 30px !important;
 			width: 30px !important;
 			min-width: 30px !important;
 		}
 	}
+}
 </style>

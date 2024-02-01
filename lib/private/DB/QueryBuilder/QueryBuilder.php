@@ -56,7 +56,6 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
-
 	/** @var ConnectionAdapter */
 	private $connection;
 
@@ -865,6 +864,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function where(...$predicates) {
+		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
+			// Only logging a warning, not throwing for now.
+			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+		}
+
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
 			$predicates
@@ -1197,7 +1202,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter the placeholder name used.
@@ -1224,7 +1229,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 *
 	 * @return IParameter
 	 */
@@ -1316,7 +1321,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return string
 	 */
 	protected function prefixTableName($table) {
-		if ($this->automaticTablePrefix === false || strpos($table, '*PREFIX*') === 0) {
+		if ($this->automaticTablePrefix === false || str_starts_with($table, '*PREFIX*')) {
 			return $table;
 		}
 

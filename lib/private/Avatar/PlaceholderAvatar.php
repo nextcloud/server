@@ -32,9 +32,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\IConfig;
 use OCP\IImage;
-use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,26 +42,12 @@ use Psr\Log\LoggerInterface;
  * for faster retrieval, unlike the GuestAvatar.
  */
 class PlaceholderAvatar extends Avatar {
-	private ISimpleFolder $folder;
-	private User $user;
-
-	/**
-	 * UserAvatar constructor.
-	 *
-	 * @param IConfig $config The configuration
-	 * @param ISimpleFolder $folder The avatar files folder
-	 * @param IL10N $l The localization helper
-	 * @param User $user The user this class manages the avatar for
-	 * @param LoggerInterface $logger The logger
-	 */
 	public function __construct(
-		ISimpleFolder $folder,
-		$user,
-		LoggerInterface $logger) {
+		private ISimpleFolder $folder,
+		private User $user,
+		LoggerInterface $logger,
+	) {
 		parent::__construct($logger);
-
-		$this->folder = $folder;
-		$this->user = $user;
 	}
 
 	/**
@@ -80,7 +64,6 @@ class PlaceholderAvatar extends Avatar {
 	 * @throws \Exception if the provided file is not a jpg or png image
 	 * @throws \Exception if the provided image is not valid
 	 * @throws NotSquareException if the image is not square
-	 * @return void
 	 */
 	public function set($data): void {
 		// unimplemented for placeholder avatars
@@ -102,8 +85,6 @@ class PlaceholderAvatar extends Avatar {
 	 *
 	 * If there is no avatar file yet, one is generated.
 	 *
-	 * @param int $size
-	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException

@@ -28,6 +28,8 @@ updates:
     - "feature: dependencies"
   reviewers:
     - "nextcloud/server-dependabot"
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 # Testing master npm
 - package-ecosystem: npm
@@ -62,7 +64,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable23
+  target-branch: stable26
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -72,6 +74,8 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 - package-ecosystem: npm
   directory: "/"
@@ -80,7 +84,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable24
+  target-branch: stable27
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -90,6 +94,8 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 - package-ecosystem: npm
   directory: "/"
@@ -98,7 +104,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable25
+  target-branch: stable28
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -108,6 +114,8 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 # Testing StableXX composer
 - package-ecosystem: composer
@@ -117,7 +125,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable23
+  target-branch: stable26
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -135,7 +143,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable24
+  target-branch: stable27
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -153,7 +161,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable25
+  target-branch: stable28
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -163,3 +171,12 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+
+# GitHub Actions
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris

@@ -32,7 +32,6 @@ namespace OCP\Calendar\Resource;
  * @since 17.0.0
  */
 interface IResourceMetadata {
-
 	/**
 	 * Type of resource
 	 *

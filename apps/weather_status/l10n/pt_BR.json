@@ -43,18 +43,6 @@
     "There was an error setting the location." : "Houve um erro ao definir a localização.",
     "There was an error saving the mode." : "Houve um erro ao salvar o modo.",
     "There was an error using personal address." : "Houve um erro ao usar o endereço pessoal.",
-    "Set location for weather" : "Definir localização para o Tempo",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Céu limpo às {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nublado às {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Dia ameno às {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Noite amena às {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parcialmente nublado às {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Neblina às {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Garoa às {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Chuva às {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Chuva forte às {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Pancadas de chuva às {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Pancadas leves de chuva às {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Pancadas fortes de chuva às {time}"
+    "Set location for weather" : "Definir localização para o Tempo"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

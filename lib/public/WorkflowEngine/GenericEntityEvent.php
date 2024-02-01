@@ -34,7 +34,6 @@ namespace OCP\WorkflowEngine;
  * @since 18.0.0
  */
 class GenericEntityEvent implements IEntityEvent {
-
 	/** @var string */
 	private $displayName;
 	/** @var string */

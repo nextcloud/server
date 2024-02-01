@@ -29,12 +29,16 @@
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\AppFramework\Db\TTransactional;
+use OCP\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class Backend {
+	use TTransactional;
+
 	private IDBConnection $db;
 	private IUserManager $userManager;
 	private IGroupManager $groupManager;
@@ -45,12 +49,15 @@ class Backend {
 	public const ACCESS_READ_WRITE = 2;
 	public const ACCESS_READ = 3;
 
+	private CappedMemoryCache $shareCache;
+
 	public function __construct(IDBConnection $db, IUserManager $userManager, IGroupManager $groupManager, Principal $principalBackend, string $resourceType) {
 		$this->db = $db;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->principalBackend = $principalBackend;
 		$this->resourceType = $resourceType;
+		$this->shareCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -58,24 +65,28 @@ class Backend {
 	 * @param list<string> $remove
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove): void {
-		foreach ($add as $element) {
-			$principal = $this->principalBackend->findByUri($element['href'], '');
-			if ($principal !== '') {
-				$this->shareWith($shareable, $element);
+		$this->shareCache->clear();
+		$this->atomic(function () use ($shareable, $add, $remove) {
+			foreach ($add as $element) {
+				$principal = $this->principalBackend->findByUri($element['href'], '');
+				if ($principal !== '') {
+					$this->shareWith($shareable, $element);
+				}
 			}
-		}
-		foreach ($remove as $element) {
-			$principal = $this->principalBackend->findByUri($element, '');
-			if ($principal !== '') {
-				$this->unshare($shareable, $element);
+			foreach ($remove as $element) {
+				$principal = $this->principalBackend->findByUri($element, '');
+				if ($principal !== '') {
+					$this->unshare($shareable, $element);
+				}
 			}
-		}
+		}, $this->db);
 	}
 
 	/**
 	 * @param array{href: string, commonName: string, readOnly: bool} $element
 	 */
 	private function shareWith(IShareable $shareable, array $element): void {
+		$this->shareCache->clear();
 		$user = $element['href'];
 		$parts = explode(':', $user, 2);
 		if ($parts[0] !== 'principal') {
@@ -119,6 +130,7 @@ class Backend {
 	}
 
 	public function deleteAllShares(int $resourceId): void {
+		$this->shareCache->clear();
 		$query = $this->db->getQueryBuilder();
 		$query->delete('dav_shares')
 			->where($query->expr()->eq('resourceid', $query->createNamedParameter($resourceId)))
@@ -127,6 +139,7 @@ class Backend {
 	}
 
 	public function deleteAllSharesByUser(string $principaluri): void {
+		$this->shareCache->clear();
 		$query = $this->db->getQueryBuilder();
 		$query->delete('dav_shares')
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principaluri)))
@@ -135,6 +148,7 @@ class Backend {
 	}
 
 	private function unshare(IShareable $shareable, string $element): void {
+		$this->shareCache->clear();
 		$parts = explode(':', $element, 2);
 		if ($parts[0] !== 'principal') {
 			return;
@@ -167,6 +181,10 @@ class Backend {
 	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 */
 	public function getShares(int $resourceId): array {
+		$cached = $this->shareCache->get($resourceId);
+		if ($cached) {
+			return $cached;
+		}
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['principaluri', 'access'])
 			->from('dav_shares')
@@ -184,11 +202,46 @@ class Backend {
 				'status' => 1,
 				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
-				'{http://owncloud.org/ns}group-share' => is_null($p)
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) ? str_starts_with($p['uri'], 'principals/groups') : false
 			];
 		}
 
+		$this->shareCache->set((string)$resourceId, $shares);
 		return $shares;
+	}
+
+	public function preloadShares(array $resourceIds): void {
+		$resourceIds = array_filter($resourceIds, function (int $resourceId) {
+			return !isset($this->shareCache[$resourceId]);
+		});
+		if (count($resourceIds) === 0) {
+			return;
+		}
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['resourceid', 'principaluri', 'access'])
+			->from('dav_shares')
+			->where($query->expr()->in('resourceid', $query->createNamedParameter($resourceIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($this->resourceType)))
+			->groupBy(['principaluri', 'access', 'resourceid'])
+			->executeQuery();
+
+		$sharesByResource = array_fill_keys($resourceIds, []);
+		while ($row = $result->fetch()) {
+			$resourceId = (int)$row['resourceid'];
+			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
+			$sharesByResource[$resourceId][] = [
+				'href' => "principal:{$row['principaluri']}",
+				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
+				'status' => 1,
+				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
+				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) ? str_starts_with($p['uri'], 'principals/groups') : false
+			];
+		}
+
+		foreach ($resourceIds as $resourceId) {
+			$this->shareCache->set($resourceId, $sharesByResource[$resourceId]);
+		}
 	}
 
 	/**

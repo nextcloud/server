@@ -24,8 +24,6 @@ OC.L10N.register(
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
     "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Sharing" : "Jakaminen",
     "Federated file sharing" : "Federoitu tiedostojako",
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
@@ -35,6 +33,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
     "Allow users to publish their data to a global and public address book" : "Salli käyttäjien julkaista tietojaan maailmanlaajuisessa ja julkisessa osoitekirjassa",
     "Federated Cloud" : "Federoitu pilvi",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloud-palvelinta tai muuta Open Cloud Mesh (OCM) -yhteensopivaa palvelinta tai palvelua! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.example.com",
     "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
     "Share it so your friends can share files with you:" : "Jaa se, jotta ystäväsi voivat jakaa tiedostoja kanssasi:",
     "Facebook" : "Facebook",
@@ -43,14 +42,9 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
-    "Copy" : "Kopioi",
-    "Copied!" : "Kopioitu!",
-    "Not supported!" : "Ei tuettu!",
-    "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
-    "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
-    "Open documentation" : "Avaa ohje",
-    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä."
+    "Copied!" : "Kopioitu!"
 },
 "nplurals=2; plural=(n != 1);");

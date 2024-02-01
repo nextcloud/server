@@ -20,9 +20,8 @@
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
-import '@nextcloud/dialogs/styles/toast.scss'
 
-import PersonalSettings from './components/PersonalSettings'
+import PersonalSettings from './components/PersonalSettings.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 

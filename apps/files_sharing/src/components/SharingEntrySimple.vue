@@ -23,14 +23,14 @@
 <template>
 	<li class="sharing-entry">
 		<slot name="avatar" />
-		<div v-tooltip="tooltip" class="sharing-entry__desc">
+		<div class="sharing-entry__desc">
 			<span class="sharing-entry__title">{{ title }}</span>
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
 		</div>
-		<NcActions ref="actionsComponent"
-			v-if="$slots['default']"
+		<NcActions v-if="$slots['default']"
+			ref="actionsComponent"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:aria-expanded="ariaExpandedValue">
@@ -40,8 +40,7 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 
 export default {
 	name: 'SharingEntrySimple',
@@ -50,19 +49,11 @@ export default {
 		NcActions,
 	},
 
-	directives: {
-		Tooltip,
-	},
-
 	props: {
 		title: {
 			type: String,
 			default: '',
 			required: true,
-		},
-		tooltip: {
-			type: String,
-			default: '',
 		},
 		subtitle: {
 			type: String,
@@ -96,6 +87,7 @@ export default {
 	min-height: 44px;
 	&__desc {
 		padding: 8px;
+		padding-left: 10px;
 		line-height: 1.2em;
 		position: relative;
 		flex: 1 1;
