@@ -238,6 +238,7 @@
     "Open the files app settings" : "Отвори подешавања апликације фајлови",
     "Files settings" : "Подешавања фајлова",
     "File cannot be accessed" : "Фајлу не може да се приступи",
+    "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Фајл није могао да се пронађе или немате дозволу да га прегледате. Замолите пошиљаоца да га подели.",
     "Sort favorites first" : "Сортирај прво омиљене",
     "Sort folders before files" : "Поређај фолдере испред фајлова",
     "Show hidden files" : "Прикажи скривене фајлове",
