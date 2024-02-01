@@ -42,25 +42,26 @@
 </template>
 
 <script lang="ts">
-import { NodeStatus, getFileActions } from '@nextcloud/files'
+import { Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Vue from 'vue'
+import Vue, { defineComponent, type PropType } from 'vue'
 
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.js'
+import type { FileId } from '../types'
 
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
@@ -76,11 +77,11 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
-			type: Object,
+			type: Object as PropType<View>,
 			required: true,
 		},
 		selectedNodes: {
-			type: Array,
+			type: Array as PropType<FileId[]>,
 			default: () => ([]),
 		},
 	},
@@ -117,7 +118,7 @@ export default Vue.extend({
 		nodes() {
 			return this.selectedNodes
 				.map(fileid => this.getNode(fileid))
-				.filter(node => node)
+				.filter(Boolean) as Node[]
 		},
 
 		areSomeNodesLoading() {

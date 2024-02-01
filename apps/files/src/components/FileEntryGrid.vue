@@ -77,12 +77,12 @@ import type { PropType } from 'vue'
 
 import { extname, join } from 'path'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
-import { getUploader } from '@nextcloud/upload'
+import { Upload, getUploader } from '@nextcloud/upload'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
-import Vue from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
@@ -102,7 +102,7 @@ import logger from '../logger.js'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryGrid',
 
 	components: {
@@ -163,7 +163,7 @@ export default Vue.extend({
 			return this.$route.params?.fileid || this.$route.query?.fileid || null
 		},
 		fileid() {
-			return this.source?.fileid?.toString?.()
+			return this.source?.fileid
 		},
 		uniqueId() {
 			return hashCode(this.source.source)
@@ -194,7 +194,7 @@ export default Vue.extend({
 			return this.selectionStore.selected
 		},
 		isSelected() {
-			return this.selectedFiles.includes(this.fileid)
+			return this.fileid && this.selectedFiles.includes(this.fileid)
 		},
 
 		isRenaming() {
@@ -202,7 +202,7 @@ export default Vue.extend({
 		},
 
 		isActive() {
-			return this.fileid === this.currentFileId?.toString?.()
+			return this.fileid?.toString?.() === this.currentFileId?.toString?.()
 		},
 
 		canDrag() {
@@ -224,7 +224,7 @@ export default Vue.extend({
 			}
 
 			// If the current folder is also being dragged, we can't drop it on itself
-			if (this.draggingFiles.includes(this.fileid)) {
+			if (this.fileid && this.draggingFiles.includes(this.fileid)) {
 				return false
 			}
 
@@ -233,10 +233,19 @@ export default Vue.extend({
 
 		openedMenu: {
 			get() {
-				return this.actionsMenuStore.opened === this.uniqueId
+				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
-				this.actionsMenuStore.opened = opened ? this.uniqueId : null
+				// Only reset when opening a new menu
+				if (opened) {
+					// Reset any right click position override on close
+					// Wait for css animation to be done
+					const root = this.$root.$el as HTMLElement
+					root.style.removeProperty('--mouse-pos-x')
+					root.style.removeProperty('--mouse-pos-y')
+				}
+
+				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
 			},
 		},
 	},
@@ -327,13 +336,16 @@ export default Vue.extend({
 
 		async onDragStart(event: DragEvent) {
 			event.stopPropagation()
-			if (!this.canDrag) {
+			if (!this.canDrag || !this.fileid) {
 				event.preventDefault()
 				event.stopPropagation()
 				return
 			}
 
-			logger.debug('Drag started')
+			logger.debug('Drag started', { event })
+
+			// Make sure that we're not dragging a file like the preview
+			event.dataTransfer?.clearData?.()
 
 			// Reset any renaming
 			this.renamingStore.$reset()
@@ -409,7 +421,6 @@ export default Vue.extend({
 
 				logger.debug('Files uploaded successfully')
 				showSuccess(t('files', 'Files uploaded successfully'))
-
 				return
 			}
 

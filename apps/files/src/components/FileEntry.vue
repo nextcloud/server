@@ -100,7 +100,7 @@ import type { PropType } from 'vue'
 
 import { extname, join } from 'path'
 import { FileType, formatFileSize, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
-import { getUploader } from '@nextcloud/upload'
+import { Upload, getUploader } from '@nextcloud/upload'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
@@ -229,7 +229,7 @@ export default defineComponent({
 			return this.$route.params?.fileid || this.$route.query?.fileid || null
 		},
 		fileid() {
-			return this.source?.fileid?.toString?.()
+			return this.source?.fileid
 		},
 		uniqueId() {
 			return hashCode(this.source.source)
@@ -304,7 +304,7 @@ export default defineComponent({
 			return this.selectionStore.selected
 		},
 		isSelected() {
-			return this.selectedFiles.includes(this.fileid)
+			return this.fileid && this.selectedFiles.includes(this.fileid)
 		},
 
 		isRenaming() {
@@ -315,7 +315,7 @@ export default defineComponent({
 		},
 
 		isActive() {
-			return this.fileid === this.currentFileId?.toString?.()
+			return this.fileid?.toString?.() === this.currentFileId?.toString?.()
 		},
 
 		canDrag() {
@@ -341,7 +341,7 @@ export default defineComponent({
 			}
 
 			// If the current folder is also being dragged, we can't drop it on itself
-			if (this.draggingFiles.includes(this.fileid)) {
+			if (this.fileid && this.draggingFiles.includes(this.fileid)) {
 				return false
 			}
 
@@ -350,7 +350,7 @@ export default defineComponent({
 
 		openedMenu: {
 			get() {
-				return this.actionsMenuStore.opened === this.uniqueId
+				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
 				// Only reset when opening a new menu
@@ -362,7 +362,7 @@ export default defineComponent({
 					root.style.removeProperty('--mouse-pos-y')
 				}
 
-				this.actionsMenuStore.opened = opened ? this.uniqueId : null
+				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
 			},
 		},
 	},
@@ -408,7 +408,7 @@ export default defineComponent({
 
 			// If the clicked row is in the selection, open global menu
 			const isMoreThanOneSelected = this.selectedFiles.length > 1
-			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this.uniqueId
+			this.actionsMenuStore.opened = this.isSelected && isMoreThanOneSelected ? 'global' : this.uniqueId.toString()
 
 			// Prevent any browser defaults
 			event.preventDefault()
@@ -460,7 +460,7 @@ export default defineComponent({
 
 		async onDragStart(event: DragEvent) {
 			event.stopPropagation()
-			if (!this.canDrag) {
+			if (!this.canDrag || !this.fileid) {
 				event.preventDefault()
 				event.stopPropagation()
 				return
@@ -545,7 +545,6 @@ export default defineComponent({
 
 				logger.debug('Files uploaded successfully')
 				showSuccess(t('files', 'Files uploaded successfully'))
-
 				return
 			}
 
