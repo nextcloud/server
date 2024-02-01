@@ -238,6 +238,7 @@
     "Open the files app settings" : "Öppna filappens inställningar",
     "Files settings" : "Filinställningar",
     "File cannot be accessed" : "Det går inte att komma åt filen",
+    "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Filen kunde inte hittas eller så har du inte behörighet att visa den. Be avsändaren att dela den.",
     "Sort favorites first" : "Sortera favoriter först",
     "Sort folders before files" : "Sortera mappar före filer",
     "Show hidden files" : "Visa dolda filer",

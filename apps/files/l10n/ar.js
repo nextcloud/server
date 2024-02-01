@@ -240,6 +240,7 @@ OC.L10N.register(
     "Open the files app settings" : "إفتح إعدادات تطبيق الملفات",
     "Files settings" : "إعدادات الملفات",
     "File cannot be accessed" : "الملف لم يمكن الوصول إليه",
+    "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "إمّا أن الملف غير موجود أو أنك لا تمتلك الصلاحية لعرضه. أُطلُب من المُرسل أن يتشاركه معك.",
     "Sort favorites first" : "فرز المفضلات أولا",
     "Sort folders before files" : "فرز المجلدات قبل الملفات",
     "Show hidden files" : "عرض الملفات المخفية",
