@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
-    <MoreSpecificImplementedParamType/>
+    <MoreSpecificImplementedParamType>
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CalDAV/CalendarHome.php">
     <MoreSpecificImplementedParamType>
@@ -14,7 +16,9 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBook.php">
-    <MoreSpecificImplementedParamType/>
+    <MoreSpecificImplementedParamType>
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBookHome.php">
     <InvalidPropertyAssignmentValue>
@@ -34,26 +38,6 @@
       <code>array</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="apps/admin_audit/lib/Listener/CriticalActionPerformedEventListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Listener/CommentsEntityEventListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Listener/LoadAdditionalScripts.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Listener/LoadSidebarScripts.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/comments/lib/Notification/Listener.php">
     <LessSpecificReturnStatement>
       <code>$uids</code>
@@ -61,11 +45,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[list<string>]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="apps/contactsinteraction/lib/Listeners/ContactInteractionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <UndefinedGlobalVariable>
@@ -100,6 +79,11 @@
     <UndefinedGlobalVariable>
       <code>$baseuri</code>
     </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/lib/AppInfo/Application.php">
+    <InvalidArgument>
+      <code>registerEventListener</code>
+    </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
     <UndefinedMethod>
@@ -328,7 +312,7 @@
     </RedundantCast>
     <RedundantCondition>
       <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
-      <code>is_array($modified['old'])</code>
+      <code><![CDATA[is_array($modified['old'])]]></code>
     </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
@@ -339,8 +323,8 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <InvalidArgument>
-      <code>[$aclPlugin, 'propFind']</code>
-      <code>[$aclPlugin, 'propFind']</code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
     </InvalidArgument>
     <LessSpecificReturnStatement>
       <code><![CDATA[$vevent->DTEND]]></code>
@@ -375,12 +359,12 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php">
     <TypeDoesNotContainType>
-      <code>!is_array($newProps['filters']['comps'])</code>
-      <code>!is_array($newProps['filters']['params'])</code>
-      <code>!is_array($newProps['filters']['props'])</code>
-      <code>!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])</code>
-      <code>!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])</code>
-      <code>!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])</code>
+      <code><![CDATA[!is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['props'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
@@ -416,7 +400,7 @@
       <code>VCard</code>
     </MoreSpecificReturnType>
     <TypeDoesNotContainType>
-      <code>$addressBooks[$row['id']][$readOnlyPropertyName] === 0</code>
+      <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
@@ -518,7 +502,7 @@
       <code>bool</code>
     </InvalidNullableReturnType>
     <TooManyArguments>
-      <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
+      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
     </TooManyArguments>
     <UndefinedClass>
       <code>\OCA\Circles\Api\v1\Circles</code>
@@ -669,66 +653,6 @@
       <code><![CDATA[$this->usersToDelete]]></code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="apps/dav/lib/Listener/ActivityUpdaterListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/AddressbookListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/BirthdayListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarContactInteractionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarObjectReminderUpdaterListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarPublicationListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarShareUpdateListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CardListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/ClearPhotoCacheListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/SubscriptionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/TrustedServerRemovedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/UserPreferenceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
       <code>$arguments</code>
@@ -844,7 +768,7 @@
   </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
     <TypeDoesNotContainType>
-      <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code><![CDATA[get_class($res) === 'OpenSSLAsymmetricKey']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
@@ -859,7 +783,7 @@
   </file>
   <file src="apps/encryption/lib/Session.php">
     <TooManyArguments>
-      <code>new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)</code>
+      <code><![CDATA[new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
     </TooManyArguments>
   </file>
   <file src="apps/encryption/lib/Util.php">
@@ -887,7 +811,7 @@
       <code>$shareId</code>
       <code>$shareId</code>
       <code>$shareId</code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
     <LessSpecificReturnStatement>
       <code>$nodes[0]</code>
@@ -895,11 +819,6 @@
     <MoreSpecificReturnType>
       <code>\OCP\Files\File|\OCP\Files\Folder</code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="apps/federatedfilesharing/lib/Listeners/LoadAdditionalScriptsListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType>
@@ -922,7 +841,7 @@
       <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>(int)$share['id']</code>
+      <code><![CDATA[(int)$share['id']]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
@@ -932,11 +851,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="apps/federation/lib/Listener/SabrePluginAuthInitListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/files/ajax/download.php">
     <InvalidArgument>
@@ -1003,16 +917,6 @@
       <code>$i</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/files/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files/lib/Listener/RenderReferenceEventListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
     <TypeDoesNotContainType>
       <code>empty($encryptedFiles)</code>
@@ -1065,21 +969,6 @@
       <code>fopen</code>
     </InvalidNullableReturnType>
   </file>
-  <file src="apps/files_external/lib/Listener/GroupDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_external/lib/Listener/StorePasswordListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_external/lib/Listener/UserDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files_external/lib/Migration/DummyUserSession.php">
     <InvalidReturnType>
       <code>login</code>
@@ -1129,26 +1018,6 @@
     <MoreSpecificImplementedParamType>
       <code>$cacheData</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/LoadAdditionalListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/ShareInteractionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/UserAddedToGroupListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/UserShareAcceptanceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
     <InvalidArgument>
@@ -1200,14 +1069,9 @@
   </file>
   <file src="apps/files_sharing/templates/public.php">
     <RedundantCondition>
-      <code>$_['hideFileList'] !== true</code>
+      <code><![CDATA[$_['hideFileList'] !== true]]></code>
       <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
     </RedundantCondition>
-  </file>
-  <file src="apps/files_trashbin/lib/Listeners/LoadAdditionalScripts.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType>
@@ -1275,21 +1139,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_versions/lib/Listener/FileEventsListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_versions/lib/Listener/LoadAdditionalListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_versions/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType>
       <code>getChild</code>
@@ -1324,11 +1173,6 @@
       <code>$groupid === null</code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="apps/provisioning_api/lib/Listener/UserDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <InvalidReturnType>
       <code>Response</code>
@@ -1349,21 +1193,6 @@
       <code><![CDATA[[$user->getEMailAddress() => $user->getDisplayName()]]]></code>
     </InvalidArrayOffset>
   </file>
-  <file src="apps/settings/lib/Listener/GroupRemovedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/settings/lib/Listener/UserAddedToGroupActivityListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/settings/lib/Listener/UserRemovedFromGroupActivityListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod>
       <code>isReady</code>
@@ -1377,7 +1206,7 @@
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
@@ -1391,16 +1220,6 @@
       <code>TIME_SENSITIVE</code>
     </OverriddenInterfaceConstant>
   </file>
-  <file src="apps/theming/lib/Listener/BeforePreferenceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/theming/lib/Listener/BeforeTemplateRenderedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/theming/lib/Util.php">
     <InvalidReturnStatement>
       <code><![CDATA[array_values($color->getRgb())]]></code>
@@ -1408,36 +1227,6 @@
     <InvalidReturnType>
       <code>array{0: int, 1: int, 2: int}</code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ActivityPublisher.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ClearNotifications.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ProviderDisabled.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ProviderEnabled.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/RegistryUpdater.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/UserDeleted.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/updatenotification/lib/Notification/BackgroundJob.php">
     <InvalidArgument>
@@ -1555,21 +1344,6 @@
       <code>registerProvider</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/user_status/lib/Listener/BeforeTemplateRenderedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/user_status/lib/Listener/UserDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/user_status/lib/Listener/UserLiveStatusListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
     <NullArgument>
       <code>null</code>
@@ -1617,11 +1391,6 @@
     <InvalidReturnType>
       <code>string</code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/workflowengine/lib/Listener/LoadAdditionalSettingsScriptsListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/workflowengine/lib/Manager.php">
     <InvalidArgument>
@@ -1766,11 +1535,6 @@
       <code>findMatchingRoute</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/Listener/BeforeTemplateRenderedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="core/Middleware/TwoFactorMiddleware.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
@@ -1859,7 +1623,9 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/AppConfig.php">
-    <NullableReturnStatement/>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
+    </NullableReturnStatement>
   </file>
   <file src="lib/private/AppFramework/Bootstrap/Coordinator.php">
     <InvalidPropertyAssignmentValue>
@@ -1950,7 +1716,7 @@
   </file>
   <file src="lib/private/AppFramework/Routing/RouteConfig.php">
     <InvalidArrayOffset>
-      <code>$action['url-postfix']</code>
+      <code><![CDATA[$action['url-postfix']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
@@ -1961,6 +1727,44 @@
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$class->newInstance()]]></code>
+      <code><![CDATA[$class->newInstanceArgs(array_map(function (ReflectionParameter $parameter) {
+			$parameterType = $parameter->getType();
+
+			$resolveName = $parameter->getName();
+
+			// try to find out if it is a class or a simple parameter
+			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+				$resolveName = $parameterType->getName();
+			}
+
+			try {
+				$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
+					&& $parameter->getType()->isBuiltin();
+				return $this->query($resolveName, !$builtIn);
+			} catch (QueryException $e) {
+				// Service not found, use the default value when available
+				if ($parameter->isDefaultValueAvailable()) {
+					return $parameter->getDefaultValue();
+				}
+
+				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+					$resolveName = $parameter->getName();
+					try {
+						return $this->query($resolveName);
+					} catch (QueryException $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
+						}
+
+						// don't lose the error we got while trying to query by type
+						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
+					}
+				}
+
+				throw $e;
+			}
+		}, $constructor->getParameters()))]]></code>
     </LessSpecificReturnStatement>
     <MissingTemplateParam>
       <code>ArrayAccess</code>
@@ -1977,29 +1781,10 @@
       <code><![CDATA[$this->tar->extractInString($path)]]></code>
     </UndefinedDocblockClass>
   </file>
-  <file src="lib/private/Authentication/Listeners/UserDeletedFilesCleanupListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/private/Authentication/Listeners/UserDeletedWebAuthnCleanupListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/Authentication/LoginCredentials/Store.php">
     <RedundantCondition>
       <code>$trySession</code>
     </RedundantCondition>
-  </file>
-  <file src="lib/public/Authentication/Token/IToken.php">
-    <AmbiguousConstantInheritance>
-      <code>DO_NOT_REMEMBER</code>
-      <code>PERMANENT_TOKEN</code>
-      <code>REMEMBER</code>
-      <code>TEMPORARY_TOKEN</code>
-      <code>WIPE_TOKEN</code>
-    </AmbiguousConstantInheritance>
   </file>
   <file src="lib/private/Authentication/Token/PublicKeyToken.php">
     <UndefinedMagicMethod>
@@ -2066,7 +1851,9 @@
       <code>$image</code>
       <code>$image</code>
     </InvalidArgument>
-    <InvalidReturnStatement/>
+    <InvalidReturnStatement>
+      <code>($newImage !== false) ? $newImage : $image</code>
+    </InvalidReturnStatement>
     <InvalidReturnType>
       <code>GdImage|false</code>
     </InvalidReturnType>
@@ -2125,7 +1912,9 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Command/ClosureJob.php">
-    <InvalidArgument/>
+    <InvalidArgument>
+      <code>[LaravelClosure::class]</code>
+    </InvalidArgument>
   </file>
   <file src="lib/private/Comments/Manager.php">
     <RedundantCast>
@@ -2157,7 +1946,7 @@
       <code>getParams</code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Connection.php">
@@ -2168,8 +1957,8 @@
       <code>$params</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$params['adapter']</code>
-      <code>$params['tablePrefix']</code>
+      <code><![CDATA[$params['adapter']]]></code>
+      <code><![CDATA[$params['tablePrefix']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Exceptions/DbalException.php">
@@ -2202,7 +1991,7 @@
       <code>getParams</code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
@@ -2397,10 +2186,10 @@
       <code>$user</code>
     </InvalidOperand>
     <RedundantCondition>
-      <code>get_class($provider) !== 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
     </RedundantCondition>
     <TypeDoesNotContainType>
-      <code>get_class($provider) === 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
@@ -2575,7 +2364,7 @@
       <code>Promise\promise_for(
 					new Credentials($key, $secret)
 				)</code>
-      <code>\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())</code>
+      <code><![CDATA[\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())]]></code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ObjectTrait.php">
@@ -2766,11 +2555,6 @@
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Group/DisplayNameCache.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/Group/Group.php">
     <InvalidArgument>
       <code>bool</code>
@@ -2823,16 +2607,13 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Installer.php">
-    <FalsableReturnStatement>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument>
       <code>false</code>
       <code>false</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$app['path']</code>
-      <code>$app['path']</code>
+      <code><![CDATA[$app['path']]]></code>
+      <code><![CDATA[$app['path']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
       <code>null</code>
@@ -3180,8 +2961,7 @@
   </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
-      <code>$content !== ''</code>
-      <code>$type === 'pdo'</code>
+      <code><![CDATA[$type === 'pdo']]></code>
     </RedundantCondition>
     <UndefinedVariable>
       <code>$vendor</code>
@@ -3211,7 +2991,7 @@
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>set</code>
@@ -3366,11 +3146,6 @@
       <code>false</code>
     </FalsableReturnStatement>
   </file>
-  <file src="lib/private/User/DisplayNameCache.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/User/Manager.php">
     <ImplementedReturnTypeMismatch>
       <code>IUser|false</code>
@@ -3414,15 +3189,12 @@
       <code>$groupsList</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$dir['path']</code>
-      <code>$dir['url']</code>
+      <code><![CDATA[$dir['path']]]></code>
+      <code><![CDATA[$dir['url']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
       <code>null</code>
     </NullArgument>
-    <NullableReturnStatement>
-      <code>null</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainNull>
       <code>$appId === null</code>
       <code>$appId === null</code>
@@ -3495,6 +3267,15 @@
     <MoreSpecificReturnType>
       <code>array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}</code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="lib/public/Authentication/Token/IToken.php">
+    <AmbiguousConstantInheritance>
+      <code>DO_NOT_REMEMBER</code>
+      <code>PERMANENT_TOKEN</code>
+      <code>REMEMBER</code>
+      <code>TEMPORARY_TOKEN</code>
+      <code>WIPE_TOKEN</code>
+    </AmbiguousConstantInheritance>
   </file>
   <file src="lib/public/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
