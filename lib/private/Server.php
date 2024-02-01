@@ -976,7 +976,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return $backend;
 		});
 
-		$this->registerService('IntegrityCodeChecker', function (ContainerInterface $c) {
+		$this->registerDeprecatedAlias('IntegrityCodeChecker', Checker::class);
+		$this->registerService(Checker::class, function (ContainerInterface $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {

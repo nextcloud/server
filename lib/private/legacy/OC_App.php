@@ -823,7 +823,7 @@ class OC_App {
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		// load the steps
-		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
+		$r = \OCP\Server::get(Repair::class);
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);
