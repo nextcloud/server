@@ -24,7 +24,9 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Services;
 
+use OC\AppConfig as AppConfigCore;
 use OC\AppFramework\Services\AppConfig;
+use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig as IAppConfigCore;
 use OCP\IConfig;
@@ -33,7 +35,7 @@ use Test\TestCase;
 
 class AppConfigTest extends TestCase {
 	private IConfig|MockObject $config;
-	private IAppConfigCore $appConfigCore;
+	private IAppConfigCore|MockObject $appConfigCore;
 	private AppConfig $appConfig;
 
 	private const TEST_APPID = 'appconfig-test';
@@ -41,174 +43,649 @@ class AppConfigTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
-
-		$this->appConfigCore = \OCP\Server::get(IAppConfigCore::class);
-
-		// we reset previous test entries and initiate some value in core appconfig
-		$this->appConfigCore->deleteApp(self::TEST_APPID);
-		$this->appConfigCore->setValueString(self::TEST_APPID, 'key1', 'value1');
-		$this->appConfigCore->setValueString(self::TEST_APPID, 'key2', 'value0', sensitive: true);
-		$this->appConfigCore->setValueString(self::TEST_APPID, 'key3', 'value0', true, true);
-		$this->appConfigCore->setValueInt(self::TEST_APPID, 'key4', 3, true);
-		$this->appConfigCore->setValueFloat(self::TEST_APPID, 'key5', 3.14, true);
-		$this->appConfigCore->setValueBool(self::TEST_APPID, 'key6', true);
-		$this->appConfigCore->setValueArray(self::TEST_APPID, 'key7', ['test1' => 1, 'test2' => 2]);
-		$this->appConfigCore->setValueBool(self::TEST_APPID, 'test8', true);
-
-		$this->appConfigCore->clearCache();
+		$this->appConfigCore = $this->createMock(AppConfigCore::class);
+		
 		$this->appConfig = new AppConfig($this->config, $this->appConfigCore, self::TEST_APPID);
 	}
 
 	public function testGetAppKeys(): void {
 		$expected = ['key1', 'key2', 'key3', 'key4', 'key5', 'key6', 'key7', 'test8'];
+		$this->appConfigCore->expects($this->once())
+							->method('getKeys')
+							->with(self::TEST_APPID)
+							->willReturn($expected);
 		$this->assertSame($expected, $this->appConfig->getAppKeys());
 	}
 
-	public function testHasExistingAppKey(): void {
-		$this->assertSame(true, $this->appConfig->hasAppKey('key1'));
-		$this->assertSame(true, $this->appConfig->hasAppKey('key4', true));
-		$this->appConfigCore->clearCache();
-		$this->assertSame(true, $this->appConfig->hasAppKey('key5', null));
-		$this->assertSame(true, $this->appConfig->hasAppKey('test8'));
-		$this->assertSame(false, $this->appConfig->hasAppKey('inexisting-key'));
+
+	/**
+	 * @return array
+	 * @see testHasAppKey
+	 */
+	public function providerHasAppKey(): array {
+		return [
+			// lazy, expected
+			[false, true],
+			[true, true],
+			[false, false],
+			[true, false],
+		];
 	}
 
-	public function testIsSensitive(): void {
-		$this->assertSame(false, $this->appConfig->isSensitive('key1'));
-		$this->assertSame(true, $this->appConfig->isSensitive('key2'));
-
-		try {
-			$this->assertSame(
-				false, $this->appConfig->isSensitive('key3'),
-				'should throw exception, or call clearCache before this test'
-			);
-			$this->assertSame(true, false, 'not supposed to happen, key3 is set as lazy and sensitive');
-		} catch (AppConfigUnknownKeyException $e) {
-			$this->assertSame(true, true);
-		}
-
-		$this->assertSame(true, $this->appConfig->isSensitive('key3', true));
-		$this->assertSame(false, $this->appConfig->isSensitive('key4', true));
-	}
-
-	public function testIsLazy(): void {
-		$this->assertSame(false, $this->appConfig->isLazy('key1'));
-		$this->assertSame(false, $this->appConfig->isLazy('key2'));
-		$this->assertSame(true, $this->appConfig->isLazy('key3'));
-		$this->assertSame(true, $this->appConfig->isLazy('key4'));
-		$this->assertSame(true, $this->appConfig->isLazy('key5'));
-		$this->assertSame(false, $this->appConfig->isLazy('key6'));
-		$this->assertSame(false, $this->appConfig->isLazy('key7'));
-		$this->assertSame(false, $this->appConfig->isLazy('test8'));
+	/**
+	 * @dataProvider providerHasAppKey
+	 *
+	 * @param bool $lazy
+	 * @param bool $expected
+	 */
+	public function testHasAppKey(bool $lazy, bool $expected): void {
+		$key = 'key';
+		$this->appConfigCore->expects($this->once())
+							->method('hasKey')
+							->with(self::TEST_APPID, $key, $lazy)
+							->willReturn($expected);
+		$this->assertSame($expected, $this->appConfig->hasAppKey($key, $lazy));
 	}
 
 
-	// TODO: fix this in core: getAllAppValues() should returns values based on their types instead of all string
-	//	public function testGetAllAppValues(): void {
-	//		$this->assertSame(
-	//			[
-	//				'key1' => 'value1',
-	//				'key2' => 'value0',
-	//				'key6' => 1,
-	//				'key7' => [
-	//					'test1' => 1,
-	//					'test2' => 2
-	//				],
-	//				'test8' => 1,
-	//				'key3' => 'value0',
-	//				'key4' => 3,
-	//				'key5' => 3.14
-	//			],
-	//			$this->appConfig->getAllAppValues()
-	//		);
-	//	}
+	/**
+	 * @return array
+	 * @see testIsSensitive
+	 */
+	public function providerIsSensitive(): array {
+		return [
+			// lazy, expected
+			[false, true],
+			[true, true],
+			[false, false],
+			[true, false],
+		];
+	}
 
+	/**
+	 * @dataProvider providerIsSensitive
+	 *
+	 * @param bool $lazy
+	 * @param bool $expected
+	 */
+	public function testIsSensitive(bool $lazy, bool $expected): void {
+		$key = 'key';
+		$this->appConfigCore->expects($this->once())
+							->method('isSensitive')
+							->with(self::TEST_APPID, $key, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->isSensitive($key, $lazy));
+	}
+
+	/**
+	 * @dataProvider providerIsSensitive
+	 *
+	 * @param bool $lazy
+	 * @param bool $expected
+	 */
+	public function testIsSensitiveException(bool $lazy, bool $expected): void {
+		$key = 'unknown-key';
+		$this->appConfigCore->expects($this->once())
+							->method('isSensitive')
+							->with(self::TEST_APPID, $key, $lazy)
+							->willThrowException(new AppConfigUnknownKeyException());
+
+		$this->expectException(AppConfigUnknownKeyException::class);
+		$this->appConfig->isSensitive($key, $lazy);
+	}
+
+	/**
+	 * @return array
+	 * @see testIsLazy
+	 */
+	public function providerIsLazy(): array {
+		return [
+			// expected
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * @dataProvider providerIsLazy
+	 *
+	 * @param bool $expected
+	 */
+	public function testIsLazy(bool $expected): void {
+		$key = 'key';
+		$this->appConfigCore->expects($this->once())
+							->method('isLazy')
+							->with(self::TEST_APPID, $key)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->isLazy($key));
+	}
+
+	public function testIsLazyException(): void {
+		$key = 'unknown-key';
+		$this->appConfigCore->expects($this->once())
+							->method('isLazy')
+							->with(self::TEST_APPID, $key)
+							->willThrowException(new AppConfigUnknownKeyException());
+
+		$this->expectException(AppConfigUnknownKeyException::class);
+		$this->appConfig->isLazy($key);
+	}
+
+	/**
+	 * @return array
+	 * @see testGetAllAppValues
+	 */
+	public function providerGetAllAppValues(): array {
+		return [
+			// key, filtered
+			['', false],
+			['', true],
+			['key', false],
+			['key', true],
+		];
+	}
+
+	/**
+	 * @dataProvider providerGetAllAppValues
+	 *
+	 * @param string $key
+	 * @param bool $filtered
+	 */
+	public function testGetAllAppValues(string $key, bool $filtered): void {
+		$expected = [
+			'key1' => 'value1',
+			'key2' => 3,
+			'key3' => 3.14,
+			'key4' => true
+		];
+
+		$this->appConfigCore->expects($this->once())
+							->method('getAllValues')
+							->with(self::TEST_APPID, $key, $filtered)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->getAllAppValues($key, $filtered));
+	}
 
 	public function testSetAppValue(): void {
-		$this->appConfig->setAppValue('old1', 'newvalue');
-		$this->assertSame('newvalue', $this->appConfigCore->getValueString(self::TEST_APPID, 'old1', 'default'));
+		$key = 'key';
+		$value = 'value';
+		$this->appConfigCore->expects($this->once())
+							->method('setValueMixed')
+							->with(self::TEST_APPID, $key, $value);
+
+		$this->appConfig->setAppValue($key, $value);
 	}
 
-	public function testSetAppValueString(): void {
-		$this->assertSame('value1', $this->appConfigCore->getValueString(self::TEST_APPID, 'key1', 'default'));
-		$this->assertSame(false, $this->appConfig->setAppValueString('key1', 'value1'));
-		$this->assertSame(true, $this->appConfig->setAppValueString('key1', 'newvalue1'));
-		$this->assertSame('newvalue1', $this->appConfigCore->getValueString(self::TEST_APPID, 'key1', 'default'));
+	/**
+	 * @return array
+	 * @see testSetAppValueString
+	 * @see testSetAppValueStringException
+	 * @see testSetAppValueInt
+	 * @see testSetAppValueIntException
+	 * @see testSetAppValueFloat
+	 * @see testSetAppValueFloatException
+	 * @see testSetAppValueArray
+	 * @see testSetAppValueArrayException
+	 */
+	public function providerSetAppValue(): array {
+		return [
+			// lazy, sensitive, expected
+			[false, false, true],
+			[false, true, true],
+			[true, true, true],
+			[true, false, true],
+			[false, false, false],
+			[false, true, false],
+			[true, true, false],
+			[true, false, false],
+		];
 	}
 
-	public function testSetAppValueInt(): void {
-		$this->assertSame(3, $this->appConfigCore->getValueInt(self::TEST_APPID, 'key4', lazy: true));
-		$this->assertSame(false, $this->appConfig->setAppValueInt('key4', 3, true));
-		$this->assertSame(true, $this->appConfig->setAppValueInt('key4', 4, true));
-		$this->assertSame(4, $this->appConfigCore->getValueInt(self::TEST_APPID, 'key4', lazy: true));
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 * @param bool $expected
+	 */
+	public function testSetAppValueString(bool $lazy, bool $sensitive, bool $expected): void {
+		$key = 'key';
+		$value = 'valueString';
+		$this->appConfigCore->expects($this->once())
+							->method('setValueString')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->setAppValueString($key, $value, $lazy, $sensitive));
 	}
 
-	public function testSetAppValueFloat(): void {
-		$this->assertSame(3.14, $this->appConfigCore->getValueFloat(self::TEST_APPID, 'key5', lazy: true));
-		$this->assertSame(false, $this->appConfig->setAppValueFloat('key5', 3.14, true));
-		$this->assertSame(true, $this->appConfig->setAppValueFloat('key5', 4.17, true));
-		$this->assertSame(4.17, $this->appConfigCore->getValueFloat(self::TEST_APPID, 'key5', lazy: true));
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 */
+	public function testSetAppValueStringException(bool $lazy, bool $sensitive): void {
+		$key = 'key';
+		$value = 'valueString';
+		$this->appConfigCore->expects($this->once())
+							->method('setValueString')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->setAppValueString($key, $value, $lazy, $sensitive);
 	}
 
-	public function testSetAppValueBool(): void {
-		$this->assertSame(true, $this->appConfigCore->getValueBool(self::TEST_APPID, 'key6', false));
-		$this->assertSame(false, $this->appConfig->setAppValueBool('key6', true));
-		$this->assertSame(true, $this->appConfig->setAppValueBool('key6', false));
-		$this->assertSame(false, $this->appConfigCore->getValueBool(self::TEST_APPID, 'key6', true));
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 * @param bool $expected
+	 */
+	public function testSetAppValueInt(bool $lazy, bool $sensitive, bool $expected): void {
+		$key = 'key';
+		$value = 42;
+		$this->appConfigCore->expects($this->once())
+							->method('setValueInt')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->setAppValueInt($key, $value, $lazy, $sensitive));
 	}
 
-	public function testSetAppValueArray(): void {
-		$this->assertSame(['test1' => 1, 'test2' => 2], $this->appConfigCore->getValueArray(self::TEST_APPID, 'key7', []));
-		$this->assertSame(false, $this->appConfig->setAppValueArray('key7', ['test1' => 1, 'test2' => 2]));
-		$this->assertSame(true, $this->appConfig->setAppValueArray('key7', ['test3' => 0]));
-		$this->assertSame(['test3' => 0], $this->appConfigCore->getValueArray(self::TEST_APPID, 'key7', []));
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 */
+	public function testSetAppValueIntException(bool $lazy, bool $sensitive): void {
+		$key = 'key';
+		$value = 42;
+		$this->appConfigCore->expects($this->once())
+							->method('setValueInt')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->setAppValueInt($key, $value, $lazy, $sensitive);
+	}
+
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 * @param bool $expected
+	 */
+	public function testSetAppValueFloat(bool $lazy, bool $sensitive, bool $expected): void {
+		$key = 'key';
+		$value = 3.14;
+		$this->appConfigCore->expects($this->once())
+							->method('setValueFloat')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->setAppValueFloat($key, $value, $lazy, $sensitive));
+	}
+
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 */
+	public function testSetAppValueFloatException(bool $lazy, bool $sensitive): void {
+		$key = 'key';
+		$value = 3.14;
+		$this->appConfigCore->expects($this->once())
+							->method('setValueFloat')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->setAppValueFloat($key, $value, $lazy, $sensitive);
+	}
+
+	/**
+	 * @return array
+	 * @see testSetAppValueBool
+	 */
+	public function providerSetAppValueBool(): array {
+		return [
+			// lazy, expected
+			[false, true],
+			[false, false],
+			[true, true],
+			[true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider providerSetAppValueBool
+	 *
+	 * @param bool $lazy
+	 * @param bool $expected
+	 */
+	public function testSetAppValueBool(bool $lazy, bool $expected): void {
+		$key = 'key';
+		$value = true;
+		$this->appConfigCore->expects($this->once())
+							->method('setValueBool')
+							->with(self::TEST_APPID, $key, $value, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->setAppValueBool($key, $value, $lazy));
+	}
+
+	/**
+	 * @dataProvider providerSetAppValueBool
+	 *
+	 * @param bool $lazy
+	 */
+	public function testSetAppValueBoolException(bool $lazy): void {
+		$key = 'key';
+		$value = true;
+		$this->appConfigCore->expects($this->once())
+							->method('setValueBool')
+							->with(self::TEST_APPID, $key, $value, $lazy)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->setAppValueBool($key, $value, $lazy);
+	}
+
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 * @param bool $expected
+	 */
+	public function testSetAppValueArray(bool $lazy, bool $sensitive, bool $expected): void {
+		$key = 'key';
+		$value = ['item' => true];
+		$this->appConfigCore->expects($this->once())
+							->method('setValueArray')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->setAppValueArray($key, $value, $lazy, $sensitive));
+	}
+
+	/**
+	 * @dataProvider providerSetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $sensitive
+	 */
+	public function testSetAppValueArrayException(bool $lazy, bool $sensitive): void {
+		$key = 'key';
+		$value = ['item' => true];
+		$this->appConfigCore->expects($this->once())
+							->method('setValueArray')
+							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->setAppValueArray($key, $value, $lazy, $sensitive);
 	}
 
 	public function testGetAppValue(): void {
-		$this->appConfigCore->setValueMixed(self::TEST_APPID, 'old1', 'newvalue1');
-		$this->assertSame('newvalue1', $this->appConfig->getAppValue('old1', 'default'));
+		$key = 'key';
+		$value = 'value';
+		$default = 'default';
+		$this->appConfigCore->expects($this->once())
+							->method('getValueMixed')
+							->with(self::TEST_APPID, $key, $default)
+							->willReturn($value);
+
+		$this->assertSame($value, $this->appConfig->getAppValue($key, $default));
 	}
 
-	public function testGetAppValueString(): void {
-		$this->appConfigCore->setValueString(self::TEST_APPID, 'key1', 'value1new');
-		$this->appConfigCore->setValueString(self::TEST_APPID, 'key3', 'value3new', lazy: true);
-		$this->assertSame('value1new', $this->appConfig->getAppValueString('key1', 'default'));
-		$this->assertSame('default', $this->appConfig->getAppValueString('key3', 'default'));
-		$this->assertSame('value3new', $this->appConfig->getAppValueString('key3', 'default', lazy: true));
+	public function testGetAppValueDefault(): void {
+		$key = 'key';
+		$default = 'default';
+		$this->appConfigCore->expects($this->once())
+							->method('getValueMixed')
+							->with(self::TEST_APPID, $key, $default)
+							->willReturn($default);
+
+		$this->assertSame($default, $this->appConfig->getAppValue($key, $default));
 	}
 
-	public function testGetAppValueInt(): void {
-		$this->appConfigCore->setValueInt(self::TEST_APPID, 'key4', 14, true);
-		$this->assertSame(14, $this->appConfig->getAppValueInt('key4', 0, true));
+	/**
+	 * @return array
+	 * @see testGetAppValueString
+	 * @see testGetAppValueStringException
+	 * @see testGetAppValueInt
+	 * @see testGetAppValueIntException
+	 * @see testGetAppValueFloat
+	 * @see testGetAppValueFloatException
+	 * @see testGetAppValueBool
+	 * @see testGetAppValueBoolException
+	 * @see testGetAppValueArray
+	 * @see testGetAppValueArrayException
+	 */
+	public function providerGetAppValue(): array {
+		return [
+			// lazy, exist
+			[false, false],
+			[false, true],
+			[true, true],
+			[true, false]
+		];
 	}
 
-	public function testGetAppValueFloat(): void {
-		$this->appConfigCore->setValueFloat(self::TEST_APPID, 'key5', 12.34, true);
-		$this->assertSame(12.34, $this->appConfig->getAppValueFloat('key5', 0, true));
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $exist
+	 */
+	public function testGetAppValueString(bool $lazy, bool $exist): void {
+		$key = 'key';
+		$value = 'valueString';
+		$default = 'default';
+
+		$expected = ($exist) ? $value : $default;
+		$this->appConfigCore->expects($this->once())
+							->method('getValueString')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->getAppValueString($key, $default, $lazy));
 	}
 
-	public function testGetAppValueBool(): void {
-		$this->appConfigCore->setValueBool(self::TEST_APPID, 'key6', true);
-		$this->assertSame(true, $this->appConfig->getAppValueBool('key6', false));
-		$this->appConfigCore->setValueBool(self::TEST_APPID, 'key6', false);
-		$this->assertSame(false, $this->appConfig->getAppValueBool('key6', true));
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 */
+	public function testGetAppValueStringException(bool $lazy): void {
+		$key = 'key';
+		$default = 'default';
+
+		$this->appConfigCore->expects($this->once())
+							->method('getValueString')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->getAppValueString($key, $default, $lazy);
 	}
 
-	public function testGetAppValueArray(): void {
-		$this->appConfigCore->setValueArray(self::TEST_APPID, 'key7', ['test' => 'done']);
-		$this->assertSame(['test' => 'done'], $this->appConfig->getAppValueArray('key7', []));
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $exist
+	 */
+	public function testGetAppValueInt(bool $lazy, bool $exist): void {
+		$key = 'key';
+		$value = 42;
+		$default = 17;
+
+		$expected = ($exist) ? $value : $default;
+		$this->appConfigCore->expects($this->once())
+							->method('getValueInt')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->getAppValueInt($key, $default, $lazy));
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 */
+	public function testGetAppValueIntException(bool $lazy): void {
+		$key = 'key';
+		$default = 17;
+
+		$this->appConfigCore->expects($this->once())
+							->method('getValueInt')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->getAppValueInt($key, $default, $lazy);
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $exist
+	 */
+	public function testGetAppValueFloat(bool $lazy, bool $exist): void {
+		$key = 'key';
+		$value = 3.14;
+		$default = 17.04;
+
+		$expected = ($exist) ? $value : $default;
+		$this->appConfigCore->expects($this->once())
+							->method('getValueFloat')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->getAppValueFloat($key, $default, $lazy));
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 */
+	public function testGetAppValueFloatException(bool $lazy): void {
+		$key = 'key';
+		$default = 17.04;
+
+		$this->appConfigCore->expects($this->once())
+							->method('getValueFloat')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->getAppValueFloat($key, $default, $lazy);
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $exist
+	 */
+	public function testGetAppValueBool(bool $lazy, bool $exist): void {
+		$key = 'key';
+		$value = true;
+		$default = false;
+
+		$expected = ($exist) ? $value : $default; // yes, it can be simplified
+		$this->appConfigCore->expects($this->once())
+							->method('getValueBool')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->getAppValueBool($key, $default, $lazy));
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 */
+	public function testGetAppValueBoolException(bool $lazy): void {
+		$key = 'key';
+		$default = false;
+
+		$this->appConfigCore->expects($this->once())
+							->method('getValueBool')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->getAppValueBool($key, $default, $lazy);
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 * @param bool $exist
+	 */
+	public function testGetAppValueArray(bool $lazy, bool $exist): void {
+		$key = 'key';
+		$value = ['item' => true];
+		$default = [];
+
+		$expected = ($exist) ? $value : $default;
+		$this->appConfigCore->expects($this->once())
+							->method('getValueArray')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willReturn($expected);
+
+		$this->assertSame($expected, $this->appConfig->getAppValueArray($key, $default, $lazy));
+	}
+
+	/**
+	 * @dataProvider providerGetAppValue
+	 *
+	 * @param bool $lazy
+	 */
+	public function testGetAppValueArrayException(bool $lazy): void {
+		$key = 'key';
+		$default = [];
+
+		$this->appConfigCore->expects($this->once())
+							->method('getValueArray')
+							->with(self::TEST_APPID, $key, $default, $lazy)
+							->willThrowException(new AppConfigTypeConflictException());
+
+		$this->expectException(AppConfigTypeConflictException::class);
+		$this->appConfig->getAppValueArray($key, $default, $lazy);
 	}
 
 	public function testDeleteAppValue(): void {
-		$this->assertSame(true, $this->appConfigCore->hasKey(self::TEST_APPID, 'test8'));
-		$this->appConfig->deleteAppValue('test8');
-		$this->assertSame(false, $this->appConfigCore->hasKey(self::TEST_APPID, 'test8'));
-		$this->assertSame(['key1', 'key2', 'key3', 'key4', 'key5', 'key6', 'key7'], $this->appConfigCore->getKeys(self::TEST_APPID));
+		$key = 'key';
+		$this->appConfigCore->expects($this->once())
+							->method('deleteKey')
+							->with(self::TEST_APPID, $key);
+
+		$this->appConfig->deleteAppValue($key);
 	}
 
 	public function testDeleteAppValues(): void {
-		$this->assertSame(['key1', 'key2', 'key3', 'key4', 'key5', 'key6', 'key7', 'test8'], $this->appConfigCore->getKeys(self::TEST_APPID));
+		$this->appConfigCore->expects($this->once())
+							->method('deleteApp')
+							->with(self::TEST_APPID);
+
 		$this->appConfig->deleteAppValues();
-		$this->assertSame([], $this->appConfigCore->getKeys(self::TEST_APPID));
 	}
 }
