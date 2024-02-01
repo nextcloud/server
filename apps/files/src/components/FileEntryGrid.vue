@@ -78,7 +78,7 @@ import type { PropType } from 'vue'
 import { extname, join } from 'path'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
 import { getUploader } from '@nextcloud/upload'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
@@ -358,7 +358,12 @@ export default Vue.extend({
 			logger.debug('Drag ended')
 		},
 
-		async onDrop(event) {
+		async onDrop(event: DragEvent) {
+			// skip if native drop like text drag and drop from files names
+			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+				return
+			}
+
 			event.preventDefault()
 			event.stopPropagation()
 
@@ -374,12 +379,37 @@ export default Vue.extend({
 			logger.debug('Dropped', { event, selection: this.draggingFiles })
 
 			// Check whether we're uploading files
-			if (event.dataTransfer?.files?.length > 0) {
+			if (event.dataTransfer?.files
+				&& event.dataTransfer.files.length > 0) {
 				const uploader = getUploader()
-				event.dataTransfer.files.forEach((file: File) => {
-					uploader.upload(join(this.source.path, file.name), file)
-				})
+
+				// Check whether the uploader is in the same folder
+				// This should never happen™
+				if (!uploader.destination.path.startsWith(uploader.destination.path)) {
+					logger.error('The current uploader destination is not the same as the current folder')
+					showError(t('files', 'An error occurred while uploading. Please try again later.'))
+					return
+				}
+
 				logger.debug(`Uploading files to ${this.source.path}`)
+				const queue = [] as Promise<Upload>[]
+				for (const file of event.dataTransfer.files) {
+					// Because the uploader destination is properly set to the current folder
+					// we can just use the basename as the relative path.
+					queue.push(uploader.upload(join(this.source.basename, file.name), file))
+				}
+
+				const results = await Promise.allSettled(queue)
+				const errors = results.filter(result => result.status === 'rejected')
+				if (errors.length > 0) {
+					logger.error('Error while uploading files', { errors })
+					showError(t('files', 'Some files could not be uploaded'))
+					return
+				}
+
+				logger.debug('Files uploaded successfully')
+				showSuccess(t('files', 'Files uploaded successfully'))
+
 				return
 			}
 
