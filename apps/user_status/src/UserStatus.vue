@@ -43,7 +43,9 @@
 		</NcButton>
 
 		<!-- Status management modal -->
-		<SetStatusModal v-if="isModalOpen" @close="closeModal" />
+		<SetStatusModal v-if="isModalOpen"
+			:inline="inline"
+			@close="closeModal" />
 	</component>
 </template>
 
