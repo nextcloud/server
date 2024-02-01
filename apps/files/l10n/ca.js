@@ -240,6 +240,7 @@ OC.L10N.register(
     "Open the files app settings" : "Obre els paràmetres de l'aplicació Fitxers",
     "Files settings" : "Paràmetres de Fitxers",
     "File cannot be accessed" : "No es pot accedir al fitxer",
+    "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "No s'ha trobat el fitxer o no teniu permisos per a visualitzar-lo. Demaneu al remitent que el comparteixi.",
     "Sort favorites first" : "Ordena primer els preferits",
     "Sort folders before files" : "Ordena les carpetes abans dels fitxers",
     "Show hidden files" : "Mostra els fitxers ocults",

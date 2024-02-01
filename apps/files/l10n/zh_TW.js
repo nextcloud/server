@@ -240,6 +240,7 @@ OC.L10N.register(
     "Open the files app settings" : "開啟檔案應用程式設定",
     "Files settings" : "檔案設定",
     "File cannot be accessed" : "無法存取檔案",
+    "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "找不到該檔案，或是您沒有檢視該檔案的權限。請寄件者分享。",
     "Sort favorites first" : "先排序最愛",
     "Sort folders before files" : "將資料夾排序在檔案前",
     "Show hidden files" : "顯示隱藏檔",
