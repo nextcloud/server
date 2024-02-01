@@ -118,7 +118,7 @@ class NavigationController extends OCSController {
 			if (!str_starts_with($entry['href'], 'https://') && !str_starts_with($entry['href'], 'http://')) {
 				$entry['href'] = $this->urlGenerator->getAbsoluteURL($entry['href']);
 			}
-			if (!str_starts_with($entry['icon'], 'https://') && !str_starts_with($entry['icon'], 'http://')) {
+			if (!str_starts_with($entry['icon'], $this->urlGenerator->getBaseUrl())) {
 				$entry['icon'] = $this->urlGenerator->getAbsoluteURL($entry['icon']);
 			}
 		}
