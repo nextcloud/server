@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable jsdoc/require-param */
+/* eslint-disable jsdoc/require-jsdoc */
 /**
  * @copyright 2022 Louis Chemineau <mlouis@chmn.me>
  *
@@ -29,39 +32,35 @@ import { encodeFilePath } from '../../../files/src/utils/fileUtils.ts'
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-/**
- * @typedef {object} Version
- * @property {string} fileId - The id of the file associated to the version.
- * @property {string} label - 'Current version' or ''
- * @property {string} filename - File name relative to the version DAV endpoint
- * @property {string} basename - A base name generated from the mtime
- * @property {string} mime - Empty for the current version, else the actual mime type of the version
- * @property {string} etag - Empty for the current version, else the actual mime type of the version
- * @property {string} size - Human readable size
- * @property {string} type - 'file'
- * @property {number} mtime - Version creation date as a timestamp
- * @property {string} permissions - Only readable: 'R'
- * @property {boolean} hasPreview - Whether the version has a preview
- * @property {string} previewUrl - Preview URL of the version
- * @property {string} url - Download URL of the version
- * @property {string} source - The WebDAV endpoint of the ressource
- * @property {string|null} fileVersion - The version id, null for the current version
- */
+export interface Version {
+	fileId: string, // The id of the file associated to the version.
+	label: string, // 'Current version' or ''
+	filename: string, // File name relative to the version DAV endpoint
+	basename: string, // A base name generated from the mtime
+	mime: string, // Empty for the current version, else the actual mime type of the version
+	etag: string, // Empty for the current version, else the actual mime type of the version
+	size: string, // Human readable size
+	type: string, // 'file'
+	mtime: number, // Version creation date as a timestamp
+	permissions: string, // Only readable: 'R'
+	hasPreview: boolean, // Whether the version has a preview
+	previewUrl: string, // Preview URL of the version
+	url: string, // Download URL of the version
+	source: string, // The WebDAV endpoint of the ressource
+	fileVersion: string|null, // The version id, null for the current version
+}
 
-/**
- * @param fileInfo
- * @return {Promise<Version[]>}
- */
-export async function fetchVersions(fileInfo) {
+export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 	const path = `/versions/${getCurrentUser()?.uid}/versions/${fileInfo.id}`
 
 	try {
-		/** @type {import('webdav').ResponseDataDetailed<import('webdav').FileStat[]>} */
 		const response = await client.getDirectoryContents(path, {
 			data: davRequest,
 			details: true,
-		})
+		}) as ResponseDataDetailed<FileStat[]>
+
 		return response.data
 			// Filter out root
 			.filter(({ mime }) => mime !== '')
@@ -74,10 +73,8 @@ export async function fetchVersions(fileInfo) {
 
 /**
  * Restore the given version
- *
- * @param {Version} version
  */
-export async function restoreVersion(version) {
+export async function restoreVersion(version: Version) {
 	try {
 		logger.debug('Restoring version', { url: version.url })
 		await client.moveFile(
@@ -92,12 +89,8 @@ export async function restoreVersion(version) {
 
 /**
  * Format version
- *
- * @param {object} version - raw version received from the versions DAV endpoint
- * @param {object} fileInfo - file properties received from the files DAV endpoint
- * @return {Version}
  */
-function formatVersion(version, fileInfo) {
+function formatVersion(version: any, fileInfo: any): Version {
 	const mtime = moment(version.lastmod).unix() * 1000
 	let previewUrl = ''
 
@@ -132,11 +125,7 @@ function formatVersion(version, fileInfo) {
 	}
 }
 
-/**
- * @param {Version} version
- * @param {string} newLabel
- */
-export async function setVersionLabel(version, newLabel) {
+export async function setVersionLabel(version: Version, newLabel: string) {
 	return await client.customRequest(
 		version.filename,
 		{
@@ -156,9 +145,6 @@ export async function setVersionLabel(version, newLabel) {
 	)
 }
 
-/**
- * @param {Version} version
- */
-export async function deleteVersion(version) {
+export async function deleteVersion(version: Version) {
 	await client.deleteFile(version.filename)
 }
