@@ -100,6 +100,12 @@ import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
 
+import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useDragAndDropStore } from '../store/dragging.ts'
+import { useFilesStore } from '../store/files.ts'
+import { useRenamingStore } from '../store/renaming.ts'
+import { useSelectionStore } from '../store/selection.ts'
+
 import FileEntryMixin from './FileEntryMixin.ts'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
@@ -137,6 +143,21 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+	},
+
+	setup() {
+		const actionsMenuStore = useActionsMenuStore()
+		const draggingStore = useDragAndDropStore()
+		const filesStore = useFilesStore()
+		const renamingStore = useRenamingStore()
+		const selectionStore = useSelectionStore()
+		return {
+			actionsMenuStore,
+			draggingStore,
+			filesStore,
+			renamingStore,
+			selectionStore,
+		}
 	},
 
 	computed: {
