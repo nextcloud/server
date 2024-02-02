@@ -32,26 +32,26 @@ import { getClient } from './WebdavClient';
 const client = getClient()
 
 /**
+ * NOTE MOVE TO @nextcloud/files 
  * @brief filters each file/folder on its shared statuses
- * MOVE TO @nextcloud/files 
- * 
- * eventually, this should be the WebDAV search, similar to
- * 
  * @param {FileStat} node that contains  
  * @return {Boolean}
  */
-export const davNotShared = function(node: FileStat): Boolean {
-	// could use further filtering based on this issues description
-	// https://github.com/nextcloud/server/issues/42919
-	return 	node.props?.['owner-id'] === getCurrentUser()?.uid.toString()
-			&& node.props?.['share-types'] === ""
+export const davNotShared = function(node: File | Folder | null, currUserID: string | undefined): Boolean {
+	// (essentially .filter(Boolean))
+	if (!node) return false
+	
+	const isNotShared = currUserID ? node.attributes['owner-id'] === currUserID : true
+						&& node.attributes['mount-type'] !== 'group'
+						&& node.attributes['mount-type'] !== 'shared'
+
+	return 	isNotShared
 }
 
 export const getContents = (path: string = "/"): Promise<ContentsWithRoot> => {
     const controller = new AbortController()
-	// FIXME we would filter each file during the WebDAV query, instead of after getting all the files
-	// and then filtering from there
-	const propfindPayload = davGetDefaultPropfind() // change the davGet here
+	const propfindPayload = davGetDefaultPropfind()
+	const currUserID = getCurrentUser()?.uid.toString()
 
     return new CancelablePromise(async (resolve, reject, onCancel) => {
         onCancel(() => controller.abort())
@@ -72,14 +72,14 @@ export const getContents = (path: string = "/"): Promise<ContentsWithRoot> => {
 
 			resolve({
 				folder: resultToNode(root) as Folder,
-				contents: contents.filter(davNotShared).map(result => {
+				contents: contents.map(result => {
 					try {
 						return resultToNode(result)
 					} catch (error) {
 						logger.error(`Invalid node detected '${result.basename}'`, { error })
 						return null
 					}
-				}).filter(Boolean) as File[],
+				}).filter(node => davNotShared(node, currUserID)) as File[],
 			})
         } catch (error) {
             reject(error)

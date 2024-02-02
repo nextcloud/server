@@ -26,12 +26,6 @@ import { getContents } from '../services/PersonalFiles'
 import FolderHome from '@mdi/svg/svg/folder-home.svg?raw'
 import logger from '../logger'
 
-/**
- * NOTE since we are only filtering at the root level, we only need to use the
- * getContents methods only on this default folder view / route / path.
- * Every other subroot from the main root with be rendered normally, as it
- * would be in the all-files paths.
-*/
 export default () => {
 	logger.debug("Loading root level personal files view...")
 	
@@ -41,7 +35,7 @@ export default () => {
 		name: t('files', 'Personal Files'),
 		caption: t('files', 'List of your files and folders that are not shared.'),
 
-		emptyTitle: t('files', 'No personal files found.'),
+		emptyTitle: t('files', 'No personal files found'),
 		emptyCaption: t('files', 'Files that are not shared will show up here.'),
 
 		icon: FolderHome,
@@ -49,20 +43,4 @@ export default () => {
 
 		getContents,
 	}))
-
-	/**
-	 * Update personal files view when a folder is no longer shared
-	 */
-	// subscribe()
-
-	/**
-	 * Update personal files view when a folder is shared from the user
-	 */
-	// subscribe() 
-
-	/**
-	 * Sort the personal files paths array and
-	 * update the order property of the existing views
-	 */
-	// const updateAndSortViews = () => {}
 }
