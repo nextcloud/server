@@ -184,38 +184,7 @@ trigger:
     - pull_request
     - push
 
----
-kind: pipeline
-name: sqlite-php8.0-webdav-apache
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: sqlite-php8.0-webdav-apache
-  image: ghcr.io/nextcloud/continuous-integration-webdav-apache-php8.0:latest
-  commands:
-    - apache2ctl start
-    - ./autotest-external.sh sqlite webdav-apachedrone
-    - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
-
-services:
-- name: cache
-  image: ghcr.io/nextcloud/continuous-integration-redis:latest
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
 
 ---
 kind: signature
-hmac: c0e95a282303de842a645a780b391964eb839e4cb11446e4cc9a19ef1a661383
+hmac: a4f9a3fec27fbd14dfb478902b7b5cbc155916a309f05fe6eb78961b3db18c3a
