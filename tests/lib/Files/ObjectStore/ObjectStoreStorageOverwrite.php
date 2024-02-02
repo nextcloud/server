@@ -30,7 +30,7 @@ use OCP\Files\ObjectStore\IObjectStore;
  * Allow overwriting the object store instance for test purposes
  */
 class ObjectStoreStorageOverwrite extends ObjectStoreStorage {
-	public function setObjectStore(IObjectStore $objectStore) {
+	public function setObjectStore(IObjectStore $objectStore): void {
 		$this->objectStore = $objectStore;
 	}
 
@@ -38,7 +38,7 @@ class ObjectStoreStorageOverwrite extends ObjectStoreStorage {
 		return $this->objectStore;
 	}
 
-	public function setValidateWrites(bool $validate) {
+	public function setValidateWrites(bool $validate): void {
 		$this->validateWrites = $validate;
 	}
 }
