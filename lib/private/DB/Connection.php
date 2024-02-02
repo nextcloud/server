@@ -282,7 +282,7 @@ class Connection extends PrimaryReadReplicaConnection {
 				[
 					'tables' => $this->tableDirtyWrites,
 					'reads' => $tables,
-					'exception' => new \Exception(),
+					'exception' => new \Exception('dirty table reads: ' . $sql),
 				],
 			);
 			// To prevent a dirty read on a replica that is slightly out of sync, we
