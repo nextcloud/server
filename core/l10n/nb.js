@@ -410,6 +410,7 @@ OC.L10N.register(
     "The page could not be found on the server." : "Siden ble ikke funnet på serveren.",
     "Confirm your password" : "Bekreft ditt passord",
     "App token" : "App-symbol",
-    "Alternative log in using app token" : "Alternativ logg inn ved hjelp av app-kode"
+    "Alternative log in using app token" : "Alternativ logg inn ved hjelp av app-kode",
+    "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Denne forekomsten kjører i feilsøkingsmodus. Bare aktiver dette for lokal utvikling og ikke i produksjonsmiljøer."
 },
 "nplurals=2; plural=(n != 1);");
