@@ -31,12 +31,6 @@ import { Upload, getUploader } from '@nextcloud/upload'
 import { vOnClickOutside } from '@vueuse/components'
 import Vue, { defineComponent } from 'vue'
 
-import { useActionsMenuStore } from '../store/actionsmenu.ts'
-import { useDragAndDropStore } from '../store/dragging.ts'
-import { useFilesStore } from '../store/files.ts'
-import { useRenamingStore } from '../store/renaming.ts'
-import { useSelectionStore } from '../store/selection.ts'
-
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction.ts'
@@ -60,21 +54,6 @@ export default defineComponent({
 			type: Number,
 			default: 0,
 		},
-	},
-
-	setup() {
-		const actionsMenuStore = useActionsMenuStore()
-		const draggingStore = useDragAndDropStore()
-		const filesStore = useFilesStore()
-		const renamingStore = useRenamingStore()
-		const selectionStore = useSelectionStore()
-		return {
-			actionsMenuStore,
-			draggingStore,
-			filesStore,
-			renamingStore,
-			selectionStore,
-		}
 	},
 
 	data() {

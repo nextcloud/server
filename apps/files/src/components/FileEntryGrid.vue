@@ -75,6 +75,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useDragAndDropStore } from '../store/dragging.ts'
+import { useFilesStore } from '../store/files.ts'
+import { useRenamingStore } from '../store/renaming.ts'
+import { useSelectionStore } from '../store/selection.ts'
 import FileEntryMixin from './FileEntryMixin.ts'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
@@ -96,6 +101,21 @@ export default defineComponent({
 	],
 
 	inheritAttrs: false,
+
+	setup() {
+		const actionsMenuStore = useActionsMenuStore()
+		const draggingStore = useDragAndDropStore()
+		const filesStore = useFilesStore()
+		const renamingStore = useRenamingStore()
+		const selectionStore = useSelectionStore()
+		return {
+			actionsMenuStore,
+			draggingStore,
+			filesStore,
+			renamingStore,
+			selectionStore,
+		}
+	},
 
 	data() {
 		return {
