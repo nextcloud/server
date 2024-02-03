@@ -629,14 +629,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Check overwrite condition
-	 * @param string $type
 	 * @return bool
 	 */
-	private function isOverwriteCondition(string $type = ''): bool {
+	private function isOverwriteCondition(): bool {
 		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
-		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
-		|| $type !== 'protocol';
+		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
 	/**
@@ -646,7 +644,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getServerProtocol(): string {
 		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
-			&& $this->isOverwriteCondition('protocol')) {
+			&& $this->isOverwriteCondition()) {
 			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 
