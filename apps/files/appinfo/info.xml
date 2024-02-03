@@ -32,6 +32,7 @@
 
 	<commands>
 		<command>OCA\Files\Command\Scan</command>
+		<command>OCA\Files\Command\ListFiles</command>
 		<command>OCA\Files\Command\DeleteOrphanedFiles</command>
 		<command>OCA\Files\Command\TransferOwnership</command>
 		<command>OCA\Files\Command\ScanAppData</command>
