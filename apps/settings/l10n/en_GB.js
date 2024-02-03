@@ -187,6 +187,7 @@ OC.L10N.register(
     "Memcached is configured as distributed cache, but the PHP module \"memcached\" is not installed." : "Memcached is configured as distributed cache, but the PHP module \"memcached\" is not installed.",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "No memory cache has been configured. To enhance performance, please configure a memcache, if available.",
     "Configured" : "Configured",
+    "MySQL Unicode support" : "MySQL Unicode support",
     "You are not using MySQL" : "You are not using MySQL",
     "MySQL is used as database and does support 4-byte characters" : "MySQL is used as database and does support 4-byte characters",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL.",
