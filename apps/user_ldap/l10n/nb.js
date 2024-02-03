@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "Passordet ditt utløper i dag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Passordet ditt utløper om %n dag.","Passordet ditt utløper om %n dager."],
     "LDAP/AD integration" : "LDAP/AD-integrasjon",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Det er funnet ugyldige UUID-er for LDAP-brukere eller -grupper. Gå gjennom innstillingene for «Overstyr UUID-deteksjon» i Ekspert-delen av LDAP-konfigurasjonen, og bruk «occ ldap:update-uuid» for å oppdatere dem.",
     "_%n group found_::_%n groups found_" : ["%n gruppe funnet","%n grupper funnet"],
     "> 1000 groups found" : "> 1000 grupper funnet",
     "> 1000 users found" : "> 1000 brukere funnet",

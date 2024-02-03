@@ -170,6 +170,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "Folder name" : "Mappenavn",
     "Name cannot be empty" : "Navn kan ikke være tom",
+    "Total rows summary" : "Sammendrag av totalrader",
     "File not found" : "Finner ikke filen",
     "Storage informations" : "Informasjon om lagring",
     "{usedQuotaByte} used" : "{usedQuotaByte} brukt",
