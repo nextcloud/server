@@ -19,6 +19,7 @@ OC.L10N.register(
     "Initial version restored" : "İlk sürüm geri yüklendi",
     "Version restored" : "Sürüm geri yüklendi",
     "Could not restore version" : "Sürüm geri yüklenemedi",
+    "Could not set version label" : "Sürüm etiketi ayarlanamadı",
     "Could not delete version" : "Sürüm silinemedi",
     "${version.label} restored" : "${version.label} geri yüklendi",
     "Could not set version name" : "Sürüm adı ayarlanamadı"
