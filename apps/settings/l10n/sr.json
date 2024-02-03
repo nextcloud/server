@@ -185,6 +185,7 @@
     "Memcached is configured as distributed cache, but the PHP module \"memcached\" is not installed." : "Memcached је подешен као дистрибуирани кеш, али није инсталиран PHP модул „memcached”.",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "Није подешено никакво кеширање у меморији. Да бисте побољшали перформансе, молимо вас да конфигуришете memcache, ако је то могуће.",
     "Configured" : "подешено",
+    "MySQL Unicode support" : "MySQL Уникод подршка",
     "You are not using MySQL" : "Не користите MySQL",
     "MySQL is used as database and does support 4-byte characters" : "MySQL се користи као база података и не подржава карактере дужине 4 бајта",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "Као база података се користи MySQL, али не подржава карактере дужине 4 бајта. Препоручује се да у MySQL укључите подршку за карактере дужине 4 бајта да би се у именима фајлова и коментарима, на пример, без проблема обрадили карактери дужине 4 бајта (као што су емођи).",

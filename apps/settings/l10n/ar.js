@@ -187,6 +187,7 @@ OC.L10N.register(
     "Memcached is configured as distributed cache, but the PHP module \"memcached\" is not installed." : "تم تكوين Memcached كذاكرة تخزين مؤقت مُوزّعة، و لكن لم يتم تثبيت وحدة البي إتش بي \"memcached\".",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "لم يتم تكوين ذاكرة تخزين مؤقت memcache. لتحسين الأداء، يرجى تكوين ذاكرة التخزين المؤقت، إذا كانت متوفرة.",
     "Configured" : "تمّ تكوينها",
+    "MySQL Unicode support" : "دعم المحارف الموحدة Unicode لـ MySQL",
     "You are not using MySQL" : "أنت لا تستعمل MySQL",
     "MySQL is used as database and does support 4-byte characters" : "قاعدة البيانات MySQL قيد التشغيل لكنها لا تدعم الحروف ذات الـ 4 بايت byte.",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "قاعدة البيانات MySQL قيد التشغيل لكنها لا تدعم الحروف ذات الـ 4 بايت byte. حتى يمكنك التعامل مع حروف الـ 4 بايت (مثل الإيموجي) بدون إشكاليات في أسماء الملفات أو الملاحظات على سبيل المثال، يُنصح بتمكين دعم الـ 4 بايت في MySQL.",

@@ -260,7 +260,7 @@ OC.L10N.register(
     "Creating file" : "ファイル作成",
     "Blank" : "ブランク",
     "Unable to create new file from template" : "テンプレートから新しいファイルを作成できません",
-    "Delete permanently" : "永久に削除",
+    "Delete permanently" : "完全に削除する",
     "Destination is not a folder" : "宛先がフォルダではありません",
     "This file/folder is already in that directory" : "このファイル/フォルダはすでにそのディレクトリにあります",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "ファイル/フォルダをそれ自身の上に移動したり、それ自身のサブフォルダに移動したりすることはできません。",
