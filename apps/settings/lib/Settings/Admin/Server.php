@@ -56,13 +56,17 @@ class Server implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		$ownerConfigFile = fileowner(\OC::$configDir . 'config.php');
+		$cliBasedCronPossible = function_exists('posix_getpwuid') && $ownerConfigFile !== false;
+		$cliBasedCronUser = $cliBasedCronPossible ? (posix_getpwuid($ownerConfigFile)['name'] ?? '') : '';
+
 		// Background jobs
 		$this->initialStateService->provideInitialState('backgroundJobsMode', $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'));
 		$this->initialStateService->provideInitialState('lastCron', $this->appConfig->getValueInt('core', 'lastcron', 0));
 		$this->initialStateService->provideInitialState('cronMaxAge', $this->cronMaxAge());
 		$this->initialStateService->provideInitialState('cronErrors', $this->config->getAppValue('core', 'cronErrors'));
-		$this->initialStateService->provideInitialState('cliBasedCronPossible', function_exists('posix_getpwuid'));
-		$this->initialStateService->provideInitialState('cliBasedCronUser', function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '');
+		$this->initialStateService->provideInitialState('cliBasedCronPossible', $cliBasedCronPossible);
+		$this->initialStateService->provideInitialState('cliBasedCronUser', $cliBasedCronUser);
 		$this->initialStateService->provideInitialState('backgroundJobsDocUrl', $this->urlGenerator->linkToDocs('admin-background-jobs'));
 
 		// Profile page
