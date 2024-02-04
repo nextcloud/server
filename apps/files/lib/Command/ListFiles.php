@@ -41,9 +41,6 @@ use OC\DB\ConnectionAdapter;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\FileCacheUpdated;
-use OCP\Files\Events\NodeAddedToCache;
-use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -60,6 +57,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ListFiles extends Base {
 
 	protected array $fileInfo = [];
+	protected array $dirInfo = [];
 	public function __construct(
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
@@ -196,7 +194,8 @@ class ListFiles extends Base {
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 			$node = $this->rootFolder->get($path);
-			$this->fileInfo[] = [
+
+			$this->dirInfo[] = [
 				"name" => $node->getName(),
 				'path' => $path,
 				"size" => $node->getSize() . " bytes",
@@ -205,6 +204,7 @@ class ListFiles extends Base {
 				"created-at" => $node->getCreationTime(),
 				"type" => 'dir'
 			];
+
 			$this->abortIfInterrupted();
 		});
 
@@ -362,6 +362,7 @@ class ListFiles extends Base {
 		$sortKey = array_key_exists($input->getOption('sort'), $this->fileInfo[0]) ? $input->getOption('sort') : 'name';
 		$order = ($input->getOption('order') == 'ASC') ? SORT_ASC : SORT_DESC;
 		array_multisort (array_column($this->fileInfo, $sortKey), $order, $this->fileInfo);
+		array_multisort (array_column($this->dirInfo, $sortKey), $order, $this->dirInfo);
 
 		foreach ($this->fileInfo as $k => $item) {
 			$rows[$k] = [
@@ -374,6 +375,18 @@ class ListFiles extends Base {
 				$item['type']
 			];
 		}
+		foreach ($this->dirInfo as $k => $item) {
+			$rows[] = [
+				$item['perm'],
+				$item['size'],
+				$item['owner'],
+				$item['created-at'],
+				$item['name'],
+				$item['path'],
+				$item['type']
+			];
+		}
+
 		$table = new Table($output);
 		$table
 			->setHeaders($headers)
