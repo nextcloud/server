@@ -135,6 +135,18 @@ class ListFiles extends Base {
 			);
 	}
 
+	private function getNodeInfo($node, $path) {
+		return [
+			"name" => $node->getName(),
+			'path' => $path,
+			"size" => $node->getSize() . " bytes",
+			"perm" => $node->getPermissions(),
+			"owner" => $node->getOwner()->getDisplayName(),
+			"created-at" => $node->getCreationTime(),
+			"type" => $node->getMimePart()
+		];
+	}
+
 	protected function scanFiles(
 		string $user,
 		string $path,
@@ -172,15 +184,7 @@ class ListFiles extends Base {
 			}
 
 			if($includeType && $includeMin && $includeMax) {
-				$this->fileInfo[] = [
-					"name" => $node->getName(),
-					'path' => $path,
-					"size" => $node->getSize() . " bytes",
-					"perm" => $node->getPermissions(),
-					"owner" => $node->getOwner()->getDisplayName(),
-					"created-at" => $node->getCreationTime(),
-					"type" => $node->getMimePart()
-				];
+				$this->fileInfo[] = $this->getNodeInfo($node, $path);
 			}
 			$this->abortIfInterrupted();
 			if ($scanMetadata !== null) {
@@ -195,15 +199,7 @@ class ListFiles extends Base {
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 			$node = $this->rootFolder->get($path);
 
-			$this->dirInfo[] = [
-				"name" => $node->getName(),
-				'path' => $path,
-				"size" => $node->getSize() . " bytes",
-				"perm" => $node->getPermissions(),
-				"owner" => $node->getOwner()->getDisplayName(),
-				"created-at" => $node->getCreationTime(),
-				"type" => 'dir'
-			];
+			$this->dirInfo[] = $this->getNodeInfo($node, $path);
 
 			$this->abortIfInterrupted();
 		});
@@ -227,17 +223,14 @@ class ListFiles extends Base {
 			$output->writeln("<error>Home storage for user $user not writable or 'files' subdirectory missing</error>");
 			$output->writeln('  ' . $e->getMessage());
 			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
-			++$this->errorsCounter;
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('Interrupted by user');
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
-			++$this->errorsCounter;
 		} catch (\Exception $e) {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
-			++$this->errorsCounter;
 		}
 	}
 
@@ -359,7 +352,8 @@ class ListFiles extends Base {
 			'Type'
 		];
 		$rows = [];
-		$sortKey = array_key_exists($input->getOption('sort'), $this->fileInfo[0]) ? $input->getOption('sort') : 'name';
+		$fileInfo = $this->fileInfo[0] ?? [];
+		$sortKey = array_key_exists($input->getOption('sort'), $fileInfo) ? $input->getOption('sort') : 'name';
 		$order = ($input->getOption('order') == 'ASC') ? SORT_ASC : SORT_DESC;
 		array_multisort (array_column($this->fileInfo, $sortKey), $order, $this->fileInfo);
 		array_multisort (array_column($this->dirInfo, $sortKey), $order, $this->dirInfo);
