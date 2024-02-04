@@ -562,7 +562,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddUserFailedToGenerateUserID() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('Could not create non-existing user id');
+		$this->expectExceptionMessage('Could not create non-existing user ID');
 		$this->expectExceptionCode(111);
 
 		$this->config
