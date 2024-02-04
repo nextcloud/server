@@ -124,6 +124,16 @@ class ListFiles extends Base {
 				0,
 				InputArgument::OPTIONAL,
 				'filter by max size'
+			)->addOption(
+				'sort',
+				'name',
+				InputArgument::OPTIONAL,
+				'name, path, size, owner, type'
+			)->addOption(
+				'order',
+				'ASC',
+				InputArgument::OPTIONAL,
+				'ASC, DESC'
 			);
 	}
 
@@ -349,6 +359,10 @@ class ListFiles extends Base {
 			'Type'
 		];
 		$rows = [];
+		$sortKey = array_key_exists($input->getOption('sort'), $this->fileInfo[0]) ? $input->getOption('sort') : 'name';
+		$order = ($input->getOption('order') == 'ASC') ? SORT_ASC : SORT_DESC;
+		array_multisort (array_column($this->fileInfo, $sortKey), $order, $this->fileInfo);
+
 		foreach ($this->fileInfo as $k => $item) {
 			$rows[$k] = [
 				$item['perm'],
