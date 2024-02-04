@@ -4,6 +4,7 @@
 		:aria-label="t('files', 'Current directory path')">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
+			v-show="shouldShowBreadcrumbs"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
@@ -45,6 +46,7 @@ import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { useUploaderStore } from '../store/uploader.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger'
 
@@ -73,11 +75,14 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
+		const uploaderStore = useUploaderStore()
+
 		return {
 			draggingStore,
 			filesStore,
 			pathsStore,
 			selectionStore,
+			uploaderStore,
 		}
 	},
 
@@ -112,6 +117,21 @@ export default defineComponent({
 		// used to show the views icon for the first breadcrumb
 		viewIcon() {
 			return this.currentView?.icon ?? HomeSvg
+		},
+
+		isUploadInProgress(): boolean {
+			return this.uploaderStore.queue.length !== 0
+		},
+
+		// Hide breadcrumbs if an upload is ongoing
+		shouldShowBreadcrumbs(): boolean {
+			// If we're uploading files, only show the breadcrumbs
+			// if the files list is greater than 768px wide
+			if (this.isUploadInProgress) {
+				return this.filesListWidth > 768
+			}
+			// If we're not uploading, we have enough space from 400px
+			return this.filesListWidth > 400
 		},
 
 		selectedFiles() {
