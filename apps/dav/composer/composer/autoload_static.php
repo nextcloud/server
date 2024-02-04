@@ -331,6 +331,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1027Date20230504122946' => __DIR__ . '/..' . '/../lib/Migration/Version1027Date20230504122946.php',
         'OCA\\DAV\\Migration\\Version1029Date20221114151721' => __DIR__ . '/..' . '/../lib/Migration/Version1029Date20221114151721.php',
         'OCA\\DAV\\Migration\\Version1029Date20231004091403' => __DIR__ . '/..' . '/../lib/Migration/Version1029Date20231004091403.php',
+        'OCA\\DAV\\Migration\\Version1030Date20240205103243' => __DIR__ . '/..' . '/../lib/Migration/Version1030Date20240205103243.php',
         'OCA\\DAV\\Profiler\\ProfilerPlugin' => __DIR__ . '/..' . '/../lib/Profiler/ProfilerPlugin.php',
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningNode' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningNode.php',
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',
