@@ -146,6 +146,7 @@ OC.L10N.register(
     "Contacts and groups" : "Kontakter og grupper",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endepunkt",
+    "First day" : "Første dag",
     "Save" : "Lagre",
     "Time zone:" : "Tidssone:",
     "to" : "til",
