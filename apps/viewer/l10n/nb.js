@@ -98,6 +98,7 @@ OC.L10N.register(
     "Vertical" : "Vertikal",
     "Opacity" : "Gjennomsiktighet",
     "Position" : "Posisjon",
+    "Stroke" : "Penselstrøk",
     "Save image as" : "Lagre bilde som",
     "Extension" : "Filetternavn",
     "Name is required." : "Navn er påkrevd.",
