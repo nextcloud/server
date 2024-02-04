@@ -126,7 +126,7 @@ export default defineComponent({
 			// only when we're leaving the current element
 			// Avoid flickering
 			const currentTarget = event.currentTarget as HTMLElement
-			if (currentTarget?.contains(event.relatedTarget as HTMLElement)) {
+			if (currentTarget?.contains((event.relatedTarget || event.target) as HTMLElement)) {
 				return
 			}
 
