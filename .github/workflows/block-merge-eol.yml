@@ -20,7 +20,7 @@ jobs:
 
     # Only run on stableXX branches
     if: startsWith( github.base_ref, 'stable')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     steps:
       - name: Download updater config
