@@ -1,27 +1,41 @@
 name: S3 primary storage integration tests
 on:
   pull_request:
-    paths:
-      - '.github/workflows/**'
-      - '3rdparty/**'
-      - 'build/integration/**'
-      - '**/*.php'
-      - '**/lib/**'
-      - '**/tests/**'
-      - '**/vendor-bin/**'
-      - '.php-cs-fixer.dist.php'
-      - 'composer.json'
-      - 'composer.lock'
 
 concurrency:
   group: integration-s3-primary-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@0bc4621a3135347011ad047f9ecf449bf72ce2bd # v3.0.0
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/*.php'
+              - '**/lib/**'
+              - '**/tests/**'
+              - '**/vendor-bin/**'
+              - 'build/integration/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+
   integration-s3-primary:
     runs-on: ubuntu-latest
+    needs: changes
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
 
     strategy:
       # do not stop on another job's failure
@@ -91,11 +105,13 @@ jobs:
 
 
   s3-primary-integration-summary:
+    permissions:
+      contents: none
     runs-on: ubuntu-latest-low
-    needs: [integration-s3-primary]
+    needs: [changes, integration-s3-primary]
 
     if: always()
 
     steps:
       - name: Summary status
-        run: if ${{ needs.integration-s3-primary.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.integration-s3-primary.result != 'success' }}; then exit 1; fi
