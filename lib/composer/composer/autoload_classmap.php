@@ -184,6 +184,7 @@ return array(
     'OCP\\Collaboration\\Reference\\IReferenceManager' => $baseDir . '/lib/public/Collaboration/Reference/IReferenceManager.php',
     'OCP\\Collaboration\\Reference\\IReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/IReferenceProvider.php',
     'OCP\\Collaboration\\Reference\\ISearchableReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/ISearchableReferenceProvider.php',
+    'OCP\\Collaboration\\Reference\\LinkReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/LinkReferenceProvider.php',
     'OCP\\Collaboration\\Reference\\Reference' => $baseDir . '/lib/public/Collaboration/Reference/Reference.php',
     'OCP\\Collaboration\\Reference\\RenderReferenceEvent' => $baseDir . '/lib/public/Collaboration/Reference/RenderReferenceEvent.php',
     'OCP\\Collaboration\\Resources\\CollectionException' => $baseDir . '/lib/public/Collaboration/Resources/CollectionException.php',
