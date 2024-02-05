@@ -22,7 +22,7 @@ concurrency:
 jobs:
   auto-approve-merge:
     if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     permissions:
       # for hmarr/auto-approve-action to approve PRs
       pull-requests: write
