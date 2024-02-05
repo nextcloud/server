@@ -71,6 +71,14 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
+          npm run stats --if-present
+
+      - name: Send bundle stats to RelativeCI
+        uses: relative-ci/agent-action@6a11b7d7fdd6670554fba1e1a40750daa33032d7 # v2
+        with:
+          webpackStatsFile: ./webpack-stats.json
+          key: ${{ secrets.RELATIVE_CI_KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check webpack build changes
         run: |
