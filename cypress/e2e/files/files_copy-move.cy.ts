@@ -20,13 +20,7 @@
  *
  */
 
-const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${filename}"]`)
-const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
-const getActionButtonForFile = (filename: string) => getActionsForFile(filename).find('button[aria-label="Actions"]')
-const triggerActionForFile = (filename: string, actionId: string) => {
-	getActionButtonForFile(filename).click()
-	cy.get(`[data-cy-files-list-row-action="${actionId}"] > button`).should('exist').click()
-}
+import { getRowForFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('Files: Move or copy files', { testIsolation: true }, () => {
 	let currentUser
