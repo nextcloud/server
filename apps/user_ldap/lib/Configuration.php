@@ -134,9 +134,12 @@ class Configuration {
 		'ldapAttributeRole' => null,
 		'ldapAttributeHeadline' => null,
 		'ldapAttributeBiography' => null,
+<<<<<<< HEAD
 		'ldapAdminGroup' => '',
+=======
 		'ldapAttributeBirthDate' => null,
 		'ldapAttributeAnniversaryDate' => null,
+>>>>>>> 06dd76fd26 (Add additional user profile attributes from LDAP)
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -493,9 +496,18 @@ class Configuration {
 			'ldap_attr_role' => '',
 			'ldap_attr_headline' => '',
 			'ldap_attr_biography' => '',
+<<<<<<< HEAD
+<<<<<<< HEAD
 			'ldap_admin_group' => '',
+=======
 			'ldap_attr_birthdate' => '',
 			'ldap_attr_anniversarydate' => '',
+>>>>>>> 06dd76fd26 (Add additional user profile attributes from LDAP)
+=======
+			'ldap_attr_birthdate' => '',
+			'ldap_attr_anniversarydate' => '',
+			'ldap_admin_group' => '',
+>>>>>>> 7eaa573bac (resolve other conflicts)
 		];
 	}
 
@@ -572,9 +584,18 @@ class Configuration {
 			'ldap_attr_role' => 'ldapAttributeRole',
 			'ldap_attr_headline' => 'ldapAttributeHeadline',
 			'ldap_attr_biography' => 'ldapAttributeBiography',
+<<<<<<< HEAD
+<<<<<<< HEAD
 			'ldap_admin_group' => 'ldapAdminGroup',
+=======
 			'ldap_attr_birthdate' => 'ldapAttributeBirthDate',
 			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
+>>>>>>> 06dd76fd26 (Add additional user profile attributes from LDAP)
+=======
+			'ldap_attr_birthdate' => 'ldapAttributeBirthDate',
+			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
+			'ldap_admin_group' => 'ldapAdminGroup',
+>>>>>>> 7eaa573bac (resolve other conflicts)
 		];
 		return $array;
 	}
