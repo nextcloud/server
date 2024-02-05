@@ -612,6 +612,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 							$IP = substr($IP, 1, -1);
 						}
 
+						// remove client port when set
+						if(str_contains($IP, ':')) {
+							$IP = substr($IP, 0, strpos($IP, ':'));
+						}
+
 						if ($this->isTrustedProxy($trustedProxies, $IP)) {
 							continue;
 						}
