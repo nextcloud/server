@@ -8,8 +8,7 @@
 
 name: Lint eslint
 
-on:
-  pull_request:
+on: pull_request
 
 permissions:
   contents: read
@@ -33,8 +32,8 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
+              - 'src/**'
+              - 'appinfo/info.xml'
               - 'package.json'
               - 'package-lock.json'
               - 'tsconfig.json'
@@ -61,10 +60,10 @@ jobs:
         id: versions
         with:
           fallbackNode: '^20'
-          fallbackNpm: '^9'
+          fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4.0.1
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
