@@ -372,7 +372,7 @@ class UsersController extends AUserData {
 			}
 			$attempts++;
 		} while ($attempts < 10);
-		throw new OCSException($this->l10n->t('Could not create non-existing user id'), 111);
+		throw new OCSException($this->l10n->t('Could not create non-existing user ID'), 111);
 	}
 
 	/**
