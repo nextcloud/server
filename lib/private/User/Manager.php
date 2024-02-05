@@ -445,7 +445,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OCP\Util::getL10N('lib');
 
 		$this->validateUserId($uid, true);
 

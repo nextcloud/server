@@ -1069,7 +1069,7 @@ class Trashbin {
 	private static function getUniqueFilename($location, $filename, View $view) {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$name = pathinfo($filename, PATHINFO_FILENAME);
-		$l = \OC::$server->getL10N('files_trashbin');
+		$l = \OCP\Util::getL10N('files_trashbin');
 
 		$location = '/' . trim($location, '/');
 

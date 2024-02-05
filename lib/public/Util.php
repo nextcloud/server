@@ -126,13 +126,10 @@ class Util {
 
 	/**
 	 * get l10n object
-	 * @param string $application
-	 * @param string|null $language
-	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
-	public static function getL10N($application, $language = null) {
-		return \OC::$server->getL10N($application, $language);
+	public static function getL10N(string $application, ?string $language = null): IL10N {
+		return Server::get(\OCP\L10N\IFactory::class)->get($application, $language);
 	}
 
 	/**

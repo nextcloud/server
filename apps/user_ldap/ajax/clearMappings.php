@@ -50,7 +50,7 @@ try {
 	}
 
 	if ($mapping === null || !$result) {
-		$l = \OC::$server->getL10N('user_ldap');
+		$l = \OCP\Util::getL10N('user_ldap');
 		throw new \Exception($l->t('Failed to clear the mappings.'));
 	}
 	\OC_JSON::success();
