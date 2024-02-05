@@ -63,7 +63,7 @@ jobs:
           docker logs sftp
 
   sftp-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: sftp-tests
 
     if: always()

@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -121,7 +121,7 @@ jobs:
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
   s3-primary-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [changes,s3-primary-tests-minio]
 
     if: always()

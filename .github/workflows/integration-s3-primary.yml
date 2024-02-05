@@ -91,7 +91,7 @@ jobs:
 
 
   s3-primary-integration-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [integration-s3-primary]
 
     if: always()

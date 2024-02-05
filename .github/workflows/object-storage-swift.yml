@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -111,7 +111,7 @@ jobs:
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
   swift-primary-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [changes,swift-primary-tests]
 
     if: always()
