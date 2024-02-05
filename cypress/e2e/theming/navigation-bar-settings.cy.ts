@@ -201,7 +201,6 @@ describe('User theming set app order with default app', () => {
 
 	it('Change the order of the other apps', () => {
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').click()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').click()
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').should('not.be.visible')
 
 		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
