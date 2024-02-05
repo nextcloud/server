@@ -83,13 +83,11 @@ use Psr\Log\LoggerInterface;
  * @property string ldapAttributeRole
  * @property string ldapAttributeHeadline
  * @property string ldapAttributeBiography
-<<<<<<< HEAD
  * @property string ldapAdminGroup
-=======
  * @property string ldapAttributeBirthDate
  * @property string ldapAttributeAnniversaryDate
->>>>>>> 06dd76fd26 (Add additional user profile attributes from LDAP)
- */
+*/
+
 class Connection extends LDAPUtility {
 	/**
 	 * @var resource|\LDAP\Connection|null

@@ -71,6 +71,8 @@ interface IProfileManager {
 		IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW_USERS_ONLY,
 		IAccountManager::PROPERTY_TWITTER => self::VISIBILITY_SHOW,
 		IAccountManager::PROPERTY_WEBSITE => self::VISIBILITY_SHOW,
+		IAccountManager::PROPERTY_BIRTHDATE => self::VISIBILITY_SHOW_USERS_ONLY,
+		IAccountManager::PROPERTY_ANNIVERSARYDATE => self::VISIBILITY_SHOW_USERS_ONLY,
 	];
 
 	/**
