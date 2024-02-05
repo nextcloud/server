@@ -37,6 +37,7 @@ class QueryOptimizer {
 			new FlattenSingleArgumentBinaryOperation(),
 			new OrEqualsToIn(),
 			new FlattenNestedBool(),
+			new SplitLargeIn(),
 		];
 	}
 
