@@ -124,14 +124,14 @@ export default defineComponent({
 			})
 		},
 
-		uploadInProgress(): boolean {
+		isUploadInProgress(): boolean {
 			return this.uploaderStore.queue.length !== 0
 		},
 
+		// Hide breadcrumbs if an upload is ongoing on arrow screens
 		shouldShowBreadcrumbs(): boolean {
-        	return this.filesListWidth < 768 && !this.uploadInProgress
-    	},
-		
+			return this.filesListWidth < 768 && !this.isUploadInProgress
+		},
 	},
 
 	methods: {
