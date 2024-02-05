@@ -30,7 +30,7 @@ jobs:
         with:
           repository: nextcloud/user_saml
           path: apps/user_saml
-          ref: stable27
+          ref: stable-5.2
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
