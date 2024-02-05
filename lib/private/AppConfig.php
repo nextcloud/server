@@ -874,15 +874,18 @@ class AppConfig implements IAppConfig {
 	 * @param string $key config key
 	 * @param bool $sensitive TRUE to set as sensitive, FALSE to unset
 	 *
-	 * @return bool TRUE if database update were necessary
-	 * @throws AppConfigUnknownKeyException if config key is not known
+	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 29.0.0
 	 */
 	public function updateSensitive(string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfigAll();
 
-		if ($sensitive === $this->isSensitive($app, $key, null)) {
+		try {
+			if ($sensitive === $this->isSensitive($app, $key, null)) {
+				return false;
+			}
+		} catch (AppConfigUnknownKeyException $e) {
 			return false;
 		}
 
@@ -914,15 +917,18 @@ class AppConfig implements IAppConfig {
 	 * @param string $key config key
 	 * @param bool $lazy TRUE to set as lazy loaded, FALSE to unset
 	 *
-	 * @return bool TRUE if database update was necessary
-	 * @throws AppConfigUnknownKeyException if config key is not known
+	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 29.0.0
 	 */
 	public function updateLazy(string $app, string $key, bool $lazy): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfigAll();
 
-		if ($lazy === $this->isLazy($app, $key)) {
+		try {
+			if ($lazy === $this->isLazy($app, $key)) {
+				return false;
+			}
+		} catch (AppConfigUnknownKeyException $e) {
 			return false;
 		}
 
