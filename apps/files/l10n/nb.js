@@ -241,6 +241,7 @@ OC.L10N.register(
     "Shared with you" : "Delt med deg",
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Ventende delinger",
+    "Unselect all" : "Fravelg alle",
     "Choose" : "Velg"
 },
 "nplurals=2; plural=(n != 1);");
