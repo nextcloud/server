@@ -83,16 +83,16 @@ class OrEqualsToInTest extends TestCase {
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+				new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "foo%"),
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "asd%"),
 			]
 		);
-		$this->assertEquals('(path eq "foo" or path eq "bar" or path like "asd%")', $operator->__toString());
+		$this->assertEquals('(path eq "foo" or path like "foo%" or path eq "bar")', $operator->__toString());
 
 		$this->optimizer->processOperator($operator);
 		$this->simplifier->processOperator($operator);
 
-		$this->assertEquals('(path in ["foo","bar"] or path like "asd%")', $operator->__toString());
+		$this->assertEquals('(path in ["foo","bar"] or path like "foo%")', $operator->__toString());
 	}
 
 	public function testOrsInside() {

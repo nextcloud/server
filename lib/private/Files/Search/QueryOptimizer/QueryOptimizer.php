@@ -35,6 +35,7 @@ class QueryOptimizer {
 			new PathPrefixOptimizer(),
 			new MergeDistributiveOperations(),
 			new FlattenSingleArgumentBinaryOperation(),
+			new FlattenNestedBool(),
 			new OrEqualsToIn(),
 			new FlattenNestedBool(),
 			new SplitLargeIn(),
