@@ -49,45 +49,29 @@ class UuidUpdateReport {
 	public const UNWRITABLE = 4;
 	public const UNMAPPED = 5;
 
-	public $id = '';
-	public $dn = '';
-	public $isUser = true;
-	public $state = self::UNCHANGED;
-	public $oldUuid = '';
-	public $newUuid = '';
-
-	public function __construct(string $id, string $dn, bool $isUser, int $state, string $oldUuid = '', string $newUuid = '') {
-		$this->id = $id;
-		$this->dn = $dn;
-		$this->isUser = $isUser;
-		$this->state = $state;
-		$this->oldUuid = $oldUuid;
-		$this->newUuid = $newUuid;
+	public function __construct(
+		public string $id,
+		public string $dn,
+		public bool $isUser,
+		public int $state,
+		public string $oldUuid = '',
+		public string $newUuid = '',
+	) {
 	}
 }
 
 class UpdateUUID extends Command {
-	/** @var UserMapping */
-	private $userMapping;
-	/** @var GroupMapping */
-	private $groupMapping;
-	/** @var User_Proxy */
-	private $userProxy;
-	/** @var Group_Proxy */
-	private $groupProxy;
 	/** @var array<UuidUpdateReport[]> */
-	protected $reports = [];
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var bool */
-	private $dryRun = false;
+	protected array $reports = [];
+	private bool $dryRun = false;
 
-	public function __construct(UserMapping $userMapping, GroupMapping $groupMapping, User_Proxy $userProxy, Group_Proxy $groupProxy, LoggerInterface $logger) {
-		$this->userMapping = $userMapping;
-		$this->groupMapping = $groupMapping;
-		$this->userProxy = $userProxy;
-		$this->groupProxy = $groupProxy;
-		$this->logger = $logger;
+	public function __construct(
+		private UserMapping $userMapping,
+		private GroupMapping $groupMapping,
+		private User_Proxy $userProxy,
+		private Group_Proxy $groupProxy,
+		private LoggerInterface $logger,
+	) {
 		$this->reports = [
 			UuidUpdateReport::UPDATED => [],
 			UuidUpdateReport::UNKNOWN => [],
@@ -140,7 +124,7 @@ class UpdateUUID extends Command {
 		$entriesToUpdate = $this->estimateNumberOfUpdates($input);
 		$progress = new ProgressBar($output);
 		$progress->start($entriesToUpdate);
-		foreach($this->handleUpdates($input) as $_) {
+		foreach ($this->handleUpdates($input) as $_) {
 			$progress->advance();
 		}
 		$progress->finish();
@@ -149,8 +133,8 @@ class UpdateUUID extends Command {
 		return count($this->reports[UuidUpdateReport::UNMAPPED]) === 0
 			&& count($this->reports[UuidUpdateReport::UNREADABLE]) === 0
 			&& count($this->reports[UuidUpdateReport::UNWRITABLE]) === 0
-			? 0
-			: 1;
+			? self::SUCCESS
+			: self::FAILURE;
 	}
 
 	protected function printReport(OutputInterface $output): void {
@@ -219,37 +203,37 @@ class UpdateUUID extends Command {
 
 	protected function handleUpdates(InputInterface $input): \Generator {
 		if ($input->getOption('all')) {
-			foreach($this->handleMappingBasedUpdates(false) as $_) {
+			foreach ($this->handleMappingBasedUpdates(false) as $_) {
 				yield;
 			}
 		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {
-			foreach($this->handleUpdatesByUserId($input->getOption('userId')) as $_) {
+			foreach ($this->handleUpdatesByUserId($input->getOption('userId')) as $_) {
 				yield;
 			}
-			foreach($this->handleUpdatesByGroupId($input->getOption('groupId')) as $_) {
+			foreach ($this->handleUpdatesByGroupId($input->getOption('groupId')) as $_) {
 				yield;
 			}
-			foreach($this->handleUpdatesByDN($input->getOption('dn')) as $_) {
+			foreach ($this->handleUpdatesByDN($input->getOption('dn')) as $_) {
 				yield;
 			}
 		} else {
-			foreach($this->handleMappingBasedUpdates(true) as $_) {
+			foreach ($this->handleMappingBasedUpdates(true) as $_) {
 				yield;
 			}
 		}
 	}
 
 	protected function handleUpdatesByUserId(array $userIds): \Generator {
-		foreach($this->handleUpdatesByEntryId($userIds, $this->userMapping) as $_) {
+		foreach ($this->handleUpdatesByEntryId($userIds, $this->userMapping) as $_) {
 			yield;
 		}
 	}
 
 	protected function handleUpdatesByGroupId(array $groupIds): \Generator {
-		foreach($this->handleUpdatesByEntryId($groupIds, $this->groupMapping) as $_) {
+		foreach ($this->handleUpdatesByEntryId($groupIds, $this->groupMapping) as $_) {
 			yield;
 		}
 	}
@@ -272,10 +256,10 @@ class UpdateUUID extends Command {
 			$this->reports[UuidUpdateReport::UNMAPPED][] = new UuidUpdateReport('', $dn, true, UuidUpdateReport::UNMAPPED);
 			yield;
 		}
-		foreach($this->handleUpdatesByList($this->userMapping, $userList) as $_) {
+		foreach ($this->handleUpdatesByList($this->userMapping, $userList) as $_) {
 			yield;
 		}
-		foreach($this->handleUpdatesByList($this->groupMapping, $groupList) as $_) {
+		foreach ($this->handleUpdatesByList($this->groupMapping, $groupList) as $_) {
 			yield;
 		}
 	}
@@ -284,7 +268,7 @@ class UpdateUUID extends Command {
 		$isUser = $mapping instanceof UserMapping;
 		$list = [];
 		while ($id = array_pop($ids)) {
-			if(!$dn = $mapping->getDNByName($id)) {
+			if (!$dn = $mapping->getDNByName($id)) {
 				$this->reports[UuidUpdateReport::UNMAPPED][] = new UuidUpdateReport($id, '', $isUser, UuidUpdateReport::UNMAPPED);
 				yield;
 				continue;
@@ -293,7 +277,7 @@ class UpdateUUID extends Command {
 			$uuid = $mapping->getUUIDByDN($dn);
 			$list[] = ['name' => $id, 'uuid' => $uuid];
 		}
-		foreach($this->handleUpdatesByList($mapping, $list) as $_) {
+		foreach ($this->handleUpdatesByList($mapping, $list) as $_) {
 			yield;
 		}
 	}
@@ -301,13 +285,13 @@ class UpdateUUID extends Command {
 	protected function handleMappingBasedUpdates(bool $invalidatedOnly): \Generator {
 		$limit = 1000;
 		/** @var AbstractMapping $mapping*/
-		foreach([$this->userMapping, $this->groupMapping] as $mapping) {
+		foreach ([$this->userMapping, $this->groupMapping] as $mapping) {
 			$offset = 0;
 			do {
 				$list = $mapping->getList($offset, $limit, $invalidatedOnly);
 				$offset += $limit;
 
-				foreach($this->handleUpdatesByList($mapping, $list) as $tick) {
+				foreach ($this->handleUpdatesByList($mapping, $list) as $tick) {
 					yield; // null, for it only advances progress counter
 				}
 			} while (count($list) === $limit);
@@ -369,5 +353,4 @@ class UpdateUUID extends Command {
 			return $this->userMapping->countInvalidated() + $this->groupMapping->countInvalidated();
 		}
 	}
-
 }
