@@ -116,7 +116,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OC\BackgroundJob\Job $job
+	 * @param \OCP\BackgroundJob\Job $job
 	 */
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);
