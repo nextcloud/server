@@ -68,7 +68,8 @@
 								class="user-actions__primary"
 								:href="primaryAction.target"
 								:icon="primaryAction.icon"
-								:target="primaryAction.id === 'phone' ? '_self' :'_blank'">
+								:target="primaryAction.id === 'phone' ? '_self' :'_blank'"
+								:rel="primaryAction.id === 'fediverse' ? 'me': null">
 								<template #icon>
 									<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 									<img :src="primaryAction.icon" alt="" class="user-actions__primary__icon">
@@ -80,7 +81,8 @@
 									:key="action.id"
 									:close-after-click="true"
 									:href="action.target"
-									:target="action.id === 'phone' ? '_self' :'_blank'">
+									:target="action.id === 'phone' ? '_self' :'_blank'"
+									:rel="action.id === 'fediverse' ? 'me': null">
 									<template #icon>
 										<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 										<img :src="action.icon" alt="" class="user-actions__other__icon">
