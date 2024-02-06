@@ -37,8 +37,12 @@ use OCP\FilesMetadata\IMetadataQuery;
 
 /**
  * Tools for transforming search queries into database queries
+ *
+ * @psalm-import-type ParamSingleValue from ISearchComparison
+ * @psalm-import-type ParamValue from ISearchComparison
  */
 class SearchBuilder {
+	/** @var array<string, string> */
 	protected static $searchOperatorMap = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'like',
@@ -51,6 +55,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_IN => 'in',
 	];
 
+	/** @var array<string, string> */
 	protected static $searchOperatorNegativeMap = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'notLike',
@@ -63,6 +68,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_IN => 'notIn',
 	];
 
+	/** @var array<string, string> */
 	protected static $fieldTypes = [
 		'mimetype' => 'string',
 		'mtime' => 'integer',
@@ -79,11 +85,14 @@ class SearchBuilder {
 		'owner' => 'string',
 	];
 
+	/** @var array<string, int> */
 	protected static $paramTypeMap = [
 		'string' => IQueryBuilder::PARAM_STR,
 		'integer' => IQueryBuilder::PARAM_INT,
 		'boolean' => IQueryBuilder::PARAM_BOOL,
 	];
+
+	/** @var array<string, int> */
 	protected static $paramArrayTypeMap = [
 		'string' => IQueryBuilder::PARAM_STR_ARRAY,
 		'integer' => IQueryBuilder::PARAM_INT_ARRAY,
@@ -186,7 +195,7 @@ class SearchBuilder {
 
 	/**
 	 * @param ISearchComparison $operator
-	 * @return list{string, string|integer|\DateTime|(\DateTime|int|string)[], string, string}
+	 * @return list{string, ParamValue, string, string}
 	 */
 	private function getOperatorFieldAndValue(ISearchComparison $operator): array {
 		$this->validateComparison($operator);
@@ -199,9 +208,9 @@ class SearchBuilder {
 
 	/**
 	 * @param string $field
-	 * @param string|integer|\DateTime|(\DateTime|int|string)[] $value
+	 * @param ParamValue $value
 	 * @param string $type
-	 * @return list{string, string|integer|\DateTime|(\DateTime|int|string)[], string, string}
+	 * @return list{string, ParamValue, string, string}
 	 */
 	private function getOperatorFieldAndValueInner(string $field, mixed $value, string $type, bool $pathEqHash): array {
 		$paramType = self::$fieldTypes[$field];
@@ -209,7 +218,7 @@ class SearchBuilder {
 			$resultField = $field;
 			$values = [];
 			foreach ($value as $arrayValue) {
-				/** @var string|integer|\DateTime $arrayValue */
+				/** @var ParamSingleValue $arrayValue */
 				[$arrayField, $arrayValue] = $this->getOperatorFieldAndValueInner($field, $arrayValue, ISearchComparison::COMPARE_EQUAL, $pathEqHash);
 				$resultField = $arrayField;
 				$values[] = $arrayValue;
@@ -297,7 +306,7 @@ class SearchBuilder {
 
 
 	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
-		$paramType = self::$fieldTypes[$field];
+		$paramType = self::$fieldTypes[$operator->getField()];
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();

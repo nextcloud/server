@@ -26,6 +26,9 @@ namespace OCP\Files\Search;
 
 /**
  * @since 12.0.0
+ *
+ * @psalm-type ParamSingleValue = \DateTime|int|string|bool
+ * @psalm-type ParamValue = ParamSingleValue|list<ParamSingleValue>
  */
 interface ISearchComparison extends ISearchOperator {
 	/**
@@ -103,7 +106,7 @@ interface ISearchComparison extends ISearchOperator {
 	/**
 	 * Get the value to compare the field with
 	 *
-	 * @return string|integer|bool|\DateTime|(\DateTime|int|string)[]
+	 * @return ParamValue
 	 * @since 12.0.0
 	 */
 	public function getValue(): string|int|bool|\DateTime|array;

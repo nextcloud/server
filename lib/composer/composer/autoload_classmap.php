@@ -1414,6 +1414,7 @@ return array(
     'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizer' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizer.php',
     'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizerStep' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizerStep.php',
     'OC\\Files\\Search\\QueryOptimizer\\ReplacingOptimizerStep' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/ReplacingOptimizerStep.php',
+    'OC\\Files\\Search\\QueryOptimizer\\SplitLargeIn' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/SplitLargeIn.php',
     'OC\\Files\\Search\\SearchBinaryOperator' => $baseDir . '/lib/private/Files/Search/SearchBinaryOperator.php',
     'OC\\Files\\Search\\SearchComparison' => $baseDir . '/lib/private/Files/Search/SearchComparison.php',
     'OC\\Files\\Search\\SearchOrder' => $baseDir . '/lib/private/Files/Search/SearchOrder.php',

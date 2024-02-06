@@ -19,7 +19,7 @@ class SplitLargeIn extends ReplacingOptimizerStep {
 			count($operator->getValue()) > 1000
 		) {
 			$chunks = array_chunk($operator->getValue(), 1000);
-			$chunkComparisons = array_map(function(array $values) use ($operator) {
+			$chunkComparisons = array_map(function (array $values) use ($operator) {
 				return new SearchComparison(ISearchComparison::COMPARE_IN, $operator->getField(), $values);
 			}, $chunks);
 
@@ -30,4 +30,3 @@ class SplitLargeIn extends ReplacingOptimizerStep {
 		return false;
 	}
 }
-
