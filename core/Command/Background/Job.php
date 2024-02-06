@@ -27,7 +27,6 @@ namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +36,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Job extends Command {
 	public function __construct(
 		protected IJobList $jobList,
-		protected ILogger $logger,
 	) {
 		parent::__construct();
 	}
@@ -86,7 +84,7 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		$job->execute($this->jobList, $this->logger);
+		$job->start($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
