@@ -2,6 +2,7 @@
   - @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -53,6 +54,8 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import Web from 'vue-material-design-icons/Web.vue'
+// eslint-disable-next-line n/no-extraneous-import
+import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
@@ -67,12 +70,6 @@ export default {
 		Web,
 		NcButton,
 		NcEmptyContent,
-	},
-
-	data() {
-		return {
-			agents: {},
-		}
 	},
 
 	computed: {
@@ -109,24 +106,17 @@ export default {
 			})
 
 			return Object.keys(list).map(id => {
-				if (!this.agents[id]?.browser) {
+				if (!agents[id]?.browser) {
 					return null
 				}
 
 				const version = list[id]
-				const name = this.agents[id]?.browser
+				const name = agents[id]?.browser
 				return this.t('core', '{name} version {version} and above', {
 					name, version,
 				})
 			}).filter(entry => entry !== null)
 		},
-	},
-
-	async beforeMount() {
-		// Dynamic load big list of user agents
-		// eslint-disable-next-line n/no-extraneous-import
-		const { agents } = await import('caniuse-lite')
-		this.agents = agents
 	},
 
 	methods: {
