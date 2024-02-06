@@ -154,7 +154,7 @@ try {
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
 
-			$job->execute($jobList, $logger);
+			$job->start($jobList);
 
 			$memoryAfter = memory_get_usage();
 			$memoryPeakAfter = memory_get_peak_usage();
@@ -189,7 +189,7 @@ try {
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
-				$job->execute($jobList, $logger);
+				$job->start($jobList);
 				$jobList->setLastJob($job);
 			}
 			OC_JSON::success();
