@@ -186,6 +186,7 @@
     "Unknown error" : "Ukjent feil",
     "Ownership transfer request sent" : "Forespørsel om overføring av eierskap er sendt",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
+    "Select file or folder to link to" : "Velg fil eller mappe å koble til",
     "Choose {file}" : "Choose {file}",
     "No files in here" : "Ingen filer",
     "Upload some content or sync with your devices!" : "Last opp innhold eller synkroniser med enhetene dine!",
