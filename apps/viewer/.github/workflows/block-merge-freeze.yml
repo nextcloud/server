@@ -22,11 +22,15 @@ jobs:
 
     if: github.event.pull_request.draft == false
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     steps:
-      - name: Download version.php from ${{ github.base_ref }}
-        run: curl https://raw.githubusercontent.com/nextcloud/server/${{ github.base_ref }}/version.php --output version.php
+      - name: Register server reference to fallback to master branch
+        run: |
+          server_ref="$(if [ "${{ github.base_ref }}" = "main" ]; then echo -n "master"; else echo -n "${{ github.base_ref }}"; fi)"
+          echo "server_ref=$server_ref" >> $GITHUB_ENV
+      - name: Download version.php from ${{ env.server_ref }}
+        run: curl https://raw.githubusercontent.com/nextcloud/server/${{ env.server_ref }}/version.php --output version.php
 
       - name: Run check
         run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'
