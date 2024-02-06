@@ -54,13 +54,12 @@ export const validateBodyThemingCss = function(expectedColor = defaultPrimary, e
  */
 export const validateUserThemingDefaultCss = function(expectedColor = defaultPrimary, expectedBackground: string|null = defaultBackground) {
 	const defaultSelectButton = Cypress.$('[data-user-theming-background-default]')
-	const customColorSelectButton = Cypress.$('[data-user-theming-background-color]')
-	if (defaultSelectButton.length === 0 || customColorSelectButton.length === 0) {
+	if (defaultSelectButton.length === 0) {
 		return false
 	}
 
 	const defaultOptionBackground = defaultSelectButton.css('background-image')
-	const colorPickerOptionColor = customColorSelectButton.css('background-color')
+	const colorPickerOptionColor = defaultSelectButton.css('background-color')
 
 	const isValidBackgroundImage = !expectedBackground
 		? defaultOptionBackground === 'none'
@@ -71,16 +70,26 @@ export const validateUserThemingDefaultCss = function(expectedColor = defaultPri
 	return isValidBackgroundImage && colord(colorPickerOptionColor).isEqual(expectedColor)
 }
 
-export const pickRandomColor = function(pickerSelector: string): Cypress.Chainable<string> {
+export const pickRandomColor = function(): Cypress.Chainable<string> {
 	// Pick one of the first 8 options
 	const randColour = Math.floor(Math.random() * 8)
 
-	// Open picker
-	cy.get(pickerSelector).click()
+	const colorPreviewSelector = '[data-user-theming-background-color],[data-admin-theming-setting-primary-color]'
 
-	// Return selected colour
-	return cy.get(pickerSelector).get('.color-picker__simple-color-circle').eq(randColour).then(($el) => {
-		$el.trigger('click')
-		return $el.css('background-color')
+	let oldColor = ''
+	cy.get(colorPreviewSelector).then(($el) => {
+		oldColor = $el.css('background-color')
 	})
+
+	// Open picker
+	cy.contains('button', 'Change color').click()
+
+	// Click on random color
+	cy.get('.color-picker__simple-color-circle').eq(randColour).click()
+
+	// Wait for color change
+	cy.waitUntil(() => Cypress.$(colorPreviewSelector).css('background-color') !== oldColor)
+
+	// Get the selected color from the color preview block
+	return cy.get(colorPreviewSelector).then(($el) => $el.css('background-color'))
 }
