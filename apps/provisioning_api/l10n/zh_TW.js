@@ -2,7 +2,6 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in user must be an administrator or have authorization to edit this setting." : "登入的使用者必須為管理員或是有權編輯此設定的使用者。",
-    "Could not create non-existing user id" : "無法建立不存在的使用者 ID",
     "User already exists" : "使用者已存在",
     "Group %1$s does not exist" : "群組 %1$s 不存在",
     "Insufficient privileges for group %1$s" : "群組 %1$s 權限不足",
