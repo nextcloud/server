@@ -139,7 +139,7 @@ class AppSettingsController extends Controller {
 		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params, 'pageTitle' => $this->l10n->t('Apps')]);
+		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params, 'pageTitle' => $this->l10n->t('Settings')]);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 		$templateResponse->setContentSecurityPolicy($policy);
