@@ -63,6 +63,7 @@ use Symfony\Component\HttpFoundation\IpUtils;
  * @property string method
  * @property mixed[] parameters
  * @property mixed[] server
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
