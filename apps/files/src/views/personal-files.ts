@@ -23,7 +23,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { View, getNavigation } from '@nextcloud/files'
 
 import { getContents } from '../services/PersonalFiles'
-import FolderHome from '@mdi/svg/svg/folder-home.svg?raw'
+import AccountIcon from '@mdi/svg/svg/account.svg?raw'
 import logger from '../logger'
 
 export default () => {
@@ -38,7 +38,7 @@ export default () => {
 		emptyTitle: t('files', 'No personal files found'),
 		emptyCaption: t('files', 'Files that are not shared will show up here.'),
 
-		icon: FolderHome,
+		icon: AccountIcon,
 		order: 5,
 
 		getContents,

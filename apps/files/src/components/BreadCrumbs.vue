@@ -29,6 +29,7 @@
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
+			:icon-text="isPersonalFiles"
 			:to="section.to"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
@@ -107,6 +108,10 @@ export default defineComponent({
 					to,
 				}
 			})
+		},
+
+		isPersonalFiles(): string {
+			return this.$route?.fullPath.startsWith('/personal-files') ? t('files', 'Personal files') : ""
 		},
 	},
 
