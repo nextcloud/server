@@ -24,8 +24,6 @@ import ViewerComponent from './views/Viewer.vue'
 import ViewerService from './services/Viewer.js'
 import { translate as t } from '@nextcloud/l10n'
 
-import { generateFilePath } from '@nextcloud/router'
-
 Vue.mixin({
 	methods: {
 		t,
@@ -33,29 +31,15 @@ Vue.mixin({
 })
 
 // Inject proper font for cypress visual regression testing
-if (isTesting) {
-	// Import font so CI has the same
-	import(/* webpackChunkName: 'roboto-font' */'@fontsource/roboto')
-}
+INJECT_CYPRESS_FONT
 
-Vue.prototype.OC = OC
-Vue.prototype.OCA = OCA
-
-// CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(OC.requestToken)
-
-// Correct the root of the app for chunk loading
-// OC.linkTo matches the apps folders
-// OC.generateUrl ensure the index.php (or not)
-// We do not want the index.php since we're loading files
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath('viewer', '', 'js/')
+Vue.prototype.OC = window.OC
+Vue.prototype.OCA = window.OCA
 
 // Init Viewer Service
 if (window.OCA) {
 	Object.assign(window.OCA, { Viewer: new ViewerService() })
-	OCA.Viewer.version = appVersion
+	window.OCA.Viewer.version = appVersion
 }
 
 // Create document root
