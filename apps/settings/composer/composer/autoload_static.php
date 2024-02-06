@@ -134,6 +134,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\SystemIs64bit' => __DIR__ . '/..' . '/../lib/SetupChecks/SystemIs64bit.php',
         'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/TempSpaceAvailable.php',
         'OCA\\Settings\\SetupChecks\\TransactionIsolation' => __DIR__ . '/..' . '/../lib/SetupChecks/TransactionIsolation.php',
+        'OCA\\Settings\\SetupChecks\\WellKnownUrls' => __DIR__ . '/..' . '/../lib/SetupChecks/WellKnownUrls.php',
         'OCA\\Settings\\SetupChecks\\Woff2Loading' => __DIR__ . '/..' . '/../lib/SetupChecks/Woff2Loading.php',
         'OCA\\Settings\\UserMigration\\AccountMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigrator.php',
         'OCA\\Settings\\UserMigration\\AccountMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigratorException.php',

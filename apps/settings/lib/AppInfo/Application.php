@@ -90,6 +90,7 @@ use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
+use OCA\Settings\SetupChecks\WellKnownUrls;
 use OCA\Settings\SetupChecks\Woff2Loading;
 use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
@@ -218,6 +219,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
 		$context->registerSetupCheck(PushService::class);
+		$context->registerSetupCheck(WellKnownUrls::class);
 		$context->registerSetupCheck(Woff2Loading::class);
 
 		$context->registerUserMigrator(AccountMigrator::class);
