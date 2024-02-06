@@ -180,6 +180,8 @@ OC.L10N.register(
     "Memcache" : "Memcache",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "Nebylo nastaveno žádné ukládání do mezipaměti. Pokud chcete vylepšit výkon, nastavte memcache (pokud je k dispozici).",
     "Configured" : "Nastaveno",
+    "MySQL Unicode support" : "Podpora MySQL Unicode",
+    "You are not using MySQL" : "Nepoužíváte MySQL",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "Volba „overwrite.cli.url“ ve vašem config.php je správně nastavená na „%s“.",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "Volba „overwrite.cli.url“ ve vašem config.php je nastavená na „%s“, což je správná URL. Doporučená URL je „%s“.",
     "PHP default charset" : "Výchozí znaková sada pro PHP",
