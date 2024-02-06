@@ -63,9 +63,9 @@ registerTemplateEntries()
 
 // Register files views
 registerFavoritesView()
+registerFilesView()
 registerRecentView()
 registerPersonalFilesView()
-registerFilesView()
 
 // Register preview service worker
 registerPreviewServiceWorker()

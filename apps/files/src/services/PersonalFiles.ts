@@ -19,70 +19,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { CancelablePromise } from 'cancelable-promise'
-import type { FileStat, ResponseDataDetailed } from 'webdav';
-import { davGetDefaultPropfind} from "@nextcloud/files";
-import { Folder, File, type ContentsWithRoot } from '@nextcloud/files'
+import { File, type ContentsWithRoot } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth';
 
-import logger from '../logger'
-import { resultToNode } from './Files';
-import { getClient } from './WebdavClient';
+import { getContents as getFiles } from './Files';
 
-const client = getClient()
+const currUserID = getCurrentUser()?.uid
 
 /**
  * NOTE MOVE TO @nextcloud/files 
- * @brief filters each file/folder on its shared statuses
+ * @brief filters each file/folder on its shared status
+ * 	A personal file is considered a file that has all of the following properties:
+ * 		a.) the current user owns
+ * 		b.) the file is not shared with anyone
+ * 		c.) the file is not a group folder
  * @param {FileStat} node that contains  
  * @return {Boolean}
  */
-export const davNotShared = function(node: File | Folder | null, currUserID: string | undefined): Boolean {
-	// (essentially .filter(Boolean))
-	if (!node) return false
-	
-	const isNotShared = currUserID ? node.attributes['owner-id'] === currUserID : true
+export const personalFile = function(node: File): Boolean {
+	const isNotShared = currUserID ? node.owner === currUserID : true
 						&& node.attributes['mount-type'] !== 'group'
 						&& node.attributes['mount-type'] !== 'shared'
-
-	return 	isNotShared
+	return isNotShared
 }
 
 export const getContents = (path: string = "/"): Promise<ContentsWithRoot> => {
-    const controller = new AbortController()
-	const propfindPayload = davGetDefaultPropfind()
-	const currUserID = getCurrentUser()?.uid.toString()
-
-    return new CancelablePromise(async (resolve, reject, onCancel) => {
-        onCancel(() => controller.abort())
-        try {
-			const contentsResponse = await client.getDirectoryContents(path, {
-				details: true,
-				data: propfindPayload,
-				includeSelf: true,
-				signal: controller.signal,
-			}) as ResponseDataDetailed<FileStat[]>
-
-			const root = contentsResponse.data[0]
-			const contents = contentsResponse.data.slice(1)
-
-			if (root.filename !== path) {
-				throw new Error('Root node does not match requested path')
-			}
-
-			resolve({
-				folder: resultToNode(root) as Folder,
-				contents: contents.map(result => {
-					try {
-						return resultToNode(result)
-					} catch (error) {
-						logger.error(`Invalid node detected '${result.basename}'`, { error })
-						return null
-					}
-				}).filter(node => davNotShared(node, currUserID)) as File[],
-			})
-        } catch (error) {
-            reject(error)
-        }
-    })
-} 
+	// get all the files from the current path as a cancellable promise
+	// then filter the files that the user does not own, or has shared / is a group folder
+    return getFiles(path)
+		.then(c => {
+			c.contents = c.contents.filter(personalFile) as File[]
+			return c
+		})
+}
