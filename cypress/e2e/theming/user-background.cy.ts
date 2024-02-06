@@ -95,7 +95,7 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', background))
+		cy.waitUntil(() => validateBodyThemingCss('#869171', background))
 	})
 
 	it('Remove background', function() {
@@ -109,7 +109,7 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', null))
+		cy.waitUntil(() => validateBodyThemingCss('#869171', null))
 	})
 })
 
