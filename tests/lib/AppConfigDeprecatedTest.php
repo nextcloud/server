@@ -19,9 +19,10 @@ use Psr\Log\LoggerInterface;
  *
  * @group DB
  *
+ * @deprecated since 29.0.0 @see AppConfigTest
  * @package Test
  */
-class AppConfigTest extends TestCase {
+class AppConfigDeprecatedTest extends TestCase {
 	/** @var \OCP\IAppConfig */
 	protected $appConfig;
 
