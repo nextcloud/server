@@ -28,6 +28,7 @@
  */
 namespace OC\Files\Config;
 
+use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
@@ -213,13 +214,10 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param array $row
 	 * @param (callable(CachedMountInfo): string)|null $pathCallback
-	 * @return CachedMountInfo|null
+	 * @return CachedMountInfo
 	 */
-	private function dbRowToMountInfo(array $row, ?callable $pathCallback = null): ?ICachedMountInfo {
-		$user = $this->userManager->get($row['user_id']);
-		if (is_null($user)) {
-			return null;
-		}
+	private function dbRowToMountInfo(array $row, ?callable $pathCallback = null): ICachedMountInfo {
+		$user = new LazyUser($row['user_id'], $this->userManager);
 		$mount_id = $row['mount_id'];
 		if (!is_null($mount_id)) {
 			$mount_id = (int)$mount_id;
