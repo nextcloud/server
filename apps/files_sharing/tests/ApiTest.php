@@ -125,6 +125,7 @@ class ApiTest extends TestCase {
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
 		$previewManager = $this->createMock(IPreview::class);
 		$dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -1064,10 +1065,9 @@ class ApiTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$dateWithinRange = new \DateTime();
-		$dateWithinRange->setTime(0, 0, 0);
-		$dateWithinRange->add(new \DateInterval('P5D'));
+		$dateWithinRange->add(new \DateInterval('P6D'));
+
 		$dateOutOfRange = new \DateTime();
-		$dateOutOfRange->setTime(0, 0, 0);
 		$dateOutOfRange->add(new \DateInterval('P8D'));
 
 		// update expire date to a valid value
@@ -1078,6 +1078,8 @@ class ApiTest extends TestCase {
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date should be changed
+		$dateWithinRange->setTime(0, 0, 0);
+		$dateWithinRange->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
 		// update expire date to a value out of range
@@ -1291,12 +1293,14 @@ class ApiTest extends TestCase {
 
 	public function datesProvider() {
 		$date = new \DateTime();
+		$date->setTime(0, 0);
 		$date->add(new \DateInterval('P5D'));
+		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		return [
-			[$date->format('Y-m-d'), true],
+			[$date->format('Y-m-d H:i:s'), true],
 			['abc', false],
-			[$date->format('Y-m-d') . 'xyz', false],
+			[$date->format('Y-m-d H:i:s') . 'xyz', false],
 		];
 	}
 
@@ -1322,7 +1326,7 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date, substr($data['expiration'], 0, 10));
+		$this->assertEquals(substr($date, 0, 10), substr($data['expiration'], 0, 10));
 
 		// check for correct link
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
@@ -1330,7 +1334,7 @@ class ApiTest extends TestCase {
 
 		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d'));
+		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d H:i:s'));
 
 		$this->shareManager->deleteShare($share);
 	}
@@ -1354,7 +1358,7 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date->format('Y-m-d') . ' 00:00:00', $data['expiration']);
+		$this->assertEquals($date->format('Y-m-d 00:00:00'), $data['expiration']);
 
 		// check for correct link
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);

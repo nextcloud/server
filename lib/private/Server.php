@@ -1323,7 +1323,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IEventDispatcher::class),
 				$c->get(IUserSession::class),
 				$c->get(KnownUserService::class),
-				$c->get(ShareDisableChecker::class)
+				$c->get(ShareDisableChecker::class),
+				$c->get(IDateTimeZone::class),
 			);
 
 			return $manager;
