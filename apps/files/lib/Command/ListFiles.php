@@ -37,6 +37,7 @@ namespace OCA\Files\Command;
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
+use OC\Files\Node\Node;
 use OC\DB\ConnectionAdapter;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
@@ -135,7 +136,7 @@ class ListFiles extends Base {
 			);
 	}
 
-	private function getNodeInfo($node, $path) {
+	private function getNodeInfo(Node $node, string $path): array {
 		return [
 			"name" => $node->getName(),
 			'path' => $path,
