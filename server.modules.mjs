@@ -32,6 +32,7 @@ export default {
 		init: join(__dirname, 'apps/comments/src', 'init.ts'),
 	},
 	core: {
+		backgroundjobs: join(__dirname, 'core/src', 'cron.ts'),
 		files_client: join(__dirname, 'core/src', 'files/client.js'),
 		files_fileinfo: join(__dirname, 'core/src', 'files/fileinfo.js'),
 		install: join(__dirname, 'core/src', 'install.js'),

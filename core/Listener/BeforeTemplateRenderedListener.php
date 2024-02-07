@@ -35,14 +35,12 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 		if ($event instanceof BeforeLoginTemplateRenderedEvent) {
 			// todo: make login work without these
-			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
 			Util::addTranslations('core');
 		}
 
 		if ($event instanceof BeforeTemplateRenderedEvent) {
 			// include common nextcloud webpack bundle
-			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
 			Util::addTranslations('core');
 
@@ -57,6 +55,12 @@ class BeforeTemplateRenderedListener implements IEventListener {
 					Util::addScript('core', 'backgroundjobs');
 				}
 			}
+		}
+		// If not on login and on non user page or on settings, then add the legacy scrips.
+		// This MUST be the last one so `prepand` inserts it as the very first script
+		// TODO: Remove if we finally migrated from jQuery to Vue
+		if (!($event instanceof BeforeLoginTemplateRenderedEvent) && ($event->getResponse()->getRenderAs() !== TemplateResponse::RENDER_AS_USER || $event->getResponse()->getApp() === 'settings')) {
+			Util::addScript('core', 'legacy', 'core', true);
 		}
 	}
 }

@@ -11,7 +11,7 @@ import 'regenerator-runtime/runtime.js'
 import OC from './OC/index.js'
 
 import './globals.js'
-import './jquery/index.js'
+// import './jquery/index.js'
 import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
 import { generateUrl } from '@nextcloud/router'

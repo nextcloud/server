@@ -7,83 +7,17 @@
 import { initCore } from './init.js'
 
 import _ from 'underscore'
-import $ from 'jquery'
-// TODO: switch to `jquery-ui` package and import widgets and effects individually
-//       `jquery-ui-dist` is used as a workaround for the issue of missing effects
-import 'jquery-ui-dist/jquery-ui.js'
-import 'jquery-ui-dist/jquery-ui.css'
-import 'jquery-ui-dist/jquery-ui.theme.css'
-// END TODO
-import Backbone from 'backbone'
-import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
-import Handlebars from 'handlebars'
-import md5 from 'blueimp-md5'
-import moment from 'moment'
-import 'select2'
-import 'select2/select2.css'
-import 'snap.js/dist/snap.js'
-import 'strengthify'
-import 'strengthify/strengthify.css'
 
 import OC from './OC/index.js'
 import OCP from './OCP/index.js'
 import OCA from './OCA/index.js'
 import { getToken as getRequestToken } from './OC/requesttoken.js'
+import { setDeprecatedProp } from './utils/deprecate.js'
+import { translate, translatePlural } from '@nextcloud/l10n'
 
-const warnIfNotTesting = function() {
-	if (window.TESTING === undefined) {
-		OC.debug && console.warn.apply(console, arguments)
-	}
-}
-
-/**
- * Mark a function as deprecated and automatically
- * warn if used!
- *
- * @param {Function} func the library to deprecate
- * @param {string} funcName the name of the library
- * @param {number} version the version this gets removed
- * @return {Function}
- */
-const deprecate = (func, funcName, version) => {
-	const oldFunc = func
-	const newFunc = function() {
-		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud ${version}.`)
-		return oldFunc.apply(this, arguments)
-	}
-	Object.assign(newFunc, oldFunc)
-	return newFunc
-}
-
-const setDeprecatedProp = (global, cb, msg) => {
-	(Array.isArray(global) ? global : [global]).forEach(global => {
-		if (window[global] !== undefined) {
-			delete window[global]
-		}
-		Object.defineProperty(window, global, {
-			get: () => {
-				if (msg) {
-					warnIfNotTesting(`${global} is deprecated: ${msg}`)
-				} else {
-					warnIfNotTesting(`${global} is deprecated`)
-				}
-
-				return cb()
-			},
-		})
-	})
-}
-
-window._ = _
-setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
-window.dav = dav
-setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
-// Global md5 only required for: apps/files/js/file-upload.js
-setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('_', () => _, 'please ship your own, this will be removed in Nextcloud 30')
+setDeprecatedProp('dav', () => dav, 'Migrate to use the webdav client from `@nextcloud/files`, this will be removed in Nextcloud 30')
 
 window.OC = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
@@ -98,7 +32,6 @@ setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead,
 setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this will be removed in Nextcloud 20')
 window.OCP = OCP
 window.OCA = OCA
-$.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
  * translate a string
@@ -109,7 +42,7 @@ $.fn.select2 = deprecate($.fn.select2, 'select2', 19)
  * @param {number} [count] number to replace %n with
  * @return {string}
  */
-window.t = _.bind(OC.L10N.translate, OC.L10N)
+window.t = translate
 
 /**
  * translate a string
@@ -121,4 +54,4 @@ window.t = _.bind(OC.L10N.translate, OC.L10N)
  * @param [vars] map of placeholder key to value
  * @return {string} Translated string
  */
-window.n = _.bind(OC.L10N.translatePlural, OC.L10N)
+window.n = translatePlural

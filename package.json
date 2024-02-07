@@ -9,10 +9,11 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "webpack --node-env production --progress",
+    "build": "vite --mode production build && npm run build:legacy",
+    "build:legacy": "vite --config vite.config-legacy.mjs build",
     "postbuild": "build/npm-post-build.sh",
-    "dev": "webpack --node-env development --progress",
-    "watch": "webpack --node-env development --progress --watch",
+    "dev": "vite --mode development build && npm run build:legacy",
+    "watch": "vite --mode development build --watch",
     "lint": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"$appdir \"; fi; done) core --no-error-on-unmatched-pattern",
     "lint:fix": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"$appdir \"; fi; done) core --no-error-on-unmatched-pattern --fix",
     "test": "jest",

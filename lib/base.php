@@ -312,7 +312,7 @@ class OC {
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
-		\OCP\Util::addScript('core', 'common');
+		\OCP\Util::addScript('core', 'legacy');
 		\OCP\Util::addScript('core', 'main');
 		\OCP\Util::addTranslations('core');
 		\OCP\Util::addScript('core', 'update');
