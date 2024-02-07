@@ -5,12 +5,8 @@
 
 // eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
-import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { registerCommentsPlugins } from './comments-activity-tab.ts'
-
-// @ts-expect-error __webpack_nonce__ is injected by webpack
-__webpack_nonce__ = btoa(getRequestToken())
 
 if (loadState('comments', 'activityEnabled', false) && OCA?.Activity?.registerSidebarAction !== undefined) {
 	// Do not mount own tab but mount into activity

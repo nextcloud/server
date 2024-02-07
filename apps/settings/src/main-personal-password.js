@@ -8,9 +8,6 @@ import Vue from 'vue'
 import PasswordSection from './components/PasswordSection.vue'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
-
 Vue.prototype.t = t
 Vue.prototype.n = n
 

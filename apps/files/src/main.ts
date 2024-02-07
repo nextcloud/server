@@ -4,7 +4,6 @@
  */
 import { PiniaVuePlugin } from 'pinia'
 import { getNavigation } from '@nextcloud/files'
-import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
 
 import { pinia } from './store/index.ts'
@@ -14,9 +13,7 @@ import SettingsModel from './models/Setting.js'
 import SettingsService from './services/Settings.js'
 import FilesApp from './FilesApp.vue'
 
-// @ts-expect-error __webpack_nonce__ is injected by webpack
-__webpack_nonce__ = btoa(getRequestToken())
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
 	interface Window {
 		OC: any;
@@ -24,6 +21,7 @@ declare global {
 		OCP: any;
 	}
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // Init private and public Files namespace
 window.OCA.Files = window.OCA.Files ?? {}

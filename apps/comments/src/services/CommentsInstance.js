@@ -4,13 +4,9 @@
  */
 
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
 import CommentsApp from '../views/Comments.vue'
 import logger from '../logger.js'
-
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
 
 // Add translates functions
 Vue.mixin({

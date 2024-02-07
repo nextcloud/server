@@ -8,7 +8,4 @@ import './sharebreadcrumbview.js'
 import './style/sharebreadcrumb.scss'
 import './collaborationresourceshandler.js'
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
-
 window.OCA.Sharing = OCA.Sharing
