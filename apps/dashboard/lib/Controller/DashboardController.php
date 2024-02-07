@@ -30,8 +30,6 @@ declare(strict_types=1);
  */
 namespace OCA\Dashboard\Controller;
 
-use OCA\Files\Event\LoadSidebar;
-use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -90,11 +88,6 @@ class DashboardController extends Controller {
 	public function index(): TemplateResponse {
 		\OCP\Util::addStyle('dashboard', 'dashboard');
 		\OCP\Util::addScript('dashboard', 'main', 'theming');
-
-		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
 
 		$this->eventDispatcher->dispatchTyped(new RegisterWidgetEvent($this->dashboardManager));
 
