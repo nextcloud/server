@@ -303,7 +303,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
-		if (is_string($user)) {
+		if (is_string($user) || is_int($user)) { # usernames can be numeric
 			$user = $this->access->userManager->get($user);
 		}
 		if (is_null($user)) {
