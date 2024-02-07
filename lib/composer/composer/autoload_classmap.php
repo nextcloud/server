@@ -1360,6 +1360,7 @@ return array(
     'OC\\Files\\Cache\\Wrapper\\JailPropagator' => $baseDir . '/lib/private/Files/Cache/Wrapper/JailPropagator.php',
     'OC\\Files\\Config\\CachedMountFileInfo' => $baseDir . '/lib/private/Files/Config/CachedMountFileInfo.php',
     'OC\\Files\\Config\\CachedMountInfo' => $baseDir . '/lib/private/Files/Config/CachedMountInfo.php',
+    'OC\\Files\\Config\\LazyPathCachedMountInfo' => $baseDir . '/lib/private/Files/Config/LazyPathCachedMountInfo.php',
     'OC\\Files\\Config\\LazyStorageMountInfo' => $baseDir . '/lib/private/Files/Config/LazyStorageMountInfo.php',
     'OC\\Files\\Config\\MountProviderCollection' => $baseDir . '/lib/private/Files/Config/MountProviderCollection.php',
     'OC\\Files\\Config\\UserMountCache' => $baseDir . '/lib/private/Files/Config/UserMountCache.php',
