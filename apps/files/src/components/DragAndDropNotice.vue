@@ -47,6 +47,7 @@ import { defineComponent } from 'vue'
 import { Folder, Permission } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { UploadStatus } from '@nextcloud/upload'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
@@ -143,10 +144,11 @@ export default defineComponent({
 			}
 		},
 
-		onDrop(event: DragEvent) {
-			logger.debug('Dropped on DragAndDropNotice', { event, error: this.cantUploadLabel })
+		async onDrop(event: DragEvent) {
+			logger.debug('Dropped on DragAndDropNotice', { event })
 
-			if (!this.canUpload || this.isQuotaExceeded) {
+			// cantUploadLabel is null if we can upload
+			if (this.cantUploadLabel) {
 				showError(this.cantUploadLabel)
 				return
 			}
@@ -162,23 +164,31 @@ export default defineComponent({
 				// Start upload
 				logger.debug(`Uploading files to ${this.currentFolder.path}`)
 				// Process finished uploads
-				handleDrop(event.dataTransfer).then((uploads) => {
-					logger.debug('Upload terminated', { uploads })
-					showSuccess(t('files', 'Upload successful'))
+				const uploads = await handleDrop(event.dataTransfer)
+				logger.debug('Upload terminated', { uploads })
 
-					// Scroll to last upload in current directory if terminated
-					const lastUpload = uploads.findLast((upload) => !upload.file.webkitRelativePath.includes('/') && upload.response?.headers?.['oc-fileid'])
-					if (lastUpload !== undefined) {
-						this.$router.push({
-							...this.$route,
-							params: {
-								view: this.$route.params?.view ?? 'files',
-								// Remove instanceid from header response
-								fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
-							},
-						})
-					}
-				})
+				if (uploads.some((upload) => upload.status === UploadStatus.FAILED)) {
+					showError(t('files', 'Some files could not be uploaded'))
+					const failedUploads = uploads.filter((upload) => upload.status === UploadStatus.FAILED)
+					logger.debug('Some files could not be uploaded', { failedUploads })
+				} else {
+					showSuccess(t('files', 'Files uploaded successfully'))
+				}
+
+				// Scroll to last successful upload in current directory if terminated
+				const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
+					&& !upload.file.webkitRelativePath.includes('/')
+					&& upload.response?.headers?.['oc-fileid'])
+
+				if (lastUpload !== undefined) {
+					this.$router.push({
+						...this.$route,
+						params: {
+							view: this.$route.params?.view ?? 'files',
+							fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
+						},
+					})
+				}
 			}
 			this.dragover = false
 		},
