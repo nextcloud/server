@@ -2,6 +2,7 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in user must be an administrator or have authorization to edit this setting." : "Logged in user must be an administrator or have authorization to edit this setting.",
+    "Could not create non-existing user ID" : "Could not create non-existing user ID",
     "User already exists" : "User already exists",
     "Group %1$s does not exist" : "Group %1$s does not exist",
     "Insufficient privileges for group %1$s" : "Insufficient privileges for group %1$s",
