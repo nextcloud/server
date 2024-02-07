@@ -93,18 +93,20 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { PropType } from 'vue'
 
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import Vue from 'vue'
 
 import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'

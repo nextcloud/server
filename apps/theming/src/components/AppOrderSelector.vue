@@ -25,9 +25,11 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { translate as t } from '@nextcloud/l10n'
 import { useSortable } from '@vueuse/integrations/useSortable'
-import { PropType, computed, defineComponent, onUpdated, ref } from 'vue'
+import { computed, defineComponent, onUpdated, ref } from 'vue'
 import { Fragment } from 'vue-frag'
 
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
