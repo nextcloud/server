@@ -32,7 +32,7 @@ import { translate as t } from '@nextcloud/l10n'
 
 import logger from '../logger.js'
 
-export const handleDrop = async (data: DataTransfer) => {
+export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
 
 	const uploads = [] as Upload[]
