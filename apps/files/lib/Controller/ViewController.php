@@ -44,7 +44,7 @@ use OCA\Files\Service\ViewConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
@@ -67,7 +67,7 @@ use OCP\Share\IManager;
 /**
  * @package OCA\Files\Controller
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ViewController extends Controller {
 	private IURLGenerator $urlGenerator;
 	private IL10N $l10n;
@@ -226,9 +226,14 @@ class ViewController extends Controller {
 
 		// Get all the user favorites to create a submenu
 		try {
-			$favElements = $this->activityHelper->getFavoriteFilePaths($userId);
+			$userFolder = $this->rootFolder->getUserFolder($userId);
+			$favElements = $this->activityHelper->getFavoriteNodes($userId, true);
+			$favElements = array_map(fn (Folder $node) => [
+				'fileid' => $node->getId(),
+				'path' => $userFolder->getRelativePath($node->getPath()),
+			], $favElements);
 		} catch (\RuntimeException $e) {
-			$favElements['folders'] = [];
+			$favElements = [];
 		}
 
 		// If the file doesn't exists in the folder and
@@ -260,7 +265,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
-		$this->initialState->provideInitialState('favoriteFolders', $favElements['folders'] ?? []);
+		$this->initialState->provideInitialState('favoriteFolders', $favElements);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
@@ -283,16 +288,9 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
-		$params = [
-			'fileNotFound' => $fileNotFound ? 1 : 0,
-			'id-app-content' => '#app-content-vue',
-			'id-app-navigation' => '#app-navigation-vue',
-		];
-
 		$response = new TemplateResponse(
 			Application::APP_ID,
 			'index',
-			$params
 		);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');

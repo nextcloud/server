@@ -26,6 +26,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Gai pertsonalizatua erabiltzen ari zara dagoeneko. Gaiaren aplikazioaren ezarpenak gainidatzi ditzake.",
     "Theming" : "Itxura",
     "Appearance and accessibility" : "Itxura eta irisgarritasuna",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "\"Imagick\" PHP modulua  ez dago gaituta, nahiz eta gaiak pertsonalizatzeko aplikazioa badagoen. Faviconen sorrerak behar bezala funtziona dezan, modulu hau instalatu eta gaitu behar duzu.",
     "Dark theme with high contrast mode" : "Gai iluna kontraste handiko moduarekin",
     "Enable dark high contrast mode" : "Gaitu kontraste handiko modu iluna",
     "Similar to the high contrast mode, but with dark colours." : "Kontraste handiko moduaren antzekoa, baina kolore ilunekin.",
@@ -86,9 +87,9 @@ OC.L10N.register(
     "Select background" : "Hautatu atzeko planoa",
     "No background has been selected" : "Ez da atzeko planorik hautatu",
     "Theme selection is enforced" : "Gaiaren hautaketa behartuta dago",
-    "Select a custom color" : "Hautatu kolore pertsonalizatu bat",
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Igo",
-    "Remove background image" : "Kendu atzeko-planoko irudia"
+    "Remove background image" : "Kendu atzeko-planoko irudia",
+    "Select a custom color" : "Hautatu kolore pertsonalizatu bat"
 },
 "nplurals=2; plural=(n != 1);");

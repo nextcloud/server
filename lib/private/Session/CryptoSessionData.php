@@ -39,6 +39,7 @@ use function OCP\Log\logger;
  * Class CryptoSessionData
  *
  * @package OC\Session
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class CryptoSessionData implements \ArrayAccess, ISession {
 	/** @var ISession */

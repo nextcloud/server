@@ -27,6 +27,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Você já está usando um tema personalizado. As configurações do aplicativo Theming podem ser sobrescritas por isso.",
     "Theming" : "Personalização",
     "Appearance and accessibility" : "Aparência e acessibilidade",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "O módulo PHP \"imagick\" não está habilitado, embora o aplicativo de temas esteja. Para que a geração de favicon funcione corretamente, você precisa instalar e habilitar este módulo.",
     "Dark theme with high contrast mode" : "Tema escuro com modo de alto contraste",
     "Enable dark high contrast mode" : "Ative o modo escuro de alto contraste",
     "Similar to the high contrast mode, but with dark colours." : "Semelhante ao modo de alto contraste, mas com cores escuras.",
@@ -103,9 +104,9 @@
     "Default app priority" : "Prioridade padrão do aplicativo",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Se um aplicativo não estiver habilitado para um usuário, o próximo aplicativo com prioridade mais baixa será usado.",
     "Could not set global default apps" : "Não foi possível definir aplicativos padrão globais",
-    "Select a custom color" : "Selecione uma cor personalizada",
     "Reset to default" : "Redefinir para o padrão",
     "Upload" : "Enviar",
-    "Remove background image" : "Excluir a imagem de fundo"
+    "Remove background image" : "Excluir a imagem de fundo",
+    "Select a custom color" : "Selecione uma cor personalizada"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

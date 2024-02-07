@@ -38,6 +38,7 @@ use OCP\EventDispatcher\GenericEvent;
 use OCP\IUser;
 use OCP\User\Events\UserLiveStatusEvent;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UserLiveStatusListenerTest extends TestCase {
@@ -54,6 +55,8 @@ class UserLiveStatusListenerTest extends TestCase {
 
 	private CalendarStatusService|MockObject $calendarStatusService;
 
+	private LoggerInterface|MockObject $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -61,12 +64,14 @@ class UserLiveStatusListenerTest extends TestCase {
 		$this->statusService = $this->createMock(StatusService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->calendarStatusService = $this->createMock(CalendarStatusService::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new UserLiveStatusListener(
 			$this->mapper,
 			$this->statusService,
 			$this->timeFactory,
 			$this->calendarStatusService,
+			$this->logger,
 		);
 	}
 

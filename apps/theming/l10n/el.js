@@ -23,6 +23,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα. Οι ρυθμίσεις της εφαρμογής Θέματα μπορεί να αντικατασταθούν από αυτό.",
     "Theming" : "Προσαρμογή θέματος",
     "Appearance and accessibility" : "Εμφάνιση και προσβασιμότητα",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Το άρθρωμα PHP \"imagick\" δεν είναι ενεργοποιημένο αν και η εφαρμογή θεματοποίησης είναι. Για να λειτουργήσει σωστά η δημιουργία favicon, πρέπει να εγκαταστήσετε και να ενεργοποιήσετε αυτό το άρθρωμα.",
     "Dark theme with high contrast mode" : "Σκούρο θέμα με λειτουργία υψηλής αντίθεσης",
     "Enable dark high contrast mode" : "Ενεργοποίηση σκοτεινής λειτουργίας υψηλής αντίθεσης",
     "Similar to the high contrast mode, but with dark colours." : "Παρόμοιο με τη λειτουργία υψηλής αντίθεσης, αλλά με σκούρα χρώματα.",
@@ -72,9 +73,9 @@ OC.L10N.register(
     "Move up" : "Μετακίνηση επάνω",
     "Move down" : "Μετακίνηση Κάτω",
     "Change color" : "Αλλαγή χρώματος",
-    "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος",
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",
     "Upload" : "Μεταφόρτωση",
-    "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου"
+    "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
+    "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος"
 },
 "nplurals=2; plural=(n != 1);");

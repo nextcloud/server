@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Кошик порожній",
     "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",
     "Deleted" : "Вилучено",
-    "You will be able to recover deleted files from here" : "Тут ви можете відновити файли, які було вилучено",
-    "No entries found in this folder" : "Не знайдено записів у цьому каталозі",
-    "Select all" : "Вибрати всі",
-    "Name" : "Ім'я",
-    "Actions" : "Дії",
     "Delete permanently" : "Вилучити остаточно",
     "Error while restoring file from trash bin" : "Помилка під час відновлення файлу з кошика",
     "Error while removing file from trash bin" : "Помилка під час видалення файлу з кошика",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Помилка під час видалення файлів із кошика",
     "This operation is forbidden" : "Цю дію заборонено",
     "This directory is unavailable, please check the logs or contact the administrator" : "Каталог недоступний, будь ласка, перевірте журнал помилок або зверніться до адміністратора  ",
+    "You will be able to recover deleted files from here" : "Тут ви можете відновити файли, які було вилучено",
+    "No entries found in this folder" : "Не знайдено записів у цьому каталозі",
+    "Select all" : "Вибрати всі",
+    "Name" : "Ім'я",
+    "Actions" : "Дії",
     "Delete" : "Вилучити"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

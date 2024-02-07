@@ -24,6 +24,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Tema po meri je že določena. S spreminjanjem nastavitev bodo stari podatki prepisani.",
     "Theming" : "Teme",
     "Appearance and accessibility" : "Videz in dostopnost",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Modul PHP »imagick« ni omogočen, je pa zagnan program za oblikovanje vmesnika. Za pravilno delovanje ustvarjanja ikon je treba modul namestiti in omogočiti.",
     "Dark theme with high contrast mode" : "Temna tema v kontrastnem načinu",
     "Enable dark high contrast mode" : "Omogoči temno kontrastno temo",
     "Similar to the high contrast mode, but with dark colours." : "Podobno temni kontrastni temi, a s temnimi barvami",
@@ -82,9 +83,9 @@ OC.L10N.register(
     "No background" : "Brez ozadja",
     "Select a background from your files" : "Izbor ozadja med datotekami",
     "Theme selection is enforced" : "Izbira teme je vsiljena",
-    "Select a custom color" : "Izbor barve po meri",
     "Reset to default" : "Ponastavi na privzeto",
     "Upload" : "Pošlji",
-    "Remove background image" : "Odstrani sliko ozadja"
+    "Remove background image" : "Odstrani sliko ozadja",
+    "Select a custom color" : "Izbor barve po meri"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

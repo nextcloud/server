@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "Mistókst að hlaða inn merkjum af skrá",
     "Failed to set tag for file" : "Mistókst að setja merki á skrá",
     "Failed to delete tag for file" : "Mistókst að eyða merki á skrá",
-    "No files in here" : "Engar skrár hér",
-    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
-    "Name" : "Heiti",
-    "Size" : "Stærð",
-    "Modified" : "Breytt",
     "Tag name is empty" : "Nafn merkis vantar",
     "Select tag …" : "Veldu merki ...",
     "Tagged files" : "Merktar skrár",
     "Select tags to filter by" : "Veldu merki til að sía eftir",
     "Please select tags to filter by" : "Veldu merki til að sía eftir",
     "No files found for the selected tags" : "Engar skrár fundust með völdum merkjum",
-    "Create a new tag" : "Búa til nýtt merki"
+    "Create a new tag" : "Búa til nýtt merki",
+    "Name" : "Heiti",
+    "No files in here" : "Engar skrár hér",
+    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
+    "Size" : "Stærð",
+    "Modified" : "Breytt"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

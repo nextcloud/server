@@ -5,7 +5,11 @@
 			<slot name="before" />
 		</div>
 
-		<table class="files-list__table">
+		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
+			<slot name="header-overlay" />
+		</div>
+
+		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
 				{{ caption }}

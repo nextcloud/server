@@ -27,6 +27,9 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Zaten özel bir tema kullanıyorsunuz. Tema uygulaması ayarları bu değer ile değiştirilebilir.",
     "Theming" : "Tema",
     "Appearance and accessibility" : "Görünüm ve erişilebilirlik",
+    "PHP Imagick module" : "PHP Imagick modülü",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Tema uygulamasında olmasına rağmen \"imagick\" PHP modülü etkinleştirilmemiş. Favicon oluşturma işleminin doğru çalışması için bu modülü kurmanız ve etkinleştirmeniz gerekir.",
+    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "Bu kopyadaki PHP \"imagick\" modülünde SVG desteği yok. Daha iyi başarım ve uyumluluk için bu modülün kurulması önemle önerilir.",
     "Dark theme with high contrast mode" : "Koyu tema ve yüksek renk karşıtlığı kipi",
     "Enable dark high contrast mode" : "Koyu yüksek renk karşıtlığı kipi kullanılsın",
     "Similar to the high contrast mode, but with dark colours." : "Yüksek renk karşıtlığı kipine benzer ancak koyu renkleri kullanır.",
@@ -69,6 +72,7 @@
     "User settings" : "Kullanıcı ayarları",
     "Disable user theming" : "Kullanıcı teması devre dışı bırakılsın",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Kopyanızı seçip özelleştirebilmenize rağmen, kullanıcılar arka planlarını ve renklerini değiştirebilir. Özelleştirmenizi dayatmak istiyorsanız, bu seçeneği etkinleştirebilirsiniz.",
+    "Appearance and accessibility settings" : "Görünüm ve erişilebilirlik ayarları",
     "Background" : "Arka plan",
     "Customization has been disabled by your administrator" : "Özelleştirme yöneticiniz tarafından devre dışı bırakılmış",
     "Set a custom background" : "Özel bir arka plan ayarlayın",
@@ -103,9 +107,9 @@
     "Default app priority" : "Varsayılan uygulama önceliği",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Bir uygulama bir kullanıcıda etkin değilse, daha düşük öncelikli bir sonraki uygulama kullanılır.",
     "Could not set global default apps" : "Genel varsayılan uygulamalar ayarlanamadı",
-    "Select a custom color" : "Özel bir renk seçin",
     "Reset to default" : "Varsayılanlara dön",
     "Upload" : "Yükle",
-    "Remove background image" : "Arka plan görselini kaldır"
+    "Remove background image" : "Arka plan görselini kaldır",
+    "Select a custom color" : "Özel bir renk seçin"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

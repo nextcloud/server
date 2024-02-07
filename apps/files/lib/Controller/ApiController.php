@@ -43,7 +43,7 @@ use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -391,7 +391,7 @@ class ApiController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function serviceWorker(): StreamResponse {
 		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');
 		$response->setHeaders([

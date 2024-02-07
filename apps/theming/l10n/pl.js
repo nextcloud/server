@@ -29,6 +29,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Używasz już własnego motywu. Ustawienia aplikacji Theming mogą zostać nadpisane.",
     "Theming" : "Motyw",
     "Appearance and accessibility" : "Wygląd i dostępność",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Moduł PHP \"imagick\" nie jest włączony, pomimo że aplikacja motywu jest. Aby generowanie favicon działało poprawnie, musisz zainstalować i włączyć ten moduł.",
     "Dark theme with high contrast mode" : "Ciemny motyw z trybem wysokiego kontrastu",
     "Enable dark high contrast mode" : "Włącz ciemny tryb wysokiego kontrastu",
     "Similar to the high contrast mode, but with dark colours." : "Podobny do trybu wysokiego kontrastu, ale z ciemnymi kolorami.",
@@ -105,9 +106,9 @@ OC.L10N.register(
     "Default app priority" : "Domyślny priorytet aplikacji",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Jeśli aplikacja nie jest włączona dla użytkownika, używana jest następna aplikacja o niższym priorytecie.",
     "Could not set global default apps" : "Nie można ustawić globalnych aplikacji domyślnych",
-    "Select a custom color" : "Wybierz kolor niestandardowy",
     "Reset to default" : "Przywróć domyślne",
     "Upload" : "Wyślij",
-    "Remove background image" : "Usuń obraz tła"
+    "Remove background image" : "Usuń obraz tła",
+    "Select a custom color" : "Wybierz kolor niestandardowy"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

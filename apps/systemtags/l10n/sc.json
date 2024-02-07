@@ -53,17 +53,17 @@
     "This file has the tag {tag}" : "Custu archìviu tenet s'eticheta {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}",
     "No tags found" : "Peruna eticheta agatada",
-    "No files in here" : "Perunu archìviu",
-    "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
-    "Name" : "Nùmene",
-    "Size" : "Mannària",
-    "Modified" : "Modificadu",
     "Tag name is empty" : "Su nùmene de s'eticheta est bòidu",
     "Select tag …" : "Seletziona eticheta ...",
     "Tagged files" : "Archìvios cun eticheta",
     "Select tags to filter by" : "Seletziona etichetas pro filtrare",
     "Please select tags to filter by" : "Seletziona etichetas pro filtrare",
     "No files found for the selected tags" : "Perunu archìviu agatadu pro is etichetas seletzionadas",
-    "Create a new tag" : "Crea un'eticheta noa"
+    "Create a new tag" : "Crea un'eticheta noa",
+    "Name" : "Nùmene",
+    "No files in here" : "Perunu archìviu",
+    "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
+    "Size" : "Mannària",
+    "Modified" : "Modificadu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

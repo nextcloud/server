@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "No s'han pogut carregar les etiquetes del fitxer",
     "Failed to set tag for file" : "No s'ha pogut definit l'etiqueta per al fitxer",
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
-    "No files in here" : "No hi ha cap fitxer aquí",
-    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
-    "Name" : "Nom",
-    "Size" : "Mida",
-    "Modified" : "Data de modificació",
     "Tag name is empty" : "El nom de l'etiqueta és buit",
     "Select tag …" : "Seleccioneu una etiqueta…",
     "Tagged files" : "Fitxers etiquetats",
     "Select tags to filter by" : "Seleccioneu les etiquetes que voleu filtrar",
     "Please select tags to filter by" : "Seleccioneu les etiquetes que voleu filtrar",
     "No files found for the selected tags" : "No s'ha trobat cap fitxer per a les etiquetes seleccionades",
-    "Create a new tag" : "Crea una etiqueta nova"
+    "Create a new tag" : "Crea una etiqueta nova",
+    "Name" : "Nom",
+    "No files in here" : "No hi ha cap fitxer aquí",
+    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
+    "Size" : "Mida",
+    "Modified" : "Data de modificació"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

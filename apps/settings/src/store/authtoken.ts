@@ -153,6 +153,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 				logger.debug('App token marked for wipe', { token })
 
 				token.type = TokenType.WIPING_TOKEN
+				token.canRename = false // wipe tokens can not be renamed
 				return true
 			} catch (error) {
 				logger.error('Could not wipe app token', { error })

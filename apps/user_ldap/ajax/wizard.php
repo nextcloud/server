@@ -31,7 +31,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$l = \OC::$server->getL10N('user_ldap');
+$l = \OCP\Util::getL10N('user_ldap');
 
 if (!isset($_POST['action'])) {
 	\OC_JSON::error(['message' => $l->t('No action specified')]);

@@ -79,6 +79,7 @@ class FilesPlugin extends ServerPlugin {
 	public const DATA_FINGERPRINT_PROPERTYNAME = '{http://owncloud.org/ns}data-fingerprint';
 	public const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
 	public const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
+	public const MOUNT_ROOT_PROPERTYNAME = '{http://nextcloud.org/ns}is-mount-root';
 	public const IS_ENCRYPTED_PROPERTYNAME = '{http://nextcloud.org/ns}is-encrypted';
 	public const METADATA_ETAG_PROPERTYNAME = '{http://nextcloud.org/ns}metadata_etag';
 	public const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
@@ -359,6 +360,16 @@ class FilesPlugin extends ServerPlugin {
 			});
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getMountPoint()->getMountType();
+			});
+
+			/**
+			 * This is a special property which is used to determine if a node
+			 * is a mount root or not, e.g. a shared folder.
+			 * If so, then the node can only be unshared and not deleted.
+			 * @see https://github.com/nextcloud/server/blob/cc75294eb6b16b916a342e69998935f89222619d/lib/private/Files/View.php#L696-L698
+			 */
+			$propFind->handle(self::MOUNT_ROOT_PROPERTYNAME, function () use ($node) {
+				return $node->getNode()->getInternalPath() === '' ? 'true' : 'false';
 			});
 
 			$propFind->handle(self::SHARE_NOTE, function () use ($node, $httpRequest): ?string {

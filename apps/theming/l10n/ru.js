@@ -26,6 +26,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Вы уже используете настраиваемое оформление, которое может быть перезаписано этим приложением.",
     "Theming" : "Внешний вид",
     "Appearance and accessibility" : "Внешний вид и доступность",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Для создания значка favicon приложением «Оформления» необходимо установить и активировать модуль «imagic» подсистемы PHP. ",
     "Dark theme with high contrast mode" : "Темная тема с режимом высокой контрастности",
     "Enable dark high contrast mode" : "Включить темную тему в режиме высокой контрастности",
     "Similar to the high contrast mode, but with dark colours." : "Аналогично режиму высокой контрастности, но с использованием темных цветов.",
@@ -86,9 +87,9 @@ OC.L10N.register(
     "Select background" : "Выбрать фоновое изображение",
     "No background has been selected" : "Фоновое изображение не было выбрано",
     "Theme selection is enforced" : "Выбор темы принудительно",
-    "Select a custom color" : "Выберать собственный цвет",
     "Reset to default" : "Сбросить изменения",
     "Upload" : "Отправить",
-    "Remove background image" : "Убрать фоновое изображение "
+    "Remove background image" : "Убрать фоновое изображение ",
+    "Select a custom color" : "Выберать собственный цвет"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

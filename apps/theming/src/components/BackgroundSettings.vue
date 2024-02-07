@@ -58,16 +58,15 @@
 		</button>
 
 		<!-- Custom color picker -->
-		<NcColorPicker v-model="Theming.color" @input="debouncePickColor">
-			<button class="background background__color"
-				:data-color="Theming.color"
-				:data-color-bright="invertTextColor(Theming.color)"
-				:style="{ backgroundColor: Theming.color, '--border-color': Theming.color}"
-				data-user-theming-background-color
-				tabindex="0">
-				{{ t('theming', 'Change color') }}
-			</button>
-		</NcColorPicker>
+		<div class="background-color"
+			data-user-theming-background-color>
+			<NcColorPicker v-model="Theming.color"
+				@input="debouncePickColor">
+				<NcButton type="ternary">
+					{{ t('theming', 'Change color') }}
+				</NcButton>
+			</NcColorPicker>
+		</div>
 
 		<!-- Remove background -->
 		<button :aria-pressed="isBackgroundDisabled"
@@ -113,6 +112,7 @@ import { Palette } from 'node-vibrant/lib/color.js'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Vibrant from 'node-vibrant'
 
 import Check from 'vue-material-design-icons/Check.vue'
@@ -133,6 +133,7 @@ export default {
 		Check,
 		Close,
 		ImageEdit,
+		NcButton,
 		NcColorPicker,
 	},
 
@@ -341,6 +342,17 @@ export default {
 	flex-wrap: wrap;
 	justify-content: center;
 
+	.background-color {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 176px;
+		height: 96px;
+		margin: 8px;
+		border-radius: var(--border-radius-large);
+		background-color: var(--color-primary);
+	}
+
 	.background {
 		overflow: hidden;
 		width: 176px;
@@ -366,11 +378,6 @@ export default {
 
 		&__filepicker, &__default, &__color {
 			border-color: var(--color-border);
-		}
-
-		&__color {
-			color: var(--color-primary-text);
-			background-color: var(--color-primary-default);
 		}
 
 		// Over a background image

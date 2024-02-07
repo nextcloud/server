@@ -35,7 +35,6 @@ namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
-use OC\Installer;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -48,7 +47,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\Util;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,9 +61,7 @@ class Upgrade extends Command {
 	public const ERROR_FAILURE = 5;
 
 	public function __construct(
-		private IConfig $config,
-		private LoggerInterface $logger,
-		private Installer $installer,
+		private IConfig $config
 	) {
 		parent::__construct();
 	}
@@ -91,12 +87,7 @@ class Upgrade extends Command {
 			}
 
 			$self = $this;
-			$updater = new Updater(
-				$this->config,
-				\OC::$server->getIntegrityCodeChecker(),
-				$this->logger,
-				$this->installer
-			);
+			$updater = \OCP\Server::get(Updater::class);
 
 			/** @var IEventDispatcher $dispatcher */
 			$dispatcher = \OC::$server->get(IEventDispatcher::class);

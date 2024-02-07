@@ -1,9 +1,9 @@
 Feature: ratelimiting
-  
+
   Background:
     Given user "user0" exists
     Given As an "admin"
-    Given app "testing" is enabled
+    Given invoking occ with "app:enable --force testing"
 
   Scenario: Accessing a page with only an AnonRateThrottle as user
     Given user "user0" exists

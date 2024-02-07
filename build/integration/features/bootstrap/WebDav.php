@@ -54,6 +54,8 @@ trait WebDav {
 	private array $parsedResponse = [];
 	private string $s3MultipartDestination;
 	private string $uploadId;
+	/** @var string[] */
+	private array $parts = [];
 
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
@@ -169,11 +171,10 @@ trait WebDav {
 	 */
 	public function downloadPublicFileWithRange($range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token";
 
 		$client = new GClient();
 		$options = [];
-		$options['auth'] = [$token, ""];
 		$options['headers'] = [
 			'Range' => $range
 		];
@@ -187,7 +188,7 @@ trait WebDav {
 	 */
 	public function downloadPublicFileInsideAFolderWithRange($path, $range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav" . "$path";
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$path";
 
 		$client = new GClient();
 		$options = [
@@ -195,7 +196,6 @@ trait WebDav {
 				'Range' => $range
 			]
 		];
-		$options['auth'] = [$token, ""];
 
 		$this->response = $client->request("GET", $fullUrl, $options);
 	}
@@ -477,28 +477,28 @@ trait WebDav {
 			</d:prop>
 			<d:literal>image/png</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>image/jpeg</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>image/heic</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>video/mp4</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>

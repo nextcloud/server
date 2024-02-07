@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
-    "No files in here" : "Burada henüz bir dosya yok",
-    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
-    "Name" : "Ad",
-    "Size" : "Boyut",
-    "Modified" : "Değiştirilme",
     "Tag name is empty" : "Etiket adı boş",
     "Select tag …" : "Etiket seçin …",
     "Tagged files" : "Etiketli dosyalar",
     "Select tags to filter by" : "Süzülecek etiketleri seçin",
     "Please select tags to filter by" : "Lütfen süzülecek etiketleri seçin",
     "No files found for the selected tags" : "Seçilmiş etiketlere uyan bir dosya bulunamadı",
-    "Create a new tag" : "Etiket ekle"
+    "Create a new tag" : "Etiket ekle",
+    "Name" : "Ad",
+    "No files in here" : "Burada henüz bir dosya yok",
+    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
+    "Size" : "Boyut",
+    "Modified" : "Değiştirilme"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

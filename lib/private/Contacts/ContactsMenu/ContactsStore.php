@@ -177,6 +177,9 @@ class ContactsStore implements IContactsStore {
 	 *  3. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doesn't have a common group
 	 * with the current user.
+	 * If enabled, the 'shareapi_only_share_with_group_members_exclude_group_list'
+	 * config option may specify some groups excluded from the principle of
+	 * belonging to the same group.
 	 *
 	 * @param Entry[] $entries
 	 * @return Entry[] the filtered contacts
@@ -208,6 +211,13 @@ class ContactsStore implements IContactsStore {
 				// a group of the current user is excluded -> filter all local users
 				$skipLocal = true;
 			}
+		}
+
+		// ownGroupsOnly : some groups may be excluded
+		if ($ownGroupsOnly) {
+			$excludeGroupsFromOwnGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
+			$excludeGroupsFromOwnGroupsList = json_decode($excludeGroupsFromOwnGroups, true) ?? [];
+			$selfGroups = array_diff($selfGroups, $excludeGroupsFromOwnGroupsList);
 		}
 
 		$selfUID = $self->getUID();
@@ -334,38 +344,39 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (isset($contact['UID'])) {
+		if (!empty($contact['UID'])) {
 			$uid = $contact['UID'];
 			$entry->setId($uid);
 			$entry->setProperty('isUser', false);
+			// overloaded usage so leaving as-is for now
 			if (isset($contact['isLocalSystemBook'])) {
 				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
 				$entry->setProperty('isUser', true);
-			} elseif (isset($contact['FN'])) {
-				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $contact['FN'], 'size' => 64]);
+			} elseif (!empty($contact['FN'])) {
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => str_replace('/', ' ', $contact['FN']), 'size' => 64]);
 			} else {
-				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $uid, 'size' => 64]);
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => str_replace('/', ' ', $uid), 'size' => 64]);
 			}
 			$entry->setAvatar($avatar);
 		}
 
-		if (isset($contact['FN'])) {
+		if (!empty($contact['FN'])) {
 			$entry->setFullName($contact['FN']);
 		}
 
 		$avatarPrefix = "VALUE=uri:";
-		if (isset($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
+		if (!empty($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
 			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}
 
-		if (isset($contact['EMAIL'])) {
+		if (!empty($contact['EMAIL'])) {
 			foreach ($contact['EMAIL'] as $email) {
 				$entry->addEMailAddress($email);
 			}
 		}
 
 		// Provide profile parameters for core/src/OC/contactsmenu/contact.handlebars template
-		if (isset($contact['UID']) && isset($contact['FN'])) {
+		if (!empty($contact['UID']) && !empty($contact['FN'])) {
 			$targetUserId = $contact['UID'];
 			$targetUser = $this->userManager->get($targetUserId);
 			if (!empty($targetUser)) {

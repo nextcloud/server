@@ -26,6 +26,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "你已经在使用一个自定义的主题。主题应用的设置可能会被其覆盖。",
     "Theming" : "主题",
     "Appearance and accessibility" : "外观和可访问性",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP 模块“imagick”没有被启用，尽管已启用了主题程序。为了使收藏图标正常生成，您需要安装并启用这个模块。",
     "Dark theme with high contrast mode" : "高对比度深色主题",
     "Enable dark high contrast mode" : "使用高对比度深色模式",
     "Similar to the high contrast mode, but with dark colours." : "类似高对比度模式，但是使用深色色调。",
@@ -83,9 +84,9 @@ OC.L10N.register(
     "No background" : "没有背景",
     "Select a background from your files" : "从文件中选择背景",
     "Theme selection is enforced" : "主题由管理员指定",
-    "Select a custom color" : "自定义颜色",
     "Reset to default" : "重置为默认设置",
     "Upload" : "上传",
-    "Remove background image" : "删除背景图片"
+    "Remove background image" : "删除背景图片",
+    "Select a custom color" : "自定义颜色"
 },
 "nplurals=1; plural=0;");

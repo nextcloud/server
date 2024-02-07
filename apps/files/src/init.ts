@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import MenuIcon from '@mdi/svg/svg/sun-compass.svg?raw'
-import { FileAction, addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@nextcloud/files'
+import { addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@nextcloud/files'
 
 import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
@@ -67,5 +66,6 @@ registerRecentView()
 registerPreviewServiceWorker()
 
 registerDavProperty('nc:hidden', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:is-mount-root', { nc: 'http://nextcloud.org/ns' })
 
 initLivePhotos()

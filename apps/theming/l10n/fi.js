@@ -78,9 +78,9 @@ OC.L10N.register(
     "No background" : "Ei taustakuvaa",
     "Select a background from your files" : "Valitse taustakuva tiedostoista",
     "Theme selection is enforced" : "Teemavalinta on pakotettu",
-    "Select a custom color" : "Valitse mukautettu väri",
     "Reset to default" : "Palauta oletukseksi",
     "Upload" : "Lähetä",
-    "Remove background image" : "Poista taustakuva"
+    "Remove background image" : "Poista taustakuva",
+    "Select a custom color" : "Valitse mukautettu väri"
 },
 "nplurals=2; plural=(n != 1);");

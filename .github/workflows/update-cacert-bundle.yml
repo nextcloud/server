@@ -40,3 +40,4 @@ jobs:
           labels: |
             dependencies
             3. to review
+          reviewers: ChristophWurst, miaulalala, nickvergessen

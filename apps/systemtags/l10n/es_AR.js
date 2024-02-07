@@ -42,15 +42,15 @@ OC.L10N.register(
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
     "No tags found" : "No se encontraron etiquetas",
-    "No files in here" : "No hay archivos aquí",
-    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
-    "Name" : "Nombre",
-    "Size" : "Tamaño",
-    "Modified" : "Modificado",
     "Select tag …" : "Seleccionar etiqueta ...",
     "Tagged files" : "Archivos etiquetados",
     "Select tags to filter by" : "Seleccione las etiquetas para el filtro",
     "Please select tags to filter by" : "Favor de seleccionar etiquetas para el filtro",
-    "No files found for the selected tags" : "No se encontraron archivos para las etiquetas seleccionadas"
+    "No files found for the selected tags" : "No se encontraron archivos para las etiquetas seleccionadas",
+    "Name" : "Nombre",
+    "No files in here" : "No hay archivos aquí",
+    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
+    "Size" : "Tamaño",
+    "Modified" : "Modificado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

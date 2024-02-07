@@ -122,7 +122,7 @@ import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
@@ -222,8 +222,7 @@ export default defineComponent({
 		},
 
 		currentView(): View {
-			return (this.$navigation.active
-				|| this.$navigation.views.find(view => view.id === 'files')) as View
+			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
 		},
 
 		/**
@@ -258,7 +257,7 @@ export default defineComponent({
 				// 1: Sort favorites first if enabled
 				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
 				// 2: Sort folders first if sorting by name
-				...(this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : []),
+				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
 				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
 				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
 				// 4: Use displayName if available, fallback to name
@@ -270,7 +269,7 @@ export default defineComponent({
 				// (for 1): always sort favorites before normal files
 				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
 				// (for 2): always sort folders before files
-				...(this.sortingMode === 'basename' ? ['asc'] : []),
+				...(this.userConfig.sort_folders_first ? ['asc'] : []),
 				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
 				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
 				// (also for 3 so make sure not to conflict with 2 and 3)
@@ -436,6 +435,11 @@ export default defineComponent({
 
 	mounted() {
 		this.fetchContent()
+		subscribe('files:node:updated', this.onUpdatedNode)
+	},
+
+	unmounted() {
+		unsubscribe('files:node:updated', this.onUpdatedNode)
 	},
 
 	methods: {
@@ -536,9 +540,6 @@ export default defineComponent({
 			} else if (status === 403) {
 				showError(this.t('files', 'Operation is blocked by access control'))
 				return
-			} else if (status !== 0) {
-				showError(this.t('files', 'Error when assembling chunks, status code {status}', { status }))
-				return
 			}
 
 			// Else we try to parse the response error message
@@ -547,13 +548,30 @@ export default defineComponent({
 				const response = await parser.parseStringPromise(upload.response?.data)
 				const message = response['s:message'][0] as string
 				if (typeof message === 'string' && message.trim() !== '') {
-					// Unfortunatly, the server message is not translated
+					// The server message is also translated
 					showError(this.t('files', 'Error during upload: {message}', { message }))
 					return
 				}
 			} catch (error) {}
 
+			// Finally, check the status code if we have one
+			if (status !== 0) {
+				showError(this.t('files', 'Error during upload, status code {status}', { status }))
+				return
+			}
+
 			showError(this.t('files', 'Unknown error during upload'))
+		},
+
+		/**
+		 * Refreshes the current folder on update.
+		 *
+		 * @param {Node} node is the file/folder being updated.
+ 		 */
+		onUpdatedNode(node) {
+			if (node?.fileid === this.currentFolder?.fileid) {
+				this.fetchContent()
+			}
 		},
 
 		openSharingSidebar() {

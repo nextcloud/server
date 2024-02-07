@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Aucun fichier supprimé",
     "Files and folders you have deleted will show up here" : "Les fichiers et dossiers que vous avez supprimés s'afficheront ici",
     "Deleted" : "Supprimé",
-    "You will be able to recover deleted files from here" : "Les fichiers supprimés s'afficheront ici et vous pourrez les restaurer.",
-    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
-    "Select all" : "Tout sélectionner",
-    "Name" : "Nom",
-    "Actions" : "Actions",
     "Delete permanently" : "Supprimer définitivement",
     "Error while restoring file from trash bin" : "Erreur à la restauration du fichier depuis la corbeille",
     "Error while removing file from trash bin" : "Erreur à la suppression du fichier de la corbeille",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Erreur à la suppression de fichiers de la corbeille",
     "This operation is forbidden" : "Cette opération est interdite",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ce dossier n'est pas disponible. Consultez les logs ou contactez votre administrateur",
+    "You will be able to recover deleted files from here" : "Les fichiers supprimés s'afficheront ici et vous pourrez les restaurer.",
+    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
+    "Select all" : "Tout sélectionner",
+    "Name" : "Nom",
+    "Actions" : "Actions",
     "Delete" : "Supprimer"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

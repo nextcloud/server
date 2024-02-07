@@ -31,7 +31,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Το συγκεκριμένο κανάλι ενημέρωσης δεν υποστηρίζει ενημερώσεις διακομιστή.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Μία νέα έκδοση είναι διαθέσιμη: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Σημειώστε ότι μετά από μια νέα έκδοση, η ενημέρωση εμφανίζεται μόνο μετά την πρώτη υποέκδοση ή αργότερα. Κυκλοφορούμε νέες εκδόσεις που διαμοιράζονται με την πάροδο του χρόνου στους χρήστες μας και μερικές φορές παραλείπουμε μια έκδοση όταν εντοπίζονται προβλήματα. Μάθετε περισσότερα σχετικά με τις ενημερώσεις και τα κανάλια κυκλοφορίας στη διεύθυνση {link}",
-    "Checked on {lastCheckedDate}" : "Έγινε έλεγχος στις {lastCheckedDate}",
     "Checking apps for compatible versions" : "Έλεγχος εφαρμογών για συμβατές εκδόσεις",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Σιγουρευτείτε πως το config.php δεν έχει οριστεί σε ψευδήςψ<samp>ενεργοποίησηαγοράςεφαρμογών</samp>.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Δεν ήταν δυνατή η σύνδεση στο App Store ή δε βρέθηκαν καθόλου ενημερώσεις. Αναζητήστε χειρωνακτικά ενημερώσεις ή βεβαιωθείτε ότι ο διακομιστής σας έχει πρόσβαση στο διαδίκτυο και μπορεί να συνδεθεί στο App Store.",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
     "Please use the command line updater to update." : "Παρακαλούμε κάντε ενημέρωση μέσω γραμμής εντολών.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Μπορείτε να αλλάξετε το κανάλι ενημέρωσης παρακάτω, το οποίο επηρεάζει επίσης τη σελίδα διαχείρισης εφαρμογών. Π.χ. μετά την αλλαγή στο κανάλι beta, θα σας προσφέρονται ενημερώσεις εφαρμογών beta στη σελίδα διαχείρισης εφαρμογών.",
-    "Update channel:" : "Ενημέρωση καναλιού:"
+    "Update channel:" : "Ενημέρωση καναλιού:",
+    "Checked on {lastCheckedDate}" : "Έγινε έλεγχος στις {lastCheckedDate}"
 },
 "nplurals=2; plural=(n != 1);");

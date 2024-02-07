@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Không có tập tin bị xóa",
     "Files and folders you have deleted will show up here" : "Các tập tin và thư mục bạn đã xóa sẽ hiển thị ở đây",
     "Deleted" : "Đã xóa",
-    "You will be able to recover deleted files from here" : "Bạn có thể phục hồi các file đã bị xóa từ đây",
-    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
-    "Select all" : "Chọn tất cả",
-    "Name" : "Tên",
-    "Actions" : "Hành động",
     "Delete permanently" : "Xóa vĩnh vễn",
     "Error while restoring file from trash bin" : "Lỗi khi khôi phục tệp từ thùng rác",
     "Error while removing file from trash bin" : "Lỗi khi xóa file khỏi thùng rác",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Lỗi khi xóa tập tin khỏi thùng rác",
     "This operation is forbidden" : "Thao tác bị cấm",
     "This directory is unavailable, please check the logs or contact the administrator" : "Thư mục này không sẵn có, hãy kiểm tra log hoặc liên hệ người quản lý",
+    "You will be able to recover deleted files from here" : "Bạn có thể phục hồi các file đã bị xóa từ đây",
+    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
+    "Select all" : "Chọn tất cả",
+    "Name" : "Tên",
+    "Actions" : "Hành động",
     "Delete" : "Xóa"
 },
 "nplurals=1; plural=0;");

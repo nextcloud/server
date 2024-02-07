@@ -10,17 +10,17 @@ OC.L10N.register(
     "Restore version" : "Leheneratu bertsioa",
     "Download version" : "Deskargatu bertsioa",
     "Delete version" : "Ezabatu bertsioa",
+    "Current version" : "Uneko bertsioa",
+    "Initial version" : "Hasierako bertsioa",
     "Version name" : "Bertsioaren izena",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Izendatutako bertsioak mantentzen dira eta garbiketa automatikoetatik kanpo geratzen dira biltegiratze-kuota beteta dagoenean.",
     "Remove version name" : "Kendu bertsioaren izena",
     "Save version name" : "Gorde bertsioaren izena",
-    "Current version" : "Uneko bertsioa",
-    "Initial version" : "Hasierako bertsioa",
     "Initial version restored" : "Hasierako bertsioa ondo leheneratu da",
     "Version restored" : "Bertsioa leheneratu da",
     "Could not restore version" : "Ezin izan da bertsioa leheneratu",
-    "Could not set version name" : "Ezin izan da bertsioaren izena ezarri",
     "Could not delete version" : "Ezin izan da bertsioa ezabatu",
-    "${version.label} restored" : "${version.label} leheneratuta"
+    "${version.label} restored" : "${version.label} leheneratuta",
+    "Could not set version name" : "Ezin izan da bertsioaren izena ezarri"
 },
 "nplurals=2; plural=(n != 1);");

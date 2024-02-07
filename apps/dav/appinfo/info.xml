@@ -86,8 +86,4 @@
 			<provider>OCA\DAV\CardDAV\Activity\Provider\Card</provider>
 		</providers>
 	</activity>
-
-	<public>
-		<webdav>appinfo/v1/publicwebdav.php</webdav>
-	</public>
 </info>

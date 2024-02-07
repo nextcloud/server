@@ -29,6 +29,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Bạn đang sử dụng 1 chủ đề riêng. Các thiết lập của ứng dụng Chủ đề có thể bị ghi đè bởi nó.",
     "Theming" : "Điều chỉnh giao diện",
     "Appearance and accessibility" : "Chủ đề",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Mô-đun PHP \"imagick\" không được bật mặc dù ứng dụng chủ đề là. Để tạo favicon hoạt động chính xác, bạn cần cài đặt và bật mô-đun này.",
     "Dark theme with high contrast mode" : "Chủ đề tối với chế độ tương phản cao",
     "Enable dark high contrast mode" : "Bật chế độ tương phản cao tối",
     "Similar to the high contrast mode, but with dark colours." : "Tương tự như chế độ tương phản cao nhưng có màu tối.",
@@ -104,9 +105,9 @@ OC.L10N.register(
     "Default app priority" : "Ưu tiên ứng dụng mặc định",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Nếu một ứng dụng không được bật cho người dùng thì ứng dụng tiếp theo có mức độ ưu tiên thấp hơn sẽ được sử dụng.",
     "Could not set global default apps" : "Không thể đặt ứng dụng mặc định chung",
-    "Select a custom color" : "Chọn màu tùy chỉnh",
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
-    "Remove background image" : "Xóa bỏ ảnh nền"
+    "Remove background image" : "Xóa bỏ ảnh nền",
+    "Select a custom color" : "Chọn màu tùy chỉnh"
 },
 "nplurals=1; plural=0;");

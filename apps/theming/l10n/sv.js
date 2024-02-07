@@ -69,6 +69,7 @@ OC.L10N.register(
     "User settings" : "Användarinställningar",
     "Disable user theming" : "Inaktivera teman för användare",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Även om du kan välja och anpassa din instans kan användare ändra sin bakgrund och färger. Om du vill genomdriva din anpassning kan du aktivera detta.",
+    "Appearance and accessibility settings" : "Utseende och tillgänglighetsinställningar",
     "Background" : "Bakgrund",
     "Customization has been disabled by your administrator" : "Anpassning har inaktiverats av din administratör",
     "Set a custom background" : "Ställ in en anpassad bakgrund",
@@ -103,9 +104,9 @@ OC.L10N.register(
     "Default app priority" : "Prioritet för standardappar",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Om en app inte är aktiverad för en användare används nästa app med lägre prioritet.",
     "Could not set global default apps" : "Det gick inte att ställa in globala standardappar",
-    "Select a custom color" : "Välj en anpassad färg",
     "Reset to default" : "Återställ till grundinställningar",
     "Upload" : "Ladda upp",
-    "Remove background image" : "Ta bort bakgrundsbild"
+    "Remove background image" : "Ta bort bakgrundsbild",
+    "Select a custom color" : "Välj en anpassad färg"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,6 +27,9 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Већ користите прилагођену тему. Поставке ове апликације ће прегажене са њом.",
     "Theming" : "Изглед",
     "Appearance and accessibility" : "Изглед и приступачност",
+    "PHP Imagick module" : "PHP Imagick модул",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP модул „imagick” није укључен мада је укључена апликација за теме. Да би генерисање favicon сличице функционисало како треба, морате да инсталирате и укључите овај модул.",
+    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "PHP модул „imagick” у овој инстанци нема подршку за SVG. Да бисте постигли бољу компатибилност, препоручује се да га инсталирате.",
     "Dark theme with high contrast mode" : "Тамна тема са режимом високог контраста",
     "Enable dark high contrast mode" : "Укључи тамни режим високог контраста",
     "Similar to the high contrast mode, but with dark colours." : "Слично као режим високог контраста, али са тамним бојама.",
@@ -69,6 +72,7 @@
     "User settings" : "Корисничка подешавања",
     "Disable user theming" : "Искључи корисничке теме",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Мада можете да изаберете и прилагодите своју инстанцу, корисници такође могу да промене своју позадину и боје. Ако желите да форсирате своје прилагођавање, укључите ово подешавање.",
+    "Appearance and accessibility settings" : "Подешавања изгледа и приступачности",
     "Background" : "Позадина",
     "Customization has been disabled by your administrator" : "Администратор је искључио могућност прилагођавања",
     "Set a custom background" : "Постави пролагођену позадину",
@@ -103,9 +107,9 @@
     "Default app priority" : "Подразумевани приоритет апликације",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Ако апликација није укључена за корисника, користиће се наредна апликација са нижим приоритетом.",
     "Could not set global default apps" : "Нису могле да се поставе глобалне подразумеване апликације",
-    "Select a custom color" : "Изаберите прилагођену боју",
     "Reset to default" : "Врати на подразумевано",
     "Upload" : "Отпреми",
-    "Remove background image" : "Уклони позадинску слику"
+    "Remove background image" : "Уклони позадинску слику",
+    "Select a custom color" : "Изаберите прилагођену боју"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

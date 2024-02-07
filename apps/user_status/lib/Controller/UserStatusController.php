@@ -47,6 +47,7 @@ use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @psalm-import-type UserStatusType from ResponseDefinitions
  * @psalm-import-type UserStatusPrivate from ResponseDefinitions
  */
 class UserStatusController extends OCSController {
@@ -149,7 +150,7 @@ class UserStatusController extends OCSController {
 		?string $message,
 		?int $clearAt): DataResponse {
 		try {
-			if (($message !== null && $message !== '') || ($clearAt !== null && $clearAt !== 0)) {
+			if (($statusIcon !== null && $statusIcon !== '') || ($message !== null && $message !== '') || ($clearAt !== null && $clearAt !== 0)) {
 				$status = $this->service->setCustomMessage($this->userId, $statusIcon, $message, $clearAt);
 			} else {
 				$this->service->clearMessage($this->userId);
@@ -207,6 +208,8 @@ class UserStatusController extends OCSController {
 	 * @return UserStatusPrivate
 	 */
 	private function formatStatus(UserStatus $status): array {
+		/** @var UserStatusType $visibleStatus */
+		$visibleStatus = $status->getStatus();
 		return [
 			'userId' => $status->getUserId(),
 			'message' => $status->getCustomMessage(),
@@ -214,7 +217,7 @@ class UserStatusController extends OCSController {
 			'messageIsPredefined' => $status->getMessageId() !== null,
 			'icon' => $status->getCustomIcon(),
 			'clearAt' => $status->getClearAt(),
-			'status' => $status->getStatus(),
+			'status' => $visibleStatus,
 			'statusIsUserDefined' => $status->getIsUserDefined(),
 		];
 	}

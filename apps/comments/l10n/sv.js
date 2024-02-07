@@ -15,6 +15,8 @@ OC.L10N.register(
     "Edit comment" : "Redigera kommentar",
     "Delete comment" : "Ta bort kommentar",
     "Cancel edit" : "Avbryt redigering",
+    "New comment" : "Ny kommentar",
+    "Write a comment …" : "Skriv en kommentar ...",
     "Post comment" : "Publicera kommentar",
     "@ for mentions, : for emoji, / for smart picker" : "@ för omnämnanden, : för emoji, / för smart picker",
     "Could not reload comments" : "Kunde inte ladda om kommentarer",

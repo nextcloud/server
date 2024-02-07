@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Нема обрисаних фајлова",
     "Files and folders you have deleted will show up here" : "Фајлови и фолдери које обришете ће се појавити овде",
     "Deleted" : "Обрисано",
-    "You will be able to recover deleted files from here" : "Одавде ћете моћи да повратите обрисане фајлове",
-    "No entries found in this folder" : "Нема ничега у овој фасцикли",
-    "Select all" : "Означи све",
-    "Name" : "Назив",
-    "Actions" : "Радње",
     "Delete permanently" : "Обриши заувек",
     "Error while restoring file from trash bin" : "Грешка током враћања фајла из корпе за отпатке",
     "Error while removing file from trash bin" : "Грешка током уклањања фајла из корпе за отпатке",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Грешка током уклањања фајлова из корпе за отпатке",
     "This operation is forbidden" : "Ова радња је забрањена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан. Проверите записнике или контактирајте администратора",
+    "You will be able to recover deleted files from here" : "Одавде ћете моћи да повратите обрисане фајлове",
+    "No entries found in this folder" : "Нема ничега у овој фасцикли",
+    "Select all" : "Означи све",
+    "Name" : "Назив",
+    "Actions" : "Радње",
     "Delete" : "Обриши"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

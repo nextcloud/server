@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Inga borttagna filer",
     "Files and folders you have deleted will show up here" : "Filer och mappar som du har tagit bort kommer att visas här",
     "Deleted" : "Borttagen",
-    "You will be able to recover deleted files from here" : "Du kommer kunna återskapa borttagna filer härifrån",
-    "No entries found in this folder" : "Inga filer hittades i denna mapp",
-    "Select all" : "Välj allt",
-    "Name" : "Namn",
-    "Actions" : "Åtgärder",
     "Delete permanently" : "Ta bort permanent",
     "Error while restoring file from trash bin" : "Fel vid återställning av fil från papperskorgen",
     "Error while removing file from trash bin" : "Fel vid borttagning av fil från papperskorgen",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Fel vid borttagning av filer från papperskorgen",
     "This operation is forbidden" : "Denna åtgärd är förbjuden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
+    "You will be able to recover deleted files from here" : "Du kommer kunna återskapa borttagna filer härifrån",
+    "No entries found in this folder" : "Inga filer hittades i denna mapp",
+    "Select all" : "Välj allt",
+    "Name" : "Namn",
+    "Actions" : "Åtgärder",
     "Delete" : "Ta bort"
 },
 "nplurals=2; plural=(n != 1);");

@@ -24,6 +24,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Ya te encuentras usando un tema personalizado. La aplicación de Temas puede estar siendo sobreescrita por él.",
     "Theming" : "Tematizar",
     "Appearance and accessibility" : "Apariencia y accesibilidad",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "No se ha habilitado el módulo PHP \"imagick\", aunque está habilitada la aplicación de temas. Para que la generación de favicon funcione correctamente, debe instalar y habilitar este módulo.",
     "Dark theme with high contrast mode" : "Tema oscuro con modo de alto contraste",
     "Enable dark high contrast mode" : "Activar el modo oscuro de alto contraste",
     "Similar to the high contrast mode, but with dark colours." : "Similar al modo de alto contraste, pero con colores oscuros.",
@@ -82,9 +83,9 @@
     "No background" : "Sin fondo",
     "Select a background from your files" : "Selecciona un fondo de tus archivos",
     "Theme selection is enforced" : "La selección de temas es obligatoria",
-    "Select a custom color" : "Seleccionar un color personalizado",
     "Reset to default" : "Restablecer al predeterminado",
     "Upload" : "Cargar",
-    "Remove background image" : "Eliminar imagen de fondo"
+    "Remove background image" : "Eliminar imagen de fondo",
+    "Select a custom color" : "Seleccionar un color personalizado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

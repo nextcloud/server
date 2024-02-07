@@ -29,6 +29,9 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "You are already using a custom theme. Theming app settings might be overwritten by that.",
     "Theming" : "Theming",
     "Appearance and accessibility" : "Appearance and accessibility",
+    "PHP Imagick module" : "PHP Imagick module",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.",
+    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it.",
     "Dark theme with high contrast mode" : "Dark theme with high contrast mode",
     "Enable dark high contrast mode" : "Enable dark high contrast mode",
     "Similar to the high contrast mode, but with dark colours." : "Similar to the high contrast mode, but with dark colours.",
@@ -71,6 +74,7 @@ OC.L10N.register(
     "User settings" : "User settings",
     "Disable user theming" : "Disable user theming",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.",
+    "Appearance and accessibility settings" : "Appearance and accessibility settings",
     "Background" : "Background",
     "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator",
     "Set a custom background" : "Set a custom background",
@@ -105,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "Default app priority",
     "If an app is not enabled for a user, the next app with lower priority is used." : "If an app is not enabled for a user, the next app with lower priority is used.",
     "Could not set global default apps" : "Could not set global default apps",
-    "Select a custom color" : "Select a custom colour",
     "Reset to default" : "Reset to default",
     "Upload" : "Upload",
-    "Remove background image" : "Remove background image"
+    "Remove background image" : "Remove background image",
+    "Select a custom color" : "Select a custom colour"
 },
 "nplurals=2; plural=(n != 1);");

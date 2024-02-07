@@ -28,10 +28,11 @@
 			<h2>{{ error }}</h2>
 		</div>
 
-		<template v-if="!showSharingDetailsView">
-			<!-- shares content -->
-			<div class="sharingTab__content">
-				<!-- shared with me information -->
+		<!-- shares content -->
+		<div v-show="!showSharingDetailsView"
+			class="sharingTab__content">
+			<!-- shared with me information -->
+			<ul>
 				<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 					<template #avatar>
 						<NcAvatar :user="sharedWithMe.user"
@@ -39,55 +40,57 @@
 							class="sharing-entry__avatar" />
 					</template>
 				</SharingEntrySimple>
+			</ul>
 
-				<!-- add new share input -->
-				<SharingInput v-if="!loading"
-					:can-reshare="canReshare"
-					:file-info="fileInfo"
-					:link-shares="linkShares"
-					:reshare="reshare"
-					:shares="shares"
-					@open-sharing-details="toggleShareDetailsView" />
+			<!-- add new share input -->
+			<SharingInput v-if="!loading"
+				:can-reshare="canReshare"
+				:file-info="fileInfo"
+				:link-shares="linkShares"
+				:reshare="reshare"
+				:shares="shares"
+				@open-sharing-details="toggleShareDetailsView" />
 
-				<!-- link shares list -->
-				<SharingLinkList v-if="!loading"
-					ref="linkShareList"
-					:can-reshare="canReshare"
-					:file-info="fileInfo"
-					:shares="linkShares"
-					@open-sharing-details="toggleShareDetailsView" />
+			<!-- link shares list -->
+			<SharingLinkList v-if="!loading"
+				ref="linkShareList"
+				:can-reshare="canReshare"
+				:file-info="fileInfo"
+				:shares="linkShares"
+				@open-sharing-details="toggleShareDetailsView" />
 
-				<!-- other shares list -->
-				<SharingList v-if="!loading"
-					ref="shareList"
-					:shares="shares"
-					:file-info="fileInfo"
-					@open-sharing-details="toggleShareDetailsView" />
+			<!-- other shares list -->
+			<SharingList v-if="!loading"
+				ref="shareList"
+				:shares="shares"
+				:file-info="fileInfo"
+				@open-sharing-details="toggleShareDetailsView" />
 
-				<!-- inherited shares -->
-				<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
+			<!-- inherited shares -->
+			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
 
-				<!-- internal link copy -->
-				<SharingEntryInternal :file-info="fileInfo" />
+			<!-- internal link copy -->
+			<SharingEntryInternal :file-info="fileInfo" />
 
-				<!-- projects -->
-				<CollectionList v-if="projectsEnabled && fileInfo"
-					:id="`${fileInfo.id}`"
-					type="file"
-					:name="fileInfo.name" />
-			</div>
+			<!-- projects -->
+			<CollectionList v-if="projectsEnabled && fileInfo"
+				:id="`${fileInfo.id}`"
+				type="file"
+				:name="fileInfo.name" />
+		</div>
 
-			<!-- additional entries, use it with cautious -->
-			<div v-for="(section, index) in sections"
-				:ref="'section-' + index"
-				:key="index"
-				class="sharingTab__additionalContent">
-				<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
-			</div>
-		</template>
+		<!-- additional entries, use it with cautious -->
+		<div v-for="(section, index) in sections"
+			v-show="!showSharingDetailsView"
+			:ref="'section-' + index"
+			:key="index"
+			class="sharingTab__additionalContent">
+			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+		</div>
 
 		<!-- share details -->
-		<SharingDetailsTab v-else :file-info="shareDetailsData.fileInfo"
+		<SharingDetailsTab v-if="showSharingDetailsView"
+			:file-info="shareDetailsData.fileInfo"
 			:share="shareDetailsData.share"
 			@close-sharing-details="toggleShareDetailsView"
 			@add:share="addShare"
@@ -152,6 +155,7 @@ export default {
 			projectsEnabled: loadState('core', 'projects_enabled', false),
 			showSharingDetailsView: false,
 			shareDetailsData: {},
+			returnFocusElement: null,
 		}
 	},
 
@@ -387,11 +391,31 @@ export default {
 				}
 			})
 		},
+
 		toggleShareDetailsView(eventData) {
+			if (!this.showSharingDetailsView) {
+				const isAction = Array.from(document.activeElement.classList)
+					.some(className => className.startsWith('action-'))
+				if (isAction) {
+					const menuId = document.activeElement.closest('[role="menu"]')?.id
+					this.returnFocusElement = document.querySelector(`[aria-controls="${menuId}"]`)
+				} else {
+					this.returnFocusElement = document.activeElement
+				}
+			}
+
 			if (eventData) {
 				this.shareDetailsData = eventData
 			}
+
 			this.showSharingDetailsView = !this.showSharingDetailsView
+
+			if (!this.showSharingDetailsView) {
+				this.$nextTick(() => { // Wait for next tick as the element must be visible to be focused
+					this.returnFocusElement?.focus()
+					this.returnFocusElement = null
+				})
+			}
 		},
 	},
 }

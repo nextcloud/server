@@ -8,17 +8,17 @@
     "Restore version" : "Verzió helyreállítása",
     "Download version" : "Verzió letöltése",
     "Delete version" : "Verzió törlése",
+    "Current version" : "Jelenlegi verzió",
+    "Initial version" : "Kezdeti verzió",
     "Version name" : "Verziónév",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "A nevesített verziók meg lesznek őrizve, és ki lesznek zárva az automatikus takarítás alól, ha a tárkvóta betelik.",
     "Remove version name" : "Verziónév eltávolítása",
     "Save version name" : "Verziónév mentése",
-    "Current version" : "Jelenlegi verzió",
-    "Initial version" : "Kezdeti verzió",
     "Initial version restored" : "Kezdeti verzió helyreállítva",
     "Version restored" : "Verzió helyreállítva",
     "Could not restore version" : "Nem sikerült helyreállítani a verziót",
-    "Could not set version name" : "Nem sikerült beállítani a verziónevet",
     "Could not delete version" : "Nem sikerült törölni a verziót",
-    "${version.label} restored" : "${version.label} helyreállítva"
+    "${version.label} restored" : "${version.label} helyreállítva",
+    "Could not set version name" : "Nem sikerült beállítani a verziónevet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

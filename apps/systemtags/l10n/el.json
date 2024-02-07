@@ -55,17 +55,17 @@
     "This file has the tag {tag}" : "Αυτό το αρχείο έχει την ετικέτα {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Αυτό το αρχείο έχει τις ετικέτες {firstTags} και {lastTag}",
     "No tags found" : "Δεν βρέθηκαν ετικέτες",
-    "No files in here" : "Δεν υπάρχουν αρχεία",
-    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
-    "Name" : "Όνομα",
-    "Size" : "Μέγεθος",
-    "Modified" : "Τροποποιήθηκε",
     "Tag name is empty" : "Το όνομα ετικέτας είναι κενό",
     "Select tag …" : "Επιλογή ετικέτας ...",
     "Tagged files" : "Αρχεία με ετικέτες",
     "Select tags to filter by" : "Επιλογή ετικετών για φιλτράρισμα με",
     "Please select tags to filter by" : "Παρακαλώ επιλέξτε ετικέτες για να φιλτραριστούν ",
     "No files found for the selected tags" : "Δεν βρέθηκαν αρχεία για τις επιλεγμένες ετικέτες",
-    "Create a new tag" : "Δημιουργήστε νέα ετικέτα"
+    "Create a new tag" : "Δημιουργήστε νέα ετικέτα",
+    "Name" : "Όνομα",
+    "No files in here" : "Δεν υπάρχουν αρχεία",
+    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
+    "Size" : "Μέγεθος",
+    "Modified" : "Τροποποιήθηκε"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

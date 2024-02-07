@@ -64,7 +64,7 @@
     "Failed to delete tag" : "Fehler beim Löschen des Schlagwortes",
     "Loading collaborative tags …" : "Lade kollaborative Schlagworte …",
     "Search or create collaborative tags" : "Suchen oder erstellen von kollaborativen Schlagworten",
-    "No tags to select, type to create a new tag" : "Keine Schlagworte zur Auswahl, gebe ein, um ein neues Schlagwort zu erstellen",
+    "No tags to select, type to create a new tag" : "Keine Schlagworte zur Auswahl, gib ein, um ein neues Schlagwort zu erstellen",
     "Failed to load tags" : "Schlagworte konnten nicht geladen werden",
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "No files in here" : "Keine Dateien vorhanden",
-    "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
-    "Name" : "Name",
-    "Size" : "Größe",
-    "Modified" : "Geändert",
     "Tag name is empty" : "Schlagwortbezeichnung ist leer",
     "Select tag …" : "Schlagwort wählen …",
     "Tagged files" : "Mit Tags versehene Dateien",
     "Select tags to filter by" : "Wähle Tags nach denen gefilter werden soll",
     "Please select tags to filter by" : "Bitte wähle die Tags nach denen gefiltert werden soll",
     "No files found for the selected tags" : "Keine Dateien für die ausgewählten Tags gefunden",
-    "Create a new tag" : "Neues Schlagwort erstellen"
+    "Create a new tag" : "Neues Schlagwort erstellen",
+    "Name" : "Name",
+    "No files in here" : "Keine Dateien vorhanden",
+    "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
+    "Size" : "Größe",
+    "Modified" : "Geändert"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

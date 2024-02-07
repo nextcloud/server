@@ -83,9 +83,9 @@ OC.L10N.register(
     "Select background" : "Избери позадина",
     "No background has been selected" : "Нема избрано позадина",
     "Theme selection is enforced" : "Наметнат е избор на тема",
-    "Select a custom color" : "Избери боја",
     "Reset to default" : "Ресетирај на стандардно",
     "Upload" : "Прикачи",
-    "Remove background image" : "Избриши ја позадинската слика"
+    "Remove background image" : "Избриши ја позадинската слика",
+    "Select a custom color" : "Избери боја"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -40,6 +40,9 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
+/**
+ * @template-implements \ArrayAccess<string,mixed>
+ */
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private array|ICacheEntry $data;
 	/**

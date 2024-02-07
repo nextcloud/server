@@ -33,6 +33,11 @@
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
+		<template v-if="!isNoneSelected" #header-overlay>
+			<FilesListTableHeaderActions :current-view="currentView"
+				:selected-nodes="selectedNodes" />
+		</template>
+
 		<template #before>
 			<!-- Headers -->
 			<FilesListHeader v-for="header in sortedHeaders"
@@ -68,13 +73,15 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { UserConfig } from '../types'
 
-import { getFileListHeaders, Folder, View, getFileActions } from '@nextcloud/files'
+import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { getSummaryFor } from '../utils/fileUtils'
+import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 import FileEntry from './FileEntry.vue'
@@ -85,6 +92,7 @@ import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.js'
+import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -94,6 +102,7 @@ export default defineComponent({
 		FilesListTableFooter,
 		FilesListTableHeader,
 		VirtualList,
+		FilesListTableHeaderActions,
 	},
 
 	mixins: [
@@ -117,8 +126,10 @@ export default defineComponent({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const selectionStore = useSelectionStore()
 		return {
 			userConfigStore,
+			selectionStore,
 		}
 	},
 
@@ -136,25 +147,14 @@ export default defineComponent({
 			return this.userConfigStore.userConfig
 		},
 
-		files() {
-			return this.nodes.filter(node => node.type === 'file')
-		},
-
 		fileId() {
 			return parseInt(this.$route.params.fileid) || null
 		},
 
-		summaryFile() {
-			const count = this.files.length
-			return n('files', '{count} file', '{count} files', count, { count })
-		},
-		summaryFolder() {
-			const count = this.nodes.length - this.files.length
-			return n('files', '{count} folder', '{count} folders', count, { count })
-		},
 		summary() {
-			return t('files', '{summaryFile} and {summaryFolder}', this)
+			return getSummaryFor(this.nodes)
 		},
+
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
 			if (this.filesListWidth < 768) {
@@ -184,6 +184,14 @@ export default defineComponent({
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
 			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
+		},
+
+		selectedNodes() {
+			return this.selectionStore.selected
+		},
+
+		isNoneSelected() {
+			return this.selectedNodes.length === 0
 		},
 	},
 
@@ -240,7 +248,7 @@ export default defineComponent({
 			}
 
 			const node = this.nodes.find(n => n.fileid === openFileInfo.id) as NcNode
-			if (node === undefined) {
+			if (node === undefined || node.type === FileType.Folder) {
 				return
 			}
 
@@ -258,7 +266,6 @@ export default defineComponent({
 		onDragOver(event: DragEvent) {
 			// Detect if we're only dragging existing files or not
 			const isForeignFile = event.dataTransfer?.types.includes('Files')
-
 			if (isForeignFile) {
 				// Only handle uploading of existing Nextcloud files
 				// See DragAndDropNotice for handling of foreign files
@@ -298,6 +305,7 @@ export default defineComponent({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
+	position: relative;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -331,6 +339,29 @@ export default defineComponent({
 
 		.files-list__table {
 			display: block;
+
+			&.files-list__table--with-thead-overlay {
+				// Hide the table header below the overlay
+				margin-top: calc(-1 * var(--row-height));
+			}
+		}
+
+		.files-list__thead-overlay {
+			// Pinned on top when scrolling
+			position: sticky;
+			top: 0;
+			// Save space for a row checkbox
+			margin-left: var(--row-height);
+			// More than .files-list__thead
+			z-index: 20;
+
+			display: flex;
+			align-items: center;
+
+			// Reuse row styles
+			background-color: var(--color-main-background);
+			border-bottom: 1px solid var(--color-border);
+			height: var(--row-height);
 		}
 
 		.files-list__thead,

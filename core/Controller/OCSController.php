@@ -31,7 +31,7 @@ namespace OC\Core\Controller;
 use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -52,7 +52,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function getConfig(): DataResponse {
 		$data = [
 			'version' => '1.7',
@@ -101,7 +101,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @PublicPage
 	 * @BruteForceProtection(action=login)
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function personCheck(string $login = '', string $password = ''): DataResponse {
 		if ($login !== '' && $password !== '') {
 			if ($this->userManager->checkPassword($login, $password)) {
@@ -122,7 +122,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function getIdentityProof(string $cloudId): DataResponse {
 		$userObject = $this->userManager->get($cloudId);
 

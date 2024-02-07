@@ -180,143 +180,11 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (data.suggestedOverwriteCliURL !== '') {
-						messages.push({
-							msg: t('core', 'Please make sure to set the "overwrite.cli.url" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: "{suggestedOverwriteCliURL}". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if (data.cronErrors.length > 0) {
-						var listOfCronErrors = "";
-						data.cronErrors.forEach(function(element){
-							listOfCronErrors += '<li>';
-							listOfCronErrors += element.error;
-							listOfCronErrors += ' ';
-							listOfCronErrors += element.hint;
-							listOfCronErrors += '</li>';
-						});
-						messages.push({
-							msg: t('core', 'It was not possible to execute the cron job via CLI. The following technical errors have appeared:') + '<ul>' + listOfCronErrors + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						})
-					}
-					if (data.cronInfo.diffInSeconds > 3600) {
-						messages.push({
-							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong. {linkstart}Check the background job settings ↗{linkend}.', {relativeTime: data.cronInfo.relativeTime})
-									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.cronInfo.backgroundJobsUrl + '">')
-									.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if (!data.isFairUseOfFreePushService) {
-						messages.push({
-							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications are limited to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at {linkstart}https://nextcloud.com/enterprise{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://nextcloud.com/enterprise">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(data.isUsedTlsLibOutdated) {
-						messages.push({
-							msg: data.isUsedTlsLibOutdated,
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(!data.isCorrectMemcachedPHPModuleInstalled) {
-						messages.push({
-							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the {linkstart}memcached wiki about both modules ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(!data.hasPassedCodeIntegrityCheck) {
-						messages.push({
-							msg: t('core', 'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})')
-								.replace('{linkstart1}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.codeIntegrityCheckerDocumentation + '">')
-								.replace('{linkstart2}', '<a href="' + OC.generateUrl('/settings/integrity/failed') + '">')
-								.replace('{linkstart3}', '<a href="' + OC.generateUrl('/settings/integrity/rescan?requesttoken={requesttoken}', {'requesttoken': OC.requestToken}) + '">')
-								.replace(/{linkend}/g, '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.isSettimelimitAvailable) {
-						messages.push({
-							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if (!data.isImagickEnabled) {
-						messages.push({
-							msg: t(
-								'core',
-								'The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.'
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-					if (!data.areWebauthnExtensionsEnabled) {
-						messages.push({
-							msg: t(
-								'core',
-								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-					if (data.imageMagickLacksSVGSupport) {
-						messages.push({
-							msg: t('core', 'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-
-					if(data.appDirsWithDifferentOwner && data.appDirsWithDifferentOwner.length > 0) {
-						var appDirsWithDifferentOwner = data.appDirsWithDifferentOwner.reduce(
-							function(appDirsWithDifferentOwner, directory) {
-								return appDirsWithDifferentOwner + '<li>' + directory + '</li>';
-							},
-							''
-						);
-						messages.push({
-							msg: t('core', 'Some app directories are owned by a different user than the web server one. ' +
-									'This may be the case if apps have been installed manually. ' +
-									'Check the permissions of the following app directories:')
-									+ '<ul>' + appDirsWithDifferentOwner + '</ul>',
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if (data.isMysqlUsedWithoutUTF8MB4) {
-						messages.push({
-							msg: t('core', 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
-						messages.push({
-							msg: t('core', 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (!data.temporaryDirectoryWritable) {
-						messages.push({
-							msg: t('core', 'The temporary directory of this instance points to an either non-existing or non-writable directory.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
 						messages.push({
 							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
 								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (window.oc_debug) {
-						messages.push({
-							msg: t('core', 'This instance is running in debug mode. Only enable this for local development and not in production environments.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
@@ -347,6 +215,39 @@
 			return deferred.promise();
 		},
 
+		escapeHTML: function(text) {
+			return text.toString()
+				.split('&').join('&amp;')
+				.split('<').join('&lt;')
+				.split('>').join('&gt;')
+				.split('"').join('&quot;')
+				.split('\'').join('&#039;')
+		},
+
+		/**
+		* @param message      The message string containing placeholders.
+		* @param parameters   An object with keys as placeholders and values as their replacements.
+		*
+		* @return The message with placeholders replaced by values.
+		*/
+		richToParsed: function (message, parameters) {
+			for (var [placeholder, parameter] of Object.entries(parameters)) {
+				var replacement;
+				if (parameter.type === 'user') {
+					replacement = '@' + this.escapeHTML(parameter.name);
+				} else if (parameter.type === 'file') {
+					replacement = this.escapeHTML(parameter.path) || this.escapeHTML(parameter.name);
+				} else if (parameter.type === 'highlight') {
+					replacement = '<a href="' + encodeURI(parameter.link) + '">' + this.escapeHTML(parameter.name) + '</a>';
+				} else {
+					replacement = this.escapeHTML(parameter.name);
+				}
+				message = message.replace('{' + placeholder + '}', replacement);
+			}
+
+			return message;
+		},
+
 		addGenericSetupCheck: function(data, check, messages) {
 			var setupCheck = data[check] || { pass: true, description: '', severity: 'info', linkToDoc: null}
 
@@ -358,6 +259,12 @@
 			}
 
 			var message = setupCheck.description;
+			if (message) {
+				message = this.escapeHTML(message)
+			}
+			if (setupCheck.descriptionParameters) {
+				message = this.richToParsed(message, setupCheck.descriptionParameters);
+			}
 			if (setupCheck.linkToDoc) {
 				message += ' ' + t('core', 'For more details see the {linkstart}documentation ↗{linkend}.')
 					.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + setupCheck.linkToDoc + '">')

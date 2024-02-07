@@ -69,17 +69,17 @@
     "Tags you have created will show up here." : "あなたが作成したタグはここに表示されます。",
     "Failed to load last used tags" : "最後に使用したタグの読み込みに失敗しました",
     "Missing \"Content-Location\" header" : "\"Content-Location\" ヘッダの欠落",
-    "No files in here" : "ファイルがありません",
-    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
-    "Name" : "名前",
-    "Size" : "サイズ",
-    "Modified" : "更新日時",
     "Tag name is empty" : "タグ名が空です",
     "Select tag …" : "タグを選択...",
     "Tagged files" : "タグ済ファイル",
     "Select tags to filter by" : "フィルターするタグを選択してください",
     "Please select tags to filter by" : "フィルターするタグを入力してください",
     "No files found for the selected tags" : "そのタグに割りあてられているファイルはありません",
-    "Create a new tag" : "新しいタグを作成する"
+    "Create a new tag" : "新しいタグを作成する",
+    "Name" : "名前",
+    "No files in here" : "ファイルがありません",
+    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
+    "Size" : "サイズ",
+    "Modified" : "更新日時"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -171,7 +171,7 @@ class DefaultTheme implements ITheme {
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
-			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 42),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',

@@ -74,6 +74,18 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$elementContrast,
 			],
+			'border-colors' => [
+				[
+					'--color-border-maxcontrast',
+				],
+				[
+					'--color-main-background',
+					'--color-background-hover',
+					'--color-background-dark',
+					'--color-main-background-blur',
+				],
+				$elementContrast,
+			],
 			// Those two colors are used for borders which will be `color-main-text` on focussed state, thus need 3:1 contrast to it
 			'success-error-border-colors' => [
 				[

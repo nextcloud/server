@@ -25,12 +25,12 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Settings\Personal\Security;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -105,7 +105,7 @@ class Authtokens implements ISettings {
 		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
 			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof INamedToken;
+			$data['canRename'] = $token instanceof INamedToken && $data['type'] !== IToken::WIPE_TOKEN;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
 				$data['canRename'] = false;

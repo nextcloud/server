@@ -35,7 +35,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Valittu päivityskanava ei tue palvelimen päivityksiä.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Uusi versio on saatavilla: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Huomaa, että uuden julkaisun jälkeen päivitys näkyy vasta ensimmäisen pienemmän julkaisun jälkeen tai myöhemmin. Julkaisemme uusia versioita käyttäjillemme ajallisesti hajautetusti, ja joskus jätämme jonkin version väliin, jos ongelmia ilmenee. Lisätietoja päivityksistä ja julkaisukanavista osoitteessa {link}",
-    "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}",
     "Checking apps for compatible versions" : "Tarkistetaan sovellusten yhteensopivat versiot ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Varmista, ettei config.php-tiedosto aseta valintaa <samp>appstoreenabled</samp> arvoon false.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kaikilla</strong> sovelluksilla on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.",
@@ -48,6 +47,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
     "Please use the command line updater to update." : "Käytä komentorivipäivitintä päivittääksesi.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Voit vaihtaa päivityskanavan alapuolelta, se vaikuttaa myös sovellushallinnan sivuun. Jos vaihdat esimerkiksi beetakanavaan, sovellusten beetapäivityksiä tarjotaan sovellushallinnan sivun kautta.",
-    "Update channel:" : "Päivityskanava:"
+    "Update channel:" : "Päivityskanava:",
+    "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}"
 },
 "nplurals=2; plural=(n != 1);");

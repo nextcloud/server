@@ -29,6 +29,7 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Már egyéni témát használ. Lehet, hogy a témázó alkalmazás beállításai felülírták.",
     "Theming" : "Témázás",
     "Appearance and accessibility" : "Megjelenés és akadálymentesítés",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Az „imagick” PHP-modul nem engedélyezett, de a témázó alkalmazás igen. A webhelyikonok előállításához telepítenie és engedélyeznie kell ezt a modult.",
     "Dark theme with high contrast mode" : "Sötét téma magas kontrasztú móddal",
     "Enable dark high contrast mode" : "Sötét, magas kontrasztú mód engedélyezése",
     "Similar to the high contrast mode, but with dark colours." : "Hasonló a magas kontrasztú módhoz, de sötét színekkel.",
@@ -97,9 +98,9 @@ OC.L10N.register(
     "Global default apps" : "Globális alapértelmezett alkalmazások",
     "Default app priority" : "Alapértelmezett alkalmazás prioritás",
     "Could not set global default apps" : "Nem sikerült a globális alapértelmezett alkalmazások beállítása",
-    "Select a custom color" : "Válasszon egyéni színt",
     "Reset to default" : "Visszaállítás alapértelmezettre",
     "Upload" : "Feltöltés",
-    "Remove background image" : "Háttérkép eltávolítása"
+    "Remove background image" : "Háttérkép eltávolítása",
+    "Select a custom color" : "Válasszon egyéni színt"
 },
 "nplurals=2; plural=(n != 1);");

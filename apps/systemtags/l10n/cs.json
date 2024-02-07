@@ -79,17 +79,17 @@
     "Failed to load tags for file" : "Nepodařilo se načíst štítky pro soubor",
     "Failed to set tag for file" : "Nepodařilo se nastavit štítek pro soubor",
     "Failed to delete tag for file" : "Nepodařilo se smazat štítek pro soubor",
-    "No files in here" : "Nejsou zde žádné soubory",
-    "No entries found in this folder" : "V této složce nic nenalezeno",
-    "Name" : "Název",
-    "Size" : "Velikost",
-    "Modified" : "Změněno",
     "Tag name is empty" : "Název štítku je prázdný",
     "Select tag …" : "Vyberte štítek…",
     "Tagged files" : "Oštítkované soubory",
     "Select tags to filter by" : "Vybrat štítky pro filtr",
     "Please select tags to filter by" : "Vyberte štítky podle kterých filtrovat",
     "No files found for the selected tags" : "Pro vybrané štítky nebyly nalezeny žádné soubory",
-    "Create a new tag" : "Vytvořit nový  štítek"
+    "Create a new tag" : "Vytvořit nový  štítek",
+    "Name" : "Název",
+    "No files in here" : "Nejsou zde žádné soubory",
+    "No entries found in this folder" : "V této složce nic nenalezeno",
+    "Size" : "Velikost",
+    "Modified" : "Změněno"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

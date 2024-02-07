@@ -63,6 +63,7 @@ use Symfony\Component\HttpFoundation\IpUtils;
  * @property string method
  * @property mixed[] parameters
  * @property mixed[] server
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
@@ -573,7 +574,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		return IpUtils::checkIp($remoteAddress, $trustedProxies);
+		try {
+			return IpUtils::checkIp($remoteAddress, $trustedProxies);
+		} catch (\Throwable) {
+			// We can not log to our log here as the logger is using `getRemoteAddress` which uses the function, so we would have a cyclic dependency
+			// Reaching this line means `trustedProxies` is in invalid format.
+			error_log('Nextcloud trustedProxies has malformed entries');
+			return false;
+		}
 	}
 
 	/**
@@ -622,14 +630,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Check overwrite condition
-	 * @param string $type
 	 * @return bool
 	 */
-	private function isOverwriteCondition(string $type = ''): bool {
+	private function isOverwriteCondition(): bool {
 		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
-		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
-		|| $type !== 'protocol';
+		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
 	/**
@@ -639,7 +645,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getServerProtocol(): string {
 		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
-			&& $this->isOverwriteCondition('protocol')) {
+			&& $this->isOverwriteCondition()) {
 			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 

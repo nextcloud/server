@@ -34,24 +34,18 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
-use OC;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -68,8 +62,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $request;
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IClientService | \PHPUnit\Framework\MockObject\MockObject*/
-	private $clientService;
 	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
@@ -78,21 +70,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
-	private $dateTimeFormatter;
-	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $tempManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
-
-	/**
-	 * Holds a list of directories created during tests.
-	 *
-	 * @var array
-	 */
-	private $dirsToRemove = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -100,8 +79,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()->getMock();
-		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()->getMock();
@@ -115,50 +92,23 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
-		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
-		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
 				$this->request,
 				$this->config,
-				$this->clientService,
 				$this->urlGenerator,
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->dateTimeFormatter,
-				$this->tempManager,
-				$this->notificationManager,
 				$this->setupCheckManager,
 			])
 			->setMethods([
-				'getLastCronInfo',
-				'getSuggestedOverwriteCliURL',
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
-				'getAppDirsWithDifferentOwner',
-				'isImagickEnabled',
-				'areWebauthnExtensionsEnabled',
-				'isMysqlUsedWithoutUTF8MB4',
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
-	}
-
-	/**
-	 * Removes directories created during tests.
-	 *
-	 * @after
-	 * @return void
-	 */
-	public function removeTestDirectories() {
-		foreach ($this->dirsToRemove as $dirToRemove) {
-			rmdir($dirToRemove);
-		}
-		$this->dirsToRemove = [];
 	}
 
 	public function testCheck() {
@@ -166,7 +116,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['files_external', 'user_certificate_scan', '', '["a", "b"]'],
-				['core', 'cronErrors', '', ''],
 				['dav', 'needs_system_address_book_sync', 'no', 'no'],
 			]);
 		$this->config->expects($this->any())
@@ -180,49 +129,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->request->expects($this->never())
 			->method('getHeader');
-		$this->clientService->expects($this->never())
-			->method('newClient');
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getSuggestedOverwriteCliURL')
-			->willReturn('');
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getLastCronInfo')
-			->willReturn([
-				'diffInSeconds' => 123,
-				'relativeTime' => '2 hours ago',
-				'backgroundJobsUrl' => 'https://example.org',
-			]);
-		$this->checker
-			->expects($this->once())
-			->method('hasPassedCheck')
-			->willReturn(true);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getAppDirsWithDifferentOwner')
-			->willReturn([]);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isImagickEnabled')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('areWebauthnExtensionsEnabled')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isMysqlUsedWithoutUTF8MB4')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed')
-			->willReturn(true);
 
 		$this->urlGenerator->method('linkToDocs')
 			->willReturnCallback(function (string $key): string {
@@ -257,269 +163,12 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'suggestedOverwriteCliURL' => '',
-				'cronInfo' => [
-					'diffInSeconds' => 123,
-					'relativeTime' => '2 hours ago',
-					'backgroundJobsUrl' => 'https://example.org',
-				],
-				'cronErrors' => [],
-				'isUsedTlsLibOutdated' => '',
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
-				'isCorrectMemcachedPHPModuleInstalled' => true,
-				'hasPassedCodeIntegrityCheck' => true,
-				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
-				'isSettimelimitAvailable' => true,
-				'appDirsWithDifferentOwner' => [],
-				'isImagickEnabled' => false,
-				'areWebauthnExtensionsEnabled' => false,
-				'isMysqlUsedWithoutUTF8MB4' => false,
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
-				'imageMagickLacksSVGSupport' => false,
-				'isFairUseOfFreePushService' => false,
-				'temporaryDirectoryWritable' => false,
 				'generic' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
-	}
-
-	public function testGetCurlVersion() {
-		$checkSetupController = $this->getMockBuilder(CheckSetupController::class)
-			->setConstructorArgs([
-				'settings',
-				$this->request,
-				$this->config,
-				$this->clientService,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->dateTimeFormatter,
-				$this->tempManager,
-				$this->notificationManager,
-				$this->setupCheckManager,
-			])
-			->setMethods(null)->getMock();
-
-		$this->assertArrayHasKey('ssl_version', $this->invokePrivate($checkSetupController, 'getCurlVersion'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithAnotherLibrary() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'SSLlib']);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithMisbehavingCurl() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn([]);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithMatchingOpenSslVersion() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.1d']);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithMatchingOpenSslVersion1() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'OpenSSL/1.0.2b']);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	/**
-	 * Setups a temp directory and some subdirectories.
-	 * Then calls the 'getAppDirsWithDifferentOwner' method.
-	 * The result is expected to be empty since
-	 * there are no directories with different owners than the current user.
-	 *
-	 * @return void
-	 */
-	public function testAppDirectoryOwnersOk() {
-		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
-		mkdir($tempDir);
-		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
-		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app2');
-		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app1';
-		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app2';
-		$this->dirsToRemove[] = $tempDir;
-		OC::$APPSROOTS = [
-			[
-				'path' => $tempDir,
-				'url' => '/apps',
-				'writable' => true,
-			],
-		];
-		$this->assertSame(
-			[],
-			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
-		);
-	}
-
-	/**
-	 * Calls the check for a none existing app root that is marked as not writable.
-	 * It's expected that no error happens since the check shouldn't apply.
-	 *
-	 * @return void
-	 */
-	public function testAppDirectoryOwnersNotWritable() {
-		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
-		OC::$APPSROOTS = [
-			[
-				'path' => $tempDir,
-				'url' => '/apps',
-				'writable' => false,
-			],
-		];
-		$this->assertSame(
-			[],
-			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
-		);
-	}
-
-	public function testIsBuggyNss400() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'NSS/1.0.2b']);
-		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
-			->disableOriginalConstructor()->getMock();
-		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
-			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()->getMock();
-		$response->expects($this->once())
-			->method('getStatusCode')
-			->willReturn(400);
-		$exception->expects($this->once())
-			->method('getResponse')
-			->willReturn($response);
-
-		$client->expects($this->once())
-			->method('get')
-			->with('https://nextcloud.com/', [])
-			->will($this->throwException($exception));
-
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->willReturn($client);
-
-		$this->assertSame('cURL is using an outdated NSS version (NSS/1.0.2b). Please update your operating system or features such as installing and updating apps via the App Store or Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-
-	public function testIsBuggyNss200() {
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturn(true);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn(['ssl_version' => 'NSS/1.0.2b']);
-		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
-			->disableOriginalConstructor()->getMock();
-		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
-			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()->getMock();
-		$response->expects($this->once())
-			->method('getStatusCode')
-			->willReturn(200);
-		$exception->expects($this->once())
-			->method('getResponse')
-			->willReturn($response);
-
-		$client->expects($this->once())
-			->method('get')
-			->with('https://nextcloud.com/', [])
-			->will($this->throwException($exception));
-
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->willReturn($client);
-
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithInternetDisabled() {
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->willReturn(false);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithAppstoreDisabledAndServerToServerSharingEnabled() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getSystemValue')
-			->willReturnMap([
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['files_sharing', 'outgoing_server2server_share_enabled', 'yes', 'no'],
-				['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'yes'],
-			]);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('getCurlVersion')
-			->willReturn([]);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
-	}
-
-	public function testIsUsedTlsLibOutdatedWithAppstoreDisabledAndServerToServerSharingDisabled() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getSystemValue')
-			->willReturnMap([
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['files_sharing', 'outgoing_server2server_share_enabled', 'yes', 'no'],
-				['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'no'],
-			]);
-
-		$this->checkSetupController
-			->expects($this->never())
-			->method('getCurlVersion')
-			->willReturn([]);
-		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
 	}
 
 	public function testRescanFailedIntegrityCheck() {
@@ -976,97 +625,5 @@ Array
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
-	}
-
-	public function dataForIsMysqlUsedWithoutUTF8MB4() {
-		return [
-			['sqlite', false, false],
-			['sqlite', true, false],
-			['postgres', false, false],
-			['postgres', true, false],
-			['oci', false, false],
-			['oci', true, false],
-			['mysql', false, true],
-			['mysql', true, false],
-		];
-	}
-
-	/**
-	 * @dataProvider dataForIsMysqlUsedWithoutUTF8MB4
-	 */
-	public function testIsMysqlUsedWithoutUTF8MB4(string $db, bool $useUTF8MB4, bool $expected) {
-		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($db, $useUTF8MB4) {
-				if ($key === 'dbtype') {
-					return $db;
-				}
-				if ($key === 'mysql.utf8mb4') {
-					return $useUTF8MB4;
-				}
-				return $default;
-			});
-
-		$checkSetupController = new CheckSetupController(
-			'settings',
-			$this->request,
-			$this->config,
-			$this->clientService,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->checker,
-			$this->logger,
-			$this->dateTimeFormatter,
-			$this->tempManager,
-			$this->notificationManager,
-			$this->setupCheckManager,
-		);
-
-		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
-	}
-
-	public function dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed() {
-		return [
-			['singlebucket', 'OC\\Files\\ObjectStore\\Swift', true],
-			['multibucket', 'OC\\Files\\ObjectStore\\Swift', true],
-			['singlebucket', 'OC\\Files\\ObjectStore\\Custom', true],
-			['multibucket', 'OC\Files\\ObjectStore\\Custom', true],
-			['singlebucket', 'OC\Files\ObjectStore\Swift', true],
-			['multibucket', 'OC\Files\ObjectStore\Swift', true],
-			['singlebucket', 'OC\Files\ObjectStore\Custom', true],
-			['multibucket', 'OC\Files\ObjectStore\Custom', true],
-		];
-	}
-
-	/**
-	 * @dataProvider dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed
-	 */
-	public function testIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(string $mode, string $className, bool $expected) {
-		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($mode, $className) {
-				if ($key === 'objectstore' && $mode === 'singlebucket') {
-					return ['class' => $className];
-				}
-				if ($key === 'objectstore_multibucket' && $mode === 'multibucket') {
-					return ['class' => $className];
-				}
-				return $default;
-			});
-
-		$checkSetupController = new CheckSetupController(
-			'settings',
-			$this->request,
-			$this->config,
-			$this->clientService,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->checker,
-			$this->logger,
-			$this->dateTimeFormatter,
-			$this->tempManager,
-			$this->notificationManager,
-			$this->setupCheckManager,
-		);
-
-		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
 	}
 }

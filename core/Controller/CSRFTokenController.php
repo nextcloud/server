@@ -30,11 +30,11 @@ namespace OC\Core\Controller;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CSRFTokenController extends Controller {
 	public function __construct(
 		string $appName,

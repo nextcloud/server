@@ -115,13 +115,13 @@
     "New configuration successfully saved" : "Neue Konfiguration gespeichert",
     "There was an error with this external storage." : "Mit diesem externen Speicher ist ein Fehler aufgetreten.",
     "We were unable to check the external storage {basename}" : "Der externe Speicher {basename} konnte nicht geprüft werden",
-    "Examine this faulty external storage configuration" : "Prüfen Sie diese fehlerhafte externe Speicherkonfiguration",
+    "Examine this faulty external storage configuration" : "Prüfe diese fehlerhafte externe Speicherkonfiguration",
     "Open in Files" : "In App \"Dateien\" öffnen",
-    "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Bei diesem externen Speicher ist ein Fehler aufgetreten. Möchten Sie die Mount-Punkt-Konfiguration auf der Einstellungsseite überprüfen?",
+    "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Bei diesem externen Speicher ist ein Fehler aufgetreten. Möchtest du die Mount-Punkt-Konfiguration auf der Einstellungsseite überprüfen?",
     "External mount error" : "Fehler beim Einbinden des externen Speichers",
     "List of external storage." : "Liste der externen Speicher.",
-    "There is no external storage configured. You can configure them in your Personal settings." : "Es ist kein externer Speicher eingerichtet. Sie können diese in Ihren persönlichen Einstellungen konfigurieren.",
-    "There is no external storage configured and you don't have the permission to configure them." : "Es ist kein externer Speicher eingerichtet und Sie haben nicht die Berechtigung, einen solchen einzurichten.",
+    "There is no external storage configured. You can configure them in your Personal settings." : "Es ist kein externer Speicher eingerichtet. Du kannst diese in deinen persönlichen Einstellungen konfigurieren.",
+    "There is no external storage configured and you don't have the permission to configure them." : "Es ist kein externer Speicher eingerichtet und du hast nicht die Berechtigung, einen solchen einzurichten.",
     "No external storage" : "Kein externer Speicher",
     "Storage type" : "Speichertyp",
     "Unknown" : "Unbekannt",
@@ -152,7 +152,7 @@
     "Credentials saved" : "Anmeldeinformationen gespeichert",
     "Credentials saving failed" : "Speichern der Anmeldeinformationen fehlgeschlagen",
     "Credentials required" : "Anmeldeinformationen benötigt",
-    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Wenn Sie dies deaktivieren, können Sie ein Dateisystem verwenden, bei dem die Groß-/Kleinschreibung nicht berücksichtigt wird, es geht jedoch mit Leistungseinbußen einher",
+    "Disabling it will allow to use a case insentive file system, but comes with a performance penalty" : "Wenn du dies deaktivieren, kannst du ein Dateisystem verwenden, bei dem die Groß-/Kleinschreibung nicht berücksichtigt wird, es geht jedoch mit Leistungseinbußen einher.",
     "Name" : "Name"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

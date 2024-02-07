@@ -53,17 +53,17 @@ OC.L10N.register(
     "Invisible" : "Usynlig",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbeidsmerkelapper er tilgjengelige for alle brukere. Begrensede merkelapper er synlige for brukere, men kan ikke tildeles av dem. Usynlige merkelapper er for intern bruk, siden brukere ikke kan se eller tildele dem.",
     "No tags found" : "Fant ingen merkelapper",
-    "No files in here" : "Ingen filer her",
-    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
-    "Name" : "Navn",
-    "Size" : "Størrelse",
-    "Modified" : "Endret",
     "Tag name is empty" : "Merkelapp er tom",
     "Select tag …" : "Velg merkelapp…",
     "Tagged files" : "Filer med merkelapper",
     "Select tags to filter by" : "Velg merkelapper å filtrere etter",
     "Please select tags to filter by" : "Velg merkelapper å filtrere etter",
     "No files found for the selected tags" : "Ingen filer funnet for de valgte merkelappene",
-    "Create a new tag" : "Lag en ny merkelapp"
+    "Create a new tag" : "Lag en ny merkelapp",
+    "Name" : "Navn",
+    "No files in here" : "Ingen filer her",
+    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
+    "Size" : "Størrelse",
+    "Modified" : "Endret"
 },
 "nplurals=2; plural=(n != 1);");

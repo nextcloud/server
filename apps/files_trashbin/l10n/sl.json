@@ -8,11 +8,6 @@
     "List of files that have been deleted." : "Seznam datotek, ki so bile izbrisane.",
     "No deleted files" : "Ni izbrisanih datotek",
     "Deleted" : "Izbrisano",
-    "You will be able to recover deleted files from here" : "Izbrisane datoteke je mogoče tudi povrniti.",
-    "No entries found in this folder" : "V tej mapi ni datotek in podmap.",
-    "Select all" : "Izberi vse",
-    "Name" : "Ime",
-    "Actions" : "Dejanja",
     "Delete permanently" : "Trajno izbriši",
     "Error while restoring file from trash bin" : "Prišlo je do napake med obnavljanjem datoteke iz koša",
     "Error while removing file from trash bin" : "Prišlo je do napake med odstranjevanjem datotek iz koša",
@@ -21,6 +16,11 @@
     "Error while removing files from trash bin" : "Prišlo je do napake med odstranjevanjem datotek iz koša",
     "This operation is forbidden" : "To dejanje ni dovoljeno!",
     "This directory is unavailable, please check the logs or contact the administrator" : "Mapa ni na voljo. Preverite dnevnik opravil in stopite v stik s skrbnikom sistema.",
+    "You will be able to recover deleted files from here" : "Izbrisane datoteke je mogoče tudi povrniti.",
+    "No entries found in this folder" : "V tej mapi ni datotek in podmap.",
+    "Select all" : "Izberi vse",
+    "Name" : "Ime",
+    "Actions" : "Dejanja",
     "Delete" : "Izbriši"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
