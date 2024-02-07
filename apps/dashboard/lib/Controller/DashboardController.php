@@ -38,7 +38,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
-use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -88,8 +87,6 @@ class DashboardController extends Controller {
 	public function index(): TemplateResponse {
 		\OCP\Util::addStyle('dashboard', 'dashboard');
 		\OCP\Util::addScript('dashboard', 'main', 'theming');
-
-		$this->eventDispatcher->dispatchTyped(new RegisterWidgetEvent($this->dashboardManager));
 
 		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
 		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));

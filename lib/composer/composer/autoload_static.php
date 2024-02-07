@@ -281,7 +281,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Dashboard\\Model\\WidgetItem' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetItem.php',
         'OCP\\Dashboard\\Model\\WidgetItems' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetItems.php',
         'OCP\\Dashboard\\Model\\WidgetOptions' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetOptions.php',
-        'OCP\\Dashboard\\RegisterWidgetEvent' => __DIR__ . '/../../..' . '/lib/public/Dashboard/RegisterWidgetEvent.php',
         'OCP\\DataCollector\\AbstractDataCollector' => __DIR__ . '/../../..' . '/lib/public/DataCollector/AbstractDataCollector.php',
         'OCP\\DataCollector\\IDataCollector' => __DIR__ . '/../../..' . '/lib/public/DataCollector/IDataCollector.php',
         'OCP\\Defaults' => __DIR__ . '/../../..' . '/lib/public/Defaults.php',
