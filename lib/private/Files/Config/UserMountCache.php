@@ -368,30 +368,18 @@ class UserMountCache implements IUserMountCache {
 		} catch (NotFoundException $e) {
 			return [];
 		}
-		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
-			->from('mounts', 'm')
-			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
-			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($storageId, IQueryBuilder::PARAM_INT)));
+		$mountsForStorage = $this->getMountsForStorageId($storageId, $user);
 
-		if ($user) {
-			$query->andWhere($builder->expr()->eq('user_id', $builder->createPositionalParameter($user)));
-		}
-
-		$result = $query->execute();
-		$rows = $result->fetchAll();
-		$result->closeCursor();
 		// filter mounts that are from the same storage but a different directory
-		$filteredMounts = array_filter($rows, function (array $row) use ($internalPath, $fileId) {
-			if ($fileId === (int)$row['root_id']) {
+		$filteredMounts = array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
+			if ($fileId === $mount->getRootId()) {
 				return true;
 			}
-			$internalMountPath = $row['path'] ?? '';
+			$internalMountPath = $mount->getRootInternalPath();
 
 			return $internalMountPath === '' || substr($internalPath, 0, strlen($internalMountPath) + 1) === $internalMountPath . '/';
 		});
 
-		$filteredMounts = array_filter(array_map([$this, 'dbRowToMountInfo'], $filteredMounts));
 		return array_map(function (ICachedMountInfo $mount) use ($internalPath) {
 			return new CachedMountFileInfo(
 				$mount->getUser(),
