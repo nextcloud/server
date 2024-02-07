@@ -207,6 +207,9 @@ describe('Delete action execute tests', () => {
 		jest.spyOn(axios, 'delete')
 		jest.spyOn(eventBus, 'emit')
 
+		const confirmMock = jest.fn()
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
 		const file1 = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
@@ -224,6 +227,9 @@ describe('Delete action execute tests', () => {
 		})
 
 		const exec = await action.execBatch!([file1, file2], view, '/')
+
+		// Not enough nodes to trigger a confirmation dialog
+		expect(confirmMock).toBeCalledTimes(0)
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.delete).toBeCalledTimes(2)
