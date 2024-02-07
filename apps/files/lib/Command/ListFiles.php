@@ -306,8 +306,6 @@ class ListFiles extends Base {
 	 * Initialises some useful tools for the Command
 	 */
 	protected function initTools(OutputInterface $output): void {
-		// Start the timer
-		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler(
 			fn (int $severity, string $message, string $file, int $line): bool =>
@@ -338,9 +336,6 @@ class ListFiles extends Base {
 	}
 
 	protected function presentStats(InputInterface $input, OutputInterface $output): void {
-		// Stop the timer
-		$this->execTime += microtime(true);
-
 		$headers = [
 			'Permission',
 			'Size',
@@ -387,16 +382,6 @@ class ListFiles extends Base {
 		$table->render();
 
 		//		$this->writeArrayInOutputFormat($input, $output, $this->fileInfo);
-	}
-
-
-	/**
-	 * Formats microtime into a human-readable format
-	 */
-	protected function formatExecTime(): string {
-		$secs = (int)round($this->execTime);
-		# convert seconds into HH:MM:SS form
-		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), $secs % 60);
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
