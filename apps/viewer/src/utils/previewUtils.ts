@@ -26,6 +26,13 @@ import type { BasicFileInfo } from './models'
 import { encodePath } from '@nextcloud/paths'
 
 /**
+ * @param root0
+ * @param root0.fileid
+ * @param root0.filename
+ * @param root0.previewUrl
+ * @param root0.hasPreview
+ * @param root0.davPath
+ * @param root0.etag
  * @return the preview url if the file have an existing preview or the absolute dav remote path if none.
  */
 export function getPreviewIfAny({ fileid, filename, previewUrl, hasPreview, davPath, etag }: BasicFileInfo): string {

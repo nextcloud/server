@@ -67,17 +67,12 @@ export default defineConfig({
 
 			// Before the browser launches
 			// starting Nextcloud testing container
-			return startNextcloud(process.env.BRANCH)
-				.then((ip) => {
-					// Setting container's IP as base Url
-					config.baseUrl = `http://${ip}/index.php`
-					return ip
-				})
-				.then(waitOnNextcloud)
-				.then(configureNextcloud)
-				.then(() => {
-					return config
-				})
+			const ip = await startNextcloud(process.env.BRANCH)
+			// Setting container's IP as base Url
+			config.baseUrl = `http://${ip}/index.php`
+			await waitOnNextcloud(ip)
+			await configureNextcloud([]) // pass empty array as WE are already the viewer
+			return config
 		},
 	},
 })

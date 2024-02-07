@@ -54,6 +54,7 @@ class LoadViewerScript implements IEventListener {
 			return;
 		}
 
+		Util::addStyle(Application::APP_ID, 'viewer-main');
 		Util::addScript(Application::APP_ID, 'viewer-main', 'files');
 		$this->initialStateService->provideInitialState('enabled_preview_providers', array_keys($this->previewManager->getProviders()));
 	}
