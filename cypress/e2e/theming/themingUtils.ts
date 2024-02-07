@@ -21,8 +21,8 @@
  */
 import { colord } from 'colord'
 
-export const defaultPrimary = '#0082c9'
-export const defaultAccessiblePrimary = '#00679e'
+const defaultNextcloudBlue = '#0082c9'
+export const defaultPrimary = '#00679e'
 export const defaultBackground = 'kamil-porembinski-clouds.jpg'
 
 /**
@@ -60,14 +60,19 @@ export const validateUserThemingDefaultCss = function(expectedColor = defaultPri
 
 	const defaultOptionBackground = defaultSelectButton.css('background-image')
 	const colorPickerOptionColor = defaultSelectButton.css('background-color')
+	const isNextcloudBlue = colord(colorPickerOptionColor).isEqual('#0082c9')
 
 	const isValidBackgroundImage = !expectedBackground
 		? defaultOptionBackground === 'none'
 		: defaultOptionBackground.includes(expectedBackground)
 
-	console.debug({ colorPickerOptionColor: colord(colorPickerOptionColor).toHex(), expectedColor, isValidBackgroundImage })
+	console.debug({ colorPickerOptionColor: colord(colorPickerOptionColor).toHex(), expectedColor, isValidBackgroundImage, isNextcloudBlue })
 
-	return isValidBackgroundImage && colord(colorPickerOptionColor).isEqual(expectedColor)
+	return isValidBackgroundImage && (
+		colord(colorPickerOptionColor).isEqual(expectedColor)
+		// we replace nextcloud blue with the the default rpimary (apps/theming/lib/Themes/DefaultTheme.php line 76)
+		|| (isNextcloudBlue && colord(expectedColor).isEqual(defaultPrimary))
+	)
 }
 
 export const pickRandomColor = function(): Cypress.Chainable<string> {
