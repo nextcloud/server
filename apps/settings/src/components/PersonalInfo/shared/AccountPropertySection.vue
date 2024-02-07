@@ -37,7 +37,7 @@
 				autocomplete="off"
 				spellcheck="false"
 				@input="onPropertyChange" />
-			<input v-else
+			<NcInputField v-else
 				:id="inputId"
 				ref="input"
 				:placeholder="placeholder"
@@ -47,7 +47,7 @@
 				autocapitalize="none"
 				spellcheck="false"
 				:autocomplete="autocomplete"
-				@input="onPropertyChange">
+				@input="onPropertyChange"/>
 
 			<div class="property__actions-container">
 				<Transition name="fade">
@@ -72,6 +72,7 @@
 <script>
 import debounce from 'debounce'
 
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
 import Check from 'vue-material-design-icons/Check.vue'
@@ -89,6 +90,7 @@ export default {
 		AlertOctagon,
 		Check,
 		HeaderBar,
+		NcInputField,
 	},
 
 	props: {
