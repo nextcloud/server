@@ -844,10 +844,6 @@ class AppConfig implements IAppConfig {
 		$this->loadConfigAll();
 		$lazy = $this->isLazy($app, $key);
 
-		if (!$this->hasKey($app, $key, $lazy)) {
-			throw new AppConfigUnknownKeyException('Unknown config key');
-		}
-
 		// type can only be one type
 		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
 			throw new AppConfigIncorrectTypeException('Unknown value type');
