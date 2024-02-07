@@ -31,6 +31,7 @@ Vue.mixin({
 })
 
 // Inject proper font for cypress visual regression testing
+// eslint-disable-next-line no-unused-expressions
 INJECT_CYPRESS_FONT
 
 Vue.prototype.OC = window.OC
