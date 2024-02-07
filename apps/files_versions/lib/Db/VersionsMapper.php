@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Db;
 
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
@@ -82,5 +83,21 @@ class VersionsMapper extends QBMapper {
 		return $qb->delete($this->getTableName())
 			 ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
 			 ->executeStatement();
+	}
+
+	public function deleteAllVersionsForUser(string $userId): int {
+		$deleteQuery = $this->db->getQueryBuilder();
+		$filesVersionSelect = $this->db->getQueryBuilder();
+		$filesVersionSelect->select('fileid')
+			->from('filecache', 'f')
+			->join('f', 'mounts', 'm', $filesVersionSelect->expr()->eq('f.storage', 'm.storage_id'))
+			->where($filesVersionSelect->expr()->like('f.path', $deleteQuery->createNamedParameter('files/%', IQueryBuilder::PARAM_STR)))
+			->andWhere($filesVersionSelect->expr()->eq('m.user_id', $deleteQuery->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
+			->andWhere($filesVersionSelect->expr()->eq('m.mount_point', $deleteQuery->createNamedParameter("/$userId/", IQueryBuilder::PARAM_STR)));
+
+		$deleteQuery->delete($this->getTableName())
+			->where($deleteQuery->expr()->in('file_id', $deleteQuery->createFunction($filesVersionSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY));
+
+		return $deleteQuery->executeStatement();
 	}
 }
