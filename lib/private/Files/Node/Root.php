@@ -405,6 +405,10 @@ class Root extends Folder implements IRootFolder {
 		return $this->userMountCache;
 	}
 
+	public function getFirstNodeByIdInPath(int $id, string $path): ?INode {
+		return current($this->getByIdInPath($id, $path));
+	}
+
 	/**
 	 * @param int $id
 	 * @return Node[]

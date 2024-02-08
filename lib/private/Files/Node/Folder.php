@@ -307,10 +307,14 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param int $id
-	 * @return \OC\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function getById($id) {
 		return $this->root->getByIdInPath((int)$id, $this->getPath());
+	}
+
+	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+		return current($this->getById($id));
 	}
 
 	protected function getAppDataDirectoryName(): string {
