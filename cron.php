@@ -45,6 +45,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -66,8 +67,15 @@ try {
 		exit;
 	}
 
+	$config = Server::get(IConfig::class);
+
+	// Don't do anything if Nextcloud has not been installed
+	if (!$config->getSystemValueBool('installed', false)) {
+		exit(0);
+	}
+
 	// load all apps to get all api routes properly setup
-	OC_App::loadApps();
+	Server::get(IAppManager::class)->loadApps();
 
 	Server::get(ISession::class)->close();
 
@@ -78,14 +86,8 @@ try {
 	\OC::$server->setSession($session);
 
 	$logger = Server::get(LoggerInterface::class);
-	$config = Server::get(IConfig::class);
 	$appConfig = Server::get(IAppConfig::class);
 	$tempManager = Server::get(ITempManager::class);
-
-	// Don't do anything if Nextcloud has not been installed
-	if (!$config->getSystemValueBool('installed', false)) {
-		exit(0);
-	}
 
 	$tempManager->cleanOld();
 
@@ -183,7 +185,7 @@ try {
 			}
 
 			// clean up after unclean jobs
-			\OC_Util::tearDownFS();
+			Server::get(\OC\Files\SetupManager::class)->tearDown();
 			$tempManager->clean();
 
 			$jobList->setLastJob($job);
