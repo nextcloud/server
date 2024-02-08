@@ -44,7 +44,6 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/lib/versioncheck.php';
 
-use OC\SystemConfig;
 use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
@@ -62,12 +61,13 @@ try {
 		Server::get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
-	if ((bool) Server::get(SystemConfig::class)->getValue('maintenance', false)) {
+
+	$config = Server::get(IConfig::class);
+
+	if ($config->getSystemValueBool('maintenance', false)) {
 		Server::get(LoggerInterface::class)->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}
-
-	$config = Server::get(IConfig::class);
 
 	// Don't do anything if Nextcloud has not been installed
 	if (!$config->getSystemValueBool('installed', false)) {
