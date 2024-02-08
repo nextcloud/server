@@ -564,11 +564,12 @@ export default Vue.extend({
 			}
 		},
 
-		onSelectionChange(selection) {
+		onSelectionChange(selected: boolean) {
 			const newSelectedIndex = this.index
 			const lastSelectedIndex = this.selectionStore.lastSelectedIndex
 
 			// Get the last selected and select all files in between
+			console.log("HUH")
 			if (this.keyboardStore?.shiftKey && lastSelectedIndex !== null) {
 				const isAlreadySelected = this.selectedFiles.includes(this.fileid)
 
@@ -577,18 +578,23 @@ export default Vue.extend({
 
 				const lastSelection = this.selectionStore.lastSelection
 				const filesToSelect = this.nodes
-					.map(file => file.fileid?.toString?.())
+					.map(file => file.fileid)
 					.slice(start, end + 1)
+					.filter(Boolean) as number[]
 
 				// If already selected, update the new selection _without_ the current file
 				const selection = [...lastSelection, ...filesToSelect]
-					.filter(fileId => !isAlreadySelected || fileId !== this.fileid)
+					.filter(fileid => !isAlreadySelected || fileid !== this.fileid)
 
 				logger.debug('Shift key pressed, selecting all files in between', { start, end, filesToSelect, isAlreadySelected })
 				// Keep previous lastSelectedIndex to be use for further shift selections
 				this.selectionStore.set(selection)
 				return
 			}
+
+			const selection = selected
+				? [...this.selectedFiles, this.fileid]
+				: this.selectedFiles.filter(fileid => fileid !== this.fileid)
 
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)
