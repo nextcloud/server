@@ -9,16 +9,20 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class JobTest extends \Test\TestCase {
 	private $run = false;
 	private ITimeFactory $timeFactory;
+	private LoggerInterface $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->run = false;
-		$this->timeFactory = \OC::$server->get(ITimeFactory::class);
+		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		\OC::$server->registerService(LoggerInterface::class, fn ($c) => $this->logger);
 	}
 
 	public function testRemoveAfterException() {
@@ -29,14 +33,11 @@ class JobTest extends \Test\TestCase {
 		});
 		$jobList->add($job);
 
-		$logger = $this->getMockBuilder(ILogger::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$logger->expects($this->once())
+		$this->logger->expects($this->once())
 			->method('error');
 
 		$this->assertCount(1, $jobList->getAll());
-		$job->execute($jobList, $logger);
+		$job->start($jobList);
 		$this->assertTrue($this->run);
 		$this->assertCount(1, $jobList->getAll());
 	}
@@ -49,14 +50,11 @@ class JobTest extends \Test\TestCase {
 		});
 		$jobList->add($job);
 
-		$logger = $this->getMockBuilder(ILogger::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$logger->expects($this->once())
+		$this->logger->expects($this->once())
 			->method('error');
 
 		$this->assertCount(1, $jobList->getAll());
-		$job->execute($jobList, $logger);
+		$job->start($jobList);
 		$this->assertTrue($this->run);
 		$this->assertCount(1, $jobList->getAll());
 	}
