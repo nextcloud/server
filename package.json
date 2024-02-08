@@ -62,7 +62,6 @@
     "@vueuse/components": "^10.7.2",
     "@vueuse/core": "^10.7.2",
     "@vueuse/integrations": "^10.7.2",
-    "autosize": "^6.0.1",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
     "browserslist-useragent-regexp": "^4.0.0",

@@ -35,7 +35,6 @@ import 'jquery-ui-dist/jquery-ui.js'
 import 'jquery-ui-dist/jquery-ui.css'
 import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
-import autosize from 'autosize'
 import Backbone from 'backbone'
 import './Polyfill/tooltip.js'
 import ClipboardJS from 'clipboard'
@@ -100,11 +99,11 @@ const setDeprecatedProp = (global, cb, msg) => {
 
 window._ = _
 setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
+// Global md5 only required for: apps/files/js/file-upload.js
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
