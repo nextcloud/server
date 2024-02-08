@@ -47,6 +47,27 @@
 			return deferred.promise();
 		},
 
+		checkCaching: function() {
+			return Promise.all([
+				$.get(OC.generateUrl('settings/ajax/checksetupcookies.png')),
+				$.get(OC.generateUrl('settings/ajax/checksetupcookies.png')),
+			]).then(function(responses) {
+				if (responses[0].rand === responses[1].rand) {
+					console.error('Two unique requests returned the same response', {
+						rand1: responses[0].rand,
+						rand2: responses[1].rand,
+					});
+					return [
+						{
+							msg: t('core', 'Your web server is caching too aggressively. This could lead to leaked cookies and sessions.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						}
+					];
+				}
+				return [];
+			})
+		},
+
 		/**
 		 * Check whether the .well-known URLs works.
 		 *

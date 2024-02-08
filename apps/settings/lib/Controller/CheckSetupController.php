@@ -51,6 +51,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -58,6 +59,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
+use function setcookie;
+use function time;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CheckSetupController extends Controller {
@@ -181,5 +184,20 @@ Raw output
 				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);
+	}
+
+	/**
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
+	 */
+	public function checkCookies(): JSONResponse {
+		$rand = $this->secureRandom->generate(32);
+		setcookie(
+			'nc_setup_check',
+			$rand,
+			time() + 60
+		);
+		return new JSONResponse([
+			'rand' => $rand,
+		]);
 	}
 }
