@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Artem Sidorenko <artem@posteo.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author hoellen <dev@hoellen.eu>
  * @author J0WI <J0WI@users.noreply.github.com>
@@ -37,24 +41,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 require_once __DIR__ . '/lib/versioncheck.php';
+
+use OC\SystemConfig;
+use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
+use OCP\ISession;
+use OCP\ITempManager;
+use OCP\Server;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 try {
 	require_once __DIR__ . '/lib/base.php';
 
-	if (\OCP\Util::needUpgrade()) {
-		\OC::$server->getLogger()->debug('Update required, skipping cron', ['app' => 'cron']);
+	if (Util::needUpgrade()) {
+		Server::get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
-	if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
-		\OC::$server->getLogger()->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
+	if ((bool) Server::get(SystemConfig::class)->getValue('maintenance', false)) {
+		Server::get(LoggerInterface::class)->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}
 
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
-	\OC::$server->getSession()->close();
+	Server::get(ISession::class)->close();
 
 	// initialize a dummy memory session
 	$session = new \OC\Session\Memory('');
@@ -62,12 +76,12 @@ try {
 	$session = $cryptoWrapper->wrapSession($session);
 	\OC::$server->setSession($session);
 
-	$logger = \OC::$server->getLogger();
-	$config = \OC::$server->getConfig();
-	$tempManager = \OC::$server->getTempManager();
+	$logger = Server::get(LoggerInterface::class);
+	$config = Server::get(IConfig::class);
+	$tempManager = Server::get(ITempManager::class);
 
 	// Don't do anything if Nextcloud has not been installed
-	if (!$config->getSystemValue('installed', false)) {
+	if (!$config->getSystemValueBool('installed', false)) {
 		exit(0);
 	}
 
@@ -134,7 +148,7 @@ try {
 		}
 
 		// Work
-		$jobList = \OC::$server->getJobList();
+		$jobList = Server::get(IJobList::class);
 
 		// We only ask for jobs for 14 minutes, because after 5 minutes the next
 		// system cron task should spawn and we want to have at most three
@@ -160,10 +174,10 @@ try {
 			$memoryPeakAfter = memory_get_peak_usage();
 
 			if ($memoryAfter - $memoryBefore > 10_000_000) {
-				$logger->warning('Used memory grew by more than 10 MB when executing job ' . $jobDetails . ': ' . \OCP\Util::humanFileSize($memoryAfter). ' (before: ' . \OCP\Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
+				$logger->warning('Used memory grew by more than 10 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter). ' (before: ' . Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
 			}
 			if ($memoryPeakAfter > 300_000_000) {
-				$logger->warning('Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . \OCP\Util::humanFileSize($memoryPeakAfter) . ' (before: ' . \OCP\Util::humanFileSize($memoryPeakBefore) . ')', ['app' => 'cron']);
+				$logger->warning('Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryPeakAfter) . ' (before: ' . Util::humanFileSize($memoryPeakBefore) . ')', ['app' => 'cron']);
 			}
 
 			// clean up after unclean jobs
@@ -185,7 +199,7 @@ try {
 			OC_JSON::error(['data' => ['message' => 'Backgroundjobs are using system cron!']]);
 		} else {
 			// Work and success :-)
-			$jobList = \OC::$server->getJobList();
+			$jobList = Server::get(IJobList::class);
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
@@ -200,11 +214,17 @@ try {
 	$config->setAppValue('core', 'lastcron', time());
 	exit();
 } catch (Exception $ex) {
-	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	Server::get(LoggerInterface::class)->error(
+		$ex->getMessage(),
+		['app' => 'cron', 'exception' => $ex]
+	);
 	echo $ex . PHP_EOL;
 	exit(1);
 } catch (Error $ex) {
-	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	Server::get(LoggerInterface::class)->error(
+		$ex->getMessage(),
+		['app' => 'cron', 'exception' => $ex]
+	);
 	echo $ex . PHP_EOL;
 	exit(1);
 }
