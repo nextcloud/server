@@ -23,7 +23,7 @@ class TestJob extends \OCP\BackgroundJob\Job {
 	 * @param callable $callback
 	 */
 	public function __construct(ITimeFactory $time = null, $testCase = null, $callback = null) {
-		parent::__construct($time ?? \OC::$server->get(ITimeFactory::class));
+		parent::__construct($time ?? \OCP\Server::get(ITimeFactory::class));
 		$this->testCase = $testCase;
 		$this->callback = $callback;
 	}

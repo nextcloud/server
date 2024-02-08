@@ -33,10 +33,6 @@ class LightTheme extends DefaultTheme implements ITheme {
 		return 'light';
 	}
 
-	public function getType(): int {
-		return ITheme::TYPE_THEME;
-	}
-
 	public function getTitle(): string {
 		return $this->l->t('Light theme');
 	}
@@ -51,5 +47,13 @@ class LightTheme extends DefaultTheme implements ITheme {
 
 	public function getMediaQuery(): string {
 		return '(prefers-color-scheme: light)';
+	}
+
+	public function getMeta(): array {
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'light',
+		]];
 	}
 }

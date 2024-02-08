@@ -32,8 +32,8 @@ namespace OCP\BackgroundJob;
  * This interface provides functions to register background jobs
  *
  * To create a new background job create a new class that inherits from either
- * \OC\BackgroundJob\Job, \OC\BackgroundJob\QueuedJob or
- * \OC\BackgroundJob\TimedJob and register it using ->add($job, $argument),
+ * \OCP\BackgroundJob\Job, \OCP\BackgroundJob\QueuedJob or
+ * \OCP\BackgroundJob\TimedJob and register it using ->add($job, $argument),
  * $argument will be passed to the run() function of the job when the job is
  * executed.
  *
