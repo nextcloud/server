@@ -46,6 +46,7 @@ require_once __DIR__ . '/lib/versioncheck.php';
 
 use OC\SystemConfig;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\ITempManager;
@@ -78,6 +79,7 @@ try {
 
 	$logger = Server::get(LoggerInterface::class);
 	$config = Server::get(IConfig::class);
+	$appConfig = Server::get(IAppConfig::class);
 	$tempManager = Server::get(ITempManager::class);
 
 	// Don't do anything if Nextcloud has not been installed
@@ -88,7 +90,7 @@ try {
 	$tempManager->cleanOld();
 
 	// Exit if background jobs are disabled!
-	$appMode = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax');
+	$appMode = $appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax');
 	if ($appMode === 'none') {
 		if (OC::$CLI) {
 			echo 'Background Jobs are disabled!' . PHP_EOL;
@@ -122,7 +124,7 @@ try {
 
 		// We call Nextcloud from the CLI (aka cron)
 		if ($appMode !== 'cron') {
-			$config->setAppValue('core', 'backgroundjobs_mode', 'cron');
+			$appConfig->setValueString('core', 'backgroundjobs_mode', 'cron');
 		}
 
 		// Low-load hours
@@ -211,7 +213,7 @@ try {
 	}
 
 	// Log the successful cron execution
-	$config->setAppValue('core', 'lastcron', time());
+	$appConfig->setValueInt('core', 'lastcron', time());
 	exit();
 } catch (Exception $ex) {
 	Server::get(LoggerInterface::class)->error(
