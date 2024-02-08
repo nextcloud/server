@@ -35,7 +35,6 @@
 		<NcActions ref="actionsMenu"
 			:boundaries-element="getBoundariesElement"
 			:container="getBoundariesElement"
-			:disabled="isLoading || loading !== ''"
 			:force-name="true"
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
@@ -272,6 +271,11 @@ export default Vue.extend({
 		},
 
 		async onActionClick(action, isSubmenu = false) {
+			// Skip click on loading
+			if (this.isLoading || this.loading !== '') {
+				return
+			}
+
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action
