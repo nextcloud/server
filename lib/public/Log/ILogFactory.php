@@ -24,6 +24,7 @@
  */
 namespace OCP\Log;
 
+use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,6 +39,15 @@ interface ILogFactory {
 	 * @since 14.0.0
 	 */
 	public function get(string $type): IWriter;
+
+	/**
+	 * @param string $path
+	 * @return ILogger
+	 * @since 14.0.0
+	 * @deprecated 22.0.0 Use \OCP\Log\ILogFactory::getCustomPsrLogger
+	 * @see \OCP\Log\ILogFactory::getCustomPsrLogger
+	 */
+	public function getCustomLogger(string $path): ILogger;
 
 	/**
 	 * @param string $path

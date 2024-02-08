@@ -29,7 +29,7 @@
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 
-		<div class="sharing-entry__summary">
+		<div class="sharing-entry__summary" @click.prevent="toggleQuickShareSelect">
 			<component :is="share.shareWithLink ? 'a' : 'div'"
 				:title="tooltip"
 				:aria-label="tooltip"
@@ -41,13 +41,14 @@
 					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
 				</span>
 			</component>
-			<SharingEntryQuickShareSelect :share="share"
+			<QuickShareSelect :share="share"
 				:file-info="fileInfo"
+				:toggle="showDropdown"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
 		<NcButton class="sharing-entry__action"
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
-			type="tertiary"
+			type="tertiary-no-background"
 			@click="openSharingDetails(share)">
 			<template #icon>
 				<DotsHorizontalIcon :size="20" />
@@ -62,7 +63,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
-import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import QuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
@@ -75,11 +76,16 @@ export default {
 		NcAvatar,
 		DotsHorizontalIcon,
 		NcSelect,
-		SharingEntryQuickShareSelect,
+		QuickShareSelect,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
 
+	data() {
+		return {
+			showDropdown: false,
+		}
+	},
 	computed: {
 		title() {
 			let title = this.share.shareWithDisplayName
@@ -134,6 +140,9 @@ export default {
 		onMenuClose() {
 			this.onNoteSubmit()
 		},
+		toggleQuickShareSelect() {
+			this.showDropdown = !this.showDropdown
+		},
 	},
 }
 </script>
@@ -149,7 +158,6 @@ export default {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: flex-start;
 		flex: 1 0;
 		min-width: 0;
 

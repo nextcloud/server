@@ -1,11 +1,7 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  *
@@ -27,22 +23,47 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Migration;
 
+use OC\BackgroundJob\QueuedJob;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\BackgroundJob\QueuedJob;
 use OCP\IDBConnection;
-use Psr\Log\LoggerInterface;
+use OCP\ILogger;
 
 class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
-	public function __construct(
-		private IDBConnection $db,
-		private CalDavBackend $calDavBackend,
-		private LoggerInterface $logger,
-		private IJobList $jobList,
-		ITimeFactory $timeFactory
-	) {
-		parent::__construct($timeFactory);
+
+	/** @var IDBConnection */
+	private $db;
+
+	/** @var CalDavBackend */
+	private $calDavBackend;
+
+	/** @var ILogger */
+	private $logger;
+
+	/** @var IJobList */
+	private $jobList;
+
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	/**
+	 * @param IDBConnection $db
+	 * @param CalDavBackend $calDavBackend
+	 * @param ILogger $logger
+	 * @param IJobList $jobList
+	 * @param ITimeFactory $timeFactory
+	 */
+	public function __construct(IDBConnection $db,
+		CalDavBackend $calDavBackend,
+		ILogger $logger,
+		IJobList $jobList,
+		ITimeFactory $timeFactory) {
+		$this->db = $db;
+		$this->calDavBackend = $calDavBackend;
+		$this->logger = $logger;
+		$this->jobList = $jobList;
+		$this->timeFactory = $timeFactory;
 	}
 
 	public function run($arguments) {
@@ -51,8 +72,8 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 
 		$this->logger->info('Building calendar index (' . $offset .'/' . $stopAt . ')');
 
-		$startTime = $this->time->getTime();
-		while (($this->time->getTime() - $startTime) < 15) {
+		$startTime = $this->timeFactory->getTime();
+		while (($this->timeFactory->getTime() - $startTime) < 15) {
 			$offset = $this->buildIndex($offset, $stopAt);
 			if ($offset >= $stopAt) {
 				break;
@@ -84,7 +105,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 			->orderBy('id', 'ASC')
 			->setMaxResults(500);
 
-		$result = $query->executeQuery();
+		$result = $query->execute();
 		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
 			$offset = $row['id'];
 

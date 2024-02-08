@@ -33,8 +33,8 @@ use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 use Test\TestCase;
 
@@ -46,7 +46,8 @@ class RefreshWebcalJobTest extends TestCase {
 	/** @var IConfig | MockObject */
 	private $config;
 
-	private LoggerInterface $logger;
+	/** @var ILogger | MockObject */
+	private $logger;
 
 	/** @var ITimeFactory | MockObject */
 	private $timeFactory;
@@ -59,7 +60,7 @@ class RefreshWebcalJobTest extends TestCase {
 
 		$this->refreshWebcalService = $this->createMock(RefreshWebcalService::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->jobList = $this->createMock(IJobList::class);
@@ -114,7 +115,7 @@ class RefreshWebcalJobTest extends TestCase {
 				->with('principals/users/testuser', 'sub123');
 		}
 
-		$backgroundJob->start($this->jobList);
+		$backgroundJob->execute($this->jobList, $this->logger);
 	}
 
 	/**

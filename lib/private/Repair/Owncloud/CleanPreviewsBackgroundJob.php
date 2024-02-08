@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -25,9 +22,9 @@ declare(strict_types=1);
  */
 namespace OC\Repair\Owncloud;
 
+use OC\BackgroundJob\QueuedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -36,14 +33,33 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class CleanPreviewsBackgroundJob extends QueuedJob {
-	public function __construct(
-		private IRootFolder $rootFolder,
-		private LoggerInterface $logger,
-		private IJobList $jobList,
+	/** @var IRootFolder */
+	private $rootFolder;
+
+	private LoggerInterface $logger;
+
+	/** @var IJobList */
+	private $jobList;
+
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/**
+	 * CleanPreviewsBackgroundJob constructor.
+	 */
+	public function __construct(IRootFolder $rootFolder,
+		LoggerInterface $logger,
+		IJobList $jobList,
 		ITimeFactory $timeFactory,
-		private IUserManager $userManager,
-	) {
-		parent::__construct($timeFactory);
+		IUserManager $userManager) {
+		$this->rootFolder = $rootFolder;
+		$this->logger = $logger;
+		$this->jobList = $jobList;
+		$this->timeFactory = $timeFactory;
+		$this->userManager = $userManager;
 	}
 
 	public function run($arguments) {
@@ -64,9 +80,10 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 	}
 
 	/**
-	 * @param string $uid
+	 * @param $uid
+	 * @return bool
 	 */
-	private function cleanupPreviews($uid): bool {
+	private function cleanupPreviews($uid) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($uid);
 		} catch (NotFoundException $e) {
@@ -84,7 +101,7 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 
 		$thumbnails = $thumbnailFolder->getDirectoryListing();
 
-		$start = $this->time->getTime();
+		$start = $this->timeFactory->getTime();
 		foreach ($thumbnails as $thumbnail) {
 			try {
 				$thumbnail->delete();
@@ -92,7 +109,7 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 				// Ignore
 			}
 
-			if (($this->time->getTime() - $start) > 15) {
+			if (($this->timeFactory->getTime() - $start) > 15) {
 				return false;
 			}
 		}

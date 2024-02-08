@@ -27,16 +27,17 @@
 			class="sharing-entry__avatar" />
 
 		<div class="sharing-entry__summary">
-			<div class="sharing-entry__desc">
+			<div class="sharing-entry__desc" @click.prevent="toggleQuickShareSelect">
 				<span class="sharing-entry__title" :title="title">
 					{{ title }}
 				</span>
 				<p v-if="subtitle">
 					{{ subtitle }}
 				</p>
-				<SharingEntryQuickShareSelect v-if="share && share.permissions !== undefined"
+				<QuickShareSelect v-if="share && share.permissions !== undefined"
 					:share="share"
 					:file-info="fileInfo"
+					:toggle="showDropdown"
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 			</div>
 
@@ -198,7 +199,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
 
-import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import QuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.js'
@@ -219,7 +220,7 @@ export default {
 		NcActionSeparator,
 		NcAvatar,
 		Tune,
-		SharingEntryQuickShareSelect,
+		QuickShareSelect,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -237,6 +238,7 @@ export default {
 
 	data() {
 		return {
+			showDropdown: false,
 			copySuccess: true,
 			copied: false,
 
@@ -727,6 +729,10 @@ export default {
 			// but is incomplete as not pushed to server
 			// YET. We can safely delete the share :)
 			this.$emit('remove:share', this.share)
+		},
+
+		toggleQuickShareSelect() {
+			this.showDropdown = !this.showDropdown
 		},
 	},
 }

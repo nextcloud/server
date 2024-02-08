@@ -1,14 +1,10 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -41,37 +37,65 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUserManager;
-use Psr\Log\LoggerInterface;
 
 class VerifyUserData extends Job {
+
 	/** @var  bool */
-	private bool $retainJob = true;
+	private $retainJob = true;
 
 	/** @var int max number of attempts to send the request */
-	private int $maxTry = 24;
+	private $maxTry = 24;
 
 	/** @var int how much time should be between two tries (1 hour) */
-	private int $interval = 3600;
-	private string $lookupServerUrl;
+	private $interval = 3600;
 
-	public function __construct(
-		private IAccountManager $accountManager,
-		private IUserManager $userManager,
-		private IClientService $httpClientService,
-		private LoggerInterface $logger,
+	/** @var IAccountManager */
+	private $accountManager;
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IClientService */
+	private $httpClientService;
+
+	/** @var ILogger */
+	private $logger;
+
+	/** @var string */
+	private $lookupServerUrl;
+
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IAccountManager $accountManager,
+		IUserManager $userManager,
+		IClientService $clientService,
+		ILogger $logger,
 		ITimeFactory $timeFactory,
-		private IConfig $config,
+		IConfig $config
 	) {
 		parent::__construct($timeFactory);
+		$this->accountManager = $accountManager;
+		$this->userManager = $userManager;
+		$this->httpClientService = $clientService;
+		$this->logger = $logger;
 
 		$lookupServerUrl = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		$this->lookupServerUrl = rtrim($lookupServerUrl, '/');
+		$this->config = $config;
 	}
 
-	public function start(IJobList $jobList): void {
+	/**
+	 * run the job, then remove it from the jobList
+	 *
+	 * @param IJobList $jobList
+	 * @param ILogger|null $logger
+	 */
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		if ($this->shouldRun($this->argument)) {
-			parent::start($jobList);
+			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
 			if ($this->retainJob) {
 				$this->reAddJob($jobList, $this->argument);

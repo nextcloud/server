@@ -43,8 +43,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\L10N\IFactory;
-use Psr\Log\LoggerInterface;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
@@ -186,12 +186,10 @@ if (\OCP\Util::needUpgrade()) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
-		\OCP\Server::get(LoggerInterface::class)->error(
-			$e->getMessage(),
-			[
-				'exception' => $e,
-				'app' => 'update',
-			]);
+		\OC::$server->getLogger()->logException($e, [
+			'level' => ILogger::ERROR,
+			'app' => 'update',
+		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
 		$eventSource->close();
 		exit();

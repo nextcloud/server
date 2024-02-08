@@ -26,25 +26,31 @@
 namespace OC\Command;
 
 use Laravel\SerializableClosure\SerializableClosure;
-use OCP\BackgroundJob\IJob;
-use OCP\BackgroundJob\IJobList;
 use OCP\Command\ICommand;
 
 class CronBus extends AsyncBus {
-	public function __construct(
-		private IJobList $jobList,
-	) {
+	/**
+	 * @var \OCP\BackgroundJob\IJobList
+	 */
+	private $jobList;
+
+
+	/**
+	 * @param \OCP\BackgroundJob\IJobList $jobList
+	 */
+	public function __construct($jobList) {
+		$this->jobList = $jobList;
 	}
 
-	protected function queueCommand($command): void {
+	protected function queueCommand($command) {
 		$this->jobList->add($this->getJobClass($command), $this->serializeCommand($command));
 	}
 
 	/**
-	 * @param ICommand|callable $command
-	 * @return class-string<IJob>
+	 * @param \OCP\Command\ICommand | callable $command
+	 * @return string
 	 */
-	private function getJobClass($command): string {
+	private function getJobClass($command) {
 		if ($command instanceof \Closure) {
 			return ClosureJob::class;
 		} elseif (is_callable($command)) {
@@ -57,10 +63,10 @@ class CronBus extends AsyncBus {
 	}
 
 	/**
-	 * @param ICommand|callable $command
+	 * @param \OCP\Command\ICommand | callable $command
 	 * @return string
 	 */
-	private function serializeCommand($command): string {
+	private function serializeCommand($command) {
 		if ($command instanceof \Closure) {
 			return serialize(new SerializableClosure($command));
 		} elseif (is_callable($command) or $command instanceof ICommand) {

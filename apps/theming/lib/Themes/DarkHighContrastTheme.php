@@ -33,6 +33,10 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		return 'dark-highcontrast';
 	}
 
+	public function getMediaQuery(): string {
+		return '(prefers-color-scheme: dark) and (prefers-contrast: more)';
+	}
+
 	public function getTitle(): string {
 		return $this->l->t('Dark theme with high contrast mode');
 	}
@@ -43,10 +47,6 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 	public function getDescription(): string {
 		return $this->l->t('Similar to the high contrast mode, but with dark colours.');
-	}
-
-	public function getMediaQuery(): string {
-		return '(prefers-color-scheme: dark) and (prefers-contrast: more)';
 	}
 
 	/**

@@ -35,7 +35,7 @@
 						@click="openSharingSidebar">
 						<template #icon>
 							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
-							<AccountPlusIcon v-else :size="20" />
+							<ShareVariantIcon v-else :size="20" />
 						</template>
 					</NcButton>
 
@@ -143,7 +143,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -177,7 +177,7 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		PlusIcon,
-		AccountPlusIcon,
+		ShareVariantIcon,
 		UploadPicker,
 		ViewGridIcon,
 	},
@@ -620,9 +620,9 @@ $navigationToggleSize: 50px;
 		}
 
 		&-share-button {
-			color: var(--color-text-maxcontrast) !important;
+			opacity: .3;
 			&--shared {
-				color: var(--color-main-text) !important;
+				opacity: 1;
 			}
 		}
 	}

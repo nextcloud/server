@@ -27,6 +27,7 @@ namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,6 +37,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Job extends Command {
 	public function __construct(
 		protected IJobList $jobList,
+		protected ILogger $logger,
 	) {
 		parent::__construct();
 	}
@@ -84,14 +86,14 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		$job->start($this->jobList);
+		$job->execute($this->jobList, $this->logger);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof \OC\BackgroundJob\TimedJob || $job instanceof \OCP\BackgroundJob\TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
 		} else {
@@ -115,10 +117,10 @@ class Job extends Command {
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof \OC\BackgroundJob\TimedJob || $job instanceof \OCP\BackgroundJob\TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof \OC\BackgroundJob\QueuedJob || $job instanceof \OCP\BackgroundJob\QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');

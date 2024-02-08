@@ -155,7 +155,7 @@ class GetSharedSecretTest extends TestCase {
 			$this->jobList->expects($this->never())->method('add');
 		}
 
-		$getSharedSecret->start($this->jobList);
+		$getSharedSecret->execute($this->jobList);
 	}
 
 	public function dataTestExecute() {

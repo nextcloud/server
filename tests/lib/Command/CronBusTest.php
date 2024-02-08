@@ -44,7 +44,7 @@ class CronBusTest extends AsyncBusTest {
 	protected function runJobs() {
 		$jobs = $this->jobList->getAll();
 		foreach ($jobs as $job) {
-			$job->start($this->jobList);
+			$job->execute($this->jobList);
 		}
 	}
 }

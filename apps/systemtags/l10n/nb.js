@@ -51,7 +51,6 @@ OC.L10N.register(
     "Public" : "Offentlig",
     "Restricted" : "Begrenset",
     "Invisible" : "Usynlig",
-    "Failed to load tags" : "Lasting av merkelapper feilet",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbeidsmerkelapper er tilgjengelige for alle brukere. Begrensede merkelapper er synlige for brukere, men kan ikke tildeles av dem. Usynlige merkelapper er for intern bruk, siden brukere ikke kan se eller tildele dem.",
     "No tags found" : "Fant ingen merkelapper",
     "Tag name is empty" : "Merkelapp er tom",

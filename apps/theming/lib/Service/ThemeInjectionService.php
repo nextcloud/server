@@ -22,7 +22,6 @@
  */
 namespace OCA\Theming\Service;
 
-use OCA\Theming\ITheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Util;
 use OCP\IConfig;
@@ -49,7 +48,6 @@ class ThemeInjectionService {
 		$this->defaultTheme = $defaultTheme;
 		$this->util = $util;
 		$this->config = $config;
-
 		if ($userSession->getUser() !== null) {
 			$this->userId = $userSession->getUser()->getUID();
 		} else {
@@ -57,7 +55,7 @@ class ThemeInjectionService {
 		}
 	}
 
-	public function injectHeaders(): void {
+	public function injectHeaders() {
 		$themes = $this->themesService->getThemes();
 		$defaultTheme = $themes[$this->defaultTheme->getId()];
 		$mediaThemes = array_filter($themes, function ($theme) {
@@ -66,11 +64,11 @@ class ThemeInjectionService {
 		});
 
 		// Default theme fallback
-		$this->addThemeHeaders($defaultTheme);
+		$this->addThemeHeader($defaultTheme->getId());
 
 		// Themes applied by media queries
 		foreach($mediaThemes as $theme) {
-			$this->addThemeHeaders($theme, true, $theme->getMediaQuery());
+			$this->addThemeHeader($theme->getId(), true, $theme->getMediaQuery());
 		}
 
 		// Themes
@@ -79,23 +77,20 @@ class ThemeInjectionService {
 			if ($theme->getId() === $this->defaultTheme->getId()) {
 				continue;
 			}
-			$this->addThemeHeaders($theme, false);
+			$this->addThemeHeader($theme->getId(), false);
 		}
-
-		// Meta headers
-		$this->addThemeMetaHeaders($themes);
 	}
 
 	/**
 	 * Inject theme header into rendered page
 	 *
-	 * @param ITheme $theme the theme
+	 * @param string $themeId the theme ID
 	 * @param bool $plain request the :root syntax
 	 * @param string $media media query to use in the <link> element
 	 */
-	private function addThemeHeaders(ITheme $theme, bool $plain = true, string $media = null): void {
+	private function addThemeHeader(string $themeId, bool $plain = true, string $media = null) {
 		$linkToCSS = $this->urlGenerator->linkToRoute('theming.Theming.getThemeStylesheet', [
-			'themeId' => $theme->getId(),
+			'themeId' => $themeId,
 			'plain' => $plain,
 			'v' => $this->util->getCacheBuster(),
 		]);
@@ -105,37 +100,5 @@ class ThemeInjectionService {
 			'href' => $linkToCSS,
 			'class' => 'theme'
 		]);
-	}
-
-	/**
-	 * Inject meta headers into rendered page
-	 *
-	 * @param ITheme[] $themes the theme
-	 */
-	private function addThemeMetaHeaders(array $themes): void {
-		$metaHeaders = [];
-
-		// Meta headers
-		foreach($this->themesService->getThemes() as $theme) {
-			if (!empty($theme->getMeta())) {
-				foreach($theme->getMeta() as $meta) {
-					if (!isset($meta['name']) || !isset($meta['content'])) {
-						continue;
-					}
-
-					if (!isset($metaHeaders[$meta['name']])) {
-						$metaHeaders[$meta['name']] = [];
-					}
-					$metaHeaders[$meta['name']][] = $meta['content'];
-				}
-			}
-		}
-
-		foreach($metaHeaders as $name => $content) {
-			\OCP\Util::addHeader('meta', [
-				'name' => $name,
-				'content' => join(' ', array_unique($content)),
-			]);
-		}
 	}
 }

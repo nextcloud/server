@@ -23,14 +23,17 @@
  */
 namespace OCA\User_LDAP\Migration;
 
+use OC\BackgroundJob\QueuedJob;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Proxy;
 use OCA\User_LDAP\User_Proxy;
-use OCP\BackgroundJob\QueuedJob;
 
 abstract class UUIDFix extends QueuedJob {
-	protected AbstractMapping $mapper;
-	protected Proxy $proxy;
+	/** @var  AbstractMapping */
+	protected $mapper;
+
+	/** @var  Proxy */
+	protected $proxy;
 
 	public function run($argument) {
 		$isUser = $this->proxy instanceof User_Proxy;

@@ -24,11 +24,9 @@ namespace OCA\User_LDAP\Migration;
 
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Mapping\GroupMapping;
-use OCP\AppFramework\Utility\ITimeFactory;
 
 class UUIDFixGroup extends UUIDFix {
-	public function __construct(ITimeFactory $time, GroupMapping $mapper, Group_Proxy $proxy) {
-		parent::__construct($time);
+	public function __construct(GroupMapping $mapper, Group_Proxy $proxy) {
 		$this->mapper = $mapper;
 		$this->proxy = $proxy;
 	}
