@@ -1661,6 +1661,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @param \OCP\ISession $session
+	 * @return void
 	 */
 	public function setSession(\OCP\ISession $session) {
 		$this->get(SessionStorage::class)->setSession($session);

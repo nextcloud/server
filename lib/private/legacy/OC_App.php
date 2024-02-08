@@ -117,6 +117,8 @@ class OC_App {
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 *
+	 * @deprecated 29.0.0 use IAppManager::loadApps instead
 	 */
 	public static function loadApps(array $types = []): bool {
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
