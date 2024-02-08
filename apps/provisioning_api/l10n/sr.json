@@ -1,6 +1,6 @@
 { "translations": {
     "Logged in user must be an administrator or have authorization to edit this setting." : "Пријављени корисник мора бити администратор или мора да има дозволу да измени ово подешавање.",
-    "Could not create non-existing user id" : "Не може да се креира ид за корисника који не постоји",
+    "Could not create non-existing user ID" : "Не може да се креира ИД за корисника који не постоји",
     "User already exists" : "Корисник већ постоји",
     "Group %1$s does not exist" : "Група %1$s не постоји",
     "Insufficient privileges for group %1$s" : "Нема довољно привилегија за групу %1$s",

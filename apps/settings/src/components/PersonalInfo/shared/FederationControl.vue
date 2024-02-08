@@ -21,7 +21,8 @@
 -->
 
 <template>
-	<NcActions class="federation-actions"
+	<NcActions ref="federationActions"
+		class="federation-actions"
 		:class="{ 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
 		:default-icon="scopeIcon"
@@ -151,6 +152,9 @@ export default {
 			} else {
 				await this.updateAdditionalScope(scope)
 			}
+
+			// TODO: provide focus method from NcActions
+			this.$refs.federationActions.$refs.menuButton.$el.focus()
 		},
 
 		async updatePrimaryScope(scope) {

@@ -33,10 +33,7 @@
     "Set reminder" : "Angi påminnelse",
     "Edit locally" : "Rediger lokalt",
     "Open" : "Åpne",
-    "Delete file" : "Slett fil",
-    "Delete folder" : "Slett mappe",
-    "Disconnect storage" : "Koble fra lager",
-    "Leave this share" : "Forlat denne delingen",
+    "_Delete file_::_Delete files_" : ["Slett fil","Slette filer"],
     "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
@@ -186,6 +183,7 @@
     "Unknown error" : "Ukjent feil",
     "Ownership transfer request sent" : "Forespørsel om overføring av eierskap er sendt",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
+    "Select file or folder to link to" : "Velg fil eller mappe å koble til",
     "Choose {file}" : "Choose {file}",
     "No files in here" : "Ingen filer",
     "Upload some content or sync with your devices!" : "Last opp innhold eller synkroniser med enhetene dine!",
@@ -213,6 +211,7 @@
     "Blank" : "Tom",
     "Unable to create new file from template" : "Kan ikke opprette ny fil fra malen",
     "Delete permanently" : "Slett for godt",
+    "Cancel" : "Avbryt",
     "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Move to {target}",
     "Open details" : "Åpne detaljer",
@@ -229,7 +228,6 @@
     "New text file.txt" : "Ny tekstfil.txt",
     "You can only favorite a single file or folder at a time" : "Du kan bare legge til en fil av gangen til favoritter",
     "Search users" : "Søk etter brukere",
-    "Cancel" : "Avbryt",
     "Set up templates folder" : "Sett opp mal-mappen",
     "Toggle %1$s sublist" : "Veksle %1$s underliste",
     "Toggle grid view" : "Veksle rutenett-visning",
@@ -239,6 +237,7 @@
     "Shared with you" : "Delt med deg",
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Ventende delinger",
+    "Unselect all" : "Fravelg alle",
     "Choose" : "Velg"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

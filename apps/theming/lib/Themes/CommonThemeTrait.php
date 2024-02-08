@@ -88,13 +88,13 @@ trait CommonThemeTrait {
 	protected function generateGlobalBackgroundVariables(): array {
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		$hasCustomLogoHeader = $this->util->isLogoThemed();
-		$isDefaultPrimaryBright = $this->util->invertTextColor($this->defaultPrimaryColor);
+		$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
 
 		$variables = [];
 
 		// Default last fallback values
 		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
-		$variables['--color-background-plain'] = $this->defaultPrimaryColor;
+		$variables['--color-background-plain'] = $this->primaryColor;
 
 		// Register image variables only if custom-defined
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
@@ -108,11 +108,11 @@ trait CommonThemeTrait {
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
+			$variables['--color-background-plain'] = $this->primaryColor;
 			$variables['--image-background-plain'] = 'yes';
 			$variables['--image-background'] = 'no';
 			// If no background image is set, we need to check against the shown primary colour
-			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
+			$variables['--background-image-invert-if-bright'] = $isPrimaryBright ? 'invert(100%)' : 'no';
 		}
 
 		if ($hasCustomLogoHeader) {
@@ -133,14 +133,14 @@ trait CommonThemeTrait {
 			$adminBackgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
-			$isPrimaryBright = $this->util->invertTextColor($this->themingDefaults->getColorPrimary());
+			$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
 
 			// The user removed the background
 			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
 				return [
 					// Might be defined already by admin theming, needs to be overridden
 					'--image-background' => 'none',
-					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--color-background-plain' => $this->primaryColor,
 					// If no background image is set, we need to check against the shown primary colour
 					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
@@ -151,7 +151,7 @@ trait CommonThemeTrait {
 				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
-					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--color-background-plain' => $this->primaryColor,
 				];
 			}
 
@@ -159,7 +159,7 @@ trait CommonThemeTrait {
 			if ($backgroundImage === BackgroundService::BACKGROUND_DEFAULT && $adminBackgroundDeleted) {
 				return [
 					// --image-background is not defined in this case
-					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--color-background-plain' => $this->primaryColor,
 					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
 			}
@@ -168,7 +168,7 @@ trait CommonThemeTrait {
 			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
-					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--color-background-plain' => $this->primaryColor,
 					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
 				];
 			}

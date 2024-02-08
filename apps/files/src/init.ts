@@ -66,5 +66,6 @@ registerRecentView()
 registerPreviewServiceWorker()
 
 registerDavProperty('nc:hidden', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:is-mount-root', { nc: 'http://nextcloud.org/ns' })
 
 initLivePhotos()

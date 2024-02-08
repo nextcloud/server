@@ -1,6 +1,6 @@
 { "translations": {
     "Logged in user must be an administrator or have authorization to edit this setting." : "登錄用戶必須是管理員或有編輯此設置的授權。",
-    "Could not create non-existing user id" : "無法建立不存在的用戶 ID",
+    "Could not create non-existing user ID" : "無法建立不存在的用戶 ID",
     "User already exists" : "用戶已存在",
     "Group %1$s does not exist" : "群組 %1$s 不存在",
     "Insufficient privileges for group %1$s" : "群組 %1$s 權限不足",
