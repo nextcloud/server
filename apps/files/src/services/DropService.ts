@@ -29,10 +29,13 @@ import { getUploader } from '@nextcloud/upload'
 import { joinPaths } from '@nextcloud/paths'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
 
 import logger from '../logger.js'
 
-export const handleDrop = async (data: DataTransfer) => {
+const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
+
+export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
 
 	const uploads = [] as Upload[]
@@ -66,6 +69,14 @@ export const handleDrop = async (data: DataTransfer) => {
 
 const handleFileUpload = async (file: File, path: string = '') => {
 	const uploader = getUploader()
+
+	const toCheck = file.name.split('')
+	toCheck.forEach(char => {
+		if (forbiddenCharacters.indexOf(char) !== -1) {
+			showError(t('files', t('files', '"{char}" is not allowed inside a file name.', { char })))
+			throw '#.. is not allowed inside a file name.'
+		}
+	})
 
 	try {
 		return await uploader.upload(`${path}${file.name}`, file)
