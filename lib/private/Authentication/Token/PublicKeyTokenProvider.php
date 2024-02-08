@@ -230,7 +230,7 @@ class PublicKeyTokenProvider implements IProvider {
 			}
 
 			$password = null;
-			if (!is_null($token->getPassword())) {
+			if (!is_null($token->getPassword()) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
 				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
 				$password = $this->decryptPassword($token->getPassword(), $privateKey);
 			}
@@ -316,7 +316,7 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException("Invalid token type");
 		}
 
-		if ($savedToken->getPassword() === null) {
+		if ($savedToken->getPassword() === null || $this->config->getSystemValueBool('auth.storeCryptedPassword', true) === false) {
 			throw new PasswordlessTokenException();
 		}
 
@@ -337,6 +337,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->atomic(function () use ($password, $token) {
 			// When changing passwords all temp tokens are deleted
 			$this->mapper->deleteTempToken($token);
+
+			if ($this->config->getSystemValueBool('auth.storeCryptedPassword', true) === false) {
+				return;
+			}
 
 			// Update the password for all tokens
 			$tokens = $this->mapper->getTokenByUser($token->getUID());
@@ -359,6 +363,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException("Invalid token type");
+		}
+
+		if (is_null($token->getPassword()) || $this->config->getSystemValueBool('auth.storeCryptedPassword', true) === false) {
+			return $token;
 		}
 
 		// Decrypt private key with oldTokenId
@@ -441,26 +449,26 @@ class PublicKeyTokenProvider implements IProvider {
 			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
 		], $this->config->getSystemValue('openssl', []));
 
-		// Generate new key
-		$res = openssl_pkey_new($config);
-		if ($res === false) {
-			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
-		}
-
-		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
-			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
-		}
-
-		// Extract the public key from $res to $pubKey
-		$publicKey = openssl_pkey_get_details($res);
-		$publicKey = $publicKey['key'];
-
-		$dbToken->setPublicKey($publicKey);
-		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
-
 		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
+			// Generate new key
+			$res = openssl_pkey_new($config);
+			if ($res === false) {
+				$this->logOpensslError();
+				throw new \RuntimeException('OpenSSL reported a problem');
+			}
+
+			if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+				$this->logOpensslError();
+				throw new \RuntimeException('OpenSSL reported a problem');
+			}
+
+			// Extract the public key from $res to $pubKey
+			$publicKey = openssl_pkey_get_details($res);
+			$publicKey = $publicKey['key'];
+
+			$dbToken->setPublicKey($publicKey);
+			$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
+
 			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
 			}
