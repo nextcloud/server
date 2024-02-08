@@ -31,6 +31,7 @@ class Util {
 	private static array $scriptsInit = [];
 	private static array $scripts = [];
 	private static array $scriptDeps = [];
+	private static array $sharedModules = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -172,6 +173,35 @@ class Util {
 		} else {
 			self::$scripts[$application][] = $path;
 		}
+	}
+
+	/**
+	 * Provide a shared JavaScript module
+	 * Apps - if using this - should only provide their own API packages not external dependencies as this can conflict with server core.
+	 *
+	 * @param string $application The application where to look for the entry point (see `addScript`)
+	 * @param string $file The JavaScript entry point file name (see `addScript`)
+	 * @param string $module The modul name
+	 * @since 30.0.0
+	 */
+	public static function addSharedModule(string $application, string $file, string $module): void {
+		if (!empty($application)) {
+			$path = "$application/js/$file";
+		} else {
+			$path = "js/$file";
+		}
+
+		self::$sharedModules[$module] = $path;
+	}
+
+	/**
+	 * Get all shared JavaScript modules
+	 *
+	 * @return array<string, string>
+	 * @since 30.0.0
+	 */
+	public static function getSharedModules(): array {
+		return self::$sharedModules;
 	}
 
 	/**

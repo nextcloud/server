@@ -26,6 +26,10 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			return;
 		}
 
+		// Modules we share everywhere
+		Util::addSharedModule('core', 'shared-vue', 'vue');
+		Util::addSharedModule('core', 'shared-nextcloud-vue', '@nextcloud/vue');
+
 		if ($event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_USER) {
 			// Making sure to inject just after core
 			Util::addScript('core', 'unsupported-browser-redirect');

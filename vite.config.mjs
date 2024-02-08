@@ -42,6 +42,8 @@ export default defineConfig(async (env) => {
 					// Create only one chunk of splitted CSS instead of multiple per entry point
 					cssCodeSplit: false,
 					rollupOptions: {
+						// We need to preserve entry signatures for shared modules
+						preserveEntrySignatures: 'allow-extension',
 						output: {
 							// Keep core-common files together to reduce number of chunks
 							chunkFileNames: (info) => info.name.match(/core-common/) ? 'core-common.mjs' : 'chunks/[name]-[hash].mjs',

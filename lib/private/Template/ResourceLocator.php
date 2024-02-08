@@ -16,6 +16,7 @@ abstract class ResourceLocator {
 	protected $serverroot;
 	protected $webroot;
 
+	/** @var array<int, array{0: string, 1: string, 2: string}> */
 	protected $resources = [];
 
 	protected LoggerInterface $logger;
@@ -165,8 +166,10 @@ abstract class ResourceLocator {
 	}
 
 	/**
-	 * Returns the list of all resources that should be loaded
-	 * @return array
+	 * Returns the list of all resources that should be loaded.
+	 * Each entry is an array [root, webroot, filename]
+	 *
+	 * @return array<int, array{0: string, 1: string, 2: string}>
 	 */
 	public function getResources() {
 		return $this->resources;

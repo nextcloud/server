@@ -23,7 +23,7 @@
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
-const __dirname = import.meta.dirname ?? dirname(fileURLToPath(import.meta.url))
+const __dirname = globalThis?.__dirname ?? import.meta.dirname ?? dirname(fileURLToPath(import.meta.url))
 
 export default {
 	comments: {
@@ -32,6 +32,8 @@ export default {
 		init: join(__dirname, 'apps/comments/src', 'init.ts'),
 	},
 	core: {
+		'shared-vue': join(__dirname, 'core/src', 'modules/vue.ts'),
+		'shared-nextcloud-vue': join(__dirname, 'core/src', 'modules/nextcloud-vue.ts'),
 		backgroundjobs: join(__dirname, 'core/src', 'cron.ts'),
 		files_client: join(__dirname, 'core/src', 'files/client.js'),
 		files_fileinfo: join(__dirname, 'core/src', 'files/fileinfo.js'),
