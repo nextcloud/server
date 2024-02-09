@@ -28,7 +28,6 @@ import { initCore } from './init.js'
 
 import _ from 'underscore'
 import $ from 'jquery'
-import 'jquery-migrate/dist/jquery-migrate.min.js'
 // TODO: switch to `jquery-ui` package and import widgets and effects individually
 //       `jquery-ui-dist` is used as a workaround for the issue of missing effects
 import 'jquery-ui-dist/jquery-ui.js'
@@ -36,7 +35,6 @@ import 'jquery-ui-dist/jquery-ui.css'
 import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
 import Backbone from 'backbone'
-import './Polyfill/tooltip.js'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
