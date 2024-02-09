@@ -26,6 +26,7 @@ import moment from 'moment'
 import History from './util-history.js'
 import OC from './index.js'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
+import { getCanonicalLocale } from '@nextcloud/l10n'
 
 /**
  * @param {any} t -
@@ -85,7 +86,10 @@ export default {
 			return null
 		}
 
-		const s = string.toLowerCase().trim()
+		const s = string
+			.toLocaleLowerCase(getCanonicalLocale())
+			.replaceAll(',', '.')
+			.trim()
 		let bytes = null
 
 		const bytesArray = {

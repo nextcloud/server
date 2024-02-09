@@ -268,7 +268,6 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import { formatFileSize, parseFileSize } from '@nextcloud/files'
 
 import {
 	NcPopoverMenu,
@@ -689,7 +688,7 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: '' + parseFileSize(quota, true),
+					value: String(OC.Util.computerFileSize(quota)),
 				})
 			} catch (error) {
 				console.error(error)
@@ -707,10 +706,10 @@ export default {
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			const validQuota = parseFileSize(quota, true)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
-				return this.setUserQuota(formatFileSize(parseFileSize(quota, true)))
+				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
 			}
 			// if no valid do not change
 			return false
