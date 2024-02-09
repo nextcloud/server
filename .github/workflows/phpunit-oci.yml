@@ -42,7 +42,7 @@ jobs:
   phpunit-oci:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    if: needs.changes.outputs.src != 'false' && ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       matrix:
