@@ -69,22 +69,21 @@ class ListFiles extends Base {
 
 		$this->setName("files:list")
 			->setDescription("list filesystem")
-			->addOption(
+			->addArgument(
 				"path",
-				"p",
-				InputArgument::OPTIONAL,
-				'limit list to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter'
+				InputArgument::REQUIRED,
+				'limit list to this path, eg. --path="/alice/files/Music", the user_id is determined by the path parameter'
 			)
 			->addOption("type", "", InputArgument::OPTIONAL, "filter by type")
 			->addOption(
 				"minSize",
-				0,
+				'0',
 				InputArgument::OPTIONAL,
 				"filter by min size"
 			)
 			->addOption(
 				"maxSize",
-				0,
+				'0',
 				InputArgument::OPTIONAL,
 				"filter by max size"
 			)
@@ -167,11 +166,12 @@ class ListFiles extends Base {
 		InputInterface $input,
 		OutputInterface $output
 	): int {
-		$inputPath = $input->getOption("path");
+		$inputPath = $input->getArgument("path");
+		
 		$users = [];
 		if ($inputPath) {
-			$inputPath = "/" . trim($inputPath, "/");
-			[, $user] = explode("/", $inputPath, 3);
+			$inputPath = ltrim($inputPath, "path=");
+			[, $user] = explode("/", rtrim($inputPath, "/").'/', 4);
 			$users = [$user];
 		}
 
