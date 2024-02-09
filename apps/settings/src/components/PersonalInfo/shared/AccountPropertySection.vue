@@ -22,32 +22,33 @@
 
 <template>
 	<section>
-		<HeaderBar :scope.sync="scope"
-			:readable.sync="readable"
+		<HeaderBar :scope="scope"
+			:readable="readable"
 			:input-id="inputId"
-			:is-editable="isEditable" />
+			:is-editable="isEditable"
+			@update:scope="(scope) => $emit('update:scope', scope)" />
 
 		<div v-if="isEditable" class="property">
-			<textarea v-if="multiLine"
+			<NcTextArea v-if="multiLine"
 				:id="inputId"
-				:placeholder="placeholder"
-				:value="value"
-				rows="8"
 				autocapitalize="none"
 				autocomplete="off"
+				label-outside
+				:placeholder="placeholder"
+				rows="8"
 				spellcheck="false"
-				@input="onPropertyChange" />
-			<input v-else
+				:value.sync="inputValue" />
+			<NcInputField v-else
 				:id="inputId"
 				ref="input"
-				:placeholder="placeholder"
-				:type="type"
-				:value="value"
 				:aria-describedby="helperText ? `${name}-helper-text` : undefined"
 				autocapitalize="none"
-				spellcheck="false"
 				:autocomplete="autocomplete"
-				@input="onPropertyChange">
+				label-outside
+				:placeholder="placeholder"
+				spellcheck="false"
+				:type="type"
+				:value.sync="inputValue" />
 
 			<div class="property__actions-container">
 				<Transition name="fade">
@@ -71,12 +72,13 @@
 
 <script>
 import debounce from 'debounce'
-
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 
-import HeaderBar from '../shared/HeaderBar.vue'
+import HeaderBar from './HeaderBar.vue'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.js'
@@ -89,6 +91,8 @@ export default {
 		AlertOctagon,
 		Check,
 		HeaderBar,
+		NcInputField,
+		NcTextArea,
 	},
 
 	props: {
@@ -138,6 +142,8 @@ export default {
 		},
 	},
 
+	emits: ['update:scope', 'update:value'],
+
 	data() {
 		return {
 			initialValue: this.value,
@@ -151,26 +157,33 @@ export default {
 		inputId() {
 			return `account-property-${this.name}`
 		},
+
+		inputValue: {
+			get() {
+				return this.value
+			},
+			set(value) {
+				this.$emit('update:value', value)
+				this.debouncePropertyChange(value.trim())
+			},
+		},
+
+		debouncePropertyChange() {
+			return debounce(async function(value) {
+				this.helperText = null
+				if (this.$refs.input && this.$refs.input.validationMessage) {
+					this.helperText = this.$refs.input.validationMessage
+					return
+				}
+				if (this.onValidate && !this.onValidate(value)) {
+					return
+				}
+				await this.updateProperty(value)
+			}, 500)
+		},
 	},
 
 	methods: {
-		onPropertyChange(e) {
-			this.$emit('update:value', e.target.value)
-			this.debouncePropertyChange(e.target.value.trim())
-		},
-
-		debouncePropertyChange: debounce(async function(value) {
-			this.helperText = null
-			if (this.$refs.input && this.$refs.input.validationMessage) {
-				this.helperText = this.$refs.input.validationMessage
-				return
-			}
-			if (this.onValidate && !this.onValidate(value)) {
-				return
-			}
-			await this.updateProperty(value)
-		}, 500),
-
 		async updateProperty(value) {
 			try {
 				const responseData = await savePrimaryAccountProperty(
@@ -211,10 +224,6 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
 
 	.property {
 		display: grid;
