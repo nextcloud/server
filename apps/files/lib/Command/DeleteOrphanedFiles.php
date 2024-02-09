@@ -47,7 +47,7 @@ class DeleteOrphanedFiles extends Command {
 		$this
 			->setName('files:cleanup')
 			->setDescription('cleanup filecache')
-			->addOption('filecache-extended', null, InputOption::VALUE_NONE, 'remove orphaned entries from filecache_extended');
+			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -78,7 +78,7 @@ class DeleteOrphanedFiles extends Command {
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
 
-		if ($input->getOption('filecache-extended')) {
+		if (!$input->getOption('skip-filecache-extended')) {
 			$deletedFileCacheExtended = $this->cleanupOrphanedFileCacheExtended();
 			$output->writeln("$deletedFileCacheExtended orphaned file cache extended entries deleted");
 		}
