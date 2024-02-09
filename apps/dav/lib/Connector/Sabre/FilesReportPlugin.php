@@ -424,14 +424,14 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 		$folder = $this->userFolder;
 		if (trim($rootNode->getPath(), '/') !== '') {
+			/** @var Folder $folder */
 			$folder = $folder->get($rootNode->getPath());
 		}
 
 		$results = [];
 		foreach ($fileIds as $fileId) {
-			$entry = $folder->getById($fileId);
+			$entry = $folder->getFirstNodeById($fileId);
 			if ($entry) {
-				$entry = current($entry);
 				$results[] = $this->wrapNode($entry);
 			}
 		}
@@ -439,7 +439,7 @@ class FilesReportPlugin extends ServerPlugin {
 		return $results;
 	}
 
-	protected function wrapNode(\OCP\Files\File|\OCP\Files\Folder $node): File|Directory {
+	protected function wrapNode(\OCP\Files\Node $node): File|Directory {
 		if ($node instanceof \OCP\Files\File) {
 			return new File($this->fileView, $node);
 		} else {

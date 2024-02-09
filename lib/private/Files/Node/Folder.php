@@ -314,7 +314,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
-		return current($this->getById($id));
+		return current($this->getById($id)) ?: null;
 	}
 
 	protected function getAppDataDirectoryName(): string {

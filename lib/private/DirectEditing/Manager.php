@@ -310,11 +310,11 @@ class Manager implements IManager {
 		if ($filePath !== null) {
 			return $userFolder->get($filePath);
 		}
-		$files = $userFolder->getById($fileId);
-		if (count($files) === 0) {
+		$file = $userFolder->getFirstNodeById($fileId);
+		if (!$file) {
 			throw new NotFoundException('File nound found by id ' . $fileId);
 		}
-		return $files[0];
+		return $file;
 	}
 
 	public function isEnabled(): bool {

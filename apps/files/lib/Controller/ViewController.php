@@ -302,8 +302,7 @@ class ViewController extends Controller {
 
 		$uid = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $userFolder->getById((int) $fileid);
-		$node = array_shift($nodes);
+		$node = $userFolder->getFirstNodeById((int) $fileid);
 
 		if ($node === null) {
 			return;
@@ -343,17 +342,16 @@ class ViewController extends Controller {
 	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = [];
 
-		if (empty($nodes) && $this->appManager->isEnabledForUser('files_trashbin')) {
+		if (!$node && $this->appManager->isEnabledForUser('files_trashbin')) {
 			/** @var Folder */
 			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$nodes = $baseFolder->getById($fileId);
+			$node = $baseFolder->getFirstNodeById($fileId);
 			$params['view'] = 'trashbin';
 
-			if (!empty($nodes)) {
-				$node = current($nodes);
+			if ($node) {
 				$params['fileid'] = $fileId;
 				if ($node instanceof Folder) {
 					// set the full path to enter the folder
@@ -378,7 +376,7 @@ class ViewController extends Controller {
 	private function redirectToFile(int $fileId) {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = ['view' => 'files'];
 
 		try {
@@ -386,8 +384,7 @@ class ViewController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 
-		if (!empty($nodes)) {
-			$node = current($nodes);
+		if ($node) {
 			$params['fileid'] = $fileId;
 			if ($node instanceof Folder) {
 				// set the full path to enter the folder

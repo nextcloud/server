@@ -87,8 +87,7 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 
-			$nodes = $userFolder->getById($fileId);
-			$file = array_pop($nodes);
+			$file = $userFolder->getFirstNodeById($fileId);
 
 			if (!$file) {
 				throw new NotFoundException("version file not found for share owner");

@@ -311,8 +311,7 @@ class Manager implements IManager {
 			$mount = $userMount->getMountPoint();
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
-			$userMountPoints = $userFolder->getById($userMountPointId);
-			$userMountPoint = array_shift($userMountPoints);
+			$userMountPoint = $userFolder->getFirstNodeById($userMountPointId);
 
 			if ($userMountPoint === null) {
 				throw new GenericShareException('Could not get proper user mount for ' . $userMountPointId . '. Failing since else the next calls are called with null');
@@ -1723,8 +1722,7 @@ class Manager implements IManager {
 		//Get node for the owner and correct the owner in case of external storage
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
-			$nodes = $userFolder->getById($path->getId());
-			$path = array_shift($nodes);
+			$path = $userFolder->getFirstNodeById($path->getId());
 			if ($path === null || $path->getOwner() === null) {
 				return [];
 			}
