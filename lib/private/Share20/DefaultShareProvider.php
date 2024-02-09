@@ -63,6 +63,8 @@ use function str_starts_with;
  * @package OC\Share20
  */
 class DefaultShareProvider implements IShareProvider {
+	protected int $chunkSize = 1000;
+
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
@@ -1095,7 +1097,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($queryFileCache->expr()->in('f.fileid', $queryFileCache->createParameter('fileIds')));
 
 		$allFileIds = array_keys($fileData);
-		foreach (array_chunk($allFileIds, 1000) as $fileIds) {
+		foreach (array_chunk($allFileIds, $this->chunkSize) as $fileIds) {
 			// Filecache and storage info
 			$queryFileCache->setParameter('fileIds', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
 
@@ -1145,7 +1147,7 @@ class DefaultShareProvider implements IShareProvider {
 		/** @var array<int, ?array> $fileData */
 		$fileData = [];
 
-		foreach (array_chunk($allGroups, 1000) as $groups) {
+		foreach (array_chunk($allGroups, $this->chunkSize) as $groups) {
 			$query->setParameter('groups', $groups, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();
@@ -1158,6 +1160,7 @@ class DefaultShareProvider implements IShareProvider {
 				$fileData[(int)$row['file_source']] = null;
 			}
 			$result->closeCursor();
+
 		}
 
 		if (empty($fileData)) {
@@ -1174,7 +1177,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($queryFileCache->expr()->in('f.fileid', $queryFileCache->createParameter('fileIds')));
 
 		$allFileIds = array_keys($fileData);
-		foreach (array_chunk($allFileIds, 1000) as $fileIds) {
+		foreach (array_chunk($allFileIds, $this->chunkSize) as $fileIds) {
 			// Filecache and storage info
 			$queryFileCache->setParameter('fileIds', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
 
