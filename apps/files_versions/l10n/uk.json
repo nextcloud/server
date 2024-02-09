@@ -17,6 +17,7 @@
     "Initial version restored" : "Початкову версію відновлено",
     "Version restored" : "Версію відновлено",
     "Could not restore version" : "Не вдалося відновити версію",
+    "Could not set version label" : "Не вдалося встановити ярлик версії",
     "Could not delete version" : "Не вдалося вилучити версію",
     "${version.label} restored" : "${version.label} відновлено",
     "Could not set version name" : "Не вдалося встановити назву для версії"
