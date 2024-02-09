@@ -656,11 +656,7 @@ class DefaultShareProvider implements IShareProvider {
 			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
 			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
 			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
-			->from('share', 's')
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
+			->from('share', 's');
 
 		$qb->andWhere($qb->expr()->orX(
 			$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)),
@@ -722,6 +718,9 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
+				if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+					continue;
+				}
 				$shares[$data['fileid']][] = $this->createShare($data);
 			}
 			$cursor->closeCursor();
@@ -737,12 +736,7 @@ class DefaultShareProvider implements IShareProvider {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share')
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
-
-		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
 
 		/**
 		 * Reshares for this user are shares where they are the owner.
@@ -774,6 +768,9 @@ class DefaultShareProvider implements IShareProvider {
 		$cursor = $qb->execute();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
+			if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+				continue;
+			}
 			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
@@ -1030,10 +1027,6 @@ class DefaultShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
 			->execute();
 
 		$data = $cursor->fetch();
@@ -1043,6 +1036,9 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		try {
+			if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+				throw new ShareNotFound();
+			}
 			$share = $this->createShare($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound();
@@ -1151,15 +1147,14 @@ class DefaultShareProvider implements IShareProvider {
 			$query = $qb->select('*')
 				->from('share')
 				->where($qb->expr()->in('parent', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
-				->andWhere($qb->expr()->orX(
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-				));
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
 
 			$stmt = $query->execute();
 
 			while ($data = $stmt->fetch()) {
+				if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+					continue;
+				}
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
@@ -1346,21 +1341,20 @@ class DefaultShareProvider implements IShareProvider {
 			$or->add($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)));
 		}
 
-		$qb->select('id', 'parent', 'share_type', 'share_with', 'file_source', 'file_target', 'permissions')
+		$qb->select('id', 'parent', 'share_type', 'share_with', 'file_source', 'file_target', 'permissions', 'item_type')
 			->from('share')
 			->where(
 				$or
 			)
-			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
-		$cursor = $qb->execute();
+			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+		$cursor = $qb->executeQuery();
 
 		$users = [];
 		$link = false;
 		while ($row = $cursor->fetch()) {
+			if ($row['item_type'] !== 'file' && $row['item_type'] !== 'folder') {
+				continue;
+			}
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
