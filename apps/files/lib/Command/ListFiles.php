@@ -68,32 +68,32 @@ class ListFiles extends Base {
 		parent::configure();
 
 		$this->setName("files:list")
-			->setDescription("list filesystem")
+			->setDescription("List filesystem")
 			->addArgument(
 				"path",
 				InputArgument::REQUIRED,
-				'limit list to this path, eg. --path="/alice/files/Music", the user_id is determined by the path parameter'
+				'Limit list to this path, eg. path="/alice/files/Music", the user_id is determined by the path parameter'
 			)
-			->addOption("type", "", InputArgument::OPTIONAL, "filter by type")
+			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
 			->addOption(
 				"minSize",
 				'0',
 				InputArgument::OPTIONAL,
-				"filter by min size"
+				"Filter by min size"
 			)
 			->addOption(
 				"maxSize",
 				'0',
 				InputArgument::OPTIONAL,
-				"filter by max size"
+				"Filter by max size"
 			)
 			->addOption(
 				"sort",
 				"name",
 				InputArgument::OPTIONAL,
-				"name, path, size, owner, type, perm, created-at"
+				"Sort by name, path, size, owner, type, perm, created-at"
 			)
-			->addOption("order", "ASC", InputArgument::OPTIONAL, "ASC, DESC");
+			->addOption("order", "ASC", InputArgument::OPTIONAL, "Order is either ASC or DESC");
 	}
 
 	private function getNodeInfo(Node $node): array {
@@ -179,7 +179,7 @@ class ListFiles extends Base {
 		$users_total = count($users);
 		if ($users_total === 0) {
 			$output->writeln(
-				"<error>Please specify the path to list, --path=...</error>"
+				"<error>Please specify the path to list, path=...</error>"
 			);
 			return self::FAILURE;
 		}
