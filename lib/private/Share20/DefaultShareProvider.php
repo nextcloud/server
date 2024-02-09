@@ -1115,16 +1115,16 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * @param Share[] $shares
+	 * @param IShare[] $shares
 	 * @param $userId
-	 * @return Share[] The updates shares if no update is found for a share return the original
+	 * @return IShare[] The updates shares if no update is found for a share return the original
 	 */
 	private function resolveGroupShares($shares, $userId) {
 		$result = [];
 
 		$start = 0;
 		while (true) {
-			/** @var Share[] $shareSlice */
+			/** @var IShare[] $shareSlice */
 			$shareSlice = array_slice($shares, $start, 100);
 			$start += 100;
 
@@ -1134,7 +1134,7 @@ class DefaultShareProvider implements IShareProvider {
 
 			/** @var int[] $ids */
 			$ids = [];
-			/** @var Share[] $shareMap */
+			/** @var IShare[] $shareMap */
 			$shareMap = [];
 
 			foreach ($shareSlice as $share) {
