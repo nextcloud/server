@@ -248,7 +248,6 @@ return array(
     'OCP\\Dashboard\\Model\\WidgetItem' => $baseDir . '/lib/public/Dashboard/Model/WidgetItem.php',
     'OCP\\Dashboard\\Model\\WidgetItems' => $baseDir . '/lib/public/Dashboard/Model/WidgetItems.php',
     'OCP\\Dashboard\\Model\\WidgetOptions' => $baseDir . '/lib/public/Dashboard/Model/WidgetOptions.php',
-    'OCP\\Dashboard\\RegisterWidgetEvent' => $baseDir . '/lib/public/Dashboard/RegisterWidgetEvent.php',
     'OCP\\DataCollector\\AbstractDataCollector' => $baseDir . '/lib/public/DataCollector/AbstractDataCollector.php',
     'OCP\\DataCollector\\IDataCollector' => $baseDir . '/lib/public/DataCollector/IDataCollector.php',
     'OCP\\Defaults' => $baseDir . '/lib/public/Defaults.php',
