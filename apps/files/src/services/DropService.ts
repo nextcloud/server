@@ -70,19 +70,18 @@ export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 const handleFileUpload = async (file: File, path: string = '') => {
 	const uploader = getUploader()
 
-	const toCheck = file.name.split('')
-	toCheck.forEach(char => {
-		if (forbiddenCharacters.indexOf(char) !== -1) {
-			showError(t('files', t('files', '"{char}" is not allowed inside a file name.', { char })))
-			throw '#.. is not allowed inside a file name.'
-		}
-	})
+	const forbidden = forbiddenCharacters.split('')
+	let forbiddenChar
 
-	try {
-		return await uploader.upload(`${path}${file.name}`, file)
-	} catch (e) {
-		showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
-		throw e
+	if(forbiddenChar = forbidden.find(char => file.name.includes(char))){
+		showError(t('files', `"${forbiddenChar}" is not allowed inside a file name.`));
+	}else{
+		try {
+			return await uploader.upload(`${path}${file.name}`, file)
+		} catch (e) {
+			showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
+			throw e
+		}
 	}
 }
 

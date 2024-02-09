@@ -54,6 +54,7 @@
 
 					<!-- Uploader -->
 					<UploadPicker v-else-if="currentFolder"
+						:forbiddenCharacters="forbiddenCharacters"
 						:content="dirContents"
 						:destination="currentFolder"
 						:multiple="true"
@@ -160,6 +161,7 @@ import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
+const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
 export default defineComponent({
@@ -246,6 +248,10 @@ export default defineComponent({
 			}
 			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
 			return this.filesStore.getNode(fileId)
+		},
+
+		forbiddenCharacters(): string {
+			return forbiddenCharacters
 		},
 
 		/**
