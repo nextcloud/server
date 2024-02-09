@@ -745,6 +745,7 @@ export default {
 		justify-content: space-between;
 		flex: 1 0;
 		min-width: 0;
+	}
 
 	&__desc {
 		display: flex;
@@ -760,11 +761,10 @@ export default {
 			overflow: hidden;
 			white-space: nowrap;
 		}
-	  }
+	}
 
-	  &__copy {
+	&__copy {
 
-	  }
 	}
 
 	&:not(.sharing-entry--share) &__actions {
