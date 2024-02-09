@@ -78,11 +78,11 @@ class ServerDevNotice implements ISettings {
 
 		$hasInitialState = false;
 
-		// viewer is default enabled and this makes a zero-cost assertion for Psalm
-		assert(class_exists(LoadViewer::class));
-
-		// If the Reasons to use Nextcloud.pdf file is here, let's init Viewer
-		if ($userFolder->nodeExists('Reasons to use Nextcloud.pdf')) {
+		// If the Reasons to use Nextcloud.pdf file is here, let's init Viewer, also check that Viewer is there
+		if (class_exists(LoadViewer::class) && $userFolder->nodeExists('Reasons to use Nextcloud.pdf')) {
+			/**
+			 * @psalm-suppress UndefinedClass, InvalidArgument
+			 */
 			$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
 			$hasInitialState = true;
 		}
