@@ -58,7 +58,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			foreach ($matches['annotation'] as $key => $annotation) {
 				$annotation = strtolower($annotation);
 				$annotationValue = $matches['parameter'][$key];
-				if (isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[\strlen($annotationValue) - 1] === ')') {
+				if (str_starts_with($annotationValue, '(') && str_ends_with($annotationValue, ')')) {
 					$cutString = substr($annotationValue, 1, -1);
 					$cutString = str_replace(' ', '', $cutString);
 					$splitArray = explode(',', $cutString);
