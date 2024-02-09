@@ -31,14 +31,15 @@ import { action as openInFilesAction } from './actions/openInFilesAction'
 import { action as renameAction } from './actions/renameAction'
 import { action as sidebarAction } from './actions/sidebarAction'
 import { action as viewInFolderAction } from './actions/viewInFolderAction'
-import { entry as newFolderEntry } from './newMenu/newFolder'
+import { entry as newFolderEntry } from './newMenu/newFolder.ts'
+import { entry as newTemplatesFolder } from './newMenu/newTemplatesFolder.ts'
+import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
 import registerFavoritesView from './views/favorites'
 import registerRecentView from './views/recent'
 import registerFilesView from './views/files'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
-import './init-templates'
 
 import { initLivePhotos } from './services/LivePhotos'
 
@@ -56,6 +57,8 @@ registerFileAction(viewInFolderAction)
 
 // Register new menu entry
 addNewFileMenuEntry(newFolderEntry)
+addNewFileMenuEntry(newTemplatesFolder)
+registerTemplateEntries()
 
 // Register files views
 registerFavoritesView()
