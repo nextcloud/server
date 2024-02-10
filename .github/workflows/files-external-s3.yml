@@ -27,7 +27,6 @@ jobs:
               - 'apps/files_external/**'
               - 'vendor/**'
               - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
               - '**.php'
