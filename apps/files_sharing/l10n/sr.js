@@ -173,6 +173,7 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Грешка, унесите исправну лозинку и/или датум истицања",
     "Link share created" : "Креиран је линк за дељење",
     "Error while creating the share" : "Грешка приликом креирања дељења",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "Брзе опције дељења, тренутно је изабрана „{selectedOption}”",
     "View only" : "Само преглед",
     "Can edit" : "Може да уређује",
     "File drop" : "Место за упуштање фајлова",

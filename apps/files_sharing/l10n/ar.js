@@ -173,6 +173,7 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "خطأ؛ يرجى إدخال كلمة المرور الصحيحة أو تاريخ انتهاء الصلاحية",
     "Link share created" : "تمّ إنشاء رابط مشاركة",
     "Error while creating the share" : "خطأ أثناء إنشاء المشاركة",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "خيارات المشاركة السريعة. الاختيار الحالي هو \"{selectedOption}\"",
     "View only" : "للعرض فقط",
     "Can edit" : "يمكنه التعديل",
     "File drop" : "اسقاط الملف",

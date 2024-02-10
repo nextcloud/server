@@ -173,6 +173,7 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Error, please enter proper password and/or expiration date",
     "Link share created" : "Link share created",
     "Error while creating the share" : "Error while creating the share",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "Quick share options, the current selected is \"{selectedOption}\"",
     "View only" : "View only",
     "Can edit" : "Can edit",
     "File drop" : "File drop",
