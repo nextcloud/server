@@ -171,6 +171,7 @@
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
     "Link share created" : "Link-Freigabe erstellt",
     "Error while creating the share" : "Fehler beim Erstellen der Freigabe",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "Schnelle Freigabeoptionen, aktuell ausgewählt ist \"{selectedOption}\"",
     "View only" : "Nur anzeigen",
     "Can edit" : "Kann bearbeiten",
     "File drop" : "Dateiablage",
