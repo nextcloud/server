@@ -33,40 +33,31 @@
 				:id="inputId"
 				autocapitalize="none"
 				autocomplete="off"
+				:error="hasError || !!helperText"
+				:helper-text="helperText"
 				label-outside
 				:placeholder="placeholder"
 				rows="8"
 				spellcheck="false"
+				:success="isSuccess"
 				:value.sync="inputValue" />
 			<NcInputField v-else
 				:id="inputId"
 				ref="input"
-				:aria-describedby="helperText ? `${name}-helper-text` : undefined"
 				autocapitalize="none"
 				:autocomplete="autocomplete"
+				:error="hasError || !!helperText"
+				:helper-text="helperText"
 				label-outside
 				:placeholder="placeholder"
 				spellcheck="false"
+				:success="isSuccess"
 				:type="type"
 				:value.sync="inputValue" />
-
-			<div class="property__actions-container">
-				<Transition name="fade">
-					<Check v-if="showCheckmarkIcon" :size="20" />
-					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
-				</Transition>
-			</div>
 		</div>
 		<span v-else>
 			{{ value || t('settings', 'No {property} set', { property: readable.toLocaleLowerCase() }) }}
 		</span>
-
-		<p v-if="helperText"
-			:id="`${name}-helper-text`"
-			class="property__helper-text-message property__helper-text-message--error">
-			<AlertCircle class="property__helper-text-message__icon" :size="18" />
-			{{ helperText }}
-		</p>
 	</section>
 </template>
 
@@ -74,9 +65,6 @@
 import debounce from 'debounce'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
-import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
-import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
-import Check from 'vue-material-design-icons/Check.vue'
 
 import HeaderBar from './HeaderBar.vue'
 
@@ -87,9 +75,6 @@ export default {
 	name: 'AccountPropertySection',
 
 	components: {
-		AlertCircle,
-		AlertOctagon,
-		Check,
 		HeaderBar,
 		NcInputField,
 		NcTextArea,
@@ -147,9 +132,9 @@ export default {
 	data() {
 		return {
 			initialValue: this.value,
-			helperText: null,
-			showCheckmarkIcon: false,
-			showErrorIcon: false,
+			helperText: '',
+			isSuccess: false,
+			hasError: false,
 		}
 	},
 
@@ -170,12 +155,13 @@ export default {
 
 		debouncePropertyChange() {
 			return debounce(async function(value) {
-				this.helperText = null
-				if (this.$refs.input && this.$refs.input.validationMessage) {
-					this.helperText = this.$refs.input.validationMessage
+				this.helperText = this.$refs.input?.$refs.input?.validationMessage || ''
+				if (this.helperText !== '') {
 					return
 				}
-				if (this.onValidate && !this.onValidate(value)) {
+				this.hasError = this.onValidate && !this.onValidate(value)
+				if (this.hasError) {
+					this.helperText = t('settings', 'Invalid value')
 					return
 				}
 				await this.updateProperty(value)
@@ -208,13 +194,13 @@ export default {
 				if (this.onSave) {
 					this.onSave(value)
 				}
-				this.showCheckmarkIcon = true
-				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
+				this.isSuccess = true
+				setTimeout(() => { this.isSuccess = false }, 2000)
 			} else {
 				this.$emit('update:value', this.initialValue)
 				handleError(error, errorMessage)
-				this.showErrorIcon = true
-				setTimeout(() => { this.showErrorIcon = false }, 2000)
+				this.hasError = true
+				setTimeout(() => { this.hasError = false }, 2000)
 			}
 		},
 	},
@@ -226,25 +212,15 @@ section {
 	padding: 10px 10px;
 
 	.property {
-		display: grid;
-		align-items: center;
-
-		textarea {
-			resize: vertical;
-			grid-area: 1 / 1;
-			width: 100%;
-		}
-
-		input {
-			grid-area: 1 / 1;
-			width: 100%;
-		}
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+		gap: 4px;
 
 		.property__actions-container {
-			grid-area: 1 / 1;
+			margin-top: 6px;
 			justify-self: flex-end;
 			align-self: flex-end;
-			height: 30px;
 
 			display: flex;
 			gap: 0 2px;

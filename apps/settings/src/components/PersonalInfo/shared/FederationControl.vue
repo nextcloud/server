@@ -2,6 +2,7 @@
 	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
+	- @author Ferdinand Thiessen <opensource@fthiessen.de>
 	-
 	- @license GNU AGPL version 3 or any later version
 	-
@@ -25,51 +26,37 @@
 		class="federation-actions"
 		:class="{ 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
-		:default-icon="scopeIcon"
 		:disabled="disabled">
-		<NcActionButton v-for="federationScope in federationScopes"
-			:key="federationScope.name"
-			:close-after-click="true"
-			:disabled="!supportedScopes.includes(federationScope.name)"
-			:icon="federationScope.iconClass"
-			:name="federationScope.displayName"
-			type="radio"
-			:value="federationScope.name"
-			:model-value="scope"
-			@update:modelValue="changeScope">
-			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
-		</NcActionButton>
+		<template #icon>
+			<NcIconSvgWrapper :path="scopeIcon" />
+		</template>
+		<FederationControlActions :additional="additional"
+			:additional-value="additionalValue"
+			:handle-additional-scope-change="handleAdditionalScopeChange"
+			:readable="readable"
+			:scope="scope"
+			@update:scope="onUpdateScope" />
 	</NcActions>
 </template>
 
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import { loadState } from '@nextcloud/initial-state'
-
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
 	ACCOUNT_SETTING_PROPERTY_READABLE_ENUM,
 	PROFILE_READABLE_ENUM,
-	PROPERTY_READABLE_KEYS_ENUM,
-	PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM,
-	SCOPE_ENUM, SCOPE_PROPERTY_ENUM,
-	UNPUBLISHED_READABLE_PROPERTIES,
+	SCOPE_PROPERTY_ENUM,
 } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.js'
-
-const {
-	federationEnabled,
-	lookupServerUploadEnabled,
-} = loadState('settings', 'accountParameters', {})
+import FederationControlActions from './FederationControlActions.vue'
 
 export default {
 	name: 'FederationControl',
 
 	components: {
 		NcActions,
-		NcActionButton,
+		NcIconSvgWrapper,
+		FederationControlActions,
 	},
 
 	props: {
@@ -103,7 +90,6 @@ export default {
 	data() {
 		return {
 			readableLowerCase: this.readable.toLocaleLowerCase(),
-			initialScope: this.scope,
 		}
 	},
 
@@ -117,83 +103,15 @@ export default {
 		},
 
 		scopeIcon() {
-			return SCOPE_PROPERTY_ENUM[this.scope].iconClass
-		},
-
-		federationScopes() {
-			return Object.values(SCOPE_PROPERTY_ENUM)
-		},
-
-		supportedScopes() {
-			const scopes = PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]
-
-			if (UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
-				return scopes
-			}
-
-			if (federationEnabled) {
-				scopes.push(SCOPE_ENUM.FEDERATED)
-			}
-
-			if (lookupServerUploadEnabled) {
-				scopes.push(SCOPE_ENUM.PUBLISHED)
-			}
-
-			return scopes
+			return SCOPE_PROPERTY_ENUM[this.scope].icon
 		},
 	},
 
 	methods: {
-		async changeScope(scope) {
+		onUpdateScope(scope) {
 			this.$emit('update:scope', scope)
-
-			if (!this.additional) {
-				await this.updatePrimaryScope(scope)
-			} else {
-				await this.updateAdditionalScope(scope)
-			}
-
 			// TODO: provide focus method from NcActions
 			this.$refs.federationActions.$refs.menuButton.$el.focus()
-		},
-
-		async updatePrimaryScope(scope) {
-			try {
-				const responseData = await savePrimaryAccountPropertyScope(PROPERTY_READABLE_KEYS_ENUM[this.readable], scope)
-				this.handleResponse({
-					scope,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update federation scope of the primary {property}', { property: this.readableLowerCase }),
-					error: e,
-				})
-			}
-		},
-
-		async updateAdditionalScope(scope) {
-			try {
-				const responseData = await this.handleAdditionalScopeChange(this.additionalValue, scope)
-				this.handleResponse({
-					scope,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update federation scope of additional {property}', { property: this.readableLowerCase }),
-					error: e,
-				})
-			}
-		},
-
-		handleResponse({ scope, status, errorMessage, error }) {
-			if (status === 'ok') {
-				this.initialScope = scope
-			} else {
-				this.$emit('update:scope', this.initialScope)
-				handleError(error, errorMessage)
-			}
 		},
 	},
 }
