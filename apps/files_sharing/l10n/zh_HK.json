@@ -171,6 +171,7 @@
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入正確的密碼和/或有效期",
     "Link share created" : "創建了連結分享",
     "Error while creating the share" : "創建分享出錯",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "快速分享選項，目前已選擇 \"{selectedOption}\"",
     "View only" : "僅檢視",
     "Can edit" : "可編輯",
     "File drop" : "檔案拖放",

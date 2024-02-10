@@ -171,6 +171,7 @@
     "Error, please enter proper password and/or expiration date" : "S'ha produït un error, introduïu la contrasenya o la data de caducitat adequada",
     "Link share created" : "S'ha creat l'enllaç compartit",
     "Error while creating the share" : "S'ha produït un error en crear l'element compartit",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "Opcions ràpides d'ús compartit, l'opció seleccionada actualment és «{selectedOption}»",
     "View only" : "Només visualitació",
     "Can edit" : "Pot editar",
     "File drop" : "Pujada de fitxers",
