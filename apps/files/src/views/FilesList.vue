@@ -566,15 +566,20 @@ export default defineComponent({
 		/**
 		 * Refreshes the current folder on update.
 		 *
-		 * @param {Node} node is the file/folder being updated.
+		 * @param node is the file/folder being updated.
  		 */
-		onUpdatedNode(node) {
+		onUpdatedNode(node?: Node) {
 			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
 			}
 		},
 
 		openSharingSidebar() {
+			if (!this.currentFolder) {
+				logger.debug('No current folder found for opening sharing sidebar')
+				return
+			}
+
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
