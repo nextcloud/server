@@ -56,6 +56,7 @@
 					<UploadPicker v-else-if="currentFolder"
 						:content="dirContents"
 						:destination="currentFolder"
+						:forbiddenCharacters="forbiddenCharacters"
 						:multiple="true"
 						class="files-list__header-upload-button"
 						@failed="onUploadFail"
@@ -161,6 +162,7 @@ import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
+const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
 
 export default defineComponent({
 	name: 'FilesList',
@@ -401,6 +403,10 @@ export default defineComponent({
 		canShare() {
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
+		},
+
+		forbiddenCharacters(): string {
+			return forbiddenCharacters
 		},
 	},
 
