@@ -173,6 +173,7 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Fel, ange korrekt lösenord och/eller utgångsdatum",
     "Link share created" : "Delningslänk skapad",
     "Error while creating the share" : "Det gick inte att skapa delningen",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "Snabbdelningsalternativ, det nuvarande valda är \"{selectedOption}\"",
     "View only" : "Skrivskyddat läge",
     "Can edit" : "Kan ändra",
     "File drop" : "Göm fillista",

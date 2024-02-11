@@ -213,6 +213,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Utløper {relativetime}",
     "this share just expired." : "denne delingen utløp akkurat.",
     "Shared with you by {owner}" : "Delt med deg av {owner}",
+    "Open in Files" : "Åpne i Filer",
     "Shared" : "Delt",
     "Link to a file" : "Lenke til en fil",
     "Error creating the share: {errorMessage}" : "Feil ved opprettelse av delingen: {errorMessage}",
