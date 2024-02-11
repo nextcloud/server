@@ -19,6 +19,7 @@ OC.L10N.register(
     "Admin defined" : "Administrador definido",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Saved" : "Guardado",
+    "Saving …" : "Guardando ...",
     "Save" : "Guardar",
     "Storage with ID \"%d\" not found" : "El almacenamiento con ID \"%d\" no fue encontrado",
     "Invalid backend or authentication mechanism class" : "Backend o clase de mecanismo de autenticación inválido ",
