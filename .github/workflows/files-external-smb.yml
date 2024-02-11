@@ -48,7 +48,7 @@ jobs:
 
     services:
       samba:
-        image: silvershell/samba #ghcr.io/nextcloud/continuous-integration-samba:latest
+        image: ghcr.io/nextcloud/continuous-integration-samba:latest
         ports:
           - 445:445
 
