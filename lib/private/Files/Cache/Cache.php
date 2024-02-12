@@ -705,6 +705,11 @@ class Cache implements ICache {
 			if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 				//update all child entries
 				$sourceLength = mb_strlen($sourcePath);
+
+				$childIds = $this->getChildIds($sourceStorageId, $sourcePath);
+
+				$childChunks = array_chunk($childIds, 1000);
+
 				$query = $this->connection->getQueryBuilder();
 
 				$fun = $query->func();
@@ -717,7 +722,7 @@ class Cache implements ICache {
 					->set('path_hash', $fun->md5($newPathFunction))
 					->set('path', $newPathFunction)
 					->where($query->expr()->eq('storage', $query->createNamedParameter($sourceStorageId, IQueryBuilder::PARAM_INT)))
-					->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($sourcePath) . '/%')));
+					->andWhere($query->expr()->in('fileid', $query->createParameter('files')));
 
 				// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 				if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
@@ -730,18 +735,21 @@ class Cache implements ICache {
 				for ($i = 1; $i <= $retryLimit; $i++) {
 					try {
 						$this->connection->beginTransaction();
-						$query->executeStatement();
+						foreach ($childChunks as $chunk) {
+							$query->setParameter('files', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+							$query->executeStatement();
+						}
 						break;
 					} catch (\OC\DatabaseException $e) {
 						$this->connection->rollBack();
 						throw $e;
 					} catch (RetryableException $e) {
+						$this->connection->rollBack();
+
 						// Simply throw if we already retried 4 times.
 						if ($i === $retryLimit) {
 							throw $e;
 						}
-
-						$this->connection->rollBack();
 
 						// Sleep a bit to give some time to the other transaction to finish.
 						usleep(100 * 1000 * $i);
@@ -782,6 +790,15 @@ class Cache implements ICache {
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);
 		}
+	}
+
+	private function getChildIds(int $storageId, string $path): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache')
+			->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($path) . '/%')));
+		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
 	/**

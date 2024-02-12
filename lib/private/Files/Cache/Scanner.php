@@ -37,6 +37,7 @@ namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
 use OC\Files\Storage\Wrapper\Encryption;
+use OC\SystemConfig;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
@@ -95,7 +96,10 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
+		/** @var SystemConfig $config */
+		$config = \OC::$server->get(SystemConfig::class);
+		$this->cacheActive = !$config->getValue('filesystem_cache_readonly', false);
+		$this->useTransactions = !$config->getValue('filescanner_no_transactions', false);
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
