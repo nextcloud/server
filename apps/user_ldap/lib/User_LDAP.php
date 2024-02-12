@@ -300,7 +300,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
 	 * @throws \Exception
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		if (is_string($user)) {
@@ -586,14 +586,18 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return $this->userPluginManager->countUsers();
 		}
 
-		$filter = $this->access->getFilterForUserCount();
-		$cacheKey = 'countUsers-'.$filter;
-		if (!is_null($entries = $this->access->connection->getFromCache($cacheKey))) {
+		try {
+			$filter = $this->access->getFilterForUserCount();
+			$cacheKey = 'countUsers-'.$filter;
+			if (!is_null($entries = $this->access->connection->getFromCache($cacheKey))) {
+				return $entries;
+			}
+			$entries = $this->access->countUsers($filter);
+			$this->access->connection->writeToCache($cacheKey, $entries);
 			return $entries;
+		} catch (ServerNotAvailableException $e) {
+			return false;
 		}
-		$entries = $this->access->countUsers($filter);
-		$this->access->connection->writeToCache($cacheKey, $entries);
-		return $entries;
 	}
 
 	public function countMappedUsers(): int {

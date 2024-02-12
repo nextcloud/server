@@ -241,6 +241,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
+	 * @throws ServerNotAvailableException When connection failed or configuration is invalid
 	 * @return resource|\LDAP\Connection The LDAP resource
 	 */
 	public function getConnectionResource() {
