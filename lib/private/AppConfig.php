@@ -1160,7 +1160,7 @@ class AppConfig implements IAppConfig {
 		}
 
 		if (($lazy ?? true) !== false) { // if lazy is null or true, we debug log
-			$this->logger->debug('The loading of lazy AppConfig values have been requested', ['trace' => debug_backtrace()]);
+			$this->logger->debug('The loading of lazy AppConfig values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
 		}
 
 		$qb = $this->connection->getQueryBuilder();
