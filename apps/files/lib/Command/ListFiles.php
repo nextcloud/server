@@ -1,21 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2024, ownCloud, Inc.
  *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Blaok <i@blaok.me>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Joel S <joel.devbox@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author martin.mattel@diemattels.at <martin.mattel@diemattels.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
  * @author Kareem <yemkareems@gmail.com>
  * @license AGPL-3.0
  *
@@ -167,57 +153,38 @@ class ListFiles extends Base {
 		OutputInterface $output
 	): int {
 		$inputPath = $input->getArgument("path");
-		
-		$users = [];
 		if ($inputPath) {
 			$inputPath = ltrim($inputPath, "path=");
 			[, $user] = explode("/", rtrim($inputPath, "/").'/', 4);
-			$users = [$user];
-		}
-
-		# check quantity of users to be process and show it on the command line
-		$users_total = count($users);
-		if ($users_total === 0) {
-			$output->writeln(
-				"<error>Please specify the path to list, path=...</error>"
-			);
-			return self::FAILURE;
 		}
 
 		$this->initTools($output);
 
-		$user_count = 0;
-		foreach ($users as $user) {
-			if (is_object($user)) {
-				$user = $user->getUID();
-			}
-			$path = $inputPath ?: "/" . $user;
-			++$user_count;
-			if ($this->userManager->userExists($user)) {
-				$output->writeln(
-					"Starting list for user $user_count out of $users_total ($user)"
-				);
-				$this->listFiles(
-					$user,
-					$path,
-					$output,
-					$input->getOption("type"),
-					$input->getOption("minSize"),
-					$input->getOption("maxSize")
-				);
-			} else {
-				$output->writeln(
-					"<error>Unknown user $user_count $user</error>"
-				);
-				$output->writeln("", OutputInterface::VERBOSITY_VERBOSE);
-			}
-
-			try {
-				$this->abortIfInterrupted();
-			} catch (InterruptedException $e) {
-				break;
-			}
+		if (is_object($user)) {
+			$user = $user->getUID();
 		}
+		$path = $inputPath ?: "/" . $user;
+
+		if ($this->userManager->userExists($user)) {
+			$output->writeln(
+				"Starting list for user ($user)"
+			);
+			$this->listFiles(
+				$user,
+				$path,
+				$output,
+				$input->getOption("type"),
+				$input->getOption("minSize"),
+				$input->getOption("maxSize")
+			);
+		} else {
+			$output->writeln(
+				"<error>Unknown user $user</error>"
+			);
+			$output->writeln("", OutputInterface::VERBOSITY_VERBOSE);
+			return self::FAILURE;
+		}
+
 
 		$this->presentStats($input, $output);
 		return self::SUCCESS;
