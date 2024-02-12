@@ -82,7 +82,7 @@ class ListFiles extends Base {
 			->addOption("order", "ASC", InputArgument::OPTIONAL, "Order is either ASC or DESC");
 	}
 
-	private function getNodeInfo(Node $node): array {
+	private function getNodeInfo(File|Folder $node): array {
 		return [
 			"name" => $node->getName(),
 			"size" => $node->getSize() . " bytes",
