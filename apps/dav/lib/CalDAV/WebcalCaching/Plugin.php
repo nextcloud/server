@@ -26,9 +26,15 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
+use OCA\DAV\CalDAV\CachedSubscription;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IRequest;
+use Sabre\CalDAV\Backend\SubscriptionSupport;
+use Sabre\CalDAV\Subscriptions\ISubscription;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -86,6 +92,8 @@ class Plugin extends ServerPlugin {
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
+		$server->on('propFind', [$this, 'propFind']);
+		$server->on('report', [$this, 'report']);
 	}
 
 	/**
@@ -115,6 +123,96 @@ class Plugin extends ServerPlugin {
 			$calendarHome->enableCachedSubscriptionsForThisRequest();
 		} catch (NotFound $ex) {
 			return;
+		}
+	}
+
+	public function report($reportName, $report, $path) {
+		if($reportName !==  '{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-query') {
+			return;
+		}
+		$this->server->transactionType = 'report-calendar-query';
+
+		$path = $this->server->getRequestUri();
+
+		$needsJson = 'application/calendar+json' === $report->contentType;
+
+		$node = $this->server->tree->getNodeForPath($this->server->getRequestUri());
+		$depth = $this->server->getHTTPDepth(0);
+
+		// The default result is an empty array
+		$result = [];
+
+		$calendarTimeZone = null;
+		// The calendarobject was requested directly. In this case we handle
+		// this locally.
+		if (0 == $depth && $node instanceof ISubscription) {
+			$requestedCalendarData = true;
+			$requestedProperties = $report->properties;
+
+			if (!in_array('{urn:ietf:params:xml:ns:caldav}calendar-data', $requestedProperties)) {
+				// We always retrieve calendar-data, as we need it for filtering.
+				$requestedProperties[] = '{urn:ietf:params:xml:ns:caldav}calendar-data';
+
+				// If calendar-data wasn't explicitly requested, we need to remove
+				// it after processing.
+				$requestedCalendarData = false;
+			}
+
+			$properties = $this->server->getPropertiesForPath(
+				$path,
+				$requestedProperties,
+				0
+			);
+
+			// This array should have only 1 element, the first calendar
+			// object.
+			$properties = current($properties);
+
+			// If there wasn't any calendar-data returned somehow, we ignore
+			// this.
+			if (isset($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data'])) {
+				$validator = new CalendarQueryValidator();
+
+				$vObject = VObject\Reader::read($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data']);
+				if ($validator->validate($vObject, $report->filters)) {
+					// If the client didn't require the calendar-data property,
+					// we won't give it back.
+					if (!$requestedCalendarData) {
+						unset($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data']);
+					} else {
+						if ($report->expand) {
+							$vObject = $vObject->expand($report->expand['start'], $report->expand['end'], $calendarTimeZone);
+						}
+						if ($needsJson) {
+							$properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data'] = json_encode($vObject->jsonSerialize());
+						} elseif ($report->expand) {
+							$properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data'] = $vObject->serialize();
+						}
+					}
+
+					$result = [$properties];
+				}
+				// Destroy circular references so PHP will garbage collect the
+				// object.
+				$vObject->destroy();
+			}
+		}
+		$prefer = $this->server->getHTTPPrefer();
+
+		$this->server->httpResponse->setStatus(207);
+		$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
+		$this->server->httpResponse->setHeader('Vary', 'Brief,Prefer');
+		$this->server->httpResponse->setBody($this->server->generateMultiStatus($result, 'minimal' === $prefer['return']));
+
+	}
+
+	public function propFind(PropFind $propFind, INode $node) {
+		if(!$this->enabled) {
+			return;
+		}
+
+		if($node instanceof CalendarHome) {
+			$node->enableCachedSubscriptionsForThisRequest();
 		}
 	}
 
