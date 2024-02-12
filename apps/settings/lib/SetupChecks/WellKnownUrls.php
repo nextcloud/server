@@ -54,7 +54,7 @@ class WellKnownUrls implements ISetupCheck {
 
 	private function checkGetUrl(string $url, array $validStatuses = [200, 404]): bool {
 		$client = $this->httpClientService->newClient();
-		$response = $client->get($this->urlGenerator->getAbsoluteURL($url));
+		$response = $client->get($this->urlGenerator->getAbsoluteURL($url), ['verify' => false, 'http_errors' => false]);
 		if (!in_array($response->getStatusCode(), $validStatuses)) {
 			return false;
 		}
