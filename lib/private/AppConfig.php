@@ -204,18 +204,23 @@ class AppConfig implements IAppConfig {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key config keys prefix to search
+	 * @param string $prefix config keys prefix to search
 	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
 	 * @return array<string, string> [configKey => configValue]
 	 * @since 29.0.0
 	 */
-	public function getAllValues(string $app, string $key = '', bool $filtered = false): array {
-		$this->assertParams($app, $key);
+	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
+		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
 		$this->loadConfigAll();
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
-		$values = ($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? []);
+		$values = array_filter(
+			(($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? [])),
+			function (string $key) use ($prefix): bool {
+				return str_starts_with($key, $prefix); // filter values based on $prefix
+			}, ARRAY_FILTER_USE_KEY
+		);
 
 		if (!$filtered) {
 			return $values;
@@ -839,10 +844,6 @@ class AppConfig implements IAppConfig {
 		$this->loadConfigAll();
 		$lazy = $this->isLazy($app, $key);
 
-		if (!$this->hasKey($app, $key, $lazy)) {
-			throw new AppConfigUnknownKeyException('Unknown config key');
-		}
-
 		// type can only be one type
 		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
 			throw new AppConfigIncorrectTypeException('Unknown value type');
@@ -1305,7 +1306,7 @@ class AppConfig implements IAppConfig {
 	 * @param string|false $key
 	 *
 	 * @return array|false
-	 * @deprecated 29.0.0 use getAllValues()
+	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
@@ -1326,7 +1327,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app
 	 *
 	 * @return array
-	 * @deprecated 29.0.0 use getAllValues()
+	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
