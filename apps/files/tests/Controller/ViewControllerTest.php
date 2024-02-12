@@ -71,9 +71,9 @@ class ViewControllerTest extends TestCase {
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
-	/** @var IUser */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
-	/** @var IUserSession */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
@@ -135,7 +135,6 @@ class ViewControllerTest extends TestCase {
 			])
 		->setMethods([
 			'getStorageInfo',
-			'renderScript'
 		])
 		->getMock();
 	}

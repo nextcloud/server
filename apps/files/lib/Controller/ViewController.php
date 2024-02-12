@@ -116,26 +116,6 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * @param string $appName
-	 * @param string $scriptName
-	 * @return string
-	 */
-	protected function renderScript($appName, $scriptName) {
-		$content = '';
-		$appPath = \OC_App::getAppPath($appName);
-		$scriptPath = $appPath . '/' . $scriptName;
-		if (file_exists($scriptPath)) {
-			// TODO: sanitize path / script name ?
-			ob_start();
-			include $scriptPath;
-			$content = ob_get_contents();
-			@ob_end_clean();
-		}
-
-		return $content;
-	}
-
-	/**
 	 * FIXME: Replace with non static code
 	 *
 	 * @return array
