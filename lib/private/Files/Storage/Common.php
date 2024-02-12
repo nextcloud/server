@@ -64,6 +64,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -342,7 +343,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	protected function getCacheDependencies(): CacheDependencies {
 		static $dependencies = null;
 		if (!$dependencies) {
-			$dependencies = \OC::$server->get(CacheDependencies::class);
+			$dependencies = Server::get(CacheDependencies::class);
 		}
 		return $dependencies;
 	}

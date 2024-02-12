@@ -35,6 +35,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
+use OCP\Server;
 
 class CacheWrapper extends Cache {
 	/**
@@ -50,7 +51,7 @@ class CacheWrapper extends Cache {
 			$this->querySearchHelper = $cache->querySearchHelper;
 		} else {
 			if (!$dependencies) {
-				$dependencies = \OC::$server->get(CacheDependencies::class);
+				$dependencies = Server::get(CacheDependencies::class);
 			}
 			$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
 			$this->connection = $dependencies->getConnection();
