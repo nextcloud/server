@@ -31,7 +31,11 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IRequest;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
+use Sabre\CalDAV\CalendarQueryValidator;
+use Sabre\CalDAV\ICalendarObject;
+use Sabre\CalDAV\ICalendarObjectContainer;
 use Sabre\CalDAV\Subscriptions\ISubscription;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -114,6 +118,7 @@ class Plugin extends ServerPlugin {
 		// $calendarHomePath will look like: calendars/username
 		$calendarHomePath = $pathParts[0] . '/' . $pathParts[1];
 		try {
+			// GetNodeForPath returns a OCA\DAV\Principal\Collection
 			$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
 			if (!($calendarHome instanceof CalendarHome)) {
 				//how did we end up here?
@@ -127,76 +132,93 @@ class Plugin extends ServerPlugin {
 	}
 
 	public function report($reportName, $report, $path) {
-		if($reportName !==  '{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-query') {
+		if(!$this->enabled) {
 			return;
 		}
-		$this->server->transactionType = 'report-calendar-query';
+
+		$pathParts = explode('/', ltrim($path, '/'));
+
+		// $calendarHomePath will look like: calendars/username
+		$calendarHomePath = $pathParts[0] . '/' . $pathParts[1];
+		try {
+			// GetNodeForPath returns a OCA\DAV\Principal\Collection
+			$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
+			if (!($calendarHome instanceof CalendarHome)) {
+				//how did we end up here?
+				return;
+			}
+			$calendarHome->enableCachedSubscriptionsForThisRequest();
+			// Cache Waming maybe?
+			$child = $calendarHome->getChild($pathParts[2]);
+		} catch (NotFound $ex) {
+			return;
+		}
+
+		// We only handle Cached Subscription Calendars
+		if(!$child instanceof CachedSubscription) {
+			return;
+		}
 
 		$path = $this->server->getRequestUri();
 
 		$needsJson = 'application/calendar+json' === $report->contentType;
 
-		$node = $this->server->tree->getNodeForPath($this->server->getRequestUri());
 		$depth = $this->server->getHTTPDepth(0);
 
 		// The default result is an empty array
 		$result = [];
 
 		$calendarTimeZone = null;
-		// The calendarobject was requested directly. In this case we handle
-		// this locally.
-		if (0 == $depth && $node instanceof ISubscription) {
-			$requestedCalendarData = true;
-			$requestedProperties = $report->properties;
+		if ($report->expand) {
+			// We're expanding, and for that we need to figure out the
+			// calendar's timezone.
+			$tzProp = '{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-timezone';
+			$tzResult = $this->server->getProperties($path, [$tzProp]);
+			if (isset($tzResult[$tzProp])) {
+				// This property contains a VCALENDAR with a single
+				// VTIMEZONE.
+				$vtimezoneObj = VObject\Reader::read($tzResult[$tzProp]);
+				$calendarTimeZone = $vtimezoneObj->VTIMEZONE->getTimeZone();
 
-			if (!in_array('{urn:ietf:params:xml:ns:caldav}calendar-data', $requestedProperties)) {
-				// We always retrieve calendar-data, as we need it for filtering.
-				$requestedProperties[] = '{urn:ietf:params:xml:ns:caldav}calendar-data';
-
-				// If calendar-data wasn't explicitly requested, we need to remove
-				// it after processing.
-				$requestedCalendarData = false;
-			}
-
-			$properties = $this->server->getPropertiesForPath(
-				$path,
-				$requestedProperties,
-				0
-			);
-
-			// This array should have only 1 element, the first calendar
-			// object.
-			$properties = current($properties);
-
-			// If there wasn't any calendar-data returned somehow, we ignore
-			// this.
-			if (isset($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data'])) {
-				$validator = new CalendarQueryValidator();
-
-				$vObject = VObject\Reader::read($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data']);
-				if ($validator->validate($vObject, $report->filters)) {
-					// If the client didn't require the calendar-data property,
-					// we won't give it back.
-					if (!$requestedCalendarData) {
-						unset($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data']);
-					} else {
-						if ($report->expand) {
-							$vObject = $vObject->expand($report->expand['start'], $report->expand['end'], $calendarTimeZone);
-						}
-						if ($needsJson) {
-							$properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data'] = json_encode($vObject->jsonSerialize());
-						} elseif ($report->expand) {
-							$properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data'] = $vObject->serialize();
-						}
-					}
-
-					$result = [$properties];
-				}
 				// Destroy circular references so PHP will garbage collect the
 				// object.
-				$vObject->destroy();
+				$vtimezoneObj->destroy();
+			} else {
+				// Defaulting to UTC.
+				$calendarTimeZone = new DateTimeZone('UTC');
 			}
 		}
+
+		// If we're dealing with a calendar, the calendar itself is responsible
+		// for the calendar-query.
+		if ($child instanceof ICalendarObjectContainer && 1 == $depth) {
+			$nodePaths = $child->calendarQuery($report->filters);
+
+			foreach ($nodePaths as $path) {
+				list($properties) =
+					$this->server->getPropertiesForPath($this->server->getRequestUri().'/'.$path, $report->properties);
+
+				if (($needsJson || $report->expand)) {
+					$vObject = VObject\Reader::read($properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data']);
+
+					if ($report->expand) {
+						$vObject = $vObject->expand($report->expand['start'], $report->expand['end'], $calendarTimeZone);
+					}
+
+					if ($needsJson) {
+						$properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data'] = json_encode($vObject->jsonSerialize());
+					} else {
+						$properties[200]['{'.\Sabre\CalDAV\Plugin::NS_CALDAV.'}calendar-data'] = $vObject->serialize();
+					}
+
+					// Destroy circular references so PHP will garbage collect the
+					// object.
+					$vObject->destroy();
+				}
+				$result[] = $properties;
+			}
+		}
+
 		$prefer = $this->server->getHTTPPrefer();
 
 		$this->server->httpResponse->setStatus(207);
