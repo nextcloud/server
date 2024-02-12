@@ -215,6 +215,7 @@ OC.L10N.register(
     "Switch to grid view" : "Càmbia a vista de mosàicu",
     "Error during upload: {message}" : "Errore in sa càrriga: {message}",
     "Unknown error during upload" : "Errore disconnotu durante sa càrriga",
+    "Open the files app settings" : "Aberi sa cunfiguratzione de s'aplicatzione de archìvios",
     "Files settings" : "Cunfiguratziones de archìvios",
     "File cannot be accessed" : "Impossìbile atzèdere a s'archìviu",
     "Show hidden files" : "Mustra archìvios cuados",
