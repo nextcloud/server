@@ -208,14 +208,6 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request['nickname']);
 	}
 
-	public function notJsonDataProvider() {
-		return [
-			['this is not valid json'],
-			['"just a string"'],
-			['{"just a string"}'],
-		];
-	}
-
 	public function testScimJsonPost() {
 		global $data;
 		$data = '{"userName":"testusername", "displayName":"Example User"}';
@@ -264,9 +256,20 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('someothertestvalue', $result['propertyB']);
 	}
 
-	public function testNotJsonPost() {
+	public function notJsonDataProvider() {
+		return [
+			['this is not valid json'],
+			['"just a string"'],
+			['{"just a string"}'],
+		];
+	}
+
+	/**
+	 * @dataProvider notJsonDataProvider
+	 */
+	public function testNotJsonPost($testData) {
 		global $data;
-		$data = 'this is not valid json';
+		$data = $testData;
 		$vars = [
 			'method' => 'POST',
 			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
