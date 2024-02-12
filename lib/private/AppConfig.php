@@ -204,7 +204,7 @@ class AppConfig implements IAppConfig {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key config keys prefix to search
+	 * @param string $prefix config keys prefix to search
 	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
 	 * @return array<string, string> [configKey => configValue]
@@ -1306,7 +1306,7 @@ class AppConfig implements IAppConfig {
 	 * @param string|false $key
 	 *
 	 * @return array|false
-	 * @deprecated 29.0.0 use getAllValues()
+	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
@@ -1327,7 +1327,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app
 	 *
 	 * @return array
-	 * @deprecated 29.0.0 use getAllValues()
+	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
