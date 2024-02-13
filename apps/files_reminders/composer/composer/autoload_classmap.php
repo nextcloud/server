@@ -12,6 +12,7 @@ return array(
     'OCA\\FilesReminders\\BackgroundJob\\ScheduledNotifications' => $baseDir . '/../lib/BackgroundJob/ScheduledNotifications.php',
     'OCA\\FilesReminders\\Command\\ListCommand' => $baseDir . '/../lib/Command/ListCommand.php',
     'OCA\\FilesReminders\\Controller\\ApiController' => $baseDir . '/../lib/Controller/ApiController.php',
+    'OCA\\FilesReminders\\Dav\\PropFindPlugin' => $baseDir . '/../lib/Dav/PropFindPlugin.php',
     'OCA\\FilesReminders\\Db\\Reminder' => $baseDir . '/../lib/Db/Reminder.php',
     'OCA\\FilesReminders\\Db\\ReminderMapper' => $baseDir . '/../lib/Db/ReminderMapper.php',
     'OCA\\FilesReminders\\Exception\\NodeNotFoundException' => $baseDir . '/../lib/Exception/NodeNotFoundException.php',
