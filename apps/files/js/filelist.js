@@ -396,7 +396,7 @@
 				self.do_delete(filename, directory);
 			});
 
-			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
+			this.$fileList.on('click', 'td.selection', _.bind(this._onClickFileCheckbox, this));
 			this.$fileList.on('mouseover', 'td.selection', _.bind(this._onMouseOverCheckbox, this));
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
@@ -944,8 +944,10 @@
 		 * Event handler for when clicking on a file's checkbox
 		 */
 		_onClickFileCheckbox: function(e) {
+			// to prevent double click, prevent default
+			e.preventDefault()
 			var $tr = $(e.target).closest('tr');
-			if(this._getCurrentSelectionMode() === 'range') {
+			if(this._allowSelection && e.shiftKey) {
 				this._selectRange($tr);
 			} else {
 				this._selectSingle($tr);
