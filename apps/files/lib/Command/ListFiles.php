@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2024, ownCloud, Inc.
+ * @copyright Copyright (c) 2024, Nextcloud GmbH
  *
  * @author Kareem <yemkareems@gmail.com>
  * @license AGPL-3.0
