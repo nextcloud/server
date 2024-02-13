@@ -22,7 +22,6 @@ namespace OCA\Files\Command;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
-use OC\Files\Node\Node;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
