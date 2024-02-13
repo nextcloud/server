@@ -178,6 +178,10 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 	}
 
 	public function rollback(IVersion $version) {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot restore this version because you do not have update permissions on the source file.');
+		}
+
 		return Storage::rollback($version->getVersionPath(), $version->getRevisionId(), $version->getUser());
 	}
 
