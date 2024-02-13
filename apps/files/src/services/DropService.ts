@@ -73,7 +73,7 @@ const handleFileUpload = async (file: File, path: string = '') => {
 	const forbidden = forbiddenCharacters.split('')
 	let forbiddenChar
 
-	if(forbiddenChar = forbidden.find(char => file.name.includes(char))){
+	if (forbiddenChar = forbidden.find(char => file.name.includes(char))) {
 		showError(t('files', '"{forbiddenChar}" is not allowed inside a file name.', { forbiddenChar }))
 	}else{
 		try {
