@@ -33,7 +33,7 @@ import { loadState } from '@nextcloud/initial-state'
 
 import logger from '../logger.js'
 
-const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
+const forbiddenCharacters = loadState<string>('files', 'forbiddenCharacters', '')
 
 export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
