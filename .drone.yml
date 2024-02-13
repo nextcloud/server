@@ -272,14 +272,14 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.2-php8.0
+name: mariadb10.3-php8.0
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: mariadb10.2-php8.0
+- name: mariadb10.3-php8.0
   image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
@@ -289,7 +289,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.2:10.2
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.3:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -310,14 +310,14 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.4-php8.0
+name: mariadb10.5-php8.0
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: mariadb10.4-php8.0
+- name: mariadb10.5-php8.0
   image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
@@ -327,7 +327,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.5:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -366,6 +366,44 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
   image: ghcr.io/nextcloud/continuous-integration-mariadb-10.6:latest
+  environment:
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: oc_autotest
+    MYSQL_PASSWORD: owncloud
+    MYSQL_DATABASE: oc_autotest
+  command:
+    - --sql-mode=ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+  tmpfs:
+    - /var/lib/mysql
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: mariadb10.11-php8.2
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: mariadb10.11-php8.2
+  image: ghcr.io/nextcloud/continuous-integration-php8.2:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+
+services:
+- name: cache
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
+- name: mariadb
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.11:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -1728,4 +1766,4 @@ trigger:
     - push
 ---
 kind: signature
-hmac: 8ffbbff9ef7aae684f6f1dc241390faf2fa336dac3b4773c42e9c04e17660e24
+hmac: f429112ae02a1b21b9d6b80e6558ed6ddf29819f04fae4a5790933eaf86ef414
