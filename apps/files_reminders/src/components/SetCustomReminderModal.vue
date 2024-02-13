@@ -64,10 +64,11 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import type { Node } from '@nextcloud/files'
+import { emit } from '@nextcloud/event-bus'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
@@ -156,6 +157,8 @@ export default Vue.extend({
 
 			try {
 				await setReminder(this.fileId, this.customDueDate)
+				Vue.set(this.node.attributes, 'reminder-due-date', this.customDueDate.toISOString())
+				emit('files:node:updated', this.node)
 				showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: this.fileName }))
 				this.onClose()
 			} catch (error) {
