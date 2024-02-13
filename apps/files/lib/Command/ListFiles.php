@@ -261,13 +261,15 @@ class ListFiles extends Base {
 			? $input->getOption("sort")
 			: "name";
 		$order = $input->getOption("order") == "ASC" ? SORT_ASC : SORT_DESC;
+		$fileArr = array_column($this->fileInfo, $sortKey);
+		$dirArr = array_column($this->dirInfo, $sortKey);
 		array_multisort(
-			array_column($this->fileInfo, $sortKey),
+			$fileArr,
 			$order,
 			$this->fileInfo
 		);
 		array_multisort(
-			array_column($this->dirInfo, $sortKey),
+			$dirArr,
 			$order,
 			$this->dirInfo
 		);
