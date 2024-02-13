@@ -19,9 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import Vue from 'vue'
 import type { Node } from '@nextcloud/files'
 
 import { FileAction } from '@nextcloud/files'
+import { emit } from '@nextcloud/event-bus'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
