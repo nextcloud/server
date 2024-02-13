@@ -3,8 +3,8 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>lookup_server_connector</id>
 	<name>Lookup Server Connector</name>
-	<summary>Sync public user information with the lookup server</summary>
-	<description>Sync public user information with the lookup server</description>
+	<summary>Sync public account information with the lookup server</summary>
+	<description>Sync public account information with the lookup server</description>
 	<version>1.17.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>

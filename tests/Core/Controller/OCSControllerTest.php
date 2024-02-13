@@ -196,7 +196,7 @@ class OCSControllerTest extends TestCase {
 			->with('NotExistingUser')
 			->willReturn(null);
 
-		$expected = new DataResponse(['User not found'], 404);
+		$expected = new DataResponse(['Account not found'], 404);
 		$this->assertEquals($expected, $this->controller->getIdentityProof('NotExistingUser'));
 	}
 

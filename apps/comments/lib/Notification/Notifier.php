@@ -123,7 +123,7 @@ class Notifier implements INotifier {
 				];
 
 				if ($isDeletedActor) {
-					$subject = $l->t('You were mentioned on "{file}", in a comment by a user that has since been deleted');
+					$subject = $l->t('You were mentioned on "{file}", in a comment by an account that has since been deleted');
 				} else {
 					$subject = $l->t('{user} mentioned you in a comment on "{file}"');
 					$subjectParameters['user'] = [

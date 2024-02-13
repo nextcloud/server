@@ -72,9 +72,9 @@ export default {
 
 		internalLinkSubtitle() {
 			if (this.fileInfo.type === 'dir') {
-				return t('files_sharing', 'Only works for users with access to this folder')
+				return t('files_sharing', 'Only works for people with access to this folder')
 			}
-			return t('files_sharing', 'Only works for users with access to this file')
+			return t('files_sharing', 'Only works for people with access to this file')
 		},
 	},
 

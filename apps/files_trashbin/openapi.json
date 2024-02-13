@@ -3,7 +3,7 @@
     "info": {
         "title": "files_trashbin",
         "version": "0.0.1",
-        "description": "This application enables users to restore files that were deleted from the system.",
+        "description": "This application enables people to restore files that were deleted from the system.",
         "license": {
             "name": "agpl"
         }

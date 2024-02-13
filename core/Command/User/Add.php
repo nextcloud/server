@@ -49,11 +49,11 @@ class Add extends Command {
 	protected function configure() {
 		$this
 			->setName('user:add')
-			->setDescription('adds a user')
+			->setDescription('adds an account')
 			->addArgument(
 				'uid',
 				InputArgument::REQUIRED,
-				'User ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)'
+				'Account ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)'
 			)
 			->addOption(
 				'password-from-env',
@@ -65,20 +65,20 @@ class Add extends Command {
 				'display-name',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'User name used in the web UI (can contain any characters)'
+				'Login used in the web UI (can contain any characters)'
 			)
 			->addOption(
 				'group',
 				'g',
 				InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-				'groups the user should be added to (The group will be created if it does not exist)'
+				'groups the account should be added to (The group will be created if it does not exist)'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		if ($this->userManager->userExists($uid)) {
-			$output->writeln('<error>The user "' . $uid . '" already exists.</error>');
+			$output->writeln('<error>The account "' . $uid . '" already exists.</error>');
 			return 1;
 		}
 
@@ -121,9 +121,9 @@ class Add extends Command {
 
 
 		if ($user instanceof IUser) {
-			$output->writeln('<info>The user "' . $user->getUID() . '" was created successfully</info>');
+			$output->writeln('<info>The account "' . $user->getUID() . '" was created successfully</info>');
 		} else {
-			$output->writeln('<error>An error occurred while creating the user</error>');
+			$output->writeln('<error>An error occurred while creating the account</error>');
 			return 1;
 		}
 
@@ -151,7 +151,7 @@ class Add extends Command {
 			}
 			if ($group instanceof IGroup) {
 				$group->addUser($user);
-				$output->writeln('User "' . $user->getUID() . '" added to group "' . $group->getGID() . '"');
+				$output->writeln('Account "' . $user->getUID() . '" added to group "' . $group->getGID() . '"');
 			}
 		}
 		return 0;

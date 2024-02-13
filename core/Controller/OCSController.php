@@ -134,6 +134,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse($data);
 		}
 
-		return new DataResponse(['User not found'], 404);
+		return new DataResponse(['Account not found'], 404);
 	}
 }

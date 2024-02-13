@@ -29,7 +29,7 @@
 				class="checkbox"
 				type="checkbox"
 				@change="toggleEnabled">
-			<label for="files-sharing-personal-settings-accept">{{ t('files_sharing', 'Accept user and group shares by default') }}</label>
+			<label for="files-sharing-personal-settings-accept">{{ t('files_sharing', 'Accept shares from other accounts and groups by default') }}</label>
 		</p>
 		<p v-if="allowCustomDirectory">
 			<SelectShareFolderDialogue />

@@ -26,7 +26,7 @@ import { getUserListRow, handlePasswordConfirmation } from './usersUtils'
 const admin = new User('admin', 'admin')
 const john = new User('john', '123456')
 
-describe('Settings: Create and delete users', function() {
+describe('Settings: Create and delete accounts', function() {
 	beforeEach(function() {
 		cy.listUsers().then((users) => {
 			if ((users as string[]).includes(john.userId)) {
@@ -124,8 +124,8 @@ describe('Settings: Create and delete users', function() {
 					.click({ force: true })
 			})
 
-			// The "Delete user" action in the actions menu is shown and clicked
-			cy.get('.action-item__popper .action').contains('Delete user').should('exist').click({ force: true })
+			// The "Delete account" action in the actions menu is shown and clicked
+			cy.get('.action-item__popper .action').contains('Delete account').should('exist').click({ force: true })
 			// And confirmation dialog accepted
 			cy.get('.oc-dialog button').contains(`Delete ${testUser.userId}`).click({ force: true })
 

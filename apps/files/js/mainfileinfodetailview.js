@@ -69,7 +69,7 @@
 		_setupClipboard: function() {
 			var clipboard = new Clipboard('.permalink');
 			clipboard.on('success', function(e) {
-				OC.Notification.show(t('files', 'Direct link was copied (only works for users who have access to this file/folder)'), {type: 'success'});
+				OC.Notification.show(t('files', 'Direct link was copied (only works for people who have access to this file/folder)'), {type: 'success'});
 			});
 			clipboard.on('error', function(e) {
 				var $row = this.$('.permalink-field');
@@ -166,7 +166,7 @@
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starClass: isFavorite ? 'icon-starred' : 'icon-star',
 					permalink: this._makePermalink(this.model.get('id')),
-					permalinkTitle: t('files', 'Copy direct link (only works for users who have access to this file/folder)')
+					permalinkTitle: t('files', 'Copy direct link (only works for people who have access to this file/folder)')
 				}));
 
 				// TODO: we really need OC.Previews

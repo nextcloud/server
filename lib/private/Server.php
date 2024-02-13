@@ -1155,7 +1155,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$userDisplayName = $manager->getDisplayName($id);
 				if ($userDisplayName === null) {
 					$l = $c->get(IFactory::class)->get('core');
-					return $l->t('Unknown user');
+					return $l->t('Unknown account');
 				}
 				return $userDisplayName;
 			});

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<NcSettingsSection :name="$t('dav', 'Availability')"
-			:description="$t('dav', 'If you configure your working hours, other users will see when you are out of office when they book a meeting.')">
+			:description="$t('dav', 'If you configure your working hours, other people will see when you are out of office when they book a meeting.')">
 			<AvailabilityForm />
 		</NcSettingsSection>
 		<NcSettingsSection v-if="!hideAbsenceSettings"

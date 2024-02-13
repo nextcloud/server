@@ -367,7 +367,7 @@ class Session implements IUserSession, Emitter {
 		if (!$user->isEnabled()) {
 			// disabled users can not log in
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OCP\Util::getL10N('lib')->t('User disabled');
+			$message = \OCP\Util::getL10N('lib')->t('Account disabled');
 			throw new LoginException($message);
 		}
 

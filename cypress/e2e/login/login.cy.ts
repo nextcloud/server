@@ -44,12 +44,12 @@ describe('Login', () => {
 		cy.logout()
 	})
 
-	it('log in with valid user and password', () => {
+	it('log in with valid account and password', () => {
 		// Given I visit the Home page
 		cy.visit('/')
 		// I see the login page
 		cy.get('form[name="login"]').should('be.visible')
-		// I log in with a valid user
+		// I log in with a valid account
 		cy.get('form[name="login"]').within(() => {
 			cy.get('input[name="user"]').type(user.userId)
 			cy.get('input[name="password"]').type(user.password)
@@ -63,12 +63,12 @@ describe('Login', () => {
 		cy.url().should('match', /apps\/dashboard(\/|$)/)
 	})
 
-	it('try to log in with valid user and invalid password', () => {
+	it('try to log in with valid account and invalid password', () => {
 		// Given I visit the Home page
 		cy.visit('/')
 		// I see the login page
 		cy.get('form[name="login"]').should('be.visible')
-		// I log in with a valid user but invalid password
+		// I log in with a valid account but invalid password
 		cy.get('form[name="login"]').within(() => {
 			cy.get('input[name="user"]').type(user.userId)
 			cy.get('input[name="password"]').type(`${user.password}--wrong`)
@@ -85,12 +85,12 @@ describe('Login', () => {
 		cy.get('input[name="password"]:invalid').should('exist')
 	})
 
-	it('try to log in with valid user and invalid password', () => {
+	it('try to log in with valid account and invalid password', () => {
 		// Given I visit the Home page
 		cy.visit('/')
 		// I see the login page
 		cy.get('form[name="login"]').should('be.visible')
-		// I log in with a valid user but invalid password
+		// I log in with a valid account but invalid password
 		cy.get('form[name="login"]').within(() => {
 			cy.get('input[name="user"]').type(user.userId)
 			cy.get('input[name="password"]').type(`${user.password}--wrong`)
@@ -103,11 +103,11 @@ describe('Login', () => {
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)
 		// And I see that a wrong password message is shown
-		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+username/))
+		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+login/))
 		cy.get('input[name="password"]:invalid').should('exist')
 	})
 
-	it('try to log in with invalid user', () => {
+	it('try to log in with invalid account', () => {
 		// Given I visit the Home page
 		cy.visit('/')
 		// I see the login page
@@ -125,11 +125,11 @@ describe('Login', () => {
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)
 		// And I see that a wrong password message is shown
-		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+username/))
+		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+login/))
 		cy.get('input[name="password"]:invalid').should('exist')
 	})
 
-	it('try to log in as disabled user', () => {
+	it('try to log in as disabled account', () => {
 		// Given I visit the Home page
 		cy.visit('/')
 		// I see the login page
@@ -146,8 +146,8 @@ describe('Login', () => {
 
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)
-		// And I see that the disabled user message is shown
-		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/User.+disabled/i))
+		// And I see that the disabled account message is shown
+		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Account.+disabled/i))
 		cy.get('input[name="password"]:invalid').should('exist')
 	})
 

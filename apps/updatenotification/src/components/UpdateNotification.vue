@@ -42,7 +42,7 @@
 
 				<template v-if="!isWebUpdaterRecommended && updaterEnabled && webUpdaterEnabled">
 					<h3 class="warning">
-						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!') }}
+						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!') }}
 					</h3>
 				</template>
 
@@ -233,7 +233,7 @@ export default {
 		},
 
 		noteDelayedStableString() {
-			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
+			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
 				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
 		},
 

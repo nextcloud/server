@@ -134,7 +134,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -303,7 +303,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -435,7 +435,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {

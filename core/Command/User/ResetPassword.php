@@ -55,7 +55,7 @@ class ResetPassword extends Base {
 			->addArgument(
 				'user',
 				InputArgument::REQUIRED,
-				'Username to reset password'
+				'Login to reset password'
 			)
 			->addOption(
 				'password-from-env',

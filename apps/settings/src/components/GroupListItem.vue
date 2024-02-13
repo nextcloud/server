@@ -30,7 +30,7 @@
 				</h2>
 				<NcNoteCard type="warning"
 					show-alert>
-					{{ t('settings', 'You are about to remove the group "{group}". The users will NOT be deleted.', { group: name }) }}
+					{{ t('settings', 'You are about to remove the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
 				</NcNoteCard>
 				<div class="modal__button-row">
 					<NcButton type="secondary"

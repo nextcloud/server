@@ -3,10 +3,10 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>provisioning_api</id>
 	<name>Provisioning API</name>
-	<summary>This application enables a set of APIs that external systems can use to manage users, groups and apps.</summary>
+	<summary>This application enables a set of APIs that external systems can use to manage accounts, groups and apps.</summary>
 	<description>
-		This application enables a set of APIs that external systems can use to create, edit, delete and query user
-		attributes, query, set and remove groups, set quota and query total storage used in Nextcloud. Group admin users
+		This application enables a set of APIs that external systems can use to create, edit, delete and query account
+		attributes, query, set and remove groups, set quota and query total storage used in Nextcloud. Group admin accounts
 		can also query Nextcloud and perform the same functions as an admin for groups they manage. The API also enables
 		an admin to query for active Nextcloud applications, application info, and to enable or disable an app remotely.
 		Once the app is enabled, HTTP requests can be used via a Basic Auth header to perform any of the functions

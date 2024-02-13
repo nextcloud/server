@@ -57,7 +57,7 @@ class OutOfOfficeController extends OCSController {
 	}
 
 	/**
-	 * Get the currently configured out-of-office data of a user.
+	 * Get the currently configured out-of-office data of a user
 	 *
 	 * @param string $userId The user id to get out-of-office data for.
 	 * @return DataResponse<Http::STATUS_OK, DAVCurrentOutOfOfficeData, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>

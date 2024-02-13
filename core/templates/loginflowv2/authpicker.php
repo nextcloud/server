@@ -53,8 +53,8 @@ $urlGenerator = $_['urlGenerator'];
 
 	<form action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.apptokenRedirect')); ?>" method="post" id="app-token-login-field" class="hidden">
 		<p class="grouptop">
-			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Username')) ?>">
-			<label for="user" class="infield"><?php p($l->t('Username')) ?></label>
+			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Login')) ?>">
+			<label for="user" class="infield"><?php p($l->t('Login')) ?></label>
 		</p>
 		<p class="groupbottom">
 			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App password')) ?>">

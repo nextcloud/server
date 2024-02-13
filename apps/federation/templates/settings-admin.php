@@ -8,7 +8,7 @@ style('federation', 'settings-admin')
 ?>
 <div id="ocFederationSettings" class="section">
 	<h2><?php p($l->t('Trusted servers')); ?></h2>
-	<p class="settings-hint"><?php p($l->t('Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share.')); ?></p>
+	<p class="settings-hint"><?php p($l->t('Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share.')); ?></p>
 
 	<ul id="listOfTrustedServers">
 		<?php foreach ($_['trustedServers'] as $trustedServer) { ?>

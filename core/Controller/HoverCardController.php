@@ -48,13 +48,13 @@ class HoverCardController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * Get the user details for a hovercard
+	 * Get the account details for a hovercard
 	 *
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array{userId: string, displayName: string, actions: CoreContactsAction[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
 	 *
-	 * 200: User details returned
-	 * 404: User not found
+	 * 200: Account details returned
+	 * 404: Account not found
 	 */
 	public function getUser(string $userId): DataResponse {
 		$contact = $this->manager->findOne($this->userSession->getUser(), IShare::TYPE_USER, $userId);
