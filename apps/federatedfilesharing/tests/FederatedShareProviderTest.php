@@ -459,7 +459,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		try {
 			$this->provider->create($share);
 		} catch (\Exception $e) {
-			$this->assertEquals('Sharing myFile failed, because this item is already shared with account user@server.com', $e->getMessage());
+			$this->assertEquals('Sharing myFile failed, because this item is already shared with the account user@server.com', $e->getMessage());
 		}
 	}
 
