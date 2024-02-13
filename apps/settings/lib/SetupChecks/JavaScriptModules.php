@@ -66,6 +66,9 @@ class JavaScriptModules implements ISetupCheck {
 				$client = $this->clientService->newClient();
 				$response = $client->head($testURL, [
 					'connect_timeout' => 10,
+					// Disable SSL certificate checks to allow self signed certs
+					'verify' => false,
+					// Allow to connect to local server
 					'nextcloud' => [
 						'allow_local_address' => true,
 					],
