@@ -45,7 +45,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
