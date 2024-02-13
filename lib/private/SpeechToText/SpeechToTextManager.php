@@ -141,6 +141,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 				return $provider->transcribeFile($file);
 			} catch (\Throwable $e) {
 				$this->logger->info('SpeechToText transcription using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
+				throw new RuntimeException('SpeechToText transcription using provider "' . $provider->getName() . '" failed: ' . $e->getMessage());
 			}
 		}
 
