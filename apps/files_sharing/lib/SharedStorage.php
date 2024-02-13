@@ -32,6 +32,7 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\NullWatcher;
 use OC\Files\Cache\Watcher;
@@ -40,7 +41,6 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Wrapper\PermissionsMask;
-use OC\User\DisplayNameCache;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
@@ -410,10 +410,10 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			return new FailedCache();
 		}
 
-		$this->cache = new \OCA\Files_Sharing\Cache(
+		$this->cache = new Cache(
 			$storage,
 			$sourceRoot,
-			\OC::$server->get(DisplayNameCache::class),
+			\OC::$server->get(CacheDependencies::class),
 			$this->getShare()
 		);
 		return $this->cache;
