@@ -35,9 +35,9 @@ class Password extends AuthMechanism {
 		$this
 			->setIdentifier('password::password')
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Account name and password'))
+			->setText($l->t('Login and password'))
 			->addParameters([
-				new DefinitionParameter('user', $l->t('Account name')),
+				new DefinitionParameter('user', $l->t('Login')),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 			]);

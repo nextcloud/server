@@ -60,7 +60,7 @@
 			<h2 class="login-form__headline" data-login-form-headline v-html="headline" />
 			<NcTextField id="user"
 				ref="user"
-				:label="t('core', 'Account name or email')"
+				:label="t('core', 'Login or email')"
 				name="user"
 				:value.sync="user"
 				:class="{shake: invalidPassword}"
@@ -176,7 +176,7 @@ export default {
 		},
 		errorLabel() {
 			if (this.invalidPassword) {
-				return t('core', 'Wrong account name or password.')
+				return t('core', 'Wrong login or password.')
 			}
 			if (this.userDisabled) {
 				return t('core', 'This account is disabled')

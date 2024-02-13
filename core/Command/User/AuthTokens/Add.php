@@ -58,7 +58,7 @@ class Add extends Command {
 			->addArgument(
 				'user',
 				InputArgument::REQUIRED,
-				'Account name to add app password for'
+				'Login to add app password for'
 			)
 			->addOption(
 				'password-from-env',

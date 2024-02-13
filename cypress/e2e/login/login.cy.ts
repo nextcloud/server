@@ -103,7 +103,7 @@ describe('Login', () => {
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)
 		// And I see that a wrong password message is shown
-		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+account/))
+		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+login/))
 		cy.get('input[name="password"]:invalid').should('exist')
 	})
 
@@ -125,7 +125,7 @@ describe('Login', () => {
 		// Then I see that the current page is the Login page
 		cy.url().should('match', /\/login/)
 		// And I see that a wrong password message is shown
-		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+account/))
+		cy.get('form[name="login"]').then(($el) => expect($el.text()).to.match(/Wrong.+password/i).and.to.match(/Wrong.+login/))
 		cy.get('input[name="password"]:invalid').should('exist')
 	})
 

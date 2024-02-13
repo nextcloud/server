@@ -65,7 +65,7 @@ class Add extends Command {
 				'display-name',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'Account name used in the web UI (can contain any characters)'
+				'Login used in the web UI (can contain any characters)'
 			)
 			->addOption(
 				'group',

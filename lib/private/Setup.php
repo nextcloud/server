@@ -265,7 +265,7 @@ class Setup {
 		$dbType = $options['dbtype'];
 
 		if (empty($options['adminlogin'])) {
-			$error[] = $l->t('Set an admin account name.');
+			$error[] = $l->t('Set an admin Login.');
 		}
 		if (empty($options['adminpass'])) {
 			$error[] = $l->t('Set an admin password.');

@@ -132,7 +132,7 @@ class ChangePasswordController extends Controller {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => [
-					'message' => $this->l->t('No account name supplied'),
+					'message' => $this->l->t('No Login supplied'),
 				],
 			]);
 		}

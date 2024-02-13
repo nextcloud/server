@@ -228,7 +228,7 @@ uasort($sortedBackends, function ($a, $b) {
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"
-			   placeholder="<?php p($l->t('Account name')) ?>"/>
+			   placeholder="<?php p($l->t('Login')) ?>"/>
 		<input type="password" name="password"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['password']); ?>"
