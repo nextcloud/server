@@ -35,7 +35,6 @@
 		<NcActions ref="actionsMenu"
 			:boundaries-element="getBoundariesElement"
 			:container="getBoundariesElement"
-			:disabled="isLoading || loading !== ''"
 			:force-name="true"
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
@@ -45,6 +44,7 @@
 			<!-- Default actions list-->
 			<NcActionButton v-for="action in enabledMenuActions"
 				:key="action.id"
+				:ref="`action-${action.id}`"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
 					[`files-list__row-action--menu`]: isMenu(action.id)
@@ -64,7 +64,7 @@
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
 				<!-- Back to top-level button -->
-				<NcActionButton class="files-list__row-action-back" @click="openedSubmenu = null">
+				<NcActionButton class="files-list__row-action-back" @click="onBackToMenuClick(openedSubmenu)">
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
@@ -271,6 +271,11 @@ export default Vue.extend({
 		},
 
 		async onActionClick(action, isSubmenu = false) {
+			// Skip click on loading
+			if (this.isLoading || this.loading !== '') {
+				return
+			}
+
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action
@@ -322,6 +327,21 @@ export default Vue.extend({
 			return this.enabledSubmenuActions[id]?.length > 0
 		},
 
+		async onBackToMenuClick(action: FileAction) {
+			this.openedSubmenu = null
+			// Wait for first render
+			await this.$nextTick()
+
+			// Focus the previous menu action button
+			this.$nextTick(() => {
+				// Focus the action button
+				const menuAction = this.$refs[`action-${action.id}`][0]
+				if (menuAction) {
+					menuAction.$el.querySelector('button')?.focus()
+				}
+			})
+		},
+
 		t,
 	},
 })
@@ -330,7 +350,7 @@ export default Vue.extend({
 <style lang="scss">
 // Allow right click to define the position of the menu
 // only if defined
-.app-content[style*="mouse-pos-x"] .v-popper__popper {
+[style*="mouse-pos-x"] .v-popper__popper {
 	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
 	// If the menu is too close to the bottom, we move it up

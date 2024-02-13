@@ -26,9 +26,12 @@ declare(strict_types=1);
 namespace OC\Files\ObjectStore;
 
 class AppdataPreviewObjectStoreStorage extends ObjectStoreStorage {
-	/** @var string */
-	private $internalId;
+	private string $internalId;
 
+	/**
+	 * @param array $params
+	 * @throws \Exception
+	 */
 	public function __construct($params) {
 		if (!isset($params['internal-id'])) {
 			throw new \Exception('missing id in parameters');
@@ -37,7 +40,7 @@ class AppdataPreviewObjectStoreStorage extends ObjectStoreStorage {
 		parent::__construct($params);
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'object::appdata::preview:' . $this->internalId;
 	}
 }

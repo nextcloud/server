@@ -30,7 +30,7 @@ use OCP\TextProcessing\ITaskType;
 class FakeTextProcessingProvider implements IProvider {
 
 	public function getName(): string {
-		return 'Fake text processing provider';
+		return 'Fake text processing provider (asynchronous)';
 	}
 
 	public function process(string $prompt): string {

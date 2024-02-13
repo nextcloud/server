@@ -30,7 +30,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Odabrani kanal za ažuriranje ne podržava ažuriranja poslužitelja.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Dostupna je nova inačica: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Imajte na umu da se ažuriranje nakon novog izdanja pojavljuje tek nakon prve manje nove inačice ili kasnije. Nove inačice uvodimo u pravilnim vremenskim razmacima i ponekad preskočimo inačicu ako je problematična.",
-    "Checked on {lastCheckedDate}" : "Provjereno {lastCheckedDate}",
     "Checking apps for compatible versions" : "Provjera aplikacija za kompatibilne verzije",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Provjerite da vaš config.php nije postavio <samp>appstoreenabled</samp> na vrijednost „netočno”.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Neuspješno povezivanje s trgovinom aplikacijama App Store ili je vraćena obavijest da nema ažuriranja. Ručno potražite ažuriranja ili provjerite ima li vaš poslužitelj pristup internetu i može li se povezati s trgovinom aplikacijama App Store.",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Razvojna inačica koja služi samo za ispitivanje novih značajki, a nikako za produkcijska okruženja.",
     "Please use the command line updater to update." : "Ažurirajte putem naredbenog retka.",
-    "Update channel:" : "Ažuriraj kanal:"
+    "Update channel:" : "Ažuriraj kanal:",
+    "Checked on {lastCheckedDate}" : "Provjereno {lastCheckedDate}"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

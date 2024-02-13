@@ -81,17 +81,17 @@ OC.L10N.register(
     "Failed to load tags for file" : "Fallo al cargar las etiquetas del archivo",
     "Failed to set tag for file" : "Fallo al asignar la etiqueta al archivo",
     "Failed to delete tag for file" : "Fallo al borrar la etiqueta del archivo",
-    "No files in here" : "Aquí no hay archivos",
-    "No entries found in this folder" : "No hay entradas en esta carpeta",
-    "Name" : "Nombre",
-    "Size" : "Tamaño",
-    "Modified" : "Modificado",
     "Tag name is empty" : "El nombre de la etiqueta está vacío",
     "Select tag …" : "Selecciona etiqueta...",
     "Tagged files" : "Archivos etiquetados",
     "Select tags to filter by" : "Seleccionar etiquetas por las que filtrar",
     "Please select tags to filter by" : "Por favor, seleccione las etiquetas por las que desea filtrar",
     "No files found for the selected tags" : "No se han encontrado archivos para las etiquetas seleccionadas",
-    "Create a new tag" : "Crear una etiqueta nueva"
+    "Create a new tag" : "Crear una etiqueta nueva",
+    "Name" : "Nombre",
+    "No files in here" : "Aquí no hay archivos",
+    "No entries found in this folder" : "No hay entradas en esta carpeta",
+    "Size" : "Tamaño",
+    "Modified" : "Modificado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

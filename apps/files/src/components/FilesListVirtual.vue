@@ -73,7 +73,7 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { UserConfig } from '../types'
 
-import { getFileListHeaders, Folder, View, getFileActions } from '@nextcloud/files'
+import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
@@ -139,6 +139,7 @@ export default defineComponent({
 			FileEntryGrid,
 			headers: getFileListHeaders(),
 			scrollToIndex: 0,
+			openFileId: null as number|null,
 		}
 	},
 
@@ -149,6 +150,14 @@ export default defineComponent({
 
 		fileId() {
 			return parseInt(this.$route.params.fileid) || null
+		},
+
+		/**
+		 * If the current `fileId` should be opened
+		 * The state of the `openfile` query param
+		 */
+		openFile() {
+			return !!this.$route.query.openfile
 		},
 
 		summary() {
@@ -199,6 +208,12 @@ export default defineComponent({
 		fileId(fileId) {
 			this.scrollToFile(fileId, false)
 		},
+
+		openFile(open: boolean) {
+			if (open) {
+				this.$nextTick(() => this.handleOpenFile(this.fileId))
+			}
+		},
 	},
 
 	mounted() {
@@ -206,9 +221,11 @@ export default defineComponent({
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 
-		this.scrollToFile(this.fileId)
-		this.openSidebarForFile(this.fileId)
-		this.handleOpenFile()
+		// handle initially opening a given file
+		const { id } = loadState<{ id?: number }>('files', 'openFileInfo', {})
+		this.scrollToFile(id ?? this.fileId)
+		this.openSidebarForFile(id ?? this.fileId)
+		this.handleOpenFile(id ?? null)
 	},
 
 	beforeDestroy() {
@@ -241,18 +258,22 @@ export default defineComponent({
 			}
 		},
 
-		handleOpenFile() {
-			const openFileInfo = loadState('files', 'openFileInfo', {}) as ({ id?: number })
-			if (openFileInfo === undefined) {
+		/**
+		 * Handle opening a file (e.g. by ?openfile=true)
+		 * @param fileId File to open
+		 */
+		handleOpenFile(fileId: number|null) {
+			if (fileId === null || this.openFileId === fileId) {
 				return
 			}
 
-			const node = this.nodes.find(n => n.fileid === openFileInfo.id) as NcNode
-			if (node === undefined) {
+			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
+			if (node === undefined || node.type === FileType.Folder) {
 				return
 			}
 
 			logger.debug('Opening file ' + node.path, { node })
+			this.openFileId = fileId
 			getFileActions()
 				.filter(action => !action.enabled || action.enabled([node], this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -266,7 +287,6 @@ export default defineComponent({
 		onDragOver(event: DragEvent) {
 			// Detect if we're only dragging existing files or not
 			const isForeignFile = event.dataTransfer?.types.includes('Files')
-
 			if (isForeignFile) {
 				// Only handle uploading of existing Nextcloud files
 				// See DragAndDropNotice for handling of foreign files
@@ -340,14 +360,21 @@ export default defineComponent({
 
 		.files-list__table {
 			display: block;
+
+			&.files-list__table--with-thead-overlay {
+				// Hide the table header below the overlay
+				margin-top: calc(-1 * var(--row-height));
+			}
 		}
 
 		.files-list__thead-overlay {
-			position: absolute;
+			// Pinned on top when scrolling
+			position: sticky;
 			top: 0;
-			left: var(--row-height); // Save space for a row checkbox
-			right: 0;
-			z-index: 1000;
+			// Save space for a row checkbox
+			margin-left: var(--row-height);
+			// More than .files-list__thead
+			z-index: 20;
 
 			display: flex;
 			align-items: center;

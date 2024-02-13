@@ -16,8 +16,7 @@
 			</span>
 		</div>
 		<div class="sharingTabDetailsView__wrapper">
-			<div ref="quickPermissions"
-				class="sharingTabDetailsView__quick-permissions">
+			<div ref="quickPermissions" class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
 						:checked.sync="sharingPermission"
@@ -57,7 +56,7 @@
 						button-variant-grouped="vertical"
 						@update:checked="toggleCustomPermissions">
 						{{ t('files_sharing', 'File drop') }}
-						<small>{{ t('files_sharing', 'Upload only') }}</small>
+						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
 						<template #icon>
 							<UploadIcon :size="20" />
 						</template>
@@ -70,7 +69,7 @@
 						button-variant-grouped="vertical"
 						@update:checked="expandCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
-						<small>{{ customPermissionsList }}</small>
+						<small class="subline">{{ customPermissionsList }}</small>
 						<template #icon>
 							<DotsHorizontalIcon :size="20" />
 						</template>
@@ -743,7 +742,7 @@ export default {
 			}
 
 		},
-		initializePermissions() {
+		handleShareType() {
 			if (this.share.share_type) {
 				this.share.type = this.share.share_type
 			}
@@ -752,22 +751,33 @@ export default {
 			if ('shareType' in this.share) {
 				this.share.type = this.share.shareType
 			}
+		},
+		handleDefaultPermissions() {
 			if (this.isNewShare) {
-				if (this.isPublicShare) {
-					this.sharingPermission = BUNDLED_PERMISSIONS.READ_ONLY.toString()
+				const defaultPermissions = this.config.defaultPermissions
+				if (defaultPermissions === BUNDLED_PERMISSIONS.READ_ONLY || defaultPermissions === BUNDLED_PERMISSIONS.ALL) {
+					this.sharingPermission = defaultPermissions.toString()
 				} else {
-					this.sharingPermission = BUNDLED_PERMISSIONS.ALL.toString()
-				}
-
-			} else {
-				if (this.hasCustomPermissions || this.share.setCustomPermissions) {
 					this.sharingPermission = 'custom'
+					this.share.permissions = defaultPermissions
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
-				} else {
-					this.sharingPermission = this.share.permissions.toString()
 				}
 			}
+		},
+		handleCustomPermissions() {
+			if (!this.isNewShare && (this.hasCustomPermissions || this.share.setCustomPermissions)) {
+				this.sharingPermission = 'custom'
+				this.advancedSectionAccordionExpanded = true
+				this.setCustomPermissions = true
+			} else {
+				this.sharingPermission = this.share.permissions.toString()
+			}
+		},
+		initializePermissions() {
+			this.handleShareType()
+			this.handleDefaultPermissions()
+			this.handleCustomPermissions()
 		},
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
@@ -983,7 +993,6 @@ export default {
 				span:nth-child(1) {
 					align-items: center;
 					justify-content: center;
-					color: var(--color-primary-element);
 					padding: 0.1em;
 				}
 
@@ -993,6 +1002,10 @@ export default {
 						display: flex;
 						flex-direction: column;
 					}
+				}
+
+				.subline {
+					display: block;
 				}
 			}
 

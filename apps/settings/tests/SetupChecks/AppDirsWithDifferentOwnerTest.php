@@ -33,6 +33,13 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	private IL10N $l10n;
 	private AppDirsWithDifferentOwner $check;
 
+	/**
+	 * Holds a list of directories created during tests.
+	 *
+	 * @var array
+	 */
+	private $dirsToRemove = [];
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -96,5 +103,18 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 			[],
 			$this->invokePrivate($this->check, 'getAppDirsWithDifferentOwner', [posix_getuid()])
 		);
+	}
+
+	/**
+	 * Removes directories created during tests.
+	 *
+	 * @after
+	 * @return void
+	 */
+	public function removeTestDirectories() {
+		foreach ($this->dirsToRemove as $dirToRemove) {
+			rmdir($dirToRemove);
+		}
+		$this->dirsToRemove = [];
 	}
 }

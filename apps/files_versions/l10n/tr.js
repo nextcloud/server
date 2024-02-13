@@ -10,17 +10,18 @@ OC.L10N.register(
     "Restore version" : "Sürümü geri yükle",
     "Download version" : "Sürümü indir",
     "Delete version" : "Sürümü sil",
+    "Current version" : "Geçerli sürüm",
+    "Initial version" : "İlk sürüm",
     "Version name" : "Sürüm adı",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Adlandırılmış sürümler kalıcı olur ve depolama alanı kotanız dolduğunda otomatik temizleme işlemine katılmaz.",
     "Remove version name" : "Sürüm adını kaldır",
     "Save version name" : "Sürüm adını kaydet",
-    "Current version" : "Geçerli sürüm",
-    "Initial version" : "İlk sürüm",
     "Initial version restored" : "İlk sürüm geri yüklendi",
     "Version restored" : "Sürüm geri yüklendi",
     "Could not restore version" : "Sürüm geri yüklenemedi",
-    "Could not set version name" : "Sürüm adı ayarlanamadı",
+    "Could not set version label" : "Sürüm etiketi ayarlanamadı",
     "Could not delete version" : "Sürüm silinemedi",
-    "${version.label} restored" : "${version.label} geri yüklendi"
+    "${version.label} restored" : "${version.label} geri yüklendi",
+    "Could not set version name" : "Sürüm adı ayarlanamadı"
 },
 "nplurals=2; plural=(n > 1);");

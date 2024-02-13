@@ -124,11 +124,9 @@ class SystemConfig {
 		],
 	];
 
-	/** @var Config */
-	private $config;
-
-	public function __construct(Config $config) {
-		$this->config = $config;
+	public function __construct(
+		private Config $config,
+	) {
 	}
 
 	/**

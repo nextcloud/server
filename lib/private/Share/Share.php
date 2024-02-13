@@ -256,8 +256,8 @@ class Share extends Constants {
 	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
-		$l = \OC::$server->getL10N('lib');
-		$logger = \OC::$server->get(LoggerInterface::class);
+		$l = \OCP\Util::getL10N('lib');
+		$logger = \OCP\Server::get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} elseif (isset(self::$backendTypes[$itemType]['class'])) {

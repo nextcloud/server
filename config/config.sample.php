@@ -155,8 +155,8 @@ $CONFIG = [
  * Specify read only replicas to be used by Nextcloud when querying the database
  */
 'dbreplica' => [
-	['user' => 'replica1', 'password', 'host' => '', 'dbname' => ''],
-	['user' => 'replica1', 'password', 'host' => '', 'dbname' => ''],
+	['user' => 'nextcloud', 'password' => 'password1', 'host' => 'replica1', 'dbname' => ''],
+	['user' => 'nextcloud', 'password' => 'password2', 'host' => 'replica2', 'dbname' => ''],
 ],
 
 /**
@@ -993,6 +993,15 @@ $CONFIG = [
  * Defaults to ``2``
  */
 'loglevel_frontend' => 2,
+
+/**
+ * Loglevel used by the dirty database query detection. Useful to identify
+ * potential database bugs in production. Set this to loglevel or higher to
+ * see dirty queries in the logs.
+ *
+ * Defaults to ``0`` (debug)
+ */
+'loglevel_dirty_database_queries' => 0,
 
 /**
  * If you maintain different instances and aggregate the logs, you may want

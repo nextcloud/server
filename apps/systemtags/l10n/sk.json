@@ -64,17 +64,17 @@
     "No tags found" : "Štítky sa nenašli",
     "Tags you have created will show up here." : "Štítky, ktoré ste vytvorili sa zobrazia tu.",
     "Failed to load last used tags" : "Nepodarilo sa načítať posledné použité štítky",
-    "No files in here" : "Žiadne súbory",
-    "No entries found in this folder" : "V tomto priečinku sa nič nenašlo",
-    "Name" : "Názov",
-    "Size" : "Veľkosť",
-    "Modified" : "Upravené",
     "Tag name is empty" : "Názov štítku je prázdny",
     "Select tag …" : "Vybrať štítok ...",
     "Tagged files" : "Súbory so štítkom",
     "Select tags to filter by" : "Vybrať štítky na filtrovanie",
     "Please select tags to filter by" : "Vyberte štítky pre filtrovanie",
     "No files found for the selected tags" : "Neboli nájdené žiadne súbory označené vybranými štítkami",
-    "Create a new tag" : "Vytvoriť nový štítok"
+    "Create a new tag" : "Vytvoriť nový štítok",
+    "Name" : "Názov",
+    "No files in here" : "Žiadne súbory",
+    "No entries found in this folder" : "V tomto priečinku sa nič nenašlo",
+    "Size" : "Veľkosť",
+    "Modified" : "Upravené"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

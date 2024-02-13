@@ -9,11 +9,6 @@
     "No deleted files" : "Brak usuniętych plików",
     "Files and folders you have deleted will show up here" : "Tutaj pojawią się usunięte pliki i katalogi",
     "Deleted" : "Usunięto",
-    "You will be able to recover deleted files from here" : "Stąd będziesz mógł odzyskać usunięte pliki",
-    "No entries found in this folder" : "Brak plików w tym katalogu",
-    "Select all" : "Wybierz wszystko",
-    "Name" : "Nazwa",
-    "Actions" : "Akcje",
     "Delete permanently" : "Usuń trwale",
     "Error while restoring file from trash bin" : "Błąd podczas przywracania pliku z kosza",
     "Error while removing file from trash bin" : "Błąd podczas usuwania pliku z kosza",
@@ -22,6 +17,11 @@
     "Error while removing files from trash bin" : "Błąd podczas usuwania plików z kosza",
     "This operation is forbidden" : "Ta operacja jest niedozwolona",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ten katalog jest niedostępny, sprawdź logi lub skontaktuj się z administratorem",
+    "You will be able to recover deleted files from here" : "Stąd będziesz mógł odzyskać usunięte pliki",
+    "No entries found in this folder" : "Brak plików w tym katalogu",
+    "Select all" : "Wybierz wszystko",
+    "Name" : "Nazwa",
+    "Actions" : "Akcje",
     "Delete" : "Usuń"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

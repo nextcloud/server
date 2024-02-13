@@ -53,7 +53,7 @@ export default defineComponent({
 	},
 	async mounted() {
 		await this.$nextTick()
-		// MDI default viewbox is "0 0 24 24" but we add a stroke of 10px so we must adjust it
+		// MDI default viewBox is "0 0 24 24" but we add a stroke of 10px so we must adjust it
 		const el = this.$el.querySelector('svg')
 		el?.setAttribute?.('viewBox', '-4 -4 30 30')
 	},

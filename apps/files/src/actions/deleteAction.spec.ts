@@ -22,9 +22,9 @@
 import { action } from './deleteAction'
 import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
-import * as auth from '@nextcloud/auth'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
+
 import logger from '../logger'
 
 const view = {
@@ -56,27 +56,73 @@ describe('Delete action conditions tests', () => {
 		owner: 'admin',
 		mime: 'text/plain',
 		permissions: Permission.ALL,
+		attributes: {
+			'is-mount-root': true,
+			'mount-type': 'shared',
+		},
+	})
+
+	const folder = new Folder({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+	})
+
+	const folder2 = new Folder({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+		attributes: {
+			'is-mount-root': true,
+			'mount-type': 'shared',
+		},
+	})
+
+	const folder3 = new Folder({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+		attributes: {
+			'is-mount-root': true,
+			'mount-type': 'external',
+		},
 	})
 
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('delete')
-		expect(action.displayName([file], view)).toBe('Delete')
+		expect(action.displayName([file], view)).toBe('Delete file')
 		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(100)
 	})
 
-	test('Default trashbin view values', () => {
+	test('Default folder displayName', () => {
+		expect(action.displayName([folder], view)).toBe('Delete folder')
+	})
+
+	test('Default trashbin view displayName', () => {
 		expect(action.displayName([file], trashbinView)).toBe('Delete permanently')
 	})
 
-	test('Shared node values', () => {
-		jest.spyOn(auth, 'getCurrentUser').mockReturnValue(null)
-		expect(action.displayName([file2], view)).toBe('Unshare')
+	test('Shared root node displayName', () => {
+		expect(action.displayName([file2], view)).toBe('Leave this share')
+		expect(action.displayName([folder2], view)).toBe('Leave this share')
+		expect(action.displayName([file2, folder2], view)).toBe('Leave these shares')
 	})
 
-	test('Shared and owned nodes values', () => {
+	test('External storage root node displayName', () => {
+		expect(action.displayName([folder3], view)).toBe('Disconnect storage')
+		expect(action.displayName([folder3, folder3], view)).toBe('Disconnect storages')
+	})
+
+	test('Shared and owned nodes displayName', () => {
 		expect(action.displayName([file, file2], view)).toBe('Delete and unshare')
 	})
 })
@@ -161,6 +207,9 @@ describe('Delete action execute tests', () => {
 		jest.spyOn(axios, 'delete')
 		jest.spyOn(eventBus, 'emit')
 
+		const confirmMock = jest.fn()
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
 		const file1 = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
@@ -178,6 +227,9 @@ describe('Delete action execute tests', () => {
 		})
 
 		const exec = await action.execBatch!([file1, file2], view, '/')
+
+		// Not enough nodes to trigger a confirmation dialog
+		expect(confirmMock).toBeCalledTimes(0)
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.delete).toBeCalledTimes(2)

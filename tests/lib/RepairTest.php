@@ -46,7 +46,7 @@ class RepairTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
-		$this->repair = new \OC\Repair([], $dispatcher, $this->createMock(LoggerInterface::class));
+		$this->repair = new Repair($dispatcher, $this->createMock(LoggerInterface::class));
 
 		$dispatcher->addListener(RepairWarningEvent::class, function (RepairWarningEvent $event) {
 			$this->outputArray[] = 'warning: ' . $event->getMessage();

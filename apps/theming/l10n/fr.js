@@ -74,6 +74,7 @@ OC.L10N.register(
     "User settings" : "Paramètres utilisateurs",
     "Disable user theming" : "Désactiver la gestion du thème par l'utilisateur",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Bien que vous puissiez sélectionner et personnaliser votre instance, les utilisateurs peuvent modifier leur arrière-plan et leurs couleurs. Si vous voulez imposer votre personnalisation, vous pouvez activer cette option.",
+    "Appearance and accessibility settings" : "Paramètres d'apparence et d'accessibilité",
     "Background" : "Arrière-plan",
     "Customization has been disabled by your administrator" : "La personnalisation a été désactivée par votre administrateur",
     "Set a custom background" : "Définir un arrière-plan personnalisé",
@@ -108,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "Priorité de l'application par défaut",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Si une application n'est pas activée pour un utilisateur, l'application suivante avec une priorité plus basse sera utilisée.",
     "Could not set global default apps" : "Impossible de définir les applications globales par défaut",
-    "Select a custom color" : "Sélectionnez une couleur personnalisée",
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Upload" : "Téléverser",
-    "Remove background image" : "Retirer l'image d'arrière-plan"
+    "Remove background image" : "Retirer l'image d'arrière-plan",
+    "Select a custom color" : "Sélectionnez une couleur personnalisée"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

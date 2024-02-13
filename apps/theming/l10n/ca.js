@@ -74,6 +74,7 @@ OC.L10N.register(
     "User settings" : "Paràmetres de l'usuari",
     "Disable user theming" : "Inhabilita els temes d'usuari",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Tot i que podeu seleccionar i personalitzar la instància, els usuaris poden canviar el fons i els colors. Si voleu forçar la vostra personalització, podeu activar-ho.",
+    "Appearance and accessibility settings" : "Paràmetres d'aparença i accessibilitat",
     "Background" : "Fons",
     "Customization has been disabled by your administrator" : "L'administrador ha inhabilitat la personalització",
     "Set a custom background" : "Definiu un fons personalitzat",
@@ -108,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "Prioritat de l'aplicació per defecte",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Si un usuari no té habilitada una aplicació, s'utilitza l'aplicació següent amb una prioritat inferior.",
     "Could not set global default apps" : "No s'han pogut definir les aplicacions per defecte globals",
-    "Select a custom color" : "Selecciona un color personalitzat",
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Upload" : "Puja",
-    "Remove background image" : "Suprimeix la imatge de fons"
+    "Remove background image" : "Suprimeix la imatge de fons",
+    "Select a custom color" : "Selecciona un color personalitzat"
 },
 "nplurals=2; plural=(n != 1);");

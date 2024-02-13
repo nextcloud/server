@@ -85,9 +85,9 @@
     "Select background" : "Выбрать фоновое изображение",
     "No background has been selected" : "Фоновое изображение не было выбрано",
     "Theme selection is enforced" : "Выбор темы принудительно",
-    "Select a custom color" : "Выберать собственный цвет",
     "Reset to default" : "Сбросить изменения",
     "Upload" : "Отправить",
-    "Remove background image" : "Убрать фоновое изображение "
+    "Remove background image" : "Убрать фоновое изображение ",
+    "Select a custom color" : "Выберать собственный цвет"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

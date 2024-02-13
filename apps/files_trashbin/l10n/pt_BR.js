@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Nenhum arquivo apagado",
     "Files and folders you have deleted will show up here" : "Arquivos e pastas que você excluiu aparecerão aqui",
     "Deleted" : "Excluído",
-    "You will be able to recover deleted files from here" : "Você pode recuperar arquivos apagados neste local",
-    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
-    "Select all" : "Selecionar tudo",
-    "Name" : "Nome",
-    "Actions" : "Ações",
     "Delete permanently" : "Apagar permanentemente",
     "Error while restoring file from trash bin" : "Erro ao restaurar o arquivo da lixeira",
     "Error while removing file from trash bin" : "Erro ao remover arquivo da lixeira",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Erro ao remover arquivos da lixeira",
     "This operation is forbidden" : "Esta operação é proibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este diretório não está disponível. Por favor verifique os logs ou contacte o administrador",
+    "You will be able to recover deleted files from here" : "Você pode recuperar arquivos apagados neste local",
+    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
+    "Select all" : "Selecionar tudo",
+    "Name" : "Nome",
+    "Actions" : "Ações",
     "Delete" : "Excluir"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

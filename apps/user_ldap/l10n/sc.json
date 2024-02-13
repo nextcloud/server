@@ -137,7 +137,7 @@
     "Turn off SSL certificate validation." : "Disativa sa balidatzione de su tzertificadu SSL.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "No est cussigiadu, imprea isceti pro sa proa! Si sa connessione traballat isceti cun custa optzione, importa su tzertificadu SSL de su serbidore LDAP in su serbidore tuo %s.",
     "Cache Time-To-Live" : "Memòria temporànea TTL",
-    "in seconds. A change empties the cache." : "tra pagos segundos.Su càmbiu isbòidat sa memòria temporànea.",
+    "in seconds. A change empties the cache." : "de immoe a pagos segundos. Su càmbiu isbòidat sa memòria temporànea.",
     "Directory Settings" : "Impostatziones de sa cartella",
     "User Display Name Field" : "Campu pro sa visualizatzione de su nùmene utente",
     "The LDAP attribute to use to generate the user's display name." : "S'atributu LDAP de impreare pro generare su nùmene visualizadu dae s'utente.",

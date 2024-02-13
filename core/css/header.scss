@@ -171,8 +171,16 @@
 
 	/* Right header standard */
 	.header-right {
-		> .header-menu:not(.user-menu) {
-			filter: var(--background-image-invert-if-bright);
+		> .header-menu:not(.user-menu):not(.unified-search-menu) {
+			// For general
+			> .header-menu__trigger {
+				filter: var(--background-image-invert-if-bright);
+			}
+
+			// For assistant button
+			> .trigger {
+				filter: var(--background-image-invert-if-bright);
+			}
 		}
 		> div,
 		> form {

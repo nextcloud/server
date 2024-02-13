@@ -74,6 +74,7 @@ OC.L10N.register(
     "User settings" : "用戶設定",
     "Disable user theming" : "停用用戶佈景主題",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "雖然您可以選取並自訂您的實例，但用戶仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以將其開啟。",
+    "Appearance and accessibility settings" : "外觀和無障礙設置",
     "Background" : "背景",
     "Customization has been disabled by your administrator" : "您的管理員已停用自訂",
     "Set a custom background" : "設置自定義背景",
@@ -108,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "默認應用程式優先程度",
     "If an app is not enabled for a user, the next app with lower priority is used." : "若未對某個用戶啟用某個應用程式，則使用下一個優先程度較低的應用程式。",
     "Could not set global default apps" : "無法設定全域默認應用程式",
-    "Select a custom color" : "選擇自訂色彩",
     "Reset to default" : "恢復預設值",
     "Upload" : "上傳",
-    "Remove background image" : "移除背景圖片"
+    "Remove background image" : "移除背景圖片",
+    "Select a custom color" : "選擇自訂色彩"
 },
 "nplurals=1; plural=0;");

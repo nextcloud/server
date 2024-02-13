@@ -265,15 +265,30 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
 		$tables = $this->getQueriedTables($sql);
-		if (count(array_intersect($this->tableDirtyWrites, $tables)) === 0 && !$this->isTransactionActive()) {
+		if ($this->isTransactionActive()) {
+			// Transacted queries go to the primary. The consistency of the primary guarantees that we can not run
+			// into a dirty read.
+		} elseif (count(array_intersect($this->tableDirtyWrites, $tables)) === 0) {
 			// No tables read that could have been written already in the same request and no transaction active
 			// so we can switch back to the replica for reading as long as no writes happen that switch back to the primary
 			// We cannot log here as this would log too early in the server boot process
 			$this->ensureConnectedToReplica();
 		} else {
-			// Read to a table that was previously written to
+			// Read to a table that has been written to previously
 			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
-			$this->logger->debug('dirty table reads: ' . $sql, ['tables' => $this->tableDirtyWrites, 'reads' => $tables, 'exception' => new \Exception()]);
+			$this->logger->log(
+				(int) ($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
+				'dirty table reads: ' . $sql,
+				[
+					'tables' => $this->tableDirtyWrites,
+					'reads' => $tables,
+					'exception' => new \Exception(),
+				],
+			);
+			// To prevent a dirty read on a replica that is slightly out of sync, we
+			// switch back to the primary. This is detrimental for performance but
+			// safer for consistency.
+			$this->ensureConnectedToPrimary();
 		}
 
 		$sql = $this->replaceTablePrefix($sql);
@@ -321,7 +336,6 @@ class Connection extends PrimaryReadReplicaConnection {
 	public function executeStatement($sql, array $params = [], array $types = []): int {
 		$tables = $this->getQueriedTables($sql);
 		$this->tableDirtyWrites = array_unique(array_merge($this->tableDirtyWrites, $tables));
-		$this->logger->debug('dirty table writes: ' . $sql, ['tables' => $this->tableDirtyWrites]);
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
@@ -642,16 +656,6 @@ class Connection extends PrimaryReadReplicaConnection {
 		} else {
 			return new Migrator($this, $config, $dispatcher);
 		}
-	}
-
-	protected function performConnect(?string $connectionName = null): bool {
-		$before = $this->isConnectedToPrimary();
-		$result = parent::performConnect($connectionName);
-		$after = $this->isConnectedToPrimary();
-		if (!$before && $after) {
-			$this->logger->debug('Switched to primary database', ['exception' => new \Exception()]);
-		}
-		return $result;
 	}
 
 	public function beginTransaction() {

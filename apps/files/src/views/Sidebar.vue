@@ -25,7 +25,6 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
-		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
 		@[defaultActionListener].stop.prevent="onDefaultAction"
@@ -471,6 +470,10 @@ export default {
 				throw new Error(`Invalid path '${path}'`)
 			}
 
+			// Only focus the tab when the selected file/tab is changed in already opened sidebar
+			// Focusing the sidebar on first file open is handled by NcAppSidebar
+			const focusTabAfterLoad = !!this.Sidebar.file
+
 			// update current opened file
 			this.Sidebar.file = path
 
@@ -489,19 +492,23 @@ export default {
 					view.setFileInfo(this.fileInfo)
 				})
 
-				this.$nextTick(() => {
-					if (this.$refs.tabs) {
-						this.$refs.tabs.updateTabs()
-					}
-					this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
-				})
+				await this.$nextTick()
+
+				this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
+
+				this.loading = false
+
+				await this.$nextTick()
+
+				if (focusTabAfterLoad) {
+					this.$refs.sidebar.focusActiveTabContent()
+				}
 			} catch (error) {
+				this.loading = false
 				this.error = t('files', 'Error while loading the file data')
 				console.error('Error while loading the file data', error)
 
 				throw new Error(error)
-			} finally {
-				this.loading = false
 			}
 		},
 

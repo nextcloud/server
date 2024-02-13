@@ -33,10 +33,6 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		return 'light-highcontrast';
 	}
 
-	public function getMediaQuery(): string {
-		return '(prefers-contrast: more)';
-	}
-
 	public function getTitle(): string {
 		return $this->l->t('High contrast mode');
 	}
@@ -47,6 +43,10 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 	public function getDescription(): string {
 		return $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.');
+	}
+
+	public function getMediaQuery(): string {
+		return '(prefers-contrast: more)';
 	}
 
 	/**
@@ -121,6 +121,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 				'--color-border' => $this->util->darken($colorMainBackground, 50),
 				'--color-border-dark' => $this->util->darken($colorMainBackground, 50),
+				'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 56),
 			]
 		);
 	}

@@ -37,7 +37,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "A canle de actualización seleccionada non admite actualizacións do servidor.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Hai dispoñíbel unha versión nova:<strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Ten en conta que após unha nova versión, a actualización só aparece após a primeira versión menor ou posterior.publicamos novas versións repartidas ao longo do tempo para os nosos usuarios e ás veces omitimos unha versión cando se atopan problemas. Máis información sobre actualizacións e canles de publicación en {link}",
-    "Checked on {lastCheckedDate}" : "Comprobado o {lastCheckedDate}",
     "Checking apps for compatible versions" : "Comprobando as versións compatíbeis das aplicacións",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Asegúrese de que o seu config.php non ten estabelecido <samp>appstoreenabled</samp> como «false».",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Non foi posíbel conectar á Tenda de aplicacións ou non se devolveu ningunha actualización. Busque actualizacións manualmente ou asegúrese de que o seu servidor ten acceso a Internet e pode conectarse á Tenda de aplicacións.",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación non ten dispoñíbel unha versión compatíbel para esta versión de Nextcloud.","<strong>%n</strong> aplicacións non teñen dispoñíbel unha versión compatíbel para esta versión de Nextcloud."],
     "Please use the command line updater to update." : "Utilice o actualizador de liña de ordes para actualizar.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Pode cambiar a canle de actualización a seguir, o que tamén afecta á páxina de xestión de aplicacións. p.ex. após cambiar á canle beta, ofreceranse actualizacións da aplicación beta na páxina de xestión de aplicacións.",
-    "Update channel:" : "Canle de actualización:"
+    "Update channel:" : "Canle de actualización:",
+    "Checked on {lastCheckedDate}" : "Comprobado o {lastCheckedDate}"
 },
 "nplurals=2; plural=(n != 1);");

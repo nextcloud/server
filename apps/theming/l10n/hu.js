@@ -98,9 +98,9 @@ OC.L10N.register(
     "Global default apps" : "Globális alapértelmezett alkalmazások",
     "Default app priority" : "Alapértelmezett alkalmazás prioritás",
     "Could not set global default apps" : "Nem sikerült a globális alapértelmezett alkalmazások beállítása",
-    "Select a custom color" : "Válasszon egyéni színt",
     "Reset to default" : "Visszaállítás alapértelmezettre",
     "Upload" : "Feltöltés",
-    "Remove background image" : "Háttérkép eltávolítása"
+    "Remove background image" : "Háttérkép eltávolítása",
+    "Select a custom color" : "Válasszon egyéni színt"
 },
 "nplurals=2; plural=(n != 1);");

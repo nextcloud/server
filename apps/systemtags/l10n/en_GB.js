@@ -81,17 +81,17 @@ OC.L10N.register(
     "Failed to load tags for file" : "Failed to load tags for file",
     "Failed to set tag for file" : "Failed to set tag for file",
     "Failed to delete tag for file" : "Failed to delete tag for file",
-    "No files in here" : "No files in here",
-    "No entries found in this folder" : "No entries found in this folder",
-    "Name" : "Name",
-    "Size" : "Size",
-    "Modified" : "Modified",
     "Tag name is empty" : "Tag name is empty",
     "Select tag …" : "Select tag …",
     "Tagged files" : "Tagged files",
     "Select tags to filter by" : "Select tags to filter by",
     "Please select tags to filter by" : "Please select tags to filter by",
     "No files found for the selected tags" : "No files found for the selected tags",
-    "Create a new tag" : "Create a new tag"
+    "Create a new tag" : "Create a new tag",
+    "Name" : "Name",
+    "No files in here" : "No files in here",
+    "No entries found in this folder" : "No entries found in this folder",
+    "Size" : "Size",
+    "Modified" : "Modified"
 },
 "nplurals=2; plural=(n != 1);");

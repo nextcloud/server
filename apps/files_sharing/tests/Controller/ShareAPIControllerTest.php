@@ -47,6 +47,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -117,6 +118,9 @@ class ShareAPIControllerTest extends TestCase {
 	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
+	/** @var IDateTimeZone|\PHPUnit\Framework\MockObject\MockObject */
+	private $dateTimeZone;
+
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
@@ -147,6 +151,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturnCallback(function ($fileInfo) {
 				return $fileInfo->getMimeType() === 'mimeWithPreview';
 			});
+		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -162,7 +167,8 @@ class ShareAPIControllerTest extends TestCase {
 			$this->appManager,
 			$this->serverContainer,
 			$this->userStatusManager,
-			$this->previewManager
+			$this->previewManager,
+			$this->dateTimeZone,
 		);
 	}
 
@@ -186,6 +192,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 	}
@@ -783,6 +790,7 @@ class ShareAPIControllerTest extends TestCase {
 					$this->serverContainer,
 					$this->userStatusManager,
 					$this->previewManager,
+					$this->dateTimeZone,
 				])->setMethods(['canAccessShare'])
 				->getMock();
 
@@ -1407,6 +1415,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1746,6 +1755,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1840,6 +1850,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2249,6 +2260,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2315,6 +2327,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2554,6 +2567,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->serverContainer,
 				$this->userStatusManager,
 				$this->previewManager,
+				$this->dateTimeZone,
 			])->setMethods(['formatShare'])
 			->getMock();
 

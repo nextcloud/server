@@ -15,6 +15,8 @@ OC.L10N.register(
     "Edit comment" : "Измени коментар",
     "Delete comment" : "Обриши коментар",
     "Cancel edit" : "Поништи измену",
+    "New comment" : "Нови коментар",
+    "Write a comment …" : "Напишите коментар…",
     "Post comment" : "Објави коментар",
     "@ for mentions, : for emoji, / for smart picker" : "@ за помињања, : за емођи, / за паметни бирач",
     "Could not reload comments" : "Коментари не могу поново да се учитају",

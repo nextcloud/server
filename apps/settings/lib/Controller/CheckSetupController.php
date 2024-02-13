@@ -45,31 +45,24 @@
  */
 namespace OCA\Settings\Controller;
 
-use GuzzleHttp\Exception\ClientException;
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CheckSetupController extends Controller {
 	/** @var IConfig */
 	private $config;
-	/** @var IClientService */
-	private $clientService;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var IL10N */
@@ -78,37 +71,23 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IDateTimeFormatter */
-	private $dateTimeFormatter;
-	/** @var ITempManager */
-	private $tempManager;
-	/** @var IManager */
-	private $manager;
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
 		IRequest $request,
 		IConfig $config,
-		IClientService $clientService,
 		IURLGenerator $urlGenerator,
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		IDateTimeFormatter $dateTimeFormatter,
-		ITempManager $tempManager,
-		IManager $manager,
 		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
-		$this->clientService = $clientService;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->tempManager = $tempManager;
-		$this->manager = $manager;
 		$this->setupCheckManager = $setupCheckManager;
 	}
 
@@ -122,118 +101,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Check if is fair use of free push service
-	 * @return bool
-	 */
-	private function isFairUseOfFreePushService(): bool {
-		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
-		if ($rateLimitReached >= (time() - 7 * 24 * 3600)) {
-			// Notifications app is showing a message already
-			return true;
-		}
-		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Public for the sake of unit-testing
-	 *
-	 * @return array
-	 */
-	protected function getCurlVersion() {
-		return curl_version();
-	}
-
-	/**
-	 * Check if the used SSL lib is outdated. Older OpenSSL and NSS versions do
-	 * have multiple bugs which likely lead to problems in combination with
-	 * functionality required by ownCloud such as SNI.
-	 *
-	 * @link https://github.com/owncloud/core/issues/17446#issuecomment-122877546
-	 * @link https://bugzilla.redhat.com/show_bug.cgi?id=1241172
-	 * @return string
-	 */
-	private function isUsedTlsLibOutdated() {
-		// Don't run check when:
-		// 1. Server has `has_internet_connection` set to false
-		// 2. AppStore AND S2S is disabled
-		if (!$this->config->getSystemValue('has_internet_connection', true)) {
-			return '';
-		}
-		if (!$this->config->getSystemValue('appstoreenabled', true)
-			&& $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'no'
-			&& $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'no') {
-			return '';
-		}
-
-		$versionString = $this->getCurlVersion();
-		if (isset($versionString['ssl_version'])) {
-			$versionString = $versionString['ssl_version'];
-		} else {
-			return '';
-		}
-
-		$features = $this->l10n->t('installing and updating apps via the App Store or Federated Cloud Sharing');
-		if (!$this->config->getSystemValue('appstoreenabled', true)) {
-			$features = $this->l10n->t('Federated Cloud Sharing');
-		}
-
-		// Check if NSS and perform heuristic check
-		if (str_starts_with($versionString, 'NSS/')) {
-			try {
-				$firstClient = $this->clientService->newClient();
-				$firstClient->get('https://nextcloud.com/');
-
-				$secondClient = $this->clientService->newClient();
-				$secondClient->get('https://nextcloud.com/');
-			} catch (ClientException $e) {
-				if ($e->getResponse()->getStatusCode() === 400) {
-					return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['NSS', $versionString, $features]);
-				}
-			} catch (\Exception $e) {
-				$this->logger->warning('error checking curl', [
-					'app' => 'settings',
-					'exception' => $e,
-				]);
-				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the Nextcloud log file for more details.');
-			}
-		}
-
-		return '';
-	}
-
-	/**
-	 * Checks if the correct memcache module for PHP is installed. Only
-	 * fails if memcached is configured and the working module is not installed.
-	 *
-	 * @return bool
-	 */
-	private function isCorrectMemcachedPHPModuleInstalled() {
-		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
-		if ($memcacheDistributedClass === null || ltrim($memcacheDistributedClass, '\\') !== \OC\Memcache\Memcached::class) {
-			return true;
-		}
-
-		// there are two different memcache modules for PHP
-		// we only support memcached and not memcache
-		// https://code.google.com/p/memcached/wiki/PHPClientComparison
-		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
-	}
-
-	/**
-	 * Checks if set_time_limit is not disabled.
-	 *
-	 * @return bool
-	 */
-	private function isSettimelimitAvailable() {
-		if (function_exists('set_time_limit')
-			&& !str_contains(ini_get('disable_functions'), 'set_time_limit')) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
+	 * @NoCSRFRequired
 	 * @return RedirectResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
@@ -301,97 +169,6 @@ Raw output
 		);
 	}
 
-	protected function getSuggestedOverwriteCliURL(): string {
-		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
-		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
-
-		// Check correctness by checking if it is a valid URL
-		if (filter_var($currentOverwriteCliUrl, FILTER_VALIDATE_URL)) {
-			$suggestedOverwriteCliUrl = '';
-		}
-
-		return $suggestedOverwriteCliUrl;
-	}
-
-	protected function getLastCronInfo(): array {
-		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
-		return [
-			'diffInSeconds' => time() - $lastCronRun,
-			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
-			'backgroundJobsUrl' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'server']) . '#backgroundjobs',
-		];
-	}
-
-	protected function getCronErrors() {
-		$errors = json_decode($this->config->getAppValue('core', 'cronErrors', ''), true);
-
-		if (is_array($errors)) {
-			return $errors;
-		}
-
-		return [];
-	}
-
-	private function isTemporaryDirectoryWritable(): bool {
-		try {
-			if (!empty($this->tempManager->getTempBaseDir())) {
-				return true;
-			}
-		} catch (\Exception $e) {
-		}
-		return false;
-	}
-
-	protected function areWebauthnExtensionsEnabled(): bool {
-		if (!extension_loaded('bcmath')) {
-			return false;
-		}
-		if (!extension_loaded('gmp')) {
-			return false;
-		}
-		return true;
-	}
-
-	protected function isMysqlUsedWithoutUTF8MB4(): bool {
-		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
-	}
-
-	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
-		$objectStore = $this->config->getSystemValue('objectstore', null);
-		$objectStoreMultibucket = $this->config->getSystemValue('objectstore_multibucket', null);
-
-		if (!isset($objectStoreMultibucket) && !isset($objectStore)) {
-			return true;
-		}
-
-		if (isset($objectStoreMultibucket['class']) && $objectStoreMultibucket['class'] !== 'OC\\Files\\ObjectStore\\S3') {
-			return true;
-		}
-
-		if (isset($objectStore['class']) && $objectStore['class'] !== 'OC\\Files\\ObjectStore\\S3') {
-			return true;
-		}
-
-		$tempPath = sys_get_temp_dir();
-		if (!is_dir($tempPath)) {
-			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: ' . $tempPath);
-			return false;
-		}
-		$freeSpaceInTemp = function_exists('disk_free_space') ? disk_free_space($tempPath) : false;
-		if ($freeSpaceInTemp === false) {
-			$this->logger->error('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: ' . $tempPath);
-			return false;
-		}
-
-		$freeSpaceInTempInGB = $freeSpaceInTemp / 1024 / 1024 / 1024;
-		if ($freeSpaceInTempInGB > 50) {
-			return true;
-		}
-
-		$this->logger->warning('Checking the available space in the temporary path resulted in ' . round($freeSpaceInTempInGB, 1) . ' GB instead of the recommended 50GB. Path: ' . $tempPath);
-		return false;
-	}
-
 	/**
 	 * @return DataResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
@@ -399,21 +176,8 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
-				'cronInfo' => $this->getLastCronInfo(),
-				'cronErrors' => $this->getCronErrors(),
-				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
-				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
-				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
-				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
-				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
-				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);

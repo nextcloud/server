@@ -74,13 +74,14 @@ OC.L10N.register(
     "User settings" : "Configuración de usuario",
     "Disable user theming" : "Deshabilitar tematización de usuario",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Aunque puede seleccionar y personalizar su instancia, los usuarios pueden cambiar su fondo y colores. Si quiere forzar su personalización, puede activar esto.",
+    "Appearance and accessibility settings" : "Ajustes de apariencia y accesibilidad",
     "Background" : "Imagen de fondo",
     "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por el administrador",
     "Set a custom background" : "Establecer un fondo personalizado",
     "Keyboard shortcuts" : "Atajos de teclado",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En algunos casos, los atajos de teclado pueden interferir con las herramientas de accesibilidad. De manera de permitir enfocar correctamente su herramienta, puede deshabilitar todos los atajos de teclado aquí. Esto también deshabilitará todos los atajos disponibles en las aplicaciones.",
     "Disable all keyboard shortcuts" : "Deshabilitar todos los atajos de teclado",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos que todo es manejable sin ratón y con software de asistencia, como un lector de pantalla. Nuestro objetivo es cumplir con las {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 en nivel AA y, con el tema de alto contraste, en nivel AAA.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos para asegurarnos de que todo sea utilizable incluso sin ratón y con software de asistencia tales como lectores de pantalla. Nuestro objetivo es cumplir con las {guidelines}Directrices de Accesibilidad para el Contenido Web{linkend} 2.1 en el nivel AA, incluso con el tema de alto contraste en el nivel AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentras cualquier problema, no dudes en informar de ellos en {issuetracker}nuestro tracker de problas{linkend}. Y si quieres involucrarte, ¡puedes unirte a {designteam}nuestro equipo de diseño{linkend}!",
     "Current selected app: {app}, position {position} of {total}" : "Aplicación seleccionada: {app}, posición {position} de {total}",
     "Move up" : "Mover arriba",
@@ -108,9 +109,9 @@ OC.L10N.register(
     "Default app priority" : "Prioridad de aplicaciones para mostrarse por defecto",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Si una aplicación no está habilitada para un usuario, la siguiente aplicación por orden de prioridad será seleccionada.",
     "Could not set global default apps" : "No se pudo guardar los ajustes de aplicación por defecto global",
-    "Select a custom color" : "Seleccionar un color personalizado",
     "Reset to default" : "Vovler a configuración por defecto",
     "Upload" : "Subir",
-    "Remove background image" : "Eliminar imagen de fondo"
+    "Remove background image" : "Eliminar imagen de fondo",
+    "Select a custom color" : "Seleccionar un color personalizado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

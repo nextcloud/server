@@ -30,6 +30,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Locking\\FakeDBLockingProvider' => __DIR__ . '/..' . '/../lib/Locking/FakeDBLockingProvider.php',
         'OCA\\Testing\\Provider\\FakeText2ImageProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeText2ImageProvider.php',
         'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProvider.php',
+        'OCA\\Testing\\Provider\\FakeTextProcessingProviderSync' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProviderSync.php',
         'OCA\\Testing\\Provider\\FakeTranslationProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTranslationProvider.php',
     );
 

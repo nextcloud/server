@@ -73,9 +73,9 @@ OC.L10N.register(
     "Move down" : "Presunúť dole",
     "Change color" : "Zmeniť farbu",
     "Theme selection is enforced" : "Vynucuje sa výber témy",
-    "Select a custom color" : "Vyberte vlastnú farbu",
     "Reset to default" : "Nastaviť predvolené",
     "Upload" : "Nahrať",
-    "Remove background image" : "Odstrániť obrázok pozadia"
+    "Remove background image" : "Odstrániť obrázok pozadia",
+    "Select a custom color" : "Vyberte vlastnú farbu"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

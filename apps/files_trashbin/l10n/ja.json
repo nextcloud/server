@@ -9,11 +9,6 @@
     "No deleted files" : "削除されたファイルはありません",
     "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます",
     "Deleted" : "削除日時",
-    "You will be able to recover deleted files from here" : "ここから削除されたファイルを元に戻すことができます。",
-    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
-    "Select all" : "すべて選択",
-    "Name" : "名前",
-    "Actions" : "アクション",
     "Delete permanently" : "完全に削除する",
     "Error while restoring file from trash bin" : "ごみ箱からファイルを復元中にエラーが発生しました",
     "Error while removing file from trash bin" : "ごみ箱からファイルを削除中にエラーが発生しました",
@@ -22,6 +17,11 @@
     "Error while removing files from trash bin" : "ごみ箱からファイルを削除中にエラーが発生しました",
     "This operation is forbidden" : "この操作は禁止されています",
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
+    "You will be able to recover deleted files from here" : "ここから削除されたファイルを元に戻すことができます。",
+    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
+    "Select all" : "すべて選択",
+    "Name" : "名前",
+    "Actions" : "アクション",
     "Delete" : "削除"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

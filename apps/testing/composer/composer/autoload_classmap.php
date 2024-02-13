@@ -15,5 +15,6 @@ return array(
     'OCA\\Testing\\Locking\\FakeDBLockingProvider' => $baseDir . '/../lib/Locking/FakeDBLockingProvider.php',
     'OCA\\Testing\\Provider\\FakeText2ImageProvider' => $baseDir . '/../lib/Provider/FakeText2ImageProvider.php',
     'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => $baseDir . '/../lib/Provider/FakeTextProcessingProvider.php',
+    'OCA\\Testing\\Provider\\FakeTextProcessingProviderSync' => $baseDir . '/../lib/Provider/FakeTextProcessingProviderSync.php',
     'OCA\\Testing\\Provider\\FakeTranslationProvider' => $baseDir . '/../lib/Provider/FakeTranslationProvider.php',
 );

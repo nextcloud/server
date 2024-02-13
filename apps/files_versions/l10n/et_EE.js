@@ -16,8 +16,8 @@ OC.L10N.register(
     "Initial version restored" : "Algne versioon taastatud",
     "Version restored" : "Versioon taastatud",
     "Could not restore version" : "Versiooni taastamine ebaõnnestus",
-    "Could not set version name" : "Versiooni nime seadmine ebaõnnestus",
     "Could not delete version" : "Versiooni kustutamine ebaõnnestus",
-    "${version.label} restored" : "${version.label} taastatud"
+    "${version.label} restored" : "${version.label} taastatud",
+    "Could not set version name" : "Versiooni nime seadmine ebaõnnestus"
 },
 "nplurals=2; plural=(n != 1);");

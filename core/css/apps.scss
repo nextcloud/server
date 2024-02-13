@@ -987,8 +987,8 @@ $popoveritem-height: 44px;
 $popovericon-size: 16px;
 $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 
-.contact .popovermenu ul,
-.popover__menu {
+.v-popper__inner div.open > ul {
+	> li > a > span.action-link__icon,
 	> li > a > img {
 		filter: var(--background-invert-if-dark);
 

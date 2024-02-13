@@ -71,24 +71,23 @@
 </template>
 
 <script lang="ts">
-import { translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import Vue from 'vue'
+import { defineComponent, type PropType } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
+import type { Node } from '@nextcloud/files'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeader',
 
 	components: {
 		FilesListTableHeaderButton,
 		NcCheckboxRadioSwitch,
-		FilesListTableHeaderActions,
 	},
 
 	mixins: [
@@ -105,7 +104,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		filesListWidth: {
@@ -142,9 +141,7 @@ export default Vue.extend({
 		},
 
 		selectAllBind() {
-			const label = this.isNoneSelected || this.isSomeSelected
-				? this.t('files', 'Select all')
-				: this.t('files', 'Unselect all')
+			const label = t('files', 'Toggle selection for all files and folders')
 			return {
 				'aria-label': label,
 				checked: this.isAllSelected,
@@ -183,13 +180,13 @@ export default Vue.extend({
 				'files-list__column': true,
 				'files-list__column--sortable': !!column.sort,
 				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
+				[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
 			}
 		},
 
 		onToggleAll(selected) {
 			if (selected) {
-				const selection = this.nodes.map(node => node.fileid.toString())
+				const selection = this.nodes.map(node => node.fileid).filter(Boolean) as number[]
 				logger.debug('Added all nodes to selection', { selection })
 				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)
@@ -203,7 +200,7 @@ export default Vue.extend({
 			this.selectionStore.reset()
 		},
 
-		t: translate,
+		t,
 	},
 })
 </script>

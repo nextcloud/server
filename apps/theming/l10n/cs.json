@@ -27,6 +27,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používáte svůj vlastní motiv vzhledu. Nastavení aplikace pro změnu motivu vzhledu tím mohou být přepsána.",
     "Theming" : "Motiv vzhledu",
     "Appearance and accessibility" : "Vzhled a zpřístupnění",
+    "PHP Imagick module" : "PHP modul Imagick",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Ačkoli je zapnutá aplikace pro opatřování motivem vzhledu, není zapnutý PHP modul „imagick“. Aby vytváření ikon webů správně fungovalo, je zapotřebí tento modul nainstalovat a zapnout.",
     "Dark theme with high contrast mode" : "Tmavý motiv vzhledu s režimem vysokého kontrastu",
     "Enable dark high contrast mode" : "Používat tmavý režim s vysokým kontrastem",
@@ -70,6 +71,7 @@
     "User settings" : "Nastavení pro uživatele",
     "Disable user theming" : "Vypnout opatřování vzhledem uživateli",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Ačkoli je možné vybrat a přizpůsobit si svou instanci, uživatelé si mohou změnit pozadí a barvy. Pokud chcete vámi nastavené přizpůsobení vynutit, můžete toto zapnout.",
+    "Appearance and accessibility settings" : "Nastavení vzhledu a zpřístupnění",
     "Background" : "Pozadí",
     "Customization has been disabled by your administrator" : "Přizpůsobení si bylo vypnuto správcem",
     "Set a custom background" : "Nastavit uživatelsky určené pozadí",
@@ -104,9 +106,9 @@
     "Default app priority" : "Priorita výchozí aplikace",
     "If an app is not enabled for a user, the next app with lower priority is used." : "Pokud aplikace není pro daného uživatele zapnutá, bude použita hned další aplikace v pořadí priority.",
     "Could not set global default apps" : "Nepodařilo se nastavit globálně výchozí aplikace",
-    "Select a custom color" : "Vybrat uživatelsky určenou barvu",
     "Reset to default" : "Vrátit zpět na výchozí hodnoty",
     "Upload" : "Nahrát",
-    "Remove background image" : "Odebrat obrázek z pozadí"
+    "Remove background image" : "Odebrat obrázek z pozadí",
+    "Select a custom color" : "Vybrat uživatelsky určenou barvu"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

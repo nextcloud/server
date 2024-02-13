@@ -33,10 +33,6 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		return 'dark';
 	}
 
-	public function getMediaQuery(): string {
-		return '(prefers-color-scheme: dark)';
-	}
-
 	public function getTitle(): string {
 		return $this->l->t('Dark theme');
 	}
@@ -47,6 +43,18 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 	public function getDescription(): string {
 		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
+	}
+
+	public function getMediaQuery(): string {
+		return '(prefers-color-scheme: dark)';
+	}
+
+	public function getMeta(): array {
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'dark',
+		]];
 	}
 
 	public function getCSSVariables(): array {
@@ -115,7 +123,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-border' => $this->util->lighten($colorMainBackground, 7),
 				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 30),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
 
 				'--background-invert-if-dark' => 'invert(100%)',
 				'--background-invert-if-bright' => 'no',

@@ -35,7 +35,7 @@ use OCP\Share\IManager;
 use OCP\Util;
 
 /**
- * @template-implements IEventListener<Event>
+ * @template-implements IEventListener<LoadSidebar>
  */
 class LoadSidebarListener implements IEventListener {
 
@@ -48,11 +48,5 @@ class LoadSidebarListener implements IEventListener {
 		}
 
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
-
-		$shareConfig = [
-			'allowPublicUploads' => $this->shareManager->shareApiLinkAllowPublicUpload(),
-		];
-
-		$this->initialState->provideInitialState('shareConfig', $shareConfig);
 	}
 }

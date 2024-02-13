@@ -11,11 +11,6 @@ OC.L10N.register(
     "No deleted files" : "Нема избришани датотеки",
     "Files and folders you have deleted will show up here" : "Датотеките и папките кои ги имате избришано ќе се појават тука",
     "Deleted" : "Избришана",
-    "You will be able to recover deleted files from here" : "Можете да ги вратите избришаните датотеки од тука",
-    "No entries found in this folder" : "Нема ништо во оваа папка",
-    "Select all" : "Избери се",
-    "Name" : "Име",
-    "Actions" : "Акции",
     "Delete permanently" : "Избриши",
     "Error while restoring file from trash bin" : "Грешка при враќање на датотека од корпата со отпадоци",
     "Error while removing file from trash bin" : "Грешка при отстранување на датотека од корпата со отпадоци",
@@ -24,6 +19,11 @@ OC.L10N.register(
     "Error while removing files from trash bin" : "Грешка при отстранување на датотеки од корпата со отпадоци",
     "This operation is forbidden" : "Операцијата не е дозволена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овој директориум е недостапен, ве молиме проверете ги логовите или контактирајте со администраторот",
+    "You will be able to recover deleted files from here" : "Можете да ги вратите избришаните датотеки од тука",
+    "No entries found in this folder" : "Нема ништо во оваа папка",
+    "Select all" : "Избери се",
+    "Name" : "Име",
+    "Actions" : "Акции",
     "Delete" : "Избриши"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
