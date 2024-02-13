@@ -52,13 +52,16 @@ class WellKnownUrls implements ISetupCheck {
 		return $this->l10n->t('.well-known URLs');
 	}
 
-	private function checkGetUrl(string $url, array $validStatuses = [200, 404]): bool {
+	/**
+	 * @param 'get'|'propfind' $verb
+	 */
+	private function checkGetUrl(string $verb, string $url, array $validStatuses, bool $checkCustomHeader): bool {
 		$client = $this->httpClientService->newClient();
-		$response = $client->get($this->urlGenerator->getAbsoluteURL($url), ['verify' => false, 'http_errors' => false]);
+		$response = $client->$verb($this->urlGenerator->getAbsoluteURL($url), ['verify' => false, 'http_errors' => false]);
 		if (!in_array($response->getStatusCode(), $validStatuses)) {
 			return false;
 		}
-		if (empty($response->getHeader('X-NEXTCLOUD-WELL-KNOWN'))) {
+		if ($checkCustomHeader && empty($response->getHeader('X-NEXTCLOUD-WELL-KNOWN'))) {
 			return false;
 		}
 		return true;
@@ -69,14 +72,32 @@ class WellKnownUrls implements ISetupCheck {
 			return SetupResult::success($this->l10n->t('`check_for_working_wellknown_setup` is set to false in your configuration, so this check was skipped.'));
 		}
 		try {
-			foreach (['/.well-known/webfinger','/.well-known/nodeinfo'] as $url) {
-				if (!$this->checkGetUrl($url)) {
-					return SetupResult::info(
-						$this->l10n->t('Your web server is not properly set up to resolve "%s".', [$url]),
-						$this->urlGenerator->linkToDocs('admin-setup-well-known-URL')
-					);
+			$checkList = '';
+			$level = 'success';
+			$urls = [
+				['get', '/.well-known/webfinger', [200, 404], true],
+				['get', '/.well-known/nodeinfo', [200, 404], true],
+				['propfind', '/.well-known/caldav', [207], false],
+				['propfind', '/.well-known/carddav', [207], false],
+			];
+			foreach ($urls as [$verb,$url,$validStatuses,$checkCustomHeader]) {
+				if (!$this->checkGetUrl($verb, $url, $validStatuses, $checkCustomHeader)) {
+					$level = 'info';
+					$checkList .= ' - '.strtoupper($verb).' '.$url.': failure'."\n";
+				} else {
+					$checkList .= ' - '.strtoupper($verb).' '.$url.': success'."\n";
 				}
 			}
+			return match($level) {
+				'success' => SetupResult::success(
+					$this->l10n->t("Your web server is correctly configured to serve `.well-known` URLs:\n%s", [$checkList]),
+					$this->urlGenerator->linkToDocs('admin-setup-well-known-URL')
+				),
+				'info' => SetupResult::info(
+					$this->l10n->t("Your web server is not properly set up to resolve well-known URLs:\n%s", [$checkList]),
+					$this->urlGenerator->linkToDocs('admin-setup-well-known-URL')
+				),
+			};
 		} catch (\Exception $e) {
 			return SetupResult::error(
 				$this->l10n->t('Failed to test .well-known URLs: "%s".', [$e->getMessage()]),
