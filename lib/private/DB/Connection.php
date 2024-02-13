@@ -683,7 +683,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction')]);
+				$this->logger->warning('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
 			}
 		}
 		return $result;
