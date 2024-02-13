@@ -88,8 +88,8 @@ export default {
 	},
 
 	mounted() {
-		// Warn the user if the available storage is 0 on page load
-		if (this.storageStats?.free <= 0) {
+		// Warn the user if the available storage is 0 on page load, except for users with 0 B quota
+		if (this.storageStats?.free <= 0 && this.storageStats?.quota != 0) {
 			this.showStorageFullWarning()
 		}
 	},
