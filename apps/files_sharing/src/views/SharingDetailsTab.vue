@@ -109,6 +109,11 @@
 							{{ t('files_sharing', 'Password expired') }}
 						</span>
 					</template>
+					<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
+						:checked.sync="isPasswordProtectedByTalk"
+						@update:checked="onPasswordProtectedByTalkChange">
+						{{ t('files_sharing', 'Video verification') }}
+					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
 						{{ isExpiryDateEnforced
 							? t('files_sharing', 'Expiration date (enforced)')
@@ -128,11 +133,6 @@
 						:checked.sync="share.hideDownload"
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
-					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
-						:checked.sync="isPasswordProtectedByTalk"
-						@update:checked="onPasswordProtectedByTalkChange">
-						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
 						{{ t('files_sharing', 'Allow download') }}
@@ -599,8 +599,8 @@ export default {
 				return false
 			}
 
-			// Anything else should be fine
-			return true
+			// Is Talk enabled?
+			return OC.appswebroots.spreed !== undefined
 		},
 		canChangeHideDownload() {
 			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
