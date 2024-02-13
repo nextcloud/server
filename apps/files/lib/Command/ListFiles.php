@@ -101,7 +101,9 @@ class ListFiles extends Base {
 		?int $maxSize = 0
 	): void {
 		try {
+			/** @ var OC\Files\Node\Folder $userFolder **/
 			$userFolder = $this->rootFolder->get($path);
+			
 			$files = $userFolder->getDirectoryListing();
 			foreach ($files as $file) {
 				$includeType = $includeMin = $includeMax = true;
