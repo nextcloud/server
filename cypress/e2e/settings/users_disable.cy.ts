@@ -56,8 +56,8 @@ describe('Settings: Disable and enable users', function() {
 			cy.get('[data-cy-user-list-cell-actions] button.action-item__menutoggle').click({ scrollBehavior: 'center' })
 		})
 
-		// The "Disable user" action in the actions menu is shown and clicked
-		cy.get('.action-item__popper .action').contains('Disable user').should('exist').click()
+		// The "Disable account" action in the actions menu is shown and clicked
+		cy.get('.action-item__popper .action').contains('Disable account').should('exist').click()
 		// When clicked the section is not shown anymore
 		getUserListRow(testUser.userId).should('not.exist')
 		// But the disabled user section now exists
@@ -85,8 +85,8 @@ describe('Settings: Disable and enable users', function() {
 			cy.get('[data-cy-user-list-cell-actions] button.action-item__menutoggle').click({ scrollBehavior: 'center' })
 		})
 
-		// The "Enable user" action in the actions menu is shown and clicked
-		cy.get('.action-item__popper .action').contains('Enable user').should('exist').click()
+		// The "Enable account" action in the actions menu is shown and clicked
+		cy.get('.action-item__popper .action').contains('Enable account').should('exist').click()
 		// When clicked the section is not shown anymore
 		cy.get('#disabled').should('not.exist')
 		// Make sure it is still gone after the reload reload

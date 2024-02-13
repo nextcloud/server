@@ -23,7 +23,7 @@
 <template>
 	<NcAppSettingsDialog :open.sync="isModalOpen"
 		:show-navigation="true"
-		:name="t('settings', 'User management settings')">
+		:name="t('settings', 'Account management settings')">
 		<NcAppSettingsSection id="visibility-settings"
 			:name="t('settings', 'Visibility')">
 			<NcCheckboxRadioSwitch type="switch"
@@ -34,7 +34,7 @@
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="showUserBackend"
 				:checked.sync="showUserBackend">
-				{{ t('settings', 'Show user backend') }}
+				{{ t('settings', 'Show account backend') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="showStoragePath"
@@ -54,7 +54,7 @@
 				data-test="sendWelcomeMail"
 				:checked.sync="sendWelcomeMail"
 				:disabled="loadingSendMail">
-				{{ t('settings', 'Send welcome email to new users') }}
+				{{ t('settings', 'Send welcome email to new accounts') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
