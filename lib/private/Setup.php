@@ -366,8 +366,9 @@ class Setup {
 		}
 
 		$this->outputDebug($output, 'Create admin account');
-		//create the  and group
-		$ = null;
+
+		// create the admin account and group
+		$user = null;
 		try {
 			$user = Server::get(IUserManager::class)->createUser($username, $password);
 			if (!$user) {

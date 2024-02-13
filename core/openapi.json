@@ -2421,7 +2421,7 @@
         "/ocs/v2.php/hovercard/v1/{userId}": {
             "get": {
                 "operationId": "hover_card-get-user",
-                "summary": "Get the user details for a hovercard",
+                "summary": "Get the account details for a hovercard",
                 "tags": [
                     "hover_card"
                 ],
@@ -2456,7 +2456,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User details returned",
+                        "description": "Account details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2505,7 +2505,7 @@
                         }
                     },
                     "404": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4001,7 +4001,7 @@
                         }
                     },
                     "404": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "text/plain": {
                                 "schema": {

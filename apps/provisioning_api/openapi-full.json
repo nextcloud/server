@@ -3,7 +3,7 @@
     "info": {
         "title": "provisioning_api-full",
         "version": "0.0.1",
-        "description": "This application enables a set of APIs that external systems can use to manage users, groups and apps.",
+        "description": "This application enables a set of APIs that external systems can use to manage accounts, groups and apps.",
         "license": {
             "name": "agpl"
         }
