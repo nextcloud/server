@@ -266,7 +266,7 @@ OC.L10N.register(
     "Could not copy {file}. {message}" : "{file} konnte nicht kopiert werden. {message}",
     "Could not move {file}. {message}" : "{file} konnte nicht verschoben werden. {message}",
     "Created new folder \"{name}\"" : "Neuer Ordner \"{name}\" wurde erstellt",
-    "Filename" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Filename" : "Dateiname",
     "Unable to initialize the templates directory" : "Der Vorlagenordner konnte nicht initialisiert werden",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
     "Templates" : "Vorlagen",
