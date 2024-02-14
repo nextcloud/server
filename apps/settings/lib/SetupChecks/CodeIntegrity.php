@@ -53,20 +53,51 @@ class CodeIntegrity implements ISetupCheck {
 		} elseif ($this->checker->hasPassedCheck()) {
 			return SetupResult::success($this->l10n->t('No altered files'));
 		} else {
+			$completeResults = $this->checker->getResults();
+			$formattedTextResponse = '';
+			if (!empty($completeResults)) {
+				$formattedTextResponse = '#### ' . $this->l10n->t('Technical information');
+				$formattedTextResponse .= "\n" . $this->l10n->t('The following list covers which files have failed the integrity check.');
+				$formattedTextResponse .= "\n";
+				foreach ($completeResults as $context => $contextResult) {
+					$formattedTextResponse .= "- $context\n";
+	
+					foreach ($contextResult as $category => $result) {
+						$categoryName = match($category) {
+							'EXCEPTION' => $this->l10n->t('Exception'),
+							'EXTRA_FILE' => $this->l10n->t('Unexpected file'),
+							'FILE_MISSING' => $this->l10n->t('Missing file'),
+							'INVALID_HASH' => $this->l10n->t('Invalid file (hash mismatch)'),
+							default => $category,
+						};
+						$formattedTextResponse .= "\t- $categoryName\n";
+						if ($category !== 'EXCEPTION') {
+							foreach ($result as $key => $results) {
+								$formattedTextResponse .= "\t\t- $key\n";
+							}
+						} else {
+							foreach ($result as $key => $results) {
+								$formattedTextResponse .= "\t\t- $results\n";
+							}
+						}
+					}
+				}
+			}
+
 			return SetupResult::error(
-				$this->l10n->t('Some files have not passed the integrity check. {link1} {link2}'),
+				$this->l10n->t('Some files have not passed the integrity check. {rawOutput} {rescan}') . "\n\n" . $formattedTextResponse,
 				$this->urlGenerator->linkToDocs('admin-code-integrity'),
 				[
-					'link1' => [
+					'rawOutput' => [
 						'type' => 'highlight',
 						'id' => 'getFailedIntegrityCheckFiles',
-						'name' => 'List of invalid files…',
+						'name' => $this->l10n->t('Raw output…'),
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.getFailedIntegrityCheckFiles'),
 					],
-					'link2' => [
+					'rescan' => [
 						'type' => 'highlight',
 						'id' => 'rescanFailedIntegrityCheck',
-						'name' => 'Rescan…',
+						'name' => $this->l10n->t('Rescan…'),
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.rescanFailedIntegrityCheck'),
 					],
 				],
