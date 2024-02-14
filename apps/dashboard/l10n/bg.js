@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Табло",
     "Dashboard app" : "Приложение за Табло",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започнете деня си информиран\n\nТаблото за управление на Nextcloud е ваша отправна точка за деня, което ви дава възможност за преглед на предстоящите ви срещи, спешни имейли, съобщения в чат, входящи билети, най-новите туитове и много повече! Потребителите могат да добавят изпълними модули, които те харесват и да променят фона по свой вкус.",
     "\"{title} icon\"" : "„икона {title}“",
     "Customize" : "Персонизиране",
     "Edit widgets" : "Редактиране на изпълнимите модули",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Добър вечер, {name}",
     "Hello" : "Здравейте",
     "Hello, {name}" : "Здравейте, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете деня си информиран\n\nТаблото за управление на Nextcloud е ваша отправна точка за деня, което ви дава\nвъзможност за преглед на предстоящите ви срещи, спешни имейли, съобщения в чат,\nвходящи билети, най-новите туитове и много повече! Потребителите могат да добавят изпълними модули,\nкоито те харесват и да променят фона по свой вкус."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете деня си информиран\n\nТаблото за управление на Nextcloud е ваша отправна точка за деня, което ви дава\nвъзможност за преглед на предстоящите ви срещи, спешни имейли, съобщения в чат,\nвходящи билети, най-новите туитове и много повече! Потребителите могат да добавят изпълними модули,\nкоито те харесват и да променят фона по свой вкус.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започнете деня си информиран\n\nТаблото за управление на Nextcloud е ваша отправна точка за деня, което ви дава възможност за преглед на предстоящите ви срещи, спешни имейли, съобщения в чат, входящи билети, най-новите туитове и много повече! Потребителите могат да добавят изпълними модули, които те харесват и да променят фона по свой вкус."
 },
 "nplurals=2; plural=(n != 1);");

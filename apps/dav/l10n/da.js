@@ -171,7 +171,6 @@ OC.L10N.register(
     "Saved availability" : "Gemt tilgængelighed",
     "Failed to save availability" : "Kunne ikke gemme tilgængelighed",
     "Availability" : "tilgængelighed",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde.",
     "Calendar server" : "Kalenderserver",
     "Send invitations to attendees" : "Send invitation til deltagere",
     "Automatically generate a birthday calendar" : "Generer en fødselsdagskalender automatisk",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontakt venligst arrangøren direkte.",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
-    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret."
+    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde."
 },
 "nplurals=2; plural=(n != 1);");

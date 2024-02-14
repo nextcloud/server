@@ -11,7 +11,6 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Nuk mund të vendosej një shpërndarje e federuar.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nuk mund të vendoset një shpërndarje e federuar, ndoshta fjalëkalimi ishte gabim.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Kërkesa Ndarja Federative u dërgua, ju do të merrni një ftesë. Kontrolloni njoftimet tuaja.",
-    "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
     "File is already shared with %s" : "Skedari është ndarë tashmë me %s",
     "Could not find share" : "Nuk mund të gjenim ndarjen",
     "Federated sharing" : "Ndarje e federuar",
@@ -22,9 +21,6 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
     "Sharing" : "Ndarje",
     "Federated file sharing" : "Shpërndarja e skedarëve të federuar",
-    "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
-    "Search global and public address book for users" : "Kërko librin e adresave globale dhe publike për përdoruesit",
-    "Allow users to publish their data to a global and public address book" : "Lejo përdoruesit të publikojnë të dhënat e tyre në një libër adresash botërore dhe globale",
     "Federated Cloud" : "Re e Federuar",
     "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
     "Share it so your friends can share files with you:" : "Shërndajeni që miqtë tuaj mund të ndajnë skedarë me ju:",
@@ -34,6 +30,10 @@ OC.L10N.register(
     "HTML Code:" : "Kod HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Copy to clipboard" : "Kopjo në dërrasë ",
-    "Copied!" : "U kopjua!"
+    "Copied!" : "U kopjua!",
+    "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
+    "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
+    "Search global and public address book for users" : "Kërko librin e adresave globale dhe publike për përdoruesit",
+    "Allow users to publish their data to a global and public address book" : "Lejo përdoruesit të publikojnë të dhënat e tyre në një libër adresash botërore dhe globale"
 },
 "nplurals=2; plural=(n != 1);");

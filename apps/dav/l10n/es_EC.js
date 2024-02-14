@@ -172,7 +172,6 @@ OC.L10N.register(
     "Saved availability" : "Disponibilidad guardada",
     "Failed to save availability" : "Error al guardar la disponibilidad",
     "Availability" : "Disponibilidad",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión.",
     "Calendar server" : "Servidor de calendario",
     "Send invitations to attendees" : "Enviar invitaciones a los asistentes",
     "Automatically generate a birthday calendar" : "Generar automaticamente un calendario para cumpleaños",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contacta directamente al organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
-    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente."
+    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s прокоментовано у %2$s",
     "{author} commented on {file}" : "{author} прокоментував(-ла) {file}",
     "<strong>Comments</strong> for files" : "З'явилися <strong>коментарі</strong> до файлів",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вас згадали в \"{file}\" у коментарі користувача, який згодом було видалено",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} згадав вас у коментарі до \"{file}\"",
     "Files app plugin to add comments to files" : "Плаґін до застосунку и\"Файли\" для додавання коментарів до файлів",
     "Edit comment" : "Редагувати коментар",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Comment deleted" : "Коментар вилучено",
     "An error occurred while trying to delete the comment" : "Під час спроби вилучити коментар сталася помилка",
     "An error occurred while trying to create the comment" : "Під час створення коментаря сталася помилка",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вас згадали в \"{file}\" у коментарі користувача, який згодом було видалено",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитаний коментар","%n непрочитаних коментарів","%n непрочитаних коментарів","%n непрочитаних коментарів"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

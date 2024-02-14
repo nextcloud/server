@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "Uložena dostupnost",
     "Failed to save availability" : "Nepodařilo se uložit dostupnost",
     "Availability" : "Dostupnost",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Když sem zadáte svou pracovní dobu, ostatní uživatelé při rezervování schůzky uvidí, kdy jste mimo kancelář.",
     "Absence" : "Nepřítomnost",
     "Configure your next absence period." : "Nastavte období své nepřítomnosti.",
     "Calendar server" : "Kalendářový server",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontaktujte organizátora přímo.",
     "Are you accepting the invitation?" : "Přijímáte pozvání?",
     "Tentative" : "Nezávazně",
-    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována."
+    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Když sem zadáte svou pracovní dobu, ostatní uživatelé při rezervování schůzky uvidí, kdy jste mimo kancelář."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

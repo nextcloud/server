@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "{file} atzitzeko pasahitza bidali da {email}-(e)ra",
     "Password to access {file} was sent to you" : "{file} atzitzeko pasahitza bidali zaizu",
     "Share by mail" : "Partekatu e-mail bidez",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$spartekatzeak huts egin du dagoeneko %2$serabiltzailearekin partekatuta dagoelako",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ezin dizugu bidali automatikoki sortutako pasahitza. Ezarri baliozko helbide elektronikoa ezarpen pertsonaletan eta saiatu berriro.",
     "Failed to send share by email. Got an invalid email address" : "Ezin izan da partekaturikoa posta elektronikoz bidali. Helbide elektroniko baliogabea lortu du",
     "Failed to send share by email" : "Ezin izan da e-posta bidez partekatu",
@@ -38,9 +37,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Nahi duzuenan aukeratu dezakezu beste pasahitz bat partekatze-leihoan.",
     "Could not find share" : "Ezin da partekatzea topatu",
     "Share provider which allows you to share files by mail" : "Partekatze hornitzailea, fitxategiak posta bidez partekatzeko aukera ematen duena",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
     "Reply to initiator" : "Erantzun hasieragailuari",
-    "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez"
+    "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$spartekatzeak huts egin du dagoeneko %2$serabiltzailearekin partekatuta dagoelako",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz."
 },
 "nplurals=2; plural=(n != 1);");
