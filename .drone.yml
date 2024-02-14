@@ -1,28 +1,5 @@
 ---
 kind: pipeline
-name: checkers
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: checkers
-  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
-  commands:
-    - ./autotest-checkers.sh
-  secrets: [ github_token ]
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: litmus
 
 steps:
@@ -187,4 +164,4 @@ trigger:
 
 ---
 kind: signature
-hmac: a4f9a3fec27fbd14dfb478902b7b5cbc155916a309f05fe6eb78961b3db18c3a
+hmac: e34c8c2ca36355a8dcaf01c7bd14c53bd42d25a4d631533e2c8109e2690c2a98
