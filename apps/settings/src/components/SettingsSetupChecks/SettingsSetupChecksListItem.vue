@@ -82,6 +82,7 @@ function parseRichObject(message: string, parameters?: IRichObjectParameters): s
 	display: flex;
 	align-items: start;
 	flex-direction: row;
+	white-space: pre-wrap;
 
 	&:hover {
 		background-color: var(--color-background-hover);
