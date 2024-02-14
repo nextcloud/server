@@ -24,14 +24,15 @@
 			@click="click">
 			<template #icon>
 				<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
-				<img v-else-if="isCurrent || version.hasPreview"
+				<img v-else-if="(isCurrent || version.hasPreview) && !previewErrored"
 					:src="version.previewUrl"
 					alt=""
 					decoding="async"
 					fetchpriority="low"
 					loading="lazy"
 					class="version__image"
-					@load="previewLoaded = true">
+					@load="previewLoaded = true"
+					@error="previewErrored = true">
 				<div v-else
 					class="version__image">
 					<ImageOffOutline :size="20" />
@@ -206,6 +207,7 @@ export default {
 	data() {
 		return {
 			previewLoaded: false,
+			previewErrored: false,
 			showVersionLabelForm: false,
 			formVersionLabelValue: this.version.label,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
