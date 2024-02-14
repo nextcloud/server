@@ -35,7 +35,6 @@ use OC\Tagging\TagMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\ITags;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
@@ -486,11 +485,13 @@ class Tags implements ITags {
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => __METHOD__,
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
+			\OCP\Server::get(LoggerInterface::class)->error(
+				$e->getMessage(),
+				[
+					'app' => 'core',
+					'exception' => $e,
+				]
+			);
 			return [];
 		}
 	}
@@ -549,7 +550,7 @@ class Tags implements ITags {
 		try {
 			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->error($e->getMessage(), [
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
 				'app' => 'core',
 				'exception' => $e,
 			]);

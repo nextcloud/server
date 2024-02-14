@@ -850,11 +850,11 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->shareManager->createShare($share);
 		} catch (GenericShareException $e) {
-			\OC::$server->getLogger()->logException($e);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		}
 

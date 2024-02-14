@@ -32,6 +32,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use Psr\Log\LoggerInterface;
+
 /**
  * @param $service
  * @return string
@@ -103,10 +105,10 @@ try {
 		$status = 503;
 	}
 	//show the user a detailed error page
-	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
+	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
 	OC_Template::printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
-	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
+	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
 	OC_Template::printExceptionErrorPage($ex, 500);
 }
