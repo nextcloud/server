@@ -34,7 +34,7 @@ OC.L10N.register(
     "OAuth2" : "OAuth2",
     "Client ID" : "Kliendi ID",
     "Client secret" : "Kliendi salasõna",
-    "Username" : "Kasutajanimi",
+    "Login" : "Logi sisse",
     "Password" : "Parool",
     "Domain" : "Domeen",
     "API key" : "API võti",
@@ -62,7 +62,6 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP koos salajase võtmega logimisega",
     "Share" : "Jaga",
     "Show hidden files" : "Näita peidetud faile",
-    "Username as share" : "Kasutajanimi kui jagamine",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Teenuse nimi",
     "External storage" : "Väline andmehoidla",
@@ -83,7 +82,9 @@ OC.L10N.register(
     "Couldn't get the list of external mount points: {type}" : "Välise ühenduspunkti hankimine ebaõnnestus: {type}",
     "There was an error with message: " : "Sõnumiga tekkis tõrge:",
     "external-storage" : "väline-salvestuskoht",
+    "Username" : "Kasutajanimi",
     "Credentials required" : "Kasutajatunnused on nõutud",
+    "Username as share" : "Kasutajanimi kui jagamine",
     "Name" : "Nimi"
 },
 "nplurals=2; plural=(n != 1);");

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Salasana kohteen {file} käyttämiseksi lähetettiin osoitteeseen {email}",
     "Password to access {file} was sent to you" : "Salasana tiedoston {file} käyttämiseksi lähetettiin sinulle",
     "Share by mail" : "Jaa sähköpostitse",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tämä kohde on jo jaettu käyttäjän %2$s kanssa",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automaattisesti muodostettua salasanaa ei voi lähettää sinulle. Aseta kelvollinen sähköpostiosoite henkilökohtaisiin asetuksiisi ja yritä uudelleen.",
     "Failed to send share by email. Got an invalid email address" : "Jaon lähettäminen sähköpostitse epäonnistui. Virheellinen sähköpostiosoite",
     "Failed to send share by email" : "Jaon lähettäminen sähköpostitse epäonnistui",
@@ -31,8 +30,9 @@ OC.L10N.register(
     "This is the password:" : "Tämä on salasana:",
     "You can choose a different password at any time in the share dialog." : "Voit valita muun salasanan koska tahansa jakovalikossa.",
     "Could not find share" : "Jakoa ei löytynyt",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Salli käyttäjien jakaa personoitu linkki tiedostoon tai kansioon syöttämällä sähköpostiosoitteen.",
     "Send password by mail" : "Lähetä salasana sähköpostitse",
-    "Reply to initiator" : "Vastaa aloitteentekijälle"
+    "Reply to initiator" : "Vastaa aloitteentekijälle",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tämä kohde on jo jaettu käyttäjän %2$s kanssa",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Salli käyttäjien jakaa personoitu linkki tiedostoon tai kansioon syöttämällä sähköpostiosoitteen."
 },
 "nplurals=2; plural=(n != 1);");

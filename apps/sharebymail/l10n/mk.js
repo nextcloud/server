@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Лозинката за пристап до {file} е испратена на {email}",
     "Password to access {file} was sent to you" : "Лозинката за пристап до {file}  е испратена до вас",
     "Share by mail" : "Сподели преку е-пошта",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со корисникот %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Неможе да се испрати автоматски генерирана лозинка. Ве молиме внесете ја вашата е-пошта адреса во параметрите за лични податоци и обидете се повторно.",
     "Failed to send share by email. Got an invalid email address" : "Неможе да се сподели на Е-пошта. Адресата не е валидна",
     "Failed to send share by email" : "Неуспешно испраќање на споделување по е-пошта.",
@@ -38,9 +37,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Можете да изберете било каква лозинка во било кое време.",
     "Could not find share" : "Неможе да се пронајде споделувањето",
     "Share provider which allows you to share files by mail" : "Провајдер за споделување кој дозволува споделување преки е-пошта",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
     "Reply to initiator" : "Одговор до иницијаторот",
-    "Unable to update share by mail config" : "Неможе да се ажурираат параметрите за споделување со е-пошта"
+    "Unable to update share by mail config" : "Неможе да се ажурираат параметрите за споделување со е-пошта",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со корисникот %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

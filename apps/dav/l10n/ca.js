@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "S'ha desat la disponibilitat",
     "Failed to save availability" : "No s'ha pogut desar la disponibilitat",
     "Availability" : "Disponibilitat",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió.",
     "Absence" : "Absència",
     "Configure your next absence period." : "Configureu el pròxim període d'absència.",
     "Calendar server" : "Servidor de calendari",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacteu amb l'organització directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència."
+    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió."
 },
 "nplurals=2; plural=(n != 1);");

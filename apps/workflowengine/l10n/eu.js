@@ -109,8 +109,8 @@ OC.L10N.register(
     "between" : "bitarte honetan",
     "not between" : "ez dago bitarte honetan",
     "Request user agent" : "Eskatu erabiltzaile-agentea",
-    "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
-    "is not member of" : "ez da hemengo kide:"
+    "is not member of" : "ez da hemengo kide:",
+    "User group membership" : "Erabiltzailearen talde-kidetza"
 },
 "nplurals=2; plural=(n != 1);");

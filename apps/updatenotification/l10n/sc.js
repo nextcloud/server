@@ -29,7 +29,6 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Su canale de agiornamentu seletzionadu faghet chi is notìficas dedicadas a su serbidores siant in disusu.",
     "The selected update channel does not support updates of the server." : "Su canale de agiornamentu seletzionadu non suportat is agiornamentos de su serbidore.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Una versione noa est a disponimentu: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Càstia chi, a pustis de una versione noa, s'agiornamentu si visualizat isceti a pustis de sa prima versione minore o a pustis. Publicamus in su tempus versiones noas a is utentes nostros e, a bortas, brincamus una versione, si essint a campu problemas. Àteras informatziones in contu de agiornamentos e de is canales de publicatzione {link} ",
     "Checking apps for compatible versions" : "Controllu de aplicatziones cun versiones cumpatìbiles",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Segura·ti chi su config.php tuo non tèngiat <samp>appstoreenabled</samp> impostada a false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "No at fatu a si connètere a sa butega de aplicatziones o a sa butega de aplicatziones no at torradu perunu agiornamentu. Chirca a manu is agiornamentos o segura·ti chi su serbidore potzat intrare a Internet e si potzat collegare a sa butega de aplicatziones.",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
     "Please use the command line updater to update." : "Imprea sa funtzione de agiornamentu dae sa lìnia de cumandu pro agiornare.",
     "Update channel:" : "Canale de agiornamentu:",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Càstia chi, a pustis de una versione noa, s'agiornamentu si visualizat isceti a pustis de sa prima versione minore o a pustis. Publicamus in su tempus versiones noas a is utentes nostros e, a bortas, brincamus una versione, si essint a campu problemas. Àteras informatziones in contu de agiornamentos e de is canales de publicatzione {link} ",
     "Checked on {lastCheckedDate}" : "Controlladu su {lastCheckedDate}"
 },
 "nplurals=2; plural=(n != 1);");

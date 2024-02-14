@@ -17,7 +17,6 @@ OC.L10N.register(
     "Apps missing compatible version" : "Ці застосунки не мають версії, що підтримується",
     "View in store" : "Переглянути у крамниці застосунків",
     "Apps with compatible version" : "Застосунки з підтримуваною версією",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Будь ласка, зверніть увагу, що веб-оновлювач не рекомендується, якщо кількість користувачів перевищує 100! Натомість використовуйте засіб оновлення командного рядка!",
     "Open updater" : "Оновити",
     "Download now" : "Звантажити зараз",
     "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Веб-оновлення вимкнено. Для оновлення, будь ласка, скористайтеся засобом оновлення з командного рядка або відповідним до вашого методу встановлення механізмом оновлення (наприклад, Docker pull).",
@@ -36,7 +35,6 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Вибраний канал оновлення робить спеціальні сповіщення для сервера застарілими.",
     "The selected update channel does not support updates of the server." : "Вибраний канал оновлення не підтримує оновлення сервера.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Доступна нова версія: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Зауважте, що після нового випуску оновлення з’являється лише після першого другорядного випуску або пізніше. Ми розгортаємо нові версії з часом для наших користувачів і іноді пропускаємо версію, коли виявляються проблеми. Дізнайтеся більше про оновлення та канали випусків на {link}",
     "Checked on {lastCheckedDate} - Open changelog" : "Остання перевірка: {lastCheckedDate}. Відкрити журнал змін",
     "Checking apps for compatible versions" : "Перевірка застосунків на наявність сумісних версій",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Будь ласка, переконайтеся, що ваш config.php не встановлює для <samp>appstoreenabled</samp> значення false.",
@@ -49,9 +47,11 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Будь ласка, зверніть увагу, що веб-оновлювач не рекомендується, якщо кількість користувачів перевищує 100! Натомість використовуйте засіб оновлення командного рядка!",
     "Please use the command line updater to update." : "Для оновлення використовуйте оновлення за допомогою командного рядка.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Ви можете змінити канал оновлення, це вплине на сторінку керування програмами. Наприклад, після переходу на бета-канал оновлення вам буде запропоновано встановлення та оновлення до бета-версій застосунків на сторінці керування застосунків.",
     "Update channel:" : "Канал оновлення:",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Зауважте, що після нового випуску оновлення з’являється лише після першого другорядного випуску або пізніше. Ми розгортаємо нові версії з часом для наших користувачів і іноді пропускаємо версію, коли виявляються проблеми. Дізнайтеся більше про оновлення та канали випусків на {link}",
     "Checked on {lastCheckedDate}" : "Перевірень {lastCheckedDate}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

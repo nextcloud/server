@@ -61,7 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "Passordet ditt utløper i dag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Passordet ditt utløper om %n dag.","Passordet ditt utløper om %n dager."],
     "LDAP/AD integration" : "LDAP/AD-integrasjon",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Det er funnet ugyldige UUID-er for LDAP-brukere eller -grupper. Gå gjennom innstillingene for «Overstyr UUID-deteksjon» i Ekspert-delen av LDAP-konfigurasjonen, og bruk «occ ldap:update-uuid» for å oppdatere dem.",
+    "Invalid LDAP UUIDs" : "Ugyldige LDAP UUID-er",
+    "None found" : "Ingen funnet",
     "_%n group found_::_%n groups found_" : ["%n gruppe funnet","%n grupper funnet"],
     "> 1000 groups found" : "> 1000 grupper funnet",
     "> 1000 users found" : "> 1000 brukere funnet",
@@ -92,6 +93,7 @@ OC.L10N.register(
     "Other Attributes:" : "Andre attributter:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Definerer et filter å legge til, når innlogging forsøkes. \"%%uid\" erstatter brukernavnet i innloggingshandlingen. Eksempel: \"uid=%%uid\"",
     "Test Loginname" : "Test påloggingsnavn",
+    "Attempts to receive a DN for the given loginname and the current login filter" : "Forsøk på å motta en DN for det gitte påloggingsnavnet og det gjeldende påloggingsfilteret",
     "Verify settings" : "Sjekk innstillinger",
     "%s. Server:" : "%s. server:",
     "Add a new configuration" : "Legger til nytt oppsett",
@@ -155,6 +157,7 @@ OC.L10N.register(
     "One User Base DN per line" : "En base DN for brukere pr. linje",
     "User Search Attributes" : "Attributter for brukersøk",
     "Optional; one attribute per line" : "Valgfritt, en attributt per linje",
+    "Disable users missing from LDAP" : "Deaktiver brukere som mangler fra LDAP",
     "Group Display Name Field" : "Felt med gruppens visningsnavn",
     "The LDAP attribute to use to generate the groups's display name." : "LDAP attributten som skal brukes til å generere gruppens visningsnavn.",
     "Base Group Tree" : "Base for gruppetre",
@@ -193,6 +196,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Tilknytning av brukernavn til LDAP bruker",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Brukernavn brukes til å lagre og tildele metadata. For å identifisere og gjenkjenne brukere nøyaktig, vil hver LDAP-bruker ha et internt brukernavn. Dette krever en kartlegging fra brukernavn til LDAP-bruker. Det opprettede brukernavnet tilordnes UUID for LDAP-brukeren. I tillegg er DN også hurtigbufret for å redusere LDAP-interaksjon, men den brukes ikke til identifikasjon. Hvis DN endres, vil endringene bli funnet. Det interne brukernavnet brukes overalt. Å rydde kartleggingen vil ha rester overalt. Å rydde tilordningene er ikke konfigurasjonsfølsom, det påvirker alle LDAP-konfigurasjoner! Tøm aldri kartleggingen i et produksjonsmiljø, bare i et test- eller eksperimentelt stadium.",
     "Clear Username-LDAP User Mapping" : "Nullstill tilknytning av brukernavn til LDAP bruker",
-    "Clear Groupname-LDAP Group Mapping" : "Nullstill tilknytning av gruppenavn til LDAP gruppe"
+    "Clear Groupname-LDAP Group Mapping" : "Nullstill tilknytning av gruppenavn til LDAP gruppe",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Det er funnet ugyldige UUID-er for LDAP-brukere eller -grupper. Gå gjennom innstillingene for «Overstyr UUID-deteksjon» i Ekspert-delen av LDAP-konfigurasjonen, og bruk «occ ldap:update-uuid» for å oppdatere dem."
 },
 "nplurals=2; plural=(n != 1);");

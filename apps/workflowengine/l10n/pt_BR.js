@@ -113,8 +113,8 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "não entre",
     "Request user agent" : "Agente de usuário da requisição",
-    "User group membership" : "Usuário em grupo",
     "is member of" : "é membro de",
-    "is not member of" : "não é membro de"
+    "is not member of" : "não é membro de",
+    "User group membership" : "Usuário em grupo"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
