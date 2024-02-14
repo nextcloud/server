@@ -123,6 +123,7 @@ class DashboardController extends Controller {
 		$response = new TemplateResponse('dashboard', 'index', [
 			'id-app-content' => '#app-dashboard',
 			'id-app-navigation' => null,
+			'pageTitle' => $this->l10n->t('Dashboard'),
 		]);
 
 		// For the weather widget we should allow the geolocation
