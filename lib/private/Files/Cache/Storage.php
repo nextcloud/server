@@ -62,7 +62,7 @@ class Storage {
 	}
 
 	/**
-	 * @param \OC\Files\Storage\Storage|string $storage
+	 * @param IStorage|string $storage
 	 * @param bool $isAvailable
 	 * @throws \RuntimeException
 	 */

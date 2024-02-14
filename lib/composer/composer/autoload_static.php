@@ -1446,6 +1446,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Cache\\CacheDependencies' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/CacheDependencies.php',
         'OC\\Files\\Cache\\CacheEntry' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/CacheEntry.php',
         'OC\\Files\\Cache\\CacheQueryBuilder' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/CacheQueryBuilder.php',
+        'OC\\Files\\Cache\\Database' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Database.php',
         'OC\\Files\\Cache\\FailedCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/FailedCache.php',
         'OC\\Files\\Cache\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/FileAccess.php',
         'OC\\Files\\Cache\\HomeCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/HomeCache.php',

@@ -47,14 +47,14 @@ class CacheWrapper extends Cache {
 		$this->cache = $cache;
 		if (!$dependencies && $cache instanceof Cache) {
 			$this->mimetypeLoader = $cache->mimetypeLoader;
-			$this->connection = $cache->connection;
+			$this->cacheDb = $cache->cacheDb;
 			$this->querySearchHelper = $cache->querySearchHelper;
 		} else {
 			if (!$dependencies) {
 				$dependencies = Server::get(CacheDependencies::class);
 			}
 			$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
-			$this->connection = $dependencies->getConnection();
+			$this->cacheDb = $dependencies->getCacheDb();
 			$this->querySearchHelper = $dependencies->getQuerySearchHelper();
 		}
 	}
@@ -236,8 +236,8 @@ class CacheWrapper extends Cache {
 		return $this->getCache()->getStatus($file);
 	}
 
-	public function searchQuery(ISearchQuery $searchQuery) {
-		return current($this->querySearchHelper->searchInCaches($searchQuery, [$this]));
+	public function searchQuery(ISearchQuery $query) {
+		return current($this->querySearchHelper->searchInCaches($query, [$this]));
 	}
 
 	/**

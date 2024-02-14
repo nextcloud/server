@@ -68,7 +68,7 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function selectFileCache(?string $alias = null, bool $joinExtendedCache = true) {
+	public function selectFileCache(?string $alias = null, bool $joinExtendedCache = true): self {
 		$name = $alias ?: 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", "$name.name", 'mimetype', 'mimepart', 'size', 'mtime',
 			'storage_mtime', 'encrypted', 'etag', "$name.permissions", 'checksum', 'unencrypted_size')
@@ -84,13 +84,13 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function whereStorageId(int $storageId) {
+	public function whereStorageId(int $storageId): self {
 		$this->andWhere($this->expr()->eq('storage', $this->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 
 		return $this;
 	}
 
-	public function whereFileId(int $fileId) {
+	public function whereFileId(int $fileId): self {
 		$alias = $this->alias;
 		if ($alias) {
 			$alias .= '.';
@@ -103,13 +103,13 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function wherePath(string $path) {
+	public function wherePath(string $path): self {
 		$this->andWhere($this->expr()->eq('path_hash', $this->createNamedParameter(md5($path))));
 
 		return $this;
 	}
 
-	public function whereParent(int $parent) {
+	public function whereParent(int $parent): self {
 		$alias = $this->alias;
 		if ($alias) {
 			$alias .= '.';
@@ -122,7 +122,7 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function whereParentInParameter(string $parameter) {
+	public function whereParentInParameter(string $parameter): self {
 		$alias = $this->alias;
 		if ($alias) {
 			$alias .= '.';

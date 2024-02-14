@@ -62,7 +62,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -88,7 +88,7 @@ class Cache implements ICache {
 	protected string $storageId;
 	protected Storage $storageCache;
 	protected IMimeTypeLoader$mimetypeLoader;
-	protected IDBConnection $connection;
+	protected CacheDatabase $cacheDb;
 	protected SystemConfig $systemConfig;
 	protected LoggerInterface $logger;
 	protected QuerySearchHelper $querySearchHelper;
@@ -106,11 +106,11 @@ class Cache implements ICache {
 			$this->storageId = md5($this->storageId);
 		}
 		if (!$dependencies) {
-			$dependencies = \OC::$server->get(CacheDependencies::class);
+			$dependencies = Server::get(CacheDependencies::class);
 		}
 		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
 		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
-		$this->connection = $dependencies->getConnection();
+		$this->cacheDb = $dependencies->getCacheDb();
 		$this->systemConfig = $dependencies->getSystemConfig();
 		$this->logger = $dependencies->getLogger();
 		$this->querySearchHelper = $dependencies->getQuerySearchHelper();
@@ -118,13 +118,8 @@ class Cache implements ICache {
 		$this->metadataManager = $dependencies->getMetadataManager();
 	}
 
-	protected function getQueryBuilder() {
-		return new CacheQueryBuilder(
-			$this->connection,
-			$this->systemConfig,
-			$this->logger,
-			$this->metadataManager,
-		);
+	public function getQueryBuilder() {
+		return $this->cacheDb->queryForStorageId($this->getNumericStorageId());
 	}
 
 	public function getStorageCache(): Storage {
@@ -305,7 +300,7 @@ class Cache implements ICache {
 		$values['storage'] = $storageId;
 
 		try {
-			$builder = $this->connection->getQueryBuilder();
+			$builder = $this->getQueryBuilder();
 			$builder->insert('filecache');
 
 			foreach ($values as $column => $value) {
@@ -333,9 +328,9 @@ class Cache implements ICache {
 			}
 		} catch (UniqueConstraintViolationException $e) {
 			// entry exists already
-			if ($this->connection->inTransaction()) {
-				$this->connection->commit();
-				$this->connection->beginTransaction();
+			if ($this->cacheDb->inTransaction($this->getNumericStorageId())) {
+				$this->cacheDb->commit($this->getNumericStorageId());
+				$this->cacheDb->beginTransaction($this->getNumericStorageId());
 			}
 		}
 
@@ -699,7 +694,7 @@ class Cache implements ICache {
 			if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 				//update all child entries
 				$sourceLength = mb_strlen($sourcePath);
-				$query = $this->connection->getQueryBuilder();
+				$query = $this->getQueryBuilder();
 
 				$fun = $query->func();
 				$newPathFunction = $fun->concat(
@@ -711,7 +706,7 @@ class Cache implements ICache {
 					->set('path_hash', $fun->md5($newPathFunction))
 					->set('path', $newPathFunction)
 					->where($query->expr()->eq('storage', $query->createNamedParameter($sourceStorageId, IQueryBuilder::PARAM_INT)))
-					->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($sourcePath) . '/%')));
+					->andWhere($query->expr()->like('path', $query->createNamedParameter($query->escapeLikeParameter($sourcePath) . '/%')));
 
 				// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 				if ($sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
@@ -723,11 +718,11 @@ class Cache implements ICache {
 				$retryLimit = 4;
 				for ($i = 1; $i <= $retryLimit; $i++) {
 					try {
-						$this->connection->beginTransaction();
+						$this->cacheDb->beginTransaction();
 						$query->executeStatement();
 						break;
 					} catch (\OC\DatabaseException $e) {
-						$this->connection->rollBack();
+						$this->cacheDb->rollBack($this->getNumericStorageId());
 						throw $e;
 					} catch (RetryableException $e) {
 						// Simply throw if we already retried 4 times.
@@ -735,14 +730,14 @@ class Cache implements ICache {
 							throw $e;
 						}
 
-						$this->connection->rollBack();
+						$this->cacheDb->rollBack();
 
 						// Sleep a bit to give some time to the other transaction to finish.
 						usleep(100 * 1000 * $i);
 					}
 				}
 			} else {
-				$this->connection->beginTransaction();
+				$this->cacheDb->beginTransaction();
 			}
 
 			$query = $this->getQueryBuilder();
@@ -761,7 +756,7 @@ class Cache implements ICache {
 
 			$query->execute();
 
-			$this->connection->commit();
+			$this->cacheDb->commit($this->getNumericStorageId());
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
 				$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
@@ -787,7 +782,7 @@ class Cache implements ICache {
 			->whereStorageId($this->getNumericStorageId());
 		$query->execute();
 
-		$query = $this->connection->getQueryBuilder();
+		$query = $this->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->execute();
@@ -861,8 +856,8 @@ class Cache implements ICache {
 		return $this->searchQuery(new SearchQuery($operator, 0, 0, [], null));
 	}
 
-	public function searchQuery(ISearchQuery $searchQuery) {
-		return current($this->querySearchHelper->searchInCaches($searchQuery, [$this]));
+	public function searchQuery(ISearchQuery $query) {
+		return current($this->querySearchHelper->searchInCaches($query, [$this]));
 	}
 
 	/**
@@ -1099,27 +1094,7 @@ class Cache implements ICache {
 	 * @deprecated use getPathById() instead
 	 */
 	public static function getById($id) {
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->select('path', 'storage')
-			->from('filecache')
-			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-
-		$result = $query->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if ($row) {
-			$numericId = $row['storage'];
-			$path = $row['path'];
-		} else {
-			return null;
-		}
-
-		if ($id = Storage::getStorageId($numericId)) {
-			return [$id, $path];
-		} else {
-			return null;
-		}
+		throw new \Exception("Cache::getById has been removed");
 	}
 
 	/**
