@@ -195,12 +195,7 @@ class QuerySearchHelper {
 		$files = $result->fetchAll();
 
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
-			// migrate to null safe ...
-			if ($metadataQuery === null) {
-				$data['metadata'] = [];
-			} else {
-				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
-			}
+			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 			return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
 		}, $files);
 
