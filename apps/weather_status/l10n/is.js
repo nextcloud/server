@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Villa",
     "Weather status" : "Veðurlýsing",
     "Weather status in your dashboard" : "Veðurlýsing á stjórnborðinu þínu",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Veðurupplýsingar innfelldar í stjórnborðsforritið.\n    Hægt er að ákvarða staðsetningu notanda sjálfvirkt eða handvirkt. Þá verður 6 klukkustunda veðurspá birt.\n    Þessar upplýsingar má einnig samtvinna á öðrum stöðum eins og í dagatalsforritinu.",
     "Detect location" : "Finna staðsetningu",
     "Set custom address" : "Setja sérsniðið heimilisfang",
     "Favorites" : "Eftirlæti",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Það kom upp villa við að stilla staðsetninguna.",
     "There was an error saving the mode." : "Það kom upp villa við að vista haminn.",
     "There was an error using personal address." : "Það kom upp villa við að nota persónulegt heimilisfang.",
-    "Set location for weather" : "Stilla staðsetningu fyrir veður"
+    "Set location for weather" : "Stilla staðsetningu fyrir veður",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Veðurupplýsingar innfelldar í stjórnborðsforritið.\n    Hægt er að ákvarða staðsetningu notanda sjálfvirkt eða handvirkt. Þá verður 6 klukkustunda veðurspá birt.\n    Þessar upplýsingar má einnig samtvinna á öðrum stöðum eins og í dagatalsforritinu."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

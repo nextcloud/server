@@ -7,7 +7,6 @@
     "%1$s commented on %2$s" : "%1$s comentados en %2$s",
     "{author} commented on {file}" : "{author} comentou en {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> para ficheiros",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Mencionárono en «{file}», nun comentario dun usuario que xa foi eliminado",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mencionouno a Vde. nun comentario en «{file}»",
     "Files app plugin to add comments to files" : "Complemento da aplicación de ficheiros para engadir comentarios aos ficheiros",
     "Edit comment" : "Editar comentario",
@@ -28,6 +27,7 @@
     "Comment deleted" : "Comentario eliminado",
     "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
     "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Mencionárono en «{file}», nun comentario dun usuario que xa foi eliminado",
     "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

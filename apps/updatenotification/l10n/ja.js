@@ -17,7 +17,6 @@ OC.L10N.register(
     "Apps missing compatible version" : "対応バージョンがないアプリ",
     "View in store" : "ストア内で表示",
     "Apps with compatible version" : "対応バージョンのあるアプリ",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Webアップデーターは100人以上のユーザーがいる場合には推奨されていないことにご注意ください！代わりに、コマンドラインアップデーターをご使用ください！",
     "Open updater" : "アップデーターを開く",
     "Download now" : "今すぐダウンロード",
     "What's new?" : "新着情報？",
@@ -35,7 +34,6 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "選択した更新チャネルでは、廃止サーバーについて専用の通知を行います。",
     "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
     "A new version is available: <strong>{newVersionString}</strong>" : "新しいバージョンが利用可能です: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "新しいリリースの後、アップデートは最初のマイナーリリース以降にのみ表示されることに注意してください。新しいバージョンは時間の経過とともにユーザーに公開され、問題が見つかった場合はバージョンをスキップすることがあります。アップデートとリリースチャネルの詳細については、{link}をご覧ください。",
     "Checking apps for compatible versions" : "アプリの互換性のあるバージョンを確認する",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
@@ -47,9 +45,11 @@ OC.L10N.register(
     "Beta" : "ベータ",
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Webアップデーターは100人以上のユーザーがいる場合には推奨されていないことにご注意ください！代わりに、コマンドラインアップデーターをご使用ください！",
     "Please use the command line updater to update." : "コマンドラインアップデーターを使ってアップデートしてください。",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "以下からアップデートチャンネルを変更すると、アプリの管理ページにも影響します。例えば、ベータチャンネルに切り替えると、アプリ管理ページにて、ベータアプリの更新が通知されたりします。",
     "Update channel:" : "アップデートチャンネル:",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "新しいリリースの後、アップデートは最初のマイナーリリース以降にのみ表示されることに注意してください。新しいバージョンは時間の経過とともにユーザーに公開され、問題が見つかった場合はバージョンをスキップすることがあります。アップデートとリリースチャネルの詳細については、{link}をご覧ください。",
     "Checked on {lastCheckedDate}" : "{lastCheckedDate} にチェックが入っています"
 },
 "nplurals=1; plural=0;");

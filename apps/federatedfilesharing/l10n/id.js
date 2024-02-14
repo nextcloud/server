@@ -10,7 +10,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Berbagi server ke server tidak diaktifkan pada server ini",
     "Couldn't establish a federated share." : "Tidak dapat mendirikan pembagian terfederasi",
     "Couldn't establish a federated share, maybe the password was wrong." : "Tidak dapat mendirikan pembagian terfederasi, mungkin kata sandi salah.",
-    "Not allowed to create a federated share with the same user" : "Tidak diizinkan membuat pembagian terfederasi dengan pengguna yang sama",
     "File is already shared with %s" : "Berkas sudah dibagikan dengan %s",
     "Could not find share" : "Tidak dapat mencari pembagian",
     "Federated sharing" : "Pembagian terfederasi",
@@ -20,8 +19,6 @@ OC.L10N.register(
     "Decline" : "Tolak",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Sharing" : "Berbagi",
-    "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
-    "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna",
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
     "Twitter" : "Twitter",
@@ -31,6 +28,9 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
     "Copy to clipboard" : "Salin ke papan klip",
     "Clipboard is not available" : "Papan klip tidak tersedia",
-    "Copied!" : "Tersalin!"
+    "Copied!" : "Tersalin!",
+    "Not allowed to create a federated share with the same user" : "Tidak diizinkan membuat pembagian terfederasi dengan pengguna yang sama",
+    "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
+    "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna"
 },
 "nplurals=1; plural=0;");

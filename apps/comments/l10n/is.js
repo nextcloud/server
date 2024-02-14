@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s setti inn athugasemd um %2$s",
     "{author} commented on {file}" : "{author} setti inn athugasemd við {file}",
     "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Minnst var á þig í \"{file}\", í athugasemd frá notanda sem síðan þá hefur verið eytt",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} minntist á þig í athugasemd við \"{file}\"",
     "Files app plugin to add comments to files" : "Viðbót við skráaforrit til að bæta athugasemdum við skrár",
     "Edit comment" : "Breyta athugasemd",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Comment deleted" : "Athugasemd var eytt",
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
     "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Minnst var á þig í \"{file}\", í athugasemd frá notanda sem síðan þá hefur verið eytt",
     "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"]
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

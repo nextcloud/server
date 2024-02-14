@@ -33,7 +33,7 @@ OC.L10N.register(
     "This is the password:" : "Esta é a palavra passe: ",
     "You can choose a different password at any time in the share dialog." : "Pode escolher uma palavra-chave diferente a qualquer altura utilizando a caixa de diálogo \"partilha\".",
     "Could not find share" : "Não foi possível encontrar a partilha",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir que os utilizadores partilhem uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de ''e-mail''.",
-    "Send password by mail" : "Enviar palavra-chave por e-mail"
+    "Send password by mail" : "Enviar palavra-chave por e-mail",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir que os utilizadores partilhem uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de ''e-mail''."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

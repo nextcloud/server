@@ -110,8 +110,8 @@ OC.L10N.register(
     "between" : "mellom",
     "not between" : "ikke mellom",
     "Request user agent" : "Ønsket brukeragent",
-    "User group membership" : "Brukerens gruppemedlemsskap",
     "is member of" : "er medlem av",
-    "is not member of" : "er ikke medlem av"
+    "is not member of" : "er ikke medlem av",
+    "User group membership" : "Brukerens gruppemedlemsskap"
 },
 "nplurals=2; plural=(n != 1);");

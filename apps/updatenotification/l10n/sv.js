@@ -17,7 +17,6 @@ OC.L10N.register(
     "Apps missing compatible version" : "Appar som saknar kompatibel version",
     "View in store" : "Visa i butik",
     "Apps with compatible version" : "Appar med kompatibel version",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Observera att webbuppdateraren inte rekommenderas med fler än 100 användare! Använd kommandouppdateraren istället!",
     "Open updater" : "Öppna uppdateraren",
     "Download now" : "Hämta nu",
     "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Web-uppdateraren är inaktiverad. Använd kommandoradsuppdateraren eller lämpligt uppdateringsmekanism för din installationsmetod (t.ex. Docker pull) för att uppdatera.",
@@ -36,7 +35,6 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valda uppdateringskanalen gör dedikerade aviseringar för servern förlegade.",
     "The selected update channel does not support updates of the server." : "Den valda uppdateringskanalen stödjer inte uppdateringar för servern.",
     "A new version is available: <strong>{newVersionString}</strong>" : "En ny version är tillgänglig: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Notera att efter en ny version släppts kommer den tidigast att synas efter första påföljande minor-versionen har släppts. Vi rullar ut uppdateringar utspritt över tid till våra användare och hoppar ibland över en version om problem upptäcks. Lär dig mer om uppdateringar och versions-kanaler på {link}",
     "Checked on {lastCheckedDate} - Open changelog" : "Kontrollerad {lastCheckedDate} - Öppna ändringslogg",
     "Checking apps for compatible versions" : "Kontrollerar appar efter kompatibla versioner",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Se till att din config.php inte ställer in <samp>appstoreenabled</samp> till falsk.",
@@ -49,9 +47,11 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."],
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Observera att webbuppdateraren inte rekommenderas med fler än 100 användare! Använd kommandouppdateraren istället!",
     "Please use the command line updater to update." : "Vänligen uppdatera via kommandotolken.",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Du kan ändra uppdateringskanalen nedan, vilket också påverkar apphanteringssidan. T.ex. efter att du har bytt till betakanalen kommer betaappuppdateringar att erbjudas på apphanteringssidan.",
     "Update channel:" : "Uppdateringskanal:",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Notera att efter en ny version släppts kommer den tidigast att synas efter första påföljande minor-versionen har släppts. Vi rullar ut uppdateringar utspritt över tid till våra användare och hoppar ibland över en version om problem upptäcks. Lär dig mer om uppdateringar och versions-kanaler på {link}",
     "Checked on {lastCheckedDate}" : "Kontrollerad {lastCheckedDate}"
 },
 "nplurals=2; plural=(n != 1);");

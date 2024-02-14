@@ -15,7 +15,6 @@
     "Apps missing compatible version" : "Forrit sem vantar samhæfða útgáfu",
     "View in store" : "Skoða í hugbúnaðarsafni",
     "Apps with compatible version" : "Forrit með samhæfða útgáfu",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Athugaðu að ekki er mælt með því að nota vefuppfærsluna á fleiri en 100 notendur! Endilega notaðu uppfærslu af skipanalínu í staðinn!",
     "Open updater" : "Opna uppfærslustýringu",
     "Download now" : "Sækja núna",
     "What's new?" : "Hvað er nýtt á döfinni?",
@@ -42,6 +41,7 @@
     "Beta" : "BETA-prófunarútgáfa",
     "A pre-release version only for testing new features, not for production environments." : "For-útgáfa sem einungis er hugsuð til að prófa nýja eiginleika, og er alls ekki ætluð fyrir alvöru vinnslu.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> forrit er með tiltæka uppfærslu fyrir þessa útgáfu Nextcloud.","<strong>%n</strong> forrit eru ekki með neina tiltæka uppfærslu fyrir þessa útgáfu Nextcloud."],
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Athugaðu að ekki er mælt með því að nota vefuppfærsluna á fleiri en 100 notendur! Endilega notaðu uppfærslu af skipanalínu í staðinn!",
     "Please use the command line updater to update." : "Endilega notaðu uppfærslu af skipanalínu.",
     "Update channel:" : "Uppfærslurás:",
     "Checked on {lastCheckedDate}" : "Athugað þann {lastCheckedDate}"

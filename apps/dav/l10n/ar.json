@@ -183,7 +183,6 @@
     "Saved availability" : "تمّ حفظ أوقات التوافر",
     "Failed to save availability" : "إخفاق في حفظ أوقات التواجد",
     "Availability" : "أوقات التواجد availability",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "إذا قمت بتهيئة ساعات العمل الخاصة بك، فسيظهر للمستخدمين الآخرين عندما يحجزون معك موعداً إذا ما كنت في المكتب أو خارجه.",
     "Absence" : "غياب",
     "Configure your next absence period." : "قٌم بتهيئة فترة غيابك القادمة.",
     "Calendar server" : "خادوم التقويم",
@@ -202,6 +201,7 @@
     "Please contact the organizer directly." : "رجاءً، تواصل مع المُنظّم أو المُنظّمين مُباشرةً.",
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
-    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ"
+    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "إذا قمت بتهيئة ساعات العمل الخاصة بك، فسيظهر للمستخدمين الآخرين عندما يحجزون معك موعداً إذا ما كنت في المكتب أو خارجه."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

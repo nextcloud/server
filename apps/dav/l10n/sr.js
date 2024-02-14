@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "Доступност је сачувана",
     "Failed to save availability" : "Није успело снимање доступности ",
     "Availability" : "Доступност",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако подесите своје радне сате, када буду заказивали састанак, остали корисници ће видети када сте ван канцеларије.",
     "Absence" : "Одсутност",
     "Configure your next absence period." : "Конфигуришите свој наредни период одсутности.",
     "Calendar server" : "Календар сервера",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Контактирајте директно организатора.",
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
-    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано."
+    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако подесите своје радне сате, када буду заказивали састанак, остали корисници ће видети када сте ван канцеларије."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
