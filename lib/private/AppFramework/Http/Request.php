@@ -611,7 +611,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 						if ($colons > 1) {
 							// Extract IP from string with brackets and optional port
 							if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
-							    $IP = $matches[1];
+								$IP = $matches[1];
 							}
 						} elseif ($colons === 1) {
 							// IPv4 with port
