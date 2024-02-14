@@ -28,15 +28,49 @@ namespace OCP\Files\Search;
  * @since 12.0.0
  */
 interface ISearchComparison extends ISearchOperator {
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_EQUAL = 'eq';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_GREATER_THAN = 'gt';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_GREATER_THAN_EQUAL = 'gte';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_LESS_THAN = 'lt';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_LESS_THAN_EQUAL = 'lte';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_LIKE = 'like';
+
+	/**
+	 * @since 23.0.0
+	 */
 	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const COMPARE_DEFINED = 'is-defined';
 
+	/**
+	 * @since 23.0.0
+	 */
 	public const HINT_PATH_EQ_HASH = 'path_eq_hash'; // transform `path = "$path"` into `path_hash = md5("$path")`, on by default
 
 	/**

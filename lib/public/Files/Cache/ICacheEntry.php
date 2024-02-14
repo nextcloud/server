@@ -35,6 +35,9 @@ use ArrayAccess;
  * object as array, while strictly speaking it didn't support this.
  */
 interface ICacheEntry extends ArrayAccess {
+	/**
+	 * @since 9.0.0
+	 */
 	public const DIRECTORY_MIMETYPE = 'httpd/unix-directory';
 
 	/**
