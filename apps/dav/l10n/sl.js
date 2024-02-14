@@ -182,7 +182,6 @@ OC.L10N.register(
     "Saved availability" : "Čas razpoložljivosti je shranjen",
     "Failed to save availability" : "Shranjevanje časa razpoložljivosti je spodletelo",
     "Availability" : "Razpoložljivost",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni.",
     "Absence" : "Odsotnost",
     "Configure your next absence period." : "Nastavitev naslednjega časa odsotnosti",
     "Calendar server" : "Strežnik koledarja",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Z organizatorjem stopite neposredno v stik.",
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
-    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena."
+    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

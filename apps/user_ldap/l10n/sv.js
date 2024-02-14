@@ -63,7 +63,6 @@ OC.L10N.register(
     "LDAP/AD integration" : "LDAP/AD-integration",
     "Invalid LDAP UUIDs" : "Ogiltiga LDAP UUIDs",
     "None found" : "Ingen hittades",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Ogiltiga UUID för LDAP-användare eller -grupper har hittats. Granska dina \"Åsidosätt UUID-detektering\"-inställningar i expertdelen av LDAP-konfigurationen och använd \"occ ldap:update-uuid\" för att uppdatera dem.",
     "_%n group found_::_%n groups found_" : ["%n grupp hittades","%n grupper hittades"],
     "> 1000 groups found" : "> 1000 grupper hittades",
     "> 1000 users found" : "> 1000 användare hittades",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Användarnamn-LDAP användarmappning",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Användarnamn används för att lagra och tilldela metadata. För att exakt identifiera användare har varje LDAP-användare ett internt användarnamn. Detta kräver en mappning från användarnamn till LDAP-användare. Det skapade användarnamnet är mappat till UUID för LDAP-användaren. Dessutom cachas DN för att minska LDAP-interaktion, men den används inte för identifiering. Om DN ändras kommer ändringarna att hittas. Det interna användarnamnet används på nytt. Att rensa mappningarna kommer att ha rester överallt. Att rensa mappningarna är inte konfigurationskänsligt, det påverkar alla LDAP-konfigurationer! Rensa aldrig mappningarna i en produktionsmiljö, bara i en test- eller experimentfas.",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
-    "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning"
+    "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Ogiltiga UUID för LDAP-användare eller -grupper har hittats. Granska dina \"Åsidosätt UUID-detektering\"-inställningar i expertdelen av LDAP-konfigurationen och använd \"occ ldap:update-uuid\" för att uppdatera dem."
 },
 "nplurals=2; plural=(n != 1);");

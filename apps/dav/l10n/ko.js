@@ -183,7 +183,6 @@ OC.L10N.register(
     "Saved availability" : "시간 조율 설정 저장함",
     "Failed to save availability" : "시간 조율 설정 저장 실패",
     "Availability" : "시간 조율",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다.",
     "Absence" : "부재",
     "Configure your next absence period." : "다음 부재 기간을 설정하십시오.",
     "Calendar server" : "달력 서버",
@@ -202,6 +201,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다."
 },
 "nplurals=1; plural=0;");

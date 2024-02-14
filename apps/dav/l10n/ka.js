@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "Saved availability",
     "Failed to save availability" : "Failed to save availability",
     "Availability" : "Availability",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting.",
     "Absence" : "Absence",
     "Configure your next absence period." : "Configure your next absence period.",
     "Calendar server" : "Calendar server",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Please contact the organizer directly.",
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "Tentative",
-    "Your attendance was updated successfully." : "Your attendance was updated successfully."
+    "Your attendance was updated successfully." : "Your attendance was updated successfully.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting."
 },
 "nplurals=2; plural=(n!=1);");

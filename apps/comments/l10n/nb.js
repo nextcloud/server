@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommenterte %2$s",
     "{author} commented on {file}" : "{author} kommenterte på {file}",
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du ble nevnt på \"{file}\", i en kommentar av en bruker som siden har blitt slettet",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} nevnte deg i en kommentar til \"{file}\"",
     "Files app plugin to add comments to files" : "Tillegg for å legge til kommentarer til filer",
     "Edit comment" : "Rediger kommentar",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Det oppsto en feil under forsøk på å slette kommentaren",
     "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du ble nevnt på \"{file}\", i en kommentar av en bruker som siden har blitt slettet",
     "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "Sparade tidslucka",
     "Failed to save availability" : "Misslyckades med att spara tidslucka",
     "Availability" : "Tillgänglighet",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstimmar kan andra användare se när du inte är på jobbet när de bokar ett möte.",
     "Absence" : "Frånvaro",
     "Configure your next absence period." : "Konfigurera din nästa frånvaroperiod.",
     "Calendar server" : "Kalenderserver",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstimmar kan andra användare se när du inte är på jobbet när de bokar ett möte."
 },
 "nplurals=2; plural=(n != 1);");

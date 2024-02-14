@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "Uygunluk kaydedildi",
     "Failed to save availability" : "Uygunluk kaydedilemedi",
     "Availability" : "Uygunluk",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler.",
     "Absence" : "İşe gelmeme",
     "Configure your next absence period." : "Sonraki işe gelmeme aralığınızı yapılandırın.",
     "Calendar server" : "Takvim sunucusu",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Your attendance was updated successfully." : "Katılımınız güncellendi."
+    "Your attendance was updated successfully." : "Katılımınız güncellendi.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler."
 },
 "nplurals=2; plural=(n > 1);");

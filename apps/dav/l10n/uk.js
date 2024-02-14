@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "Збережена наявність",
     "Failed to save availability" : "Не вдалося зберегти наявність",
     "Availability" : "Доступність",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваш робочий час, щоби інші користувачі могли бачити, коли ви відсутні під час бронювання зустрічей.",
     "Absence" : "Відсутність",
     "Configure your next absence period." : "Налаштувати проміжки вашої відсутности",
     "Calendar server" : "Календар",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Будь-ласка повідомте організатора.",
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
-    "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
+    "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваш робочий час, щоби інші користувачі могли бачити, коли ви відсутні під час бронювання зустрічей."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
