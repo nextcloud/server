@@ -34,9 +34,24 @@ use OCP\RichObjectStrings\IValidator;
  * @since 28.0.0
  */
 class SetupResult implements \JsonSerializable {
+	/**
+	 * @since 28.0.0
+	 */
 	public const SUCCESS = 'success';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const INFO = 'info';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const WARNING = 'warning';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const ERROR = 'error';
 
 	/**

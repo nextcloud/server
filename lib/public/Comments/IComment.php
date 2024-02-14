@@ -33,6 +33,9 @@ namespace OCP\Comments;
  * @since 9.0.0
  */
 interface IComment {
+	/**
+	 * @since 9.0.0
+	 */
 	public const MAX_MESSAGE_LENGTH = 1000;
 
 	/**

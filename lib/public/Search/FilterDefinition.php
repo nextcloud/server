@@ -35,14 +35,49 @@ use InvalidArgumentException;
  * @since 28.0.0
  */
 class FilterDefinition {
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_BOOL = 'bool';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_INT = 'int';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_FLOAT = 'float';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_STRING = 'string';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_STRINGS = 'strings';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_DATETIME = 'datetime';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_PERSON = 'person';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_NC_USER = 'nc-user';
+
+	/**
+	 * @since 28.0.0
+	 */
 	public const TYPE_NC_GROUP = 'nc-group';
 
 	/**

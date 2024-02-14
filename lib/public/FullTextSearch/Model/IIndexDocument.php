@@ -41,7 +41,14 @@ namespace OCP\FullTextSearch\Model;
  * @since 15.0.0
  */
 interface IIndexDocument {
+	/**
+	 * @since 15.0.0
+	 */
 	public const NOT_ENCODED = 0;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ENCODED_BASE64 = 1;
 
 
