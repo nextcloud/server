@@ -210,7 +210,7 @@ class AppSettingsControllerTest extends TestCase {
 					'bundles' => [],
 					'developerDocumentation' => ''
 				],
-				'pageTitle' => 'Apps'
+				'pageTitle' => 'Settings'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
@@ -245,7 +245,7 @@ class AppSettingsControllerTest extends TestCase {
 					'bundles' => [],
 					'developerDocumentation' => ''
 				],
-				'pageTitle' => 'Apps'
+				'pageTitle' => 'Settings'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
