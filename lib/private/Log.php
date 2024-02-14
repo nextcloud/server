@@ -207,8 +207,10 @@ class Log implements ILogger, IDataLogger {
 	 */
 	public function log(int $level, string $message, array $context = []) {
 		$minLevel = $this->getLogLevel($context);
-		if ($level < $minLevel && (($this->crashReporters?->hasReporters() ?? false) === false)) {
-			return; // we already know that log will be fully ignored
+		if ($level < $minLevel
+			&& (($this->crashReporters?->hasReporters() ?? false) === false)
+			&& (($this->eventDispatcher?->hasListeners(BeforeMessageLoggedEvent::class) ?? false) === false)) {
+			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
 		array_walk($context, [$this->normalizer, 'format']);
@@ -216,9 +218,7 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
 
-		if ($this->eventDispatcher) {
-			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
-		}
+		$this->eventDispatcher?->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
 
 		$hasBacktrace = isset($entry['exception']);
 		$logBacktrace = $this->config->getValue('log.backtrace', false);
@@ -326,8 +326,10 @@ class Log implements ILogger, IDataLogger {
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context);
-		if ($level < $minLevel && (($this->crashReporters?->hasReporters() ?? false) === false)) {
-			return; // we already know that log will be fully ignored
+		if ($level < $minLevel
+			&& (($this->crashReporters?->hasReporters() ?? false) === false)
+			&& (($this->eventDispatcher?->hasListeners(BeforeMessageLoggedEvent::class) ?? false) === false)) {
+			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
 		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
@@ -343,12 +345,9 @@ class Log implements ILogger, IDataLogger {
 		$data = array_merge($serializer->serializeException($exception), $data);
 		$data = $this->interpolateMessage($data, isset($context['message']) && $context['message'] !== '' ? $context['message'] : ('Exception thrown: ' . get_class($exception)), 'CustomMessage');
 
-
 		array_walk($context, [$this->normalizer, 'format']);
 
-		if ($this->eventDispatcher) {
-			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
-		}
+		$this->eventDispatcher?->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
 
 		try {
 			if ($level >= $minLevel) {
