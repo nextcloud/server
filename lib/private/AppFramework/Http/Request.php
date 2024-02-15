@@ -607,10 +607,15 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				if (isset($this->server[$header])) {
 					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
 						$IP = trim($IP);
-
-						// remove brackets from IPv6 addresses
-						if (str_starts_with($IP, '[') && str_ends_with($IP, ']')) {
-							$IP = substr($IP, 1, -1);
+						$colons = substr_count($IP, ':');
+						if ($colons > 1) {
+							// Extract IP from string with brackets and optional port
+							if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
+								$IP = $matches[1];
+							}
+						} elseif ($colons === 1) {
+							// IPv4 with port
+							$IP = substr($IP, 0, strpos($IP, ':'));
 						}
 
 						if ($this->isTrustedProxy($trustedProxies, $IP)) {
