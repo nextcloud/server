@@ -13,7 +13,7 @@ Feature: caldav
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The error message is "Calendar with name 'MyCalendar' could not be found"
 
   Scenario: Accessing a not shared calendar of another user via the legacy endpoint
     Given user "user0" exists
@@ -22,7 +22,7 @@ Feature: caldav
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/caldav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The error message is "Calendar with name 'MyCalendar' could not be found"
 
   Scenario: Accessing a not existing calendar of another user
     Given user "user0" exists
