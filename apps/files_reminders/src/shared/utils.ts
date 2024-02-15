@@ -120,6 +120,13 @@ export const getDateString = (dueDate: Date): string => {
 		}
 	}
 
+	if (!dueDateMoment.isSame(today, 'year')) {
+		formatOptions = {
+			...formatOptions,
+			year: 'numeric',
+		}
+	}
+
 	return dueDate.toLocaleString(
 		getCanonicalLocale(),
 		formatOptions,
@@ -127,12 +134,22 @@ export const getDateString = (dueDate: Date): string => {
 }
 
 export const getVerboseDateString = (dueDate: Date): string => {
-	const formatOptions: Intl.DateTimeFormatOptions = {
+	let formatOptions: Intl.DateTimeFormatOptions = {
+		month: 'long',
+		day: 'numeric',
 		weekday: 'long',
 		hour: 'numeric',
 		minute: '2-digit',
-		month: 'long',
-		day: 'numeric',
+	}
+
+	const dueDateMoment = moment(dueDate)
+	const today = moment()
+
+	if (!dueDateMoment.isSame(today, 'year')) {
+		formatOptions = {
+			...formatOptions,
+			year: 'numeric',
+		}
 	}
 
 	return dueDate.toLocaleString(
