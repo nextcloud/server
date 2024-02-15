@@ -75,7 +75,7 @@ describe('Favorites view definition', () => {
 		expect(favoritesView?.name).toBe('Favorites')
 		expect(favoritesView?.caption).toBeDefined()
 		expect(favoritesView?.icon).toBe('<svg>SvgMock</svg>')
-		expect(favoritesView?.order).toBe(5)
+		expect(favoritesView?.order).toBe(15)
 		expect(favoritesView?.columns).toStrictEqual([])
 		expect(favoritesView?.getContents).toBeDefined()
 	})
