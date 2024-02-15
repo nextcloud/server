@@ -8,6 +8,7 @@
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
+			:icon-text="true"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
@@ -95,7 +96,7 @@ export default Vue.extend({
 		},
 		getDirDisplayName(path) {
 			if (path === '/') {
-				return t('files', 'Home')
+				return this.$navigation?.active?.name || t('files', 'Home')
 			}
 
 			const fileId = this.getFileIdFromPath(path)
