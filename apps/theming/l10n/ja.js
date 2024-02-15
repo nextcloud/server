@@ -23,8 +23,6 @@ OC.L10N.register(
     "Could not write file to disk" : "ディスクにファイルを書き込めませんでした",
     "A PHP extension stopped the file upload" : "PHP拡張でファイルのアップロードが停止されています",
     "No file uploaded" : "ファイルがアップロードされていません",
-    "Failed to clean up the old administration theming images folder" : "古い管理テーマ画像フォルダのクリーンアップに失敗しました",
-    "Failed to clean up the old administration image folder" : "古い管理画像フォルダのクリーンアップに失敗しました",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "あなたはすでにカスタムテーマを使用しています。 テーマ設定の設定が上書きされる可能性があります。",
     "Theming" : "テーマ",
     "Appearance and accessibility" : "外観とアクセシビリティ",
@@ -108,6 +106,8 @@ OC.L10N.register(
     "Reset to default" : "デフォルトに戻す",
     "Upload" : "アップロード",
     "Remove background image" : "背景画像を削除",
+    "Failed to clean up the old administration theming images folder" : "古い管理テーマ画像フォルダのクリーンアップに失敗しました",
+    "Failed to clean up the old administration image folder" : "古い管理画像フォルダのクリーンアップに失敗しました",
     "Select a custom color" : "カスタムカラーを選択"
 },
 "nplurals=1; plural=0;");

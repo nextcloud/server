@@ -113,6 +113,7 @@ OC.L10N.register(
     "between" : "између",
     "not between" : "није између",
     "Request user agent" : "Кориснички агент захтева",
+    "Group membership" : "Припадност групи",
     "is member of" : "је члан групе",
     "is not member of" : "није члан групе",
     "User group membership" : "Припадност групи"

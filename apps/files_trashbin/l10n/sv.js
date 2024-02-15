@@ -4,6 +4,7 @@ OC.L10N.register(
     "restored" : "återställd",
     "Deleted files" : "Borttagna filer",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Raderade filer och mappar i papperskorgen (kan upphöra att gälla under export om du har ont om lagringsutrymme)",
+    "This application enables people to restore files that were deleted from the system." : "Denna app gör det möjligt för användare att återställa filer som raderats från systemet.",
     "Restore" : "Återskapa",
     "List of files that have been deleted." : "Lista över filer som har tagits bort.",
     "No deleted files" : "Inga borttagna filer",

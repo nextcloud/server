@@ -14,6 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Passord for tilgang til {file} ble sendt til {email}",
     "Password to access {file} was sent to you" : "Du ble tildelt passord for å benytte {file}",
     "Share by mail" : "Del via e-post",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Deling av %1$s feilet, fordi dette elementet er allerede delt med kontoen %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan ikke sende deg det automatisk genererte passordet. Angi en gyldig e-postadresse i dine personlige innstillinger og prøv igjen.",
     "Failed to send share by email. Got an invalid email address" : "Kunne ikke sende deling via e-post. Fikk en ugyldig e-postadresse",
     "Failed to send share by email" : "Delingen kunne ikke sendes med e-post",
