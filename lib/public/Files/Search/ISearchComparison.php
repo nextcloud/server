@@ -70,6 +70,10 @@ interface ISearchComparison extends ISearchOperator {
 	 * @since 28.0.0
 	 */
 	public const COMPARE_DEFINED = 'is-defined';
+	
+	/**
+	 * @since 29.0.0
+	 */
 	public const COMPARE_IN = 'in';
 
 	/**

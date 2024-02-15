@@ -130,4 +130,31 @@ class MergeDistributiveOperationsTest extends TestCase {
 
 		$this->assertEquals('((storage eq 1 and (path eq "foo" or path eq "bar" or path eq "asd")) and mimetype eq "text")', $operator->__toString());
 	}
+
+	public function testMoveInnerOperations() {
+		$operator = new SearchBinaryOperator(
+			ISearchBinaryOperator::OPERATOR_OR,
+			[
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+				]),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, "size", "100"),
+				])
+			]
+		);
+		$this->assertEquals('((storage eq 1 and path eq "foo") or (storage eq 1 and path eq "bar") or (storage eq 1 and path eq "asd" and size gt "100"))', $operator->__toString());
+
+		$this->optimizer->processOperator($operator);
+		$this->simplifier->processOperator($operator);
+
+		$this->assertEquals('(storage eq 1 and (path eq "foo" or path eq "bar" or (path eq "asd" and size gt "100")))', $operator->__toString());
+	}
 }
