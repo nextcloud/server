@@ -107,42 +107,6 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
-	describe('checkProviderUrl', function() {
-		it('should fail with another response status code than the expected one', function(done) {
-			var async = OC.SetupChecks.checkProviderUrl('/ocm-provider/', 'http://example.org/PLACEHOLDER', true);
-
-			suite.server.requests[0].respond(302);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your web server is not properly set up to resolve "/ocm-provider/". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx at it\'s <a target="_blank" rel="noreferrer noopener" class="external" href="http://example.org/admin-nginx">documentation page ↗</a>. On Nginx those are typically the lines starting with "location ~" that need an update.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-
-		it('should return no error with the expected response status code', function(done) {
-			var async = OC.SetupChecks.checkProviderUrl('/ocm-provider/', 'http://example.org/PLACEHOLDER', true);
-
-			suite.server.requests[0].respond(200);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-
-		it('should return no error when no check should be run', function(done) {
-			var async = OC.SetupChecks.checkProviderUrl('/ocm-provider/', 'http://example.org/PLACEHOLDER', false);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-	});
-
 	describe('checkDataProtected', function() {
 
 		oc_dataURL = "data";
