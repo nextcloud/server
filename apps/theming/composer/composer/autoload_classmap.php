@@ -20,8 +20,6 @@ return array(
     'OCA\\Theming\\Listener\\BeforePreferenceListener' => $baseDir . '/../lib/Listener/BeforePreferenceListener.php',
     'OCA\\Theming\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listener/BeforeTemplateRenderedListener.php',
     'OCA\\Theming\\Migration\\InitBackgroundImagesMigration' => $baseDir . '/../lib/Migration/InitBackgroundImagesMigration.php',
-    'OCA\\Theming\\Migration\\MigrateAdminConfig' => $baseDir . '/../lib/Migration/MigrateAdminConfig.php',
-    'OCA\\Theming\\Migration\\MigrateUserConfig' => $baseDir . '/../lib/Migration/MigrateUserConfig.php',
     'OCA\\Theming\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Theming\\Service\\BackgroundService' => $baseDir . '/../lib/Service/BackgroundService.php',
     'OCA\\Theming\\Service\\JSDataService' => $baseDir . '/../lib/Service/JSDataService.php',

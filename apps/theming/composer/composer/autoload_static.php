@@ -35,8 +35,6 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\Listener\\BeforePreferenceListener' => __DIR__ . '/..' . '/../lib/Listener/BeforePreferenceListener.php',
         'OCA\\Theming\\Listener\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeTemplateRenderedListener.php',
         'OCA\\Theming\\Migration\\InitBackgroundImagesMigration' => __DIR__ . '/..' . '/../lib/Migration/InitBackgroundImagesMigration.php',
-        'OCA\\Theming\\Migration\\MigrateAdminConfig' => __DIR__ . '/..' . '/../lib/Migration/MigrateAdminConfig.php',
-        'OCA\\Theming\\Migration\\MigrateUserConfig' => __DIR__ . '/..' . '/../lib/Migration/MigrateUserConfig.php',
         'OCA\\Theming\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Theming\\Service\\BackgroundService' => __DIR__ . '/..' . '/../lib/Service/BackgroundService.php',
         'OCA\\Theming\\Service\\JSDataService' => __DIR__ . '/..' . '/../lib/Service/JSDataService.php',
