@@ -42,6 +42,8 @@ OC.L10N.register(
     "All tagged %s …" : "Све означено %s …",
     "tagged %s" : "означено %s",
     "Collaborative tags" : "Тимске ознаке",
+    "Collaborative tagging functionality which shares tags among people." : "Могућност заједничког означавања којим се деле ознаке међу људима.",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Функција заједничког означавања којом се ознаке деле међу људима. Одлично за тимове.\n\t(ако сте пружалац услуге са инсталацијом на више различитих локација, саветује се да искључите ову апликацију пошто се ознаке свакако деле.)",
     "Create or edit tags" : "Креирај или уреди ознаке",
     "Search for a tag to edit" : "Претрага ознаке за уређивање",
     "Collaborative tags …" : "Ознаке сарадње...",
