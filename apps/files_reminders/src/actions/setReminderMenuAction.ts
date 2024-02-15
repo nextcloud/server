@@ -27,7 +27,7 @@ export const SET_REMINDER_MENU_ID = 'set-reminder-menu'
 
 export const action = new FileAction({
 	id: SET_REMINDER_MENU_ID,
-	displayName: () => t('files', 'Set reminder'),
+	displayName: () => t('files_reminders', 'Set reminder'),
 	iconSvgInline: () => AlarmSvg,
 
 	enabled: () => true,
