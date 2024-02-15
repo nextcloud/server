@@ -37,6 +37,7 @@ import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
 import registerFavoritesView from './views/favorites'
 import registerRecentView from './views/recent'
+import registerPersonalFilesView from './views/personal-files'
 import registerFilesView from './views/files'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
@@ -64,6 +65,7 @@ registerTemplateEntries()
 registerFavoritesView()
 registerFilesView()
 registerRecentView()
+registerPersonalFilesView()
 
 // Register preview service worker
 registerPreviewServiceWorker()

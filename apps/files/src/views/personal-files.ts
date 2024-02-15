@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2024 Eduardo Morales <emoral435@gmail.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Eduardo Morales <emoral435@gmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -20,25 +20,23 @@
  *
  */
 import { translate as t } from '@nextcloud/l10n'
-import HistorySvg from '@mdi/svg/svg/history.svg?raw'
-
-import { getContents } from '../services/Recent'
 import { View, getNavigation } from '@nextcloud/files'
+
+import { getContents } from '../services/PersonalFiles'
+import AccountIcon from '@mdi/svg/svg/account.svg?raw'
 
 export default () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
-		id: 'recent',
-		name: t('files', 'Recent'),
-		caption: t('files', 'List of recently modified files and folders.'),
+		id: 'personal',
+		name: t('files', 'Personal Files'),
+		caption: t('files', 'List of your files and folders that are not shared.'),
 
-		emptyTitle: t('files', 'No recently modified files'),
-		emptyCaption: t('files', 'Files and folders you recently modified will show up here.'),
+		emptyTitle: t('files', 'No personal files found'),
+		emptyCaption: t('files', 'Files that are not shared will show up here.'),
 
-		icon: HistorySvg,
-		order: 10,
-
-		defaultSortKey: 'mtime',
+		icon: AccountIcon,
+		order: 5,
 
 		getContents,
 	}))
