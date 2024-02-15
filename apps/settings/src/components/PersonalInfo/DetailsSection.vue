@@ -99,7 +99,7 @@ export default {
 	flex-direction: column;
 	margin: 10px 32px 10px 0;
 	gap: 16px 0;
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 
 	&__groups,
 	&__quota {
@@ -117,7 +117,7 @@ export default {
 			font-weight: bold;
 		}
 
-		&::v-deep .material-design-icon {
+		&:deep(.material-design-icon) {
 			align-self: flex-start;
 			margin-top: 2px;
 		}

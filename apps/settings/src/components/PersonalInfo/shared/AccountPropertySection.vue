@@ -22,61 +22,51 @@
 
 <template>
 	<section>
-		<HeaderBar :scope.sync="scope"
-			:readable.sync="readable"
+		<HeaderBar :scope="scope"
+			:readable="readable"
 			:input-id="inputId"
-			:is-editable="isEditable" />
+			:is-editable="isEditable"
+			@update:scope="(scope) => $emit('update:scope', scope)" />
 
 		<div v-if="isEditable" class="property">
-			<textarea v-if="multiLine"
+			<NcTextArea v-if="multiLine"
 				:id="inputId"
-				:placeholder="placeholder"
-				:value="value"
-				rows="8"
 				autocapitalize="none"
 				autocomplete="off"
+				:error="hasError || !!helperText"
+				:helper-text="helperText"
+				label-outside
+				:placeholder="placeholder"
+				rows="8"
 				spellcheck="false"
-				@input="onPropertyChange" />
-			<input v-else
+				:success="isSuccess"
+				:value.sync="inputValue" />
+			<NcInputField v-else
 				:id="inputId"
 				ref="input"
-				:placeholder="placeholder"
-				:type="type"
-				:value="value"
-				:aria-describedby="helperText ? `${name}-helper-text` : undefined"
 				autocapitalize="none"
-				spellcheck="false"
 				:autocomplete="autocomplete"
-				@input="onPropertyChange">
-
-			<div class="property__actions-container">
-				<Transition name="fade">
-					<Check v-if="showCheckmarkIcon" :size="20" />
-					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
-				</Transition>
-			</div>
+				:error="hasError || !!helperText"
+				:helper-text="helperText"
+				label-outside
+				:placeholder="placeholder"
+				spellcheck="false"
+				:success="isSuccess"
+				:type="type"
+				:value.sync="inputValue" />
 		</div>
 		<span v-else>
 			{{ value || t('settings', 'No {property} set', { property: readable.toLocaleLowerCase() }) }}
 		</span>
-
-		<p v-if="helperText"
-			:id="`${name}-helper-text`"
-			class="property__helper-text-message property__helper-text-message--error">
-			<AlertCircle class="property__helper-text-message__icon" :size="18" />
-			{{ helperText }}
-		</p>
 	</section>
 </template>
 
 <script>
 import debounce from 'debounce'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 
-import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
-import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
-import Check from 'vue-material-design-icons/Check.vue'
-
-import HeaderBar from '../shared/HeaderBar.vue'
+import HeaderBar from './HeaderBar.vue'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.js'
@@ -85,10 +75,9 @@ export default {
 	name: 'AccountPropertySection',
 
 	components: {
-		AlertCircle,
-		AlertOctagon,
-		Check,
 		HeaderBar,
+		NcInputField,
+		NcTextArea,
 	},
 
 	props: {
@@ -138,12 +127,14 @@ export default {
 		},
 	},
 
+	emits: ['update:scope', 'update:value'],
+
 	data() {
 		return {
 			initialValue: this.value,
-			helperText: null,
-			showCheckmarkIcon: false,
-			showErrorIcon: false,
+			helperText: '',
+			isSuccess: false,
+			hasError: false,
 		}
 	},
 
@@ -151,26 +142,34 @@ export default {
 		inputId() {
 			return `account-property-${this.name}`
 		},
+
+		inputValue: {
+			get() {
+				return this.value
+			},
+			set(value) {
+				this.$emit('update:value', value)
+				this.debouncePropertyChange(value.trim())
+			},
+		},
+
+		debouncePropertyChange() {
+			return debounce(async function(value) {
+				this.helperText = this.$refs.input?.$refs.input?.validationMessage || ''
+				if (this.helperText !== '') {
+					return
+				}
+				this.hasError = this.onValidate && !this.onValidate(value)
+				if (this.hasError) {
+					this.helperText = t('settings', 'Invalid value')
+					return
+				}
+				await this.updateProperty(value)
+			}, 500)
+		},
 	},
 
 	methods: {
-		onPropertyChange(e) {
-			this.$emit('update:value', e.target.value)
-			this.debouncePropertyChange(e.target.value.trim())
-		},
-
-		debouncePropertyChange: debounce(async function(value) {
-			this.helperText = null
-			if (this.$refs.input && this.$refs.input.validationMessage) {
-				this.helperText = this.$refs.input.validationMessage
-				return
-			}
-			if (this.onValidate && !this.onValidate(value)) {
-				return
-			}
-			await this.updateProperty(value)
-		}, 500),
-
 		async updateProperty(value) {
 			try {
 				const responseData = await savePrimaryAccountProperty(
@@ -195,13 +194,13 @@ export default {
 				if (this.onSave) {
 					this.onSave(value)
 				}
-				this.showCheckmarkIcon = true
-				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
+				this.isSuccess = true
+				setTimeout(() => { this.isSuccess = false }, 2000)
 			} else {
 				this.$emit('update:value', this.initialValue)
 				handleError(error, errorMessage)
-				this.showErrorIcon = true
-				setTimeout(() => { this.showErrorIcon = false }, 2000)
+				this.hasError = true
+				setTimeout(() => { this.hasError = false }, 2000)
 			}
 		},
 	},
@@ -212,30 +211,16 @@ export default {
 section {
 	padding: 10px 10px;
 
-	&::v-deep button:disabled {
-		cursor: default;
-	}
-
 	.property {
-		display: grid;
-		align-items: center;
-
-		textarea {
-			resize: vertical;
-			grid-area: 1 / 1;
-			width: 100%;
-		}
-
-		input {
-			grid-area: 1 / 1;
-			width: 100%;
-		}
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+		gap: 4px;
 
 		.property__actions-container {
-			grid-area: 1 / 1;
+			margin-top: 6px;
 			justify-self: flex-end;
 			align-self: flex-end;
-			height: 30px;
 
 			display: flex;
 			gap: 0 2px;

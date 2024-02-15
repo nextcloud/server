@@ -199,10 +199,6 @@ export default {
 section {
 	padding: 10px 10px;
 
-	&::v-deep button:disabled {
-		cursor: default;
-	}
-
 	.additional-emails-label {
 		display: block;
 		margin-top: 16px;
