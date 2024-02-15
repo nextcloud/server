@@ -45,10 +45,16 @@ use Psr\Log\LoggerInterface;
  */
 class LinkReferenceProvider implements IReferenceProvider {
 
-	/* for image size and webpage header */
-	private const MAX_CONTENT_LENGTH = 5 * 1024 * 1024;
+	/**
+	 * for image size and webpage header
+	 * @since 29.0.0
+	 */
+	public const MAX_CONTENT_LENGTH = 5 * 1024 * 1024;
 
-	private const ALLOWED_CONTENT_TYPES = [
+	/**
+	 * @since 29.0.0
+	 */
+	public const ALLOWED_CONTENT_TYPES = [
 		'image/png',
 		'image/jpg',
 		'image/jpeg',
