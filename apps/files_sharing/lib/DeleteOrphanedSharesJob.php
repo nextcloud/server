@@ -32,19 +32,13 @@ use OCP\BackgroundJob\TimedJob;
  */
 class DeleteOrphanedSharesJob extends TimedJob {
 	/**
-	 * Default interval in minutes
-	 *
-	 * @var int $defaultIntervalMin
-	 **/
-	protected $defaultIntervalMin = 15;
-
-	/**
 	 * sets the correct interval for this timed job
 	 */
 	public function __construct(ITimeFactory $time) {
 		parent::__construct($time);
 
-		$this->interval = $this->defaultIntervalMin * 60;
+		$this->setInterval(24 * 60 * 60); // 1 day
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**
