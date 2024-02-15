@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "S'ha desat la disponibilitat",
     "Failed to save availability" : "No s'ha pogut desar la disponibilitat",
     "Availability" : "Disponibilitat",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta de persones veuran quan sou fora de l'oficina quan planifiquin una reunió.",
     "Absence" : "Absència",
     "Configure your next absence period." : "Configureu el pròxim període d'absència.",
     "Calendar server" : "Servidor de calendari",

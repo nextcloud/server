@@ -501,7 +501,7 @@ OC.L10N.register(
     "{license}-licensed" : "{license}-Lizenziert",
     "Changelog" : "Liste der Veränderungen",
     "by {author}\n{license}" : "von {author}\n{license}",
-    "New account" : "Benötigt keine Übersetzung. Für Android wird nur die formelle Übersetzung verwendet (de_DE).",
+    "New account" : "Neues Konto",
     "Admins" : "Administratoren",
     "Disabled users" : "Deaktivierte Benutzer",
     "Creating group …" : "Erstelle Gruppe …",

@@ -113,6 +113,7 @@ OC.L10N.register(
     "between" : "mellan",
     "not between" : "inte mellan",
     "Request user agent" : "Begär användaragent",
+    "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
     "is not member of" : "är inte medlem i",
     "User group membership" : "Användargruppsmedlemskap"

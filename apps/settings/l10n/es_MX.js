@@ -95,6 +95,7 @@ OC.L10N.register(
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP no parece estar configurado correctamente para consultar las variables de ambiente. La prueba con getenv(\"PATH\") sólo regresa una respuesta vacía.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Se ha activado la configuración de solo lectura. Esto evita cambiar ciertas configuraciones vía la interfaz web. Además, el archivo debe hacerse escribible de manera manual para cada actualización.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tu base de datos no puede correr con el nivel de aislamiento de transacción de \"READ COMMITTED\".  Puede causar problemas cuando mútiples acciones sean ejecutadas en paralelo.",
+    "Nextcloud settings" : "Configuración de Nextcloud",
     "None" : "Ninguno",
     "Allow apps to use the Share API" : "Permitir que las aplicaciones usen el API para Compartir",
     "Allow resharing" : "Permitir volver a compartir",

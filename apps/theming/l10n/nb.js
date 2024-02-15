@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Kunne ikke skrive fil til disk",
     "A PHP extension stopped the file upload" : "A PHP-utvidelse stoppet filopplastingen",
     "No file uploaded" : "Ingen fil lastet opp",
-    "Failed to clean up the old administration theming images folder" : "Kunne ikke rydde opp i den gamle mappen for administrasjonstemabilder",
-    "Failed to clean up the old administration image folder" : "Kunne ikke rydde opp i den gamle mappen for administrasjonsbilder",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruker et tilpasset tema. Innstillinger i app for tilpasning av tema kan bli overskrevet av disse.",
     "Theming" : "Temavalg",
     "Appearance and accessibility" : "Utseende og tilgjengelighet",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Reset to default" : "Tilbakestill til standard",
     "Upload" : "Last opp",
     "Remove background image" : "Fjern bakgrunnsbilde",
+    "Failed to clean up the old administration theming images folder" : "Kunne ikke rydde opp i den gamle mappen for administrasjonstemabilder",
+    "Failed to clean up the old administration image folder" : "Kunne ikke rydde opp i den gamle mappen for administrasjonsbilder",
     "Select a custom color" : "Velg en tilpasset farge"
 },
 "nplurals=2; plural=(n != 1);");
