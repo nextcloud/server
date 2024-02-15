@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Não foi possível escrever no disco",
     "A PHP extension stopped the file upload" : "Uma extensão PHP parou o envio do arquivo",
     "No file uploaded" : "Nenhum arquivo enviado",
-    "Failed to clean up the old administration theming images folder" : "Falha ao limpar a antiga pasta de imagens temáticas da administração",
-    "Failed to clean up the old administration image folder" : "Falha ao limpar a pasta de imagem de administração antiga",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Você já está usando um tema personalizado. As configurações do aplicativo Theming podem ser sobrescritas por isso.",
     "Theming" : "Personalização",
     "Appearance and accessibility" : "Aparência e acessibilidade",
@@ -109,6 +107,8 @@ OC.L10N.register(
     "Reset to default" : "Redefinir para o padrão",
     "Upload" : "Enviar",
     "Remove background image" : "Excluir a imagem de fundo",
+    "Failed to clean up the old administration theming images folder" : "Falha ao limpar a antiga pasta de imagens temáticas da administração",
+    "Failed to clean up the old administration image folder" : "Falha ao limpar a pasta de imagem de administração antiga",
     "Select a custom color" : "Selecione uma cor personalizada"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

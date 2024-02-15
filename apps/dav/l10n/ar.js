@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "تمّ حفظ أوقات التوافر",
     "Failed to save availability" : "إخفاق في حفظ أوقات التواجد",
     "Availability" : "أوقات التواجد availability",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "إذا قمت بتعيين إعدادات ساعات عملك، فسيعرف الأشخاص الآخرون متى تكون خارج المكتب عندما يرغبونن في حجز موعد للاجتماع بك.",
     "Absence" : "غياب",
     "Configure your next absence period." : "قٌم بتهيئة فترة غيابك القادمة.",
     "Calendar server" : "خادوم التقويم",

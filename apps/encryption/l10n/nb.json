@@ -40,6 +40,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivering av dette valget krypterer alle filer som er lagret på hovedlageret. Ellers vil kun filer på eksterne lagre bli kryptert.",
     "Enable recovery key" : "Aktiver gjenopprettingsnøkkel",
     "Disable recovery key" : "Deaktiver gjenopprettingsnøkkel",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Gjenopprettingsnøkkelen er en ekstra krypteringsnøkkel som brukes til å kryptere filer. Den brukes til å gjenopprette filer fra en konto hvis passordet er glemt.",
     "Recovery key password" : "Passord for gjenopprettingsnøkkel",
     "Repeat recovery key password" : "Gjenta passord for gjenopprettingsnøkkel",
     "Change recovery key password:" : "Endre passord for gjenopprettingsnøkkel:",

@@ -50,6 +50,7 @@ OC.L10N.register(
     "Nextcloud Server" : "Nextcloud-server",
     "Some of your link shares have been removed" : "Några av dina delade länkar har tagits bort",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "På grund av ett säkerhetsfel var vi tvungna att ta bort några av dina delade länkar. Se länken för mer information.",
+    "The account limit of this instance is reached." : "Maximalt antal konton för denna instans har uppnåts.",
     "Learn more ↗" : "Läs mer ↗",
     "Preparing update" : "Förbereder uppdatering",
     "[%d / %d]: %s" : "[%d / %d]: %s",

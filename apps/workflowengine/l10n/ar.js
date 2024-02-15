@@ -113,6 +113,7 @@ OC.L10N.register(
     "between" : "بين",
     "not between" : "ليس بين",
     "Request user agent" : "وكيل المستخدم الخاص بالطلب",
+    "Group membership" : "عضوية المجموعة",
     "is member of" : "عضو فى",
     "is not member of" : "ليس عضو فى",
     "User group membership" : "عضوية مجموعة المستخدمين"
