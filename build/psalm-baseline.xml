@@ -2704,11 +2704,6 @@
       <code><![CDATA[is_string($request->getMethod())]]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/Log/Rotate.php">
-    <ParamNameMismatch>
-      <code>$dummy</code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction>
       <code><![CDATA[sd_journal_send('PRIORITY='.$journal_level,
