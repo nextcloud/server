@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
+ * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
@@ -34,9 +34,9 @@ use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
 
 /**
- * Checks if the webserver serves '.mjs' files using the correct MIME type
+ * Check whether the WOFF2 URLs works
  */
-class JavaScriptModules implements ISetupCheck {
+class Woff2Loading implements ISetupCheck {
 	use CheckServerResponseTrait;
 
 	public function __construct(
@@ -53,24 +53,30 @@ class JavaScriptModules implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('JavaScript modules support');
+		return $this->l10n->t('WOFF2 file loading');
 	}
 
 	public function run(): SetupResult {
-		$testFile = $this->urlGenerator->linkTo('settings', 'js/esm-test.mjs');
-
+		$url = $this->urlGenerator->linkTo('', 'core/fonts/NotoSans-Regular-latin.woff2');
 		$noResponse = true;
-		foreach ($this->runHEAD($testFile) as $response) {
+		$responses = $this->runHEAD($url);
+		foreach ($responses as $response) {
 			$noResponse = false;
-			if (preg_match('/(text|application)\/javascript/i', $response->getHeader('Content-Type'))) {
+			if ($response->getStatusCode() === 200) {
 				return SetupResult::success();
 			}
 		}
 
 		if ($noResponse) {
-			return SetupResult::warning($this->l10n->t('Could not check for JavaScript support. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.') . "\n" . $this->serverConfigHelp());
+			return SetupResult::info(
+				$this->l10n->t('Could not check for WOFF2 loading support. Please check manually if your webserver serves `.woff2` files.') . "\n" . $this->serverConfigHelp(),
+				$this->urlGenerator->linkToDocs('admin-nginx'),
+			);
 		}
-		return SetupResult::error($this->l10n->t('Your webserver does not serve `.mjs` files using the JavaScript MIME type. This will break some apps by preventing browsers from executing the JavaScript files. You should configure your webserver to serve `.mjs` files with either the `text/javascript` or `application/javascript` MIME type.'));
+		return SetupResult::warning(
+			$this->l10n->t('Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our documentation.'),
+			$this->urlGenerator->linkToDocs('admin-nginx'),
+		);
 		
 	}
 }
