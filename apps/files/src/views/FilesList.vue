@@ -162,7 +162,6 @@ import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
-const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
 
 export default defineComponent({
 	name: 'FilesList',
@@ -215,6 +214,7 @@ export default defineComponent({
 			loading: true,
 			promise: null,
 			Type,
+			forbiddenCharacters: loadState('files', 'forbiddenCharacters', '') as string,
 		}
 	},
 
@@ -403,10 +403,6 @@ export default defineComponent({
 		canShare() {
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
-		},
-
-		forbiddenCharacters(): string {
-			return forbiddenCharacters
 		},
 	},
 
