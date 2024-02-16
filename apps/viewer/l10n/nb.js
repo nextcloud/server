@@ -10,12 +10,16 @@ OC.L10N.register(
     "Error saving image" : "Feil under lagring av bildet",
     "Unsaved changes" : "Ulagrede endringer",
     "Drop changes" : "Slipp endringer",
+    "Play the live photo" : "Spill av live-fotoet",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Nettleseren din støtter ikke videoer.",
     "Edit" : "Rediger",
+    "Exit full screen" : "Avslutt fullskjerm",
+    "Full screen" : "Fullskjerm",
     "Open sidebar" : "Åpne sidepanel",
     "Download" : "Last ned",
     "Delete" : "Slett",
+    "This file no longer exists" : "Filen finnes ikke lenger",
     "There is no plugin available to display this file type" : "Det er ingen tilgjengelig utvidelse for å vise denne filtypen",
     "View" : "Vis",
     "Name" : "Navn",
@@ -106,6 +110,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Lagret bildestørrelse (bredde x høyde)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Vær oppmerksom på at det valgte beskjæringsområdet er lavere enn den valgte størrelsen, noe som kan føre til redusert kvalitet",
     "Actual size (100%)" : "Faktisk størrelse (100%)",
-    "Fit size" : "Tilpass størrelse"
+    "Fit size" : "Tilpass størrelse",
+    "\"{fileName}\"" : "\"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");
