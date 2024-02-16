@@ -81,6 +81,9 @@ try {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
 } catch (\OC\User\LoginException $e) {
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
+} catch (\OCP\Security\Bruteforce\MaxDelayReached) {
+	OC_API::setContentType();
+	http_response_code(429);
 } catch (\Exception $e) {
 	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 	OC_API::setContentType();
