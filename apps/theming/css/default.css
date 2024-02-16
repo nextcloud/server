@@ -87,5 +87,4 @@
   --gradient-primary-background: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   --color-background-plain: #00679e;
   --color-background-plain-text: #ffffff;
-  --image-background-default: url('/apps/theming/img/background/kamil-porembinski-clouds.jpg');
 }

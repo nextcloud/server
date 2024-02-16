@@ -97,7 +97,6 @@ trait CommonThemeTrait {
 		$variables = [
 			'--color-background-plain' => $backgroundColor,
 			'--color-background-plain-text' => $this->util->invertTextColor($backgroundColor) ? '#000000' : '#ffffff',
-			'--image-background-default' => "url('" . $this->themingDefaults->getBackground() . "')",
 			'--background-image-invert-if-bright' => $this->util->invertTextColor($backgroundColor) ? 'invert(100%)' : 'no',
 		];
 
@@ -105,8 +104,10 @@ trait CommonThemeTrait {
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
-				// --image-background is overridden by user theming if logged in
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
+			} else if ($image === 'background') {
+				// Apply default background if nothing is configured
+				$variables['--image-background'] = "url('" . $this->themingDefaults->getBackground() . "')";
 			}
 		}
 
