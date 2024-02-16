@@ -30,13 +30,11 @@
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="true"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
-				<NcIconSvgWrapper v-if="section.icon" :size="20" :svg="section.icon" />
-				<Home v-else :size="20"/>
+				<Home :size="20"/>
 			</template>
 		</NcBreadcrumb>
 
@@ -55,7 +53,6 @@ import { basename } from 'path'
 import Home from 'vue-material-design-icons/Home.vue'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
@@ -68,7 +65,6 @@ export default defineComponent({
 		Home,
 		NcBreadcrumbs,
 		NcBreadcrumb,
-		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -109,7 +105,6 @@ export default defineComponent({
 					exact: true,
 					name: this.getDirDisplayName(dir),
 					to,
-					icon: this.$navigation.active?.icon || null,
 				}
 			})
 		},
@@ -124,7 +119,7 @@ export default defineComponent({
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
-				return this.$navigation?.active?.name || t('files', 'Home')
+				return t('files', 'Home')
 			}
 
 			const fileId: number | undefined = this.getFileIdFromPath(path)
