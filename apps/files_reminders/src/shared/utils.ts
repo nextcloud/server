@@ -20,7 +20,6 @@
  *
  */
 
-import moment from '@nextcloud/moment'
 import { getCanonicalLocale } from '@nextcloud/l10n'
 
 export enum DateTimePreset {
@@ -30,58 +29,82 @@ export enum DateTimePreset {
 	NextWeek = 'next-week',
 }
 
+const getFirstWorkdayOfWeek = () => {
+	const now = new Date()
+	now.setHours(0, 0, 0, 0)
+	now.setDate(now.getDate() - now.getDay() + 1)
+	return new Date(now)
+}
+
+const getWeek = (date: Date) => {
+	const dateClone = new Date(date)
+	dateClone.setHours(0, 0, 0, 0)
+	const firstDayOfYear = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0)
+	const daysFromFirstDay = (date.getTime() - firstDayOfYear.getTime()) / 86400000
+	return Math.ceil((daysFromFirstDay + firstDayOfYear.getDay() + 1) / 7)
+}
+
+const isSameWeek = (a: Date, b: Date) => {
+	return getWeek(a) === getWeek(b)
+		&& a.getFullYear() === b.getFullYear()
+}
+
+const isSameDate = (a: Date, b: Date) => {
+	return a.getDate() === b.getDate()
+		&& a.getMonth() === b.getMonth()
+		&& a.getFullYear() === b.getFullYear()
+}
+
 export const getDateTime = (dateTime: DateTimePreset): null | Date => {
 	const matchPreset: Record<DateTimePreset, () => null | Date> = {
 		[DateTimePreset.LaterToday]: () => {
-			const now = moment()
-			const evening = moment()
-				.startOf('day')
-				.add(18, 'hour')
-			const cutoff = evening
-				.clone()
-				.subtract(1, 'hour')
-			if (now.isSameOrAfter(cutoff)) {
+			const now = new Date()
+			const evening = new Date()
+			evening.setHours(18, 0, 0, 0)
+			const cutoff = new Date()
+			cutoff.setHours(17, 0, 0, 0)
+			if (now >= cutoff) {
 				return null
 			}
-			return evening.toDate()
+			return evening
 		},
 
 		[DateTimePreset.Tomorrow]: () => {
-			const day = moment()
-				.add(1, 'day')
-				.startOf('day')
-				.add(8, 'hour')
-			return day.toDate()
+			const now = new Date()
+			const day = new Date()
+			day.setDate(now.getDate() + 1)
+			day.setHours(8, 0, 0, 0)
+			return day
 		},
 
 		[DateTimePreset.ThisWeekend]: () => {
-			const today = moment()
+			const today = new Date()
 			if (
 				[
 					5, // Friday
 					6, // Saturday
-					7, // Sunday
-				].includes(today.isoWeekday())
+					0, // Sunday
+				].includes(today.getDay())
 			) {
 				return null
 			}
-			const saturday = moment()
-				.startOf('isoWeek')
-				.add(5, 'day')
-				.add(8, 'hour')
-			return saturday.toDate()
+			const saturday = new Date()
+			const firstWorkdayOfWeek = getFirstWorkdayOfWeek()
+			saturday.setDate(firstWorkdayOfWeek.getDate() + 5)
+			saturday.setHours(8, 0, 0, 0)
+			return saturday
 		},
 
 		[DateTimePreset.NextWeek]: () => {
-			const today = moment()
-			if (today.isoWeekday() === 7) { // Sunday
+			const today = new Date()
+			if (today.getDay() === 0) { // Sunday
 				return null
 			}
-			const workday = moment()
-				.startOf('isoWeek')
-				.add(1, 'week')
-				.add(8, 'hour')
-			return workday.toDate()
+			const workday = new Date()
+			const firstWorkdayOfWeek = getFirstWorkdayOfWeek()
+			workday.setDate(firstWorkdayOfWeek.getDate() + 7)
+			workday.setHours(8, 0, 0, 0)
+			return workday
 		},
 	}
 
@@ -89,11 +112,10 @@ export const getDateTime = (dateTime: DateTimePreset): null | Date => {
 }
 
 export const getInitialCustomDueDate = (): Date => {
-	const hour = moment().get('hour')
-	const dueDate = moment()
-		.startOf('day')
-		.add(hour + 2, 'hour')
-	return dueDate.toDate()
+	const now = new Date()
+	const dueDate = new Date()
+	dueDate.setHours(now.getHours() + 2, 0, 0, 0)
+	return dueDate
 }
 
 export const getDateString = (dueDate: Date): string => {
@@ -102,17 +124,16 @@ export const getDateString = (dueDate: Date): string => {
 		minute: '2-digit',
 	}
 
-	const dueDateMoment = moment(dueDate)
-	const today = moment()
+	const today = new Date()
 
-	if (!dueDateMoment.isSame(today, 'date')) {
+	if (!isSameDate(dueDate, today)) {
 		formatOptions = {
 			...formatOptions,
 			weekday: 'short',
 		}
 	}
 
-	if (!dueDateMoment.isSame(today, 'week')) {
+	if (!isSameWeek(dueDate, today)) {
 		formatOptions = {
 			...formatOptions,
 			month: 'short',
@@ -120,7 +141,7 @@ export const getDateString = (dueDate: Date): string => {
 		}
 	}
 
-	if (!dueDateMoment.isSame(today, 'year')) {
+	if (dueDate.getFullYear() !== today.getFullYear()) {
 		formatOptions = {
 			...formatOptions,
 			year: 'numeric',
@@ -142,10 +163,9 @@ export const getVerboseDateString = (dueDate: Date): string => {
 		minute: '2-digit',
 	}
 
-	const dueDateMoment = moment(dueDate)
-	const today = moment()
+	const today = new Date()
 
-	if (!dueDateMoment.isSame(today, 'year')) {
+	if (dueDate.getFullYear() !== today.getFullYear()) {
 		formatOptions = {
 			...formatOptions,
 			year: 'numeric',
