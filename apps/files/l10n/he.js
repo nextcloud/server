@@ -63,8 +63,8 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n תיקייה","%n תיקיות","%n תיקיות","%n תיקיות"],
     "_%n file_::_%n files_" : ["%n קובץ","%n קבצים","%n קבצים","%n קבצים"],
     "{dirs} and {files}" : "{dirs} וכן {files}",
-    "_including %n hidden_::_including %n hidden_" : ["לרבות %n מוסתר","לרבות %n מוסתרים","לרבות %n מוסתרים","לרבות %n מוסתרים"],
-    "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים","מעלה %n קבצים","מעלה %n קבצים"],
+    "_including %n hidden_::_including %n hidden_" : ["לרבות %n מוסתר","לרבות %n מוסתרים","לרבות %n מוסתרים"],
+    "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים","מעלה %n קבצים"],
     "New" : "חדש",
     "Select file range" : "בחירת טווח קבצים",
     "{used} of {quota} used" : "{used} מתוך {quota} בשימוש",
@@ -79,7 +79,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)." : "האחסון שלך כמעט מלא ({usedSpacePercent}%).",
     "View in folder" : "הצג בתיקייה",
     "Path" : "נתיב",
-    "_%n byte_::_%n bytes_" : ["%n בייט","%n בייטים","%n בייטים","%n בייטים"],
+    "_%n byte_::_%n bytes_" : ["%n בייט","%n בייטים","%n בייטים"],
     "Favorited" : "מועדף",
     "Favorite" : "מועדף",
     "New folder" : "תיקייה חדשה",
@@ -196,4 +196,4 @@ OC.L10N.register(
     "Pending shares" : "שיתופים ממתינים",
     "Choose" : "בחר"
 },
-"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

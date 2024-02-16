@@ -81,6 +81,7 @@ OC.L10N.register(
     "Overview" : "Generalidades",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",
+    "Availability" : "Disponibilidad",
     "Calendar" : "Calendario",
     "Personal info" : "Información Personal",
     "Mobile & desktop" : "Móvil & escritorio",
