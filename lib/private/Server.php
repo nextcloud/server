@@ -448,14 +448,17 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
+			/** @var IUserSession $userSession */
+			$userSession = $c->get(IUserSession::class);
 			$root = new Root(
 				$manager,
 				$view,
-				null,
+				$userSession->getUser(),
 				$c->get(IUserMountCache::class),
 				$this->get(LoggerInterface::class),
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
+				$this->get(ICacheFactory::class),
 			);
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
