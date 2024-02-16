@@ -57,19 +57,19 @@
 			:description="isUserThemingDisabled
 				? t('theming', 'Customization has been disabled by your administrator')
 				: t('theming', 'Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.')">
-			<UserPrimaryColor @refresh-styles="refreshGlobalStyles" />
+			<UserPrimaryColor v-if="!isUserThemingDisabled"
+				ref="primaryColor"
+				@refresh-styles="refreshGlobalStyles" />
 		</NcSettingsSection>
 
-		<NcSettingsSection :name="t('theming', 'Background and color')"
-			class="background"
-			data-user-theming-background-disabled>
-			<template v-if="isUserThemingDisabled">
-				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
-			</template>
-			<template v-else>
-				<p>{{ t('theming', 'The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights.') }}</p>
-				<BackgroundSettings class="background__grid" @update:background="refreshGlobalStyles" />
-			</template>
+		<NcSettingsSection class="background"
+			:name="t('theming', 'Background and color')"
+			:description="isUserThemingDisabled
+				? t('theming', 'Customization has been disabled by your administrator')
+				: t('theming', 'The background can be set to an image from the default set, a custom uploaded image, or a plain color.')">
+			<BackgroundSettings v-if="!isUserThemingDisabled"
+				class="background__grid"
+				@update:background="refreshGlobalStyles" />
 		</NcSettingsSection>
 
 		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')"
@@ -89,7 +89,10 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
+import { refreshStyles } from './helpers/refreshStyles'
+
 import axios from '@nextcloud/axios'
+
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 
@@ -97,7 +100,6 @@ import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
 import UserAppMenuSection from './components/UserAppMenuSection.vue'
 import UserPrimaryColor from './components/UserPrimaryColor.vue'
-import { emit } from '@nextcloud/event-bus'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
@@ -106,7 +108,7 @@ const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 export default {
-	name: 'UserThemes',
+	name: 'UserTheming',
 
 	components: {
 		ItemPreview,
@@ -183,16 +185,9 @@ export default {
 
 	methods: {
 		// Refresh server-side generated theming CSS
-		refreshGlobalStyles() {
-			[...document.head.querySelectorAll('link.theme')].forEach(theme => {
-				const url = new URL(theme.href)
-				url.searchParams.set('v', Date.now())
-				const newTheme = theme.cloneNode()
-				newTheme.href = url.toString()
-				newTheme.onload = () => theme.remove()
-				document.head.append(newTheme)
-			})
-			emit('theming:global-styles-refreshed')
+		async refreshGlobalStyles() {
+			await refreshStyles()
+			this.$nextTick(() => this.$refs.primaryColor.reload())
 		},
 
 		changeTheme({ enabled, id }) {

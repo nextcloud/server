@@ -41,17 +41,19 @@
 		</button>
 
 		<!-- Custom color picker -->
-		<NcColorPicker v-model="Theming.backgroundColor" @input="debouncePickColor">
+		<NcColorPicker v-model="Theming.backgroundColor" @update:value="debouncePickColor">
 			<button :class="{
 					'icon-loading': loading === 'color',
 					'background background__color': true,
 					'background--active': backgroundImage === 'color'
 				}"
+				:aria-pressed="backgroundImage === 'color'"
 				:data-color="Theming.backgroundColor"
 				:data-color-bright="invertTextColor(Theming.backgroundColor)"
 				:style="{ backgroundColor: Theming.backgroundColor, '--border-color': Theming.backgroundColor}"
 				data-user-theming-background-color
-				tabindex="0">
+				tabindex="0"
+				@click="backgroundImage !== 'color' && debouncePickColor(Theming.backgroundColor)">
 				{{ t('theming', 'Plain background') /* TRANSLATORS: Background using a single color */ }}
 				<ColorPalette v-if="backgroundImage !== 'color'" :size="20" />
 				<Check :size="44" />
@@ -65,8 +67,8 @@
 				'background background__default': true,
 				'background--active': backgroundImage === 'default'
 			}"
-			:data-color-bright="invertTextColor(Theming.defaultColor)"
-			:style="{ '--border-color': Theming.defaultColor }"
+			:data-color-bright="invertTextColor(Theming.defaultBackgroundColor)"
+			:style="{ '--border-color': Theming.defaultBackgroundColor }"
 			data-user-theming-background-default
 			tabindex="0"
 			@click="setDefault">
@@ -85,6 +87,7 @@
 				'icon-loading': loading === shippedBackground.name,
 				'background--active': backgroundImage === shippedBackground.name
 			}"
+			:data-color-bright="invertTextColor(shippedBackground.details.background_color)"
 			:data-user-theming-background-shipped="shippedBackground.name"
 			:style="{ backgroundImage: 'url(' + shippedBackground.preview + ')', '--border-color': shippedBackground.details.primary_color }"
 			tabindex="0"
@@ -109,10 +112,14 @@ import Check from 'vue-material-design-icons/Check.vue'
 import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
 import ColorPalette from 'vue-material-design-icons/Palette.vue'
 
-const backgroundImage = loadState('theming', 'backgroundImage')
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const defaultShippedBackground = loadState('theming', 'defaultShippedBackground')
+const backgroundImage = loadState('theming', 'userBackgroundImage')
+const {
+	backgroundImage: defaultBackgroundImage,
+	backgroundColor: defaultBackgroundColor,
+	backgroundMime: defaultBackgroundMime,
+	defaultShippedBackground,
+} = loadState('theming', 'themingDefaults')
 
 const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
 
@@ -139,7 +146,12 @@ export default {
 	computed: {
 		shippedBackgrounds() {
 			return Object.keys(shippedBackgroundList)
-				.map(fileName => {
+				.filter((background) => {
+					// If the admin did not changed the global background
+					// let's hide the default background to not show it twice
+					return background !== defaultShippedBackground || !this.isGlobalBackgroundDefault
+				})
+				.map((fileName) => {
 					return {
 						name: fileName,
 						url: prefixWithBaseUrl(fileName),
@@ -147,22 +159,18 @@ export default {
 						details: shippedBackgroundList[fileName],
 					}
 				})
-				.filter(background => {
-					// If the admin did not changed the global background
-					// let's hide the default background to not show it twice
-					if (!this.isGlobalBackgroundDeleted && !this.isGlobalBackgroundDefault) {
-						return background.name !== defaultShippedBackground
-					}
-					return true
-				})
 		},
 
 		isGlobalBackgroundDefault() {
-			return !!themingDefaultBackground
+			return defaultBackgroundMime === ''
 		},
 
 		isGlobalBackgroundDeleted() {
-			return themingDefaultBackground === 'backgroundColor'
+			return defaultBackgroundMime === 'backgroundColor'
+		},
+
+		cssDefaultBackgroundImage() {
+			return `url('${defaultBackgroundImage}')`
 		},
 	},
 
@@ -241,12 +249,12 @@ export default {
 			this.update(result.data)
 		},
 
-		async pickColor(event) {
+		async pickColor(color) {
 			this.loading = 'color'
-			const color = event?.target?.dataset?.color || this.Theming?.color || '#0082c9'
-			const result = await axios.post(generateUrl('/apps/theming/background/color'), { color })
-			this.update(result.data)
+			const { data } = await axios.post(generateUrl('/apps/theming/background/color'), { color: color || '#0082c9' })
+			this.update(data)
 		},
+
 		debouncePickColor: debounce(function(...args) {
 			this.pickColor(...args)
 		}, 200),
@@ -361,8 +369,8 @@ export default {
 		}
 
 		&__default {
-			background-color: var(--color-primary-default);
-			background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.5), rgba(23, 23, 23, 0.5)), var(--image-background-plain, var(--image-background-default));
+			background-color: var(--color-background-plain);
+			background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.5), rgba(23, 23, 23, 0.5)), v-bind(cssDefaultBackgroundImage);
 		}
 
 		&__filepicker, &__default, &__color {
