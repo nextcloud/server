@@ -8,12 +8,13 @@
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:icon-text="true"
+			:force-icon-text="true"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
-				<Home :size="20"/>
+				<NcIconSvgWrapper v-if="section.icon" :size="20" :svg="section.icon" />
+				<Home v-else :size="20"/>
 			</template>
 		</NcBreadcrumb>
 
@@ -25,11 +26,12 @@
 </template>
 
 <script>
-import { translate as t} from '@nextcloud/l10n'
 import { basename } from 'path'
+import { translate as t } from '@nextcloud/l10n'
 import Home from 'vue-material-design-icons/Home.vue'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import Vue from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
@@ -42,6 +44,7 @@ export default Vue.extend({
 		Home,
 		NcBreadcrumbs,
 		NcBreadcrumb,
+		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -82,6 +85,7 @@ export default Vue.extend({
 					exact: true,
 					name: this.getDirDisplayName(dir),
 					to,
+					icon: this.$navigation.active?.icon || null,
 				}
 			})
 		},
