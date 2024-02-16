@@ -42,6 +42,8 @@ OC.L10N.register(
     "All tagged %s …" : "全部標記為 %s……",
     "tagged %s" : "已標記 %s",
     "Collaborative tags" : "協作標籤",
+    "Collaborative tagging functionality which shares tags among people." : "可在使用者間分享標籤的協作標籤功能。",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "可在使用者間分享標籤的協作標籤功能。對團隊來說很有用。\n\t（如果您是有多租戶安裝的提供商，則建議在分享標籤時停用此應用程式。）",
     "Create or edit tags" : "建立或編輯標籤",
     "Search for a tag to edit" : "搜尋要編輯的標籤",
     "Collaborative tags …" : "協作標籤……",

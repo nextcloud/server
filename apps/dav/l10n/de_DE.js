@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "Verfügbarkeit gespeichert",
     "Failed to save availability" : "Fehler beim Speichern der Verfügbarkeit",
     "Availability" : "Verfügbarkeit",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Wenn Sie Ihre Arbeitszeiten angeben, können Andere beim Buchen einer Besprechung sehen, wann Sie nicht im Büro sind.",
     "Absence" : "Abwesenheit",
     "Configure your next absence period." : "Richten Sie ihren nächsten Abwesenheitszeitraum ein",
     "Calendar server" : "Kalender-Server",
