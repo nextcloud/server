@@ -79,7 +79,11 @@ class ImageManager {
 			case 'favicon':
 				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
 			case 'background':
-				return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
+				// Removing the background defines its mime as 'backgroundColor'
+				$mimeSetting = $this->config->getAppValue('theming', 'backgroundMime', '');
+				if ($mimeSetting !== 'backgroundColor') {
+					return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
+				}
 		}
 		return '';
 	}

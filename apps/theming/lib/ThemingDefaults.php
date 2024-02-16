@@ -202,6 +202,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * Color that is used for highlighting elements like important buttons
+	 * If user theming is enabled then the user defined value is returned
 	 */
 	public function getColorPrimary(): string {
 		$user = $this->userSession->getUser();
@@ -215,9 +216,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined primary color
 		if (!empty($user)) {
-			// we need the background color as a fallback for backwards compatibility with Nextcloud 28 and older
-			$userBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
-			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'primary_color', $userBackgroundColor);
+			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'primary_color', '');
 			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
 				return $userPrimaryColor;
 			}
@@ -229,6 +228,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * Color that is used for the page background (e.g. the header)
+	 * If user theming is enabled then the user defined value is returned
 	 */
 	public function getColorBackground(): string {
 		$user = $this->userSession->getUser();
@@ -253,7 +253,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Return the default primary color
+	 * Return the default primary color - only taking admin setting into account
 	 */
 	public function getDefaultColorPrimary(): string {
 		// try admin color
@@ -478,7 +478,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Revert settings to the default value
+	 * Revert admin settings to the default value
 	 *
 	 * @param string $setting setting which should be reverted
 	 * @return string default value
@@ -499,12 +499,13 @@ class ThemingDefaults extends \OC_Defaults {
 				$returnValue = $this->getSlogan();
 				break;
 			case 'primary_color':
-				$returnValue = $this->getDefaultColorPrimary();
+				$returnValue = BackgroundService::DEFAULT_COLOR;
 				break;
 			case 'background_color':
+				// If a background image is set we revert to the mean image color
 				if ($this->imageManager->hasImage('background')) {
 					$file = $this->imageManager->getImage('background');
-					$this->backgroundService->setGlobalBackground($file->read());
+					$returnValue = $this->backgroundService->setGlobalBackground($file->read()) ?? '';
 				}
 				break;
 			case 'logo':
