@@ -165,7 +165,7 @@ OC.L10N.register(
     "Results from other categories" : "תוצאות מקטגוריות אחרות",
     "No apps found for your version" : "לא נמצאו יישומים לגרסה שלך",
     "Disable all" : "להשבית הכול",
-    "_%n app has an update available_::_%n apps have an update available_" : ["לאחד היישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין"],
+    "_%n app has an update available_::_%n apps have an update available_" : ["לאחד היישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין"],
     "Marked for remote wipe" : "מסומן להשמדת נתונים מרחוק",
     "Device settings" : "הגדרות מכשיר",
     "Allow filesystem access" : "לאפשר גישה למערכת הקבצים",
@@ -387,4 +387,4 @@ OC.L10N.register(
     "Allow username autocompletion in share dialog" : "לאפשר השלמה אוטומטית של שם משתמש בחלונית השיתוף",
     "Allow username autocompletion to users within the same groups" : "לאפשר השלמה אוטומטית של שם משתמש למשתמשים בתוך אותן הקבוצות"
 },
-"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
