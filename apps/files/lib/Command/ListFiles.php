@@ -57,7 +57,7 @@ class ListFiles extends Base {
 			->addArgument(
 				"path",
 				InputArgument::REQUIRED,
-				'Limit list to this path, eg. path="/alice/files/Music", the user_id is determined by the path parameter'
+				'List all the files and folder mentioned in this path, eg. path="/alice/files/Music", the path being a required argument to determine the user'
 			)
 			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
 			->addOption(
