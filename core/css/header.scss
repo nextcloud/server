@@ -162,7 +162,7 @@
 
 	/* Right header standard */
 	.header-right {
-		> .header-menu img {
+		> .header-menu__trigger img {
 			filter: var(--background-image-invert-if-bright);
 		}
 		> div,

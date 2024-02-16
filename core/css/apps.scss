@@ -29,15 +29,15 @@ html {
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	// color-background-plain should always be defined. It is the primary user colour
+	// color-background-plain should always be defined.
 	background-color: var(--color-background-plain, var(--color-main-background));
 }
 
 body {
-	// color-background-plain should always be defined. It is the primary user colour
+	// color-background-plain should always be defined.
 	background-color: var(--color-background-plain, var(--color-main-background));
-	// user background, or plain colour and finally default admin background
-	background-image: var(--image-background, var(--image-background-plain, var(--image-background-default)));
+	// user background, or plain color
+	background-image: var(--image-background);
 	background-size: cover;
 	background-position: center;
 	position: fixed;
