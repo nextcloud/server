@@ -67,7 +67,7 @@
     "Hello {name}" : "שלום {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>אלו תוצאות החיפוש שלך<script>alert(1)</script></strong>",
     "new" : "חדש",
-    "_download %n file_::_download %n files_" : ["התקבל קובץ %n","התקבלו %n קבצים","התקבלו %n קבצים","התקבלו %n קבצים"],
+    "_download %n file_::_download %n files_" : ["התקבל קובץ %n","התקבלו %n קבצים","התקבלו %n קבצים"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "העדכון מתבצע, יציאה מהעמוד הזה עשויה להפריע לתהליך בסביבות מסוימות.",
     "Update to {version}" : "עדכון ל־{version}",
     "An error occurred." : "אירעה שגיאה.",
@@ -327,5 +327,5 @@
     "App token" : "אסימון יישום",
     "Alternative log in using app token" : "כניסה חלופית באמצעות אסימון יישומון",
     "Please use the command line updater because you have a big instance with more than 50 users." : "נא להשתמש בתכנית העדכון משורת הפקודה כיוון שיש לך עותק גדול עם למעלה מ־50 משתמשים."
-},"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
+},"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

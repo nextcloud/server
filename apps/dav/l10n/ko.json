@@ -116,6 +116,7 @@
     "{actor} updated contact {card} in address book {addressbook}" : "{actor}님이 주소록 {addressbook}의 연락처 {card}을(를) 갱신함",
     "You updated contact {card} in address book {addressbook}" : "주소록 {addressbook}의 연락처 {card}을(를) 갱신함",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>연락처</strong> 또는 <strong>주소록</strong>이 변경됨",
+    "Accounts" : "계정",
     "System address book which holds all accounts" : "시스템 주소록이 모든 계정 정보를 보유합니다",
     "File is not updatable: %1$s" : "파일을 갱신할 수 없습니다: %1$s",
     "Could not write to final file, canceled by hook" : "후크에 의해 취소되어 최종 파일에 쓸 수 없음",
