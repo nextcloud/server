@@ -45,7 +45,6 @@ use OCP\PreConditionNotMetException;
 class BackgroundService {
 	public const DEFAULT_COLOR = '#0082c9';
 	public const DEFAULT_BACKGROUND_COLOR = '#00679e';
-	public const DEFAULT_ACCESSIBLE_COLOR = '#00679e';
 
 	/**
 	 * One of our shipped background images is used
@@ -291,8 +290,9 @@ class BackgroundService {
 	 * Called when a new global background (backgroundMime) is uploaded (admin setting)
 	 * This sets all necessary app config values
 	 * @param resource|string $path
+	 * @return string|null The fallback background color - if any
 	 */
-	public function setGlobalBackground($path): void {
+	public function setGlobalBackground($path): string|null {
 		$image = new \OCP\Image();
 		$handle = is_resource($path) ? $path : fopen($path, 'rb');
 
@@ -301,6 +301,7 @@ class BackgroundService {
 			if ($meanColor !== false) {
 				$this->config->setAppValue(Application::APP_ID, 'background_color', $meanColor);
 			}
+			return $meanColor;
 		}
 	}
 

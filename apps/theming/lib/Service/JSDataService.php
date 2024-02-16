@@ -44,17 +44,23 @@ class JSDataService implements \JsonSerializable {
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->themingDefaults->getName(),
-			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
-			'color' => $this->themingDefaults->getColorPrimary(), // deprecated use primaryColor
-			'primaryColor' => $this->themingDefaults->getColorPrimary(),
-			'backgroundColor' => $this->themingDefaults->getColorBackground(),
-			'defaultColor' => $this->themingDefaults->getDefaultColorPrimary(),
+
+			'url' => $this->themingDefaults->getBaseUrl(),
 			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
+
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'defaultPrimaryColor' => $this->themingDefaults->getDefaultColorPrimary(),
+			'defaultBackgroundColor' => $this->themingDefaults->getDefaultColorBackground(),
 			'inverted' => $this->util->invertTextColor($this->themingDefaults->getColorPrimary()),
+
 			'cacheBuster' => $this->util->getCacheBuster(),
 			'enabledThemes' => $this->themesService->getEnabledThemes(),
+
+			// deprecated use primaryColor
+			'color' => $this->themingDefaults->getColorPrimary(),
 			'' => 'color is deprecated since Nextcloud 29, use primaryColor instead'
 		];
 	}

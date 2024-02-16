@@ -95,10 +95,6 @@ class Capabilities implements IPublicCapability {
 	 */
 	public function getCapabilities() {
 		$color = $this->theming->getDefaultColorPrimary();
-		// Same as in DefaultTheme
-		if ($color === BackgroundService::DEFAULT_COLOR) {
-			$color = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 		$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
 
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');

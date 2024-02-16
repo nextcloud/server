@@ -111,6 +111,14 @@ class OC_Theme {
 	}
 
 	/**
+	 * Returns background color to be used
+	 * @return string
+	 */
+	public function getColorBackground(): string {
+		return '#3d85c6';
+	}
+
+	/**
 	 * Returns variables to overload defaults from core/css/variables.scss
 	 * @return array
 	 */

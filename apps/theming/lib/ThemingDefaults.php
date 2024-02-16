@@ -61,7 +61,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private string $entity;
 	private string $productName;
 	private string $url;
-	private string $color;
+	private string $backgroundColor;
+	private string $primaryColor;
 	private string $docBaseUrl;
 
 	private string $iTunesAppId;
@@ -91,7 +92,8 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->entity = parent::getEntity();
 		$this->productName = parent::getProductName();
 		$this->url = parent::getBaseUrl();
-		$this->color = parent::getColorPrimary();
+		$this->primaryColor = parent::getColorPrimary();
+		$this->backgroundColor = parent::getColorBackground();
 		$this->iTunesAppId = parent::getiTunesAppId();
 		$this->iOSClientUrl = parent::getiOSClientUrl();
 		$this->AndroidClientUrl = parent::getAndroidClientUrl();
@@ -260,14 +262,8 @@ class ThemingDefaults extends \OC_Defaults {
 			return $defaultColor;
 		}
 
-		// Fall back to background color
-		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
-		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
-			return $defaultColor;
-		}
-
-		// worst case fall back to default primary color
-		return BackgroundService::DEFAULT_COLOR;
+		// fall back to default primary color
+		return $this->primaryColor;
 	}
 
 	/**
@@ -275,10 +271,11 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getDefaultColorBackground(): string {
 		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
-			$defaultColor = BackgroundService::DEFAULT_BACKGROUND_COLOR;
+		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
+			return $defaultColor;
 		}
-		return $defaultColor;
+
+		return $this->backgroundColor;
 	}
 
 	/**
