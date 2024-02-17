@@ -240,6 +240,7 @@ OC.L10N.register(
     "You are a member of the following groups:" : "Jūs esate šių grupių narys:",
     "You are using <strong>{usage}</strong>" : "Jūs naudojate <strong>{usage}</strong>",
     "Your full name" : "Jūsų visas vardas",
+    "Back" : "Atgal",
     "This address is not confirmed" : "Šis adresas nėra patvirtintas",
     "Primary email for password reset and notifications" : "Pirminis el. paštas, skirtas slaptažodžio atstatymui bei pranešimams",
     "Email options" : "El. pašto parinktys",

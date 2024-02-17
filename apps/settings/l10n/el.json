@@ -253,6 +253,7 @@
     "You are using <strong>{usage}</strong>" : "Χρησιμοποιείτε <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Χρησιμοποιείτε <strong>{usage}</strong> από <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Το ονοματεπώνυμο σας",
+    "Back" : "Επιστροφή",
     "This address is not confirmed" : "Αυτή η διεύθυνση email δεν έχει επιβεβαιωθεί",
     "Primary email for password reset and notifications" : "Κύριο email για επαναφορά συνθηματικού και ειδοποιήσεις",
     "Email options" : "Επιλογές email",

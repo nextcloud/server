@@ -120,7 +120,7 @@ OC.L10N.register(
     "Please try again." : "Bitte erneut versuchen.",
     "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
     "Please try again or contact your administrator." : "Bitte erneut versuchen oder kontaktieren Sie Ihre Administration.",
-    "Login or email" : "Anmeldename oder E-Mailadresse",
+    "Login or email" : "Anmeldename oder E-Mail-Adresse",
     "Password" : "Passwort",
     "Log in to {productName}" : "Anmelden bei {productName}",
     "Wrong login or password." : "Anmeldename oder Passwort falsch",

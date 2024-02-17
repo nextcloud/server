@@ -282,6 +282,7 @@
     "You are using <strong>{usage}</strong>" : "Користите <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Користите <strong>{usage}</strong> од <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Вашето целосно име",
+    "Back" : "Назад",
     "This address is not confirmed" : "Оваа адреса не е потврдена",
     "Primary email for password reset and notifications" : "Примарна Е-пошта за ресетирање на лозинка и известувања",
     "Email options" : "Е-пошта параметри",

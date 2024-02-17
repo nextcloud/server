@@ -367,6 +367,7 @@
     "You are using <strong>{usage}</strong>" : "Está a usar <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Está a usar <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "O seu nome completo",
+    "Back" : "Atras",
     "This address is not confirmed" : "Este enderezo non está confirmado",
     "Primary email for password reset and notifications" : "Correo-e principal para restabelecer o contrasinal e notificacións",
     "Email options" : "Opcións de correo -e",

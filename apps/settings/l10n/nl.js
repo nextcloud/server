@@ -257,6 +257,7 @@ OC.L10N.register(
     "No email address set" : "Geen e-mailadres opgegeven",
     "Additional emails" : "Extra e-mailadressen",
     "Your headline" : "Jouw hoofdlijn",
+    "Languages" : "Talen",
     "Help translate" : "Help met vertalen",
     "Unable to update language" : "Kan taal niet updaten",
     "No language set" : "Geen taal ingesteld",
