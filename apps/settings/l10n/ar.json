@@ -458,6 +458,7 @@
     "You are using <strong>{usage}</strong>" : "أنت تستعمل <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "أنت تستعمل <strong>{usage}</strong> من <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "اسمك الكامل",
+    "Back" : "عودة",
     "This address is not confirmed" : "هذا العنوان غير مؤكد",
     "Primary email for password reset and notifications" : "البريد الإلكتروني الأساسي لإعادة تعيين كلمة المرور والإشعارات",
     "Email options" : "خيارات الإيميل",

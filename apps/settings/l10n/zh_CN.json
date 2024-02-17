@@ -357,6 +357,7 @@
     "You are using <strong>{usage}</strong>" : "您已使用<strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "您已使用 <strong>{totalSpace}</strong> 中的 <strong>{usage}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "您的全名",
+    "Back" : "返回",
     "This address is not confirmed" : "此地址未经确认",
     "Primary email for password reset and notifications" : "用于重设密码和通知的主邮件",
     "Email options" : "电子邮件选项",

@@ -440,6 +440,7 @@
     "You are using <strong>{usage}</strong>" : "您已使用了 <strong>{usage}</strong> 的存儲空間",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "您已使用了 <strong>{totalSpace}</strong> 中的 <strong>{usage}</strong>（<strong>{usageRelative} %</strong>）",
     "Your full name" : "您的全名",
+    "Back" : "上星期",
     "This address is not confirmed" : "此地址尚未確認",
     "Primary email for password reset and notifications" : "用於密碼重設和通告信件的主要電郵地址",
     "Email options" : "電子郵件通知選項",

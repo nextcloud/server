@@ -433,6 +433,7 @@ OC.L10N.register(
     "You are using <strong>{usage}</strong>" : "<strong>{usage}</strong>를 사용하고 있습니다.",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "전체 <strong>{totalSpace}</strong> 중 <strong>{usage}</strong>(<strong>{usageRelative}%</strong>)를 사용하고 있습니다.",
     "Your full name" : "내 전체 이름",
+    "Back" : "뒤로",
     "This address is not confirmed" : "이 주소는 확인되지 않음",
     "Primary email for password reset and notifications" : "암호 초기화 및 알림 수신용 주 이메일 주소",
     "Email options" : "이메일 옵션",

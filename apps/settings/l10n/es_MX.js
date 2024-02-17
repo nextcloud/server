@@ -167,6 +167,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Imagen proporcionada por la cuenta original ",
     "Details" : "Detalles",
     "No email address set" : "No se ha establecido la dirección de correo electrónico",
+    "Languages" : "Idiomas",
     "Help translate" : "Ayuda a traducir",
     "Your phone number" : "Su número telefónico",
     "Your website" : "Tu sitio web",

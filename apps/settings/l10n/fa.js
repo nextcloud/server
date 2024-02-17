@@ -288,6 +288,7 @@ OC.L10N.register(
     "You are using <strong>{usage}</strong>" : "فضای مورد استفاده: <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "شما در حال استفادهٔ <strong>{usage}</strong> از <strong>{totalSpace}</strong> (<strong>{usageRelative}٪</strong>) فضا هستید",
     "Your full name" : "Your full name",
+    "Back" : "Back",
     "This address is not confirmed" : "This address is not confirmed",
     "Primary email for password reset and notifications" : "Primary email for password reset and notifications",
     "Email options" : "Email options",
