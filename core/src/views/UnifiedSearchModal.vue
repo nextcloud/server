@@ -237,6 +237,14 @@ export default {
 	},
 	watch: {
 		isVisible(value) {
+			if (value) {
+				/*
+				 * Before setting the search UI to visible, reset previous search event emissions.
+				 * This allows apps to restore defaults after "Filter in current view" if the user opens the search interface once more.
+				 * Additionally, it's a new search, so it's better to reset all previous events emitted.
+				 */
+				emit('nextcloud:unified-search.reset', { query: '' })
+			}
 			this.internalIsVisible = value
 		},
 		internalIsVisible(value) {
@@ -265,9 +273,9 @@ export default {
 			if (query.length === 0) {
 				this.results = []
 				this.searching = false
+				emit('nextcloud:unified-search.reset', { query })
 				return
 			}
-			// Event should probably be refactored at some point to used nextcloud:unified-search.search
 			emit('nextcloud:unified-search.search', { query })
 			const newResults = []
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
