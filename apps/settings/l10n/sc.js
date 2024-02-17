@@ -220,6 +220,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Imàgine frunida dae su contu originale",
     "Details" : "Detàllios",
     "You are a member of the following groups:" : "Faghes parte de custos grupos:",
+    "Back" : "In segus",
     "Primary email for password reset and notifications" : "Indiritzu de posta eletrònica printzipale pro torrare a impostare sa crae e retzire notìficas",
     "Email options" : "Optziones de posta eletrònica",
     "Remove primary email" : "Boga•nche s'indiritzu de posta eletrònica printzipale",

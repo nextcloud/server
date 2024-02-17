@@ -381,6 +381,7 @@
     "You are using <strong>{usage}</strong>" : "Esteu utilitzant <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Esteu utilitzant <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "El vostre nom complet",
+    "Back" : "Torna",
     "This address is not confirmed" : "Aquesta adreça no està confirmada",
     "Primary email for password reset and notifications" : "Adreça de correu electrònic principal per a restablir la contrasenya i per a les notificacions",
     "Email options" : "Opcions de correu electrònic",

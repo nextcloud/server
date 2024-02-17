@@ -357,6 +357,7 @@
     "You are using <strong>{usage}</strong>" : "Używasz <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Używasz <strong>{usage}</strong> z <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Twoja pełna nazwa",
+    "Back" : "Poprzednia",
     "This address is not confirmed" : "Ten adres nie jest potwierdzony",
     "Primary email for password reset and notifications" : "Główny adres e-mail do resetowania hasła i powiadomień",
     "Email options" : "Opcje e-mail",
