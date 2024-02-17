@@ -389,6 +389,7 @@ OC.L10N.register(
     "You are using <strong>{usage}</strong>" : "Du använder <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Du använder <strong>{usage}</strong> av <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Ditt fullständiga namn",
+    "Back" : "Tillbaka",
     "This address is not confirmed" : "Denna adress är inte verifierad",
     "Primary email for password reset and notifications" : "Primär e-postadress för notifikationer och återställning av lösenord",
     "Email options" : "E-postinställningar",

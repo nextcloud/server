@@ -296,6 +296,7 @@ OC.L10N.register(
     "You are using <strong>{usage}</strong>" : "Bạn đang sử dụng {usage}",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Bạn đang sử dụng {usage} trên {totalSpace} ({usageRelative}%)",
     "Your full name" : "Tên đầy đủ của bạn",
+    "Back" : "Trở lại",
     "This address is not confirmed" : "Địa chỉ này chưa được xác nhận",
     "Primary email for password reset and notifications" : "Email chính để đặt lại mật khẩu và thông báo",
     "Email options" : "Tùy chọn email",
