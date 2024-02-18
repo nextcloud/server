@@ -39,6 +39,8 @@
     "Public" : "Público",
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
+    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}",
     "No tags found" : "No se encontraron etiquetas",
     "Select tag …" : "Seleccionar etiqueta ...",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalidad de etiquetas colaborativas que comparte las etiquetas entre usuarios.",

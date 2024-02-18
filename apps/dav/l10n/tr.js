@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "Uygunluk kaydedildi",
     "Failed to save availability" : "Uygunluk kaydedilemedi",
     "Availability" : "Uygunluk",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kişiler bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler.",
     "Absence" : "İşe gelmeme",
     "Configure your next absence period." : "Sonraki işe gelmeme aralığınızı yapılandırın.",
     "Calendar server" : "Takvim sunucusu",
