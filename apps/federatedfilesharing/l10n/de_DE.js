@@ -28,7 +28,7 @@ OC.L10N.register(
     "Sharing" : "Teilen",
     "Federated file sharing" : "Federated Datei-Freigabe",
     "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
-    "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Legt fest, wie Personen zwischen Servern teilen können. Dies gilt auch für Freigaben zwischen Personen auf diesem Server, wenn sie die Federated-Sharing verwenden.",
+    "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Legt fest, wie Personen zwischen Servern teilen können. Dies gilt auch für Freigaben zwischen Personen auf diesem Server, wenn sie Federated-Sharing verwenden.",
     "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Personen auf diesem Server das Senden von Freigaben an andere Server erlauben (Diese Option ermöglicht auch den WebDAV-Zugriff auf öffentliche Freigaben)",
     "Allow people on this server to receive shares from other servers" : "Ermöglichen Sie Personen auf diesem Server, Freigaben von anderen Servern zu erhalten",
     "Allow people on this server to send shares to groups on other servers" : "Ermöglichen Sie Personen auf diesem Server, Freigaben an Gruppen auf anderen Servern zu senden",
