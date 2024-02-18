@@ -26,6 +26,7 @@ use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -53,11 +54,11 @@ class ListFiles extends Base {
 		parent::configure();
 
 		$this->setName("files:list")
-			->setDescription("List filesystem")
+			->setDescription("List filesystem in the path mentioned in path argument")
 			->addArgument(
 				"path",
 				InputArgument::REQUIRED,
-				'List all the files and folder mentioned in this path, eg. path="/alice/files/Music", the path being a required argument to determine the user'
+				'List all the files and folder mentioned in this path, eg occ files:list path="/alice/files/Music", the path being a required argument to determine the user'
 			)
 			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
 			->addOption(
@@ -82,7 +83,7 @@ class ListFiles extends Base {
 	}
 
 	private function getNodeInfo(File|Folder $node): array {
-		return [
+		$nodeInfo = [
 			"name" => $node->getName(),
 			"size" => $node->getSize() . " bytes",
 			"perm" => $node->getPermissions(),
@@ -90,6 +91,12 @@ class ListFiles extends Base {
 			"created-at" => $node->getCreationTime(),
 			"type" => $node->getMimePart(),
 		];
+		if($node->getMimetype() == FileInfo::MIMETYPE_FOLDER) {
+			$nodeInfo['type'] = 'directory';
+		}
+		return $nodeInfo;
+
+
 	}
 
 	protected function listFiles(
@@ -103,11 +110,12 @@ class ListFiles extends Base {
 		try {
 			/** @ var OC\Files\Node\Folder $userFolder **/
 			$userFolder = $this->rootFolder->get($path);
-			
+
 			$files = $userFolder->getDirectoryListing();
 			foreach ($files as $file) {
 				$includeType = $includeMin = $includeMax = true;
-				if ($type != "" && $type != $file->getMimePart()) {
+				$nodeInfo = $this->getNodeInfo($file);
+				if ($type != "" && $type != $nodeInfo['type']) {
 					$includeType = false;
 				}
 				if ($minSize > 0) {
@@ -118,11 +126,11 @@ class ListFiles extends Base {
 				}
 				if ($file instanceof File) {
 					if ($includeType && $includeMin && $includeMax) {
-						$this->fileInfo[] = $this->getNodeInfo($file);
+						$this->fileInfo[] = $nodeInfo;
 					}
 				} elseif ($file instanceof Folder) {
 					if ($includeType && $includeMin && $includeMax) {
-						$this->dirInfo[] = $this->getNodeInfo($file);
+						$this->dirInfo[] = $nodeInfo;
 					}
 				}
 			}
