@@ -94,9 +94,8 @@ class ListFiles extends Base {
 		if($node->getMimetype() == FileInfo::MIMETYPE_FOLDER) {
 			$nodeInfo['type'] = 'directory';
 		}
+		
 		return $nodeInfo;
-
-
 	}
 
 	protected function listFiles(
