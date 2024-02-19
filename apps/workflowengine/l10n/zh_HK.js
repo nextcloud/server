@@ -113,6 +113,7 @@ OC.L10N.register(
     "between" : "介於",
     "not between" : "皆非",
     "Request user agent" : "索取 user agent",
+    "Group membership" : "群組成員身分",
     "is member of" : "是以下群組的成員：",
     "is not member of" : "非以下群組的成員：",
     "User group membership" : "用戶群組成員身分"

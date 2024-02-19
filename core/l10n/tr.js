@@ -294,7 +294,7 @@ OC.L10N.register(
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "Sunucunuzu nasıl yapılandıracağınız hakkında bilgi almak için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">belgelere</a> bakabilirsiniz.",
     "Create an <strong>admin account</strong>" : "Bir <strong>yönetici hesabı</strong> oluşturun",
     "Show password" : "Parolayı görüntüle",
-    "Toggle password visibility" : "Parolanın görünürlüğünü değiştir",
+    "Toggle password visibility" : "Parolayı görüntüle/gizle",
     "Storage & database" : "Depolama ve veri tabanı",
     "Data folder" : "Veri klasörü",
     "Configure the database" : "Veri tabanını yapılandır",
