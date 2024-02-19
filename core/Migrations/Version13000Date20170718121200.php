@@ -360,7 +360,8 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['userid'], 'property_index');
+			// Dropped in Version29000Date20240131122720 because property_index is redundant with properties_path_index
+			// $table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
 			$table->addIndex(['propertypath'], 'properties_pathonly_index');
 		} else {
