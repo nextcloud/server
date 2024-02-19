@@ -63,6 +63,7 @@ OC.L10N.register(
     "LDAP/AD integration" : "LDAP/AD integration",
     "Invalid LDAP UUIDs" : "Invalid LDAP UUIDs",
     "None found" : "None found",
+    "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them.",
     "_%n group found_::_%n groups found_" : ["%n group found","%n groups found"],
     "> 1000 groups found" : "> 1000 groups found",
     "> 1000 users found" : "> 1000 users found",
