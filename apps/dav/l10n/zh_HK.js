@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "已保存空閒時間",
     "Failed to save availability" : "未能保存空閒時間",
     "Availability" : "空閒時間",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他人仕在預約會議時就會知道您何時不在辦公室。",
     "Absence" : "缺席",
     "Configure your next absence period." : "設定您的下一個缺席時段。",
     "Calendar server" : "日曆伺服器",
