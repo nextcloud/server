@@ -54,6 +54,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	protected IObjectStore $objectStore;
 	protected string $id;
+	private int $sourceFileId = -1;
 	private string $objectPrefix = 'urn:oid:';
 
 	private LoggerInterface $logger;
@@ -524,7 +525,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$fileId = $this->getCache()->put($uploadPath, $stat);
 		}
 
-		$urn = $this->getURN($fileId);
+		$urn = $this->getURN(
+			$this->sourceFileId > - 1
+				? $this->sourceFileId
+				: $fileId
+		);
 		try {
 			//upload to object storage
 			if ($size === null) {
@@ -613,6 +618,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				return true;
 			}
 		}
+
+		$this->sourceFileId = $sourceStorage->getCache()->getId($sourceInternalPath);
 
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
