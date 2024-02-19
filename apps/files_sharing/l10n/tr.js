@@ -222,7 +222,7 @@ OC.L10N.register(
     "Others with access" : "Erişebilen diğer kişiler",
     "No other accounts with access found" : "Erişebilen başka bir hesap bulunamadı",
     "Toggle list of others with access to this directory" : "Bu klasöre erişme izni olan diğer kişiler listesini aç/kapat",
-    "Toggle list of others with access to this file" : "Bu dosyaya erişim izni olan diğer kişiler listesini aç/kapat",
+    "Toggle list of others with access to this file" : "Bu dosyaya erişme izni olan diğer kişiler listesini aç/kapat",
     "Unable to fetch inherited shares" : "Devir alınan paylaşımlar alınamadı",
     "Unable to load the shares list" : "Paylaşımlar listesi yüklenemedi",
     "Expires {relativetime}" : "Geçerlilik süresi sonu {relativetime}",

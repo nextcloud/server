@@ -113,6 +113,7 @@ OC.L10N.register(
     "between" : "between",
     "not between" : "not between",
     "Request user agent" : "Request user agent",
+    "Group membership" : "Group membership",
     "is member of" : "is member of",
     "is not member of" : "is not member of",
     "User group membership" : "User group membership"

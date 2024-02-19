@@ -125,7 +125,7 @@
     "Restored by {user}" : "Restauré par {user}",
     "Renamed by {user}" : "Renommé par {user}",
     "Moved by {user}" : "Déplacé par {user}",
-    "\"remote account\"" : "\"compte distant\"",
+    "\"remote account\"" : "« compte distant »",
     "You created {file}" : "Vous avez créé {file}",
     "You created an encrypted file in {file}" : "Vous avez créé un fichier chiffré dans {file}",
     "{user} created {file}" : "{user} a créé {file}",

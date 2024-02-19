@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted",
     "Enable recovery key" : "Enable recovery key",
     "Disable recovery key" : "Disable recovery key",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten.",
     "Recovery key password" : "Recovery key password",
     "Repeat recovery key password" : "Repeat recovery key password",
     "Change recovery key password:" : "Change recovery key password:",
