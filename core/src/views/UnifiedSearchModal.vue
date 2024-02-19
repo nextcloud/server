@@ -154,8 +154,8 @@ import SearchResult from '../components/UnifiedSearch/SearchResult.vue'
 import debounce from 'debounce'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { useBrowserLocation } from '@vueuse/core'
-import { mapState } from 'vuex'
 import { getProviders, search as unifiedSearch, getContacts } from '../services/UnifiedSearchService.js'
+import { useSearchStore } from '../store/unified-search-external-filters.js'
 
 export default {
 	name: 'UnifiedSearchModal',
@@ -190,8 +190,10 @@ export default {
 		 * Reactive version of window.location
 		 */
 		const currentLocation = useBrowserLocation()
+		const searchStore = useSearchStore()
 		return {
 			currentLocation,
+			externalFilters: searchStore.externalFilters,
 		}
 	},
 	data() {
@@ -220,9 +222,6 @@ export default {
 	},
 
 	computed: {
-		...mapState({
-			externalFilters: state => state.search.externalFilters,
-		}),
 		userContacts() {
 			return this.contacts
 		},
@@ -577,7 +576,6 @@ export default {
 					break
 				}
 			}
-			console.debug('Search scope set to conversation', addFilterEvent)
 			this.debouncedFind(this.searchQuery)
 		},
 		groupProvidersByApp(filters) {

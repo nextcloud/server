@@ -19,24 +19,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-const state = {
-	externalFilters: [],
-}
+import { defineStore } from 'pinia'
 
-const mutations = {
-	registerExternalFilter(state, { id, label, callback, icon }) {
-		state.externalFilters.push({ id, name: label, callback, icon, isPluginFilter: true })
+export const useSearchStore = defineStore({
+	id: 'search',
+
+	state: () => ({
+		externalFilters: [],
+	}),
+
+	actions: {
+		registerExternalFilter({ id, appId, label, callback, icon }) {
+			this.externalFilters.push({ id, appId, name: label, callback, icon, isPluginFilter: true })
+		},
 	},
-}
-
-const actions = {
-	registerExternalFilter({ commit }, { id, label, callback, icon }) {
-		commit('registerExternalFilter', { id, label, callback, icon })
-	},
-}
-
-export default {
-	state,
-	mutations,
-	actions,
-}
+})

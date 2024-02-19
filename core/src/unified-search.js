@@ -23,10 +23,11 @@
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 
 import UnifiedSearch from './views/UnifiedSearch.vue'
-import store from '../src/store/index.js'
+import { useSearchStore } from '../src/store/unified-search-external-filters.js'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
@@ -51,21 +52,19 @@ Vue.mixin({
 // Register the add/register filter action API globally
 window.OCA = window.OCA || {}
 window.OCA.UnifiedSearch = {
-	registerFilterAction: ({ id, name, label, callback, icon }) => {
-		store.dispatch('registerExternalFilter', {
-			id,
-			name,
-			label,
-			icon,
-			callback,
-		})
+	registerFilterAction: ({ id, appId, label, callback, icon }) => {
+		const searchStore = useSearchStore()
+		searchStore.registerExternalFilter({ id, appId, label, callback, icon })
 	},
 }
 
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
 export default new Vue({
 	el: '#unified-search',
+	pinia,
 	// eslint-disable-next-line vue/match-component-file-name
 	name: 'UnifiedSearchRoot',
-	store,
 	render: h => h(UnifiedSearch),
 })
