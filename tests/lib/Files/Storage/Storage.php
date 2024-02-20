@@ -224,6 +224,15 @@ abstract class Storage extends \Test\TestCase {
 		);
 	}
 
+	protected function getAlteredMtime($path): int {
+		/* Save mtime, but also change it so that it differs from current timestamp */
+		$mTime = $this->instance->filemtime($path);
+		$mTime -= 100;
+		$this->instance->touch($path, $mTime);
+		$this->assertEquals($mTime, $this->instance->filemtime($path), 'Failed to set mtime with touch');
+		return $mTime;
+	}
+
 	/**
 	 * @dataProvider copyAndMoveProvider
 	 */
@@ -243,7 +252,7 @@ abstract class Storage extends \Test\TestCase {
 	public function testMove($source, $target) {
 		$this->initSourceAndTarget($source);
 
-		$mTime = $this->instance->filemtime($source);
+		$mTime = $this->getAlteredMtime($source);
 		$this->instance->rename($source, $target);
 
 		$this->wait();
@@ -273,7 +282,7 @@ abstract class Storage extends \Test\TestCase {
 	public function testMoveOverwrite($source, $target) {
 		$this->initSourceAndTarget($source, $target);
 
-		$mTime = $this->instance->filemtime($source);
+		$mTime = $this->getAlteredMtime($source);
 		$this->instance->rename($source, $target);
 
 		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
@@ -490,8 +499,8 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->mkdir('source/subfolder');
 		$this->instance->file_put_contents('source/subfolder/test.txt', 'bar');
 
-		$mTimeDirectory = $this->instance->filemtime('source');
-		$mTimeTestFile = $this->instance->filemtime('source/subfolder/test.txt');
+		$mTimeDirectory = $this->getAlteredMtime('source');
+		$mTimeTestFile = $this->getAlteredMtime('source/subfolder/test.txt');
 
 		$this->instance->rename('source', 'target');
 
