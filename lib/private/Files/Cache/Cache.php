@@ -144,7 +144,7 @@ class Cache implements ICache {
 	public function get($file) {
 		$query = $this->getQueryBuilder();
 		$query->selectFileCache();
-		$metadataQuery = $query->selectMetadata();
+		$metadataQuery = $query->selectMetadata($this->metadataManager);
 
 		if (is_string($file) || $file == '') {
 			// normalize file
@@ -231,7 +231,7 @@ class Cache implements ICache {
 				->whereParent($fileId)
 				->orderBy('name', 'ASC');
 
-			$metadataQuery = $query->selectMetadata();
+			$metadataQuery = $query->selectMetadata($this->metadataManager);
 
 			$result = $query->execute();
 			$files = $result->fetchAll();

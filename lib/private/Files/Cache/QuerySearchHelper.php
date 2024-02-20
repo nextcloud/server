@@ -55,6 +55,7 @@ class QuerySearchHelper {
 		private QueryOptimizer $queryOptimizer,
 		private IGroupManager $groupManager,
 		private IFilesMetadataManager $filesMetadataManager,
+		private CacheDatabase $cacheDatabase,
 	) {
 	}
 
@@ -106,15 +107,17 @@ class QuerySearchHelper {
 	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
 	 */
 	public function findUsedTagsInCaches(ISearchQuery $searchQuery, array $caches): array {
-		$query = $this->getQueryBuilder();
-		$query->selectTagUsage();
+		$storageIds = array_map(fn (ICache $cache) => $cache->getNumericStorageId(), $caches);
+		$cachesByStorage = array_combine($storageIds, $caches);
 
-		$this->applySearchConstraints($query, $searchQuery, $caches);
+		return $this->cacheDatabase->queryStorages($storageIds, function(CacheQueryBuilder $query, $storages) use ($searchQuery, $cachesByStorage) {
+			$cachesForShard = array_map(fn (int $storage) => $cachesByStorage[$storage], $storages);
+			$query->selectTagUsage();
 
-		$result = $query->execute();
-		$tags = $result->fetchAll();
-		$result->closeCursor();
-		return $tags;
+			$this->applySearchConstraints($query, $searchQuery, $cachesForShard);
+
+			return $query->executeQuery()->fetchAll();
+		});
 	}
 
 	protected function equipQueryForSystemTags(CacheQueryBuilder $query, IUser $user): void {
@@ -171,35 +174,40 @@ class QuerySearchHelper {
 		// while the resulting rows don't have a way to tell what storage they came from (multiple storages/caches can share storage_id)
 		// we can just ask every cache if the row belongs to them and give them the cache to do any post processing on the result.
 
-		$builder = $this->getQueryBuilder();
-
-		$query = $builder->selectFileCache('file', false);
+		$storageIds = array_map(fn (ICache $cache) => $cache->getNumericStorageId(), $caches);
+		$cachesByStorage = array_combine($storageIds, $caches);
 
 		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
 
-		if (in_array('systemtag', $requestedFields)) {
-			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
-		}
-		if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
-			$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
-		}
-		if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
-			$this->equipQueryForShares($query);
-		}
+		$rawEntries = $this->cacheDatabase->queryStorages($storageIds, function(CacheQueryBuilder $builder, $storages) use ($requestedFields, $searchQuery, $cachesByStorage) {
+			$cachesForShard = array_map(fn (int $storage) => $cachesByStorage[$storage], $storages);
+			$query = $builder->selectFileCache('file', false);
+			if (in_array('systemtag', $requestedFields)) {
+				$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
+			}
+			if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
+				$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
+			}
+			if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
+				$this->equipQueryForShares($query);
+			}
 
-		$metadataQuery = $query->selectMetadata();
+			$metadataQuery = $query->selectMetadata($this->filesMetadataManager);
 
-		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
+			$this->applySearchConstraints($query, $searchQuery, $cachesForShard, $metadataQuery);
 
-		$result = $query->execute();
-		$files = $result->fetchAll();
+			$files = $query->executeQuery()->fetchAll();
 
-		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
-			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
-			return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
-		}, $files);
+			$rawEntries = array_map(function (array $data) use ($metadataQuery) {
+				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 
-		$result->closeCursor();
+				return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
+			}, $files);
+
+			return $rawEntries;
+		});
+
+
 
 		// loop through all caches for each result to see if the result matches that storage
 		// results are grouped by the same array keys as the caches argument to allow the caller to distinguish the source of the results

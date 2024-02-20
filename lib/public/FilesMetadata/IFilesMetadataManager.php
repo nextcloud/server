@@ -86,12 +86,13 @@ interface IFilesMetadataManager {
 	 * returns metadata of multiple file ids
 	 *
 	 * @param int[] $fileIds file ids
+	 * @param int[] $storageIds storage ids for the files
 	 *
 	 * @return array File ID is the array key, files without metadata are not returned in the array
 	 * @psalm-return array<int, IFilesMetadata>
 	 * @since 28.0.0
 	 */
-	public function getMetadataForFiles(array $fileIds): array;
+	public function getMetadataForFiles(array $fileIds, array $storageIds = []): array;
 
 	/**
 	 * save metadata to database and refresh indexes.

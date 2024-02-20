@@ -44,7 +44,6 @@ class CacheQueryBuilder extends QueryBuilder {
 		IDBConnection $connection,
 		SystemConfig $systemConfig,
 		LoggerInterface $logger,
-		private IFilesMetadataManager $filesMetadataManager,
 	) {
 		parent::__construct($connection, $systemConfig, $logger);
 	}
@@ -140,8 +139,8 @@ class CacheQueryBuilder extends QueryBuilder {
 	 *
 	 * @return IMetadataQuery
 	 */
-	public function selectMetadata(): IMetadataQuery {
-		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
+	public function selectMetadata(IFilesMetadataManager $metadataManager): IMetadataQuery {
+		$metadataQuery = $metadataManager->getMetadataQuery($this, $this->alias, 'fileid');
 		$metadataQuery->retrieveMetadata();
 		return $metadataQuery;
 	}

@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace OC\FilesMetadata\Service;
 
+use OC\Files\Cache\CacheDatabase;
+use OC\Files\Cache\CacheQueryBuilder;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -41,7 +43,8 @@ class MetadataRequestService {
 
 	public function __construct(
 		private IDBConnection $dbConnection,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private CacheDatabase $cacheDatabase,
 	) {
 	}
 
@@ -53,7 +56,8 @@ class MetadataRequestService {
 	 * @throws Exception
 	 */
 	public function store(IFilesMetadata $filesMetadata): void {
-		$qb = $this->dbConnection->getQueryBuilder();
+		$file = $this->cacheDatabase->getByFileId($filesMetadata->getFileId());
+		$qb = $this->cacheDatabase->queryForStorageId($file->getStorageId());
 		$qb->insert(self::TABLE_METADATA)
 		   ->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
 		   ->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
@@ -72,7 +76,12 @@ class MetadataRequestService {
 	 */
 	public function getMetadataFromFileId(int $fileId): IFilesMetadata {
 		try {
-			$qb = $this->dbConnection->getQueryBuilder();
+			$file = $this->cacheDatabase->getByFileId($fileId);
+			if (!$file) {
+				return new FilesMetadata($fileId);
+			}
+			$qb = $this->cacheDatabase->queryForStorageId($file->getStorageId());
+
 			$qb->select('json', 'sync_token')->from(self::TABLE_METADATA);
 			$qb->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 			$result = $qb->executeQuery();
@@ -101,26 +110,43 @@ class MetadataRequestService {
 	 * @return array File ID is the array key, files without metadata are not returned in the array
 	 * @psalm-return array<int, IFilesMetadata>
 	 */
-	public function getMetadataFromFileIds(array $fileIds): array {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('file_id', 'json', 'sync_token')->from(self::TABLE_METADATA);
-		$qb->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
-
-		$list = [];
-		$result = $qb->executeQuery();
-		while ($data = $result->fetch()) {
-			$fileId = (int) $data['file_id'];
-			$metadata = new FilesMetadata($fileId);
-			try {
-				$metadata->importFromDatabase($data);
-			} catch (FilesMetadataNotFoundException) {
-				continue;
-			}
-			$list[$fileId] = $metadata;
+	public function getMetadataFromFileIds(array $fileIds, array $storageIds = []): array {
+		if (!$storageIds) {
+			$files = $this->cacheDatabase->getByFileIds($fileIds);
+			$storageIds = array_map(fn (int $fileId) => $files[$fileId]->getStorageId(), $fileIds);
 		}
-		$result->closeCursor();
+		$storageByFile = array_combine($fileIds, $storageIds);
 
-		return $list;
+		$fileIdsByStorage = [];
+		foreach ($storageByFile as $fileId => $storage) {
+			$fileIdsByStorage[$storage][] = $fileId;
+		}
+
+		return $this->cacheDatabase->queryStorages($storageIds, function(CacheQueryBuilder $qb, array $storages) use ($fileIdsByStorage) {
+			$fileIds = [];
+			foreach ($storages as $storage) {
+				$fileIds += $fileIdsByStorage[$storage];
+			}
+
+			$qb->select('file_id', 'json', 'sync_token')->from(self::TABLE_METADATA);
+			$qb->where(
+				$qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+
+			$list = [];
+			$result = $qb->executeQuery();
+			while ($data = $result->fetch()) {
+				$fileId = (int) $data['file_id'];
+				$metadata = new FilesMetadata($fileId);
+				try {
+					$metadata->importFromDatabase($data);
+				} catch (FilesMetadataNotFoundException) {
+					continue;
+				}
+				$list[$fileId] = $metadata;
+			}
+			return $list;
+		});
 	}
 
 	/**
@@ -132,10 +158,14 @@ class MetadataRequestService {
 	 * @throws Exception
 	 */
 	public function dropMetadata(int $fileId): void {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->delete(self::TABLE_METADATA)
-		   ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
-		$qb->executeStatement();
+		$file = $this->cacheDatabase->getByFileId($fileId);
+		if ($file) {
+			$qb = $this->cacheDatabase->queryForStorageId($file->getStorageId());
+
+			$qb->delete(self::TABLE_METADATA)
+				->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			$qb->executeStatement();
+		}
 	}
 
 	/**
@@ -147,7 +177,8 @@ class MetadataRequestService {
 	 * @throws Exception
 	 */
 	public function updateMetadata(IFilesMetadata $filesMetadata): int {
-		$qb = $this->dbConnection->getQueryBuilder();
+		$file = $this->cacheDatabase->getByFileId($filesMetadata->getFileId());
+		$qb = $this->cacheDatabase->queryForStorageId($file->getStorageId());
 		$expr = $qb->expr();
 
 		$qb->update(self::TABLE_METADATA)

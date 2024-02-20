@@ -157,8 +157,8 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @psalm-return array<int, IFilesMetadata>
 	 * @since 28.0.0
 	 */
-	public function getMetadataForFiles(array $fileIds): array {
-		return $this->metadataRequestService->getMetadataFromFileIds($fileIds);
+	public function getMetadataForFiles(array $fileIds, array $storageIds = []): array {
+		return $this->metadataRequestService->getMetadataFromFileIds($fileIds, $storageIds);
 	}
 
 	/**

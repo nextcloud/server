@@ -41,6 +41,7 @@ use OC\Share20\Exception\ProviderException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -67,52 +68,21 @@ class DefaultShareProvider implements IShareProvider {
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	private ITimeFactory $timeFactory;
+	private IDBConnection $dbConn;
 
 	public function __construct(
 		IDBConnection $connection,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IRootFolder $rootFolder,
-		IMailer $mailer,
-		Defaults $defaults,
-		IFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IRootFolder $rootFolder,
+		private IMailer $mailer,
+		private Defaults $defaults,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private ITimeFactory $timeFactory,
+		private IFileAccess $fileAccess,
 	) {
 		$this->dbConn = $connection;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->rootFolder = $rootFolder;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -891,15 +861,8 @@ class DefaultShareProvider implements IShareProvider {
 		if ($shareType === IShare::TYPE_USER) {
 			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('s.*',
-				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-				'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-				'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
-			)
-				->selectAlias('st.id', 'storage_string_id')
-				->from('share', 's')
-				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
-				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
+			$qb->select('s.*')
+				->from('share', 's');
 
 			// Order by id
 			$qb->orderBy('s.id');
@@ -925,14 +888,7 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor = $qb->execute();
 
 			while ($data = $cursor->fetch()) {
-				if ($data['fileid'] && $data['path'] === null) {
-					$data['path'] = (string) $data['path'];
-					$data['name'] = (string) $data['name'];
-					$data['checksum'] = (string) $data['checksum'];
-				}
-				if ($this->isAccessibleResult($data)) {
-					$shares[] = $this->createShare($data);
-				}
+				$shares[] = $this->createShare($data);
 			}
 			$cursor->closeCursor();
 		} elseif ($shareType === IShare::TYPE_GROUP) {
@@ -952,15 +908,8 @@ class DefaultShareProvider implements IShareProvider {
 				}
 
 				$qb = $this->dbConn->getQueryBuilder();
-				$qb->select('s.*',
-					'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-					'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-					'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
-				)
-					->selectAlias('st.id', 'storage_string_id')
+				$qb->select('s.*')
 					->from('share', 's')
-					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
-					->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
 					->orderBy('s.id')
 					->setFirstResult(0);
 
@@ -1010,7 +959,31 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 
-		return $shares;
+		return $this->setNodes($shares);
+	}
+
+	/**
+	 * @param IShare[] $shares
+	 * @return IShare[]
+	 */
+	private function setNodes(array $shares): array {
+		$fileIds = array_map(function (IShare $share): int {
+			return $share->getNodeId();
+		}, $shares);
+		$files = $this->fileAccess->getByFileIds($fileIds);
+
+		$sharesWithFiles = [];
+		foreach ($shares as $share) {
+			if (isset($files[$share->getNodeId()])) {
+				$cacheItem = $files[$share->getNodeId()];
+				if ($this->isAccessibleResult($cacheItem->getData())) {
+					$share->setNodeCacheEntry($cacheItem);
+					$sharesWithFiles[] = $share;
+				}
+			}
+		}
+
+		return $sharesWithFiles;
 	}
 
 	/**
