@@ -60,9 +60,8 @@
 
 		<NcAppSettingsSection id="default-settings"
 			:name="t('settings', 'Defaults')">
-			<label for="default-quota-select">{{ t('settings', 'Default quota') }}</label>
 			<NcSelect v-model="defaultQuota"
-				input-id="default-quota-select"
+				:input-label="t('settings', 'Default quota')"
 				placement="top"
 				:taggable="true"
 				:options="quotaOptions"
@@ -271,10 +270,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-label[for="default-quota-select"] {
-	display: block;
-	padding: 4px 0;
-}
-</style>

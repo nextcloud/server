@@ -19,11 +19,8 @@
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
-				<label for="enforcedGroups">
-					<span>{{ t('settings', 'Enforced groups') }}</span>
-				</label>
 				<NcSelect v-model="enforcedGroups"
-					input-id="enforcedGroups"
+					:input-label="t('settings', 'Enforced groups')"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"
@@ -35,11 +32,8 @@
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
-				<label for="excludedGroups">
-					<span>{{ t('settings', 'Excluded groups') }}</span>
-				</label>
 				<NcSelect v-model="excludedGroups"
-					input-id="excludedGroups"
+					:input-label="t('settings', 'Excluded groups')"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"

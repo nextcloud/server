@@ -31,9 +31,8 @@
 		</h3>
 
 		<div class="system-tag-form__group">
-			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
 			<NcSelectTags v-model="selectedTag"
-				input-id="system-tags-input"
+				:input-label="t('systemtags', 'Search for a tag to edit')"
 				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:fetch-tags="false"
 				:options="tags"
@@ -56,9 +55,8 @@
 		</div>
 
 		<div class="system-tag-form__group">
-			<label for="system-tag-level">{{ t('systemtags', 'Tag level') }}</label>
 			<NcSelect v-model="tagLevel"
-				input-id="system-tag-level"
+				:input-label="t('systemtags', 'Tag level')"
 				:options="tagLevelOptions"
 				:reduce="level => level.id"
 				:clearable="false"

@@ -26,9 +26,8 @@
 			:name="t('systemtags', 'Loading collaborative tags …')"
 			:size="32" />
 		<template v-else>
-			<label for="system-tags-input">{{ t('systemtags', 'Search or create collaborative tags') }}</label>
 			<NcSelectTags class="system-tags__select"
-				input-id="system-tags-input"
+				:input-label="t('systemtags', 'Search or create collaborative tags')"
 				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:options="sortedTags"
 				:value="selectedTags"
@@ -223,10 +222,6 @@ export default Vue.extend({
 .system-tags {
 	display: flex;
 	flex-direction: column;
-
-	label[for="system-tags-input"] {
-		margin-bottom: 2px;
-	}
 
 	&__select {
 		width: 100%;
