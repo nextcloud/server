@@ -91,7 +91,7 @@ module.exports = {
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),
 		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
 		'vue-settings-admin-sharing': path.join(__dirname, 'apps/settings/src', 'admin-settings-sharing.ts'),
-		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
+		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.ts'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
 		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
 		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),

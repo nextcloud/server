@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,11 +22,13 @@
   -->
 
 <template>
-	<router-view />
+	<NcContent app-name="settings">
+		<router-view name="navigation" />
+		<router-view />
+		<router-view name="sidebar" />
+	</NcContent>
 </template>
 
-<script>
-export default {
-	name: 'App',
-}
+<script setup lang="ts">
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 </script>

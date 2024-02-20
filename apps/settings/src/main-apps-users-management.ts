@@ -25,10 +25,13 @@
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
 import { sync } from 'vuex-router-sync'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
-import App from './App.vue'
-import router from './router.js'
+import SettingsApp from './views/SettingsApp.vue'
+import router from './router/index.ts'
 import store from './store/index.js'
+import { getRequestToken } from '@nextcloud/auth'
+import { PiniaVuePlugin, createPinia } from 'pinia'
 
 Vue.use(VTooltip, { defaultHtml: false })
 
@@ -36,20 +39,23 @@ sync(store, router)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
+__webpack_nonce__ = btoa(getRequestToken() ?? '')
 
 // bind to window
 Vue.prototype.t = t
 Vue.prototype.n = n
-Vue.prototype.OC = OC
-Vue.prototype.OCA = OCA
-// eslint-disable-next-line camelcase
-Vue.prototype.oc_userconfig = oc_userconfig
+Vue.prototype.OC = window.OC
+Vue.prototype.OCA = window.OCA
+// @ts-expect-error This is a private property we use
+Vue.prototype.oc_userconfig = window.oc_userconfig
+Vue.use(PiniaVuePlugin)
 
-const app = new Vue({
+const pinia = createPinia()
+
+export default new Vue({
 	router,
 	store,
-	render: h => h(App),
-}).$mount('#content')
-
-export { app, router, store }
+	pinia,
+	render: h => h(SettingsApp),
+	el: '#content',
+})
