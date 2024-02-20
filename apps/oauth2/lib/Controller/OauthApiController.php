@@ -45,6 +45,7 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
+use OCP\IUserSession;
 
 class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
@@ -62,6 +63,7 @@ class OauthApiController extends Controller {
 		private LoggerInterface $logger,
 		private IThrottler $throttler,
 		private ITimeFactory $timeFactory,
+		private IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -225,5 +227,22 @@ class OauthApiController extends Controller {
 				'user_id' => $appToken->getUID(),
 			]
 		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getUserInfo() {
+		$user = $this->userSession->getUser();
+		$displayname = explode(' ', $user->getDisplayName());
+		return new JSONResponse([
+			'sub' => $user->getUID(),
+			'given_name' => $displayname[0],
+			'family_name' => $displayname[1] ? $displayname[1] : $displayname[0],
+			'email' => $user->getEMailAddress()
+		]);
 	}
 }

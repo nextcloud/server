@@ -43,5 +43,10 @@ return [
 			'url' => '/api/v1/token',
 			'verb' => 'POST'
 		],
+		[
+			'name' => 'OauthApi#getUserInfo',
+			'url' => '/api/v1/userinfo',
+			'verb' => 'GET'
+		],
 	],
 ];
