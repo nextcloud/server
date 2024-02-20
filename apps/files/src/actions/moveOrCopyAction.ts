@@ -32,12 +32,14 @@ import { emit } from '@nextcloud/event-bus'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { openConflictPicker, hasConflict } from '@nextcloud/upload'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
+import { getContents } from '../services/Files'
 import logger from '../logger'
 import { getUniqueName } from '../utils/fileUtils'
 
@@ -133,6 +135,13 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 					emit('files:node:created', davResultToNode(data))
 				}
 			} else {
+				// show conflict file popup if we do not allow overwriting
+				if (!overwrite) {
+					const contents = await getContents(destinationPath)
+					if (hasConflict([node], contents.contents)) {
+						await openConflictPicker
+					}
+				}
 				await client.moveFile(currentPath, join(destinationPath, node.basename))
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
