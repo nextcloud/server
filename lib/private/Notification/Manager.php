@@ -366,6 +366,7 @@ class Manager implements IManager {
 		}
 
 		if (!$notification->isValidParsed()) {
+			$this->logger->info('Notification was not parsed by any notifier [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
 			throw new \InvalidArgumentException('The given notification has not been handled');
 		}
 
