@@ -184,7 +184,7 @@ OC.L10N.register(
     "Failed to load availability" : "Misslyckades med att ladda tidsluckor",
     "Saved availability" : "Sparade tidslucka",
     "Failed to save availability" : "Misslyckades med att spara tidslucka",
-    "Availability" : "Tillgänglighet",
+    "Availability" : "Din tillgänglighet",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstider kommer andra att se när du är frånvarande när de bokar ett möte.",
     "Absence" : "Frånvaro",
     "Configure your next absence period." : "Konfigurera din nästa frånvaroperiod.",
