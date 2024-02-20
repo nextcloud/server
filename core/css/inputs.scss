@@ -26,6 +26,7 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 }
 
 $default-height: 36px;
+$opacity-disabled: .7;
 
 /* Simple selector to allow easy overriding */
 select,
@@ -48,6 +49,17 @@ div[contenteditable=false] {
  * color-main-text			active state
  * color-text-maxcontrast	disabled state
  */
+
+button:not(.button-vue),
+input:not([type='range']),
+textarea {
+	&:disabled {
+		cursor: default;
+		color: var(--color-text-maxcontrast);
+		border-color: var(--color-border-dark);
+		opacity: $opacity-disabled;
+	}
+}
 
 input:not([type="range"]) {
 	outline: none;
