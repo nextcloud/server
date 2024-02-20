@@ -32,7 +32,7 @@ import { emit } from '@nextcloud/event-bus'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { openConflictPicker, hasConflict } from '@nextcloud/upload'
+import { getUploader, openConflictPicker, hasConflict } from '@nextcloud/upload'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
@@ -136,13 +136,34 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				}
 			} else {
 				// show conflict file popup if we do not allow overwriting
-				if (!overwrite) {
-					const contents = await getContents(destinationPath)
-					if (hasConflict([node], contents.contents)) {
-						await openConflictPicker
+				logger.debug("NO CONFLICTS SHOULD BE FOUND11")
+				const otherNodes = await getContents(destination.path)
+				logger.debug("NO CONFLICTS SHOULD BE FOUND2")
+				let files: (Node|File)[] = [node]
+				if (hasConflict([node], otherNodes.contents)) {
+					const conflicts = otherNodes.contents.filter((otherNode: Node) => {
+						return otherNode.basename === node.basename 
+					}).filter(Boolean) as Node[]
+
+					const uploads = otherNodes.contents.filter((otherNode: Node) => {
+						return !conflicts.includes(otherNode)
+					})
+
+					try {
+						// Let the user choose what to do with the conflicting files
+						const { selected, renamed } = await openConflictPicker(destination.path, conflicts, otherNodes.contents)
+						files = [...uploads, ...selected, ...renamed]
+					} catch (error) {
+						// User cancelled
+						showError(t('files','Upload cancelled'))
+						return
 					}
+
 				}
+				
+				logger.debug("NO CONFLICTS SHOULD BE FOUND")
 				await client.moveFile(currentPath, join(destinationPath, node.basename))
+				logger.debug("FINALLY DELETE THE NODE")
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
 				emit('files:node:deleted', node)
