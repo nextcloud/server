@@ -86,7 +86,7 @@ class KnownMtime extends Wrapper {
 	public function rename($source, $target) {
 		$result = parent::rename($source, $target);
 		if ($result) {
-			$this->knowMtimes->set($target, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($target, $this->filemtime($source));
 			$this->knowMtimes->set($source, $this->clock->now()->getTimestamp());
 		}
 		return $result;
@@ -125,9 +125,10 @@ class KnownMtime extends Wrapper {
 	}
 
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		$mTime = $sourceStorage->filemtime($sourceInternalPath);
 		$result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
-			$this->knowMtimes->set($targetInternalPath, $this->clock->now()->getTimestamp());
+			$this->knowMtimes->set($targetInternalPath, $mTime);
 		}
 		return $result;
 	}
