@@ -20,14 +20,24 @@
  *
  */
 
-export const refreshStyles = () => {
-	// Refresh server-side generated theming CSS
-	[...document.head.querySelectorAll('link.theme')].forEach(theme => {
+/**
+ * Refresh server-side generated theming CSS
+ * This resolves when all themes are reloaded
+ */
+export async function refreshStyles() {
+	const themes = [...document.head.querySelectorAll('link.theme')]
+	const promises = themes.map((theme) => new Promise((resolve) => {
 		const url = new URL(theme.href)
 		url.searchParams.set('v', Date.now())
 		const newTheme = theme.cloneNode()
 		newTheme.href = url.toString()
-		newTheme.onload = () => theme.remove()
+		newTheme.onload = () => {
+			theme.remove()
+			resolve()
+		}
 		document.head.append(newTheme)
-	})
+	}))
+
+	// Wait until all themes are loaded
+	await Promise.allSettled(promises)
 }

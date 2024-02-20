@@ -28,6 +28,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -57,6 +58,8 @@ class ImageManagerTest extends TestCase {
 	private $tempManager;
 	/** @var ISimpleFolder|MockObject */
 	private $rootFolder;
+	/** @var BackgroundService|MockObject */
+	private $backgroundService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,13 +70,15 @@ class ImageManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->rootFolder = $this->createMock(ISimpleFolder::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 		$this->imageManager = new ImageManager(
 			$this->config,
 			$this->appData,
 			$this->urlGenerator,
 			$this->cacheFactory,
 			$this->logger,
-			$this->tempManager
+			$this->tempManager,
+			$this->backgroundService,
 		);
 		$this->appData
 			->expects($this->any())

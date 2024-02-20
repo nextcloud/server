@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,10 +29,12 @@ namespace OCA\Theming\Themes;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 
 trait CommonThemeTrait {
 	public Util $util;
+	public ThemingDefaults $themingDefaults;
 
 	/**
 	 * Generate primary-related variables
@@ -58,7 +61,6 @@ trait CommonThemeTrait {
 			'--primary-invert-if-dark' => $this->util->invertTextColor($colorPrimaryElement) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
-			'--color-primary-default' => $this->defaultPrimaryColor,
 			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
 			'--color-primary-light' => $colorPrimaryLight,
@@ -88,34 +90,33 @@ trait CommonThemeTrait {
 	protected function generateGlobalBackgroundVariables(): array {
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		$hasCustomLogoHeader = $this->util->isLogoThemed();
-		$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
-
-		$variables = [];
+		$backgroundColor = $this->themingDefaults->getColorBackground();
 
 		// Default last fallback values
-		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
-		$variables['--color-background-plain'] = $this->primaryColor;
+		$variables = [
+			'--color-background-plain' => $backgroundColor,
+			'--color-background-plain-text' => $this->util->invertTextColor($backgroundColor) ? '#000000' : '#ffffff',
+			'--background-image-invert-if-bright' => $this->util->invertTextColor($backgroundColor) ? 'invert(100%)' : 'no',
+		];
 
 		// Register image variables only if custom-defined
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
-				// --image-background is overridden by user theming if logged in
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
+			} elseif ($image === 'background') {
+				// Apply default background if nothing is configured
+				$variables['--image-background'] = "url('" . $this->themingDefaults->getBackground() . "')";
 			}
 		}
 
-		// If primary as background has been request or if we have a custom primary colour
-		// let's not define the background image
+		// If a background has been requested let's not define the background image
 		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->primaryColor;
-			$variables['--image-background-plain'] = 'yes';
-			$variables['--image-background'] = 'no';
-			// If no background image is set, we need to check against the shown primary colour
-			$variables['--background-image-invert-if-bright'] = $isPrimaryBright ? 'invert(100%)' : 'no';
+			$variables['--image-background'] = 'none';
 		}
 
 		if ($hasCustomLogoHeader) {
+			// prevent inverting the logo on bright colors if customized
 			$variables['--image-logoheader-custom'] = 'true';
 		}
 
@@ -130,48 +131,37 @@ trait CommonThemeTrait {
 		if ($user !== null
 			&& !$this->themingDefaults->isUserThemingDisabled()
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
-			$adminBackgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
-			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
-			$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
+			$backgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', $this->themingDefaults->getColorBackground());
 
-			// The user removed the background
-			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
-				return [
-					// Might be defined already by admin theming, needs to be overridden
-					'--image-background' => 'none',
-					'--color-background-plain' => $this->primaryColor,
-					// If no background image is set, we need to check against the shown primary colour
-					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
-				];
+			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
+			$isBackgroundBright = $this->util->invertTextColor($backgroundColor);
+			$backgroundTextColor = $this->util->invertTextColor($backgroundColor) ? '#000000' : '#ffffff';
+
+			$variables = [
+				'--color-background-plain' => $backgroundColor,
+				'--color-background-plain-text' => $backgroundTextColor,
+				'--background-image-invert-if-bright' => $isBackgroundBright ? 'invert(100%)' : 'no',
+			];
+
+			// Only use a background color without an image
+			if ($backgroundImage === BackgroundService::BACKGROUND_COLOR) {
+				// Might be defined already by admin theming, needs to be overridden
+				$variables['--image-background'] = 'none';
 			}
 
 			// The user uploaded a custom background
 			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {
 				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
-				return [
-					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
-					'--color-background-plain' => $this->primaryColor,
-				];
-			}
-
-			// The user is using the default background and admin removed the background image
-			if ($backgroundImage === BackgroundService::BACKGROUND_DEFAULT && $adminBackgroundDeleted) {
-				return [
-					// --image-background is not defined in this case
-					'--color-background-plain' => $this->primaryColor,
-					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
-				];
+				$variables['--image-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')";
 			}
 
 			// The user picked a shipped background
 			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
-				return [
-					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
-					'--color-background-plain' => $this->primaryColor,
-					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
-				];
+				$variables['--image-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')";
 			}
+
+			return $variables;
 		}
 
 		return [];

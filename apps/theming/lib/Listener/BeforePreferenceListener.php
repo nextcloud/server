@@ -55,14 +55,24 @@ class BeforePreferenceListener implements IEventListener {
 	}
 
 	private function handleThemingValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
-		if ($event->getConfigKey() !== 'shortcuts_disabled') {
+		$allowedKeys = ['shortcuts_disabled', 'primary_color'];
+
+		if (!in_array($event->getConfigKey(), $allowedKeys)) {
 			// Not allowed config key
 			return;
 		}
 
 		if ($event instanceof BeforePreferenceSetEvent) {
-			$event->setValid($event->getConfigValue() === 'yes');
-			return;
+			switch ($event->getConfigKey()) {
+				case 'shortcuts_disabled':
+					$event->setValid($event->getConfigValue() === 'yes');
+					break;
+				case 'primary_color':
+					$event->setValid(preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $event->getConfigValue()) === 1);
+					break;
+				default:
+					$event->setValid(false);
+			}
 		}
 
 		$event->setValid(true);

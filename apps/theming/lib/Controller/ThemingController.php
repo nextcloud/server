@@ -50,13 +50,11 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
 use ScssPhp\ScssPhp\Compiler;
 
@@ -73,8 +71,6 @@ class ThemingController extends Controller {
 	private ThemingDefaults $themingDefaults;
 	private IL10N $l10n;
 	private IConfig $config;
-	private ITempManager $tempManager;
-	private IAppData $appData;
 	private IURLGenerator $urlGenerator;
 	private IAppManager $appManager;
 	private ImageManager $imageManager;
@@ -86,8 +82,6 @@ class ThemingController extends Controller {
 		IConfig $config,
 		ThemingDefaults $themingDefaults,
 		IL10N $l,
-		ITempManager $tempManager,
-		IAppData $appData,
 		IURLGenerator $urlGenerator,
 		IAppManager $appManager,
 		ImageManager $imageManager,
@@ -98,8 +92,6 @@ class ThemingController extends Controller {
 		$this->themingDefaults = $themingDefaults;
 		$this->l10n = $l;
 		$this->config = $config;
-		$this->tempManager = $tempManager;
-		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->appManager = $appManager;
 		$this->imageManager = $imageManager;
@@ -151,7 +143,12 @@ class ThemingController extends Controller {
 					$error = $this->l10n->t('The given slogan is too long');
 				}
 				break;
-			case 'color':
+			case 'primary_color':
+				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+					$error = $this->l10n->t('The given color is invalid');
+				}
+				break;
+			case 'background_color':
 				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
 					$error = $this->l10n->t('The given color is invalid');
 				}

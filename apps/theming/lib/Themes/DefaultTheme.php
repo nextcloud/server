@@ -27,7 +27,6 @@ namespace OCA\Theming\Themes;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -70,11 +69,6 @@ class DefaultTheme implements ITheme {
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
-
-		// Override primary colors (if set) to improve accessibility
-		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
-			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 	}
 
 	public function getId(): string {

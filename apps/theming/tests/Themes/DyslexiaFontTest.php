@@ -94,6 +94,16 @@ class DyslexiaFontTest extends TestCase {
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
+			->willReturn('#0082c9');
+
 		$this->l10n
 			->expects($this->any())
 			->method('t')

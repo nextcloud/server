@@ -93,7 +93,7 @@ class Util {
 			$contrast = $this->colorContrast($color, $blurredBackground);
 
 			// Min. element contrast is 3:1 but we need to keep hover states in mind -> min 3.2:1
-			$minContrast = $highContrast ? 5.5 : 3.2;
+			$minContrast = $highContrast ? 5.6 : 3.2;
 
 			while ($contrast < $minContrast && $iteration++ < 100) {
 				$hsl = Color::hexToHsl($color);
