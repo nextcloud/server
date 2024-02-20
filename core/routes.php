@@ -123,6 +123,7 @@ $application->registerRoutes($this, [
 		['root' => '/core', 'name' => 'AppPassword#getAppPassword', 'url' => '/getapppassword', 'verb' => 'GET'],
 		['root' => '/core', 'name' => 'AppPassword#rotateAppPassword', 'url' => '/apppassword/rotate', 'verb' => 'POST'],
 		['root' => '/core', 'name' => 'AppPassword#deleteAppPassword', 'url' => '/apppassword', 'verb' => 'DELETE'],
+		['root' => '/core', 'name' => 'AppPassword#confirmUserPassword', 'url' => '/apppassword/confirm', 'verb' => 'PUT'],
 
 		['root' => '/hovercard', 'name' => 'HoverCard#getUser', 'url' => '/v1/{userId}', 'verb' => 'GET'],
 
