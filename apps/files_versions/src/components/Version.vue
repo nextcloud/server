@@ -46,7 +46,7 @@
 			</div>
 		</template>
 		<template #actions>
-			<NcActionButton v-if="enableLabeling"
+			<NcActionButton v-if="enableLabeling && hasUpdatePermissions"
 				:close-after-click="true"
 				@click="labelUpdate">
 				<template #icon>
@@ -62,7 +62,7 @@
 				</template>
 				{{ t('files_versions', 'Compare to current version') }}
 			</NcActionButton>
-			<NcActionButton v-if="!isCurrent"
+			<NcActionButton v-if="!isCurrent && hasUpdatePermissions"
 				:close-after-click="true"
 				@click="restoreVersion">
 				<template #icon>
@@ -70,7 +70,8 @@
 				</template>
 				{{ t('files_versions', 'Restore version') }}
 			</NcActionButton>
-			<NcActionLink :href="downloadURL"
+			<NcActionLink v-if="isDownloadable"
+				:href="downloadURL"
 				:close-after-click="true"
 				:download="downloadURL">
 				<template #icon>
@@ -78,7 +79,7 @@
 				</template>
 				{{ t('files_versions', 'Download version') }}
 			</NcActionLink>
-			<NcActionButton v-if="!isCurrent && enableDeletion"
+			<NcActionButton v-if="!isCurrent && enableDeletion && hasDeletePermissions"
 				:close-after-click="true"
 				@click="deleteVersion">
 				<template #icon>
@@ -106,6 +107,9 @@ import { translate as t } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
+import { Permission } from '@nextcloud/files'
+
+import { hasPermissions } from '../../../files_sharing/src/lib/SharePermissionsToolBox.js'
 
 export default {
 	name: 'Version',
@@ -223,6 +227,33 @@ export default {
 		/** @return {boolean} */
 		enableDeletion() {
 			return this.capabilities.files.version_deletion === true
+		},
+
+		/** @return {boolean} */
+		hasDeletePermissions() {
+			return hasPermissions(this.fileInfo.permissions, Permission.DELETE)
+		},
+
+		/** @return {boolean} */
+		hasUpdatePermissions() {
+			return hasPermissions(this.fileInfo.permissions, Permission.UPDATE)
+		},
+
+		/** @return {boolean} */
+		isDownloadable() {
+			if ((this.fileInfo.permissions & Permission.READ) === 0) {
+				return false
+			}
+
+			// If the mount type is a share, ensure it got download permissions.
+			if (this.fileInfo.mountType === 'shared') {
+				const downloadAttribute = this.fileInfo.shareAttributes.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download')
+				if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
+					return false
+				}
+			}
+
+			return true
 		},
 	},
 	methods: {
