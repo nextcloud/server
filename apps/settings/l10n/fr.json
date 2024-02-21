@@ -243,6 +243,7 @@
     "Allow resharing" : "Autoriser le repartage",
     "Allow sharing with groups" : "Autoriser le partage avec les groupes",
     "Restrict users to only share with users in their groups" : "N'autoriser les partages qu'entre membres de mêmes groupes",
+    "Ignore the following groups when checking group membership" : "Ignorer ces groupes lors de la vérification de l'appartenance des comptes aux groupes",
     "Allow users to share via link and emails" : "Autoriser les utilisateurs à partager par lien et par e-mail",
     "Allow public uploads" : "Autoriser les téléversements publics",
     "Always ask for a password" : "Toujours demander un mot de passe",
