@@ -176,7 +176,15 @@ updates:
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
+    interval: monthly
     timezone: Europe/Paris
+  groups:
+    github-actions:
+      patterns:
+        - "*"
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
