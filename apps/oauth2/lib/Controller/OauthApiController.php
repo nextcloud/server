@@ -41,11 +41,11 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\DB\Exception;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
-use OCP\IUserSession;
 
 class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
