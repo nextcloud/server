@@ -115,13 +115,15 @@
 					<NcActionButton v-for="channel in channelList"
 						:key="channel.value"
 						:disabled="channel.disabled"
-						:icon="channel.icon"
 						:name="channel.text"
 						:value="channel.value"
 						:model-value="currentChannel"
 						type="radio"
 						close-after-click
 						@update:modelValue="changeReleaseChannel">
+						<template #icon>
+							<component :is="channel.icon" :size="20" />
+						</template>
 						{{ channel.longtext }}
 					</NcActionButton>
 				</template>
@@ -169,8 +171,14 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import IconChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import IconCloudCheckVariant from 'vue-material-design-icons/CloudCheckVariant.vue'
 import IconLink from 'vue-material-design-icons/Link.vue'
 import IconNewBox from 'vue-material-design-icons/NewBox.vue'
+import IconPencil from 'vue-material-design-icons/Pencil.vue'
+import IconSourceBranch from 'vue-material-design-icons/SourceBranch.vue'
+import IconStar from 'vue-material-design-icons/Star.vue'
+import IconWeatherNight from 'vue-material-design-icons/WeatherNight.vue'
+import IconWrench from 'vue-material-design-icons/Wrench.vue'
 import debounce from 'debounce'
 
 const logger = getLoggerBuilder()
@@ -192,6 +200,7 @@ export default {
 		NcSelect,
 		NcSettingsSection,
 	},
+
 	data() {
 		return {
 			loadingGroups: false,
@@ -269,7 +278,7 @@ export default {
 			channelList.push({
 				text: t('updatenotification', 'Enterprise'),
 				longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.'),
-				icon: 'icon-star',
+				icon: IconStar,
 				active: this.currentChannel === 'enterprise',
 				disabled: !this.hasValidSubscription,
 				value: 'enterprise',
@@ -278,21 +287,25 @@ export default {
 			channelList.push({
 				text: t('updatenotification', 'Stable'),
 				longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
-				icon: 'icon-checkmark',
+				icon: IconCloudCheckVariant,
 				value: 'stable',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Beta'),
 				longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
-				icon: 'icon-category-customization',
+				icon: IconWrench,
 				value: 'beta',
 			})
 
 			if (this.isNonDefaultChannel(this.currentChannel)) {
+				const nonDefaultIcons = {
+					daily: IconWeatherNight,
+					git: IconSourceBranch,
+				}
 				channelList.push({
 					text: this.currentChannel,
-					icon: 'icon-rename',
+					icon: nonDefaultIcons[this.currentChannel] || IconPencil,
 					value: this.currentChannel,
 				})
 			}
@@ -498,11 +511,6 @@ export default {
 </style>
 <style lang="scss">
 #updatenotification {
-	/* override needed to replace yellow hover state with a dark one */
-	.update-menu .icon-star:hover,
-	.update-menu .icon-star:focus {
-		background-image: var(--icon-starred);
-	}
 	/* override NcSelect styling so that label can have correct width */
 	#notify-members-settings-select-wrapper {
 		width: fit-content;
