@@ -85,7 +85,11 @@
 			</template>
 			<template v-else>
 				{{ t('updatenotification', 'Your version is up to date.') }}
-				<a :title="lastCheckedOnString" :aria-label="lastCheckedOnString" href="https://nextcloud.com/changelog/" class="icon-info details" target="_blank"></a>
+				<a :title="lastCheckedOnString"
+					:aria-label="lastCheckedOnString"
+					href="https://nextcloud.com/changelog/"
+					class="icon-info details"
+					target="_blank" />
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -131,8 +135,8 @@
 			<em v-html="noteDelayedStableString" />
 		</p>
 
-		<NcSelect v-model="notifyGroups"
-			id="notify-members-settings-select-wrapper"
+		<NcSelect id="notify-members-settings-select-wrapper"
+			v-model="notifyGroups"
 			:input-label="t('updatenotification', 'Notify members of the following groups about available updates:')"
 			:options="groups"
 			:multiple="true"
@@ -320,7 +324,7 @@ export default {
 	},
 
 	watch: {
-		notifyGroups(selectedOptions) {
+		notifyGroups() {
 			if (!this.enableChangeWatcher) {
 				// The first time is when loading the app
 				this.enableChangeWatcher = true
