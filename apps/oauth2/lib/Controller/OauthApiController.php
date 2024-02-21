@@ -237,12 +237,23 @@ class OauthApiController extends Controller {
 	 */
 	public function getUserInfo() {
 		$user = $this->userSession->getUser();
-		$displayname = explode(' ', $user->getDisplayName());
-		return new JSONResponse([
-			'sub' => $user->getUID(),
-			'given_name' => $displayname[0],
-			'family_name' => $displayname[1] ? $displayname[1] : $displayname[0],
-			'email' => $user->getEMailAddress()
-		]);
+		if ($user) {
+			$displayName = $user->getDisplayName();
+			$partedName = explode(' ', $displayName);
+			$userId = $user->getUID();
+			$response = new JSONResponse([
+				'sub' => $userId,
+				'name' => $displayName,
+				'given_name' => $partedName[0],
+				'family_name' => $partedName[1] ?? $partedName[0],
+				'email' => $user->getEMailAddress(),
+				'picture' => \OC::$server->getURLGenerator()->getAbsoluteURL("index.php/avatar/$userId/512"),
+			]);
+		}else{
+			$response = new JSONResponse([
+				'error' => 'user_not_found',
+			], Http::STATUS_NOT_FOUND);
+		}
+		return $response;
 	}
 }
