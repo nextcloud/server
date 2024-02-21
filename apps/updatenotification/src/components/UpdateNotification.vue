@@ -112,18 +112,16 @@
 					<IconChevronDown :size="20" />
 				</template>
 				<template #default>
-					<!-- TODO use NcActionRadio if it provides long text, e.g. subtitle -->
-					<NcActionButton v-for="channel,index in channelList"
-						:key="index"
-						:aria-checked="channel.active ? 'true' : 'false'"
-						:aria-label="channel.text"
-						:disabled="!!channel.disabled"
+					<NcActionButton v-for="channel in channelList"
+						:key="channel.value"
+						:disabled="channel.disabled"
 						:icon="channel.icon"
 						:name="channel.text"
-						class="update-channel-action"
+						:value="channel.value"
+						:model-value="currentChannel"
+						type="radio"
 						close-after-click
-						role="menuitemradio"
-						@click="channel.action">
+						@update:modelValue="changeReleaseChannel">
 						{{ channel.longtext }}
 					</NcActionButton>
 				</template>
@@ -274,39 +272,32 @@ export default {
 				icon: 'icon-star',
 				active: this.currentChannel === 'enterprise',
 				disabled: !this.hasValidSubscription,
-				action: this.changeReleaseChannelToEnterprise,
+				value: 'enterprise',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Stable'),
 				longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
 				icon: 'icon-checkmark',
-				active: this.currentChannel === 'stable',
-				action: this.changeReleaseChannelToStable,
+				value: 'stable',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Beta'),
 				longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
 				icon: 'icon-category-customization',
-				active: this.currentChannel === 'beta',
-				action: this.changeReleaseChannelToBeta,
+				value: 'beta',
 			})
 
-			if (this.isNonDefaultChannel) {
+			if (this.isNonDefaultChannel(this.currentChannel)) {
 				channelList.push({
 					text: this.currentChannel,
 					icon: 'icon-rename',
-					active: true,
-					action: () => {},
+					value: this.currentChannel,
 				})
 			}
 
 			return channelList
-		},
-
-		isNonDefaultChannel() {
-			return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta'
 		},
 
 		localizedChannelName() {
@@ -433,16 +424,16 @@ export default {
 					form.submit()
 				})
 		},
-		changeReleaseChannelToEnterprise() {
-			this.changeReleaseChannel('enterprise')
+
+		isNonDefaultChannel(channel) {
+			return !['enterprise', 'stable', 'beta'].includes(channel)
 		},
-		changeReleaseChannelToStable() {
-			this.changeReleaseChannel('stable')
-		},
-		changeReleaseChannelToBeta() {
-			this.changeReleaseChannel('beta')
-		},
+
 		changeReleaseChannel(channel) {
+			if (this.isNonDefaultChannel(channel)) {
+				return
+			}
+
 			this.currentChannel = channel
 
 			axios.post(generateUrl('/apps/updatenotification/channel'), {
@@ -503,46 +494,9 @@ export default {
 		.applist {
 			margin-bottom: 25px;
 		}
-
-		.update-menu {
-			position: relative;
-			cursor: pointer;
-			margin-left: 3px;
-			display: inline-block;
-			padding: 10px;
-			border-radius: 10px;
-			border: 2px solid var(--color-border-dark);
-			.icon-update-menu {
-				cursor: inherit;
-				.icon-triangle-s {
-					display: inline-block;
-					vertical-align: middle;
-					cursor: inherit;
-					opacity: 1;
-				}
-			}
-		}
 	}
 </style>
 <style lang="scss">
-// Make current selected update channel visually visible, remove if NcActionRadio is used
-.update-channel-action[aria-checked=true] {
-	border-inline-start: 4px solid var(--color-primary-element);
-
-	&:hover, &:focus-within {
-		background-color: var(--color-primary-element-light-hover);
-	}
-
-	button {
-		background-color: var(--color-primary-element-light);
-		color: var(--color-primary-element-light-text);
-	}
-}
-// Ensure outline for focus-visible works even with background color of selected channel
-.update-channel-action[aria-checked] {
-	margin-block: 2px;
-}
-
 #updatenotification {
 	/* override needed to replace yellow hover state with a dark one */
 	.update-menu .icon-star:hover,
