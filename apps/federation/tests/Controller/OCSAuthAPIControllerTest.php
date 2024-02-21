@@ -33,6 +33,7 @@ use OCA\Federation\TrustedServers;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -60,6 +61,9 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IThrottler */
+	private $throttler;
+
 	private OCSAuthAPIController $ocsAuthApi;
 
 	/** @var int simulated timestamp */
@@ -75,6 +79,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$this->jobList = $this->createMock(JobList::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->ocsAuthApi = new OCSAuthAPIController(
 			'federation',
@@ -84,7 +89,8 @@ class OCSAuthAPIControllerTest extends TestCase {
 			$this->trustedServers,
 			$this->dbHandler,
 			$this->logger,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->throttler
 		);
 
 		$this->timeFactory->method('getTime')
@@ -109,7 +115,13 @@ class OCSAuthAPIControllerTest extends TestCase {
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 			$this->jobList->expects($this->never())->method('remove');
+			if (!$isTrustedServer) {
+				$this->throttler->expects($this->once())
+					->method('registerAttempt')
+					->with('federationSharedSecret');
+			}
 		}
+
 
 		try {
 			$this->ocsAuthApi->requestSharedSecret($url, $token);
@@ -145,7 +157,8 @@ class OCSAuthAPIControllerTest extends TestCase {
 					$this->trustedServers,
 					$this->dbHandler,
 					$this->logger,
-					$this->timeFactory
+					$this->timeFactory,
+					$this->throttler
 				]
 			)->setMethods(['isValidToken'])->getMock();
 
@@ -163,6 +176,9 @@ class OCSAuthAPIControllerTest extends TestCase {
 		} else {
 			$this->secureRandom->expects($this->never())->method('generate');
 			$this->trustedServers->expects($this->never())->method('addSharedSecret');
+			$this->throttler->expects($this->once())
+				->method('registerAttempt')
+				->with('federationSharedSecret');
 		}
 
 		try {
