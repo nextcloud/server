@@ -87,6 +87,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->willReturn($userId);
 
 		$this->plugin = new \OCA\DAV\DAV\CustomPropertiesBackend(
+			$this->server,
 			$this->tree,
 			\OC::$server->getDatabaseConnection(),
 			$this->user

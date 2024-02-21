@@ -260,6 +260,7 @@ class Principal implements BackendInterface {
 	 * @return int
 	 */
 	public function updatePrincipal($path, PropPatch $propPatch) {
+		// Updating schedule-default-calendar-URL is handled in CustomPropertiesBackend
 		return 0;
 	}
 
