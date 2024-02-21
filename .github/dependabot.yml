@@ -178,6 +178,10 @@ updates:
   schedule:
     interval: monthly
     timezone: Europe/Paris
+  groups:
+    github-actions:
+      patterns:
+        - "*"
   labels:
     - "3. to review"
     - "feature: dependencies"
