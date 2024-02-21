@@ -228,6 +228,10 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 	}
 
 	public function setVersionLabel(IVersion $version, string $label): void {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot label this version because you do not have update permissions on the source file.');
+		}
+
 		$versionEntity = $this->versionsMapper->findVersionForFileId(
 			$version->getSourceFile()->getId(),
 			$version->getTimestamp(),
