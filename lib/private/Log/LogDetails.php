@@ -106,7 +106,7 @@ abstract class LogDetails {
 			if (is_string($value)) {
 				$testEncode = json_encode($value, JSON_UNESCAPED_SLASHES);
 				if ($testEncode === false) {
-					$entry[$key] = utf8_encode($value);
+					$entry[$key] = mb_convert_encoding($value, 'UTF-8', mb_detect_encoding($value));
 				}
 			}
 		}

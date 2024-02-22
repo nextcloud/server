@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -46,6 +47,7 @@ class UnsupportedBrowserController extends Controller {
 	 *
 	 * @return Response
 	 */
+	#[FrontpageRoute(verb: 'GET', url: 'unsupported')]
 	public function index(): Response {
 		Util::addScript('core', 'unsupported-browser');
 		Util::addStyle('core', 'icons');

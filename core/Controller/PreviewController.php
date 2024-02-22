@@ -30,6 +30,7 @@ namespace OC\Core\Controller;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -74,6 +75,7 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
 	public function getPreview(
 		string $file = '',
 		int $x = 32,
@@ -117,6 +119,7 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	public function getPreviewByFileId(
 		int $fileId = -1,
 		int $x = 32,

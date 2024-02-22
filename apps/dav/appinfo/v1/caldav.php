@@ -69,11 +69,11 @@ $calDavBackend = new CalDavBackend(
 	$db,
 	$principalBackend,
 	$userManager,
-	\OC::$server->getGroupManager(),
 	$random,
 	$logger,
 	$dispatcher,
 	$config,
+	OC::$server->get(\OCA\DAV\CalDAV\Sharing\Backend::class),
 	true
 );
 

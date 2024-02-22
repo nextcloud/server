@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Bu seçenek etkinleştirildiğinde, ana depolama alanındaki tüm dosyalar şifrelenir. Devre dışı bırakıldığında yalnızca dış depolama alanındaki dosyalar şifrelenir",
     "Enable recovery key" : "Kurtarma anahtarını etkinleştir",
     "Disable recovery key" : "Kurtarma anahtarını devre dışı bırak",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Kurtarma anahtarı, dosyaları şifrelemek için kullanılan ek bir şifreleme anahtarıdır. Parolanın unutulması durumunda hesaptaki dosyaları kurtarmak için kullanılır.",
     "Recovery key password" : "Kurtarma anahtarı parolası",
     "Repeat recovery key password" : "Kurtarma anahtarı parolası onayı",
     "Change recovery key password:" : "Kurtarma anahtarı parolasını değiştir:",

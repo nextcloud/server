@@ -42,8 +42,8 @@ namespace OCA\DAV\CalDAV;
 use DateTime;
 use DateTimeInterface;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Events\CachedCalendarObjectCreatedEvent;
 use OCA\DAV\Events\CachedCalendarObjectDeletedEvent;
@@ -72,7 +72,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -208,7 +207,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	protected array $userDisplayNames;
 
-	private Backend $calendarSharingBackend;
 	private string $dbObjectPropertiesTable = 'calendarobjects_props';
 	private array $cachedObjects = [];
 
@@ -216,14 +214,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private IDBConnection $db,
 		private Principal $principalBackend,
 		private IUserManager $userManager,
-		IGroupManager $groupManager,
 		private ISecureRandom $random,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
 		private IConfig $config,
+		private Sharing\Backend $calendarSharingBackend,
 		private bool $legacyEndpoint = false,
 	) {
-		$this->calendarSharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'calendar');
 	}
 
 	/**
@@ -361,10 +358,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			// query for shared calendars
 			$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
 			$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
-
 			$principals[] = $principalUri;
 
 			$fields = array_column($this->propertyMap, 0);
+			$fields = array_map(function (string $field) {
+				return 'a.'.$field;
+			}, $fields);
 			$fields[] = 'a.id';
 			$fields[] = 'a.uri';
 			$fields[] = 'a.synctoken';
@@ -372,19 +371,26 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$fields[] = 'a.principaluri';
 			$fields[] = 'a.transparent';
 			$fields[] = 's.access';
-			$query = $this->db->getQueryBuilder();
-			$query->select($fields)
-				->from('dav_shares', 's')
-				->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
-				->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
-				->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
-				->setParameter('type', 'calendar')
-				->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 
-			$result = $query->executeQuery();
+			$select = $this->db->getQueryBuilder();
+			$subSelect = $this->db->getQueryBuilder();
+
+			$subSelect->select('resourceid')
+				->from('dav_shares', 'd')
+				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
+				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
+
+			$select->select($fields)
+				->from('dav_shares', 's')
+				->join('s', 'calendars', 'a', $select->expr()->eq('s.resourceid', 'a.id', IQueryBuilder::PARAM_INT))
+				->where($select->expr()->in('s.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY))
+				->andWhere($select->expr()->eq('s.type', $select->createNamedParameter('calendar', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+				->andWhere($select->expr()->notIn('a.id', $select->createFunction($subSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY));
+
+			$results = $select->executeQuery();
 
 			$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
-			while ($row = $result->fetch()) {
+			while ($row = $results->fetch()) {
 				$row['principaluri'] = (string) $row['principaluri'];
 				if ($row['principaluri'] === $principalUri) {
 					continue;
@@ -393,7 +399,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$readOnly = (int) $row['access'] === Backend::ACCESS_READ;
 				if (isset($calendars[$row['id']])) {
 					if ($readOnly) {
-						// New share can not have more permissions then the old one.
+						// New share can not have more permissions than the old one.
 						continue;
 					}
 					if (isset($calendars[$row['id']][$readOnlyPropertyName]) &&
@@ -2891,7 +2897,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 			$oldShares = $this->getShares($calendarId);
 
-			$this->calendarSharingBackend->updateShares($shareable, $add, $remove);
+			$this->calendarSharingBackend->updateShares($shareable, $add, $remove, $oldShares);
 
 			$this->dispatcher->dispatchTyped(new CalendarShareUpdatedEvent($calendarId, $calendarRow, $oldShares, $add, $remove));
 		}, $this->db);
@@ -2967,7 +2973,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return list<array{privilege: string, principal: string, protected: bool}>
 	 */
 	public function applyShareAcl(int $resourceId, array $acl): array {
-		return $this->calendarSharingBackend->applyShareAcl($resourceId, $acl);
+		$shares = $this->calendarSharingBackend->getShares($resourceId);
+		return $this->calendarSharingBackend->applyShareAcl($shares, $acl);
 	}
 
 	/**

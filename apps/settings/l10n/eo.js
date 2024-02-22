@@ -195,6 +195,7 @@ OC.L10N.register(
     "Details" : "Detaloj",
     "You are a member of the following groups:" : "Vi estas membro el la jenaj grupoj:",
     "No email address set" : "Neniu retpoŝta adreso agordita",
+    "Languages" : "Lingvoj",
     "Help translate" : "Helpu traduki",
     "No language set" : "Neniu lingvo agordita",
     "Your phone number" : "Via telefonnumero",

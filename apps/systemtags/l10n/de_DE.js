@@ -42,6 +42,8 @@ OC.L10N.register(
     "All tagged %s …" : "Alle Schlagwort %s hinzugefügt ....",
     "tagged %s" : "Schlagwort %s hinzugefügt",
     "Collaborative tags" : "Kollaborative Schlagworte",
+    "Collaborative tagging functionality which shares tags among people." : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Personen teilt. Sehr gut für Gruppen.\n\t(Wenn Sie ein Anbieter mit einer Mehrkundeninstallation sind, so ist angeraten diese App zu deaktivieren, da die Schlagworte mit allen Kunden geteilt werden.)",
     "Create or edit tags" : "Schlagworte erstellen oder bearbeiten",
     "Search for a tag to edit" : "Nach einem Schlagwort zum Bearbeiten suchen",
     "Collaborative tags …" : "Kollaborative Schlagworte ...",

@@ -37,8 +37,12 @@ use OCP\FilesMetadata\IMetadataQuery;
 
 /**
  * Tools for transforming search queries into database queries
+ *
+ * @psalm-import-type ParamSingleValue from ISearchComparison
+ * @psalm-import-type ParamValue from ISearchComparison
  */
 class SearchBuilder {
+	/** @var array<string, string> */
 	protected static $searchOperatorMap = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'like',
@@ -48,8 +52,10 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_LESS_THAN => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte',
 		ISearchComparison::COMPARE_DEFINED => 'isNotNull',
+		ISearchComparison::COMPARE_IN => 'in',
 	];
 
+	/** @var array<string, string> */
 	protected static $searchOperatorNegativeMap = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'notLike',
@@ -59,6 +65,38 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_LESS_THAN => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'gt',
 		ISearchComparison::COMPARE_DEFINED => 'isNull',
+		ISearchComparison::COMPARE_IN => 'notIn',
+	];
+
+	/** @var array<string, string> */
+	protected static $fieldTypes = [
+		'mimetype' => 'string',
+		'mtime' => 'integer',
+		'name' => 'string',
+		'path' => 'string',
+		'size' => 'integer',
+		'tagname' => 'string',
+		'systemtag' => 'string',
+		'favorite' => 'boolean',
+		'fileid' => 'integer',
+		'storage' => 'integer',
+		'share_with' => 'string',
+		'share_type' => 'integer',
+		'owner' => 'string',
+	];
+
+	/** @var array<string, int> */
+	protected static $paramTypeMap = [
+		'string' => IQueryBuilder::PARAM_STR,
+		'integer' => IQueryBuilder::PARAM_INT,
+		'boolean' => IQueryBuilder::PARAM_BOOL,
+	];
+
+	/** @var array<string, int> */
+	protected static $paramArrayTypeMap = [
+		'string' => IQueryBuilder::PARAM_STR_ARRAY,
+		'integer' => IQueryBuilder::PARAM_INT_ARRAY,
+		'boolean' => IQueryBuilder::PARAM_INT_ARRAY,
 	];
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
@@ -142,31 +180,56 @@ class SearchBuilder {
 		?IMetadataQuery $metadataQuery = null
 	) {
 		if ($comparison->getExtra()) {
-			[$field, $value, $type] = $this->getExtraOperatorField($comparison, $metadataQuery);
+			[$field, $value, $type, $paramType] = $this->getExtraOperatorField($comparison, $metadataQuery);
 		} else {
-			[$field, $value, $type] = $this->getOperatorFieldAndValue($comparison);
+			[$field, $value, $type, $paramType] = $this->getOperatorFieldAndValue($comparison);
 		}
 
 		if (isset($operatorMap[$type])) {
 			$queryOperator = $operatorMap[$type];
-			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value));
+			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value, $paramType));
 		} else {
 			throw new \InvalidArgumentException('Invalid operator type: ' . $comparison->getType());
 		}
 	}
 
-	private function getOperatorFieldAndValue(ISearchComparison $operator) {
+	/**
+	 * @param ISearchComparison $operator
+	 * @return list{string, ParamValue, string, string}
+	 */
+	private function getOperatorFieldAndValue(ISearchComparison $operator): array {
 		$this->validateComparison($operator);
-
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
+		$pathEqHash = $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true);
+		return $this->getOperatorFieldAndValueInner($field, $value, $type, $pathEqHash);
+	}
 
+	/**
+	 * @param string $field
+	 * @param ParamValue $value
+	 * @param string $type
+	 * @return list{string, ParamValue, string, string}
+	 */
+	private function getOperatorFieldAndValueInner(string $field, mixed $value, string $type, bool $pathEqHash): array {
+		$paramType = self::$fieldTypes[$field];
+		if ($type === ISearchComparison::COMPARE_IN) {
+			$resultField = $field;
+			$values = [];
+			foreach ($value as $arrayValue) {
+				/** @var ParamSingleValue $arrayValue */
+				[$arrayField, $arrayValue] = $this->getOperatorFieldAndValueInner($field, $arrayValue, ISearchComparison::COMPARE_EQUAL, $pathEqHash);
+				$resultField = $arrayField;
+				$values[] = $arrayValue;
+			}
+			return [$resultField, $values, ISearchComparison::COMPARE_IN, $paramType];
+		}
 		if ($field === 'mimetype') {
 			$value = (string)$value;
-			if ($operator->getType() === ISearchComparison::COMPARE_EQUAL) {
+			if ($type === ISearchComparison::COMPARE_EQUAL) {
 				$value = (int)$this->mimetypeLoader->getId($value);
-			} elseif ($operator->getType() === ISearchComparison::COMPARE_LIKE) {
+			} elseif ($type === ISearchComparison::COMPARE_LIKE) {
 				// transform "mimetype='foo/%'" to "mimepart='foo'"
 				if (preg_match('|(.+)/%|', $value, $matches)) {
 					$field = 'mimepart';
@@ -183,6 +246,7 @@ class SearchBuilder {
 		} elseif ($field === 'favorite') {
 			$field = 'tag.category';
 			$value = self::TAG_FAVORITE;
+			$paramType = 'string';
 		} elseif ($field === 'name') {
 			$field = 'file.name';
 		} elseif ($field === 'tagname') {
@@ -191,53 +255,49 @@ class SearchBuilder {
 			$field = 'systemtag.name';
 		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
-		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true)) {
+		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $pathEqHash) {
 			$field = 'path_hash';
 			$value = md5((string)$value);
 		} elseif ($field === 'owner') {
 			$field = 'uid_owner';
 		}
-		return [$field, $value, $type];
+		return [$field, $value, $type, $paramType];
 	}
 
 	private function validateComparison(ISearchComparison $operator) {
-		$types = [
-			'mimetype' => 'string',
-			'mtime' => 'integer',
-			'name' => 'string',
-			'path' => 'string',
-			'size' => 'integer',
-			'tagname' => 'string',
-			'systemtag' => 'string',
-			'favorite' => 'boolean',
-			'fileid' => 'integer',
-			'storage' => 'integer',
-			'share_with' => 'string',
-			'share_type' => 'integer',
-			'owner' => 'string',
-		];
 		$comparisons = [
-			'mimetype' => ['eq', 'like'],
+			'mimetype' => ['eq', 'like', 'in'],
 			'mtime' => ['eq', 'gt', 'lt', 'gte', 'lte'],
-			'name' => ['eq', 'like', 'clike'],
-			'path' => ['eq', 'like', 'clike'],
+			'name' => ['eq', 'like', 'clike', 'in'],
+			'path' => ['eq', 'like', 'clike', 'in'],
 			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'tagname' => ['eq', 'like'],
 			'systemtag' => ['eq', 'like'],
 			'favorite' => ['eq'],
-			'fileid' => ['eq'],
-			'storage' => ['eq'],
+			'fileid' => ['eq', 'in'],
+			'storage' => ['eq', 'in'],
 			'share_with' => ['eq'],
 			'share_type' => ['eq'],
 			'owner' => ['eq'],
 		];
 
-		if (!isset($types[$operator->getField()])) {
+		if (!isset(self::$fieldTypes[$operator->getField()])) {
 			throw new \InvalidArgumentException('Unsupported comparison field ' . $operator->getField());
 		}
-		$type = $types[$operator->getField()];
-		if (gettype($operator->getValue()) !== $type) {
-			throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
+		$type = self::$fieldTypes[$operator->getField()];
+		if ($operator->getType() === ISearchComparison::COMPARE_IN) {
+			if (!is_array($operator->getValue())) {
+				throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
+			}
+			foreach ($operator->getValue() as $arrayValue) {
+				if (gettype($arrayValue) !== $type) {
+					throw new \InvalidArgumentException('Invalid type in array for field ' . $operator->getField());
+				}
+			}
+		} else {
+			if (gettype($operator->getValue()) !== $type) {
+				throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
+			}
 		}
 		if (!in_array($operator->getType(), $comparisons[$operator->getField()])) {
 			throw new \InvalidArgumentException('Unsupported comparison for field  ' . $operator->getField() . ': ' . $operator->getType());
@@ -246,6 +306,7 @@ class SearchBuilder {
 
 
 	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
+		$paramType = self::$fieldTypes[$operator->getField()];
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
@@ -259,17 +320,17 @@ class SearchBuilder {
 				throw new \InvalidArgumentException('Invalid extra type: ' . $operator->getExtra());
 		}
 
-		return [$field, $value, $type];
+		return [$field, $value, $type, $paramType];
 	}
 
-	private function getParameterForValue(IQueryBuilder $builder, $value) {
+	private function getParameterForValue(IQueryBuilder $builder, $value, string $paramType) {
 		if ($value instanceof \DateTime) {
 			$value = $value->getTimestamp();
 		}
-		if (is_numeric($value)) {
-			$type = IQueryBuilder::PARAM_INT;
+		if (is_array($value)) {
+			$type = self::$paramArrayTypeMap[$paramType];
 		} else {
-			$type = IQueryBuilder::PARAM_STR;
+			$type = self::$paramTypeMap[$paramType];
 		}
 		return $builder->createNamedParameter($value, $type);
 	}

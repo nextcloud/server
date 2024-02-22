@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "Saved availability",
     "Failed to save availability" : "Failed to save availability",
     "Availability" : "Availability",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "If you configure your working hours, other people will see when you are out of office when they book a meeting.",
     "Absence" : "Absence",
     "Configure your next absence period." : "Configure your next absence period.",
     "Calendar server" : "Calendar server",
