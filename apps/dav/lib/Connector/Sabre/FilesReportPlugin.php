@@ -408,7 +408,6 @@ class FilesReportPlugin extends ServerPlugin {
 			$responses[] = new Response(
 				rtrim($this->server->getBaseUri(), '/') . $filesUri . $node->getPath(),
 				$result,
-				200
 			);
 		}
 		return $responses;
