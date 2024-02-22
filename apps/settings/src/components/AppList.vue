@@ -140,7 +140,6 @@
 
 <script>
 import AppItem from './AppList/AppItem.vue'
-import PrefixMixin from './PrefixMixin.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
@@ -150,8 +149,7 @@ export default {
 		AppItem,
 		NcButton,
 	},
-	mixins: [PrefixMixin],
-	props: ['category', 'app', 'search'],
+	props: ['category'],
 	computed: {
 		counter() {
 			return this.apps.filter(app => app.update).length
