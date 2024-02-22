@@ -698,4 +698,42 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->assertEquals($size, $pos);
 	}
+
+	public function testMoveFromStorage() {
+		$source = 'foo.txt';
+		$target = 'bar.txt';
+
+		$instance = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$mTime = time() - 400;
+
+		$instance->method('copyFromStorage')
+			->willThrowException(new \Exception('copy'));
+		$instance->expects(static::once())
+			->method('isDeletable')
+			->with($source)
+			->willReturn(true);
+		$instance->expects(static::atLeastOnce())
+			->method('is_dir')
+			->with($source)
+			->willReturn(false);
+		$instance->expects(static::once())
+			->method('fopen')
+			->willReturnCallback(function ($path, $mode) {
+				$temp = \OCP\Server::get(\OCP\ITempManager::class);
+				return fopen($temp->getTemporaryFile(), $mode);
+			});
+		$instance->expects(static::once())
+			->method('unlink')
+			->with($source)
+			->willReturn(true);
+		$instance->expects(static::atLeastOnce())
+			->method('filemtime')
+			->with($source)
+			->willReturn($mTime);
+
+		$this->assertFalse($this->instance->file_exists($target));
+		$this->instance->moveFromStorage($instance, $source, $target);
+		$this->assertTrue($this->instance->file_exists($target));
+		$this->assertEquals($mTime, $this->instance->filemtime($target), 'mtime was not preserved by move');
+	}
 }
