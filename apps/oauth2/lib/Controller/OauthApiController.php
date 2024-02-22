@@ -42,6 +42,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\DB\Exception;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\IURLGenerator;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -64,6 +65,7 @@ class OauthApiController extends Controller {
 		private IThrottler $throttler,
 		private ITimeFactory $timeFactory,
 		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -247,7 +249,7 @@ class OauthApiController extends Controller {
 				'given_name' => $partedName[0],
 				'family_name' => $partedName[1] ?? $partedName[0],
 				'email' => $user->getEMailAddress(),
-				'picture' => \OC::$server->getURLGenerator()->getAbsoluteURL("index.php/avatar/$userId/512"),
+				'picture' => $this->urlGenerator->getAbsoluteURL("index.php/avatar/$userId/512"),
 			]);
 		}else{
 			$response = new JSONResponse([
