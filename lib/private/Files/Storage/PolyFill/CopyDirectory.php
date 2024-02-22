@@ -64,35 +64,37 @@ trait CopyDirectory {
 	 */
 	abstract public function mkdir($path);
 
-	public function copy($source, $target) {
+	/**
+	 * Copy file or folder
+	 *
+	 * @param string $source
+	 * @param string $target
+	 */
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		if ($this->is_dir($source)) {
 			if ($this->file_exists($target)) {
 				$this->unlink($target);
 			}
 			$this->mkdir($target);
-			return $this->copyRecursive($source, $target);
+			return $this->copyRecursive($source, $target, $preserveMtime);
 		} else {
-			return parent::copy($source, $target);
+			return parent::copy($source, $target, $preserveMtime);
 		}
 	}
 
 	/**
 	 * For adapters that don't support copying folders natively
-	 *
-	 * @param $source
-	 * @param $target
-	 * @return bool
 	 */
-	protected function copyRecursive($source, $target) {
+	protected function copyRecursive(string $source, string $target, bool $preserveMtime = false): bool {
 		$dh = $this->opendir($source);
 		$result = true;
 		while ($file = readdir($dh)) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				if ($this->is_dir($source . '/' . $file)) {
 					$this->mkdir($target . '/' . $file);
-					$result = $this->copyRecursive($source . '/' . $file, $target . '/' . $file);
+					$result = $this->copyRecursive($source . '/' . $file, $target . '/' . $file, $preserveMtime);
 				} else {
-					$result = parent::copy($source . '/' . $file, $target . '/' . $file);
+					$result = parent::copy($source . '/' . $file, $target . '/' . $file, $preserveMtime);
 				}
 				if (!$result) {
 					break;
