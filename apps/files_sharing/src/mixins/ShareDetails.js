@@ -1,4 +1,8 @@
+import { Type as ShareTypes } from '@nextcloud/sharing'
+import { getCapabilities } from '@nextcloud/capabilities'
+
 import Share from '../models/Share.js'
+import { getDownloadLimit } from '../services/DownloadLimitService.js'
 
 export default {
 	methods: {
@@ -19,9 +23,19 @@ export default {
 				share = this.mapShareRequestToShareObject(shareRequestObject)
 			}
 
+			const isPublicShare = [
+				ShareTypes.SHARE_TYPE_LINK,
+				ShareTypes.SHARE_TYPE_EMAIL,
+			].includes(share.shareType ?? share.type)
+
+			const downloadLimit = (getCapabilities()?.downloadlimit?.enabled && isPublicShare && this.fileInfo.type === 'file' && share.token)
+				? await getDownloadLimit(share.token)
+				: null
+
 			const shareDetails = {
 				fileInfo: this.fileInfo,
 				share,
+				downloadLimit,
 			}
 
 			this.$emit('open-sharing-details', shareDetails)

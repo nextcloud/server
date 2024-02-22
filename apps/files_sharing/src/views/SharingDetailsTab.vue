@@ -139,6 +139,28 @@
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
 						@input="onExpirationChange" />
+					<template v-if="isDownloadLimitAllowed">
+						<NcCheckboxRadioSwitch :checked.sync="isDownloadLimitEnabled">
+							{{ t('files_sharing', 'Limit downloads') }}
+						</NcCheckboxRadioSwitch>
+						<NcNoteCard v-show="isDownloadLimitEnabled && showRemainingDownloads"
+							class="sharingTabDetailsView__count-note"
+							type="info">
+							{{ n('files_sharing', '1 download remaining', '{count} downloads remaining', remainingDownlaodsCount, { count: remainingDownlaodsCount }) }}
+						</NcNoteCard>
+						<NcTextField v-show="isDownloadLimitEnabled"
+							:label="t('settings', 'Set download limit')"
+							type="number"
+							min="1"
+							:value.sync="downloadLimit"
+							:helper-text="downloadLimitHelperText"
+							:error="Boolean(downloadLimitHelperText)" />
+						<NcNoteCard v-show="isDownloadLimitEnabled && !isNewShare"
+							class="sharingTabDetailsView__reset-note"
+							type="warning">
+							{{ t('files_sharing', 'Setting a new limit will reset the download count') }}
+						</NcNoteCard>
+					</template>
 					<NcCheckboxRadioSwitch v-if="isPublicShare"
 						:disabled="canChangeHideDownload"
 						:checked.sync="share.hideDownload"
@@ -215,9 +237,13 @@
 
 <script>
 import { getLanguage } from '@nextcloud/l10n'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError } from '@nextcloud/dialogs'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
@@ -242,6 +268,7 @@ import Share from '../models/Share.js'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+import { deleteDownloadLimit, setDownloadLimit } from '../services/DownloadLimitService.js'
 
 import {
 	ATOMIC_PERMISSIONS,
@@ -255,6 +282,8 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcInputField,
+		NcTextField,
+		NcNoteCard,
 		NcPasswordField,
 		NcDateTimePickerNative,
 		NcCheckboxRadioSwitch,
@@ -286,6 +315,13 @@ export default {
 			type: Object,
 			required: true,
 		},
+		/**
+		 * @type {import('../services/DownloadLimitService.js').DownloadLimit}
+		 */
+		initialDownloadLimit: {
+			type: Object,
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -299,6 +335,9 @@ export default {
 			isFirstComponentLoad: true,
 			test: false,
 			creating: false,
+			isDownloadLimitEnabled: Boolean(this.initialDownloadLimit?.limit),
+			showRemainingDownloads: typeof this.initialDownloadLimit?.count === 'number',
+			downloadLimit: this.initialDownloadLimit?.limit ?? '',
 		}
 	},
 
@@ -425,6 +464,24 @@ export default {
 				}
 			},
 		},
+
+		isDownloadLimitAllowed() {
+			return getCapabilities()?.downloadlimit?.enabled && this.isPublicShare && this.isFile && this.share.token
+		},
+
+		remainingDownlaodsCount() {
+			return this.initialDownloadLimit?.limit - this.initialDownloadLimit?.count
+		},
+
+		/**
+		 * Is the current share a file ?
+		 *
+		 * @return {boolean}
+		 */
+		isFile() {
+			return this.fileInfo.type === 'file'
+		},
+
 		/**
 		 * Is the current share a folder ?
 		 *
@@ -651,6 +708,30 @@ export default {
 			}
 			return undefined
 		},
+
+		shouldUpdateDownloadLimit() {
+			const isValidLimit = this.isDownloadLimitAllowed
+				&& typeof this.downloadLimit === 'number'
+			if (!isValidLimit) {
+				return false
+			}
+			if (this.isNewShare) {
+				return true
+			}
+			return this.downloadLimit !== this.initialDownloadLimit?.limit
+		},
+
+		shouldDeleteDownloadLimit() {
+			return this.isDownloadLimitAllowed
+				&& Boolean(this.initialDownloadLimit?.limit)
+		},
+
+		downloadLimitHelperText() {
+			if (this.downloadLimit >= 1) {
+				return ''
+			}
+			return t('files_sharing', 'The minimum limit is 1')
+		},
 	},
 	watch: {
 		setCustomPermissions(isChecked) {
@@ -841,8 +922,32 @@ export default {
 				this.queueUpdate(...permissionsAndAttributes)
 			}
 
+			await this.saveDownloadLimit()
+
 			this.$emit('close-sharing-details')
 		},
+
+		async saveDownloadLimit() {
+			// TODO Test
+			if (this.isDownloadLimitEnabled) {
+				if (this.shouldUpdateDownloadLimit) {
+					try {
+						await setDownloadLimit(this.share.token, this.downloadLimit)
+					} catch (error) {
+						showError(t('files_sharing', 'Failed to save download limit'))
+					}
+				}
+				return
+			}
+			if (this.shouldDeleteDownloadLimit) {
+				try {
+					await deleteDownloadLimit(this.share.token)
+				} catch (error) {
+					showError(t('files_sharing', 'Failed to remove download limit'))
+				}
+			}
+		},
+
 		/**
 		 * Process the new share request
 		 *
@@ -1060,6 +1165,14 @@ export default {
 				padding-left: 1.5em;
 			}
 		}
+	}
+
+	&__count-note {
+		margin-top: 4px;
+	}
+
+	&__reset-note {
+		margin-bottom: 8px;
 	}
 
 	&__delete {

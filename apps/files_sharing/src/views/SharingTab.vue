@@ -92,6 +92,7 @@
 		<SharingDetailsTab v-if="showSharingDetailsView"
 			:file-info="shareDetailsData.fileInfo"
 			:share="shareDetailsData.share"
+			:initial-download-limit="shareDetailsData.downloadLimit"
 			@close-sharing-details="toggleShareDetailsView"
 			@add:share="addShare"
 			@remove:share="removeShare" />
@@ -191,6 +192,7 @@ export default {
 		 * Get the existing shares infos
 		 */
 		async getShares() {
+			// TODO Fetch here?
 			try {
 				this.loading = true
 
