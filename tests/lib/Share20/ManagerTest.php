@@ -552,7 +552,7 @@ class ManagerTest extends \Test\TestCase {
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
 			}
-		);
+			);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 		$this->assertNull($result);
@@ -575,7 +575,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertSame('password', $event->getPassword());
 				throw new HintException('message', 'password not accepted');
 			}
-		);
+			);
 
 		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
@@ -3000,11 +3000,12 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenPublicUploadDisabled() {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'no'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 			]);
 
 		$share = $this->manager->newShare();
