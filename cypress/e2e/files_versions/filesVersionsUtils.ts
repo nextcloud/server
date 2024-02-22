@@ -20,10 +20,10 @@
  *
  */
 
-import path from "path"
-import type { User } from "@nextcloud/cypress"
+import type { User } from '@nextcloud/cypress'
+import path from 'path'
 
-export function uploadThreeVersions(user: User, fileName: string) {
+export const uploadThreeVersions = (user: User, fileName: string) => {
 	// A new version will not be created if the changes occur
 	// within less than one second of each other.
 	// eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -35,23 +35,22 @@ export function uploadThreeVersions(user: User, fileName: string) {
 	cy.login(user)
 }
 
-export function openVersionsPanel(fileName: string) {
-	cy.get(`[data-cy-files-list] [data-cy-files-list-row-name="${fileName}"]`).within(() => {
-		cy.get('[data-cy-files-list-row-actions] .action-item__menutoggle')
-			.click()
+export const openVersionsPanel = (fileName: string) =>{
+	// Detect the versions list fetch
+	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('getVersions')
+
+	// Open the versions tab
+	cy.window().then(win => {
+		win.OCA.Files.Sidebar.setActiveTab('version_vue')
+		win.OCA.Files.Sidebar.open(`/${fileName}`)
 	})
 
-	cy.get('.action-item__popper')
-		.get('[data-cy-files-list-row-action="details"]')
-		.click()
-
-	cy.get('#app-sidebar-vue')
-		.get('[aria-controls="tab-version_vue"]')
-		.click()
-
+	// Wait for the versions list to be fetched
+	cy.wait('@getVersions')
+	cy.get('#tab-version_vue').should('be.visible', { timeout: 10000 })
 }
 
-export function openVersionMenu(index: number) {
+export const openVersionMenu = (index: number) => {
 	cy.get('#tab-version_vue').within(() => {
 		cy.get('[data-files-versions-version]')
 			.eq(index).within(() => {
@@ -61,19 +60,19 @@ export function openVersionMenu(index: number) {
 	})
 }
 
-export function clickPopperAction(actionName: string) {
+export const clickPopperAction = (actionName: string) => {
 	cy.get('.v-popper__popper').filter(':visible')
 		.contains(actionName)
 		.click()
 }
 
-export function nameVersion(index: number, name: string) {
+export const nameVersion = (index: number, name: string) => {
 	openVersionMenu(index)
 	clickPopperAction('Name this version')
 	cy.get(':focused').type(`${name}{enter}`)
 }
 
-export function assertVersionContent(filename: string, index: number, expectedContent: string) {
+export const assertVersionContent = (filename: string, index: number, expectedContent: string) => {
 	const downloadsFolder = Cypress.config('downloadsFolder')
 
 	openVersionMenu(index)
