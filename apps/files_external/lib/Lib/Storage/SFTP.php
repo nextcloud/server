@@ -519,9 +519,9 @@ class SFTP extends Common {
 		}
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		if ($this->is_dir($source) || $this->is_dir($target)) {
-			return parent::copy($source, $target);
+			return parent::copy($source, $target, $preserveMtime);
 		} else {
 			$absSource = $this->absPath($source);
 			$absTarget = $this->absPath($target);

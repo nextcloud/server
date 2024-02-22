@@ -573,7 +573,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function copy($source, $target, $isFile = null) {
+	public function copy($source, $target, bool $preserveMtime = false, ?bool $isFile = null): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 
@@ -607,7 +607,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			foreach ($this->getDirectoryContent($source) as $item) {
 				$childSource = $source . '/' . $item['name'];
 				$childTarget = $target . '/' . $item['name'];
-				$this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
+				$this->copy($childSource, $childTarget, $preserveMtime, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
 			}
 		}
 
