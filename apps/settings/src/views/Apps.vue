@@ -65,7 +65,7 @@
 				<NcAppNavigationSpacer />
 
 				<!-- App store categories -->
-				<template v-if="settings.appstoreEnabled">
+				<template v-if="appstoreEnabled">
 					<NcAppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
@@ -165,8 +165,12 @@ import AppScore from '../components/AppList/AppScore.vue'
 import Markdown from '../components/Markdown.vue'
 
 import { APPS_SECTION_ENUM } from './../constants/AppsConstants.js'
+import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(VueLocalStorage)
+
+const appstoreEnabled = loadState('settings', 'appstoreEnabled')
+const developerDocumentation = loadState('settings', 'appstoreDeveloperDocs')
 
 export default {
 	name: 'Apps',
@@ -208,6 +212,9 @@ export default {
 	},
 
 	computed: {
+		appstoreEnabled() {
+			return appstoreEnabled
+		},
 		pageHeading() {
 			if (this.$options.APPS_SECTION_ENUM[this.category]) {
 				return this.$options.APPS_SECTION_ENUM[this.category]
@@ -232,9 +239,6 @@ export default {
 		},
 		updateCount() {
 			return this.$store.getters.getUpdateCount
-		},
-		settings() {
-			return this.$store.getters.getServerData
 		},
 
 		hasRating() {
@@ -302,7 +306,6 @@ export default {
 		this.$store.dispatch('getCategories', { shouldRefetchCategories: true })
 		this.$store.dispatch('getAllApps')
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
-		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
 
 	mounted() {
@@ -329,7 +332,7 @@ export default {
 			})
 		},
 		openDeveloperDocumentation() {
-			window.open(this.settings.developerDocumentation)
+			window.open(developerDocumentation)
 		},
 	},
 }
