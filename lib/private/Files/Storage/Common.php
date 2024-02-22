@@ -240,6 +240,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 				}
 			}
 			closedir($dir);
+			if ($preserveMtime) {
+				$mtime = $this->filemtime($source);
+				$this->touch($target, is_int($mtime) ? $mtime : null);
+			}
 			return true;
 		} else {
 			$sourceStream = $this->fopen($source, 'r');
@@ -636,6 +640,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 					if (!Filesystem::isIgnoredDir($file)) {
 						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime);
 					}
+				}
+				if ($result && $preserveMtime) {
+					$mtime = $sourceStorage->filemtime($sourceInternalPath);
+					$this->touch($targetInternalPath, is_int($mtime) ? $mtime : null);
 				}
 			}
 		} else {
