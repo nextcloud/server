@@ -20,7 +20,7 @@
  *
  */
 
-import type { User } from "@nextcloud/cypress"
+import type { User } from '@nextcloud/cypress'
 
 const startCopyMove = (file: string) => {
 	cy.get(`.files-fileList tr[data-file="${file}"`)
@@ -29,7 +29,7 @@ const startCopyMove = (file: string) => {
 	cy.get('.fileActionsMenu .action-movecopy').click()
 }
 
-describe('Login with a new user and open the files app', function() {
+describe('Login with a new user and open the files app', { testIsolation: false }, function() {
 	before(function() {
 		cy.createRandomUser().then((user) => {
 			cy.login(user)
@@ -50,19 +50,24 @@ describe('Login with a new user and open the files app', function() {
 
 	it('See the file list sorting order is saved', function() {
 		cy.intercept('PUT', /api\/v1\/views\/files\/sorting_direction$/).as('sorting_direction')
+		cy.intercept('PUT', /api\/v1\/views\/files\/sorting_mode$/).as('sorting_mode')
 
 		cy.visit('/apps/files')
 		// default to sorting by name
 		cy.get('.files-filestable th.column-name .sort-indicator').should('be.visible')
+		cy.get('.files-filestable th.column-size .sort-indicator').should('not.be.visible')
 		// change to size
 		cy.get('.files-filestable th').contains('Size').click()
 		// size sorting should be active
 		cy.get('.files-filestable th.column-name .sort-indicator').should('not.be.visible')
 		cy.get('.files-filestable th.column-size .sort-indicator').should('be.visible')
 		cy.wait('@sorting_direction')
+		cy.wait('@sorting_mode')
 
 		// Re-visit
-		cy.visit('/apps/files')
+		cy.reload()
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+
 		// now sorting by name should be disabled and sorting by size should be enabled
 		cy.get('.files-filestable th.column-name .sort-indicator').should('not.be.visible')
 		cy.get('.files-filestable th.column-size .sort-indicator').should('be.visible')
@@ -84,10 +89,14 @@ describe('Testing the copy move action (FilePicker)', () => {
 
 	it('Copy a file in its same folder', () => {
 		cy.visit('/apps/files')
+		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+
 		// When I start the move or copy operation for "welcome.txt"
 		startCopyMove('welcome.txt')
 		// And I copy to the last selected folder in the file picker
 		cy.get('.dialog__actions button').contains('Copy').click()
+		cy.wait('@copyFile')
+
 		// Then I see that the file list contains a file named "welcome.txt"
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 		// And I see that the file list contains a file named "welcome (copy).txt"
@@ -96,14 +105,20 @@ describe('Testing the copy move action (FilePicker)', () => {
 
 	it('copy a file twice in its same folder', () => {
 		cy.visit('/apps/files')
+		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+
 		// When I start the move or copy operation for "welcome.txt"
 		startCopyMove('welcome.txt')
 		// And I copy to the last selected folder in the file picker
 		cy.get('.dialog__actions button').contains('Copy').click()
+		cy.wait('@copyFile')
+
 		// When I start the move or copy operation for "welcome.txt"
 		startCopyMove('welcome.txt')
 		// And I copy to the last selected folder in the file picker
 		cy.get('.dialog__actions button').contains('Copy').click()
+		cy.wait('@copyFile')
+
 		// Then I see that the file list contains a file named "welcome.txt"
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 		// And I see that the file list contains a file named "welcome (copy).txt"
@@ -114,14 +129,20 @@ describe('Testing the copy move action (FilePicker)', () => {
 
 	it('copy a copy of a file in its same folder', () => {
 		cy.visit('/apps/files')
+		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+
 		// When I start the move or copy operation for "welcome.txt"
 		startCopyMove('welcome.txt')
 		// And I copy to the last selected folder in the file picker
 		cy.get('.dialog__actions button').contains('Copy').click()
+		cy.wait('@copyFile')
+
 		// When I start the move or copy operation for "welcome (copy).txt"
 		startCopyMove('welcome (copy).txt')
 		// And I copy to the last selected folder in the file picker
 		cy.get('.dialog__actions button').contains('Copy').click()
+		cy.wait('@copyFile')
+
 		// Then I see that the file list contains a file named "welcome.txt"
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 		// And I see that the file list contains a file named "welcome (copy).txt"
