@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\Files_Sharing\ISharedStorage;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Db\VersionEntity;
@@ -42,23 +43,27 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 
 class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
 	private IRootFolder $rootFolder;
 	private IUserManager $userManager;
 	private VersionsMapper $versionsMapper;
 	private IMimeTypeLoader $mimeTypeLoader;
+	private IUserSession $userSession;
 
 	public function __construct(
 		IRootFolder $rootFolder,
 		IUserManager $userManager,
 		VersionsMapper $versionsMapper,
-		IMimeTypeLoader $mimeTypeLoader
+		IMimeTypeLoader $mimeTypeLoader,
+		IUserSession $userSession,
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->versionsMapper = $versionsMapper;
 		$this->mimeTypeLoader = $mimeTypeLoader;
+		$this->userSession = $userSession;
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {
@@ -174,6 +179,10 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 	}
 
 	public function rollback(IVersion $version) {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot restore this version because you do not have update permissions on the source file.');
+		}
+
 		return Storage::rollback($version->getVersionPath(), $version->getRevisionId(), $version->getUser());
 	}
 
@@ -220,6 +229,10 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 	}
 
 	public function setVersionLabel(IVersion $version, string $label): void {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot label this version because you do not have update permissions on the source file.');
+		}
+
 		$versionEntity = $this->versionsMapper->findVersionForFileId(
 			$version->getSourceFile()->getId(),
 			$version->getTimestamp(),
@@ -232,6 +245,10 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 	}
 
 	public function deleteVersion(IVersion $version): void {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_DELETE)) {
+			throw new Forbidden('You cannot delete this version because you do not have delete permissions on the source file.');
+		}
+
 		Storage::deleteRevision($version->getVersionPath(), $version->getRevisionId());
 		$versionEntity = $this->versionsMapper->findVersionForFileId(
 			$version->getSourceFile()->getId(),
@@ -270,5 +287,24 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 	public function deleteVersionsEntity(File $file): void {
 		$this->versionsMapper->deleteAllVersionsForFileId($file->getId());
+	}
+
+	private function currentUserHasPermissions(IVersion $version, int $permissions): bool {
+		$sourceFile = $version->getSourceFile();
+		$currentUserId = $this->userSession->getUser()?->getUID();
+
+		if ($currentUserId === null) {
+			throw new NotFoundException("No user logged in");
+		}
+
+		if ($sourceFile->getOwner()?->getUID() !== $currentUserId) {
+			$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
+			$sourceFile = array_pop($nodes);
+			if (!$sourceFile) {
+				throw new NotFoundException("Version file not accessible by current user");
+			}
+		}
+
+		return ($sourceFile->getPermissions() & $permissions) === $permissions;
 	}
 }
