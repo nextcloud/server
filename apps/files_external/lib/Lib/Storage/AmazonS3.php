@@ -573,6 +573,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	/**
+	 * @param string $source
+	 * @param string $target
+	 */
 	public function copy($source, $target, bool $preserveMtime = false, ?bool $isFile = null): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);

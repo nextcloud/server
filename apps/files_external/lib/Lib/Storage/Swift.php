@@ -483,6 +483,10 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $source
+	 * @param string $target
+	 */
 	public function copy($source, $target, bool $preserveMtime = false): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);

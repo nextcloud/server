@@ -519,6 +519,10 @@ class SFTP extends Common {
 		}
 	}
 
+	/**
+	 * @param string $source
+	 * @param string $target
+	 */
 	public function copy($source, $target, bool $preserveMtime = false): bool {
 		if ($this->is_dir($source) || $this->is_dir($target)) {
 			return parent::copy($source, $target, $preserveMtime);
