@@ -20,7 +20,7 @@
   -
   -->
 
-<template>
+  <template>
 	<li :class="{ 'sharing-entry--share': share }" class="sharing-entry sharing-entry__link">
 		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
@@ -133,6 +133,14 @@
 						{{ t('files_sharing', 'Customize link') }}
 					</NcActionButton>
 				</template>
+				
+				<NcActionButton :close-after-click="true"
+					@click.prevent="showQRCode = true">
+					<template #icon>
+						<IconQr />
+					</template>
+					{{ t('files_sharing', 'Generate QR Code') }}
+				</NcActionButton>
 
 				<NcActionSeparator />
 
@@ -179,6 +187,20 @@
 
 		<!-- loading indicator to replace the menu -->
 		<div v-else class="icon-loading-small sharing-entry__loading" />
+
+		<!-- Modal to open whenever we have a QR code -->
+		<NcDialog size="normal"
+			:open.sync="showQRCode"
+			:name="title"
+			:close-on-click-outside="true"
+			@close="showQRCode = false">
+			<div class="qrCode-dialog">
+				<Vue--dialog tag="img"
+					:value="shareLink"
+					class="qrCode-dialog__img">
+				</Vue--dialog>
+			</div>
+		</NcDialog>
 	</li>
 </template>
 
@@ -187,6 +209,7 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
+import VueQrcode from '@chenfengyuan/vue-qrcode';
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
@@ -195,8 +218,10 @@ import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
+import IconQr from 'vue-material-design-icons/Qrcode.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
@@ -218,7 +243,10 @@ export default {
 		NcActionText,
 		NcActionSeparator,
 		NcAvatar,
+		NcDialog,
+		VueQrcode,
 		Tune,
+		IconQr,
 		SharingEntryQuickShareSelect,
 	},
 
@@ -245,6 +273,9 @@ export default {
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
+
+			// tracks whether modal should be opened or not
+			showQRCode: false,
 		}
 	},
 
@@ -801,6 +832,18 @@ export default {
 
 	.icon-checkmark-color {
 		opacity: 1;
+	}
+}
+
+// styling for the qr-code container
+.qrCode-dialog {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+
+	&__img {
+		width: 100%;
+		height: auto;
 	}
 }
 </style>
