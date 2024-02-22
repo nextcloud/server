@@ -83,7 +83,7 @@ class CacheWrapper extends Cache {
 	 */
 	public function get($file) {
 		$result = $this->getCache()->get($file);
-		if ($result) {
+		if ($result instanceof ICacheEntry) {
 			$result = $this->formatCacheEntry($result);
 		}
 		return $result;
