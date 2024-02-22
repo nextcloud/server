@@ -37,6 +37,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -81,6 +82,8 @@ class AppSettingsControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var LoggerInterface|MockObject */
 	private $logger;
+	/** @var IInitialState|MockObject */
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -100,6 +103,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->installer = $this->createMock(Installer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -114,7 +118,8 @@ class AppSettingsControllerTest extends TestCase {
 			$this->bundleFetcher,
 			$this->installer,
 			$this->urlGenerator,
-			$this->logger
+			$this->logger,
+			$this->initialState,
 		);
 	}
 
@@ -188,18 +193,16 @@ class AppSettingsControllerTest extends TestCase {
 			->method('setActiveEntry')
 			->with('core_apps');
 
+		$this->initialState
+			->expects($this->exactly(4))
+			->method('provideInitialState');
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'settings-vue',
+			'settings/empty',
 			[
-				'serverData' => [
-					'updateCount' => 0,
-					'appstoreEnabled' => true,
-					'bundles' => [],
-					'developerDocumentation' => ''
-				],
 				'pageTitle' => 'Apps'
 			],
 			'user');
@@ -223,18 +226,16 @@ class AppSettingsControllerTest extends TestCase {
 			->method('setActiveEntry')
 			->with('core_apps');
 
+		$this->initialState
+			->expects($this->exactly(4))
+			->method('provideInitialState');
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'settings-vue',
+			'settings/empty',
 			[
-				'serverData' => [
-					'updateCount' => 0,
-					'appstoreEnabled' => false,
-					'bundles' => [],
-					'developerDocumentation' => ''
-				],
 				'pageTitle' => 'Apps'
 			],
 			'user');
