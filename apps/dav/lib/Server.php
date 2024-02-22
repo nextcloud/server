@@ -238,7 +238,7 @@ class Server {
 
 		// Allow view-only plugin for webdav requests
 		$this->server->addPlugin(new ViewOnlyPlugin(
-			$logger
+			\OC::$server->getUserFolder(),
 		));
 
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {

@@ -42,7 +42,7 @@
 				</div>
 			</template>
 			<template #actions>
-				<NcActionButton	v-if="capabilities.files.version_labeling === true"
+				<NcActionButton	v-if="capabilities.files.version_labeling === true && hasUpdatePermissions"
 					:close-after-click="true"
 					@click="openVersionLabelModal">
 					<template #icon>
@@ -50,7 +50,7 @@
 					</template>
 					{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
 				</NcActionButton>
-				<NcActionButton v-if="!isCurrent"
+				<NcActionButton v-if="!isCurrent && hasUpdatePermissions"
 					:close-after-click="true"
 					@click="restoreVersion">
 					<template #icon>
@@ -58,7 +58,8 @@
 					</template>
 					{{ t('files_versions', 'Restore version') }}
 				</NcActionButton>
-				<NcActionLink :href="downloadURL"
+				<NcActionLink v-if="isDownloadable"
+					:href="downloadURL"
 					:close-after-click="true"
 					:download="downloadURL">
 					<template #icon>
@@ -66,7 +67,7 @@
 					</template>
 					{{ t('files_versions', 'Download version') }}
 				</NcActionLink>
-				<NcActionButton v-if="!isCurrent && capabilities.files.version_deletion === true"
+				<NcActionButton v-if="!isCurrent && capabilities.files.version_deletion === true && hasDeletePermissions"
 					:close-after-click="true"
 					@click="deleteVersion">
 					<template #icon>
@@ -123,6 +124,9 @@ import { joinPaths } from '@nextcloud/paths'
 import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { emit } from '@nextcloud/event-bus'
+import { Permission } from '@nextcloud/files'
+
+import { hasPermissions } from '../../../files_sharing/src/lib/SharePermissionsToolBox.js'
 
 export default {
 	name: 'Version',
@@ -236,6 +240,33 @@ export default {
 		/** @return {string} */
 		formattedDate() {
 			return moment(this.version.mtime).format('LLL')
+		},
+
+		/** @return {boolean} */
+		hasDeletePermissions() {
+			return hasPermissions(this.fileInfo.permissions, Permission.DELETE)
+		},
+
+		/** @return {boolean} */
+		hasUpdatePermissions() {
+			return hasPermissions(this.fileInfo.permissions, Permission.UPDATE)
+		},
+
+		/** @return {boolean} */
+		isDownloadable() {
+			if ((this.fileInfo.permissions & Permission.READ) === 0) {
+				return false
+			}
+
+			// If the mount type is a share, ensure it got download permissions.
+			if (this.fileInfo.mountType === 'shared') {
+				const downloadAttribute = this.fileInfo.shareAttributes.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download')
+				if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
+					return false
+				}
+			}
+
+			return true
 		},
 	},
 	methods: {
