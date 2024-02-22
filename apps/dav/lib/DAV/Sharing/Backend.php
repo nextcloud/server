@@ -265,7 +265,7 @@ class Backend {
 					'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
 					'protected' => true,
 				];
-			} elseif ($this->resourceType === 'calendar') {
+			} elseif (in_array($this->resourceType, ['calendar','addressbook'])) {
 				// Allow changing the properties of read only calendars,
 				// so users can change the visibility.
 				$acl[] = [
