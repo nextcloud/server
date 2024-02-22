@@ -184,17 +184,11 @@ class AppSettingsController extends Controller {
 	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
-		$formattedCategories = [];
 		$categories = $this->categoryFetcher->get();
-		foreach ($categories as $category) {
-			$formattedCategories[] = [
-				'id' => $category['id'],
-				'ident' => $category['id'],
-				'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
-			];
-		}
-
-		return $formattedCategories;
+		return array_map(fn ($category) => [
+			'id' => $category['id'],
+			'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
+		], $categories);
 	}
 
 	private function fetchApps() {

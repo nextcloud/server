@@ -125,52 +125,42 @@ class AppSettingsControllerTest extends TestCase {
 		$expected = new JSONResponse([
 			[
 				'id' => 'auth',
-				'ident' => 'auth',
 				'displayName' => 'Authentication & authorization',
 			],
 			[
 				'id' => 'customization',
-				'ident' => 'customization',
 				'displayName' => 'Customization',
 			],
 			[
 				'id' => 'files',
-				'ident' => 'files',
 				'displayName' => 'Files',
 			],
 			[
 				'id' => 'integration',
-				'ident' => 'integration',
 				'displayName' => 'Integration',
 			],
 			[
 				'id' => 'monitoring',
-				'ident' => 'monitoring',
 				'displayName' => 'Monitoring',
 			],
 			[
 				'id' => 'multimedia',
-				'ident' => 'multimedia',
 				'displayName' => 'Multimedia',
 			],
 			[
 				'id' => 'office',
-				'ident' => 'office',
 				'displayName' => 'Office & text',
 			],
 			[
 				'id' => 'organization',
-				'ident' => 'organization',
 				'displayName' => 'Organization',
 			],
 			[
 				'id' => 'social',
-				'ident' => 'social',
 				'displayName' => 'Social & communication',
 			],
 			[
 				'id' => 'tools',
-				'ident' => 'tools',
 				'displayName' => 'Tools',
 			],
 		]);

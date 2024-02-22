@@ -72,11 +72,11 @@
 						:name="$options.APPS_SECTION_ENUM.featured" />
 
 					<NcAppNavigationItem v-for="cat in categories"
-						:key="'icon-category-' + cat.ident"
-						:icon="'icon-category-' + cat.ident"
+						:key="'icon-category-' + cat.id"
+						:icon="'icon-category-' + cat.id"
 						:to="{
 							name: 'apps-category',
-							params: { category: cat.ident },
+							params: { category: cat.id },
 						}"
 						:name="cat.displayName" />
 				</template>
