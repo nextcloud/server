@@ -72,19 +72,19 @@ class Version27000Date20230309104325 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return void
 	 */
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-		$metadataTable = $schema->getTable('file_metadata');
+	// public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	// 	/** @var ISchemaWrapper $schema */
+	// 	$schema = $schemaClosure();
+	// 	$metadataTable = $schema->getTable('file_metadata');
 
-		if (!$metadataTable->hasColumn('metadata')) {
-			return;
-		}
+	// 	if (!$metadataTable->hasColumn('metadata')) {
+	// 		return;
+	// 	}
 
-		$this->connection
-			->getQueryBuilder()
-			->update('file_metadata')
-			->set('value', 'metadata')
-			->executeStatement();
-	}
+	// 	$this->connection
+	// 		->getQueryBuilder()
+	// 		->update('file_metadata')
+	// 		->set('value', 'metadata')
+	// 		->executeStatement();
+	// }
 }
