@@ -258,6 +258,27 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Return the number of subscriptions for a principal
+	 */
+	public function getSubscriptionsForUserCount(string $principalUri): int {
+		$principalUri = $this->convertPrincipal($principalUri, true);
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->count('*'))
+			->from('calendarsubscriptions');
+
+		if ($principalUri === '') {
+			$query->where($query->expr()->emptyString('principaluri'));
+		} else {
+			$query->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+		}
+
+		$result = $query->executeQuery();
+		$column = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $column;
+	}
+
+	/**
 	 * @return array{id: int, deleted_at: int}[]
 	 */
 	public function getDeletedCalendars(int $deletedBefore): array {
