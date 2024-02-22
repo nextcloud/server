@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -150,6 +151,11 @@ export default {
 		NcButton,
 	},
 	props: ['category'],
+	data() {
+		return {
+			search: '',
+		}
+	},
 	computed: {
 		counter() {
 			return this.apps.filter(app => app.update).length
@@ -247,7 +253,28 @@ export default {
 			}
 		},
 	},
+	beforeMount() {
+		this.$store.dispatch('getCategories', { shouldRefetchCategories: true })
+		this.$store.dispatch('getAllApps')
+	},
+
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search.search', this.setSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
+	beforeCreate() {
+		subscribe('nextcloud:unified-search.search', this.setSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
 	methods: {
+		setSearch(value) {
+			this.search = value
+		},
+		resetSearch() {
+			this.search = ''
+		},
 		toggleBundle(id) {
 			if (this.allBundlesEnabled(id)) {
 				return this.disableBundle(id)

@@ -22,116 +22,114 @@
 
 <template>
 	<Fragment>
-		<NcContent app-name="settings">
-			<NcAppNavigation :aria-label="t('settings', 'Account management')">
-				<NcAppNavigationNew button-id="new-user-button"
-					:text="t('settings','New account')"
-					@click="showNewUserMenu"
-					@keyup.enter="showNewUserMenu"
-					@keyup.space="showNewUserMenu">
+		<NcAppNavigation :aria-label="t('settings', 'Account management')">
+			<NcAppNavigationNew button-id="new-user-button"
+				:text="t('settings','New account')"
+				@click="showNewUserMenu"
+				@keyup.enter="showNewUserMenu"
+				@keyup.space="showNewUserMenu">
+				<template #icon>
+					<Plus :size="20" />
+				</template>
+			</NcAppNavigationNew>
+
+			<template #list>
+				<NcAppNavigationItem id="everyone"
+					:exact="true"
+					:name="t('settings', 'Active accounts')"
+					:to="{ name: 'users' }">
 					<template #icon>
-						<Plus :size="20" />
+						<AccountGroup :size="20" />
 					</template>
-				</NcAppNavigationNew>
+					<template #counter>
+						<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+							{{ userCount }}
+						</NcCounterBubble>
+					</template>
+				</NcAppNavigationItem>
 
-				<template #list>
-					<NcAppNavigationItem id="everyone"
-						:exact="true"
-						:name="t('settings', 'Active accounts')"
-						:to="{ name: 'users' }">
-						<template #icon>
-							<AccountGroup :size="20" />
-						</template>
-						<template #counter>
-							<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
-								{{ userCount }}
-							</NcCounterBubble>
-						</template>
-					</NcAppNavigationItem>
+				<NcAppNavigationItem v-if="settings.isAdmin"
+					id="admin"
+					:exact="true"
+					:name="t('settings', 'Admins')"
+					:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
+					<template #icon>
+						<ShieldAccount :size="20" />
+					</template>
+					<template v-if="adminGroupMenu.count > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
+							{{ adminGroupMenu.count }}
+						</NcCounterBubble>
+					</template>
+				</NcAppNavigationItem>
 
-					<NcAppNavigationItem v-if="settings.isAdmin"
-						id="admin"
-						:exact="true"
-						:name="t('settings', 'Admins')"
-						:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
-						<template #icon>
-							<ShieldAccount :size="20" />
-						</template>
-						<template v-if="adminGroupMenu.count > 0" #counter>
-							<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
-								{{ adminGroupMenu.count }}
-							</NcCounterBubble>
-						</template>
-					</NcAppNavigationItem>
+				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
+				<NcAppNavigationItem v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
+					id="disabled"
+					:exact="true"
+					:name="t('settings', 'Disabled users')"
+					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
+					<template #icon>
+						<AccountOff :size="20" />
+					</template>
+					<template v-if="disabledGroupMenu.usercount > 0" #counter>
+						<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
+							{{ disabledGroupMenu.usercount }}
+						</NcCounterBubble>
+					</template>
+				</NcAppNavigationItem>
 
-					<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
-					<NcAppNavigationItem v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
-						id="disabled"
-						:exact="true"
-						:name="t('settings', 'Disabled users')"
-						:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
-						<template #icon>
-							<AccountOff :size="20" />
-						</template>
-						<template v-if="disabledGroupMenu.usercount > 0" #counter>
-							<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
-								{{ disabledGroupMenu.usercount }}
-							</NcCounterBubble>
-						</template>
-					</NcAppNavigationItem>
-
-					<NcAppNavigationCaption :name="t('settings', 'Groups')"
-						:disabled="loadingAddGroup"
-						:aria-label="loadingAddGroup ? t('settings', 'Creating group …') : t('settings', 'Create group')"
-						force-menu
-						:open.sync="isAddGroupOpen">
-						<template #actionsTriggerIcon>
-							<NcLoadingIcon v-if="loadingAddGroup" />
-							<Plus v-else :size="20" />
-						</template>
-						<template #actions>
-							<NcActionText>
-								<template #icon>
-									<AccountGroup :size="20" />
-								</template>
-								{{ t('settings', 'Create group') }}
-							</NcActionText>
-							<NcActionInput :label="t('settings', 'Group name')"
-								data-cy-settings-new-group-name
-								:label-outside="false"
-								:disabled="loadingAddGroup"
-								:value.sync="newGroupName"
-								:error="hasAddGroupError"
-								:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
-								@submit="createGroup" />
-						</template>
-					</NcAppNavigationCaption>
-
-					<GroupListItem v-for="group in groupList"
-						:id="group.id"
-						:key="group.id"
-						:active="selectedGroupDecoded === group.id"
-						:name="group.title"
-						:count="group.count" />
-				</template>
-
-				<template #footer>
-					<ul class="app-navigation-entry__settings">
-						<NcAppNavigationItem :name="t('settings', 'Account management settings')"
-							@click="isDialogOpen = true">
+				<NcAppNavigationCaption :name="t('settings', 'Groups')"
+					:disabled="loadingAddGroup"
+					:aria-label="loadingAddGroup ? t('settings', 'Creating group …') : t('settings', 'Create group')"
+					force-menu
+					:open.sync="isAddGroupOpen">
+					<template #actionsTriggerIcon>
+						<NcLoadingIcon v-if="loadingAddGroup" />
+						<Plus v-else :size="20" />
+					</template>
+					<template #actions>
+						<NcActionText>
 							<template #icon>
-								<Cog :size="20" />
+								<AccountGroup :size="20" />
 							</template>
-						</NcAppNavigationItem>
-					</ul>
-				</template>
-			</NcAppNavigation>
+							{{ t('settings', 'Create group') }}
+						</NcActionText>
+						<NcActionInput :label="t('settings', 'Group name')"
+							data-cy-settings-new-group-name
+							:label-outside="false"
+							:disabled="loadingAddGroup"
+							:value.sync="newGroupName"
+							:error="hasAddGroupError"
+							:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
+							@submit="createGroup" />
+					</template>
+				</NcAppNavigationCaption>
 
-			<NcAppContent :page-heading="pageHeading">
-				<UserList :selected-group="selectedGroupDecoded"
-					:external-actions="externalActions" />
-			</NcAppContent>
-		</NcContent>
+				<GroupListItem v-for="group in groupList"
+					:id="group.id"
+					:key="group.id"
+					:active="selectedGroupDecoded === group.id"
+					:name="group.title"
+					:count="group.count" />
+			</template>
+
+			<template #footer>
+				<ul class="app-navigation-entry__settings">
+					<NcAppNavigationItem :name="t('settings', 'Account management settings')"
+						@click="isDialogOpen = true">
+						<template #icon>
+							<Cog :size="20" />
+						</template>
+					</NcAppNavigationItem>
+				</ul>
+			</template>
+		</NcAppNavigation>
+
+		<NcAppContent :page-heading="pageHeading">
+			<UserList :selected-group="selectedGroupDecoded"
+				:external-actions="externalActions" />
+		</NcAppContent>
 
 		<UserSettingsDialog :open.sync="isDialogOpen" />
 	</Fragment>
@@ -151,7 +149,6 @@ import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
@@ -168,7 +165,7 @@ import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 Vue.use(VueLocalStorage)
 
 export default {
-	name: 'Users',
+	name: 'UserManagement',
 
 	components: {
 		AccountGroup,
@@ -183,7 +180,6 @@ export default {
 		NcAppNavigationCaption,
 		NcAppNavigationItem,
 		NcAppNavigationNew,
-		NcContent,
 		NcCounterBubble,
 		NcLoadingIcon,
 		Plus,
