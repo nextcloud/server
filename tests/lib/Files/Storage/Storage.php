@@ -730,6 +730,13 @@ abstract class Storage extends \Test\TestCase {
 			->method('filemtime')
 			->with($source)
 			->willReturn($mTime);
+		$instance->expects(static::any())
+			->method('getId')
+			->willReturn('fakeid');
+		$cache = $this->createMock(\OCP\Files\Cache\ICache::class);
+		$instance->expects(static::any())
+			->method('getCache')
+			->willReturn($cache);
 
 		$this->assertFalse($this->instance->file_exists($target));
 		$this->instance->moveFromStorage($instance, $source, $target);
