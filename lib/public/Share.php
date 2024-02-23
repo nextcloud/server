@@ -108,7 +108,7 @@ class Share extends \OC\Share\Constants {
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @param mixed $parameters
 	 * @param bool $includeCollections
-	 * @return mixed Return depends on format
+	 * @return void
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 *
@@ -117,7 +117,7 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false) {
-		return \OC\Share\Share::getItemShared($itemType, $itemSource, self::FORMAT_NONE, null, $includeCollections);
+		// not used by any app - only here to not break apps syntax
 	}
 
 	/**
