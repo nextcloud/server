@@ -47,6 +47,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -58,72 +59,26 @@ use Psr\Log\LoggerInterface;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AppSettingsController extends Controller {
 
-	/** @var \OCP\IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var INavigationManager */
-	private $navigationManager;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var CategoryFetcher */
-	private $categoryFetcher;
-	/** @var AppFetcher */
-	private $appFetcher;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var BundleFetcher */
-	private $bundleFetcher;
-	/** @var Installer */
-	private $installer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var LoggerInterface */
-	private $logger;
-
 	/** @var array */
 	private $allApps = [];
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param INavigationManager $navigationManager
-	 * @param IAppManager $appManager
-	 * @param CategoryFetcher $categoryFetcher
-	 * @param AppFetcher $appFetcher
-	 * @param IFactory $l10nFactory
-	 * @param BundleFetcher $bundleFetcher
-	 * @param Installer $installer
-	 * @param IURLGenerator $urlGenerator
-	 * @param LoggerInterface $logger
-	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IL10N $l10n,
-		IConfig $config,
-		INavigationManager $navigationManager,
-		IAppManager $appManager,
-		CategoryFetcher $categoryFetcher,
-		AppFetcher $appFetcher,
-		IFactory $l10nFactory,
-		BundleFetcher $bundleFetcher,
-		Installer $installer,
-		IURLGenerator $urlGenerator,
-		LoggerInterface $logger) {
+		private IL10N $l10n,
+		private IConfig $config,
+		private INavigationManager $navigationManager,
+		private IAppManager $appManager,
+		private CategoryFetcher $categoryFetcher,
+		private AppFetcher $appFetcher,
+		private IFactory $l10nFactory,
+		private BundleFetcher $bundleFetcher,
+		private Installer $installer,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private IInitialState $initialState,
+	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->navigationManager = $navigationManager;
-		$this->appManager = $appManager;
-		$this->categoryFetcher = $categoryFetcher;
-		$this->appFetcher = $appFetcher;
-		$this->l10nFactory = $l10nFactory;
-		$this->bundleFetcher = $bundleFetcher;
-		$this->installer = $installer;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -132,17 +87,21 @@ class AppSettingsController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function viewApps(): TemplateResponse {
-		$params = [];
-		$params['appstoreEnabled'] = $this->config->getSystemValueBool('appstoreenabled', true);
-		$params['updateCount'] = count($this->getAppsWithUpdates());
-		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
-		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params, 'pageTitle' => $this->l10n->t('Apps')]);
+		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
+		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
+		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
+		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
+
+		$templateResponse = new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Apps')]);
 		$templateResponse->setContentSecurityPolicy($policy);
+
+		\OCP\Util::addStyle('settings', 'settings');
+		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return $templateResponse;
 	}
@@ -184,17 +143,11 @@ class AppSettingsController extends Controller {
 	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
-		$formattedCategories = [];
 		$categories = $this->categoryFetcher->get();
-		foreach ($categories as $category) {
-			$formattedCategories[] = [
-				'id' => $category['id'],
-				'ident' => $category['id'],
-				'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
-			];
-		}
-
-		return $formattedCategories;
+		return array_map(fn ($category) => [
+			'id' => $category['id'],
+			'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
+		], $categories);
 	}
 
 	private function fetchApps() {
