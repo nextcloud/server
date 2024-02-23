@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "حذف فُرَضَةٍ slot زمنيّةٍ",
     "No working hours set" : "لم يتم تحديد ساعات العمل",
     "Add slot" : "أضِف فُرَضَةً slot زمنيّةً",
+    "Weekdays" : "أيام الأسبوع",
     "Monday" : "الإثنين",
     "Tuesday" : "الثلاثاء",
     "Wednesday" : "الأربعاء",
