@@ -82,7 +82,6 @@ import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
-import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
 import type { View } from '@nextcloud/files'
@@ -186,7 +185,6 @@ export default {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
 			this.$navigation.setActive(view)
-			setPageHeading(view.name)
 			emit('files:navigation:changed', view)
 		},
 
