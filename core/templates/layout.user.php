@@ -19,9 +19,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<title>
 			<?php
 				p(!empty($_['pageTitle']) && $_['pageTitle'] !== $_['application'] ? $_['pageTitle'].' - ' : '');
-				p(!empty($_['application']) ? $_['application'].' - ' : '');
-				p($theme->getTitle());
-			?>
+p(!empty($_['application']) ? $_['application'].' - ' : '');
+p($theme->getTitle());
+?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
