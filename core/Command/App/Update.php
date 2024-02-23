@@ -45,7 +45,7 @@ class Update extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:update')
 			->setDescription('update an app or all apps')
