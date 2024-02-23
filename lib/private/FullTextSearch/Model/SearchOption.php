@@ -36,22 +36,6 @@ use OCP\FullTextSearch\Model\ISearchOption;
  * @package OC\FullTextSearch\Model
  */
 final class SearchOption implements ISearchOption, JsonSerializable {
-	/** @var string */
-	private $name = '';
-
-	/** @var string */
-	private $title = '';
-
-	/** @var string */
-	private $type = '';
-
-	/** @var string */
-	private $size = '';
-
-	/** @var string */
-	private $placeholder = '';
-
-
 	/**
 	 *     *
 	 *
@@ -104,37 +88,28 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	/**
 	 * ISearchOption constructor.
 	 *
-	 * Some value can be setduring the creation of the object.
+	 * Some value can be set during the creation of the object.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $name
-	 * @param string $title
-	 * @param string $type
-	 * @param string $size
-	 * @param string $placeholder
 	 */
-	public function __construct(string $name = '', string $title = '', string $type = '', string $size = '', string $placeholder = '') {
-		$this->name = $name;
-		$this->title = $title;
-		$this->type = $type;
-		$this->size = $size;
-		$this->placeholder = $placeholder;
+	public function __construct(
+		private string $name = '',
+		private string $title = '',
+		private string $type = '',
+		private string $size = '',
+		private string $placeholder = '',
+	) {
 	}
 
 
 	/**
 	 * Set the name/key of the option.
-	 * The string should only contains alphanumerical chars and underscore.
-	 * The key can be retrieve when using ISearchRequest::getOption
+	 * The string should only contain alphanumerical chars and underscore.
+	 * The key can be retrieved when using ISearchRequest::getOption
 	 *
 	 * @see ISearchRequest::getOption
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $name
-	 *
-	 * @return ISearchOption
 	 */
 	public function setName(string $name): ISearchOption {
 		$this->name = $name;
@@ -146,8 +121,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Get the name/key of the option.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getName(): string {
 		return $this->name;
@@ -158,10 +131,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Set the title/display name of the option.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $title
-	 *
-	 * @return ISearchOption
 	 */
 	public function setTitle(string $title): ISearchOption {
 		$this->title = $title;
@@ -173,8 +142,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Get the title of the option.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getTitle(): string {
 		return $this->title;
@@ -186,10 +153,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * $type can be ISearchOption::CHECKBOX or ISearchOption::INPUT
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $type
-	 *
-	 * @return ISearchOption
 	 */
 	public function setType(string $type): ISearchOption {
 		$this->type = $type;
@@ -201,8 +164,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Get the type of the option.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getType(): string {
 		return $this->type;
@@ -214,10 +175,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Value can be ISearchOption::INPUT_SMALL or not defined.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $size
-	 *
-	 * @return ISearchOption
 	 */
 	public function setSize(string $size): ISearchOption {
 		$this->size = $size;
@@ -229,23 +186,16 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Get the size of the INPUT.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getSize(): string {
 		return $this->size;
 	}
-
 
 	/**
 	 * In case of Type is , set the placeholder to be displayed in the input
 	 * field.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $placeholder
-	 *
-	 * @return ISearchOption
 	 */
 	public function setPlaceholder(string $placeholder): ISearchOption {
 		$this->placeholder = $placeholder;
@@ -257,18 +207,13 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 * Get the placeholder.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	public function getPlaceholder(): string {
 		return $this->placeholder;
 	}
 
-
 	/**
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	public function jsonSerialize(): array {
 		return [

@@ -429,6 +429,7 @@ return array(
     'OCP\\Files\\UnseekableException' => $baseDir . '/lib/public/Files/UnseekableException.php',
     'OCP\\Files_FullTextSearch\\Model\\AFilesDocument' => $baseDir . '/lib/public/Files_FullTextSearch/Model/AFilesDocument.php',
     'OCP\\FullTextSearch\\Exceptions\\FullTextSearchAppNotAvailableException' => $baseDir . '/lib/public/FullTextSearch/Exceptions/FullTextSearchAppNotAvailableException.php',
+    'OCP\\FullTextSearch\\Exceptions\\FullTextSearchIndexNotAvailableException' => $baseDir . '/lib/public/FullTextSearch/Exceptions/FullTextSearchIndexNotAvailableException.php',
     'OCP\\FullTextSearch\\IFullTextSearchManager' => $baseDir . '/lib/public/FullTextSearch/IFullTextSearchManager.php',
     'OCP\\FullTextSearch\\IFullTextSearchPlatform' => $baseDir . '/lib/public/FullTextSearch/IFullTextSearchPlatform.php',
     'OCP\\FullTextSearch\\IFullTextSearchProvider' => $baseDir . '/lib/public/FullTextSearch/IFullTextSearchProvider.php',
