@@ -51,6 +51,7 @@ use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -533,9 +534,9 @@ class Util {
 		}
 
 		// Get admin defined invalid characters
-		$additionalChars = \OC::$server->getConfig()->getSystemValue('forbidden_chars', []);
+		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
 		if (!is_array($additionalChars)) {
-			\OC::$server->getLogger()->error('Invalid system config value for "forbidden_chars" is ignored.');
+			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
 			$additionalChars = [];
 		}
 		return array_merge($invalidChars, $additionalChars);
