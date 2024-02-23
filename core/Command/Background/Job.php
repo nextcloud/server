@@ -102,7 +102,7 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface$output): void {
+	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
