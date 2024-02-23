@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "刪除欄位",
     "No working hours set" : "未設定工作時間",
     "Add slot" : "新增欄位",
+    "Weekdays" : "週間",
     "Monday" : "週一",
     "Tuesday" : "週二",
     "Wednesday" : "週三",
