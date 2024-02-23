@@ -36,7 +36,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var Coordinator|MockObject */
 	private $coordinator;
 

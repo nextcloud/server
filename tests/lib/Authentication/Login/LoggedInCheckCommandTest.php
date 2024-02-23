@@ -32,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommandTest extends ALoginCommandTest {
-
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 

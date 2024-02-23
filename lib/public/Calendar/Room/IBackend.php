@@ -31,7 +31,6 @@ use OCP\Calendar\BackendTemporarilyUnavailableException;
  * @since 14.0.0
  */
 interface IBackend {
-
 	/**
 	 * get a list of all rooms in this backend
 	 *

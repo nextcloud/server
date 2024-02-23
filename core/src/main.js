@@ -23,19 +23,21 @@
  *
  */
 
-import $ from 'jquery'
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
-import './Polyfill/index'
+import 'core-js/stable/index.js'
+import 'regenerator-runtime/runtime.js'
 
 // If you remove the line below, tests won't pass
 // eslint-disable-next-line no-unused-vars
-import OC from './OC/index'
+import OC from './OC/index.js'
 
-import './globals'
-import './jquery/index'
-import { initCore } from './init'
-import { registerAppsSlideToggle } from './OC/apps'
+import './globals.js'
+import './jquery/index.js'
+import { initCore } from './init.js'
+import { registerAppsSlideToggle } from './OC/apps.js'
+import { getRequestToken } from '@nextcloud/auth'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
@@ -45,6 +47,6 @@ window.addEventListener('DOMContentLoaded', function() {
 	if (window.history.pushState) {
 		window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History)
 	} else {
-		$(window).on('hashchange', _.bind(OC.Util.History._onPopState, OC.Util.History))
+		window.onhashchange = _.bind(OC.Util.History._onPopState, OC.Util.History)
 	}
 })

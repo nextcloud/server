@@ -35,37 +35,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\HttpFoundation\Response;
 
 class Delete extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	protected $userService;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-
-	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
+	public function __construct(
+		protected GlobalStoragesService $globalService,
+		protected UserStoragesService $userService,
+		protected IUserSession $userSession,
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userService = $userService;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:delete')
 			->setDescription('Delete an external mount')
@@ -88,7 +70,7 @@ class Delete extends Base {
 			$mount = $this->globalService->getStorage($mountId);
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts"</error>');
-			return 404;
+			return Response::HTTP_NOT_FOUND;
 		}
 
 		$noConfirm = $input->getOption('yes');
@@ -103,11 +85,11 @@ class Delete extends Base {
 			$question = new ConfirmationQuestion('Delete this mount? [y/N] ', false);
 
 			if (!$questionHelper->ask($input, $output, $question)) {
-				return 1;
+				return self::FAILURE;
 			}
 		}
 
 		$this->globalService->removeStorage($mountId);
-		return 0;
+		return self::SUCCESS;
 	}
 }

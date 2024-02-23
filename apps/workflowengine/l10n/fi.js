@@ -46,12 +46,7 @@ OC.L10N.register(
     "Office documents" : "Toimisto-ohjelmistojen asiakirjat",
     "PDF documents" : "PDF-asiakirjat",
     "Custom mimetype" : "Mukautettu MIME-tyyppi",
-    "No results" : "Ei tuloksia",
-    "%s (invisible)" : "%s (näkymätön)",
-    "%s (restricted)" : "%s (rajoitettu)",
-    "Predefined URLs" : "Ennalta määritellyt URL-osoitteet",
     "Files WebDAV" : "Tiedostot WebDAV",
-    "Others" : "Muut",
     "Android client" : "Android-sovellus",
     "iOS client" : "iOS-sovellus",
     "Desktop client" : "Työpöytäsovellus",
@@ -88,8 +83,8 @@ OC.L10N.register(
     "between" : "välillä",
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
-    "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen"
+    "is not member of" : "ei ole jäsen",
+    "User group membership" : "Käyttäjäryhmäjäsenyys"
 },
 "nplurals=2; plural=(n != 1);");

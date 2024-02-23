@@ -50,16 +50,9 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	 */
 	private const DELIMITER = '--';
 
-	/** @var string */
-	private $appId;
+	private string $appId;
+	private string $uri;
 
-	/** @var string */
-	private $uri;
-
-	/**
-	 * @param string $appId
-	 * @param string $uri
-	 */
 	public function __construct(string $appId, string $uri) {
 		$this->appId = $appId;
 		$this->uri = $uri;
@@ -98,7 +91,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	 * @return bool
 	 */
 	public static function isAppGeneratedAddressBook(string $uri): bool {
-		return strpos($uri, self::PREFIX) === 0 && substr_count($uri, self::DELIMITER) >= 2;
+		return str_starts_with($uri, self::PREFIX) && substr_count($uri, self::DELIMITER) >= 2;
 	}
 
 	/**
@@ -128,6 +121,6 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	 * @return bool
 	 */
 	public static function doesViolateReservedName(string $uri): bool {
-		return strpos($uri, self::PREFIX) === 0;
+		return str_starts_with($uri, self::PREFIX);
 	}
 }

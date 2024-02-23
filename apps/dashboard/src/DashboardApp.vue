@@ -1,12 +1,12 @@
 <template>
-	<div id="app-dashboard" :style="backgroundStyle">
+	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
-			<div v-for="status in sortedRegisteredStatus"
+			<li v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
 				<div :ref="'status-' + status" />
-			</div>
+			</li>
 		</ul>
 
 		<Draggable v-model="layout"
@@ -14,31 +14,58 @@
 			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 			handle=".panel--header"
 			@end="saveLayout">
-			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
-				<div class="panel--header">
-					<h2>
-						<div :class="panels[panelId].iconClass" role="img" />
-						{{ panels[panelId].title }}
-					</h2>
+			<template v-for="panelId in layout">
+				<div v-if="isApiWidgetV2(panels[panelId].id)"
+					:key="`${panels[panelId].id}-v2`"
+					class="panel">
+					<div class="panel--header">
+						<h2>
+							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+								aria-hidden="true"
+								:class="apiWidgets[panels[panelId].id].icon_class"
+								role="img" />
+							{{ apiWidgets[panels[panelId].id].title }}
+						</h2>
+						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually">
+							{{ t('dashboard', '"{title} icon"', { title: apiWidgets[panels[panelId].id].title }) }}
+						</span>
+					</div>
+					<div class="panel--content">
+						<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
+							:data="apiWidgetItems[panels[panelId].id]"
+							:loading="loadingItems" />
+					</div>
 				</div>
-				<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
-					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+				<div v-else :key="panels[panelId].id" class="panel">
+					<div class="panel--header">
+						<h2>
+							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+								aria-hidden="true"
+								:class="panels[panelId].iconClass"
+								role="img" />
+							{{ panels[panelId].title }}
+						</h2>
+						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
+					</div>
+					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
+						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+					</div>
 				</div>
-			</div>
+			</template>
 		</Draggable>
 
 		<div class="footer">
-			<Button @click="showModal">
+			<NcButton @click="showModal">
 				<template #icon>
 					<Pencil :size="20" />
 				</template>
 				{{ t('dashboard', 'Customize') }}
-			</Button>
+			</NcButton>
 		</div>
 
-		<Modal v-if="modal" size="large" @close="closeModal">
+		<NcModal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
-				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
+				<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
 				<ol class="panels">
 					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
 						<input :id="'status-checkbox-' + status"
@@ -47,7 +74,8 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<div :class="statusInfo[status].icon" role="img" />
+							<NcUserStatusIcon v-if="status === 'status'" status="online" aria-hidden="true" />
+							<span v-else :class="statusInfo[status].icon" aria-hidden="true" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -65,7 +93,7 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<div :class="panel.iconClass" role="img" />
+							<span :class="panel.iconClass" aria-hidden="true" />
 							{{ panel.title }}
 						</label>
 					</li>
@@ -73,46 +101,39 @@
 
 				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
-				<h3>{{ t('dashboard', 'Change background image') }}</h3>
-				<BackgroundSettings :background="background"
-					:theming-default-background="themingDefaultBackground"
-					@update:background="updateBackground" />
-
-				<h3>{{ t('dashboard', 'Weather service') }}</h3>
-				<p>
-					{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
-				</p>
-				<p class="credits--end">
-					<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
-					<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">{{ t('dashboard', 'geocoding with Nominatim') }}</a>,
-					<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
-				</p>
+				<div v-if="statuses.weather && isStatusActive('weather')">
+					<h2>{{ t('dashboard', 'Weather service') }}</h2>
+					<p>
+						{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
+					</p>
+					<p class="credits--end">
+						<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
+						<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">{{ t('dashboard', 'geocoding with Nominatim') }}</a>,
+						<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
+					</p>
+				</div>
 			</div>
-		</Modal>
+		</NcModal>
 	</div>
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Draggable from 'vuedraggable'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
-import isMobile from './mixins/isMobile'
-import BackgroundSettings from './components/BackgroundSettings'
-import getBackgroundUrl from './helpers/getBackgroundUrl'
+import isMobile from './mixins/isMobile.js'
+import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
-const background = loadState('dashboard', 'background')
-const themingDefaultBackground = loadState('dashboard', 'themingDefaultBackground')
-const version = loadState('dashboard', 'version')
-const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 
 const statusInfo = {
 	weather: {
@@ -121,18 +142,18 @@ const statusInfo = {
 	},
 	status: {
 		text: t('dashboard', 'Status'),
-		icon: 'icon-user-status-online',
 	},
 }
 
 export default {
 	name: 'DashboardApp',
 	components: {
-		BackgroundSettings,
-		Button,
+		ApiDashboardWidget,
+		NcButton,
 		Draggable,
-		Modal,
+		NcModal,
 		Pencil,
+		NcUserStatusIcon,
 	},
 	mixins: [
 		isMobile,
@@ -156,25 +177,12 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
-			background,
-			themingDefaultBackground,
-			version,
+			apiWidgets: [],
+			apiWidgetItems: {},
+			loadingItems: true,
 		}
 	},
 	computed: {
-		backgroundImage() {
-			return getBackgroundUrl(this.background, this.version, this.themingDefaultBackground)
-		},
-		backgroundStyle() {
-			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
-				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-				return null
-			}
-			return {
-				backgroundImage: `url(${this.backgroundImage})`,
-			}
-		},
-
 		greeting() {
 			const time = this.timer.getHours()
 
@@ -261,8 +269,24 @@ export default {
 		},
 	},
 
+	async created() {
+		await this.fetchApiWidgets()
+
+		const apiWidgetIdsToFetch = Object
+			.values(this.apiWidgets)
+			.filter(widget => this.isApiWidgetV2(widget.id))
+			.map(widget => widget.id)
+		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
+
+		for (const widget of Object.values(this.apiWidgets)) {
+			if (widget.reload_interval > 0) {
+				setInterval(async () => {
+					await this.fetchApiWidgetItems([widget.id], true)
+				}, widget.reload_interval * 1000)
+			}
+		}
+	},
 	mounted() {
-		this.updateGlobalStyles()
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
@@ -301,6 +325,11 @@ export default {
 		},
 		rerenderPanels() {
 			for (const app in this.callbacks) {
+				// TODO: Properly rerender v2 widgets
+				if (this.isApiWidgetV2(this.panels[app].id)) {
+					continue
+				}
+
 				const element = this.$refs[app]
 				if (this.layout.indexOf(app) === -1) {
 					continue
@@ -353,22 +382,6 @@ export default {
 				this.firstRun = false
 			}, 1000)
 		},
-		updateBackground(data) {
-			this.background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
-			this.version = data.version
-			this.updateGlobalStyles()
-		},
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-			} else {
-				document.querySelector('#header').style.removeProperty('--primary-invert-if-bright')
-				document.querySelector('#header').style.removeProperty('--color-primary-text')
-			}
-		},
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
 			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
@@ -413,6 +426,33 @@ export default {
 				document.body.classList.remove('dashboard--scrolled')
 			}
 		},
+		async fetchApiWidgets() {
+			const response = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
+			this.apiWidgets = response.data.ocs.data
+		},
+		async fetchApiWidgetItems(widgetIds, merge = false) {
+			try {
+				const url = generateOcsUrl('/apps/dashboard/api/v2/widget-items')
+				const params = new URLSearchParams(widgetIds.map(id => ['widgets[]', id]))
+				const response = await axios.get(`${url}?${params.toString()}`)
+				const widgetItems = response.data.ocs.data
+				if (merge) {
+					this.apiWidgetItems = Object.assign({}, this.apiWidgetItems, widgetItems)
+				} else {
+					this.apiWidgetItems = widgetItems
+				}
+			} finally {
+				this.loadingItems = false
+			}
+		},
+		isApiWidgetV2(id) {
+			for (const widget of Object.values(this.apiWidgets)) {
+				if (widget.id === id && widget.item_api_versions.includes(2)) {
+					return true
+				}
+			}
+			return false
+		},
 	},
 }
 </script>
@@ -420,28 +460,26 @@ export default {
 <style lang="scss" scoped>
 #app-dashboard {
 	width: 100%;
-	min-height: 100vh;
+	min-height: 100%;
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-color: var(--color-primary);
-	--color-background-translucent: rgba(var(--color-main-background-rgb), 0.8);
-	--background-blur: blur(10px);
 
 	> h2 {
+		// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
 		color: var(--color-primary-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 10vh 16px 0px;
+		padding: 1rem 0;
 	}
 }
 
 .panels {
 	width: auto;
 	margin: auto;
-	max-width: 1500px;
+	max-width: 1800px;
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
@@ -450,13 +488,17 @@ export default {
 }
 
 .panel, .panels > div {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
-	background-color: var(--color-background-translucent);
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
-	border-radius: var(--border-radius-large);
+	align-self: stretch;
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
+	border-radius: var(--border-radius-rounded);
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
@@ -504,14 +546,15 @@ export default {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			cursor: grab;
-			div {
+			span {
 				background-size: 32px;
 				width: 32px;
 				height: 32px;
 				margin-right: 16px;
 				background-position: center;
 				float: left;
-				filter: var(--background-invert-if-dark);
+				margin-top: -6px;
+				margin-left: 6px;
 			}
 		}
 	}
@@ -535,8 +578,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	transition: bottom var(--animation-slow) ease-in-out;
-	bottom: 0;
-	padding: 44px 0;
+	padding: 1rem 0;
 }
 
 .edit-panels {
@@ -552,13 +594,16 @@ export default {
 }
 
 .button,
-.button-vue
+.button-vue,
 .edit-panels,
 .statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
-	background-color: var(--color-background-translucent);
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
 	opacity: 1 !important;
 
 	&:hover,
@@ -567,7 +612,8 @@ export default {
 		background-color: var(--color-background-hover)!important;
 	}
 	&:focus-visible {
-		box-shadow: 0 0 0 2px var(--color-main-text) !important;
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
 	}
 }
 
@@ -597,7 +643,7 @@ export default {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 
-			div {
+			span {
 				position: absolute;
 				top: 16px;
 				width: 24px;
@@ -606,12 +652,12 @@ export default {
 			}
 
 			&:hover {
-				border-color: var(--color-primary);
+				border-color: var(--color-primary-element);
 			}
 		}
 
 		// Do not invert status icons
-		&:not(.panel-status) label div {
+		&:not(.panel-status) label span {
 			filter: var(--background-invert-if-dark);
 		}
 
@@ -622,16 +668,13 @@ export default {
 		}
 
 		input:focus + label {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 	}
 
-	h3 {
+	h2 {
 		font-weight: bold;
-
-		&:not(:first-of-type) {
-			margin-top: 64px;
-		}
+		margin-top: 12px;
 	}
 
 	// Adjust design of 'Get more widgets' button
@@ -672,8 +715,21 @@ export default {
 	flex-wrap: wrap;
 	margin-bottom: 36px;
 
-	& > div {
+	& > li {
 		margin: 8px;
 	}
+}
+</style>
+<style>
+html, body {
+	background-attachment: fixed;
+}
+
+#body-user #header {
+	position: fixed;
+}
+
+#content {
+	overflow: auto;
 }
 </style>

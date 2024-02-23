@@ -32,7 +32,6 @@ use OCP\IUser;
  * @since 16.0.0
  */
 interface ISubAdmin {
-
 	/**
 	 * add a SubAdmin
 	 * @param IUser $user user to be SubAdmin

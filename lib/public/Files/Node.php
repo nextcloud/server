@@ -30,8 +30,8 @@
 
 namespace OCP\Files;
 
-use OCP\Lock\LockedException;
 use OCP\Files\Storage\IStorage;
+use OCP\Lock\LockedException;
 
 /**
  * Interface Node
@@ -145,7 +145,7 @@ interface Node extends FileInfo {
 	 * Get the size of the file or folder in bytes
 	 *
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @since 6.0.0

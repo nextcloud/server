@@ -49,8 +49,8 @@ class DisableMasterKey extends Command {
 	 * @param QuestionHelper $questionHelper
 	 */
 	public function __construct(Util $util,
-								IConfig $config,
-								QuestionHelper $questionHelper) {
+		IConfig $config,
+		QuestionHelper $questionHelper) {
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;

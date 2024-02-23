@@ -29,7 +29,6 @@ namespace OC\Share;
 use OCP\Share\IShare;
 
 class Constants {
-
 	/**
 	 * @deprecated 17.0.0 - use IShare::TYPE_USER instead
 	 */
@@ -75,11 +74,13 @@ class Constants {
 	public const SHARE_TYPE_DECK = 12;
 	// const SHARE_TYPE_DECK_USER = 13; // Internal type used by DeckShareProvider
 
+	// Note to developers: Do not add new share types here
+
 	public const FORMAT_NONE = -1;
 	public const FORMAT_STATUSES = -2;
 	public const FORMAT_SOURCES = -3;  // ToDo Check if it is still in use otherwise remove it
 
-	public const RESPONSE_FORMAT = 'json'; // default resonse format for ocs calls
+	public const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
 
 	public const TOKEN_LENGTH = 15; // old (oc7) length is 32, keep token length in db at least that for compatibility
 

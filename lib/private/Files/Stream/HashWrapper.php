@@ -67,7 +67,16 @@ class HashWrapper extends Wrapper {
 
 	public function stream_close() {
 		if (is_callable($this->callback)) {
-			call_user_func($this->callback, hash_final($this->hash));
+			// if the stream is closed as a result of the end-of-request GC, the hash context might be cleaned up before this stream
+			if ($this->hash instanceof \HashContext) {
+				try {
+					$hash = @hash_final($this->hash);
+					if ($hash) {
+						call_user_func($this->callback, $hash);
+					}
+				} catch (\Throwable $e) {
+				}
+			}
 			// prevent further calls by potential PHP 7 GC ghosts
 			$this->callback = null;
 		}

@@ -70,8 +70,6 @@ use OCP\FullTextSearch\Model\ISearchResult;
  *
  */
 interface IFullTextSearchPlatform {
-
-
 	/**
 	 * Must returns a unique Id used to identify the Search Platform.
 	 * Id must contains only alphanumeric chars, with no space.

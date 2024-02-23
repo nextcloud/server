@@ -32,16 +32,14 @@ use OCP\IUser;
 use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<UserChangedEvent>
+ */
 class Hooks implements IEventListener {
-
-	/** @var IAccountManager */
-	private $accountManager;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(LoggerInterface $logger, IAccountManager $accountManager) {
-		$this->logger = $logger;
-		$this->accountManager = $accountManager;
+	public function __construct(
+		private LoggerInterface $logger,
+		private IAccountManager $accountManager,
+	) {
 	}
 
 	/**

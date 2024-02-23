@@ -87,7 +87,6 @@ class OC_Hook {
 	 * TODO: write example
 	 */
 	public static function emit($signalClass, $signalName, $params = []) {
-
 		// Return false if no hook handlers are listening to this
 		// emitting class
 		if (!array_key_exists($signalClass, self::$registered)) {

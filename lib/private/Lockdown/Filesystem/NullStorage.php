@@ -65,7 +65,7 @@ class NullStorage extends Common {
 		return ($path === '') ? 'dir' : false;
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
@@ -113,11 +113,11 @@ class NullStorage extends Common {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function copy($path1, $path2) {
+	public function copy($source, $target) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 

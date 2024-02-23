@@ -30,6 +30,7 @@ class Version24000Date20220202150027 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 128,
 			]);
+			$table->addIndex(['mount_provider_class'], 'mounts_class_index');
 			return $schema;
 		}
 		return null;

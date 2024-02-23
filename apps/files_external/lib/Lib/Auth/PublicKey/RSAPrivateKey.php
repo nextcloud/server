@@ -46,7 +46,7 @@ class RSAPrivateKey extends AuthMechanism {
 			->setScheme(self::SCHEME_PUBLICKEY)
 			->setText($l->t('RSA private key'))
 			->addParameters([
-				new DefinitionParameter('user', $l->t('Username')),
+				new DefinitionParameter('user', $l->t('Login')),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 					->setType(DefinitionParameter::VALUE_PASSWORD),
@@ -58,7 +58,11 @@ class RSAPrivateKey extends AuthMechanism {
 		$auth = new RSACrypt();
 		$auth->setPassword($this->config->getSystemValue('secret', ''));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
-			throw new \RuntimeException('unable to load private key');
+			// Add fallback routine for a time where secret was not enforced to be exists
+			$auth->setPassword('');
+			if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
+				throw new \RuntimeException('unable to load private key');
+			}
 		}
 		$storage->setBackendOption('public_key_auth', $auth);
 	}

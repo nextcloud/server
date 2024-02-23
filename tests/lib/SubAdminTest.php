@@ -29,7 +29,6 @@ use OCP\Group\Events\SubAdminRemovedEvent;
  * @group DB
  */
 class SubAdminTest extends \Test\TestCase {
-
 	/** @var \OCP\IUserManager */
 	private $userManager;
 

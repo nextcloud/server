@@ -36,18 +36,46 @@ namespace OCP;
  * @since 4.5.0
  */
 interface GroupInterface {
-
 	/**
 	 * actions that user backends can define
+	 *
+	 * @since 12.0.0
 	 */
 	public const CREATE_GROUP = 0x00000001;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const DELETE_GROUP = 0x00000010;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const ADD_TO_GROUP = 0x00000100;
+
+	/**
+	 * @since 12.0.0
+	 * @deprecated  29.0.0
+	 */
 	public const REMOVE_FROM_GOUP = 0x00001000; // oops
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const REMOVE_FROM_GROUP = 0x00001000;
+
 	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COUNT_USERS = 0x00100000;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const GROUP_DETAILS = 0x01000000;
+
 	/**
 	 * @since 13.0.0
 	 */
@@ -87,7 +115,8 @@ interface GroupInterface {
 	public function getUserGroups($uid);
 
 	/**
-	 * get a list of all groups
+	 * @brief Get a list of all groups
+	 *
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -96,10 +125,11 @@ interface GroupInterface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = -1, $offset = 0);
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
-	 * check if a group exists
+	 * @brief Check if a group exists
+	 *
 	 * @param string $gid
 	 * @return bool
 	 * @since 4.5.0
@@ -107,13 +137,15 @@ interface GroupInterface {
 	public function groupExists($gid);
 
 	/**
-	 * get a list of all users in a group
+	 * @brief Get a list of user ids in a group matching the given search parameters.
+	 *
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of user ids
+	 * @return array<int,string> an array of user ids
 	 * @since 4.5.0
+	 * @deprecated 27.0.0 Use searchInGroup instead, for performance reasons
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 }

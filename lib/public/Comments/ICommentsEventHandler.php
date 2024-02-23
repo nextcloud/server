@@ -29,7 +29,6 @@ namespace OCP\Comments;
  * @since 11.0.0
  */
 interface ICommentsEventHandler {
-
 	/**
 	 * @param CommentsEvent $event
 	 * @since 11.0.0

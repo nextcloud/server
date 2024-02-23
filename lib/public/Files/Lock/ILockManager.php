@@ -39,7 +39,6 @@ use OCP\PreConditionNotMetException;
  * @since 24.0.0
  */
 interface ILockManager extends ILockProvider {
-
 	/**
 	 * @throws PreConditionNotMetException if there is already a lock provider registered
 	 * @since 24.0.0

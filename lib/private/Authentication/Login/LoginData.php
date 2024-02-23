@@ -30,7 +30,6 @@ use OCP\IRequest;
 use OCP\IUser;
 
 class LoginData {
-
 	/** @var IRequest */
 	private $request;
 
@@ -56,11 +55,11 @@ class LoginData {
 	private $rememberLogin = true;
 
 	public function __construct(IRequest $request,
-								string $username,
-								?string $password,
-								string $redirectUrl = null,
-								string $timeZone = '',
-								string $timeZoneOffset = '') {
+		string $username,
+		?string $password,
+		string $redirectUrl = null,
+		string $timeZone = '',
+		string $timeZoneOffset = '') {
 		$this->request = $request;
 		$this->username = $username;
 		$this->password = $password;

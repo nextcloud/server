@@ -33,7 +33,6 @@ use OCP\Template;
  * @since 15.0.0
  */
 interface IPersonalProviderSettings {
-
 	/**
 	 * @return Template
 	 *

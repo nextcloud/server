@@ -34,12 +34,12 @@ use OCP\App\IAppManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackendTest extends TestCase {
-
 	/** @var IManager|MockObject */
 	protected $activityManager;
 
@@ -52,12 +52,16 @@ class BackendTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	protected $appManager;
 
+	/** @var IUserManager|MockObject */
+	protected $userManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	/**
@@ -70,7 +74,8 @@ class BackendTest extends TestCase {
 				$this->activityManager,
 				$this->groupManager,
 				$this->userSession,
-				$this->appManager
+				$this->appManager,
+				$this->userManager
 			);
 		} else {
 			return $this->getMockBuilder(Backend::class)
@@ -79,6 +84,7 @@ class BackendTest extends TestCase {
 					$this->groupManager,
 					$this->userSession,
 					$this->appManager,
+					$this->userManager
 				])
 				->onlyMethods($methods)
 				->getMock();
@@ -96,11 +102,11 @@ class BackendTest extends TestCase {
 	/**
 	 * @dataProvider dataCallTriggerAddressBookActivity
 	 */
-	public function testCallTriggerAddressBookActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload) {
+	public function testCallTriggerAddressBookActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerAddressbookActivity']);
 		$backend->expects($this->once())
 			->method('triggerAddressbookActivity')
-			->willReturnCallback(function () use ($expectedPayload, $expectedSubject) {
+			->willReturnCallback(function () use ($expectedPayload, $expectedSubject): void {
 				$arguments = func_get_args();
 				$this->assertSame($expectedSubject, array_shift($arguments));
 				$this->assertEquals($expectedPayload, $arguments);
@@ -183,7 +189,7 @@ class BackendTest extends TestCase {
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
-	public function testTriggerAddressBookActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users) {
+	public function testTriggerAddressBookActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -222,12 +228,16 @@ class BackendTest extends TestCase {
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setType')
-				->with('addressbook')
+				->with('contacts')
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setAuthor')
 				->with($author)
 				->willReturnSelf();
+
+			$this->userManager->expects($action === Addressbook::SUBJECT_DELETE ? $this->exactly(sizeof($users)) : $this->never())
+				->method('userExists')
+				->willReturn(true);
 
 			$event->expects($this->exactly(sizeof($users)))
 				->method('setAffectedUser')
@@ -251,6 +261,24 @@ class BackendTest extends TestCase {
 		$this->activityManager->expects($this->never())
 			->method('generateEvent');
 		$this->assertEmpty($this->invokePrivate($backend, 'triggerAddressbookActivity', [Addressbook::SUBJECT_ADD, ['principaluri' => 'principals/system/system'], [], [], '', '', null, []]));
+	}
+
+	public function testUserDeletionDoesNotCreateActivity(): void {
+		$backend = $this->getBackend();
+
+		$this->userManager->expects($this->once())
+			->method('userExists')
+			->willReturn(false);
+
+		$this->activityManager->expects($this->never())
+			->method('publish');
+
+		$this->invokePrivate($backend, 'triggerAddressbookActivity', [Addressbook::SUBJECT_DELETE, [
+			'principaluri' => 'principal/user/admin',
+			'id' => 42,
+			'uri' => 'this-uri',
+			'{DAV:}displayname' => 'Name of addressbook',
+		], [], []]);
 	}
 
 	public function dataTriggerCardActivity(): array {
@@ -331,7 +359,7 @@ class BackendTest extends TestCase {
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
-	public function testTriggerCardActivity(string $action, array $addressBookData, array $shares, array $cardData, string $currentUser, string $author, ?array $shareUsers, array $users) {
+	public function testTriggerCardActivity(string $action, array $addressBookData, array $shares, array $cardData, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -370,7 +398,7 @@ class BackendTest extends TestCase {
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setType')
-				->with('card')
+				->with('contacts')
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setAuthor')
@@ -450,7 +478,7 @@ class BackendTest extends TestCase {
 	 * @param array $groups
 	 * @param array $expected
 	 */
-	public function testGetUsersForShares(array $shares, array $groups, array $expected) {
+	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 
 		$getGroups = [];

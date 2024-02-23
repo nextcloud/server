@@ -31,7 +31,7 @@
 					name="password"
 					autocomplete="new-password"
 					autocapitalize="none"
-					autocorrect="off"
+					spellcheck="false"
 					required
 					:placeholder="t('core', 'New password')">
 			</p>

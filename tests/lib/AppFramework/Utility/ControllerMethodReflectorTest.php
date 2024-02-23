@@ -26,7 +26,6 @@ namespace Test\AppFramework\Utility;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 
 class BaseController {
-
 	/**
 	 * @Annotation
 	 */
@@ -47,7 +46,6 @@ class BaseController {
 }
 
 class MiddleController extends BaseController {
-
 	/**
 	 * @NoAnnotation
 	 */
@@ -56,14 +54,20 @@ class MiddleController extends BaseController {
 
 	public function test3() {
 	}
+
+	/**
+	 * @psalm-param int<-4, 42> $rangedOne
+	 * @psalm-param int<min, max> $rangedTwo
+	 * @return void
+	 */
+	public function test4(int $rangedOne, int $rangedTwo) {
+	}
 }
 
 class EndController extends MiddleController {
 }
 
 class ControllerMethodReflectorTest extends \Test\TestCase {
-
-
 	/**
 	 * @Annotation
 	 */
@@ -237,5 +241,18 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test3');
 
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
+	}
+
+	public function testRangeDetection() {
+		$reader = new ControllerMethodReflector();
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test4');
+
+		$rangeInfo1 = $reader->getRange('rangedOne');
+		$this->assertSame(-4, $rangeInfo1['min']);
+		$this->assertSame(42, $rangeInfo1['max']);
+
+		$rangeInfo2 = $reader->getRange('rangedTwo');
+		$this->assertSame(PHP_INT_MIN, $rangeInfo2['min']);
+		$this->assertSame(PHP_INT_MAX, $rangeInfo2['max']);
 	}
 }

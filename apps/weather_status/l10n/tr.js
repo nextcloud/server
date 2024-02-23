@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error" : "Hata",
     "Weather status" : "Hava durumu",
     "Weather status in your dashboard" : "Panonuz için hava durumu",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Kullanıcının konumu el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Coğrafi konum el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir.",
     "Detect location" : "Konum algılansın",
     "Set custom address" : "Özel adres belirtin",
     "Favorites" : "Sık kullanılanlar",
@@ -46,17 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Kip kaydedilirken bir sorun çıktı.",
     "There was an error using personal address." : "Kişisel adres kullanılırken bir sorun çıktı.",
     "Set location for weather" : "Hava durumu için konumu ayarlayın",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Açık {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Bulutlu {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Gündüz {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Gece {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parçalı bulutlu {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Sisli {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Hafif yağışlı {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Yağışlı {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} şiddetli yağmur {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Sağanak yağış {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Hafif sağnak {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} şiddetli sağanak yağış {time}"
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Kullanıcının konumu el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir."
 },
 "nplurals=2; plural=(n > 1);");

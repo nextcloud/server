@@ -7,7 +7,6 @@ use OCP\Comments\IComment;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
-
 	/**
 	 * @throws \OCP\Comments\IllegalIDChangeException
 	 */
@@ -24,6 +23,8 @@ class CommentTest extends TestCase {
 		$creationDT = new \DateTime();
 		$latestChildDT = new \DateTime('yesterday');
 		$object = ['type' => 'files', 'id' => 'file64'];
+		$referenceId = sha1('referenceId');
+		$metaData = ['last_edit_actor_id' => 'admin'];
 
 		$comment
 			->setId($id)
@@ -35,7 +36,9 @@ class CommentTest extends TestCase {
 			->setActor($actor['type'], $actor['id'])
 			->setCreationDateTime($creationDT)
 			->setLatestChildDateTime($latestChildDT)
-			->setObject($object['type'], $object['id']);
+			->setObject($object['type'], $object['id'])
+			->setReferenceId($referenceId)
+			->setMetaData($metaData);
 
 		$this->assertSame($id, $comment->getId());
 		$this->assertSame($parentId, $comment->getParentId());
@@ -49,6 +52,8 @@ class CommentTest extends TestCase {
 		$this->assertSame($latestChildDT, $comment->getLatestChildDateTime());
 		$this->assertSame($object['type'], $comment->getObjectType());
 		$this->assertSame($object['id'], $comment->getObjectId());
+		$this->assertSame($referenceId, $comment->getReferenceId());
+		$this->assertSame($metaData, $comment->getMetaData());
 	}
 
 

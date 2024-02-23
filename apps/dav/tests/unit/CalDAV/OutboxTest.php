@@ -43,7 +43,7 @@ class OutboxTest extends TestCase {
 		$this->outbox = new Outbox($this->config, 'user-principal-123');
 	}
 
-	public function testGetACLFreeBusyEnabled() {
+	public function testGetACLFreeBusyEnabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'disableFreeBusy', 'no')
@@ -78,7 +78,7 @@ class OutboxTest extends TestCase {
 		], $this->outbox->getACL());
 	}
 
-	public function testGetACLFreeBusyDisabled() {
+	public function testGetACLFreeBusyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'disableFreeBusy', 'no')

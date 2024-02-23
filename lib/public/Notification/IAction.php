@@ -30,7 +30,6 @@ namespace OCP\Notification;
  * @since 9.0.0
  */
 interface IAction {
-
 	/**
 	 * @since 17.0.0
 	 */

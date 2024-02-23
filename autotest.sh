@@ -30,9 +30,14 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 if [ -z "$PHPUNIT_EXE" ]; then
-    PHPUNIT_EXE=phpunit
+	if [ -f build/integration/vendor/bin/phpunit ]; then
+		PHPUNIT_EXE="./build/integration/vendor/bin/phpunit"
+		PHPUNIT=$(readlink -f "$PHPUNIT_EXE")
+	else
+		PHPUNIT_EXE=phpunit
+		PHPUNIT=$(which "$PHPUNIT_EXE")
+	fi
 fi
-PHPUNIT=$(which "$PHPUNIT_EXE")
 
 set -e
 
@@ -56,7 +61,8 @@ else
 fi
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 6.5" >&2
+	echo "phpunit executable not found, please install phpunit version >= 9.0 manually or via:" >&2
+	echo "  cd build/integration && composer install" >&2
 	exit 3
 fi
 
@@ -71,8 +77,8 @@ PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f2)
 
-if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 6 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 6 -a "$PHPUNIT_MINOR_VERSION" -ge 5 \) ]; then
-	echo "phpunit version >= 6.5 required. Version found: $PHPUNIT_VERSION" >&2
+if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 9 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 9 -a "$PHPUNIT_MINOR_VERSION" -ge 0 \) ]; then
+	echo "phpunit version >= 9.0 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
 
@@ -307,7 +313,7 @@ function execute_tests {
 	if [ "$DB" == "pgsql" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the postgres docker"
-			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
+			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_DB="$DATABASENAME" -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for Postgres initialisation ..."
@@ -395,8 +401,8 @@ function execute_tests {
 		echo "No coverage"
 	fi
 
-	echo "$PHP" "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	"$PHP" "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	echo "$PHPUNIT" --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	"$PHPUNIT" --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
 	RESULT=$?
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then

@@ -99,20 +99,20 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	
-	public function testForbiddenCreateFile() {
+	public function testForbiddenCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createFile('555');
 	}
 
 	
-	public function testForbiddenCreateDirectory() {
+	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createDirectory('789');
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('555')
@@ -124,7 +124,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	
-	public function testGetChildWithoutAccess() {
+	public function testGetChildWithoutAccess(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->userFolder->expects($this->once())
@@ -135,13 +135,13 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
 		$this->node->getChildren();
 	}
 
-	public function testChildExists() {
+	public function testChildExists(): void {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('123')
@@ -149,7 +149,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->assertTrue($this->node->childExists('123'));
 	}
 
-	public function testChildExistsWithoutAccess() {
+	public function testChildExistsWithoutAccess(): void {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('555')
@@ -158,20 +158,20 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->delete();
 	}
 
 	
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->setName('somethingelse');
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals('files', $this->node->getName());
 	}
 }

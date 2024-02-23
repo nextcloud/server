@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,43 +28,41 @@ declare(strict_types=1);
 namespace OC\Calendar;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
+use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Property\VCard\DateTime;
+use Sabre\VObject\Reader;
 use Throwable;
 use function array_map;
 use function array_merge;
 
 class Manager implements IManager {
-
 	/**
 	 * @var ICalendar[] holds all registered calendars
 	 */
-	private $calendars = [];
+	private array $calendars = [];
 
 	/**
 	 * @var \Closure[] to call to load/register calendar providers
 	 */
-	private $calendarLoaders = [];
+	private array $calendarLoaders = [];
 
-	/** @var Coordinator */
-	private $coordinator;
-
-	/** @var ContainerInterface */
-	private $container;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(Coordinator $coordinator,
-								ContainerInterface $container,
-								LoggerInterface $logger) {
-		$this->coordinator = $coordinator;
-		$this->container = $container;
-		$this->logger = $logger;
+	public function __construct(
+		private Coordinator $coordinator,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
+	) {
 	}
 
 	/**
@@ -79,7 +78,13 @@ class Manager implements IManager {
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
-	public function search($pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null) {
+	public function search(
+		$pattern,
+		array $searchProperties = [],
+		array $options = [],
+		$limit = null,
+		$offset = null,
+	): array {
 		$this->loadCalendars();
 		$result = [];
 		foreach ($this->calendars as $calendar) {
@@ -99,29 +104,25 @@ class Manager implements IManager {
 	 * @return bool true if enabled, false if not
 	 * @since 13.0.0
 	 */
-	public function isEnabled() {
+	public function isEnabled(): bool {
 		return !empty($this->calendars) || !empty($this->calendarLoaders);
 	}
 
 	/**
 	 * Registers a calendar
 	 *
-	 * @param ICalendar $calendar
-	 * @return void
 	 * @since 13.0.0
 	 */
-	public function registerCalendar(ICalendar $calendar) {
+	public function registerCalendar(ICalendar $calendar): void {
 		$this->calendars[$calendar->getKey()] = $calendar;
 	}
 
 	/**
 	 * Unregisters a calendar
 	 *
-	 * @param ICalendar $calendar
-	 * @return void
 	 * @since 13.0.0
 	 */
-	public function unregisterCalendar(ICalendar $calendar) {
+	public function unregisterCalendar(ICalendar $calendar): void {
 		unset($this->calendars[$calendar->getKey()]);
 	}
 
@@ -129,19 +130,18 @@ class Manager implements IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * calendars are actually requested
 	 *
-	 * @param \Closure $callable
-	 * @return void
 	 * @since 13.0.0
 	 */
-	public function register(\Closure $callable) {
+	public function register(\Closure $callable): void {
 		$this->calendarLoaders[] = $callable;
 	}
 
 	/**
 	 * @return ICalendar[]
+	 *
 	 * @since 13.0.0
 	 */
-	public function getCalendars() {
+	public function getCalendars(): array {
 		$this->loadCalendars();
 
 		return array_values($this->calendars);
@@ -149,10 +149,10 @@ class Manager implements IManager {
 
 	/**
 	 * removes all registered calendar instances
-	 * @return void
+	 *
 	 * @since 13.0.0
 	 */
-	public function clear() {
+	public function clear(): void {
 		$this->calendars = [];
 		$this->calendarLoaders = [];
 	}
@@ -160,13 +160,16 @@ class Manager implements IManager {
 	/**
 	 * loads all calendars
 	 */
-	private function loadCalendars() {
+	private function loadCalendars(): void {
 		foreach ($this->calendarLoaders as $callable) {
 			$callable($this);
 		}
 		$this->calendarLoaders = [];
 	}
 
+	/**
+	 * @return ICreateFromString[]
+	 */
 	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -198,7 +201,6 @@ class Manager implements IManager {
 		);
 
 		$results = [];
-		/** @var ICalendar $calendar */
 		foreach ($calendars as $calendar) {
 			$r = $calendar->search(
 				$query->getSearchPattern() ?? '',
@@ -218,5 +220,183 @@ class Manager implements IManager {
 
 	public function newQuery(string $principalUri): ICalendarQuery {
 		return new CalendarQuery($principalUri);
+	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 */
+	public function handleIMipReply(
+		string $principalUri,
+		string $sender,
+		string $recipient,
+		string $calendarData,
+	): bool {
+		/** @var VCalendar $vObject|null */
+		$vObject = Reader::read($calendarData);
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
+		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
+
+		// First, we check if the correct method is passed to us
+		if (strcasecmp('REPLY', $vObject->{'METHOD'}->getValue()) !== 0) {
+			$this->logger->warning('Wrong method provided for processing');
+			return false;
+		}
+
+		// check if mail recipient and organizer are one and the same
+		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
+
+		if (strcasecmp($recipient, $organizer) !== 0) {
+			$this->logger->warning('Recipient and ORGANIZER must be identical');
+			return false;
+		}
+
+		//check if the event is in the future
+		/** @var DateTime $eventTime */
+		$eventTime = $vEvent->{'DTSTART'};
+		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
+			$this->logger->warning('Only events in the future are processed');
+			return false;
+		}
+
+		$calendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($calendars)) {
+			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
+			return false;
+		}
+
+		$found = null;
+		// if the attendee has been found in at least one calendar event with the UID of the iMIP event
+		// we process it.
+		// Benefit: no attendee lost
+		// Drawback: attendees that have been deleted will still be able to update their partstat
+		foreach ($calendars as $calendar) {
+			// We should not search in writable calendars
+			if ($calendar instanceof IHandleImipMessage) {
+				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
+				if (!empty($o)) {
+					$found = $calendar;
+					$name = $o[0]['uri'];
+					break;
+				}
+			}
+		}
+
+		if (empty($found)) {
+			$this->logger->info('Event not found in any calendar for principal ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			return false;
+		}
+
+		try {
+			$found->handleIMipMessage($name, $calendarData); // sabre will handle the scheduling behind the scenes
+		} catch (CalendarException $e) {
+			$this->logger->error('Could not update calendar for iMIP processing', ['exception' => $e]);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @since 25.0.0
+	 * @throws \OCP\DB\Exception
+	 */
+	public function handleIMipCancel(
+		string $principalUri,
+		string $sender,
+		?string $replyTo,
+		string $recipient,
+		string $calendarData,
+	): bool {
+		/** @var VCalendar $vObject|null */
+		$vObject = Reader::read($calendarData);
+
+		if ($vObject === null) {
+			return false;
+		}
+
+		/** @var VEvent|null $vEvent */
+		$vEvent = $vObject->{'VEVENT'};
+
+		if ($vEvent === null) {
+			return false;
+		}
+
+		// First, we check if the correct method is passed to us
+		if (strcasecmp('CANCEL', $vObject->{'METHOD'}->getValue()) !== 0) {
+			$this->logger->warning('Wrong method provided for processing');
+			return false;
+		}
+
+		$attendee = substr($vEvent->{'ATTENDEE'}->getValue(), 7);
+		if (strcasecmp($recipient, $attendee) !== 0) {
+			$this->logger->warning('Recipient must be an ATTENDEE of this event');
+			return false;
+		}
+
+		// Thirdly, we need to compare the email address the CANCEL is coming from (in Mail)
+		// or the Reply- To Address submitted with the CANCEL email
+		// to the email address in the ORGANIZER.
+		// We don't want to accept a CANCEL request from just anyone
+		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
+		$isNotOrganizer = ($replyTo !== null) ? (strcasecmp($sender, $organizer) !== 0 && strcasecmp($replyTo, $organizer) !== 0) : (strcasecmp($sender, $organizer) !== 0);
+		if ($isNotOrganizer) {
+			$this->logger->warning('Sender must be the ORGANIZER of this event');
+			return false;
+		}
+
+		//check if the event is in the future
+		/** @var DateTime $eventTime */
+		$eventTime = $vEvent->{'DTSTART'};
+		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
+			$this->logger->warning('Only events in the future are processed');
+			return false;
+		}
+
+		// Check if we have a calendar to work with
+		$calendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($calendars)) {
+			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
+			return false;
+		}
+
+		$found = null;
+		// if the attendee has been found in at least one calendar event with the UID of the iMIP event
+		// we process it.
+		// Benefit: no attendee lost
+		// Drawback: attendees that have been deleted will still be able to update their partstat
+		foreach ($calendars as $calendar) {
+			// We should not search in writable calendars
+			if ($calendar instanceof IHandleImipMessage) {
+				$o = $calendar->search($recipient, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
+				if (!empty($o)) {
+					$found = $calendar;
+					$name = $o[0]['uri'];
+					break;
+				}
+			}
+		}
+
+		if (empty($found)) {
+			$this->logger->info('Event not found in any calendar for principal ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			// this is a safe operation
+			// we can ignore events that have been cancelled but were not in the calendar anyway
+			return true;
+		}
+
+		try {
+			$found->handleIMipMessage($name, $calendarData); // sabre will handle the scheduling behind the scenes
+			return true;
+		} catch (CalendarException $e) {
+			$this->logger->error('Could not update calendar for iMIP processing', ['exception' => $e]);
+			return false;
+		}
 	}
 }

@@ -31,7 +31,8 @@ use OC\Files\Filesystem;
  */
 class EncodingDirectoryWrapper extends DirectoryWrapper {
 	/**
-	 * @return string
+	 * @psalm-suppress ImplementedReturnTypeMismatch Until return type is fixed upstream
+	 * @return string|false
 	 */
 	public function dir_readdir() {
 		$file = readdir($this->source);
@@ -45,7 +46,7 @@ class EncodingDirectoryWrapper extends DirectoryWrapper {
 	/**
 	 * @param resource $source
 	 * @param callable $filter
-	 * @return resource|bool
+	 * @return resource|false
 	 */
 	public static function wrap($source) {
 		return self::wrapSource($source, [

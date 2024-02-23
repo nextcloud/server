@@ -3,13 +3,20 @@ module.exports = {
 		__webpack_nonce__: true,
 		_: true,
 		$: true,
-		moment: true,
-		escapeHTML: true,
-		oc_userconfig: true,
 		dayNames: true,
+		escapeHTML: true,
 		firstDay: true,
+		moment: true,
+		oc_userconfig: true,
+		sinon: true,
 	},
-	extends: ['@nextcloud'],
+	plugins: [
+		'cypress',
+	],
+	extends: [
+		'@nextcloud/eslint-config/typescript',
+		'plugin:cypress/recommended',
+	],
 	rules: {
 		'no-tabs': 'warn',
 		// TODO: make sure we fix this as this is bad vue coding style.

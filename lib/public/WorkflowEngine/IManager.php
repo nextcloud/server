@@ -31,7 +31,14 @@ namespace OCP\WorkflowEngine;
  * @since 9.1
  */
 interface IManager {
+	/**
+	 * @since 18.0.0
+	 */
 	public const SCOPE_ADMIN = 0;
+
+	/**
+	 * @since 18.0.0
+	 */
 	public const SCOPE_USER = 1;
 
 	/**
@@ -43,21 +50,6 @@ interface IManager {
 	 * @since 21.0.0
 	 */
 	public const MAX_OPERATION_VALUE_BYTES = 4096;
-
-	/**
-	 * @deprecated 17.0.0 Will be removed in NC19. Use the dedicated events in OCP\WorkflowEngine\Events
-	 */
-	public const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
-
-	/**
-	 * @deprecated 17.0.0
-	 */
-	public const EVENT_NAME_REG_ENTITY = 'OCP\WorkflowEngine::registerEntities';
-
-	/**
-	 * @deprecated 17.0.0
-	 */
-	public const EVENT_NAME_REG_CHECK = 'OCP\WorkflowEngine::registerChecks';
 
 	/**
 	 * Listen to `OCP\WorkflowEngine\Events\RegisterEntitiesEvent` at the

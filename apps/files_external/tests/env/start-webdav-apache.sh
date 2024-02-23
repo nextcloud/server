@@ -23,8 +23,8 @@ fi
 
 echo "Docker executable found - setup docker"
 
-echo "Fetch recent morrisjobke/webdav docker image"
-docker pull morrisjobke/webdav
+echo "Fetch recent webdav docker image"
+docker pull ghcr.io/nextcloud/continuous-integration-webdav-apache:latest
 
 # retrieve current folder to place the config in the parent folder
 thisFolder=`echo $0 | sed 's#env/start-webdav-apache\.sh##'`
@@ -45,7 +45,7 @@ if [ -n "$RUN_DOCKER_MYSQL" ]; then
     parameter="--link $containerName:db"
 fi
 
-container=`docker run -P $parameter -d -e USERNAME=test -e PASSWORD=test morrisjobke/webdav`
+container=`docker run -P $parameter -d --rm ghcr.io/nextcloud/continuous-integration-webdav-apache:latest`
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 echo -n "Waiting for Apache initialization on ${host}:${port}"
@@ -64,7 +64,7 @@ return array(
     'run'=>true,
     'host'=>'${host}:80/webdav/',
     'user'=>'test',
-    'password'=>'test',
+    'password'=>'pass',
     'root'=>'',
     // wait delay in seconds after write operations
     // (only in tests)

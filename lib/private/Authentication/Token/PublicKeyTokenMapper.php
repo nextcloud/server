@@ -69,6 +69,15 @@ class PublicKeyTokenMapper extends QBMapper {
 			->execute();
 	}
 
+	public function invalidateLastUsedBefore(string $uid, int $before): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->lt('last_activity', $qb->createNamedParameter($before, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
+	}
+
 	/**
 	 * Get the user UID for the given token
 	 *
@@ -228,5 +237,32 @@ class PublicKeyTokenMapper extends QBMapper {
 				$qb->expr()->lt('last_activity', $qb->createNamedParameter($now - 15, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT)
 			);
 		$update->executeStatement();
+	}
+
+	public function updateHashesForUser(string $userId, string $passwordHash): void {
+		$qb = $this->db->getQueryBuilder();
+		$update = $qb->update($this->getTableName())
+			->set('password_hash', $qb->createNamedParameter($passwordHash))
+			->where(
+				$qb->expr()->eq('uid', $qb->createNamedParameter($userId))
+			);
+		$update->executeStatement();
+	}
+
+	public function getFirstTokenForUser(string $userId): ?PublicKeyToken {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId)))
+			->setMaxResults(1)
+			->orderBy('id');
+		$result = $qb->executeQuery();
+
+		$data = $result->fetch();
+		$result->closeCursor();
+		if ($data === false) {
+			return null;
+		}
+		return PublicKeyToken::fromRow($data);
 	}
 }

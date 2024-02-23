@@ -113,7 +113,7 @@ class Auth implements BackendInterface {
 	 * @param ResponseInterface $response
 	 * @return void
 	 */
-	public function challenge(RequestInterface $request, ResponseInterface $response) {
+	public function challenge(RequestInterface $request, ResponseInterface $response): void {
 		// TODO: Implement challenge() method.
 	}
 }

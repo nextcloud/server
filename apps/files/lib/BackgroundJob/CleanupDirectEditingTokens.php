@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
@@ -23,18 +26,18 @@
  */
 namespace OCA\Files\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DirectEditing\IManager;
 
 class CleanupDirectEditingTokens extends TimedJob {
 	private const INTERVAL_MINUTES = 15 * 60;
 
-	/**
-	 * @var IManager
-	 */
-	private $manager;
+	private IManager $manager;
 
-	public function __construct(IManager $manager) {
+	public function __construct(ITimeFactory $time,
+		IManager $manager) {
+		parent::__construct($time);
 		$this->interval = self::INTERVAL_MINUTES;
 		$this->manager = $manager;
 	}

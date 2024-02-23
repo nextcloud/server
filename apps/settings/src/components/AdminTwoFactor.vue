@@ -1,17 +1,17 @@
 <template>
-	<SettingsSection :title="t('settings', 'Two-Factor Authentication')"
-		:description="t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
+	<NcSettingsSection :name="t('settings', 'Two-Factor Authentication')"
+		:description="t('settings', 'Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
 		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
 			<span>{{ t('settings', 'Enforce two-factor authentication') }}</span>
 		</p>
-		<CheckboxRadioSwitch v-else
+		<NcCheckboxRadioSwitch v-else
 			id="two-factor-enforced"
 			:checked.sync="enforced"
 			type="switch">
 			{{ t('settings', 'Enforce two-factor authentication') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<template v-if="enforced">
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
@@ -19,68 +19,72 @@
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
-				<Multiselect v-model="enforcedGroups"
+				<label for="enforcedGroups">
+					<span>{{ t('settings', 'Enforced groups') }}</span>
+				</label>
+				<NcSelect v-model="enforcedGroups"
+					input-id="enforcedGroups"
 					:options="groups"
-					:placeholder="t('settings', 'Enforced groups')"
 					:disabled="loading"
 					:multiple="true"
-					:searchable="true"
 					:loading="loadingGroups"
-					:show-no-options="false"
 					:close-on-select="false"
-					@search-change="searchGroup" />
+					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
-				<Multiselect v-model="excludedGroups"
+				<label for="excludedGroups">
+					<span>{{ t('settings', 'Excluded groups') }}</span>
+				</label>
+				<NcSelect v-model="excludedGroups"
+					input-id="excludedGroups"
 					:options="groups"
-					:placeholder="t('settings', 'Excluded groups')"
 					:disabled="loading"
 					:multiple="true"
-					:searchable="true"
 					:loading="loadingGroups"
-					:show-no-options="false"
 					:close-on-select="false"
-					@search-change="searchGroup" />
+					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
 				<em>
 					<!-- this text is also found in the documentation. update it there as well if it ever changes -->
-					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
+					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
 				</em>
 			</p>
 		</template>
 		<p class="top-margin">
-			<Button v-if="dirty"
+			<NcButton v-if="dirty"
 				type="primary"
 				:disabled="loading"
 				@click="saveChanges">
 				{{ t('settings', 'Save changes') }}
-			</Button>
+			</NcButton>
 		</p>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Button from '@nextcloud/vue/dist/Components/Button'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 
-import _ from 'lodash'
+import sortedUniq from 'lodash/sortedUniq.js'
+import uniq from 'lodash/uniq.js'
+import debounce from 'lodash/debounce.js'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'AdminTwoFactor',
 	components: {
-		Multiselect,
-		Button,
-		CheckboxRadioSwitch,
-		SettingsSection,
+		NcSelect,
+		NcButton,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
 	},
 	data() {
 		return {
@@ -123,19 +127,19 @@ export default {
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
 		// be valid groups, so let's add them as initial state
-		this.groups = _.sortedUniq(_.uniq(this.enforcedGroups.concat(this.excludedGroups)))
+		this.groups = sortedUniq(uniq(this.enforcedGroups.concat(this.excludedGroups)))
 
 		// Populate the groups with a first set so the dropdown is not empty
 		// when opening the page the first time
 		this.searchGroup('')
 	},
 	methods: {
-		searchGroup: _.debounce(function(query) {
+		searchGroup: debounce(function(query) {
 			this.loadingGroups = true
 			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
 				.then(res => res.data.ocs)
 				.then(ocs => ocs.data.groups)
-				.then(groups => { this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))) })
+				.then(groups => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
 				.catch(err => console.error('could not search groups', err))
 				.then(() => { this.loadingGroups = false })
 		}, 500),

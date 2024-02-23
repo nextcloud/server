@@ -33,7 +33,6 @@ use Test\TestCase;
  * @group DB
  */
 class AppsEnableTest extends TestCase {
-
 	/** @var CommandTester */
 	private $commandTester;
 
@@ -67,7 +66,7 @@ class AppsEnableTest extends TestCase {
 
 		$this->commandTester->execute($input);
 
-		$this->assertRegExp('/' . $pattern . '/', $this->commandTester->getDisplay());
+		$this->assertMatchesRegularExpression('/' . $pattern . '/', $this->commandTester->getDisplay());
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 

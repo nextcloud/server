@@ -47,8 +47,8 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\StorageNotAvailableException;
-use OCP\IUser;
 use phpseclib\Crypt\AES;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to configure mount.json globally and for users
@@ -138,7 +138,7 @@ class MountConfig {
 					throw $e;
 				}
 			} catch (\Exception $exception) {
-				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
+				\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
 				throw $exception;
 			}
 		}
@@ -150,17 +150,17 @@ class MountConfig {
 	 * TODO: move into AppFramework along with templates
 	 *
 	 * @param Backend[] $backends
-	 * @return string
 	 */
-	public static function dependencyMessage($backends) {
-		$l = \OC::$server->getL10N('files_external');
+	public static function dependencyMessage(array $backends): string {
+		$l = \OCP\Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
 		foreach ($backends as $backend) {
 			foreach ($backend->checkDependencies() as $dependency) {
-				if ($message = $dependency->getMessage()) {
-					$message .= '<p>' . $message . '</p>';
+				$dependencyMessage = $dependency->getMessage();
+				if ($dependencyMessage !== null) {
+					$message .= '<p>' . $dependencyMessage . '</p>';
 				} else {
 					$dependencyGroups[$dependency->getDependency()][] = $backend;
 				}
@@ -168,7 +168,7 @@ class MountConfig {
 		}
 
 		foreach ($dependencyGroups as $module => $dependants) {
-			$backends = implode(', ', array_map(function ($backend) {
+			$backends = implode(', ', array_map(function (Backend $backend): string {
 				return '"' . $backend->getText() . '"';
 			}, $dependants));
 			$message .= '<p>' . MountConfig::getSingleDependencyMessage($l, $module, $backends) . '</p>';
@@ -179,13 +179,8 @@ class MountConfig {
 
 	/**
 	 * Returns a dependency missing message
-	 *
-	 * @param \OCP\IL10N $l
-	 * @param string $module
-	 * @param string $backend
-	 * @return string
 	 */
-	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
+	private static function getSingleDependencyMessage(\OCP\IL10N $l, string $module, string $backend): string {
 		switch (strtolower($module)) {
 			case 'curl':
 				return $l->t('The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$backend]);
@@ -281,8 +276,8 @@ class MountConfig {
 				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
-				'p' => isset($config['priority']) ? $config['priority'] : -1,
-				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
+				'p' => $config['priority'] ?? -1,
+				'mo' => $config['mountOptions'] ?? [],
 			]
 		);
 		return hash('md5', $data);

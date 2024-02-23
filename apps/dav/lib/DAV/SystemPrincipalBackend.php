@@ -60,7 +60,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	}
 
 	/**
-	 * Returns a specific principal, specified by it's path.
+	 * Returns a specific principal, specified by its path.
 	 * The returned structure should be the exact same as from
 	 * getPrincipalsByPrefix.
 	 *
@@ -87,7 +87,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	}
 
 	/**
-	 * Updates one ore more webdav properties on a principal.
+	 * Updates one or more webdav properties on a principal.
 	 *
 	 * The list of mutations is stored in a Sabre\DAV\PropPatch object.
 	 * To do the actual updates, you must tell this object which properties

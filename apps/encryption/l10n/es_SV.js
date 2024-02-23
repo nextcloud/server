@@ -29,14 +29,11 @@ OC.L10N.register(
     "Missing Signature" : "Firma faltante",
     "one-time password for server-side-encryption" : "Contraseña de una-sola-vez para la encripción del lado del servidor",
     "Default encryption module" : "Módulo de encripción predeterminado",
-    "The share will expire on %s." : "El elemento compartido expirará el %s.",
-    "Cheers!" : "¡Saludos!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "La aplicación de encripción esta habilitada pero tus llaves no han sido inicializadas, por favor sal y vuelve a entrar a tu sesión",
     "Encrypt the home storage" : "Encriptar el almacenamiento de inicio",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Habilitar esta opción encripta todos los archivos almacenados en el almacenamiento principal, de otro modo, sólo los archivos en el almacenamiento externo serán encriptados",
     "Enable recovery key" : "Habilitar llave de recuperación",
     "Disable recovery key" : "Deshabilitar llave de recuperación",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La llave de recuperación es una llave de encripción que se usa para encriptar archivos. Permite la recuperación de los archivos del usuario si este olvida su contraseña. ",
     "Recovery key password" : "Contraseña de llave de recuperación",
     "Repeat recovery key password" : "Repetir la contraseña de la llave de recuperación",
     "Change recovery key password:" : "Cambiar la contraseña de la llave de recuperación:",
@@ -55,6 +52,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción te permitirá volver a tener acceso a tus archivos encriptados en caso de que pierdas la contraseña",
     "Enabled" : "Habilitado",
     "Disabled" : "Deshabilitado",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hola, <br><br>el administrador ha habilitado la encripción del lado del servidor. Tus archivos fueron encriptados usando la contraseña <strong>%s</strong>.<br><br> Por favor inicia sesisón en la interface web, ve a la sección \"módulo de encripción básica\" de tus configuraciones personales y actualiza tu contraseña de encripción ingresando esta contraseña en el campo \"contraseña de inicio de sesión anterior\" y tu contraseña de inicio de sesión actual. <br><br>"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La llave de recuperación es una llave de encripción que se usa para encriptar archivos. Permite la recuperación de los archivos del usuario si este olvida su contraseña. "
 },
-"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

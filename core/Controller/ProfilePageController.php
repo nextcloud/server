@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,40 +29,35 @@ namespace OC\Core\Controller;
 
 use OC\Profile\ProfileManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ProfilePageController extends Controller {
-	private IInitialState $initialStateService;
-	private ProfileManager $profileManager;
-	private IShareManager $shareManager;
-	private IUserManager $userManager;
-	private IUserSession $userSession;
-	private IUserStatusManager $userStatusManager;
-
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		IInitialState $initialStateService,
-		ProfileManager $profileManager,
-		IShareManager $shareManager,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		IUserStatusManager $userStatusManager
+		private IInitialState $initialStateService,
+		private ProfileManager $profileManager,
+		private IShareManager $shareManager,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private IUserStatusManager $userStatusManager,
+		private INavigationManager $navigationManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
-		$this->initialStateService = $initialStateService;
-		$this->profileManager = $profileManager;
-		$this->shareManager = $shareManager;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->userStatusManager = $userStatusManager;
 	}
 
 	/**
@@ -70,6 +66,7 @@ class ProfilePageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/u/{targetUserId}')]
 	public function index(string $targetUserId): TemplateResponse {
 		$profileNotFoundTemplate = new TemplateResponse(
 			'core',
@@ -79,7 +76,7 @@ class ProfilePageController extends Controller {
 		);
 
 		$targetUser = $this->userManager->get($targetUserId);
-		if (!$targetUser instanceof IUser) {
+		if (!($targetUser instanceof IUser) || !$targetUser->isEnabled()) {
 			return $profileNotFoundTemplate;
 		}
 		$visitingUser = $this->userSession->getUser();
@@ -108,8 +105,14 @@ class ProfilePageController extends Controller {
 
 		$this->initialStateService->provideInitialState(
 			'profileParameters',
-			$this->profileManager->getProfileParams($targetUser, $visitingUser),
+			$this->profileManager->getProfileFields($targetUser, $visitingUser),
 		);
+
+		if ($targetUser === $visitingUser) {
+			$this->navigationManager->setActiveEntry('profile');
+		}
+
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 
 		\OCP\Util::addScript('core', 'profile');
 

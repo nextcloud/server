@@ -40,23 +40,27 @@ class Version24000Date20220404230027 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
+		// /** @var ISchemaWrapper $schema */
+		// $schema = $schemaClosure();
 
-		if (!$schema->hasTable('file_metadata')) {
-			$table = $schema->createTable('file_metadata');
-			$table->addColumn('id', Types::INTEGER, [
-				'notnull' => true,
-			]);
-			$table->addColumn('group_name', Types::STRING, [
-				'notnull' => true,
-				'length' => 50,
-			]);
-			$table->addColumn('metadata', Types::JSON, [
-				'notnull' => true,
-			]);
-			$table->setPrimaryKey(['id', 'group_name'], 'file_metadata_idx');
-		}
-		return $schema;
+		// if (!$schema->hasTable('file_metadata')) {
+		// 	$table = $schema->createTable('file_metadata');
+		// 	$table->addColumn('id', Types::BIGINT, [
+		// 		'notnull' => true,
+		// 	]);
+		// 	$table->addColumn('group_name', Types::STRING, [
+		// 		'notnull' => true,
+		// 		'length' => 50,
+		// 	]);
+		// 	$table->addColumn('value', Types::TEXT, [
+		// 		'notnull' => false,
+		// 		'default' => '',
+		// 	]);
+		// 	$table->setPrimaryKey(['id', 'group_name'], 'file_metadata_idx');
+
+		// 	return $schema;
+		// }
+
+		return null;
 	}
 }

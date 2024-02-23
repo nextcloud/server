@@ -28,7 +28,6 @@
  *
  */
 class OC_JSON {
-
 	/**
 	 * Check if the app is enabled, send json error msg if not
 	 * @param string $app

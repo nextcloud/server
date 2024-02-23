@@ -31,11 +31,10 @@ namespace OCA\AdminAudit\Actions;
 use OCA\AdminAudit\IAuditLogger;
 
 class Action {
-	/** @var IAuditLogger */
-	private $logger;
 
-	public function __construct(IAuditLogger $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		private IAuditLogger $logger,
+	) {
 	}
 
 	/**
@@ -47,9 +46,9 @@ class Action {
 	 * @param bool $obfuscateParameters
 	 */
 	public function log(string $text,
-						array $params,
-						array $elements,
-						bool $obfuscateParameters = false): void {
+		array $params,
+		array $elements,
+		bool $obfuscateParameters = false): void {
 		foreach ($elements as $element) {
 			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {

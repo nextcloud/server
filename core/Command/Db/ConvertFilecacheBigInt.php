@@ -33,19 +33,18 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
-use OCP\DB\Types;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
+use OCP\DB\Types;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ConvertFilecacheBigInt extends Command {
-	private Connection $connection;
-
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private Connection $connection,
+	) {
 		parent::__construct();
 	}
 
@@ -55,8 +54,10 @@ class ConvertFilecacheBigInt extends Command {
 			->setDescription('Convert the ID columns of the filecache to BigInt');
 	}
 
-	protected function getColumnsByTable() {
-		// also update in CheckSetupController::hasBigIntConversionPendingColumns()
+	/**
+	 * @return array<string,string[]>
+	 */
+	public static function getColumnsByTable(): array {
 		return [
 			'activity' => ['activity_id', 'object_id'],
 			'activity_mq' => ['mail_id'],
@@ -67,6 +68,7 @@ class ConvertFilecacheBigInt extends Command {
 			'filecache_extended' => ['fileid'],
 			'files_trash' => ['auto_id'],
 			'file_locks' => ['id'],
+			'file_metadata' => ['id'],
 			'jobs' => ['id'],
 			'mimetypes' => ['id'],
 			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
@@ -80,7 +82,7 @@ class ConvertFilecacheBigInt extends Command {
 		$isSqlite = $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
 		$updates = [];
 
-		$tables = $this->getColumnsByTable();
+		$tables = static::getColumnsByTable();
 		foreach ($tables as $tableName => $columns) {
 			if (!$schema->hasTable($tableName)) {
 				continue;

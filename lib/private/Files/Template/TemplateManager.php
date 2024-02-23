@@ -31,8 +31,8 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -240,7 +240,8 @@ class TemplateManager implements ITemplateManager {
 			'mime' => $file->getMimetype(),
 			'size' => $file->getSize(),
 			'type' => $file->getType(),
-			'hasPreview' => $this->previewManager->isAvailable($file)
+			'hasPreview' => $this->previewManager->isAvailable($file),
+			'permissions' => $file->getPermissions(),
 		];
 	}
 
@@ -268,16 +269,21 @@ class TemplateManager implements ITemplateManager {
 
 		$defaultSkeletonDirectory = \OC::$SERVERROOT . '/core/skeleton';
 		$defaultTemplateDirectory = \OC::$SERVERROOT . '/core/skeleton/Templates';
-		$skeletonPath = $this->config->getSystemValue('skeletondirectory', $defaultSkeletonDirectory);
-		$skeletonTemplatePath = $this->config->getSystemValue('templatedirectory', $defaultTemplateDirectory);
+		$skeletonPath = $this->config->getSystemValueString('skeletondirectory', $defaultSkeletonDirectory);
+		$skeletonTemplatePath = $this->config->getSystemValueString('templatedirectory', $defaultTemplateDirectory);
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
+		if ($skeletonTemplatePath === '') {
+			$this->setTemplatePath('');
+			return '';
+		}
+
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$userTemplatePath = $path ?? $l10n->t('Templates') . '/';
+			$userTemplatePath = $path ?? $this->config->getAppValue('core', 'defaultTemplateDirectory', $l10n->t('Templates')) . '/';
 
 			// Initial user setup without a provided path
 			if ($path === null) {

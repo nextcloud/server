@@ -34,19 +34,13 @@ use OCP\IConfig;
 use OCP\Security\ITrustedDomainHelper;
 
 class TrustedDomainHelper implements ITrustedDomainHelper {
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**
 	 * Strips a potential port from a domain (in format domain:port)
-	 * @param string $host
 	 * @return string $host without appended port
 	 */
 	private function getDomainWithoutPort(string $host): string {
@@ -97,8 +91,8 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
-		// Reject misformed domains in any case
-		if (strpos($domain, '-') === 0 || strpos($domain, '..') !== false) {
+		// Reject malformed domains in any case
+		if (str_starts_with($domain, '-') || str_contains($domain, '..')) {
 			return false;
 		}
 		// Match, allowing for * wildcards

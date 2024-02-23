@@ -31,7 +31,6 @@ use OCP\Files\File;
  * @since 21.0.0
  */
 final class Template implements \JsonSerializable {
-
 	/** @var string */
 	private $templateType;
 	/** @var string */

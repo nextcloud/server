@@ -49,7 +49,7 @@ class AvatarHomeTest extends TestCase {
 	/**
 	 * @dataProvider providesForbiddenMethods
 	 */
-	public function testForbiddenMethods($method) {
+	public function testForbiddenMethods($method): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->home->$method('');
@@ -64,7 +64,7 @@ class AvatarHomeTest extends TestCase {
 		];
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$n = $this->home->getName();
 		self::assertEquals('admin', $n);
 	}
@@ -82,7 +82,7 @@ class AvatarHomeTest extends TestCase {
 	/**
 	 * @dataProvider providesTestGetChild
 	 */
-	public function testGetChild($expectedException, $hasAvatar, $path) {
+	public function testGetChild($expectedException, $hasAvatar, $path): void {
 		if ($expectedException !== null) {
 			$this->expectException($expectedException);
 		}
@@ -95,7 +95,7 @@ class AvatarHomeTest extends TestCase {
 		$this->assertInstanceOf(AvatarNode::class, $avatarNode);
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$avatarNodes = $this->home->getChildren();
 		self::assertEquals(0, count($avatarNodes));
 
@@ -109,7 +109,7 @@ class AvatarHomeTest extends TestCase {
 	/**
 	 * @dataProvider providesTestGetChild
 	 */
-	public function testChildExists($expectedException, $hasAvatar, $path) {
+	public function testChildExists($expectedException, $hasAvatar, $path): void {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->method('exists')->willReturn($hasAvatar);
 
@@ -118,7 +118,7 @@ class AvatarHomeTest extends TestCase {
 		$this->assertEquals($hasAvatar, $childExists);
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		self::assertNull($this->home->getLastModified());
 	}
 }

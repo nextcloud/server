@@ -31,7 +31,6 @@ use OCP\HintException;
  * @since 14.0.0
  */
 class AuthenticationFailedException extends HintException {
-
 	/**
 	 * BadRequestException constructor.
 	 *
@@ -39,7 +38,7 @@ class AuthenticationFailedException extends HintException {
 	 *
 	 */
 	public function __construct() {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OCP\Util::getL10N('federation');
 		$message = 'Authentication failed, wrong token or provider ID given';
 		$hint = $l->t('Authentication failed, wrong token or provider ID given');
 		parent::__construct($message, $hint);

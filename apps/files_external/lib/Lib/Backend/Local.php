@@ -26,8 +26,10 @@ namespace OCA\Files_External\Lib\Backend;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
+use OCP\IUser;
 
 class Local extends Backend {
 	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
@@ -44,5 +46,9 @@ class Local extends Backend {
 			->addAuthScheme(AuthMechanism::SCHEME_NULL)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
+	}
+
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null): void {
+		$storage->setBackendOption('isExternal', true);
 	}
 }

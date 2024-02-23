@@ -231,6 +231,14 @@ class Config {
 
 			unset($CONFIG);
 			include $file;
+			if (!defined('PHPUNIT_RUN') && headers_sent()) {
+				// syntax issues in the config file like leading spaces causing PHP to send output
+				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
+				if (!defined('OC_CONSOLE')) {
+					print(\OCP\Util::sanitizeHTML($errorMessage));
+				}
+				throw new \Exception($errorMessage);
+			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
@@ -254,6 +262,10 @@ class Config {
 	private function writeData() {
 		$this->checkReadOnly();
 
+		if (!is_file(\OC::$configDir.'/CAN_INSTALL') && !isset($this->cache['version'])) {
+			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
+		}
+
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
@@ -271,6 +283,15 @@ class Config {
 			throw new HintException(
 				"Can't write into config directory!",
 				'This can usually be fixed by giving the webserver write access to the config directory.');
+		}
+
+		// Never write file back if disk space should be too low
+		if (function_exists('disk_free_space')) {
+			$df = disk_free_space($this->configDir);
+			$size = strlen($content) + 10240;
+			if ($df !== false && $df < (float)$size) {
+				throw new \Exception($this->configDir . " does not have enough space for writing the config file! Not writing it back!");
+			}
 		}
 
 		// Try to acquire a file lock

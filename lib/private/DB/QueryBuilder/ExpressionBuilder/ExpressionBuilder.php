@@ -114,12 +114,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function comparison($x, string $operator, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->comparison($x, $operator, $y));
+	public function comparison($x, string $operator, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->comparison($x, $operator, $y);
 	}
 
 	/**
@@ -137,12 +137,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function eq($x, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->eq($x, $y));
+	public function eq($x, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->eq($x, $y);
 	}
 
 	/**
@@ -159,12 +159,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function neq($x, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->neq($x, $y));
+	public function neq($x, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->neq($x, $y);
 	}
 
 	/**
@@ -181,12 +181,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function lt($x, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->lt($x, $y));
+	public function lt($x, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->lt($x, $y);
 	}
 
 	/**
@@ -203,12 +203,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function lte($x, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->lte($x, $y));
+	public function lte($x, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->lte($x, $y);
 	}
 
 	/**
@@ -225,12 +225,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function gt($x, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->gt($x, $y));
+	public function gt($x, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->gt($x, $y);
 	}
 
 	/**
@@ -247,12 +247,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function gte($x, $y, $type = null): IQueryFunction {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->gte($x, $y));
+	public function gte($x, $y, $type = null): string {
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
+		return $this->expressionBuilder->gte($x, $y);
 	}
 
 	/**
@@ -260,11 +260,11 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NULL.
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function isNull($x): IQueryFunction {
+	public function isNull($x): string {
 		$x = $this->helper->quoteColumnName($x);
-		return new QueryFunction($this->expressionBuilder->isNull($x));
+		return $this->expressionBuilder->isNull($x);
 	}
 
 	/**
@@ -272,11 +272,11 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NOT NULL.
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function isNotNull($x): IQueryFunction {
+	public function isNotNull($x): string {
 		$x = $this->helper->quoteColumnName($x);
-		return new QueryFunction($this->expressionBuilder->isNotNull($x));
+		return $this->expressionBuilder->isNotNull($x);
 	}
 
 	/**
@@ -287,12 +287,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function like($x, $y, $type = null): IQueryFunction {
+	public function like($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->like($x, $y));
+		return $this->expressionBuilder->like($x, $y);
 	}
 
 	/**
@@ -303,11 +303,11 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 9.0.0
 	 */
-	public function iLike($x, $y, $type = null): IQueryFunction {
-		return new QueryFunction($this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y)));
+	public function iLike($x, $y, $type = null): string {
+		return $this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}
 
 	/**
@@ -318,12 +318,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function notLike($x, $y, $type = null): IQueryFunction {
+	public function notLike($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->notLike($x, $y));
+		return $this->expressionBuilder->notLike($x, $y);
 	}
 
 	/**
@@ -334,12 +334,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function in($x, $y, $type = null): IQueryFunction {
+	public function in($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnNames($y);
-		return new QueryFunction($this->expressionBuilder->in($x, $y));
+		return $this->expressionBuilder->in($x, $y);
 	}
 
 	/**
@@ -350,34 +350,34 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 */
-	public function notIn($x, $y, $type = null): IQueryFunction {
+	public function notIn($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnNames($y);
-		return new QueryFunction($this->expressionBuilder->notIn($x, $y));
+		return $this->expressionBuilder->notIn($x, $y);
 	}
 
 	/**
 	 * Creates a $x = '' statement, because Oracle needs a different check
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 13.0.0
 	 */
-	public function emptyString($x): IQueryFunction {
-		return new QueryFunction($this->eq($x, $this->literal('', IQueryBuilder::PARAM_STR)));
+	public function emptyString($x): string {
+		return $this->eq($x, $this->literal('', IQueryBuilder::PARAM_STR));
 	}
 
 	/**
 	 * Creates a `$x <> ''` statement, because Oracle needs a different check
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 13.0.0
 	 */
-	public function nonEmptyString($x): IQueryFunction {
-		return new QueryFunction($this->neq($x, $this->literal('', IQueryBuilder::PARAM_STR)));
+	public function nonEmptyString($x): string {
+		return $this->neq($x, $this->literal('', IQueryBuilder::PARAM_STR));
 	}
 
 	/**
@@ -434,5 +434,14 @@ class ExpressionBuilder implements IExpressionBuilder {
 		return new QueryFunction(
 			$this->helper->quoteColumnName($column)
 		);
+	}
+
+	/**
+	 * @param mixed $column
+	 * @param mixed|null $type
+	 * @return array|IQueryFunction|string
+	 */
+	protected function prepareColumn($column, $type) {
+		return $this->helper->quoteColumnNames($column);
 	}
 }

@@ -31,12 +31,10 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 abstract class Base implements IProvider {
-
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -65,12 +63,12 @@ abstract class Base implements IProvider {
 	protected $displayNames = [];
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -124,24 +122,10 @@ abstract class Base implements IProvider {
 	abstract protected function parseLongVersion(IEvent $event, IEvent $previousEvent = null);
 
 	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -173,16 +157,18 @@ abstract class Base implements IProvider {
 
 	/**
 	 * @param string $uid
+	 * @param string $overwriteDisplayName - overwrite display name, only if user is not local
+	 *
 	 * @return array
 	 */
-	protected function getUser($uid) {
+	protected function getUser(string $uid, string $overwriteDisplayName = '') {
 		// First try local user
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
+		$displayName = $this->userManager->getDisplayName($uid);
+		if ($displayName !== null) {
 			return [
 				'type' => 'user',
-				'id' => $user->getUID(),
-				'name' => $user->getDisplayName(),
+				'id' => $uid,
+				'name' => $displayName,
 			];
 		}
 
@@ -192,7 +178,7 @@ abstract class Base implements IProvider {
 			return [
 				'type' => 'user',
 				'id' => $cloudId->getUser(),
-				'name' => $this->getDisplayNameFromAddressBook($cloudId->getDisplayId()),
+				'name' => (($overwriteDisplayName !== '') ? $overwriteDisplayName : $this->getDisplayNameFromAddressBook($cloudId->getDisplayId())),
 				'server' => $cloudId->getRemote(),
 			];
 		}
@@ -201,7 +187,7 @@ abstract class Base implements IProvider {
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $uid,
+			'name' => (($overwriteDisplayName !== '') ? $overwriteDisplayName : $uid),
 		];
 	}
 

@@ -27,8 +27,9 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import axios from '@nextcloud/axios'
-import { getApiUrl } from './helpers/api'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { getApiUrl } from './helpers/api.js'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
@@ -88,7 +89,8 @@ const store = new Store({
 				context.commit('addRule', rule)
 			})
 		},
-		createNewRule(context, rule) {
+		async createNewRule(context, rule) {
+			await confirmPassword()
 			let entity = null
 			let events = []
 			if (rule.isComplex === false && rule.fixedEntity === '') {
@@ -119,9 +121,7 @@ const store = new Store({
 			context.commit('removeRule', rule)
 		},
 		async pushUpdateRule(context, rule) {
-			if (context.state.scope === 0) {
-				await confirmPassword()
-			}
+			await confirmPassword()
 			let result
 			if (rule.id < 0) {
 				result = await axios.post(getApiUrl(''), rule)

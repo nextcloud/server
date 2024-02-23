@@ -34,10 +34,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LastSeen extends Base {
-	protected IUserManager $userManager;
-
-	public function __construct(IUserManager $userManager) {
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
 	}
 
@@ -61,7 +60,7 @@ class LastSeen extends Base {
 
 		$lastLogin = $user->getLastLogin();
 		if ($lastLogin === 0) {
-			$output->writeln('User ' . $user->getUID() .
+			$output->writeln('Account ' . $user->getUID() .
 				' has never logged in, yet.');
 		} else {
 			$date = new \DateTime();

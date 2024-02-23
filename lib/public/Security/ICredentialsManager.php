@@ -32,7 +32,6 @@ namespace OCP\Security;
  * @since 8.2.0
  */
 interface ICredentialsManager {
-
 	/**
 	 * Store a set of credentials
 	 *

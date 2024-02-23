@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Сэтгэгдэл",
     "You commented" : "Та сэтгэгдэл бичсэн байна",
-    "%1$s commented" : "%1$s сэтгэгдэл бичсэн",
     "{author} commented" : "{author} сэтгэгдэл бичсэн",
     "You commented on %1$s" : "Та %1$s нийтлэл дээр сэтгэгдэл бичсэн байна",
     "You commented on {file}" : "Та {file} сэтгэгдэл бичсэн байна",
@@ -15,6 +14,6 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Сэтгэгдэл байхгүй байна",
     "Retry" : "Дахин оролдох",
     "Comment" : "Сэтгэгдэл",
-    "{user} mentioned you in a comment on “{file}”" : "{user} нь таныг “{file}”-ын сэтгэгдэлд дурдсан"
+    "%1$s commented" : "%1$s сэтгэгдэл бичсэн"
 },
 "nplurals=2; plural=(n != 1);");

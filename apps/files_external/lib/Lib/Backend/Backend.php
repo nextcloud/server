@@ -26,10 +26,13 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\DependencyTrait;
 use OCA\Files_External\Lib\FrontendDefinitionTrait;
 use OCA\Files_External\Lib\IdentifierTrait;
+use OCA\Files_External\Lib\IFrontendDefinition;
+use OCA\Files_External\Lib\IIdentifier;
 use OCA\Files_External\Lib\PriorityTrait;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Lib\StorageModifierTrait;
 use OCA\Files_External\Lib\VisibilityTrait;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Storage backend
@@ -38,7 +41,7 @@ use OCA\Files_External\Lib\VisibilityTrait;
  * such as \OCP\IDB for database operations. This allows a backend
  * to perform advanced operations based on provided information.
  *
- * An authenication scheme defines the parameter interface, common to the
+ * An authentication scheme defines the parameter interface, common to the
  * storage implementation, the backend and the authentication mechanism.
  * A storage implementation expects parameters according to the authentication
  * scheme, which are provided from the authentication mechanism.
@@ -55,7 +58,7 @@ use OCA\Files_External\Lib\VisibilityTrait;
  *  - StorageModifierTrait
  *      Object can affect storage mounting
  */
-class Backend implements \JsonSerializable {
+class Backend implements \JsonSerializable, IIdentifier, IFrontendDefinition {
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use PriorityTrait;
@@ -73,7 +76,7 @@ class Backend implements \JsonSerializable {
 	private $legacyAuthMechanism;
 
 	/**
-	 * @return string
+	 * @return class-string<IStorage>
 	 */
 	public function getStorageClass() {
 		return $this->storageClass;
@@ -118,21 +121,17 @@ class Backend implements \JsonSerializable {
 		return $this->legacyAuthMechanism;
 	}
 
-	/**
-	 * @param AuthMechanism $authMechanism
-	 * @return self
-	 */
-	public function setLegacyAuthMechanism(AuthMechanism $authMechanism) {
+	public function setLegacyAuthMechanism(AuthMechanism $authMechanism): self {
 		$this->legacyAuthMechanism = $authMechanism;
 		return $this;
 	}
 
 	/**
 	 * @param callable $callback dynamic auth mechanism selection
-	 * @return self
 	 */
-	public function setLegacyAuthMechanismCallback(callable $callback) {
+	public function setLegacyAuthMechanismCallback(callable $callback): self {
 		$this->legacyAuthMechanism = $callback;
+		return $this;
 	}
 
 	/**

@@ -29,6 +29,7 @@ use OC\Core\Command\Base;
 use OC\User\NoUserException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -39,37 +40,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	protected $userService;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-
 	public const ALL = -1;
 
-	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
+	public function __construct(
+		protected GlobalStoragesService $globalService,
+		protected UserStoragesService $userService,
+		protected IUserSession $userSession,
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userService = $userService;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:list')
 			->setDescription('List configured admin or personal mounts')
@@ -102,22 +84,20 @@ class ListCommand extends Base {
 			$mounts = $this->globalService->getStorageForAllUsers();
 			$userId = self::ALL;
 		} else {
-			$userId = $input->getArgument('user_id');
+			$userId = (string)$input->getArgument('user_id');
 			$storageService = $this->getStorageService($userId);
 			$mounts = $storageService->getAllStorages();
 		}
 
 		$this->listMounts($userId, $mounts, $input, $output);
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
-	 * @param string $userId
+	 * @param ?string|ListCommand::ALL $userId
 	 * @param StorageConfig[] $mounts
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
 	 */
-	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output) {
+	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output): void {
 		$outputType = $input->getOption('output');
 		if (count($mounts) === 0) {
 			if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
@@ -145,12 +125,12 @@ class ListCommand extends Base {
 		}
 
 		if (!$input->getOption('show-password')) {
-			$hideKeys = ['password', 'refresh_token', 'token', 'client_secret', 'public_key', 'private_key'];
+			$hideKeys = ['key', 'bucket', 'secret', 'password', 'refresh_token', 'token', 'client_secret', 'public_key', 'private_key'];
 			foreach ($mounts as $mount) {
 				$config = $mount->getBackendOptions();
 				foreach ($config as $key => $value) {
 					if (in_array($key, $hideKeys)) {
-						$mount->setBackendOption($key, '***');
+						$mount->setBackendOption($key, '***REMOVED SENSITIVE VALUE***');
 					}
 				}
 			}
@@ -262,16 +242,16 @@ class ListCommand extends Base {
 		}
 	}
 
-	protected function getStorageService($userId) {
-		if (!empty($userId)) {
-			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
-				throw new NoUserException("user $userId not found");
-			}
-			$this->userSession->setUser($user);
-			return $this->userService;
-		} else {
+	protected function getStorageService(string $userId): StoragesService {
+		if (empty($userId)) {
 			return $this->globalService;
 		}
+
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
+			throw new NoUserException("user $userId not found");
+		}
+		$this->userSession->setUser($user);
+		return $this->userService;
 	}
 }

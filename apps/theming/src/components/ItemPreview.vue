@@ -3,29 +3,29 @@
 		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
-			<p>{{ theme.description }}</p>
+			<p class="theming__preview-explanation">{{ theme.description }}</p>
 			<span v-if="enforced" class="theming__preview-warning" role="note">
 				{{ t('theming', 'Theme selection is enforced') }}
 			</span>
-			<CheckboxRadioSwitch class="theming__preview-toggle"
+			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="checked"
 				:disabled="enforced"
 				:name="name"
 				:type="switchType">
 				{{ theme.enableLabel }}
-			</CheckboxRadioSwitch>
+			</NcCheckboxRadioSwitch>
 		</div>
 	</div>
 </template>
 
 <script>
 import { generateFilePath } from '@nextcloud/router'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 export default {
 	name: 'ItemPreview',
 	components: {
-		CheckboxRadioSwitch,
+		NcCheckboxRadioSwitch,
 	},
 	props: {
 		enforced: {
@@ -67,7 +67,7 @@ export default {
 				return this.selected
 			},
 			set(checked) {
-				console.debug('Selecting theme', this.theme, checked)
+				console.debug('Changed theme', this.theme.id, checked)
 
 				// If this is a radio, we can only enable
 				if (!this.unique) {
@@ -95,6 +95,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@use 'sass:math';
+
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
@@ -121,9 +123,18 @@ export default {
 		background-size: cover;
 	}
 
+	&-explanation {
+		margin-bottom: 10px;
+	}
+
 	&-description {
 		display: flex;
 		flex-direction: column;
+
+		h3 {
+			font-weight: bold;
+			margin-bottom: 0;
+		}
 
 		label {
 			padding: 12px 0;
@@ -139,7 +150,7 @@ export default {
 	}
 }
 
-@media (max-width: (1024px / 1.5)) {
+@media (max-width: math.div(1024px, 1.5)) {
 	.theming__preview {
 		flex-direction: column;
 

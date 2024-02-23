@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -10,6 +11,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license AGPL-3.0
  *
@@ -28,8 +30,9 @@
  */
 namespace OCA\DAV\CardDAV;
 
-use OC\Accounts\AccountManager;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -38,24 +41,31 @@ use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
+use function is_null;
 
 class SyncService {
+
+	use TTransactional;
+
 	private CardDavBackend $backend;
 	private IUserManager $userManager;
+	private IDBConnection $dbConnection;
 	private LoggerInterface $logger;
 	private ?array $localSystemAddressBook = null;
 	private Converter $converter;
 	protected string $certPath;
 
 	public function __construct(CardDavBackend $backend,
-								IUserManager $userManager,
-								LoggerInterface $logger,
-								Converter $converter) {
+		IUserManager $userManager,
+		IDBConnection $dbConnection,
+		LoggerInterface $logger,
+		Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->converter = $converter;
 		$this->certPath = '';
+		$this->dbConnection = $dbConnection;
 	}
 
 	/**
@@ -73,9 +83,11 @@ class SyncService {
 			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 				// remote server revoked access to the address book, remove it
 				$this->backend->deleteAddressBook($addressBookId);
-				$this->logger->info('Authorization failed, remove address book: ' . $url, ['app' => 'dav']);
+				$this->logger->error('Authorization failed, remove address book: ' . $url, ['app' => 'dav']);
 				throw $ex;
 			}
+			$this->logger->error('Client exception:', ['app' => 'dav', 'exception' => $ex]);
+			throw $ex;
 		}
 
 		// 3. apply changes
@@ -84,12 +96,14 @@ class SyncService {
 			$cardUri = basename($resource);
 			if (isset($status[200])) {
 				$vCard = $this->download($url, $userName, $sharedSecret, $resource);
-				$existingCard = $this->backend->getCard($addressBookId, $cardUri);
-				if ($existingCard === false) {
-					$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
-				} else {
-					$this->backend->updateCard($addressBookId, $cardUri, $vCard['body']);
-				}
+				$this->atomic(function () use ($addressBookId, $cardUri, $vCard) {
+					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
+					if ($existingCard === false) {
+						$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
+					} else {
+						$this->backend->updateCard($addressBookId, $cardUri, $vCard['body']);
+					}
+				}, $this->dbConnection);
 			} else {
 				$this->backend->deleteCard($addressBookId, $cardUri);
 			}
@@ -102,14 +116,15 @@ class SyncService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureSystemAddressBookExists(string $principal, string $uri, array $properties): ?array {
-		$book = $this->backend->getAddressBooksByUri($principal, $uri);
-		if (!is_null($book)) {
-			return $book;
-		}
-		// FIXME This might break in clustered DB setup
-		$this->backend->createAddressBook($principal, $uri, $properties);
+		return $this->atomic(function () use ($principal, $uri, $properties) {
+			$book = $this->backend->getAddressBooksByUri($principal, $uri);
+			if (!is_null($book)) {
+				return $book;
+			}
+			$this->backend->createAddressBook($principal, $uri, $properties);
 
-		return $this->backend->getAddressBooksByUri($principal, $uri);
+			return $this->backend->getAddressBooksByUri($principal, $uri);
+		}, $this->dbConnection);
 	}
 
 	/**
@@ -141,7 +156,7 @@ class SyncService {
 		$certPath = $this->getCertPath();
 		$client->setThrowExceptions(true);
 
-		if ($certPath !== '' && strpos($url, 'http://') !== 0) {
+		if ($certPath !== '' && !str_starts_with($url, 'http://')) {
 			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 		}
 
@@ -204,28 +219,28 @@ class SyncService {
 	/**
 	 * @param IUser $user
 	 */
-	public function updateUser(IUser $user) {
+	public function updateUser(IUser $user): void {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
-		$name = $user->getBackendClassName();
-		$userId = $user->getUID();
 
-		$cardId = "$name:$userId.vcf";
+		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
-			$card = $this->backend->getCard($addressBookId, $cardId);
-			if ($card === false) {
-				$vCard = $this->converter->createCardFromUser($user);
-				if ($vCard !== null) {
-					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
-				}
-			} else {
-				$vCard = $this->converter->createCardFromUser($user);
-				if (is_null($vCard)) {
-					$this->backend->deleteCard($addressBookId, $cardId);
+			$this->atomic(function () use ($addressBookId, $cardId, $user) {
+				$card = $this->backend->getCard($addressBookId, $cardId);
+				if ($card === false) {
+					$vCard = $this->converter->createCardFromUser($user);
+					if ($vCard !== null) {
+						$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
+					}
 				} else {
-					$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+					$vCard = $this->converter->createCardFromUser($user);
+					if (is_null($vCard)) {
+						$this->backend->deleteCard($addressBookId, $cardId);
+					} else {
+						$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+					}
 				}
-			}
+			}, $this->dbConnection);
 		} else {
 			$this->backend->deleteCard($addressBookId, $cardId);
 		}
@@ -237,10 +252,7 @@ class SyncService {
 	public function deleteUser($userOrCardId) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		if ($userOrCardId instanceof IUser) {
-			$name = $userOrCardId->getBackendClassName();
-			$userId = $userOrCardId->getUID();
-
-			$userOrCardId = "$name:$userId.vcf";
+			$userOrCardId = self::getCardUri($userOrCardId);
 		}
 		$this->backend->deleteCard($systemAddressBook['id'], $userOrCardId);
 	}
@@ -278,5 +290,13 @@ class SyncService {
 				$this->deleteUser($card['uri']);
 			}
 		}
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return string
+	 */
+	public static function getCardUri(IUser $user): string {
+		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
 	}
 }

@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,6 +32,7 @@ use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -49,24 +51,17 @@ class IconController extends Controller {
 	private $imageManager;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
+	/** @var IAppManager */
+	private $appManager;
 
-	/**
-	 * IconController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param ThemingDefaults $themingDefaults
-	 * @param IconBuilder $iconBuilder
-	 * @param ImageManager $imageManager
-	 * @param FileAccessHelper $fileAccessHelper
-	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
 		ThemingDefaults $themingDefaults,
 		IconBuilder $iconBuilder,
 		ImageManager $imageManager,
-		FileAccessHelper $fileAccessHelper
+		FileAccessHelper $fileAccessHelper,
+		IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -74,28 +69,40 @@ class IconController extends Controller {
 		$this->iconBuilder = $iconBuilder;
 		$this->imageManager = $imageManager;
 		$this->fileAccessHelper = $fileAccessHelper;
+		$this->appManager = $appManager;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param $app string app name
-	 * @param $image string image file name (svg required)
-	 * @return FileDisplayResponse|NotFoundResponse
+	 * Get a themed icon
+	 *
+	 * @param string $app ID of the app
+	 * @param string $image image file name (svg required)
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/svg+xml'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
+	 *
+	 * 200: Themed icon returned
+	 * 404: Themed icon not found
 	 */
 	public function getThemedIcon(string $app, string $image): Response {
+		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
+			$app = 'core';
+			$image = 'favicon.png';
+		}
+
+		$color = $this->themingDefaults->getColorPrimary();
 		try {
-			$iconFile = $this->imageManager->getCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image));
+			$iconFileName = $this->imageManager->getCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image));
 		} catch (NotFoundException $exception) {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
 			if ($icon === false || $icon === '') {
 				return new NotFoundResponse();
 			}
-			$iconFile = $this->imageManager->setCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image), $icon);
+			$iconFileName = $this->imageManager->setCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image), $icon);
 		}
-		$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$response = new FileDisplayResponse($iconFileName, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$response->cacheFor(86400, false, true);
 		return $response;
 	}
@@ -106,11 +113,18 @@ class IconController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param $app string app name
-	 * @return FileDisplayResponse|DataDisplayResponse|NotFoundResponse
+	 * @param string $app ID of the app
+	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
+	 *
+	 * 200: Favicon returned
+	 * 404: Favicon not found
 	 */
 	public function getFavicon(string $app = 'core'): Response {
+		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
+			$app = 'core';
+		}
+
 		$response = null;
 		$iconFile = null;
 		try {
@@ -119,14 +133,15 @@ class IconController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 		if ($iconFile === null && $this->imageManager->shouldReplaceIcons()) {
+			$color = $this->themingDefaults->getColorPrimary();
 			try {
-				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
+				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app . $color);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getFavicon($app);
 				if ($icon === false || $icon === '') {
 					return new NotFoundResponse();
 				}
-				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app, $icon);
+				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app . $color, $icon);
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
@@ -144,11 +159,18 @@ class IconController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param $app string app name
-	 * @return DataDisplayResponse|FileDisplayResponse|NotFoundResponse
+	 * @param string $app ID of the app
+	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'|'image/png'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
+	 *
+	 * 200: Touch icon returned
+	 * 404: Touch icon not found
 	 */
 	public function getTouchIcon(string $app = 'core'): Response {
+		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
+			$app = 'core';
+		}
+
 		$response = null;
 		try {
 			$iconFile = $this->imageManager->getImage('favicon');
@@ -156,14 +178,15 @@ class IconController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 		if ($this->imageManager->shouldReplaceIcons()) {
+			$color = $this->themingDefaults->getColorPrimary();
 			try {
-				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
+				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app . $color);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getTouchIcon($app);
 				if ($icon === false || $icon === '') {
 					return new NotFoundResponse();
 				}
-				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app, $icon);
+				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app . $color, $icon);
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}

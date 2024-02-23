@@ -38,7 +38,6 @@ use OCP\Notification\IManager as INotificationManager;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeNotificationsListener implements IEventListener {
-
 	/** @var INotificationManager */
 	private $notificationManager;
 
@@ -46,7 +45,7 @@ class RemoteWipeNotificationsListener implements IEventListener {
 	private $timeFactory;
 
 	public function __construct(INotificationManager $notificationManager,
-								ITimeFactory $timeFactory) {
+		ITimeFactory $timeFactory) {
 		$this->notificationManager = $notificationManager;
 		$this->timeFactory = $timeFactory;
 	}

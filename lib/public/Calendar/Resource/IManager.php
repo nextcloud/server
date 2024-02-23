@@ -30,7 +30,6 @@ namespace OCP\Calendar\Resource;
  * @deprecated 24.0.0
  */
 interface IManager {
-
 	/**
 	 * Registers a resource backend
 	 *

@@ -1,74 +1,40 @@
- <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
 <template>
-	<a :href="resourceUrl || '#'"
-		class="unified-search__result"
-		:class="{
-			'unified-search__result--focused': focused,
-		}"
-		@click="reEmitEvent"
-		@focus="reEmitEvent">
-
-		<!-- Icon describing the result -->
-		<div class="unified-search__result-icon"
-			:class="{
-				'unified-search__result-icon--rounded': rounded,
-				'unified-search__result-icon--no-preview': !hasValidThumbnail && !loaded,
-				'unified-search__result-icon--with-thumbnail': hasValidThumbnail && loaded,
-				[icon]: !loaded && !isIconUrl,
-			}"
-			:style="{
-				backgroundImage: isIconUrl ? `url(${icon})` : '',
-			}"
-			role="img">
-
-			<img v-if="hasValidThumbnail"
-				v-show="loaded"
-				:src="thumbnailUrl"
-				alt=""
-				@error="onError"
-				@load="onLoad">
-		</div>
-
-		<!-- Title and sub-title -->
-		<span class="unified-search__result-content">
-			<h3 class="unified-search__result-line-one" :title="title">
-				<Highlight :text="title" :search="query" />
-			</h3>
-			<h4 v-if="subline" class="unified-search__result-line-two" :title="subline">{{ subline }}</h4>
-		</span>
-	</a>
+	<NcListItem class="result-items__item"
+		:name="title"
+		:bold="false"
+		:href="resourceUrl"
+		target="_self">
+		<template #icon>
+			<div aria-hidden="true"
+				class="result-items__item-icon"
+				:class="{
+					'result-items__item-icon--rounded': rounded,
+					'result-items__item-icon--no-preview': !isValidIconOrPreviewUrl(thumbnailUrl),
+					'result-items__item-icon--with-thumbnail': isValidIconOrPreviewUrl(thumbnailUrl),
+					[icon]: !isValidIconOrPreviewUrl(icon),
+				}"
+				:style="{
+					backgroundImage: isValidIconOrPreviewUrl(icon) ? `url(${icon})` : '',
+				}">
+				<img v-if="isValidIconOrPreviewUrl(thumbnailUrl) && !thumbnailHasError"
+					:src="thumbnailUrl"
+					@error="thumbnailErrorHandler">
+			</div>
+		</template>
+		<template #subname>
+			{{ subline }}
+		</template>
+	</NcListItem>
 </template>
 
 <script>
-import Highlight from '@nextcloud/vue/dist/Components/Highlight'
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 
 export default {
 	name: 'SearchResult',
-
 	components: {
-		Highlight,
+		NcListItem,
 	},
-
 	props: {
 		thumbnailUrl: {
 			type: String,
@@ -109,54 +75,22 @@ export default {
 			default: false,
 		},
 	},
-
 	data() {
 		return {
-			hasValidThumbnail: this.thumbnailUrl && this.thumbnailUrl.trim() !== '',
-			loaded: false,
+			thumbnailHasError: false,
 		}
 	},
-
-	computed: {
-		isIconUrl() {
-			// If we're facing an absolute url
-			if (this.icon.startsWith('/')) {
-				return true
-			}
-
-			// Otherwise, let's check if this is a valid url
-			try {
-				// eslint-disable-next-line no-new
-				new URL(this.icon)
-			} catch {
-				return false
-			}
-			return true
-		},
-	},
-
 	watch: {
-		// Make sure to reset state on change even when vue recycle the component
 		thumbnailUrl() {
-			this.hasValidThumbnail = this.thumbnailUrl && this.thumbnailUrl.trim() !== ''
-			this.loaded = false
+			this.thumbnailHasError = false
 		},
 	},
-
 	methods: {
-		reEmitEvent(e) {
-			this.$emit(e.type, e)
+		isValidIconOrPreviewUrl(url) {
+			return /^https?:\/\//.test(url) || url.startsWith('/')
 		},
-
-		/**
-		 * If the image fails to load, fallback to iconClass
-		 */
-		onError() {
-			this.hasValidThumbnail = false
-		},
-
-		onLoad() {
-			this.loaded = true
+		thumbnailErrorHandler() {
+			this.thumbnailHasError = true
 		},
 	},
 }
@@ -164,96 +98,72 @@ export default {
 
 <style lang="scss" scoped>
 @use "sass:math";
-
 $clickable-area: 44px;
 $margin: 10px;
 
-.unified-search__result {
-	display: flex;
-	height: $clickable-area;
-	padding: $margin;
-	border-bottom: 1px solid var(--color-border);
+.result-items {
+    &__item {
 
-	// Load more entry,
-	&:last-child {
-		border-bottom: none;
-	}
+    ::v-deep a {
+            border-radius: 12px;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius-large) !important;
 
-	&--focused,
-	&:active,
-	&:hover,
-	&:focus {
-		background-color: var(--color-background-hover);
-	}
+            &--focused {
+                background-color: var(--color-background-hover);
+            }
 
-	* {
-		cursor: pointer;
-	}
+            &:active,
+            &:hover,
+            &:focus {
+                background-color: var(--color-background-hover);
+                border: 2px solid var(--color-border-maxcontrast);
+            }
 
-	&-icon {
-		overflow: hidden;
-		width: $clickable-area;
-		height: $clickable-area;
-		border-radius: var(--border-radius);
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-size: 32px;
-		&--rounded {
-			border-radius: math.div($clickable-area, 2);
-		}
-		&--no-preview {
-			background-size: 32px;
-		}
-		&--with-thumbnail {
-			background-size: cover;
-		}
-		&--with-thumbnail:not(&--rounded) {
-			// compensate for border
-			max-width: $clickable-area - 2px;
-			max-height: $clickable-area - 2px;
-			border: 1px solid var(--color-border);
-		}
+            * {
+                cursor: pointer;
+            }
 
-		img {
-			// Make sure to keep ratio
-			width: 100%;
-			height: 100%;
+        }
 
-			object-fit: cover;
-			object-position: center;
-		}
-	}
+        &-icon {
+            overflow: hidden;
+            width: $clickable-area;
+            height: $clickable-area;
+            border-radius: var(--border-radius);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 32px;
 
-	&-icon,
-	&-actions {
-		flex: 0 0 $clickable-area;
-	}
+            &--rounded {
+                border-radius: math.div($clickable-area, 2);
+            }
 
-	&-content {
-		display: flex;
-		align-items: center;
-		flex: 1 1 100%;
-		flex-wrap: wrap;
-		// Set to minimum and gro from it
-		min-width: 0;
-		padding-left: $margin;
-	}
+            &--no-preview {
+                background-size: 32px;
+            }
 
-	&-line-one,
-	&-line-two {
-		overflow: hidden;
-		flex: 1 1 100%;
-		margin: 1px 0;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		// Use the same color as the `a`
-		color: inherit;
-		font-size: inherit;
-	}
-	&-line-two {
-		opacity: .7;
-		font-size: var(--default-font-size);
-	}
+            &--with-thumbnail {
+                background-size: cover;
+            }
+
+            &--with-thumbnail:not(&--rounded) {
+                // compensate for border
+                max-width: $clickable-area - 2px;
+                max-height: $clickable-area - 2px;
+                border: 1px solid var(--color-border);
+            }
+
+            img {
+                // Make sure to keep ratio
+                width: 100%;
+                height: 100%;
+
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+
+    }
 }
-
 </style>

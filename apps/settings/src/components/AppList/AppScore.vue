@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<img :src="scoreImage" class="app-score-image">
+	<img :src="scoreImage" :alt="t('settings', 'Rating: {score}/10', {score:appScore})" class="app-score-image">
 </template>
 <script>
 import { imagePath } from '@nextcloud/router'
@@ -30,11 +30,13 @@ export default {
 	name: 'AppScore',
 	props: ['score'],
 	computed: {
-		scoreImage() {
-			const score = Math.round(this.score * 10)
-			const imageName = 'rating/s' + score + '.svg'
-			return imagePath('core', imageName)
+		appScore() {
+			return Math.round(this.score * 10)
 		},
+		scoreImage() {
+			const imageName = 'rating/s' + this.appScore + '.svg'
+			return imagePath('core', imageName)
+		}
 	},
 }
 </script>

@@ -42,15 +42,9 @@ OC.L10N.register(
     "Office documents" : "Oficejaj dokumentoj",
     "PDF documents" : "PDF-dokumentoj",
     "Custom mimetype" : "Propra MIME-tipo",
-    "Select a tag" : "Elekti etikedon",
-    "No results" : "Neniu rezulto",
-    "%s (invisible)" : "%s (nevidebla)",
-    "%s (restricted)" : "%s (limigita)",
     "Please enter a valid time span" : "Entajpu validan intertempon",
     "Select a request URL" : "Elekti petan retadreson",
-    "Predefined URLs" : "Antaŭdifinitaj retadresoj",
     "Files WebDAV" : "Dosieroj WebDAV",
-    "Others" : "Aliaj",
     "Custom URL" : "Propra retadreso",
     "Select a user agent" : "Elekti retumil-identigilo („user-agent“)",
     "Android client" : "Androida kliento",
@@ -90,8 +84,8 @@ OC.L10N.register(
     "between" : "inter",
     "not between" : "ne inter",
     "Request user agent" : "Retumil-identigilo („user-agent“)",
-    "User group membership" : "Grupano",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de"
+    "is not member of" : "ne estas membro de",
+    "User group membership" : "Grupano"
 },
 "nplurals=2; plural=(n != 1);");

@@ -32,7 +32,6 @@ namespace OCP\EventDispatcher;
  * @since 17.0.0
  */
 interface IEventDispatcher {
-
 	/**
 	 * @template T of \OCP\EventDispatcher\Event
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class

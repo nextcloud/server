@@ -20,10 +20,10 @@
  *
  */
 
-import RequestUserAgent from './RequestUserAgent'
-import RequestTime from './RequestTime'
-import RequestURL from './RequestURL'
-import RequestUserGroup from './RequestUserGroup'
+import RequestUserAgent from './RequestUserAgent.vue'
+import RequestTime from './RequestTime.vue'
+import RequestURL from './RequestURL.vue'
+import RequestUserGroup from './RequestUserGroup.vue'
 
 const RequestChecks = [
 	{
@@ -59,7 +59,7 @@ const RequestChecks = [
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
-		name: t('workflowengine', 'User group membership'),
+		name: t('workflowengine', 'Group membership'),
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') },

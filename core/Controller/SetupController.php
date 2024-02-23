@@ -32,18 +32,17 @@
 namespace OC\Core\Controller;
 
 use OC\Setup;
-use OCP\ILogger;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class SetupController {
-	protected Setup $setupHelper;
 	private string $autoConfigFile;
 
-	/**
-	 * @param Setup $setupHelper
-	 */
-	public function __construct(Setup $setupHelper) {
+	public function __construct(
+		protected Setup $setupHelper,
+		protected LoggerInterface $logger,
+	) {
 		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
-		$this->setupHelper = $setupHelper;
 	}
 
 	public function run(array $post): void {
@@ -59,7 +58,7 @@ class SetupController {
 			$post['dbpass'] = $post['dbpassword'];
 		}
 
-		if (!is_file(\OC::$configDir.'/CAN_INSTALL')) {
+		if (!$this->setupHelper->canInstallFileExists()) {
 			$this->displaySetupForbidden();
 			return;
 		}
@@ -81,7 +80,7 @@ class SetupController {
 		}
 	}
 
-	private function displaySetupForbidden() {
+	private function displaySetupForbidden(): void {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
@@ -98,19 +97,24 @@ class SetupController {
 		];
 		$parameters = array_merge($defaults, $post);
 
+		Util::addStyle('server', null);
+
+		// include common nextcloud webpack bundle
+		Util::addScript('core', 'common');
+		Util::addScript('core', 'main');
+		Util::addTranslations('core');
+
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
-	private function finishSetup() {
+	private function finishSetup(): void {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
 		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
 
-		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
-			if (!unlink(\OC::$configDir.'/CAN_INSTALL')) {
-				\OC_Template::printGuestPage('', 'installation_incomplete');
-			}
+		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
+			\OC_Template::printGuestPage('', 'installation_incomplete');
 		}
 
 		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
@@ -119,7 +123,7 @@ class SetupController {
 
 	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
-			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
+			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
 			$post = array_merge($post, $AUTOCONFIG);

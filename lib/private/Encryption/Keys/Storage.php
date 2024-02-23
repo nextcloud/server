@@ -37,7 +37,6 @@ use OCP\IConfig;
 use OCP\Security\ICrypto;
 
 class Storage implements IStorage {
-
 	// hidden file which indicate that the folder is a valid key storage
 	public const KEY_STORAGE_MARKER = '.oc_key_storage';
 
@@ -99,14 +98,14 @@ class Storage implements IStorage {
 	 */
 	public function getFileKey($path, $keyId, $encryptionModuleId) {
 		$realFile = $this->util->stripPartialFileExtension($path);
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $realFile);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $realFile);
 		$key = $this->getKey($keyDir . $keyId)['key'];
 
 		if ($key === '' && $realFile !== $path) {
 			// Check if the part file has keys and use them, if no normal keys
 			// exist. This is required to fix copyBetweenStorage() when we
 			// rename a .part file over storage borders.
-			$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+			$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 			$key = $this->getKey($keyDir . $keyId)['key'];
 		}
 
@@ -136,7 +135,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function setFileKey($path, $keyId, $key, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return $this->setKey($keyDir . $keyId, [
 			'key' => base64_encode($key),
 		]);
@@ -178,7 +177,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteFileKey($path, $keyId, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return !$this->view->file_exists($keyDir . $keyId) || $this->view->unlink($keyDir . $keyId);
 	}
 
@@ -186,7 +185,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteAllFileKeys($path) {
-		$keyDir = $this->getFileKeyDir('', $path);
+		$keyDir = $this->util->getFileKeyDir('', $path);
 		return !$this->view->file_exists($keyDir) || $this->view->deleteAll($keyDir);
 	}
 
@@ -238,7 +237,7 @@ class Storage implements IStorage {
 
 		if (!array_key_exists('uid', $data) || $data['uid'] !== $uid) {
 			// If the migration is done we error out
-			$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+			$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 			if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
 				return $data['key'];
 			}
@@ -273,7 +272,7 @@ class Storage implements IStorage {
 				$data = $this->view->file_get_contents($path);
 
 				// Version <20.0.0.1 doesn't have this
-				$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+				$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 				if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
 					$key = [
 						'key' => base64_encode($data),
@@ -336,7 +335,7 @@ class Storage implements IStorage {
 	private function setKey($path, $key) {
 		$this->keySetPreparation(dirname($path));
 
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
 			// Only store old format if this happens during the migration.
 			// TODO: Remove for 21
@@ -354,26 +353,6 @@ class Storage implements IStorage {
 		}
 
 		return false;
-	}
-
-	/**
-	 * get path to key folder for a given file
-	 *
-	 * @param string $encryptionModuleId
-	 * @param string $path path to the file, relative to data/
-	 * @return string
-	 */
-	private function getFileKeyDir($encryptionModuleId, $path) {
-		[$owner, $filename] = $this->util->getUidAndFilename($path);
-
-		// in case of system wide mount points the keys are stored directly in the data directory
-		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
-			$keyPath = $this->root_dir . '/' . $this->keys_base_dir . $filename . '/';
-		} else {
-			$keyPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $filename . '/';
-		}
-
-		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
 	}
 
 	/**

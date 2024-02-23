@@ -35,31 +35,30 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
-
 	/** @var Notifier */
 	protected $notifier;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory|MockObject */
 	protected $l10nFactory;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	protected $l;
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	protected $folder;
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|MockObject */
 	protected $commentsManager;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $url;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var INotification|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var INotification|MockObject */
 	protected $notification;
-	/** @var IComment|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IComment|MockObject */
 	protected $comment;
 	/** @var string */
 	protected $lc = 'tlh_KX';
@@ -97,15 +96,7 @@ class NotifierTest extends TestCase {
 		$displayName = 'Huraga';
 		$message = '@Huraga mentioned you in a comment on "Gre\'thor.odp"';
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getDisplayName')
-			->willReturn($displayName);
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $you */
-		$you = $this->createMock(IUser::class);
-
-		/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var Node|MockObject $node */
 		$node = $this->createMock(Node::class);
 		$node
 			->expects($this->atLeastOnce())
@@ -142,10 +133,8 @@ class NotifierTest extends TestCase {
 			->method('getSubjectParameters')
 			->willReturn(['files', '678']);
 		$this->notification
-			->expects($this->once())
-			->method('setParsedSubject')
-			->with($message)
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedSubject');
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
@@ -157,10 +146,8 @@ class NotifierTest extends TestCase {
 			->with('Hi {mention-user1}!', ['mention-user1' => ['type' => 'user', 'id' => 'you', 'name' => 'Your name']])
 			->willReturnSelf();
 		$this->notification
-			->expects($this->once())
-			->method('setParsedMessage')
-			->with('Hi @Your name!')
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedMessage');
 		$this->notification
 			->expects($this->once())
 			->method('setIcon')
@@ -213,10 +200,10 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->exactly(2))
-			->method('get')
+			->method('getDisplayName')
 			->willReturnMap([
-				['huraga', $user],
-				['you', $you],
+				['huraga', $displayName],
+				['you', 'You'],
 			]);
 
 		$this->notifier->prepare($this->notification, $this->lc);
@@ -224,12 +211,9 @@ class NotifierTest extends TestCase {
 
 	public function testPrepareSuccessDeletedUser() {
 		$fileName = 'Gre\'thor.odp';
-		$message = 'You were mentioned on "Gre\'thor.odp", in a comment by a user that has since been deleted';
+		$message = 'You were mentioned on "Gre\'thor.odp", in a comment by an account that has since been deleted';
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $you */
-		$you = $this->createMock(IUser::class);
-
-		/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var Node|MockObject $node */
 		$node = $this->createMock(Node::class);
 		$node
 			->expects($this->atLeastOnce())
@@ -266,14 +250,12 @@ class NotifierTest extends TestCase {
 			->method('getSubjectParameters')
 			->willReturn(['files', '678']);
 		$this->notification
-			->expects($this->once())
-			->method('setParsedSubject')
-			->with($message)
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedSubject');
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
-			->with('You were mentioned on "{file}", in a comment by a user that has since been deleted', $this->anything())
+			->with('You were mentioned on "{file}", in a comment by an account that has since been deleted', $this->anything())
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())
@@ -281,10 +263,8 @@ class NotifierTest extends TestCase {
 			->with('Hi {mention-user1}!', ['mention-user1' => ['type' => 'user', 'id' => 'you', 'name' => 'Your name']])
 			->willReturnSelf();
 		$this->notification
-			->expects($this->once())
-			->method('setParsedMessage')
-			->with('Hi @Your name!')
-			->willReturnSelf();
+			->expects($this->never())
+			->method('setParsedMessage');
 		$this->notification
 			->expects($this->once())
 			->method('setIcon')
@@ -334,9 +314,11 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->once())
-			->method('get')
-			->with('you')
-			->willReturn($you);
+			->method('getDisplayName')
+			->willReturnMap([
+				['huraga', null],
+				['you', 'You'],
+			]);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
@@ -373,7 +355,7 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->never())
-			->method('get');
+			->method('getDisplayName');
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
@@ -411,7 +393,7 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->never())
-			->method('get');
+			->method('getDisplayName');
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
@@ -421,12 +403,6 @@ class NotifierTest extends TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$displayName = 'Huraga';
-
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getDisplayName')
-			->willReturn($displayName);
 
 		$this->folder
 			->expects($this->never())
@@ -472,9 +448,9 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->once())
-			->method('get')
+			->method('getDisplayName')
 			->with('huraga')
-			->willReturn($user);
+			->willReturn($displayName);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
@@ -484,12 +460,6 @@ class NotifierTest extends TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$displayName = 'Huraga';
-
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getDisplayName')
-			->willReturn($displayName);
 
 		$this->folder
 			->expects($this->never())
@@ -536,9 +506,9 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->once())
-			->method('get')
+			->method('getDisplayName')
 			->with('huraga')
-			->willReturn($user);
+			->willReturn($displayName);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
@@ -548,12 +518,6 @@ class NotifierTest extends TestCase {
 		$this->expectException(\OCP\Notification\AlreadyProcessedException::class);
 
 		$displayName = 'Huraga';
-
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getDisplayName')
-			->willReturn($displayName);
 
 		$userFolder = $this->createMock(Folder::class);
 		$this->folder->expects($this->once())
@@ -609,9 +573,9 @@ class NotifierTest extends TestCase {
 
 		$this->userManager
 			->expects($this->once())
-			->method('get')
+			->method('getDisplayName')
 			->with('huraga')
-			->willReturn($user);
+			->willReturn($displayName);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}

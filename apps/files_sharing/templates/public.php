@@ -10,7 +10,6 @@
 <input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
-<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <?php if (!$_['hideDownload']): ?>
 	<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
 <?php endif; ?>
@@ -61,32 +60,21 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>
 			<?php else: ?>
-				<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'audio'): ?>
-					<div id="imgframe">
-						<audio tabindex="0" controls="" preload="none" style="width: 100%; max-width: <?php p($_['previewMaxX']); ?>px; max-height: <?php p($_['previewMaxY']); ?>px"
-							   <?php // See https://github.com/nextcloud/server/pull/27674?>
-							   <?php if ($_['hideDownload']) { ?>controlsList="nodownload" <?php } ?>>
-							<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
-						</audio>
-					</div>
-				<?php else: ?>
-					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
-					<div id="imgframe"></div>
-						<?php if (isset($_['mimetype']) && strpos($_['mimetype'], 'image') === 0) { ?>
-							<div class="directDownload">
-								<div>
-									<?php p($_['filename'])?> (<?php p($_['fileSize']) ?>)
-								</div>
-								<?php if (!$_['hideDownload']) { ?>
-									<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
-										<span class="icon icon-download"></span>
-										<?php p($l->t('Download'))?>
-									</a>
-								<?php } ?>
-							</div>
+				<!-- preview frame to open file in with viewer -->
+				<div id="imgframe"></div>
+				<?php if (isset($_['mimetype']) && str_starts_with($_['mimetype'], 'image')): ?>
+					<div class="directDownload">
+						<div>
+							<?php p($_['filename'])?> (<?php p($_['fileSize']) ?>)
+						</div>
+						<?php if (!$_['hideDownload']) { ?>
+							<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
+								<span class="icon icon-download"></span>
+								<?php p($l->t('Download'))?>
+							</a>
 						<?php } ?>
-				<?php endif; ?>
-				<?php if ($_['previewURL'] === $_['downloadURL'] && !$_['hideDownload']): ?>
+					</div>
+				<?php elseif ($_['previewURL'] === $_['downloadURL'] && !$_['hideDownload']): ?>
 					<div class="directDownload">
 						<div>
 							<?php p($_['filename'])?>&nbsp;(<?php p($_['fileSize']) ?>)
@@ -105,7 +93,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<div id="public-upload">
 		<div
 				id="emptycontent"
-				class="<?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
+				class="emptycontent <?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<?php if ($_['shareOwner']) { ?>
 				<div id="displayavatar"><div class="avatardiv"></div></div>
 				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
@@ -126,13 +114,13 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<div id="drop-upload-done-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploaded files:')) ?></div>
 			<ul id="drop-uploaded-files"></ul>
 
-			<?php if (!empty($_['disclaimer'])) { ?>
+			<?php if ($_['disclaimer'] !== '') { ?>
 				<div>
 					<?php
 						echo $l->t('By uploading files, you agree to the %1$sterms of service%2$s.', [
 							'<span id="show-terms-dialog">', '</span>'
 						]);
-					?>
+				?>
 				</div>
 			<?php } ?>
 		</div>
@@ -140,7 +128,6 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php } ?>
 
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
-	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">
 		<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
 			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />

@@ -57,6 +57,8 @@ use Test\TestCase;
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
+ *
+ * @group DB
  */
 class FilesPluginTest extends TestCase {
 	public const GETETAG_PROPERTYNAME = FilesPlugin::GETETAG_PROPERTYNAME;
@@ -180,7 +182,7 @@ class FilesPluginTest extends TestCase {
 		return $node;
 	}
 
-	public function testGetPropertiesForFile() {
+	public function testGetPropertiesForFile(): void {
 		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
@@ -228,16 +230,16 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('00000123instanceid', $propFind->get(self::FILEID_PROPERTYNAME));
 		$this->assertEquals('123', $propFind->get(self::INTERNAL_FILEID_PROPERTYNAME));
 		$this->assertEquals('1973-11-29T21:33:09+00:00', $propFind->get(self::CREATIONDATE_PROPERTYNAME));
-		$this->assertEquals(null, $propFind->get(self::SIZE_PROPERTYNAME));
+		$this->assertEquals(0, $propFind->get(self::SIZE_PROPERTYNAME));
 		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals('http://example.com/', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 		$this->assertEquals('foo', $propFind->get(self::OWNER_ID_PROPERTYNAME));
 		$this->assertEquals('M. Foo', $propFind->get(self::OWNER_DISPLAY_NAME_PROPERTYNAME));
 		$this->assertEquals('my_fingerprint', $propFind->get(self::DATA_FINGERPRINT_PROPERTYNAME));
-		$this->assertEquals([self::SIZE_PROPERTYNAME], $propFind->get404Properties());
+		$this->assertEquals([], $propFind->get404Properties());
 	}
 
-	public function testGetPropertiesStorageNotAvailable() {
+	public function testGetPropertiesStorageNotAvailable(): void {
 		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
@@ -261,7 +263,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals(null, $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 	}
 
-	public function testGetPublicPermissions() {
+	public function testGetPublicPermissions(): void {
 		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->config,
@@ -295,7 +297,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('DWCKR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 	}
 
-	public function testGetPropertiesForDirectory() {
+	public function testGetPropertiesForDirectory(): void {
 		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 
@@ -330,7 +332,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals([self::DOWNLOADURL_PROPERTYNAME], $propFind->get404Properties());
 	}
 
-	public function testGetPropertiesForRootDirectory() {
+	public function testGetPropertiesForRootDirectory(): void {
 		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
@@ -362,7 +364,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('my_fingerprint', $propFind->get(self::DATA_FINGERPRINT_PROPERTYNAME));
 	}
 
-	public function testGetPropertiesWhenNoPermission() {
+	public function testGetPropertiesWhenNoPermission(): void {
 		// No read permissions can be caused by files access control.
 		// But we still want to load the directory list, so this is okay for us.
 		// $this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -398,7 +400,7 @@ class FilesPluginTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testUpdateProps() {
+	public function testUpdateProps(): void {
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
 		$testDate = 'Fri, 13 Feb 2015 00:01:02 GMT';
@@ -424,6 +426,7 @@ class FilesPluginTest extends TestCase {
 			self::CREATIONDATE_PROPERTYNAME => $testCreationDate,
 		]);
 
+
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
 			$propPatch
@@ -439,7 +442,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals(200, $result[self::CREATIONDATE_PROPERTYNAME]);
 	}
 
-	public function testUpdatePropsForbidden() {
+	public function testUpdatePropsForbidden(): void {
 		$propPatch = new PropPatch([
 			self::OWNER_ID_PROPERTYNAME => 'user2',
 			self::OWNER_DISPLAY_NAME_PROPERTYNAME => 'User Two',
@@ -478,7 +481,7 @@ class FilesPluginTest extends TestCase {
 	 * Thus moving /FolderA/test.txt to /test.txt should fail already on that check
 	 *
 	 */
-	public function testMoveSrcNotDeletable() {
+	public function testMoveSrcNotDeletable(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('FolderA/test.txt cannot be deleted');
 
@@ -502,7 +505,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
 
-	public function testMoveSrcDeletable() {
+	public function testMoveSrcDeletable(): void {
 		$fileInfoFolderATestTXT = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -524,7 +527,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 
-	public function testMoveSrcNotExist() {
+	public function testMoveSrcNotExist(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		$this->expectExceptionMessage('FolderA/test.txt does not exist');
 
@@ -557,7 +560,7 @@ class FilesPluginTest extends TestCase {
 	/**
 	 * @dataProvider downloadHeadersProvider
 	 */
-	public function testDownloadHeaders($isClumsyAgent, $contentDispositionHeader) {
+	public function testDownloadHeaders($isClumsyAgent, $contentDispositionHeader): void {
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -600,7 +603,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->httpGet($request, $response);
 	}
 
-	public function testHasPreview() {
+	public function testHasPreview(): void {
 		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 

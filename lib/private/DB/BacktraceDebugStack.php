@@ -30,5 +30,6 @@ class BacktraceDebugStack extends DebugStack {
 		parent::startQuery($sql, $params, $types);
 		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$this->queries[$this->currentQuery]['backtrace'] = $backtrace;
+		$this->queries[$this->currentQuery]['start'] = $this->start;
 	}
 }

@@ -121,7 +121,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturn(0);
 
 		// Not called often enough? Then, the fallback to the backup server is broken.
-		$this->connection->expects($this->exactly(4))
+		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
 			->with('overrideMainServer')
 			->will($this->onConsecutiveCalls(false, false, true, true));

@@ -38,7 +38,6 @@ use Throwable;
 use function array_shift;
 
 class Registry implements IRegistry {
-
 	/** @var string[] */
 	private $lazyReporters = [];
 
@@ -146,5 +145,9 @@ class Registry implements IRegistry {
 				]);
 			}
 		}
+	}
+
+	public function hasReporters(): bool {
+		return !empty($this->lazyReporters) || !empty($this->reporters);
 	}
 }

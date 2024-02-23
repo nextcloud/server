@@ -142,7 +142,7 @@ class ExpirationTest extends \Test\TestCase {
 	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp) {
 		$mockedConfig = $this->getMockedConfig($configValue);
 		$mockedTimeFactory = $this->getMockedTimeFactory(
-				self::FAKE_TIME_NOW
+			self::FAKE_TIME_NOW
 		);
 
 		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);

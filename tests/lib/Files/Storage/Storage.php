@@ -94,12 +94,13 @@ abstract class Storage extends \Test\TestCase {
 		$dirEntry = $content[0];
 		unset($dirEntry['scan_permissions']);
 		unset($dirEntry['etag']);
+		$this->assertLessThanOrEqual(1, abs($dirEntry['mtime'] - $this->instance->filemtime($directory)));
+		unset($dirEntry['mtime']);
+		unset($dirEntry['storage_mtime']);
 		$this->assertEquals([
 			'name' => $directory,
 			'mimetype' => $this->instance->getMimeType($directory),
-			'mtime' => $this->instance->filemtime($directory),
 			'size' => -1,
-			'storage_mtime' => $this->instance->filemtime($directory),
 			'permissions' => $this->instance->getPermissions($directory),
 		], $dirEntry);
 
@@ -663,5 +664,19 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($storage->file_exists('test.txt'));
 		$this->assertStringEqualsFile($textFile, $storage->file_get_contents('test.txt'));
 		$this->assertEquals('resource (closed)', gettype($source));
+	}
+
+	public function testFseekSize() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$this->instance->file_put_contents('bar.txt', file_get_contents($textFile));
+
+		$size = $this->instance->filesize('bar.txt');
+		$this->assertEquals(filesize($textFile), $size);
+		$fh = $this->instance->fopen('bar.txt', 'r');
+
+		fseek($fh, 0, SEEK_END);
+		$pos = ftell($fh);
+
+		$this->assertEquals($size, $pos);
 	}
 }

@@ -25,6 +25,8 @@ declare(strict_types=1);
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Simon Leiner <simon@leiner.me>
+ * @author Stanimir Bozhilov <stanimir@audriga.com>
  *
  * @license AGPL-3.0
  *
@@ -49,7 +51,7 @@ use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
-use OCP\Security\ICrypto;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
  * Class for accessing variables in the request.
@@ -61,6 +63,7 @@ use OCP\Security\ICrypto;
  * @property string method
  * @property mixed[] parameters
  * @property mixed[] server
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
@@ -77,10 +80,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
-	protected $inputStream;
+	protected string $inputStream;
 	protected $content;
-	protected $items = [];
-	protected $allowedKeys = [
+	protected array $items = [];
+	protected array $allowedKeys = [
 		'get',
 		'post',
 		'files',
@@ -92,17 +95,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'method',
 		'requesttoken',
 	];
-	/** @var RequestId */
-	protected $requestId;
-	/** @var IConfig */
-	protected $config;
-	/** @var ICrypto */
-	protected $crypto;
-	/** @var CsrfTokenManager|null */
-	protected $csrfTokenManager;
+	protected IRequestId $requestId;
+	protected IConfig $config;
+	protected ?CsrfTokenManager $csrfTokenManager;
 
-	/** @var bool */
-	protected $contentDecoded = false;
+	protected bool $contentDecoded = false;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -122,10 +119,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @see https://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars,
-								IRequestId $requestId,
-								IConfig $config,
-								CsrfTokenManager $csrfTokenManager = null,
-								string $stream = 'php://input') {
+		IRequestId $requestId,
+		IConfig $config,
+		CsrfTokenManager $csrfTokenManager = null,
+		string $stream = 'php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = [];
 		$this->requestId = $requestId;
@@ -137,9 +134,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		foreach ($this->allowedKeys as $name) {
-			$this->items[$name] = isset($vars[$name])
-				? $vars[$name]
-				: [];
+			$this->items[$name] = $vars[$name] ?? [];
 		}
 
 		$this->items['parameters'] = array_merge(
@@ -199,9 +194,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
-		return isset($this->items['parameters'][$offset])
-			? $this->items['parameters'][$offset]
-			: null;
+		return $this->items['parameters'][$offset] ?? null;
 	}
 
 	/**
@@ -261,11 +254,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'cookies':
 			case 'urlParams':
 			case 'method':
-				return isset($this->items[$name])
-					? $this->items[$name]
-					: null;
+				return $this->items[$name] ?? null;
 			case 'parameters':
 			case 'params':
+				if ($this->isPutStreamContent()) {
+					return $this->items['parameters'];
+				}
 				return $this->getContent();
 			default:
 				return isset($this[$name])
@@ -342,7 +336,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or throuh the URL by the route
+	 * (as GET or POST) or through the URL by the route
 	 * @return array the array with all parameters
 	 */
 	public function getParams(): array {
@@ -397,12 +391,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
-		if ($this->method === 'PUT'
-			&& $this->getHeader('Content-Length') !== '0'
-			&& $this->getHeader('Content-Length') !== ''
-			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
-			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
-		) {
+		if ($this->isPutStreamContent()) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
@@ -417,6 +406,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
+	private function isPutStreamContent(): bool {
+		return $this->method === 'PUT'
+			&& $this->getHeader('Content-Length') !== '0'
+			&& $this->getHeader('Content-Length') !== ''
+			&& !str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')
+			&& !str_contains($this->getHeader('Content-Type'), 'application/json');
+	}
+
 	/**
 	 * Attempt to decode the content and populate parameters
 	 */
@@ -426,21 +423,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		$params = [];
 
-		// 'application/json' must be decoded manually.
-		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
+		// 'application/json' and other JSON-related content types must be decoded manually.
+		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
 			$params = json_decode(file_get_contents($this->inputStream), true);
-			if ($params !== null && \count($params) > 0) {
+			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
 				if ($this->method === 'POST') {
 					$this->items['post'] = $params;
 				}
 			}
-
-			// Handle application/x-www-form-urlencoded for methods other than GET
+		// Handle application/x-www-form-urlencoded for methods other than GET
 		// or post correctly
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
-				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
+				&& str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')) {
 			parse_str(file_get_contents($this->inputStream), $params);
 			if (\is_array($params)) {
 				$this->items['params'] = $params;
@@ -573,41 +569,19 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Checks if given $remoteAddress matches given $trustedProxy.
-	 * If $trustedProxy is an IPv4 IP range given in CIDR notation, true will be returned if
-	 * $remoteAddress is an IPv4 address within that IP range.
-	 * Otherwise $remoteAddress will be compared to $trustedProxy literally and the result
-	 * will be returned.
-	 * @return boolean true if $remoteAddress matches $trustedProxy, false otherwise
-	 */
-	protected function matchesTrustedProxy($trustedProxy, $remoteAddress) {
-		$cidrre = '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\/([0-9]{1,2})$/';
-
-		if (preg_match($cidrre, $trustedProxy, $match)) {
-			$net = $match[1];
-			$shiftbits = min(32, max(0, 32 - intval($match[2])));
-			$netnum = ip2long($net) >> $shiftbits;
-			$ipnum = ip2long($remoteAddress) >> $shiftbits;
-
-			return $ipnum === $netnum;
-		}
-
-		return $trustedProxy === $remoteAddress;
-	}
-
-	/**
 	 * Checks if given $remoteAddress matches any entry in the given array $trustedProxies.
 	 * For details regarding what "match" means, refer to `matchesTrustedProxy`.
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		foreach ($trustedProxies as $tp) {
-			if ($this->matchesTrustedProxy($tp, $remoteAddress)) {
-				return true;
-			}
+		try {
+			return IpUtils::checkIp($remoteAddress, $trustedProxies);
+		} catch (\Throwable) {
+			// We can not log to our log here as the logger is using `getRemoteAddress` which uses the function, so we would have a cyclic dependency
+			// Reaching this line means `trustedProxies` is in invalid format.
+			error_log('Nextcloud trustedProxies has malformed entries');
+			return false;
 		}
-
-		return false;
 	}
 
 	/**
@@ -627,14 +601,25 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				// only have one default, so we cannot ship an insecure product out of the box
 			]);
 
-			foreach ($forwardedForHeaders as $header) {
+			// Read the x-forwarded-for headers and values in reverse order as per
+			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
+			foreach (array_reverse($forwardedForHeaders) as $header) {
 				if (isset($this->server[$header])) {
-					foreach (explode(',', $this->server[$header]) as $IP) {
+					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
 						$IP = trim($IP);
+						$colons = substr_count($IP, ':');
+						if ($colons > 1) {
+							// Extract IP from string with brackets and optional port
+							if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
+								$IP = $matches[1];
+							}
+						} elseif ($colons === 1) {
+							// IPv4 with port
+							$IP = substr($IP, 0, strpos($IP, ':'));
+						}
 
-						// remove brackets from IPv6 addresses
-						if (strpos($IP, '[') === 0 && substr($IP, -1) === ']') {
-							$IP = substr($IP, 1, -1);
+						if ($this->isTrustedProxy($trustedProxies, $IP)) {
+							continue;
 						}
 
 						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
@@ -650,14 +635,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Check overwrite condition
-	 * @param string $type
 	 * @return bool
 	 */
-	private function isOverwriteCondition(string $type = ''): bool {
-		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
+	private function isOverwriteCondition(): bool {
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
-		return $regex === '//' || preg_match($regex, $remoteAddr) === 1
-		|| $type !== 'protocol';
+		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
 	/**
@@ -666,13 +649,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server protocol (http or https)
 	 */
 	public function getServerProtocol(): string {
-		if ($this->config->getSystemValue('overwriteprotocol') !== ''
-			&& $this->isOverwriteCondition('protocol')) {
-			return $this->config->getSystemValue('overwriteprotocol');
+		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
+			&& $this->isOverwriteCondition()) {
+			return $this->config->getSystemValueString('overwriteprotocol');
 		}
 
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
-			if (strpos($this->server['HTTP_X_FORWARDED_PROTO'], ',') !== false) {
+			if (str_contains($this->server['HTTP_X_FORWARDED_PROTO'], ',')) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_PROTO']);
 				$proto = strtolower(trim($parts[0]));
 			} else {
@@ -726,7 +709,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
-		if ($this->config->getSystemValue('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
+		if ($this->config->getSystemValueString('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
 			$uri = $this->getScriptName() . substr($uri, \strlen($this->server['SCRIPT_NAME']));
 		}
 		return $uri;
@@ -754,7 +737,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		// FIXME: Sabre does not really belong here
 		[$path, $name] = \Sabre\Uri\split($scriptName);
 		if (!empty($path)) {
-			if ($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
+			if ($path === $pathInfo || str_starts_with($pathInfo, $path . '/')) {
 				$pathInfo = substr($pathInfo, \strlen($path));
 			} else {
 				throw new \Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
@@ -764,10 +747,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$name = '';
 		}
 
-		if (strpos($pathInfo, '/'.$name) === 0) {
+		if (str_starts_with($pathInfo, '/' . $name)) {
 			$pathInfo = substr($pathInfo, \strlen($name) + 1);
 		}
-		if ($name !== '' && strpos($pathInfo, $name) === 0) {
+		if ($name !== '' && str_starts_with($pathInfo, $name)) {
 			$pathInfo = substr($pathInfo, \strlen($name));
 		}
 		if ($pathInfo === false || $pathInfo === '/') {
@@ -794,7 +777,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'];
-		$overwriteWebRoot = $this->config->getSystemValue('overwritewebroot');
+		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
 			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
 			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -\strlen('lib/private/appframework/http/')));
@@ -833,7 +816,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		$host = 'localhost';
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_HOST'])) {
-			if (strpos($this->server['HTTP_X_FORWARDED_HOST'], ',') !== false) {
+			if (str_contains($this->server['HTTP_X_FORWARDED_HOST'], ',')) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_HOST']);
 				$host = trim(current($parts));
 			} else {
@@ -889,8 +872,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * isn't met
 	 */
 	private function getOverwriteHost() {
-		if ($this->config->getSystemValue('overwritehost') !== '' && $this->isOverwriteCondition()) {
-			return $this->config->getSystemValue('overwritehost');
+		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {
+			return $this->config->getSystemValueString('overwritehost');
 		}
 		return null;
 	}

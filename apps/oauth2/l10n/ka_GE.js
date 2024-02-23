@@ -3,12 +3,14 @@ OC.L10N.register(
     {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 კლიენტები",
-    "Add client" : "კლიენტის დამატება",
     "Name" : "სახელი",
     "Redirection URI" : "გადამისამართების URI",
-    "Add" : "დამატება",
     "Client Identifier" : "კლიენტის იდენტიფიკატორი",
-    "Secret" : "საიდუმლო",
-    "Delete" : "წაშლა"
+    "Secret key" : "საიდუმლო გასაღები",
+    "Add client" : "კლიენტის დამატება",
+    "Add" : "დამატება",
+    "Delete" : "წაშლა",
+    "Show client secret" : "გამოაჩინე კლიენტის საიდუმლო",
+    "Secret" : "საიდუმლო"
 },
 "nplurals=2; plural=(n!=1);");

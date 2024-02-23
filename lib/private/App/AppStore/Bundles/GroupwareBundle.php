@@ -25,7 +25,6 @@
 namespace OC\App\AppStore\Bundles;
 
 class GroupwareBundle extends Bundle {
-
 	/**
 	 * {@inheritDoc}
 	 */

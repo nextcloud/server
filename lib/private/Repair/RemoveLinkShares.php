@@ -54,10 +54,10 @@ class RemoveLinkShares implements IRepairStep {
 	private $timeFactory;
 
 	public function __construct(IDBConnection $connection,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IManager $notificationManager,
-								ITimeFactory $timeFactory) {
+		IConfig $config,
+		IGroupManager $groupManager,
+		IManager $notificationManager,
+		ITimeFactory $timeFactory) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->groupManager = $groupManager;
@@ -71,7 +71,7 @@ class RemoveLinkShares implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 
 		if (version_compare($versionFromBeforeUpdate, '14.0.11', '<')) {
 			return true;
@@ -126,7 +126,7 @@ class RemoveLinkShares implements IRepairStep {
 		$query = $this->connection->getQueryBuilder();
 		$query->select($query->func()->count('*', 'total'))
 			->from('share')
-			->where($query->expr()->in('id', $query->createFunction('(' . $subQuery->getSQL() . ')')));
+			->where($query->expr()->in('id', $query->createFunction($subQuery->getSQL())));
 
 		$result = $query->execute();
 		$data = $result->fetch();
@@ -217,7 +217,7 @@ class RemoveLinkShares implements IRepairStep {
 		$output->finishProgress();
 		$shareResult->closeCursor();
 
-		// Notifiy all admins
+		// Notify all admins
 		$adminGroup = $this->groupManager->get('admin');
 		$adminUsers = $adminGroup->getUsers();
 		foreach ($adminUsers as $user) {

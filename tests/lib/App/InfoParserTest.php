@@ -10,16 +10,16 @@ namespace Test\App;
 
 use OC;
 use OC\App\InfoParser;
+use OCP\Cache\CappedMemoryCache;
 use Test\TestCase;
 
 class InfoParserTest extends TestCase {
-	/** @var OC\Cache\CappedMemoryCache */
+	/** @var OCP\Cache\CappedMemoryCache */
 	private static $cache;
 
 	public static function setUpBeforeClass(): void {
-		self::$cache = new OC\Cache\CappedMemoryCache();
+		self::$cache = new CappedMemoryCache();
 	}
-
 
 	public function parserTest($expectedJson, $xmlFile, $cache = null) {
 		$parser = new InfoParser($cache);

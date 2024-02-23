@@ -28,7 +28,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddCleanupUpdaterBackupsJob implements IRepairStep {
-
 	/** @var IJobList */
 	protected $jobList;
 

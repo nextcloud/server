@@ -30,11 +30,17 @@ declare(strict_types=1);
  */
 namespace OC\Federation;
 
+use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\User\Events\UserChangedEvent;
 
 class CloudIdManager implements ICloudIdManager {
 	/** @var IManager */
@@ -43,11 +49,48 @@ class CloudIdManager implements ICloudIdManager {
 	private $urlGenerator;
 	/** @var IUserManager */
 	private $userManager;
+	private ICache $memCache;
+	/** @var array[] */
+	private array $cache = [];
 
-	public function __construct(IManager $contactsManager, IURLGenerator $urlGenerator, IUserManager $userManager) {
+	public function __construct(
+		IManager $contactsManager,
+		IURLGenerator $urlGenerator,
+		IUserManager $userManager,
+		ICacheFactory $cacheFactory,
+		IEventDispatcher $eventDispatcher
+	) {
 		$this->contactsManager = $contactsManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
+		$this->memCache = $cacheFactory->createDistributed('cloud_id_');
+		$eventDispatcher->addListener(UserChangedEvent::class, [$this, 'handleUserEvent']);
+		$eventDispatcher->addListener(CardUpdatedEvent::class, [$this, 'handleCardEvent']);
+	}
+
+	public function handleUserEvent(Event $event): void {
+		if ($event instanceof UserChangedEvent && $event->getFeature() === 'displayName') {
+			$userId = $event->getUser()->getUID();
+			$key = $userId . '@local';
+			unset($this->cache[$key]);
+			$this->memCache->remove($key);
+		}
+	}
+
+	public function handleCardEvent(Event $event): void {
+		if ($event instanceof CardUpdatedEvent) {
+			$data = $event->getCardData()['carddata'];
+			foreach (explode("\r\n", $data) as $line) {
+				if (str_starts_with($line, "CLOUD;")) {
+					$parts = explode(':', $line, 2);
+					if (isset($parts[1])) {
+						$key = $parts[1];
+						unset($this->cache[$key]);
+						$this->memCache->remove($key);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -82,6 +125,9 @@ class CloudIdManager implements ICloudIdManager {
 		if ($lastValidAtPos !== false) {
 			$user = substr($id, 0, $lastValidAtPos);
 			$remote = substr($id, $lastValidAtPos + 1);
+
+			$this->userManager->validateUserId($user);
+
 			if (!empty($user) && !empty($remote)) {
 				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
 			}
@@ -120,18 +166,42 @@ class CloudIdManager implements ICloudIdManager {
 	 * @return CloudId
 	 */
 	public function getCloudId(string $user, ?string $remote): ICloudId {
-		if ($remote === null) {
+		$isLocal = $remote === null;
+		if ($isLocal) {
 			$remote = rtrim($this->removeProtocolFromUrl($this->urlGenerator->getAbsoluteURL('/')), '/');
 			$fixedRemote = $this->fixRemoteURL($remote);
-			$localUser = $this->userManager->get($user);
-			$displayName = !is_null($localUser) ? $localUser->getDisplayName() : '';
+			$host = $fixedRemote;
 		} else {
-			// TODO check what the correct url is for remote (asking the remote)
+			// note that for remote id's we don't strip the protocol for the remote we use to construct the CloudId
+			// this way if a user has an explicit non-https cloud id this will be preserved
+			// we do still use the version without protocol for looking up the display name
 			$fixedRemote = $this->fixRemoteURL($remote);
 			$host = $this->removeProtocolFromUrl($fixedRemote);
+		}
+
+		$key = $user . '@' . ($isLocal ? 'local' : $host);
+		$cached = $this->cache[$key] ?? $this->memCache->get($key);
+		if ($cached) {
+			$this->cache[$key] = $cached; // put items from memcache into local cache
+			return new CloudId($cached['id'], $cached['user'], $cached['remote'], $cached['displayName']);
+		}
+
+		if ($isLocal) {
+			$localUser = $this->userManager->get($user);
+			$displayName = $localUser ? $localUser->getDisplayName() : '';
+		} else {
 			$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
 		}
 		$id = $user . '@' . $remote;
+
+		$data = [
+			'id' => $id,
+			'user' => $user,
+			'remote' => $fixedRemote,
+			'displayName' => $displayName,
+		];
+		$this->cache[$key] = $data;
+		$this->memCache->set($key, $data, 15 * 60);
 		return new CloudId($id, $user, $fixedRemote, $displayName);
 	}
 
@@ -139,11 +209,12 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $url
 	 * @return string
 	 */
-	private function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
-			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
+	public function removeProtocolFromUrl(string $url): string {
+		if (str_starts_with($url, 'https://')) {
+			return substr($url, 8);
+		}
+		if (str_starts_with($url, 'http://')) {
+			return substr($url, 7);
 		}
 
 		return $url;
@@ -176,6 +247,6 @@ class CloudIdManager implements ICloudIdManager {
 	 * @return bool
 	 */
 	public function isValidCloudId(string $cloudId): bool {
-		return strpos($cloudId, '@') !== false;
+		return str_contains($cloudId, '@');
 	}
 }

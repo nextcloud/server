@@ -155,7 +155,23 @@
 		 */
 		sharePermissions: null,
 
+		/**
+		 * @type Array
+		 */
+		shareAttributes: [],
+
 		quotaAvailableBytes: -1,
+
+		canDownload: function() {
+			for (const i in this.shareAttributes) {
+				const attr = this.shareAttributes[i]
+				if (attr.scope === 'permissions' && attr.key === 'download') {
+					return attr.enabled
+				}
+			}
+
+			return true
+		},
 	}
 
 	if (!OC.Files) {

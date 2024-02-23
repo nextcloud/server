@@ -22,11 +22,50 @@
  */
 namespace OCA\User_LDAP\Mapping;
 
+use OCP\HintException;
+use OCP\IDBConnection;
+use OCP\IRequest;
+use OCP\Server;
+use OCP\Support\Subscription\IAssertion;
+
 /**
  * Class UserMapping
+ *
  * @package OCA\User_LDAP\Mapping
  */
 class UserMapping extends AbstractMapping {
+
+	private IAssertion $assertion;
+	protected const PROV_API_REGEX = '/\/ocs\/v[1-9].php\/cloud\/(groups|users)/';
+
+	public function __construct(IDBConnection $dbc, IAssertion $assertion) {
+		$this->assertion = $assertion;
+		parent::__construct($dbc);
+	}
+
+	/**
+	 * @throws HintException
+	 */
+	public function map($fdn, $name, $uuid): bool {
+		try {
+			$this->assertion->createUserIsLegit();
+		} catch (HintException $e) {
+			static $isProvisioningApi = null;
+
+			if ($isProvisioningApi === null) {
+				$request = Server::get(IRequest::class);
+				$isProvisioningApi = \preg_match(self::PROV_API_REGEX, $request->getRequestUri()) === 1;
+			}
+			if ($isProvisioningApi) {
+				// only throw when prov API is being used, since functionality
+				// should not break for end users (e.g. when sharing).
+				// On direct API usage, e.g. on users page, this is desired.
+				throw $e;
+			}
+			return false;
+		}
+		return parent::map($fdn, $name, $uuid);
+	}
 
 	/**
 	 * returns the DB table name which holds the mappings

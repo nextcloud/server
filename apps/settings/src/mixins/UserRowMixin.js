@@ -22,8 +22,6 @@
  *
  */
 
-import { generateUrl } from '@nextcloud/router'
-
 export default {
 	props: {
 		user: {
@@ -46,10 +44,6 @@ export default {
 			type: Array,
 			default: () => [],
 		},
-		showConfig: {
-			type: Object,
-			default: () => ({}),
-		},
 		languages: {
 			type: Array,
 			required: true,
@@ -60,6 +54,10 @@ export default {
 		},
 	},
 	computed: {
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
 		/* GROUPS MANAGEMENT */
 		userGroups() {
 			const userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
@@ -151,25 +149,6 @@ export default {
 				return OC.Util.relativeModifiedDate(this.user.lastLogin)
 			}
 			return t('settings', 'Never')
-		},
-	},
-	methods: {
-		/**
-		 * Generate avatar url
-		 *
-		 * @param {string} user The user name
-		 * @param {number} size Size integer, default 32
-		 * @return {string}
-		 */
-		generateAvatar(user, size = 32) {
-			return generateUrl(
-				'/avatar/{user}/{size}?v={version}',
-				{
-					user,
-					size,
-					version: oc_userconfig.avatar.version,
-				}
-			)
 		},
 	},
 }

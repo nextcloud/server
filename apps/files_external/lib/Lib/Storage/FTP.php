@@ -29,6 +29,7 @@ use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class FTP extends Common {
 	use CopyDirectory;
@@ -116,20 +117,21 @@ class FTP extends Common {
 			if ($this->is_dir($path)) {
 				$list = $this->getConnection()->mlsd($this->buildPath($path));
 				if (!$list) {
-					\OC::$server->getLogger()->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
+					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
 					return time();
 				}
 				$currentDir = current(array_filter($list, function ($item) {
 					return $item['type'] === 'cdir';
 				}));
 				if ($currentDir) {
-					$time = \DateTime::createFromFormat('YmdHis', $currentDir['modify']);
+					[$modify] = explode('.', $currentDir['modify'] ?? '', 2);
+					$time = \DateTime::createFromFormat('YmdHis', $modify);
 					if ($time === false) {
 						throw new \Exception("Invalid date format for directory: $currentDir");
 					}
 					return $time->getTimestamp();
 				} else {
-					\OC::$server->getLogger()->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
+					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
 					return time();
 				}
 			} else {
@@ -140,7 +142,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		$result = $this->getConnection()->size($this->buildPath($path));
 		if ($result === -1) {
 			return false;
@@ -269,7 +271,7 @@ class FTP extends Common {
 			case 'wb':
 			case 'wb+':
 				$useExisting = false;
-			// no break
+				// no break
 			case 'a':
 			case 'ab':
 			case 'r+':
@@ -333,9 +335,9 @@ class FTP extends Common {
 		}
 	}
 
-	public function rename($path1, $path2) {
-		$this->unlink($path2);
-		return $this->getConnection()->rename($this->buildPath($path1), $this->buildPath($path2));
+	public function rename($source, $target) {
+		$this->unlink($target);
+		return $this->getConnection()->rename($this->buildPath($source), $this->buildPath($target));
 	}
 
 	public function getDirectoryContent($directory): \Traversable {
@@ -355,10 +357,11 @@ class FTP extends Common {
 
 			$data = [];
 			$data['mimetype'] = $isDir ? FileInfo::MIMETYPE_FOLDER : $mimeTypeDetector->detectPath($name);
-			$data['mtime'] = \DateTime::createFromFormat('YmdGis', $file['modify'])->getTimestamp();
-			if ($data['mtime'] === false) {
-				$data['mtime'] = time();
-			}
+
+			// strip fractional seconds
+			[$modify] = explode('.', $file['modify'], 2);
+			$mtime = \DateTime::createFromFormat('YmdGis', $modify);
+			$data['mtime'] = $mtime === false ? time() : $mtime->getTimestamp();
 			if ($isDir) {
 				$data['size'] = -1; //unknown
 			} elseif (isset($file['size'])) {

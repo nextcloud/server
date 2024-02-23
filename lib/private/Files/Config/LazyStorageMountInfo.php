@@ -39,6 +39,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 		$this->rootId = 0;
 		$this->storageId = 0;
 		$this->mountPoint = '';
+		$this->key = '';
 	}
 
 	/**
@@ -86,5 +87,12 @@ class LazyStorageMountInfo extends CachedMountInfo {
 
 	public function getMountProvider(): string {
 		return $this->mount->getMountProvider();
+	}
+
+	public function getKey(): string {
+		if (!$this->key) {
+			$this->key = $this->getRootId() . '::' . $this->getMountPoint();
+		}
+		return $this->key;
 	}
 }

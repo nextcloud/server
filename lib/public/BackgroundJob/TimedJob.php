@@ -26,7 +26,6 @@ declare(strict_types=1);
  */
 namespace OCP\BackgroundJob;
 
-use OC\BackgroundJob\JobList;
 use OCP\ILogger;
 
 /**
@@ -36,13 +35,11 @@ use OCP\ILogger;
  * @since 15.0.0
  */
 abstract class TimedJob extends Job {
-	/** @var int */
-	protected $interval = 0;
-	/** @var int */
-	protected $timeSensitivity = IJob::TIME_SENSITIVE;
+	protected int $interval = 0;
+	protected int $timeSensitivity = IJob::TIME_SENSITIVE;
 
 	/**
-	 * set the interval for the job
+	 * Set the interval for the job
 	 *
 	 * @param int $seconds the time to pass between two runs of the same job in seconds
 	 *
@@ -83,16 +80,26 @@ abstract class TimedJob extends Job {
 	}
 
 	/**
-	 * run the job if the last run is is more than the interval ago
+	 * Run the job if the last run is more than the interval ago
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 *
 	 * @since 15.0.0
+	 * @deprecated since 25.0.0 Use start() instead
 	 */
-	final public function execute($jobList, ILogger $logger = null) {
+	final public function execute(IJobList $jobList, ILogger $logger = null) {
+		$this->start($jobList);
+	}
+
+	/**
+	 * Run the job if the last run is more than the interval ago
+	 *
+	 * @since 25.0.0
+	 */
+	final public function start(IJobList $jobList): void {
 		if (($this->time->getTime() - $this->lastRun) > $this->interval) {
-			parent::execute($jobList, $logger);
+			parent::start($jobList);
 		}
 	}
 }

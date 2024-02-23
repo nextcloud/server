@@ -27,8 +27,8 @@ import VTooltip from 'v-tooltip'
 import { sync } from 'vuex-router-sync'
 
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import router from './router.js'
+import store from './store/index.js'
 
 Vue.use(VTooltip, { defaultHtml: false })
 

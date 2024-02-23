@@ -26,50 +26,33 @@
  */
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
-class ExpireTrash extends \OC\BackgroundJob\TimedJob {
+class ExpireTrash extends TimedJob {
+	private IConfig $config;
+	private Expiration $expiration;
+	private IUserManager $userManager;
 
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	public function __construct(IConfig $config = null,
-								IUserManager $userManager = null,
-								Expiration $expiration = null) {
+	public function __construct(
+		IConfig $config,
+		IUserManager $userManager,
+		Expiration $expiration,
+		ITimeFactory $time
+	) {
+		parent::__construct($time);
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
-		if ($config === null || $expiration === null || $userManager === null) {
-			$this->fixDIForJobs();
-		} else {
-			$this->config = $config;
-			$this->userManager = $userManager;
-			$this->expiration = $expiration;
-		}
-	}
-
-	protected function fixDIForJobs() {
-		/** @var Application $application */
-		$application = \OC::$server->query(Application::class);
-		$this->config = $application->getContainer()->get(IConfig::class);
-		$this->userManager = \OC::$server->getUserManager();
-		$this->expiration = $application->getContainer()->query('Expiration');
+		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->expiration = $expiration;
 	}
 
 	/**
@@ -101,10 +84,8 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 
 	/**
 	 * Act on behalf on trash item owner
-	 * @param string $user
-	 * @return boolean
 	 */
-	protected function setupFS($user) {
+	protected function setupFS(string $user): bool {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 

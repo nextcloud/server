@@ -29,7 +29,6 @@ namespace OCP\Support\CrashReport;
  * @since 17.0.0
  */
 interface IMessageReporter extends IReporter {
-
 	/**
 	 * Report a (error) message
 	 *

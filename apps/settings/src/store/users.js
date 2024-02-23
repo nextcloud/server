@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -26,11 +27,12 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import logger from '../logger'
-import { showError } from '@nextcloud/dialogs'
+import { getCapabilities } from '@nextcloud/capabilities'
+import logger from '../logger.js'
+import { parseFileSize } from "@nextcloud/files"
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -62,15 +64,30 @@ const state = {
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
+	disabledUsersOffset: 0,
+	disabledUsersLimit: 25,
 	userCount: 0,
+	showConfig: {
+		showStoragePath: false,
+		showUserBackend: false,
+		showLastLogin: false,
+		showNewUserForm: false,
+		showLanguages: false,
+	},
 }
 
 const mutations = {
 	appendUsers(state, usersObj) {
-		// convert obj to array
-		const users = state.users.concat(Object.keys(usersObj).map(userid => usersObj[userid]))
+		const existingUsers = state.users.map(({ id }) => id)
+		const newUsers = Object.values(usersObj)
+			.filter(({ id }) => !existingUsers.includes(id))
+
+		const users = state.users.concat(newUsers)
 		state.usersOffset += state.usersLimit
 		state.users = users
+	},
+	updateDisabledUsers(state, _usersObj) {
+		state.disabledUsersOffset += state.disabledUsersLimit
 	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
@@ -92,7 +109,7 @@ const mutations = {
 				id: gid,
 				name: displayName,
 			})
-			state.groups.push(group)
+			state.groups.unshift(group)
 			state.groups = orderGroups(state.groups, state.orderBy)
 		} catch (e) {
 			console.error('Can\'t create group', e)
@@ -150,7 +167,7 @@ const mutations = {
 	},
 	addUserData(state, response) {
 		const user = response.data.ocs.data
-		state.users.push(user)
+		state.users.unshift(user)
 		this.commit('updateUserCounts', { user, actionType: 'create' })
 	},
 	enableDisableUser(state, { userid, enabled }) {
@@ -160,6 +177,11 @@ const mutations = {
 	},
 	// update active/disabled counts, groups counts
 	updateUserCounts(state, { user, actionType }) {
+		// 0 is a special value
+		if (state.userCount === 0) {
+			return
+		}
+
 		const disabledGroup = state.groups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
@@ -185,6 +207,10 @@ const mutations = {
 				state.userCount-- // decrement Active Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					if (!group) {
+						console.warn('User group ' + userGroup + ' does not exist during user removal')
+						return
+					}
 					group.usercount-- // decrement group total count
 				})
 			} else {
@@ -197,12 +223,12 @@ const mutations = {
 			break
 		default:
 			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
-			// not throwing error to interupt execution as this is not fatal
+			// not throwing error to interrupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
@@ -217,6 +243,11 @@ const mutations = {
 	resetUsers(state) {
 		state.users = []
 		state.usersOffset = 0
+		state.disabledUsersOffset = 0
+	},
+
+	setShowConfig(state, { key, value }) {
+		state.showConfig[key] = value
 	},
 }
 
@@ -240,8 +271,17 @@ const getters = {
 	getUsersLimit(state) {
 		return state.usersLimit
 	},
+	getDisabledUsersOffset(state) {
+		return state.disabledUsersOffset
+	},
+	getDisabledUsersLimit(state) {
+		return state.disabledUsersLimit
+	},
 	getUserCount(state) {
 		return state.userCount
+	},
+	getShowConfig(state) {
+		return state.showConfig
 	},
 }
 
@@ -249,6 +289,41 @@ const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
 
 const actions = {
+
+	/**
+	 * search users
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search Search amongst users
+	 * @return {Promise}
+	 */
+	searchUsers(context, { offset, limit, search }) {
+		search = typeof search === 'string' ? search : ''
+
+		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search })).catch((error) => {
+			if (!axios.isCancel(error)) {
+				context.commit('API_FAILURE', error)
+			}
+		})
+	},
+
+	/**
+	 * Get user details
+	 *
+	 * @param {object} context store context
+	 * @param {string} userId user id
+	 * @return {Promise}
+	 */
+	getUser(context, userId) {
+		return api.get(generateOcsUrl(`cloud/users/${userId}`)).catch((error) => {
+			if (!axios.isCancel(error)) {
+				context.commit('API_FAILURE', error)
+			}
+		})
+	},
 
 	/**
 	 * Get all users with full details
@@ -267,6 +342,14 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
+
+		/**
+		 * Adding filters in the search bar such as in:files, in:users, etc.
+		 * collides with this particular search, so we need to remove them
+		 * here and leave only the original search query
+		 */
+		search = search.replace(/in:[^\s]+/g, '').trim()
+
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
@@ -301,6 +384,30 @@ const actions = {
 					context.commit('API_FAILURE', error)
 				}
 			})
+	},
+
+	/**
+	 * Get disabled users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @return {Promise<number>}
+	 */
+	async getDisabledUsers(context, { offset, limit }) {
+		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}', { offset, limit })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+				context.commit('updateDisabledUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
 	},
 
 	getGroups(context, { offset, limit, search }) {
@@ -359,9 +466,9 @@ const actions = {
 	},
 
 	getPasswordPolicyMinLength(context) {
-		if (OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
-			context.commit('setPasswordPolicyMinLength', OC.getCapabilities().password_policy.minLength)
-			return OC.getCapabilities().password_policy.minLength
+		if (getCapabilities().password_policy && getCapabilities().password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', getCapabilities().password_policy.minLength)
+			return getCapabilities().password_policy.minLength
 		}
 		return false
 	},
@@ -392,7 +499,7 @@ const actions = {
 	/**
 	 * Rename group
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} groupid Group id
 	 * @param {string} displayName Group display name
 	 * @return {Promise}
@@ -545,21 +652,15 @@ const actions = {
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
 	 * @param {string} options.language User language
+	 * @param {string} options.manager User manager
 	 * @return {Promise}
 	 */
-	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {
+	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language, manager }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/users'), { userid, password, displayName, email, groups, subadmin, quota, language })
+			return api.post(generateOcsUrl('cloud/users'), { userid, password, displayName, email, groups, subadmin, quota, language, manager })
 				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.id))
 				.catch((error) => { throw error })
 		}).catch((error) => {
-			const statusCode = error?.response?.data?.ocs?.meta?.statuscode
-
-			if (statusCode === 102) {
-				showError(t('settings', 'User already exists.'))
-				throw error
-			}
-
 			commit('API_FAILURE', { userid, error })
 			throw error
 		})
@@ -609,8 +710,8 @@ const actions = {
 	 * @return {Promise}
 	 */
 	setUserData(context, { userid, key, value }) {
-		const allowedEmpty = ['email', 'displayname']
-		if (['email', 'language', 'quota', 'displayname', 'password'].indexOf(key) !== -1) {
+		const allowedEmpty = ['email', 'displayname', 'manager']
+		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
 			if (typeof value === 'string'
 				&& (

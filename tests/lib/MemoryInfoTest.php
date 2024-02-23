@@ -71,10 +71,10 @@ class MemoryInfoTest extends TestCase {
 	 * Tests that getMemoryLimit works as expected.
 	 *
 	 * @param string $iniValue The "memory_limit" ini data.
-	 * @param int $expected The expected detected memory limit.
+	 * @param int|float $expected The expected detected memory limit.
 	 * @dataProvider getMemoryLimitTestData
 	 */
-	public function testMemoryLimit($iniValue, int $expected) {
+	public function testMemoryLimit(string $iniValue, int|float $expected) {
 		ini_set('memory_limit', $iniValue);
 		$memoryInfo = new MemoryInfo();
 		self::assertEquals($expected, $memoryInfo->getMemoryLimit());

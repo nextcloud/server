@@ -67,7 +67,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 
 	public function testGetAppInfo() {
 		$result = $this->api->getAppInfo('provisioning_api');
-		$expected = \OC_App::getAppInfo('provisioning_api');
+		$expected = $this->appManager->getAppInfo('provisioning_api');
 		$this->assertEquals($expected, $result->getData());
 	}
 

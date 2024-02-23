@@ -21,64 +21,65 @@
 -->
 
 <template>
-	<SettingsSection :title="t('federatedfilesharing', 'Federated Cloud Sharing')"
-		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing.')"
+	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud Sharing')"
+		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing.')"
 		:doc-url="sharingFederatedDocUrl">
-		<CheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="outgoingServer2serverShareEnabled"
 			@update:checked="update('outgoing_server2server_share_enabled', outgoingServer2serverShareEnabled)">
-			{{ t('federatedfilesharing', 'Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)') }}
-		</CheckboxRadioSwitch>
+			{{ t('federatedfilesharing', 'Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)') }}
+		</NcCheckboxRadioSwitch>
 
-		<CheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="incomingServer2serverShareEnabled"
 			@update:checked="update('incoming_server2server_share_enabled', incomingServer2serverShareEnabled)">
-			{{ t('federatedfilesharing', 'Allow users on this server to receive shares from other servers') }}
-		</CheckboxRadioSwitch>
+			{{ t('federatedfilesharing', 'Allow people on this server to receive shares from other servers') }}
+		</NcCheckboxRadioSwitch>
 
-		<CheckboxRadioSwitch v-if="federatedGroupSharingSupported"
+		<NcCheckboxRadioSwitch v-if="federatedGroupSharingSupported"
 			type="switch"
 			:checked.sync="outgoingServer2serverGroupShareEnabled"
 			@update:checked="update('outgoing_server2server_group_share_enabled', outgoingServer2serverGroupShareEnabled)">
-			{{ t('federatedfilesharing', 'Allow users on this server to send shares to groups on other servers') }}
-		</CheckboxRadioSwitch>
+			{{ t('federatedfilesharing', 'Allow people on this server to send shares to groups on other servers') }}
+		</NcCheckboxRadioSwitch>
 
-		<CheckboxRadioSwitch v-if="federatedGroupSharingSupported"
+		<NcCheckboxRadioSwitch v-if="federatedGroupSharingSupported"
 			type="switch"
 			:checked.sync="incomingServer2serverGroupShareEnabled"
 			@update:checked="update('incoming_server2server_group_share_enabled', incomingServer2serverGroupShareEnabled)">
-			{{ t('federatedfilesharing', 'Allow users on this server to receive group shares from other servers') }}
-		</CheckboxRadioSwitch>
+			{{ t('federatedfilesharing', 'Allow people on this server to receive group shares from other servers') }}
+		</NcCheckboxRadioSwitch>
 
-		<CheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="lookupServerEnabled"
 			@update:checked="update('lookupServerEnabled', lookupServerEnabled)">
-			{{ t('federatedfilesharing', 'Search global and public address book for users') }}
-		</CheckboxRadioSwitch>
+			{{ t('federatedfilesharing', 'Search global and public address book for people') }}
+		</NcCheckboxRadioSwitch>
 
-		<CheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="lookupServerUploadEnabled"
 			@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
-			{{ t('federatedfilesharing', 'Allow users to publish their data to a global and public address book') }}
-		</CheckboxRadioSwitch>
-	</SettingsSection>
+			{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
+		</NcCheckboxRadioSwitch>
+	</NcSettingsSection>
 </template>
 
 <script>
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
 export default {
 	name: 'AdminSettings',
 
 	components: {
-		CheckboxRadioSwitch,
-		SettingsSection,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
 	},
 
 	data() {

@@ -20,4 +20,6 @@ echo "========================="
 
 [[ $(git diff --name-only origin/$DRONE_TARGET_BRANCH...$DRONE_COMMIT_SHA | grep -c "^build/integration/") -gt 0 ]] && echo "Integration test files are modified" && exit 0
 
+[[ $(git diff --name-only origin/$DRONE_TARGET_BRANCH...$DRONE_COMMIT_SHA | grep -c "3rdparty") -gt 0 ]] && echo "3rdparty is modified" && exit 0
+
 exit 1

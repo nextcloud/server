@@ -31,7 +31,6 @@ use OCP\AppFramework\Http;
 use OCP\IRequest;
 
 class NotModifiedMiddlewareTest extends \Test\TestCase {
-
 	/** @var IRequest */
 	private $request;
 	/** @var Controller */

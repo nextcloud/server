@@ -34,14 +34,8 @@ namespace OC\Template;
 use Psr\Log\LoggerInterface;
 
 class CSSResourceLocator extends ResourceLocator {
-
-	/**
-	 * @param string $theme
-	 * @param array $core_map
-	 * @param array $party_map
-	 */
-	public function __construct(LoggerInterface $logger, $theme, $core_map, $party_map) {
-		parent::__construct($logger, $theme, $core_map, $party_map);
+	public function __construct(LoggerInterface $logger) {
+		parent::__construct($logger);
 	}
 
 	/**
@@ -49,9 +43,7 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	public function doFind($style) {
 		$app = substr($style, 0, strpos($style, '/'));
-		if (strpos($style, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
-			|| $this->appendIfExist($this->serverroot, $style.'.css')
+		if ($this->appendIfExist($this->serverroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
 		) {
 			return;

@@ -29,19 +29,27 @@ use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
-	private DisplayNameCache $displayNameCache;
 	private string $uid;
+	private ?string $displayName;
 	private IUserManager $userManager;
+	private ?UserInterface $backend;
 
-	public function __construct(string $uid, DisplayNameCache $displayNameCache, IUserManager $userManager) {
-		$this->displayNameCache = $displayNameCache;
+	public function __construct(string $uid, IUserManager $userManager, ?string $displayName = null, ?UserInterface $backend = null) {
 		$this->uid = $uid;
 		$this->userManager = $userManager;
+		$this->displayName = $displayName;
+		$this->backend = $backend;
 	}
 
 	private function getUser(): IUser {
 		if ($this->user === null) {
-			$this->user = $this->userManager->get($this->uid);
+			if ($this->backend) {
+				/** @var \OC\User\Manager $manager */
+				$manager = $this->userManager;
+				$this->user = $manager->getUserObject($this->uid, $this->backend);
+			} else {
+				$this->user = $this->userManager->get($this->uid);
+			}
 		}
 		/** @var IUser */
 		$user = $this->user;
@@ -53,7 +61,11 @@ class LazyUser implements IUser {
 	}
 
 	public function getDisplayName() {
-		return $this->displayNameCache->getDisplayName($this->uid);
+		if ($this->displayName) {
+			return $this->displayName;
+		}
+
+		return $this->userManager->getDisplayName($this->uid) ?? $this->uid;
 	}
 
 	public function setDisplayName($displayName) {
@@ -146,5 +158,13 @@ class LazyUser implements IUser {
 
 	public function setQuota($quota) {
 		$this->getUser()->setQuota($quota);
+	}
+
+	public function getManagerUids(): array {
+		return $this->getUser()->getManagerUids();
+	}
+
+	public function setManagerUids(array $uids): void {
+		$this->getUser()->setManagerUids($uids);
 	}
 }

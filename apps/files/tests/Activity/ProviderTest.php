@@ -32,7 +32,6 @@ use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -177,17 +176,10 @@ class ProviderTest extends TestCase {
 		$provider = $this->getProvider();
 
 		if ($userDisplayName !== null) {
-			$user = $this->createMock(IUser::class);
-			$user->expects($this->once())
-				->method('getUID')
-				->willReturn($uid);
-			$user->expects($this->once())
-				->method('getDisplayName')
-				->willReturn($userDisplayName);
 			$this->userManager->expects($this->once())
-				->method('get')
+				->method('getDisplayName')
 				->with($uid)
-				->willReturn($user);
+				->willReturn($userDisplayName);
 		}
 		if ($cloudIdData !== null) {
 			$this->cloudIdManager->expects($this->once())

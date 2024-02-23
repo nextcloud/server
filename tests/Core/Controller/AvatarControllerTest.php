@@ -38,6 +38,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\ICache;
@@ -59,7 +60,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $avatarMock;
 	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
-	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISimpleFile|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarFile;
 
 	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -115,7 +116,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->userManager->method('get')
 			->willReturnMap([['userId', $this->userMock]]);
 
-		$this->avatarFile = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$this->avatarFile = $this->getMockBuilder(ISimpleFile::class)->getMock();
 		$this->avatarFile->method('getContent')->willReturn('image data');
 		$this->avatarFile->method('getMimeType')->willReturn('image type');
 		$this->avatarFile->method('getEtag')->willReturn('my etag');

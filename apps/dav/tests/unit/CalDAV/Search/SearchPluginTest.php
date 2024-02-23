@@ -48,20 +48,20 @@ class SearchPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testGetFeatures() {
+	public function testGetFeatures(): void {
 		$this->assertEquals(['nc-calendar-search'], $this->plugin->getFeatures());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals('nc-calendar-search', $this->plugin->getPluginName());
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		$server = $this->createMock(\Sabre\DAV\Server::class);
 
 		$plugin = new SearchPlugin();
 
-		$server->expects($this->at(0))
+		$server->expects($this->once())
 			->method('on')
 			->with('report', [$plugin, 'report']);
 		$server->xml = new Service();
@@ -74,25 +74,25 @@ class SearchPluginTest extends TestCase {
 		);
 	}
 
-	public function testReportUnknown() {
+	public function testReportUnknown(): void {
 		$result = $this->plugin->report('{urn:ietf:params:xml:ns:caldav}calendar-query', 'REPORT', null);
 		$this->assertEquals($result, null);
 		$this->assertNotEquals($this->server->transactionType, 'report-nc-calendar-search');
 	}
 
-	public function testReport() {
+	public function testReport(): void {
 		$report = $this->createMock(CalendarSearchReport::class);
 		$report->filters = [];
 		$calendarHome = $this->createMock(CalendarHome::class);
-		$this->server->expects($this->at(0))
+		$this->server->expects($this->once())
 			->method('getRequestUri')
 			->with()
 			->willReturn('/re/quest/u/r/i');
-		$this->server->tree->expects($this->at(0))
+		$this->server->tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('/re/quest/u/r/i')
 			->willReturn($calendarHome);
-		$this->server->expects($this->at(1))
+		$this->server->expects($this->once())
 			->method('getHTTPDepth')
 			->with(2)
 			->willReturn(2);
@@ -101,14 +101,14 @@ class SearchPluginTest extends TestCase {
 			->willReturn([
 				'return' => null
 			]);
-		$calendarHome->expects($this->at(0))
+		$calendarHome->expects($this->once())
 			->method('calendarSearch')
 			->willReturn([]);
 
 		$this->plugin->report('{http://nextcloud.com/ns}calendar-search', $report, '');
 	}
 
-	public function testSupportedReportSetNoCalendarHome() {
+	public function testSupportedReportSetNoCalendarHome(): void {
 		$this->server->tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('/foo/bar')
@@ -118,7 +118,7 @@ class SearchPluginTest extends TestCase {
 		$this->assertEquals([], $reports);
 	}
 
-	public function testSupportedReportSet() {
+	public function testSupportedReportSet(): void {
 		$calendarHome = $this->createMock(CalendarHome::class);
 
 		$this->server->tree->expects($this->once())

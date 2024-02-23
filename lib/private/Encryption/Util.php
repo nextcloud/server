@@ -32,11 +32,12 @@ use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
+use OCP\Files\Mount\ISystemMountPoint;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class Util {
 	public const HEADER_START = 'HBEGIN';
@@ -65,29 +66,23 @@ class Util {
 	/** @var array */
 	protected $ocHeaderKeys;
 
-	/** @var \OC\User\Manager */
-	protected $userManager;
-
 	/** @var IConfig */
 	protected $config;
 
 	/** @var array paths excluded from encryption */
-	protected $excludedPaths;
-
-	/** @var \OC\Group\Manager $manager */
-	protected $groupManager;
+	protected array $excludedPaths = [];
+	protected IGroupManager $groupManager;
+	protected IUserManager $userManager;
 
 	/**
 	 *
 	 * @param View $rootView
-	 * @param \OC\User\Manager $userManager
-	 * @param \OC\Group\Manager $groupManager
 	 * @param IConfig $config
 	 */
 	public function __construct(
 		View $rootView,
-		\OC\User\Manager $userManager,
-		\OC\Group\Manager $groupManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
 		IConfig $config) {
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
@@ -99,7 +94,7 @@ class Util {
 		$this->config = $config;
 
 		$this->excludedPaths[] = 'files_encryption';
-		$this->excludedPaths[] = 'appdata_' . $config->getSystemValue('instanceid', null);
+		$this->excludedPaths[] = 'appdata_' . $config->getSystemValueString('instanceid');
 		$this->excludedPaths[] = 'files_external';
 	}
 
@@ -275,7 +270,7 @@ class Util {
 		} else {
 			$result = array_merge($result, $users);
 
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = $this->groupManager;
 			foreach ($groups as $group) {
 				$groupObject = $groupManager->get($group);
 				if ($groupObject) {
@@ -298,45 +293,9 @@ class Util {
 	 * @param string $uid
 	 * @return boolean
 	 */
-	public function isSystemWideMountPoint($path, $uid) {
-		if (\OCP\App::isEnabled("files_external")) {
-			/** @var GlobalStoragesService $storageService */
-			$storageService = \OC::$server->get(GlobalStoragesService::class);
-			$storages = $storageService->getAllStorages();
-			foreach ($storages as $storage) {
-				if (strpos($path, '/files/' . ltrim($storage->getMountPoint(), '/')) === 0) {
-					if ($this->isMountPointApplicableToUser($storage, $uid)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * check if mount point is applicable to user
-	 *
-	 * @param StorageConfig $mount
-	 * @param string $uid
-	 * @return boolean
-	 */
-	private function isMountPointApplicableToUser(StorageConfig $mount, string $uid) {
-		if ($mount->getApplicableUsers() === [] && $mount->getApplicableGroups() === []) {
-			// applicable for everyone
-			return true;
-		}
-		// check if mount point is applicable for the user
-		if (array_search($uid, $mount->getApplicableUsers()) !== false) {
-			return true;
-		}
-		// check if mount point is applicable for group where the user is a member
-		foreach ($mount->getApplicableGroups() as $gid) {
-			if ($this->groupManager->isInGroup($uid, $gid)) {
-				return true;
-			}
-		}
-		return false;
+	public function isSystemWideMountPoint(string $path, string $uid) {
+		$mount = Filesystem::getMountManager()->find('/' . $uid . $path);
+		return $mount instanceof ISystemMountPoint;
 	}
 
 	/**
@@ -349,14 +308,10 @@ class Util {
 		$normalizedPath = Filesystem::normalizePath($path);
 		$root = explode('/', $normalizedPath, 4);
 		if (count($root) > 1) {
-
 			// detect alternative key storage root
 			$rootDir = $this->getKeyStorageRoot();
 			if ($rootDir !== '' &&
-				0 === strpos(
-					Filesystem::normalizePath($path),
-					Filesystem::normalizePath($rootDir)
-				)
+				str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
 			) {
 				return true;
 			}
@@ -377,32 +332,78 @@ class Util {
 	}
 
 	/**
-	 * check if recovery key is enabled for user
-	 *
-	 * @param string $uid
-	 * @return boolean
+	 * Check if recovery key is enabled for user
 	 */
-	public function recoveryEnabled($uid) {
+	public function recoveryEnabled(string $uid): bool {
 		$enabled = $this->config->getUserValue($uid, 'encryption', 'recovery_enabled', '0');
 
 		return $enabled === '1';
 	}
 
 	/**
-	 * set new key storage root
+	 * Set new key storage root
 	 *
 	 * @param string $root new key store root relative to the data folder
 	 */
-	public function setKeyStorageRoot($root) {
+	public function setKeyStorageRoot(string $root): void {
 		$this->config->setAppValue('core', 'encryption_key_storage_root', $root);
 	}
 
 	/**
-	 * get key storage root
+	 * Get key storage root
 	 *
 	 * @return string key storage root
 	 */
-	public function getKeyStorageRoot() {
+	public function getKeyStorageRoot(): string {
 		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
+	}
+
+	/**
+	 * parse raw header to array
+	 *
+	 * @param string $rawHeader
+	 * @return array
+	 */
+	public function parseRawHeader(string $rawHeader) {
+		$result = [];
+		if (str_starts_with($rawHeader, Util::HEADER_START)) {
+			$header = $rawHeader;
+			$endAt = strpos($header, Util::HEADER_END);
+			if ($endAt !== false) {
+				$header = substr($header, 0, $endAt + strlen(Util::HEADER_END));
+
+				// +1 to not start with an ':' which would result in empty element at the beginning
+				$exploded = explode(':', substr($header, strlen(Util::HEADER_START) + 1));
+
+				$element = array_shift($exploded);
+				while ($element !== Util::HEADER_END && $element !== null) {
+					$result[$element] = array_shift($exploded);
+					$element = array_shift($exploded);
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * get path to key folder for a given file
+	 *
+	 * @param string $encryptionModuleId
+	 * @param string $path path to the file, relative to data/
+	 * @return string
+	 */
+	public function getFileKeyDir(string $encryptionModuleId, string $path): string {
+		[$owner, $filename] = $this->getUidAndFilename($path);
+		$root = $this->getKeyStorageRoot();
+
+		// in case of system-wide mount points the keys are stored directly in the data directory
+		if ($this->isSystemWideMountPoint($filename, $owner)) {
+			$keyPath = $root . '/' . '/files_encryption/keys' . $filename . '/';
+		} else {
+			$keyPath = $root . '/' . $owner . '/files_encryption/keys' . $filename . '/';
+		}
+
+		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
 	}
 }

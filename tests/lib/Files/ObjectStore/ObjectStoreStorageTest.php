@@ -181,6 +181,15 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertFalse($this->instance->file_exists('test.txt'));
 	}
 
+	public function testWriteObjectSilentFailureNoCheck() {
+		$objectStore = $this->instance->getObjectStore();
+		$this->instance->setObjectStore(new FailWriteObjectStore($objectStore));
+		$this->instance->setValidateWrites(false);
+
+		$this->instance->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($this->instance->file_exists('test.txt'));
+	}
+
 	public function testDeleteObjectFailureKeepCache() {
 		$objectStore = $this->instance->getObjectStore();
 		$this->instance->setObjectStore(new FailDeleteObjectStore($objectStore));
@@ -227,5 +236,43 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertEquals('1', $this->instance->file_get_contents('b/target/1.txt'));
 		$this->assertEquals('2', $this->instance->file_get_contents('b/target/sub/2.txt'));
 		$this->assertEquals('3', $this->instance->file_get_contents('b/target/sub/3.txt'));
+	}
+
+	public function testCopyPreservesPermissions() {
+		$cache = $this->instance->getCache();
+
+		$this->instance->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('test.txt'));
+
+		$this->assertTrue($this->instance->copy('test.txt', 'new.txt'));
+
+		$this->assertTrue($cache->inCache('new.txt'));
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('new.txt'));
+	}
+
+	/**
+	 * Test that copying files will drop permissions like local storage does
+	 * TODO: Drop this and fix local storage
+	 */
+	public function testCopyGrantsPermissions() {
+		$config['objectstore'] = $this->objectStorage;
+		$config['handleCopiesAsOwned'] = true;
+		$instance = new ObjectStoreStorageOverwrite($config);
+
+		$cache = $instance->getCache();
+
+		$instance->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $instance->getPermissions('test.txt'));
+
+		$this->assertTrue($instance->copy('test.txt', 'new.txt'));
+
+		$this->assertTrue($cache->inCache('new.txt'));
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL, $instance->getPermissions('new.txt'));
 	}
 }

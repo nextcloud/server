@@ -23,9 +23,10 @@
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
-import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants'
+import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.js'
 
 /**
  * Save the primary account property value for the user

@@ -32,7 +32,6 @@ namespace OCP\Federation;
  *
  */
 interface ICloudFederationProviderManager {
-
 	/**
 	 * Registers an callback function which must return an cloud federation provider
 	 *

@@ -28,7 +28,6 @@ namespace OC\Authentication\Login;
 use OCP\IConfig;
 
 class ClearLostPasswordTokensCommand extends ALoginCommand {
-
 	/** @var IConfig */
 	private $config;
 

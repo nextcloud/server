@@ -32,8 +32,6 @@ use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class CleanPreviewsTest extends TestCase {
-
-
 	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 
@@ -79,18 +77,17 @@ class CleanPreviewsTest extends TestCase {
 				$function($user2);
 			}));
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(2))
 			->method('add')
-			->with(
-				$this->equalTo(CleanPreviewsBackgroundJob::class),
-				$this->equalTo(['uid' => 'user1'])
-			);
-
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->with(
-				$this->equalTo(CleanPreviewsBackgroundJob::class),
-				$this->equalTo(['uid' => 'user2'])
+			->withConsecutive(
+				[
+					$this->equalTo(CleanPreviewsBackgroundJob::class),
+					$this->equalTo(['uid' => 'user1'])
+				],
+				[
+					$this->equalTo(CleanPreviewsBackgroundJob::class),
+					$this->equalTo(['uid' => 'user2'])
+				],
 			);
 
 		$this->config->expects($this->once())

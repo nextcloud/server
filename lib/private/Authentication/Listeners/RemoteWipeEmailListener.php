@@ -44,7 +44,6 @@ use function substr;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeEmailListener implements IEventListener {
-
 	/** @var IMailer */
 	private $mailer;
 
@@ -58,9 +57,9 @@ class RemoteWipeEmailListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IMailer $mailer,
-								IUserManager $userManager,
-								IL10nFactory $l10nFactory,
-								LoggerInterface $logger) {
+		IUserManager $userManager,
+		IL10nFactory $l10nFactory,
+		LoggerInterface $logger) {
 		$this->mailer = $mailer;
 		$this->userManager = $userManager;
 		$this->l10n = $l10nFactory->get('core');

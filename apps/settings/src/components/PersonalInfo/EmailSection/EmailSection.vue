@@ -22,9 +22,8 @@
 
 <template>
 	<section>
-		<HeaderBar :account-property="accountProperty"
-			label-for="email"
-			:handle-scope-change="savePrimaryEmailScope"
+		<HeaderBar :input-id="inputId"
+			:readable="primaryEmail.readable"
 			:is-editable="true"
 			:is-multi-value-supported="true"
 			:is-valid-section="isValidSection"
@@ -32,7 +31,8 @@
 			@add-additional="onAddAdditionalEmail" />
 
 		<template v-if="displayNameChangeSupported">
-			<Email :primary="true"
+			<Email :input-id="inputId"
+				:primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				:active-notification-email.sync="notificationEmail"
@@ -63,15 +63,14 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 
-import Email from './Email'
-import HeaderBar from '../shared/HeaderBar'
+import Email from './Email.vue'
+import HeaderBar from '../shared/HeaderBar.vue'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
-import { validateEmail } from '../../../utils/validate'
-import logger from '../../../logger'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
+import { validateEmail } from '../../../utils/validate.js'
+import { handleError } from '../../../utils/handlers.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -89,8 +88,7 @@ export default {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
 			displayNameChangeSupported,
-			primaryEmail,
-			savePrimaryEmailScope,
+			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
 			notificationEmail,
 		}
 	},
@@ -101,6 +99,10 @@ export default {
 				return this.additionalEmails[0].value
 			}
 			return null
+		},
+
+		inputId() {
+			return `account-property-${this.primaryEmail.name}`
 		},
 
 		isValidSection() {
@@ -150,7 +152,7 @@ export default {
 				this.handleResponse(
 					'error',
 					t('settings', 'Unable to update primary email address'),
-					e
+					e,
 				)
 			}
 		},
@@ -163,7 +165,7 @@ export default {
 				this.handleResponse(
 					'error',
 					t('settings', 'Unable to delete additional email address'),
-					e
+					e,
 				)
 			}
 		},
@@ -175,15 +177,14 @@ export default {
 				this.handleResponse(
 					'error',
 					t('settings', 'Unable to delete additional email address'),
-					{}
+					{},
 				)
 			}
 		},
 
 		handleResponse(status, errorMessage, error) {
 			if (status !== 'ok') {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
+				handleError(error, errorMessage)
 			}
 		},
 
@@ -197,10 +198,6 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
 
 	.additional-emails-label {
 		display: block;

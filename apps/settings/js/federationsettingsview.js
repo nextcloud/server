@@ -82,7 +82,7 @@
 			];
 
 			_.each(this._inputFields, function(field) {
-				var $icon = self.$('#' + field + 'form h3 > .federation-menu');
+				var $icon = self.$('#' + field + 'form .headerbar-label > .federation-menu');
 				var excludedScopes = []
 
 				if (fieldsWithV2Private.indexOf(field) === -1) {
@@ -106,6 +106,7 @@
 					self._onScopeChanged(field, scope);
 				});
 				$icon.append(scopeMenu.$el);
+				$icon.attr('aria-expanded', 'false');
 				$icon.on('click', _.bind(scopeMenu.show, scopeMenu));
 				$icon.on('keydown', function(e) {
 					if (e.keyCode === 32) {
@@ -129,7 +130,11 @@
 				if (
 					field === 'avatar' ||
 					field === 'email' ||
-					field === 'displayname'
+					field === 'displayname' ||
+					field === 'twitter' ||
+					field === 'address' ||
+					field === 'website' ||
+					field === 'phone'
 				) {
 					return;
 				}
@@ -240,7 +245,7 @@
 		},
 
 		_setFieldScopeIcon: function(field, scope) {
-			var $icon = this.$('#' + field + 'form > h3 .icon-federation-menu');
+			var $icon = this.$('#' + field + 'form > .headerbar-label .icon-federation-menu');
 
 			$icon.removeClass('icon-phone');
 			$icon.removeClass('icon-password');

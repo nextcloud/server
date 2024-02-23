@@ -32,33 +32,33 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
-use OCP\ILogger;
 use OCP\OCS\IDiscoveryService;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class NotificationsTest extends \Test\TestCase {
-
-	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject*/
+	/** @var IClientService|MockObject*/
 	private $httpClientService;
 
-	/** @var  IDiscoveryService | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDiscoveryService|MockObject */
 	private $discoveryService;
 
-	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudFederationProviderManager|MockObject */
 	private $cloudFederationProviderManager;
 
-	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudFederationFactory|MockObject */
 	private $cloudFederationFactory;
 
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -69,7 +69,7 @@ class NotificationsTest extends \Test\TestCase {
 		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -87,11 +87,11 @@ class NotificationsTest extends \Test\TestCase {
 				$this->addressHandler,
 				$this->httpClientService,
 				$this->discoveryService,
-				$this->logger,
 				$this->jobList,
 				$this->cloudFederationProviderManager,
 				$this->cloudFederationFactory,
-				$this->eventDispatcher
+				$this->eventDispatcher,
+				$this->logger,
 			);
 		} else {
 			$instance = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
@@ -100,11 +100,11 @@ class NotificationsTest extends \Test\TestCase {
 						$this->addressHandler,
 						$this->httpClientService,
 						$this->discoveryService,
-						$this->logger,
 						$this->jobList,
 						$this->cloudFederationProviderManager,
 						$this->cloudFederationFactory,
-						$this->eventDispatcher
+						$this->eventDispatcher,
+						$this->logger,
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}

@@ -32,11 +32,9 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 
 abstract class Base implements IProvider {
-
 	/** @var IUserManager */
 	protected $userManager;
 
@@ -53,27 +51,15 @@ abstract class Base implements IProvider {
 	protected $url;
 
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator) {
+		IGroupManager $groupManager,
+		IURLGenerator $urlGenerator) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->url = $urlGenerator;
 	}
 
-	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
-	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -98,32 +84,12 @@ abstract class Base implements IProvider {
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
 	protected function generateUserParameter(string $uid): array {
-		if (!isset($this->userDisplayNames[$uid])) {
-			$this->userDisplayNames[$uid] = $this->getUserDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->userDisplayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getUserDisplayName(string $uid): string {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		}
-		return $uid;
 	}
 
 	/**

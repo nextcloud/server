@@ -40,6 +40,8 @@ use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
+use OCA\Talk\Share\RoomShareProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
@@ -47,6 +49,7 @@ use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ProviderFactory
@@ -54,7 +57,6 @@ use OCP\Share\IShareProvider;
  * @package OC\Share20
  */
 class ProviderFactory implements IProviderFactory {
-
 	/** @var IServerContainer */
 	private $serverContainer;
 	/** @var DefaultShareProvider */
@@ -103,7 +105,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getConfig()
+				$this->serverContainer->query(ITimeFactory::class),
 			);
 		}
 
@@ -138,11 +140,11 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
-				$this->serverContainer->getLogger(),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
-				$this->serverContainer->query(IEventDispatcher::class)
+				$this->serverContainer->query(IEventDispatcher::class),
+				$this->serverContainer->get(LoggerInterface::class),
 			);
 			$tokenHandler = new TokenHandler(
 				$this->serverContainer->getSecureRandom()
@@ -154,13 +156,13 @@ class ProviderFactory implements IProviderFactory {
 				$notifications,
 				$tokenHandler,
 				$l,
-				$this->serverContainer->getLogger(),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getCloudIdManager(),
 				$this->serverContainer->getGlobalScaleConfig(),
-				$this->serverContainer->getCloudFederationProviderManager()
+				$this->serverContainer->getCloudFederationProviderManager(),
+				$this->serverContainer->get(LoggerInterface::class),
 			);
 		}
 
@@ -191,7 +193,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getL10N('sharebymail'),
-				$this->serverContainer->getLogger(),
+				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
@@ -257,8 +259,15 @@ class ProviderFactory implements IProviderFactory {
 			}
 
 			try {
-				$this->roomShareProvider = $this->serverContainer->query('\OCA\Talk\Share\RoomShareProvider');
-			} catch (\OCP\AppFramework\QueryException $e) {
+				/**
+				 * @psalm-suppress UndefinedClass
+				 */
+				$this->roomShareProvider = $this->serverContainer->get(RoomShareProvider::class);
+			} catch (\Throwable $e) {
+				$this->serverContainer->get(LoggerInterface::class)->error(
+					$e->getMessage(),
+					['exception' => $e]
+				);
 				return null;
 			}
 		}
@@ -288,9 +297,16 @@ class ProviderFactory implements IProviderFactory {
 		}
 
 		foreach ($this->registeredShareProviders as $shareProvider) {
-			/** @var IShareProvider $instance */
-			$instance = $this->serverContainer->get($shareProvider);
-			$this->shareProviders[$instance->identifier()] = $instance;
+			try {
+				/** @var IShareProvider $instance */
+				$instance = $this->serverContainer->get($shareProvider);
+				$this->shareProviders[$instance->identifier()] = $instance;
+			} catch (\Throwable $e) {
+				$this->serverContainer->get(LoggerInterface::class)->error(
+					$e->getMessage(),
+					['exception' => $e]
+				);
+			}
 		}
 
 		if (isset($this->shareProviders[$id])) {
@@ -325,6 +341,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
 			$provider = $this->getProvider('deck');
+		} elseif ($shareType === IShare::TYPE_SCIENCEMESH) {
+			$provider = $this->getProvider('sciencemesh');
 		}
 
 
@@ -351,8 +369,17 @@ class ProviderFactory implements IProviderFactory {
 		}
 
 		foreach ($this->registeredShareProviders as $shareProvider) {
-			/** @var IShareProvider $instance */
-			$instance = $this->serverContainer->get($shareProvider);
+			try {
+				/** @var IShareProvider $instance */
+				$instance = $this->serverContainer->get($shareProvider);
+			} catch (\Throwable $e) {
+				$this->serverContainer->get(LoggerInterface::class)->error(
+					$e->getMessage(),
+					['exception' => $e]
+				);
+				continue;
+			}
+
 			if (!isset($this->shareProviders[$instance->identifier()])) {
 				$this->shareProviders[$instance->identifier()] = $instance;
 			}

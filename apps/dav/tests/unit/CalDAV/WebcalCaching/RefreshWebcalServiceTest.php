@@ -72,7 +72,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 *
 	 * @dataProvider runDataProvider
 	 */
-	public function testRun(string $body, string $contentType, string $result) {
+	public function testRun(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
@@ -152,7 +152,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 *
 	 * @dataProvider runDataProvider
 	 */
-	public function testRunCreateCalendarNoException(string $body, string $contentType, string $result) {
+	public function testRunCreateCalendarNoException(string $body, string $contentType, string $result): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
@@ -229,7 +229,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 *
 	 * @dataProvider runDataProvider
 	 */
-	public function testRunCreateCalendarBadRequest(string $body, string $contentType, string $result) {
+	public function testRunCreateCalendarBadRequest(string $body, string $contentType, string $result): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
@@ -325,7 +325,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	/**
 	 * @dataProvider runLocalURLDataProvider
 	 */
-	public function testRunLocalURL(string $source) {
+	public function testRunLocalURL(string $source): void {
 		$refreshWebcalService = new RefreshWebcalService(
 			$this->caldavBackend,
 			$this->clientService,
@@ -391,7 +391,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		];
 	}
 
-	public function testInvalidUrl() {
+	public function testInvalidUrl(): void {
 		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
 			$this->clientService, $this->config, $this->logger);
 

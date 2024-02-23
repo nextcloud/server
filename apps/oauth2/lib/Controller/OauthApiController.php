@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,10 +28,7 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Controller;
 
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
-use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
@@ -39,63 +37,65 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\DB\Exception;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class OauthApiController extends Controller {
-	/** @var AccessTokenMapper */
-	private $accessTokenMapper;
-	/** @var ClientMapper */
-	private $clientMapper;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var TokenProvider */
-	private $tokenProvider;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var ITimeFactory */
-	private $time;
-	/** @var Throttler */
-	private $throttler;
+	// the authorization code expires after 10 minutes
+	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								ICrypto $crypto,
-								AccessTokenMapper $accessTokenMapper,
-								ClientMapper $clientMapper,
-								TokenProvider $tokenProvider,
-								ISecureRandom $secureRandom,
-								ITimeFactory $time,
-								Throttler $throttler) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private ICrypto $crypto,
+		private AccessTokenMapper $accessTokenMapper,
+		private ClientMapper $clientMapper,
+		private TokenProvider $tokenProvider,
+		private ISecureRandom $secureRandom,
+		private ITimeFactory $time,
+		private LoggerInterface $logger,
+		private IThrottler $throttler,
+		private ITimeFactory $timeFactory,
+	) {
 		parent::__construct($appName, $request);
-		$this->crypto = $crypto;
-		$this->accessTokenMapper = $accessTokenMapper;
-		$this->clientMapper = $clientMapper;
-		$this->tokenProvider = $tokenProvider;
-		$this->secureRandom = $secureRandom;
-		$this->time = $time;
-		$this->throttler = $throttler;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=oauth2GetToken)
 	 *
-	 * @param string $grant_type
-	 * @param string $code
-	 * @param string $refresh_token
-	 * @param string $client_id
-	 * @param string $client_secret
-	 * @return JSONResponse
+	 * Get a token
+	 *
+	 * @param string $grant_type Token type that should be granted
+	 * @param ?string $code Code of the flow
+	 * @param ?string $refresh_token Refresh token
+	 * @param ?string $client_id Client ID
+	 * @param ?string $client_secret Client secret
+	 * @throws Exception
+	 * @return JSONResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int, refresh_token: string, user_id: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
+	 *
+	 * 200: Token returned
+	 * 400: Getting token is not possible
 	 */
-	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret): JSONResponse {
+	public function getToken(
+		string $grant_type, ?string $code, ?string $refresh_token,
+		?string $client_id, ?string $client_secret
+	): JSONResponse {
 
 		// We only handle two types
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'error' => 'invalid_grant',
 			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_grant' => $grant_type]);
+			return $response;
 		}
 
 		// We handle the initial and refresh tokens the same way
@@ -106,17 +106,48 @@ class OauthApiController extends Controller {
 		try {
 			$accessToken = $this->accessTokenMapper->getByCode($code);
 		} catch (AccessTokenNotFoundException $e) {
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_request' => 'token not found', 'code' => $code]);
+			return $response;
+		}
+
+		if ($grant_type === 'authorization_code') {
+			// check this token is in authorization code state
+			$deliveredTokenCount = $accessToken->getTokenCount();
+			if ($deliveredTokenCount > 0) {
+				$response = new JSONResponse([
+					'error' => 'invalid_request',
+				], Http::STATUS_BAD_REQUEST);
+				$response->throttle(['invalid_request' => 'authorization_code_received_for_active_token']);
+				return $response;
+			}
+
+			// check authorization code expiration
+			$now = $this->timeFactory->now()->getTimestamp();
+			$codeCreatedAt = $accessToken->getCodeCreatedAt();
+			if ($codeCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
+				// we know this token is not useful anymore
+				$this->accessTokenMapper->delete($accessToken);
+
+				$response = new JSONResponse([
+					'error' => 'invalid_request',
+				], Http::STATUS_BAD_REQUEST);
+				$expiredSince = $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER - $codeCreatedAt;
+				$response->throttle(['invalid_request' => 'authorization_code_expired', 'expired_since' => $expiredSince]);
+				return $response;
+			}
 		}
 
 		try {
 			$client = $this->clientMapper->getByUid($accessToken->getClientId());
 		} catch (ClientNotFoundException $e) {
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_request' => 'client not found', 'client_id' => $accessToken->getClientId()]);
+			return $response;
 		}
 
 		if (isset($this->request->server['PHP_AUTH_USER'])) {
@@ -124,16 +155,27 @@ class OauthApiController extends Controller {
 			$client_secret = $this->request->server['PHP_AUTH_PW'];
 		}
 
-		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $client->getSecret() !== $client_secret) {
+		try {
+			$storedClientSecret = $this->crypto->decrypt($client->getSecret());
+		} catch (\Exception $e) {
+			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
+			// we don't throttle here because it might not be a bruteforce attack
 			return new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
 		}
+		// The client id and secret must match. Else we don't provide an access token!
+		if ($client->getClientIdentifier() !== $client_id || $storedClientSecret !== $client_secret) {
+			$response = new JSONResponse([
+				'error' => 'invalid_client',
+			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_client' => 'client ID or secret does not match']);
+			return $response;
+		}
 
 		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
 
-		// Obtain the appToken assoicated
+		// Obtain the appToken associated
 		try {
 			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
 		} catch (ExpiredTokenException $e) {
@@ -141,9 +183,11 @@ class OauthApiController extends Controller {
 		} catch (InvalidTokenException $e) {
 			//We can't do anything...
 			$this->accessTokenMapper->delete($accessToken);
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_request' => 'token is invalid']);
+			return $response;
 		}
 
 		// Rotate the apptoken (so the old one becomes invalid basically)
@@ -163,6 +207,11 @@ class OauthApiController extends Controller {
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
+		// increase the number of delivered oauth token
+		// this helps with cleaning up DB access token when authorization code has expired
+		// and it never delivered any oauth token
+		$tokenCount = $accessToken->getTokenCount();
+		$accessToken->setTokenCount($tokenCount + 1);
 		$this->accessTokenMapper->update($accessToken);
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);

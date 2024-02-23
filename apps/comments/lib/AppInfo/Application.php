@@ -28,15 +28,14 @@ namespace OCA\Comments\AppInfo;
 
 use Closure;
 use OCA\Comments\Capabilities;
-use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
 use OCA\Comments\Listener\CommentsEntityEventListener;
 use OCA\Comments\Listener\LoadAdditionalScripts;
 use OCA\Comments\Listener\LoadSidebarScripts;
 use OCA\Comments\MaxAutoCompleteResultsInitialState;
 use OCA\Comments\Notification\Notifier;
-use OCA\Comments\Search\LegacyProvider;
 use OCA\Comments\Search\CommentsSearchProvider;
+use OCA\Comments\Search\LegacyProvider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
@@ -44,9 +43,9 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
+use OCP\Comments\ICommentsManager;
 use OCP\ISearch;
 use OCP\IServerContainer;
-use OCP\Comments\ICommentsManager;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'comments';
@@ -58,8 +57,6 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerCapability(Capabilities::class);
 
-		$context->registerServiceAlias('NotificationsController', Notifications::class);
-
 		$context->registerEventListener(
 			LoadAdditionalScriptsEvent::class,
 			LoadAdditionalScripts::class
@@ -69,7 +66,7 @@ class Application extends App implements IBootstrap {
 			LoadSidebarScripts::class
 		);
 		$context->registerEventListener(
-			CommentsEntityEvent::EVENT_ENTITY,
+			CommentsEntityEvent::class,
 			CommentsEntityEventListener::class
 		);
 		$context->registerSearchProvider(CommentsSearchProvider::class);

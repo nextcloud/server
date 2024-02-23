@@ -31,7 +31,6 @@ use JsonSerializable;
  * @since 18.0.0
  */
 interface IBroadcastEvent {
-
 	/**
 	 * @return string the name of the event
 	 * @since 18.0.0

@@ -39,7 +39,6 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class OCSMiddleware extends Middleware {
-
 	/** @var IRequest */
 	private $request;
 

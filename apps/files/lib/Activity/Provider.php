@@ -38,12 +38,10 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -79,13 +77,13 @@ class Provider implements IProvider {
 	protected $fileIsEncrypted = false;
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IRootFolder $rootFolder,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -165,7 +163,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -283,7 +281,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -306,19 +304,8 @@ class Provider implements IProvider {
 		return strlen($filename) > 0 && $filename[0] === '.';
 	}
 
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -527,12 +514,12 @@ class Provider implements IProvider {
 	 */
 	protected function getUser($uid) {
 		// First try local user
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
+		$displayName = $this->userManager->getDisplayName($uid);
+		if ($displayName !== null) {
 			return [
 				'type' => 'user',
-				'id' => $user->getUID(),
-				'name' => $user->getDisplayName(),
+				'id' => $uid,
+				'name' => $displayName,
 			];
 		}
 

@@ -23,9 +23,10 @@
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
-import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.js'
 
 /**
  * Save the primary email of the user
@@ -125,26 +126,6 @@ export const updateAdditionalEmail = async (prevEmail, newEmail) => {
 	const res = await axios.put(url, {
 		key: prevEmail,
 		value: newEmail,
-	})
-
-	return res.data
-}
-
-/**
- * Save the federation scope for the primary email of the user
- *
- * @param {string} scope the federation scope
- * @return {object}
- */
-export const savePrimaryEmailScope = async (scope) => {
-	const userId = getCurrentUser().uid
-	const url = generateOcsUrl('cloud/users/{userId}', { userId })
-
-	await confirmPassword()
-
-	const res = await axios.put(url, {
-		key: `${ACCOUNT_PROPERTY_ENUM.EMAIL}${SCOPE_SUFFIX}`,
-		value: scope,
 	})
 
 	return res.data

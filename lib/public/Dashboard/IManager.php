@@ -31,7 +31,6 @@ namespace OCP\Dashboard;
  * @since 20.0.0
  */
 interface IManager {
-
 	/**
 	 * @param string $widgetClass
 	 * @since 20.0.0
@@ -41,7 +40,7 @@ interface IManager {
 	/**
 	 * @since 20.0.0
 	 *
-	 * @return IWidget[]
+	 * @return array<string, IWidget>
 	 */
 	public function getWidgets(): array;
 }

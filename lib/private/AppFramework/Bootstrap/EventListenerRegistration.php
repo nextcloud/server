@@ -30,7 +30,6 @@ namespace OC\AppFramework\Bootstrap;
  * @template-extends ServiceRegistration<\OCP\EventDispatcher\IEventListener>
  */
 class EventListenerRegistration extends ServiceRegistration {
-
 	/** @var string */
 	private $event;
 
@@ -38,9 +37,9 @@ class EventListenerRegistration extends ServiceRegistration {
 	private $priority;
 
 	public function __construct(string $appId,
-								string $event,
-								string $service,
-								int $priority) {
+		string $event,
+		string $service,
+		int $priority) {
 		parent::__construct($appId, $service);
 		$this->event = $event;
 		$this->priority = $priority;

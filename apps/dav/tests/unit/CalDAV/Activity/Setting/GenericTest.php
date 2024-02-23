@@ -42,7 +42,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testImplementsInterface($settingClass) {
+	public function testImplementsInterface($settingClass): void {
 		$setting = \OC::$server->query($settingClass);
 		$this->assertInstanceOf(ISetting::class, $setting);
 	}
@@ -51,7 +51,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetIdentifier($settingClass) {
+	public function testGetIdentifier($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsString($setting->getIdentifier());
@@ -61,7 +61,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetName($settingClass) {
+	public function testGetName($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsString($setting->getName());
@@ -71,7 +71,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetPriority($settingClass) {
+	public function testGetPriority($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$priority = $setting->getPriority();
@@ -84,7 +84,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testCanChangeStream($settingClass) {
+	public function testCanChangeStream($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->canChangeStream());
@@ -94,7 +94,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testIsDefaultEnabledStream($settingClass) {
+	public function testIsDefaultEnabledStream($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledStream());
@@ -104,7 +104,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testCanChangeMail($settingClass) {
+	public function testCanChangeMail($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->canChangeMail());
@@ -114,7 +114,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testIsDefaultEnabledMail($settingClass) {
+	public function testIsDefaultEnabledMail($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledMail());

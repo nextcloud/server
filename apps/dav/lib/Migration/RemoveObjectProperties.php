@@ -57,7 +57,7 @@ class RemoveObjectProperties implements IRepairStep {
 		$query = $this->connection->getQueryBuilder();
 		$updated = $query->delete('properties')
 			->where($query->expr()->in('propertyname', $query->createNamedParameter([self::RESOURCE_TYPE_PROPERTY, self::ME_CARD_PROPERTY, self::CALENDAR_TRANSP_PROPERTY], IQueryBuilder::PARAM_STR_ARRAY)))
-			->andWhere($query->expr()->eq('propertyvalue', $query->createNamedParameter('Object')))
+			->andWhere($query->expr()->eq('propertyvalue', $query->createNamedParameter('Object'), IQueryBuilder::PARAM_STR))
 			->executeStatement();
 
 		$output->info("$updated invalid object properties removed.");

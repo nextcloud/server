@@ -72,7 +72,7 @@ describe('OCA.Files_External.App tests', function() {
 
 			const setActiveViewStub = sinon.stub(OCA.Files.App, 'setActiveView')
 			// create dummy table so we can click the dom
-			const $table = '<table><thead></thead><tbody id="fileList"></tbody></table>'
+			const $table = '<table><thead></thead><tbody class="files-fileList"></tbody></table>'
 			$('#app-content-extstoragemounts').append($table)
 
 			App._inFileList = null

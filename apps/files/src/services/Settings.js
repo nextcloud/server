@@ -1,7 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
  *
- * @author Gary Kim <gary@garykim.dev>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *

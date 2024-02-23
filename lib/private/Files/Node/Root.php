@@ -32,7 +32,6 @@
 
 namespace OC\Files\Node;
 
-use OC\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
@@ -40,11 +39,14 @@ use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IUser;
@@ -153,11 +155,7 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->addMount($mount);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint
-	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
@@ -165,7 +163,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $mountPoint
 	 * @return \OC\Files\Mount\MountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
@@ -202,9 +200,9 @@ class Root extends Folder implements IRootFolder {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
-			$fileInfo = $this->view->getFileInfo($fullPath);
+			$fileInfo = $this->view->getFileInfo($fullPath, false);
 			if ($fileInfo) {
-				return $this->createNode($fullPath, $fileInfo);
+				return $this->createNode($fullPath, $fileInfo, false);
 			} else {
 				throw new NotFoundException($path);
 			}
@@ -290,9 +288,9 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		return 0;
 	}
 
@@ -339,10 +337,9 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return Node
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function getParent() {
+	public function getParent(): INode|IRootFolder {
 		throw new NotFoundException();
 	}
 
@@ -386,7 +383,7 @@ class Root extends Folder implements IRootFolder {
 				try {
 					$folder = $this->get('/' . $userId . '/files');
 					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("User folder for $userId exists as a file");
+						throw new \Exception("Account folder for \"$userId\" exists as a file");
 					}
 				} catch (NotFoundException $e) {
 					if (!$this->nodeExists('/' . $userId)) {
@@ -395,7 +392,7 @@ class Root extends Folder implements IRootFolder {
 					$folder = $this->newFolder('/' . $userId . '/files');
 				}
 			} else {
-				$folder = new LazyUserFolder($this, $userObject);
+				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
 			}
 
 			$this->userFolderCache->set($userId, $folder);
@@ -427,7 +424,7 @@ class Root extends Folder implements IRootFolder {
 			$mountsContainingFile = $mountCache->getMountsForFileId($id, $user);
 		}
 
-		// when a user has access trough the same storage trough multiple paths
+		// when a user has access through the same storage through multiple paths
 		// (such as an external storage that is both mounted for a user and shared to the user)
 		// the mount cache will only hold a single entry for the storage
 		// this can lead to issues as the different ways the user has access to a storage can have different permissions
@@ -490,5 +487,30 @@ class Root extends Folder implements IRootFolder {
 			return $b->getPath() <=> $a->getPath();
 		});
 		return $folders;
+	}
+
+	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
+		$path = $cacheEntry->getPath();
+		$fullPath = $mountPoint->getMountPoint() . $path;
+		// todo: LazyNode?
+		$info = new FileInfo($fullPath, $mountPoint->getStorage(), $path, $cacheEntry, $mountPoint);
+		$parentPath = dirname($fullPath);
+		$parent = new LazyFolder($this, function () use ($parentPath) {
+			$parent = $this->get($parentPath);
+			if ($parent instanceof \OCP\Files\Folder) {
+				return $parent;
+			} else {
+				throw new \Exception("parent $parentPath is not a folder");
+			}
+		}, [
+			'path' => $parentPath,
+		]);
+		$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
+		$view = new View('');
+		if ($isDir) {
+			return new Folder($this, $view, $path, $info, $parent);
+		} else {
+			return new File($this, $view, $path, $info, $parent);
+		}
 	}
 }

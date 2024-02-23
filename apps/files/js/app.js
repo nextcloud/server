@@ -27,9 +27,9 @@
 	 */
 	OCA.Files.App = {
 		/**
-		 * Navigation control
+		 * Navigation instance
 		 *
-		 * @member {OCA.Files.Navigation}
+		 * @member {OCP.Files.Navigation}
 		 */
 		navigation: null,
 
@@ -51,26 +51,21 @@
 		 * Initializes the files app
 		 */
 		initialize: function() {
-			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
 
-			// crop image previews
-			this.$cropImagePreviews = $('input#cropimagepreviewsToggle');
-			var cropImagePreviews = $('#cropImagePreviews').val() === "1";
-			this.$cropImagePreviews.prop('checked', cropImagePreviews);
+			// Toggle for grid view
+			this.$showGridView = $('input#showgridview');
+			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
 
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
 
-			this._filesConfig = new OC.Backbone.Model({
-				showhidden: showHidden,
-				cropimagepreviews: cropImagePreviews,
-			});
+			this._filesConfig = OCP.InitialState.loadState('files', 'config', {})
 
-			var urlParams = OC.Util.History.parseUrlQuery();
+			var { fileid, scrollto, openfile } = OC.Util.History.parseUrlQuery();
 			var fileActions = new OCA.Files.FileActions();
 			// default actions
 			fileActions.registerDefaultActions();
@@ -90,8 +85,8 @@
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,
 					allowLegacyActions: true,
-					scrollTo: urlParams.scrollto,
-					openFile: urlParams.openfile,
+					scrollTo: scrollto,
+					openFile: openfile,
 					filesClient: OC.Files.getClient(),
 					multiSelectMenu: [
 						{
@@ -109,19 +104,23 @@
 						OCA.Files.FileList.MultiSelectMenuActions.ToggleSelectionModeAction,
 						{
 							name: 'delete',
-							displayName: t('files', 'Delete'),
+							displayName:  t('files', 'Delete'),
 							iconClass: 'icon-delete',
 							order: 99,
 						},
-						{
-							name: 'tags',
-							displayName:  'Tags',
-							iconClass: 'icon-tag',
-							order: 100,
-						},
+						...(
+							OCA?.SystemTags === undefined ? [] : ([{
+								name: 'tags',
+								displayName:  t('files', 'Tags'),
+								iconClass: 'icon-tag',
+								order: 100,
+							}])
+						),
 					],
 					sorting: {
-						mode: $('#defaultFileSorting').val(),
+						mode: $('#defaultFileSorting').val() === 'basename'
+							? 'name'
+							: $('#defaultFileSorting').val(),
 						direction: $('#defaultFileSortingDirection').val()
 					},
 					config: this._filesConfig,
@@ -139,27 +138,21 @@
 			OC.Plugins.attach('OCA.Files.App', this);
 
 			this._setupEvents();
-			// trigger URL change event handlers
-			this._onPopState(urlParams);
-
-			$('#quota.has-tooltip').tooltip({
-				placement: 'top'
-			});
-
-			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
-			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
 
 			if (sessionStorage.getItem('WhatsNewServerCheck') < (Date.now() - 3600*1000)) {
 				OCP.WhatsNew.query(); // for Nextcloud server
 				sessionStorage.setItem('WhatsNewServerCheck', Date.now());
 			}
+
+			window._nc_event_bus.emit('files:legacy-view:initialized', this);
+
+			this.navigation = OCP.Files.Navigation
 		},
 
 		/**
 		 * Destroy the app
 		 */
 		destroy: function() {
-			this.navigation = null;
 			this.fileList.destroy();
 			this.fileList = null;
 			this.files = null;
@@ -190,7 +183,16 @@
 		 * @param {OCA.Files.FileList} newFileList -
 		 */
 		updateCurrentFileList: function(newFileList) {
+			if (this.currentFileList === newFileList) {
+				return
+			}
+
 			this.currentFileList = newFileList;
+			if (this.currentFileList !== null) {
+				// update grid view to the current value
+				const isGridView = this.$showGridView.is(':checked');
+				this.currentFileList.setGridView(isGridView);
+			}
 		},
 
 		/**
@@ -207,15 +209,17 @@
 		 * @return app container
 		 */
 		getCurrentAppContainer: function() {
-			return this.navigation.getActiveContainer();
+			var viewId = this.getActiveView();
+			return $('#app-content-' + viewId);
 		},
 
 		/**
 		 * Sets the currently active view
 		 * @param viewId view id
 		 */
-		setActiveView: function(viewId, options) {
-			this.navigation.setActiveItem(viewId, options);
+		setActiveView: function(viewId) {
+			// The Navigation API will handle the final event
+			window._nc_event_bus.emit('files:legacy-navigation:changed', { id: viewId })
 		},
 
 		/**
@@ -223,7 +227,9 @@
 		 * @return view id
 		 */
 		getActiveView: function() {
-			return this.navigation.getActiveItem();
+			return this.navigation
+				&& this.navigation.active
+				&& this.navigation.active.id;
 		},
 
 		/**
@@ -244,71 +250,30 @@
 			$('#app-content').delegate('>div', 'changeDirectory', _.bind(this._onDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'afterChangeDirectory', _.bind(this._onAfterDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'changeViewerMode', _.bind(this._onChangeViewerMode, this));
-
-			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
-			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
-			this.$cropImagePreviews.on('change', _.bind(this._onCropImagePreviewsChange, this));
-		},
-
-		/**
-		 * Toggle showing hidden files according to the settings checkbox
-		 *
-		 * @returns {undefined}
-		 */
-		_onShowHiddenFilesChange: function() {
-			var show = this.$showHiddenFiles.is(':checked');
-			this._filesConfig.set('showhidden', show);
-			this._debouncedPersistShowHiddenFilesState();
-		},
-
-		/**
-		 * Persist show hidden preference on the server
-		 *
-		 * @returns {undefined}
-		 */
-		_persistShowHiddenFilesState: function() {
-			var show = this._filesConfig.get('showhidden');
-			$.post(OC.generateUrl('/apps/files/api/v1/showhidden'), {
-				show: show
-			});
-		},
-
-		/**
-		 * Toggle cropping image previews according to the settings checkbox
-		 *
-		 * @returns void
-		 */
-		_onCropImagePreviewsChange: function() {
-			var crop = this.$cropImagePreviews.is(':checked');
-			this._filesConfig.set('cropimagepreviews', crop);
-			this._debouncedPersistCropImagePreviewsState();
-		},
-
-		/**
-		 * Persist crop image previews preference on the server
-		 *
-		 * @returns void
-		 */
-		_persistCropImagePreviewsState: function() {
-			var crop = this._filesConfig.get('cropimagepreviews');
-			$.post(OC.generateUrl('/apps/files/api/v1/cropimagepreviews'), {
-				crop: crop
-			});
 		},
 
 		/**
 		 * Event handler for when the current navigation item has changed
 		 */
-		_onNavigationChanged: function(e) {
+		_onNavigationChanged: function(view) {
 			var params;
-			if (e && e.itemId) {
-				params = {
-					view: typeof e.view === 'string' && e.view !== '' ? e.view : e.itemId,
-					dir: e.dir ? e.dir : '/'
-				};
+			if (view && (view.itemId || view.id)) {
+				if (view.id) {
+					params = {
+						view: view.id,
+						dir: '/',
+					}
+				} else {
+					// Legacy handling
+					params = {
+						view: typeof view.view === 'string' && view.view !== '' ? view.view : view.itemId,
+						dir: view.dir ? view.dir : '/'
+					}
+				}
 				this._changeUrl(params.view, params.dir);
-				OC.Apps.hideAppSidebar($('.detailsView'));
-				this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
+				OCA.Files.Sidebar.close();
+				this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
+				window._nc_event_bus.emit('files:navigation:changed')
 			}
 		},
 
@@ -317,7 +282,7 @@
 		 */
 		_onDirectoryChanged: function(e) {
 			if (e.dir && !e.changedThroughUrl) {
-				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
+				this._changeUrl(this.getActiveView(), e.dir, e.fileId);
 			}
 		},
 
@@ -326,7 +291,7 @@
 		 */
 		_onAfterDirectoryChanged: function(e) {
 			if (e.dir && e.fileId) {
-				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
+				this._changeUrl(this.getActiveView(), e.dir, e.fileId);
 			}
 		},
 
@@ -337,7 +302,7 @@
 		_onChangeViewerMode: function(e) {
 			var state = !!e.viewerModeEnabled;
 			if (e.viewerModeEnabled) {
-				OC.Apps.hideAppSidebar($('.detailsView'));
+				OCA.Files.Sidebar.close();
 			}
 			$('#app-navigation').toggleClass('hidden', state);
 			$('.app-files').toggleClass('viewer-mode no-sidebar', state);
@@ -351,15 +316,20 @@
 				dir: '/',
 				view: 'files'
 			}, params);
-			var lastId = this.navigation.getActiveItem();
-			if (!this.navigation.itemExists(params.view)) {
+
+			var lastId = this.getActiveView();
+			if (!this.navigation.views.find(view => view.id === params.view)) {
 				params.view = 'files';
 			}
-			this.navigation.setActiveItem(params.view, {silent: true});
-			if (lastId !== this.navigation.getActiveItem()) {
-				this.navigation.getActiveContainer().trigger(new $.Event('show'));
+
+			this.setActiveView(params.view, {silent: true});
+			if (lastId !== this.getActiveView()) {
+				this.getCurrentAppContainer().trigger(new $.Event('show', params));
+				window._nc_event_bus.emit('files:navigation:changed')
 			}
-			this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
+
+			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
+
 		},
 
 		/**
@@ -379,7 +349,7 @@
 		 * Change the URL to point to the given dir and view
 		 */
 		_changeUrl: function(view, dir, fileId) {
-			var params = {dir: dir};
+			var params = { dir: dir };
 			if (view !== 'files') {
 				params.view = view;
 			} else if (fileId) {
@@ -390,11 +360,39 @@
 				if (currentParams.fileid !== params.fileid) {
 					// if only fileid changed or was added, replace instead of push
 					OC.Util.History.replaceState(this._makeUrlParams(params));
+					return
 				}
 			} else {
 				OC.Util.History.pushState(this._makeUrlParams(params));
+				return
 			}
-		}
+		},
+
+		/**
+		 * Toggle showing gridview by default or not
+		 *
+		 * @returns {undefined}
+		 */
+		_onGridviewChange: function() {
+			const isGridView = this.$showGridView.is(':checked');
+			// only save state if user is logged in
+			if (OC.currentUser) {
+				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
+					show: isGridView,
+				});
+			}
+			this.$showGridView.next('#view-toggle')
+				.removeClass('icon-toggle-filelist icon-toggle-pictures')
+				.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			this.$showGridView.next('#view-toggle')
+				.attr('title', isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'))
+			this.$showGridView.attr('aria-label', isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'))
+
+			if (this.currentFileList) {
+				this.currentFileList.setGridView(isGridView);
+			}
+		},
+
 	};
 })();
 

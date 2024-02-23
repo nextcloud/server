@@ -29,14 +29,15 @@
  */
 namespace OCA\Files_Sharing\AppInfo;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Share\Share;
 use OC\User\DisplayNameCache;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
-use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
-use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
@@ -48,10 +49,9 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
+use OCA\Files_Sharing\ViewOnly;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -60,18 +60,21 @@ use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAddit
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\IRootFolder;
+use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUserSession;
-use OCP\L10N\IFactory;
 use OCP\Share\Events\ShareCreatedEvent;
-use OCP\Share\IManager;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
@@ -102,34 +105,31 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
-		$context->injectFn([$this, 'setupSharingMenus']);
+		$context->injectFn([$this, 'registerDownloadEvents']);
 
 		Helper::registerHooks();
 
 		Share::registerBackend('file', File::class);
 		Share::registerBackend('folder', Folder::class, 'file');
-
-		/**
-		 * Always add main sharing script
-		 */
-		Util::addScript(self::APP_ID, 'main');
 	}
 
 
-	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider) {
+	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider): void {
 		$mountProviderCollection->registerProvider($mountProvider);
 		$mountProviderCollection->registerProvider($externalMountProvider);
 	}
 
-	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher) {
+	public function registerEventsScripts(IEventDispatcher $dispatcher): void {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
-		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
@@ -137,91 +137,80 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function () {
 			\OCP\Util::addScript('files_sharing', 'collaboration');
 		});
+		$dispatcher->addListener(\OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent::class, function () {
+			/**
+			 * Always add main sharing script
+			 */
+			Util::addScript(self::APP_ID, 'main');
+		});
 
 		// notifications api to accept incoming user shares
-		$oldDispatcher->addListener('OCP\Share::postShare', function (GenericEvent $event) {
+		$dispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);
 		});
-		$oldDispatcher->addListener(IGroup::class . '::postAddUser', function (GenericEvent $event) {
+		$dispatcher->addListener(IGroup::class . '::postAddUser', function ($event) {
+			if (!$event instanceof OldGenericEvent) {
+				return;
+			}
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->userAddedToGroup($event);
 		});
 	}
 
-	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {
-		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
-			return;
-		}
+	public function registerDownloadEvents(
+		IEventDispatcher $dispatcher,
+		IUserSession $userSession,
+		IRootFolder $rootFolder
+	): void {
 
-		$navigationManager = \OCA\Files\App::getNavigationManager();
-		// show_Quick_Access stored as string
-		$navigationManager->add(function () use ($shareManager, $l10nFactory, $userSession) {
-			$l = $l10nFactory->get('files_sharing');
-			$user = $userSession->getUser();
-			$userId = $user ? $user->getUID() : null;
-
-			$sharingSublistArray = [];
-
-			if ($shareManager->sharingDisabledForUser($userId) === false) {
-				$sharingSublistArray[] = [
-					'id' => 'sharingout',
-					'appname' => 'files_sharing',
-					'script' => 'list.php',
-					'order' => 16,
-					'name' => $l->t('Shared with others'),
-				];
-			}
-
-			$sharingSublistArray[] = [
-				'id' => 'sharingin',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 15,
-				'name' => $l->t('Shared with you'),
-			];
-
-			if ($shareManager->sharingDisabledForUser($userId) === false) {
-				// Check if sharing by link is enabled
-				if ($shareManager->shareApiAllowLinks()) {
-					$sharingSublistArray[] = [
-						'id' => 'sharinglinks',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 17,
-						'name' => $l->t('Shared by link'),
-					];
+		$dispatcher->addListener(
+			BeforeDirectFileDownloadEvent::class,
+			function (BeforeDirectFileDownloadEvent $event) use ($userSession, $rootFolder): void {
+				$pathsToCheck = [$event->getPath()];
+				// Check only for user/group shares. Don't restrict e.g. share links
+				$user = $userSession->getUser();
+				if ($user) {
+					$viewOnlyHandler = new ViewOnly(
+						$rootFolder->getUserFolder($user->getUID())
+					);
+					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setSuccessful(false);
+						$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+					}
 				}
 			}
+		);
 
-			$sharingSublistArray[] = [
-				'id' => 'deletedshares',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 19,
-				'name' => $l->t('Deleted shares'),
-			];
+		$dispatcher->addListener(
+			BeforeZipCreatedEvent::class,
+			function (BeforeZipCreatedEvent $event) use ($userSession, $rootFolder): void {
+				$dir = $event->getDirectory();
+				$files = $event->getFiles();
 
-			$sharingSublistArray[] = [
-				'id' => 'pendingshares',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 19,
-				'name' => $l->t('Pending shares'),
-			];
+				$pathsToCheck = [];
+				foreach ($files as $file) {
+					$pathsToCheck[] = $dir . '/' . $file;
+				}
 
-			return [
-				'id' => 'shareoverview',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 18,
-				'name' => $l->t('Shares'),
-				'classes' => 'collapsible',
-				'sublist' => $sharingSublistArray,
-				'expandedState' => 'show_sharing_menu'
-			];
-		});
+				// Check only for user/group shares. Don't restrict e.g. share links
+				$user = $userSession->getUser();
+				if ($user) {
+					$viewOnlyHandler = new ViewOnly(
+						$rootFolder->getUserFolder($user->getUID())
+					);
+					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+						$event->setSuccessful(false);
+					} else {
+						$event->setSuccessful(true);
+					}
+				} else {
+					$event->setSuccessful(true);
+				}
+			}
+		);
 	}
 }

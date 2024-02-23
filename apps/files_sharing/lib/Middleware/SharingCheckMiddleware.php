@@ -64,12 +64,12 @@ class SharingCheckMiddleware extends Middleware {
 	protected $request;
 
 	public function __construct(string $appName,
-								IConfig $config,
-								IAppManager $appManager,
-								IControllerMethodReflector $reflector,
-								IManager $shareManager,
-								IRequest $request
-								) {
+		IConfig $config,
+		IAppManager $appManager,
+		IControllerMethodReflector $reflector,
+		IManager $shareManager,
+		IRequest $request
+	) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->appManager = $appManager;

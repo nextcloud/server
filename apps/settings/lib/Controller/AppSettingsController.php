@@ -13,6 +13,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -42,6 +43,7 @@ use OC_App;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -53,6 +55,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AppSettingsController extends Controller {
 
 	/** @var \OCP\IL10N */
@@ -97,18 +100,18 @@ class AppSettingsController extends Controller {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								INavigationManager $navigationManager,
-								IAppManager $appManager,
-								CategoryFetcher $categoryFetcher,
-								AppFetcher $appFetcher,
-								IFactory $l10nFactory,
-								BundleFetcher $bundleFetcher,
-								Installer $installer,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger) {
+		IRequest $request,
+		IL10N $l10n,
+		IConfig $config,
+		INavigationManager $navigationManager,
+		IAppManager $appManager,
+		CategoryFetcher $categoryFetcher,
+		AppFetcher $appFetcher,
+		IFactory $l10nFactory,
+		BundleFetcher $bundleFetcher,
+		Installer $installer,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -136,7 +139,7 @@ class AppSettingsController extends Controller {
 		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params]);
+		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params, 'pageTitle' => $this->l10n->t('Apps')]);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 		$templateResponse->setContentSecurityPolicy($policy);
@@ -187,7 +190,7 @@ class AppSettingsController extends Controller {
 			$formattedCategories[] = [
 				'id' => $category['id'],
 				'ident' => $category['id'],
-				'displayName' => isset($category['translations'][$currentLanguage]['name']) ? $category['translations'][$currentLanguage]['name'] : $category['translations']['en']['name'],
+				'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
 			];
 		}
 
@@ -237,7 +240,6 @@ class AppSettingsController extends Controller {
 	/**
 	 * Get all available apps in a category
 	 *
-	 * @param string $category
 	 * @return JSONResponse
 	 * @throws \Exception
 	 */
@@ -247,8 +249,14 @@ class AppSettingsController extends Controller {
 
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		if (!is_array($ignoreMaxApps)) {
+			$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
+			$ignoreMaxApps = [];
+		}
+
 		// Extend existing app details
-		$apps = array_map(function ($appData) use ($dependencyAnalyzer) {
+		$apps = array_map(function (array $appData) use ($dependencyAnalyzer, $ignoreMaxApps) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
@@ -274,11 +282,6 @@ class AppSettingsController extends Controller {
 				$appData['licence'] = $appData['license'];
 			}
 
-			$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
-			if (!is_array($ignoreMaxApps)) {
-				$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
-				$ignoreMaxApps = [];
-			}
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 
 			// analyse dependencies
@@ -365,14 +368,14 @@ class AppSettingsController extends Controller {
 			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
-				$currentLanguage = $app['releases'][0]['version'];
+				$currentVersion = $app['releases'][0]['version'];
 			}
 
 			$formattedApps[] = [
 				'id' => $app['id'],
-				'name' => isset($app['translations'][$currentLanguage]['name']) ? $app['translations'][$currentLanguage]['name'] : $app['translations']['en']['name'],
-				'description' => isset($app['translations'][$currentLanguage]['description']) ? $app['translations'][$currentLanguage]['description'] : $app['translations']['en']['description'],
-				'summary' => isset($app['translations'][$currentLanguage]['summary']) ? $app['translations'][$currentLanguage]['summary'] : $app['translations']['en']['summary'],
+				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
+				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
+				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => false,

@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Connector;
 
+use OC\UserStatus\ISettableProvider;
 use OCA\UserStatus\Service\StatusService;
 use OCP\UserStatus\IProvider;
-use OC\UserStatus\ISettableProvider;
 
 class UserStatusProvider implements IProvider, ISettableProvider {
 
@@ -57,15 +57,15 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 		return $userStatuses;
 	}
 
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup): void {
-		$this->service->setUserStatus($userId, $status, $messageId, $createBackup);
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup, ?string $customMessage = null): void {
+		$this->service->setUserStatus($userId, $status, $messageId, $createBackup, $customMessage);
 	}
 
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
-		$this->service->revertUserStatus($userId, $messageId, $status);
+		$this->service->revertUserStatus($userId, $messageId);
 	}
 
 	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
-		$this->service->revertMultipleUserStatus($userIds, $messageId, $status);
+		$this->service->revertMultipleUserStatus($userIds, $messageId);
 	}
 }

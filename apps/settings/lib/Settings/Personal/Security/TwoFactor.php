@@ -28,17 +28,17 @@ namespace OCA\Settings\Settings\Personal\Security;
 
 use Exception;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
-use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
-use function array_filter;
-use function array_map;
-use function is_null;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
+use function array_filter;
+use function array_map;
+use function is_null;
 
 class TwoFactor implements ISettings {
 
@@ -58,10 +58,10 @@ class TwoFactor implements ISettings {
 	private $config;
 
 	public function __construct(ProviderLoader $providerLoader,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								IUserSession $userSession,
-								IConfig $config,
-								?string $UserId) {
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		IUserSession $userSession,
+		IConfig $config,
+		?string $UserId) {
 		$this->providerLoader = $providerLoader;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->userSession = $userSession;
@@ -72,7 +72,6 @@ class TwoFactor implements ISettings {
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse('settings', 'settings/personal/security/twofactor', [
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
-			'themedark' => $this->config->getUserValue($this->uid, 'accessibility', 'theme', false)
 		]);
 	}
 

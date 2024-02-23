@@ -45,9 +45,9 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
@@ -69,16 +69,16 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(IL10N $l,
-								Defaults $defaults,
-								IAppManager $appManager,
-								ISession $session,
-								?IUser $currentUser,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator,
-								CapabilitiesManager $capabilitiesManager,
-								IInitialStateService $initialStateService) {
+		Defaults $defaults,
+		IAppManager $appManager,
+		ISession $session,
+		?IUser $currentUser,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IniGetWrapper $iniWrapper,
+		IURLGenerator $urlGenerator,
+		CapabilitiesManager $capabilitiesManager,
+		IInitialStateService $initialStateService) {
 		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->appManager = $appManager;
@@ -166,20 +166,21 @@ class JSConfigHelper {
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
 		$config = [
-			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
-			'session_keepalive' => $this->config->getSystemValue('session_keepalive', true),
 			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
-			'version' => implode('.', Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString(),
-			'enable_avatars' => true, // here for legacy reasons - to not crash existing code that relies on this value
-			'lost_password_link' => $this->config->getSystemValue('lost_password_link', null),
-			'modRewriteWorking' => $this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true',
-			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
-			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),
+			'lost_password_link' => $this->config->getSystemValue('lost_password_link', null),
+			'modRewriteWorking' => $this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true',
+			'no_unsupported_browser_warning' => $this->config->getSystemValue('no_unsupported_browser_warning', false),
+			'session_keepalive' => $this->config->getSystemValue('session_keepalive', true),
+			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
+			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
+			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
+			'version' => implode('.', Util::getVersion()),
+			'versionstring' => \OC_Util::getVersionString(),
+			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 
 		$array = [
@@ -292,6 +293,8 @@ class JSConfigHelper {
 				]
 			]);
 		}
+
+		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
 
 		$this->initialStateService->provideInitialState('core', 'config', $config);
 		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);

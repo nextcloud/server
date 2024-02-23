@@ -31,7 +31,6 @@ use OCP\HintException;
  * @since 14.0.0
  */
 class ProviderDoesNotExistsException extends HintException {
-
 	/**
 	 * ProviderDoesNotExistsException constructor.
 	 *
@@ -40,7 +39,7 @@ class ProviderDoesNotExistsException extends HintException {
 	 * @param string $providerId cloud federation provider ID
 	 */
 	public function __construct($providerId) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OCP\Util::getL10N('federation');
 		$message = 'Cloud Federation Provider with ID: "' . $providerId . '" does not exist.';
 		$hint = $l->t('Cloud Federation Provider with ID: "%s" does not exist.', [$providerId]);
 		parent::__construct($message, $hint);

@@ -34,6 +34,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 
+/** @template-implements IEventListener<BeforeUserDeletedEvent|UserDeletedEvent> */
 class UserDeletedFilesCleanupListener implements IEventListener {
 	/** @var array<string,IStorage> */
 	private $homeStorageCache = [];
@@ -55,7 +56,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			$userHome = $this->mountProviderCollection->getHomeMountForUser($event->getUser());
 			$storage = $userHome->getStorage();
 			if (!$storage) {
-				throw new \Exception("User has no home storage");
+				throw new \Exception("Account has no home storage");
 			}
 
 			// remove all wrappers, so we do the delete directly on the home storage bypassing any wrapper
@@ -72,12 +73,12 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			}
 			$storage = $this->homeStorageCache[$event->getUser()->getUID()];
 			$cache = $storage->getCache();
+			$storage->rmdir('');
 			if ($cache instanceof Cache) {
 				$cache->clear();
 			} else {
 				throw new \Exception("Home storage has invalid cache");
 			}
-			$storage->rmdir('');
 		}
 	}
 }

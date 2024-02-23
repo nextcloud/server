@@ -7,14 +7,15 @@ on:
 
 jobs:
   stale:
-
     runs-on: ubuntu-latest
-    
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     permissions:
       issues: write
-    
+
     steps:
-    - uses: actions/stale@v5
+    - uses: actions/stale@v9
       with:
         repo-token: ${{ secrets.COMMAND_BOT_PAT }}
         stale-issue-message: >
@@ -24,8 +25,9 @@ jobs:
           for your contributions.
         stale-issue-label: 'stale'
         only-labels: 'needs info'
+        labels-to-remove-when-unstale: 'needs info,stale'
         exempt-issue-labels: '1. to develop,2. developing,3. to review,4. to release,security'
         days-before-stale: 30
         days-before-close: 14
         # debug-only: true
- 
+

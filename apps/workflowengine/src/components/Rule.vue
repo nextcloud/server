@@ -18,7 +18,7 @@
 				<input v-if="lastCheckComplete"
 					type="button"
 					class="check--add"
-					value="Add a new filter"
+					:value="t('workflowengine', 'Add a new filter')"
 					@click="onAddFilter">
 			</p>
 		</div>
@@ -31,19 +31,19 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<Button v-if="rule.id < -1 || dirty" @click="cancelRule">
+				<NcButton v-if="rule.id < -1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
-				</Button>
-				<Button v-else-if="!dirty" @click="deleteRule">
+				</NcButton>
+				<NcButton v-else-if="!dirty" @click="deleteRule">
 					{{ t('workflowengine', 'Delete') }}
-				</Button>
-				<Button :type="ruleStatus.type"
+				</NcButton>
+				<NcButton :type="ruleStatus.type"
 					@click="saveRule">
 					<template #icon>
 						<component :is="ruleStatus.icon" :size="20" />
 					</template>
 					{{ ruleStatus.title }}
-				</Button>
+				</NcButton>
 			</div>
 			<p v-if="error" class="error-message">
 				{{ error }}
@@ -53,22 +53,30 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import CheckMark from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 
-import Event from './Event'
-import Check from './Check'
-import Operation from './Operation'
+import Event from './Event.vue'
+import Check from './Check.vue'
+import Operation from './Operation.vue'
 
 export default {
 	name: 'Rule',
 	components: {
-		Operation, Check, Event, Actions, ActionButton, Button, ArrowRight, CheckMark, Close,
+		ArrowRight,
+		Check,
+		CheckMark,
+		Close,
+		Event,
+		NcActionButton,
+		NcActions,
+		NcButton,
+		Operation,
 	},
 	directives: {
 		Tooltip,
@@ -205,10 +213,11 @@ export default {
 		flex-wrap: wrap;
 		border-left: 5px solid var(--color-primary-element);
 
-		.trigger, .action {
+		.trigger,
+		.action {
 			flex-grow: 1;
 			min-height: 100px;
-			max-width: 700px;
+			max-width: 920px;
 		}
 		.action {
 			max-width: 400px;
@@ -238,6 +247,9 @@ export default {
 	}
 	.trigger p:first-child span {
 			padding-top: 3px;
+	}
+	.trigger p:last-child {
+			padding-top: 8px;
 	}
 
 	.check--add {

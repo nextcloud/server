@@ -35,8 +35,6 @@ interface ISimpleRoot {
 	/**
 	 * Get the folder with name $name
 	 *
-	 * @param string $name
-	 * @return ISimpleFolder
 	 * @throws NotFoundException
 	 * @throws \RuntimeException
 	 * @since 11.0.0
@@ -56,8 +54,6 @@ interface ISimpleRoot {
 	/**
 	 * Create a new folder named $name
 	 *
-	 * @param string $name
-	 * @return ISimpleFolder
 	 * @throws NotPermittedException
 	 * @throws \RuntimeException
 	 * @since 11.0.0

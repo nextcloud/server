@@ -34,7 +34,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsMenuControllerTest extends TestCase {
-
 	/** @var IUserSession|MockObject */
 	private $userSession;
 

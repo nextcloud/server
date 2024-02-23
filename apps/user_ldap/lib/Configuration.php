@@ -10,6 +10,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lennart Rosam <hello@takuto.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -33,6 +34,8 @@
  *
  */
 namespace OCA\User_LDAP;
+
+use Psr\Log\LoggerInterface;
 
 /**
  * @property int ldapPagingSize holds an integer
@@ -68,6 +71,8 @@ class Configuration {
 		'ldapPort' => null,
 		'ldapBackupHost' => null,
 		'ldapBackupPort' => null,
+		'ldapBackgroundHost' => null,
+		'ldapBackgroundPort' => null,
 		'ldapBase' => null,
 		'ldapBaseUsers' => null,
 		'ldapBaseGroups' => null,
@@ -112,6 +117,7 @@ class Configuration {
 		'ldapExpertUsernameAttr' => null,
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
+		'markRemnantsAsDisabled' => false,
 		'lastJpegPhotoLookup' => null,
 		'ldapNestedGroups' => false,
 		'ldapPagingSize' => null,
@@ -120,6 +126,17 @@ class Configuration {
 		'ldapDefaultPPolicyDN' => null,
 		'ldapExtStorageHomeAttribute' => null,
 		'ldapMatchingRuleInChainState' => self::LDAP_SERVER_FEATURE_UNKNOWN,
+		'ldapConnectionTimeout' => 15,
+		'ldapAttributePhone' => null,
+		'ldapAttributeWebsite' => null,
+		'ldapAttributeAddress' => null,
+		'ldapAttributeTwitter' => null,
+		'ldapAttributeFediverse' => null,
+		'ldapAttributeOrganisation' => null,
+		'ldapAttributeRole' => null,
+		'ldapAttributeHeadline' => null,
+		'ldapAttributeBiography' => null,
+		'ldapAdminGroup' => '',
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -163,7 +180,7 @@ class Configuration {
 	public function setConfiguration(array $config, array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
-			if (strpos($inputKey, '_') !== false && array_key_exists($inputKey, $cta)) {
+			if (str_contains($inputKey, '_') && array_key_exists($inputKey, $cta)) {
 				$key = $cta[$inputKey];
 			} elseif (array_key_exists($inputKey, $this->config)) {
 				$key = $inputKey;
@@ -178,7 +195,7 @@ class Configuration {
 					break;
 				case 'homeFolderNamingRule':
 					$trimmedVal = trim($val);
-					if ($trimmedVal !== '' && strpos($val, 'attr:') === false) {
+					if ($trimmedVal !== '' && !str_contains($val, 'attr:')) {
 						$val = 'attr:'.$trimmedVal;
 					}
 					break;
@@ -277,7 +294,7 @@ class Configuration {
 						$value = implode("\n", $value);
 					}
 					break;
-				//following options are not stored but detected, skip them
+					//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
 				case 'ldapUuidUserAttribute':
 				case 'ldapUuidGroupAttribute':
@@ -366,8 +383,8 @@ class Configuration {
 			$defaults = $this->getDefaults();
 		}
 		return \OC::$server->getConfig()->getAppValue('user_ldap',
-										$this->configPrefix.$varName,
-										$defaults[$varName]);
+			$this->configPrefix.$varName,
+			$defaults[$varName]);
 	}
 
 	/**
@@ -412,6 +429,8 @@ class Configuration {
 			'ldap_port' => '',
 			'ldap_backup_host' => '',
 			'ldap_backup_port' => '',
+			'ldap_background_host' => '',
+			'ldap_background_port' => '',
 			'ldap_override_main_server' => '',
 			'ldap_dn' => '',
 			'ldap_agent_password' => '',
@@ -453,6 +472,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr' => '',
 			'has_memberof_filter_support' => 0,
 			'use_memberof_to_detect_membership' => 1,
+			'ldap_mark_remnants_as_disabled' => 0,
 			'last_jpegPhoto_lookup' => 0,
 			'ldap_nested_groups' => 0,
 			'ldap_paging_size' => 500,
@@ -463,6 +483,17 @@ class Configuration {
 			'ldap_user_avatar_rule' => 'default',
 			'ldap_ext_storage_home_attribute' => '',
 			'ldap_matching_rule_in_chain_state' => self::LDAP_SERVER_FEATURE_UNKNOWN,
+			'ldap_connection_timeout' => 15,
+			'ldap_attr_phone' => '',
+			'ldap_attr_website' => '',
+			'ldap_attr_address' => '',
+			'ldap_attr_twitter' => '',
+			'ldap_attr_fediverse' => '',
+			'ldap_attr_organisation' => '',
+			'ldap_attr_role' => '',
+			'ldap_attr_headline' => '',
+			'ldap_attr_biography' => '',
+			'ldap_admin_group' => '',
 		];
 	}
 
@@ -476,6 +507,8 @@ class Configuration {
 			'ldap_port' => 'ldapPort',
 			'ldap_backup_host' => 'ldapBackupHost',
 			'ldap_backup_port' => 'ldapBackupPort',
+			'ldap_background_host' => 'ldapBackgroundHost',
+			'ldap_background_port' => 'ldapBackgroundPort',
 			'ldap_override_main_server' => 'ldapOverrideMainServer',
 			'ldap_dn' => 'ldapAgentName',
 			'ldap_agent_password' => 'ldapAgentPassword',
@@ -516,6 +549,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr' => 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support' => 'hasMemberOfFilterSupport',
 			'use_memberof_to_detect_membership' => 'useMemberOfToDetectMembership',
+			'ldap_mark_remnants_as_disabled' => 'markRemnantsAsDisabled',
 			'last_jpegPhoto_lookup' => 'lastJpegPhotoLookup',
 			'ldap_nested_groups' => 'ldapNestedGroups',
 			'ldap_paging_size' => 'ldapPagingSize',
@@ -526,6 +560,17 @@ class Configuration {
 			'ldap_ext_storage_home_attribute' => 'ldapExtStorageHomeAttribute',
 			'ldap_matching_rule_in_chain_state' => 'ldapMatchingRuleInChainState',
 			'ldapIgnoreNamingRules' => 'ldapIgnoreNamingRules',	// sysconfig
+			'ldap_connection_timeout' => 'ldapConnectionTimeout',
+			'ldap_attr_phone' => 'ldapAttributePhone',
+			'ldap_attr_website' => 'ldapAttributeWebsite',
+			'ldap_attr_address' => 'ldapAttributeAddress',
+			'ldap_attr_twitter' => 'ldapAttributeTwitter',
+			'ldap_attr_fediverse' => 'ldapAttributeFediverse',
+			'ldap_attr_organisation' => 'ldapAttributeOrganisation',
+			'ldap_attr_role' => 'ldapAttributeRole',
+			'ldap_attr_headline' => 'ldapAttributeHeadline',
+			'ldap_attr_biography' => 'ldapAttributeBiography',
+			'ldap_admin_group' => 'ldapAdminGroup',
 		];
 		return $array;
 	}
@@ -547,7 +592,7 @@ class Configuration {
 		if ($value === self::AVATAR_PREFIX_NONE) {
 			return [];
 		}
-		if (strpos($value, self::AVATAR_PREFIX_DATA_ATTRIBUTE) === 0) {
+		if (str_starts_with($value, self::AVATAR_PREFIX_DATA_ATTRIBUTE)) {
 			$attribute = trim(substr($value, strlen(self::AVATAR_PREFIX_DATA_ATTRIBUTE)));
 			if ($attribute === '') {
 				return $defaultAttributes;
@@ -555,8 +600,16 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
+	}
+
+	/**
+	 * Returns TRUE if the ldapHost variable starts with 'ldapi://'
+	 */
+	public function usesLdapi(): bool {
+		$host = $this->config['ldapHost'];
+		return is_string($host) && (substr($host, 0, strlen('ldapi://')) === 'ldapi://');
 	}
 }

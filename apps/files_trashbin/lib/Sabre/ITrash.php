@@ -39,7 +39,7 @@ interface ITrash {
 
 	public function getDeletionTime(): int;
 
-	public function getSize();
+	public function getSize(): int|float;
 
 	public function getFileId(): int;
 

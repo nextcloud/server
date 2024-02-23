@@ -36,12 +36,13 @@ use OCP\Files\NotFoundException;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 
 /**
- * Interface IShare
+ * This interface allows to represent a share object.
+ *
+ * This interface must not be implemented in your application.
  *
  * @since 9.0.0
  */
 interface IShare {
-
 	/**
 	 * @since 17.0.0
 	 */
@@ -115,6 +116,11 @@ interface IShare {
 	 * @since 21.0.0
 	 */
 	public const TYPE_DECK_USER = 13;
+
+	/**
+	 * @since 26.0.0
+	 */
+	public const TYPE_SCIENCEMESH = 15;
 
 	/**
 	 * @since 18.0.0
@@ -300,7 +306,7 @@ interface IShare {
 	 * See \OCP\Constants::PERMISSION_*
 	 *
 	 * @param int $permissions
-	 * @return \OCP\Share\IShare The modified object
+	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
 	public function setPermissions($permissions);
@@ -313,6 +319,31 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getPermissions();
+
+	/**
+	 * Create share attributes object
+	 *
+	 * @since 25.0.0
+	 * @return IAttributes
+	 */
+	public function newAttributes(): IAttributes;
+
+	/**
+	 * Set share attributes
+	 *
+	 * @param ?IAttributes $attributes
+	 * @since 25.0.0
+	 * @return IShare The modified object
+	 */
+	public function setAttributes(?IAttributes $attributes);
+
+	/**
+	 * Get share attributes
+	 *
+	 * @since 25.0.0
+	 * @return ?IAttributes
+	 */
+	public function getAttributes(): ?IAttributes;
 
 	/**
 	 * Set the accepted status
@@ -363,7 +394,7 @@ interface IShare {
 	/**
 	 * Get the expiration date
 	 *
-	 * @return \DateTime
+	 * @return null|\DateTime
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
@@ -443,7 +474,7 @@ interface IShare {
 	 * If this share is obtained via a shareprovider the password is
 	 * hashed.
 	 *
-	 * @return string
+	 * @return string|null
 	 * @since 9.0.0
 	 */
 	public function getPassword();

@@ -40,7 +40,7 @@ class PropfindCompressionPluginTest extends TestCase {
 		$this->plugin = new PropfindCompressionPlugin();
 	}
 
-	public function testNoHeader() {
+	public function testNoHeader(): void {
 		$request = $this->createMock(Request::class);
 		$response = $this->createMock(Response::class);
 
@@ -55,7 +55,7 @@ class PropfindCompressionPluginTest extends TestCase {
 		$this->assertSame($response, $result);
 	}
 
-	public function testHeaderButNoGzip() {
+	public function testHeaderButNoGzip(): void {
 		$request = $this->createMock(Request::class);
 		$response = $this->createMock(Response::class);
 
@@ -70,7 +70,7 @@ class PropfindCompressionPluginTest extends TestCase {
 		$this->assertSame($response, $result);
 	}
 
-	public function testHeaderGzipButNoStringBody() {
+	public function testHeaderGzipButNoStringBody(): void {
 		$request = $this->createMock(Request::class);
 		$response = $this->createMock(Response::class);
 
@@ -86,7 +86,7 @@ class PropfindCompressionPluginTest extends TestCase {
 	}
 
 
-	public function testProperGzip() {
+	public function testProperGzip(): void {
 		$request = $this->createMock(Request::class);
 		$response = $this->createMock(Response::class);
 

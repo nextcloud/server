@@ -43,24 +43,84 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface IIndex {
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_OK = 1;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_IGNORE = 2;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_META = 4;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_CONTENT = 8;
+
+	/**
+	 * @since 16.0.0
+	 */
 	public const INDEX_PARTS = 16;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_FULL = 28;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_REMOVE = 32;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_DONE = 64;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_FAILED = 128;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_FAILED = 1;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_FAILED2 = 2;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_FAILED3 = 4;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_1 = 1;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_2 = 2;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_3 = 3;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_4 = 4;
 
 

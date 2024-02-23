@@ -21,6 +21,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Ya te encuentras usando un tema personalizado. La aplicación de Temas puede estar siendo sobreescrita por él.",
     "Theming" : "Tematizar",
     "Legal notice" : "Aviso legal",
+    "Keyboard shortcuts" : "Atajos del teclado",
     "Open documentation" : "Abrir la documentación",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "El tematizar hace posible personalizar facilmente la manera en que se ve tu instancia y clientes soportados. Esto será visible para todos los usuarios. ",
     "Name" : "Nombre",
@@ -41,5 +42,5 @@
     "Favicon" : "Favicon",
     "Upload new favicon" : "Cargar un nuevo favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión Imagemagick de PHP con soporte a imagenes SVG para generar los favicons en automático con base en el logotipo cargado y el color."
-},"pluralForm" :"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

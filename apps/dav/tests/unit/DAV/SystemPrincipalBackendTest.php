@@ -35,7 +35,7 @@ class SystemPrincipalBackendTest extends TestCase {
 	 * @param $expected
 	 * @param $prefix
 	 */
-	public function testGetPrincipalsByPrefix($expected, $prefix) {
+	public function testGetPrincipalsByPrefix($expected, $prefix): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalsByPrefix($prefix);
 		$this->assertEquals($expected, $result);
@@ -61,7 +61,7 @@ class SystemPrincipalBackendTest extends TestCase {
 	 * @param $expected
 	 * @param $path
 	 */
-	public function testGetPrincipalByPath($expected, $path) {
+	public function testGetPrincipalByPath($expected, $path): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalByPath($path);
 		$this->assertEquals($expected, $result);
@@ -85,7 +85,7 @@ class SystemPrincipalBackendTest extends TestCase {
 	 * @param string $principal
 	 * @throws \Sabre\DAV\Exception
 	 */
-	public function testGetGroupMemberSetExceptional($principal) {
+	public function testGetGroupMemberSetExceptional($principal): void {
 		$this->expectException(\Sabre\DAV\Exception::class);
 		$this->expectExceptionMessage('Principal not found');
 
@@ -103,7 +103,7 @@ class SystemPrincipalBackendTest extends TestCase {
 	/**
 	 * @throws \Sabre\DAV\Exception
 	 */
-	public function testGetGroupMemberSet() {
+	public function testGetGroupMemberSet(): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getGroupMemberSet('principals/system/system');
 		$this->assertEquals(['principals/system/system'], $result);
@@ -115,7 +115,7 @@ class SystemPrincipalBackendTest extends TestCase {
 	 * @param string $principal
 	 * @throws \Sabre\DAV\Exception
 	 */
-	public function testGetGroupMembershipExceptional($principal) {
+	public function testGetGroupMembershipExceptional($principal): void {
 		$this->expectException(\Sabre\DAV\Exception::class);
 		$this->expectExceptionMessage('Principal not found');
 
@@ -132,7 +132,7 @@ class SystemPrincipalBackendTest extends TestCase {
 	/**
 	 * @throws \Sabre\DAV\Exception
 	 */
-	public function testGetGroupMembership() {
+	public function testGetGroupMembership(): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getGroupMembership('principals/system/system');
 		$this->assertEquals([], $result);

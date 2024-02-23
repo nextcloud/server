@@ -51,6 +51,7 @@ class ChangesCheck {
 
 	/**
 	 * @throws DoesNotExistException
+	 * @return array{changelogURL: string, whatsNew: array<string, array{admin: string[], regular: string[]}>}
 	 */
 	public function getChangesForVersion(string $version): array {
 		$version = $this->normalizeVersion($version);
@@ -73,7 +74,7 @@ class ChangesCheck {
 				return json_decode($changesInfo->getData(), true);
 			}
 		} catch (DoesNotExistException $e) {
-			$changesInfo = new ChangesResult();
+			$changesInfo = new Changes();
 		}
 
 		$response = $this->queryChangesServer($uri, $changesInfo);
@@ -109,7 +110,7 @@ class ChangesCheck {
 		return self::RESPONSE_NO_CONTENT;
 	}
 
-	protected function cacheResult(ChangesResult $entry, string $version) {
+	protected function cacheResult(Changes $entry, string $version) {
 		if ($entry->getVersion() === $version) {
 			$this->mapper->update($entry);
 		} else {
@@ -121,7 +122,7 @@ class ChangesCheck {
 	/**
 	 * @throws \Exception
 	 */
-	protected function queryChangesServer(string $uri, ChangesResult $entry): IResponse {
+	protected function queryChangesServer(string $uri, Changes $entry): IResponse {
 		$headers = [];
 		if ($entry->getEtag() !== '') {
 			$headers['If-None-Match'] = [$entry->getEtag()];

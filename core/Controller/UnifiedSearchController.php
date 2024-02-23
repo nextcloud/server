@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,11 +28,15 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use InvalidArgumentException;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
-use OCP\AppFramework\OCSController;
+use OC\Search\UnsupportedFilter;
+use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -39,31 +44,33 @@ use OCP\Route\IRouter;
 use OCP\Search\ISearchQuery;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
+/**
+ * @psalm-import-type CoreUnifiedSearchProvider from ResponseDefinitions
+ * @psalm-import-type CoreUnifiedSearchResult from ResponseDefinitions
+ */
 class UnifiedSearchController extends OCSController {
-	private SearchComposer $composer;
-	private IUserSession $userSession;
-	private IRouter $router;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct(IRequest $request,
-								IUserSession $userSession,
-								SearchComposer $composer,
-								IRouter $router,
-								IURLGenerator $urlGenerator) {
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private SearchComposer $composer,
+		private IRouter $router,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct('core', $request);
-
-		$this->composer = $composer;
-		$this->userSession = $userSession;
-		$this->router = $router;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * Get the providers for unified search
+	 *
 	 * @param string $from the url the user is currently at
+	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchProvider[], array{}>
+	 *
+	 * 200: Providers returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/providers', root: '/search')]
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
 
@@ -77,39 +84,53 @@ class UnifiedSearchController extends OCSController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @param string $providerId
-	 * @param string $term
-	 * @param int|null $sortOrder
-	 * @param int|null $limit
-	 * @param int|string|null $cursor
-	 * @param string $from
+	 * Launch a search for a specific search provider.
 	 *
-	 * @return DataResponse
+	 * Additional filters are available for each provider.
+	 * Send a request to /providers endpoint to list providers with their available filters.
+	 *
+	 * @param string $providerId ID of the provider
+	 * @param string $term Term to search
+	 * @param int|null $sortOrder Order of entries
+	 * @param int|null $limit Maximum amount of entries
+	 * @param int|string|null $cursor Offset for searching
+	 * @param string $from The current user URL
+	 *
+	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchResult, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
+	 *
+	 * 200: Search entries returned
+	 * 400: Searching is not possible
 	 */
-	public function search(string $providerId,
-						   string $term = '',
-						   ?int $sortOrder = null,
-						   ?int $limit = null,
-						   $cursor = null,
-						   string $from = ''): DataResponse {
-		if (empty(trim($term))) {
-			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
-		}
+	#[ApiRoute(verb: 'GET', url: '/providers/{providerId}/search', root: '/search')]
+	public function search(
+		string $providerId,
+		// Unused parameter for OpenAPI spec generator
+		string $term = '',
+		?int $sortOrder = null,
+		?int $limit = null,
+		$cursor = null,
+		string $from = '',
+	): DataResponse {
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
+		try {
+			$filters = $this->composer->buildFilterList($providerId, $this->request->getParams());
+		} catch (UnsupportedFilter|InvalidArgumentException $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
 		return new DataResponse(
 			$this->composer->search(
 				$this->userSession->getUser(),
 				$providerId,
 				new SearchQuery(
-					$term,
+					$filters,
 					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
 					$limit ?? SearchQuery::LIMIT_DEFAULT,
 					$cursor,
 					$route,
 					$routeParameters
 				)
-			)
+			)->jsonSerialize()
 		);
 	}
 

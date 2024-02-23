@@ -370,6 +370,7 @@
 			var menu;
 			var $trigger = context.$file.closest('tr').find('.fileactions .action-menu');
 			$trigger.addClass('open');
+			$trigger.attr('aria-expanded', 'true');
 
 			menu = new OCA.Files.FileActionsMenu();
 
@@ -378,6 +379,7 @@
 			menu.$el.on('afterHide', function() {
 				context.$file.removeClass('mouseOver');
 				$trigger.removeClass('open');
+				$trigger.attr('aria-expanded', 'false');
 				menu.remove();
 			});
 
@@ -404,6 +406,7 @@
 			}, false, context);
 
 			$el.addClass('permanent');
+			$el.attr('aria-expanded', 'false');
 
 		},
 
@@ -467,7 +470,7 @@
 					);
 				}
 			);
-			$actionEl.tooltip({placement:'top'});
+
 			return $actionEl;
 		},
 
@@ -594,8 +597,8 @@
 				Object.values = objectValues;
 			}
 
-			var menuActions = Object.values(this.actions.all).filter(function (action) {
-				return action.type !== OCA.Files.FileActions.TYPE_INLINE;
+			var menuActions = Object.values(actions).filter(function (action) {
+				return action.type !== OCA.Files.FileActions.TYPE_INLINE && (!defaultAction || action.name !== defaultAction.name)
 			});
 			// do not render the menu if nothing is in it
 			if (menuActions.length > 0) {
@@ -670,6 +673,9 @@
 				displayName: function(context) {
 					var permissions = context.fileInfoModel.attributes.permissions;
 					if (permissions & OC.PERMISSION_UPDATE) {
+						if (!context.fileInfoModel.canDownload()) {
+							return t('files', 'Move');
+						}
 						return t('files', 'Move or copy');
 					}
 					return t('files', 'Copy');
@@ -682,7 +688,11 @@
 					var permissions = context.fileInfoModel.attributes.permissions;
 					var actions = OC.dialogs.FILEPICKER_TYPE_COPY;
 					if (permissions & OC.PERMISSION_UPDATE) {
-						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
+						if (!context.fileInfoModel.canDownload()) {
+							actions = OC.dialogs.FILEPICKER_TYPE_MOVE;
+						} else {
+							actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
+						}
 					}
 					var dialogDir = context.dir;
 					if (typeof context.fileList.dirInfo.dirLastCopiedTo !== 'undefined') {
@@ -699,6 +709,48 @@
 						}, false, "httpd/unix-directory", true, actions, dialogDir);
 				}
 			});
+
+			if (Boolean(OC.appswebroots.files_reminders) && Boolean(OC.appswebroots.notifications)) {
+				this.registerAction({
+					name: 'SetReminder',
+					displayName: function(_context) {
+						return t('files', 'Set reminder');
+					},
+					mime: 'all',
+					order: -24,
+					icon: function(_filename, _context) {
+						return OC.imagePath('files_reminders', 'alarm.svg')
+					},
+					permissions: $('#isPublic').val() ? null : OC.PERMISSION_READ,
+					actionHandler: function(_filename, _context) {},
+				});
+			}
+
+			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+				this.registerAction({
+					name: 'EditLocally',
+					displayName: function(context) {
+						var locked = context.$file.data('locked');
+						if (!locked) {
+							return t('files', 'Edit locally');
+						}
+					},
+					mime: 'all',
+					order: -23,
+					icon: function(filename, context) {
+						var locked = context.$file.data('locked');
+						if (!locked) {
+							return OC.imagePath('files', 'computer.svg')
+						}
+					},
+					permissions: OC.PERMISSION_UPDATE,
+					actionHandler: function (filename, context) {
+						var dir = context.dir || context.fileList.getCurrentDirectory();
+						var path = dir === '/' ? dir + filename : dir + '/' + filename;
+						context.fileList.openLocalClient(path);
+					},
+				});
+			}
 
 			this.registerAction({
 				name: 'Open',

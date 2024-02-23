@@ -7,8 +7,9 @@
 	cursor: default;
 	height: 56px;
 	float: left;
-	border-bottom: 1px solid rgba(100,100,100,.1);
+	border-bottom: 0;
 }
+
 .versionsTabView li:last-child {
 	border-bottom: none;
 }
@@ -20,7 +21,7 @@
 }
 
 .versionsTabView li a{
-	padding: 15px 10px 11px;
+	padding: 19px 10px 7px;
 }
 
 .versionsTabView a:hover,
@@ -39,7 +40,12 @@
 }
 
 .versionsTabView img.preview {
+	position: relative;
+	top: 6px;
+	left: 10px;
+	border: 1px solid var(--color-border-dark);		
 	cursor: default;
+	padding-right: 0;
 }
 
 .versionsTabView .version-container {
@@ -62,5 +68,31 @@
 .versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
-	margin-right: -10px;
+	margin-right: 0;
+}
+
+.versionsTabView li.active .downloadVersion {
+	opacity: 1;
+}
+
+.versionsTabView li.active .version-details .size {
+	color: var(--color-main-text);
+	opacity: 1;
+}
+
+.versionsTabView li.active {
+	background-color: var(--color-primary-light);
+	border-radius: 16px;
+}
+
+.versionsTabView li.active a.revertVersion {
+ 	opacity: 1;
+}
+
+.version-container {
+	padding-left: 5px;
+}
+
+.version-details {
+	margin-top: -7px;
 }

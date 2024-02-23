@@ -25,6 +25,7 @@
  */
 namespace OC\App;
 
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 
 /**
@@ -35,10 +36,9 @@ use OCP\IConfig;
  * @package OC\App
  */
 class Platform {
-	private IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	public function getPhpVersion(): string {
@@ -55,7 +55,7 @@ class Platform {
 	}
 
 	public function getDatabase(): string {
-		$dbType = $this->config->getSystemValue('dbtype', 'sqlite');
+		$dbType = $this->config->getSystemValueString('dbtype', 'sqlite');
 		if ($dbType === 'sqlite3') {
 			$dbType = 'sqlite';
 		}
@@ -70,9 +70,8 @@ class Platform {
 	/**
 	 * @param $command
 	 */
-	public function isCommandKnown($command): bool {
-		$path = \OC_Helper::findBinaryPath($command);
-		return ($path !== null);
+	public function isCommandKnown(string $command): bool {
+		return \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($command) !== false;
 	}
 
 	public function getLibraryVersion(string $name): ?string {

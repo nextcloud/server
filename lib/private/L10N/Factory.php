@@ -40,6 +40,8 @@ declare(strict_types=1);
 
 namespace OC\L10N;
 
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -52,7 +54,6 @@ use function is_null;
  * A factory that generates language instances
  */
 class Factory implements IFactory {
-
 	/** @var string */
 	protected $requestLanguage = '';
 
@@ -94,7 +95,9 @@ class Factory implements IFactory {
 	protected $request;
 
 	/** @var IUserSession */
-	protected $userSession;
+	protected IUserSession $userSession;
+
+	private ICache $cache;
 
 	/** @var string */
 	protected $serverRoot;
@@ -109,11 +112,13 @@ class Factory implements IFactory {
 		IConfig $config,
 		IRequest $request,
 		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
 		$serverRoot
 	) {
 		$this->config = $config;
 		$this->request = $request;
 		$this->userSession = $userSession;
+		$this->cache = $cacheFactory->createLocal('L10NFactory');
 		$this->serverRoot = $serverRoot;
 	}
 
@@ -190,7 +195,7 @@ class Factory implements IFactory {
 		 *
 		 * @link https://github.com/owncloud/core/issues/21955
 		 */
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			$userId = !is_null($this->userSession->getUser()) ? $this->userSession->getUser()->getUID() :  null;
 			if (!is_null($userId)) {
 				$userLang = $this->config->getUserValue($userId, 'core', 'lang', null);
@@ -242,7 +247,7 @@ class Factory implements IFactory {
 		}
 
 		// Step 3.1: Check if Nextcloud is already installed before we try to access user info
-		if (!$this->config->getSystemValue('installed', false)) {
+		if (!$this->config->getSystemValueBool('installed', false)) {
 			return 'en';
 		}
 		// Step 3.2: Check the current user (if any) for their preferred language
@@ -277,7 +282,7 @@ class Factory implements IFactory {
 			return $forceLocale;
 		}
 
-		if ($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValueBool('installed', false)) {
 			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
 			$userLocale = null;
 			if (null !== $userId) {
@@ -338,6 +343,10 @@ class Factory implements IFactory {
 			$key = 'null';
 		}
 
+		if ($availableLanguages = $this->cache->get($key)) {
+			$this->availableLanguages[$key] = $availableLanguages;
+		}
+
 		// also works with null as key
 		if (!empty($this->availableLanguages[$key])) {
 			return $this->availableLanguages[$key];
@@ -349,7 +358,7 @@ class Factory implements IFactory {
 			$files = scandir($dir);
 			if ($files !== false) {
 				foreach ($files as $file) {
-					if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+					if (str_ends_with($file, '.json') && !str_starts_with($file, 'l10n')) {
 						$available[] = substr($file, 0, -5);
 					}
 				}
@@ -357,7 +366,7 @@ class Factory implements IFactory {
 		}
 
 		// merge with translations from theme
-		$theme = $this->config->getSystemValue('theme');
+		$theme = $this->config->getSystemValueString('theme');
 		if (!empty($theme)) {
 			$themeDir = $this->serverRoot . '/themes/' . $theme . substr($dir, strlen($this->serverRoot));
 
@@ -365,7 +374,7 @@ class Factory implements IFactory {
 				$files = scandir($themeDir);
 				if ($files !== false) {
 					foreach ($files as $file) {
-						if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+						if (str_ends_with($file, '.json') && !str_starts_with($file, 'l10n')) {
 							$available[] = substr($file, 0, -5);
 						}
 					}
@@ -374,6 +383,7 @@ class Factory implements IFactory {
 		}
 
 		$this->availableLanguages[$key] = $available;
+		$this->cache->set($key, $available, 60);
 		return $available;
 	}
 
@@ -442,7 +452,7 @@ class Factory implements IFactory {
 			}
 		}
 
-		return $this->config->getSystemValue('default_language', 'en');
+		return $this->config->getSystemValueString('default_language', 'en');
 	}
 
 	/**
@@ -480,9 +490,13 @@ class Factory implements IFactory {
 				[$preferred_language] = explode(';', $preference);
 				$preferred_language = str_replace('-', '_', $preferred_language);
 
+				$preferred_language_parts = explode('_', $preferred_language);
 				foreach ($available as $available_language) {
 					if ($preferred_language === strtolower($available_language)) {
 						return $this->respectDefaultLanguage($app, $available_language);
+					}
+					if ($preferred_language_parts[0].'_'.end($preferred_language_parts) === strtolower($available_language)) {
+						return $available_language;
 					}
 				}
 
@@ -529,12 +543,12 @@ class Factory implements IFactory {
 	 */
 	private function isSubDirectory($sub, $parent) {
 		// Check whether $sub contains no ".."
-		if (strpos($sub, '..') !== false) {
+		if (str_contains($sub, '..')) {
 			return false;
 		}
 
 		// Check whether $sub is a subdirectory of $parent
-		if (strpos($sub, $parent) === 0) {
+		if (str_starts_with($sub, $parent)) {
 			return true;
 		}
 
@@ -566,7 +580,7 @@ class Factory implements IFactory {
 		}
 
 		// merge with translations from theme
-		$theme = $this->config->getSystemValue('theme');
+		$theme = $this->config->getSystemValueString('theme');
 		if (!empty($theme)) {
 			$transFile = $this->serverRoot . '/themes/' . $theme . substr($transFile, strlen($this->serverRoot));
 			if (file_exists($transFile)) {

@@ -177,7 +177,7 @@ import templateSelection from './templates/selection.handlebars'
 				var $item = $(ev.target).closest('.systemtags-item')
 				var tagId = $item.attr('data-id')
 				this.collection.get(tagId).destroy()
-				$(ev.target).tooltip('hide')
+				$(ev.target).tooltip('option', 'hide')
 				$item.closest('.select2-result').remove()
 				// TODO: spinner
 				return false
@@ -292,7 +292,7 @@ import templateSelection from './templates/selection.handlebars'
 				return templateResult(_.extend({
 					renameTooltip: t('core', 'Rename'),
 					allowActions: this._allowActions,
-					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
+					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data).innerHTML : null,
 					isAdmin: this._isAdmin
 				}, data))
 			},
@@ -305,7 +305,7 @@ import templateSelection from './templates/selection.handlebars'
 		 */
 			_formatSelection: function(data) {
 				return templateSelection(_.extend({
-					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
+					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data).innerHTML : null,
 					isAdmin: this._isAdmin
 				}, data))
 			},

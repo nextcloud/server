@@ -30,7 +30,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class CleanPreviews implements IRepairStep {
-
 	/** @var IJobList */
 	private $jobList;
 
@@ -48,8 +47,8 @@ class CleanPreviews implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IJobList $jobList,
-								IUserManager $userManager,
-								IConfig $config) {
+		IUserManager $userManager,
+		IConfig $config) {
 		$this->jobList = $jobList;
 		$this->userManager = $userManager;
 		$this->config = $config;

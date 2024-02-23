@@ -32,6 +32,7 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
 
 class PublicShareMiddleware extends Middleware {
 	/** @var IRequest */
@@ -43,16 +44,25 @@ class PublicShareMiddleware extends Middleware {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IRequest $request, ISession $session, IConfig $config) {
+	/** @var IThrottler */
+	private $throttler;
+
+	public function __construct(IRequest $request, ISession $session, IConfig $config, IThrottler $throttler) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
+		$this->throttler = $throttler;
 	}
 
 	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof PublicShareController)) {
 			return;
 		}
+
+		$controllerClassPath = explode('\\', get_class($controller));
+		$controllerShortClass = end($controllerClassPath);
+		$bruteforceProtectionAction = $controllerShortClass . '::' . $methodName;
+		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $bruteforceProtectionAction);
 
 		if (!$this->isLinkSharingEnabled()) {
 			throw new NotFoundException('Link sharing is disabled');
@@ -68,6 +78,8 @@ class PublicShareMiddleware extends Middleware {
 		$controller->setToken($token);
 
 		if (!$controller->isValidToken()) {
+			$this->throttle($bruteforceProtectionAction, $token);
+
 			$controller->shareNotFound();
 			throw new NotFoundException();
 		}
@@ -88,6 +100,7 @@ class PublicShareMiddleware extends Middleware {
 			throw new NeedAuthenticationException();
 		}
 
+		$this->throttle($bruteforceProtectionAction, $token);
 		throw new NotFoundException();
 	}
 
@@ -127,5 +140,11 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		return true;
+	}
+
+	private function throttle($bruteforceProtectionAction, $token): void {
+		$ip = $this->request->getRemoteAddress();
+		$this->throttler->sleepDelay($ip, $bruteforceProtectionAction);
+		$this->throttler->registerAttempt($bruteforceProtectionAction, $ip, ['token' => $token]);
 	}
 }

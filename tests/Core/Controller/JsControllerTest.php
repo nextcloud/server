@@ -38,7 +38,6 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class JsControllerTest extends TestCase {
-
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 
@@ -118,7 +117,6 @@ class JsControllerTest extends TestCase {
 		$expires->setTimestamp(1337);
 		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$expected->addHeader('Pragma', 'cache');
 
 		$result = $this->controller->getJs('file.js', 'myapp');
 		$this->assertEquals($expected, $result);
@@ -148,7 +146,6 @@ class JsControllerTest extends TestCase {
 		$expires->setTimestamp(1337);
 		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$expected->addHeader('Pragma', 'cache');
 
 		$result = $this->controller->getJs('file.js', 'myapp');
 		$this->assertEquals($expected, $result);
@@ -183,7 +180,6 @@ class JsControllerTest extends TestCase {
 		$expires->setTimestamp(1337);
 		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$expected->addHeader('Pragma', 'cache');
 
 		$result = $this->controller->getJs('file.js', 'myapp');
 		$this->assertEquals($expected, $result);

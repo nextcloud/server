@@ -31,6 +31,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -54,12 +55,8 @@ class Listener {
 		$this->groupManager = $groupManager;
 	}
 
-	/**
-	 * @param GenericEvent $event
-	 */
-	public function shareNotification(GenericEvent $event): void {
-		/** @var IShare $share */
-		$share = $event->getSubject();
+	public function shareNotification(ShareCreatedEvent $event): void {
+		$share = $event->getShare();
 		$notification = $this->instantiateNotification($share);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {

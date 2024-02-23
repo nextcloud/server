@@ -25,44 +25,42 @@
 namespace OC\Repair;
 
 use OC\Avatar\AvatarManager;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
+	protected AvatarManager $avatarManager;
+	private IConfig $config;
+	private IJobList $jobList;
 
-	/** @var AvatarManager */
-	protected $avatarManager;
-
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IConfig $config, AvatarManager $avatarManager) {
+	public function __construct(IConfig $config, AvatarManager $avatarManager, IJobList $jobList) {
 		$this->config = $config;
 		$this->avatarManager = $avatarManager;
+		$this->jobList = $jobList;
 	}
 
-	public function getName() {
-		return 'Clear every generated avatar on major updates';
+	public function getName(): string {
+		return 'Clear every generated avatar';
 	}
 
 	/**
 	 * Check if this repair step should run
-	 *
-	 * @return boolean
 	 */
-	private function shouldRun() {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+	private function shouldRun(): bool {
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 
-		// was added to 15.0.0.4
-		return version_compare($versionFromBeforeUpdate, '15.0.0.4', '<=');
+		// This job only runs if the server was on a version lower than or equal to 27.0.0 before the upgrade.
+		// To clear the avatar cache again, bump the version to the currently released version (and change the operator to <= if it's not the master branch) and wait for the next release.
+		return version_compare($versionFromBeforeUpdate, '27.0.0', '<');
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			try {
-				$this->avatarManager->clearCachedAvatars();
-				$output->info('Avatar cache cleared');
+				$this->jobList->add(ClearGeneratedAvatarCacheJob::class, []);
+				$output->info('Avatar cache clearing job added');
 			} catch (\Exception $e) {
 				$output->warning('Unable to clear the avatar cache');
 			}

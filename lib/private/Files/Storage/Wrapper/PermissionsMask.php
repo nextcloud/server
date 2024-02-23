@@ -78,16 +78,16 @@ class PermissionsMask extends Wrapper {
 		return $this->storage->getPermissions($path) & $this->mask;
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		//This is a rename of the transfer file to the original file
-		if (dirname($path1) === dirname($path2) && strpos($path1, '.ocTransferId') > 0) {
-			return $this->checkMask(Constants::PERMISSION_CREATE) and parent::rename($path1, $path2);
+		if (dirname($source) === dirname($target) && strpos($source, '.ocTransferId') > 0) {
+			return $this->checkMask(Constants::PERMISSION_CREATE) and parent::rename($source, $target);
 		}
-		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::rename($path1, $path2);
+		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::rename($source, $target);
 	}
 
-	public function copy($path1, $path2) {
-		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::copy($path1, $path2);
+	public function copy($source, $target) {
+		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::copy($source, $target);
 	}
 
 	public function touch($path, $mtime = null) {
@@ -140,7 +140,7 @@ class PermissionsMask extends Wrapper {
 		$data = parent::getMetaData($path);
 
 		if ($data && isset($data['permissions'])) {
-			$data['scan_permissions'] = isset($data['scan_permissions']) ? $data['scan_permissions'] : $data['permissions'];
+			$data['scan_permissions'] = $data['scan_permissions'] ?? $data['permissions'];
 			$data['permissions'] &= $this->mask;
 		}
 		return $data;
@@ -155,7 +155,7 @@ class PermissionsMask extends Wrapper {
 
 	public function getDirectoryContent($directory): \Traversable {
 		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
-			$data['scan_permissions'] = isset($data['scan_permissions']) ? $data['scan_permissions'] : $data['permissions'];
+			$data['scan_permissions'] = $data['scan_permissions'] ?? $data['permissions'];
 			$data['permissions'] &= $this->mask;
 
 			yield $data;

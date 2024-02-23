@@ -14,7 +14,6 @@ use Psr\Log\LoggerInterface;
  * This class provides tests for the guest avatar controller.
  */
 class GuestAvatarControllerTest extends \Test\TestCase {
-
 	/**
 	 * @var GuestAvatarController
 	 */

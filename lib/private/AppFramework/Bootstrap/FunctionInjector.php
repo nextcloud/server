@@ -33,7 +33,6 @@ use ReflectionParameter;
 use function array_map;
 
 class FunctionInjector {
-
 	/** @var ContainerInterface */
 	private $container;
 

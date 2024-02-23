@@ -25,8 +25,8 @@
 import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 
-import PersonalSettings from './views/PersonalSettings'
-import store from './store'
+import PersonalSettings from './views/PersonalSettings.vue'
+import store from './store.js'
 
 Vue.prototype.t = t
 

@@ -39,13 +39,13 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array
+	 * @return array{files: array{bigfilechunking: bool, blacklisted_files: array<mixed>}}
 	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
 				'bigfilechunking' => true,
-				'blacklisted_files' => $this->config->getSystemValue('blacklisted_files', ['.htaccess'])
+				'blacklisted_files' => (array)$this->config->getSystemValue('blacklisted_files', ['.htaccess'])
 			],
 		];
 	}

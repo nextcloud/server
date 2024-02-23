@@ -36,14 +36,20 @@ declare(strict_types=1);
  */
 namespace OC;
 
+use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
-use OCP\Log\IDataLogger;
-use function array_merge;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Log\ExceptionSerializer;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUserSession;
+use OCP\Log\BeforeMessageLoggedEvent;
+use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
+use Throwable;
+use function array_merge;
 use function strtr;
 
 /**
@@ -56,21 +62,12 @@ use function strtr;
  * MonoLog is an example implementing this interface.
  */
 class Log implements ILogger, IDataLogger {
-
-	/** @var IWriter */
-	private $logger;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var boolean|null cache the result of the log condition check for the request */
-	private $logConditionSatisfied = null;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-	/** @var IRegistry */
-	private $crashReporters;
+	private IWriter $logger;
+	private ?SystemConfig $config;
+	private ?bool $logConditionSatisfied = null;
+	private ?Normalizer $normalizer;
+	private ?IRegistry $crashReporters;
+	private ?IEventDispatcher $eventDispatcher;
 
 	/**
 	 * @param IWriter $logger The logger that should be used
@@ -78,7 +75,12 @@ class Log implements ILogger, IDataLogger {
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct(IWriter $logger, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
+	public function __construct(
+		IWriter $logger,
+		SystemConfig $config = null,
+		Normalizer $normalizer = null,
+		IRegistry $registry = null
+	) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
@@ -92,6 +94,11 @@ class Log implements ILogger, IDataLogger {
 			$this->normalizer = $normalizer;
 		}
 		$this->crashReporters = $registry;
+		$this->eventDispatcher = null;
+	}
+
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -210,6 +217,16 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
 
+		if ($this->eventDispatcher) {
+			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
+		}
+
+		$hasBacktrace = isset($entry['exception']);
+		$logBacktrace = $this->config->getValue('log.backtrace', false);
+		if (!$hasBacktrace && $logBacktrace) {
+			$entry['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
+
 		try {
 			if ($level >= $minLevel) {
 				$this->writeLog($app, $entry, $level);
@@ -228,7 +245,7 @@ class Log implements ILogger, IDataLogger {
 					$this->crashReporters->delegateBreadcrumb($entry['message'], 'log', $context);
 				}
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -244,14 +261,13 @@ class Log implements ILogger, IDataLogger {
 			// default to false to just process this once per request
 			$this->logConditionSatisfied = false;
 			if (!empty($logCondition)) {
-
 				// check for secret token in the request
 				if (isset($logCondition['shared_secret'])) {
 					$request = \OC::$server->getRequest();
 
 					if ($request->getMethod() === 'PUT' &&
-						strpos($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false &&
-						strpos($request->getHeader('Content-Type'), 'application/json') === false) {
+						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
+						!str_contains($request->getHeader('Content-Type'), 'application/json')) {
 						$logSecretRequest = '';
 					} else {
 						$logSecretRequest = $request->getParam('log_secret', '');
@@ -265,10 +281,13 @@ class Log implements ILogger, IDataLogger {
 
 				// check for user
 				if (isset($logCondition['users'])) {
-					$user = \OC::$server->getUserSession()->getUser();
+					$user = \OCP\Server::get(IUserSession::class)->getUser();
 
-					// if the user matches set the log condition to satisfied
-					if ($user !== null && in_array($user->getUID(), $logCondition['users'], true)) {
+					if ($user === null) {
+						// User is not known for this request yet
+						$this->logConditionSatisfied = null;
+					} elseif (in_array($user->getUID(), $logCondition['users'], true)) {
+						// if the user matches set the log condition to satisfied
 						$this->logConditionSatisfied = true;
 					}
 				}
@@ -300,19 +319,24 @@ class Log implements ILogger, IDataLogger {
 	/**
 	 * Logs an exception very detailed
 	 *
-	 * @param \Exception|\Throwable $exception
+	 * @param Exception|Throwable $exception
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException(\Throwable $exception, array $context = []) {
+	public function logException(Throwable $exception, array $context = []) {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
+		$minLevel = $this->getLogLevel($context);
+		if ($level < $minLevel && ($this->crashReporters === null || !$this->crashReporters->hasReporters())) {
+			return;
+		}
+
 		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
 		try {
-			$serializer = new ExceptionSerializer($this->config);
-		} catch (\Throwable $e) {
+			$serializer = $this->getSerializer();
+		} catch (Throwable $e) {
 			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
 			return;
 		}
@@ -320,11 +344,14 @@ class Log implements ILogger, IDataLogger {
 		unset($data['app']);
 		unset($data['level']);
 		$data = array_merge($serializer->serializeException($exception), $data);
-		$data = $this->interpolateMessage($data, $context['message'] ?? '--', 'CustomMessage');
+		$data = $this->interpolateMessage($data, isset($context['message']) && $context['message'] !== '' ? $context['message'] : ('Exception thrown: ' . get_class($exception)), 'CustomMessage');
 
-		$minLevel = $this->getLogLevel($context);
 
 		array_walk($context, [$this->normalizer, 'format']);
+
+		if ($this->eventDispatcher) {
+			$this->eventDispatcher->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
+		}
 
 		try {
 			if ($level >= $minLevel) {
@@ -338,7 +365,7 @@ class Log implements ILogger, IDataLogger {
 			if (!is_null($this->crashReporters)) {
 				$this->crashReporters->delegateReport($exception, $context);
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -361,8 +388,9 @@ class Log implements ILogger, IDataLogger {
 			}
 
 			$context['level'] = $level;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
+			error_log('Error when trying to log exception: ' . $e->getMessage() . ' ' . $e->getTraceAsString());
 		}
 	}
 
@@ -395,10 +423,32 @@ class Log implements ILogger, IDataLogger {
 		foreach ($context as $key => $val) {
 			$fullKey = '{' . $key . '}';
 			$replace[$fullKey] = $val;
-			if (strpos($message, $fullKey) !== false) {
+			if (str_contains($message, $fullKey)) {
 				$usedContextKeys[$key] = true;
 			}
 		}
 		return array_merge(array_diff_key($context, $usedContextKeys), [$messageKey => strtr($message, $replace)]);
+	}
+
+	/**
+	 * @throws Throwable
+	 */
+	protected function getSerializer(): ExceptionSerializer {
+		$serializer = new ExceptionSerializer($this->config);
+		try {
+			/** @var Coordinator $coordinator */
+			$coordinator = \OCP\Server::get(Coordinator::class);
+			foreach ($coordinator->getRegistrationContext()->getSensitiveMethods() as $registration) {
+				$serializer->enlistSensitiveMethods($registration->getName(), $registration->getValue());
+			}
+			// For not every app might be initialized at this time, we cannot assume that the return value
+			// of getSensitiveMethods() is complete. Running delegates in Coordinator::registerApps() is
+			// not possible due to dependencies on the one hand. On the other it would work only with
+			// adding public methods to the PsrLoggerAdapter and this class.
+			// Thus, serializer cannot be a property.
+		} catch (Throwable $t) {
+			// ignore app-defined sensitive methods in this case - they weren't loaded anyway
+		}
+		return $serializer;
 	}
 }

@@ -32,8 +32,8 @@ namespace OCP\BackgroundJob;
  * This interface provides functions to register background jobs
  *
  * To create a new background job create a new class that inherits from either
- * \OC\BackgroundJob\Job, \OC\BackgroundJob\QueuedJob or
- * \OC\BackgroundJob\TimedJob and register it using ->add($job, $argument),
+ * \OCP\BackgroundJob\Job, \OCP\BackgroundJob\QueuedJob or
+ * \OCP\BackgroundJob\TimedJob and register it using ->add($job, $argument),
  * $argument will be passed to the run() function of the job when the job is
  * executed.
  *
@@ -52,10 +52,23 @@ interface IJobList {
 	 * Add a job to the list
 	 *
 	 * @param IJob|class-string<IJob> $job
-	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
+	 * @param mixed $argument The argument to be passed to $job->run() when the job is executed
 	 * @since 7.0.0
 	 */
 	public function add($job, $argument = null): void;
+
+	/**
+	 * Add a job to the list but only run it after the given timestamp
+	 *
+	 * For cron background jobs this means the job will likely run shortly after the timestamp
+	 * has been reached. For ajax background jobs the job might only run when users are active
+	 * on the instance again.
+	 *
+	 * @param class-string<IJob> $job
+	 * @param mixed $argument The serializable argument to be passed to $job->run() when the job is executed
+	 * @since 28.0.0
+	 */
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void;
 
 	/**
 	 * Remove a job from the list
@@ -76,23 +89,23 @@ interface IJobList {
 	public function has($job, $argument): bool;
 
 	/**
-	 * get all jobs in the list
+	 * Get jobs matching the search
 	 *
-	 * @return IJob[]
-	 * @since 7.0.0
-	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances. Use getJobs instead.
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return array<IJob>
+	 * @since 25.0.0
+	 * @deprecated 26.0.0 Use getJobsIterator instead to avoid duplicated job objects
 	 */
-	public function getAll(): array;
+	public function getJobs($job, ?int $limit, int $offset): array;
 
 	/**
 	 * Get jobs matching the search
 	 *
 	 * @param IJob|class-string<IJob>|null $job
-	 * @return IJob[]
-	 * @since 25.0.0
+	 * @return iterable<IJob>
+	 * @since 26.0.0
 	 */
-	public function getJobs($job, ?int $limit, int $offset): array;
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable;
 
 	/**
 	 * get the next job in the list
@@ -145,4 +158,14 @@ interface IJobList {
 	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void;
+
+	/**
+	 * Checks whether a job of the passed class was reserved to run
+	 * in the last 6h
+	 *
+	 * @param string|null $className
+	 * @return bool
+	 * @since 27.0.0
+	 */
+	public function hasReservedJob(?string $className): bool;
 }

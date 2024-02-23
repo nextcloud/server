@@ -35,7 +35,6 @@ namespace OCP\OCS;
  * @since 12.0.0
  */
 interface IDiscoveryService {
-
 	/**
 	 * Discover OCS end-points
 	 *

@@ -64,7 +64,7 @@ class CalendarTest extends TestCase {
 			});
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
@@ -82,12 +82,10 @@ class CalendarTest extends TestCase {
 	}
 
 
-	public function testDeleteFromGroup() {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
-
+	public function testDeleteFromGroup(): void {
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
-		$backend->expects($this->never())->method('updateShares');
+		$backend->expects($this->once())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:group2']
 		]);
@@ -101,7 +99,7 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
-	public function testDeleteOwn() {
+	public function testDeleteOwn(): void {
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->createMock(CalDavBackend::class);
 		$backend->expects($this->never())->method('updateShares');
@@ -122,7 +120,7 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
-	public function testDeleteBirthdayCalendar() {
+	public function testDeleteBirthdayCalendar(): void {
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->createMock(CalDavBackend::class);
 		$backend->expects($this->once())->method('deleteCalendar')
@@ -173,7 +171,7 @@ class CalendarTest extends TestCase {
 	/**
 	 * @dataProvider dataPropPatch
 	 */
-	public function testPropPatch($ownerPrincipal, $principalUri, $mutations, $shared) {
+	public function testPropPatch($ownerPrincipal, $principalUri, $mutations, $shared): void {
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
@@ -197,7 +195,7 @@ class CalendarTest extends TestCase {
 	/**
 	 * @dataProvider providesReadOnlyInfo
 	 */
-	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default') {
+	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default'): void {
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
@@ -300,7 +298,7 @@ class CalendarTest extends TestCase {
 	 * @param int $expectedChildren
 	 * @param bool $isShared
 	 */
-	public function testPrivateClassification($expectedChildren, $isShared) {
+	public function testPrivateClassification($expectedChildren, $isShared): void {
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
@@ -342,7 +340,7 @@ class CalendarTest extends TestCase {
 	 * @param int $expectedChildren
 	 * @param bool $isShared
 	 */
-	public function testConfidentialClassification($expectedChildren, $isShared) {
+	public function testConfidentialClassification($expectedChildren, $isShared): void {
 		$start = '20160609';
 		$end = '20160610';
 

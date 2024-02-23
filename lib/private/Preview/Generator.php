@@ -29,6 +29,7 @@
  */
 namespace OC\Preview;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
@@ -40,12 +41,13 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\IStreamImage;
+use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Generator {
+	public const SEMAPHORE_ID_ALL = 0x0a11;
+	public const SEMAPHORE_ID_NEW = 0x07ea;
 
 	/** @var IPreview */
 	private $previewManager;
@@ -55,22 +57,15 @@ class Generator {
 	private $appData;
 	/** @var GeneratorHelper */
 	private $helper;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/**
-	 * @param IConfig $config
-	 * @param IPreview $previewManager
-	 * @param IAppData $appData
-	 * @param GeneratorHelper $helper
-	 * @param EventDispatcherInterface $eventDispatcher
-	 */
 	public function __construct(
 		IConfig $config,
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		EventDispatcherInterface $eventDispatcher
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
@@ -90,7 +85,7 @@ class Generator {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mode
-	 * @param string $mimeType
+	 * @param string|null $mimeType
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
@@ -102,10 +97,14 @@ class Generator {
 			'crop' => $crop,
 			'mode' => $mode,
 		];
-		$this->eventDispatcher->dispatch(
-			IPreview::EVENT,
-			new GenericEvent($file, $specification)
-		);
+
+		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
+			$file,
+			$width,
+			$height,
+			$crop,
+			$mode,
+		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType);
@@ -132,31 +131,16 @@ class Generator {
 		}
 
 		$previewFolder = $this->getPreviewFolder($file);
+		// List every existing preview first instead of trying to find them one by one
+		$previewFiles = $previewFolder->getDirectoryListing();
 
 		$previewVersion = '';
 		if ($file instanceof IVersionedPreviewFile) {
 			$previewVersion = $file->getPreviewVersion() . '-';
 		}
 
-		// If imaginary is enabled, and we request a small thumbnail,
-		// let's not generate the max preview for performance reasons
-		if (count($specifications) === 1
-			&& ($specifications[0]['width'] <= 256 || $specifications[0]['height'] <= 256)
-			&& preg_match(Imaginary::supportedMimeTypes(), $mimeType)
-			&& $this->config->getSystemValueString('preview_imaginary_url', 'invalid') !== 'invalid') {
-			$crop = $specifications[0]['crop'] ?? false;
-			$preview = $this->getSmallImagePreview($previewFolder, $file, $mimeType, $previewVersion, $crop);
-
-			if ($preview->getSize() === 0) {
-				$preview->delete();
-				throw new NotFoundException('Cached preview size 0, invalid!');
-			}
-
-			return $preview;
-		}
-
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType, $previewVersion);
+		$maxPreview = $this->getMaxPreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion);
 		$maxPreviewImage = null; // only load the image when we need it
 		if ($maxPreview->getSize() === 0) {
 			$maxPreview->delete();
@@ -164,6 +148,10 @@ class Generator {
 		}
 
 		[$maxWidth, $maxHeight] = $this->getPreviewSize($maxPreview, $previewVersion);
+
+		if ($maxWidth <= 0 || $maxHeight <= 0) {
+			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
+		}
 
 		$preview = null;
 
@@ -192,7 +180,7 @@ class Generator {
 			// Try to get a cached preview. Else generate (and store) one
 			try {
 				try {
-					$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
+					$preview = $this->getCachedPreview($previewFiles, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
 				} catch (NotFoundException $e) {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
 						throw new NotFoundException();
@@ -203,6 +191,8 @@ class Generator {
 					}
 
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+					// New file, augment our array
+					$previewFiles[] = $preview;
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException("", 0, $e);
@@ -225,30 +215,129 @@ class Generator {
 	}
 
 	/**
-	 * Generate a small image straight away without generating a max preview first
-	 * Preview generated is 256x256
+	 * Acquire a semaphore of the specified id and concurrency, blocking if necessary.
+	 * Return an identifier of the semaphore on success, which can be used to release it via
+	 * {@see Generator::unguardWithSemaphore()}.
 	 *
+	 * @param int $semId
+	 * @param int $concurrency
+	 * @return false|\SysvSemaphore the semaphore on success or false on failure
+	 */
+	public static function guardWithSemaphore(int $semId, int $concurrency) {
+		if (!extension_loaded('sysvsem')) {
+			return false;
+		}
+		$sem = sem_get($semId, $concurrency);
+		if ($sem === false) {
+			return false;
+		}
+		if (!sem_acquire($sem)) {
+			return false;
+		}
+		return $sem;
+	}
+
+	/**
+	 * Releases the semaphore acquired from {@see Generator::guardWithSemaphore()}.
+	 *
+	 * @param false|\SysvSemaphore $semId the semaphore identifier returned by guardWithSemaphore
+	 * @return bool
+	 */
+	public static function unguardWithSemaphore(false|\SysvSemaphore $semId): bool {
+		if ($semId === false || !($semId instanceof \SysvSemaphore)) {
+			return false;
+		}
+		return sem_release($semId);
+	}
+
+	/**
+	 * Get the number of concurrent threads supported by the host.
+	 *
+	 * @return int number of concurrent threads, or 0 if it cannot be determined
+	 */
+	public static function getHardwareConcurrency(): int {
+		static $width;
+
+		if (!isset($width)) {
+			if (function_exists('ini_get')) {
+				$openBasedir = ini_get('open_basedir');
+				if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
+					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
+				} else {
+					$width = 0;
+				}
+			} else {
+				$width = 0;
+			}
+		}
+		return $width;
+	}
+
+	/**
+	 * Get number of concurrent preview generations from system config
+	 *
+	 * Two config entries, `preview_concurrency_new` and `preview_concurrency_all`,
+	 * are available. If not set, the default values are determined with the hardware concurrency
+	 * of the host. In case the hardware concurrency cannot be determined, or the user sets an
+	 * invalid value, fallback values are:
+	 * For new images whose previews do not exist and need to be generated, 4;
+	 * For all preview generation requests, 8.
+	 * Value of `preview_concurrency_all` should be greater than or equal to that of
+	 * `preview_concurrency_new`, otherwise, the latter is returned.
+	 *
+	 * @param string $type either `preview_concurrency_new` or `preview_concurrency_all`
+	 * @return int number of concurrent preview generations, or -1 if $type is invalid
+	 */
+	public function getNumConcurrentPreviews(string $type): int {
+		static $cached = array();
+		if (array_key_exists($type, $cached)) {
+			return $cached[$type];
+		}
+
+		$hardwareConcurrency = self::getHardwareConcurrency();
+		switch ($type) {
+			case "preview_concurrency_all":
+				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
+				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
+				$concurrency_new = $this->getNumConcurrentPreviews("preview_concurrency_new");
+				$cached[$type] = max($concurrency_all, $concurrency_new);
+				break;
+			case "preview_concurrency_new":
+				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
+				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
+				break;
+			default:
+				return -1;
+		}
+		return $cached[$type];
+	}
+
+	/**
+	 * @param ISimpleFolder $previewFolder
+	 * @param ISimpleFile[] $previewFiles
+	 * @param File $file
+	 * @param string $mimeType
+	 * @param string $prefix
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	private function getSmallImagePreview(ISimpleFolder $previewFolder, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
-		$nodes = $previewFolder->getDirectoryListing();
-
-		foreach ($nodes as $node) {
+	private function getMaxPreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, $mimeType, $prefix) {
+		// We don't know the max preview size, so we can't use getCachedPreview.
+		// It might have been generated with a higher resolution than the current value.
+		foreach ($previewFiles as $node) {
 			$name = $node->getName();
-			if (($prefix === '' || str_starts_with($name, $prefix))) {
-				// Prefix match
-				if (str_starts_with($name, $prefix . '256-256-crop') && $crop) {
-					// Cropped image
-					return $node;
-				}
-
-				if (str_starts_with($name, $prefix . '256-256.') && !$crop) {
-					// Uncropped image
-					return $node;
-				}
+			if (($prefix === '' || str_starts_with($name, $prefix)) && strpos($name, 'max')) {
+				return $node;
 			}
 		}
 
+		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
+		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
+
+		return $this->generateProviderPreview($previewFolder, $file, $maxWidth, $maxHeight, false, true, $mimeType, $prefix);
+	}
+
+	private function generateProviderPreview(ISimpleFolder $previewFolder, File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, string $prefix) {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -266,21 +355,19 @@ class Generator {
 					continue;
 				}
 
-				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, $crop);
+				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+				try {
+					$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
+				} finally {
+					self::unguardWithSemaphore($sem);
+				}
 
 				if (!($preview instanceof IImage)) {
 					continue;
 				}
 
-				// Try to get the extension.
-				try {
-					$ext = $this->getExtention($preview->dataMimeType());
-				} catch (\InvalidArgumentException $e) {
-					// Just continue to the next iteration if this preview doesn't have a valid mimetype
-					continue;
-				}
-
-				$path = $this->generatePath(256, 256, $crop, $preview->dataMimeType(), $prefix);
+				$path = $this->generatePath($preview->width(), $preview->height(), $crop, $max, $preview->dataMimeType(), $prefix);
 				try {
 					$file = $previewFolder->newFile($path);
 					if ($preview instanceof IStreamImage) {
@@ -300,77 +387,6 @@ class Generator {
 	}
 
 	/**
-	 * @param ISimpleFolder $previewFolder
-	 * @param File $file
-	 * @param string $mimeType
-	 * @param string $prefix
-	 * @return ISimpleFile
-	 * @throws NotFoundException
-	 */
-	private function getMaxPreview(ISimpleFolder $previewFolder, File $file, $mimeType, $prefix) {
-		$nodes = $previewFolder->getDirectoryListing();
-
-		foreach ($nodes as $node) {
-			$name = $node->getName();
-			if (($prefix === '' || strpos($name, $prefix) === 0) && strpos($name, 'max')) {
-				return $node;
-			}
-		}
-
-		$previewProviders = $this->previewManager->getProviders();
-		foreach ($previewProviders as $supportedMimeType => $providers) {
-			// Filter out providers that does not support this mime
-			if (!preg_match($supportedMimeType, $mimeType)) {
-				continue;
-			}
-
-			foreach ($providers as $providerClosure) {
-				$provider = $this->helper->getProvider($providerClosure);
-				if (!($provider instanceof IProviderV2)) {
-					continue;
-				}
-
-				if (!$provider->isAvailable($file)) {
-					continue;
-				}
-
-				$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
-				$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
-
-				$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
-
-				if (!($preview instanceof IImage)) {
-					continue;
-				}
-
-				// Try to get the extention.
-				try {
-					$ext = $this->getExtention($preview->dataMimeType());
-				} catch (\InvalidArgumentException $e) {
-					// Just continue to the next iteration if this preview doesn't have a valid mimetype
-					continue;
-				}
-
-				$path = $prefix . (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
-				try {
-					$file = $previewFolder->newFile($path);
-					if ($preview instanceof IStreamImage) {
-						$file->putContent($preview->resource());
-					} else {
-						$file->putContent($preview->data());
-					}
-				} catch (NotPermittedException $e) {
-					throw new NotFoundException();
-				}
-
-				return $file;
-			}
-		}
-
-		throw new NotFoundException();
-	}
-
-	/**
 	 * @param ISimpleFile $file
 	 * @param string $prefix
 	 * @return int[]
@@ -384,17 +400,21 @@ class Generator {
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
+	 * @param bool $max
 	 * @param string $mimeType
 	 * @param string $prefix
 	 * @return string
 	 */
-	private function generatePath($width, $height, $crop, $mimeType, $prefix) {
+	private function generatePath($width, $height, $crop, $max, $mimeType, $prefix) {
 		$path = $prefix . (string)$width . '-' . (string)$height;
 		if ($crop) {
 			$path .= '-crop';
 		}
+		if ($max) {
+			$path .= '-max';
+		}
 
-		$ext = $this->getExtention($mimeType);
+		$ext = $this->getExtension($mimeType);
 		$path .= '.' . $ext;
 		return $path;
 	}
@@ -410,7 +430,6 @@ class Generator {
 	 * @return int[]
 	 */
 	private function calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight) {
-
 		/*
 		 * If we are not cropping we have to make sure the requested image
 		 * respects the aspect ratio of the original.
@@ -507,30 +526,36 @@ class Generator {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
 		}
 
-		if ($crop) {
-			if ($height !== $preview->height() && $width !== $preview->width()) {
-				//Resize
-				$widthR = $preview->width() / $width;
-				$heightR = $preview->height() / $height;
+		$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+		$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+		try {
+			if ($crop) {
+				if ($height !== $preview->height() && $width !== $preview->width()) {
+					//Resize
+					$widthR = $preview->width() / $width;
+					$heightR = $preview->height() / $height;
 
-				if ($widthR > $heightR) {
-					$scaleH = $height;
-					$scaleW = $maxWidth / $heightR;
-				} else {
-					$scaleH = $maxHeight / $widthR;
-					$scaleW = $width;
+					if ($widthR > $heightR) {
+						$scaleH = $height;
+						$scaleW = $maxWidth / $heightR;
+					} else {
+						$scaleH = $maxHeight / $widthR;
+						$scaleW = $width;
+					}
+					$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
 				}
-				$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
+				$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
+				$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
+				$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
+			} else {
+				$preview = $maxPreview->resizeCopy(max($width, $height));
 			}
-			$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
-			$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
-			$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
-		} else {
-			$preview = $maxPreview->resizeCopy(max($width, $height));
+		} finally {
+			self::unguardWithSemaphore($sem);
 		}
 
 
-		$path = $this->generatePath($width, $height, $crop, $preview->dataMimeType(), $prefix);
+		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $prefix);
 		try {
 			$file = $previewFolder->newFile($path);
 			$file->putContent($preview->data());
@@ -542,7 +567,7 @@ class Generator {
 	}
 
 	/**
-	 * @param ISimpleFolder $previewFolder
+	 * @param ISimpleFile[] $files Array of FileInfo, as the result of getDirectoryListing()
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
@@ -552,10 +577,14 @@ class Generator {
 	 *
 	 * @throws NotFoundException
 	 */
-	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop, $mimeType, $prefix) {
-		$path = $this->generatePath($width, $height, $crop, $mimeType, $prefix);
-
-		return $previewFolder->getFile($path);
+	private function getCachedPreview($files, $width, $height, $crop, $mimeType, $prefix) {
+		$path = $this->generatePath($width, $height, $crop, false, $mimeType, $prefix);
+		foreach ($files as $file) {
+			if ($file->getName() === $path) {
+				return $file;
+			}
+		}
+		throw new NotFoundException();
 	}
 
 	/**
@@ -586,12 +615,14 @@ class Generator {
 	 * @return null|string
 	 * @throws \InvalidArgumentException
 	 */
-	private function getExtention($mimeType) {
+	private function getExtension($mimeType) {
 		switch ($mimeType) {
 			case 'image/png':
 				return 'png';
 			case 'image/jpeg':
 				return 'jpg';
+			case 'image/webp':
+				return 'webp';
 			case 'image/gif':
 				return 'gif';
 			default:

@@ -45,7 +45,6 @@ use OCP\EventDispatcher\Event;
  * @since 17.0.0
  */
 class AddContentSecurityPolicyEvent extends Event {
-
 	/** @var ContentSecurityPolicyManager */
 	private $policyManager;
 

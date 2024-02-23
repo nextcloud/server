@@ -42,6 +42,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
@@ -55,6 +56,8 @@ class NewUserMailHelperTest extends TestCase {
 	private $urlGenerator;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $l10nFactory;
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
@@ -259,7 +262,7 @@ class NewUserMailHelperTest extends TestCase {
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your username is: john</p>
+						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your Login is: john</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -360,14 +363,16 @@ Welcome aboard
 
 Welcome to your TestCloud account, you can add, protect, and share your data.
 
-Your username is: john
+Your Login is: john
 
 
 Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToken
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -493,7 +498,7 @@ EOF;
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your username is: john</p>
+						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your Login is: john</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -594,14 +599,16 @@ Welcome aboard John Doe
 
 Welcome to your TestCloud account, you can add, protect, and share your data.
 
-Your username is: john
+Your Login is: john
 
 
 Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -822,7 +829,9 @@ Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -859,6 +868,10 @@ EOF;
 			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
+		$message
+			->expects($this->once())
+			->method('setAutoSubmitted')
+			->with(AutoSubmitted::VALUE_AUTO_GENERATED);
 		$this->defaults
 			->expects($this->once())
 			->method('getName')

@@ -34,7 +34,6 @@ use OCP\User\Events\UserDeletedEvent;
  * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
  */
 class UserDeletedStoreCleanupListener implements IEventListener {
-
 	/** @var Registry */
 	private $registry;
 

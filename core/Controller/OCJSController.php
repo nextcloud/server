@@ -8,6 +8,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,8 @@ use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -44,22 +47,25 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class OCJSController extends Controller {
 	private JSConfigHelper $helper;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IFactory $l10nFactory,
-								Defaults $defaults,
-								IAppManager $appManager,
-								ISession $session,
-								IUserSession $userSession,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator,
-								CapabilitiesManager $capabilitiesManager,
-								IInitialStateService $initialStateService) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IFactory $l10nFactory,
+		Defaults $defaults,
+		IAppManager $appManager,
+		ISession $session,
+		IUserSession $userSession,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IniGetWrapper $iniWrapper,
+		IURLGenerator $urlGenerator,
+		CapabilitiesManager $capabilitiesManager,
+		IInitialStateService $initialStateService,
+	) {
 		parent::__construct($appName, $request);
 
 		$this->helper = new JSConfigHelper(
@@ -82,6 +88,7 @@ class OCJSController extends Controller {
 	 * @NoTwoFactorRequired
 	 * @PublicPage
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/js/oc.js')]
 	public function getConfig(): DataDisplayResponse {
 		$data = $this->helper->getConfig();
 

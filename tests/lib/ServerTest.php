@@ -151,7 +151,7 @@ class ServerTest extends \Test\TestCase {
 			['UserSession', '\OCP\IUserSession'],
 
 			['TagMapper', '\OC\Tagging\TagMapper'],
-			['TagMapper', '\OCP\AppFramework\Db\Mapper'],
+			['TagMapper', '\OCP\AppFramework\Db\QBMapper'],
 			['TagManager', '\OC\TagManager'],
 			['TagManager', '\OCP\ITagManager'],
 			['TempManager', '\OC\TempManager'],
@@ -177,11 +177,6 @@ class ServerTest extends \Test\TestCase {
 	public function testGetCertificateManager() {
 		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
 		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
-	}
-
-	public function testCreateEventSource() {
-		$this->assertInstanceOf('\OC_EventSource', $this->server->createEventSource(), 'service returned by "createEventSource" did not return the right class');
-		$this->assertInstanceOf('\OCP\IEventSource', $this->server->createEventSource(), 'service returned by "createEventSource" did not return the right class');
 	}
 
 	public function testOverwriteDefaultCommentsManager() {

@@ -28,6 +28,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\App\IAppManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -40,10 +41,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class ResetPassword extends Base {
-	protected IUserManager $userManager;
-
-	public function __construct(IUserManager $userManager) {
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IUserManager $userManager,
+		private IAppManager $appManager,
+	) {
 		parent::__construct();
 	}
 
@@ -54,7 +55,7 @@ class ResetPassword extends Base {
 			->addArgument(
 				'user',
 				InputArgument::REQUIRED,
-				'Username to reset password'
+				'Login to reset password'
 			)
 			->addOption(
 				'password-from-env',
@@ -84,7 +85,7 @@ class ResetPassword extends Base {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 
-			if (\OCP\App::isEnabled('encryption')) {
+			if ($this->appManager->isEnabledForUser('encryption', $user)) {
 				$output->writeln(
 					'<error>Warning: Resetting the password when using encryption will result in data loss!</error>'
 				);

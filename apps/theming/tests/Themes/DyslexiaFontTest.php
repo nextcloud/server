@@ -22,13 +22,13 @@
  */
 namespace OCA\Theming\Tests\Service;
 
-use OC\App\AppManager;
 use OC\Route\Router;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -39,10 +39,11 @@ use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-
 class DyslexiaFontTest extends TestCase {
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var ImageManager|MockObject */
@@ -51,19 +52,24 @@ class DyslexiaFontTest extends TestCase {
 	private $config;
 	/** @var IL10N|MockObject */
 	private $l10n;
+	/** @var IAppManager|MockObject */
+	private $appManager;
 
 	private DyslexiaFont $dyslexiaFont;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$util = new Util(
 			$this->config,
-			$this->createMock(AppManager::class),
-			$this->createMock(IAppData::class)
+			$this->appManager,
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$userSession = $this->createMock(IUserSession::class);
@@ -83,6 +89,11 @@ class DyslexiaFontTest extends TestCase {
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
 
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+
 		$this->l10n
 			->expects($this->any())
 			->method('t')
@@ -93,10 +104,12 @@ class DyslexiaFontTest extends TestCase {
 		$this->dyslexiaFont = new DyslexiaFont(
 			$util,
 			$this->themingDefaults,
+			$this->userSession,
 			$this->urlGenerator,
 			$this->imageManager,
 			$this->config,
 			$this->l10n,
+			$this->appManager,
 		);
 
 		parent::setUp();
@@ -142,7 +155,7 @@ class DyslexiaFontTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestGetCustomCss
-	 * 
+	 *
 	 * Ensure the fonts are always loaded from the web root
 	 * despite having url rewriting enabled or not
 	 *
@@ -155,7 +168,7 @@ class DyslexiaFontTest extends TestCase {
 			->method('getSystemValue')
 			->with('htaccess.IgnoreFrontController', false)
 			->willReturn($prettyUrlsEnabled);
-		
+
 		$this->assertStringContainsString("'$webRoot/apps/theming/fonts/OpenDyslexic-Regular.woff'", $this->dyslexiaFont->getCustomCss());
 		$this->assertStringNotContainsString('index.php', $this->dyslexiaFont->getCustomCss());
 	}

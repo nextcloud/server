@@ -42,7 +42,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
-
 	/** @var IAppManager|MockObject */
 	private $appManager;
 

@@ -1,6 +1,6 @@
 <?php /** @var array $_ */ ?>
 
-<div class="error">
+<div class="guest-box">
 	<h2><?php p($l->t('Access through untrusted domain')); ?></h2>
 
 	<p>

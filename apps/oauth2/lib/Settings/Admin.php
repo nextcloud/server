@@ -28,21 +28,21 @@ namespace OCA\OAuth2\Settings;
 
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IURLGenerator;
+use OCP\Security\ICrypto;
 use OCP\Settings\ISettings;
+use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
 
-	/** @var IInitialStateService */
-	private $initialStateService;
-
-	/** @var ClientMapper */
-	private $clientMapper;
-
-	public function __construct(IInitialStateService $initialStateService,
-								ClientMapper $clientMapper) {
-		$this->initialStateService = $initialStateService;
-		$this->clientMapper = $clientMapper;
+	public function __construct(
+		private IInitialState $initialState,
+		private ClientMapper $clientMapper,
+		private IURLGenerator $urlGenerator,
+		private ICrypto $crypto,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {
@@ -50,15 +50,21 @@ class Admin implements ISettings {
 		$result = [];
 
 		foreach ($clients as $client) {
-			$result[] = [
-				'id' => $client->getId(),
-				'name' => $client->getName(),
-				'redirectUri' => $client->getRedirectUri(),
-				'clientId' => $client->getClientIdentifier(),
-				'clientSecret' => $client->getSecret(),
-			];
+			try {
+				$secret = $this->crypto->decrypt($client->getSecret());
+				$result[] = [
+					'id' => $client->getId(),
+					'name' => $client->getName(),
+					'redirectUri' => $client->getRedirectUri(),
+					'clientId' => $client->getClientIdentifier(),
+					'clientSecret' => $secret,
+				];
+			} catch (\Exception $e) {
+				$this->logger->error('[Settings] OAuth client secret decryption error', ['exception' => $e]);
+			}
 		}
-		$this->initialStateService->provideInitialState('oauth2', 'clients', $result);
+		$this->initialState->provideInitialState('clients', $result);
+		$this->initialState->provideInitialState('oauth2-doc-link', $this->urlGenerator->linkToDocs('admin-oauth2'));
 
 		return new TemplateResponse(
 			'oauth2',

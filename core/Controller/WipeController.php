@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,24 +26,21 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IRequest;
 
 class WipeController extends Controller {
-
-	/** @var RemoteWipe */
-	private $remoteWipe;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								RemoteWipe $remoteWipe) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private RemoteWipe $remoteWipe,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**
@@ -52,10 +50,16 @@ class WipeController extends Controller {
 	 *
 	 * @AnonRateThrottle(limit=10, period=300)
 	 *
-	 * @param string $token
+	 * Check if the device should be wiped
 	 *
-	 * @return JSONResponse
+	 * @param string $token App password
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, array{wipe: bool}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Device should be wiped
+	 * 404: Device should not be wiped
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
 	public function checkWipe(string $token): JSONResponse {
 		try {
 			if ($this->remoteWipe->start($token)) {
@@ -78,10 +82,16 @@ class WipeController extends Controller {
 	 *
 	 * @AnonRateThrottle(limit=10, period=300)
 	 *
-	 * @param string $token
+	 * Finish the wipe
 	 *
-	 * @return JSONResponse
+	 * @param string $token App password
+	 *
+	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Wipe finished successfully
+	 * 404: Device should not be wiped
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
 	public function wipeDone(string $token): JSONResponse {
 		try {
 			if ($this->remoteWipe->finish($token)) {

@@ -20,25 +20,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Theming\Tests\Service;
+namespace OCA\Theming\Tests\Themes;
 
-use OC\App\AppManager;
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
-use Test\TestCase;
 
-
-class DefaultThemeTest extends TestCase {
+class DefaultThemeTest extends AccessibleThemeTestCase {
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var ImageManager|MockObject */
@@ -47,26 +50,39 @@ class DefaultThemeTest extends TestCase {
 	private $config;
 	/** @var IL10N|MockObject */
 	private $l10n;
-
-	private DefaultTheme $defaultTheme;
+	/** @var IAppManager|MockObject */
+	private $appManager;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
-		$util = new Util(
+		$this->util = new Util(
 			$this->config,
-			$this->createMock(AppManager::class),
-			$this->createMock(IAppData::class)
+			$this->appManager,
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getBackground')
+			->willReturn('/apps/' . Application::APP_ID . '/img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
 
 		$this->l10n
 			->expects($this->any())
@@ -75,13 +91,22 @@ class DefaultThemeTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
-		$this->defaultTheme = new DefaultTheme(
-			$util,
+		$this->urlGenerator
+			->expects($this->any())
+			->method('imagePath')
+			->willReturnCallback(function ($app = 'core', $filename = '') {
+				return "/$app/img/$filename";
+			});
+
+		$this->theme = new DefaultTheme(
+			$this->util,
 			$this->themingDefaults,
+			$this->userSession,
 			$this->urlGenerator,
 			$this->imageManager,
 			$this->config,
 			$this->l10n,
+			$this->appManager,
 		);
 
 		parent::setUp();
@@ -89,31 +114,31 @@ class DefaultThemeTest extends TestCase {
 
 
 	public function testGetId() {
-		$this->assertEquals('default', $this->defaultTheme->getId());
+		$this->assertEquals('default', $this->theme->getId());
 	}
 
 	public function testGetType() {
-		$this->assertEquals(ITheme::TYPE_THEME, $this->defaultTheme->getType());
+		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
 	public function testGetTitle() {
-		$this->assertEquals('System default theme', $this->defaultTheme->getTitle());
+		$this->assertEquals('System default theme', $this->theme->getTitle());
 	}
 
 	public function testGetEnableLabel() {
-		$this->assertEquals('Enable the system default', $this->defaultTheme->getEnableLabel());
+		$this->assertEquals('Enable the system default', $this->theme->getEnableLabel());
 	}
 
 	public function testGetDescription() {
-		$this->assertEquals('Using the default system appearance.', $this->defaultTheme->getDescription());
+		$this->assertEquals('Using the default system appearance.', $this->theme->getDescription());
 	}
 
 	public function testGetMediaQuery() {
-		$this->assertEquals('', $this->defaultTheme->getMediaQuery());
+		$this->assertEquals('', $this->theme->getMediaQuery());
 	}
 
 	public function testGetCustomCss() {
-		$this->assertEquals('', $this->defaultTheme->getCustomCss());
+		$this->assertEquals('', $this->theme->getCustomCss());
 	}
 
 	/**
@@ -123,12 +148,14 @@ class DefaultThemeTest extends TestCase {
 	public function testThemindDisabledFallbackCss() {
 		// Generate variables
 		$variables = '';
-		foreach ($this->defaultTheme->getCSSVariables() as $variable => $value) {
+		foreach ($this->theme->getCSSVariables() as $variable => $value) {
 			$variables .= "  $variable: $value;" . PHP_EOL;
 		};
 
 		$css = ":root {" . PHP_EOL . "$variables}" . PHP_EOL;
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
+		// Remove comments
+		$fallbackCss = preg_replace('/\s*\/\*[\s\S]*?\*\//m', '', $fallbackCss);
 
 		$this->assertEquals($css, $fallbackCss);
 	}

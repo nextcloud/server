@@ -29,7 +29,6 @@ namespace OCP\Group\Backend;
  * @since 18.0.0
  */
 interface ISetDisplayNameBackend {
-
 	/**
 	 * @param string $gid
 	 * @param string $displayName

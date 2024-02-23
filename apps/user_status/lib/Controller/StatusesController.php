@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,14 +28,21 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Controller;
 
 use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\UserStatus\IUserStatus;
 
+/**
+ * @psalm-import-type UserStatusType from ResponseDefinitions
+ * @psalm-import-type UserStatusPublic from ResponseDefinitions
+ */
 class StatusesController extends OCSController {
 
 	/** @var StatusService */
@@ -48,19 +56,24 @@ class StatusesController extends OCSController {
 	 * @param StatusService $service
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								StatusService $service) {
+		IRequest $request,
+		StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->service = $service;
 	}
 
 	/**
+	 * Find statuses of users
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return DataResponse
+	 * @param int|null $limit Maximum number of statuses to find
+	 * @param int|null $offset Offset for finding statuses
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPublic[], array{}>
+	 *
+	 * 200: Statuses returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses')]
 	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
 
@@ -70,12 +83,17 @@ class StatusesController extends OCSController {
 	}
 
 	/**
+	 * Find the status of a user
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $userId
-	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * @param string $userId ID of the user
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPublic, array{}>
+	 * @throws OCSNotFoundException The user was not found
+	 *
+	 * 200: Status returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses/{userId}')]
 	public function find(string $userId): DataResponse {
 		try {
 			$userStatus = $this->service->findByUserId($userId);
@@ -88,9 +106,10 @@ class StatusesController extends OCSController {
 
 	/**
 	 * @param UserStatus $status
-	 * @return array{userId: string, message: string, icon: string, clearAt: int, status: string}
+	 * @return UserStatusPublic
 	 */
 	private function formatStatus(UserStatus $status): array {
+		/** @var UserStatusType $visibleStatus */
 		$visibleStatus = $status->getStatus();
 		if ($visibleStatus === IUserStatus::INVISIBLE) {
 			$visibleStatus = IUserStatus::OFFLINE;

@@ -30,7 +30,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use Sabre\DAV\PropPatch;
 
 class CachedSubscriptionTest extends \Test\TestCase {
-	public function testGetACL() {
+	public function testGetACL(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -64,7 +64,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		], $calendar->getACL());
 	}
 
-	public function testGetChildACL() {
+	public function testGetChildACL(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -93,7 +93,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		], $calendar->getChildACL());
 	}
 
-	public function testGetOwner() {
+	public function testGetOwner(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -106,7 +106,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertEquals('user1', $calendar->getOwner());
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -123,7 +123,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->delete();
 	}
 
-	public function testPropPatch() {
+	public function testPropPatch(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -141,8 +141,8 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->propPatch($propPatch);
 	}
 
-	
-	public function testGetChild() {
+
+	public function testGetChild(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		$this->expectExceptionMessage('Calendar object not found');
 
@@ -154,17 +154,19 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(2))
 			->method('getCalendarObject')
-			->with(666, 'foo1', 1)
-			->willReturn([
-				'id' => 99,
-				'uri' => 'foo1'
-			]);
-		$backend->expects($this->at(1))
-			->method('getCalendarObject')
-			->with(666, 'foo2', 1)
-			->willReturn(null);
+			->withConsecutive(
+				[666, 'foo1', 1],
+				[666, 'foo2', 1],
+			)
+			->willReturnOnConsecutiveCalls(
+				[
+					'id' => 99,
+					'uri' => 'foo1'
+				],
+				null
+			);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
@@ -174,7 +176,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->getChild('foo2');
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -183,7 +185,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->once())
 			->method('getCalendarObjects')
 			->with(666, 1)
 			->willReturn([
@@ -205,7 +207,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertInstanceOf(CachedSubscriptionObject::class, $res[1]);
 	}
 
-	public function testGetMultipleChildren() {
+	public function testGetMultipleChildren(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -214,7 +216,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->once())
 			->method('getMultipleCalendarObjects')
 			->with(666, ['foo1', 'foo2'], 1)
 			->willReturn([
@@ -236,8 +238,8 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertInstanceOf(CachedSubscriptionObject::class, $res[1]);
 	}
 
-	
-	public function testCreateFile() {
+
+	public function testCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating objects in cached subscription is not allowed');
 
@@ -253,7 +255,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->createFile('foo', []);
 	}
 
-	public function testChildExists() {
+	public function testChildExists(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -262,17 +264,19 @@ class CachedSubscriptionTest extends \Test\TestCase {
 			'uri' => 'cal',
 		];
 
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(2))
 			->method('getCalendarObject')
-			->with(666, 'foo1', 1)
-			->willReturn([
-				'id' => 99,
-				'uri' => 'foo1'
-			]);
-		$backend->expects($this->at(1))
-			->method('getCalendarObject')
-			->with(666, 'foo2', 1)
-			->willReturn(null);
+			->withConsecutive(
+				[666, 'foo1', 1],
+				[666, 'foo2', 1],
+			)
+			->willReturnOnConsecutiveCalls(
+				[
+					'id' => 99,
+					'uri' => 'foo1'
+				],
+				null
+			);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
@@ -280,7 +284,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertEquals(false, $calendar->childExists('foo2'));
 	}
 
-	public function testCalendarQuery() {
+	public function testCalendarQuery(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',

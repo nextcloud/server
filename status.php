@@ -33,6 +33,8 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use Psr\Log\LoggerInterface;
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -62,5 +64,5 @@ try {
 	}
 } catch (Exception $ex) {
 	http_response_code(500);
-	\OC::$server->getLogger()->logException($ex, ['app' => 'remote']);
+	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'remote','exception' => $ex]);
 }

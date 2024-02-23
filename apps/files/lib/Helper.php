@@ -48,7 +48,7 @@ class Helper {
 	public static function buildFileStorageStatistics($dir) {
 		// information about storage capacities
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
-		$l = \OC::$server->getL10N('files');
+		$l = \OCP\Util::getL10N('files');
 		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
 		$maxHumanFileSize = $l->t('Upload (max. %s)', [$maxHumanFileSize]);
@@ -58,8 +58,9 @@ class Helper {
 			'maxHumanFilesize' => $maxHumanFileSize,
 			'freeSpace' => $storageInfo['free'],
 			'quota' => $storageInfo['quota'],
+			'total' => $storageInfo['total'],
 			'used' => $storageInfo['used'],
-			'usedSpacePercent' => (int)$storageInfo['relative'],
+			'usedSpacePercent' => $storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
 			'mountType' => $storageInfo['mountType'],

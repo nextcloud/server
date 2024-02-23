@@ -50,6 +50,7 @@ class FunctionBuilderTest extends TestCase {
 		if ($real) {
 			$this->addDummyData();
 			$query->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+			$query->orderBy('configkey', 'asc');
 		}
 
 		$query->select($query->func()->concat(...$arguments));
@@ -500,22 +501,5 @@ class FunctionBuilderTest extends TestCase {
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(1, $row);
-	}
-
-	public function testCase() {
-		$query = $this->connection->getQueryBuilder();
-
-		$query->select($query->func()->case([
-			['when' => $query->expr()->gt($query->expr()->literal(1, IQueryBuilder::PARAM_INT), $query->expr()->literal(2, IQueryBuilder::PARAM_INT)), 'then' => $query->expr()->literal('first')],
-			['when' => $query->expr()->lt($query->expr()->literal(1, IQueryBuilder::PARAM_INT), $query->expr()->literal(2, IQueryBuilder::PARAM_INT)), 'then' => $query->expr()->literal('second')],
-			['when' => $query->expr()->eq($query->expr()->literal(1, IQueryBuilder::PARAM_INT), $query->expr()->literal(2, IQueryBuilder::PARAM_INT)), 'then' => $query->expr()->literal('third')],
-		], $query->createNamedParameter('else')));
-		$query->from('appconfig')
-			->setMaxResults(1);
-
-		$result = $query->execute();
-		$row = $result->fetchOne();
-		$result->closeCursor();
-		$this->assertEquals('second', $row);
 	}
 }

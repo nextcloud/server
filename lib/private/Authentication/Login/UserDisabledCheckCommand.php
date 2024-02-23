@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class UserDisabledCheckCommand extends ALoginCommand {
-
 	/** @var IUserManager */
 	private $userManager;
 
@@ -39,7 +38,7 @@ class UserDisabledCheckCommand extends ALoginCommand {
 	private $logger;
 
 	public function __construct(IUserManager $userManager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 	}

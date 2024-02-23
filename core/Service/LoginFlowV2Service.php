@@ -26,7 +26,6 @@ declare(strict_types=1);
  */
 namespace OC\Core\Service;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -37,34 +36,22 @@ use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 class LoginFlowV2Service {
-	private LoginFlowV2Mapper $mapper;
-	private ISecureRandom $random;
-	private ITimeFactory $time;
-	private IConfig $config;
-	private ICrypto $crypto;
-	private LoggerInterface $logger;
-	private IProvider $tokenProvider;
-
-	public function __construct(LoginFlowV2Mapper $mapper,
-								ISecureRandom $random,
-								ITimeFactory $time,
-								IConfig $config,
-								ICrypto $crypto,
-								LoggerInterface $logger,
-								IProvider $tokenProvider) {
-		$this->mapper = $mapper;
-		$this->random = $random;
-		$this->time = $time;
-		$this->config = $config;
-		$this->crypto = $crypto;
-		$this->logger = $logger;
-		$this->tokenProvider = $tokenProvider;
+	public function __construct(
+		private LoginFlowV2Mapper $mapper,
+		private ISecureRandom $random,
+		private ITimeFactory $time,
+		private IConfig $config,
+		private ICrypto $crypto,
+		private LoggerInterface $logger,
+		private IProvider $tokenProvider,
+	) {
 	}
 
 	/**

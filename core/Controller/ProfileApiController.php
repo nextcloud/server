@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,6 +28,9 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Core\Db\ProfileConfigMapper;
+use OC\Profile\ProfileManager;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -35,43 +39,47 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OC\Profile\ProfileManager;
 
 class ProfileApiController extends OCSController {
-	private ProfileConfigMapper $configMapper;
-	private ProfileManager $profileManager;
-	private IUserManager $userManager;
-	private IUserSession $userSession;
-
 	public function __construct(
 		IRequest $request,
-		ProfileConfigMapper $configMapper,
-		ProfileManager $profileManager,
-		IUserManager $userManager,
-		IUserSession $userSession
+		private ProfileConfigMapper $configMapper,
+		private ProfileManager $profileManager,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
 	) {
 		parent::__construct('core', $request);
-		$this->configMapper = $configMapper;
-		$this->profileManager = $profileManager;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=40, period=600)
+	 *
+	 * Update the visibility of a parameter
+	 *
+	 * @param string $targetUserId ID of the user
+	 * @param string $paramId ID of the parameter
+	 * @param string $visibility New visibility
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @throws OCSBadRequestException Updating visibility is not possible
+	 * @throws OCSForbiddenException Not allowed to edit other users visibility
+	 * @throws OCSNotFoundException Account not found
+	 *
+	 * 200: Visibility updated successfully
 	 */
+	#[ApiRoute(verb: 'PUT', url: '/{targetUserId}', root: '/profile')]
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();
 		$targetUser = $this->userManager->get($targetUserId);
 
 		if (!$this->userManager->userExists($targetUserId)) {
-			throw new OCSNotFoundException('User does not exist');
+			throw new OCSNotFoundException('Account does not exist');
 		}
 
 		if ($requestingUser !== $targetUser) {
-			throw new OCSForbiddenException('Users can only edit their own visibility settings');
+			throw new OCSForbiddenException('People can only edit their own visibility settings');
 		}
 
 		// Ensure that a profile config is created in the database
@@ -79,7 +87,7 @@ class ProfileApiController extends OCSController {
 		$config = $this->configMapper->get($targetUserId);
 
 		if (!in_array($paramId, array_keys($config->getVisibilityMap()), true)) {
-			throw new OCSBadRequestException('User does not have a profile parameter with ID: ' . $paramId);
+			throw new OCSBadRequestException('Account does not have a profile parameter with ID: ' . $paramId);
 		}
 
 		$config->setVisibility($paramId, $visibility);

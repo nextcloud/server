@@ -30,9 +30,10 @@ use OCP\IDBConnection;
 
 /**
  * @method KnownUser mapRowToEntity(array $row)
+ *
+ * @template-extends QBMapper<KnownUser>
  */
 class KnownUserMapper extends QBMapper {
-
 	/**
 	 * @param IDBConnection $db
 	 */
@@ -49,7 +50,7 @@ class KnownUserMapper extends QBMapper {
 		$query->delete($this->getTableName())
 			->where($query->expr()->eq('known_to', $query->createNamedParameter($knownTo)));
 
-		return (int) $query->execute();
+		return $query->executeStatement();
 	}
 
 	/**
@@ -61,7 +62,7 @@ class KnownUserMapper extends QBMapper {
 		$query->delete($this->getTableName())
 			->where($query->expr()->eq('known_user', $query->createNamedParameter($knownUser)));
 
-		return (int) $query->execute();
+		return $query->executeStatement();
 	}
 
 	/**

@@ -11,7 +11,6 @@ namespace Test\Avatar;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\User\User;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
@@ -19,7 +18,7 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class UserAvatarTest extends \Test\TestCase {
-	/** @var Folder | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var SimpleFolder | \PHPUnit\Framework\MockObject\MockObject */
 	private $folder;
 
 	/** @var \OC\Avatar\UserAvatar */
@@ -91,6 +90,7 @@ class UserAvatarTest extends \Test\TestCase {
 			->willReturnMap([
 				['avatar.jpg', true],
 				['avatar.128.jpg', true],
+				['generated', false],
 			]);
 
 		$expected = new \OC_Image();
@@ -107,6 +107,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', true],
+				['generated', false],
 			]);
 
 		$expected = new \OC_Image();
@@ -122,8 +123,10 @@ class UserAvatarTest extends \Test\TestCase {
 	public function testGetAvatarNoSizeMatch() {
 		$this->folder->method('fileExists')
 			->willReturnMap([
+				['avatar.jpg', false],
 				['avatar.png', true],
 				['avatar.32.png', false],
+				['generated', false],
 			]);
 
 		$expected = new \OC_Image();
@@ -202,12 +205,12 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->folder->method('getDirectoryListing')
 			->willReturn([$avatarFileJPG, $avatarFilePNG, $resizedAvatarFile]);
 
-		$generated = $this->createMock(File::class);
+		$generated = $this->createMock(ISimpleFile::class);
 		$this->folder->method('getFile')
 			->with('generated')
 			->willReturn($generated);
 
-		$newFile = $this->createMock(File::class);
+		$newFile = $this->createMock(ISimpleFile::class);
 		$this->folder->expects($this->once())
 			->method('newFile')
 			->with('avatar.png')
@@ -230,12 +233,12 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testGenerateSvgAvatar() {
-		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64]);
+		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64, false]);
 
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-			<rect width="100%" height="100%" fill="#0082c9"></rect>
-			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">A</text>
+			<rect width="100%" height="100%" fill="#e5f2f9"></rect>
+			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#0082c9">A</text>
 		</svg>';
 		$this->assertEquals($avatar, $svg);
 	}

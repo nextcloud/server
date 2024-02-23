@@ -28,7 +28,6 @@ namespace OCP\Files;
  * @since 9.0.0
  */
 class StorageTimeoutException extends StorageNotAvailableException {
-
 	/**
 	 * StorageTimeoutException constructor.
 	 *
@@ -37,7 +36,7 @@ class StorageTimeoutException extends StorageNotAvailableException {
 	 * @since 9.0.0
 	 */
 	public function __construct($message = '', \Exception $previous = null) {
-		$l = \OC::$server->getL10N('core');
+		$l = \OCP\Util::getL10N('core');
 		parent::__construct($l->t('Storage connection timeout. %s', [$message]), self::STATUS_TIMEOUT, $previous);
 	}
 }

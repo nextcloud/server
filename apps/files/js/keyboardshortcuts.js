@@ -57,21 +57,21 @@
 	}
 
 	function esc() {
-		$("#controls").trigger('click');
+		$(".files-controls").trigger('click');
 	}
 
 	function down() {
 		var select = -1;
-		$("#fileList tr").each(function(index) {
+		$(".files-fileList tr").each(function(index) {
 			if ($(this).hasClass("mouseOver")) {
 				select = index + 1;
 				$(this).removeClass("mouseOver");
 			}
 		});
 		if (select === -1) {
-			$("#fileList tr:first").addClass("mouseOver");
+			$(".files-fileList tr:first").addClass("mouseOver");
 		} else {
-			$("#fileList tr").each(function(index) {
+			$(".files-fileList tr").each(function(index) {
 				if (index === select) {
 					$(this).addClass("mouseOver");
 				}
@@ -81,16 +81,16 @@
 
 	function up() {
 		var select = -1;
-		$("#fileList tr").each(function(index) {
+		$(".files-fileList tr").each(function(index) {
 			if ($(this).hasClass("mouseOver")) {
 				select = index - 1;
 				$(this).removeClass("mouseOver");
 			}
 		});
 		if (select === -1) {
-			$("#fileList tr:last").addClass("mouseOver");
+			$(".files-fileList tr:last").addClass("mouseOver");
 		} else {
-			$("#fileList tr").each(function(index) {
+			$(".files-fileList tr").each(function(index) {
 				if (index === select) {
 					$(this).addClass("mouseOver");
 				}
@@ -99,7 +99,7 @@
 	}
 
 	function enter() {
-		$("#fileList tr").each(function(index) {
+		$(".files-fileList tr").each(function(index) {
 			if ($(this).hasClass("mouseOver")) {
 				$(this).removeClass("mouseOver");
 				$(this).find("span.nametext").trigger('click');
@@ -108,7 +108,7 @@
 	}
 
 	function del() {
-		$("#fileList tr").each(function(index) {
+		$(".files-fileList tr").each(function(index) {
 			if ($(this).hasClass("mouseOver")) {
 				$(this).removeClass("mouseOver");
 				$(this).find("a.action.delete").trigger('click');
@@ -117,7 +117,7 @@
 	}
 
 	function rename() {
-		$("#fileList tr").each(function(index) {
+		$(".files-fileList tr").each(function(index) {
 			if ($(this).hasClass("mouseOver")) {
 				$(this).removeClass("mouseOver");
 				$(this).find("a[data-action='Rename']").trigger('click');

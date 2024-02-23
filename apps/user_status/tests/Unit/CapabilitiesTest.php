@@ -57,6 +57,7 @@ class CapabilitiesTest extends TestCase {
 		$this->assertEquals([
 			'user_status' => [
 				'enabled' => true,
+				'restore' => true,
 				'supports_emoji' => $supportsEmojis,
 			]
 		], $this->capabilities->getCapabilities());

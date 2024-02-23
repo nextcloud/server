@@ -26,7 +26,6 @@ use PHPUnit\Framework\Assert;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Download {
-
 	/** @var string **/
 	private $downloadedFile;
 

@@ -41,7 +41,7 @@ class CompareVersion {
 	 * so '13.0.1', '13.0' and '13' are valid.
 	 *
 	 * @param string $actual version as major.minor.patch notation
-	 * @param string $required version where major is requried and minor and patch are optional
+	 * @param string $required version where major is required and minor and patch are optional
 	 * @param string $comparator passed to `version_compare`
 	 * @return bool whether the requirement is fulfilled
 	 * @throws InvalidArgumentException if versions specified in an invalid format

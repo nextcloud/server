@@ -35,30 +35,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncBirthdayCalendar extends Command {
-
-	/** @var BirthdayService */
-	private $birthdayService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param BirthdayService $birthdayService
-	 */
-	public function __construct(IUserManager $userManager, IConfig $config,
-						 BirthdayService $birthdayService) {
+	public function __construct(
+		private IUserManager $userManager,
+		private IConfig $config,
+		private BirthdayService $birthdayService,
+	) {
 		parent::__construct();
-		$this->birthdayService = $birthdayService;
-		$this->config = $config;
-		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:sync-birthday-calendar')
 			->setDescription('Synchronizes the birthday calendar')
@@ -67,10 +52,6 @@ class SyncBirthdayCalendar extends Command {
 				'User for whom the birthday calendar will be synchronized');
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->verifyEnabled();
 
@@ -89,7 +70,7 @@ class SyncBirthdayCalendar extends Command {
 
 			$output->writeln("Start birthday calendar sync for $user");
 			$this->birthdayService->syncUser($user);
-			return 0;
+			return self::SUCCESS;
 		}
 		$output->writeln("Start birthday calendar sync for all users ...");
 		$p = new ProgressBar($output);
@@ -109,10 +90,10 @@ class SyncBirthdayCalendar extends Command {
 
 		$p->finish();
 		$output->writeln('');
-		return 0;
+		return self::SUCCESS;
 	}
 
-	protected function verifyEnabled() {
+	protected function verifyEnabled(): void {
 		$isEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
 
 		if ($isEnabled !== 'yes') {

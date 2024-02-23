@@ -29,7 +29,6 @@ namespace OC\AppFramework\Bootstrap;
  * @psalm-immutable
  */
 abstract class ARegistration {
-
 	/** @var string */
 	private $appId;
 

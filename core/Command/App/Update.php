@@ -37,18 +37,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Update extends Command {
-	protected IAppManager $manager;
-	private Installer $installer;
-	private LoggerInterface $logger;
-
-	public function __construct(IAppManager $manager, Installer $installer, LoggerInterface $logger) {
+	public function __construct(
+		protected IAppManager $manager,
+		private Installer $installer,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct();
-		$this->manager = $manager;
-		$this->installer = $installer;
-		$this->logger = $logger;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:update')
 			->setDescription('update an app or all apps')
@@ -111,6 +108,7 @@ class Update extends Command {
 							'exception' => $e,
 						]);
 						$output->writeln('Error: ' . $e->getMessage());
+						$result = false;
 						$return = 1;
 					}
 

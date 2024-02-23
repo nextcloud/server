@@ -54,8 +54,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Fjalëkalimi juaj do të skadojë nesër",
     "Your password will expire today." : "Fjalëkalimi juaj do të skadojë sot.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Fjalëkalimi juaj do të skadojë brenad %n ditëve","Fjalëkalimi juaj do të skadojë brenad %n ditëve"],
-    "_%s group found_::_%s groups found_" : ["U gjet %s grup","U gjetën %s grupe"],
-    "_%s user found_::_%s users found_" : ["U gjet %s përdorues","U gjetën %s përdorues"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Nuk mund të zbulohej atributi i emrit të ekranit të përdoruesit. Ju lutemi specifikoni vetë në avancë parametrat e LDAP.",
     "Could not find the desired feature" : "S’u gjet dot veçoria e dëshiruar",
     "Invalid Host" : "Strehë e Pavlefshme",

@@ -31,7 +31,6 @@ namespace OCP;
  * @deprecated 20.0.0
  */
 interface ISearch {
-
 	/**
 	 * Search all providers for $query
 	 * @param string $query

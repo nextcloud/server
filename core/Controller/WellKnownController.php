@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,19 +29,19 @@ namespace OC\Core\Controller;
 use OC\Http\WellKnown\RequestManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class WellKnownController extends Controller {
-
-	/** @var RequestManager */
-	private $requestManager;
-
-	public function __construct(IRequest $request,
-								RequestManager $wellKnownManager) {
+	public function __construct(
+		IRequest $request,
+		private RequestManager $requestManager,
+	) {
 		parent::__construct('core', $request);
-		$this->requestManager = $wellKnownManager;
 	}
 
 	/**
@@ -49,6 +50,7 @@ class WellKnownController extends Controller {
 	 *
 	 * @return Response
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '.well-known/{service}')]
 	public function handle(string $service): Response {
 		$response = $this->requestManager->process(
 			$service,

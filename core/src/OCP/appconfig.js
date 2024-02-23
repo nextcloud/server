@@ -24,7 +24,7 @@
 import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
 
-import OC from '../OC/index'
+import OC from '../OC/index.js'
 
 /**
  * @param {string} method 'post' or 'delete'

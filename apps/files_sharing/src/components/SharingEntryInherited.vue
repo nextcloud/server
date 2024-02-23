@@ -25,48 +25,47 @@
 		class="sharing-entry__inherited"
 		:title="share.shareWithDisplayName">
 		<template #avatar>
-			<Avatar :user="share.shareWith"
+			<NcAvatar :user="share.shareWith"
 				:display-name="share.shareWithDisplayName"
-				class="sharing-entry__avatar"
-				tooltip-message="" />
+				class="sharing-entry__avatar" />
 		</template>
-		<ActionText icon="icon-user">
+		<NcActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
-		</ActionText>
-		<ActionLink v-if="share.viaPath && share.viaFileid"
+		</NcActionText>
+		<NcActionLink v-if="share.viaPath && share.viaFileid"
 			icon="icon-folder"
 			:href="viaFileTargetUrl">
 			{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
-		</ActionLink>
-		<ActionButton v-if="share.canDelete"
+		</NcActionLink>
+		<NcActionButton v-if="share.canDelete"
 			icon="icon-close"
 			@click.prevent="onDelete">
 			{{ t('files_sharing', 'Unshare') }}
-		</actionbutton>
+		</NcActionButton>
 	</SharingEntrySimple>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { basename } from '@nextcloud/paths'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 
 // eslint-disable-next-line no-unused-vars
-import Share from '../models/Share'
-import SharesMixin from '../mixins/SharesMixin'
-import SharingEntrySimple from '../components/SharingEntrySimple'
+import Share from '../models/Share.js'
+import SharesMixin from '../mixins/SharesMixin.js'
+import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingEntryInherited',
 
 	components: {
-		ActionButton,
-		ActionLink,
-		ActionText,
-		Avatar,
+		NcActionButton,
+		NcActionLink,
+		NcActionText,
+		NcAvatar,
 		SharingEntrySimple,
 	},
 
@@ -103,6 +102,7 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 8px;
+		padding-left: 10px;
 		line-height: 1.2em;
 		p {
 			color: var(--color-text-maxcontrast);
