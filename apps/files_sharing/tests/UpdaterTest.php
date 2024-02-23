@@ -99,8 +99,8 @@ class UpdaterTest extends TestCase {
 		// check if user2 can see the shared folder
 		$this->assertTrue($view->file_exists($this->folder));
 
-		$foldersShared = \OC\Share\Share::getItemsSharedWith('folder');
-		$this->assertSame(1, count($foldersShared));
+		$foldersShared = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER);
+		$this->assertCount(1, $foldersShared);
 
 		$view->mkdir('localFolder');
 		$view->file_put_contents('localFolder/localFile.txt', 'local file');
@@ -116,8 +116,8 @@ class UpdaterTest extends TestCase {
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// shared folder should be unshared
-		$foldersShared = \OC\Share\Share::getItemsSharedWith('folder');
-		$this->assertTrue(empty($foldersShared));
+		$foldersShared = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER);
+		$this->assertCount(0, $foldersShared);
 
 		// trashbin should contain the local file but not the mount point
 		$rootView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);

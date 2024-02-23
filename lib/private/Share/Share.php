@@ -94,41 +94,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Get the items of item type shared with the current user
-	 *
-	 * @param string $itemType
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters (optional)
-	 * @param int $limit Number of items to return (optional) Returns all by default
-	 * @param boolean $includeCollections (optional)
-	 * @return mixed Return depends on format
-	 * @deprecated TESTS ONLY - this methods is only used by tests
-	 * called like this:
-	 * \OC\Share\Share::getItemsSharedWith('folder'); (apps/files_sharing/tests/UpdaterTest.php)
-	 */
-	public static function getItemsSharedWith() {
-		return self::getItems('folder', null, self::$shareTypeUserAndGroups, \OC_User::getUser());
-	}
-
-	/**
-	 * Get the items of item type shared with a user
-	 *
-	 * @param string $itemType
-	 * @param string $user id for which user we want the shares
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters (optional)
-	 * @param int $limit Number of items to return (optional) Returns all by default
-	 * @param boolean $includeCollections (optional)
-	 * @return mixed Return depends on format
-	 * @deprecated TESTS ONLY - this methods is only used by tests
-	 * called like this:
-	 * \OC\Share\Share::getItemsSharedWithUser('test', $shareWith); (tests/lib/Share/Backend.php)
-	 */
-	public static function getItemsSharedWithUser($itemType, $user) {
-		return self::getItems('test', null, self::$shareTypeUserAndGroups, $user);
-	}
-
-	/**
 	 * Get the item of item type shared with a given user by source
 	 *
 	 * @param string $itemType
