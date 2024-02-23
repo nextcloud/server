@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "Suprimeix la franja",
     "No working hours set" : "No s'ha definit cap horari laboral",
     "Add slot" : "Afegeix una franja",
+    "Weekdays" : "Dies de la setmana",
     "Monday" : "Dilluns",
     "Tuesday" : "Dimarts",
     "Wednesday" : "Dimecres",

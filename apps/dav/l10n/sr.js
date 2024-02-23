@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "Обриши прорез",
     "No working hours set" : "Нису подешени радни сати",
     "Add slot" : "Додај термин",
+    "Weekdays" : "Дани у недељи",
     "Monday" : "Понедељак",
     "Tuesday" : "Уторак",
     "Wednesday" : "Среда",

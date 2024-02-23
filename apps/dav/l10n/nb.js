@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "Slett tidsluke",
     "No working hours set" : "Ingen arbeidstid satt",
     "Add slot" : "Legg til tidsrom",
+    "Weekdays" : "Ukedager",
     "Monday" : "Mandag",
     "Tuesday" : "Tirsdag",
     "Wednesday" : "Onsdag",
