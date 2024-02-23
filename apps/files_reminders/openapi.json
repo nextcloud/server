@@ -85,10 +85,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -133,7 +134,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -208,10 +209,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -301,7 +303,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -395,10 +397,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -432,7 +435,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not found",
+                        "description": "Account not found",
                         "content": {
                             "application/json": {
                                 "schema": {

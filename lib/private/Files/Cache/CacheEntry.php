@@ -134,7 +134,7 @@ class CacheEntry implements ICacheEntry {
 	}
 
 	public function getUnencryptedSize(): int {
-		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+		if ($this->data['encrypted'] && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
 			return $this->data['unencrypted_size'];
 		} else {
 			return $this->data['size'] ?? 0;

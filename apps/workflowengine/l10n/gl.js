@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "Gardar",
     "Available flows" : "Fluxos dispoñíbeis",
     "For details on how to write your own flow, check out the development documentation." : "Para obter máis detalles sobre como escribir o seu propio fluxo, consulte a documentación de desenvolvemento.",
+    "No flows installed" : "Non hai ningún fluxo instalado",
+    "Ask your administrator to install new flows." : "Pídalle á administración do sitio que instale novos fluxos.",
     "More flows" : "Máis fluxos",
     "Browse the App Store" : "Navega pola Tenda de Aplicacións",
     "Show less" : "Amosar menos",
     "Show more" : "Amosar máis",
     "Configured flows" : "Fluxos configurados",
     "Your flows" : "Os seus fluxos",
+    "No flows configured" : "Non hai ningún fluxo configurado",
     "matches" : "coincidencias",
     "does not match" : "non coinciden",
     "is" : "é",
@@ -110,10 +113,8 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "non entre",
     "Request user agent" : "Cliente usado para a solicitude",
-    "User group membership" : "Pertenza a un grupo de usuarios",
     "is member of" : "é membro de",
     "is not member of" : "non é membro de",
-    "Predefined URLs" : "URL predefinidos",
-    "Others" : "Outros"
+    "User group membership" : "Pertenza a un grupo de usuarios"
 },
 "nplurals=2; plural=(n != 1);");

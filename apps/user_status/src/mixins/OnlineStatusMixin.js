@@ -52,6 +52,7 @@ export default {
 					return this.$t('user_status', 'Online')
 
 				case 'away':
+				case 'busy':
 					return this.$t('user_status', 'Away')
 
 				case 'dnd':
@@ -66,30 +67,6 @@ export default {
 			}
 
 			return this.$t('user_status', 'Set status')
-		},
-
-		/**
-		 * The status indicator icon
-		 *
-		 * @return {string | null}
-		 */
-		statusIcon() {
-			switch (this.statusType) {
-			case 'online':
-				return 'icon-user-status-online'
-
-			case 'away':
-				return 'icon-user-status-away'
-
-			case 'dnd':
-				return 'icon-user-status-dnd'
-
-			case 'invisible':
-			case 'offline':
-				return 'icon-user-status-invisible'
-			}
-
-			return ''
 		},
 	},
 

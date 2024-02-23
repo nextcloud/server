@@ -44,7 +44,6 @@ abstract class Job implements IJob, IParallelAwareJob {
 	protected $argument;
 	protected ITimeFactory $time;
 	protected bool $allowParallelRuns = true;
-	private ?ILogger $logger = null;
 
 	/**
 	 * @since 15.0.0
@@ -56,14 +55,13 @@ abstract class Job implements IJob, IParallelAwareJob {
 	/**
 	 * The function to prepare the execution of the job.
 	 *
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
+	 * @return void
 	 *
 	 * @since 15.0.0
+	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * with the ILogger interface
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null) {
-		$this->logger = $logger;
+	public function execute(IJobList $jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
 	}
 
@@ -73,19 +71,20 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 */
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
-		$logger = $this->logger ?? \OCP\Server::get(LoggerInterface::class);
+		$logger = \OCP\Server::get(LoggerInterface::class);
 
 		try {
+			$jobDetails = get_class($this) . ' (id: ' . $this->getId() . ', arguments: ' . json_encode($this->getArgument()) . ')';
 			$jobStartTime = $this->time->getTime();
-			$logger->debug('Run ' . get_class($this) . ' job with ID ' . $this->getId(), ['app' => 'cron']);
+			$logger->debug('Starting job ' . $jobDetails, ['app' => 'cron']);
 			$this->run($this->argument);
 			$timeTaken = $this->time->getTime() - $jobStartTime;
 
-			$logger->debug('Finished ' . get_class($this) . ' job with ID ' . $this->getId() . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
+			$logger->debug('Finished job ' . $jobDetails . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
 			$jobList->setExecutionTime($this, $timeTaken);
 		} catch (\Throwable $e) {
 			if ($logger) {
-				$logger->error('Error while running background job (class: ' . get_class($this) . ', arguments: ' . print_r($this->argument, true) . ')', [
+				$logger->error('Error while running background job ' . $jobDetails, [
 					'app' => 'core',
 					'exception' => $e,
 				]);
@@ -158,6 +157,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 * The actual function that is called to run the job
 	 *
 	 * @param $argument
+	 * @return void
 	 *
 	 * @since 15.0.0
 	 */

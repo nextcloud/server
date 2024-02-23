@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,15 +27,15 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API;
 
 /**
- * @psalm-type ProvisioningApiUserDetailsQuota = array{
- *     free?: float,
- *     quota?: float|string,
- *     relative?: float,
- *     total?: float,
- *     used?: float,
+ * @psalm-type Provisioning_APIUserDetailsQuota = array{
+ *     free?: float|int,
+ *     quota?: float|int|string,
+ *     relative?: float|int,
+ *     total?: float|int,
+ *     used?: float|int,
  * }
  *
- * @psalm-type ProvisioningApiUserDetails = array{
+ * @psalm-type Provisioning_APIUserDetails = array{
  *     additional_mail: string[],
  *     additional_mailScope?: string[],
  *     address: string,
@@ -70,7 +71,7 @@ namespace OCA\Provisioning_API;
  *     phoneScope?: string,
  *     profile_enabled: string,
  *     profile_enabledScope?: string,
- *     quota: ProvisioningApiUserDetailsQuota,
+ *     quota: Provisioning_APIUserDetailsQuota,
  *     role: string,
  *     roleScope?: string,
  *     storageLocation?: string,
@@ -81,7 +82,7 @@ namespace OCA\Provisioning_API;
  *     websiteScope?: string,
  * }
  *
- * @psalm-type ProvisioningApiAppInfo = array{
+ * @psalm-type Provisioning_APIAppInfo = array{
  *     active: bool|null,
  *     activity: ?mixed,
  *     author: ?mixed,
@@ -123,7 +124,7 @@ namespace OCA\Provisioning_API;
  *     website: ?mixed,
  * }
  *
- * @psalm-type ProvisioningApiGroupDetails = array{
+ * @psalm-type Provisioning_APIGroupDetails = array{
  *     id: string,
  *     displayname: string,
  *     usercount: bool|int,

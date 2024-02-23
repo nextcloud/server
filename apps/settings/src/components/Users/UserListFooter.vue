@@ -23,6 +23,7 @@
 <template>
 	<tr class="footer">
 		<th scope="row">
+			<!-- TRANSLATORS Label for a table footer which summarizes the columns of the table -->
 			<span class="hidden-visually">{{ t('settings', 'Total rows summary') }}</span>
 		</th>
 		<td class="footer__cell footer__cell--loading">
@@ -112,6 +113,7 @@ export default Vue.extend({
 
 		&--loading {
 			left: 0;
+			min-width: var(--avatar-cell-width);
 			width: var(--avatar-cell-width);
 			align-items: center;
 			padding: 0;
@@ -119,6 +121,7 @@ export default Vue.extend({
 
 		&--count {
 			left: var(--avatar-cell-width);
+			min-width: var(--cell-width);
 			width: var(--cell-width);
 		}
 	}

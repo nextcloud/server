@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -23,6 +26,10 @@
 namespace OCP\Contacts\ContactsMenu;
 
 /**
+ * Process contacts menu entries
+ *
+ * @see IBulkProvider for providers that work with the full dataset at once
+ *
  * @since 12.0
  */
 interface IProvider {

@@ -12,7 +12,7 @@
     "Password to access {file} was sent to {email}" : "S'ha enviat a {email} la contrasenya per a accedir a {file}",
     "Password to access {file} was sent to you" : "Se us ha enviat la contrasenya per a accedir a {file}",
     "Share by mail" : "Comparteix per correu electrònic",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb el compte %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No us podem enviar la contrasenya generada automàticament. Definiu una adreça electrònica vàlida en els paràmetres personals i torneu-ho a provar.",
     "Failed to send share by email. Got an invalid email address" : "No s'ha pogut enviar l'element compartit per correu electrònic. Teniu una adreça electrònica no vàlida.",
     "Failed to send share by email" : "No s'ha pogut enviar l'element compartit per correu electrònic",
@@ -36,20 +36,11 @@
     "You can choose a different password at any time in the share dialog." : "Podeu triar una contrasenya diferent en qualsevol moment en el quadre de diàleg d'ús compartit.",
     "Could not find share" : "No s'ha pogut trobar l'element compartit",
     "Share provider which allows you to share files by mail" : "Proveïdor d'ús compartit que us permet compartir fitxers per correu electrònic",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet que els usuaris comparteixin un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permet que la gent comparteixi un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica.",
     "Send password by mail" : "Envia la contrasenya per correu electrònic",
     "Reply to initiator" : "Respon a l'usuari que comparteix l'element",
     "Unable to update share by mail config" : "No s'ha pogut actualitzar la configuració d'ús compartit per correu electrònic",
-    "Shared with %1$s" : "S'ha compartit amb %1$s",
-    "Shared with %1$s by %2$s" : "%2$s ho ha compartit amb %1$s ",
-    "Unshared from %1$s" : "S'ha deixat de compartir amb %1$s",
-    "Unshared from %1$s by %2$s" : "%2$s ho ha deixat de compartir amb %1$s ",
-    "Password for mail share sent to %1$s" : "S'ha enviat la contrasenya de l'element compartit per correu electrònic a %1$s",
-    "You shared %1$s with %2$s by mail" : "Heu compartit %1$s amb %2$s per correu electrònic",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s ha compartit %1$s amb %2$s per correu electrònic",
-    "You unshared %1$s from %2$s by mail" : "Heu deixat de compartir %1$s amb %2$s per correu electrònic",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s ha deixat de compartir %1$s amb %2$s per correu electrònic",
-    "Password to access %1$s was sent to %2s" : "S'ha enviat a %2s la contrasenya per a accedir a %1$s",
-    "Password to access %1$s was sent to you" : "Se us ha enviat la contrasenya per a accedir a %1$s"
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet que els usuaris comparteixin un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

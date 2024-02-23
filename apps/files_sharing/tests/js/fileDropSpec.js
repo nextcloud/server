@@ -91,8 +91,7 @@ describe("files Drop tests", function() {
 
 				OCA.FilesSharingDrop.addFileToUpload('',data);
 				expect(data.submit.calledOnce).toEqual(true);
-				expect(data.url).toContain("/public.php/webdav/" + encodeURI(testFile.name));
-				expect(data.headers['Authorization']).toEqual('Basic ' + btoa(sharingToken+":"));
+				expect(data.url).toContain("/public.php/dav/files/" + sharingToken + '/' + encodeURI(testFile.name));
 			});
 		}
 	});

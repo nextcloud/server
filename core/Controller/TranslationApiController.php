@@ -29,6 +29,7 @@ namespace OC\Core\Controller;
 
 use InvalidArgumentException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -52,7 +53,10 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * Get the list of supported languages
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
+	 *
+	 * 200: Supported languages returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/languages', root: '/translation')]
 	public function languages(): DataResponse {
 		return new DataResponse([
 			'languages' => array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages()),
@@ -76,6 +80,7 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * 400: Language not detected or unable to translate
 	 * 412: Translating is not possible
 	 */
+	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {
 			$translation = $this->translationManager->translate($text, $fromLanguage, $toLanguage);

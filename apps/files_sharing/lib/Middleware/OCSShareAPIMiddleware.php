@@ -39,7 +39,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	private $l;
 
 	public function __construct(IManager $shareManager,
-								IL10N $l) {
+		IL10N $l) {
 		$this->shareManager = $shareManager;
 		$this->l = $l;
 	}

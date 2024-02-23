@@ -70,6 +70,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -91,7 +92,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @package OCA\Files_Sharing\API
  *
- * @psalm-import-type FilesSharingShare from ResponseDefinitions
+ * @psalm-import-type Files_SharingShare from ResponseDefinitions
  */
 class ShareAPIController extends OCSController {
 
@@ -124,20 +125,6 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * Share20OCS constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IManager $shareManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param IURLGenerator $urlGenerator
-	 * @param string $userId
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IServerContainer $serverContainer
-	 * @param IUserStatusManager $userStatusManager
 	 */
 	public function __construct(
 		string $appName,
@@ -153,7 +140,8 @@ class ShareAPIController extends OCSController {
 		IAppManager $appManager,
 		IServerContainer $serverContainer,
 		IUserStatusManager $userStatusManager,
-		IPreview $previewManager
+		IPreview $previewManager,
+		private IDateTimeZone $dateTimeZone,
 	) {
 		parent::__construct($appName, $request);
 
@@ -177,7 +165,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @param Node|null $recipientNode
-	 * @return FilesSharingShare
+	 * @return Files_SharingShare
 	 * @throws NotFoundException In case the node can't be resolved.
 	 *
 	 * @suppress PhanUndeclaredClassMethod
@@ -260,7 +248,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
 			$result['share_with_displayname_unique'] = $sharedWith !== null ? (
-				 !empty($sharedWith->getSystemEMailAddress()) ? $sharedWith->getSystemEMailAddress() : $sharedWith->getUID()
+				!empty($sharedWith->getSystemEMailAddress()) ? $sharedWith->getSystemEMailAddress() : $sharedWith->getUID()
 			) : $share->getSharedWith();
 
 			$userStatuses = $this->userStatusManager->getUserStatuses([$share->getSharedWith()]);
@@ -364,7 +352,7 @@ class ShareAPIController extends OCSController {
 
 		$result['attributes'] = null;
 		if ($attributes = $share->getAttributes()) {
-			$result['attributes'] =  (string)\json_encode($attributes->toArray());
+			$result['attributes'] = (string)\json_encode($attributes->toArray());
 		}
 
 		return $result;
@@ -508,7 +496,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param string $id ID of the share
 	 * @param bool $include_tags Include tags in the share
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share returned
@@ -597,12 +585,12 @@ class ShareAPIController extends OCSController {
 	 * @param string $publicUpload If public uploading is allowed
 	 * @param string $password Password for the share
 	 * @param string|null $sendPasswordByTalk Send the password for the share over Talk
-	 * @param string $expireDate Expiry date of the share
+	 * @param string $expireDate Expiry date of the share using user timezone at 00:00. It means date in UTC timezone will be used.
 	 * @param string $note Note for the share
 	 * @param string $label Label for the share (only used in link and email)
 	 * @param string|null $attributes Additional attributes for the share
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Unknown share type
 	 * @throws OCSException
 	 * @throws OCSForbiddenException Creating the share is not allowed
@@ -699,7 +687,7 @@ class ShareAPIController extends OCSController {
 		if ($shareType === IShare::TYPE_USER) {
 			// Valid user is required to share
 			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid user'));
+				throw new OCSNotFoundException($this->l->t('Please specify a valid account to share with'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
@@ -774,7 +762,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($shareWith === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid federated user ID'));
+				throw new OCSNotFoundException($this->l->t('Please specify a valid federated account ID'));
 			}
 
 			$share->setSharedWith($shareWith);
@@ -862,11 +850,11 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->shareManager->createShare($share);
 		} catch (GenericShareException $e) {
-			\OC::$server->getLogger()->logException($e);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		}
 
@@ -879,7 +867,7 @@ class ShareAPIController extends OCSController {
 	 * @param null|Node $node
 	 * @param boolean $includeTags
 	 *
-	 * @return FilesSharingShare[]
+	 * @return Files_SharingShare[]
 	 */
 	private function getSharedWithMe($node, bool $includeTags): array {
 		$userShares = $this->shareManager->getSharedWith($this->currentUser, IShare::TYPE_USER, $node, -1, 0);
@@ -916,7 +904,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * @param \OCP\Files\Node $folder
 	 *
-	 * @return FilesSharingShare[]
+	 * @return Files_SharingShare[]
 	 * @throws OCSBadRequestException
 	 * @throws NotFoundException
 	 */
@@ -978,7 +966,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $path Get shares for a specific path
 	 * @param string $include_tags Include tags in the share
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
 	 * @throws OCSNotFoundException The folder was not found or is inaccessible
 	 *
 	 * 200: Shares returned
@@ -1026,7 +1014,7 @@ class ShareAPIController extends OCSController {
 	 * @param bool $subFiles
 	 * @param bool $includeTags
 	 *
-	 * @return FilesSharingShare[]
+	 * @return Files_SharingShare[]
 	 * @throws NotFoundException
 	 * @throws OCSBadRequestException
 	 */
@@ -1111,7 +1099,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param string $path Path all shares will be relative to
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws OCSNotFoundException The given path is invalid
@@ -1213,7 +1201,7 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $label New label
 	 * @param string|null $hideDownload New condition if the download should be hidden
 	 * @param string|null $attributes New additional attributes
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
 	 * @throws OCSForbiddenException Missing permissions to update the share
 	 * @throws OCSNotFoundException Share not found
@@ -1314,8 +1302,8 @@ class ShareAPIController extends OCSController {
 				}
 
 				if (!$this->hasPermission($newPermissions, Constants::PERMISSION_READ) && (
-						$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
-					)) {
+					$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
+				)) {
 					throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
 				}
 			}
@@ -1409,7 +1397,9 @@ class ShareAPIController extends OCSController {
 	 *
 	 * Get all shares that are still pending
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
+	 *
+	 * 200: Pending shares returned
 	 */
 	public function pendingShares(): DataResponse {
 		$pendingShares = [];
@@ -1704,11 +1694,12 @@ class ShareAPIController extends OCSController {
 	 */
 	private function parseDate(string $expireDate): \DateTime {
 		try {
-			$date = new \DateTime(trim($expireDate, "\""));
+			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
 		} catch (\Exception $e) {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
+		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$date->setTime(0, 0, 0);
 
 		return $date;

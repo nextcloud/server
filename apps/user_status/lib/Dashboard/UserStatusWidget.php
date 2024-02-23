@@ -31,7 +31,6 @@ use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IAPIWidget;
-use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IOptionWidget;
@@ -44,7 +43,6 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\UserStatus\IUserStatus;
-use OCP\Util;
 
 /**
  * Class UserStatusWidget
@@ -72,12 +70,12 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 	 * @param StatusService $service
 	 */
 	public function __construct(IL10N $l10n,
-								IDateTimeFormatter $dateTimeFormatter,
-								IURLGenerator $urlGenerator,
-								IInitialState $initialStateService,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								StatusService $service) {
+		IDateTimeFormatter $dateTimeFormatter,
+		IURLGenerator $urlGenerator,
+		IInitialState $initialStateService,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		StatusService $service) {
 		$this->l10n = $l10n;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->urlGenerator = $urlGenerator;
@@ -165,7 +163,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 					: $status->getStatus(),
 				'icon' => $status->getCustomIcon(),
 				'message' => $status->getCustomMessage(),
-				'timestamp' => $status->getStatusTimestamp(),
+				'timestamp' => $status->getStatusMessageTimestamp(),
 			];
 		}, $recentStatusUpdates);
 	}
@@ -176,7 +174,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
 		$widgetItemsData = $this->getWidgetData($userId, $since, $limit);
 
-		return array_map(function(array $widgetData) {
+		return array_map(function (array $widgetData) {
 			$formattedDate = $this->dateTimeFormatter->formatTimeSpan($widgetData['timestamp']);
 			return new WidgetItem(
 				$widgetData['displayName'],

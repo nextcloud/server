@@ -24,8 +24,8 @@
 namespace OCA\Files_External\Config;
 
 use OC\Files\Mount\MountPoint;
-use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
+use OCA\Files_External\Lib\StorageConfig;
 
 class ExternalMountPoint extends MountPoint {
 

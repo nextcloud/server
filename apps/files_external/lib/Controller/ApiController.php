@@ -34,13 +34,13 @@ use OCA\Files_External\ResponseDefinitions;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 /**
- * @psalm-import-type FilesExternalMount from ResponseDefinitions
+ * @psalm-import-type Files_ExternalMount from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -64,7 +64,7 @@ class ApiController extends OCSController {
 	 * @param string $mountPoint mount point name, relative to the data dir
 	 * @param StorageConfig $mountConfig mount config to format
 	 *
-	 * @return FilesExternalMount
+	 * @return Files_ExternalMount
 	 */
 	private function formatMount(string $mountPoint, StorageConfig $mountConfig): array {
 		// split path from mount point
@@ -100,7 +100,9 @@ class ApiController extends OCSController {
 	 *
 	 * Get the mount points visible for this user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesExternalMount[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_ExternalMount[], array{}>
+	 *
+	 * 200: User mounts returned
 	 */
 	public function getUserMounts(): DataResponse {
 		$entries = [];
@@ -124,11 +126,12 @@ class ApiController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 *
 	 * Ask for credentials using a browser's native basic auth prompt
 	 * Then returns it if provided
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function askNativeAuth(): DataResponse {
 		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
 			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);

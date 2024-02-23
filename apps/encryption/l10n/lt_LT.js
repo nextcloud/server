@@ -37,7 +37,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Įjungus šią parinktį, bus užšifruoti visi pagrindinėje saugykloje saugomi failai. Priešingu atveju bus užšifruoti tik išorinėje saugykloje esantys failai",
     "Enable recovery key" : "Naudoti atstatymo raktą",
     "Disable recovery key" : "Nenaudoti atstatymo rakto",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Atkūrimo raktas yra papildomas šifravimo raktas, kuris naudojamas failų šifravimui. Jis leidžia atkurti naudotojo failus tuo atveju, jei naudotojas pamirš savo slaptažodį.",
     "Recovery key password" : "Atkrūimo rakto slaptažodis",
     "Repeat recovery key password" : "Pakartokite atkūrimo rakto slaptažodį",
     "Change recovery key password:" : "Pakeisti atkūrimo rakto slaptažodį:",
@@ -57,7 +56,6 @@ OC.L10N.register(
     "Enabled" : "Įjungta",
     "Disabled" : "Išjungta",
     "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Kad galėtumėte naudoti šį šifravimo modulį,  turite įjungti serverio \n\t\tšifravimą administratoriaus nustatymuose. Įjungus šį modulį visi Jūsų failai bus užšifruoti\n\t\tŠifravimas pagrįstas AES 256 raktais.\n\t\tModulis užšifruos tik naujus failus, palikdamas senuosius taip kaip buvo iki šifravimo įjungimo.\n\t\tNeįmanoma išjungti šifravimą ir vėl sugrįžti prie nešifruojamos sistemos.\n\t\tPrieš nuspręsdami, atidžiai perskaitykite dokumentaciją, kad gerai suprastumėte visas šifravimo pasekmes.",
-    "The share will expire on %s." : "Bendrinimo laikas pasibaigs %s.",
-    "Cheers!" : "Sveikinimai!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Atkūrimo raktas yra papildomas šifravimo raktas, kuris naudojamas failų šifravimui. Jis leidžia atkurti naudotojo failus tuo atveju, jei naudotojas pamirš savo slaptažodį."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

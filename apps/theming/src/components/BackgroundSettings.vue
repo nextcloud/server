@@ -26,8 +26,12 @@
 <template>
 	<div class="background-selector" data-user-theming-background-settings>
 		<!-- Custom background -->
-		<button class="background background__filepicker"
-			:class="{ 'icon-loading': loading === 'custom', 'background--active': backgroundImage === 'custom' }"
+		<button :aria-pressed="backgroundImage === 'custom'"
+			:class="{
+				'icon-loading': loading === 'custom',
+				'background background__filepicker': true,
+				'background--active': backgroundImage === 'custom'
+			}"
 			:data-color-bright="invertTextColor(Theming.color)"
 			data-user-theming-background-custom
 			tabindex="0"
@@ -38,8 +42,12 @@
 		</button>
 
 		<!-- Default background -->
-		<button class="background background__default"
-			:class="{ 'icon-loading': loading === 'default', 'background--active': backgroundImage === 'default' }"
+		<button :aria-pressed="backgroundImage === 'default'"
+			:class="{
+				'icon-loading': loading === 'default',
+				'background background__default': true,
+				'background--active': backgroundImage === 'default'
+			}"
 			:data-color-bright="invertTextColor(Theming.defaultColor)"
 			:style="{ '--border-color': Theming.defaultColor }"
 			data-user-theming-background-default
@@ -50,20 +58,22 @@
 		</button>
 
 		<!-- Custom color picker -->
-		<NcColorPicker v-model="Theming.color" @input="debouncePickColor">
-			<button class="background background__color"
-				:data-color="Theming.color"
-				:data-color-bright="invertTextColor(Theming.color)"
-				:style="{ backgroundColor: Theming.color, '--border-color': Theming.color}"
-				data-user-theming-background-color
-				tabindex="0">
-				{{ t('theming', 'Change color') }}
-			</button>
-		</NcColorPicker>
+		<div class="background-color"
+			data-user-theming-background-color>
+			<NcColorPicker v-model="Theming.color"
+				@input="debouncePickColor">
+				<NcButton type="ternary">
+					{{ t('theming', 'Change color') }}
+				</NcButton>
+			</NcColorPicker>
+		</div>
 
 		<!-- Remove background -->
-		<button class="background background__delete"
-			:class="{ 'background--active': isBackgroundDisabled }"
+		<button :aria-pressed="isBackgroundDisabled"
+			:class="{
+				'background background__delete': true,
+				'background--active': isBackgroundDisabled
+			}"
 			data-user-theming-background-clear
 			tabindex="0"
 			@click="removeBackground">
@@ -76,12 +86,16 @@
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			:title="shippedBackground.details.attribution"
-			:aria-label="shippedBackground.details.attribution"
-			:class="{ 'icon-loading': loading === shippedBackground.name, 'background--active': backgroundImage === shippedBackground.name }"
+			:aria-label="shippedBackground.details.description"
+			:aria-pressed="backgroundImage === shippedBackground.name"
+			:class="{
+				'background background__shipped': true,
+				'icon-loading': loading === shippedBackground.name,
+				'background--active': backgroundImage === shippedBackground.name
+			}"
 			:data-color-bright="shippedBackground.details.theming === 'dark'"
 			:data-user-theming-background-shipped="shippedBackground.name"
 			:style="{ backgroundImage: 'url(' + shippedBackground.preview + ')', '--border-color': shippedBackground.details.primary_color }"
-			class="background background__shipped"
 			tabindex="0"
 			@click="setShipped(shippedBackground.name)">
 			<Check :size="44" />
@@ -98,6 +112,7 @@ import { Palette } from 'node-vibrant/lib/color.js'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Vibrant from 'node-vibrant'
 
 import Check from 'vue-material-design-icons/Check.vue'
@@ -118,6 +133,7 @@ export default {
 		Check,
 		Close,
 		ImageEdit,
+		NcButton,
 		NcColorPicker,
 	},
 
@@ -271,7 +287,7 @@ export default {
 		async applyFile(path) {
 			if (!path || typeof path !== 'string' || path.trim().length === 0 || path === '/') {
 				console.error('No valid background have been selected', { path })
-				showError(t('theming', 'No background have been selected'))
+				showError(t('theming', 'No background has been selected'))
 				return
 			}
 
@@ -326,6 +342,17 @@ export default {
 	flex-wrap: wrap;
 	justify-content: center;
 
+	.background-color {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 176px;
+		height: 96px;
+		margin: 8px;
+		border-radius: var(--border-radius-large);
+		background-color: var(--color-primary);
+	}
+
 	.background {
 		overflow: hidden;
 		width: 176px;
@@ -346,16 +373,11 @@ export default {
 
 		&__default {
 			background-color: var(--color-primary-default);
-			background-image: var(--image-background-plain, var(--image-background-default));
+			background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.5), rgba(23, 23, 23, 0.5)), var(--image-background-plain, var(--image-background-default));
 		}
 
 		&__filepicker, &__default, &__color {
 			border-color: var(--color-border);
-		}
-
-		&__color {
-			color: var(--color-primary-text);
-			background-color: var(--color-primary-default);
 		}
 
 		// Over a background image
@@ -372,8 +394,8 @@ export default {
 		&--active,
 		&:hover,
 		&:focus {
-			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
+			outline: 2px solid var(--color-main-text) !important;
+			border-color: var(--color-main-background) !important;
 		}
 
 		// Icon

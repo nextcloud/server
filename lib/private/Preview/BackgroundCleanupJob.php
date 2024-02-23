@@ -48,10 +48,10 @@ class BackgroundCleanupJob extends TimedJob {
 	private $mimeTypeLoader;
 
 	public function __construct(ITimeFactory $timeFactory,
-								IDBConnection $connection,
-								Root $previewFolder,
-								IMimeTypeLoader $mimeTypeLoader,
-								bool $isCLI) {
+		IDBConnection $connection,
+		Root $previewFolder,
+		IMimeTypeLoader $mimeTypeLoader,
+		bool $isCLI) {
 		parent::__construct($timeFactory);
 		// Run at most once an hour
 		$this->setInterval(3600);

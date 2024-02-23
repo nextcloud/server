@@ -28,6 +28,7 @@ use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheckTest extends \Test\TestCase {
 	/** @var IConfig| \PHPUnit\Framework\MockObject\MockObject */
@@ -36,6 +37,8 @@ class VersionCheckTest extends \Test\TestCase {
 	private $updater;
 	/** @var IRegistry | \PHPUnit\Framework\Mo2ckObject\MockObject*/
 	private $registry;
+	/** @var LoggerInterface | \PHPUnit\Framework\Mo2ckObject\MockObject*/
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,6 +53,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->registry
 			->method('delegateHasValidSubscription')
 			->willReturn(false);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
 			->setMethods(['getUrlContent'])
 			->setConstructorArgs([
@@ -57,6 +61,7 @@ class VersionCheckTest extends \Test\TestCase {
 				$this->config,
 				$this->createMock(IUserManager::class),
 				$this->registry,
+				$this->logger,
 			])
 			->getMock();
 	}

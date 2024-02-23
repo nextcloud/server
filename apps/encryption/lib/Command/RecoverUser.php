@@ -52,9 +52,9 @@ class RecoverUser extends Command {
 	 * @param QuestionHelper $questionHelper
 	 */
 	public function __construct(Util $util,
-								IConfig $config,
-								IUserManager $userManager,
-								QuestionHelper $questionHelper) {
+		IConfig $config,
+		IUserManager $userManager,
+		QuestionHelper $questionHelper) {
 		$this->util = $util;
 		$this->questionHelper = $questionHelper;
 		$this->userManager = $userManager;

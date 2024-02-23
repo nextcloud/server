@@ -866,7 +866,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function where(...$predicates) {
 		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
-			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call whereAnd() or whereOr() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
+			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 
@@ -1202,7 +1202,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter the placeholder name used.
@@ -1229,7 +1229,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 *
 	 * @return IParameter
 	 */

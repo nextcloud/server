@@ -75,16 +75,16 @@ describe('Favorites view definition', () => {
 		expect(favoritesView?.name).toBe('Favorites')
 		expect(favoritesView?.caption).toBeDefined()
 		expect(favoritesView?.icon).toBe('<svg>SvgMock</svg>')
-		expect(favoritesView?.order).toBe(5)
+		expect(favoritesView?.order).toBe(15)
 		expect(favoritesView?.columns).toStrictEqual([])
 		expect(favoritesView?.getContents).toBeDefined()
 	})
 
 	test('Default with favorites', () => {
 		const favoriteFolders = [
-			'/foo',
-			'/bar',
-			'/foo/bar',
+			{ fileid: 1, path: '/foo' },
+			{ fileid: 2, path: '/bar' },
+			{ fileid: 3, path: '/foo/bar' },
 		]
 		jest.spyOn(initialState, 'loadState').mockReturnValue(favoriteFolders)
 		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
@@ -102,11 +102,12 @@ describe('Favorites view definition', () => {
 			const favoriteView = favoriteFoldersViews[index]
 			expect(favoriteView).toBeDefined()
 			expect(favoriteView?.id).toBeDefined()
-			expect(favoriteView?.name).toBe(basename(folder))
+			expect(favoriteView?.name).toBe(basename(folder.path))
 			expect(favoriteView?.icon).toBe('<svg>SvgMock</svg>')
 			expect(favoriteView?.order).toBe(index)
 			expect(favoriteView?.params).toStrictEqual({
-				dir: folder,
+				dir: folder.path,
+				fileid: folder.fileid.toString(),
 				view: 'favorites',
 			})
 			expect(favoriteView?.parent).toBe('favorites')
@@ -157,7 +158,7 @@ describe('Dynamic update of favourite folders', () => {
 	test('Remove a favorite folder remove the entry from the navigation column', async () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(eventBus, 'subscribe')
-		jest.spyOn(initialState, 'loadState').mockReturnValue(['/Foo/Bar'])
+		jest.spyOn(initialState, 'loadState').mockReturnValue([{ fileid: 42, path: '/Foo/Bar' }])
 		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()

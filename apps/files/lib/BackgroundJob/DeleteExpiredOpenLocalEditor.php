@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\Files\BackgroundJob;
 
-use OCA\Files\Controller\OpenLocalEditorController;
 use OCA\Files\Db\OpenLocalEditorMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;

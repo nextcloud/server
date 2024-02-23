@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "通勤中",
     "Out sick" : "生病",
     "Vacationing" : "休假",
+    "Out of office" : "不在辦公室",
     "Working remotely" : "遠地工作",
     "In a call" : "通話中",
     "User status" : "使用者狀態",
-    "View profile" : "檢視個人檔案",
     "Clear status after" : "清空狀態於……之後",
     "Emoji for your status message" : "狀態訊息的表情符號",
     "What is your status?" : "您目前的狀態是什麼呢？",
@@ -43,6 +43,7 @@ OC.L10N.register(
     "4 hours" : "4小時",
     "Mute all notifications" : "所有通知靜音",
     "Appear offline" : "顯示為離線",
+    "View profile" : "檢視個人檔案",
     "{status}, {timestamp}" : "{status}，{timestamp}"
 },
 "nplurals=1; plural=0;");

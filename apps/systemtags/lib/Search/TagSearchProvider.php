@@ -30,18 +30,14 @@ declare(strict_types=1);
  */
 namespace OCA\SystemTags\Search;
 
-use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
-use OCP\SystemTag\ISystemTag;
-use OCP\SystemTag\ISystemTagManager;
-use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
-use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Node;
+use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -50,6 +46,9 @@ use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
+use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
@@ -120,10 +119,7 @@ class TagSearchProvider implements IProvider {
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$fileQuery = new SearchQuery(
-			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_OR, [
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'tagname', '%' . $query->getTerm() . '%'),
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
-			]),
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
 			$query->getLimit(),
 			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [
@@ -134,13 +130,13 @@ class TagSearchProvider implements IProvider {
 
 		// do search
 		$searchResults = $userFolder->search($fileQuery);
-		$resultIds = array_map(function(Node $node) {
+		$resultIds = array_map(function (Node $node) {
 			return $node->getId();
 		}, $searchResults);
 		$matchedTags = $this->objectMapper->getTagIdsForObjects($resultIds, 'files');
 
 		// prepare direct tag results
-		$tagResults = array_map(function(ISystemTag $tag) {
+		$tagResults = array_map(function (ISystemTag $tag) {
 			$thumbnailUrl = '';
 			$link = $this->urlGenerator->linkToRoute(
 				'files.view.index'
@@ -198,14 +194,14 @@ class TagSearchProvider implements IProvider {
 		 * @var ISystemTag[]
 		 */
 		$tags = $this->tagManager->getTagsByIds($tagInfo);
-		$tagNames = array_map(function($tag) {
+		$tagNames = array_map(function ($tag) {
 			return $tag->getName();
-		}, array_filter($tags, function($tag) {
+		}, array_filter($tags, function ($tag) {
 			return $tag->isUserVisible();
 		}));
 
 		// show the tag that you have searched for first
-		usort($tagNames, function($tagName) use($query) {
+		usort($tagNames, function ($tagName) use ($query) {
 			return strpos($tagName, $query->getTerm()) !== false? -1 :  1;
 		});
 

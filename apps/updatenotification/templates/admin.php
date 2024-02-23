@@ -9,6 +9,6 @@ declare(strict_types=1);
  * later. See the COPYING file.
  */
 \OCP\Util::addScript('updatenotification', 'updatenotification');
- ?>
+?>
 
 <div id="updatenotification"></div>

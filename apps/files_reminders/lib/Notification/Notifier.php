@@ -42,7 +42,8 @@ class Notifier implements INotifier {
 		protected IFactory $l10nFactory,
 		protected IURLGenerator $urlGenerator,
 		protected IRootFolder $root,
-	) {}
+	) {
+	}
 
 	public function getID(): string {
 		return Application::APP_ID;

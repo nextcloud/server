@@ -75,18 +75,18 @@ class FederatedShareProvider implements IShareProvider {
 	 * DefaultShareProvider constructor.
 	 */
 	public function __construct(
-			private IDBConnection $dbConnection,
-			private AddressHandler $addressHandler,
-			private Notifications $notifications,
-			private TokenHandler $tokenHandler,
-			private IL10N $l,
-			private IRootFolder $rootFolder,
-			private IConfig $config,
-			private IUserManager $userManager,
-			private ICloudIdManager $cloudIdManager,
-			private \OCP\GlobalScale\IConfig $gsConfig,
-			private ICloudFederationProviderManager $cloudFederationProviderManager,
-			private LoggerInterface $logger,
+		private IDBConnection $dbConnection,
+		private AddressHandler $addressHandler,
+		private Notifications $notifications,
+		private TokenHandler $tokenHandler,
+		private IL10N $l,
+		private IRootFolder $rootFolder,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private ICloudIdManager $cloudIdManager,
+		private \OCP\GlobalScale\IConfig $gsConfig,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -132,7 +132,7 @@ class FederatedShareProvider implements IShareProvider {
 		$alreadySharedGroup = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared) || !empty($alreadySharedGroup)) {
 			$message = 'Sharing %1$s failed, because this item is already shared with %2$s';
-			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with user %2$s', [$share->getNode()->getName(), $shareWith]);
+			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -143,8 +143,8 @@ class FederatedShareProvider implements IShareProvider {
 		$currentServer = $this->addressHandler->generateRemoteURL();
 		$currentUser = $sharedBy;
 		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {
-			$message = 'Not allowed to create a federated share with the same user.';
-			$message_t = $this->l->t('Not allowed to create a federated share with the same user');
+			$message = 'Not allowed to create a federated share to the same account.';
+			$message_t = $this->l->t('Not allowed to create a federated share to the same account');
 			$this->logger->debug($message, ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}

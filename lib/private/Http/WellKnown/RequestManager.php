@@ -49,8 +49,8 @@ class RequestManager {
 	private $logger;
 
 	public function __construct(Coordinator $coordinator,
-								IServerContainer $container,
-								LoggerInterface $logger) {
+		IServerContainer $container,
+		LoggerInterface $logger) {
 		$this->coordinator = $coordinator;
 		$this->container = $container;
 		$this->logger = $logger;

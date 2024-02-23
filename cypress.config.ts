@@ -6,6 +6,7 @@ import {
 	waitOnNextcloud,
 } from './cypress/dockerNode'
 import { defineConfig } from 'cypress'
+import cypressSplit from 'cypress-split'
 import webpackPreprocessor from '@cypress/webpack-preprocessor'
 import type { Configuration } from 'webpack'
 
@@ -47,6 +48,8 @@ export default defineConfig({
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
+			cypressSplit(on, config)
+
 			on('file:preprocessor', webpackPreprocessor({ webpackOptions: webpackConfig as Configuration }))
 
 			// Disable spell checking to prevent rendering differences
@@ -76,18 +79,16 @@ export default defineConfig({
 
 			// Before the browser launches
 			// starting Nextcloud testing container
-			return startNextcloud(process.env.BRANCH)
-				.then((ip) => {
-					// Setting container's IP as base Url
-					config.baseUrl = `http://${ip}/index.php`
-					return ip
-				})
-				.then(waitOnNextcloud)
-				.then(configureNextcloud)
-				.then(applyChangesToNextcloud)
-				.then(() => {
-					return config
-				})
+			const ip = await startNextcloud(process.env.BRANCH)
+
+			// Setting container's IP as base Url
+			config.baseUrl = `http://${ip}/index.php`
+			await waitOnNextcloud(ip)
+			await configureNextcloud()
+			await applyChangesToNextcloud()
+
+			// IMPORTANT: return the config otherwise cypress-split will not work
+			return config
 		},
 	},
 

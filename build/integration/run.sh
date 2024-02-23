@@ -34,9 +34,15 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
-php -S localhost:$PORT -t ../.. &
+
+echo "" > phpserver.log
+
+php -S localhost:$PORT -t ../.. &> phpserver.log &
 PHPPID=$!
 echo $PHPPID
+
+# Output filtered php server logs
+tail -f phpserver.log | grep --line-buffered -v -E ":[0-9]+ Accepted$" | grep --line-buffered -v -E ":[0-9]+ Closing$" &
 
 # The federated server is started and stopped by the tests themselves
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))

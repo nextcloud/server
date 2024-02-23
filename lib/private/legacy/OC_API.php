@@ -130,7 +130,7 @@ class OC_API {
 	protected static function isV2(\OCP\IRequest $request) {
 		$script = $request->getScriptName();
 
-		return substr($script, -11) === '/ocs/v2.php';
+		return str_ends_with($script, '/ocs/v2.php');
 	}
 
 	/**

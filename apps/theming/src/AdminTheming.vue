@@ -51,7 +51,6 @@
 					:default-value="colorPickerField.defaultValue"
 					:display-name="colorPickerField.displayName"
 					:value.sync="colorPickerField.value"
-					data-admin-theming-setting-primary-color
 					@update:theming="$emit('update:theming')" />
 
 				<!-- Default background picker -->
@@ -106,6 +105,7 @@
 				</a>
 			</div>
 		</NcSettingsSection>
+		<AppMenuSection :default-apps.sync="defaultApps" />
 	</section>
 </template>
 
@@ -118,6 +118,7 @@ import CheckboxField from './components/admin/CheckboxField.vue'
 import ColorPickerField from './components/admin/ColorPickerField.vue'
 import FileInputField from './components/admin/FileInputField.vue'
 import TextField from './components/admin/TextField.vue'
+import AppMenuSection from './components/admin/AppMenuSection.vue'
 
 const {
 	backgroundMime,
@@ -136,6 +137,7 @@ const {
 	slogan,
 	url,
 	userThemingDisabled,
+	defaultApps,
 } = loadState('theming', 'adminThemingParameters')
 
 const textFields = [
@@ -247,6 +249,7 @@ export default {
 	name: 'AdminTheming',
 
 	components: {
+		AppMenuSection,
 		CheckboxField,
 		ColorPickerField,
 		FileInputField,
@@ -259,6 +262,8 @@ export default {
 		'update:theming',
 	],
 
+	textFields,
+
 	data() {
 		return {
 			textFields,
@@ -267,6 +272,7 @@ export default {
 			advancedTextFields,
 			advancedFileInputFields,
 			userThemingField,
+			defaultApps,
 
 			canThemeIcons,
 			docUrl,
@@ -297,12 +303,12 @@ export default {
 		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
 		   But without the user variables. That way the admin can preview the render as guest*/
 		/* As guest, there is no user color color-background-plain */
-		background-color: var(--color-primary-element-default, #0082c9);
+		background-color: var(--color-primary-element-default);
 		/* As guest, there is no user background (--image-background)
 		1. Empty background if defined
 		2. Else default background
 		3. Finally default gradient (should not happened, the background is always defined anyway) */
-		background-image: var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+		background-image: var(--image-background-plain, var(--image-background-default));
 
 		&-logo {
 			width: 20%;

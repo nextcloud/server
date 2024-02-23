@@ -52,7 +52,7 @@ class UserGlobalAuth extends AuthMechanism {
 			->setIdentifier('password::global::user')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Global credentials, user entered'));
+			->setText($l->t('Global credentials, manually entered'));
 	}
 
 	public function saveBackendOptions(IUser $user, $id, $backendOptions) {

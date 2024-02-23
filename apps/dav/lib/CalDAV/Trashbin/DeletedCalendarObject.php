@@ -48,9 +48,9 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	private $calDavBackend;
 
 	public function __construct(string $name,
-								array $objectData,
-								string $principalUri,
-								CalDavBackend $calDavBackend) {
+		array $objectData,
+		string $principalUri,
+		CalDavBackend $calDavBackend) {
 		$this->name = $name;
 		$this->objectData = $objectData;
 		$this->calDavBackend = $calDavBackend;

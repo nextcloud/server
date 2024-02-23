@@ -19,11 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { basename } from 'path'
-import { getLanguage, translate as t } from '@nextcloud/l10n'
-import { loadState } from '@nextcloud/initial-state'
-import { Node, FileType, View, getNavigation } from '@nextcloud/files'
+import type { Folder, Node } from '@nextcloud/files'
+
 import { subscribe } from '@nextcloud/event-bus'
+import { FileType, View, getNavigation } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { getLanguage, translate as t } from '@nextcloud/l10n'
+import { basename } from 'path'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
@@ -31,15 +33,22 @@ import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
 import logger from '../logger'
 
-export const generateFolderView = function(folder: string, index = 0): View {
+// The return type of the initial state
+interface IFavoriteFolder {
+	fileid: number
+	path: string
+}
+
+export const generateFavoriteFolderView = function(folder: IFavoriteFolder, index = 0): View {
 	return new View({
-		id: generateIdFromPath(folder),
-		name: basename(folder),
+		id: generateIdFromPath(folder.path),
+		name: basename(folder.path),
 
 		icon: FolderSvg,
 		order: index,
 		params: {
-			dir: folder,
+			dir: folder.path,
+			fileid: folder.fileid.toString(),
 			view: 'favorites',
 		},
 
@@ -57,8 +66,9 @@ export const generateIdFromPath = function(path: string): string {
 
 export default () => {
 	// Load state in function for mock testing purposes
-	const favoriteFolders = loadState<string[]>('files', 'favoriteFolders', [])
-	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFolderView(folder, index)) as View[]
+	const favoriteFolders = loadState<IFavoriteFolder[]>('files', 'favoriteFolders', [])
+	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFavoriteFolderView(folder, index)) as View[]
+	logger.debug('Generating favorites view', { favoriteFolders })
 
 	const Navigation = getNavigation()
 	Navigation.register(new View({
@@ -70,7 +80,7 @@ export default () => {
 		emptyCaption: t('files', 'Files and folders you mark as favorite will show up here'),
 
 		icon: StarSvg,
-		order: 5,
+		order: 15,
 
 		columns: [],
 
@@ -93,7 +103,7 @@ export default () => {
 			return
 		}
 
-		addPathToFavorites(node.path)
+		addToFavorites(node as Folder)
 	})
 
 	/**
@@ -118,9 +128,9 @@ export default () => {
 	 * update the order property of the existing views
 	 */
 	const updateAndSortViews = function() {
-		favoriteFolders.sort((a, b) => a.localeCompare(b, getLanguage(), { ignorePunctuation: true }))
+		favoriteFolders.sort((a, b) => a.path.localeCompare(b.path, getLanguage(), { ignorePunctuation: true }))
 		favoriteFolders.forEach((folder, index) => {
-			const view = favoriteFoldersViews.find(view => view.id === generateIdFromPath(folder))
+			const view = favoriteFoldersViews.find((view) => view.id === generateIdFromPath(folder.path))
 			if (view) {
 				view.order = index
 			}
@@ -128,16 +138,17 @@ export default () => {
 	}
 
 	// Add a folder to the favorites paths array and update the views
-	const addPathToFavorites = function(path: string) {
-		const view = generateFolderView(path)
+	const addToFavorites = function(node: Folder) {
+		const newFavoriteFolder: IFavoriteFolder = { path: node.path, fileid: node.fileid! }
+		const view = generateFavoriteFolderView(newFavoriteFolder)
 
 		// Skip if already exists
-		if (favoriteFolders.find(folder => folder === path)) {
+		if (favoriteFolders.find((folder) => folder.path === node.path)) {
 			return
 		}
 
 		// Update arrays
-		favoriteFolders.push(path)
+		favoriteFolders.push(newFavoriteFolder)
 		favoriteFoldersViews.push(view)
 
 		// Update and sort views
@@ -148,7 +159,7 @@ export default () => {
 	// Remove a folder from the favorites paths array and update the views
 	const removePathFromFavorites = function(path: string) {
 		const id = generateIdFromPath(path)
-		const index = favoriteFolders.findIndex(folder => folder === path)
+		const index = favoriteFolders.findIndex((folder) => folder.path === path)
 
 		// Skip if not exists
 		if (index === -1) {

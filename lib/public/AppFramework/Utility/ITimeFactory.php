@@ -33,7 +33,7 @@ use Psr\Clock\ClockInterface;
  * Use this to get a timestamp or DateTime object in code to remain testable
  *
  * @since 8.0.0
- * @since 26.0.0 Extends the \Psr\Clock\ClockInterface interface
+ * @since 27.0.0 Extends the \Psr\Clock\ClockInterface interface
  * @ref https://www.php-fig.org/psr/psr-20/#21-clockinterface
  */
 
@@ -58,4 +58,12 @@ interface ITimeFactory extends ClockInterface {
 	 * @since 26.0.0
 	 */
 	public function withTimeZone(\DateTimeZone $timezone): static;
+
+	/**
+	 * @param string|null $timezone
+	 * @return \DateTimeZone Requested timezone if provided, UTC otherwise
+	 * @throws \Exception
+	 * @since 29.0.0
+	 */
+	public function getTimeZone(?string $timezone = null): \DateTimeZone;
 }

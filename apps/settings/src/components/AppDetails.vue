@@ -130,7 +130,7 @@
 				class="appslink"
 				:href="app.documentation.user"
 				target="_blank"
-				rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+				rel="noreferrer noopener">{{ t('settings', 'Usage documentation') }} ↗</a>
 			<a v-if="app.documentation && app.documentation.admin"
 				class="appslink"
 				:href="app.documentation.admin"

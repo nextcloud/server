@@ -40,15 +40,16 @@ use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\DirectEditingCapabilities;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
+use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -57,11 +58,13 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IPreview;
-use OCP\ISearch;
 use OCP\IRequest;
+use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -122,6 +125,10 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(BeforeNodeRestoredEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
 

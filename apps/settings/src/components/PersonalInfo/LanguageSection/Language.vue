@@ -22,25 +22,15 @@
 
 <template>
 	<div class="language">
-		<select :id="inputId"
-			:placeholder="t('settings', 'Language')"
-			@change="onLanguageChange">
-			<option v-for="commonLanguage in commonLanguages"
-				:key="commonLanguage.code"
-				:selected="language.code === commonLanguage.code"
-				:value="commonLanguage.code">
-				{{ commonLanguage.name }}
-			</option>
-			<option disabled>
-				──────────
-			</option>
-			<option v-for="otherLanguage in otherLanguages"
-				:key="otherLanguage.code"
-				:selected="language.code === otherLanguage.code"
-				:value="otherLanguage.code">
-				{{ otherLanguage.name }}
-			</option>
-		</select>
+		<NcSelect :aria-label-listbox="t('settings', 'Languages')"
+			class="language__select"
+			:clearable="false"
+			:input-id="inputId"
+			label="name"
+			label-outside
+			:options="allLanguages"
+			:value="language"
+			@option:selected="onLanguageChange" />
 
 		<a href="https://www.transifex.com/nextcloud/nextcloud/"
 			target="_blank"
@@ -56,8 +46,14 @@ import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/Person
 import { validateLanguage } from '../../../utils/validate.js'
 import { handleError } from '../../../utils/handlers.js'
 
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+
 export default {
 	name: 'Language',
+
+	components: {
+		NcSelect,
+	},
 
 	props: {
 		inputId: {
@@ -85,17 +81,18 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * All available languages, sorted like: current, common, other
+		 */
 		allLanguages() {
-			return Object.freeze(
-				[...this.commonLanguages, ...this.otherLanguages]
-					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {}),
-			)
+			const common = this.commonLanguages.filter(l => l.code !== this.language.code)
+			const other = this.otherLanguages.filter(l => l.code !== this.language.code)
+			return [this.language, ...common, ...other]
 		},
 	},
 
 	methods: {
-		async onLanguageChange(e) {
-			const language = this.constructLanguage(e.target.value)
+		async onLanguageChange(language) {
 			this.$emit('update:language', language)
 
 			if (validateLanguage(language)) {
@@ -110,19 +107,12 @@ export default {
 					language,
 					status: responseData.ocs?.meta?.status,
 				})
-				this.reloadPage()
+				window.location.reload()
 			} catch (e) {
 				this.handleResponse({
 					errorMessage: t('settings', 'Unable to update language'),
 					error: e,
 				})
-			}
-		},
-
-		constructLanguage(languageCode) {
-			return {
-				code: languageCode,
-				name: this.allLanguages[languageCode],
 			}
 		},
 
@@ -134,10 +124,6 @@ export default {
 				handleError(error, errorMessage)
 			}
 		},
-
-		reloadPage() {
-			location.reload()
-		},
 	},
 }
 </script>
@@ -146,12 +132,11 @@ export default {
 .language {
 	display: grid;
 
-	select {
-		width: 100%;
+	#{&}__select {
+		margin-top: 6px; // align with other inputs
 	}
 
 	a {
-		color: var(--color-main-text);
 		text-decoration: none;
 		width: max-content;
 	}

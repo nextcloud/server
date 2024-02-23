@@ -12,8 +12,8 @@ style('encryption', 'settings-admin');
 		<p id="encryptHomeStorageSetting">
 			<input type="checkbox" class="checkbox" name="encrypt_home_storage" id="encryptHomeStorage"
 				   value="1" <?php if ($_['encryptHomeStorage']) {
-	print_unescaped('checked="checked"');
-} ?> />
+				   	print_unescaped('checked="checked"');
+				   } ?> />
 			<label for="encryptHomeStorage"><?php p($l->t('Encrypt the home storage'));?></label></br>
 			<em><?php p($l->t("Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted")); ?></em>
 		</p>
@@ -24,7 +24,7 @@ style('encryption', 'settings-admin');
 				<span class="msg"></span>
 				<br/>
 				<em>
-					<?php p($l->t("The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password.")) ?>
+					<?php p($l->t("The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten.")) ?>
 				</em>
 				<br/>
 				<input type="password"
@@ -44,8 +44,8 @@ style('encryption', 'settings-admin');
 			<br/><br/>
 
 			<p name="changeRecoveryPasswordBlock" id="encryptionChangeRecoveryKey" <?php if ($_['recoveryEnabled'] === '0') {
-	print_unescaped('class="hidden"');
-}?>>
+				print_unescaped('class="hidden"');
+			}?>>
 				<?php p($l->t("Change recovery key password:")); ?>
 				<span class="msg"></span>
 				<br/>

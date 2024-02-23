@@ -33,6 +33,7 @@ use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\SystemConfig;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -70,9 +71,9 @@ abstract class AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database username and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database Login and name for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database username for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database Login for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
 			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
 		}
@@ -88,7 +89,7 @@ abstract class AbstractDatabase {
 		$dbName = $config['dbname'];
 		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
 		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
-		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
+		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
 
 		$createUserConfig = $this->config->getValue("setup_create_db_user", true);
 		// accept `false` both as bool and string, since setting config values from env will result in a string
@@ -139,10 +140,12 @@ abstract class AbstractDatabase {
 			}
 			$connectionParams['host'] = $host;
 		}
-
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
+		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
 		$cf = new ConnectionFactory($this->config);
-		return $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection->ensureConnectedToPrimary();
+		return $connection;
 	}
 
 	/**
@@ -150,11 +153,11 @@ abstract class AbstractDatabase {
 	 */
 	abstract public function setupDatabase($username);
 
-	public function runMigrations() {
+	public function runMigrations(?IOutput $output = null) {
 		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {
 			return;
 		}
-		$ms = new MigrationService('core', \OC::$server->get(Connection::class));
+		$ms = new MigrationService('core', \OC::$server->get(Connection::class), $output);
 		$ms->migrate('latest', true);
 	}
 }

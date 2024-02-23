@@ -36,6 +36,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -43,6 +44,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -73,6 +75,8 @@ class ApiTest extends TestCase {
 
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
+
+		Filesystem::getLoader()->removeStorageWrapper('sharing_mask');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';
@@ -119,6 +123,7 @@ class ApiTest extends TestCase {
 		$serverContainer = $this->createMock(IServerContainer::class);
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
 		$previewManager = $this->createMock(IPreview::class);
+		$dateTimeZone = $this->createMock(IDateTimeZone::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -134,7 +139,8 @@ class ApiTest extends TestCase {
 			$appManager,
 			$serverContainer,
 			$userStatusManager,
-			$previewManager
+			$previewManager,
+			$dateTimeZone,
 		);
 	}
 
@@ -959,10 +965,7 @@ class ApiTest extends TestCase {
 
 		$this->assertNotNull($share1->getAttributes());
 		$share1 = $this->shareManager->createShare($share1);
-		$this->assertNull($share1->getAttributes());
 		$this->assertEquals(19, $share1->getPermissions());
-		// attributes get cleared when empty
-		$this->assertNull($share1->getAttributes());
 
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node1)
@@ -1126,7 +1129,7 @@ class ApiTest extends TestCase {
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(1);
-		$share2 = $this->shareManager->createShare($share1);
+		$share2 = $this->shareManager->createShare($share2);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($share1->getId());

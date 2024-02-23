@@ -107,22 +107,22 @@ interface IManager {
 	 * This function can be used to delete the contact identified by the given id
 	 *
 	 * @param int $id the unique identifier to a contact
-	 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
+	 * @param string $addressBookKey identifier of the address book in which the contact shall be deleted
 	 * @return bool successful or not
 	 * @since 6.0.0
 	 */
-	public function delete($id, $address_book_key);
+	public function delete($id, $addressBookKey);
 
 	/**
 	 * This function is used to create a new contact if 'id' is not given or not present.
 	 * Otherwise the contact will be updated by replacing the entire data set.
 	 *
 	 * @param array $properties this array if key-value-pairs defines a contact
-	 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
-	 * @return array an array representing the contact just created or updated
+	 * @param string $addressBookKey identifier of the address book in which the contact shall be created or updated
+	 * @return ?array an array representing the contact just created or updated
 	 * @since 6.0.0
 	 */
-	public function createOrUpdate($properties, $address_book_key);
+	public function createOrUpdate($properties, $addressBookKey);
 
 	/**
 	 * Check if contacts are available (e.g. contacts app enabled)
@@ -135,20 +135,19 @@ interface IManager {
 	/**
 	 * Registers an address book
 	 *
-	 * @param \OCP\IAddressBook $address_book
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function registerAddressBook(\OCP\IAddressBook $address_book);
+	public function registerAddressBook(\OCP\IAddressBook $addressBook);
 
 	/**
 	 * Unregisters an address book
 	 *
-	 * @param \OCP\IAddressBook $address_book
+	 * @param \OCP\IAddressBook $addressBook
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function unregisterAddressBook(\OCP\IAddressBook $address_book);
+	public function unregisterAddressBook(\OCP\IAddressBook $addressBook);
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case

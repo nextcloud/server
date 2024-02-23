@@ -131,7 +131,7 @@ describe('Open folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: undefined, view: 'files' }, { dir: '/FooBar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/FooBar' })
 	})
 
 	test('Open folder fails without node', async () => {

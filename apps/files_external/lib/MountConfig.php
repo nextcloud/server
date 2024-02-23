@@ -152,7 +152,7 @@ class MountConfig {
 	 * @param Backend[] $backends
 	 */
 	public static function dependencyMessage(array $backends): string {
-		$l = \OC::$server->getL10N('files_external');
+		$l = \OCP\Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
@@ -276,8 +276,8 @@ class MountConfig {
 				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
-				'p' => isset($config['priority']) ? $config['priority'] : -1,
-				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
+				'p' => $config['priority'] ?? -1,
+				'mo' => $config['mountOptions'] ?? [],
 			]
 		);
 		return hash('md5', $data);

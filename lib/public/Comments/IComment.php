@@ -33,6 +33,9 @@ namespace OCP\Comments;
  * @since 9.0.0
  */
 interface IComment {
+	/**
+	 * @since 9.0.0
+	 */
 	public const MAX_MESSAGE_LENGTH = 1000;
 
 	/**
@@ -278,6 +281,25 @@ interface IComment {
 	 * @since 19.0.0
 	 */
 	public function setReferenceId(?string $referenceId): IComment;
+
+	/**
+	 * Returns the metadata of the comment
+	 *
+	 * @return array|null
+	 * @since 29.0.0
+	 */
+	public function getMetaData(): ?array;
+
+	/**
+	 * Sets (overwrites) the metadata of the comment
+	 * Data as a json encoded array
+	 *
+	 * @param array|null $metaData
+	 * @return IComment
+	 * @throws \JsonException When the metadata can not be converted to a json encoded string
+	 * @since 29.0.0
+	 */
+	public function setMetaData(?array $metaData): IComment;
 
 	/**
 	 * Returns the reactions array if exists

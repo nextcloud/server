@@ -115,6 +115,7 @@ OC.MimeTypeList={
     "image/targa": "image/tga",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform": "x-office/form",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf": "x-office/form-template",
+    "image/x-emf": "image/emf",
     "my-custom/mimetype": "custom"
 },
 	files: [

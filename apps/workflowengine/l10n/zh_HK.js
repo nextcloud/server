@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "儲存",
     "Available flows" : "可用的流程",
     "For details on how to write your own flow, check out the development documentation." : "有關如何編寫自己的流程的詳細信息，請查看開發說明文件。",
+    "No flows installed" : "未安裝流程",
+    "Ask your administrator to install new flows." : "要求您的管理員安裝新流程。",
     "More flows" : "更多流程",
     "Browse the App Store" : "瀏覽 App Store",
     "Show less" : "顯示較少",
     "Show more" : "顯示更多",
     "Configured flows" : "配置流程",
     "Your flows" : "您的流程",
+    "No flows configured" : "未設定流程",
     "matches" : "匹配",
     "does not match" : "不能匹配",
     "is" : "是",
@@ -110,10 +113,9 @@ OC.L10N.register(
     "between" : "介於",
     "not between" : "皆非",
     "Request user agent" : "索取 user agent",
-    "User group membership" : "用戶群組成員身分",
+    "Group membership" : "群組成員身分",
     "is member of" : "是以下群組的成員：",
     "is not member of" : "非以下群組的成員：",
-    "Predefined URLs" : "預定義網址",
-    "Others" : "其他"
+    "User group membership" : "用戶群組成員身分"
 },
 "nplurals=1; plural=0;");

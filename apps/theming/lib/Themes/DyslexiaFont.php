@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -88,4 +89,3 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 		";
 	}
 }
-

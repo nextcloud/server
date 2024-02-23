@@ -36,8 +36,8 @@ final class ParameterRegistration extends ARegistration {
 	private $value;
 
 	public function __construct(string $appId,
-								string $name,
-								$value) {
+		string $name,
+		$value) {
 		parent::__construct($appId);
 		$this->name = $name;
 		$this->value = $value;

@@ -20,11 +20,11 @@
  */
 namespace OC\Repair\Owncloud;
 
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 class MigrateOauthTables implements IRepairStep {
 	/** @var Connection */

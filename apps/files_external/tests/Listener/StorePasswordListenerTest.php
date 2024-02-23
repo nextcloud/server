@@ -32,8 +32,8 @@ use OCP\IUser;
 use OCP\Security\ICredentialsManager;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserLoggedInEvent;
-use Test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
 /**
  * @group DB

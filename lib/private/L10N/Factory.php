@@ -358,7 +358,7 @@ class Factory implements IFactory {
 			$files = scandir($dir);
 			if ($files !== false) {
 				foreach ($files as $file) {
-					if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+					if (str_ends_with($file, '.json') && !str_starts_with($file, 'l10n')) {
 						$available[] = substr($file, 0, -5);
 					}
 				}
@@ -374,7 +374,7 @@ class Factory implements IFactory {
 				$files = scandir($themeDir);
 				if ($files !== false) {
 					foreach ($files as $file) {
-						if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+						if (str_ends_with($file, '.json') && !str_starts_with($file, 'l10n')) {
 							$available[] = substr($file, 0, -5);
 						}
 					}
@@ -490,9 +490,13 @@ class Factory implements IFactory {
 				[$preferred_language] = explode(';', $preference);
 				$preferred_language = str_replace('-', '_', $preferred_language);
 
+				$preferred_language_parts = explode('_', $preferred_language);
 				foreach ($available as $available_language) {
 					if ($preferred_language === strtolower($available_language)) {
 						return $this->respectDefaultLanguage($app, $available_language);
+					}
+					if ($preferred_language_parts[0].'_'.end($preferred_language_parts) === strtolower($available_language)) {
+						return $available_language;
 					}
 				}
 
