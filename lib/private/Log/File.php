@@ -48,14 +48,15 @@ use OCP\Log\IWriter;
  */
 
 class File extends LogDetails implements IWriter, IFileBased {
-	/** @var string */
-	protected $logFile;
-	/** @var int */
-	protected $logFileMode;
-	/** @var SystemConfig */
-	private $config;
+	protected string $logFile;
 
-	public function __construct(string $path, string $fallbackPath, SystemConfig $config) {
+	protected int $logFileMode;
+
+	public function __construct(
+		string $path,
+		string $fallbackPath,
+		private SystemConfig $config,
+	) {
 		parent::__construct($config);
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
@@ -69,17 +70,14 @@ class File extends LogDetails implements IWriter, IFileBased {
 				$this->logFile = $fallbackPath;
 			}
 		}
-		$this->config = $config;
 		$this->logFileMode = $config->getValue('logfilemode', 0640);
 	}
 
 	/**
 	 * write a message in the log
-	 * @param string $app
 	 * @param string|array $message
-	 * @param int $level
 	 */
-	public function write(string $app, $message, int $level) {
+	public function write(string $app, $message, int $level): void {
 		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
 		if ($this->logFileMode > 0 && is_file($this->logFile) && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
@@ -102,11 +100,8 @@ class File extends LogDetails implements IWriter, IFileBased {
 
 	/**
 	 * get entries from the log in reverse chronological order
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array
 	 */
-	public function getEntries(int $limit = 50, int $offset = 0):array {
+	public function getEntries(int $limit = 50, int $offset = 0): array {
 		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
 		$entries = [];
 		$handle = @fopen($this->logFile, 'rb');
@@ -148,9 +143,6 @@ class File extends LogDetails implements IWriter, IFileBased {
 		return $entries;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getLogFilePath():string {
 		return $this->logFile;
 	}

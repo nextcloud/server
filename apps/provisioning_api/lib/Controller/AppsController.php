@@ -40,7 +40,7 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 /**
- * @psalm-import-type ProvisioningApiAppInfo from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIAppInfo from ResponseDefinitions
  */
 class AppsController extends OCSController {
 	/** @var IAppManager */
@@ -62,6 +62,8 @@ class AppsController extends OCSController {
 	 * @param ?string $filter Filter for enabled or disabled apps
 	 * @return DataResponse<Http::STATUS_OK, array{apps: string[]}, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Installed apps returned
 	 */
 	public function getApps(?string $filter = null): DataResponse {
 		$apps = (new OC_App())->listAllApps();
@@ -92,8 +94,10 @@ class AppsController extends OCSController {
 	 * Get the app info for an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiAppInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIAppInfo, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: App info returned
 	 */
 	public function getAppInfo(string $app): DataResponse {
 		$info = $this->appManager->getAppInfo($app);
@@ -112,6 +116,8 @@ class AppsController extends OCSController {
 	 * @param string $app ID of the app
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: App enabled successfully
 	 */
 	public function enable(string $app): DataResponse {
 		try {
@@ -129,6 +135,8 @@ class AppsController extends OCSController {
 	 *
 	 * @param string $app ID of the app
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 *
+	 * 200: App disabled successfully
 	 */
 	public function disable(string $app): DataResponse {
 		$this->appManager->disableApp($app);

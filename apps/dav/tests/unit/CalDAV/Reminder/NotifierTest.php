@@ -142,6 +142,14 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
+	private static function hasPhpDatetimeDiffBug(): bool {
+		$d1 = \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2023-11-22T11:52:00+01:00');
+		$d2 = new \DateTime('2023-11-22T10:52:03', new \DateTimeZone('UTC'));
+
+		// The difference is 3 seconds, not -1year+11months+…
+		return $d1->diff($d2)->y < 0;
+	}
+
 	public function dataPrepare(): array {
 		return [
 			[
@@ -150,7 +158,7 @@ class NotifierTest extends TestCase {
 					'title' => 'Title of this event',
 					'start_atom' => '2005-08-15T15:52:01+02:00'
 				],
-				'Title of this event (in 1 hour, 52 minutes)',
+				self::hasPhpDatetimeDiffBug() ? 'Title of this event' : 'Title of this event (in 1 hour, 52 minutes)',
 				[
 					'title' => 'Title of this event',
 					'description' => null,
@@ -172,7 +180,7 @@ class NotifierTest extends TestCase {
 					'title' => 'Title of this event',
 					'start_atom' => '2005-08-15T13:00:00+02:00',
 				],
-				'Title of this event (1 hour ago)',
+				self::hasPhpDatetimeDiffBug() ? 'Title of this event' : 'Title of this event (1 hour ago)',
 				[
 					'title' => 'Title of this event',
 					'description' => null,
@@ -281,7 +289,7 @@ class NotifierTest extends TestCase {
 
 		$notification->expects($this->once())
 			->method('setParsedSubject')
-			->with('Title of this event (6 hours ago)')
+			->with(self::hasPhpDatetimeDiffBug() ? 'Title of this event' : 'Title of this event (6 hours ago)')
 			->willReturnSelf();
 
 		$this->expectException(AlreadyProcessedException::class);

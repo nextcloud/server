@@ -2,10 +2,10 @@ OC.L10N.register(
     "dashboard",
     {
     "Dashboard" : "Infopanel",
-    "Dashboard app" : "Applikácia Infopanel",
+    "Dashboard app" : "Aplikácia Infopanel",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
-    "Get more widgets from the App Store" : "Získať viac miniaplikácií z Obchodu s aplikáciami",
+    "Get more widgets from the App Store" : "Získať viac miniaplikácií v Obchode s aplikáciami",
     "Weather service" : "Služba počasie",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "V záujme vášho súkromia údaje o počasí vyžaduje váš server Nextcloud vo vašom mene, aby meteorologická služba nedostávala žiadne osobné informácie.",
     "Weather data from Met.no" : "Dáta počasia z Met.no",
@@ -15,12 +15,12 @@ OC.L10N.register(
     "Status" : "Stav",
     "Good morning" : "Dobré ráno",
     "Good morning, {name}" : "Dobré ráno, {name}",
-    "Good afternoon" : "Dobrý večer",
-    "Good afternoon, {name}" : "Dobrý večer, {name}",
+    "Good afternoon" : "Dobrý deň",
+    "Good afternoon, {name}" : "Dobrý deň, {name}",
     "Good evening" : "Dobrý večer",
     "Good evening, {name}" : "Dobrý večer, {name}",
     "Hello" : "Ahoj",
     "Hello, {name}" : "Ahoj, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite svoj deň informovane\n\nNextcloud Dashboard je vaším východiskovým bodom dňa, ktorý vám ponúka\nprehľad vašich nadchádzajúcich stretnutí, urgentných e-mailov, chatových správ,\nprichádzajúce vstupenky, najnovšie tweety a oveľa viac! Užívatelia môžu pridávať miniaplikácie\nktoré sa im páčia a meniť pozadie podľa seba."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite svoj deň informovane\n\nNextcloud Dashboard je vaším východiskovým bodom dňa, ktorý vám ponúka\nprehľad vašich nadchádzajúcich stretnutí, urgentných e-mailov, chatových správ,\nprichádzajúce vstupenky, najnovšie tweety a oveľa viac! Používatelia môžu pridávať miniaplikácie\nktoré sa im páčia a meniť pozadie podľa seba."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

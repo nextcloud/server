@@ -21,35 +21,33 @@
   -->
 
 <template>
-	<li :class="{'sharing-entry--share': share}" class="sharing-entry sharing-entry__link">
+	<li :class="{ 'sharing-entry--share': share }" class="sharing-entry sharing-entry__link">
 		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
-		<div class="sharing-entry__desc" @click.prevent="toggleQuickShareSelect">
-			<span class="sharing-entry__title" :title="title">
-				{{ title }}
-			</span>
-			<p v-if="subtitle">
-				{{ subtitle }}
-			</p>
-			<QuickShareSelect v-if="share && share.permissions !== undefined"
-				:share="share"
-				:file-info="fileInfo"
-				:toggle="showDropdown"
-				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
-		</div>
 
-		<!-- clipboard -->
-		<NcActions v-if="share && !isEmailShareType && share.token"
-			ref="copyButton"
-			class="sharing-entry__copy">
-			<NcActionLink :href="shareLink"
-				target="_blank"
-				:title="copyLinkTooltip"
-				:aria-label="copyLinkTooltip"
-				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.stop.prevent="copyLink" />
-		</NcActions>
+		<div class="sharing-entry__summary">
+			<div class="sharing-entry__desc">
+				<span class="sharing-entry__title" :title="title">
+					{{ title }}
+				</span>
+				<p v-if="subtitle">
+					{{ subtitle }}
+				</p>
+				<SharingEntryQuickShareSelect v-if="share && share.permissions !== undefined"
+					:share="share"
+					:file-info="fileInfo"
+					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
+			</div>
+
+			<!-- clipboard -->
+			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
+				<NcActionButton	:title="copyLinkTooltip"
+					:aria-label="copyLinkTooltip"
+					:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
+					@click.prevent="copyLink" />
+			</NcActions>
+		</div>
 
 		<!-- pending actions -->
 		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
@@ -57,11 +55,9 @@
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
-			@close="onNewLinkShare">
+			@close="onCancel">
 			<!-- pending data menu -->
-			<NcActionText v-if="errors.pending"
-				icon="icon-error"
-				:class="{ error: errors.pending}">
+			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
 				{{ errors.pending }}
 			</NcActionText>
 			<NcActionText v-else icon="icon-info">
@@ -104,7 +100,7 @@
 				:value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
-				:max="dateMaxEnforced"
+				:max="maxExpirationDateEnforced"
 				@input="onExpirationChange">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
@@ -129,6 +125,7 @@
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton :disabled="saving"
+						:close-after-click="true"
 						@click.prevent="openSharingDetails">
 						<template #icon>
 							<Tune />
@@ -148,7 +145,7 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
+				<NcActionLink v-for="({ icon, url, name }, index) in externalLegacyLinkActions"
 					:key="index"
 					:href="url(shareLink)"
 					:icon="icon"
@@ -201,7 +198,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
 
-import QuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.js'
@@ -222,7 +219,7 @@ export default {
 		NcActionSeparator,
 		NcAvatar,
 		Tune,
-		QuickShareSelect,
+		SharingEntryQuickShareSelect,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -240,7 +237,6 @@ export default {
 
 	data() {
 		return {
-			showDropdown: false,
 			copySuccess: true,
 			copied: false,
 
@@ -304,34 +300,6 @@ export default {
 			}
 			return null
 		},
-
-		/**
-		 * Does the current share have an expiration date
-		 *
-		 * @return {boolean}
-		 */
-		hasExpirationDate: {
-			get() {
-				return this.config.isDefaultExpireDateEnforced
-					|| !!this.share.expireDate
-			},
-			set(enabled) {
-				const defaultExpirationDate = this.config.defaultExpirationDate
-					|| new Date(new Date().setDate(new Date().getDate() + 1))
-				this.share.expireDate = enabled
-					? this.formatDateToString(defaultExpirationDate)
-					: ''
-				console.debug('Expiration date status', enabled, this.share.expireDate)
-			},
-		},
-
-		dateMaxEnforced() {
-			if (this.config.isDefaultExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
-			}
-			return null
-		},
-
 		/**
 		 * Is the current share password protected ?
 		 *
@@ -568,7 +536,7 @@ export default {
 				this.pending = false
 				component.open = true
 
-			// Nothing is enforced, creating share directly
+				// Nothing is enforced, creating share directly
 			} else {
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
@@ -760,10 +728,6 @@ export default {
 			// YET. We can safely delete the share :)
 			this.$emit('remove:share', this.share)
 		},
-
-		toggleQuickShareSelect() {
-			this.showDropdown = !this.showDropdown
-		},
 	},
 }
 </script>
@@ -774,21 +738,33 @@ export default {
 	align-items: center;
 	min-height: 44px;
 
+	&__summary {
+		padding: 8px;
+		padding-left: 10px;
+		display: flex;
+		justify-content: space-between;
+		flex: 1 0;
+		min-width: 0;
+	}
+
 	&__desc {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		padding: 8px;
 		line-height: 1.2em;
 
 		p {
 			color: var(--color-text-maxcontrast);
 		}
+
+		&__title {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
 	}
-	&__title {
-		text-overflow: ellipsis;
-		overflow: hidden;
-		white-space: nowrap;
+
+	&__copy {
+
 	}
 
 	&:not(.sharing-entry--share) &__actions {
@@ -816,9 +792,9 @@ export default {
 	// put menus to the left
 	// but only the first one
 	.action-item {
-		margin-left: auto;
-		~ .action-item,
-		~ .sharing-entry__loading {
+
+		~.action-item,
+		~.sharing-entry__loading {
 			margin-left: 0;
 		}
 	}

@@ -55,7 +55,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -73,7 +73,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use function in_array;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
 	/** @var UserManager */
 	private $userManager;
@@ -223,7 +223,7 @@ class UsersController extends Controller {
 
 				foreach ($groups as $key => $group) {
 					// $userCount += (int)$group['usercount'];
-					array_push($groupsNames, $group['name']);
+					$groupsNames[] = $group['name'];
 					// we prevent subadmins from looking up themselves
 					// so we lower the count of the groups he belongs to
 					if (array_key_exists($group['id'], $userGroups)) {
@@ -240,7 +240,7 @@ class UsersController extends Controller {
 
 		$disabledUsersGroup = [
 			'id' => 'disabled',
-			'name' => 'Disabled users',
+			'name' => 'Disabled accounts',
 			'usercount' => $disabledUsers
 		];
 
@@ -367,20 +367,20 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function setUserSettings(?string $avatarScope = null,
-									?string $displayname = null,
-									?string $displaynameScope = null,
-									?string $phone = null,
-									?string $phoneScope = null,
-									?string $email = null,
-									?string $emailScope = null,
-									?string $website = null,
-									?string $websiteScope = null,
-									?string $address = null,
-									?string $addressScope = null,
-									?string $twitter = null,
-									?string $twitterScope = null,
-									?string $fediverse = null,
-									?string $fediverseScope = null
+		?string $displayname = null,
+		?string $displaynameScope = null,
+		?string $phone = null,
+		?string $phoneScope = null,
+		?string $email = null,
+		?string $emailScope = null,
+		?string $website = null,
+		?string $websiteScope = null,
+		?string $address = null,
+		?string $addressScope = null,
+		?string $twitter = null,
+		?string $twitterScope = null,
+		?string $fediverse = null,
+		?string $fediverseScope = null
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -388,7 +388,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l10n->t('Invalid user')
+						'message' => $this->l10n->t('Invalid account')
 					]
 				],
 				Http::STATUS_UNAUTHORIZED

@@ -132,8 +132,20 @@ export default {
 			const shareType = this.share.shareType ?? this.share.type
 			return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
 		},
+		isRemoteShare() {
+			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+		},
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
+		},
+		isExpiryDateEnforced() {
+			if (this.isPublicShare) {
+				return this.config.isDefaultExpireDateEnforced
+			}
+			if (this.isRemoteShare) {
+			    return this.config.isDefaultRemoteExpireDateEnforced
+			}
+			return this.config.isDefaultInternalExpireDateEnforced
 		},
 		hasCustomPermissions() {
 			const bundledPermissions = [
@@ -142,6 +154,19 @@ export default {
 				BUNDLED_PERMISSIONS.FILE_DROP,
 			]
 			return !bundledPermissions.includes(this.share.permissions)
+		},
+		maxExpirationDateEnforced() {
+			if (this.isExpiryDateEnforced) {
+				if (this.isPublicShare) {
+					return this.config.defaultExpirationDate
+				}
+				if (this.isRemoteShare) {
+					return this.config.defaultRemoteExpirationDateString
+				}
+				// If it get's here then it must be an internal share
+				return this.config.defaultInternalExpirationDate
+			}
+			return null
 		},
 	},
 
@@ -196,10 +221,9 @@ export default {
 		 *
 		 * @param {Date} date
 		 */
-		onExpirationChange(date) {
+		onExpirationChange: debounce(function(date) {
 			this.share.expireDate = this.formatDateToString(new Date(date))
-		},
-
+		}, 500),
 		/**
 		 * Uncheck expire date
 		 * We need this method because @update:checked

@@ -114,11 +114,11 @@ interface ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function getForObject(
-			$objectType,
-			$objectId,
-			$limit = 0,
-			$offset = 0,
-			\DateTime $notOlderThan = null
+		$objectType,
+		$objectId,
+		$limit = 0,
+		$offset = 0,
+		\DateTime $notOlderThan = null
 	);
 
 	/**

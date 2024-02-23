@@ -7,6 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -43,7 +44,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
-// FIXME: this class really should be abstract
+// FIXME: this class really should be abstract (+1)
 class Node implements INode {
 	/**
 	 * @var \OC\Files\View $view
@@ -69,7 +70,7 @@ class Node implements INode {
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?Node $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
@@ -131,7 +132,14 @@ class Node implements INode {
 			if (method_exists($this->root, 'emit')) {
 				$this->root->emit('\OC\Files', $hook, $args);
 			}
-			$dispatcher->dispatch('\OCP\Files::' . $hook, new GenericEvent($args));
+
+			if (in_array($hook, ['preWrite', 'postWrite', 'preCreate', 'postCreate', 'preTouch', 'postTouch', 'preDelete', 'postDelete'], true)) {
+				$event = new GenericEvent($args[0]);
+			} else {
+				$event = new GenericEvent($args);
+			}
+
+			$dispatcher->dispatch('\OCP\Files::' . $hook, $event);
 		}
 	}
 
@@ -297,10 +305,19 @@ class Node implements INode {
 				return $this->root;
 			}
 
+			// Manually fetch the parent if the current node doesn't have a file info yet
+			try {
+				$fileInfo = $this->getFileInfo();
+			} catch (NotFoundException) {
+				$this->parent = $this->root->get($newPath);
+				/** @var \OCP\Files\Folder $this->parent */
+				return $this->parent;
+			}
+
 			// gather the metadata we already know about our parent
 			$parentData = [
 				'path' => $newPath,
-				'fileid' => $this->getFileInfo()->getParentId(),
+				'fileid' => $fileInfo->getParentId(),
 			];
 
 			// and create lazy folder with it instead of always querying
@@ -480,5 +497,13 @@ class Node implements INode {
 
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
 	}
 }

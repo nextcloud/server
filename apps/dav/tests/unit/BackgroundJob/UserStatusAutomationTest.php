@@ -26,10 +26,14 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
+use OC\User\OutOfOfficeData;
 use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -46,6 +50,8 @@ class UserStatusAutomationTest extends TestCase {
 	protected MockObject|LoggerInterface $logger;
 	protected MockObject|IManager $statusManager;
 	protected MockObject|IConfig $config;
+	private IAvailabilityCoordinator|MockObject $coordinator;
+	private IUserManager|MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,6 +61,8 @@ class UserStatusAutomationTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->statusManager = $this->createMock(IManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->coordinator = $this->createMock(IAvailabilityCoordinator::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
 	}
 
@@ -67,6 +75,8 @@ class UserStatusAutomationTest extends TestCase {
 				$this->logger,
 				$this->statusManager,
 				$this->config,
+				$this->coordinator,
+				$this->userManager,
 			);
 		}
 
@@ -78,6 +88,8 @@ class UserStatusAutomationTest extends TestCase {
 				$this->logger,
 				$this->statusManager,
 				$this->config,
+				$this->coordinator,
+				$this->userManager,
 			])
 			->setMethods($methods)
 			->getMock();
@@ -95,14 +107,31 @@ class UserStatusAutomationTest extends TestCase {
 	/**
 	 * @dataProvider dataRun
 	 */
-	public function testRun(string $ruleDay, string $currentTime, bool $isAvailable): void {
+	public function testRunNoOOO(string $ruleDay, string $currentTime, bool $isAvailable): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'user'
+		]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->coordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn(null);
 		$this->config->method('getUserValue')
 			->with('user', 'dav', 'user_status_automation', 'no')
 			->willReturn('yes');
-
 		$this->time->method('getDateTime')
 			->willReturn(new \DateTime($currentTime, new \DateTimeZone('UTC')));
-
+		$this->logger->expects(self::exactly(4))
+			->method('debug');
+		$this->statusManager->expects(self::exactly(2))
+			->method('revertUserStatus');
+		if (!$isAvailable) {
+			$this->statusManager->expects(self::once())
+				->method('setUserStatus')
+				->with('user', IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
+		}
 		$automation = $this->getAutomationMock(['getAvailabilityFromPropertiesTable']);
 		$automation->method('getAvailabilityFromPropertiesTable')
 			->with('user')
@@ -141,63 +170,74 @@ END:AVAILABLE
 END:VAVAILABILITY
 END:VCALENDAR');
 
-		if ($isAvailable) {
-			$this->statusManager->expects($this->once())
-				->method('revertUserStatus')
-				->with('user', IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
-		} else {
-			$this->statusManager->expects($this->once())
-				->method('revertUserStatus')
-				->with('user', IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
-			$this->statusManager->expects($this->once())
-				->method('setUserStatus')
-				->with('user', IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
-		}
+		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
+	}
+
+	public function testRunNoAvailabilityNoOOO(): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'user'
+		]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->coordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn(null);
+		$this->config->method('getUserValue')
+			->with('user', 'dav', 'user_status_automation', 'no')
+			->willReturn('yes');
+		$this->time->method('getDateTime')
+			->willReturn(new \DateTime('2023-02-24 13:58:24.479357', new \DateTimeZone('UTC')));
+		$this->statusManager->expects($this->exactly(3))
+			->method('revertUserStatus');
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(UserStatusAutomation::class, ['userId' => 'user']);
+		$this->logger->expects(self::once())
+			->method('debug');
+		$this->logger->expects(self::once())
+			->method('info');
+		$automation = $this->getAutomationMock(['getAvailabilityFromPropertiesTable']);
+		$automation->method('getAvailabilityFromPropertiesTable')
+			->with('user')
+			->willReturn(false);
 
 		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
 	}
 
-	public function testRunNoMoreAvailabilityDefined(): void {
-		$this->config->method('getUserValue')
-			->with('user', 'dav', 'user_status_automation', 'no')
-			->willReturn('yes');
+	public function testRunNoAvailabilityWithOOO(): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'user'
+		]);
+		$ooo = $this->createConfiguredMock(OutOfOfficeData::class, [
+			'getShortMessage' => 'On Vacation',
+			'getEndDate' => 123456,
+		]);
 
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->coordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn($ooo);
+		$this->coordinator->expects(self::once())
+			->method('isInEffect')
+			->willReturn(true);
+		$this->statusManager->expects($this->exactly(2))
+			->method('revertUserStatus');
+		$this->statusManager->expects(self::once())
+			->method('setUserStatus')
+			->with('user', IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
+		$this->config->expects(self::never())
+			->method('getUserValue');
 		$this->time->method('getDateTime')
 			->willReturn(new \DateTime('2023-02-24 13:58:24.479357', new \DateTimeZone('UTC')));
-
-		$automation = $this->getAutomationMock(['getAvailabilityFromPropertiesTable']);
-		$automation->method('getAvailabilityFromPropertiesTable')
-			->with('user')
-			->willReturn('BEGIN:VCALENDAR
-PRODID:Nextcloud DAV app
-BEGIN:VTIMEZONE
-TZID:Europe/Berlin
-BEGIN:STANDARD
-TZNAME:CET
-TZOFFSETFROM:+0200
-TZOFFSETTO:+0100
-DTSTART:19701025T030000
-RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
-END:STANDARD
-BEGIN:DAYLIGHT
-TZNAME:CEST
-TZOFFSETFROM:+0100
-TZOFFSETTO:+0200
-DTSTART:19700329T020000
-RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
-END:DAYLIGHT
-END:VTIMEZONE
-BEGIN:VAVAILABILITY
-END:VAVAILABILITY
-END:VCALENDAR');
-
-		$this->statusManager->expects($this->once())
-			->method('revertUserStatus')
-			->with('user', IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
-
-		$this->jobList->expects($this->once())
-			->method('remove')
-			->with(UserStatusAutomation::class, ['userId' => 'user']);
+		$this->jobList->expects($this->never())
+			->method('remove');
+		$this->logger->expects(self::exactly(2))
+			->method('debug');
+		$automation = $this->getAutomationMock([]);
 
 		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
 	}

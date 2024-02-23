@@ -31,7 +31,8 @@ namespace OC\Core\Controller;
 use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -52,7 +53,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'GET', url: '/config', root: '')]
 	public function getConfig(): DataResponse {
 		$data = [
 			'version' => '1.7',
@@ -71,7 +73,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * Get the capabilities
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>}, array{}>
+	 *
+	 * 200: Capabilities returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/capabilities', root: '/cloud')]
 	public function getCapabilities(): DataResponse {
 		$result = [];
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
@@ -99,7 +104,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @PublicPage
 	 * @BruteForceProtection(action=login)
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'POST', url: '/check', root: '/person')]
 	public function personCheck(string $login = '', string $password = ''): DataResponse {
 		if ($login !== '' && $password !== '') {
 			if ($this->userManager->checkPassword($login, $password)) {
@@ -120,7 +126,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
-	#[IgnoreOpenAPI]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'GET', url: '/key/{cloudId}', root: '/identityproof')]
 	public function getIdentityProof(string $cloudId): DataResponse {
 		$userObject = $this->userManager->get($cloudId);
 
@@ -132,6 +139,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse($data);
 		}
 
-		return new DataResponse(['User not found'], 404);
+		return new DataResponse(['Account not found'], 404);
 	}
 }

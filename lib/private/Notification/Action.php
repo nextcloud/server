@@ -27,23 +27,17 @@ namespace OC\Notification;
 use OCP\Notification\IAction;
 
 class Action implements IAction {
-	/** @var string */
-	protected $label;
+	protected string $label;
 
-	/** @var string */
-	protected $labelParsed;
+	protected string $labelParsed;
 
-	/** @var string */
-	protected $link;
+	protected string $link;
 
-	/** @var string */
-	protected $requestType;
+	protected string $requestType;
 
-	/** @var string */
-	protected $icon;
+	protected string $icon;
 
-	/** @var bool */
-	protected $primary;
+	protected bool $primary;
 
 	public function __construct() {
 		$this->label = '';

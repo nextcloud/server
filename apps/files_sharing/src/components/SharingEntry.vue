@@ -29,27 +29,25 @@
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 
-		<div class="sharing-entry__summary" @click.prevent="toggleQuickShareSelect">
+		<div class="sharing-entry__summary">
 			<component :is="share.shareWithLink ? 'a' : 'div'"
 				:title="tooltip"
 				:aria-label="tooltip"
 				:href="share.shareWithLink"
-				class="sharing-entry__desc">
-				<span>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{
-					share.shareWithDisplayNameUnique }})</span></span>
-				<p v-if="hasStatus">
-					<span>{{ share.status.icon || '' }}</span>
-					<span>{{ share.status.message || '' }}</span>
-				</p>
+				class="sharing-entry__summary__desc">
+				<span>{{ title }}
+					<span v-if="!isUnique" class="sharing-entry__summary__desc-unique"> ({{
+						share.shareWithDisplayNameUnique }})</span>
+					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
+				</span>
 			</component>
-			<QuickShareSelect :share="share"
+			<SharingEntryQuickShareSelect :share="share"
 				:file-info="fileInfo"
-				:toggle="showDropdown"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
 		<NcButton class="sharing-entry__action"
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
-			type="tertiary-no-background"
+			type="tertiary"
 			@click="openSharingDetails(share)">
 			<template #icon>
 				<DotsHorizontalIcon :size="20" />
@@ -64,7 +62,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
-import QuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
@@ -77,16 +75,11 @@ export default {
 		NcAvatar,
 		DotsHorizontalIcon,
 		NcSelect,
-		QuickShareSelect,
+		SharingEntryQuickShareSelect,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
 
-	data() {
-		return {
-			showDropdown: false,
-		}
-	},
 	computed: {
 		title() {
 			let title = this.share.shareWithDisplayName
@@ -141,9 +134,6 @@ export default {
 		onMenuClose() {
 			this.onNoteSubmit()
 		},
-		toggleQuickShareSelect() {
-			this.showDropdown = !this.showDropdown
-		},
 	},
 }
 </script>
@@ -153,33 +143,33 @@ export default {
 	display: flex;
 	align-items: center;
 	height: 44px;
-
-	&__desc {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding-bottom: 0;
-		line-height: 1.2em;
-
-		p {
-			color: var(--color-text-maxcontrast);
-		}
-
-		&-unique {
-			color: var(--color-text-maxcontrast);
-		}
-	}
-
-	&__actions {
-		margin-left: auto;
-	}
-
 	&__summary {
 		padding: 8px;
+		padding-left: 10px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		width: 100%;
+		align-items: flex-start;
+		flex: 1 0;
+		min-width: 0;
+
+		&__desc {
+			display: inline-block;
+			padding-bottom: 0;
+			line-height: 1.2em;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			p,
+			small {
+				color: var(--color-text-maxcontrast);
+			}
+
+			&-unique {
+				color: var(--color-text-maxcontrast);
+			}
+		}
 	}
 
 }

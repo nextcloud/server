@@ -548,6 +548,11 @@ class Manager implements IManager {
 				$this->groupManager->getUserGroupIds($sharedBy),
 				$this->groupManager->getUserGroupIds($sharedWith)
 			);
+
+			// optional excluded groups
+			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
+			$groups = array_diff($groups, $excludedGroups);
+
 			if (empty($groups)) {
 				$message_t = $this->l->t('Sharing is only allowed with group members');
 				throw new \Exception($message_t);
@@ -573,7 +578,7 @@ class Manager implements IManager {
 
 			// Identical share already exists
 			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
-				$message = $this->l->t('Sharing %s failed, because this item is already shared with user %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]);
+				$message = $this->l->t('Sharing %s failed, because this item is already shared with the account %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]);
 				throw new AlreadySharedException($message, $existingShare);
 			}
 
@@ -584,7 +589,7 @@ class Manager implements IManager {
 					$user = $this->userManager->get($share->getSharedWith());
 
 					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-						$message = $this->l->t('Sharing %s failed, because this item is already shared with user %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]);
+						$message = $this->l->t('Sharing %s failed, because this item is already shared with the account %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]);
 						throw new AlreadySharedException($message, $existingShare);
 					}
 				}
@@ -608,7 +613,10 @@ class Manager implements IManager {
 		if ($this->shareWithGroupMembersOnly()) {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
-			if (is_null($sharedWith) || !$sharedWith->inGroup($sharedBy)) {
+
+			// optional excluded groups
+			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
+			if (is_null($sharedWith) || in_array($share->getSharedWith(), $excludedGroups) || !$sharedWith->inGroup($sharedBy)) {
 				throw new \Exception('Sharing is only allowed within your own groups');
 			}
 		}
@@ -880,12 +888,12 @@ class Manager implements IManager {
 	 * @param \DateTime|null $expiration
 	 */
 	protected function sendMailNotification(IL10N $l,
-											$filename,
-											$link,
-											$initiator,
-											$shareWith,
-											\DateTime $expiration = null,
-											$note = '') {
+		$filename,
+		$link,
+		$initiator,
+		$shareWith,
+		\DateTime $expiration = null,
+		$note = '') {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 
@@ -1573,14 +1581,8 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function checkPassword(IShare $share, $password) {
-		$passwordProtected = $share->getShareType() !== IShare::TYPE_LINK
-			|| $share->getShareType() !== IShare::TYPE_EMAIL
-			|| $share->getShareType() !== IShare::TYPE_CIRCLE;
-		if (!$passwordProtected) {
-			//TODO maybe exception?
-			return false;
-		}
 
+		// if there is no password on the share object / passsword is null, there is nothing to check
 		if ($password === null || $share->getPassword() === null) {
 			return false;
 		}
@@ -1942,6 +1944,21 @@ class Manager implements IManager {
 	 */
 	public function shareWithGroupMembersOnly() {
 		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+	}
+
+	/**
+	 * If shareWithGroupMembersOnly is enabled, return an optional
+	 * list of groups that must be excluded from the principle of
+	 * belonging to the same group.
+	 *
+	 * @return array
+	 */
+	public function shareWithGroupMembersOnlyExcludeGroupsList() {
+		if (!$this->shareWithGroupMembersOnly()) {
+			return [];
+		}
+		$excludeGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
+		return json_decode($excludeGroups, true) ?? [];
 	}
 
 	/**

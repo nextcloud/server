@@ -37,7 +37,7 @@ class Rackspace extends AuthMechanism {
 			->setScheme(self::SCHEME_OPENSTACK)
 			->setText($l->t('Rackspace'))
 			->addParameters([
-				new DefinitionParameter('user', $l->t('Username')),
+				new DefinitionParameter('user', $l->t('Login')),
 				(new DefinitionParameter('key', $l->t('API key')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 			])

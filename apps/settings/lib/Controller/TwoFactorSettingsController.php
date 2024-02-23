@@ -37,8 +37,8 @@ class TwoFactorSettingsController extends Controller {
 	private $mandatoryTwoFactor;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								MandatoryTwoFactor $mandatoryTwoFactor) {
+		IRequest $request,
+		MandatoryTwoFactor $mandatoryTwoFactor) {
 		parent::__construct($appName, $request);
 
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;

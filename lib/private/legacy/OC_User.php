@@ -38,10 +38,10 @@
 
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides wrapper methods for user management. Multiple backends are
@@ -93,7 +93,7 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
-					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', ILogger::DEBUG);
+					\OCP\Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
 					self::$_usedBackends[$backend] = new \OC\User\Database();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
@@ -102,7 +102,7 @@ class OC_User {
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
-					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', ILogger::DEBUG);
+					\OCP\Server::get(LoggerInterface::class)->debug('Adding default user backend ' . $backend . '.', ['app' => 'core']);
 					$className = 'OC_USER_' . strtoupper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
@@ -138,7 +138,7 @@ class OC_User {
 			$class = $config['class'];
 			$arguments = $config['arguments'];
 			if (class_exists($class)) {
-				if (array_search($i, self::$_setupedBackends) === false) {
+				if (!in_array($i, self::$_setupedBackends)) {
 					// make a reflection object
 					$reflectionObj = new ReflectionClass($class);
 
@@ -147,10 +147,10 @@ class OC_User {
 					self::useBackend($backend);
 					self::$_setupedBackends[] = $i;
 				} else {
-					\OCP\Util::writeLog('core', 'User backend ' . $class . ' already initialized.', ILogger::DEBUG);
+					\OCP\Server::get(LoggerInterface::class)->debug('User backend ' . $class . ' already initialized.', ['app' => 'core']);
 				}
 			} else {
-				\OCP\Util::writeLog('core', 'User backend ' . $class . ' not found.', ILogger::ERROR);
+				\OCP\Server::get(LoggerInterface::class)->error('User backend ' . $class . ' not found.', ['app' => 'core']);
 			}
 		}
 	}
@@ -178,7 +178,7 @@ class OC_User {
 				$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					$message = \OC::$server->getL10N('lib')->t('Account disabled');
 					throw new LoginException($message);
 				}
 				$userSession->setLoginName($uid);

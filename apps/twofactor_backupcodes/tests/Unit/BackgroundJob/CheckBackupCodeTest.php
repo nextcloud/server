@@ -82,6 +82,9 @@ class CheckBackupCodeTest extends TestCase {
 	}
 
 	public function testRunAlreadyGenerated() {
+		$this->user->method('isEnabled')
+			->willReturn(true);
+
 		$this->registry->method('getProviderStates')
 			->with($this->user)
 			->willReturn(['backup_codes' => true]);
@@ -97,6 +100,8 @@ class CheckBackupCodeTest extends TestCase {
 	public function testRun() {
 		$this->user->method('getUID')
 			->willReturn('myUID');
+		$this->user->method('isEnabled')
+			->willReturn(true);
 
 		$this->registry->expects($this->once())
 			->method('getProviderStates')
@@ -117,7 +122,26 @@ class CheckBackupCodeTest extends TestCase {
 		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
 	}
 
+	public function testRunDisabledUser() {
+		$this->user->method('getUID')
+			->willReturn('myUID');
+		$this->user->method('isEnabled')
+			->willReturn(false);
+
+		$this->registry->expects($this->never())
+			->method('getProviderStates')
+			->with($this->user);
+
+		$this->jobList->expects($this->never())
+			->method('add');
+
+		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
+	}
+
 	public function testRunNoProviders() {
+		$this->user->method('isEnabled')
+			->willReturn(true);
+
 		$this->registry->expects($this->once())
 			->method('getProviderStates')
 			->with($this->user)

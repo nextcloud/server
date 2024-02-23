@@ -4,6 +4,7 @@
  *
  * @author Christian <16852529+cviereck@users.noreply.github.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -30,7 +31,6 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
-use OC\Metadata\IMetadataManager;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
@@ -42,6 +42,9 @@ use OCP\Files\Node;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
+use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception\NotFound;
@@ -57,37 +60,14 @@ use SearchDAV\Query\Query;
 class FileSearchBackend implements ISearchBackend {
 	public const OPERATOR_LIMIT = 100;
 
-	/** @var CachingTree */
-	private $tree;
-
-	/** @var IUser */
-	private $user;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var View */
-	private $view;
-
-	/**
-	 * FileSearchBackend constructor.
-	 *
-	 * @param CachingTree $tree
-	 * @param IUser $user
-	 * @param IRootFolder $rootFolder
-	 * @param IManager $shareManager
-	 * @param View $view
-	 * @internal param IRootFolder $rootFolder
-	 */
-	public function __construct(CachingTree $tree, IUser $user, IRootFolder $rootFolder, IManager $shareManager, View $view) {
-		$this->tree = $tree;
-		$this->user = $user;
-		$this->rootFolder = $rootFolder;
-		$this->shareManager = $shareManager;
-		$this->view = $view;
+	public function __construct(
+		private CachingTree $tree,
+		private IUser $user,
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+		private View $view,
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
 	}
 
 	/**
@@ -115,7 +95,7 @@ class FileSearchBackend implements ISearchBackend {
 		// all valid scopes support the same schema
 
 		//todo dynamically load all propfind properties that are supported
-		return [
+		$props = [
 			// queryable properties
 			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
@@ -134,9 +114,35 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, true, false, false),
 			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, true, false, false),
 			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
-			new SearchPropertyDefinition(FilesPlugin::FILE_METADATA_SIZE, true, false, false, SearchPropertyDefinition::DATATYPE_STRING),
 			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 		];
+
+		return array_merge($props, $this->getPropertyDefinitionsForMetadata());
+	}
+
+
+	private function getPropertyDefinitionsForMetadata(): array {
+		$metadataProps = [];
+		$metadata = $this->filesMetadataManager->getKnownMetadata();
+		$indexes = $metadata->getIndexes();
+		foreach ($metadata->getKeys() as $key) {
+			$isIndex = in_array($key, $indexes);
+			$type = match ($metadata->getType($key)) {
+				IMetadataValueWrapper::TYPE_INT => SearchPropertyDefinition::DATATYPE_INTEGER,
+				IMetadataValueWrapper::TYPE_FLOAT => SearchPropertyDefinition::DATATYPE_DECIMAL,
+				IMetadataValueWrapper::TYPE_BOOL => SearchPropertyDefinition::DATATYPE_BOOLEAN,
+				default => SearchPropertyDefinition::DATATYPE_STRING
+			};
+			$metadataProps[] = new SearchPropertyDefinition(
+				FilesPlugin::FILE_METADATA_PREFIX . $key,
+				true,
+				$isIndex,
+				$isIndex,
+				$type
+			);
+		}
+
+		return $metadataProps;
 	}
 
 	/**
@@ -144,27 +150,6 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param string[] $requestProperties
 	 */
 	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
-		if (in_array(FilesPlugin::FILE_METADATA_SIZE, $requestProperties, true)) {
-			// Preloading of the metadata
-			$fileIds = [];
-			foreach ($nodes as $node) {
-				/** @var \OCP\Files\Node|\OCA\DAV\Connector\Sabre\Node $node */
-				if (str_starts_with($node->getFileInfo()->getMimeType(), 'image/')) {
-					/** @var \OCA\DAV\Connector\Sabre\File $node */
-					$fileIds[] = $node->getFileInfo()->getId();
-				}
-			}
-			/** @var IMetaDataManager $metadataManager */
-			$metadataManager = \OC::$server->get(IMetadataManager::class);
-			$preloadedMetadata = $metadataManager->fetchMetadataFor('size', $fileIds);
-			foreach ($nodes as $node) {
-				/** @var \OCP\Files\Node|\OCA\DAV\Connector\Sabre\Node $node */
-				if (str_starts_with($node->getFileInfo()->getMimeType(), 'image/')) {
-					/** @var \OCA\DAV\Connector\Sabre\File $node */
-					$node->setMetadata('size', $preloadedMetadata[$node->getFileInfo()->getId()]);
-				}
-			}
-		}
 	}
 
 	/**
@@ -300,11 +285,20 @@ class FileSearchBackend implements ISearchBackend {
 
 	/**
 	 * @param Query $query
+	 *
 	 * @return ISearchQuery
 	 */
 	private function transformQuery(Query $query): ISearchQuery {
+		$orders = array_map(function (Order $order): ISearchOrder {
+			$direction = $order->order === Order::ASC ? ISearchOrder::DIRECTION_ASCENDING : ISearchOrder::DIRECTION_DESCENDING;
+			if (str_starts_with($order->property->name, FilesPlugin::FILE_METADATA_PREFIX)) {
+				return new SearchOrder($direction, substr($order->property->name, strlen(FilesPlugin::FILE_METADATA_PREFIX)), IMetadataQuery::EXTRA);
+			} else {
+				return new SearchOrder($direction, $this->mapPropertyNameToColumn($order->property));
+			}
+		}, $query->orderBy);
+
 		$limit = $query->limit;
-		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
 		$offset = $limit->firstResult;
 
 		$limitHome = false;
@@ -353,14 +347,6 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param Order $order
-	 * @return ISearchOrder
-	 */
-	private function mapSearchOrder(Order $order) {
-		return new SearchOrder($order->order === Order::ASC ? ISearchOrder::DIRECTION_ASCENDING : ISearchOrder::DIRECTION_DESCENDING, $this->mapPropertyNameToColumn($order->property));
-	}
-
-	/**
 	 * @param Operator $operator
 	 * @return ISearchOperator
 	 */
@@ -381,13 +367,31 @@ class FileSearchBackend implements ISearchBackend {
 				if (count($operator->arguments) !== 2) {
 					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
-				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
-					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
-				}
 				if (!($operator->arguments[1] instanceof Literal)) {
 					throw new \InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
 				}
-				return new SearchComparison($trimmedType, $this->mapPropertyNameToColumn($operator->arguments[0]), $this->castValue($operator->arguments[0], $operator->arguments[1]->value));
+				$value = $operator->arguments[1]->value;
+				// no break
+			case Operator::OPERATION_IS_DEFINED:
+				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
+					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
+				}
+				$property = $operator->arguments[0];
+
+				if (str_starts_with($property->name, FilesPlugin::FILE_METADATA_PREFIX)) {
+					$field = substr($property->name, strlen(FilesPlugin::FILE_METADATA_PREFIX));
+					$extra = IMetadataQuery::EXTRA;
+				} else {
+					$field = $this->mapPropertyNameToColumn($property);
+				}
+
+				return new SearchComparison(
+					$trimmedType,
+					$field,
+					$this->castValue($property, $value ?? ''),
+					$extra ?? ''
+				);
+
 			case Operator::OPERATION_IS_COLLECTION:
 				return new SearchComparison('eq', 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE);
 			default:
@@ -421,6 +425,10 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	private function castValue(SearchPropertyDefinition $property, $value) {
+		if ($value === '') {
+			return '';
+		}
+
 		switch ($property->dataType) {
 			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
 				return $value === 'yes';

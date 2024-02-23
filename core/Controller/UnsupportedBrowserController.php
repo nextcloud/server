@@ -28,13 +28,14 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
 use OCP\Util;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UnsupportedBrowserController extends Controller {
 	public function __construct(IRequest $request) {
 		parent::__construct('core', $request);
@@ -46,6 +47,7 @@ class UnsupportedBrowserController extends Controller {
 	 *
 	 * @return Response
 	 */
+	#[FrontpageRoute(verb: 'GET', url: 'unsupported')]
 	public function index(): Response {
 		Util::addScript('core', 'unsupported-browser');
 		Util::addStyle('core', 'icons');

@@ -55,6 +55,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
 /**
@@ -1237,7 +1238,8 @@ class DefaultShareProvider implements IShareProvider {
 				)
 			);
 		} else {
-			\OC::$server->getLogger()->logException(new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType));
+			$e = new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
@@ -1364,7 +1366,7 @@ class DefaultShareProvider implements IShareProvider {
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			} elseif ($type === IShare::TYPE_GROUP) {
 				$gid = $row['share_with'];
@@ -1377,14 +1379,14 @@ class DefaultShareProvider implements IShareProvider {
 				$userList = $group->getUsers();
 				foreach ($userList as $user) {
 					$uid = $user->getUID();
-					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;
 				}
 			} elseif ($type === IShare::TYPE_LINK) {
 				$link = true;
 			} elseif ($type === IShare::TYPE_USERGROUP && $currentAccess === true) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			}
 		}

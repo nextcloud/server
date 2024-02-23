@@ -43,10 +43,10 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
-use OCP\Lock\ILockingProvider;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class for file server access
@@ -76,7 +76,6 @@ class OC_Files {
 	private static function sendHeaders($filename, $name, array $rangeArray): void {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
-		header('Pragma: public');// enable caching in IE
 		header('Expires: 0');
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);

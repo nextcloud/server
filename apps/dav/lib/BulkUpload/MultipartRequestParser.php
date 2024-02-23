@@ -22,11 +22,12 @@
 
 namespace OCA\DAV\BulkUpload;
 
-use Sabre\HTTP\RequestInterface;
+use OCP\AppFramework\Http;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\LengthRequired;
-use OCP\AppFramework\Http;
+use Sabre\HTTP\RequestInterface;
 
 class MultipartRequestParser {
 
@@ -42,7 +43,10 @@ class MultipartRequestParser {
 	/**
 	 * @throws BadRequest
 	 */
-	public function __construct(RequestInterface $request) {
+	public function __construct(
+		RequestInterface $request,
+		protected LoggerInterface $logger,
+	) {
 		$stream = $request->getBody();
 		$contentType = $request->getHeader('Content-Type');
 
@@ -78,7 +82,7 @@ class MultipartRequestParser {
 		$boundaryValue = trim($boundaryValue);
 
 		// Remove potential quotes around boundary value.
-		if (substr($boundaryValue, 0, 1) == '"' && substr($boundaryValue, -1) == '"') {
+		if (str_starts_with($boundaryValue, '"') && str_ends_with($boundaryValue, '"')) {
 			$boundaryValue = substr($boundaryValue, 1, -1);
 		}
 
@@ -177,6 +181,11 @@ class MultipartRequestParser {
 		while (($line = fgets($this->stream)) !== "\r\n") {
 			if ($line === false) {
 				throw new Exception('An error occurred while reading headers of a part');
+			}
+
+			if (!str_contains($line, ':')) {
+				$this->logger->error('Header missing ":" on bulk request: ' . json_encode($line));
+				throw new Exception('An error occurred while reading headers of a part', Http::STATUS_BAD_REQUEST);
 			}
 
 			try {

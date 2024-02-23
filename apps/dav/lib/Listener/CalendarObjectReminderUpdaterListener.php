@@ -42,6 +42,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use function sprintf;
 
+/** @template-implements IEventListener<CalendarMovedToTrashEvent|CalendarDeletedEvent|CalendarRestoredEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent> */
 class CalendarObjectReminderUpdaterListener implements IEventListener {
 
 	/** @var ReminderBackend */
@@ -57,9 +58,9 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 	private $logger;
 
 	public function __construct(ReminderBackend $reminderBackend,
-								ReminderService $reminderService,
-								CalDavBackend $calDavBackend,
-								LoggerInterface $logger) {
+		ReminderService $reminderService,
+		CalDavBackend $calDavBackend,
+		LoggerInterface $logger) {
 		$this->reminderBackend = $reminderBackend;
 		$this->reminderService = $reminderService;
 		$this->calDavBackend = $calDavBackend;

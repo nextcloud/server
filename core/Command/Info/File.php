@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\View;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Files\Folder;
@@ -23,13 +24,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class File extends Command {
 	private IL10N $l10n;
+	private View $rootView;
 
 	public function __construct(
 		IFactory $l10nFactory,
 		private FileUtils $fileUtils,
+		private \OC\Encryption\Util $encryptionUtil
 	) {
 		$this->l10n = $l10nFactory->get("core");
 		parent::__construct();
+		$this->rootView = new View();
 	}
 
 	protected function configure(): void {
@@ -54,6 +58,14 @@ class File extends Command {
 		$output->writeln("  mimetype: " . $node->getMimetype());
 		$output->writeln("  modified: " . (string)$this->l10n->l("datetime", $node->getMTime()));
 		$output->writeln("  " . ($node->isEncrypted() ? "encrypted" : "not encrypted"));
+		if ($node->isEncrypted()) {
+			$keyPath = $this->encryptionUtil->getFileKeyDir('', $node->getPath());
+			if ($this->rootView->file_exists($keyPath)) {
+				$output->writeln("    encryption key at: " . $keyPath);
+			} else {
+				$output->writeln("    <error>encryption key not found</error> should be located at: " . $keyPath);
+			}
+		}
 		$output->writeln("  size: " . Util::humanFileSize($node->getSize()));
 		$output->writeln("  etag: " . $node->getEtag());
 		if ($node instanceof Folder) {

@@ -113,12 +113,12 @@ class GetSharedSecret extends Job {
 		$deadline = $currentTime - $this->maxLifespan;
 		if ($created < $deadline) {
 			$this->retainJob = false;
-			$this->trustedServers->setServerStatus($target,TrustedServers::STATUS_FAILURE);
+			$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			return;
 		}
 
 		$endPoints = $this->ocsDiscoveryService->discover($target, 'FEDERATED_SHARING');
-		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
+		$endPoint = $endPoints['shared-secret'] ?? $this->defaultEndPoint;
 
 		// make sure that we have a well formatted url
 		$url = rtrim($target, '/') . '/' . trim($endPoint, '/');
@@ -172,8 +172,8 @@ class GetSharedSecret extends Job {
 			$result = json_decode($body, true);
 			if (isset($result['ocs']['data']['sharedSecret'])) {
 				$this->trustedServers->addSharedSecret(
-						$target,
-						$result['ocs']['data']['sharedSecret']
+					$target,
+					$result['ocs']['data']['sharedSecret']
 				);
 			} else {
 				$this->logger->error(

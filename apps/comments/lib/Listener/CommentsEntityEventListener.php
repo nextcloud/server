@@ -30,13 +30,12 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\IRootFolder;
 
+/** @template-implements IEventListener<CommentsEntityEvent> */
 class CommentsEntityEventListener implements IEventListener {
-	private IRootFolder $rootFolder;
-	private ?string $userId;
-
-	public function  __construct(IRootFolder $rootFolder, ?string $userId = null) {
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private ?string $userId = null,
+	) {
 	}
 
 	public function handle(Event $event): void {

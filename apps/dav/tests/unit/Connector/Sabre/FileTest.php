@@ -1134,7 +1134,7 @@ class FileTest extends TestCase {
 			$realPath = $storage->getSourcePath($internalPath);
 			$dh = opendir($realPath);
 			while (($file = readdir($dh)) !== false) {
-				if (substr($file, strlen($file) - 5, 5) === '.part') {
+				if (str_ends_with($file, '.part')) {
 					$files[] = $file;
 				}
 			}

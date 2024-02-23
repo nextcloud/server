@@ -1,6 +1,6 @@
 <?php
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Service\BackendService;
 
@@ -8,49 +8,49 @@ use \OCA\Files_External\Service\BackendService;
 
 $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
 
-	$l->t("Enable encryption");
-	$l->t("Enable previews");
-	$l->t("Enable sharing");
-	$l->t("Check for changes");
-	$l->t("Never");
-	$l->t("Once every direct access");
-	$l->t('Read only');
+$l->t("Enable encryption");
+$l->t("Enable previews");
+$l->t("Enable sharing");
+$l->t("Check for changes");
+$l->t("Never");
+$l->t("Once every direct access");
+$l->t('Read only');
 
-	script('files_external', [
-		'settings',
-		'templates'
-	]);
-	style('files_external', 'settings');
+script('files_external', [
+	'settings',
+	'templates'
+]);
+style('files_external', 'settings');
 
-	// load custom JS
-	foreach ($_['backends'] as $backend) {
-		/** @var Backend $backend */
-		$scripts = $backend->getCustomJs();
-		foreach ($scripts as $script) {
-			script('files_external', $script);
-		}
+// load custom JS
+foreach ($_['backends'] as $backend) {
+	/** @var Backend $backend */
+	$scripts = $backend->getCustomJs();
+	foreach ($scripts as $script) {
+		script('files_external', $script);
 	}
-	foreach ($_['authMechanisms'] as $authMechanism) {
-		/** @var AuthMechanism $authMechanism */
-		$scripts = $authMechanism->getCustomJs();
-		foreach ($scripts as $script) {
-			script('files_external', $script);
-		}
+}
+foreach ($_['authMechanisms'] as $authMechanism) {
+	/** @var AuthMechanism $authMechanism */
+	$scripts = $authMechanism->getCustomJs();
+	foreach ($scripts as $script) {
+		script('files_external', $script);
 	}
+}
 
-	function writeParameterInput($parameter, $options, $classes = []) {
-		$value = '';
-		if (isset($options[$parameter->getName()])) {
-			$value = $options[$parameter->getName()];
-		}
-		$placeholder = $parameter->getText();
-		$is_optional = $parameter->isFlagSet(DefinitionParameter::FLAG_OPTIONAL);
+function writeParameterInput($parameter, $options, $classes = []) {
+	$value = '';
+	if (isset($options[$parameter->getName()])) {
+		$value = $options[$parameter->getName()];
+	}
+	$placeholder = $parameter->getText();
+	$is_optional = $parameter->isFlagSet(DefinitionParameter::FLAG_OPTIONAL);
 
-		switch ($parameter->getType()) {
+	switch ($parameter->getType()) {
 		case DefinitionParameter::VALUE_PASSWORD: ?>
 			<?php if ($is_optional) {
-			$classes[] = 'optional';
-		} ?>
+				$classes[] = 'optional';
+			} ?>
 			<input type="password"
 				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
@@ -58,7 +58,7 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				placeholder="<?php p($placeholder); ?>"
 			/>
 			<?php
-			break;
+				break;
 		case DefinitionParameter::VALUE_BOOLEAN: ?>
 			<?php $checkboxId = uniqid("checkbox_"); ?>
 			<div>
@@ -84,8 +84,8 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 			break;
 		default: ?>
 			<?php if ($is_optional) {
-			$classes[] = 'optional';
-		} ?>
+				$classes[] = 'optional';
+			} ?>
 			<input type="text"
 				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
@@ -93,8 +93,8 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				placeholder="<?php p($placeholder); ?>"
 			/>
 			<?php
-		}
 	}
+}
 ?>
 
 <div class="emptyfilelist emptycontent hidden">
@@ -108,10 +108,10 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" data-can-create-local="<?php echo $canCreateNewLocalStorage?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storage')); ?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
-	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services.')); ?></p>
+	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services.')); ?></p>
 	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
-	print_unescaped(''.$_['dependencies'].'');
-} ?>
+		print_unescaped(''.$_['dependencies'].'');
+	} ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
@@ -121,8 +121,8 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
 				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) {
-	print_unescaped('<th>'.$l->t('Available for').'</th>');
-} ?>
+					print_unescaped('<th>'.$l->t('Available for').'</th>');
+				} ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
@@ -152,17 +152,17 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 							<?php p($l->t('Add storage')); ?>
 						</option>
 						<?php
-							$sortedBackends = array_filter($_['backends'], function ($backend) use ($_) {
-								return $backend->isVisibleFor($_['visibilityType']);
-							});
-							uasort($sortedBackends, function ($a, $b) {
-								return strcasecmp($a->getText(), $b->getText());
-							});
-						?>
+											$sortedBackends = array_filter($_['backends'], function ($backend) use ($_) {
+												return $backend->isVisibleFor($_['visibilityType']);
+											});
+uasort($sortedBackends, function ($a, $b) {
+	return strcasecmp($a->getText(), $b->getText());
+});
+?>
 						<?php foreach ($sortedBackends as $backend): ?>
 							<?php if ($backend->getDeprecateTo() || (!$canCreateNewLocalStorage && $backend->getIdentifier() == "local")) {
-							continue;
-						} // ignore deprecated backends?>
+								continue;
+							} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -171,7 +171,7 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				<td class="configuration"></td>
 				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 					<td class="applicable" align="right">
-						<label><input type="checkbox" class="applicableToAllUsers" checked="" /><?php p($l->t('All users')); ?></label>
+						<label><input type="checkbox" class="applicableToAllUsers" checked="" /><?php p($l->t('All people')); ?></label>
 						<div class="applicableUsersContainer">
 							<input type="hidden" class="applicableUsers" style="width:20em;" value="" />
 						</div>
@@ -191,23 +191,24 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
 			value="1" <?php if ($_['allowUserMounting']) {
-							print_unescaped(' checked="checked"');
-						} ?> />
-		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
+				print_unescaped(' checked="checked"');
+			} ?> />
+		<label for="allowUserMounting"><?php p($l->t('Allow people to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
 
 		<p id="userMountingBackends"<?php if (!$_['allowUserMounting']): ?> class="hidden"<?php endif; ?>>
 			<?php
 				$userBackends = array_filter($_['backends'], function ($backend) {
 					return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
 				});
-			?>
-			<?php $i = 0; foreach ($userBackends as $backend): ?>
+		?>
+			<?php $i = 0;
+		foreach ($userBackends as $backend): ?>
 				<?php if ($deprecateTo = $backend->getDeprecateTo()): ?>
 					<input type="hidden" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" data-deprecate-to="<?php p($deprecateTo->getIdentifier()); ?>" />
 				<?php else: ?>
 					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" class="checkbox" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
-				print_unescaped(' checked="checked"');
-			} ?> />
+						print_unescaped(' checked="checked"');
+					} ?> />
 					<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
 				<?php endif; ?>
 				<?php $i++; ?>
@@ -218,13 +219,16 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 
 <div class="followupsection">
 	<form autocomplete="false" action="#"
-		  id="global_credentials" method="post">
+		  id="global_credentials" method="post"
+		  class="<?php if (isset($_['visibilityType']) && $_['visibilityType'] === BackendService::VISIBILITY_PERSONAL) {
+		  	print_unescaped("global_credentials__personal");
+		  } ?>">
 		<h2><?php p($l->t('Global credentials')); ?></h2>
 		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"
-			   placeholder="<?php p($l->t('Username')) ?>"/>
+			   placeholder="<?php p($l->t('Login')) ?>"/>
 		<input type="password" name="password"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['password']); ?>"

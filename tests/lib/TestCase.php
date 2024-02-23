@@ -41,6 +41,38 @@ use OCP\IL10N;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
+if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
+	trait OnNotSuccessfulTestTrait {
+		protected function onNotSuccessfulTest(\Throwable $t): never {
+			$this->restoreAllServices();
+
+			// restore database connection
+			if (!$this->IsDatabaseAccessAllowed()) {
+				\OC::$server->registerService(IDBConnection::class, function () {
+					return self::$realDatabase;
+				});
+			}
+
+			parent::onNotSuccessfulTest($t);
+		}
+	}
+} else {
+	trait OnNotSuccessfulTestTrait {
+		protected function onNotSuccessfulTest(\Throwable $t): void {
+			$this->restoreAllServices();
+
+			// restore database connection
+			if (!$this->IsDatabaseAccessAllowed()) {
+				\OC::$server->registerService(IDBConnection::class, function () {
+					return self::$realDatabase;
+				});
+			}
+
+			parent::onNotSuccessfulTest($t);
+		}
+	}
+}
+
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @var \OC\Command\QueueBus */
 	private $commandBus;
@@ -53,6 +85,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	/** @var array */
 	protected $services = [];
+
+	use OnNotSuccessfulTestTrait;
 
 	/**
 	 * @param string $name
@@ -148,19 +182,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				call_user_func([$this, $methodName]);
 			}
 		}
-	}
-
-	protected function onNotSuccessfulTest(\Throwable $t): void {
-		$this->restoreAllServices();
-
-		// restore database connection
-		if (!$this->IsDatabaseAccessAllowed()) {
-			\OC::$server->registerService(IDBConnection::class, function () {
-				return self::$realDatabase;
-			});
-		}
-
-		parent::onNotSuccessfulTest($t);
 	}
 
 	protected function tearDown(): void {

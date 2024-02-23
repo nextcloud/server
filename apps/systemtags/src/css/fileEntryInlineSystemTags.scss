@@ -1,0 +1,60 @@
+/**
+ * @copyright Copyright (c) 2023 Lucas Azevedo <lhs_azevedo@hotmail.com>
+ *
+ * @author Lucas Azevedo <lhs_azevedo@hotmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+.files-list__system-tags {
+	--min-size: 32px;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	min-width: calc(var(--min-size) * 2);
+	max-width: 300px;
+}
+
+.files-list__system-tag {
+	padding: 5px 10px;
+	border: 1px solid;
+	border-radius: var(--border-radius-pill);
+	border-color: var(--color-border);
+	color: var(--color-text-maxcontrast);
+	height: var(--min-size);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 22px; // min-size - 2 * 5px padding
+	text-align: center;
+
+	&--more {
+		overflow: visible;
+		text-overflow: initial;
+	}
+
+	// Proper spacing if multiple shown
+	& + .files-list__system-tag {
+		margin-left: 5px;
+	}
+}
+
+@media (min-width: 512px) {
+	.files-list__system-tags {
+		display: flex;
+	}
+}

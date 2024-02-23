@@ -151,8 +151,8 @@ OC.L10N.register(
     "Contacts and groups" : "Контакти и групи",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крайна точка",
-    "Availability" : "Наличност",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща.",
+    "First day" : "Първи ден",
+    "Save" : "Запазване",
     "Time zone:" : "Часова зона",
     "to" : "до",
     "Delete slot" : "Изтриване на слот",
@@ -166,10 +166,10 @@ OC.L10N.register(
     "Saturday" : "Събота",
     "Sunday" : "Неделя",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Автоматично задаване на потребителският статус на „Не безпокойте“ извън достъпността, за заглушаване на всички известия.",
-    "Save" : "Запазване",
     "Failed to load availability" : "Неуспешно зареждане на наличност",
     "Saved availability" : "Запазена наличност",
     "Failed to save availability" : "Неуспешно записване на наличност",
+    "Availability" : "Наличност",
     "Calendar server" : "Сървър на календар",
     "Send invitations to attendees" : "Изпращане на покани до участниците",
     "Automatically generate a birthday calendar" : "Автоматично генериране на календар с рождени дни.",
@@ -187,6 +187,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
     "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
-    "%1$s has responded your invitation" : "%1$s отговори на вашата покана"
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща."
 },
 "nplurals=2; plural=(n != 1);");

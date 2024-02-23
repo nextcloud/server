@@ -42,7 +42,7 @@
 
 				<template v-if="!isWebUpdaterRecommended && updaterEnabled && webUpdaterEnabled">
 					<h3 class="warning">
-						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!') }}
+						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!') }}
 					</h3>
 				</template>
 
@@ -56,7 +56,7 @@
 						class="button"
 						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
 					<span v-if="updaterEnabled && !webUpdaterEnabled">
-						{{ t('updatenotification', 'Please use the command line updater to update.') }}
+						{{ t('updatenotification', 'Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.') }}
 					</span>
 					<NcActions v-if="whatsNewData || changelogURL"
 						:force-menu="true"
@@ -85,7 +85,11 @@
 			</template>
 			<template v-else>
 				{{ t('updatenotification', 'Your version is up to date.') }}
-				<span :title="lastCheckedOnString" :aria-label="lastCheckedOnString" class="icon-info svg" />
+				<a :title="lastCheckedOnString"
+					:aria-label="lastCheckedOnString"
+					href="https://nextcloud.com/changelog/"
+					class="icon-info details"
+					target="_blank" />
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -108,18 +112,18 @@
 					<IconChevronDown :size="20" />
 				</template>
 				<template #default>
-					<!-- TODO use NcActionRadio if it provides long text, e.g. subtitle -->
-					<NcActionButton v-for="channel,index in channelList"
-						:key="index"
-						:aria-checked="channel.active ? 'true' : 'false'"
-						:aria-label="channel.text"
-						:disabled="!!channel.disabled"
-						:icon="channel.icon"
+					<NcActionButton v-for="channel in channelList"
+						:key="channel.value"
+						:disabled="channel.disabled"
 						:name="channel.text"
-						class="update-channel-action"
+						:value="channel.value"
+						:model-value="currentChannel"
+						type="radio"
 						close-after-click
-						role="menuitemradio"
-						@click="channel.action">
+						@update:modelValue="changeReleaseChannel">
+						<template #icon>
+							<component :is="channel.icon" :size="20" />
+						</template>
 						{{ channel.longtext }}
 					</NcActionButton>
 				</template>
@@ -131,8 +135,9 @@
 			<em v-html="noteDelayedStableString" />
 		</p>
 
-		<h4>{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}</h4>
-		<NcSelect v-model="notifyGroups"
+		<NcSelect id="notify-members-settings-select-wrapper"
+			v-model="notifyGroups"
+			:input-label="t('updatenotification', 'Notify members of the following groups about available updates:')"
 			:options="groups"
 			:multiple="true"
 			label="displayname"
@@ -166,8 +171,14 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import IconChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import IconCloudCheckVariant from 'vue-material-design-icons/CloudCheckVariant.vue'
 import IconLink from 'vue-material-design-icons/Link.vue'
 import IconNewBox from 'vue-material-design-icons/NewBox.vue'
+import IconPencil from 'vue-material-design-icons/Pencil.vue'
+import IconSourceBranch from 'vue-material-design-icons/SourceBranch.vue'
+import IconStar from 'vue-material-design-icons/Star.vue'
+import IconWeatherNight from 'vue-material-design-icons/WeatherNight.vue'
+import IconWrench from 'vue-material-design-icons/Wrench.vue'
 import debounce from 'debounce'
 
 const logger = getLoggerBuilder()
@@ -189,6 +200,7 @@ export default {
 		NcSelect,
 		NcSettingsSection,
 	},
+
 	data() {
 		return {
 			loadingGroups: false,
@@ -232,12 +244,12 @@ export default {
 		},
 
 		noteDelayedStableString() {
-			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
+			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
 				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
 		},
 
 		lastCheckedOnString() {
-			return t('updatenotification', 'Checked on {lastCheckedDate}', {
+			return t('updatenotification', 'Checked on {lastCheckedDate} - Open changelog', {
 				lastCheckedDate: this.lastCheckedDate,
 			})
 		},
@@ -266,42 +278,39 @@ export default {
 			channelList.push({
 				text: t('updatenotification', 'Enterprise'),
 				longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.'),
-				icon: 'icon-star',
+				icon: IconStar,
 				active: this.currentChannel === 'enterprise',
 				disabled: !this.hasValidSubscription,
-				action: this.changeReleaseChannelToEnterprise,
+				value: 'enterprise',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Stable'),
 				longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
-				icon: 'icon-checkmark',
-				active: this.currentChannel === 'stable',
-				action: this.changeReleaseChannelToStable,
+				icon: IconCloudCheckVariant,
+				value: 'stable',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Beta'),
 				longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
-				icon: 'icon-category-customization',
-				active: this.currentChannel === 'beta',
-				action: this.changeReleaseChannelToBeta,
+				icon: IconWrench,
+				value: 'beta',
 			})
 
-			if (this.isNonDefaultChannel) {
+			if (this.isNonDefaultChannel(this.currentChannel)) {
+				const nonDefaultIcons = {
+					daily: IconWeatherNight,
+					git: IconSourceBranch,
+				}
 				channelList.push({
 					text: this.currentChannel,
-					icon: 'icon-rename',
-					active: true,
-					action: () => {},
+					icon: nonDefaultIcons[this.currentChannel] || IconPencil,
+					value: this.currentChannel,
 				})
 			}
 
 			return channelList
-		},
-
-		isNonDefaultChannel() {
-			return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta'
 		},
 
 		localizedChannelName() {
@@ -319,7 +328,7 @@ export default {
 	},
 
 	watch: {
-		notifyGroups(selectedOptions) {
+		notifyGroups() {
 			if (!this.enableChangeWatcher) {
 				// The first time is when loading the app
 				this.enableChangeWatcher = true
@@ -428,16 +437,16 @@ export default {
 					form.submit()
 				})
 		},
-		changeReleaseChannelToEnterprise() {
-			this.changeReleaseChannel('enterprise')
+
+		isNonDefaultChannel(channel) {
+			return !['enterprise', 'stable', 'beta'].includes(channel)
 		},
-		changeReleaseChannelToStable() {
-			this.changeReleaseChannel('stable')
-		},
-		changeReleaseChannelToBeta() {
-			this.changeReleaseChannel('beta')
-		},
+
 		changeReleaseChannel(channel) {
+			if (this.isNonDefaultChannel(channel)) {
+				return
+			}
+
 			this.currentChannel = channel
 
 			axios.post(generateUrl('/apps/updatenotification/channel'), {
@@ -483,9 +492,6 @@ export default {
 				}
 			}
 		}
-		h4 {
-			margin-block-end: 0.7rem;
-		}
 		.update-channel-selector {
 			display: flex;
 			align-items: center;
@@ -501,51 +507,17 @@ export default {
 		.applist {
 			margin-bottom: 25px;
 		}
-
-		.update-menu {
-			position: relative;
-			cursor: pointer;
-			margin-left: 3px;
-			display: inline-block;
-			padding: 10px;
-			border-radius: 10px;
-			border: 2px solid var(--color-border-dark);
-			.icon-update-menu {
-				cursor: inherit;
-				.icon-triangle-s {
-					display: inline-block;
-					vertical-align: middle;
-					cursor: inherit;
-					opacity: 1;
-				}
-			}
-		}
 	}
 </style>
 <style lang="scss">
-// Make current selected update channel visually visible, remove if NcActionRadio is used
-.update-channel-action[aria-checked=true] {
-	border-inline-start: 4px solid var(--color-primary-element);
-
-	&:hover, &:focus-within {
-		background-color: var(--color-primary-element-light-hover);
-	}
-
-	button {
-		background-color: var(--color-primary-element-light);
-		color: var(--color-primary-element-light-text);
-	}
-}
-// Ensure outline for focus-visible works even with background color of selected channel
-.update-channel-action[aria-checked] {
-	margin-block: 2px;
-}
-
 #updatenotification {
-	/* override needed to replace yellow hover state with a dark one */
-	.update-menu .icon-star:hover,
-	.update-menu .icon-star:focus {
-		background-image: var(--icon-starred);
+	/* override NcSelect styling so that label can have correct width */
+	#notify-members-settings-select-wrapper {
+		width: fit-content;
+
+		.vs__dropdown-toggle {
+			min-width: 100%;
+		}
 	}
 }
 </style>

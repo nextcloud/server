@@ -87,6 +87,7 @@ export default {
 	min-height: 44px;
 	&__desc {
 		padding: 8px;
+		padding-left: 10px;
 		line-height: 1.2em;
 		position: relative;
 		flex: 1 1;

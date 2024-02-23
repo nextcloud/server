@@ -25,6 +25,7 @@ namespace OC\Core\Controller;
 
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
@@ -56,6 +57,7 @@ class NavigationController extends OCSController {
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[ApiRoute(verb: 'GET', url: '/navigation/apps', root: '/core')]
 	public function getAppsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll();
 		if ($absolute) {
@@ -83,6 +85,7 @@ class NavigationController extends OCSController {
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[ApiRoute(verb: 'GET', url: '/navigation/settings', root: '/core')]
 	public function getSettingsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll('settings');
 		if ($absolute) {
@@ -115,7 +118,8 @@ class NavigationController extends OCSController {
 	 */
 	private function rewriteToAbsoluteUrls(array $navigation): array {
 		foreach ($navigation as &$entry) {
-			if (!str_starts_with($entry['href'], $this->urlGenerator->getBaseUrl())) {
+			/* If parse_url finds no host it means the URL is not absolute */
+			if (!isset(\parse_url($entry['href'])['host'])) {
 				$entry['href'] = $this->urlGenerator->getAbsoluteURL($entry['href']);
 			}
 			if (!str_starts_with($entry['icon'], $this->urlGenerator->getBaseUrl())) {

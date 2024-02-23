@@ -57,13 +57,13 @@ class ChangePasswordController extends Controller {
 	private IAppManager $appManager;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								?string $userId,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								IAppManager $appManager,
-								IL10N $l) {
+		IRequest $request,
+		?string $userId,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		IAppManager $appManager,
+		IL10N $l) {
 		parent::__construct($appName, $request);
 
 		$this->userId = $userId;
@@ -132,7 +132,7 @@ class ChangePasswordController extends Controller {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => [
-					'message' => $this->l->t('No user supplied'),
+					'message' => $this->l->t('No Login supplied'),
 				],
 			]);
 		}
@@ -186,7 +186,7 @@ class ChangePasswordController extends Controller {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all user data will be lost.'),
+						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all account data will be lost.'),
 					]
 				]);
 			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
@@ -212,7 +212,7 @@ class ChangePasswordController extends Controller {
 					return new JSONResponse([
 						'status' => 'error',
 						'data' => [
-							'message' => $this->l->t('Backend does not support password change, but the user\'s encryption key was updated.'),
+							'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
 						]
 					]);
 				} elseif (!$result && !$recoveryEnabledForUser) {

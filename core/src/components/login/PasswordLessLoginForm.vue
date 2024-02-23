@@ -10,8 +10,8 @@
 				:value="user"
 				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 				:error="!validCredentials"
-				:label="t('core', 'Username or email')"
-				:placeholder="t('core', 'Username or email')"
+				:label="t('core', 'Login or email')"
+				:placeholder="t('core', 'Login or email')"
 				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
 				@update:value="changeUsername" />
 

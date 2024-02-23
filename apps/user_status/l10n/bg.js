@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "Работно пътуване",
     "Out sick" : "Болничен",
     "Vacationing" : "Отпуск",
+    "Out of office" : "Извън офиса",
     "Working remotely" : "Работа от разстояние",
     "In a call" : "В обаждане",
     "User status" : "Потребителско състояние",
-    "View profile" : "Преглед на профил",
     "Clear status after" : "Изчистване на състоянието след",
     "What is your status?" : "Какъв е вашият статус?",
     "Previously set" : "Предишно зададени",
@@ -41,6 +41,7 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Заглушаване на всички известия",
     "Appear offline" : "Показване като офлайн",
+    "View profile" : "Преглед на профил",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n != 1);");

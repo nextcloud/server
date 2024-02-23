@@ -20,12 +20,13 @@
   -
   -->
 <template>
-	<NcAppContent data-cy-files-content>
+	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent">
 				<template #actions>
-					<NcButton v-if="canShare"
+					<!-- Sharing button -->
+					<NcButton v-if="canShare && filesListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
@@ -34,21 +35,53 @@
 						@click="openSharingSidebar">
 						<template #icon>
 							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
-							<ShareVariantIcon v-else :size="20" />
+							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
+
+					<!-- Disabled upload button -->
+					<NcButton v-if="!canUpload || isQuotaExceeded"
+						:aria-label="cantUploadLabel"
+						:title="cantUploadLabel"
+						class="files-list__header-upload-button--disabled"
+						:disabled="true"
+						type="secondary">
+						<template #icon>
+							<PlusIcon :size="20" />
+						</template>
+						{{ t('files', 'Add') }}
+					</NcButton>
+
 					<!-- Uploader -->
-					<UploadPicker v-if="currentFolder && canUpload"
+					<UploadPicker v-else-if="currentFolder"
 						:content="dirContents"
 						:destination="currentFolder"
 						:multiple="true"
+						class="files-list__header-upload-button"
+						@failed="onUploadFail"
 						@uploaded="onUpload" />
 				</template>
 			</BreadCrumbs>
 
+			<NcButton v-if="filesListWidth >= 512 && enableGridView"
+				:aria-label="gridViewButtonLabel"
+				:title="gridViewButtonLabel"
+				class="files-list__header-grid-button"
+				type="tertiary"
+				@click="toggleGridView">
+				<template #icon>
+					<ListViewIcon v-if="userConfig.grid_view" />
+					<ViewGridIcon v-else />
+				</template>
+			</NcButton>
+
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 		</div>
+
+		<!-- Drag and drop notice -->
+		<DragAndDropNotice v-if="!loading && canUpload"
+			:current-folder="currentFolder" />
 
 		<!-- Initial loading -->
 		<NcLoadingIcon v-if="loading && !isRefreshing"
@@ -63,7 +96,7 @@
 			data-cy-files-content-empty>
 			<template #action>
 				<NcButton v-if="dir !== '/'"
-					aria-label="t('files', 'Go to the previous folder')"
+					:aria-label="t('files', 'Go to the previous folder')"
 					type="primary"
 					:to="toPreviousDir">
 					{{ t('files', 'Go back') }}
@@ -89,22 +122,29 @@ import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
-import { translate } from '@nextcloud/l10n'
-import { UploadPicker } from '@nextcloud/upload'
+import { Parser } from 'xml2js'
+import { showError } from '@nextcloud/dialogs'
+import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
-import Vue from 'vue'
+import { UploadPicker } from '@nextcloud/upload'
+import { loadState } from '@nextcloud/initial-state'
+import { defineComponent } from 'vue'
 
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
+import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -115,28 +155,35 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
+import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
-const isSharingEnabled = getCapabilities()?.files_sharing !== undefined
+const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesList',
 
 	components: {
 		BreadCrumbs,
+		DragAndDropNotice,
 		FilesListVirtual,
 		LinkIcon,
+		ListViewIcon,
 		NcAppContent,
 		NcButton,
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		ShareVariantIcon,
+		PlusIcon,
+		AccountPlusIcon,
 		UploadPicker,
+		ViewGridIcon,
 	},
 
 	mixins: [
+		filesListWidthMixin,
 		filesSortingMixin,
 	],
 
@@ -147,6 +194,9 @@ export default Vue.extend({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
+
+		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
+
 		return {
 			filesStore,
 			pathsStore,
@@ -154,6 +204,7 @@ export default Vue.extend({
 			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
+			enableGridView,
 		}
 	},
 
@@ -171,8 +222,11 @@ export default Vue.extend({
 		},
 
 		currentView(): View {
-			return (this.$navigation.active
-				|| this.$navigation.views.find(view => view.id === 'files')) as View
+			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
+		},
+
+		pageHeading(): string {
+			return this.currentView?.name ?? this.t('files', 'Files')
 		},
 
 		/**
@@ -199,6 +253,40 @@ export default Vue.extend({
 		},
 
 		/**
+		 * Directory content sorting parameters
+		 * Provided by an extra computed property for caching
+		 */
+		sortingParameters() {
+			const identifiers = [
+				// 1: Sort favorites first if enabled
+				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
+				// 2: Sort folders first if sorting by name
+				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
+				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
+				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
+				// 4: Use displayName if available, fallback to name
+				v => v.attributes?.displayName || v.basename,
+				// 5: Finally, use basename if all previous sorting methods failed
+				v => v.basename,
+			]
+			const orders = [
+				// (for 1): always sort favorites before normal files
+				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
+				// (for 2): always sort folders before files
+				...(this.userConfig.sort_folders_first ? ['asc'] : []),
+				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
+				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
+				// (also for 3 so make sure not to conflict with 2 and 3)
+				...(this.sortingMode !== 'mtime' && this.sortingMode !== 'basename' ? [this.isAscSorting ? 'asc' : 'desc'] : []),
+				// for 4: use configured sorting direction
+				this.isAscSorting ? 'asc' : 'desc',
+				// for 5: use configured sorting direction
+				this.isAscSorting ? 'asc' : 'desc',
+			]
+			return [identifiers, orders] as const
+		},
+
+		/**
 		 * The current directory contents.
 		 */
 		dirContentsSorted(): Node[] {
@@ -215,29 +303,23 @@ export default Vue.extend({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
-			const identifiers = [
-				// Sort favorites first if enabled
-				...this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : [],
-				// Sort folders first if sorting by name
-				...this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : [],
-				// Use sorting mode if NOT basename (to be able to use displayName too)
-				...this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : [],
-				// Use displayName if available, fallback to name
-				v => v.attributes?.displayName || v.basename,
-				// Finally, use basename if all previous sorting methods failed
-				v => v.basename,
-			]
-			const orders = new Array(identifiers.length).fill(this.isAscSorting ? 'asc' : 'desc')
-
 			return orderBy(
 				[...this.dirContents],
-				identifiers,
-				orders,
+				...this.sortingParameters,
 			)
 		},
 
 		dirContents(): Node[] {
-			return (this.currentFolder?._children || []).map(this.getNode).filter(file => file)
+			const showHidden = this.userConfigStore?.userConfig.show_hidden
+			return (this.currentFolder?._children || [])
+				.map(this.getNode)
+				.filter(file => {
+					if (!showHidden) {
+						return file && file?.attributes?.hidden !== true && !file?.basename.startsWith('.')
+					}
+
+					return !!file
+				})
 		},
 
 		/**
@@ -295,9 +377,31 @@ export default Vue.extend({
 			return Type.SHARE_TYPE_USER
 		},
 
+		gridViewButtonLabel() {
+			return this.userConfig.grid_view
+				? this.t('files', 'Switch to list view')
+				: this.t('files', 'Switch to grid view')
+		},
+
+		/**
+		 * Check if the current folder has create permissions
+		 */
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+		isQuotaExceeded() {
+			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+		cantUploadLabel() {
+			if (this.isQuotaExceeded) {
+				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
+			}
+			return this.t('files', 'You don’t have permission to upload or create files here')
+		},
+
+		/**
+		 * Check if current folder has share permissions
+		 */
 		canShare() {
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
@@ -326,6 +430,20 @@ export default Vue.extend({
 				this.$refs.filesListVirtual.$el.scrollTop = 0
 			}
 		},
+
+		dirContents(contents) {
+			logger.debug('Directory contents changed', { view: this.currentView, folder: this.currentFolder, contents })
+			emit('files:list:updated', { view: this.currentView, folder: this.currentFolder, contents })
+		},
+	},
+
+	mounted() {
+		this.fetchContent()
+		subscribe('files:node:updated', this.onUpdatedNode)
+	},
+
+	unmounted() {
+		unsubscribe('files:node:updated', this.onUpdatedNode)
 	},
 
 	methods: {
@@ -333,6 +451,11 @@ export default Vue.extend({
 			this.loading = true
 			const dir = this.dir
 			const currentView = this.currentView
+
+			if (!currentView) {
+				logger.debug('The current view doesn\'t exists or is not ready.', { currentView })
+				return
+			}
 
 			// If we have a cancellable promise ongoing, cancel it
 			if (typeof this.promise?.cancel === 'function') {
@@ -351,7 +474,7 @@ export default Vue.extend({
 
 				// Define current directory children
 				// TODO: make it more official
-				folder._children = contents.map(node => node.fileid)
+				this.$set(folder, '_children', contents.map(node => node.fileid))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
@@ -408,14 +531,71 @@ export default Vue.extend({
 			}
 		},
 
+		async onUploadFail(upload: Upload) {
+			const status = upload.response?.status || 0
+
+			// Check known status codes
+			if (status === 507) {
+				showError(this.t('files', 'Not enough free space'))
+				return
+			} else if (status === 404 || status === 409) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			} else if (status === 403) {
+				showError(this.t('files', 'Operation is blocked by access control'))
+				return
+			}
+
+			// Else we try to parse the response error message
+			try {
+				const parser = new Parser({ trim: true, explicitRoot: false })
+				const response = await parser.parseStringPromise(upload.response?.data)
+				const message = response['s:message'][0] as string
+				if (typeof message === 'string' && message.trim() !== '') {
+					// The server message is also translated
+					showError(this.t('files', 'Error during upload: {message}', { message }))
+					return
+				}
+			} catch (error) {}
+
+			// Finally, check the status code if we have one
+			if (status !== 0) {
+				showError(this.t('files', 'Error during upload, status code {status}', { status }))
+				return
+			}
+
+			showError(this.t('files', 'Unknown error during upload'))
+		},
+
+		/**
+		 * Refreshes the current folder on update.
+		 *
+		 * @param node is the file/folder being updated.
+		 */
+		onUpdatedNode(node?: Node) {
+			if (node?.fileid === this.currentFolder?.fileid) {
+				this.fetchContent()
+			}
+		},
+
 		openSharingSidebar() {
+			if (!this.currentFolder) {
+				logger.debug('No current folder found for opening sharing sidebar')
+				return
+			}
+
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
 			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
 		},
 
+		toggleGridView() {
+			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
+		},
+
 		t: translate,
+		n: translatePlural,
 	},
 })
 </script>
@@ -427,6 +607,7 @@ export default Vue.extend({
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
+	position: relative;
 }
 
 $margin: 4px;
@@ -435,11 +616,12 @@ $navigationToggleSize: 50px;
 .files-list {
 	&__header {
 		display: flex;
-		align-content: center;
+		align-items: center;
 		// Do not grow or shrink (vertically)
 		flex: 0 0;
 		// Align with the navigation toggle icon
 		margin: $margin $margin $margin $navigationToggleSize;
+		max-width: 100%;
 		> * {
 			// Do not grow or shrink (horizontally)
 			// Only the breadcrumbs shrinks
@@ -447,9 +629,9 @@ $navigationToggleSize: 50px;
 		}
 
 		&-share-button {
-			opacity: .3;
+			color: var(--color-text-maxcontrast) !important;
 			&--shared {
-				opacity: 1;
+				color: var(--color-main-text) !important;
 			}
 		}
 	}

@@ -36,7 +36,7 @@ export default () => {
 		emptyCaption: t('files', 'Files and folders you recently modified will show up here.'),
 
 		icon: HistorySvg,
-		order: 2,
+		order: 10,
 
 		defaultSortKey: 'mtime',
 

@@ -38,9 +38,6 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCP\Constants;
-use function array_slice;
-use function array_values;
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -51,16 +48,19 @@ use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
+use function array_slice;
+use function array_values;
 use function usort;
 
 /**
- * @psalm-import-type FilesSharingShareesSearchResult from ResponseDefinitions
- * @psalm-import-type FilesSharingShareesRecommendedResult from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareesSearchResult from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareesRecommendedResult from ResponseDefinitions
  */
 class ShareesAPIController extends OCSController {
 
@@ -82,7 +82,7 @@ class ShareesAPIController extends OCSController {
 	/** @var int */
 	protected $limit = 10;
 
-	/** @var FilesSharingShareesSearchResult */
+	/** @var Files_SharingShareesSearchResult */
 	protected $result = [
 		'exact' => [
 			'users' => [],
@@ -145,7 +145,7 @@ class ShareesAPIController extends OCSController {
 	 * @param int $perPage Limit amount of search results per page
 	 * @param int|int[]|null $shareType Limit to specific share types
 	 * @param bool $lookup If a global lookup should be performed too
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesSearchResult, array{Link?: string}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesSearchResult, array{Link?: string}>
 	 * @throws OCSBadRequestException Invalid search parameters
 	 *
 	 * 200: Sharees search result returned
@@ -347,7 +347,9 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * @param string $itemType Limit to specific item types
 	 * @param int|int[]|null $shareType Limit to specific share types
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesRecommendedResult, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesRecommendedResult, array{}>
+	 *
+	 * 200: Recommended sharees returned
 	 */
 	public function findRecommended(string $itemType, $shareType = null): DataResponse {
 		$shareTypes = [

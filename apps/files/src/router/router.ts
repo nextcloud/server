@@ -19,11 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { RawLocation, Route } from 'vue-router'
+import type { ErrorHandler } from 'vue-router/types/router.d.ts'
+
 import { generateUrl } from '@nextcloud/router'
 import queryString from 'query-string'
-import Router, { RawLocation, Route } from 'vue-router'
+import Router from 'vue-router'
 import Vue from 'vue'
-import { ErrorHandler } from 'vue-router/types/router'
 
 Vue.use(Router)
 
@@ -46,10 +48,10 @@ const router = new Router({
 		{
 			path: '/',
 			// Pretending we're using the default view
-			redirect: { name: 'filelist' },
+			redirect: { name: 'filelist', params: { view: 'files' } },
 		},
 		{
-			path: '/:view/:fileid?',
+			path: '/:view/:fileid(\\d+)?',
 			name: 'filelist',
 			props: true,
 		},

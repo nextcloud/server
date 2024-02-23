@@ -40,7 +40,7 @@ class UpdateLanguageCodes implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IDBConnection $connection,
-								IConfig $config) {
+		IConfig $config) {
 		$this->connection = $connection;
 		$this->config = $config;
 	}

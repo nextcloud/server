@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div :class="{ 'icon-loading': loading }">
+	<div class="sharingTab" :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
@@ -29,15 +29,18 @@
 		</div>
 
 		<!-- shares content -->
-		<div v-if="!showSharingDetailsView" class="sharingTab__content">
+		<div v-show="!showSharingDetailsView"
+			class="sharingTab__content">
 			<!-- shared with me information -->
-			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
-				<template #avatar>
-					<NcAvatar :user="sharedWithMe.user"
-						:display-name="sharedWithMe.displayName"
-						class="sharing-entry__avatar" />
-				</template>
-			</SharingEntrySimple>
+			<ul>
+				<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
+					<template #avatar>
+						<NcAvatar :user="sharedWithMe.user"
+							:display-name="sharedWithMe.displayName"
+							class="sharing-entry__avatar" />
+					</template>
+				</SharingEntrySimple>
+			</ul>
 
 			<!-- add new share input -->
 			<SharingInput v-if="!loading"
@@ -76,22 +79,22 @@
 				:name="fileInfo.name" />
 		</div>
 
-		<!-- share details -->
-		<div v-else>
-			<SharingDetailsTab :file-info="shareDetailsData.fileInfo"
-				:share="shareDetailsData.share"
-				@close-sharing-details="toggleShareDetailsView"
-				@add:share="addShare"
-				@remove:share="removeShare" />
-		</div>
-
 		<!-- additional entries, use it with cautious -->
 		<div v-for="(section, index) in sections"
+			v-show="!showSharingDetailsView"
 			:ref="'section-' + index"
 			:key="index"
 			class="sharingTab__additionalContent">
 			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
 		</div>
+
+		<!-- share details -->
+		<SharingDetailsTab v-if="showSharingDetailsView"
+			:file-info="shareDetailsData.fileInfo"
+			:share="shareDetailsData.share"
+			@close-sharing-details="toggleShareDetailsView"
+			@add:share="addShare"
+			@remove:share="removeShare" />
 	</div>
 </template>
 
@@ -152,6 +155,7 @@ export default {
 			projectsEnabled: loadState('core', 'projects_enabled', false),
 			showSharingDetailsView: false,
 			shareDetailsData: {},
+			returnFocusElement: null,
 		}
 	},
 
@@ -354,9 +358,16 @@ export default {
 		 * @param {Share} share the share to remove
 		 */
 		removeShare(share) {
-			const index = this.shares.findIndex(item => item.id === share.id)
-			// eslint-disable-next-line vue/no-mutating-props
-			this.shares.splice(index, 1)
+			// Get reference for this.linkShares or this.shares
+			const shareList
+				= share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+					|| share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+					? this.linkShares
+					: this.shares
+			const index = shareList.findIndex(item => item.id === share.id)
+			if (index !== -1) {
+				shareList.splice(index, 1)
+			}
 		},
 		/**
 		 * Await for next tick and render after the list updated
@@ -367,25 +378,44 @@ export default {
 		 * @param {Function} resolve a function to execute after
 		 */
 		awaitForShare(share, resolve) {
-			let listComponent = this.$refs.shareList
-			// Only mail shares comes from the input, link shares
-			// are managed internally in the SharingLinkList component
-			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				listComponent = this.$refs.linkShareList
-			}
-
 			this.$nextTick(() => {
+				let listComponent = this.$refs.shareList
+				// Only mail shares comes from the input, link shares
+				// are managed internally in the SharingLinkList component
+				if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					listComponent = this.$refs.linkShareList
+				}
 				const newShare = listComponent.$children.find(component => component.share === share)
 				if (newShare) {
 					resolve(newShare)
 				}
 			})
 		},
+
 		toggleShareDetailsView(eventData) {
+			if (!this.showSharingDetailsView) {
+				const isAction = Array.from(document.activeElement.classList)
+					.some(className => className.startsWith('action-'))
+				if (isAction) {
+					const menuId = document.activeElement.closest('[role="menu"]')?.id
+					this.returnFocusElement = document.querySelector(`[aria-controls="${menuId}"]`)
+				} else {
+					this.returnFocusElement = document.activeElement
+				}
+			}
+
 			if (eventData) {
 				this.shareDetailsData = eventData
 			}
+
 			this.showSharingDetailsView = !this.showSharingDetailsView
+
+			if (!this.showSharingDetailsView) {
+				this.$nextTick(() => { // Wait for next tick as the element must be visible to be focused
+					this.returnFocusElement?.focus()
+					this.returnFocusElement = null
+				})
+			}
 		},
 	},
 }
@@ -397,6 +427,9 @@ export default {
 }
 
 .sharingTab {
+	position: relative;
+	height: 100%;
+
 	&__content {
 		padding: 0 6px;
 	}

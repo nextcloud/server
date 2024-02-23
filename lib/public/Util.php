@@ -46,9 +46,9 @@
 
 namespace OCP;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
-use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -105,19 +105,6 @@ class Util {
 	}
 
 	/**
-	 * write a message in the log
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
-	 * @since 4.0.0
-	 * @deprecated 13.0.0 use log of \OCP\ILogger
-	 */
-	public static function writeLog($app, $message, $level) {
-		$context = ['app' => $app];
-		\OC::$server->getLogger()->log($level, $message, $context);
-	}
-
-	/**
 	 * check if sharing is disabled for the current user
 	 *
 	 * @return boolean
@@ -139,13 +126,10 @@ class Util {
 
 	/**
 	 * get l10n object
-	 * @param string $application
-	 * @param string|null $language
-	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
-	public static function getL10N($application, $language = null) {
-		return \OC::$server->getL10N($application, $language);
+	public static function getL10N(string $application, ?string $language = null): IL10N {
+		return Server::get(\OCP\L10N\IFactory::class)->get($application, $language);
 	}
 
 	/**
@@ -172,6 +156,12 @@ class Util {
 			$path = "$application/js/$file";
 		} else {
 			$path = "js/$file";
+		}
+
+		// We need to handle the translation BEFORE the init script
+		// is loaded, as the init script might use translations
+		if ($application !== 'core' && !str_contains($file, 'l10n')) {
+			self::addTranslations($application, null, true);
 		}
 
 		self::$scriptsInit[] = $path;
@@ -246,9 +236,10 @@ class Util {
 	 * Add a translation JS file
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current locale
+	 * @param bool $init whether the translations should be loaded early or not
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
 			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
 		}
@@ -257,7 +248,12 @@ class Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::$scripts[$application][] = $path;
+
+		if ($init) {
+			self::$scriptsInit[] = $path;
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**

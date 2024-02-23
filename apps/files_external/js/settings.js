@@ -91,7 +91,7 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 		return;
 	}
 	return $elements.select2({
-		placeholder: t('files_external', 'Type to select user or group.'),
+		placeholder: t('files_external', 'Type to select account or group.'),
 		allowClear: true,
 		multiple: true,
 		toggleSelect: true,

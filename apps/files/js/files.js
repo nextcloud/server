@@ -101,8 +101,8 @@
 			 && response.data.total !== undefined
 			 && response.data.used !== undefined
 			 && response.data.usedSpacePercent !== undefined) {
-				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
-				var humanTotal = OC.Util.humanFileSize(response.data.total, true);
+				var humanUsed = OC.Util.humanFileSize(response.data.used, true, false);
+				var humanTotal = OC.Util.humanFileSize(response.data.total, true, false);
 				if (response.data.quota > 0) {
 					$('#quota').attr('title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
 					$('#quota progress').val(response.data.usedSpacePercent);
@@ -425,7 +425,7 @@ var createDragShadow = function(event) {
 			.attr('data-file', elem.name)
 			.attr('data-origin', elem.origin);
 		newtr.append($('<td class="filename"></td>').text(elem.name).css('background-size', 32));
-		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size)));
+		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size, false, false)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename')

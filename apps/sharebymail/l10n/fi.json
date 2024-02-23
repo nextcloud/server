@@ -11,7 +11,6 @@
     "Password to access {file} was sent to {email}" : "Salasana kohteen {file} käyttämiseksi lähetettiin osoitteeseen {email}",
     "Password to access {file} was sent to you" : "Salasana tiedoston {file} käyttämiseksi lähetettiin sinulle",
     "Share by mail" : "Jaa sähköpostitse",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tämä kohde on jo jaettu käyttäjän %2$s kanssa",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automaattisesti muodostettua salasanaa ei voi lähettää sinulle. Aseta kelvollinen sähköpostiosoite henkilökohtaisiin asetuksiisi ja yritä uudelleen.",
     "Failed to send share by email. Got an invalid email address" : "Jaon lähettäminen sähköpostitse epäonnistui. Virheellinen sähköpostiosoite",
     "Failed to send share by email" : "Jaon lähettäminen sähköpostitse epäonnistui",
@@ -29,16 +28,9 @@
     "This is the password:" : "Tämä on salasana:",
     "You can choose a different password at any time in the share dialog." : "Voit valita muun salasanan koska tahansa jakovalikossa.",
     "Could not find share" : "Jakoa ei löytynyt",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Salli käyttäjien jakaa personoitu linkki tiedostoon tai kansioon syöttämällä sähköpostiosoitteen.",
     "Send password by mail" : "Lähetä salasana sähköpostitse",
     "Reply to initiator" : "Vastaa aloitteentekijälle",
-    "Shared with %1$s" : "Jaettu käyttäjälle %1$s",
-    "Shared with %1$s by %2$s" : "Jaettu käyttäjälle %1$s käyttäjän %2$s toimesta",
-    "Password for mail share sent to %1$s" : "Salasana sähköpostijakoon lähetettiin osoitteeseen %1$s",
-    "You shared %1$s with %2$s by mail" : "Jaoit tiedoston %1$s sähköpostitse osoitteeseen %2$s",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s jakoi tiedoston %1$s sähköpostitse osoitteeseen %2$s",
-    "You unshared %1$s from %2$s by mail" : "Lopetit kohteen %1$s jaon käyttäjältä %2$s sähköpostitse",
-    "Password to access %1$s was sent to %2s" : "Salasana kohteen %1$s käyttämiseksi lähetettiin käyttäjälle %2s",
-    "Password to access %1$s was sent to you" : "Salasana kohteen %1$s käyttämiseksi lähetettiin sinulle"
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tämä kohde on jo jaettu käyttäjän %2$s kanssa",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Salli käyttäjien jakaa personoitu linkki tiedostoon tai kansioon syöttämällä sähköpostiosoitteen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

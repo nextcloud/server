@@ -11,8 +11,8 @@
     "Delete comment" : "Fshije komentin",
     "No comments yet, start the conversation!" : "Akoma asnjë koment, fillo një bisedë!",
     "Retry" : "Riprovoni",
-    "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "],
     "Comment" : "Koment",
-    "%1$s commented" : "%1$s komentoi"
+    "%1$s commented" : "%1$s komentoi",
+    "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

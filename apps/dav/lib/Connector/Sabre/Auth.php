@@ -61,11 +61,11 @@ class Auth extends AbstractBasic {
 	private IThrottler $throttler;
 
 	public function __construct(ISession $session,
-								Session $userSession,
-								IRequest $request,
-								Manager $twoFactorManager,
-								IThrottler $throttler,
-								string $principalPrefix = 'principals/users/') {
+		Session $userSession,
+		IRequest $request,
+		Manager $twoFactorManager,
+		IThrottler $throttler,
+		string $principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->twoFactorManager = $twoFactorManager;
@@ -75,7 +75,7 @@ class Auth extends AbstractBasic {
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
-		$this->realm = $defaults->getName();
+		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Auth extends AbstractBasic {
 
 		if (!$this->userSession->isLoggedIn() && in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''))) {
 			// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
-			$response->addHeader('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
+			$response->addHeader('WWW-Authenticate', 'DummyBasic realm="' . $this->realm . '"');
 			$response->setStatus(401);
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}

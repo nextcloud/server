@@ -22,110 +22,24 @@
  *
  */
 
-import _ from 'underscore'
-import $ from 'jquery'
-import moment from 'moment'
-import { generateUrl } from '@nextcloud/router'
-
-import OC from './index.js'
+import { confirmPassword, isPasswordConfirmationRequired } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
 /**
  * @namespace OC.PasswordConfirmation
  */
 export default {
-	callback: null,
-
-	pageLoadTime: null,
-
-	init() {
-		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this))
-		this.pageLoadTime = moment.now()
-	},
 
 	requiresPasswordConfirmation() {
-		const serverTimeDiff = this.pageLoadTime - (window.nc_pageLoad * 1000)
-		const timeSinceLogin = moment.now() - (serverTimeDiff + (window.nc_lastLogin * 1000))
-
-		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
-		return (window.backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000)
+		return isPasswordConfirmationRequired()
 	},
 
 	/**
 	 * @param {Function} callback success callback function
-	 * @param {object} options options
+	 * @param {object} options options currently not used by confirmPassword
 	 * @param {Function} rejectCallback error callback function
 	 */
 	requirePasswordConfirmation(callback, options, rejectCallback) {
-		options = typeof options !== 'undefined' ? options : {}
-		const defaults = {
-			title: t('core', 'Authentication required'),
-			text: t(
-				'core',
-				'This action requires you to confirm your password'
-			),
-			confirm: t('core', 'Confirm'),
-			label: t('core', 'Password'),
-			error: '',
-		}
-
-		const config = _.extend(defaults, options)
-
-		const self = this
-
-		if (this.requiresPasswordConfirmation()) {
-			OC.dialogs.prompt(
-				config.text,
-				config.title,
-				function(result, password) {
-					if (result && password !== '') {
-						self._confirmPassword(password, config)
-					} else if (_.isFunction(rejectCallback)) {
-						rejectCallback()
-					}
-				},
-				true,
-				config.label,
-				true
-			).then(function() {
-				const $dialog = $('.oc-dialog:visible')
-				$dialog.find('.ui-icon').remove()
-				$dialog.addClass('password-confirmation')
-				if (config.error !== '') {
-					const $error = $('<p></p>').addClass('msg warning').text(config.error)
-					$dialog.find('.oc-dialog-content').append($error)
-				}
-				const $buttonrow = $dialog.find('.oc-dialog-buttonrow')
-				$buttonrow.addClass('aside')
-
-				const $buttons = $buttonrow.find('button')
-				$buttons.eq(0).hide()
-				$buttons.eq(1).text(config.confirm)
-			})
-		}
-
-		this.callback = callback
-	},
-
-	_confirmPassword(password, config) {
-		const self = this
-
-		$.ajax({
-			url: generateUrl('/login/confirm'),
-			data: {
-				password,
-			},
-			type: 'POST',
-			success(response) {
-				window.nc_lastLogin = response.lastLogin
-
-				if (_.isFunction(self.callback)) {
-					self.callback()
-				}
-			},
-			error() {
-				config.error = t('core', 'Failed to authenticate, try again')
-				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback, config)
-			},
-		})
+		confirmPassword().then(callback, rejectCallback)
 	},
 }

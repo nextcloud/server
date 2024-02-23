@@ -1063,8 +1063,8 @@ OC.Uploader.prototype = _.extend({
 						data.textStatus = 'notenoughspace';
 						data.errorThrown = t('files',
 							'Not enough free space, you are uploading {size1} but only {size2} is left', {
-							'size1': OC.Util.humanFileSize(selection.totalBytes),
-							'size2': OC.Util.humanFileSize(freeSpace)
+							'size1': OC.Util.humanFileSize(selection.totalBytes, false, false),
+							'size2': OC.Util.humanFileSize(freeSpace, false, false)
 						});
 					}
 
@@ -1302,9 +1302,9 @@ OC.Uploader.prototype = _.extend({
 					}
  
 					self._setProgressBarText(h, h, t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
-							loadedSize: OC.Util.humanFileSize(data.loaded),
-							totalSize: OC.Util.humanFileSize(total),
-							bitrate: OC.Util.humanFileSize(smoothBitrate / 8) + '/s'
+							loadedSize: OC.Util.humanFileSize(data.loaded, false, false),
+							totalSize: OC.Util.humanFileSize(total, false, false),
+							bitrate: OC.Util.humanFileSize(smoothBitrate / 8, false, false) + '/s'
 						}));
 					self._setProgressBarValue(progress);
 					self.trigger('progressall', e, data);

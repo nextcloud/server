@@ -33,18 +33,7 @@ OC.L10N.register(
     "This is the password:" : "Esta é a palavra passe: ",
     "You can choose a different password at any time in the share dialog." : "Pode escolher uma palavra-chave diferente a qualquer altura utilizando a caixa de diálogo \"partilha\".",
     "Could not find share" : "Não foi possível encontrar a partilha",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir que os utilizadores partilhem uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de ''e-mail''.",
     "Send password by mail" : "Enviar palavra-chave por e-mail",
-    "Shared with %1$s" : "Partilhar com %1$s",
-    "Shared with %1$s by %2$s" : "Partilhado com %1$s por %2$s",
-    "Unshared from %1$s" : "Despartilhado de %1$s",
-    "Unshared from %1$s by %2$s" : "Despartilhado de  %1$s por %2$s",
-    "Password for mail share sent to %1$s" : "Palavra-chave da partilha por email enviada para %1$s",
-    "You shared %1$s with %2$s by mail" : "Partilhou %1$s com %2$s por e-mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s partilhou %1$s com %2$s por e-mail",
-    "You unshared %1$s from %2$s by mail" : "Despartilhaste %1$s de %2$s por email",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s despartilhado %1$s de %2$s por email",
-    "Password to access %1$s was sent to %2s" : "Palavra-chave de acesso a %1$s enviada para %2s",
-    "Password to access %1$s was sent to you" : "Palavra-chave de acesso a %1$s enviada para si"
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir que os utilizadores partilhem uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de ''e-mail''."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

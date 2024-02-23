@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "Сачувај",
     "Available flows" : "Доступни токови",
     "For details on how to write your own flow, check out the development documentation." : "За детаље како написати сопствени ток, погледајте програмерску документацију.",
+    "No flows installed" : "Није инсталиран ниједан ток",
+    "Ask your administrator to install new flows." : "Затражите од свог администратора да инсталира нове токове.",
     "More flows" : "Још токова",
     "Browse the App Store" : "Прегледајте Продавницу апликација",
     "Show less" : "Прикажи мање",
     "Show more" : "Прикажи више",
     "Configured flows" : "Подешени токови",
     "Your flows" : "Ваши токови",
+    "No flows configured" : "Није конфигурисан ниједан ток",
     "matches" : "се поклапа са",
     "does not match" : "се не поклапа са",
     "is" : "је",
@@ -110,10 +113,9 @@ OC.L10N.register(
     "between" : "између",
     "not between" : "није између",
     "Request user agent" : "Кориснички агент захтева",
-    "User group membership" : "Припадност групи",
+    "Group membership" : "Припадност групи",
     "is member of" : "је члан групе",
     "is not member of" : "није члан групе",
-    "Predefined URLs" : "Предефинисане адресе",
-    "Others" : "Остали"
+    "User group membership" : "Припадност групи"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

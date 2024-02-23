@@ -45,7 +45,7 @@ class Registry implements IRegistry {
 	private $dispatcher;
 
 	public function __construct(ProviderUserAssignmentDao $assignmentDao,
-								IEventDispatcher $dispatcher) {
+		IEventDispatcher $dispatcher) {
 		$this->assignmentDao = $assignmentDao;
 		$this->dispatcher = $dispatcher;
 	}

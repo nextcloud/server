@@ -54,11 +54,11 @@ class Add extends Command {
 		$this
 			->setName('user:auth-tokens:add')
 			->setAliases(['user:add-app-password'])
-			->setDescription('Add app password for the named user')
+			->setDescription('Add app password for the named account')
 			->addArgument(
 				'user',
 				InputArgument::REQUIRED,
-				'Username to add app password for'
+				'Login to add app password for'
 			)
 			->addOption(
 				'password-from-env',
@@ -75,7 +75,7 @@ class Add extends Command {
 
 		$user = $this->userManager->get($username);
 		if (is_null($user)) {
-			$output->writeln('<error>User does not exist</error>');
+			$output->writeln('<error>Account does not exist</error>');
 			return 1;
 		}
 
@@ -89,7 +89,7 @@ class Add extends Command {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 
-			$question = new Question('Enter the user password: ');
+			$question = new Question('Enter the account password: ');
 			$question->setHidden(true);
 			/** @var null|string $password */
 			$password = $helper->ask($input, $output, $question);

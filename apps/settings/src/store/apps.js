@@ -26,7 +26,6 @@ import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/dist/index.css'
 
 const state = {
 	apps: [],
@@ -89,6 +88,13 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
+	},
+
+	setInstallState(state, { appId, canInstall }) {
+		const app = state.apps.find(app => app.id === appId)
+		if (app) {
+			app.canInstall = canInstall === true
+		}
 	},
 
 	disableApp(state, appId) {
@@ -238,8 +244,7 @@ const actions = {
 			context.commit('startLoading', 'install')
 			return api.post(generateUrl('settings/apps/force'), { appId })
 				.then((response) => {
-					// TODO: find a cleaner solution
-					location.reload()
+					context.commit('setInstallState', { appId, canInstall: true })
 				})
 				.catch((error) => {
 					context.commit('stopLoading', apps)
@@ -249,6 +254,10 @@ const actions = {
 						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+				.finally(() => {
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},

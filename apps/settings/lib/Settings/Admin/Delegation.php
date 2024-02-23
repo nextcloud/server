@@ -28,10 +28,10 @@ use OCA\Settings\Service\AuthorizedGroupService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
-use OCP\IURLGenerator;
 
 class Delegation implements ISettings {
 	private IManager $settingManager;

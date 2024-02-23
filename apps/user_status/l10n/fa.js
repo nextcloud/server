@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "در رفت و آمد",
     "Out sick" : "مرخصی استعلاجی",
     "Vacationing" : "تعطیلات",
+    "Out of office" : "بیرون از دفتر",
     "Working remotely" : "دورکاری",
     "In a call" : "در حال تماس تلفنی",
     "User status" : "وضعبت کاربر",
-    "View profile" : "مشاهده پروفایل",
     "Clear status after" : "پاک کردن وضعیت بعدی",
     "Emoji for your status message" : "Emoji for your status message",
     "What is your status?" : "وضعیت شما چیست؟",
@@ -43,6 +43,7 @@ OC.L10N.register(
     "4 hours" : "۴ ساعت",
     "Mute all notifications" : "خاموش کردن همه اعلانات",
     "Appear offline" : "نمایش آفلاین",
+    "View profile" : "مشاهدهٔ نمایه",
     "{status}, {timestamp}" : "{status}, {timestamp}"
 },
 "nplurals=2; plural=(n > 1);");

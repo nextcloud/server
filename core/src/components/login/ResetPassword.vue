@@ -26,14 +26,14 @@
 				:value.sync="user"
 				name="user"
 				autocapitalize="off"
-				:label="t('core', 'Account name or email')"
+				:label="t('core', 'Login or email')"
 				required
 				@change="updateUsername" />
 			<LoginButton :value="t('core', 'Reset password')" />
 
 			<NcNoteCard v-if="message === 'send-success'"
 				type="success">
-				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help.') }}
+				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
 			</NcNoteCard>
 			<NcNoteCard v-else-if="message === 'send-error'"
 				type="error">

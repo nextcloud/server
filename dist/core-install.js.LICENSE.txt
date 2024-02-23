@@ -85,11 +85,10 @@
  */
 
 /**
- * @copyright 2019 Julius Härtl <jus@bitgrid.net>
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license AGPL-3.0-or-later
  *

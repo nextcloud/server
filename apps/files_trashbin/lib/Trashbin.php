@@ -44,21 +44,30 @@
  */
 namespace OCA\Files_Trashbin;
 
-use OC_User;
+use Exception;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\CacheQueryBuilder;
 use OC\Files\Filesystem;
+use OC\Files\Node\File;
+use OC\Files\Node\Folder;
+use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\View;
+use OC_User;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
-use OCP\AppFramework\Utility\ITimeFactory;
+use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
+use OCA\Files_Trashbin\Events\NodeRestoredEvent;
 use OCP\App\IAppManager;
-use OCP\Files\File;
-use OCP\Files\Folder;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -507,6 +516,21 @@ class Trashbin {
 		if (!$view->isCreatable(dirname($target))) {
 			throw new NotPermittedException("Can't restore trash item because the target folder is not writable");
 		}
+
+		$sourcePath = Filesystem::normalizePath($file);
+		$targetPath = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
+
+		$sourceNode = self::getNodeForPath($sourcePath);
+		$targetNode = self::getNodeForPath($targetPath);
+		$run = true;
+		$event = new BeforeNodeRestoredEvent($sourceNode, $targetNode, $run);
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher->dispatchTyped($event);
+
+		if (!$run) {
+			return false;
+		}
+
 		$restoreResult = $view->rename($source, $target);
 
 		// handle the restore result
@@ -515,8 +539,13 @@ class Trashbin {
 			$view->chroot('/' . $user . '/files');
 			$view->touch('/' . $location . '/' . $uniqueFilename, $mtime);
 			$view->chroot($fakeRoot);
-			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename),
-				'trashPath' => Filesystem::normalizePath($file)]);
+			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
+
+			$sourceNode = self::getNodeForPath($sourcePath);
+			$targetNode = self::getNodeForPath($targetPath);
+			$event = new NodeRestoredEvent($sourceNode, $targetNode);
+			$dispatcher = \OC::$server->get(IEventDispatcher::class);
+			$dispatcher->dispatchTyped($event);
 
 			self::restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp);
 
@@ -993,7 +1022,8 @@ class Trashbin {
 		$query = new CacheQueryBuilder(
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getSystemConfig(),
-			\OC::$server->get(LoggerInterface::class)
+			\OC::$server->get(LoggerInterface::class),
+			\OC::$server->get(IFilesMetadataManager::class),
 		);
 		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/'. $filename)), '/');
 		$parentId = $cache->getId($normalizedParentPath);
@@ -1039,7 +1069,7 @@ class Trashbin {
 	private static function getUniqueFilename($location, $filename, View $view) {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$name = pathinfo($filename, PATHINFO_FILENAME);
-		$l = \OC::$server->getL10N('files_trashbin');
+		$l = \OCP\Util::getL10N('files_trashbin');
 
 		$location = '/' . trim($location, '/');
 
@@ -1148,5 +1178,34 @@ class Trashbin {
 			);
 		}
 		return $trashFilename;
+	}
+
+	private static function getNodeForPath(string $path): Node {
+		$user = OC_User::getUser();
+		$rootFolder = \OC::$server->get(IRootFolder::class);
+
+		if ($user !== false) {
+			$userFolder = $rootFolder->getUserFolder($user);
+			/** @var Folder */
+			$trashFolder = $userFolder->getParent()->get('files_trashbin/files');
+			try {
+				return $trashFolder->get($path);
+			} catch (NotFoundException $ex) {
+			}
+		}
+
+		$view = \OC::$server->get(View::class);
+		$fsView = Filesystem::getView();
+		if ($fsView === null) {
+			throw new Exception('View should not be null');
+		}
+
+		$fullPath = $fsView->getAbsolutePath($path);
+
+		if (Filesystem::is_dir($path)) {
+			return new NonExistingFolder($rootFolder, $view, $fullPath);
+		} else {
+			return new NonExistingFile($rootFolder, $view, $fullPath);
+		}
 	}
 }

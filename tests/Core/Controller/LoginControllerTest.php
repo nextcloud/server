@@ -145,6 +145,10 @@ class LoginControllerTest extends TestCase {
 		$this->request
 			->method('getServerProtocol')
 			->willReturn('https');
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(false);
 		$this->config
 			->expects($this->never())
 			->method('deleteUserValue');
@@ -159,6 +163,29 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
+	public function testLogoutNoClearSiteData() {
+		$this->request
+			->expects($this->once())
+			->method('getCookie')
+			->with('nc_token')
+			->willReturn(null);
+		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(true);
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.login.showLoginForm')
+			->willReturn('/login');
+
+		$expected = new RedirectResponse('/login');
+		$this->assertEquals($expected, $this->loginController->logout());
+	}
+
 	public function testLogoutWithToken() {
 		$this->request
 			->expects($this->once())
@@ -166,9 +193,12 @@ class LoginControllerTest extends TestCase {
 			->with('nc_token')
 			->willReturn('MyLoginToken');
 		$this->request
-			->expects($this->once())
 			->method('getServerProtocol')
 			->willReturn('https');
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(false);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -314,7 +344,7 @@ class LoginControllerTest extends TestCase {
 	 * @dataProvider passwordResetDataProvider
 	 */
 	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
-															 $expectedResult) {
+		$expectedResult) {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')

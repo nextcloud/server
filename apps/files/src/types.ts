@@ -106,3 +106,18 @@ export interface RenamingStore {
 export interface UploaderStore {
 	queue: Upload[]
 }
+
+// Drag and drop store
+export interface DragAndDropStore {
+	dragging: FileId[]
+}
+
+export interface TemplateFile {
+	app: string
+	label: string
+	extension: string
+	iconClass?: string
+	mimetypes: string[]
+	ratio?: number
+	templates?: Record<string, unknown>[]
+}
