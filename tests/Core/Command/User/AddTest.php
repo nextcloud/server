@@ -28,7 +28,7 @@ namespace Core\Command\User;
 use OC\Core\Command\User\Add;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -40,61 +40,103 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class AddTest extends TestCase {
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userManager;
+
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
+
+	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
+	private $mailer;
+
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
+
+	/** @var NewUserMailHelper|\PHPUnit\Framework\MockObject\MockObject */
+	private $mailHelper;
+
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
+
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
+	private $secureRandom;
+
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
+	private $user;
+
+	/** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $consoleInput;
+
+	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $consoleOutput;
+
+	/** @var Add */
+	private $addCommand;
+
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->userManager = static::createMock(IUserManager::class);
+		$this->groupManager = static::createStub(IGroupManager::class);
+		$this->mailer = static::createMock(IMailer::class);
+		$this->appConfig = static::createMock(IAppConfig::class);
+		$this->mailHelper = static::createMock(NewUserMailHelper::class);
+		$this->eventDispatcher = static::createStub(IEventDispatcher::class);
+		$this->secureRandom = static::createStub(ISecureRandom::class);
+
+		$this->user = static::createMock(IUser::class);
+
+		$this->consoleInput = static::createMock(InputInterface::class);
+		$this->consoleOutput = static::createMock(OutputInterface::class);
+
+		$this->addCommand = new Add(
+			$this->userManager,
+			$this->groupManager,
+			$this->mailer,
+			$this->appConfig,
+			$this->mailHelper,
+			$this->eventDispatcher,
+			$this->secureRandom
+		);
+	}
+
 	/**
 	 * @dataProvider addEmailDataProvider
 	 */
-	public function testAddEmail(?string $email, bool $isValid, bool $shouldSendMail): void {
-		$userManager = static::createMock(IUserManager::class);
-		$groupManager = static::createStub(IGroupManager::class);
-		$mailer = static::createMock(IMailer::class);
-		$user = static::createMock(IUser::class);
-		$config = static::createMock(IConfig::class);
-		$mailHelper = static::createMock(NewUserMailHelper::class);
-		$eventDispatcher = static::createStub(IEventDispatcher::class);
-		$secureRandom = static::createStub(ISecureRandom::class);
-
-		$consoleInput = static::createMock(InputInterface::class);
-		$consoleOutput = static::createMock(OutputInterface::class);
-
-		$user->expects($isValid ? static::once() : static::never())
+	public function testAddEmail(
+		?string $email,
+		bool $isEmailValid,
+		bool $shouldSendEmail,
+	): void {
+		$this->user->expects($isEmailValid ? static::once() : static::never())
 			->method('setSystemEMailAddress')
 			->with(static::equalTo($email));
 
-		$userManager->method('createUser')
-			->willReturn($user);
+		$this->userManager->method('createUser')
+			->willReturn($this->user);
 
-		$config->method('getAppValue')
-			->willReturn($shouldSendMail ? 'yes' : 'no');
+		$this->appConfig->method('getValueString')
+			->willReturn($shouldSendEmail ? 'yes' : 'no');
 
-		$mailer->method('validateMailAddress')
-			->willReturn($isValid);
+		$this->mailer->method('validateMailAddress')
+			->willReturn($isEmailValid);
 
-		$mailHelper->method('generateTemplate')
+		$this->mailHelper->method('generateTemplate')
 			->willReturn(static::createMock(IEMailTemplate::class));
 
-		$mailHelper->expects($isValid && $shouldSendMail ? static::once() : static::never())
+		$this->mailHelper->expects($isEmailValid && $shouldSendEmail ? static::once() : static::never())
 			->method('sendMail');
 
-		$consoleInput->method('getOption')
+		$this->consoleInput->method('getOption')
 			->will(static::returnValueMap([
-				['password-from-env', ''],
+				['generate-password', 'true'],
 				['email', $email],
 				['group', []],
 			]));
 
-		$addCommand = new Add(
-			$userManager,
-			$groupManager,
-			$mailer,
-			$config,
-			$mailHelper,
-			$eventDispatcher,
-			$secureRandom
-		);
-
-		$this->invokePrivate($addCommand, 'execute', [
-			$consoleInput,
-			$consoleOutput
+		$this->invokePrivate($this->addCommand, 'execute', [
+			$this->consoleInput,
+			$this->consoleOutput
 		]);
 	}
 
@@ -111,12 +153,12 @@ class AddTest extends TestCase {
 			'Invalid E-Mail' => [
 				'info@@example.com',
 				false,
-				true,
+				false,
 			],
 			'No E-Mail' => [
 				'',
 				false,
-				true,
+				false,
 			],
 			'Valid E-Mail, but no mail should be sent' => [
 				'info@example.com',

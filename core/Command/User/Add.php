@@ -29,7 +29,7 @@ namespace OC\Core\Command\User;
 use OC\Files\Filesystem;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -50,7 +50,7 @@ class Add extends Command {
 		protected IUserManager $userManager,
 		protected IGroupManager $groupManager,
 		protected IMailer $mailer,
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private NewUserMailHelper $mailHelper,
 		private IEventDispatcher $eventDispatcher,
 		private ISecureRandom $secureRandom,
@@ -58,7 +58,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('user:add')
 			->setDescription('adds an account')
@@ -72,6 +72,12 @@ class Add extends Command {
 				null,
 				InputOption::VALUE_NONE,
 				'read password from environment variable OC_PASS'
+			)
+			->addOption(
+				'generate-password',
+				null,
+				InputOption::VALUE_NONE,
+				'Generate a secure password. A welcome email with a reset link will be sent to the user via an email if --email option and newUser.sendEmail config are set'
 			)
 			->addOption(
 				'display-name',
@@ -89,7 +95,7 @@ class Add extends Command {
 				'email',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'When set, users may register using the default E-Mail verification workflow'
+				'When set, users may register using the default email verification workflow'
 			);
 	}
 
@@ -101,19 +107,6 @@ class Add extends Command {
 		}
 
 		$password = '';
-		$sendPasswordEmail = false;
-
-		$email = $input->getOption('email');
-		if (!empty($email)) {
-			if (!$this->mailer->validateMailAddress($email)) {
-				$output->writeln(\sprintf(
-					'<error>The given E-Mail address "%s" is invalid</error>',
-					$email,
-				));
-
-				return 1;
-			}
-		}
 
 		// Setup password.
 		if ($input->getOption('password-from-env')) {
@@ -123,13 +116,10 @@ class Add extends Command {
 				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
 				return 1;
 			}
-		} elseif (!empty($email)) {
-
+		} elseif ($input->getOption('generate-password')) {
 			$passwordEvent = new GenerateSecurePasswordEvent();
 			$this->eventDispatcher->dispatchTyped($passwordEvent);
 			$password = $passwordEvent->getPassword() ?? $this->secureRandom->generate(20);
-
-			$sendPasswordEmail = true;
 		} elseif ($input->isInteractive()) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
@@ -147,7 +137,7 @@ class Add extends Command {
 				return 1;
 			}
 		} else {
-			$output->writeln("<error>Interactive input or --password-from-env is needed for entering a password!</error>");
+			$output->writeln("<error>Interactive input or --password-from-env or --generate-password is needed for setting a password!</error>");
 			return 1;
 		}
 
@@ -173,10 +163,6 @@ class Add extends Command {
 			$output->writeln('Display name set to "' . $user->getDisplayName() . '"');
 		}
 
-		if (!empty($email)) {
-			$user->setSystemEMailAddress($email);
-		}
-
 		$groups = $input->getOption('group');
 
 		if (!empty($groups)) {
@@ -200,15 +186,25 @@ class Add extends Command {
 			}
 		}
 
-		// Send email to user if we set a temporary password
-		if ($sendPasswordEmail) {
+		$email = $input->getOption('email');
+		if (!empty($email)) {
+			if (!$this->mailer->validateMailAddress($email)) {
+				$output->writeln(\sprintf(
+					'<error>The given email address "%s" is invalid. Email not set for the user.</error>',
+					$email,
+				));
 
-			if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				return 1;
+			}
+
+			$user->setSystemEMailAddress($email);
+
+			if ($this->appConfig->getValueString('core', 'newUser.sendEmail', 'yes') === 'yes') {
 				try {
 					$this->mailHelper->sendMail($user, $this->mailHelper->generateTemplate($user, true));
-					$output->writeln('Invitation E-Mail sent to ' . $email);
+					$output->writeln('Welcome email sent to ' . $email);
 				} catch (\Exception $e) {
-					$output->writeln('Unable to send the invitation mail to ' . $email);
+					$output->writeln('Unable to send the welcome email to ' . $email);
 				}
 			}
 		}
