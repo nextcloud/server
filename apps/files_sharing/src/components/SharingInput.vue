@@ -35,7 +35,7 @@
 			:user-select="true"
 			:options="options"
 			@search="asyncFind"
-			@option:selected="openSharingDetails">
+			@option:selected="onSelected">
 			<template #no-options="{ search }">
 				{{ search ? noResultText : t('files_sharing', 'No recommendations. Start typing.') }}
 			</template>
@@ -155,6 +155,11 @@ export default {
 	},
 
 	methods: {
+		onSelected(option) {
+			this.value = null // Reset selected option
+			this.openSharingDetails(option)
+		},
+
 		async asyncFind(query) {
 			// save current query to check if we display
 			// recommendations or search results

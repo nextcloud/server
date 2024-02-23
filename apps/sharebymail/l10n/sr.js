@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Лозинка за приступ {file} је послата на {email}",
     "Password to access {file} was sent to you" : "Лозинка за приступ  {file} Вам је послата ",
     "Share by mail" : "Подели е-поштом",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са корисником %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са налогом %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не можемо да вам пошаљемо аутоматски генерисану лозинку. Молимо вас да у вашим личним подешавањима поставите исправну и-мејл адресу и покушате поново.",
     "Failed to send share by email. Got an invalid email address" : "Слање дељења и-мејлом није успело. Добијена је неисправна и-мејл адреса",
     "Failed to send share by email" : "Грешка у слању дељења е-поштом",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Можете да одаберете другу лозинку кад год желите у дијалогу за дељење.",
     "Could not find share" : "Не могу да пронађем дељење",
     "Share provider which allows you to share files by mail" : "Добављач дељења који Вам дозвољава дељење е-поштом",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволи корисницима да поделе персонализовану везу до фајла или фасцикле уносом е-адресе.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Дозвољава да људи поделе персонализовани линк на фајл или фолдер уносом имејл адресе.",
     "Send password by mail" : "Пошаљи лозинку е-поштом",
     "Reply to initiator" : "Одговор иницијатору",
-    "Unable to update share by mail config" : "Није успело ажурирање конфигурације дељења путем и-мејла"
+    "Unable to update share by mail config" : "Није успело ажурирање конфигурације дељења путем и-мејла",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са корисником %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволи корисницима да поделе персонализовану везу до фајла или фасцикле уносом е-адресе."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -170,7 +170,6 @@ OC.L10N.register(
     "Saved availability" : "Запазена наличност",
     "Failed to save availability" : "Неуспешно записване на наличност",
     "Availability" : "Наличност",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща.",
     "Calendar server" : "Сървър на календар",
     "Send invitations to attendees" : "Изпращане на покани до участниците",
     "Automatically generate a birthday calendar" : "Автоматично генериране на календар с рождени дни.",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Моля, свържете се директно с организатора.",
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
-    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно."
+    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща."
 },
 "nplurals=2; plural=(n != 1);");

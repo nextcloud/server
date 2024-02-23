@@ -22,8 +22,6 @@
     "Could not write file to disk" : "Nie można zapisać pliku na dysk",
     "A PHP extension stopped the file upload" : "Rozszerzenie PHP zatrzymało wysyłanie pliku",
     "No file uploaded" : "Nie wysłano pliku",
-    "Failed to clean up the old administration theming images folder" : "Nie udało się wyczyścić starego katalogu obrazów motywu administratora",
-    "Failed to clean up the old administration image folder" : "Nie udało się wyczyścić starego katalogu obrazu administracyjnego",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Używasz już własnego motywu. Ustawienia aplikacji Theming mogą zostać nadpisane.",
     "Theming" : "Motyw",
     "Appearance and accessibility" : "Wygląd i dostępność",
@@ -107,6 +105,8 @@
     "Reset to default" : "Przywróć domyślne",
     "Upload" : "Wyślij",
     "Remove background image" : "Usuń obraz tła",
+    "Failed to clean up the old administration theming images folder" : "Nie udało się wyczyścić starego katalogu obrazów motywu administratora",
+    "Failed to clean up the old administration image folder" : "Nie udało się wyczyścić starego katalogu obrazu administracyjnego",
     "Select a custom color" : "Wybierz kolor niestandardowy"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

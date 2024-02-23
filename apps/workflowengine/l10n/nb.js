@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Available flows" : "Tilgjengelige flyt",
     "For details on how to write your own flow, check out the development documentation." : "For informasjon om hvordan du skriver din egen flyt, sjekk ut utviklingsdokumentasjonen.",
+    "No flows installed" : "Ingen flyter installert",
+    "Ask your administrator to install new flows." : "Be administratoren om å installere nye flyter.",
     "More flows" : "Flere flyt",
     "Browse the App Store" : "Utforsk appbutikken",
     "Show less" : "Vis mindre",
     "Show more" : "Vis mer",
     "Configured flows" : "Konfigurerte flyt",
     "Your flows" : "Dine flyt",
+    "No flows configured" : "Ingen flyter konfigurert",
     "matches" : "passer",
     "does not match" : "passer ikke",
     "is" : "er",
@@ -110,8 +113,9 @@ OC.L10N.register(
     "between" : "mellom",
     "not between" : "ikke mellom",
     "Request user agent" : "Ønsket brukeragent",
-    "User group membership" : "Brukerens gruppemedlemsskap",
+    "Group membership" : "Gruppemedlemskap",
     "is member of" : "er medlem av",
-    "is not member of" : "er ikke medlem av"
+    "is not member of" : "er ikke medlem av",
+    "User group membership" : "Brukerens gruppemedlemsskap"
 },
 "nplurals=2; plural=(n != 1);");

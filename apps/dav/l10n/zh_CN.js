@@ -185,7 +185,6 @@ OC.L10N.register(
     "Saved availability" : "可用时间已保存",
     "Failed to save availability" : "可用时间保存失败",
     "Availability" : "可用性",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "如果您配置了工作时间，其他用户在预订会议时就会了解您何时不在办公室。",
     "Absence" : "离开",
     "Configure your next absence period." : "配置您的下一次离开时段",
     "Calendar server" : "日历服务器",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
-    "Your attendance was updated successfully." : "您的出席状态更新成功。"
+    "Your attendance was updated successfully." : "您的出席状态更新成功。",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "如果您配置了工作时间，其他用户在预订会议时就会了解您何时不在办公室。"
 },
 "nplurals=1; plural=0;");

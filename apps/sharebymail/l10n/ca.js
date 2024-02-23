@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "S'ha enviat a {email} la contrasenya per a accedir a {file}",
     "Password to access {file} was sent to you" : "Se us ha enviat la contrasenya per a accedir a {file}",
     "Share by mail" : "Comparteix per correu electrònic",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb el compte %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No us podem enviar la contrasenya generada automàticament. Definiu una adreça electrònica vàlida en els paràmetres personals i torneu-ho a provar.",
     "Failed to send share by email. Got an invalid email address" : "No s'ha pogut enviar l'element compartit per correu electrònic. Teniu una adreça electrònica no vàlida.",
     "Failed to send share by email" : "No s'ha pogut enviar l'element compartit per correu electrònic",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Podeu triar una contrasenya diferent en qualsevol moment en el quadre de diàleg d'ús compartit.",
     "Could not find share" : "No s'ha pogut trobar l'element compartit",
     "Share provider which allows you to share files by mail" : "Proveïdor d'ús compartit que us permet compartir fitxers per correu electrònic",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet que els usuaris comparteixin un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permet que la gent comparteixi un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica.",
     "Send password by mail" : "Envia la contrasenya per correu electrònic",
     "Reply to initiator" : "Respon a l'usuari que comparteix l'element",
-    "Unable to update share by mail config" : "No s'ha pogut actualitzar la configuració d'ús compartit per correu electrònic"
+    "Unable to update share by mail config" : "No s'ha pogut actualitzar la configuració d'ús compartit per correu electrònic",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet que els usuaris comparteixin un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica."
 },
 "nplurals=2; plural=(n != 1);");

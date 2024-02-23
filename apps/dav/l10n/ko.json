@@ -116,6 +116,7 @@
     "{actor} updated contact {card} in address book {addressbook}" : "{actor}님이 주소록 {addressbook}의 연락처 {card}을(를) 갱신함",
     "You updated contact {card} in address book {addressbook}" : "주소록 {addressbook}의 연락처 {card}을(를) 갱신함",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>연락처</strong> 또는 <strong>주소록</strong>이 변경됨",
+    "Accounts" : "계정",
     "System address book which holds all accounts" : "시스템 주소록이 모든 계정 정보를 보유합니다",
     "File is not updatable: %1$s" : "파일을 갱신할 수 없습니다: %1$s",
     "Could not write to final file, canceled by hook" : "후크에 의해 취소되어 최종 파일에 쓸 수 없음",
@@ -152,9 +153,10 @@
     "Contacts and groups" : "연락처 및 그룹",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 종단점",
-    "First day" : "첫 날",
-    "Short absence status" : "잠시 부재중인 상태",
-    "Long absence Message" : "장기 부재 상태",
+    "First day" : "시작일",
+    "Last day (inclusive)" : "종료일 (이 날짜까지 포함됨)",
+    "Short absence status" : "부재 상태 개요",
+    "Long absence Message" : "부재 상태 상세 설명",
     "Save" : "저장",
     "Disable absence" : "부재 상태 비활성화",
     "Absence saved" : "부재 상태 저장됨",
@@ -180,7 +182,6 @@
     "Saved availability" : "시간 조율 설정 저장함",
     "Failed to save availability" : "시간 조율 설정 저장 실패",
     "Availability" : "시간 조율",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다.",
     "Absence" : "부재",
     "Configure your next absence period." : "다음 부재 기간을 설정하십시오.",
     "Calendar server" : "달력 서버",
@@ -199,6 +200,7 @@
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

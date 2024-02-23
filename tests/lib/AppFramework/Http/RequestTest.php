@@ -1822,14 +1822,14 @@ class RequestTest extends \Test\TestCase {
 	public function providesGetRequestUriWithOverwriteData() {
 		return [
 			['/scriptname.php/some/PathInfo', '/owncloud/', ''],
-			['/scriptname.php/some/PathInfo', '/owncloud/', '123'],
+			['/scriptname.php/some/PathInfo', '/owncloud/', '123', '123.123.123.123'],
 		];
 	}
 
 	/**
 	 * @dataProvider providesGetRequestUriWithOverwriteData
 	 */
-	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr) {
+	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr, $remoteAddr = '') {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
@@ -1838,13 +1838,14 @@ class RequestTest extends \Test\TestCase {
 				['overwritecondaddr', '', $overwriteCondAddr],
 			]);
 
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
 					'server' => [
 						'REQUEST_URI' => '/test.php/some/PathInfo',
 						'SCRIPT_NAME' => '/test.php',
+						'REMOTE_ADDR' => $remoteAddr
 					]
 				],
 				$this->requestId,

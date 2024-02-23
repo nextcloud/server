@@ -35,7 +35,7 @@
 						@click="openSharingSidebar">
 						<template #icon>
 							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
-							<ShareVariantIcon v-else :size="20" />
+							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
 
@@ -143,7 +143,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -177,7 +177,7 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		PlusIcon,
-		ShareVariantIcon,
+		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
 	},
@@ -257,7 +257,7 @@ export default defineComponent({
 				// 1: Sort favorites first if enabled
 				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
 				// 2: Sort folders first if sorting by name
-				...(this.sortingMode === 'basename' ? [v => v.type !== 'folder'] : []),
+				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
 				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
 				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
 				// 4: Use displayName if available, fallback to name
@@ -269,7 +269,7 @@ export default defineComponent({
 				// (for 1): always sort favorites before normal files
 				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
 				// (for 2): always sort folders before files
-				...(this.sortingMode === 'basename' ? ['asc'] : []),
+				...(this.userConfig.sort_folders_first ? ['asc'] : []),
 				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
 				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
 				// (also for 3 so make sure not to conflict with 2 and 3)
@@ -566,15 +566,20 @@ export default defineComponent({
 		/**
 		 * Refreshes the current folder on update.
 		 *
-		 * @param {Node} node is the file/folder being updated.
+		 * @param node is the file/folder being updated.
  		 */
-		onUpdatedNode(node) {
+		onUpdatedNode(node?: Node) {
 			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
 			}
 		},
 
 		openSharingSidebar() {
+			if (!this.currentFolder) {
+				logger.debug('No current folder found for opening sharing sidebar')
+				return
+			}
+
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
@@ -620,9 +625,9 @@ $navigationToggleSize: 50px;
 		}
 
 		&-share-button {
-			opacity: .3;
+			color: var(--color-text-maxcontrast) !important;
 			&--shared {
-				opacity: 1;
+				color: var(--color-main-text) !important;
 			}
 		}
 	}

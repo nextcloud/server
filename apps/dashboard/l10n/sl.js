@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Nadzorna plošča",
     "Dashboard app" : "Program Nadzorna plošča",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta, podrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike in spreminja ozadje po svojih željah.",
     "\"{title} icon\"" : "»Ikona {title}«",
     "Customize" : "Prilagodi",
     "Edit widgets" : "Izbor gradnikov",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Dober večer, {name}",
     "Hello" : "Pozdravljeni",
     "Hello, {name}" : "Pozdravljeni, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta,\npodrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike\nin spreminja ozadje po svojih željah."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta,\npodrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike\nin spreminja ozadje po svojih željah.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta, podrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike in spreminja ozadje po svojih željah."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

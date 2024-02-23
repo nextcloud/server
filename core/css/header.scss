@@ -174,12 +174,12 @@
 		> .header-menu:not(.user-menu) {
 			// For general
 			> .header-menu__trigger {
-				filter: var(--background-image-invert-if-bright) !important;
+				filter: var(--background-image-invert-if-bright);
 			}
 
 			// For assistant button
 			> .trigger {
-				filter: var(--background-image-invert-if-bright) !important;
+				filter: var(--background-image-invert-if-bright);
 			}
 
 			// For unified search button

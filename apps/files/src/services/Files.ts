@@ -40,9 +40,14 @@ interface ResponseProps extends DAVResultResponseProps {
 }
 
 export const resultToNode = function(node: FileStat): File | Folder {
+	const userId = getCurrentUser()?.uid
+	if (!userId) {
+		throw new Error('No user id found')
+	}
+
 	const props = node.props as ResponseProps
 	const permissions = davParsePermissions(props?.permissions)
-	const owner = (props['owner-id'] || getCurrentUser()?.uid) as string
+	const owner = (props['owner-id'] || userId).toString()
 
 	const source = generateRemoteUrl('dav' + rootPath + node.filename)
 	const id = props?.fileid < 0
@@ -53,7 +58,7 @@ export const resultToNode = function(node: FileStat): File | Folder {
 		id,
 		source,
 		mtime: new Date(node.lastmod),
-		mime: node.mime as string,
+		mime: node.mime || 'application/octet-stream',
 		size: props?.size as number || 0,
 		permissions,
 		owner,

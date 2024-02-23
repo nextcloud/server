@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "Supprimer le créneau",
     "No working hours set" : "Heures de travail non définies",
     "Add slot" : "Ajouter un créneau",
+    "Weekdays" : "Jours de la semaine",
     "Monday" : "Lundi",
     "Tuesday" : "Mardi",
     "Wednesday" : "Mercredi",
@@ -185,7 +186,7 @@ OC.L10N.register(
     "Saved availability" : "Disponibilités sauvegardées",
     "Failed to save availability" : "Impossible de sauvegarder les disponibilités",
     "Availability" : "Disponibilités",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si vous configurez vos heures de travail, les autres utilisateurs verront si vous êtes disponible quand ils planifient une réunion.",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Si vous configurez vos heures de travail, les autres personnes verront si vous êtes disponible quand ils planifient une réunion.",
     "Absence" : "Absence",
     "Configure your next absence period." : "Configurez votre prochaine période d'absence.",
     "Calendar server" : "Serveur de calendrier",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
     "Tentative" : "Provisoire",
-    "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès."
+    "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si vous configurez vos heures de travail, les autres utilisateurs verront si vous êtes disponible quand ils planifient une réunion."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

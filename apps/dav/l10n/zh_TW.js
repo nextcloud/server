@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "刪除欄位",
     "No working hours set" : "未設定工作時間",
     "Add slot" : "新增欄位",
+    "Weekdays" : "週間",
     "Monday" : "週一",
     "Tuesday" : "週二",
     "Wednesday" : "週三",
@@ -185,7 +186,7 @@ OC.L10N.register(
     "Saved availability" : "已儲存可用性",
     "Failed to save availability" : "儲存可用性失敗",
     "Availability" : "可用性",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。",
     "Absence" : "缺席",
     "Configure your next absence period." : "設定您的下一個缺席時段。",
     "Calendar server" : "日曆伺服器",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "請直接聯絡主辦人。",
     "Are you accepting the invitation?" : "您接受邀請嗎？",
     "Tentative" : "暫定",
-    "Your attendance was updated successfully." : "您的參與狀態成功更新。"
+    "Your attendance was updated successfully." : "您的參與狀態成功更新。",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。"
 },
 "nplurals=1; plural=0;");

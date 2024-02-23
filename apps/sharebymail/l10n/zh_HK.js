@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "訪問 {file} 的密碼已發送給 {email}",
     "Password to access {file} was sent to you" : "訪問 {file} 的密碼已發送給您",
     "Share by mail" : "通過郵件分享",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，此項目已經與用戶 %2$s 分享",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "分享 %1$s 失敗，因為此項目已與賬戶 %2$s 分享",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼發送與您。請在您的個人設置中提供有效的電郵地址後重試。",
     "Failed to send share by email. Got an invalid email address" : "透過電子郵件傳送分享失敗。收到無效的電郵地址",
     "Failed to send share by email" : "通過電郵發送分享失敗",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "您可以隨時在分享對話框中選擇不同的密碼。",
     "Could not find share" : "沒有發現分享",
     "Share provider which allows you to share files by mail" : "分享提供程序，可讓您通過郵件分享檔案",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "使用戶可以通過輸入電郵地址來分享指向檔案或資料夾的個性化連結。",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "允許人仕透過輸入電子郵件地址來分享到檔案或資料夾的個人化連結。",
     "Send password by mail" : "通過電郵發送密碼",
     "Reply to initiator" : "回覆發起人",
-    "Unable to update share by mail config" : "無法更新通過郵件分享配置"
+    "Unable to update share by mail config" : "無法更新通過郵件分享配置",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，此項目已經與用戶 %2$s 分享",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "使用戶可以通過輸入電郵地址來分享指向檔案或資料夾的個性化連結。"
 },
 "nplurals=1; plural=0;");

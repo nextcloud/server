@@ -95,8 +95,8 @@
     "between" : "사이",
     "not between" : "사이에 없음",
     "Request user agent" : "요청 사용자 에이전트",
-    "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
-    "is not member of" : "구성원이 아님"
+    "is not member of" : "구성원이 아님",
+    "User group membership" : "사용자 그룹 구성원"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

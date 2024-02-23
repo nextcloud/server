@@ -112,8 +112,8 @@ OC.L10N.register(
     "between" : "compreso",
     "not between" : "non compreso",
     "Request user agent" : "User agent della richiesta",
-    "User group membership" : "Appartenenza ai gruppi degli utenti",
     "is member of" : "è membro di",
-    "is not member of" : "non è membro di"
+    "is not member of" : "non è membro di",
+    "User group membership" : "Appartenenza ai gruppi degli utenti"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

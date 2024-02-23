@@ -182,7 +182,6 @@ OC.L10N.register(
     "Saved availability" : "Eskuragarritasuna gorde da",
     "Failed to save availability" : "Ezin izan da eskuragarritasuna gorde",
     "Availability" : "Eskuragarritasuna",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Zure lan orduak konfiguratzen badituzu, beste erabiltzaileek bulegotik kanpo zaudela ikusiko dute bilera bat erreserbatzen dutenean.",
     "Calendar server" : "Egutegi-zerbitzaria",
     "Send invitations to attendees" : "Parte-hartzaileei gonbidapenak bidali",
     "Automatically generate a birthday calendar" : "Automatikoki sortu urtebetetzeen egutegia",
@@ -199,6 +198,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Zure lan orduak konfiguratzen badituzu, beste erabiltzaileek bulegotik kanpo zaudela ikusiko dute bilera bat erreserbatzen dutenean."
 },
 "nplurals=2; plural=(n != 1);");

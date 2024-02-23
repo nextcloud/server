@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Lykilorð fyrir aðgang að {file} var sent til {email}",
     "Password to access {file} was sent to you" : "Lykilorð fyrir aðgang að {file} var sent til þín",
     "Share by mail" : "Deila með tölvupósti",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með notandanum %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ekki er hægt að senda þér sjálfvirkt framleidda lykilorðið. Settu inn gilt tölvupóstfang í einkastillingunum þínum og prófaðu aftur.",
     "Failed to send share by email. Got an invalid email address" : "Mistókst að deila með tölvupósti. Er með rangt tölvupóstfang",
     "Failed to send share by email" : "Gat ekki sent sameign með tölvupósti",
@@ -38,9 +37,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Þú getur hvenær sem er valið annað lykilorð með því að fara í deilingargluggann.",
     "Could not find share" : "Gat ekki fundið sameign",
     "Share provider which allows you to share files by mail" : "Deilingarþjónusta sem gerir þér kleift að deila skrám með tölvupósti",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
     "Send password by mail" : "Senda lykilorð með pósti",
     "Reply to initiator" : "Svara til upphafsaðila",
-    "Unable to update share by mail config" : "Get ekki uppfært stillingar á deilingu með tölvupósti"
+    "Unable to update share by mail config" : "Get ekki uppfært stillingar á deilingu með tölvupósti",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með notandanum %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

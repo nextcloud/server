@@ -99,6 +99,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\PropFilter' => $baseDir . '/../lib/CalDAV/Search/Xml/Filter/PropFilter.php',
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter' => $baseDir . '/../lib/CalDAV/Search/Xml/Filter/SearchTermFilter.php',
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport' => $baseDir . '/../lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php',
+    'OCA\\DAV\\CalDAV\\Security\\RateLimitingPlugin' => $baseDir . '/../lib/CalDAV/Security/RateLimitingPlugin.php',
     'OCA\\DAV\\CalDAV\\Status\\StatusService' => $baseDir . '/../lib/CalDAV/Status/StatusService.php',
     'OCA\\DAV\\CalDAV\\TimezoneService' => $baseDir . '/../lib/CalDAV/TimezoneService.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObject' => $baseDir . '/../lib/CalDAV/Trashbin/DeletedCalendarObject.php',

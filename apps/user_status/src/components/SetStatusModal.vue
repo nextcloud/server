@@ -22,6 +22,7 @@
 <template>
 	<NcModal size="normal"
 		:name="$t('user_status', 'Set status')"
+		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -108,6 +109,18 @@ export default {
 	},
 	mixins: [OnlineStatusMixin],
 
+	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
+		inline: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	data() {
 		return {
 			clearAt: null,
@@ -155,6 +168,13 @@ export default {
 			}
 
 			return this.$t('user_status', 'Reset status')
+		},
+
+		setReturnFocus() {
+			if (this.inline) {
+				return undefined
+			}
+			return document.querySelector('[aria-controls="header-menu-user-menu"]') ?? undefined
 		},
 	},
 

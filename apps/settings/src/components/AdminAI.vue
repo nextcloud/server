@@ -31,9 +31,9 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 			<template v-if="!hasStt">
-				<NcCheckboxRadioSwitch disabled type="radio">
+				<NcNoteCard type="info">
 					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
-				</NcCheckboxRadioSwitch>
+				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Image generation')"
@@ -49,9 +49,9 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 			<template v-if="!hasText2ImageProviders">
-				<NcCheckboxRadioSwitch disabled type="radio">
+				<NcNoteCard type="info">
 					{{ t('settings', 'None of your currently installed apps provide image generation functionality') }}
-				</NcCheckboxRadioSwitch>
+				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Text processing')"
@@ -76,7 +76,9 @@
 				</div>
 			</template>
 			<template v-if="!hasTextProcessing">
-				<p>{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}</p>
+				<NcNoteCard type="info">
+					{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}
+				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
 	</div>
@@ -88,6 +90,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import draggable from 'vuedraggable'
 import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
@@ -107,6 +110,7 @@ export default {
 		ArrowDownIcon,
 		ArrowUpIcon,
 		NcButton,
+		NcNoteCard,
 	},
 	data() {
 		return {

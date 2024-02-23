@@ -113,8 +113,9 @@ OC.L10N.register(
     "between" : "之間",
     "not between" : "皆非",
     "Request user agent" : "請求使用者代理字串",
-    "User group membership" : "使用者群組成員資格",
+    "Group membership" : "群組成員資格",
     "is member of" : "是成員來自",
-    "is not member of" : "不是成員來自"
+    "is not member of" : "不是成員來自",
+    "User group membership" : "使用者群組成員資格"
 },
 "nplurals=1; plural=0;");

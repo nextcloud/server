@@ -1,15 +1,15 @@
 <template>
 	<div class="files-list" data-cy-files-list>
-		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
-			<slot name="header-overlay" />
-		</div>
-
 		<!-- Header -->
 		<div ref="before" class="files-list__before">
 			<slot name="before" />
 		</div>
 
-		<table class="files-list__table">
+		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
+			<slot name="header-overlay" />
+		</div>
+
+		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
 				{{ caption }}
@@ -243,6 +243,11 @@ export default Vue.extend({
 
 	methods: {
 		scrollTo(index: number) {
+			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
+			if (targetRow < this.rowCount) {
+				logger.debug('VirtualList: Skip scrolling. nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+				return
+			}
 			this.index = index
 			// Scroll to one row and a half before the index
 			const scrollTop = (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight

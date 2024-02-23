@@ -123,7 +123,7 @@
 				:disabled="!settings.allowLinks">
 				{{ t('settings', 'Set default expiration date for shares via link or mail') }}
 			</NcCheckboxRadioSwitch>
-			<fieldset v-show="settings.allowLinks && settings.defaultExpireDate" id="settings-sharing-link-api-expiration" class="sharing__sub-section">
+			<fieldset v-show="settings.allowLinks && settings.defaultExpireDate" id="settings-sharing-api-api-expiration" class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceExpireDate">
 					{{ t('settings', 'Enforce expiration date for remote shares') }}
 				</NcCheckboxRadioSwitch>
@@ -159,17 +159,15 @@
 				{{ t('settings', 'Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)') }}
 			</NcCheckboxRadioSwitch>
 
-			<NcCheckboxRadioSwitch type="switch"
-				aria-controls="settings-sharing-privary-related-disclaimer"
-				:checked.sync="publicShareDisclaimerEnabled">
+			<NcCheckboxRadioSwitch type="switch" :checked.sync="publicShareDisclaimerEnabled">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>
 			<div v-if="typeof settings.publicShareDisclaimerText === 'string'"
-				id="settings-sharing-privary-related-disclaimer"
 				aria-describedby="settings-sharing-privary-related-disclaimer-hint"
 				class="sharing__sub-section">
 				<NcTextArea class="sharing__input"
 					:label="t('settings', 'Disclaimer text')"
+					aria-describedby="settings-sharing-privary-related-disclaimer-hint"
 					:value="settings.publicShareDisclaimerText"
 					@update:value="onUpdateDisclaimer" />
 				<em id="settings-sharing-privary-related-disclaimer-hint" class="sharing__input">

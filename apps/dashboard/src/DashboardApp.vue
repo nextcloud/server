@@ -74,7 +74,8 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<span :class="statusInfo[status].icon" aria-hidden="true" />
+							<NcUserStatusIcon v-if="status === 'status'" status="online" aria-hidden="true" />
+							<span v-else :class="statusInfo[status].icon" aria-hidden="true" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -124,6 +125,7 @@ import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Draggable from 'vuedraggable'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
@@ -140,7 +142,6 @@ const statusInfo = {
 	},
 	status: {
 		text: t('dashboard', 'Status'),
-		icon: 'icon-user-status-online',
 	},
 }
 
@@ -152,6 +153,7 @@ export default {
 		Draggable,
 		NcModal,
 		Pencil,
+		NcUserStatusIcon,
 	},
 	mixins: [
 		isMobile,
