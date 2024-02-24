@@ -21,7 +21,8 @@
   -->
 
   <template>
-	<li :class="{ 'sharing-entry--share': share }" class="sharing-entry sharing-entry__link">
+	<li :class="{ 'sharing-entry--share': share }"
+		class="sharing-entry sharing-entry__link">
 		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
@@ -57,7 +58,9 @@
 			:open.sync="open"
 			@close="onCancel">
 			<!-- pending data menu -->
-			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
+			<NcActionText v-if="errors.pending"
+				icon="icon-error"
+				:class="{ error: errors.pending }">
 				{{ errors.pending }}
 			</NcActionText>
 			<NcActionText v-else icon="icon-info">
@@ -65,7 +68,8 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingEnforcedPassword" icon="icon-password">
+			<NcActionText v-if="pendingEnforcedPassword"
+				icon="icon-password">
 				{{ t('files_sharing', 'Password protection (enforced)') }}
 			</NcActionText>
 			<NcActionCheckbox v-else-if="pendingPassword"
@@ -107,10 +111,12 @@
 				{{ t('files_sharing', 'Enter a date') }}
 			</NcActionInput>
 
-			<NcActionButton icon="icon-checkmark" @click.prevent.stop="onNewLinkShare">
+			<NcActionButton icon="icon-checkmark"
+				@click.prevent.stop="onNewLinkShare">
 				{{ t('files_sharing', 'Create share') }}
 			</NcActionButton>
-			<NcActionButton icon="icon-close" @click.prevent.stop="onCancel">
+			<NcActionButton icon="icon-close"
+				@click.prevent.stop="onCancel">
 				{{ t('files_sharing', 'Cancel') }}
 			</NcActionButton>
 		</NcActions>
