@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendàriu",
+    "Tasks" : "Fainas",
     "Personal" : "Personale",
     "{actor} created calendar {calendar}" : "{actor} at creadu su calendàriu {calendar}",
     "You created calendar {calendar}" : "As creadu su calendàriu {calendar}",
@@ -100,7 +101,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Cunfigurat unu contu CalDAV",
     "Configures a CardDAV account" : "Configurat unu contu CardDAV ",
     "Events" : "Eventos",
-    "Tasks" : "Fainas",
     "Untitled task" : "Faina sena tìtulu",
     "Completed on %s" : "Cumpletada su %s",
     "Due on %s by %s" : "Iscadet su %s pro su %s",
