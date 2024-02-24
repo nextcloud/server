@@ -192,7 +192,7 @@ class Client implements IClient {
 			throw new LocalServerException('Could not detect any host');
 		}
 		if (!$this->remoteHostValidator->isValid($host)) {
-			throw new LocalServerException('Host violates local access rules');
+			throw new LocalServerException('Host "'.$host.'" violates local access rules');
 		}
 	}
 

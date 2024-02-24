@@ -21,8 +21,12 @@
   -->
 
 <template>
-	<div class="section" :class="{ selected: isSelected }" @click="showAppDetails">
-		<div class="app-image app-image-icon" @click="showAppDetails">
+	<component :is="listView ? `tr` : `li`"
+		class="section"
+		:class="{ selected: isSelected }">
+		<component :is="dataItemTag"
+			class="app-image app-image-icon"
+			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="(listView && !app.preview) || (!listView && !screenshotLoaded)" class="icon-settings-dark" />
 
 			<svg v-else-if="listView && app.preview"
@@ -38,20 +42,31 @@
 					class="app-icon" />
 			</svg>
 
-			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" width="100%">
-		</div>
-		<div class="app-name" @click="showAppDetails">
-			{{ app.name }}
-		</div>
-		<div v-if="!listView" class="app-summary">
+			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" alt="">
+		</component>
+		<component :is="dataItemTag"
+			class="app-name"
+			:headers="getDataItemHeaders(`app-table-col-name`)">
+			<router-link class="app-name--link" :to="{ name: 'apps-details',	params: { category: category, id: app.id }}"
+				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
+				{{ app.name }}
+			</router-link>
+		</component>
+		<component :is="dataItemTag"
+			v-if="!listView"
+			class="app-summary"
+			:headers="getDataItemHeaders(`app-version`)">
 			{{ app.summary }}
-		</div>
-		<div v-if="listView" class="app-version">
+		</component>
+		<component :is="dataItemTag"
+			v-if="listView"
+			class="app-version"
+			:headers="getDataItemHeaders(`app-table-col-version`)">
 			<span v-if="app.version">{{ app.version }}</span>
 			<span v-else-if="app.appstoreData.releases[0].version">{{ app.appstoreData.releases[0].version }}</span>
-		</div>
+		</component>
 
-		<div class="app-level">
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)" class="app-level">
 			<span v-if="app.level === 300"
 				:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
 				:aria-label="t('settings', 'This app is supported via your current Nextcloud subscription.')"
@@ -63,9 +78,8 @@
 				class="official icon-checkmark">
 				{{ t('settings', 'Featured') }}</span>
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
-		</div>
-
-		<div class="actions">
+		</component>
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="actions">
 			<div v-if="app.error" class="warning">
 				{{ app.error }}
 			</div>
@@ -104,8 +118,8 @@
 				@click.stop="forceEnable(app.id)">
 				{{ forceEnableButtonText }}
 			</NcButton>
-		</div>
-	</div>
+		</component>
+	</component>
 </template>
 
 <script>
@@ -128,6 +142,14 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		useBundleView: {
+			type: Boolean,
+			default: false,
+		},
+		headers: {
+			type: String,
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -139,6 +161,9 @@ export default {
 	computed: {
 		hasRating() {
 			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5
+		},
+		dataItemTag() {
+			return this.listView ? 'td' : 'div'
 		},
 	},
 	watch: {
@@ -160,34 +185,33 @@ export default {
 
 	},
 	methods: {
-		async showAppDetails(event) {
-			if (event.currentTarget.tagName === 'INPUT' || event.currentTarget.tagName === 'A') {
-				return
-			}
-			try {
-				await this.$router.push({
-					name: 'apps-details',
-					params: { category: this.category, id: this.app.id },
-				})
-			} catch (e) {
-				// we already view this app
-			}
-		},
 		prefix(prefix, content) {
 			return prefix + '_' + content
+		},
+
+		getDataItemHeaders(columnName) {
+			return this.useBundleView ? [this.headers, columnName].join(' ') : null
 		},
 	},
 }
 </script>
 
-<style scoped>
-	.app-icon {
-		filter: var(--background-invert-if-bright);
-	}
-	.actions {
-		display: flex !important;
-		gap: 8px;
-		flex-wrap: wrap;
-		justify-content: end;
-	}
+<style scoped lang="scss">
+.app-icon {
+	filter: var(--background-invert-if-bright);
+}
+
+.app-image img {
+	width: 100%;
+}
+
+.app-name--link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 </style>

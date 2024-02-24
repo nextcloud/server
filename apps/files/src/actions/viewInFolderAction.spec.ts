@@ -21,14 +21,17 @@
  */
 import { action } from './viewInFolderAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Node, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
-import type { Navigation } from '../services/Navigation'
+import { File, Folder, Node, Permission, View, FileAction } from '@nextcloud/files'
 
 const view = {
+	id: 'trashbin',
+	name: 'Trashbin',
+} as View
+
+const viewFiles = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('View in folder action conditions tests', () => {
 	test('Default values', () => {
@@ -38,11 +41,12 @@ describe('View in folder action conditions tests', () => {
 		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(80)
+		expect(action.enabled).toBeDefined()
 	})
 })
 
 describe('View in folder action enabled tests', () => {
-	test('Enabled for files', () => {
+	test('Enabled for trashbin', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
@@ -53,6 +57,19 @@ describe('View in folder action enabled tests', () => {
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
+	})
+
+	test('Disabled for files', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.ALL,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], viewFiles)).toBe(false)
 	})
 
 	test('Disabled without permissions', () => {
@@ -128,7 +145,7 @@ describe('View in folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/' })
 	})
 
 	test('View in (sub) folder', async () => {
@@ -148,7 +165,7 @@ describe('View in folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo/Bar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo/Bar' })
 	})
 
 	test('View in folder fails without node', async () => {

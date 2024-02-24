@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Agenda",
-    "To-dos" : "Taken",
+    "Tasks" : "Taken",
     "Personal" : "Persoonlijk",
     "{actor} created calendar {calendar}" : "{actor} creëerde agenda {calendar}",
     "You created calendar {calendar}" : "Jij creëerde agenda {calendar}",
@@ -122,7 +122,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configureert een CalDAV account",
     "Configures a CardDAV account" : "Configureert een CardDAV account",
     "Events" : "Evenementen",
-    "Tasks" : "Taken",
     "Untitled task" : "Taak zonder titel",
     "Completed on %s" : "Voltooid op %s",
     "Due on %s by %s" : "Verwacht op %s door %s",
@@ -130,8 +129,7 @@ OC.L10N.register(
     "Contacts and groups" : "Contactpersonen en groepen",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV eindpunt",
-    "Availability" : "Beschikbaarheid",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Als je je werkuren instelt kunnen andere gebruikers zien wanneer je niet beschikbaar bent als ze een meeting willen plannen.",
+    "Save" : "Opslaan",
     "Time zone:" : "Tijdzone:",
     "to" : "aan",
     "Delete slot" : "Verwijder slot",
@@ -145,8 +143,8 @@ OC.L10N.register(
     "Saturday" : "zaterdag",
     "Sunday" : "zondag",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Stel de gebruikersstatus automatisch in op \"Niet storen\" buiten de beschikbaarheid om alle meldingen te dempen.",
-    "Save" : "Opslaan",
     "Failed to load availability" : "Kon beschikbaarheid niet laden",
+    "Availability" : "Beschikbaarheid",
     "Calendar server" : "Agendaserver",
     "Send invitations to attendees" : "Verzend uitnodigingen naar deelnemers",
     "Automatically generate a birthday calendar" : "Genereer verjaardagskalender automatisch",
@@ -161,6 +159,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
-    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt."
+    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
+    "To-dos" : "Taken",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Als je je werkuren instelt kunnen andere gebruikers zien wanneer je niet beschikbaar bent als ze een meeting willen plannen."
 },
 "nplurals=2; plural=(n != 1);");

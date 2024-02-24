@@ -61,6 +61,9 @@ OC.L10N.register(
     "Your password will expire today." : "您的密碼將於今天到期。",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["您的密碼將於%n天後到期。"],
     "LDAP/AD integration" : "LDAP/AD 整合",
+    "Invalid LDAP UUIDs" : "無效的 LDAP UUID",
+    "None found" : "找不到",
+    "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "找到無效的 LDAP 帳號或群組 UUID。請審閱您在 LDAP 專家設定中的「覆寫 UUID 偵測」設定，並使用「occ ldap:update-uuid」來更新它們。",
     "_%n group found_::_%n groups found_" : ["找到 %n 個群組"],
     "> 1000 groups found" : "找到 > 1000 個群組",
     "> 1000 users found" : "找到 > 1000 個使用者",
@@ -214,6 +217,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "使用者-LDAP 使用者映射",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "使用者名稱用於儲存並指派詮釋資料。為了精確識別並認出使用者，每個 LDAP 使用者都將會有內部使用者名稱。這需要從使用者名稱到 LDAP 使用者的映射。已建立的使用者名稱會映射到 LDAP 使用者的 UUID。另外，DN 會被快取以減少 LDAP 互動，但不會用於識別。若 DN 變更，將會找到變更。內部使用者名稱將會全面使用。清除映射將會讓到處都是未連結的項目。清除映射對設定並不敏感，其會影響到所有 LDAP 設定！不要在生產環境中清除映射，僅將其用於測試或實驗階段。",
     "Clear Username-LDAP User Mapping" : "清除使用者名稱-LDAP 使用者映射",
-    "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射"
+    "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "找到無效的 LDAP 使用者或群組 UUID。請審閱您在 LDAP 專家設定中的「覆寫 UUID 偵測」設定，並使用「occ ldap:update-uuid」來更新它們。"
 },
 "nplurals=1; plural=0;");

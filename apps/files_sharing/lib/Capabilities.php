@@ -8,6 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -50,6 +51,67 @@ class Capabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{
+	 *     files_sharing: array{
+	 *         api_enabled: bool,
+	 *         public: array{
+	 *             enabled: bool,
+	 *             password?: array{
+	 *                 enforced: bool,
+	 *                 askForOptionalPassword: bool
+	 *             },
+	 *     		   multiple_links?: bool,
+	 *             expire_date?: array{
+	 *                 enabled: bool,
+	 *                 days?: int,
+	 *                 enforced?: bool,
+	 *             },
+	 *             expire_date_internal?: array{
+	 *                 enabled: bool,
+	 *                 days?: int,
+	 *                 enforced?: bool,
+	 *             },
+	 *             expire_date_remote?: array{
+	 *                 enabled: bool,
+	 *                 days?: int,
+	 *                 enforced?: bool,
+	 *             },
+	 *             send_mail?: bool,
+	 *             upload?: bool,
+	 *             upload_files_drop?: bool,
+	 *         },
+	 *         user: array{
+	 *             send_mail: bool,
+	 *             expire_date?: array{
+	 *                 enabled: bool,
+	 *             },
+	 *         },
+	 *         resharing: bool,
+	 *         group_sharing?: bool,
+	 *         group?: array{
+	 *             enabled: bool,
+	 *             expire_date?: array{
+	 *                 enabled: bool,
+	 *             },
+	 *         },
+	 *         default_permissions?: int,
+	 *         federation: array{
+	 *             outgoing: bool,
+	 *             incoming: bool,
+	 *             expire_date: array{
+	 *                 enabled: bool,
+	 *             },
+	 *             expire_date_supported: array{
+	 *                 enabled: bool,
+	 *             },
+	 *         },
+	 *         sharee: array{
+	 *             query_lookup_default: bool,
+	 *             always_show_unique: bool,
+	 *         },
+	 *	   },
+	 * }
 	 */
 	public function getCapabilities() {
 		$res = [];

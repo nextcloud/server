@@ -23,8 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,10 +32,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Delete extends Command {
-	private ObjectUtil $objectUtils;
-
-	public function __construct(ObjectUtil $objectUtils) {
-		$this->objectUtils = $objectUtils;
+	public function __construct(
+		private ObjectUtil $objectUtils,
+	) {
 		parent::__construct();
 	}
 
@@ -73,6 +70,6 @@ class Delete extends Command {
 		if ($helper->ask($input, $output, $question)) {
 			$objectStore->deleteObject($object);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

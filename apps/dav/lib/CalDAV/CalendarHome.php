@@ -58,6 +58,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 	/** @var LoggerInterface */
 	private $logger;
+	private ?array $cachedChildren = null;
 
 	public function __construct(BackendInterface $caldavBackend, $principalInfo, LoggerInterface $logger) {
 		parent::__construct($caldavBackend, $principalInfo);
@@ -97,6 +98,9 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 * @inheritdoc
 	 */
 	public function getChildren() {
+		if ($this->cachedChildren) {
+			return $this->cachedChildren;
+		}
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
 		$objects = [];
 		foreach ($calendars as $calendar) {
@@ -136,6 +140,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			}
 		}
 
+		$this->cachedChildren = $objects;
 		return $objects;
 	}
 

@@ -32,8 +32,8 @@ use OC\Encryption\Manager;
 use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IUserManager;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 

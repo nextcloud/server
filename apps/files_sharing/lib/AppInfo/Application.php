@@ -32,12 +32,12 @@ namespace OCA\Files_Sharing\AppInfo;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Share\Share;
 use OC\User\DisplayNameCache;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
-use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
-use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
@@ -49,8 +49,6 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
 use OCA\Files_Sharing\ViewOnly;
@@ -66,12 +64,14 @@ use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUserSession;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
@@ -105,7 +105,9 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
 		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -117,11 +119,6 @@ class Application extends App implements IBootstrap {
 
 		Share::registerBackend('file', File::class);
 		Share::registerBackend('folder', Folder::class, 'file');
-
-		/**
-		 * Always add main sharing script
-		 */
-		Util::addScript(self::APP_ID, 'main');
 	}
 
 
@@ -133,7 +130,6 @@ class Application extends App implements IBootstrap {
 	public function registerEventsScripts(IEventDispatcher $dispatcher): void {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
-		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
@@ -141,12 +137,15 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function () {
 			\OCP\Util::addScript('files_sharing', 'collaboration');
 		});
+		$dispatcher->addListener(\OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent::class, function () {
+			/**
+			 * Always add main sharing script
+			 */
+			Util::addScript(self::APP_ID, 'main');
+		});
 
 		// notifications api to accept incoming user shares
-		$dispatcher->addListener('OCP\Share::postShare', function ($event) {
-			if (!$event instanceof OldGenericEvent) {
-				return;
-			}
+		$dispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);

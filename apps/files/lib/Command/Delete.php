@@ -35,10 +35,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Delete extends Command {
-	private FileUtils $fileUtils;
-
-	public function __construct(FileUtils $fileUtils) {
-		$this->fileUtils = $fileUtils;
+	public function __construct(
+		private FileUtils $fileUtils,
+	) {
 		parent::__construct();
 	}
 
@@ -58,7 +57,7 @@ class Delete extends Command {
 
 		if (!$node) {
 			$output->writeln("<error>file $fileInput not found</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$deleteConfirmed = $force;
@@ -72,7 +71,7 @@ class Delete extends Command {
 				$question = new ConfirmationQuestion("<info>$fileInput</info> in a shared file, do you want to unshare the file from <info>$user</info> instead of deleting the source file? [Y/n] ", true);
 				if ($helper->ask($input, $output, $question)) {
 					$storage->unshareStorage();
-					return 0;
+					return self::SUCCESS;
 				} else {
 					$node = $storage->getShare()->getNode();
 					$output->writeln("");
@@ -110,7 +109,6 @@ class Delete extends Command {
 			}
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
-
 }

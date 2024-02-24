@@ -36,12 +36,12 @@ namespace OCA\DAV\Connector\Sabre;
 use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
@@ -58,14 +58,14 @@ class Auth extends AbstractBasic {
 	private IRequest $request;
 	private ?string $currentUser = null;
 	private Manager $twoFactorManager;
-	private Throttler $throttler;
+	private IThrottler $throttler;
 
 	public function __construct(ISession $session,
-								Session $userSession,
-								IRequest $request,
-								Manager $twoFactorManager,
-								Throttler $throttler,
-								string $principalPrefix = 'principals/users/') {
+		Session $userSession,
+		IRequest $request,
+		Manager $twoFactorManager,
+		IThrottler $throttler,
+		string $principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->twoFactorManager = $twoFactorManager;
@@ -75,7 +75,7 @@ class Auth extends AbstractBasic {
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
-		$this->realm = $defaults->getName();
+		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Auth extends AbstractBasic {
 
 		if (!$this->userSession->isLoggedIn() && in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''))) {
 			// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
-			$response->addHeader('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
+			$response->addHeader('WWW-Authenticate', 'DummyBasic realm="' . $this->realm . '"');
 			$response->setStatus(401);
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}

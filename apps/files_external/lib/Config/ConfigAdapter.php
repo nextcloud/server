@@ -31,6 +31,7 @@ namespace OCA\Files_External\Config;
 
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
+use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
@@ -40,28 +41,17 @@ use OCP\Files\Storage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
+use Psr\Clock\ClockInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
  */
 class ConfigAdapter implements IMountProvider {
-
-	/** @var UserStoragesService */
-	private $userStoragesService;
-
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-
-	/**
-	 * @param UserStoragesService $userStoragesService
-	 * @param UserGlobalStoragesService $userGlobalStoragesService
-	 */
 	public function __construct(
-		UserStoragesService $userStoragesService,
-		UserGlobalStoragesService $userGlobalStoragesService
+		private UserStoragesService $userStoragesService,
+		private UserGlobalStoragesService $userGlobalStoragesService,
+		private ClockInterface $clock,
 	) {
-		$this->userStoragesService = $userStoragesService;
-		$this->userGlobalStoragesService = $userGlobalStoragesService;
 	}
 
 	/**
@@ -150,12 +140,15 @@ class ConfigAdapter implements IMountProvider {
 		}, $storages, $storageConfigs);
 
 		$mounts = array_map(function (StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
-			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 				return new PersonalMount(
 					$this->userStoragesService,
 					$storageConfig,
 					$storageConfig->getId(),
-					$storage,
+					new KnownMtime([
+						'storage' => $storage,
+						'clock' => $this->clock,
+					]),
 					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
 					null,
 					$loader,

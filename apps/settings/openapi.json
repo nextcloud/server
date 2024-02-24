@@ -40,7 +40,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Logfile returned",
                         "headers": {
                             "Content-Disposition": {
                                 "schema": {

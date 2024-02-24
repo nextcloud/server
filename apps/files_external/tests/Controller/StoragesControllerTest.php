@@ -129,7 +129,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$data = $response->getData();
 		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
-		$this->assertEquals($storageConfig, $data);
+		$this->assertEquals($storageConfig->jsonSerialize(), $data);
 	}
 
 	public function testAddLocalStorageWhenDisabled() {
@@ -201,7 +201,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$data = $response->getData();
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($storageConfig, $data);
+		$this->assertEquals($storageConfig->jsonSerialize(), $data);
 	}
 
 	public function mountPointNamesProvider() {

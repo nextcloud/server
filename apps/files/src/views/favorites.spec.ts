@@ -19,15 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { expect } from '@jest/globals'
-import * as initialState from '@nextcloud/initial-state'
-import { Folder } from '@nextcloud/files'
 import { basename } from 'path'
+import { expect } from '@jest/globals'
+import { Folder, Navigation, getNavigation } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
+import * as initialState from '@nextcloud/initial-state'
 
 import { action } from '../actions/favoriteAction'
 import * as favoritesService from '../services/Favorites'
-import NavigationService from '../services/Navigation'
 import registerFavoritesView from './favorites'
 
 jest.mock('webdav/dist/node/request.js', () => ({
@@ -38,15 +37,21 @@ global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 
+declare global {
+	interface Window {
+		_nc_navigation?: Navigation
+	}
+}
+
 describe('Favorites view definition', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
+		expect(window._nc_navigation).toBeDefined()
 	})
 
-	afterAll(() => {
-		delete window.OCP
+	afterEach(() => {
+		delete window._nc_navigation
 	})
 
 	test('Default empty favorite view', () => {
@@ -70,16 +75,16 @@ describe('Favorites view definition', () => {
 		expect(favoritesView?.name).toBe('Favorites')
 		expect(favoritesView?.caption).toBeDefined()
 		expect(favoritesView?.icon).toBe('<svg>SvgMock</svg>')
-		expect(favoritesView?.order).toBe(5)
+		expect(favoritesView?.order).toBe(15)
 		expect(favoritesView?.columns).toStrictEqual([])
 		expect(favoritesView?.getContents).toBeDefined()
 	})
 
 	test('Default with favorites', () => {
 		const favoriteFolders = [
-			'/foo',
-			'/bar',
-			'/foo/bar',
+			{ fileid: 1, path: '/foo' },
+			{ fileid: 2, path: '/bar' },
+			{ fileid: 3, path: '/foo/bar' },
 		]
 		jest.spyOn(initialState, 'loadState').mockReturnValue(favoriteFolders)
 		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
@@ -97,11 +102,12 @@ describe('Favorites view definition', () => {
 			const favoriteView = favoriteFoldersViews[index]
 			expect(favoriteView).toBeDefined()
 			expect(favoriteView?.id).toBeDefined()
-			expect(favoriteView?.name).toBe(basename(folder))
+			expect(favoriteView?.name).toBe(basename(folder.path))
 			expect(favoriteView?.icon).toBe('<svg>SvgMock</svg>')
 			expect(favoriteView?.order).toBe(index)
 			expect(favoriteView?.params).toStrictEqual({
-				dir: folder,
+				dir: folder.path,
+				fileid: folder.fileid.toString(),
 				view: 'favorites',
 			})
 			expect(favoriteView?.parent).toBe('favorites')
@@ -114,12 +120,11 @@ describe('Favorites view definition', () => {
 describe('Dynamic update of favourite folders', () => {
 	let Navigation
 	beforeEach(() => {
-		Navigation = new NavigationService()
-		window.OCP = { Files: { Navigation } }
+		Navigation = getNavigation()
 	})
 
-	afterAll(() => {
-		delete window.OCP
+	afterEach(() => {
+		delete window._nc_navigation
 	})
 
 	test('Add a favorite folder creates a new entry in the navigation', async () => {
@@ -153,7 +158,7 @@ describe('Dynamic update of favourite folders', () => {
 	test('Remove a favorite folder remove the entry from the navigation column', async () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(eventBus, 'subscribe')
-		jest.spyOn(initialState, 'loadState').mockReturnValue(['/Foo/Bar'])
+		jest.spyOn(initialState, 'loadState').mockReturnValue([{ fileid: 42, path: '/Foo/Bar' }])
 		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()

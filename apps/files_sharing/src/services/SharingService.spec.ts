@@ -19,12 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import { expect } from '@jest/globals'
-import axios from '@nextcloud/axios'
 import { Type } from '@nextcloud/sharing'
 import * as auth from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 
-import { getContents, type OCSResponse } from './SharingService'
+import { getContents } from './SharingService'
 import { File, Folder } from '@nextcloud/files'
 import logger from './logger'
 
@@ -45,7 +46,7 @@ describe('SharingService methods definitions', () => {
 						},
 						data: [],
 					},
-				} as OCSResponse,
+				} as OCSResponse<any>,
 			}
 		})
 	})
@@ -313,7 +314,6 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes['has-preview']).toBe(true)
-		expect(file.attributes.previewUrl).toBe('/index.php/core/preview?fileId=530936&x=32&y=32&forceIcon=0')
 		expect(file.attributes.favorite).toBe(0)
 	})
 

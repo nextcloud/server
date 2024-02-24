@@ -317,7 +317,7 @@ class Mailer implements IMailer {
 
 		$sendmailMode = $this->config->getSystemValueString('mail_sendmailmode', 'smtp');
 		$binaryParam = match ($sendmailMode) {
-			'pipe' => ' -t',
+			'pipe' => ' -t -i',
 			default => ' -bs',
 		};
 

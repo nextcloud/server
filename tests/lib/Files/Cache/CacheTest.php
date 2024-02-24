@@ -98,6 +98,31 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($cacheData1, $this->cache->get($id1));
 	}
 
+	public function testCacheEntryGetters() {
+		$file1 = 'foo';
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/file'];
+
+		$id1 = $this->cache->put($file1, $data1);
+		$entry = $this->cache->get($file1);
+
+		$this->assertEquals($entry->getId(), $id1);
+		$this->assertEquals($entry->getStorageId(), $this->cache->getNumericStorageId());
+		$this->assertEquals($entry->getPath(), 'foo');
+		$this->assertEquals($entry->getName(), 'foo');
+		$this->assertEquals($entry->getMimeType(), 'foo/file');
+		$this->assertEquals($entry->getMimePart(), 'foo');
+		$this->assertEquals($entry->getSize(), 100);
+		$this->assertEquals($entry->getMTime(), 50);
+		$this->assertEquals($entry->getStorageMTime(), 50);
+		$this->assertEquals($entry->getEtag(), null);
+		$this->assertEquals($entry->getPermissions(), 0);
+		$this->assertEquals($entry->isEncrypted(), false);
+		$this->assertEquals($entry->getMetadataEtag(), null);
+		$this->assertEquals($entry->getCreationTime(), null);
+		$this->assertEquals($entry->getUploadTime(), null);
+		$this->assertEquals($entry->getUnencryptedSize(), 100);
+	}
+
 	public function testPartial() {
 		$file1 = 'foo';
 

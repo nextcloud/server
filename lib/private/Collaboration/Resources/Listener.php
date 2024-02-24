@@ -26,27 +26,29 @@ declare(strict_types=1);
  */
 namespace OC\Collaboration\Resources;
 
-use OC\EventDispatcher\SymfonyAdapter;
 use OCP\Collaboration\Resources\IManager;
-use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IGroup;
-use OCP\IUser;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\User\Events\UserDeletedEvent;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Listener {
-	public static function register(SymfonyAdapter $symfonyDispatcher, IEventDispatcher $eventDispatcher): void {
-		$listener = function (GenericEvent $event) {
-			/** @var IUser $user */
-			$user = $event->getArgument('user');
+	public static function register(IEventDispatcher $eventDispatcher): void {
+		$eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event) {
+			$user = $event->getUser();
 			/** @var IManager $resourceManager */
 			$resourceManager = \OCP\Server::get(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
-		};
-		$symfonyDispatcher->addListener(IGroup::class . '::postAddUser', $listener);
-		$symfonyDispatcher->addListener(IGroup::class . '::postRemoveUser', $listener);
+		});
+		$eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) {
+			$user = $event->getUser();
+			/** @var IManager $resourceManager */
+			$resourceManager = \OCP\Server::get(IManager::class);
+
+			$resourceManager->invalidateAccessCacheForUser($user);
+		});
 
 		$eventDispatcher->addListener(UserDeletedEvent::class, function (UserDeletedEvent $event) {
 			$user = $event->getUser();
@@ -56,34 +58,14 @@ class Listener {
 			$resourceManager->invalidateAccessCacheForUser($user);
 		});
 
-		$symfonyDispatcher->addListener(IGroup::class . '::preDelete', function (GenericEvent $event) {
-			/** @var IGroup $group */
-			$group = $event->getSubject();
+		$eventDispatcher->addListener(BeforeGroupDeletedEvent::class, function (BeforeGroupDeletedEvent $event) {
+			$group = $event->getGroup();
 			/** @var IManager $resourceManager */
 			$resourceManager = \OCP\Server::get(IManager::class);
 
 			foreach ($group->getUsers() as $user) {
 				$resourceManager->invalidateAccessCacheForUser($user);
 			}
-		});
-
-		// Stay backward compatible with the legacy event for now
-		$fallbackEventRunning = false;
-		$symfonyDispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function () use ($eventDispatcher, &$fallbackEventRunning) {
-			if ($fallbackEventRunning) {
-				return;
-			}
-			$fallbackEventRunning = true;
-			$eventDispatcher->dispatchTyped(new LoadAdditionalScriptsEvent());
-			$fallbackEventRunning = false;
-		});
-		$eventDispatcher->addListener(LoadAdditionalScriptsEvent::class, static function () use ($symfonyDispatcher, &$fallbackEventRunning) {
-			if ($fallbackEventRunning) {
-				return;
-			}
-			$fallbackEventRunning = true;
-			$symfonyDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
-			$fallbackEventRunning = false;
 		});
 	}
 }

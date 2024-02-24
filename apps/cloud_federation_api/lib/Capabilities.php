@@ -1,9 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,18 +25,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\CloudFederationAPI;
 
 use OCP\Capabilities\ICapability;
 use OCP\IURLGenerator;
+use OCP\OCM\Exceptions\OCMArgumentException;
+use OCP\OCM\IOCMProvider;
 
 class Capabilities implements ICapability {
+	public const API_VERSION = '1.0-proposal1';
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IURLGenerator $urlGenerator) {
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private IOCMProvider $provider,
+	) {
 	}
 
 	/**
@@ -46,32 +53,32 @@ class Capabilities implements ICapability {
 	 *         resourceTypes: array{
 	 *             name: string,
 	 *             shareTypes: string[],
-	 *             protocols: array{
-	 *                 webdav: string,
-	 *	           },
-	 *	       }[],
-	 *	   },
+	 *             protocols: array<string, string>
+	 *           }[],
+	 *       },
 	 * }
+	 * @throws OCMArgumentException
 	 */
 	public function getCapabilities() {
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
-		$capabilities = ['ocm' =>
-			[
-				'enabled' => true,
-				'apiVersion' => '1.0-proposal1',
-				'endPoint' => substr($url, 0, strrpos($url, '/')),
-				'resourceTypes' => [
-					[
-						'name' => 'file',
-						'shareTypes' => ['user', 'group'],
-						'protocols' => [
-							'webdav' => '/public.php/webdav/',
-						]
-					],
-				]
-			]
-		];
 
-		return $capabilities;
+		$this->provider->setEnabled(true);
+		$this->provider->setApiVersion(self::API_VERSION);
+
+		$pos = strrpos($url, '/');
+		if (false === $pos) {
+			throw new OCMArgumentException('generated route should contains a slash character');
+		}
+
+		$this->provider->setEndPoint(substr($url, 0, $pos));
+
+		$resource = $this->provider->createNewResourceType();
+		$resource->setName('file')
+				 ->setShareTypes(['user', 'group'])
+				 ->setProtocols(['webdav' => '/public.php/webdav/']);
+
+		$this->provider->addResourceType($resource);
+
+		return ['ocm' => $this->provider->jsonSerialize()];
 	}
 }

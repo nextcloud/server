@@ -44,8 +44,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
-class IMipServiceTest extends TestCase
-{
+class IMipServiceTest extends TestCase {
 	/** @var URLGenerator|MockObject */
 	private $urlGenerator;
 
@@ -67,8 +66,7 @@ class IMipServiceTest extends TestCase
 	/** @var IMipService */
 	private $service;
 
-	protected function setUp(): void
-	{
+	protected function setUp(): void {
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->db = $this->createMock(IDBConnection::class);
@@ -91,8 +89,7 @@ class IMipServiceTest extends TestCase
 		);
 	}
 
-	public function testGetFrom(): void
-	{
+	public function testGetFrom(): void {
 		$senderName = "Detective McQueen";
 		$default = "Twin Lakes Police Department - Darkside Division";
 		$expected = "Detective McQueen via Twin Lakes Police Department - Darkside Division";
@@ -105,8 +102,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testBuildBodyDataCreated(): void
-	{
+	public function testBuildBodyDataCreated(): void {
 		$vCalendar = new VCalendar();
 		$oldVevent = null;
 		$newVevent = new VEvent($vCalendar, 'two', [
@@ -132,8 +128,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testBuildBodyDataUpdate(): void
-	{
+	public function testBuildBodyDataUpdate(): void {
 		$vCalendar = new VCalendar();
 		$oldVevent = new VEvent($vCalendar, 'two', [
 			'UID' => 'uid-1234',
@@ -201,8 +196,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLastOccurrenceRRULE(): void
-	{
+	public function testGetLastOccurrenceRRULE(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -217,8 +211,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1454284800, $occurrence);
 	}
 
-	public function testGetLastOccurrenceEndDate(): void
-	{
+	public function testGetLastOccurrenceEndDate(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -233,8 +226,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1483228800, $occurrence);
 	}
 
-	public function testGetLastOccurrenceDuration(): void
-	{
+	public function testGetLastOccurrenceDuration(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -249,8 +241,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1458864000, $occurrence);
 	}
 
-	public function testGetLastOccurrenceAllDay(): void
-	{
+	public function testGetLastOccurrenceAllDay(): void {
 		$vCalendar = new VCalendar();
 		$vEvent = $vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -267,8 +258,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1451692800, $occurrence);
 	}
 
-	public function testGetLastOccurrenceFallback(): void
-	{
+	public function testGetLastOccurrenceFallback(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',

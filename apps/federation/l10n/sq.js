@@ -7,9 +7,9 @@ OC.L10N.register(
     "Could not add server" : "Server-i s’u shtua dot",
     "Trusted servers" : "Servera të besuar",
     "Federation" : "Federim",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federimi ju lejon të lidheni me server-a të tjerë për të shkëmbyer direktorinë e përdoruesit. Për shembull, kjo mund të përdoret për të parapërgatitur vendet e punës për përdorues të jashtëm në shpërndarjen e federuar.",
     "+ Add trusted server" : "+ Shto server-a të besuar",
     "Trusted server" : "Server i besuar",
-    "Add" : "Shto"
+    "Add" : "Shto",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federimi ju lejon të lidheni me server-a të tjerë për të shkëmbyer direktorinë e përdoruesit. Për shembull, kjo mund të përdoret për të parapërgatitur vendet e punës për përdorues të jashtëm në shpërndarjen e federuar."
 },
 "nplurals=2; plural=(n != 1);");

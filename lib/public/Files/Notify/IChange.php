@@ -29,9 +29,24 @@ namespace OCP\Files\Notify;
  * @since 12.0.0
  */
 interface IChange {
+	/**
+	 * @since 12.0.0
+	 */
 	public const ADDED = 1;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const REMOVED = 2;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const MODIFIED = 3;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const RENAMED = 4;
 
 	/**

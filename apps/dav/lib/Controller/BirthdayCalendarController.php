@@ -74,10 +74,10 @@ class BirthdayCalendarController extends Controller {
 	 * @param CalDavBackend $calDavBackend
 	 */
 	public function __construct($appName, IRequest $request,
-								IDBConnection $db, IConfig $config,
-								IJobList $jobList,
-								IUserManager $userManager,
-								CalDavBackend $calDavBackend) {
+		IDBConnection $db, IConfig $config,
+		IJobList $jobList,
+		IUserManager $userManager,
+		CalDavBackend $calDavBackend) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->config = $config;

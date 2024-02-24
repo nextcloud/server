@@ -58,10 +58,10 @@ class EmailProvider extends AbstractProvider {
 	private IMailer $mailer;
 
 	public function __construct(IConfig $config,
-								IMailer $mailer,
-								LoggerInterface $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator) {
+		IMailer $mailer,
+		LoggerInterface $logger,
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 		$this->mailer = $mailer;
 	}
@@ -76,9 +76,9 @@ class EmailProvider extends AbstractProvider {
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 ?string $calendarDisplayName,
-						 array $principalEmailAddresses,
-						 array $users = []):void {
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
 		$organizerEmailAddress = null;
@@ -162,9 +162,9 @@ class EmailProvider extends AbstractProvider {
 	 * @param array $eventData
 	 */
 	private function addBulletList(IEMailTemplate $template,
-								   IL10N $l10n,
-								   string $calendarDisplayName,
-								   VEvent $vevent):void {
+		IL10N $l10n,
+		string $calendarDisplayName,
+		VEvent $vevent):void {
 		$template->addBodyListItem($calendarDisplayName, $l10n->t('Calendar:'),
 			$this->getAbsoluteImagePath('actions/info.png'));
 
@@ -220,7 +220,7 @@ class EmailProvider extends AbstractProvider {
 	 * @return array<string, string[]>
 	 */
 	private function sortEMailAddressesByLanguage(array $emails,
-												  string $defaultLanguage):array {
+		string $defaultLanguage):array {
 		$sortedByLanguage = [];
 
 		foreach ($emails as $emailAddress => $parameters) {
@@ -435,7 +435,7 @@ class EmailProvider extends AbstractProvider {
 	}
 
 	private function isDayEqual(DateTime $dtStart,
-								DateTime $dtEnd):bool {
+		DateTime $dtEnd):bool {
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 

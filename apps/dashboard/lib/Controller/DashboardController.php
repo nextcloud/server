@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Eduardo Morales <eduardo.morales@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,22 +30,20 @@ declare(strict_types=1);
  */
 namespace OCA\Dashboard\Controller;
 
-use OCA\Files\Event\LoadSidebar;
-use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
-use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DashboardController extends Controller {
 
 	/** @var IInitialState */
@@ -55,6 +54,8 @@ class DashboardController extends Controller {
 	private $dashboardManager;
 	/** @var IConfig */
 	private $config;
+	/** @var IL10N */
+	private $l10n;
 	/** @var string */
 	private $userId;
 
@@ -65,6 +66,7 @@ class DashboardController extends Controller {
 		IEventDispatcher $eventDispatcher,
 		IManager $dashboardManager,
 		IConfig $config,
+		IL10N $l10n,
 		$userId
 	) {
 		parent::__construct($appName, $request);
@@ -73,6 +75,7 @@ class DashboardController extends Controller {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->dashboardManager = $dashboardManager;
 		$this->config = $config;
+		$this->l10n = $l10n;
 		$this->userId = $userId;
 	}
 
@@ -84,13 +87,6 @@ class DashboardController extends Controller {
 	public function index(): TemplateResponse {
 		\OCP\Util::addStyle('dashboard', 'dashboard');
 		\OCP\Util::addScript('dashboard', 'main', 'theming');
-
-		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
-
-		$this->eventDispatcher->dispatchTyped(new RegisterWidgetEvent($this->dashboardManager));
 
 		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
 		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
@@ -117,6 +113,7 @@ class DashboardController extends Controller {
 		$response = new TemplateResponse('dashboard', 'index', [
 			'id-app-content' => '#app-dashboard',
 			'id-app-navigation' => null,
+			'pageTitle' => $this->l10n->t('Dashboard'),
 		]);
 
 		// For the weather widget we should allow the geolocation

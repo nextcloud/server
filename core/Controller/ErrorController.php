@@ -28,15 +28,17 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ErrorController extends \OCP\AppFramework\Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: 'error/403')]
 	public function error403(): TemplateResponse {
 		$response = new TemplateResponse(
 			'core',
@@ -52,6 +54,7 @@ class ErrorController extends \OCP\AppFramework\Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: 'error/404')]
 	public function error404(): TemplateResponse {
 		$response = new TemplateResponse(
 			'core',

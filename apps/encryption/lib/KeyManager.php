@@ -39,106 +39,34 @@ use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
+use Psr\Log\LoggerInterface;
 
 class KeyManager {
-	/**
-	 * @var Session
-	 */
-	protected $session;
-	/**
-	 * @var IStorage
-	 */
-	private $keyStorage;
-	/**
-	 * @var Crypt
-	 */
-	private $crypt;
-	/**
-	 * @var string
-	 */
-	private $recoveryKeyId;
-	/**
-	 * @var string
-	 */
-	private $publicShareKeyId;
-	/**
-	 * @var string
-	 */
-	private $masterKeyId;
-	/**
-	 * @var string UserID
-	 */
-	private $keyId;
-	/**
-	 * @var string
-	 */
-	private $publicKeyId = 'publicKey';
-	/**
-	 * @var string
-	 */
-	private $privateKeyId = 'privateKey';
+	private string $recoveryKeyId;
+	private string $publicShareKeyId;
+	private string $masterKeyId;
+	private string $keyId;
+	private string $publicKeyId = 'publicKey';
+	private string $privateKeyId = 'privateKey';
+	private string $shareKeyId = 'shareKey';
+	private string $fileKeyId = 'fileKey';
 
-	/**
-	 * @var string
-	 */
-	private $shareKeyId = 'shareKey';
-
-	/**
-	 * @var string
-	 */
-	private $fileKeyId = 'fileKey';
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var ILogger
-	 */
-	private $log;
-	/**
-	 * @var Util
-	 */
-	private $util;
-
-	/**
-	 * @var ILockingProvider
-	 */
-	private $lockingProvider;
-
-	/**
-	 * @param IStorage $keyStorage
-	 * @param Crypt $crypt
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 * @param Session $session
-	 * @param ILogger $log
-	 * @param Util $util
-	 */
 	public function __construct(
-		IStorage $keyStorage,
-		Crypt $crypt,
-		IConfig $config,
+		private IStorage $keyStorage,
+		private Crypt $crypt,
+		private IConfig $config,
 		IUserSession $userSession,
-		Session $session,
-		ILogger $log,
-		Util $util,
-		ILockingProvider $lockingProvider
+		private Session $session,
+		private LoggerInterface $logger,
+		private Util $util,
+		private ILockingProvider $lockingProvider,
 	) {
-		$this->util = $util;
-		$this->session = $session;
-		$this->keyStorage = $keyStorage;
-		$this->crypt = $crypt;
-		$this->config = $config;
-		$this->log = $log;
-		$this->lockingProvider = $lockingProvider;
-
 		$this->recoveryKeyId = $this->config->getAppValue('encryption',
 			'recoveryKeyId');
 		if (empty($this->recoveryKeyId)) {
-			$this->recoveryKeyId = 'recoveryKey_' . substr(md5(time()), 0, 8);
+			$this->recoveryKeyId = 'recoveryKey_' . substr(md5((string)time()), 0, 8);
 			$this->config->setAppValue('encryption',
 				'recoveryKeyId',
 				$this->recoveryKeyId);
@@ -147,19 +75,18 @@ class KeyManager {
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
 		if (empty($this->publicShareKeyId)) {
-			$this->publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
+			$this->publicShareKeyId = 'pubShare_' . substr(md5((string)time()), 0, 8);
 			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
 		}
 
 		$this->masterKeyId = $this->config->getAppValue('encryption',
 			'masterKeyId');
 		if (empty($this->masterKeyId)) {
-			$this->masterKeyId = 'master_' . substr(md5(time()), 0, 8);
+			$this->masterKeyId = 'master_' . substr(md5((string)time()), 0, 8);
 			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
 		}
 
 		$this->keyId = $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
-		$this->log = $log;
 	}
 
 	/**
@@ -223,10 +150,10 @@ class KeyManager {
 			}
 			$this->lockingProvider->releaseLock('encryption-generateMasterKey', ILockingProvider::LOCK_EXCLUSIVE);
 		} elseif (empty($publicMasterKey)) {
-			$this->log->error('A private master key is available but the public key could not be found. This should never happen.');
+			$this->logger->error('A private master key is available but the public key could not be found. This should never happen.');
 			return;
 		} elseif (empty($privateMasterKey)) {
-			$this->log->error('A public master key is available but the private key could not be found. This should never happen.');
+			$this->logger->error('A public master key is available but the private key could not be found. This should never happen.');
 			return;
 		}
 
@@ -405,11 +332,13 @@ class KeyManager {
 		} catch (DecryptionFailedException $e) {
 			return false;
 		} catch (\Exception $e) {
-			$this->log->logException($e, [
-				'message' => 'Could not decrypt the private key from user "' . $uid . '"" during login. Assume password change on the user back-end.',
-				'level' => ILogger::WARN,
-				'app' => 'encryption',
-			]);
+			$this->logger->warning(
+				'Could not decrypt the private key from user "' . $uid . '"" during login. Assume password change on the user back-end.',
+				[
+					'app' => 'encryption',
+					'exception' => $e,
+				]
+			);
 			return false;
 		}
 

@@ -11,6 +11,7 @@
  * @author Joel S <joel.devbox@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author martin.mattel@diemattels.at <martin.mattel@diemattels.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -37,17 +38,17 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\FilesMetadata\FilesMetadataManager;
+use OC\ForbiddenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Events\NodeRemovedFromCache;
-use OCP\Files\File;
-use OC\ForbiddenException;
-use OC\Metadata\MetadataManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -57,7 +58,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Scan extends Base {
-	private IUserManager $userManager;
 	protected float $execTime = 0;
 	protected int $foldersCounter = 0;
 	protected int $filesCounter = 0;
@@ -65,27 +65,18 @@ class Scan extends Base {
 	protected int $newCounter = 0;
 	protected int $updatedCounter = 0;
 	protected int $removedCounter = 0;
-	private IRootFolder $root;
-	private MetadataManager $metadataManager;
-	private IEventDispatcher $eventDispatcher;
-	private LoggerInterface $logger;
 
 	public function __construct(
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		MetadataManager $metadataManager,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		private FilesMetadataManager $filesMetadataManager,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
 	) {
-		$this->userManager = $userManager;
 		parent::__construct();
-		$this->root = $rootFolder;
-		$this->metadataManager = $metadataManager;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->logger = $logger;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -105,8 +96,9 @@ class Scan extends Base {
 			->addOption(
 				'generate-metadata',
 				null,
-				InputOption::VALUE_NONE,
-				'Generate metadata for all scanned files'
+				InputOption::VALUE_OPTIONAL,
+				'Generate metadata for all scanned files; if specified only generate for named value',
+				''
 			)
 			->addOption(
 				'all',
@@ -131,7 +123,7 @@ class Scan extends Base {
 			);
 	}
 
-	protected function scanFiles(string $user, string $path, bool $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
+	protected function scanFiles(string $user, string $path, ?string $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner(
 			$user,
@@ -145,11 +137,13 @@ class Scan extends Base {
 			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
-			if ($scanMetadata) {
-				$node = $this->root->get($path);
-				if ($node instanceof File) {
-					$this->metadataManager->generateMetadata($node, false);
-				}
+			if ($scanMetadata !== null) {
+				$node = $this->rootFolder->get($path);
+				$this->filesMetadataManager->refreshMetadata(
+					$node,
+					($scanMetadata !== '') ? IFilesMetadataManager::PROCESS_NAMED : IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND,
+					$scanMetadata
+				);
 			}
 		});
 
@@ -169,13 +163,13 @@ class Scan extends Base {
 			++$this->errorsCounter;
 		});
 
-		$this->eventDispatcher->addListener(NodeAddedToCache::class, function() {
+		$this->eventDispatcher->addListener(NodeAddedToCache::class, function () {
 			++$this->newCounter;
 		});
-		$this->eventDispatcher->addListener(FileCacheUpdated::class, function() {
+		$this->eventDispatcher->addListener(FileCacheUpdated::class, function () {
 			++$this->updatedCounter;
 		});
-		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function() {
+		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function () {
 			++$this->removedCounter;
 		});
 
@@ -203,7 +197,7 @@ class Scan extends Base {
 		}
 	}
 
-	public function filterHomeMount(IMountPoint $mountPoint) {
+	public function filterHomeMount(IMountPoint $mountPoint): bool {
 		// any mountpoint inside '/$user/files/'
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
@@ -224,21 +218,27 @@ class Scan extends Base {
 		$users_total = count($users);
 		if ($users_total === 0) {
 			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$this->initTools($output);
+
+		// getOption() logic on VALUE_OPTIONAL
+		$metadata = null; // null if --generate-metadata is not set, empty if option have no value, value if set
+		if ($input->getOption('generate-metadata') !== '') {
+			$metadata = $input->getOption('generate-metadata') ?? '';
+		}
 
 		$user_count = 0;
 		foreach ($users as $user) {
 			if (is_object($user)) {
 				$user = $user->getUID();
 			}
-			$path = $inputPath ? $inputPath : '/' . $user;
+			$path = $inputPath ?: '/' . $user;
 			++$user_count;
 			if ($this->userManager->userExists($user)) {
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles($user, $path, $input->getOption('generate-metadata'), $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
+				$this->scanFiles($user, $path, $metadata, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
 				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
@@ -253,13 +253,13 @@ class Scan extends Base {
 		}
 
 		$this->presentStats($output);
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * Initialises some useful tools for the Command
 	 */
-	protected function initTools(OutputInterface $output) {
+	protected function initTools(OutputInterface $output): void {
 		// Start the timer
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
@@ -292,10 +292,7 @@ class Scan extends Base {
 		return true;
 	}
 
-	/**
-	 * @param OutputInterface $output
-	 */
-	protected function presentStats(OutputInterface $output) {
+	protected function presentStats(OutputInterface $output): void {
 		// Stop the timer
 		$this->execTime += microtime(true);
 
@@ -329,11 +326,9 @@ class Scan extends Base {
 
 
 	/**
-	 * Formats microtime into a human readable format
-	 *
-	 * @return string
+	 * Formats microtime into a human-readable format
 	 */
-	protected function formatExecTime() {
+	protected function formatExecTime(): string {
 		$secs = (int)round($this->execTime);
 		# convert seconds into HH:MM:SS form
 		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), $secs % 60);

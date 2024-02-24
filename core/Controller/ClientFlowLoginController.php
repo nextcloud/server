@@ -33,7 +33,6 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -42,10 +41,13 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
@@ -58,7 +60,7 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ClientFlowLoginController extends Controller {
 	public const STATE_NAME = 'client.flow.state.token';
 
@@ -76,6 +78,7 @@ class ClientFlowLoginController extends Controller {
 		private AccessTokenMapper $accessTokenMapper,
 		private ICrypto $crypto,
 		private IEventDispatcher $eventDispatcher,
+		private ITimeFactory $timeFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -111,6 +114,7 @@ class ClientFlowLoginController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/flow')]
 	public function showAuthPickerPage(string $clientIdentifier = '', string $user = '', int $direct = 0): StandaloneTemplateResponse {
 		$clientName = $this->getClientName();
 		$client = null;
@@ -178,9 +182,10 @@ class ClientFlowLoginController extends Controller {
 	 * @NoSameSiteCookieRequired
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/flow/grant')]
 	public function grantPage(string $stateToken = '',
-				  string $clientIdentifier = '',
-				  int $direct = 0): StandaloneTemplateResponse {
+		string $clientIdentifier = '',
+		int $direct = 0): StandaloneTemplateResponse {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -230,8 +235,9 @@ class ClientFlowLoginController extends Controller {
 	 * @return Http\RedirectResponse|Response
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: '/login/flow')]
 	public function generateAppPassword(string $stateToken,
-										string $clientIdentifier = '') {
+		string $clientIdentifier = '') {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();
@@ -287,6 +293,7 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
 			$accessToken->setHashedCode(hash('sha512', $code));
 			$accessToken->setTokenId($generatedToken->getId());
+			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
 			$this->accessTokenMapper->insert($accessToken);
 
 			$redirectUri = $client->getRedirectUri();
@@ -320,6 +327,7 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @PublicPage
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/login/flow/apptoken')]
 	public function apptokenRedirect(string $stateToken, string $user, string $password): Response {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();

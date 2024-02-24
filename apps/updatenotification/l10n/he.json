@@ -21,11 +21,10 @@
     "Notify members of the following groups about available updates:" : "דיווח למשתמשים של קבוצות אלו על עדכונים זמינים:",
     "The selected update channel does not support updates of the server." : "ערוץ העדכון הנבחר לא תומך בעדכון השרת.",
     "A new version is available: <strong>{newVersionString}</strong>" : "גרסה חדשה זמינה: <strong>{newVersionString}</strong>",
-    "Checked on {lastCheckedDate}" : "נבדק לאחרונה ב־{lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "נא לוודא שב־config.php שלך ה־<samp>appstoreenabled</samp> לא מוגדר ל‏־false.",
     "Stable" : "יציב",
     "Beta" : "בטא",
-    "Update for %1$s to version %2$s is available." : "עדכון של %1$s לגרסה %2$s זמין.",
-    "Update channel:" : "עדכון ערוץ:"
-},"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
+    "Update channel:" : "עדכון ערוץ:",
+    "Checked on {lastCheckedDate}" : "נבדק לאחרונה ב־{lastCheckedDate}"
+},"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

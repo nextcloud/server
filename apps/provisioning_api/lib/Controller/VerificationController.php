@@ -31,7 +31,7 @@ use InvalidArgumentException;
 use OC\Security\Crypto;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -40,7 +40,7 @@ use OCP\IUserSession;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class VerificationController extends Controller {
 
 	/** @var IVerificationToken */
@@ -80,10 +80,10 @@ class VerificationController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
-	public function showVerifyMail(string $token, string $userId, string $key) {
+	public function showVerifyMail(string $token, string $userId, string $key): TemplateResponse {
 		if ($this->userSession->getUser()->getUID() !== $userId) {
 			// not a public page, hence getUser() must return an IUser
-			throw new InvalidArgumentException('Logged in user is not mail address owner');
+			throw new InvalidArgumentException('Logged in account is not mail address owner');
 		}
 		$email = $this->crypto->decrypt($key);
 
@@ -98,11 +98,13 @@ class VerificationController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @BruteForceProtection(action=emailVerification)
 	 */
-	public function verifyMail(string $token, string $userId, string $key) {
+	public function verifyMail(string $token, string $userId, string $key): TemplateResponse {
+		$throttle = false;
 		try {
 			if ($this->userSession->getUser()->getUID() !== $userId) {
-				throw new InvalidArgumentException('Logged in user is not mail address owner');
+				throw new InvalidArgumentException('Logged in account is not mail address owner');
 			}
 			$email = $this->crypto->decrypt($key);
 			$ref = \substr(hash('sha256', $email), 0, 8);
@@ -121,9 +123,12 @@ class VerificationController extends Controller {
 			$this->accountManager->updateAccount($userAccount);
 			$this->verificationToken->delete($token, $user, 'verifyMail' . $ref);
 		} catch (InvalidTokenException $e) {
-			$error = $e->getCode() === InvalidTokenException::TOKEN_EXPIRED
-				? $this->l10n->t('Could not verify mail because the token is expired.')
-				: $this->l10n->t('Could not verify mail because the token is invalid.');
+			if ($e->getCode() === InvalidTokenException::TOKEN_EXPIRED) {
+				$error = $this->l10n->t('Could not verify mail because the token is expired.');
+			} else {
+				$throttle = true;
+				$error = $this->l10n->t('Could not verify mail because the token is invalid.');
+			}
 		} catch (InvalidArgumentException $e) {
 			$error = $e->getMessage();
 		} catch (\Exception $e) {
@@ -131,10 +136,14 @@ class VerificationController extends Controller {
 		}
 
 		if (isset($error)) {
-			return new TemplateResponse(
+			$response = new TemplateResponse(
 				'core', 'error', [
 					'errors' => [['error' => $error]]
 				], TemplateResponse::RENDER_AS_GUEST);
+			if ($throttle) {
+				$response->throttle();
+			}
+			return $response;
 		}
 
 		return new TemplateResponse(

@@ -29,7 +29,6 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -43,6 +42,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -74,7 +74,7 @@ class LoginControllerTest extends TestCase {
 	/** @var Defaults|MockObject */
 	private $defaults;
 
-	/** @var Throttler|MockObject */
+	/** @var IThrottler|MockObject */
 	private $throttler;
 
 	/** @var IInitialStateService|MockObject */
@@ -99,7 +99,7 @@ class LoginControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
 		$this->notificationManager = $this->createMock(IManager::class);
@@ -145,6 +145,10 @@ class LoginControllerTest extends TestCase {
 		$this->request
 			->method('getServerProtocol')
 			->willReturn('https');
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(false);
 		$this->config
 			->expects($this->never())
 			->method('deleteUserValue');
@@ -159,6 +163,29 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
+	public function testLogoutNoClearSiteData() {
+		$this->request
+			->expects($this->once())
+			->method('getCookie')
+			->with('nc_token')
+			->willReturn(null);
+		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(true);
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.login.showLoginForm')
+			->willReturn('/login');
+
+		$expected = new RedirectResponse('/login');
+		$this->assertEquals($expected, $this->loginController->logout());
+	}
+
 	public function testLogoutWithToken() {
 		$this->request
 			->expects($this->once())
@@ -166,9 +193,12 @@ class LoginControllerTest extends TestCase {
 			->with('nc_token')
 			->willReturn('MyLoginToken');
 		$this->request
-			->expects($this->once())
 			->method('getServerProtocol')
 			->willReturn('https');
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(false);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -314,7 +344,7 @@ class LoginControllerTest extends TestCase {
 	 * @dataProvider passwordResetDataProvider
 	 */
 	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
-															 $expectedResult) {
+		$expectedResult) {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')

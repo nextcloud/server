@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,7 +27,23 @@ declare(strict_types=1);
 namespace OCA\Files_External;
 
 /**
- * @psalm-type FilesExternalMount = array{
+ * @psalm-type Files_ExternalStorageConfig = array{
+ *     applicableGroups?: string[],
+ *     applicableUsers?: string[],
+ *     authMechanism: string,
+ *     backend: string,
+ *     backendOptions: array<string, mixed>,
+ *     id?: int,
+ *     mountOptions?: array<string, mixed>,
+ *     mountPoint: string,
+ *     priority?: int,
+ *     status?: int,
+ *     statusMessage?: string,
+ *     type: 'personal'|'system',
+ *     userProvided: bool,
+ * }
+ *
+ * @psalm-type Files_ExternalMount = array{
  *     name: string,
  *     path: string,
  *     type: 'dir',
@@ -35,6 +52,7 @@ namespace OCA\Files_External;
  *     permissions: int,
  *     id: int,
  *     class: string,
+ *     config: Files_ExternalStorageConfig,
  * }
  */
 class ResponseDefinitions {

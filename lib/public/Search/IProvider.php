@@ -68,15 +68,17 @@ interface IProvider {
 	/**
 	 * Get the search provider order
 	 * The lower the int, the higher it will be sorted (0 will be before 10)
+	 * If null, the search provider will be hidden in the UI and the API not called
 	 *
 	 * @param string $route the route the user is currently at, e.g. files.view.index
 	 * @param array $routeParameters the parameters of the route the user is currently at, e.g. [fileId = 982, dir = "/"]
 	 *
-	 * @return int
+	 * @return int|null
 	 *
 	 * @since 20.0.0
+	 * @since 28.0.0 Can return null
 	 */
-	public function getOrder(string $route, array $routeParameters): int;
+	public function getOrder(string $route, array $routeParameters): ?int;
 
 	/**
 	 * Find matching search entries in an app

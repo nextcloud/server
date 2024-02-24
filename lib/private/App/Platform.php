@@ -25,8 +25,8 @@
  */
 namespace OC\App;
 
-use OCP\IConfig;
 use OCP\IBinaryFinder;
+use OCP\IConfig;
 
 /**
  * Class Platform
@@ -36,10 +36,9 @@ use OCP\IBinaryFinder;
  * @package OC\App
  */
 class Platform {
-	private IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	public function getPhpVersion(): string {

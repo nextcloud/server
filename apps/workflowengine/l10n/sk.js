@@ -70,6 +70,7 @@ OC.L10N.register(
     "Add new flow" : "Pridať nový tok",
     "When" : "Keď",
     "and" : "a",
+    "Add a new filter" : "Pridať nový filter",
     "Cancel" : "Zrušiť",
     "Delete" : "Zmazať",
     "The configuration is invalid" : "Konfigurácia je neplatná",
@@ -107,10 +108,8 @@ OC.L10N.register(
     "between" : "medzi",
     "not between" : "nie je medzi",
     "Request user agent" : "User agent požiadavky",
-    "User group membership" : "Členstvo v skupine používateľov",
     "is member of" : "Je členom",
     "is not member of" : "Nie je členom",
-    "Predefined URLs" : "Preddefinované URL",
-    "Others" : "Ostatné"
+    "User group membership" : "Členstvo v skupine používateľov"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

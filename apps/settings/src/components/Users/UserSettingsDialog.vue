@@ -23,9 +23,9 @@
 <template>
 	<NcAppSettingsDialog :open.sync="isModalOpen"
 		:show-navigation="true"
-		:title="t('settings', 'User management settings')">
+		:name="t('settings', 'Account management settings')">
 		<NcAppSettingsSection id="visibility-settings"
-			:title="t('settings', 'Visibility')">
+			:name="t('settings', 'Visibility')">
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="showLanguages"
 				:checked.sync="showLanguages">
@@ -34,7 +34,7 @@
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="showUserBackend"
 				:checked.sync="showUserBackend">
-				{{ t('settings', 'Show user backend') }}
+				{{ t('settings', 'Show account backend') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="showStoragePath"
@@ -49,17 +49,17 @@
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="email-settings"
-			:title="t('settings', 'Send email')">
+			:name="t('settings', 'Send email')">
 			<NcCheckboxRadioSwitch type="switch"
 				data-test="sendWelcomeMail"
 				:checked.sync="sendWelcomeMail"
 				:disabled="loadingSendMail">
-				{{ t('settings', 'Send welcome email to new users') }}
+				{{ t('settings', 'Send welcome email to new accounts') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="default-settings"
-			:title="t('settings', 'Defaults')">
+			:name="t('settings', 'Defaults')">
 			<label for="default-quota-select">{{ t('settings', 'Default quota') }}</label>
 			<NcSelect v-model="defaultQuota"
 				input-id="default-quota-select"

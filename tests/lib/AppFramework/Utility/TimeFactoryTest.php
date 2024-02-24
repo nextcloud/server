@@ -46,4 +46,21 @@ class TimeFactoryTest extends \Test\TestCase {
 		$now = $withTimeZone->now();
 		self::assertSame('Europe/Berlin', $now->getTimezone()->getName());
 	}
+
+	public function testGetTimeZone(): void {
+		$expected = new \DateTimeZone('Europe/Berlin');
+		$actual = $this->timeFactory->getTimeZone('Europe/Berlin');
+		self::assertEquals($expected, $actual);
+	}
+
+	public function testGetTimeZoneUTC(): void {
+		$expected = new \DateTimeZone('UTC');
+		$actual = $this->timeFactory->getTimeZone();
+		self::assertEquals($expected, $actual);
+	}
+
+	public function testGetTimeZoneInvalid(): void {
+		$this->expectException(\Exception::class);
+		$this->timeFactory->getTimeZone('blubblub');
+	}
 }

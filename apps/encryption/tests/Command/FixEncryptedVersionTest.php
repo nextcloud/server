@@ -24,6 +24,7 @@ namespace OCA\Encryption\Tests\Command;
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
 use OCA\Encryption\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 use Test\Traits\EncryptionTrait;
@@ -70,7 +71,7 @@ class FixEncryptedVersionTest extends TestCase {
 
 		$this->fixEncryptedVersion = new FixEncryptedVersion(
 			\OC::$server->getConfig(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getUserManager(),
 			$this->util,

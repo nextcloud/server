@@ -111,6 +111,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\Storage\\Swift' => __DIR__ . '/..' . '/../lib/Lib/Storage/Swift.php',
         'OCA\\Files_External\\Lib\\VisibilityTrait' => __DIR__ . '/..' . '/../lib/Lib/VisibilityTrait.php',
         'OCA\\Files_External\\Listener\\GroupDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/GroupDeletedListener.php',
+        'OCA\\Files_External\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_External\\Listener\\StorePasswordListener' => __DIR__ . '/..' . '/../lib/Listener/StorePasswordListener.php',
         'OCA\\Files_External\\Listener\\UserDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/UserDeletedListener.php',
         'OCA\\Files_External\\Migration\\DummyUserSession' => __DIR__ . '/..' . '/../lib/Migration/DummyUserSession.php',

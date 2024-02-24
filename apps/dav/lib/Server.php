@@ -11,6 +11,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -38,6 +39,7 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
@@ -76,6 +78,7 @@ use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
@@ -192,6 +195,8 @@ class Server {
 				\OC::$server->getConfig(),
 				\OC::$server->getURLGenerator()
 			));
+
+			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
 		}
 
 		// addressbook plugins
@@ -238,7 +243,7 @@ class Server {
 
 		// Allow view-only plugin for webdav requests
 		$this->server->addPlugin(new ViewOnlyPlugin(
-			$logger
+			\OC::$server->getUserFolder(),
 		));
 
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
@@ -316,7 +321,8 @@ class Server {
 						$user,
 						\OC::$server->getRootFolder(),
 						\OC::$server->getShareManager(),
-						$view
+						$view,
+						\OCP\Server::get(IFilesMetadataManager::class)
 					));
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
@@ -327,7 +333,8 @@ class Server {
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->query(BirthdayService::class),
+					$user
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->getUserSession(),
@@ -375,10 +382,11 @@ class Server {
 	private function requestIsForSubtree(array $subTrees): bool {
 		foreach ($subTrees as $subTree) {
 			$subTree = trim($subTree, ' /');
-			if (strpos($this->server->getRequestUri(), $subTree.'/') === 0) {
+			if (str_starts_with($this->server->getRequestUri(), $subTree . '/')) {
 				return true;
 			}
 		}
 		return false;
 	}
+
 }

@@ -36,7 +36,7 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\Files\Storage;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -63,7 +63,7 @@ class EncryptionTest extends TestCase {
 	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $loggerMock;
 
 	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
@@ -95,7 +95,7 @@ class EncryptionTest extends TestCase {
 		$this->decryptAllMock = $this->getMockBuilder(DecryptAll::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->loggerMock = $this->getMockBuilder(ILogger::class)
+		$this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10nMock = $this->getMockBuilder(IL10N::class)

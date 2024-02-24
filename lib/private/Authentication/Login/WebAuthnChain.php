@@ -57,15 +57,15 @@ class WebAuthnChain {
 	private $webAuthnLoginCommand;
 
 	public function __construct(UserDisabledCheckCommand $userDisabledCheckCommand,
-								WebAuthnLoginCommand $webAuthnLoginCommand,
-								LoggedInCheckCommand $loggedInCheckCommand,
-								CompleteLoginCommand $completeLoginCommand,
-								CreateSessionTokenCommand $createSessionTokenCommand,
-								ClearLostPasswordTokensCommand $clearLostPasswordTokensCommand,
-								UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
-								SetUserTimezoneCommand $setUserTimezoneCommand,
-								TwoFactorCommand $twoFactorCommand,
-								FinishRememberedLoginCommand $finishRememberedLoginCommand
+		WebAuthnLoginCommand $webAuthnLoginCommand,
+		LoggedInCheckCommand $loggedInCheckCommand,
+		CompleteLoginCommand $completeLoginCommand,
+		CreateSessionTokenCommand $createSessionTokenCommand,
+		ClearLostPasswordTokensCommand $clearLostPasswordTokensCommand,
+		UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
+		SetUserTimezoneCommand $setUserTimezoneCommand,
+		TwoFactorCommand $twoFactorCommand,
+		FinishRememberedLoginCommand $finishRememberedLoginCommand
 	) {
 		$this->userDisabledCheckCommand = $userDisabledCheckCommand;
 		$this->webAuthnLoginCommand = $webAuthnLoginCommand;

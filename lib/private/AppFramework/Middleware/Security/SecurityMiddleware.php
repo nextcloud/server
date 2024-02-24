@@ -104,18 +104,18 @@ class SecurityMiddleware extends Middleware {
 	private $userSession;
 
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								INavigationManager $navigationManager,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger,
-								string $appName,
-								bool $isLoggedIn,
-								bool $isAdminUser,
-								bool $isSubAdmin,
-								IAppManager $appManager,
-								IL10N $l10n,
-								AuthorizedGroupMapper $mapper,
-								IUserSession $userSession
+		ControllerMethodReflector $reflector,
+		INavigationManager $navigationManager,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger,
+		string $appName,
+		bool $isLoggedIn,
+		bool $isAdminUser,
+		bool $isSubAdmin,
+		IAppManager $appManager,
+		IL10N $l10n,
+		AuthorizedGroupMapper $mapper,
+		IUserSession $userSession
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
@@ -180,20 +180,20 @@ class SecurityMiddleware extends Middleware {
 					}
 				}
 				if (!$authorized) {
-					throw new NotAdminException($this->l10n->t('Logged in user must be an admin, a sub admin or gotten special right to access this setting'));
+					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
 				}
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->isSubAdmin
 				&& !$this->isAdminUser
 				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
 			}
 			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
 				&& !$this->isAdminUser
 				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}
 		}
 
@@ -206,7 +206,7 @@ class SecurityMiddleware extends Middleware {
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
-		if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
@@ -215,12 +215,7 @@ class SecurityMiddleware extends Middleware {
 			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
 			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
-			if (!$this->request->passesCSRFCheck() && !(
-				$controller instanceof OCSController && (
-					$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
-					str_starts_with($this->request->getHeader('Authorization'), 'Bearer ')
-				)
-			)) {
+			if (!$controller instanceof OCSController || !$this->isValidOCSRequest()) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}
@@ -240,6 +235,19 @@ class SecurityMiddleware extends Middleware {
 		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
 			throw new AppNotEnabledException();
 		}
+	}
+
+	private function isInvalidCSRFRequired(ReflectionMethod $reflectionMethod): bool {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+			return false;
+		}
+
+		return !$this->request->passesCSRFCheck();
+	}
+
+	private function isValidOCSRequest(): bool {
+		return $this->request->getHeader('OCS-APIREQUEST') === 'true'
+			|| str_starts_with($this->request->getHeader('Authorization'), 'Bearer ');
 	}
 
 	/**

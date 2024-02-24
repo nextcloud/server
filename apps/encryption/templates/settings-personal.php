@@ -1,6 +1,6 @@
 <?php
-	/** @var array $_ */
-	/** @var \OCP\IL10N $l */
+/** @var array $_ */
+/** @var \OCP\IL10N $l */
 script('encryption', 'settings-personal');
 ?>
 <form id="ocDefaultEncryptionModule" class="section">
@@ -19,7 +19,7 @@ script('encryption', 'settings-personal');
 			<br />
 			<?php p($l->t("Set your old private key password to your current log-in password:")); ?>
 			<?php if ($_["recoveryEnabledForUser"]):
-					p($l->t(" If you don't remember your old password you can ask your administrator to recover your files."));
+				p($l->t(" If you don't remember your old password you can ask your administrator to recover your files."));
 			endif; ?>
 			<br />
 			<input

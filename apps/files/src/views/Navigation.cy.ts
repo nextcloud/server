@@ -1,30 +1,31 @@
-import * as InitialState from '@nextcloud/initial-state'
-import * as L10n from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
 import { createTestingPinia } from '@pinia/testing'
 
-import NavigationService from '../services/Navigation'
 import NavigationView from './Navigation.vue'
-import router from '../router/router.js'
+import router from '../router/router'
 import { useViewConfigStore } from '../store/viewConfig'
+import { Folder, View, getNavigation } from '@nextcloud/files'
+
+import Vue from 'vue'
 
 describe('Navigation renders', () => {
-	const Navigation = new NavigationService() as NavigationService
+	delete window._nc_navigation
+	const Navigation = getNavigation()
 
 	before(() => {
-		cy.stub(InitialState, 'loadState')
-			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: -1,
-			})
+		Vue.prototype.$navigation = Navigation
+
+		cy.mockInitialState('files', 'storageStats', {
+			used: 1000 * 1000 * 1000,
+			quota: -1,
+		})
 	})
+
+	after(() => cy.unmockInitialState())
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -39,21 +40,23 @@ describe('Navigation renders', () => {
 })
 
 describe('Navigation API', () => {
-	const Navigation = new NavigationService() as NavigationService
+	delete window._nc_navigation
+	const Navigation = getNavigation()
+
+	before(() => {
+		Vue.prototype.$navigation = Navigation
+	})
 
 	it('Check API entries rendering', () => {
-		Navigation.register({
+		Navigation.register(new View({
 			id: 'files',
 			name: 'Files',
-			getContents: () => Promise.resolve(),
+			getContents: async () => ({ folder: {} as Folder, contents: [] }),
 			icon: FolderSvg,
 			order: 1,
-		})
+		}))
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -69,18 +72,15 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new entry and render', () => {
-		Navigation.register({
+		Navigation.register(new View({
 			id: 'sharing',
 			name: 'Sharing',
-			getContents: () => Promise.resolve(),
+			getContents: async () => ({ folder: {} as Folder, contents: [] }),
 			icon: ShareSvg,
 			order: 2,
-		})
+		}))
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -96,19 +96,16 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new children, render and open menu', () => {
-		Navigation.register({
+		Navigation.register(new View({
 			id: 'sharingin',
 			name: 'Shared with me',
-			getContents: () => Promise.resolve(),
+			getContents: async () => ({ folder: {} as Folder, contents: [] }),
 			parent: 'sharing',
 			icon: ShareSvg,
 			order: 1,
-		})
+		}))
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -143,40 +140,29 @@ describe('Navigation API', () => {
 
 	it('Throws when adding a duplicate entry', () => {
 		expect(() => {
-			Navigation.register({
+			Navigation.register(new View({
 				id: 'files',
 				name: 'Files',
-				getContents: () => Promise.resolve(),
+				getContents: async () => ({ folder: {} as Folder, contents: [] }),
 				icon: FolderSvg,
 				order: 1,
-			})
-		}).to.throw('Navigation id files is already registered')
+			}))
+		}).to.throw('View id files is already registered')
 	})
 })
 
 describe('Quota rendering', () => {
-	const Navigation = new NavigationService()
+	delete window._nc_navigation
+	const Navigation = getNavigation()
 
-	beforeEach(() => {
-		// TODO: remove when @nextcloud/l10n 2.0 is released
-		// https://github.com/nextcloud/nextcloud-l10n/pull/542
-		cy.stub(L10n, 'translate', (app, text, vars = {}, number) => {
-			cy.log({ app, text, vars, number })
-			return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
-				return vars[key]
-			})
-		})
+	before(() => {
+		Vue.prototype.$navigation = Navigation
 	})
 
-	it('Unknown quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns(undefined)
+	afterEach(() => cy.unmockInitialState())
 
+	it('Unknown quota', () => {
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -188,17 +174,12 @@ describe('Quota rendering', () => {
 	})
 
 	it('Unlimited quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: -1,
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 1024 * 1024 * 1024,
+			quota: -1,
+		})
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -212,18 +193,13 @@ describe('Quota rendering', () => {
 	})
 
 	it('Non-reached quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns({
-				used: 1000 * 1000 * 1000,
-				quota: 5 * 1000 * 1000 * 1000,
-				relative: 20, // percent
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 1024 * 1024 * 1024,
+			quota: 5 * 1024 * 1024 * 1024,
+			relative: 20, // percent
+		})
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -238,18 +214,13 @@ describe('Quota rendering', () => {
 	})
 
 	it('Reached quota', () => {
-		cy.stub(InitialState, 'loadState')
-			.as('loadStateStats')
-			.returns({
-				used: 5 * 1000 * 1000 * 1000,
-				quota: 1000 * 1000 * 1000,
-				relative: 500, // percent
-			})
+		cy.mockInitialState('files', 'storageStats', {
+			used: 5 * 1024 * 1024 * 1024,
+			quota: 1024 * 1024 * 1024,
+			relative: 500, // percent
+		})
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,

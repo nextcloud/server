@@ -33,12 +33,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Put extends Command {
-	private ObjectUtil $objectUtils;
-	private IMimeTypeDetector $mimeTypeDetector;
-
-	public function __construct(ObjectUtil $objectUtils, IMimeTypeDetector $mimeTypeDetector) {
-		$this->objectUtils = $objectUtils;
-		$this->mimeTypeDetector = $mimeTypeDetector;
+	public function __construct(
+		private ObjectUtil $objectUtils,
+		private IMimeTypeDetector $mimeTypeDetector,
+	) {
 		parent::__construct();
 	}
 
@@ -48,7 +46,8 @@ class Put extends Command {
 			->setDescription('Write a file to the object store')
 			->addArgument('input', InputArgument::REQUIRED, "Source local path, use - to read from STDIN")
 			->addArgument('object', InputArgument::REQUIRED, "Object to write")
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket where to store the object, only required in cases where it can't be determined from the config");;
+			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket where to store the object, only required in cases where it can't be determined from the config");
+		;
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -75,10 +74,10 @@ class Put extends Command {
 		$source = $inputName === '-' ? STDIN : fopen($inputName, 'r');
 		if (!$source) {
 			$output->writeln("<error>Failed to open $inputName</error>");
-			return 1;
+			return self::FAILURE;
 		}
 		$objectStore->writeObject($object, $source, $this->mimeTypeDetector->detectPath($inputName));
-		return 0;
+		return self::SUCCESS;
 	}
 
 }

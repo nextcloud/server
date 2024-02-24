@@ -39,59 +39,52 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Search extends Command {
-	/** @var \OCP\IConfig */
-	protected $ocConfig;
-	/** @var User_Proxy */
-	private $userProxy;
-	/** @var Group_Proxy */
-	private $groupProxy;
-
-	public function __construct(IConfig $ocConfig, User_Proxy $userProxy, Group_Proxy $groupProxy) {
+	public function __construct(
+		protected IConfig $ocConfig,
+		private User_Proxy $userProxy,
+		private Group_Proxy $groupProxy,
+	) {
 		parent::__construct();
-		$this->ocConfig = $ocConfig;
-		$this->userProxy = $userProxy;
-		$this->groupProxy = $groupProxy;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:search')
 			->setDescription('executes a user or group search')
 			->addArgument(
-					'search',
-					InputArgument::REQUIRED,
-					'the search string (can be empty)'
-					 )
+				'search',
+				InputArgument::REQUIRED,
+				'the search string (can be empty)'
+			)
 			->addOption(
-					'group',
-					null,
-					InputOption::VALUE_NONE,
-					'searches groups instead of users'
-					 )
+				'group',
+				null,
+				InputOption::VALUE_NONE,
+				'searches groups instead of users'
+			)
 			->addOption(
-					'offset',
-					null,
-					InputOption::VALUE_REQUIRED,
-					'The offset of the result set. Needs to be a multiple of limit. defaults to 0.',
-					'0'
-					 )
+				'offset',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'The offset of the result set. Needs to be a multiple of limit. defaults to 0.',
+				'0'
+			)
 			->addOption(
-					'limit',
-					null,
-					InputOption::VALUE_REQUIRED,
-					'limit the results. 0 means no limit, defaults to 15',
-					'15'
-					 )
+				'limit',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'limit the results. 0 means no limit, defaults to 15',
+				'15'
+			)
 		;
 	}
 
 	/**
 	 * Tests whether the offset and limit options are valid
-	 * @param int $offset
-	 * @param int $limit
+	 *
 	 * @throws \InvalidArgumentException
 	 */
-	protected function validateOffsetAndLimit($offset, $limit) {
+	protected function validateOffsetAndLimit(int $offset, int $limit): void {
 		if ($limit < 0) {
 			throw new \InvalidArgumentException('limit must be  0 or greater');
 		}
@@ -135,6 +128,6 @@ class Search extends Command {
 			$line = $name . ($printID ? ' ('.$id.')' : '');
 			$output->writeln($line);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

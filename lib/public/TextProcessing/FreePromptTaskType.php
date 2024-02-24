@@ -26,21 +26,25 @@ declare(strict_types=1);
 namespace OCP\TextProcessing;
 
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 
 /**
  * This is the text processing task type for free prompting
  * @since 27.1.0
  */
 class FreePromptTaskType implements ITaskType {
+	private IL10N $l;
+
 	/**
 	 * Constructor for FreePromptTaskType
 	 *
-	 * @param IL10N $l
+	 * @param IFactory $l10nFactory
 	 * @since 27.1.0
 	 */
 	public function __construct(
-		private IL10N $l,
+		IFactory $l10nFactory,
 	) {
+		$this->l = $l10nFactory->get('core');
 	}
 
 
@@ -57,6 +61,6 @@ class FreePromptTaskType implements ITaskType {
 	 * @since 27.1.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Runs an arbitrary prompt through the built-in language model.');
+		return $this->l->t('Runs an arbitrary prompt through the language model.');
 	}
 }

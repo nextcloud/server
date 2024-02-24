@@ -588,6 +588,7 @@ Feature: provisioning
 			| federatedfilesharing |
 			| federation |
 			| files |
+			| files_reminders |
 			| files_sharing |
 			| files_trashbin |
 			| files_versions |

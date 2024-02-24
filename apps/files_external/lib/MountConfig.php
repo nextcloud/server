@@ -47,8 +47,8 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\StorageNotAvailableException;
-use OCP\IUser;
 use phpseclib\Crypt\AES;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to configure mount.json globally and for users
@@ -138,7 +138,7 @@ class MountConfig {
 					throw $e;
 				}
 			} catch (\Exception $exception) {
-				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
+				\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
 				throw $exception;
 			}
 		}
@@ -152,7 +152,7 @@ class MountConfig {
 	 * @param Backend[] $backends
 	 */
 	public static function dependencyMessage(array $backends): string {
-		$l = \OC::$server->getL10N('files_external');
+		$l = \OCP\Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
@@ -276,8 +276,8 @@ class MountConfig {
 				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
-				'p' => isset($config['priority']) ? $config['priority'] : -1,
-				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
+				'p' => $config['priority'] ?? -1,
+				'mo' => $config['mountOptions'] ?? [],
 			]
 		);
 		return hash('md5', $data);

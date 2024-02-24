@@ -32,6 +32,9 @@ use OCP\Files\Folder;
  * @since 24.0.0
  */
 interface IImportSource {
+	/**
+	 * @since 24.0.0
+	 */
 	public const PATH_USER = 'user.json';
 
 	/**

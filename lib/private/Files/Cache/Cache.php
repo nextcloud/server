@@ -44,12 +44,13 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheEntryUpdatedEvent;
 use OCP\Files\Cache\CacheInsertEvent;
-use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -59,6 +60,7 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -81,59 +83,51 @@ class Cache implements ICache {
 	/**
 	 * @var array partial data for the cache
 	 */
-	protected $partial = [];
+	protected array $partial = [];
+	protected string $storageId;
+	protected Storage $storageCache;
+	protected IMimeTypeLoader$mimetypeLoader;
+	protected IDBConnection $connection;
+	protected SystemConfig $systemConfig;
+	protected LoggerInterface $logger;
+	protected QuerySearchHelper $querySearchHelper;
+	protected IEventDispatcher $eventDispatcher;
+	protected IFilesMetadataManager $metadataManager;
 
-	/**
-	 * @var string
-	 */
-	protected $storageId;
-
-	private $storage;
-
-	/**
-	 * @var Storage $storageCache
-	 */
-	protected $storageCache;
-
-	/** @var IMimeTypeLoader */
-	protected $mimetypeLoader;
-
-	/**
-	 * @var IDBConnection
-	 */
-	protected $connection;
-
-	/**
-	 * @var IEventDispatcher
-	 */
-	protected $eventDispatcher;
-
-	/** @var QuerySearchHelper */
-	protected $querySearchHelper;
-
-	/**
-	 * @param IStorage $storage
-	 */
-	public function __construct(IStorage $storage) {
+	public function __construct(
+		private IStorage $storage,
+		// this constructor is used in to many pleases to easily do proper di
+		// so instead we group it all together
+		CacheDependencies $dependencies = null,
+	) {
 		$this->storageId = $storage->getId();
-		$this->storage = $storage;
 		if (strlen($this->storageId) > 64) {
 			$this->storageId = md5($this->storageId);
 		}
-
-		$this->storageCache = new Storage($storage);
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$this->querySearchHelper = \OCP\Server::get(QuerySearchHelper::class);
+		if (!$dependencies) {
+			$dependencies = \OC::$server->get(CacheDependencies::class);
+		}
+		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
+		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
+		$this->connection = $dependencies->getConnection();
+		$this->systemConfig = $dependencies->getSystemConfig();
+		$this->logger = $dependencies->getLogger();
+		$this->querySearchHelper = $dependencies->getQuerySearchHelper();
+		$this->eventDispatcher = $dependencies->getEventDispatcher();
+		$this->metadataManager = $dependencies->getMetadataManager();
 	}
 
 	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
 			$this->connection,
-			\OC::$server->getSystemConfig(),
-			\OC::$server->get(LoggerInterface::class)
+			$this->systemConfig,
+			$this->logger,
+			$this->metadataManager,
 		);
+	}
+
+	public function getStorageCache(): Storage {
+		return $this->storageCache;
 	}
 
 	/**
@@ -149,11 +143,12 @@ class Cache implements ICache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
-	 * @return ICacheEntry|false the cache entry as array of false if the file is not found in the cache
+	 * @return ICacheEntry|false the cache entry as array or false if the file is not found in the cache
 	 */
 	public function get($file) {
 		$query = $this->getQueryBuilder();
 		$query->selectFileCache();
+		$metadataQuery = $query->selectMetadata();
 
 		if (is_string($file) || $file == '') {
 			// normalize file
@@ -175,6 +170,7 @@ class Cache implements ICache {
 		} elseif (!$data) {
 			return $data;
 		} else {
+			$data['metadata'] = $metadataQuery?->extractMetadata($data)->asArray() ?? [];
 			return self::cacheEntryFromData($data, $this->mimetypeLoader);
 		}
 	}
@@ -239,11 +235,14 @@ class Cache implements ICache {
 				->whereParent($fileId)
 				->orderBy('name', 'ASC');
 
+			$metadataQuery = $query->selectMetadata();
+
 			$result = $query->execute();
 			$files = $result->fetchAll();
 			$result->closeCursor();
 
-			return array_map(function (array $data) {
+			return array_map(function (array $data) use ($metadataQuery) {
+				$data['metadata'] = $metadataQuery?->extractMetadata($data)->asArray() ?? [];
 				return self::cacheEntryFromData($data, $this->mimetypeLoader);
 			}, $files);
 		}
@@ -447,7 +446,7 @@ class Cache implements ICache {
 		$params = [];
 		$extensionParams = [];
 		foreach ($data as $name => $value) {
-			if (array_search($name, $fields) !== false) {
+			if (in_array($name, $fields)) {
 				if ($name === 'path') {
 					$params['path_hash'] = md5($value);
 				} elseif ($name === 'mimetype') {
@@ -467,7 +466,7 @@ class Cache implements ICache {
 				}
 				$params[$name] = $value;
 			}
-			if (array_search($name, $extensionFields) !== false) {
+			if (in_array($name, $extensionFields)) {
 				$extensionParams[$name] = $value;
 			}
 		}
@@ -599,9 +598,12 @@ class Cache implements ICache {
 			}
 
 			/** @var ICacheEntry[] $childFolders */
-			$childFolders = array_filter($children, function ($child) {
-				return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
-			});
+			$childFolders = [];
+			foreach ($children as $child) {
+				if ($child->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
+					$childFolders[] = $child;
+				}
+			}
 			foreach ($childFolders as $folder) {
 				$parentIds[] = $folder->getId();
 				$queue[] = $folder->getId();
@@ -668,7 +670,7 @@ class Cache implements ICache {
 			$targetPath = $this->normalize($targetPath);
 
 			$sourceData = $sourceCache->get($sourcePath);
-			if ($sourceData === false) {
+			if (!$sourceData) {
 				throw new \Exception('Invalid source storage path: ' . $sourcePath);
 			}
 
@@ -1012,8 +1014,12 @@ class Cache implements ICache {
 	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
+		// we select the fileid here first instead of directly selecting the path since this helps mariadb/mysql
+		// to use the correct index.
+		// The overhead of this should be minimal since the cost of selecting the path by id should be much lower
+		// than the cost of finding an item with size < 0
 		$query = $this->getQueryBuilder();
-		$query->select('path')
+		$query->select('fileid')
 			->from('filecache')
 			->whereStorageId($this->getNumericStorageId())
 			->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
@@ -1021,15 +1027,15 @@ class Cache implements ICache {
 			->setMaxResults(1);
 
 		$result = $query->execute();
-		$path = $result->fetchOne();
+		$id = $result->fetchOne();
 		$result->closeCursor();
 
-		if ($path === false) {
+		if ($id === false) {
 			return false;
 		}
 
-		// Make sure Oracle does not continue with null for empty strings
-		return (string)$path;
+		$path = $this->getPathById($id);
+		return $path ?? false;
 	}
 
 	/**

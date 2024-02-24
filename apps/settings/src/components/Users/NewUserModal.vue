@@ -29,43 +29,40 @@
 			:disabled="loading.all"
 			@submit.prevent="createUser">
 			<h2>{{ t('settings', 'New user') }}</h2>
-			<NcTextField class="modal__item"
-				ref="username"
+			<NcTextField ref="username"
+				class="modal__item"
 				data-test="username"
 				:value.sync="newUser.id"
 				:disabled="settings.newUserGenerateUserID"
 				:label="usernameLabel"
-				:label-visible="true"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off"
+				spellcheck="false"
 				pattern="[a-zA-Z0-9 _\.@\-']+"
 				required />
 			<NcTextField class="modal__item"
 				data-test="displayName"
 				:value.sync="newUser.displayName"
 				:label="t('settings', 'Display name')"
-				:label-visible="true"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off" />
+				spellcheck="false" />
 			<span v-if="!settings.newUserRequireEmail"
-				class="modal__hint"
-				id="password-email-hint">
+				id="password-email-hint"
+				class="modal__hint">
 				{{ t('settings', 'Either password or email is required') }}
 			</span>
-			<NcPasswordField class="modal__item"
-				ref="password"
+			<NcPasswordField ref="password"
+				class="modal__item"
 				data-test="password"
 				:value.sync="newUser.password"
 				:minlength="minPasswordLength"
 				:maxlength="469"
 				aria-describedby="password-email-hint"
 				:label="newUser.mailAddress === '' ? t('settings', 'Password (required)') : t('settings', 'Password')"
-				:label-visible="true"
 				autocapitalize="none"
 				autocomplete="new-password"
-				autocorrect="off"
+				spellcheck="false"
 				:required="newUser.mailAddress === ''" />
 			<NcTextField class="modal__item"
 				data-test="email"
@@ -73,19 +70,11 @@
 				:value.sync="newUser.mailAddress"
 				aria-describedby="password-email-hint"
 				:label="newUser.password === '' || settings.newUserRequireEmail ? t('settings', 'Email (required)') : t('settings', 'Email')"
-				:label-visible="true"
 				autocapitalize="none"
 				autocomplete="off"
-				autocorrect="off"
+				spellcheck="false"
 				:required="newUser.password === '' || settings.newUserRequireEmail" />
 			<div class="modal__item">
-				<!-- hidden input trick for vanilla html5 form validation -->
-				<NcTextField v-if="!settings.isAdmin"
-					tabindex="-1"
-					id="new-user-groups-input"
-					:class="{ 'icon-loading-small': loading.groups }"
-					:value="newUser.groups"
-					:required="!settings.isAdmin" />
 				<label class="modal__label"
 					for="new-user-groups">
 					{{ !settings.isAdmin ? t('settings', 'Groups (required)') : t('settings', 'Groups') }}
@@ -100,23 +89,24 @@
 					:close-on-select="false"
 					:multiple="true"
 					:taggable="true"
+					:required="!settings.isAdmin"
 					@input="handleGroupInput"
 					@option:created="createGroup" />
 					<!-- If user is not admin, he is a subadmin.
 						Subadmins can't create users outside their groups
 						Therefore, empty select is forbidden -->
 			</div>
-			<div v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+			<div v-if="subAdminsGroups.length > 0"
 				class="modal__item">
 				<label class="modal__label"
 					for="new-user-sub-admin">
 					{{ t('settings', 'Administered groups') }}
 				</label>
-				<NcSelect class="modal__select"
+				<NcSelect v-model="newUser.subAdminsGroups"
+					class="modal__select"
 					input-id="new-user-sub-admin"
 					:placeholder="t('settings', 'Set user as admin for …')"
 					:options="subAdminsGroups"
-					v-model="newUser.subAdminsGroups"
 					:close-on-select="false"
 					:multiple="true"
 					label="name" />
@@ -126,11 +116,11 @@
 					for="new-user-quota">
 					{{ t('settings', 'Quota') }}
 				</label>
-				<NcSelect class="modal__select"
+				<NcSelect v-model="newUser.quota"
+					class="modal__select"
 					input-id="new-user-quota"
 					:placeholder="t('settings', 'Set user quota')"
 					:options="quotaOptions"
-					v-model="newUser.quota"
 					:clearable="false"
 					:taggable="true"
 					:create-option="validateQuota" />
@@ -141,14 +131,14 @@
 					for="new-user-language">
 					{{ t('settings', 'Language') }}
 				</label>
-				<NcSelect	class="modal__select"
+				<NcSelect	v-model="newUser.language"
+					class="modal__select"
 					input-id="new-user-language"
 					:placeholder="t('settings', 'Set default language')"
 					:clearable="false"
 					:selectable="option => !option.languages"
 					:filter-by="languageFilterBy"
 					:options="languages"
-					v-model="newUser.language"
 					label="name" />
 			</div>
 			<div :class="['modal__item managers', { 'icon-loading-small': loading.manager }]">
@@ -157,11 +147,11 @@
 					<!-- TRANSLATORS This string describes a manager in the context of an organization -->
 					{{ t('settings', 'Manager') }}
 				</label>
-				<NcSelect class="modal__select"
+				<NcSelect v-model="newUser.manager"
+					class="modal__select"
 					input-id="new-user-manager"
 					:placeholder="managerLabel"
 					:options="possibleManagers"
-					v-model="newUser.manager"
 					:user-select="true"
 					label="displayname"
 					@search="searchUserManager" />
@@ -366,7 +356,7 @@ export default {
 			// Show group header of the language
 			if (option.languages) {
 				return option.languages.some(
-					({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+					({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
 				)
 			}
 
@@ -400,18 +390,6 @@ export default {
 		align-items: center;
 		padding: 20px;
 		gap: 4px 0;
-
-		/* fake input for groups validation */
-		#new-user-groups-input {
-			position: absolute;
-			opacity: 0;
-			/* The "hidden" input is behind the NcSelect, so in general it does
-			* not receives clicks. However, with Firefox, after the validation
-			* fails, it will receive the first click done on it, so its width needs
-			* to be set to 0 to prevent that ("pointer-events: none" does not
-			* prevent it). */
-			width: 0;
-		}
 	}
 
 	&__item {

@@ -43,6 +43,7 @@ use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -73,15 +74,15 @@ class ApiController extends Controller {
 	private ViewConfig $viewConfig;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserSession $userSession,
-								TagService $tagService,
-								IPreview $previewManager,
-								IManager $shareManager,
-								IConfig $config,
-								?Folder $userFolder,
-								UserConfig $userConfig,
-								ViewConfig $viewConfig) {
+		IRequest $request,
+		IUserSession $userSession,
+		TagService $tagService,
+		IPreview $previewManager,
+		IManager $shareManager,
+		IConfig $config,
+		?Folder $userFolder,
+		UserConfig $userConfig,
+		ViewConfig $viewConfig) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
@@ -388,13 +389,9 @@ class ApiController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 *
-	 * Get the service-worker Javascript for previews
-	 *
-	 * @psalm-suppress MoreSpecificReturnType The value of Service-Worker-Allowed is not relevant
-	 * @psalm-suppress LessSpecificReturnStatement The value of Service-Worker-Allowed is not relevant
-	 * @return StreamResponse<Http::STATUS_OK, array{Content-Type: 'application/javascript', Service-Worker-Allowed: string}>
+	 * @PublicPage
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function serviceWorker(): StreamResponse {
 		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');
 		$response->setHeaders([

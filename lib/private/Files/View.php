@@ -49,13 +49,14 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
-use OC\User\LazyUser;
 use OC\Share\Share;
-use OC\User\User;
+use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
+use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -286,12 +287,12 @@ class View {
 		$this->updaterEnabled = true;
 	}
 
-	protected function writeUpdate(Storage $storage, string $internalPath, ?int $time = null): void {
+	protected function writeUpdate(Storage $storage, string $internalPath, ?int $time = null, ?int $sizeDifference = null): void {
 		if ($this->updaterEnabled) {
 			if (is_null($time)) {
 				$time = time();
 			}
-			$storage->getUpdater()->update($internalPath, $time);
+			$storage->getUpdater()->update($internalPath, $time, $sizeDifference);
 		}
 	}
 
@@ -397,10 +398,11 @@ class View {
 		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 524288; // 512 kB chunks
+			$chunkSize = 524288; // 512 kiB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();
+				$this->checkConnectionStatus();
 			}
 			fclose($handle);
 			return $this->filesize($path);
@@ -423,7 +425,7 @@ class View {
 		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 524288; // 512 kB chunks
+			$chunkSize = 524288; // 512 kiB chunks
 			$startReading = true;
 
 			if ($from !== 0 && $from !== '0' && fseek($handle, $from) !== 0) {
@@ -453,6 +455,7 @@ class View {
 					}
 					echo fread($handle, $len);
 					flush();
+					$this->checkConnectionStatus();
 				}
 				return ftell($handle) - $from;
 			}
@@ -460,6 +463,13 @@ class View {
 			throw new \OCP\Files\UnseekableException('fseek error');
 		}
 		return false;
+	}
+
+	private function checkConnectionStatus(): void {
+		$connectionStatus = \connection_status();
+		if ($connectionStatus !== CONNECTION_NORMAL) {
+			throw new ConnectionLostException("Connection lost. Status: $connectionStatus");
+		}
 	}
 
 	/**
@@ -744,14 +754,18 @@ class View {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->emit_file_hooks_pre($exists, $target, $run);
 				} elseif ($this->shouldEmitHooks($source)) {
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME, Filesystem::signal_rename,
-						[
-							Filesystem::signal_param_oldpath => $this->getHookPath($source),
-							Filesystem::signal_param_newpath => $this->getHookPath($target),
-							Filesystem::signal_param_run => &$run
-						]
-					);
+					$sourcePath = $this->getHookPath($source);
+					$targetPath = $this->getHookPath($target);
+					if ($sourcePath !== null && $targetPath !== null) {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME, Filesystem::signal_rename,
+							[
+								Filesystem::signal_param_oldpath => $sourcePath,
+								Filesystem::signal_param_newpath => $targetPath,
+								Filesystem::signal_param_run => &$run
+							]
+						);
+					}
 				}
 				if ($run) {
 					$this->verifyPath(dirname($target), basename($target));
@@ -817,14 +831,18 @@ class View {
 						}
 					} elseif ($result) {
 						if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
-							\OC_Hook::emit(
-								Filesystem::CLASSNAME,
-								Filesystem::signal_post_rename,
-								[
-									Filesystem::signal_param_oldpath => $this->getHookPath($source),
-									Filesystem::signal_param_newpath => $this->getHookPath($target)
-								]
-							);
+							$sourcePath = $this->getHookPath($source);
+							$targetPath = $this->getHookPath($target);
+							if ($sourcePath !== null && $targetPath !== null) {
+								\OC_Hook::emit(
+									Filesystem::CLASSNAME,
+									Filesystem::signal_post_rename,
+									[
+										Filesystem::signal_param_oldpath => $sourcePath,
+										Filesystem::signal_param_newpath => $targetPath,
+									]
+								);
+							}
 						}
 					}
 				}
@@ -1155,7 +1173,9 @@ class View {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
-					$this->writeUpdate($storage, $internalPath);
+					$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && in_array('create', $hooks, true));
+					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
+					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
 				}
 				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam);
@@ -1507,7 +1527,7 @@ class View {
 						$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 						// if sharing was disabled for the user we remove the share permissions
-						if (\OCP\Util::isSharingDisabledForUser()) {
+						if ($sharingDisabled) {
 							$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 						}
 
@@ -1826,19 +1846,19 @@ class View {
 			[$storage, $internalPath] = $this->resolvePath($path);
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name is too long'));
 		} catch (InvalidDirectoryException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
 		} catch (EmptyFileNameException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
 		}
 	}

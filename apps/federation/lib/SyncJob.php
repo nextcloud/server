@@ -25,8 +25,8 @@
  */
 namespace OCA\Federation;
 
-use OCP\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 
 class SyncJob extends TimedJob {

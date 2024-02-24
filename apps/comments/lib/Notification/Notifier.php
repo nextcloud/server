@@ -36,24 +36,13 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
-	protected IFactory $l10nFactory;
-	protected IRootFolder $rootFolder;
-	protected ICommentsManager $commentsManager;
-	protected IURLGenerator $url;
-	protected IUserManager $userManager;
-
 	public function __construct(
-		IFactory $l10nFactory,
-		IRootFolder $rootFolder,
-		ICommentsManager $commentsManager,
-		IURLGenerator $url,
-		IUserManager $userManager
+		protected IFactory $l10nFactory,
+		protected IRootFolder $rootFolder,
+		protected ICommentsManager $commentsManager,
+		protected IURLGenerator $url,
+		protected IUserManager $userManager
 	) {
-		$this->l10nFactory = $l10nFactory;
-		$this->rootFolder = $rootFolder;
-		$this->commentsManager = $commentsManager;
-		$this->url = $url;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -134,7 +123,7 @@ class Notifier implements INotifier {
 				];
 
 				if ($isDeletedActor) {
-					$subject = $l->t('You were mentioned on "{file}", in a comment by a user that has since been deleted');
+					$subject = $l->t('You were mentioned on "{file}", in a comment by an account that has since been deleted');
 				} else {
 					$subject = $l->t('{user} mentioned you in a comment on "{file}"');
 					$subjectParameters['user'] = [

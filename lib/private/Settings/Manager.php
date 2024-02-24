@@ -12,6 +12,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author sualko <klaus@jsxc.org>
  * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -90,17 +91,14 @@ class Manager implements IManager {
 		$this->subAdmin = $subAdmin;
 	}
 
-	/** @var array */
+	/** @var array<self::SETTINGS_*, list<class-string<IIconSection>>> */
 	protected $sectionClasses = [];
 
-	/** @var array */
+	/** @var array<self::SETTINGS_*, array<string, IIconSection>> */
 	protected $sections = [];
 
 	/**
-	 * @param string $type 'admin' or 'personal'
-	 * @param string $section Class must implement OCP\Settings\IIconSection
-	 *
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function registerSection(string $type, string $section) {
 		if (!isset($this->sectionClasses[$type])) {
@@ -111,7 +109,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $type 'admin' or 'personal'
+	 * @psalm-param self::SETTINGS_* $type
 	 *
 	 * @return IIconSection[]
 	 */
@@ -149,6 +147,9 @@ class Manager implements IManager {
 		return $this->sections[$type];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getSection(string $type, string $sectionId): ?IIconSection {
 		if (isset($this->sections[$type]) && isset($this->sections[$type][$sectionId])) {
 			return $this->sections[$type][$sectionId];
@@ -163,27 +164,23 @@ class Manager implements IManager {
 		], true);
 	}
 
-	/** @var array */
+	/** @var array<class-string<ISettings>, self::SETTINGS_*> */
 	protected $settingClasses = [];
 
-	/** @var array */
+	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
 	protected $settings = [];
 
 	/**
-	 * @psam-param 'admin'|'personal' $type The type of the setting.
-	 * @param string $setting Class must implement OCP\Settings\ISettings
-	 * @param bool $allowedDelegation
-	 *
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function registerSetting(string $type, string $setting) {
 		$this->settingClasses[$setting] = $type;
 	}
 
 	/**
-	 * @param string $type 'admin' or 'personal'
+	 * @psalm-param self::SETTINGS_* $type The type of the setting.
 	 * @param string $section
-	 * @param Closure $filter optional filter to apply on all loaded ISettings
+	 * @param ?Closure $filter optional filter to apply on all loaded ISettings
 	 *
 	 * @return ISettings[]
 	 */
@@ -258,7 +255,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getAdminSettings($section, bool $subAdminOnly = false): array {
+	public function getAdminSettings(string $section, bool $subAdminOnly = false): array {
 		if ($subAdminOnly) {
 			$subAdminSettingsFilter = function (ISettings $settings) {
 				return $settings instanceof ISubAdminSettings;
@@ -329,7 +326,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getPersonalSettings($section): array {
+	public function getPersonalSettings(string $section): array {
 		$settings = [];
 		$appSettings = $this->getSettings('personal', $section);
 
@@ -344,6 +341,9 @@ class Manager implements IManager {
 		return $settings;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAllowedAdminSettings(string $section, IUser $user): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		if ($isAdmin) {
@@ -375,6 +375,9 @@ class Manager implements IManager {
 		return $settings;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAllAllowedAdminSettings(IUser $user): array {
 		$this->getSettings('admin', ''); // Make sure all the settings are loaded
 		$settings = [];

@@ -33,6 +33,7 @@ use OCP\IConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
+/** @template-implements IEventListener<UserAddedEvent> */
 class UserAddedToGroupListener implements IEventListener {
 
 	/** @var IManager */

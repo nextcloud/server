@@ -26,25 +26,22 @@ namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IDBConnection;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Delete all share entries that have no matching entries in the file cache table.
  */
 class DeleteOrphanedSharesJob extends TimedJob {
 	/**
-	 * Default interval in minutes
-	 *
-	 * @var int $defaultIntervalMin
-	 **/
-	protected $defaultIntervalMin = 15;
-
-	/**
 	 * sets the correct interval for this timed job
 	 */
 	public function __construct(ITimeFactory $time) {
 		parent::__construct($time);
 
-		$this->interval = $this->defaultIntervalMin * 60;
+		$this->setInterval(24 * 60 * 60); // 1 day
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**
@@ -53,15 +50,15 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	 * @param array $argument unused argument
 	 */
 	public function run($argument) {
-		$connection = \OC::$server->getDatabaseConnection();
-		$logger = \OC::$server->getLogger();
+		$connection = Server::get(IDBConnection::class);
+		$logger = Server::get(LoggerInterface::class);
 
 		$sql =
 			'DELETE FROM `*PREFIX*share` ' .
 			'WHERE `item_type` in (\'file\', \'folder\') ' .
 			'AND NOT EXISTS (SELECT `fileid` FROM `*PREFIX*filecache` WHERE `file_source` = `fileid`)';
 
-		$deletedEntries = $connection->executeUpdate($sql);
+		$deletedEntries = $connection->executeStatement($sql);
 		$logger->debug("$deletedEntries orphaned share(s) deleted", ['app' => 'DeleteOrphanedSharesJob']);
 	}
 }

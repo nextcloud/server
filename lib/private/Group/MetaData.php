@@ -57,11 +57,11 @@ class MetaData {
 	 * @param bool $isAdmin whether the current users is an admin
 	 */
 	public function __construct(
-			string $user,
-			bool $isAdmin,
-			IGroupManager $groupManager,
-			IUserSession $userSession
-			) {
+		string $user,
+		bool $isAdmin,
+		IGroupManager $groupManager,
+		IUserSession $userSession
+	) {
 		$this->user = $user;
 		$this->isAdmin = $isAdmin;
 		$this->groupManager = $groupManager;

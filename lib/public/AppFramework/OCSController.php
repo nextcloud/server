@@ -36,9 +36,24 @@ use OCP\IRequest;
  * @since 8.1.0
  */
 abstract class OCSController extends ApiController {
+	/**
+	 * @since 22.0.0
+	 */
 	public const RESPOND_UNAUTHORISED = 997;
+
+	/**
+	 * @since 22.0.0
+	 */
 	public const RESPOND_SERVER_ERROR = 996;
+
+	/**
+	 * @since 22.0.0
+	 */
 	public const RESPOND_NOT_FOUND = 998;
+
+	/**
+	 * @since 22.0.0
+	 */
 	public const RESPOND_UNKNOWN_ERROR = 999;
 
 	/** @var int */
@@ -59,10 +74,10 @@ abstract class OCSController extends ApiController {
 	 * @since 8.1.0
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
-								$corsAllowedHeaders = 'Authorization, Content-Type, Accept, OCS-APIRequest',
-								$corsMaxAge = 1728000) {
+		IRequest $request,
+		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
+		$corsAllowedHeaders = 'Authorization, Content-Type, Accept, OCS-APIRequest',
+		$corsMaxAge = 1728000) {
 		parent::__construct($appName, $request, $corsMethods,
 			$corsAllowedHeaders, $corsMaxAge);
 		$this->registerResponder('json', function ($data) {

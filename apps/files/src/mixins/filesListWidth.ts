@@ -28,8 +28,10 @@ export default Vue.extend({
 			filesListWidth: null as number | null,
 		}
 	},
-	created() {
+	mounted() {
 		const fileListEl = document.querySelector('#app-content-vue')
+		this.filesListWidth = fileListEl?.clientWidth ?? null
+
 		this.$resizeObserver = new ResizeObserver((entries) => {
 			if (entries.length > 0 && entries[0].target === fileListEl) {
 				this.filesListWidth = entries[0].contentRect.width

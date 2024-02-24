@@ -25,6 +25,7 @@
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -47,6 +48,7 @@ class UserController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/displaynames')]
 	public function getDisplayNames($users) {
 		$result = [];
 

@@ -39,7 +39,6 @@
  */
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Util;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -59,8 +58,6 @@ class OC_Template extends \OC\Template\Base {
 	/** @var string */
 	protected $app; // app id
 
-	protected static $initTemplateEngineFirstRun = true;
-
 	/**
 	 * Constructor
 	 *
@@ -73,9 +70,6 @@ class OC_Template extends \OC\Template\Base {
 	 * @param bool $registerCall = true
 	 */
 	public function __construct($app, $name, $renderAs = TemplateResponse::RENDER_AS_BLANK, $registerCall = true) {
-		// Read the selected theme from the config file
-		self::initTemplateEngine($renderAs);
-
 		$theme = OC_Util::getTheme();
 
 		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
@@ -93,40 +87,6 @@ class OC_Template extends \OC\Template\Base {
 		$this->app = $app;
 
 		parent::__construct($template, $requestToken, $l10n, $themeDefaults);
-	}
-
-	/**
-	 * @param string $renderAs
-	 */
-	public static function initTemplateEngine($renderAs) {
-		if (self::$initTemplateEngineFirstRun) {
-			// apps that started before the template initialization can load their own scripts/styles
-			// so to make sure this scripts/styles here are loaded first we put all core scripts first
-			// check lib/public/Util.php
-			OC_Util::addStyle('server', null, true);
-
-			// include common nextcloud webpack bundle
-			Util::addScript('core', 'common');
-			Util::addScript('core', 'main');
-			Util::addTranslations('core');
-
-			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-				Util::addScript('core', 'files_fileinfo');
-				Util::addScript('core', 'files_client');
-				Util::addScript('core', 'merged-template-prepend');
-			}
-
-			// If installed and background job is set to ajax, add dedicated script
-			if (\OC::$server->getSystemConfig()->getValue('installed', false)
-				&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
-				&& !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					Util::addScript('core', 'backgroundjobs');
-				}
-			}
-
-			self::$initTemplateEngineFirstRun = false;
-		}
 	}
 
 
@@ -315,8 +275,10 @@ class OC_Template extends \OC\Template\Base {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printExceptionErrorPage($exception, $statusCode = 503) {
+		$debug = false;
 		http_response_code($statusCode);
 		try {
+			$debug = \OC::$server->getSystemConfig()->getValue('debug', false);
 			$request = \OC::$server->getRequest();
 			$content = new \OC_Template('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));
@@ -325,7 +287,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('file', $exception->getFile());
 			$content->assign('line', $exception->getLine());
 			$content->assign('exception', $exception);
-			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('debugMode', $debug);
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
 			$content->printPage();
@@ -336,22 +298,28 @@ class OC_Template extends \OC\Template\Base {
 				$logger->logException($e, ['app' => 'core']);
 			} catch (Throwable $e) {
 				// no way to log it properly - but to avoid a white page of death we send some output
-				header('Content-Type: text/plain; charset=utf-8');
-				print("Internal Server Error\n\n");
-				print("The server encountered an internal error and was unable to complete your request.\n");
-				print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
-				print("More details can be found in the server log.\n");
+				self::printPlainErrorPage($e, $debug);
 
 				// and then throw it again to log it at least to the web server error log
 				throw $e;
 			}
 
-			header('Content-Type: text/plain; charset=utf-8');
-			print("Internal Server Error\n\n");
-			print("The server encountered an internal error and was unable to complete your request.\n");
-			print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
-			print("More details can be found in the server log.\n");
+			self::printPlainErrorPage($e, $debug);
 		}
 		die();
+	}
+
+	private static function printPlainErrorPage(\Throwable $exception, bool $debug = false) {
+		header('Content-Type: text/plain; charset=utf-8');
+		print("Internal Server Error\n\n");
+		print("The server encountered an internal error and was unable to complete your request.\n");
+		print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+		print("More details can be found in the server log.\n");
+
+		if ($debug) {
+			print("\n");
+			print($exception->getMessage() . ' ' . $exception->getFile() . ' at ' . $exception->getLine() . "\n");
+			print($exception->getTraceAsString());
+		}
 	}
 }

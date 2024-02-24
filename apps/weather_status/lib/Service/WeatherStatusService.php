@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\WeatherStatus\Service;
 
 use OCA\WeatherStatus\AppInfo\Application;
+use OCA\WeatherStatus\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
@@ -36,83 +37,39 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
-
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class WeatherStatusService
  *
  * @package OCA\WeatherStatus\Service
+ *
+ * @psalm-import-type WeatherStatusForecast from ResponseDefinitions
+ * @psalm-import-type WeatherStatusSuccess from ResponseDefinitions
+ * @psalm-import-type WeatherStatusLocationWithSuccess from ResponseDefinitions
+ * @psalm-import-type WeatherStatusLocationWithMode from ResponseDefinitions
  */
 class WeatherStatusService {
 	public const MODE_BROWSER_LOCATION = 1;
 	public const MODE_MANUAL_LOCATION = 2;
 
-	/** @var IClientService */
-	private $clientService;
+	private IClient $client;
+	private ICache $cache;
+	private string $version;
 
-	/** @var IClient */
-	private $client;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IAccountManager */
-	private $accountManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var ICache */
-	private $cache;
-
-	/** @var string */
-	private $userId;
-
-	/** @var string */
-	private $version;
-
-	/**
-	 * WeatherStatusService constructor
-	 *
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param ILogger $logger
-	 * @param IAccountManager $accountManager
-	 * @param IUserManager $userManager
-	 * @param IAppManager $appManager
-	 * @param ICacheFactory $cacheFactory
-	 * @param string $userId
-	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config,
-								IL10N $l10n,
-								ILogger $logger,
-								IAccountManager $accountManager,
-								IUserManager $userManager,
-								IAppManager $appManager,
-								ICacheFactory $cacheFactory,
-								?string $userId) {
-		$this->config = $config;
-		$this->userId = $userId;
-		$this->l10n = $l10n;
-		$this->logger = $logger;
-		$this->accountManager = $accountManager;
-		$this->userManager = $userManager;
-		$this->appManager = $appManager;
+	public function __construct(
+		private IClientService $clientService,
+		private IConfig $config,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+		private IAccountManager $accountManager,
+		private IUserManager $userManager,
+		private IAppManager $appManager,
+		private ICacheFactory $cacheFactory,
+		private ?string $userId
+	) {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
-		$this->clientService = $clientService;
 		$this->client = $clientService->newClient();
 		$this->cache = $cacheFactory->createDistributed('weatherstatus');
 	}
@@ -122,7 +79,7 @@ class WeatherStatusService {
 	 * - ask the browser
 	 * - use the user defined address
 	 * @param int $mode New mode
-	 * @return array success state
+	 * @return WeatherStatusSuccess success state
 	 */
 	public function setMode(int $mode): array {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'mode', strval($mode));
@@ -141,7 +98,7 @@ class WeatherStatusService {
 	/**
 	 * Set favorites list
 	 * @param string[] $favorites
-	 * @return array success state
+	 * @return WeatherStatusSuccess success state
 	 */
 	public function setFavorites(array $favorites): array {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
@@ -151,7 +108,7 @@ class WeatherStatusService {
 	/**
 	 * Try to use the address set in user personal settings as weather location
 	 *
-	 * @return array with success state and address information
+	 * @return WeatherStatusLocationWithSuccess with success state and address information
 	 */
 	public function usePersonalAddress(): array {
 		$account = $this->accountManager->getAccount($this->userManager->get($this->userId));
@@ -173,7 +130,7 @@ class WeatherStatusService {
 	 * @param string|null $address Any approximative or exact address
 	 * @param float|null $lat Latitude in decimal degree format
 	 * @param float|null $lon Longitude in decimal degree format
-	 * @return array with success state and address information
+	 * @return WeatherStatusLocationWithSuccess with success state and address information
 	 */
 	public function setLocation(?string $address, ?float $lat, ?float $lon): array {
 		if (!is_null($lat) && !is_null($lon)) {
@@ -277,7 +234,7 @@ class WeatherStatusService {
 	 * Set address and resolve it to get coordinates
 	 *
 	 * @param string $address Any approximative or exact address
-	 * @return array with success state and address information (coordinates and formatted address)
+	 * @return WeatherStatusLocationWithSuccess with success state and address information (coordinates and formatted address)
 	 */
 	public function setAddress(string $address): array {
 		$addressInfo = $this->searchForAddress($address);
@@ -305,7 +262,7 @@ class WeatherStatusService {
 	 * Ask nominatim information about an unformatted address
 	 *
 	 * @param string Unformatted address
-	 * @return array Full Nominatim result for the given address
+	 * @return array{display_name?: string, lat?: string, lon?: string, error?: string} Full Nominatim result for the given address
 	 */
 	private function searchForAddress(string $address): array {
 		$params = [
@@ -327,7 +284,7 @@ class WeatherStatusService {
 	/**
 	 * Get stored user location
 	 *
-	 * @return array which contains coordinates, formatted address and current weather status mode
+	 * @return WeatherStatusLocationWithMode which contains coordinates, formatted address and current weather status mode
 	 */
 	public function getLocation(): array {
 		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
@@ -345,7 +302,7 @@ class WeatherStatusService {
 	/**
 	 * Get forecast for current location
 	 *
-	 * @return array which contains success state and filtered forecast data
+	 * @return WeatherStatusForecast[]|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
 	 */
 	public function getForecast(): array {
 		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
@@ -368,7 +325,7 @@ class WeatherStatusService {
 	 * @param float $lon Longitude of requested forecast, in decimal degree format
 	 * @param float $altitude Altitude of requested forecast, in meter
 	 * @param int $nbValues Number of forecast values (hours)
-	 * @return array Filtered forecast data
+	 * @return WeatherStatusForecast[]|array{error: string} Filtered forecast data
 	 */
 	private function forecastRequest(float $lat, float $lon, float $altitude, int $nbValues = 10): array {
 		$params = [
@@ -438,7 +395,7 @@ class WeatherStatusService {
 				return $json;
 			}
 		} catch (\Exception $e) {
-			$this->logger->warning($url . 'API error : ' . $e, ['app' => Application::APP_ID]);
+			$this->logger->warning($url . ' API error : ' . $e->getMessage(), ['exception' => $e]);
 			return ['error' => $e->getMessage()];
 		}
 	}

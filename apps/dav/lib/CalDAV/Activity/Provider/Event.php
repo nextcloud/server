@@ -97,7 +97,7 @@ class Event extends Base {
 				// The calendar app needs to be manually loaded for the routes to be loaded
 				OC_App::loadApp('calendar');
 				$linkData = $eventData['link'];
-				$objectId = base64_encode('/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+				$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
 				$link = [
 					'view' => 'dayGridMonth',
 					'timeRange' => 'now',

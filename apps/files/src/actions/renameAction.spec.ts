@@ -21,15 +21,13 @@
  */
 import { action } from './renameAction'
 import { expect } from '@jest/globals'
-import { File, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
-import type { Navigation } from '../services/Navigation'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('Rename action conditions tests', () => {
 	test('Default values', () => {

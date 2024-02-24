@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
@@ -53,6 +56,7 @@ use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\Migration\IOutput;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -60,37 +64,17 @@ use Psr\Log\LoggerInterface;
  * This class provides the functionality needed to install, update and remove apps
  */
 class Installer {
-	/** @var AppFetcher */
-	private $appFetcher;
-	/** @var IClientService */
-	private $clientService;
-	/** @var ITempManager */
-	private $tempManager;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IConfig */
-	private $config;
-	/** @var array - for caching the result of app fetcher */
-	private $apps = null;
-	/** @var bool|null - for caching the result of the ready status */
-	private $isInstanceReadyForUpdates = null;
-	/** @var bool */
-	private $isCLI;
+	private ?bool $isInstanceReadyForUpdates = null;
+	private ?array $apps = null;
 
 	public function __construct(
-		AppFetcher $appFetcher,
-		IClientService $clientService,
-		ITempManager $tempManager,
-		LoggerInterface $logger,
-		IConfig $config,
-		bool $isCLI
+		private AppFetcher $appFetcher,
+		private IClientService $clientService,
+		private ITempManager $tempManager,
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private bool $isCLI,
 	) {
-		$this->appFetcher = $appFetcher;
-		$this->clientService = $clientService;
-		$this->tempManager = $tempManager;
-		$this->logger = $logger;
-		$this->config = $config;
-		$this->isCLI = $isCLI;
 	}
 
 	/**
@@ -113,7 +97,7 @@ class Installer {
 			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 		}
 
-		$l = \OC::$server->getL10N('core');
+		$l = \OCP\Util::getL10N('core');
 		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($basedir . '/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
@@ -150,7 +134,7 @@ class Installer {
 		}
 
 		//install the database
-		$ms = new MigrationService($info['id'], \OC::$server->get(Connection::class));
+		$ms = new MigrationService($info['id'], \OCP\Server::get(Connection::class));
 		$ms->migrate('latest', !$previousVersion);
 
 		if ($previousVersion) {
@@ -164,16 +148,17 @@ class Installer {
 
 		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
+		$config = \OCP\Server::get(IConfig::class);
 		//set the installed version
-		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
-		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
+		$config->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
+		$config->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
+			$config->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
+			$config->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -184,11 +169,9 @@ class Installer {
 	/**
 	 * Updates the specified app from the appstore
 	 *
-	 * @param string $appId
-	 * @param bool [$allowUnstable] Allow unstable releases
-	 * @return bool
+	 * @param bool $allowUnstable Allow unstable releases
 	 */
-	public function updateAppstoreApp($appId, $allowUnstable = false) {
+	public function updateAppstoreApp(string $appId, bool $allowUnstable = false): bool {
 		if ($this->isUpdateAvailable($appId, $allowUnstable)) {
 			try {
 				$this->downloadApp($appId, $allowUnstable);
@@ -224,7 +207,7 @@ class Installer {
 	 *
 	 * @throws \Exception If the installation was not successful
 	 */
-	public function downloadApp($appId, $allowUnstable = false) {
+	public function downloadApp(string $appId, bool $allowUnstable = false): void {
 		$appId = strtolower($appId);
 
 		$apps = $this->appFetcher->get($allowUnstable);
@@ -400,10 +383,10 @@ class Installer {
 	 * @param bool $allowUnstable
 	 * @return string|false false or the version number of the update
 	 */
-	public function isUpdateAvailable($appId, $allowUnstable = false) {
+	public function isUpdateAvailable($appId, $allowUnstable = false): string|false {
 		if ($this->isInstanceReadyForUpdates === null) {
 			$installPath = OC_App::getInstallPath();
-			if ($installPath === false || $installPath === null) {
+			if ($installPath === null) {
 				$this->isInstanceReadyForUpdates = false;
 			} else {
 				$this->isInstanceReadyForUpdates = true;
@@ -443,12 +426,10 @@ class Installer {
 
 	/**
 	 * Check if app has been installed from git
-	 * @param string $name name of the application to remove
-	 * @return boolean
 	 *
 	 * The function will check if the path contains a .git folder
 	 */
-	private function isInstalledFromGit($appId) {
+	private function isInstalledFromGit(string $appId): bool {
 		$app = \OC_App::findAppInDirectories($appId);
 		if ($app === false) {
 			return false;
@@ -459,12 +440,10 @@ class Installer {
 
 	/**
 	 * Check if app is already downloaded
-	 * @param string $name name of the application to remove
-	 * @return boolean
 	 *
 	 * The function will check if the app is already downloaded in the apps repository
 	 */
-	public function isDownloaded($name) {
+	public function isDownloaded(string $name): bool {
 		foreach (\OC::$APPSROOTS as $dir) {
 			$dirToTest = $dir['path'];
 			$dirToTest .= '/';
@@ -481,9 +460,6 @@ class Installer {
 
 	/**
 	 * Removes an app
-	 * @param string $appId ID of the application to remove
-	 * @return boolean
-	 *
 	 *
 	 * This function works as follows
 	 *   -# call uninstall repair steps
@@ -492,9 +468,9 @@ class Installer {
 	 * The function will not delete preferences, tables and the configuration,
 	 * this has to be done by the function oc_app_uninstall().
 	 */
-	public function removeApp($appId) {
+	public function removeApp(string $appId): bool {
 		if ($this->isDownloaded($appId)) {
-			if (\OC::$server->getAppManager()->isShipped($appId)) {
+			if (\OCP\Server::get(IAppManager::class)->isShipped($appId)) {
 				return false;
 			}
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
@@ -510,10 +486,9 @@ class Installer {
 	/**
 	 * Installs the app within the bundle and marks the bundle as installed
 	 *
-	 * @param Bundle $bundle
 	 * @throws \Exception If app could not get installed
 	 */
-	public function installAppBundle(Bundle $bundle) {
+	public function installAppBundle(Bundle $bundle): void {
 		$appIds = $bundle->getAppIdentifiers();
 		foreach ($appIds as $appId) {
 			if (!$this->isDownloaded($appId)) {
@@ -536,9 +511,12 @@ class Installer {
 	 *                         working ownCloud at the end instead of an aborted update.
 	 * @return array Array of error messages (appid => Exception)
 	 */
-	public static function installShippedApps($softErrors = false) {
-		$appManager = \OC::$server->getAppManager();
-		$config = \OC::$server->getConfig();
+	public static function installShippedApps(bool $softErrors = false, ?IOutput $output = null): array {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing shipped apps');
+		}
+		$appManager = \OCP\Server::get(IAppManager::class);
+		$config = \OCP\Server::get(IConfig::class);
 		$errors = [];
 		foreach (\OC::$APPSROOTS as $app_dir) {
 			if ($dir = opendir($app_dir['path'])) {
@@ -551,7 +529,7 @@ class Installer {
 									  && $config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
-											Installer::installShippedApp($filename);
+											Installer::installShippedApp($filename, $output);
 										} catch (HintException $e) {
 											if ($e->getPrevious() instanceof TableExistsException) {
 												$errors[$filename] = $e;
@@ -560,7 +538,7 @@ class Installer {
 											throw $e;
 										}
 									} else {
-										Installer::installShippedApp($filename);
+										Installer::installShippedApp($filename, $output);
 									}
 									$config->setAppValue($filename, 'enabled', 'yes');
 								}
@@ -577,17 +555,21 @@ class Installer {
 
 	/**
 	 * install an app already placed in the app folder
-	 * @param string $app id of the app to install
-	 * @return integer
 	 */
-	public static function installShippedApp($app) {
+	public static function installShippedApp(string $app, ?IOutput $output = null): string|false {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing ' . $app);
+		}
 		//install the database
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
-		$config = \OC::$server->getConfig();
+		$config = \OCP\Server::get(IConfig::class);
 
-		$ms = new MigrationService($app, \OC::$server->get(Connection::class));
+		$ms = new MigrationService($app, \OCP\Server::get(Connection::class));
+		if ($output instanceof IOutput) {
+			$ms->setOutput($output);
+		}
 		$previousVersion = $config->getAppValue($app, 'installed_version', false);
 		$ms->migrate('latest', !$previousVersion);
 
@@ -597,6 +579,9 @@ class Installer {
 		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
 		if (is_null($info)) {
 			return false;
+		}
+		if ($output instanceof IOutput) {
+			$output->debug('Registering tasks of ' . $app);
 		}
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 
@@ -620,10 +605,7 @@ class Installer {
 		return $info['id'];
 	}
 
-	/**
-	 * @param string $script
-	 */
-	private static function includeAppScript($script) {
+	private static function includeAppScript(string $script): void {
 		if (file_exists($script)) {
 			include $script;
 		}

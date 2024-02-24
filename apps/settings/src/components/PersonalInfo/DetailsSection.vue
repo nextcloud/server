@@ -29,7 +29,9 @@
 				<Account :size="20" />
 				<div class="details__groups-info">
 					<p>{{ t('settings', 'You are a member of the following groups:') }}</p>
-					<p class="details__groups-list">{{ groups.join(', ') }}</p>
+					<p class="details__groups-list">
+						{{ groups.join(', ') }}
+					</p>
 				</div>
 			</div>
 			<div class="details__quota">
@@ -69,6 +71,13 @@ export default {
 		NcProgressBar,
 	},
 
+	data() {
+		return {
+			groups,
+			usageRelative,
+		}
+	},
+
 	computed: {
 		quotaText() {
 			if (quota === SPACE_UNLIMITED) {
@@ -79,14 +88,7 @@ export default {
 				'You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)',
 				{ usage, totalSpace, usageRelative },
 			)
-		}
-	},
-
-	data() {
-		return {
-			groups,
-			usageRelative,
-		}
+		},
 	},
 }
 </script>
@@ -97,7 +99,7 @@ export default {
 	flex-direction: column;
 	margin: 10px 32px 10px 0;
 	gap: 16px 0;
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 
 	&__groups,
 	&__quota {
@@ -115,7 +117,7 @@ export default {
 			font-weight: bold;
 		}
 
-		&::v-deep .material-design-icon {
+		&:deep(.material-design-icon) {
 			align-self: flex-start;
 			margin-top: 2px;
 		}
