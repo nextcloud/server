@@ -140,7 +140,7 @@ class ConfigAdapter implements IMountProvider {
 		}, $storages, $storageConfigs);
 
 		$mounts = array_map(function (StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
-			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 				return new PersonalMount(
 					$this->userStoragesService,
 					$storageConfig,
