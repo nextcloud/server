@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "日曆",
-    "To-dos" : "待辦事項",
+    "Tasks" : "工作項目",
     "Personal" : "個人",
     "{actor} created calendar {calendar}" : "{actor} 建立了日曆 {calendar}",
     "You created calendar {calendar}" : "您建立了日曆 {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "設定一個 CalDAV 帳號",
     "Configures a CardDAV account" : "設定一個 CardDAV 帳號",
     "Events" : "活動",
-    "Tasks" : "工作項目",
     "Untitled task" : "未命名工作項目",
     "Completed on %s" : "完成於 %s",
     "Due on %s by %s" : "到期於 %s 由 %s",
@@ -206,6 +205,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "您接受邀請嗎？",
     "Tentative" : "暫定",
     "Your attendance was updated successfully." : "您的參與狀態成功更新。",
+    "To-dos" : "待辦事項",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。"
 },
 "nplurals=1; plural=0;");
