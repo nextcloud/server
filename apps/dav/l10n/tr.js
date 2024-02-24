@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Takvim",
-    "To-dos" : "Yapılacak işler",
+    "Tasks" : "Görevler",
     "Personal" : "Kişisel",
     "{actor} created calendar {calendar}" : "{actor}, {calendar} takvimini ekledi",
     "You created calendar {calendar}" : "{calendar} takvimini eklediniz",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Bir CalDAV hesabı yapılandırır",
     "Configures a CardDAV account" : "Bir CardDAV hesabı yapılandırır",
     "Events" : "Etkinlikler",
-    "Tasks" : "Görevler",
     "Untitled task" : "Adlandırılmamış görev",
     "Completed on %s" : "%s tarihinde tamamlandı",
     "Due on %s by %s" : "%s tarihine kadar %s tarafından",
@@ -205,6 +204,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
+    "To-dos" : "Yapılacak işler",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler."
 },
 "nplurals=2; plural=(n > 1);");
