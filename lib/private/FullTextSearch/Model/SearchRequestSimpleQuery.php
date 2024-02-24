@@ -37,34 +37,24 @@ use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
  * @package OC\FullTextSearch\Model
  */
 final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonSerializable {
-	/** @var int */
-	private $type = 0;
-
-	/** @var string */
-	private $field = '';
-
-	/** @var array */
-	private $values = [];
+	private array $values = [];
 
 
 	/**
 	 * SearchRequestQuery constructor.
 	 *
-	 * @param $type
-	 * @param $field
-	 *
 	 * @since 17.0.0
 	 */
-	public function __construct(string $field, int $type) {
-		$this->field = $field;
-		$this->type = $type;
+	public function __construct(
+		private string $field,
+		private int $type,
+	) {
 	}
 
 
 	/**
 	 * Get the compare type of the query
 	 *
-	 * @return int
 	 * @since 17.0.0
 	 */
 	public function getType(): int {
@@ -75,7 +65,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Get the field to apply query
 	 *
-	 * @return string
 	 * @since 17.0.0
 	 */
 	public function getField(): string {
@@ -85,9 +74,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Set the field to apply query
 	 *
-	 * @param string $field
-	 *
-	 * @return ISearchRequestSimpleQuery
 	 * @since 17.0.0
 	 */
 	public function setField(string $field): ISearchRequestSimpleQuery {
@@ -100,7 +86,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Get the value to compare (string)
 	 *
-	 * @return array
 	 * @since 17.0.0
 	 */
 	public function getValues(): array {
@@ -111,9 +96,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Add value to compare (string)
 	 *
-	 * @param string $value
-	 *
-	 * @return ISearchRequestSimpleQuery
 	 * @since 17.0.0
 	 */
 	public function addValue(string $value): ISearchRequestSimpleQuery {
@@ -125,9 +107,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Add value to compare (int)
 	 *
-	 * @param int $value
-	 *
-	 * @return ISearchRequestSimpleQuery
 	 * @since 17.0.0
 	 */
 	public function addValueInt(int $value): ISearchRequestSimpleQuery {
@@ -139,9 +118,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Add value to compare (array)
 	 *
-	 * @param array $value
-	 *
-	 * @return ISearchRequestSimpleQuery
 	 * @since 17.0.0
 	 */
 	public function addValueArray(array $value): ISearchRequestSimpleQuery {
@@ -153,9 +129,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * Add value to compare (bool)
 	 *
-	 * @param bool $value
-	 *
-	 * @return ISearchRequestSimpleQuery
 	 * @since 17.0.0
 	 */
 	public function addValueBool(bool $value): ISearchRequestSimpleQuery {

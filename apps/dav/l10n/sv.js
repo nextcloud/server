@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalender",
-    "To-dos" : "Uppgifter",
+    "Tasks" : "Uppgifter",
     "Personal" : "Privat",
     "{actor} created calendar {calendar}" : "{actor} skapade kalender {calendar}",
     "You created calendar {calendar}" : "Du skapade kalender {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigurerar ett CalDAV-konto",
     "Configures a CardDAV account" : "Konfigurerar ett CardDAV-konto",
     "Events" : "Händelser",
-    "Tasks" : "Uppgifter",
     "Untitled task" : "Namnlös uppgift",
     "Completed on %s" : "Slutförd %s",
     "Due on %s by %s" : "Slutar den %s vid %s",
@@ -184,7 +183,7 @@ OC.L10N.register(
     "Failed to load availability" : "Misslyckades med att ladda tidsluckor",
     "Saved availability" : "Sparade tidslucka",
     "Failed to save availability" : "Misslyckades med att spara tidslucka",
-    "Availability" : "Tillgänglighet",
+    "Availability" : "Din tillgänglighet",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstider kommer andra att se när du är frånvarande när de bokar ett möte.",
     "Absence" : "Frånvaro",
     "Configure your next absence period." : "Konfigurera din nästa frånvaroperiod.",
@@ -205,6 +204,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
+    "To-dos" : "Uppgifter",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstimmar kan andra användare se när du inte är på jobbet när de bokar ett möte."
 },
 "nplurals=2; plural=(n != 1);");

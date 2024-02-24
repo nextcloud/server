@@ -33,8 +33,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-// FIXME: disabled for now to be able to inject IGroupManager and also use
-// getSubAdmin()
 
 namespace OCA\Settings\Controller;
 
@@ -42,9 +40,7 @@ use InvalidArgumentException;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
-use OC\Group\Manager as GroupManager;
 use OC\KnownUser\KnownUserService;
-use OC\L10N\Factory;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
@@ -59,6 +55,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -67,7 +64,6 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
@@ -75,69 +71,27 @@ use function in_array;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
-	/** @var UserManager */
-	private $userManager;
-	/** @var GroupManager */
-	private $groupManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IMailer */
-	private $mailer;
-	/** @var Factory */
-	private $l10nFactory;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IAccountManager */
-	private $accountManager;
-	/** @var Manager */
-	private $keyManager;
-	/** @var IJobList */
-	private $jobList;
-	/** @var IManager */
-	private $encryptionManager;
-	/** @var KnownUserService */
-	private $knownUserService;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		IConfig $config,
-		IL10N $l10n,
-		IMailer $mailer,
-		IFactory $l10nFactory,
-		IAppManager $appManager,
-		IAccountManager $accountManager,
-		Manager $keyManager,
-		IJobList $jobList,
-		IManager $encryptionManager,
-		KnownUserService $knownUserService,
-		IEventDispatcher $dispatcher
+		private UserManager $userManager,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
+		private IConfig $config,
+		private IL10N $l10n,
+		private IMailer $mailer,
+		private IFactory $l10nFactory,
+		private IAppManager $appManager,
+		private IAccountManager $accountManager,
+		private Manager $keyManager,
+		private IJobList $jobList,
+		private IManager $encryptionManager,
+		private KnownUserService $knownUserService,
+		private IEventDispatcher $dispatcher,
+		private IInitialState $initialState,
 	) {
 		parent::__construct($appName, $request);
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->l10n = $l10n;
-		$this->mailer = $mailer;
-		$this->l10nFactory = $l10nFactory;
-		$this->appManager = $appManager;
-		$this->accountManager = $accountManager;
-		$this->keyManager = $keyManager;
-		$this->jobList = $jobList;
-		$this->encryptionManager = $encryptionManager;
-		$this->knownUserService = $knownUserService;
-		$this->dispatcher = $dispatcher;
 	}
 
 
@@ -228,6 +182,7 @@ class UsersController extends Controller {
 						$userCount -= 1; // we also lower from one the total count
 					}
 				}
+
 				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
 				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsNames);
 			}
@@ -277,7 +232,12 @@ class UsersController extends Controller {
 		$serverData['newUserRequireEmail'] = $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes';
 		$serverData['newUserSendEmail'] = $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes';
 
-		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData, 'pageTitle' => $this->l10n->t('Users')]);
+		$this->initialState->provideInitialState('usersSettings', $serverData);
+
+		\OCP\Util::addStyle('settings', 'settings');
+		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
+
+		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Users')]);
 	}
 
 	/**

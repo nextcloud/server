@@ -19,9 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { basename, extname } from 'path'
 import { FileType, type Node } from '@nextcloud/files'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import { basename, extname } from 'path'
 
 // TODO: move to @nextcloud/files
 /**
@@ -39,17 +39,6 @@ export const getUniqueName = (name: string, otherNames: string[], suffix = (n: n
 		newName = `${basename(name, ext)} ${suffix(i++)}${ext}`
 	}
 	return newName
-}
-
-export const encodeFilePath = function(path) {
-	const pathSections = (path.startsWith('/') ? path : `/${path}`).split('/')
-	let relativePath = ''
-	pathSections.forEach((section) => {
-		if (section !== '') {
-			relativePath += '/' + encodeURIComponent(section)
-		}
-	})
-	return relativePath
 }
 
 /**

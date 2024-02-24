@@ -21,6 +21,7 @@
  */
 /* eslint-disable camelcase, n/no-extraneous-import */
 import type { AxiosPromise } from 'axios'
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import { Folder, File, type ContentsWithRoot } from '@nextcloud/files'
 import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
@@ -30,17 +31,6 @@ import axios from '@nextcloud/axios'
 import logger from './logger'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
-
-export type OCSResponse<T> = {
-	ocs: {
-		meta: {
-			status: string
-			statuscode: number
-			message: string
-		},
-		data: T[]
-	}
-}
 
 const headers = {
 	'Content-Type': 'application/json',

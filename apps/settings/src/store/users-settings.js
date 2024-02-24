@@ -20,8 +20,10 @@
  *
  */
 
+import { loadState } from '@nextcloud/initial-state'
+
 const state = {
-	serverData: {},
+	serverData: loadState('settings', 'usersSettings', {}),
 }
 const mutations = {
 	setServerData(state, data) {

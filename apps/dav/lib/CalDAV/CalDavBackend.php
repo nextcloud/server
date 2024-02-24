@@ -255,6 +255,27 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Return the number of subscriptions for a principal
+	 */
+	public function getSubscriptionsForUserCount(string $principalUri): int {
+		$principalUri = $this->convertPrincipal($principalUri, true);
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->count('*'))
+			->from('calendarsubscriptions');
+
+		if ($principalUri === '') {
+			$query->where($query->expr()->emptyString('principaluri'));
+		} else {
+			$query->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+		}
+
+		$result = $query->executeQuery();
+		$column = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $column;
+	}
+
+	/**
 	 * @return array{id: int, deleted_at: int}[]
 	 */
 	public function getDeletedCalendars(int $deletedBefore): array {
@@ -2326,11 +2347,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
-		return $this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType) {
+		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
+
+		return $this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType, $table) {
 			// Current synctoken
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('synctoken')
-				->from('calendars')
+				->from($table)
 				->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
 				);

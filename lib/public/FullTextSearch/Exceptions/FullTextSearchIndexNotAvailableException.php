@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright 2023, Faraz Samapoor <f.samapoor@gmail.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Faraz Samapoor <f.samapoor@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,20 +16,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+namespace OCP\FullTextSearch\Exceptions;
 
-script('settings', 'vue-settings-apps-users-management');
-style('settings', 'settings');
-
-// Do we have some data to inject ?
-if (is_array($_['serverData'])) {
-	?>
-<span id="serverData" data-server="<?php p(json_encode($_['serverData'])); ?>"></span>
-<?php
-} ?>
+/**
+ * @since 28.0.0
+ *
+ * Class FullTextSearchIndexNotAvailableException
+ *
+ */
+class FullTextSearchIndexNotAvailableException extends \Exception {
+}

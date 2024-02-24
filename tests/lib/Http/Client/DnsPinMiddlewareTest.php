@@ -287,7 +287,7 @@ class DnsPinMiddlewareTest extends TestCase {
 
 	public function testRejectIPv4() {
 		$this->expectException(LocalServerException::class);
-		$this->expectExceptionMessage('Host violates local access rules');
+		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
@@ -334,7 +334,7 @@ class DnsPinMiddlewareTest extends TestCase {
 
 	public function testRejectIPv6() {
 		$this->expectException(LocalServerException::class);
-		$this->expectExceptionMessage('Host violates local access rules');
+		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
@@ -381,7 +381,7 @@ class DnsPinMiddlewareTest extends TestCase {
 
 	public function testRejectCanonicalName() {
 		$this->expectException(LocalServerException::class);
-		$this->expectExceptionMessage('Host violates local access rules');
+		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
