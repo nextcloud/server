@@ -170,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Radera lucka",
     "No working hours set" : "Inga arbetstimmar satta",
     "Add slot" : "Lägg till lucka",
+    "Weekdays" : "Vardagar",
     "Monday" : "Måndag",
     "Tuesday" : "Tisdag",
     "Wednesday" : "Onsdag",
