@@ -199,7 +199,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$output->writeln('<comment>The following tables will not be converted:</comment>');
 			$output->writeln($extraFromTables);
 			if (!$input->getOption('all-apps')) {
-				$output->writeln('<comment>Please note that tables belonging to available but currently not installed apps</comment>');
+				$output->writeln('<comment>Please note that tables belonging to disabled (but not removed) apps</comment>');
 				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
 			}
 
