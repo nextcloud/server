@@ -44,7 +44,7 @@ class Profiler implements IProfiler {
 	public function __construct(SystemConfig $config) {
 		$this->enabled = $config->getValue('profiler', false);
 		if ($this->enabled) {
-			$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/profiler');
+			$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/__profiler');
 		}
 	}
 

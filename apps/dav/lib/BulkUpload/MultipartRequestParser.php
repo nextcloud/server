@@ -82,7 +82,7 @@ class MultipartRequestParser {
 		$boundaryValue = trim($boundaryValue);
 
 		// Remove potential quotes around boundary value.
-		if (substr($boundaryValue, 0, 1) === '"' && substr($boundaryValue, -1) === '"') {
+		if (str_starts_with($boundaryValue, '"') && str_ends_with($boundaryValue, '"')) {
 			$boundaryValue = substr($boundaryValue, 1, -1);
 		}
 

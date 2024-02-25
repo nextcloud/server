@@ -45,8 +45,9 @@ jobs:
         with:
           blueprint: tests/blueprints/basic.toml
           ref: ${{ github.event.pull_request.head.ref }}
+
       - name: Run before measurements
-        uses: nextcloud/profiler@1e66a9de5f76a01e9d1db4f0153bcc1cbf989b3d
+        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -68,7 +69,7 @@ jobs:
 
       - name: Run after measurements
         id: compare
-        uses: nextcloud/profiler@1e66a9de5f76a01e9d1db4f0153bcc1cbf989b3d
+        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
