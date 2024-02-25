@@ -93,17 +93,18 @@ button:not(
 		.primary
 	) {
 		&:not(.app-navigation-entry-button) {
-			&:hover,
 			&:focus,
 			&.active {
 				/* active class used for multiselect */
-				border-color: var(--color-primary-element);
 				outline: none;
 			}
 			&:active {
 				outline: none;
 				background-color: var(--color-main-background);
 				color: var(--color-main-text);
+			}
+			&:hover{
+				border-color: var(--color-primary-element);
 			}
 		}
 		&:focus-visible {
@@ -323,6 +324,10 @@ input[type='reset'] {
 		background-color: var(--color-error) !important;
 		border-color: var(--color-error) !important;
 		color: #fff !important;
+		&:hover{
+			background-color: var(--color-error-hover) !important;
+			border-color: var(--color-primary-element) !important;
+		}
 	}
 }
 button:not(
