@@ -167,7 +167,7 @@ OC.L10N.register(
     "Talk conversation" : "Resonada de Talk",
     "Deck board" : "Tabella in Deck",
     "on {server}" : "in {server}",
-    "Advanced settings" : "Impostatziones avantzadas",
+    "Advanced settings" : "Cunfiguratziones avantzadas",
     "Share label" : "Cumpartzi eticheta",
     "Set password" : "Imposta sa crae",
     "Password" : "Crae",
