@@ -266,6 +266,7 @@ OC.L10N.register(
     "Error while wiping the device with the token" : "Eraro dum forviŝado de la aparato kun la ĵetono",
     "Error while updating device token name" : "Eraro dum ĝisdatigo de la nomo de la aparataj ĵetonoj",
     "Error while updating device token scope" : "Eraro dum ĝisdatigo de la amplekso de la aparataj ĵetonoj",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Estis tro multaj petoj de via reto. Reprovu poste aŭ kontaktu vian administranton se tio estas eraro.",
     "Documentation" : "Dokumentaro",
     "Forum" : "Forumo",
     "SSL" : "SSL",

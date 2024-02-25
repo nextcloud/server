@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Sa crae pro s'atzessu a {file} est istada imbiada a {email}",
     "Password to access {file} was sent to you" : "Sa crae pro s'atzessu a {file} est istada imbiada a tie",
     "Share by mail" : "Cumpartzi tràmite posta eletrònica",
-    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No faghet a t'imbiare sa crae auto-generada. Imposta un'indiritzu de posta eletrònica bàlidu in is impostatzione personales e torra a proare.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Impossìbile a t'imbiare sa crae auto-generada. Cunfigura un'indiritzu de posta eletrònica bàlidu in sa cunfiguratzione personale e torra a proare.",
     "Failed to send share by email" : "No at fatu a fàghere sa cumpartzidura tràmite posta eletrònica",
     "%1$s shared »%2$s« with you" : "%1$s at cumpartzidu »%2$s cun tegus",
     "%1$s shared »%2$s« with you." : "%1$s at cumpartzidu »%2$s cun tegus.",
