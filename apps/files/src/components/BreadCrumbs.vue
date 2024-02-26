@@ -26,6 +26,7 @@
 		:aria-label="t('files', 'Current directory path')">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
+			v-show="shouldShowBreadcrumbs"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
@@ -60,6 +61,8 @@ import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useUploaderStore } from '../store/uploader.ts'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
@@ -78,12 +81,19 @@ export default defineComponent({
 		},
 	},
 
+	mixins: [
+		filesListWidthMixin,
+	],
+
 	setup() {
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
+		const uploaderStore = useUploaderStore()
+
 		return {
 			filesStore,
 			pathsStore,
+			uploaderStore,
 		}
 	},
 
@@ -112,6 +122,15 @@ export default defineComponent({
 					icon: this.$navigation.active?.icon || null,
 				}
 			})
+		},
+
+		isUploadInProgress(): boolean {
+			return this.uploaderStore.queue.length !== 0
+		},
+
+		// Hide breadcrumbs if an upload is ongoing on arrow screens
+		shouldShowBreadcrumbs(): boolean {
+			return this.filesListWidth < 768 && !this.isUploadInProgress
 		},
 	},
 
