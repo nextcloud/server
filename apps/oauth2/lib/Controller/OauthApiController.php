@@ -239,7 +239,10 @@ class OauthApiController extends Controller {
 	 */
 	public function getUserInfo(): JSONResponse {
 		$user = $this->userSession->getUser();
-		if ($user) {
+		if ($user === null) {
+		    return new JSONResponse([
+				'error' => 'user_not_found',
+			], Http::STATUS_NOT_FOUND);
 			$displayName = $user->getDisplayName();
 			$partedName = explode(' ', $displayName);
 			$userId = $user->getUID();
