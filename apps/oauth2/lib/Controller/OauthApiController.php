@@ -255,10 +255,11 @@ class OauthApiController extends Controller {
 				'sub' => $userId,
 				'name' => $displayName,
 				'email' => $user->getEMailAddress(),
-				'picture' => $this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
-					'userId' => $userId,
-					'size' => 512
-				])
+				'picture' => $this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
+						'userId' => $userId,
+						'size' => 512
+					]))
 			];
 
 			if ($locale === 'ru') {
