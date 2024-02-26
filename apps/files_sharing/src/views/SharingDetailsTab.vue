@@ -19,6 +19,7 @@
 			<div ref="quickPermissions" class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="read-only"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.READ_ONLY.toString()"
 						name="sharing_permission_radio"
@@ -31,6 +32,7 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="upload-edit"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.ALL.toString()"
 						name="sharing_permission_radio"
@@ -48,6 +50,7 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="allowsFileDrop"
+						data-cy-files-sharing-share-permissions-bundle="file-drop"
 						:button-variant="true"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.FILE_DROP.toString()"
@@ -62,6 +65,7 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="custom"
 						:checked.sync="sharingPermission"
 						:value="'custom'"
 						name="sharing_permission_radio"
@@ -146,7 +150,10 @@
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
+					<NcCheckboxRadioSwitch v-if="!isPublicShare"
+						:disabled="!canSetDownload"
+						:checked.sync="canDownload"
+						data-cy-files-sharing-share-permissions-checkbox="download">
 						{{ t('files_sharing', 'Allow download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
@@ -163,21 +170,30 @@
 					</NcCheckboxRadioSwitch>
 					<section v-if="setCustomPermissions" class="custom-permissions-group">
 						<NcCheckboxRadioSwitch :disabled="!canRemoveReadPermission"
-							:checked.sync="hasRead">
+							:checked.sync="hasRead"
+							data-cy-files-sharing-share-permissions-checkbox="read">
 							{{ t('files_sharing', 'Read') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
+						<NcCheckboxRadioSwitch v-if="isFolder"
+							:disabled="!canSetCreate"
+							:checked.sync="canCreate"
+							data-cy-files-sharing-share-permissions-checkbox="create">
 							{{ t('files_sharing', 'Create') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
+						<NcCheckboxRadioSwitch :disabled="!canSetEdit"
+							:checked.sync="canEdit"
+							data-cy-files-sharing-share-permissions-checkbox="update">
 							{{ t('files_sharing', 'Edit') }}
 						</NcCheckboxRadioSwitch>
 						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
 							:disabled="!canSetReshare"
-							:checked.sync="canReshare">
+							:checked.sync="canReshare"
+							data-cy-files-sharing-share-permissions-checkbox="share">
 							{{ t('files_sharing', 'Share') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
+						<NcCheckboxRadioSwitch :disabled="!canSetDelete"
+							:checked.sync="canDelete"
+							data-cy-files-sharing-share-permissions-checkbox="delete">
 							{{ t('files_sharing', 'Delete') }}
 						</NcCheckboxRadioSwitch>
 					</section>
@@ -200,10 +216,13 @@
 
 		<div class="sharingTabDetailsView__footer">
 			<div class="button-group">
-				<NcButton @click="$emit('close-sharing-details')">
+				<NcButton data-cy-files-sharing-share-editor-action="cancel"
+					@click="$emit('close-sharing-details')">
 					{{ t('files_sharing', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary" @click="saveShare">
+				<NcButton type="primary"
+					data-cy-files-sharing-share-editor-action="save"
+					@click="saveShare">
 					{{ shareButtonText }}
 					<template v-if="creating" #icon>
 						<NcLoadingIcon />
