@@ -243,6 +243,7 @@ class OauthApiController extends Controller {
 		    return new JSONResponse([
 				'error' => 'user_not_found',
 			], Http::STATUS_NOT_FOUND);
+		} else {
 			$displayName = $user->getDisplayName();
 			$partedName = explode(' ', $displayName);
 			$userId = $user->getUID();
@@ -254,10 +255,6 @@ class OauthApiController extends Controller {
 				'email' => $user->getEMailAddress(),
 				'picture' => $this->urlGenerator->getAbsoluteURL("index.php/avatar/$userId/512"),
 			]);
-		} else {
-			$response = new JSONResponse([
-				'error' => 'user_not_found',
-			], Http::STATUS_NOT_FOUND);
 		}
 		return $response;
 	}
