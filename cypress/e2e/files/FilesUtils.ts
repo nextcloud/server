@@ -30,3 +30,61 @@ export const triggerActionForFile = (filename: string, actionId: string) => {
 	getActionButtonForFile(filename).click()
 	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
 }
+
+export const moveFile = (fileName: string, dirName: string) => {
+	getRowForFile(fileName).should('be.visible')
+	triggerActionForFile(fileName, 'move-copy')
+
+	cy.get('.file-picker').within(() => {
+		// intercept the copy so we can wait for it
+		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
+
+		if (dirName === '/') {
+			// select home folder
+			cy.get('button[title="Home"]').should('be.visible').click()
+			// click move
+			cy.contains('button', 'Move').should('be.visible').click()
+		} else if (dirName === '.') {
+			// click move
+			cy.contains('button', 'Copy').should('be.visible').click()
+		} else {
+			// select the folder
+			cy.get(`[data-filename="${dirName}"]`).should('be.visible').click()
+			// click move
+			cy.contains('button', `Move to ${dirName}`).should('be.visible').click()
+		}
+
+		cy.wait('@moveFile')
+	})
+}
+
+export const copyFile = (fileName: string, dirName: string) => {
+	getRowForFile(fileName).should('be.visible')
+	triggerActionForFile(fileName, 'move-copy')
+
+	cy.get('.file-picker').within(() => {
+		// intercept the copy so we can wait for it
+		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+
+		if (dirName === '/') {
+			// select home folder
+			cy.get('button[title="Home"]').should('be.visible').click()
+			// click copy
+			cy.contains('button', 'Copy').should('be.visible').click()
+		} else if (dirName === '.') {
+			// click copy
+			cy.contains('button', 'Copy').should('be.visible').click()
+		} else {
+			// select folder
+			cy.get(`[data-filename="${dirName}"]`).should('be.visible').click()
+			// click copy
+			cy.contains('button', `Copy to ${dirName}`).should('be.visible').click()
+		}
+
+		cy.wait('@copyFile')
+	})
+}
+
+export const navigateToFolder = (folderName: string) => {
+	getRowForFile(folderName).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+}
