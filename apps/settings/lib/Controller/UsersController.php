@@ -237,7 +237,7 @@ class UsersController extends Controller {
 		\OCP\Util::addStyle('settings', 'settings');
 		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
 
-		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Users')]);
+		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 	}
 
 	/**

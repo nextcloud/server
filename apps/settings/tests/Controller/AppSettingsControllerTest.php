@@ -203,7 +203,7 @@ class AppSettingsControllerTest extends TestCase {
 		$expected = new TemplateResponse('settings',
 			'settings/empty',
 			[
-				'pageTitle' => 'Apps'
+				'pageTitle' => 'Settings'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
@@ -236,7 +236,7 @@ class AppSettingsControllerTest extends TestCase {
 		$expected = new TemplateResponse('settings',
 			'settings/empty',
 			[
-				'pageTitle' => 'Apps'
+				'pageTitle' => 'Settings'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
