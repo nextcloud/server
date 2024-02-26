@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalenteri",
-    "To-dos" : "Tehtävät",
+    "Tasks" : "Tehtävät",
     "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",
@@ -111,7 +111,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Määrittää CalDAV-tilin",
     "Configures a CardDAV account" : "Määrittää CardDAV-tilin",
     "Events" : "Tapahtumat",
-    "Tasks" : "Tehtävät",
     "Untitled task" : "Nimetön tehtävä",
     "Contacts and groups" : "Yhteystiedot ja ryhmät",
     "WebDAV" : "WebDAV",
@@ -144,6 +143,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ota yhteys suoraan järjestäjään.",
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
-    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti."
+    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
+    "To-dos" : "Tehtävät"
 },
 "nplurals=2; plural=(n != 1);");

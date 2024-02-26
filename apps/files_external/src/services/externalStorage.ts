@@ -21,8 +21,8 @@
  */
 // eslint-disable-next-line n/no-extraneous-import
 import type { AxiosResponse } from 'axios'
-import type { OCSResponse } from '../../../files_sharing/src/services/SharingService'
 import type { ContentsWithRoot } from '@nextcloud/files'
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import { Folder, Permission } from '@nextcloud/files'
 import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
@@ -83,7 +83,7 @@ const entryToFolder = (ocsEntry: MountEntry): Folder => {
 }
 
 export const getContents = async (): Promise<ContentsWithRoot> => {
-	const response = await axios.get(generateOcsUrl('apps/files_external/api/v1/mounts')) as AxiosResponse<OCSResponse<MountEntry>>
+	const response = await axios.get(generateOcsUrl('apps/files_external/api/v1/mounts')) as AxiosResponse<OCSResponse<MountEntry[]>>
 	const contents = response.data.ocs.data.map(entryToFolder)
 
 	return {

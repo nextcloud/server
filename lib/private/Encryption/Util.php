@@ -385,4 +385,25 @@ class Util {
 
 		return $result;
 	}
+
+	/**
+	 * get path to key folder for a given file
+	 *
+	 * @param string $encryptionModuleId
+	 * @param string $path path to the file, relative to data/
+	 * @return string
+	 */
+	public function getFileKeyDir(string $encryptionModuleId, string $path): string {
+		[$owner, $filename] = $this->getUidAndFilename($path);
+		$root = $this->getKeyStorageRoot();
+
+		// in case of system-wide mount points the keys are stored directly in the data directory
+		if ($this->isSystemWideMountPoint($filename, $owner)) {
+			$keyPath = $root . '/' . '/files_encryption/keys' . $filename . '/';
+		} else {
+			$keyPath = $root . '/' . $owner . '/files_encryption/keys' . $filename . '/';
+		}
+
+		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
+	}
 }

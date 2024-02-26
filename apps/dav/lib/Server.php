@@ -39,6 +39,7 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
@@ -194,6 +195,8 @@ class Server {
 				\OC::$server->getConfig(),
 				\OC::$server->getURLGenerator()
 			));
+
+			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
 		}
 
 		// addressbook plugins
@@ -240,7 +243,7 @@ class Server {
 
 		// Allow view-only plugin for webdav requests
 		$this->server->addPlugin(new ViewOnlyPlugin(
-			$logger
+			\OC::$server->getUserFolder(),
 		));
 
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {

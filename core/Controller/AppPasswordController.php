@@ -33,6 +33,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\User\Session;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -74,6 +75,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: App password returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/getapppassword', root: '/core')]
 	public function getAppPassword(): DataResponse {
 		// We do not allow the creation of new tokens if this is an app password
 		if ($this->session->exists('app_password')) {
@@ -125,6 +127,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: App password deleted successfully
 	 */
+	#[ApiRoute(verb: 'DELETE', url: '/apppassword', root: '/core')]
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -152,6 +155,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: App password returned
 	 */
+	#[ApiRoute(verb: 'POST', url: '/apppassword/rotate', root: '/core')]
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -187,6 +191,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 * 403: Password confirmation failed
 	 */
 	#[UseSession]
+	#[ApiRoute(verb: 'PUT', url: '/apppassword/confirm', root: '/core')]
 	public function confirmUserPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);

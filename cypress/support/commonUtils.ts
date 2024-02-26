@@ -46,7 +46,7 @@ export function installTestApp() {
 		cy.wrap(version).should('not.be.undefined')
 		cy.exec(`docker cp '${testAppPath}' nextcloud-cypress-tests-server:/var/www/html/apps`, { log: true })
 		cy.exec(`docker exec nextcloud-cypress-tests-server sed -i -e 's|-version="[0-9]\\+|-version="${version}|g' apps/testapp/appinfo/info.xml`)
-		cy.runOccCommand('app:enable testapp')
+		cy.runOccCommand('app:enable --force testapp')
 	})
 }
 

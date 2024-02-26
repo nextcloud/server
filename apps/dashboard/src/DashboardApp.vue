@@ -554,6 +554,7 @@ export default {
 				background-position: center;
 				float: left;
 				margin-top: -6px;
+				margin-left: 6px;
 			}
 		}
 	}
