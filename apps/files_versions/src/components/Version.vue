@@ -271,7 +271,11 @@ export default defineComponent({
 			this.$emit('restore', this.version)
 		},
 
-		deleteVersion() {
+		async deleteVersion() {
+			// Let @nc-vue properly remove the popover before we delete the version.
+			// This prevents @nc-vue from throwing a error.
+			await this.$nextTick()
+			await this.$nextTick()
 			this.$emit('delete', this.version)
 		},
 
