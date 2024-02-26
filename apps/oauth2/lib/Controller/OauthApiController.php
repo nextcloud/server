@@ -43,6 +43,7 @@ use OCP\DB\Exception;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -66,6 +67,7 @@ class OauthApiController extends Controller {
 		private ITimeFactory $timeFactory,
 		private IUserSession $userSession,
 		private IURLGenerator $urlGenerator,
+		private IFactory $l10nFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -247,17 +249,23 @@ class OauthApiController extends Controller {
 			$displayName = $user->getDisplayName();
 			$partedName = explode(' ', $displayName);
 			$userId = $user->getUID();
-			$response = new JSONResponse([
+			$locale = $this->l10nFactory->findLocale();
+
+			$userInfo = [
 				'sub' => $userId,
 				'name' => $displayName,
-				'given_name' => $partedName[0],
-				'family_name' => $partedName[1] ?? $partedName[0],
 				'email' => $user->getEMailAddress(),
 				'picture' => $this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
 					'userId' => $userId,
 					'size' => 512
 				])
-			]);
+			];
+
+			if ($locale === 'ru') {
+				$userInfo['given_name'] = $partedName[0];
+				$userInfo['family_name'] = $partedName[1] ?? $partedName[0];
+			}
+			$response = new JSONResponse($userInfo);
 		}
 		return $response;
 	}
