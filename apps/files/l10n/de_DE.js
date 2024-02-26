@@ -273,6 +273,7 @@ OC.L10N.register(
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Eine Datei oder ein Ordner kann nicht auf sich selbst oder in einen Unterordner von sich selbst verschoben werden",
     "(copy)" : "(kopieren)",
     "(copy %n)" : "(%n kopieren)",
+    "Move cancelled" : "Verschieben abgebrochen",
     "A file or folder with that name already exists in this folder" : "In diesem Ordner ist bereits eine Datei oder ein Ordner mit diesem Namen vorhanden",
     "The files is locked" : "Die Datei ist gesperrt",
     "The file does not exist anymore" : "Diese Datei existiert nicht mehr",
