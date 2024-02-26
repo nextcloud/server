@@ -237,7 +237,7 @@ class OauthApiController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function getUserInfo() {
+	public function getUserInfo(): JSONResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$displayName = $user->getDisplayName();
