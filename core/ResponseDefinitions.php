@@ -161,6 +161,21 @@ namespace OCA\Core;
  *      numberOfImages: int,
  *      completionExpectedAt: ?int,
  *  }
+ *
+ * @psalm-type CoreTeam = array{
+ *      id: string,
+ *      name: string,
+ *      icon: string,
+ * }
+ *
+ * @psalm-type CoreTeamResource = array{
+ *       id: int,
+ *       label: string,
+ *       url: string,
+ *       iconSvg: ?string,
+ *       iconURL: ?string,
+ *       iconEmoji: ?string,
+ *   }
  */
 class ResponseDefinitions {
 }

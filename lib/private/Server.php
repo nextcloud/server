@@ -158,6 +158,7 @@ use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
+use OC\Teams\TeamManager;
 use OC\Template\JSCombiner;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
@@ -265,6 +266,7 @@ use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
+use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
@@ -1297,6 +1299,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
 		$this->registerAlias(IReferenceManager::class, ReferenceManager::class);
+		$this->registerAlias(ITeamManager::class, TeamManager::class);
 
 		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);
 		$this->registerAlias(\OCP\Settings\IManager::class, \OC\Settings\Manager::class);
