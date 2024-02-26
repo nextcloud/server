@@ -253,7 +253,10 @@ class OauthApiController extends Controller {
 				'given_name' => $partedName[0],
 				'family_name' => $partedName[1] ?? $partedName[0],
 				'email' => $user->getEMailAddress(),
-				'picture' => $this->urlGenerator->getAbsoluteURL("index.php/avatar/$userId/512"),
+				'picture' => $this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
+					'userId' => $userId,
+					'size' => 512
+				])
 			]);
 		}
 		return $response;
