@@ -251,7 +251,7 @@ class OauthApiController extends Controller {
 				'email' => $user->getEMailAddress(),
 				'picture' => $this->urlGenerator->getAbsoluteURL("index.php/avatar/$userId/512"),
 			]);
-		}else{
+		} else {
 			$response = new JSONResponse([
 				'error' => 'user_not_found',
 			], Http::STATUS_NOT_FOUND);
