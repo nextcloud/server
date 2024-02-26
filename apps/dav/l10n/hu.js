@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Naptár",
-    "To-dos" : "Teendők",
+    "Tasks" : "Feladatok",
     "Personal" : "Személyes",
     "{actor} created calendar {calendar}" : "{actor} létrehozta a naptárt: {calendar}",
     "You created calendar {calendar}" : "Létrehozta a naptárt: {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Beállítja a CalDAV-fiókot",
     "Configures a CardDAV account" : "Beállítja a CardDAV-fiókot",
     "Events" : "Események",
-    "Tasks" : "Feladatok",
     "Untitled task" : "Névtelen feladat",
     "Completed on %s" : "Befejezve: %s",
     "Due on %s by %s" : "Esedékesség: %s, %s által",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
+    "To-dos" : "Teendők",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ha beállítja a munkaidejét, akkor más felhasználók a megbeszélések létrehozásakor látni fogják, hogy Ön mikor nem érhető el."
 },
 "nplurals=2; plural=(n != 1);");

@@ -71,6 +71,15 @@ interface IEventDispatcher {
 
 	/**
 	 * @template T of \OCP\EventDispatcher\Event
+	 * @param string $eventName preferably the fully-qualified class name of the Event sub class
+	 *
+	 * @return bool TRUE if event has registered listeners
+	 * @since 29.0.0
+	 */
+	public function hasListeners(string $eventName): bool;
+
+	/**
+	 * @template T of \OCP\EventDispatcher\Event
 	 * @param string $eventName
 	 * @psalm-param string|class-string<T> $eventName
 	 * @param Event $event

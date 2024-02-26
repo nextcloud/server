@@ -22,9 +22,11 @@
 
 import { assertVersionContent, clickPopperAction, openVersionMenu, openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils'
 
-function restoreVersion(index: number) {
+const restoreVersion = (index: number) => {
+	cy.intercept('MOVE', '**/dav/versions/*/versions/**').as('restoreVersion')
 	openVersionMenu(index)
 	clickPopperAction('Restore version')
+	cy.wait('@restoreVersion')
 }
 
 describe('Versions restoration', () => {

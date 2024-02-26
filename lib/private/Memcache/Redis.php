@@ -52,6 +52,9 @@ class Redis extends Cache implements IMemcacheTTL {
 		],
 	];
 
+	private const DEFAULT_TTL = 24 * 60 * 60; // 1 day
+	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
+
 	/**
 	 * @var \Redis|\RedisCluster $cache
 	 */
@@ -83,11 +86,12 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
-		if ($ttl > 0) {
-			return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
-		} else {
-			return $this->getCache()->set($this->getPrefix() . $key, $value);
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			$ttl = self::DEFAULT_TTL;
 		}
+		$ttl = min($ttl, self::MAX_TTL);
+		return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
 	}
 
 	public function hasKey($key) {
@@ -121,11 +125,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function add($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			$ttl = self::DEFAULT_TTL;
+		}
+		$ttl = min($ttl, self::MAX_TTL);
 
 		$args = ['nx'];
-		if ($ttl !== 0 && is_int($ttl)) {
-			$args['ex'] = $ttl;
-		}
+		$args['ex'] = $ttl;
 
 		return $this->getCache()->set($this->getPrefix() . $key, $value, $args);
 	}
@@ -182,6 +189,11 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function setTTL($key, $ttl) {
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			$ttl = self::DEFAULT_TTL;
+		}
+		$ttl = min($ttl, self::MAX_TTL);
 		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
 	}
 

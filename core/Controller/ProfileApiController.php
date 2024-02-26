@@ -30,6 +30,7 @@ namespace OC\Core\Controller;
 use OC\Core\Db\ProfileConfigMapper;
 use OC\Profile\ProfileManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -68,6 +69,7 @@ class ProfileApiController extends OCSController {
 	 *
 	 * 200: Visibility updated successfully
 	 */
+	#[ApiRoute(verb: 'PUT', url: '/{targetUserId}', root: '/profile')]
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();
 		$targetUser = $this->userManager->get($targetUserId);

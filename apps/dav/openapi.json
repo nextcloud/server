@@ -177,6 +177,7 @@
                         "name": "expirationTime",
                         "in": "query",
                         "description": "Duration until the link expires",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64"

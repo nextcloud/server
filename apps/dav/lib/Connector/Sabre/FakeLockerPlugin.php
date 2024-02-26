@@ -108,7 +108,7 @@ class FakeLockerPlugin extends ServerPlugin {
 			if (isset($fileCondition['tokens'])) {
 				foreach ($fileCondition['tokens'] as &$token) {
 					if (isset($token['token'])) {
-						if (substr($token['token'], 0, 16) === 'opaquelocktoken:') {
+						if (str_starts_with($token['token'], 'opaquelocktoken:')) {
 							$token['validToken'] = true;
 						}
 					}

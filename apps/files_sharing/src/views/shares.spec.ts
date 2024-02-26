@@ -20,12 +20,12 @@
  *
  */
 /* eslint-disable n/no-extraneous-import */
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import { expect } from '@jest/globals'
 import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
 import axios from '@nextcloud/axios'
 
 import '../main'
-import { type OCSResponse } from '../services/SharingService'
 import registerSharingViews from './shares'
 
 declare global {
