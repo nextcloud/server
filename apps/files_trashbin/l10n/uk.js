@@ -4,6 +4,7 @@ OC.L10N.register(
     "restored" : "відновлено",
     "Deleted files" : "Кошик",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Вилучені файли та каталоги з кошику (термін дії може завершитися під час експорту, якщо у вас мало місця для збереження)",
+    "This application enables people to restore files that were deleted from the system." : "Цей застосунок дозволяє людям відновлювати файли, які було переміщено до кошику.",
     "Restore" : "Відновити",
     "List of files that have been deleted." : "Список файлів, які було видалено.",
     "No deleted files" : "Кошик порожній",
