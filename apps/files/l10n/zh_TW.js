@@ -273,6 +273,7 @@ OC.L10N.register(
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "您無法將檔案/資料夾移動到其自身或子資料夾中",
     "(copy)" : "（副本）",
     "(copy %n)" : "（副本 %n）",
+    "Move cancelled" : "移動已取消",
     "A file or folder with that name already exists in this folder" : "此資料夾中已存在同名的檔案或資料夾",
     "The files is locked" : "檔案已鎖定",
     "The file does not exist anymore" : "檔案已不存在",
