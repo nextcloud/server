@@ -79,6 +79,7 @@ OC.L10N.register(
     "Enable SSL" : "啟用 SSL",
     "Enable Path Style" : "啟用路徑格式",
     "Legacy (v2) authentication" : "Legacy（v2）驗證",
+    "Enable multipart copy" : "啟用多部份複製",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "遠端子資料夾",
