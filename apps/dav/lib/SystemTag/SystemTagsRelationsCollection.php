@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -50,10 +51,19 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 				$tagMapper,
 				$userSession,
 				$groupManager,
-				function ($name) {
+				function ($name): bool {
 					$nodes = \OC::$server->getUserFolder()->getById((int)$name);
 					return !empty($nodes);
-				}
+				},
+				function ($name): bool {
+					$nodes = \OC::$server->getUserFolder()->getById((int)$name);
+					foreach ($nodes as $node) {
+						if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
+							return true;
+						}
+					}
+					return false;
+				},
 			),
 		];
 
@@ -68,7 +78,8 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 				$tagMapper,
 				$userSession,
 				$groupManager,
-				$entityExistsFunction
+				$entityExistsFunction,
+				fn ($name) => true,
 			);
 		}
 
