@@ -40,56 +40,14 @@ use Sabre\DAV\ICollection;
  * Collection containing tags by object id
  */
 class SystemTagsObjectMappingCollection implements ICollection {
-
-	/**
-	 * @var string
-	 */
-	private $objectId;
-
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	private $user;
-
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $objectId object id
-	 * @param string $objectType object type
-	 * @param IUser $user user
-	 * @param ISystemTagManager $tagManager tag manager
-	 * @param ISystemTagObjectMapper $tagMapper tag mapper
-	 */
 	public function __construct(
-		$objectId,
-		$objectType,
-		IUser $user,
-		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper
+		private string $objectId,
+		private string $objectType,
+		private IUser $user,
+		private ISystemTagManager $tagManager,
+		private ISystemTagObjectMapper $tagMapper,
+		protected \Closure $childWriteAccessFunction,
 	) {
-		$this->tagManager = $tagManager;
-		$this->tagMapper = $tagMapper;
-		$this->objectId = $objectId;
-		$this->objectType = $objectType;
-		$this->user = $user;
 	}
 
 	public function createFile($name, $data = null) {
@@ -103,7 +61,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			if (!$this->tagManager->canUserAssignTag($tag, $this->user)) {
 				throw new Forbidden('No permission to assign tag ' . $tagId);
 			}
-
+			if (!($this->childWriteAccessFunction)($this->objectId)) {
+				throw new Forbidden('No permission to assign tag to ' . $this->objectId);
+			}
 			$this->tagMapper->assignTags($this->objectId, $this->objectType, $tagId);
 		} catch (TagNotFoundException $e) {
 			throw new PreconditionFailed('Tag with id ' . $tagId . ' does not exist, cannot assign');
@@ -204,7 +164,8 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			$this->objectType,
 			$this->user,
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			$this->childWriteAccessFunction,
 		);
 	}
 }
