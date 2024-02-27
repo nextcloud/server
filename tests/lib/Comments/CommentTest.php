@@ -134,19 +134,24 @@ class CommentTest extends TestCase {
 		$comment->setMessage($msg);
 	}
 
-	public function mentionsProvider() {
+	public function mentionsProvider(): array {
 		return [
 			[
-				'@alice @bob look look, a cook!', ['alice', 'bob']
+				'@alice @bob look look, a cook!',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
 			],
 			[
-				'no mentions in this message', []
+				'no mentions in this message',
+				[]
 			],
 			[
-				'@alice @bob look look, a duplication @alice test @bob!', ['alice', 'bob']
+				'@alice @bob look look, a duplication @alice test @bob!',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
 			],
 			[
-				'@alice is the author, notify @bob, nevertheless mention her!', ['alice', 'bob'], 'alice'
+				'@alice is the author, notify @bob, nevertheless mention her!',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+				/* author: */ 'alice'
 			],
 			[
 				'@foobar and @barfoo you should know, @foo@bar.com is valid' .
@@ -154,19 +159,38 @@ class CommentTest extends TestCase {
 					' cc @23452-4333-54353-2342 @yolo!' .
 					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
 					' and won\'t match anything at all',
-				['bar@foo.org@foobar.io', '23452-4333-54353-2342', 'foo@bar.com', 'foobar', 'barfoo', 'yolo']
+				[
+					['type' => 'user', 'id' => 'bar@foo.org@foobar.io'],
+					['type' => 'user', 'id' => '23452-4333-54353-2342'],
+					['type' => 'user', 'id' => 'foo@bar.com'],
+					['type' => 'user', 'id' => 'foobar'],
+					['type' => 'user', 'id' => 'barfoo'],
+					['type' => 'user', 'id' => 'yolo'],
+				],
 			],
 			[
-				'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
+				'@@chef is also a valid mention, no matter how strange it looks',
+				[['type' => 'user', 'id' => '@chef']],
 			],
 			[
-				'Also @"user with spaces" are now supported', ['user with spaces']
+				'Also @"user with spaces" are now supported',
+				[['type' => 'user', 'id' => 'user with spaces']],
 			],
 			[
-				'Also @"guest/0123456789abcdef" are now supported', [], null, ['guest/0123456789abcdef']
+				'Also @"guest/0123456789abcdef" are now supported',
+				[['type' => 'guest', 'id' => 'guest/0123456789abcdef']],
 			],
 			[
-				'Also @"group/My Group ID 321" are now supported', [], null, [], ['My Group ID 321']
+				'Also @"group/My Group ID 321" are now supported',
+				[['type' => 'group', 'id' => 'My Group ID 321']],
+			],
+			[
+				'Welcome federation @"federated_group/My Group ID 321" @"federated_team/Former Cirle" @"federated_user/cloudId@http://example.tld:8080/nextcloud"! Now freshly supported',
+				[
+					['type' => 'federated_user', 'id' => 'cloudId@http://example.tld:8080/nextcloud'],
+					['type' => 'federated_group', 'id' => 'My Group ID 321'],
+					['type' => 'federated_team', 'id' => 'Former Cirle'],
+				],
 			],
 		];
 	}
@@ -175,31 +199,16 @@ class CommentTest extends TestCase {
 	 * @dataProvider mentionsProvider
 	 *
 	 * @param string $message
-	 * @param array $expectedUids
-	 * @param string|null $author
-	 * @param array $expectedGuests
+	 * @param array $expectedMentions
+	 * @param ?string $author
 	 */
-	public function testMentions(string $message, array $expectedUids, ?string $author = null, array $expectedGuests = [], array $expectedGroups = []): void {
+	public function testMentions(string $message, array $expectedMentions, ?string $author = null): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
 		if (!is_null($author)) {
 			$comment->setActor('user', $author);
 		}
 		$mentions = $comment->getMentions();
-		while ($mention = array_shift($mentions)) {
-			if ($mention['type'] === 'user') {
-				$id = array_shift($expectedUids);
-			} elseif ($mention['type'] === 'guest') {
-				$id = array_shift($expectedGuests);
-			} elseif ($mention['type'] === 'group') {
-				$id = array_shift($expectedGroups);
-			} else {
-				$this->fail('Unexpected mention type');
-				continue;
-			}
-			$this->assertSame($id, $mention['id']);
-		}
-		$this->assertEmpty($mentions);
-		$this->assertEmpty($expectedUids);
+		$this->assertSame($expectedMentions, $mentions);
 	}
 }
