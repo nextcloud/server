@@ -271,6 +271,7 @@
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Du kan inte flytta en fil/mapp till sig själv eller till en undermapp till sig själv",
     "(copy)" : "(kopia)",
     "(copy %n)" : "(kopia %n)",
+    "Move cancelled" : "Flytt avbruten",
     "A file or folder with that name already exists in this folder" : "En fil eller mapp med det namnet finns redan i den här mappen",
     "The files is locked" : "Filerna är låsta",
     "The file does not exist anymore" : "Filen finns inte längre",

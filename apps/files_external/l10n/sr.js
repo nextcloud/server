@@ -79,6 +79,7 @@ OC.L10N.register(
     "Enable SSL" : "Омогући SSL",
     "Enable Path Style" : "Омогући стил путање",
     "Legacy (v2) authentication" : "Стара (v2) провера идентитета",
+    "Enable multipart copy" : "Укључи копирање из више делова",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Удаљена потфасцикла",
