@@ -2,7 +2,7 @@
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 
-style('core', ['styles', 'header']);
+style('core', ['styles', 'header', 'exception']);
 
 function print_exception(Throwable $e, \OCP\IL10N $l): void {
 	print_unescaped('<pre>');

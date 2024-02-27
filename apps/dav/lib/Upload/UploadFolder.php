@@ -47,7 +47,15 @@ class UploadFolder implements ICollection {
 
 	public function createFile($name, $data = null) {
 		// TODO: verify name - should be a simple number
-		$this->node->createFile($name, $data);
+		try {
+			$this->node->createFile($name, $data);
+		} catch (\Exception $e) {
+			if ($this->node->childExists($name)) {
+				$child = $this->node->getChild($name);
+				$child->delete();
+			}
+			throw $e;
+		}
 	}
 
 	public function createDirectory($name) {

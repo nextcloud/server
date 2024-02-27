@@ -12,6 +12,7 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Cache\Cache;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IUser;
 
@@ -95,6 +96,31 @@ class CacheTest extends \Test\TestCase {
 		$this->assertTrue($this->cache->inCache($file1));
 
 		$this->assertEquals($cacheData1, $this->cache->get($id1));
+	}
+
+	public function testCacheEntryGetters() {
+		$file1 = 'foo';
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/file'];
+
+		$id1 = $this->cache->put($file1, $data1);
+		$entry = $this->cache->get($file1);
+
+		$this->assertEquals($entry->getId(), $id1);
+		$this->assertEquals($entry->getStorageId(), $this->cache->getNumericStorageId());
+		$this->assertEquals($entry->getPath(), 'foo');
+		$this->assertEquals($entry->getName(), 'foo');
+		$this->assertEquals($entry->getMimeType(), 'foo/file');
+		$this->assertEquals($entry->getMimePart(), 'foo');
+		$this->assertEquals($entry->getSize(), 100);
+		$this->assertEquals($entry->getMTime(), 50);
+		$this->assertEquals($entry->getStorageMTime(), 50);
+		$this->assertEquals($entry->getEtag(), null);
+		$this->assertEquals($entry->getPermissions(), 0);
+		$this->assertEquals($entry->isEncrypted(), false);
+		$this->assertEquals($entry->getMetadataEtag(), null);
+		$this->assertEquals($entry->getCreationTime(), null);
+		$this->assertEquals($entry->getUploadTime(), null);
+		$this->assertEquals($entry->getUnencryptedSize(), 100);
 	}
 
 	public function testPartial() {
@@ -329,7 +355,7 @@ class CacheTest extends \Test\TestCase {
 		$userId = static::getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		static::loginAsUser($userId);
-		$user = new \OC\User\User($userId, null, \OC::$server->getEventDispatcher());
+		$user = new \OC\User\User($userId, null, \OC::$server->get(IEventDispatcher::class));
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';

@@ -25,13 +25,20 @@ namespace Test\Updater;
 use OC\Updater\VersionCheck;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheckTest extends \Test\TestCase {
 	/** @var IConfig| \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var VersionCheck | \PHPUnit\Framework\MockObject\MockObject*/
 	private $updater;
+	/** @var IRegistry | \PHPUnit\Framework\Mo2ckObject\MockObject*/
+	private $registry;
+	/** @var LoggerInterface | \PHPUnit\Framework\Mo2ckObject\MockObject*/
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,9 +49,20 @@ class VersionCheckTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->registry = $this->createMock(IRegistry::class);
+		$this->registry
+			->method('delegateHasValidSubscription')
+			->willReturn(false);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
 			->setMethods(['getUrlContent'])
-			->setConstructorArgs([$clientService, $this->config])
+			->setConstructorArgs([
+				$clientService,
+				$this->config,
+				$this->createMock(IUserManager::class),
+				$this->registry,
+				$this->logger,
+			])
 			->getMock();
 	}
 
@@ -53,7 +71,7 @@ class VersionCheckTest extends \Test\TestCase {
 	 * @return string
 	 */
 	private function buildUpdateUrl($baseUrl) {
-		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatxlastupdatedatx'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION;
+		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatxlastupdatedatx'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION.'x0x0';
 	}
 
 	public function testCheckInCache() {
@@ -114,11 +132,11 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -166,11 +184,11 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -220,11 +238,11 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -273,11 +291,11 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
@@ -327,11 +345,11 @@ class VersionCheckTest extends \Test\TestCase {
 				'0',
 				'installedat',
 				'installedat',
-				'lastupdatedat'
+				'lastupdatedat',
 			);
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config

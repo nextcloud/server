@@ -46,8 +46,8 @@ class PersonalSection implements IIconSection {
 	 * @param IL10N $l
 	 */
 	public function __construct(string $appName,
-								IURLGenerator $urlGenerator,
-								IL10N $l) {
+		IURLGenerator $urlGenerator,
+		IL10N $l) {
 		$this->appName = $appName;
 		$this->urlGenerator = $urlGenerator;
 		$this->l = $l;

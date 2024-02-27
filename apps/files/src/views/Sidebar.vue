@@ -25,10 +25,8 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
-		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
-		@update:starred="toggleStarred"
 		@[defaultActionListener].stop.prevent="onDefaultAction"
 		@opening="handleOpening"
 		@opened="handleOpened"
@@ -36,14 +34,30 @@
 		@closed="handleClosed">
 		<!-- TODO: create a standard to allow multiple elements here? -->
 		<template v-if="fileInfo" #description>
-			<LegacyView v-for="view in views"
-				:key="view.cid"
-				:component="view"
-				:file-info="fileInfo" />
+			<div class="sidebar__description">
+				<SystemTags v-if="isSystemTagsEnabled && showTagsDefault"
+					v-show="showTags"
+					:file-id="fileInfo.id"
+					@has-tags="value => showTags = value" />
+				<LegacyView v-for="view in views"
+					:key="view.cid"
+					:component="view"
+					:file-info="fileInfo" />
+			</div>
 		</template>
 
 		<!-- Actions menu -->
 		<template v-if="fileInfo" #secondary-actions>
+			<NcActionButton :close-after-click="true"
+				@click="toggleStarred(!fileInfo.isFavourited)">
+				<template v-if="fileInfo.isFavourited" #icon>
+					<StarOutline :size="20" />
+				</template>
+				<template v-else #icon>
+					<Star :size="20" />
+				</template>
+				{{ fileInfo.isFavourited ? t('files', 'Remove from favorites') : t('files', 'Add to favorites') }}
+			</NcActionButton>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
 			<NcActionButton v-if="isSystemTagsEnabled"
@@ -82,36 +96,48 @@
 	</NcAppSidebar>
 </template>
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { encodePath } from '@nextcloud/paths'
+import { File, Folder } from '@nextcloud/files'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { getCurrentUser } from '@nextcloud/auth'
+import { Type as ShareTypes } from '@nextcloud/sharing'
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
-import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
-import { Type as ShareTypes } from '@nextcloud/sharing'
+
+import Star from 'vue-material-design-icons/Star.vue'
+import StarOutline from 'vue-material-design-icons/StarOutline.vue'
 
 import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 import FileInfo from '../services/FileInfo.js'
-import SidebarTab from '../components/SidebarTab.vue'
 import LegacyView from '../components/LegacyView.vue'
+import SidebarTab from '../components/SidebarTab.vue'
+import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 
 export default {
 	name: 'Sidebar',
 
 	components: {
+		LegacyView,
 		NcActionButton,
 		NcAppSidebar,
 		NcEmptyContent,
-		LegacyView,
 		SidebarTab,
+		SystemTags,
+		Star,
+		StarOutline,
 	},
 
 	data() {
 		return {
 			// reactive state
 			Sidebar: OCA.Files.Sidebar.state,
+			showTags: false,
+			showTagsDefault: true,
 			error: null,
 			loading: true,
 			fileInfo: null,
@@ -177,7 +203,8 @@ export default {
 		 * @return {string}
 		 */
 		subtitle() {
-			return `${this.size}, ${this.time}`
+			const starredIndicator = this.fileInfo.isFavourited ? '★ ' : ''
+			return `${starredIndicator} ${this.size}, ${this.time}`
 		},
 
 		/**
@@ -234,24 +261,29 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					starred: this.fileInfo.isFavourited,
-					subtitle: this.subtitle,
-					subtitleTooltip: this.fullTime,
+					subname: this.subtitle,
+					subtitle: this.fullTime,
+					name: this.fileInfo.name,
 					title: this.fileInfo.name,
-					titleTooltip: this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
 					key: 'error', // force key to re-render
-					subtitle: '',
-					title: '',
+					subname: '',
+					name: '',
+					class: {
+						'app-sidebar--full': this.isFullScreen,
+					},
 				}
 			}
 			// no fileInfo yet, showing empty data
 			return {
 				loading: this.loading,
-				subtitle: '',
-				title: '',
+				subname: '',
+				name: '',
+				class: {
+					'app-sidebar--full': this.isFullScreen,
+				},
 			}
 		},
 
@@ -282,7 +314,7 @@ export default {
 		},
 
 		isSystemTagsEnabled() {
-			return OCA && 'SystemTags' in OCA
+			return getCapabilities()?.systemtags?.enabled === true
 		},
 	},
 	created() {
@@ -357,6 +389,13 @@ export default {
 		 */
 		setActiveTab(id) {
 			OCA.Files.Sidebar.setActiveTab(id)
+			this.tabs.forEach(tab => {
+				try {
+					tab.setIsActive(id === tab.id)
+				} catch (error) {
+					logger.error('Error while setting tab active state', { error, id: tab.id, tab })
+				}
+			})
 		},
 
 		/**
@@ -381,12 +420,18 @@ export default {
 						</d:propertyupdate>`,
 				})
 
-				// TODO: Obliterate as soon as possible and use events with new files app
-				// Terrible fallback for legacy files: toggle filelist as well
-				if (OCA.Files && OCA.Files.App && OCA.Files.App.fileList && OCA.Files.App.fileList.fileActions) {
-					OCA.Files.App.fileList.fileActions.triggerAction('Favorite', OCA.Files.App.fileList.getModelForFile(this.fileInfo.name), OCA.Files.App.fileList)
-				}
-
+				/**
+				 * TODO: adjust this when the Sidebar is finally using File/Folder classes
+				 * @see https://github.com/nextcloud/server/blob/8a75cb6e72acd42712ab9fea22296aa1af863ef5/apps/files/src/views/favorites.ts#L83-L115
+				 */
+				const isDir = this.fileInfo.type === 'dir'
+				const Node = isDir ? Folder : File
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+					fileid: this.fileInfo.id,
+					source: this.davPath,
+					root: `/files/${getCurrentUser().uid}`,
+					mime: isDir ? undefined : this.fileInfo.mimetype,
+				}))
 			} catch (error) {
 				OC.Notification.showTemporary(t('files', 'Unable to change the favourite state of the file'))
 				console.error('Unable to change favourite state', error)
@@ -410,9 +455,7 @@ export default {
 		 * Toggle the tags selector
 		 */
 		toggleTags() {
-			if (OCA.SystemTags && OCA.SystemTags.View) {
-				OCA.SystemTags.View.toggle()
-			}
+			this.showTagsDefault = this.showTags = !this.showTags
 		},
 
 		/**
@@ -423,38 +466,49 @@ export default {
 		 * @throws {Error} loading failure
 		 */
 		async open(path) {
+			if (!path || path.trim() === '') {
+				throw new Error(`Invalid path '${path}'`)
+			}
+
+			// Only focus the tab when the selected file/tab is changed in already opened sidebar
+			// Focusing the sidebar on first file open is handled by NcAppSidebar
+			const focusTabAfterLoad = !!this.Sidebar.file
+
 			// update current opened file
 			this.Sidebar.file = path
 
-			if (path && path.trim() !== '') {
-				// reset data, keep old fileInfo to not reload all tabs and just hide them
-				this.error = null
-				this.loading = true
+			// reset data, keep old fileInfo to not reload all tabs and just hide them
+			this.error = null
+			this.loading = true
 
-				try {
-					this.fileInfo = await FileInfo(this.davPath)
-					// adding this as fallback because other apps expect it
-					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+			try {
+				this.fileInfo = await FileInfo(this.davPath)
+				// adding this as fallback because other apps expect it
+				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
 
-					// DEPRECATED legacy views
-					// TODO: remove
-					this.views.forEach(view => {
-						view.setFileInfo(this.fileInfo)
-					})
+				// DEPRECATED legacy views
+				// TODO: remove
+				this.views.forEach(view => {
+					view.setFileInfo(this.fileInfo)
+				})
 
-					this.$nextTick(() => {
-						if (this.$refs.tabs) {
-							this.$refs.tabs.updateTabs()
-						}
-					})
-				} catch (error) {
-					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data', error)
+				await this.$nextTick()
 
-					throw new Error(error)
-				} finally {
-					this.loading = false
+				this.setActiveTab(this.Sidebar.activeTab || this.tabs[0].id)
+
+				this.loading = false
+
+				await this.$nextTick()
+
+				if (focusTabAfterLoad) {
+					this.$refs.sidebar.focusActiveTabContent()
 				}
+			} catch (error) {
+				this.loading = false
+				this.error = t('files', 'Error while loading the file data')
+				console.error('Error while loading the file data', error)
+
+				throw new Error(error)
 			}
 		},
 
@@ -463,6 +517,7 @@ export default {
 		 */
 		close() {
 			this.Sidebar.file = ''
+			this.showTags = false
 			this.resetData()
 		},
 
@@ -480,6 +535,15 @@ export default {
 				document.querySelector('#content')?.classList.remove('with-sidebar--full')
 					|| document.querySelector('#content-vue')?.classList.remove('with-sidebar--full')
 			}
+		},
+
+		/**
+		 * Allow to set whether tags should be shown by default from OCA.Files.Sidebar
+		 *
+		 * @param {boolean} showTagsDefault - Whether or not to show the tags by default.
+		 */
+		setShowTagsDefault(showTagsDefault) {
+			this.showTagsDefault = showTagsDefault
 		},
 
 		/**
@@ -505,7 +569,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .app-sidebar {
-	&--has-preview::v-deep {
+	&--has-preview:deep {
 		.app-sidebar-header__figure {
 			background-size: cover;
 		}
@@ -525,6 +589,12 @@ export default {
 		height: 100% !important;
 	}
 
+	:deep {
+		.app-sidebar-header__description {
+			margin: 0 16px 4px 16px !important;
+		}
+	}
+
 	.svg-icon {
 		::v-deep svg {
 			width: 20px;
@@ -532,5 +602,12 @@ export default {
 			fill: currentColor;
 		}
 	}
+}
+
+.sidebar__description {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 8px 0;
 }
 </style>

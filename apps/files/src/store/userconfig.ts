@@ -19,21 +19,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import { loadState } from '@nextcloud/initial-state'
-import { generateUrl } from '@nextcloud/router'
+import type { UserConfig, UserConfigStore } from '../types'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
-import axios from '@nextcloud/axios'
-import type { UserConfig, UserConfigStore } from '../types.ts'
 import { emit, subscribe } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
+import axios from '@nextcloud/axios'
+import Vue from 'vue'
 
-const userConfig = loadState('files', 'config', {
+const userConfig = loadState<UserConfig>('files', 'config', {
 	show_hidden: false,
 	crop_image_previews: true,
-}) as UserConfig
+	sort_favorites_first: true,
+	sort_folders_first: true,
+	grid_view: false,
+})
 
-export const useUserConfigStore = () => {
+export const useUserConfigStore = function(...args) {
 	const store = defineStore('userconfig', {
 		state: () => ({
 			userConfig,
@@ -51,16 +53,16 @@ export const useUserConfigStore = () => {
 			 * Update the user config local store AND on server side
 			 */
 			async update(key: string, value: boolean) {
-				await axios.post(generateUrl('/apps/files/api/v1/config/' + key), {
+				await axios.put(generateUrl('/apps/files/api/v1/config/' + key), {
 					value,
 				})
 
 				emit('files:config:updated', { key, value })
-			}
-		}
+			},
+		},
 	})
 
-	const userConfigStore = store()
+	const userConfigStore = store(...args)
 
 	// Make sure we only register the listeners once
 	if (!userConfigStore._initialized) {
@@ -72,4 +74,3 @@ export const useUserConfigStore = () => {
 
 	return userConfigStore
 }
-

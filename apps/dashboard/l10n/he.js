@@ -19,11 +19,6 @@ OC.L10N.register(
     "Good evening" : "ערב טוב",
     "Good evening, {name}" : "ערב טוב, {name}",
     "Hello" : "שלום",
-    "Hello, {name}" : "שלום, {name}",
-    "Change background image" : "שנה תמונת רקע",
-    "Pick from Files" : "בחירה מקבצים",
-    "Default images" : "תמונות ברירת מחדל",
-    "Plain background" : "רקע רגיל",
-    "Insert from {productName}" : "הכנס מ-{productName}"
+    "Hello, {name}" : "שלום, {name}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

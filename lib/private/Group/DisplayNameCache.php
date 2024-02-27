@@ -29,6 +29,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
@@ -37,6 +38,7 @@ use OCP\IGroupManager;
  * Class that cache the relation Group ID -> Display name
  *
  * This saves fetching the group from the backend for "just" the display name
+ * @template-implements IEventListener<GroupChangedEvent|GroupDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
 	private CappedMemoryCache $cache;
@@ -82,6 +84,11 @@ class DisplayNameCache implements IEventListener {
 			$newDisplayName = $event->getValue();
 			$this->cache[$groupId] = $newDisplayName;
 			$this->memCache->set($groupId, $newDisplayName, 60 * 10); // 10 minutes
+		}
+		if ($event instanceof GroupDeletedEvent) {
+			$groupId = $event->getGroup()->getGID();
+			unset($this->cache[$groupId]);
+			$this->memCache->remove($groupId);
 		}
 	}
 }

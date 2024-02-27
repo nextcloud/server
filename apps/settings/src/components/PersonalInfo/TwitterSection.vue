@@ -22,7 +22,7 @@
 
 <template>
 	<AccountPropertySection v-bind.sync="twitter"
-		:placeholder="t('settings', 'Your Twitter handle')" />
+		:placeholder="t('settings', 'Your X (formerly Twitter) handle')" />
 </template>
 
 <script>

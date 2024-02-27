@@ -133,6 +133,11 @@
 			this.render();
 			this.$el.removeClass('hidden');
 
+			window._nc_event_bus.emit('files:action-menu:opened', {
+				el: this.$el[0],
+				context,
+			})
+
 			OC.showMenu(null, this.$el);
 		}
 	});
@@ -140,4 +145,3 @@
 	OCA.Files.FileActionsMenu = FileActionsMenu;
 
 })();
-

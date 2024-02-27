@@ -19,17 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
 import type { Folder, Node } from '@nextcloud/files'
-import type { FilesStore, RootsStore, RootOptions, Service, FilesState } from '../types.ts'
+import type { FilesStore, RootsStore, RootOptions, Service, FilesState, FileId } from '../types'
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
-import Vue from 'vue'
 import logger from '../logger'
-import { FileId } from '../types'
+import Vue from 'vue'
 
-export const useFilesStore = () => {
+export const useFilesStore = function(...args) {
 	const store = defineStore('files', {
 		state: (): FilesState => ({
 			files: {} as FilesStore,
@@ -40,7 +38,7 @@ export const useFilesStore = () => {
 			/**
 			 * Get a file or folder by id
 			 */
-			getNode: (state)  => (id: FileId): Node|undefined => state.files[id],
+			getNode: (state) => (id: FileId): Node|undefined => state.files[id],
 
 			/**
 			 * Get a list of files or folders by their IDs
@@ -52,22 +50,22 @@ export const useFilesStore = () => {
 			/**
 			 * Get a file or folder by id
 			 */
-			getRoot: (state)  => (service: Service): Folder|undefined => state.roots[service],
+			getRoot: (state) => (service: Service): Folder|undefined => state.roots[service],
 		},
 
 		actions: {
 			updateNodes(nodes: Node[]) {
 				// Update the store all at once
 				const files = nodes.reduce((acc, node) => {
-					if (!node.attributes.fileid) {
-						logger.warn('Trying to update/set a node without fileid', node)
+					if (!node.fileid) {
+						logger.error('Trying to update/set a node without fileid', node)
 						return acc
 					}
-					acc[node.attributes.fileid] = node
+					acc[node.fileid] = node
 					return acc
 				}, {} as FilesStore)
 
-				Vue.set(this, 'files', {...this.files, ...files})
+				Vue.set(this, 'files', { ...this.files, ...files })
 			},
 
 			deleteNodes(nodes: Node[]) {
@@ -85,16 +83,23 @@ export const useFilesStore = () => {
 			onDeletedNode(node: Node) {
 				this.deleteNodes([node])
 			},
-		}
+
+			onCreatedNode(node: Node) {
+				this.updateNodes([node])
+			},
+
+			onUpdatedNode(node: Node) {
+				this.updateNodes([node])
+			},
+		},
 	})
 
-	const fileStore = store()
+	const fileStore = store(...args)
 	// Make sure we only register the listeners once
 	if (!fileStore._initialized) {
-		// subscribe('files:node:created', fileStore.onCreatedNode)
+		subscribe('files:node:created', fileStore.onCreatedNode)
 		subscribe('files:node:deleted', fileStore.onDeletedNode)
-		// subscribe('files:node:moved', fileStore.onMovedNode)
-		// subscribe('files:node:updated', fileStore.onUpdatedNode)
+		subscribe('files:node:updated', fileStore.onUpdatedNode)
 
 		fileStore._initialized = true
 	}

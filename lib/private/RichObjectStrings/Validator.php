@@ -95,7 +95,7 @@ class Validator implements IValidator {
 
 		$missingKeys = array_diff($requiredParameters, array_keys($parameter));
 		if (!empty($missingKeys)) {
-			throw new InvalidObjectExeption('Object is invalid');
+			throw new InvalidObjectExeption('Object is invalid, missing keys:'.json_encode($missingKeys));
 		}
 	}
 

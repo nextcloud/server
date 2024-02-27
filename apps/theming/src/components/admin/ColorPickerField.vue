@@ -26,15 +26,17 @@
 		<div class="field__row">
 			<NcColorPicker :value.sync="localValue"
 				:advanced-fields="true"
+				data-admin-theming-setting-primary-color-picker
 				@update:value="debounceSave">
-				<NcButton class="field__button"
-					type="primary"
-					:id="id"
-					:aria-label="t('theming', 'Select a custom color')"
-					data-admin-theming-setting-primary-color-picker>
-					{{ value }}
+				<NcButton type="secondary"
+					:id="id">
+					<template #icon>
+						<Palette :size="20" />
+					</template>
+					{{ t('theming', 'Change color') }}
 				</NcButton>
 			</NcColorPicker>
+			<div class="field__color-preview" data-admin-theming-setting-primary-color />
 			<NcButton v-if="value !== defaultValue"
 				type="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
@@ -56,12 +58,11 @@
 
 <script>
 import { debounce } from 'debounce'
-import {
-	NcButton,
-	NcColorPicker,
-	NcNoteCard,
-} from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
+import Palette from 'vue-material-design-icons/Palette.vue'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
@@ -73,6 +74,7 @@ export default {
 		NcColorPicker,
 		NcNoteCard,
 		Undo,
+		Palette,
 	},
 
 	mixins: [
@@ -110,14 +112,10 @@ export default {
 @import './shared/field.scss';
 
 .field {
-	// Override default NcButton styles
-	&__button {
-		width: 230px !important;
-		border-radius: var(--border-radius-large) !important;
-		background-color: var(--color-primary-default) !important;
-		&:hover {
-			background-color: var(--color-primary-element-default-hover) !important;
-		}
+	&__color-preview {
+		width: var(--default-clickable-area);
+		border-radius: var(--border-radius-large);
+		background-color: var(--color-primary-default);
 	}
 }
 </style>

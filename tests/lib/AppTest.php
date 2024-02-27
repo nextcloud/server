@@ -560,7 +560,6 @@ class AppTest extends \Test\TestCase {
 			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getEventDispatcher(),
 			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)
 		));

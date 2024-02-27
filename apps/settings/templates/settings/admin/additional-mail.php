@@ -1,25 +1,25 @@
 <?php
 /**
-	* @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
-	*
-	* @author Arthur Schiwon <blizzz@arthur-schiwon.de>
-	*
-	* @license GNU AGPL version 3 or any later version
-	*
-	* This program is free software: you can redistribute it and/or modify
-	* it under the terms of the GNU Affero General Public License as
-	* published by the Free Software Foundation, either version 3 of the
-	* License, or (at your option) any later version.
-	*
-	* This program is distributed in the hope that it will be useful,
-	* but WITHOUT ANY WARRANTY; without even the implied warranty of
-	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	* GNU Affero General Public License for more details.
-	*
-	* You should have received a copy of the GNU Affero General Public License
-	* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-	*
-	*/
+ * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
@@ -29,8 +29,8 @@ $mail_smtpauthtype = [
 ];
 
 $mail_smtpsecure = [
-	'' => $l->t('None'),
-	'ssl' => $l->t('SSL/TLS')
+	'' => $l->t('None/STARTTLS'),
+	'ssl' => $l->t('SSL')
 ];
 
 $mail_smtpmode = [
@@ -45,7 +45,7 @@ if ($_['mail_smtpmode'] === 'qmail') {
 
 $mail_sendmailmode = [
 	'smtp' => 'smtp (-bs)',
-	'pipe' => 'pipe (-t)'
+	'pipe' => 'pipe (-t -i)'
 ];
 
 ?>
@@ -53,9 +53,11 @@ $mail_sendmailmode = [
 <div class="section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
-		<a target="_blank" rel="noreferrer noopener" class="icon-info"
-					title="<?php p($l->t('Open documentation'));?>"
-					href="<?php p(link_to_docs('admin-email')); ?>"></a>
+		<a 	target="_blank"
+			rel="noreferrer noopener" class="icon-info"
+			title="<?php p($l->t('Open documentation'));?>"
+			href="<?php p(link_to_docs('admin-email')); ?>"
+			aria-label="<?php p($l->t('Open documentation'));?>"></a>
 		<p class="settings-hint">
 			  <?php p($l->t('It is important to set up this server to be able to send emails, like for password reset and notifications.')); ?>
 		</p>
@@ -72,17 +74,19 @@ $mail_sendmailmode = [
 					<option value="<?php p($smtpmode[0])?>" <?php p($selected) ?>><?php p($smtpmode[1]) ?></option>
 				<?php endforeach;?>
 			</select>
+		</p>
 
+		<p>
 			<label id="mail_smtpsecure_label" for="mail_smtpsecure"
 				<?php if ($_['mail_smtpmode'] !== 'smtp') {
-						print_unescaped(' class="hidden"');
-					} ?>>
+					print_unescaped(' class="hidden"');
+				} ?>>
 				<?php p($l->t('Encryption')); ?>
 			</label>
 			<select name="mail_smtpsecure" id="mail_smtpsecure"
 				<?php if ($_['mail_smtpmode'] !== 'smtp') {
-						print_unescaped(' class="hidden"');
-					} ?>>
+					print_unescaped(' class="hidden"');
+				} ?>>
 				<?php foreach ($mail_smtpsecure as $secure => $name):
 					$selected = '';
 					if ($secure == $_['mail_smtpsecure']):
@@ -91,11 +95,13 @@ $mail_sendmailmode = [
 					<option value="<?php p($secure)?>" <?php p($selected) ?>><?php p($name) ?></option>
 				<?php endforeach;?>
 			</select>
+		</p>
 
-			<label id="mail_sendmailmode_label" for="mail_sendmailmode" class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+		<p class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+			<label id="mail_sendmailmode_label" for="mail_sendmailmode">
 				<?php p($l->t('Sendmail mode')); ?>
 			</label>
-			<select name="mail_sendmailmode" id="mail_sendmailmode" class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+			<select name="mail_sendmailmode" id="mail_sendmailmode">
 				<?php foreach ($mail_sendmailmode as $sendmailmodeValue => $sendmailmodeLabel): ?>
 					<option value="<?php p($sendmailmodeValue)?>" <?= $sendmailmodeValue === $_['mail_sendmailmode'] ? 'selected="selected"' : '' ?>><?php p($sendmailmodeLabel) ?></option>
 				<?php endforeach;?>
@@ -123,10 +129,8 @@ $mail_sendmailmode = [
 		<p id='setting_smtpauth' <?php if ($_['mail_smtpmode'] !== 'smtp') {
 			print_unescaped(' class="hidden"');
 		} ?>>
-			<label for='mail_smtpauthtype'><?php p($l->t('Authentication method')); ?>
-					<span class="icon-info" title="<?php p($l->t('Only applies when authentication is required')); ?>"></span>
-			</label>
-			<select name="mail_smtpauthtype" id="mail_smtpauthtype" disabled="disabled">
+			<label for='mail_smtpauthtype'><?php p($l->t('Authentication')); ?></label>
+			<select name="mail_smtpauthtype" id="mail_smtpauthtype" class="hidden">
 				<?php foreach ($mail_smtpauthtype as $authtype => $name): ?>
 						<option value="<?php p($authtype) ?>"><?php p($name) ?></option>
 				<?php endforeach; ?>
@@ -141,10 +145,10 @@ $mail_sendmailmode = [
 	</form>
 	<form class="mail_settings" id="mail_credentials_settings">
 		<p id="mail_credentials" <?php if (!$_['mail_smtpauth'] || $_['mail_smtpmode'] !== 'smtp') {
-						print_unescaped(' class="hidden"');
-					} ?>>
+			print_unescaped(' class="hidden"');
+		} ?>>
 			<label for="mail_smtpname"><?php p($l->t('Credentials')); ?></label>
-			<input type="text" name="mail_smtpname" id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
+			<input type="text" name="mail_smtpname" id="mail_smtpname" placeholder="<?php p($l->t('SMTP Login'))?>"
 				   value="<?php p($_['mail_smtpname']) ?>" />
 			<input type="text" name="mail_smtppassword" id="mail_smtppassword" autocomplete="off"
 				   placeholder="<?php p($l->t('SMTP Password'))?>" value="<?php p($_['mail_smtppassword']) ?>" />

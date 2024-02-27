@@ -66,7 +66,7 @@ class RepairCollationTest extends TestCase {
 			$this->markTestSkipped("Test only relevant on MySql");
 		}
 
-		$dbPrefix = $this->config->getSystemValue("dbtableprefix");
+		$dbPrefix = $this->config->getSystemValueString("dbtableprefix");
 		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
 		$this->connection->prepare("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci")->execute();
 

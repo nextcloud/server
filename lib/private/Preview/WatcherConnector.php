@@ -43,7 +43,7 @@ class WatcherConnector {
 	 * @param SystemConfig $config
 	 */
 	public function __construct(IRootFolder $root,
-								SystemConfig $config) {
+		SystemConfig $config) {
 		$this->root = $root;
 		$this->config = $config;
 	}
@@ -52,7 +52,7 @@ class WatcherConnector {
 	 * @return Watcher
 	 */
 	private function getWatcher(): Watcher {
-		return \OC::$server->query(Watcher::class);
+		return \OCP\Server::get(Watcher::class);
 	}
 
 	public function connectWatcher() {

@@ -53,6 +53,7 @@ class StorageTest extends TestCase {
 
 		$this->util = $this->getMockBuilder('OC\Encryption\Util')
 			->disableOriginalConstructor()
+			->setMethodsExcept(['getFileKeyDir'])
 			->getMock();
 
 		$this->view = $this->getMockBuilder(View::class)
@@ -77,7 +78,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetFileKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 		$this->util->expects($this->any())
@@ -103,7 +104,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetFileOld() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.0');
 		$this->util->expects($this->any())
@@ -145,7 +146,7 @@ class StorageTest extends TestCase {
 	 * @param string $expectedKeyContent
 	 */
 	public function testGetFileKey($path, $strippedPartialName, $originalKeyExists, $expectedKeyContent) {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 		$this->util->expects($this->any())
@@ -201,7 +202,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetFileKeySystemWide() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -233,7 +234,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testGetFileKeySystemWide() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -261,7 +262,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetSystemUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -281,7 +282,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testSetUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -301,7 +302,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testGetSystemUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -324,7 +325,7 @@ class StorageTest extends TestCase {
 	}
 
 	public function testGetUserKey() {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->with('version')
 			->willReturn('20.0.0.2');
 
@@ -581,39 +582,6 @@ class StorageTest extends TestCase {
 		$args = func_get_args();
 		$expected = array_pop($this->mkdirStack);
 		$this->assertSame($expected, $args[0]);
-	}
-
-	/**
-	 * @dataProvider dataTestGetFileKeyDir
-	 *
-	 * @param bool $isSystemWideMountPoint
-	 * @param string $storageRoot
-	 * @param string $expected
-	 */
-	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected) {
-		$path = '/user1/files/foo/bar.txt';
-		$owner = 'user1';
-		$relativePath = '/foo/bar.txt';
-
-		$this->invokePrivate($this->storage, 'root_dir', [$storageRoot]);
-
-		$this->util->expects($this->once())->method('isSystemWideMountPoint')
-			->willReturn($isSystemWideMountPoint);
-		$this->util->expects($this->once())->method('getUidAndFilename')
-			->with($path)->willReturn([$owner, $relativePath]);
-
-		$this->assertSame($expected,
-			$this->invokePrivate($this->storage, 'getFileKeyDir', ['OC_DEFAULT_MODULE', $path])
-		);
-	}
-
-	public function dataTestGetFileKeyDir() {
-		return [
-			[false, '', '/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-			[true, '', '/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-			[false, 'newStorageRoot', '/newStorageRoot/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-			[true, 'newStorageRoot', '/newStorageRoot/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-		];
 	}
 
 

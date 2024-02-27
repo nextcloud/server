@@ -37,7 +37,7 @@ class ResetGeneratedAvatarFlag implements IRepairStep {
 	private $connection;
 
 	public function __construct(IConfig $config,
-								IDBConnection $connection) {
+		IDBConnection $connection) {
 		$this->config = $config;
 		$this->connection = $connection;
 	}
@@ -47,7 +47,7 @@ class ResetGeneratedAvatarFlag implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		return version_compare($versionFromBeforeUpdate, '18.0.0.5', '<=');
 	}
 

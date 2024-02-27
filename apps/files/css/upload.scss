@@ -54,11 +54,11 @@
 }
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
 	height: calc(100% + 2px);
-	top: -1px;
+	top: -2px;
 	left: -1px;
 	position: absolute;
 	overflow: hidden;
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-element);
 }
 #uploadprogressbar .label {
 	top: 8px;
@@ -68,7 +68,7 @@
 	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	position: absolute;
 	display: block;
 	width: 200px;

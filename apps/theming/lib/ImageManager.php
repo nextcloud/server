@@ -42,38 +42,21 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class ImageManager {
 	public const SUPPORTED_IMAGE_KEYS = ['background', 'logo', 'logoheader', 'favicon'];
 
-	/** @var IConfig */
-	private $config;
-	/** @var IAppData */
-	private $appData;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var ILogger */
-	private $logger;
-	/** @var ITempManager */
-	private $tempManager;
-
-	public function __construct(IConfig $config,
-								IAppData $appData,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								ILogger $logger,
-								ITempManager $tempManager) {
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
-		$this->logger = $logger;
-		$this->tempManager = $tempManager;
-		$this->appData = $appData;
+	public function __construct(
+		private IConfig $config,
+		private IAppData $appData,
+		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
+		private LoggerInterface $logger,
+		private ITempManager $tempManager,
+	) {
 	}
 
 	/**
@@ -114,10 +97,10 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
 
-		if ($logo === '' || !$folder->fileExists($key)) {
+		if ($mime === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 
@@ -144,7 +127,8 @@ class ImageManager {
 
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
-		return $mimeSetting !== '';
+		// Removing the background defines its mime as 'backgroundColor'
+		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
 
 	/**
@@ -240,7 +224,7 @@ class ImageManager {
 		$supportedFormats = $this->getSupportedUploadImageFormats($key);
 		$detectedMimeType = mime_content_type($tmpFile);
 		if (!in_array($detectedMimeType, $supportedFormats, true)) {
-			throw new \Exception('Unsupported image type');
+			throw new \Exception('Unsupported image type: ' . $detectedMimeType);
 		}
 
 		if ($key === 'background' && $this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {
@@ -266,7 +250,7 @@ class ImageManager {
 				$newTmpFile = $this->tempManager->getTemporaryFile();
 				imageinterlace($outputImage, 1);
 				// Keep jpeg images encoded as jpeg
-				if (strpos($detectedMimeType, 'image/jpeg') !== false) {
+				if (str_contains($detectedMimeType, 'image/jpeg')) {
 					if (!imagejpeg($outputImage, $newTmpFile, 90)) {
 						throw new \Exception('Could not recompress background image as JPEG');
 					}
@@ -300,16 +284,16 @@ class ImageManager {
 	 */
 	private function shouldOptimizeBackgroundImage(string $mimeType, int $contentSize): bool {
 		// Do not touch SVGs
-		if (strpos($mimeType, 'image/svg') !== false) {
+		if (str_contains($mimeType, 'image/svg')) {
 			return false;
 		}
 		// GIF does not benefit from converting
-		if (strpos($mimeType, 'image/gif') !== false) {
+		if (str_contains($mimeType, 'image/gif')) {
 			return false;
 		}
 		// WebP also does not benefit from converting
 		// We could possibly try to convert to progressive image, but normally webP images are quite small
-		if (strpos($mimeType, 'image/webp') !== false) {
+		if (str_contains($mimeType, 'image/webp')) {
 			return false;
 		}
 		// As a rule of thumb background images should be max. 150-300 KiB, small images do not benefit from converting
@@ -323,7 +307,7 @@ class ImageManager {
 	 * @param string $key The image key, e.g. "favicon"
 	 * @return string[]
 	 */
-	private function getSupportedUploadImageFormats(string $key): array {
+	public function getSupportedUploadImageFormats(string $key): array {
 		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 		if ($key !== 'favicon' || $this->shouldReplaceIcons() === true) {

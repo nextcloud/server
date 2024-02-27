@@ -113,7 +113,7 @@ class GlobalAuthTest extends TestCase {
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');
 
-		$storage = $this->getStorageConfig(StorageConfig::MOUNT_TYPE_PERSONAl);
+		$storage = $this->getStorageConfig(StorageConfig::MOUNT_TYPE_PERSONAL);
 
 		$this->instance->manipulateStorageConfig($storage);
 		$this->assertEquals([], $storage->getBackendOptions());

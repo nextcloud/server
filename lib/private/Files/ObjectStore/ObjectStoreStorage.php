@@ -38,6 +38,7 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
@@ -46,30 +47,24 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
+use Psr\Log\LoggerInterface;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
 
+	protected IObjectStore $objectStore;
+	protected string $id;
+	private string $objectPrefix = 'urn:oid:';
+
+	private LoggerInterface $logger;
+
+	private bool $handleCopiesAsOwned;
+	protected bool $validateWrites = true;
+
 	/**
-	 * @var \OCP\Files\ObjectStore\IObjectStore $objectStore
+	 * @param array $params
+	 * @throws \Exception
 	 */
-	protected $objectStore;
-	/**
-	 * @var string $id
-	 */
-	protected $id;
-	/**
-	 * @var \OC\User\User $user
-	 */
-	protected $user;
-
-	private $objectPrefix = 'urn:oid:';
-
-	private $logger;
-
-	/** @var bool */
-	protected $validateWrites = true;
-
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -87,17 +82,15 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (isset($params['validateWrites'])) {
 			$this->validateWrites = (bool)$params['validateWrites'];
 		}
-		//initialize cache with root directory in cache
-		if (!$this->is_dir('/')) {
-			$this->mkdir('/');
-		}
+		$this->handleCopiesAsOwned = (bool)($params['handleCopiesAsOwned'] ?? false);
 
-		$this->logger = \OC::$server->getLogger();
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
 
-	public function mkdir($path) {
+	public function mkdir($path, bool $force = false) {
 		$path = $this->normalizePath($path);
-		if ($this->file_exists($path)) {
+		if (!$force && $this->file_exists($path)) {
+			$this->logger->warning("Tried to create an object store folder that already exists: $path");
 			return false;
 		}
 
@@ -121,10 +114,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			if ($parentType === false) {
 				if (!$this->mkdir($parent)) {
 					// something went wrong
+					$this->logger->warning("Parent folder ($parent) doesn't exist and couldn't be created");
 					return false;
 				}
 			} elseif ($parentType === 'file') {
 				// parent is a file
+				$this->logger->warning("Parent ($parent) is a file");
 				return false;
 			}
 			// finally create the new dir
@@ -160,14 +155,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	 *
 	 * @param string $path
 	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\ObjectStore\NoopScanner
+	 * @return \OC\Files\ObjectStore\ObjectStoreScanner
 	 */
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
 		if (!isset($this->scanner)) {
-			$this->scanner = new NoopScanner($storage);
+			$this->scanner = new ObjectStoreScanner($storage);
 		}
 		return $this->scanner;
 	}
@@ -225,10 +220,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->objectStore->deleteObject($this->getURN($entry->getId()));
 		} catch (\Exception $ex) {
 			if ($ex->getCode() !== 404) {
-				$this->logger->logException($ex, [
-					'app' => 'objectstore',
-					'message' => 'Could not delete object ' . $this->getURN($entry->getId()) . ' for ' . $entry->getPath(),
-				]);
+				$this->logger->error(
+					'Could not delete object ' . $this->getURN($entry->getId()) . ' for ' . $entry->getPath(),
+					[
+						'app' => 'objectstore',
+						'exception' => $ex,
+					]
+				);
 				return false;
 			}
 			//removing from cache is ok as it does not exist in the objectstore anyway
@@ -243,6 +241,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
+			if ($path === '') {
+				$this->mkdir('', true);
+				$cacheEntry = $this->getCache()->get($path);
+				if ($cacheEntry instanceof CacheEntry) {
+					return $cacheEntry->getData();
+				}
+			}
 			return false;
 		}
 	}
@@ -284,7 +289,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return false;
 		}
 	}
@@ -334,16 +339,22 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 						}
 						return $handle;
 					} catch (NotFoundException $e) {
-						$this->logger->logException($e, [
-							'app' => 'objectstore',
-							'message' => 'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
-						]);
+						$this->logger->error(
+							'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+							[
+								'app' => 'objectstore',
+								'exception' => $e,
+							]
+						);
 						throw $e;
-					} catch (\Exception $ex) {
-						$this->logger->logException($ex, [
-							'app' => 'objectstore',
-							'message' => 'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
-						]);
+					} catch (\Exception $e) {
+						$this->logger->error(
+							'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+							[
+								'app' => 'objectstore',
+								'exception' => $e,
+							]
+						);
 						return false;
 					}
 				} else {
@@ -354,6 +365,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			case 'wb':
 			case 'w+':
 			case 'wb+':
+				$dirName = dirname($path);
+				$parentExists = $this->is_dir($dirName);
+				if (!$parentExists) {
+					return false;
+				}
+
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
@@ -434,10 +451,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				];
 				$this->getCache()->put($path, $stat);
 			} catch (\Exception $ex) {
-				$this->logger->logException($ex, [
-					'app' => 'objectstore',
-					'message' => 'Could not create object for ' . $path,
-				]);
+				$this->logger->error(
+					'Could not create object for ' . $path,
+					[
+						'app' => 'objectstore',
+						'exception' => $ex,
+					]
+				);
 				throw $ex;
 			}
 		}
@@ -466,6 +486,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, 'w+');
+		if (!$handle) {
+			return false;
+		}
 		$result = fwrite($handle, $data);
 		fclose($handle);
 		return $result;
@@ -529,20 +552,28 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				 * Else people lose access to existing files
 				 */
 				$this->getCache()->remove($uploadPath);
-				$this->logger->logException($ex, [
-					'app' => 'objectstore',
-					'message' => 'Could not create object ' . $urn . ' for ' . $path,
-				]);
+				$this->logger->error(
+					'Could not create object ' . $urn . ' for ' . $path,
+					[
+						'app' => 'objectstore',
+						'exception' => $ex,
+					]
+				);
 			} else {
-				$this->logger->logException($ex, [
-					'app' => 'objectstore',
-					'message' => 'Could not update object ' . $urn . ' for ' . $path,
-				]);
+				$this->logger->error(
+					'Could not update object ' . $urn . ' for ' . $path,
+					[
+						'app' => 'objectstore',
+						'exception' => $ex,
+					]
+				);
 			}
 			throw $ex; // make this bubble up
 		}
 
 		if ($exists) {
+			// Always update the unencrypted size, for encryption the Encryption wrapper will update this afterwards anyways
+			$stat['unencrypted_size'] = $stat['size'];
 			$this->getCache()->update($fileId, $stat);
 		} else {
 			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
@@ -578,7 +609,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				if (is_array($sourceEntryData) && array_key_exists('scan_permissions', $sourceEntryData)) {
 					$sourceEntry['permissions'] = $sourceEntryData['scan_permissions'];
 				}
-				$this->copyInner($sourceEntry, $targetInternalPath);
+				$this->copyInner($sourceStorage->getCache(), $sourceEntry, $targetInternalPath);
 				return true;
 			}
 		}
@@ -596,12 +627,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			throw new NotFoundException('Source object not found');
 		}
 
-		$this->copyInner($sourceEntry, $target);
+		$this->copyInner($cache, $sourceEntry, $target);
 
 		return true;
 	}
 
-	private function copyInner(ICacheEntry $sourceEntry, string $to) {
+	private function copyInner(ICache $sourceCache, ICacheEntry $sourceEntry, string $to) {
 		$cache = $this->getCache();
 
 		if ($sourceEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
@@ -610,8 +641,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 			$this->mkdir($to);
 
-			foreach ($cache->getFolderContentsById($sourceEntry->getId()) as $child) {
-				$this->copyInner($child, $to . '/' . $child->getName());
+			foreach ($sourceCache->getFolderContentsById($sourceEntry->getId()) as $child) {
+				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
 			}
 		} else {
 			$this->copyFile($sourceEntry, $to);
@@ -633,6 +664,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		try {
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
+			if ($this->handleCopiesAsOwned) {
+				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
+				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
+			}
 		} catch (\Exception $e) {
 			$cache->remove($to);
 
@@ -696,10 +731,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 		} catch (S3MultipartUploadException|S3Exception $e) {
 			$this->objectStore->abortMultipartUpload($urn, $writeToken);
-			$this->logger->logException($e, [
-				'app' => 'objectstore',
-				'message' => 'Could not compete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
-			]);
+			$this->logger->error(
+				'Could not compete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
+				[
+					'app' => 'objectstore',
+					'exception' => $e,
+				]
+			);
 			throw new GenericFileException('Could not write chunked file');
 		}
 		return $size;

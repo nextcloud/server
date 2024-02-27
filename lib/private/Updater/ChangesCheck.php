@@ -51,6 +51,7 @@ class ChangesCheck {
 
 	/**
 	 * @throws DoesNotExistException
+	 * @return array{changelogURL: string, whatsNew: array<string, array{admin: string[], regular: string[]}>}
 	 */
 	public function getChangesForVersion(string $version): array {
 		$version = $this->normalizeVersion($version);

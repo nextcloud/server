@@ -36,13 +36,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Setting extends Base {
-	protected IUserManager $userManager;
-	protected IConfig $config;
-
-	public function __construct(IUserManager $userManager, IConfig $config) {
+	public function __construct(
+		protected IUserManager $userManager,
+		protected IConfig $config,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->config = $config;
 	}
 
 	protected function configure() {
@@ -53,7 +51,7 @@ class Setting extends Base {
 			->addArgument(
 				'uid',
 				InputArgument::REQUIRED,
-				'User ID used to login'
+				'Account ID used to login'
 			)
 			->addArgument(
 				'app',

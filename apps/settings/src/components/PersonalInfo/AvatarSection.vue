@@ -22,21 +22,22 @@
 
 <template>
 	<section id="vue-avatar-section">
-		<h3 class="hidden-visually"> {{ t('settings', 'Your profile information') }} </h3>
-		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
+		<h3 class="hidden-visually">
+			{{ t('settings', 'Your profile information') }}
+		</h3>
+		<HeaderBar :is-heading="true"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
 
 		<div v-if="!showCropper" class="avatar__container">
 			<div class="avatar__preview">
 				<NcAvatar v-if="!loading"
+					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
-					:disabled-tooltip="true"
+					:disable-tooltip="true"
 					:show-user-status="false"
-					:size="180"
-					:key="version" />
+					:size="180" />
 				<div v-else class="icon-loading" />
 			</div>
 			<template v-if="avatarChangeSupported">
@@ -61,9 +62,8 @@
 						</template>
 					</NcButton>
 				</div>
-				<span>{{ t('settings', 'png or jpg, max. 20 MB') }}</span>
+				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
 				<input ref="input"
-					:id="inputId"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">
@@ -121,7 +121,6 @@ const VALID_MIME_TYPES = ['image/png', 'image/jpeg']
 const picker = getFilePickerBuilder(t('settings', 'Choose your profile picture'))
 	.setMultiSelect(false)
 	.setMimeTypeFilter(VALID_MIME_TYPES)
-	.setModal(true)
 	.setType(1)
 	.allowDirectories(false)
 	.build()
@@ -161,12 +160,6 @@ export default {
 				minContainerHeight: 300,
 			},
 		}
-	},
-
-	computed: {
-		inputId() {
-			return `account-property-${this.avatar.name}`
-		},
 	},
 
 	created() {
@@ -226,7 +219,10 @@ export default {
 			this.showCropper = false
 			this.loading = true
 
-			this.$refs.cropper.getCroppedCanvas().toBlob(async (blob) => {
+			const canvasData = this.$refs.cropper.getCroppedCanvas()
+			const scaleFactor = canvasData.width > 512 ? 512 / canvasData.width : 1
+
+			this.$refs.cropper.scale(scaleFactor, scaleFactor).getCroppedCanvas().toBlob(async (blob) => {
 				if (blob === null) {
 					showError(t('settings', 'Error cropping profile picture'))
 					this.cancel()
@@ -288,7 +284,7 @@ section {
 		justify-content: center;
 		align-items: center;
 		gap: 16px 0;
-		width: 300px;
+		width: min(100%, 300px);
 
 		span {
 			color: var(--color-text-lighter);

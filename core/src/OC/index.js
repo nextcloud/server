@@ -24,14 +24,13 @@
 
 import { subscribe } from '@nextcloud/event-bus'
 
-import { addScript, addStyle } from './legacy-loader.js'
 import {
 	ajaxConnectionLostHandler,
 	processAjaxError,
 	registerXHRForErrorProcessing,
 } from './xhr-error.js'
+import Apps from './apps.js'
 import { AppConfig, appConfig } from './appconfig.js'
-import { appSettings } from './appsettings.js'
 import appswebroots from './appswebroots.js'
 import Backbone from './backbone.js'
 import {
@@ -58,7 +57,6 @@ import {
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
 } from './constants.js'
-import ContactsMenu from './contactsmenu.js'
 import { currentUser, getCurrentUser } from './currentuser.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
@@ -137,15 +135,11 @@ export default {
 	 * @deprecated 17.0.0
 	 */
 	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
-
-	addScript,
-	addStyle,
+	Apps,
 	AppConfig,
 	appConfig,
-	appSettings,
 	appswebroots,
 	Backbone,
-	ContactsMenu,
 	config: Config,
 	/**
 	 * Currently logged in user or null if none
@@ -245,6 +239,9 @@ export default {
 
 	msg,
 	Notification,
+	/**
+	 * @deprecated 28.0.0 use methods from '@nextcloud/password-confirmation'
+	 */
 	PasswordConfirmation,
 	Plugins,
 	theme,

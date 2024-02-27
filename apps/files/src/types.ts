@@ -19,20 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import type { Folder } from '@nextcloud/files'
-import type { Node } from '@nextcloud/files'
+import type { Folder, Node } from '@nextcloud/files'
+import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
 export type Service = string
 export type FileId = number
+export type ViewId = string
 
 // Files store
-export type FilesState = {
-	files: FilesStore,
-	roots: RootsStore,
-}
-
 export type FilesStore = {
 	[fileid: FileId]: Node
 }
@@ -41,36 +36,33 @@ export type RootsStore = {
 	[service: Service]: Folder
 }
 
+export type FilesState = {
+	files: FilesStore,
+	roots: RootsStore,
+}
+
 export interface RootOptions {
 	root: Folder
 	service: Service
 }
 
 // Paths store
+export type PathConfig = {
+	[path: string]: number
+}
+
 export type ServicesState = {
-	[service: Service]: PathsStore
+	[service: Service]: PathConfig
 }
 
 export type PathsStore = {
-	[path: string]: number
+	paths: ServicesState
 }
 
 export interface PathOptions {
 	service: Service
 	path: string
 	fileid: FileId
-}
-
-// Sorting store
-export type direction = 'asc' | 'desc'
-
-export interface SortingConfig {
-	mode: string
-	direction: direction
-}
-
-export interface SortingStore {
-	[key: string]: SortingConfig
 }
 
 // User config store
@@ -91,4 +83,41 @@ export interface SelectionStore {
 export type GlobalActions = 'global'
 export interface ActionsMenuStore {
 	opened: GlobalActions|string|null
+}
+
+// View config store
+export interface ViewConfig {
+	[key: string]: string|boolean
+}
+export interface ViewConfigs {
+	[viewId: ViewId]: ViewConfig
+}
+export interface ViewConfigStore {
+	viewConfig: ViewConfigs
+}
+
+// Renaming store
+export interface RenamingStore {
+	renamingNode?: Node
+	newName: string
+}
+
+// Uploader store
+export interface UploaderStore {
+	queue: Upload[]
+}
+
+// Drag and drop store
+export interface DragAndDropStore {
+	dragging: FileId[]
+}
+
+export interface TemplateFile {
+	app: string
+	label: string
+	extension: string
+	iconClass?: string
+	mimetypes: string[]
+	ratio?: number
+	templates?: Record<string, unknown>[]
 }

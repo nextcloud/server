@@ -4,36 +4,35 @@
 			<img class="option__icon" :src="entity.icon" alt="">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
-		<NcMultiselect v-else
-			:value="currentEvent"
-			:options="allEvents"
-			track-by="id"
-			:multiple="true"
-			:auto-limit="false"
+		<NcSelect v-else
 			:disabled="allEvents.length <= 1"
+			:multiple="true"
+			:options="allEvents"
+			:value="currentEvent"
+			:placeholder="placeholderString"
+			class="event__trigger"
+			label="displayName"
 			@input="updateEvent">
-			<template slot="selection" slot-scope="{ values, isOpen }">
-				<div v-if="values.length && !isOpen" class="eventlist">
-					<img class="option__icon" :src="values[0].entity.icon" alt="">
-					<span v-for="(value, index) in values" :key="value.id" class="text option__title option__title_single">{{ value.displayName }} <span v-if="index+1 < values.length">, </span></span>
-				</div>
+			<template #option="option">
+				<img class="option__icon" :src="option.entity.icon" alt="">
+				<span class="option__title">{{ option.displayName }}</span>
 			</template>
-			<template slot="option" slot-scope="props">
-				<img class="option__icon" :src="props.option.entity.icon" alt="">
-				<span class="option__title">{{ props.option.displayName }}</span>
+			<template #selected-option="option">
+				<img class="option__icon" :src="option.entity.icon" alt="">
+				<span class="option__title">{{ option.displayName }}</span>
 			</template>
-		</NcMultiselect>
+		</NcSelect>
 	</div>
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import { showWarning } from '@nextcloud/dialogs'
 
 export default {
 	name: 'Event',
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 	props: {
 		rule: {
@@ -54,10 +53,15 @@ export default {
 		currentEvent() {
 			return this.allEvents.filter(event => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
 		},
+		placeholderString() {
+			// TRANSLATORS: Users should select a trigger for a workflow action
+			return t('workflowengine', 'Select a trigger')
+		},
 	},
 	methods: {
 		updateEvent(events) {
 			if (events.length === 0) {
+				// TRANSLATORS: Users must select an event as of "happening" or "incident" which triggers an action
 				showWarning(t('workflowengine', 'At least one event must be selected'))
 				return
 			}
@@ -81,6 +85,10 @@ export default {
 <style scoped lang="scss">
 	.event {
 		margin-bottom: 5px;
+
+		&__trigger {
+			max-width: 550px;
+		}
 	}
 	.isComplex {
 		img {
@@ -91,51 +99,15 @@ export default {
 			display: inline-block;
 		}
 	}
-	.multiselect {
-		width: 100%;
-		max-width: 550px;
-		margin-top: 4px;
-	}
-	.multiselect::v-deep .multiselect__single {
-		display: flex;
-	}
-	.multiselect:not(.multiselect--active)::v-deep .multiselect__tags {
-		background-color: var(--color-main-background) !important;
-		border: 1px solid transparent;
-	}
-
-	.multiselect::v-deep .multiselect__tags {
-		background-color: var(--color-main-background) !important;
-		height: auto;
-		min-height: 34px;
-	}
-
-	.multiselect:not(.multiselect--disabled)::v-deep .multiselect__tags .multiselect__single {
-		background-image: var(--icon-triangle-s-dark);
-		background-repeat: no-repeat;
-		background-position: right center;
-	}
-
-	input {
-		border: 1px solid transparent;
-	}
 
 	.option__title {
 		margin-left: 5px;
 		color: var(--color-main-text);
-	}
-	.option__title_single {
-		font-weight: 900;
 	}
 
 	.option__icon {
 		width: 16px;
 		height: 16px;
 		filter: var(--background-invert-if-dark);
-	}
-
-	.eventlist img,
-	.eventlist .text {
-		vertical-align: middle;
 	}
 </style>

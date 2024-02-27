@@ -19,10 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
+import type { FileId, SelectionStore } from '../types'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
-import { FileId, SelectionStore } from '../types'
 
 export const useSelectionStore = defineStore('selection', {
 	state: () => ({
@@ -36,7 +35,7 @@ export const useSelectionStore = defineStore('selection', {
 		 * Set the selection of fileIds
 		 */
 		set(selection = [] as FileId[]) {
-			Vue.set(this, 'selected', selection)
+			Vue.set(this, 'selected', [...new Set(selection)])
 		},
 
 		/**
@@ -55,6 +54,6 @@ export const useSelectionStore = defineStore('selection', {
 			Vue.set(this, 'selected', [])
 			Vue.set(this, 'lastSelection', [])
 			Vue.set(this, 'lastSelectedIndex', null)
-		}
-	}
+		},
+	},
 })

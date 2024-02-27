@@ -45,7 +45,7 @@ class RemoteWipeNotificationsListener implements IEventListener {
 	private $timeFactory;
 
 	public function __construct(INotificationManager $notificationManager,
-								ITimeFactory $timeFactory) {
+		ITimeFactory $timeFactory) {
 		$this->notificationManager = $notificationManager;
 		$this->timeFactory = $timeFactory;
 	}

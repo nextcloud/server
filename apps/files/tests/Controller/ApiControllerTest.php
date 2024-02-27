@@ -29,6 +29,7 @@ namespace OCA\Files\Controller;
 
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
@@ -70,6 +71,8 @@ class ApiControllerTest extends TestCase {
 	private $userFolder;
 	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $userConfig;
+	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $viewConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -99,6 +102,7 @@ class ApiControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
 
 		$this->apiController = new ApiController(
 			$this->appName,
@@ -109,7 +113,8 @@ class ApiControllerTest extends TestCase {
 			$this->shareManager,
 			$this->config,
 			$this->userFolder,
-			$this->userConfig
+			$this->userConfig,
+			$this->viewConfig
 		);
 	}
 
@@ -200,52 +205,6 @@ class ApiControllerTest extends TestCase {
 
 		$this->assertEquals(Http::STATUS_OK, $ret->getStatus());
 		$this->assertInstanceOf(Http\FileDisplayResponse::class, $ret);
-	}
-
-	public function testUpdateFileSorting() {
-		$mode = 'mtime';
-		$direction = 'desc';
-
-		$sortingConfig = [];
-		$sortingConfig['files'] = [
-			'mode' => $mode,
-			'direction' => $direction,
-		];
-
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'files_sorting_configs', json_encode($sortingConfig));
-
-		$expected = new HTTP\JSONResponse([
-			'message' => 'ok',
-			'data' => $sortingConfig
-		]);
-		$actual = $this->apiController->updateFileSorting($mode, $direction);
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function invalidSortingModeData() {
-		return [
-			['size'],
-			['bar']
-		];
-	}
-
-	/**
-	 * @dataProvider invalidSortingModeData
-	 */
-	public function testUpdateInvalidFileSorting($direction) {
-		$this->config->expects($this->never())
-			->method('setUserValue');
-
-		$expected = new Http\JSONResponse([
-			'message' => 'Invalid direction parameter'
-		]);
-		$expected->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
-
-		$result = $this->apiController->updateFileSorting('basename', $direction);
-
-		$this->assertEquals($expected, $result);
 	}
 
 	public function testShowHiddenFiles() {

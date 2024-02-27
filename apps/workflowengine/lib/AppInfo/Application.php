@@ -27,7 +27,6 @@
 namespace OCA\WorkflowEngine\AppInfo;
 
 use Closure;
-use OCA\WorkflowEngine\Controller\RequestTime;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Listener\LoadAdditionalSettingsScriptsListener;
 use OCA\WorkflowEngine\Manager;
@@ -53,7 +52,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerServiceAlias('RequestTimeController', RequestTime::class);
 		$context->registerEventListener(
 			LoadSettingsScriptsEvent::class,
 			LoadAdditionalSettingsScriptsListener::class,
@@ -66,8 +64,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerRuleListeners(IEventDispatcher $dispatcher,
-										   ContainerInterface $container,
-										   LoggerInterface $logger): void {
+		ContainerInterface $container,
+		LoggerInterface $logger): void {
 		/** @var Manager $manager */
 		$manager = $container->get(Manager::class);
 		$configuredEvents = $manager->getAllConfiguredEvents();

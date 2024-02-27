@@ -83,12 +83,12 @@ class Checker {
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
-								FileAccessHelper $fileAccessHelper,
-								AppLocator $appLocator,
-								?IConfig $config,
-								ICacheFactory $cacheFactory,
-								?IAppManager $appManager,
-								IMimeTypeDetector $mimeTypeDetector) {
+		FileAccessHelper $fileAccessHelper,
+		AppLocator $appLocator,
+		?IConfig $config,
+		ICacheFactory $cacheFactory,
+		?IAppManager $appManager,
+		IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
@@ -116,9 +116,9 @@ class Checker {
 		 */
 		$isIntegrityCheckDisabled = false;
 		if ($this->config !== null) {
-			$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+			$isIntegrityCheckDisabled = $this->config->getSystemValueBool('integrity.check.disabled', false);
 		}
-		if ($isIntegrityCheckDisabled === true) {
+		if ($isIntegrityCheckDisabled) {
 			return false;
 		}
 
@@ -161,7 +161,7 @@ class Checker {
 	 * @return array Array of hashes.
 	 */
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
-									string $path): array {
+		string $path): array {
 		$hashes = [];
 
 		$baseDirectoryLength = \strlen($path);
@@ -223,8 +223,8 @@ class Checker {
 	 * @return array
 	 */
 	private function createSignatureData(array $hashes,
-										 X509 $certificate,
-										 RSA $privateKey): array {
+		X509 $certificate,
+		RSA $privateKey): array {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
@@ -249,8 +249,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeAppSignature($path,
-									  X509 $certificate,
-									  RSA $privateKey) {
+		X509 $certificate,
+		RSA $privateKey) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
@@ -279,8 +279,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeCoreSignature(X509 $certificate,
-									   RSA $rsa,
-									   $path) {
+		RSA $rsa,
+		$path) {
 		$coreDir = $path . '/core';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($coreDir);
@@ -379,7 +379,7 @@ class Checker {
 		// integrity check.
 		if ($basePath === $this->environmentHelper->getServerRoot()) {
 			foreach ($expectedHashes as $fileName => $hash) {
-				if (strpos($fileName, 'updater/') === 0) {
+				if (str_starts_with($fileName, 'updater/')) {
 					unset($expectedHashes[$fileName]);
 				}
 			}
@@ -439,7 +439,7 @@ class Checker {
 	 */
 	public function getResults(): array {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
-		if (!\is_null($cachedResults)) {
+		if (!\is_null($cachedResults) and $cachedResults !== false) {
 			return json_decode($cachedResults, true);
 		}
 

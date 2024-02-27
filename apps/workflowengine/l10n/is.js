@@ -23,7 +23,6 @@ OC.L10N.register(
     "Flow" : "Flæði",
     "Folder" : "Mappa",
     "Images" : "Myndir",
-    "Predefined URLs" : "Forákvarðaðar slóðir",
     "Files WebDAV" : "WebDAV skráa",
     "Android client" : "Android-biðlari",
     "iOS client" : "iOS-biðlari",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "Save" : "Vista",
     "Available flows" : "Tiltæk flæði",
     "More flows" : "Fleiri flæði",
+    "Browse the App Store" : "Flakka um forritasafnið",
     "Configured flows" : "Uppsett flæði",
     "Your flows" : "Flæðin þín",
     "matches" : "samsvarar",
@@ -62,11 +62,8 @@ OC.L10N.register(
     "between" : "á milli",
     "not between" : "er ekki á milli",
     "Request user agent" : "Biðja um notandaforrit",
-    "User group membership" : "Notandi er meðlimur í hópum",
     "is member of" : "er meðlimur í ",
     "is not member of" : "er ekki meðlimur í",
-    "No results" : "Engar niðurstöður",
-    "%s (invisible)" : "%s (ósýnilegt)",
-    "%s (restricted)" : "%s (takmarkaður aðgangur)"
+    "User group membership" : "Notandi er meðlimur í hópum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

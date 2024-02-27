@@ -86,6 +86,18 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		]);
 	}
 
+	public function testEmitScriptLoadingTagsWithVersion() {
+		// Test mjs js and inline content
+		$pattern = '/src="some\.mjs\?v=ab123cd"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern .= '<script[^>]+src="other\.js\?v=12abc34"[^>]*>.+\n'; // other.js as plain javascript
+		$pattern .= '/'; // no flags
+
+		$this->expectOutputRegex($pattern);
+		emit_script_loading_tags([
+			'jsfiles' => ['some.mjs?v=ab123cd', 'other.js?v=12abc34'],
+		]);
+	}
+
 	// ---------------------------------------------------------------------------
 	// Test relative_modified_date with dates only
 	// ---------------------------------------------------------------------------

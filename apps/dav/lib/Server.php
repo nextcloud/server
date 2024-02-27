@@ -11,6 +11,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -38,6 +39,7 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
@@ -64,6 +66,7 @@ use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\LazySearchBackend;
@@ -75,6 +78,7 @@ use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
@@ -102,9 +106,8 @@ class Server {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->get(LoggerInterface::class);
-		$dispatcher = \OC::$server->getEventDispatcher();
-		/** @var IEventDispatcher $newDispatcher */
-		$newDispatcher = \OC::$server->query(IEventDispatcher::class);
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -139,7 +142,7 @@ class Server {
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
 
 		$newAuthEvent = new SabrePluginAuthInitEvent($this->server);
-		$newDispatcher->dispatchTyped($newAuthEvent);
+		$dispatcher->dispatchTyped($newAuthEvent);
 
 		$bearerAuthBackend = new BearerAuth(
 			\OC::$server->getUserSession(),
@@ -192,6 +195,8 @@ class Server {
 				\OC::$server->getConfig(),
 				\OC::$server->getURLGenerator()
 			));
+
+			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
 		}
 
 		// addressbook plugins
@@ -208,11 +213,7 @@ class Server {
 		}
 
 		// system tags plugins
-		$this->server->addPlugin(new SystemTagPlugin(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserSession()
-		));
+		$this->server->addPlugin(\OC::$server->get(SystemTagPlugin::class));
 
 		// comments plugin
 		$this->server->addPlugin(new CommentsPlugin(
@@ -227,6 +228,8 @@ class Server {
 
 		// allow setup of additional plugins
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+		$typedEvent = new SabrePluginAddEvent($this->server);
+		$dispatcher->dispatchTyped($typedEvent);
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
@@ -238,11 +241,6 @@ class Server {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
 
-		// Allow view-only plugin for webdav requests
-		$this->server->addPlugin(new ViewOnlyPlugin(
-			$logger
-		));
-
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
 			$this->server->addPlugin(new BrowserErrorPagePlugin());
 		}
@@ -252,6 +250,11 @@ class Server {
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger) {
+			// Allow view-only plugin for webdav requests
+			$this->server->addPlugin(new ViewOnlyPlugin(
+				\OC::$server->getUserFolder(),
+			));
+
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -318,7 +321,8 @@ class Server {
 						$user,
 						\OC::$server->getRootFolder(),
 						\OC::$server->getShareManager(),
-						$view
+						$view,
+						\OCP\Server::get(IFilesMetadataManager::class)
 					));
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
@@ -329,7 +333,8 @@ class Server {
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->query(BirthdayService::class),
+					$user
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->getUserSession(),
@@ -377,10 +382,11 @@ class Server {
 	private function requestIsForSubtree(array $subTrees): bool {
 		foreach ($subTrees as $subTree) {
 			$subTree = trim($subTree, ' /');
-			if (strpos($this->server->getRequestUri(), $subTree.'/') === 0) {
+			if (str_starts_with($this->server->getRequestUri(), $subTree . '/')) {
 				return true;
 			}
 		}
 		return false;
 	}
+
 }

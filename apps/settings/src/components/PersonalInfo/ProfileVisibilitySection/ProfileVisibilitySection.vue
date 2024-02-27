@@ -141,22 +141,5 @@ section {
 			}
 		}
 	}
-
-	.visibility-dropdowns {
-		display: grid;
-		gap: 10px 40px;
-	}
-
-	@media (min-width: 1200px) {
-		width: 940px;
-
-		.visibility-dropdowns {
-			grid-auto-flow: column;
-		}
-	}
-
-	@media (max-width: 1200px) {
-		width: 470px;
-	}
 }
 </style>

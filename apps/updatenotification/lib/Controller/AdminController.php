@@ -61,12 +61,12 @@ class AdminController extends Controller {
 	 * @param IL10N $l10n
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								IJobList $jobList,
-								ISecureRandom $secureRandom,
-								IConfig $config,
-								ITimeFactory $timeFactory,
-								IL10N $l10n) {
+		IRequest $request,
+		IJobList $jobList,
+		ISecureRandom $secureRandom,
+		IConfig $config,
+		ITimeFactory $timeFactory,
+		IL10N $l10n) {
 		parent::__construct($appName, $request);
 		$this->jobList = $jobList;
 		$this->secureRandom = $secureRandom;

@@ -164,7 +164,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -184,7 +184,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -223,7 +223,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -268,7 +268,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -329,7 +329,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -389,7 +389,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -433,7 +433,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -654,7 +654,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -674,7 +674,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -711,7 +711,7 @@ class CheckerTest extends TestCase {
 			->willReturn('stable');
 		$this->config
 			->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
@@ -774,7 +774,7 @@ class CheckerTest extends TestCase {
 			->willReturn('stable');
 		$this->config
 			->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
@@ -801,7 +801,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -838,7 +838,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -881,7 +881,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -939,7 +939,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -982,7 +982,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(false);
 
@@ -1104,7 +1104,7 @@ class CheckerTest extends TestCase {
 				->willReturn('stable');
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(true);
 
@@ -1134,7 +1134,7 @@ class CheckerTest extends TestCase {
 			->willReturn($channel);
 		$this->config
 			->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
@@ -1152,7 +1152,7 @@ class CheckerTest extends TestCase {
 				->willReturn($channel);
 		$this->config
 				->expects($this->any())
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('integrity.check.disabled', false)
 				->willReturn(true);
 

@@ -30,13 +30,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
-use OCP\Calendar\Resource\IBackend as IResourceBackend;
-use OCP\Calendar\Room\IBackend as IRoomBackend;
-use OCP\Collaboration\Reference\IReferenceProvider;
-use OCP\Talk\ITalkBackend;
-use OCP\Translation\ITranslationProvider;
-use RuntimeException;
-use function array_shift;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -44,7 +37,10 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\Calendar\ICalendarProvider;
+use OCP\Calendar\Resource\IBackend as IResourceBackend;
+use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Capabilities\ICapability;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -53,11 +49,18 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\Talk\ITalkBackend;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\Translation\ITranslationProvider;
 use OCP\UserMigration\IMigrator as IUserMigrator;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
+use function array_shift;
 
 class RegistrationContext {
 	/** @var ServiceRegistration<ICapability>[] */
@@ -111,6 +114,12 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IHandler>[] */
 	private $wellKnownHandlers = [];
 
+	/** @var ServiceRegistration<ISpeechToTextProvider>[] */
+	private $speechToTextProviders = [];
+
+	/** @var ServiceRegistration<ITextProcessingProvider>[] */
+	private $textProcessingProviders = [];
+
 	/** @var ServiceRegistration<ICustomTemplateProvider>[] */
 	private $templateProviders = [];
 
@@ -129,6 +138,9 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
 
+	/** @var ServiceRegistration<\OCP\TextToImage\IProvider>[] */
+	private $textToImageProviders = [];
+
 
 
 
@@ -138,11 +150,13 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IPublicShareTemplateProvider>[] */
 	private $publicShareTemplateProviders = [];
 
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
+
+	/** @var ServiceRegistration<ISetupCheck>[] */
+	private array $setupChecks = [];
 
 	/** @var PreviewProviderRegistration[] */
-	private $previewProviders = [];
+	private array $previewProviders = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -252,6 +266,26 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerSpeechToTextProvider(string $providerClass): void {
+				$this->context->registerSpeechToTextProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+			public function registerTextProcessingProvider(string $providerClass): void {
+				$this->context->registerTextProcessingProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
+			public function registerTextToImageProvider(string $providerClass): void {
+				$this->context->registerTextToImageProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
 			public function registerTemplateProvider(string $providerClass): void {
 				$this->context->registerTemplateProvider(
 					$this->appId,
@@ -351,6 +385,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerSetupCheck(string $setupCheckClass): void {
+				$this->context->registerSetupCheck(
+					$this->appId,
+					$setupCheckClass
+				);
+			}
 		};
 	}
 
@@ -362,14 +403,14 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @psalm-param class-string<IReporter> $capability
+	 * @psalm-param class-string<IReporter> $reporterClass
 	 */
 	public function registerCrashReporter(string $appId, string $reporterClass): void {
 		$this->crashReporters[] = new ServiceRegistration($appId, $reporterClass);
 	}
 
 	/**
-	 * @psalm-param class-string<IWidget> $capability
+	 * @psalm-param class-string<IWidget> $panelClass
 	 */
 	public function registerDashboardPanel(string $appId, string $panelClass): void {
 		$this->dashboardPanels[] = new ServiceRegistration($appId, $panelClass);
@@ -412,6 +453,18 @@ class RegistrationContext {
 
 	public function registerWellKnown(string $appId, string $class): void {
 		$this->wellKnownHandlers[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerSpeechToTextProvider(string $appId, string $class): void {
+		$this->speechToTextProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTextProcessingProvider(string $appId, string $class): void {
+		$this->textProcessingProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTextToImageProvider(string $appId, string $class): void {
+		$this->textToImageProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerTemplateProvider(string $appId, string $class): void {
@@ -495,6 +548,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @psalm-param class-string<ISetupCheck> $setupCheckClass
+	 */
+	public function registerSetupCheck(string $appId, string $setupCheckClass): void {
+		$this->setupChecks[] = new ServiceRegistration($appId, $setupCheckClass);
+	}
+
+	/**
 	 * @param App[] $apps
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
@@ -536,9 +596,6 @@ class RegistrationContext {
 		}
 	}
 
-	/**
-	 * @param App[] $apps
-	 */
 	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
 		while (($panel = array_shift($this->dashboardPanels)) !== null) {
 			try {
@@ -686,6 +743,27 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<ISpeechToTextProvider>[]
+	 */
+	public function getSpeechToTextProviders(): array {
+		return $this->speechToTextProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ITextProcessingProvider>[]
+	 */
+	public function getTextProcessingProviders(): array {
+		return $this->textProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TextToImage\IProvider>[]
+	 */
+	public function getTextToImageProviders(): array {
+		return $this->textToImageProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<ICustomTemplateProvider>[]
 	 */
 	public function getTemplateProviders(): array {
@@ -784,5 +862,12 @@ class RegistrationContext {
 	 */
 	public function getPublicShareTemplateProviders(): array {
 		return $this->publicShareTemplateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ISetupCheck>[]
+	 */
+	public function getSetupChecks(): array {
+		return $this->setupChecks;
 	}
 }

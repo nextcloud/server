@@ -3,7 +3,7 @@
 		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
-			<p>{{ theme.description }}</p>
+			<p class="theming__preview-explanation">{{ theme.description }}</p>
 			<span v-if="enforced" class="theming__preview-warning" role="note">
 				{{ t('theming', 'Theme selection is enforced') }}
 			</span>
@@ -95,6 +95,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@use 'sass:math';
+
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
@@ -121,9 +123,18 @@ export default {
 		background-size: cover;
 	}
 
+	&-explanation {
+		margin-bottom: 10px;
+	}
+
 	&-description {
 		display: flex;
 		flex-direction: column;
+
+		h3 {
+			font-weight: bold;
+			margin-bottom: 0;
+		}
 
 		label {
 			padding: 12px 0;
@@ -139,7 +150,7 @@ export default {
 	}
 }
 
-@media (max-width: (1024px / 1.5)) {
+@media (max-width: math.div(1024px, 1.5)) {
 	.theming__preview {
 		flex-direction: column;
 

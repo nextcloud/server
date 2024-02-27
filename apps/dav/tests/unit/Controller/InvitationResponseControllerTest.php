@@ -465,6 +465,8 @@ EOF;
 			->method('fetch')
 			->with(\PDO::FETCH_ASSOC)
 			->willReturn($return);
+		$stmt->expects($this->once())
+			->method('closeCursor');
 
 		$function = 'functionToken';
 		$expr->expects($this->once())
@@ -490,7 +492,7 @@ EOF;
 			->with($function)
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->with()
 			->willReturn($stmt);
 

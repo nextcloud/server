@@ -74,9 +74,9 @@ class RecentContactMapper extends QBMapper {
 	 * @return RecentContact[]
 	 */
 	public function findMatch(IUser $user,
-							  ?string $uid,
-							  ?string $email,
-							  ?string $cloudId): array {
+		?string $uid,
+		?string $email,
+		?string $cloudId): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$or = $qb->expr()->orX();

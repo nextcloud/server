@@ -125,7 +125,7 @@ class RepairDavShares implements IRepairStep {
 	 * @inheritDoc
 	 */
 	public function run(IOutput $output) {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($versionFromBeforeUpdate, '20.0.8', '<')
 			&& $this->repairUnencodedGroupShares()
 		) {

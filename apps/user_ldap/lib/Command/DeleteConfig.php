@@ -31,41 +31,35 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Command {
-	/** @var \OCA\User_LDAP\Helper */
-	protected $helper;
-
-	/**
-	 * @param Helper $helper
-	 */
-	public function __construct(Helper $helper) {
-		$this->helper = $helper;
+	public function __construct(
+		protected Helper $helper,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:delete-config')
 			->setDescription('deletes an existing LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 		;
 	}
-
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $input->getArgument('configID');
 
 		$success = $this->helper->deleteServerConfiguration($configPrefix);
 
-		if ($success) {
-			$output->writeln("Deleted configuration with configID '{$configPrefix}'");
-			return 0;
-		} else {
+		if (!$success) {
 			$output->writeln("Cannot delete configuration with configID '{$configPrefix}'");
-			return 1;
+			return self::FAILURE;
 		}
+
+		$output->writeln("Deleted configuration with configID '{$configPrefix}'");
+		return self::SUCCESS;
 	}
 }

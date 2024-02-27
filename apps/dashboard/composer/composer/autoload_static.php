@@ -25,6 +25,7 @@ class ComposerStaticInitDashboard
         'OCA\\Dashboard\\Controller\\DashboardApiController' => __DIR__ . '/..' . '/../lib/Controller/DashboardApiController.php',
         'OCA\\Dashboard\\Controller\\DashboardController' => __DIR__ . '/..' . '/../lib/Controller/DashboardController.php',
         'OCA\\Dashboard\\Controller\\LayoutApiController' => __DIR__ . '/..' . '/../lib/Controller/LayoutApiController.php',
+        'OCA\\Dashboard\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

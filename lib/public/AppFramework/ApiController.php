@@ -23,6 +23,8 @@
  */
 namespace OCP\AppFramework;
 
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
@@ -50,10 +52,10 @@ abstract class ApiController extends Controller {
 	 * @since 7.0.0
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
-								$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
-								$corsMaxAge = 1728000) {
+		IRequest $request,
+		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
+		$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
+		$corsMaxAge = 1728000) {
 		parent::__construct($appName, $request);
 		$this->corsMethods = $corsMethods;
 		$this->corsAllowedHeaders = $corsAllowedHeaders;
@@ -70,6 +72,8 @@ abstract class ApiController extends Controller {
 	 * @PublicPage
 	 * @since 7.0.0
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function preflightedCors() {
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$origin = $this->request->server['HTTP_ORIGIN'];

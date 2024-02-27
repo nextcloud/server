@@ -27,19 +27,18 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Tests\Actions;
 
 use OCA\AdminAudit\Actions\Security;
-use OCP\IUser;
 use OCA\AdminAudit\AuditLogger;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
-	/** @var AuditLogger|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
+	private AuditLogger|MockObject $logger;
 
-	/** @var Security */
-	private $security;
+	private Security $security;
 
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	private $user;
+	private MockObject|IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,7 +59,11 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->twofactorFailed($this->user, ['provider' => 'myprovider']);
+		$provider = $this->createMock(IProvider::class);
+		$provider->method('getDisplayName')
+			->willReturn('myprovider');
+
+		$this->security->twofactorFailed($this->user, $provider);
 	}
 
 	public function testTwofactorSuccess() {
@@ -71,6 +74,10 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->twofactorSuccess($this->user, ['provider' => 'myprovider']);
+		$provider = $this->createMock(IProvider::class);
+		$provider->method('getDisplayName')
+			->willReturn('myprovider');
+
+		$this->security->twofactorSuccess($this->user, $provider);
 	}
 }

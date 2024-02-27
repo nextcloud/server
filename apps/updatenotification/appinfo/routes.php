@@ -29,6 +29,6 @@ return [
 		['name' => 'Admin#setChannel', 'url' => '/channel', 'verb' => 'POST'],
 	],
 	'ocs' => [
-		['name' => 'API#getAppList', 'url' => '/api/{apiVersion}/applist/{newVersion}', 'verb' => 'GET', 'requirements' => ['apiVersion' => 'v1']],
+		['name' => 'API#getAppList', 'url' => '/api/{apiVersion}/applist/{newVersion}', 'verb' => 'GET', 'requirements' => ['apiVersion' => '(v1)']],
 	],
 ];

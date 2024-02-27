@@ -1,5 +1,3 @@
-/* eslint-disable node/no-unpublished-import */
-
 import {
 	applyChangesToNextcloud,
 	configureNextcloud,
@@ -8,8 +6,11 @@ import {
 	waitOnNextcloud,
 } from './cypress/dockerNode'
 import { defineConfig } from 'cypress'
+import cypressSplit from 'cypress-split'
+import webpackPreprocessor from '@cypress/webpack-preprocessor'
+import type { Configuration } from 'webpack'
 
-import browserify from '@cypress/browserify-preprocessor'
+import webpackConfig from './webpack.config.js'
 
 export default defineConfig({
 	projectId: '37xpdh',
@@ -41,15 +42,15 @@ export default defineConfig({
 	trashAssetsBeforeRuns: true,
 
 	e2e: {
-		// Enable session management and disable isolation
-		experimentalSessionAndOrigin: true,
-		testIsolation: 'off',
+		// Disable session isolation
+		testIsolation: false,
 
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
-			// Fix browserslist extend https://github.com/cypress-io/cypress/issues/2983#issuecomment-570616682
-			on('file:preprocessor', browserify({ typescript: require.resolve('typescript') }))
+			cypressSplit(on, config)
+
+			on('file:preprocessor', webpackPreprocessor({ webpackOptions: webpackConfig as Configuration }))
 
 			// Disable spell checking to prevent rendering differences
 			on('before:browser:launch', (browser, launchOptions) => {
@@ -78,18 +79,16 @@ export default defineConfig({
 
 			// Before the browser launches
 			// starting Nextcloud testing container
-			return startNextcloud(process.env.BRANCH)
-				.then((ip) => {
-					// Setting container's IP as base Url
-					config.baseUrl = `http://${ip}/index.php`
-					return ip
-				})
-				.then(waitOnNextcloud)
-				.then(configureNextcloud)
-				.then(applyChangesToNextcloud)
-				.then(() => {
-					return config
-				})
+			const ip = await startNextcloud(process.env.BRANCH)
+
+			// Setting container's IP as base Url
+			config.baseUrl = `http://${ip}/index.php`
+			await waitOnNextcloud(ip)
+			await configureNextcloud()
+			await applyChangesToNextcloud()
+
+			// IMPORTANT: return the config otherwise cypress-split will not work
+			return config
 		},
 	},
 
@@ -116,7 +115,7 @@ export default defineConfig({
 					},
 				])
 
-				const config = require('@nextcloud/webpack-vue-config')
+				const config = webpackConfig
 				config.module.rules.push({
 					test: /\.svg$/,
 					type: 'asset/source',

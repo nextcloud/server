@@ -21,42 +21,43 @@
   -->
 
 <template>
-	<li :class="{'sharing-entry--share': share}" class="sharing-entry sharing-entry__link">
+	<li :class="{ 'sharing-entry--share': share }" class="sharing-entry sharing-entry__link">
 		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
-		<div class="sharing-entry__desc">
-			<span class="sharing-entry__title" :title="title">
-				{{ title }}
-			</span>
-			<p v-if="subtitle">
-				{{ subtitle }}
-			</p>
+
+		<div class="sharing-entry__summary">
+			<div class="sharing-entry__desc">
+				<span class="sharing-entry__title" :title="title">
+					{{ title }}
+				</span>
+				<p v-if="subtitle">
+					{{ subtitle }}
+				</p>
+				<SharingEntryQuickShareSelect v-if="share && share.permissions !== undefined"
+					:share="share"
+					:file-info="fileInfo"
+					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
+			</div>
+
+			<!-- clipboard -->
+			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
+				<NcActionButton	:title="copyLinkTooltip"
+					:aria-label="copyLinkTooltip"
+					:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
+					@click.prevent="copyLink" />
+			</NcActions>
 		</div>
 
-		<!-- clipboard -->
-		<NcActions v-if="share && !isEmailShareType && share.token"
-			ref="copyButton"
-			class="sharing-entry__copy">
-			<NcActionLink :href="shareLink"
-				target="_blank"
-				:title="copyLinkTooltip"
-				:aria-label="copyLinkTooltip"
-				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.stop.prevent="copyLink" />
-		</NcActions>
-
 		<!-- pending actions -->
-		<NcActions v-if="!pending && (pendingPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
-			@close="onNewLinkShare">
+			@close="onCancel">
 			<!-- pending data menu -->
-			<NcActionText v-if="errors.pending"
-				icon="icon-error"
-				:class="{ error: errors.pending}">
+			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
 				{{ errors.pending }}
 			</NcActionText>
 			<NcActionText v-else icon="icon-info">
@@ -64,10 +65,10 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingPassword" icon="icon-password">
+			<NcActionText v-if="pendingEnforcedPassword" icon="icon-password">
 				{{ t('files_sharing', 'Password protection (enforced)') }}
 			</NcActionText>
-			<NcActionCheckbox v-else-if="config.enableLinkPasswordByDefault"
+			<NcActionCheckbox v-else-if="pendingPassword"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
@@ -75,7 +76,7 @@
 				{{ t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
-			<NcActionInput v-if="pendingPassword || share.password"
+			<NcActionInput v-if="pendingEnforcedPassword || share.password"
 				class="share-link-password"
 				:value.sync="share.password"
 				:disabled="saving"
@@ -99,7 +100,7 @@
 				:value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
-				:max="dateMaxEnforced"
+				:max="maxExpirationDateEnforced"
 				@input="onExpirationChange">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
@@ -123,109 +124,14 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
-					<!-- Custom Label -->
-					<NcActionInput ref="label"
-						:class="{ error: errors.label }"
-						:disabled="saving"
-						:label="t('files_sharing', 'Share label')"
-						:value="share.newLabel !== undefined ? share.newLabel : share.label"
-						icon="icon-edit"
-						maxlength="255"
-						@update:value="onLabelChange"
-						@submit="onLabelSubmit" />
-
-					<SharePermissionsEditor :can-reshare="canReshare"
-						:share.sync="share"
-						:file-info="fileInfo" />
-
-					<NcActionSeparator />
-
-					<NcActionCheckbox :checked.sync="share.hideDownload"
-						:disabled="saving || canChangeHideDownload"
-						@change="queueUpdate('hideDownload')">
-						{{ t('files_sharing', 'Hide download') }}
-					</NcActionCheckbox>
-
-					<!-- password -->
-					<NcActionCheckbox :checked.sync="isPasswordProtected"
-						:disabled="config.enforcePasswordForPublicLink || saving"
-						class="share-link-password-checkbox"
-						@uncheck="onPasswordDisable">
-						{{ config.enforcePasswordForPublicLink
-							? t('files_sharing', 'Password protection (enforced)')
-							: t('files_sharing', 'Password protect') }}
-					</NcActionCheckbox>
-
-					<NcActionInput v-if="isPasswordProtected"
-						ref="password"
-						class="share-link-password"
-						:class="{ error: errors.password}"
-						:disabled="saving"
-						:required="config.enforcePasswordForPublicLink"
-						:value="hasUnsavedPassword ? share.newPassword : '***************'"
-						icon="icon-password"
-						autocomplete="new-password"
-						:type="hasUnsavedPassword ? 'text': 'password'"
-						@update:value="onPasswordChange"
-						@submit="onPasswordSubmit">
-						{{ t('files_sharing', 'Enter a password') }}
-					</NcActionInput>
-					<NcActionText v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
-						{{ t('files_sharing', 'Password expires {passwordExpirationTime}', {passwordExpirationTime}) }}
-					</NcActionText>
-					<NcActionText v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
-						{{ t('files_sharing', 'Password expired') }}
-					</NcActionText>
-
-					<!-- password protected by Talk -->
-					<NcActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
-						:checked.sync="isPasswordProtectedByTalk"
-						:disabled="!canTogglePasswordProtectedByTalkAvailable || saving"
-						class="share-link-password-talk-checkbox"
-						@change="onPasswordProtectedByTalkChange">
-						{{ t('files_sharing', 'Video verification') }}
-					</NcActionCheckbox>
-
-					<!-- expiration date -->
-					<NcActionCheckbox :checked.sync="hasExpirationDate"
-						:disabled="config.isDefaultExpireDateEnforced || saving"
-						class="share-link-expire-date-checkbox"
-						@uncheck="onExpirationDisable">
-						{{ config.isDefaultExpireDateEnforced
-							? t('files_sharing', 'Expiration date (enforced)')
-							: t('files_sharing', 'Set expiration date') }}
-					</NcActionCheckbox>
-					<NcActionInput v-if="hasExpirationDate"
-						ref="expireDate"
-						:is-native-picker="true"
-						:hide-label="true"
-						class="share-link-expire-date"
-						:class="{ error: errors.expireDate}"
-						:disabled="saving"
-						:value="new Date(share.expireDate)"
-						type="date"
-						:min="dateTomorrow"
-						:max="dateMaxEnforced"
-						@input="onExpirationChange">
-						{{ t('files_sharing', 'Enter a date') }}
-					</NcActionInput>
-
-					<!-- note -->
-					<NcActionCheckbox :checked.sync="hasNote"
-						:disabled="saving"
-						@uncheck="queueUpdate('note')">
-						{{ t('files_sharing', 'Note to recipient') }}
-					</NcActionCheckbox>
-
-					<NcActionTextEditable v-if="hasNote"
-						ref="note"
-						:class="{ error: errors.note}"
-						:disabled="saving"
-						:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
-						:value="share.newNote || share.note"
-						icon="icon-edit"
-						@update:value="onNoteChange"
-						@submit="onNoteSubmit" />
+					<NcActionButton :disabled="saving"
+						:close-after-click="true"
+						@click.prevent="openSharingDetails">
+						<template #icon>
+							<Tune />
+						</template>
+						{{ t('files_sharing', 'Customize link') }}
+					</NcActionButton>
 				</template>
 
 				<NcActionSeparator />
@@ -239,7 +145,7 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
+				<NcActionLink v-for="({ icon, url, name }, index) in externalLegacyLinkActions"
 					:key="index"
 					:href="url(shareLink)"
 					:icon="icon"
@@ -247,17 +153,18 @@
 					{{ name }}
 				</NcActionLink>
 
-				<NcActionButton v-if="share.canDelete"
-					icon="icon-close"
-					:disabled="saving"
-					@click.prevent="onDelete">
-					{{ t('files_sharing', 'Unshare') }}
-				</NcActionButton>
 				<NcActionButton v-if="!isEmailShareType && canReshare"
 					class="new-share-link"
 					icon="icon-add"
 					@click.prevent.stop="onNewLinkShare">
 					{{ t('files_sharing', 'Add another link') }}
+				</NcActionButton>
+
+				<NcActionButton v-if="share.canDelete"
+					icon="icon-close"
+					:disabled="saving"
+					@click.prevent="onDelete">
+					{{ t('files_sharing', 'Unshare') }}
 				</NcActionButton>
 			</template>
 
@@ -282,39 +189,40 @@ import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
+import Tune from 'vue-material-design-icons/Tune.vue'
+
+import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+
 import ExternalShareAction from './ExternalShareAction.vue'
-import SharePermissionsEditor from './SharePermissionsEditor.vue'
 import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingEntryLink',
 
 	components: {
+		ExternalShareAction,
 		NcActions,
 		NcActionButton,
-		NcActionCheckbox,
 		NcActionInput,
 		NcActionLink,
 		NcActionText,
-		NcActionTextEditable,
 		NcActionSeparator,
 		NcAvatar,
-		ExternalShareAction,
-		SharePermissionsEditor,
+		Tune,
+		SharingEntryQuickShareSelect,
 	},
 
-	mixins: [SharesMixin],
+	mixins: [SharesMixin, ShareDetails],
 
 	props: {
 		canReshare: {
@@ -392,34 +300,6 @@ export default {
 			}
 			return null
 		},
-
-		/**
-		 * Does the current share have an expiration date
-		 *
-		 * @return {boolean}
-		 */
-		hasExpirationDate: {
-			get() {
-				return this.config.isDefaultExpireDateEnforced
-					|| !!this.share.expireDate
-			},
-			set(enabled) {
-				const defaultExpirationDate = this.config.defaultExpirationDate
-					|| new Date(new Date().setDate(new Date().getDate() + 1))
-				this.share.expireDate = enabled
-					? this.formatDateToString(defaultExpirationDate)
-					: ''
-				console.debug('Expiration date status', enabled, this.share.expireDate)
-			},
-		},
-
-		dateMaxEnforced() {
-			if (this.config.isDefaultExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
-			}
-			return null
-		},
-
 		/**
 		 * Is the current share password protected ?
 		 *
@@ -516,6 +396,9 @@ export default {
 		 * @return {boolean}
 		 */
 		pendingPassword() {
+			return this.config.enableLinkPasswordByDefault && this.share && !this.share.id
+		},
+		pendingEnforcedPassword() {
 			return this.config.enforcePasswordForPublicLink && this.share && !this.share.id
 		},
 		pendingExpirationDate() {
@@ -589,7 +472,6 @@ export default {
 
 		canChangeHideDownload() {
 			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
-
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
 		},
 	},
@@ -612,12 +494,9 @@ export default {
 				// expiration is the share object key, not expireDate
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
-			if (this.config.enableLinkPasswordByDefault) {
-				shareDefaults.password = await GeneratePassword()
-			}
 
 			// do not push yet if we need a password or an expiration date: show pending menu
-			if (this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
+			if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
 				this.pending = true
 
 				// if a share already exists, pushing it
@@ -640,8 +519,8 @@ export default {
 				}
 
 				// ELSE, show the pending popovermenu
-				// if password enforced, pre-fill with random one
-				if (this.config.enforcePasswordForPublicLink) {
+				// if password default or enforced, pre-fill with random one
+				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
 					shareDefaults.password = await GeneratePassword()
 				}
 
@@ -657,7 +536,7 @@ export default {
 				this.pending = false
 				component.open = true
 
-			// Nothing is enforced, creating share directly
+				// Nothing is enforced, creating share directly
 			} else {
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
@@ -670,7 +549,7 @@ export default {
 		 * accordingly
 		 *
 		 * @param {Share} share the new share
-		 * @param {boolean} [update=false] do we update the current share ?
+		 * @param {boolean} [update] do we update the current share ?
 		 */
 		async pushNewLinkShare(share, update) {
 			try {
@@ -725,12 +604,12 @@ export default {
 					// otherwise the user needs to copy/paste the password before finishing the share.
 					component.copyLink()
 				}
-				showSuccess(t('sharing', 'Link share created'))
+				showSuccess(t('files_sharing', 'Link share created'))
 
 			} catch (data) {
 				const message = data?.response?.data?.ocs?.meta?.message
 				if (!message) {
-					showError(t('sharing', 'Error while creating the share'))
+					showError(t('files_sharing', 'Error while creating the share'))
 					console.error(data)
 					return
 				}
@@ -745,26 +624,6 @@ export default {
 				throw data
 			} finally {
 				this.loading = false
-			}
-		},
-
-		/**
-		 * Label changed, let's save it to a different key
-		 *
-		 * @param {string} label the share label
-		 */
-		onLabelChange(label) {
-			this.$set(this.share, 'newLabel', label.trim())
-		},
-
-		/**
-		 * When the note change, we trim, save and dispatch
-		 */
-		onLabelSubmit() {
-			if (typeof this.share.newLabel === 'string') {
-				this.share.label = this.share.newLabel
-				this.$delete(this.share, 'newLabel')
-				this.queueUpdate('label')
 			}
 		},
 		async copyLink() {
@@ -878,22 +737,34 @@ export default {
 	display: flex;
 	align-items: center;
 	min-height: 44px;
+
+	&__summary {
+		padding: 8px;
+		padding-left: 10px;
+		display: flex;
+		justify-content: space-between;
+		flex: 1 0;
+		min-width: 0;
+	}
+
 	&__desc {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		padding: 8px;
 		line-height: 1.2em;
-		overflow: hidden;
 
 		p {
 			color: var(--color-text-maxcontrast);
 		}
+
+		&__title {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
 	}
-	&__title {
-		text-overflow: ellipsis;
-		overflow: hidden;
-		white-space: nowrap;
+
+	&__copy {
+
 	}
 
 	&:not(.sharing-entry--share) &__actions {
@@ -903,7 +774,7 @@ export default {
 	}
 
 	::v-deep .avatar-link-share {
-		background-color: var(--color-primary);
+		background-color: var(--color-primary-element);
 	}
 
 	.sharing-entry__action--public-upload {
@@ -921,9 +792,9 @@ export default {
 	// put menus to the left
 	// but only the first one
 	.action-item {
-		margin-left: auto;
-		~ .action-item,
-		~ .sharing-entry__loading {
+
+		~.action-item,
+		~.sharing-entry__loading {
 			margin-left: 0;
 		}
 	}

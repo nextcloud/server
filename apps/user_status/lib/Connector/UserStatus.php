@@ -26,8 +26,8 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Connector;
 
 use DateTimeImmutable;
-use OCP\UserStatus\IUserStatus;
 use OCA\UserStatus\Db;
+use OCP\UserStatus\IUserStatus;
 
 class UserStatus implements IUserStatus {
 

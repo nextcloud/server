@@ -51,7 +51,6 @@ OC.L10N.register(
     "Name cannot be empty" : "El nombre no puede estar en blanco",
     "Open documentation" : "Abrir la documentación",
     "https://…" : "https://…",
-    "Login image" : "Imágen de inicio de sesión",
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión Imagemagick de PHP con soporte a imagenes SVG para generar los favicons en automático con base en el logotipo cargado y el color."
 },

@@ -33,6 +33,7 @@ use OC\Authentication\WebAuthn\Manager;
 use OC\URLGenerator;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -45,20 +46,16 @@ class WebAuthnController extends Controller {
 	private const WEBAUTHN_LOGIN = 'webauthn_login';
 	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 
-	private Manager $webAuthnManger;
-	private ISession $session;
-	private LoggerInterface $logger;
-	private WebAuthnChain $webAuthnChain;
-	private UrlGenerator $urlGenerator;
-
-	public function __construct($appName, IRequest $request, Manager $webAuthnManger, ISession $session, LoggerInterface $logger, WebAuthnChain $webAuthnChain, URLGenerator $urlGenerator) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Manager $webAuthnManger,
+		private ISession $session,
+		private LoggerInterface $logger,
+		private WebAuthnChain $webAuthnChain,
+		private URLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->webAuthnManger = $webAuthnManger;
-		$this->session = $session;
-		$this->logger = $logger;
-		$this->webAuthnChain = $webAuthnChain;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -66,6 +63,7 @@ class WebAuthnController extends Controller {
 	 * @PublicPage
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: 'login/webauthn/start')]
 	public function startAuthentication(string $loginName): JSONResponse {
 		$this->logger->debug('Starting WebAuthn login');
 
@@ -90,6 +88,7 @@ class WebAuthnController extends Controller {
 	 * @PublicPage
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: 'login/webauthn/finish')]
 	public function finishAuthentication(string $data): JSONResponse {
 		$this->logger->debug('Validating WebAuthn login');
 

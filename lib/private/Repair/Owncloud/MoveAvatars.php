@@ -41,7 +41,7 @@ class MoveAvatars implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IJobList $jobList,
-								IConfig $config) {
+		IConfig $config) {
 		$this->jobList = $jobList;
 		$this->config = $config;
 	}
@@ -59,7 +59,7 @@ class MoveAvatars implements IRepairStep {
 			$output->info('Repair step already executed');
 			return;
 		}
-		if ($this->config->getSystemValue('enable_avatars', true) === false) {
+		if (!$this->config->getSystemValueBool('enable_avatars', true)) {
 			$output->info('Avatars are disabled');
 		} else {
 			$output->info('Add background job');

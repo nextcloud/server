@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2021 Vincent Petry <vincent@nextcloud.com>
  *
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -38,7 +39,14 @@ class Capabilities implements ICapability {
 	/**
 	 * Function an app uses to return the capabilities
 	 *
-	 * @return array Array containing the apps capabilities
+	 * @return array{
+	 *     provisioning_api: array{
+	 *         version: string,
+	 *         AccountPropertyScopesVersion: int,
+	 *         AccountPropertyScopesFederatedEnabled: bool,
+	 *         AccountPropertyScopesPublishedEnabled: bool,
+	 *     },
+	 * }
 	 */
 	public function getCapabilities() {
 		$federatedScopeEnabled = $this->appManager->isEnabledForUser('federation');

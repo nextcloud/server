@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -24,23 +25,12 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\ImageManager;
-use OCA\Theming\ThemingDefaults;
-use OCA\Theming\Util;
 use OCA\Theming\ITheme;
-use OCA\Theming\Themes\DefaultTheme;
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IURLGenerator;
 
 class LightTheme extends DefaultTheme implements ITheme {
 
 	public function getId(): string {
 		return 'light';
-	}
-
-	public function getType(): int {
-		return ITheme::TYPE_THEME;
 	}
 
 	public function getTitle(): string {
@@ -57,5 +47,13 @@ class LightTheme extends DefaultTheme implements ITheme {
 
 	public function getMediaQuery(): string {
 		return '(prefers-color-scheme: light)';
+	}
+
+	public function getMeta(): array {
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'light',
+		]];
 	}
 }

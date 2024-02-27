@@ -51,20 +51,20 @@ declare(strict_types=1);
  *
  */
 
-use OCP\App\Events\AppUpdateEvent;
-use OCP\AppFramework\QueryException;
-use OCP\App\IAppManager;
-use OCP\App\ManagerEvent;
-use OCP\Authentication\IAlternativeLogin;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
+use OCP\App\Events\AppUpdateEvent;
+use OCP\App\IAppManager;
+use OCP\App\ManagerEvent;
+use OCP\Authentication\IAlternativeLogin;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -85,12 +85,14 @@ class OC_App {
 	 *
 	 * @psalm-taint-escape file
 	 * @psalm-taint-escape include
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape has_quotes
 	 *
 	 * @param string $app AppId that needs to be cleaned
 	 * @return string
 	 */
 	public static function cleanAppId(string $app): string {
-		return str_replace(['\0', '/', '\\', '..'], '', $app);
+		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
 	}
 
 	/**
@@ -115,6 +117,8 @@ class OC_App {
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 *
+	 * @deprecated 29.0.0 use IAppManager::loadApps instead
 	 */
 	public static function loadApps(array $types = []): bool {
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
@@ -240,19 +244,6 @@ class OC_App {
 	}
 
 	/**
-	 * checks whether or not an app is enabled
-	 *
-	 * @param string $app app
-	 * @return bool
-	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
-	 *
-	 * This function checks whether or not an app is enabled.
-	 */
-	public static function isEnabled(string $app): bool {
-		return \OC::$server->getAppManager()->isEnabledForUser($app);
-	}
-
-	/**
 	 * enables an app
 	 *
 	 * @param string $appId
@@ -263,10 +254,10 @@ class OC_App {
 	 * This function set an app as enabled in appconfig.
 	 */
 	public function enable(string $appId,
-						   array $groups = []) {
+		array $groups = []) {
 		// Check if app is already downloaded
 		/** @var Installer $installer */
-		$installer = \OC::$server->query(Installer::class);
+		$installer = \OCP\Server::get(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if (!$isDownloaded) {
@@ -293,17 +284,15 @@ class OC_App {
 
 	/**
 	 * Get the path where to install apps
-	 *
-	 * @return string|false
 	 */
-	public static function getInstallPath() {
+	public static function getInstallPath(): string|null {
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
 			}
 		}
 
-		\OCP\Util::writeLog('core', 'No application directories are marked as writable.', ILogger::ERROR);
+		\OCP\Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
 		return null;
 	}
 
@@ -394,18 +383,6 @@ class OC_App {
 	}
 
 	/**
-	 * get the last version of the app from appinfo/info.xml
-	 *
-	 * @param string $appId
-	 * @param bool $useCache
-	 * @return string
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion()
-	 */
-	public static function getAppVersion(string $appId, bool $useCache = true): string {
-		return \OC::$server->getAppManager()->getAppVersion($appId, $useCache);
-	}
-
-	/**
 	 * get app's version based on it's path
 	 *
 	 * @param string $path
@@ -414,50 +391,7 @@ class OC_App {
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
 		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
-		return isset($appData['version']) ? $appData['version'] : '';
-	}
-
-
-	/**
-	 * Read all app metadata from the info.xml file
-	 *
-	 * @param string $appId id of the app or the path of the info.xml file
-	 * @param bool $path
-	 * @param string $lang
-	 * @return array|null
-	 * @note all data is read from info.xml, not just pre-defined fields
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppInfo()
-	 */
-	public static function getAppInfo(string $appId, bool $path = false, string $lang = null) {
-		return \OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
-	}
-
-	/**
-	 * Returns the navigation
-	 *
-	 * @return array
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll()
-	 *
-	 * This function returns an array containing all entries added. The
-	 * entries are sorted by the key 'order' ascending. Additional to the keys
-	 * given for each app the following keys exist:
-	 *   - active: boolean, signals if the user is on this navigation entry
-	 */
-	public static function getNavigation(): array {
-		return OC::$server->getNavigationManager()->getAll();
-	}
-
-	/**
-	 * Returns the Settings Navigation
-	 *
-	 * @return string[]
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll('settings')
-	 *
-	 * This function returns an array containing all settings pages added. The
-	 * entries are sorted by the key 'order' ascending.
-	 */
-	public static function getSettingsNavigation(): array {
-		return OC::$server->getNavigationManager()->getAll('settings');
+		return $appData['version'] ?? '';
 	}
 
 	/**
@@ -529,7 +463,7 @@ class OC_App {
 	 */
 	public static function getAlternativeLogIns(): array {
 		/** @var Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = \OC::$server->query(Coordinator::class);
+		$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
 			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
@@ -543,8 +477,8 @@ class OC_App {
 
 			try {
 				/** @var IAlternativeLogin $provider */
-				$provider = \OC::$server->query($registration->getService());
-			} catch (QueryException $e) {
+				$provider = \OCP\Server::get($registration->getService());
+			} catch (ContainerExceptionInterface $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Alternative login option {option} can not be initialised.',
 					'option' => $registration->getService(),
@@ -583,7 +517,7 @@ class OC_App {
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
-				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], ILogger::WARN);
+				\OCP\Server::get(LoggerInterface::class)->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
 				continue;
 			}
 			$dh = opendir($apps_dir['path']);
@@ -609,7 +543,7 @@ class OC_App {
 	 */
 	public function getSupportedApps(): array {
 		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
-		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 		return $supportedApps;
 	}
@@ -631,15 +565,15 @@ class OC_App {
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
-			if (array_search($app, $blacklist) === false) {
-				$info = OC_App::getAppInfo($app, false, $langCode);
+			if (!in_array($app, $blacklist)) {
+				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
-					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
+					\OCP\Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
 					continue;
 				}
 
 				if (!isset($info['name'])) {
-					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', ILogger::ERROR);
+					\OCP\Server::get(LoggerInterface::class)->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
 					continue;
 				}
 
@@ -696,7 +630,7 @@ class OC_App {
 					}
 				}
 
-				$info['version'] = OC_App::getAppVersion($app);
+				$info['version'] = $appManager->getAppVersion($app);
 				$appList[] = $info;
 			}
 		}
@@ -706,7 +640,7 @@ class OC_App {
 
 	public static function shouldUpgrade(string $app): bool {
 		$versions = self::getAppVersions();
-		$currentVersion = OC_App::getAppVersion($app);
+		$currentVersion = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
 		if ($currentVersion && isset($versions[$app])) {
 			$installedVersion = $versions[$app];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
@@ -797,8 +731,9 @@ class OC_App {
 		static $versions;
 
 		if (!$versions) {
-			$appConfig = \OC::$server->getAppConfig();
-			$versions = $appConfig->getValues(false, 'installed_version');
+			/** @var IAppConfig $appConfig */
+			$appConfig = \OCP\Server::get(IAppConfig::class);
+			$versions = $appConfig->searchValues('installed_version');
 		}
 		return $versions;
 	}
@@ -824,7 +759,7 @@ class OC_App {
 
 		\OC::$server->getAppManager()->clearAppsCache();
 		$l = \OC::$server->getL10N('core');
-		$appData = self::getAppInfo($appId, false, $l->getLanguageCode());
+		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
@@ -864,11 +799,11 @@ class OC_App {
 
 		self::setAppTypes($appId);
 
-		$version = \OC_App::getAppVersion($appId);
+		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
-		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_UPDATE, $appId
 		));
 
@@ -890,7 +825,7 @@ class OC_App {
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		// load the steps
-		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
+		$r = \OCP\Server::get(Repair::class);
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);
@@ -936,11 +871,11 @@ class OC_App {
 				}
 				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
 			} else {
-				\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', ILogger::ERROR);
+				\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ', user not logged in', ['app' => 'core']);
 				return false;
 			}
 		} else {
-			\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', ILogger::ERROR);
+			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ' not enabled', ['app' => 'core']);
 			return false;
 		}
 	}
@@ -977,7 +912,7 @@ class OC_App {
 
 				if ($attributeLang === $similarLang) {
 					$similarLangFallback = $option['@value'];
-				} elseif (strpos($attributeLang, $similarLang . '_') === 0) {
+				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
 					if ($similarLangFallback === false) {
 						$similarLangFallback = $option['@value'];
 					}

@@ -14,6 +14,49 @@ updates:
   reviewers:
     - "nextcloud/server-dependabot"
 
+# cs-fixer
+- package-ecosystem: composer
+  directory: "/vendor-bin/cs-fixer"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:10"
+    timezone: Europe/Copenhagen
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
+# openapi-extractor
+- package-ecosystem: composer
+  directory: "/vendor-bin/openapi-extractor"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:20"
+    timezone: Europe/Brussels
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+    - "provokateurin"
+
+# psalm
+- package-ecosystem: composer
+  directory: "/vendor-bin/psalm"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:30"
+    timezone: Europe/Madrid
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
 # Main master npm
 - package-ecosystem: npm
   directory: "/"
@@ -64,7 +107,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable24
+  target-branch: stable26
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -74,6 +117,8 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 - package-ecosystem: npm
   directory: "/"
@@ -82,7 +127,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable25
+  target-branch: stable27
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -92,9 +137,32 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 - package-ecosystem: npm
   directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable28
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+
+# Testing StableXX composer
+- package-ecosystem: composer
+  directory: "/build/integration"
   schedule:
     interval: weekly
     day: saturday
@@ -111,7 +179,6 @@ updates:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
 
-# Testing StableXX composer
 - package-ecosystem: composer
   directory: "/build/integration"
   schedule:
@@ -119,7 +186,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable24
+  target-branch: stable27
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -137,7 +204,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable25
+  target-branch: stable28
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -147,3 +214,20 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+
+# GitHub Actions
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: monthly
+    timezone: Europe/Paris
+  groups:
+    github-actions:
+      patterns:
+        - "*"
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+

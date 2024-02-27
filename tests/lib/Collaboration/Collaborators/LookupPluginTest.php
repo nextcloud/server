@@ -92,19 +92,19 @@ class LookupPluginTest extends TestCase {
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->withConsecutive(
 				['gs.enabled', false],
-				['lookup_server', 'https://lookup.nextcloud.com'],
+				['has_internet_connection', true],
 			)->willReturnOnConsecutiveCalls(
 				false,
-				'',
+				true,
 			);
 
 		$this->config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('has_internet_connection', true)
-			->willReturn(true);
+			->method('getSystemValueString')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn('');
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -120,15 +120,15 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('yes');
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('gs.enabled', false)
-			->willReturn(false);
-
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->with('has_internet_connection', true)
-			->willReturn(false);
+			->withConsecutive(
+				['gs.enabled', false],
+				['has_internet_connection', true],
+			)->willReturnOnConsecutiveCalls(
+				false,
+				false,
+			);
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -157,19 +157,19 @@ class LookupPluginTest extends TestCase {
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->withConsecutive(
 				['gs.enabled', false],
-				['lookup_server', 'https://lookup.nextcloud.com'],
+				['has_internet_connection', true],
 			)->willReturnOnConsecutiveCalls(
 				false,
-				$searchParams['server'],
+				true,
 			);
 
 		$this->config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('has_internet_connection', true)
-			->willReturn(true);
+			->method('getSystemValueString')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn($searchParams['server']);
 
 		$response = $this->createMock(IResponse::class);
 		$response->expects($this->once())
@@ -221,19 +221,19 @@ class LookupPluginTest extends TestCase {
 				->method('addResultSet')
 				->with($type, $searchParams['expectedResult'], []);
 
-			$this->config->expects($this->once())
-				->method('getSystemValueBool')
-				->with('has_internet_connection', true)
-				->willReturn(true);
 			$this->config->expects($this->exactly(2))
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->withConsecutive(
 					['gs.enabled', false],
-					['lookup_server', 'https://lookup.nextcloud.com'],
+					['has_internet_connection', true],
 				)->willReturnOnConsecutiveCalls(
 					$GSEnabled,
-					$searchParams['server'],
+					true,
 				);
+			$this->config->expects($this->once())
+				->method('getSystemValueString')
+				->with('lookup_server', 'https://lookup.nextcloud.com')
+				->willReturn($searchParams['server']);
 
 			$response = $this->createMock(IResponse::class);
 			$response->expects($this->once())
@@ -254,10 +254,15 @@ class LookupPluginTest extends TestCase {
 				->willReturn($client);
 		} else {
 			$searchResult->expects($this->never())->method('addResultSet');
-			$this->config->expects($this->once())
-				->method('getSystemValue')
-				->with('gs.enabled', false)
-				->willReturn($GSEnabled);
+			$this->config->expects($this->exactly(2))
+				->method('getSystemValueBool')
+				->withConsecutive(
+					['gs.enabled', false],
+					['has_internet_connection', true],
+				)->willReturnOnConsecutiveCalls(
+					$GSEnabled,
+					true,
+				);
 		}
 		$moreResults = $this->plugin->search(
 			$searchParams['search'],

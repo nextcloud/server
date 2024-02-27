@@ -142,6 +142,16 @@ interface Folder extends Node {
 	public function searchByTag($tag, $userId);
 
 	/**
+	 * search for files by system tag
+	 *
+	 * @param string|int $tag tag name
+	 * @param string $userId user id to ensure access on returned nodes
+	 * @return \OCP\Files\Node[]
+	 * @since 28.0.0
+	 */
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0);
+
+	/**
 	 * get a file or folder inside the folder by it's internal id
 	 *
 	 * This method could return multiple entries. For example once the file/folder

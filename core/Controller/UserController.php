@@ -25,19 +25,18 @@
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
 
 class UserController extends Controller {
-	protected IUserManager $userManager;
-
-	public function __construct($appName,
-								IRequest $request,
-								IUserManager $userManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		protected IUserManager $userManager,
 	) {
 		parent::__construct($appName, $request);
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -49,6 +48,7 @@ class UserController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/displaynames')]
 	public function getDisplayNames($users) {
 		$result = [];
 

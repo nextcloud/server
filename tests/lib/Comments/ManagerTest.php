@@ -65,6 +65,8 @@ class ManagerTest extends TestCase {
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter($objectId),
 				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -119,6 +121,8 @@ class ManagerTest extends TestCase {
 				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter('file64'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -138,6 +142,8 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getObjectId(), 'file64');
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $creationDT->getTimestamp());
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
+		$this->assertEquals($comment->getReferenceId(), 'referenceId');
+		$this->assertEquals($comment->getMetaData(), ['last_edit_actor_id' => 'admin']);
 	}
 
 
@@ -516,15 +522,41 @@ class ManagerTest extends TestCase {
 			->setActor('users', 'alice')
 			->setObject('files', 'file64')
 			->setMessage('very beautiful, I am impressed!')
-			->setVerb('comment');
+			->setVerb('comment')
+			->setExpireDate(new \DateTime('+2 hours'));
 
-		$manager->save($comment);
-
-		$comment->setMessage('very beautiful, I am really so much impressed!');
 		$manager->save($comment);
 
 		$loadedComment = $manager->get($comment->getId());
+		// Compare current object with database values
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
+		$this->assertSame(
+			$comment->getExpireDate()->format('Y-m-d H:i:s'),
+			$loadedComment->getExpireDate()->format('Y-m-d H:i:s')
+		);
+
+		// Preserve the original comment to compare after update
+		$original = clone $comment;
+
+		// Update values
+		$comment->setMessage('very beautiful, I am really so much impressed!')
+			->setExpireDate(new \DateTime('+1 hours'));
+		$manager->save($comment);
+
+		$loadedComment = $manager->get($comment->getId());
+		// Compare current object with database values
+		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
+		$this->assertSame(
+			$comment->getExpireDate()->format('Y-m-d H:i:s'),
+			$loadedComment->getExpireDate()->format('Y-m-d H:i:s')
+		);
+
+		// Compare original object with database values
+		$this->assertNotSame($original->getMessage(), $loadedComment->getMessage());
+		$this->assertNotSame(
+			$original->getExpireDate()->format('Y-m-d H:i:s'),
+			$loadedComment->getExpireDate()->format('Y-m-d H:i:s')
+		);
 	}
 
 

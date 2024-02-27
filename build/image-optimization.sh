@@ -4,17 +4,24 @@ set -e
 
 OPTIPNG=$(which optipng)
 if ! [ -x "$OPTIPNG" ]; then
-	echo "optipng executable not found, please install" >&2
+	echo -e "\033[0;31moptipng executable not found, please install\033[0m" >&2
 	exit 1
 fi
 JPEGOPTIM=$(which jpegoptim)
 if ! [ -x "$JPEGOPTIM" ]; then
-	echo "jpegoptim executable not found, please install" >&2
+	echo -e "\033[0;31mjpegoptim executable not found, please install\033[0m" >&2
 	exit 2
 fi
 SCOUR=$(which scour)
 if ! [ -x "$SCOUR" ]; then
-	echo "scour executable not found, please install" >&2
+	echo -e "\033[0;31mscour executable not found, please install\033[0m" >&2
+	exit 3
+fi
+
+REQUIRED_SCOUR_VERSION="0.38.2"
+SCOUR_VERSION=$(scour --version)
+if dpkg --compare-versions $SCOUR_VERSION lt $REQUIRED_SCOUR_VERSION; then
+	echo "scour version $REQUIRED_SCOUR_VERSION or higher is required, found $SCOUR_VERSION" >&2
 	exit 3
 fi
 
@@ -29,20 +36,26 @@ function recursive_optimize_images() {
 	cd "$1" || return
 	DIR_NAME=${PWD##*/}
 
-	if [[ "$DIR_NAME" == "node_modules" ]]; then
-		echo "Ignoring node_modules for image optimization"
+	if [[ "$DIR_NAME" == "3rdparty" ]]; then
+		echo -e "\033[0;36mIgnoring 3rdparty for image optimization\033[0m"
+		return
+	elif [[ "$DIR_NAME" == "build" ]]; then
+		echo -e "\033[0;36mIgnoring build for image optimization\033[0m"
+		return
+	elif [[ "$DIR_NAME" == "cypress" ]]; then
+		echo -e "\033[0;36mIgnoring cypress for image optimization\033[0m"
+		return
+	elif [[ "$DIR_NAME" == "node_modules" ]]; then
+		echo -e "\033[0;36mIgnoring node_modules for image optimization\033[0m"
 		return
 	elif [[ "$DIR_NAME" == "tests" ]]; then
-		echo "Ignoring tests for image optimization"
-		return
-	elif [[ "$DIR_NAME" == "3rdparty" ]]; then
-		echo "Ignoring 3rdparty for image optimization"
+		echo -e "\033[0;36mIgnoring tests for image optimization\033[0m"
 		return
 	elif [[ "$DIR_NAME" == "vendor" ]]; then
-		echo "Ignoring vendor for image optimization"
+		echo -e "\033[0;36mIgnoring vendor for image optimization\033[0m"
 		return
 	elif [[ "$DIR_NAME" == "vendor-bin" ]]; then
-		echo "Ignoring vendor-bin for image optimization"
+		echo -e "\033[0;36mIgnoring vendor-bin for image optimization\033[0m"
 		return
 	fi
 
@@ -67,6 +80,11 @@ function recursive_optimize_images() {
 	do
 		[[ -e "$svg" ]] || break
 
+		if [[ "$svg" == "default-source.svg" ]]; then
+			echo -e "\033[0;36mIgnoring $svg image optimization\033[0m"
+			continue
+		fi
+
 		mv $svg $svg.opttmp
 		$SCOUR --create-groups \
 			--enable-id-stripping \
@@ -87,7 +105,7 @@ function recursive_optimize_images() {
 
 		if [[ -d "$dir" ]]; then
 			if git check-ignore $dir -q ; then
-				echo "$dir is not shipped. Ignoring image optimization"
+				echo -e "\033[0;36m$dir is not shipped. Ignoring image optimization\033[0m"
 				continue
 			fi
 

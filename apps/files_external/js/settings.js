@@ -91,7 +91,7 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 		return;
 	}
 	return $elements.select2({
-		placeholder: t('files_external', 'Type to select user or group.'),
+		placeholder: t('files_external', 'Type to select account or group.'),
 		allowClear: true,
 		multiple: true,
 		toggleSelect: true,
@@ -698,7 +698,7 @@ MountConfigListView.prototype = _.extend({
 	 * Trigger callback for all existing configurations
 	 */
 	whenSelectBackend: function(callback) {
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+		this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function(i, tr) {
 			var backend = $(tr).find('.backend').data('identifier');
 			callback($(tr), backend);
 		});
@@ -706,7 +706,7 @@ MountConfigListView.prototype = _.extend({
 	},
 	whenSelectAuthMechanism: function(callback) {
 		var self = this;
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+		this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function(i, tr) {
 			var authMechanism = $(tr).find('.selectAuthMechanism').val();
 			callback($(tr), authMechanism, self._allAuthMechanisms[authMechanism]['scheme']);
 		});

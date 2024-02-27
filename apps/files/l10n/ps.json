@@ -110,7 +110,6 @@
     "Unknown error" : "نامعلومه ستونزه",
     "No files in here" : "دلته فایلونه نشته",
     "Show hidden files" : "پټ فایلونه ليدل",
-    "Cancel" : "پرېښول",
     "Toggle grid view" : "په جدولي شکل ليدل",
     "No entries found in this folder" : "په دې فولډر کې څه نشته",
     "Upload too large" : "د پورته کېدونکي فایل کچه لوړه ده",
@@ -125,14 +124,10 @@
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
     "Storage invalid" : "ذخیره ناسمه ده",
-    "Select" : "ټاکل",
-    "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ",
-    "New" : "نوی",
-    "Copied!" : "کاپي شو!",
     "Unlimited" : "نامحدود",
+    "Cancel" : "پرېښول",
     "%s used" : "%sکارول شوې",
     "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې",
-    "Settings" : "سمونې",
     "Deleted files" : "ړنګ شوي فایلونه"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -48,12 +48,12 @@ class Server implements IDelegatedSettings {
 	private IURLGenerator $urlGenerator;
 
 	public function __construct(IDBConnection $connection,
-								IInitialState $initialStateService,
-								ProfileManager $profileManager,
-								ITimeFactory $timeFactory,
-								IURLGenerator $urlGenerator,
-								IConfig $config,
-								IL10N $l) {
+		IInitialState $initialStateService,
+		ProfileManager $profileManager,
+		ITimeFactory $timeFactory,
+		IURLGenerator $urlGenerator,
+		IConfig $config,
+		IL10N $l) {
 		$this->connection = $connection;
 		$this->initialStateService = $initialStateService;
 		$this->profileManager = $profileManager;

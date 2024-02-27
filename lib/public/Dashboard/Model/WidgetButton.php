@@ -29,8 +29,19 @@ namespace OCP\Dashboard\Model;
  * @since 25.0.0
  */
 class WidgetButton {
+	/**
+	 * @since 25.0.0
+	 */
 	public const TYPE_NEW = 'new';
+
+	/**
+	 * @since 25.0.0
+	 */
 	public const TYPE_MORE = 'more';
+
+	/**
+	 * @since 25.0.0
+	 */
 	public const TYPE_SETUP = 'setup';
 
 	private string $type;

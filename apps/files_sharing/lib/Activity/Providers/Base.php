@@ -63,12 +63,12 @@ abstract class Base implements IProvider {
 	protected $displayNames = [];
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -157,9 +157,11 @@ abstract class Base implements IProvider {
 
 	/**
 	 * @param string $uid
+	 * @param string $overwriteDisplayName - overwrite display name, only if user is not local
+	 *
 	 * @return array
 	 */
-	protected function getUser($uid) {
+	protected function getUser(string $uid, string $overwriteDisplayName = '') {
 		// First try local user
 		$displayName = $this->userManager->getDisplayName($uid);
 		if ($displayName !== null) {
@@ -176,7 +178,7 @@ abstract class Base implements IProvider {
 			return [
 				'type' => 'user',
 				'id' => $cloudId->getUser(),
-				'name' => $this->getDisplayNameFromAddressBook($cloudId->getDisplayId()),
+				'name' => (($overwriteDisplayName !== '') ? $overwriteDisplayName : $this->getDisplayNameFromAddressBook($cloudId->getDisplayId())),
 				'server' => $cloudId->getRemote(),
 			];
 		}
@@ -185,7 +187,7 @@ abstract class Base implements IProvider {
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $uid,
+			'name' => (($overwriteDisplayName !== '') ? $overwriteDisplayName : $uid),
 		];
 	}
 

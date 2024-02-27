@@ -31,6 +31,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserDeletedEvent;
 
+/** @template-implements IEventListener<UserDeletedEvent> */
 class UserDeletedWebAuthnCleanupListener implements IEventListener {
 	/** @var PublicKeyCredentialMapper */
 	private $credentialMapper;

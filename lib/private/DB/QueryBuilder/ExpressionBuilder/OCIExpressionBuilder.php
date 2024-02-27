@@ -39,80 +39,9 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	protected function prepareColumn($column, $type) {
 		if ($type === IQueryBuilder::PARAM_STR && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
 			$column = $this->castColumn($column, $type);
-		} else {
-			$column = $this->helper->quoteColumnNames($column);
 		}
-		return $column;
-	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function comparison($x, string $operator, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->comparison($x, $operator, $y);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function eq($x, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->eq($x, $y);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function neq($x, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->neq($x, $y);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function lt($x, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->lt($x, $y);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function lte($x, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->lte($x, $y);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function gt($x, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->gt($x, $y);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function gte($x, $y, $type = null): string {
-		$x = $this->prepareColumn($x, $type);
-		$y = $this->prepareColumn($y, $type);
-
-		return $this->expressionBuilder->gte($x, $y);
+		return parent::prepareColumn($column, $type);
 	}
 
 	/**

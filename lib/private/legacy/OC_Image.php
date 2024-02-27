@@ -758,7 +758,7 @@ class OC_Image implements \OCP\IImage {
 				if (!$this->checkImageDataSize($data)) {
 					return false;
 				}
-				$this->resource = imagecreatefromstring($data);
+				$this->resource = @imagecreatefromstring($data);
 				$iType = IMAGETYPE_PNG;
 				$this->logger->debug('OC_Image->loadFromFile, Default', ['app' => 'core']);
 				break;

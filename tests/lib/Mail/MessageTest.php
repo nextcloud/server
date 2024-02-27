@@ -11,13 +11,13 @@ namespace Test\Mail;
 use OC\Mail\Message;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Mime\Header\HeaderInterface;
 use Symfony\Component\Mime\Header\Headers;
 use Test\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class MessageTest extends TestCase {
 	/** @var Email */

@@ -94,7 +94,7 @@ export default {
 		},
 		subTitle() {
 			return (this.showInheritedShares && this.shares.length === 0)
-				? t('files_sharing', 'No other users with access found')
+				? t('files_sharing', 'No other accounts with access found')
 				: ''
 		},
 		toggleTooltip() {

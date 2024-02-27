@@ -30,6 +30,7 @@ namespace OCA\WorkflowEngine\Controller;
 use Doctrine\DBAL\Exception;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -103,6 +104,7 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
+	#[PasswordConfirmationRequired]
 	public function create(
 		string $class,
 		string $name,
@@ -131,6 +133,7 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
+	#[PasswordConfirmationRequired]
 	public function update(
 		int $id,
 		string $name,
@@ -159,6 +162,7 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
+	#[PasswordConfirmationRequired]
 	public function destroy(int $id): DataResponse {
 		try {
 			$deleted = $this->manager->deleteOperation($id, $this->getScopeContext());

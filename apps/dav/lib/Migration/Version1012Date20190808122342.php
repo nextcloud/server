@@ -29,8 +29,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Migration;
 
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -47,8 +47,8 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 	 * @since 17.0.0
 	 */
 	public function changeSchema(IOutput $output,
-								 \Closure $schemaClosure,
-								 array $options):?ISchemaWrapper {
+		\Closure $schemaClosure,
+		array $options):?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 

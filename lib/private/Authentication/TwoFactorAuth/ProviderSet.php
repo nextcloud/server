@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\TwoFactorAuth;
 
-use function array_filter;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use function array_filter;
 
 /**
  * Contains all two-factor provider information for the two-factor login challenge

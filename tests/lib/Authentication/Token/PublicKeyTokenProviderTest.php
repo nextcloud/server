@@ -38,6 +38,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Security\IHasher;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -47,6 +48,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $tokenProvider;
 	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
+	/** @var IHasher|\PHPUnit\Framework\MockObject\MockObject */
+	private $hasher;
 	/** @var ICrypto */
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -67,12 +70,19 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->hasher = \OC::$server->getHasher();
 		$this->crypto = \OC::$server->getCrypto();
 		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', 60 * 60 * 24, 150],
 				['remember_login_cookie_lifetime', 60 * 60 * 24 * 15, 300],
-				['secret', '', '1f4h9s'],
+				['token_auth_activity_update', 60, 60],
+			]);
+		$this->config->method('getSystemValue')
+			->willReturnMap([
 				['openssl', [], []],
+			]);
+		$this->config->method('getSystemValueString')
+			->willReturnMap([
+				['secret', '', '1f4h9s'],
 			]);
 		$this->db = $this->createMock(IDBConnection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -336,7 +346,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$defaultSessionLifetime = 60 * 60 * 24;
 		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
@@ -349,6 +359,14 @@ class PublicKeyTokenProviderTest extends TestCase {
 			);
 
 		$this->tokenProvider->invalidateOldTokens();
+	}
+
+	public function testInvalidateLastUsedBefore() {
+		$this->mapper->expects($this->once())
+			->method('invalidateLastUsedBefore')
+			->with('user', 946684800);
+
+		$this->tokenProvider->invalidateLastUsedBefore('user', 946684800);
 	}
 
 	public function testRenewSessionTokenWithoutPassword() {

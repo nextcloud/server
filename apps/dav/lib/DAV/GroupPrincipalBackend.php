@@ -104,7 +104,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		$elements = explode('/', $path,  3);
+		$elements = explode('/', $path, 3);
 		if ($elements[0] !== 'principals') {
 			return null;
 		}
@@ -288,7 +288,7 @@ class GroupPrincipalBackend implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (strpos($uri, 'principal:principals/groups/') === 0) {
+		if (str_starts_with($uri, 'principal:principals/groups/')) {
 			$name = urlencode(substr($uri, 28));
 			if ($restrictGroups !== false && !\in_array($name, $restrictGroups, true)) {
 				return null;

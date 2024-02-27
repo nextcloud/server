@@ -35,6 +35,7 @@ namespace OCA\Files\Tests\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
@@ -50,8 +51,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use OCP\Template;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -68,13 +67,13 @@ class ViewControllerTest extends TestCase {
 	private $l10n;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
-	/** @var IUser */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
-	/** @var IUserSession */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
@@ -90,6 +89,8 @@ class ViewControllerTest extends TestCase {
 	private $shareManager;
 	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $userConfig;
+	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $viewConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +114,7 @@ class ViewControllerTest extends TestCase {
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -129,10 +131,10 @@ class ViewControllerTest extends TestCase {
 				$this->templateManager,
 				$this->shareManager,
 				$this->userConfig,
+				$this->viewConfig,
 			])
 		->setMethods([
 			'getStorageInfo',
-			'renderScript'
 		])
 		->getMock();
 	}
@@ -149,253 +151,41 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]);
+
+		$this->config
+		->expects($this->any())
+			->method('getSystemValue')
+			->with('forbidden_chars', [])
+			->willReturn([]);
 		$this->config
 			->method('getUserValue')
 			->willReturnMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
+				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
 				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
+		
+		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+
+		$this->rootFolder->expects($this->any())
+			->method('getUserFolder')
+			->with('testuser1')
+			->willReturn($baseFolderFiles);
 
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnArgument(2);
-		$this->shareManager->method('shareApiAllowLinks')
-			->willReturn(true);
-
-		$nav = new Template('files', 'appnavigation');
-		$nav->assign('navigationItems', [
-			'files' => [
-				'id' => 'files',
-				'appname' => 'files',
-				'script' => 'list.php',
-				'order' => 0,
-				'name' => \OC::$server->getL10N('files')->t('All files'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
-			'recent' => [
-				'id' => 'recent',
-				'appname' => 'files',
-				'script' => 'recentlist.php',
-				'order' => 2,
-				'name' => \OC::$server->getL10N('files')->t('Recent'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
-			'favorites' => [
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'order' => 5,
-				'name' => \OC::$server->getL10N('files')->t('Favorites'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => 'collapsible',
-				'sublist' => [
-					[
-						'id' => '-test1',
-						'dir' => '/test1',
-						'order' => 6,
-						'name' => 'test1',
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test1',
-						],
-					],
-					[
-						'name' => 'test2',
-						'id' => '-test2-',
-						'dir' => '/test2/',
-						'order' => 7,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test2/',
-						],
-					],
-					[
-						'name' => 'sub4',
-						'id' => '-test3-sub4',
-						'dir' => '/test3/sub4',
-						'order' => 8,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test3/sub4',
-						],
-					],
-					[
-						'name' => 'sub6',
-						'id' => '-test5-sub6-',
-						'dir' => '/test5/sub6/',
-						'order' => 9,
-						'icon' => 'folder',
-						'params' => [
-							'view' => 'files',
-							'dir' => '/test5/sub6/',
-						],
-					],
-				],
-				'expanded' => false,
-				'unread' => 0,
-			],
-			'systemtagsfilter' => [
-				'id' => 'systemtagsfilter',
-				'appname' => 'systemtags',
-				'script' => 'list.php',
-				'order' => 25,
-				'name' => \OC::$server->getL10N('systemtags')->t('Tags'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-				'expanded' => false,
-				'unread' => 0,
-			],
-			'shareoverview' => [
-				'id' => 'shareoverview',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 18,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shares'),
-				'classes' => 'collapsible',
-				'sublist' => [
-					[
-						'id' => 'sharingout',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 16,
-						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
-					],
-					[
-						'id' => 'sharingin',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 15,
-						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with you'),
-					],
-					[
-						'id' => 'sharinglinks',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 17,
-						'name' => \OC::$server->getL10N('files_sharing')->t('Shared by link', []),
-					],
-					[
-						'id' => 'deletedshares',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 19,
-						'name' => \OC::$server->getL10N('files_sharing')->t('Deleted shares'),
-					],
-					[
-						'id' => 'pendingshares',
-						'appname' => 'files_sharing',
-						'script' => 'list.php',
-						'order' => 19,
-						'name' => \OC::$server->getL10N('files_sharing')->t('Pending shares'),
-					],
-				],
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'expanded' => false,
-				'unread' => 0,
-			]
-		]);
 
 		$expected = new Http\TemplateResponse(
 			'files',
 			'index',
-			[
-				'usedSpacePercent' => 123,
-				'owner' => 'MyName',
-				'ownerDisplayName' => 'MyDisplayName',
-				'isPublic' => false,
-				'defaultFileSorting' => 'basename',
-				'defaultFileSortingDirection' => 'asc',
-				'showHiddenFiles' => 0,
-				'cropImagePreviews' => 1,
-				'fileNotFound' => 0,
-				'allowShareWithLink' => 'yes',
-				'appNavigation' => $nav,
-				'appContents' => [
-					'files' => [
-						'id' => 'files',
-						'content' => null,
-					],
-					'recent' => [
-						'id' => 'recent',
-						'content' => null,
-					],
-					'favorites' => [
-						'id' => 'favorites',
-						'content' => null,
-					],
-					'systemtagsfilter' => [
-						'id' => 'systemtagsfilter',
-						'content' => null,
-					],
-					'sharingout' => [
-						'id' => 'sharingout',
-						'content' => null,
-					],
-					'sharingin' => [
-						'id' => 'sharingin',
-						'content' => null,
-					],
-					'sharinglinks' => [
-						'id' => 'sharinglinks',
-						'content' => null,
-					],
-					'deletedshares' => [
-						'id' => 'deletedshares',
-						'content' => null,
-					],
-					'pendingshares' => [
-						'id' => 'pendingshares',
-						'content' => null
-					],
-					'shareoverview' => [
-						'id' => 'shareoverview',
-						'content' => null,
-					],
-					'-test1' => [
-						'id' => '-test1',
-						'content' => '',
-					],
-					'-test2-' => [
-						'id' => '-test2-',
-						'content' => '',
-					],
-					'-test3-sub4' => [
-						'id' => '-test3-sub4',
-						'content' => '',
-					],
-					'-test5-sub6-' => [
-						'id' => '-test5-sub6-',
-						'content' => '',
-					],
-				],
-				'hiddenFields' => [],
-				'showgridview' => null
-			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
+		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
 
@@ -414,100 +204,6 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function testShowFileRouteWithFolder() {
-		$node = $this->getMockBuilder(Folder::class)->getMock();
-		$node->expects($this->once())
-			->method('getPath')
-			->willReturn('/testuser1/files/test/sub');
-
-		$baseFolder = $this->getMockBuilder(Folder::class)->getMock();
-
-		$this->rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with('testuser1')
-			->willReturn($baseFolder);
-
-		$baseFolder->expects($this->once())
-			->method('getById')
-			->with(123)
-			->willReturn([$node]);
-		$baseFolder->expects($this->once())
-			->method('getRelativePath')
-			->with('/testuser1/files/test/sub')
-			->willReturn('/test/sub');
-
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index', ['dir' => '/test/sub'])
-			->willReturn('/apps/files/?dir=/test/sub');
-
-		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub');
-		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
-	}
-
-	public function testShowFileRouteWithFile() {
-		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
-		$parentNode->expects($this->once())
-			->method('getPath')
-			->willReturn('testuser1/files/test');
-
-		$baseFolder = $this->getMockBuilder(Folder::class)->getMock();
-
-		$this->rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with('testuser1')
-			->willReturn($baseFolder);
-
-		$node = $this->getMockBuilder(File::class)->getMock();
-		$node->expects($this->once())
-			->method('getParent')
-			->willReturn($parentNode);
-		$node->expects($this->once())
-			->method('getName')
-			->willReturn('somefile.txt');
-
-		$baseFolder->expects($this->once())
-			->method('getById')
-			->with(123)
-			->willReturn([$node]);
-		$baseFolder->expects($this->once())
-			->method('getRelativePath')
-			->with('testuser1/files/test')
-			->willReturn('/test');
-
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index', ['dir' => '/test', 'scrollto' => 'somefile.txt'])
-			->willReturn('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
-
-		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
-		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
-	}
-
-	public function testShowFileRouteWithInvalidFileId() {
-		$baseFolder = $this->getMockBuilder(Folder::class)->getMock();
-		$this->rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with('testuser1')
-			->willReturn($baseFolder);
-
-		$baseFolder->expects($this->once())
-			->method('getById')
-			->with(123)
-			->willReturn([]);
-
-		$this->urlGenerator->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.index', ['fileNotFound' => true])
-			->willReturn('redirect.url');
-
-		$response = $this->viewController->index('', 'MyView', '123');
-		$this->assertInstanceOf('OCP\AppFramework\Http\RedirectResponse', $response);
-		$this->assertEquals('redirect.url', $response->getRedirectURL());
-	}
-
 	public function testShowFileRouteWithTrashedFile() {
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
@@ -522,7 +218,7 @@ class ViewControllerTest extends TestCase {
 		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
 		$baseFolderTrash = $this->getMockBuilder(Folder::class)->getMock();
 
-		$this->rootFolder->expects($this->once())
+		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->with('testuser1')
 			->willReturn($baseFolderFiles);
@@ -531,7 +227,7 @@ class ViewControllerTest extends TestCase {
 			->with('testuser1/files_trashbin/files/')
 			->willReturn($baseFolderTrash);
 
-		$baseFolderFiles->expects($this->once())
+		$baseFolderFiles->expects($this->any())
 			->method('getById')
 			->with(123)
 			->willReturn([]);
@@ -540,9 +236,6 @@ class ViewControllerTest extends TestCase {
 		$node->expects($this->once())
 			->method('getParent')
 			->willReturn($parentNode);
-		$node->expects($this->once())
-			->method('getName')
-			->willReturn('somefile.txt');
 
 		$baseFolderTrash->expects($this->once())
 			->method('getById')
@@ -556,10 +249,10 @@ class ViewControllerTest extends TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
-			->with('files.view.index', ['view' => 'trashbin', 'dir' => '/test.d1462861890/sub', 'scrollto' => 'somefile.txt'])
-			->willReturn('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
+			->with('files.view.indexViewFileid', ['view' => 'trashbin', 'dir' => '/test.d1462861890/sub', 'fileid' => '123'])
+			->willReturn('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 
-		$expected = new Http\RedirectResponse('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
+		$expected = new Http\RedirectResponse('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 }

@@ -38,6 +38,7 @@
  */
 namespace OC\App;
 
+use InvalidArgumentException;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\ServerNotAvailableException;
@@ -47,10 +48,10 @@ use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -59,7 +60,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
 	/**
@@ -73,15 +73,6 @@ class AppManager implements IAppManager {
 		'logging',
 		'prevent_group_restriction',
 	];
-
-	private IUserSession $userSession;
-	private IConfig $config;
-	private AppConfig $appConfig;
-	private IGroupManager $groupManager;
-	private ICacheFactory $memCacheFactory;
-	private EventDispatcherInterface $legacyDispatcher;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
 
 	/** @var string[] $appId => $enabled */
 	private array $installedAppsCache = [];
@@ -105,22 +96,15 @@ class AppManager implements IAppManager {
 	/** @var array<string, true> */
 	private array $loadedApps = [];
 
-	public function __construct(IUserSession $userSession,
-								IConfig $config,
-								AppConfig $appConfig,
-								IGroupManager $groupManager,
-								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $legacyDispatcher,
-								IEventDispatcher $dispatcher,
-								LoggerInterface $logger) {
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->groupManager = $groupManager;
-		$this->memCacheFactory = $memCacheFactory;
-		$this->legacyDispatcher = $legacyDispatcher;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private IGroupManager $groupManager,
+		private ICacheFactory $memCacheFactory,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -292,7 +276,7 @@ class AppManager implements IAppManager {
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently logged in user will be used
+	 * @param \OCP\IUser|null $user (optional) if not defined, the currently logged in user will be used
 	 * @return bool
 	 */
 	public function isEnabledForUser($appId, $user = null) {
@@ -543,7 +527,7 @@ class AppManager implements IAppManager {
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
-		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE, $appId
 		));
 		$this->clearAppsCache();
@@ -597,7 +581,7 @@ class AppManager implements IAppManager {
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
-		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
@@ -633,7 +617,7 @@ class AppManager implements IAppManager {
 		}
 
 		$this->dispatcher->dispatchTyped(new AppDisableEvent($appId));
-		$this->legacyDispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
 		$this->clearAppsCache();
@@ -673,8 +657,6 @@ class AppManager implements IAppManager {
 	 * Clear the cached list of apps when enabling/disabling an app
 	 */
 	public function clearAppsCache() {
-		$settingsMemCache = $this->memCacheFactory->createDistributed('settings');
-		$settingsMemCache->clear('listApps');
 		$this->appInfos = [];
 	}
 
@@ -707,10 +689,7 @@ class AppManager implements IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * @param string $appId app id
-	 *
-	 * @param bool $path
-	 * @param null $lang
+	 * @param string|null $lang
 	 * @return array|null app info
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
@@ -822,22 +801,39 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getDefaultEnabledApps():array {
+	public function getDefaultEnabledApps(): array {
 		$this->loadShippedJson();
 
 		return $this->defaultEnabled;
 	}
 
-	public function getDefaultAppForUser(?IUser $user = null): string {
+	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string {
 		// Set fallback to always-enabled files app
-		$appId = 'files';
-		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+		$appId = $withFallbacks ? 'files' : '';
+		$defaultApps = explode(',', $this->config->getSystemValueString('defaultapp', ''));
+		$defaultApps = array_filter($defaultApps);
 
 		$user ??= $this->userSession->getUser();
 
 		if ($user !== null) {
 			$userDefaultApps = explode(',', $this->config->getUserValue($user->getUID(), 'core', 'defaultapp'));
 			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
+			if (empty($defaultApps) && $withFallbacks) {
+				/* Fallback on user defined apporder */
+				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
+				if (!empty($customOrders)) {
+					// filter only entries with app key (when added using closures or NavigationManager::add the app is not guranteed to be set)
+					$customOrders = array_filter($customOrders, fn ($entry) => isset($entry['app']));
+					// sort apps by order
+					usort($customOrders, fn ($a, $b) => $a['order'] - $b['order']);
+					// set default apps to sorted apps
+					$defaultApps = array_map(fn ($entry) => $entry['app'], $customOrders);
+				}
+			}
+		}
+
+		if (empty($defaultApps) && $withFallbacks) {
+			$defaultApps = ['dashboard','files'];
 		}
 
 		// Find the first app that is enabled for the current user
@@ -850,5 +846,20 @@ class AppManager implements IAppManager {
 		}
 
 		return $appId;
+	}
+
+	public function getDefaultApps(): array {
+		return explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+	}
+
+	public function setDefaultApps(array $defaultApps): void {
+		foreach ($defaultApps as $app) {
+			if (!$this->isInstalled($app)) {
+				$this->logger->debug('Can not set not installed app as default app', ['missing_app' => $app]);
+				throw new InvalidArgumentException('App is not installed');
+			}
+		}
+
+		$this->config->setSystemValue('defaultapp', join(',', $defaultApps));
 	}
 }

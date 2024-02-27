@@ -100,7 +100,7 @@ export default {
 						'del',
 						'blockquote',
 					],
-				}
+				},
 			)
 		},
 	},

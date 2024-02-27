@@ -101,7 +101,8 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
  */
 function emit_script_loading_tags($obj) {
 	foreach ($obj['jsfiles'] as $jsfile) {
-		$type = str_ends_with($jsfile, '.mjs') ? 'module' : '';
+		$fileName = explode('?', $jsfile, 2)[0];
+		$type = str_ends_with($fileName, '.mjs') ? 'module' : '';
 		emit_script_tag($jsfile, '', $type);
 	}
 	if (!empty($obj['inline_ocjs'])) {
@@ -308,7 +309,7 @@ function strip_time($timestamp) {
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
 	/** @var \OC\DateTimeFormatter $formatter */
-	$formatter = \OC::$server->query('DateTimeFormatter');
+	$formatter = \OCP\Server::get('DateTimeFormatter');
 
 	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);

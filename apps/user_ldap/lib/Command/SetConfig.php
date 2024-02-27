@@ -35,25 +35,25 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SetConfig extends Command {
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:set-config')
 			->setDescription('modifies an LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 			->addArgument(
-					'configKey',
-					InputArgument::REQUIRED,
-					'the configuration key'
-					 )
+				'configKey',
+				InputArgument::REQUIRED,
+				'the configuration key'
+			)
 			->addArgument(
-					'configValue',
-					InputArgument::REQUIRED,
-					'the new configuration value'
-					 )
+				'configValue',
+				InputArgument::REQUIRED,
+				'the new configuration value'
+			)
 		;
 	}
 
@@ -63,7 +63,7 @@ class SetConfig extends Command {
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$this->setValue(
@@ -71,16 +71,13 @@ class SetConfig extends Command {
 			$input->getArgument('configKey'),
 			$input->getArgument('configValue')
 		);
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * save the configuration value as provided
-	 * @param string $configID
-	 * @param string $configKey
-	 * @param string $configValue
 	 */
-	protected function setValue($configID, $key, $value) {
+	protected function setValue(string $configID, string $key, string $value): void {
 		$configHolder = new Configuration($configID);
 		$configHolder->$key = $value;
 		$configHolder->saveConfiguration();

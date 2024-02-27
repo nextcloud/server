@@ -32,19 +32,20 @@ use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
-	protected IConfig $config;
-	protected LoggerInterface $log;
-
-	public function __construct(IConfig $config, LoggerInterface $log, ITimeFactory $time) {
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $log,
+		ITimeFactory $time,
+	) {
 		parent::__construct($time);
-		$this->config = $config;
-		$this->log = $log;
 	}
 
 	/**
 	 * This job cleans up all backups except the latest 3 from the updaters backup directory
+	 *
+	 * @param array $argument
 	 */
-	public function run($arguments) {
+	public function run($argument): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 

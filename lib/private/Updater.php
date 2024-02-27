@@ -40,13 +40,8 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\HintException;
-use OCP\IConfig;
-use OCP\ILogger;
-use OCP\Util;
 use OC\App\AppManager;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\MigratorExecuteSqlEvent;
@@ -60,6 +55,13 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC_App;
+use OCP\App\IAppManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
+use OCP\IConfig;
+use OCP\ILogger;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -93,9 +95,9 @@ class Updater extends BasicEmitter {
 	];
 
 	public function __construct(IConfig $config,
-								Checker $checker,
-								?LoggerInterface $log,
-								Installer $installer) {
+		Checker $checker,
+		?LoggerInterface $log,
+		Installer $installer) {
 		$this->log = $log;
 		$this->config = $config;
 		$this->checker = $checker;
@@ -129,7 +131,7 @@ class Updater extends BasicEmitter {
 			}
 		}
 
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
@@ -216,7 +218,7 @@ class Updater extends BasicEmitter {
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
 				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValue('debug', false));
+					$this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
@@ -251,10 +253,11 @@ class Updater extends BasicEmitter {
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
-		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
-		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$repair = \OCP\Server::get(Repair::class);
+		$repair->setRepairSteps(Repair::getBeforeUpgradeRepairSteps());
 		$repair->run();
 
 		$this->doCoreUpgrade();
@@ -271,7 +274,7 @@ class Updater extends BasicEmitter {
 		$this->doAppUpgrade();
 
 		// Update the appfetchers version so it downloads the correct list from the appstore
-		\OC::$server->getAppFetcher()->setVersion($currentVersion);
+		\OC::$server->get(AppFetcher::class)->setVersion($currentVersion);
 
 		/** @var AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
@@ -295,7 +298,8 @@ class Updater extends BasicEmitter {
 		}
 
 		// post-upgrade repairs
-		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$repair = \OCP\Server::get(Repair::class);
+		$repair->setRepairSteps(Repair::getRepairSteps());
 		$repair->run();
 
 		//Invalidate update feed
@@ -355,9 +359,9 @@ class Updater extends BasicEmitter {
 			$stack = $stacks[$type];
 			foreach ($stack as $appId) {
 				if (\OC_App::shouldUpgrade($appId)) {
-					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OC_App::getAppVersion($appId)]);
+					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
 					\OC_App::updateApp($appId);
-					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OC_App::getAppVersion($appId)]);
+					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
 				}
 				if ($type !== $pseudoOtherType) {
 					// load authentication, filesystem and logging apps after
@@ -399,7 +403,7 @@ class Updater extends BasicEmitter {
 	 * @return bool
 	 */
 	private function isCodeUpgrade(): bool {
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
 			return true;

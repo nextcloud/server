@@ -33,17 +33,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RepairTree extends Command {
 	public const CHUNK_SIZE = 200;
 
-	/**
-	 * @var IDBConnection
-	 */
-	protected $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		protected IDBConnection $connection,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files:repair-tree')
 			->setDescription('Try and repair malformed filesystem tree structures')
@@ -90,7 +86,7 @@ class RepairTree extends Command {
 			$this->connection->commit();
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 
 	private function getFileId(int $storage, string $path) {
@@ -102,7 +98,7 @@ class RepairTree extends Command {
 		return $query->execute()->fetch(\PDO::FETCH_COLUMN);
 	}
 
-	private function deleteById(int $fileId) {
+	private function deleteById(int $fileId): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));

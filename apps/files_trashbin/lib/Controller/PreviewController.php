@@ -85,7 +85,18 @@ class PreviewController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse|Http\FileDisplayResponse
+	 * Get the preview for a file
+	 *
+	 * @param int $fileId ID of the file
+	 * @param int $x Width of the preview
+	 * @param int $y Height of the preview
+	 * @param bool $a Whether to not crop the preview
+	 *
+	 * @return Http\FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Preview returned
+	 * 400: Getting preview is not possible
+	 * 404: Preview not found
 	 */
 	public function getPreview(
 		int $fileId = -1,
@@ -119,7 +130,7 @@ class PreviewController extends Controller {
 				$mimeType = $this->mimeTypeDetector->detectPath($file->getName());
 			}
 
-			$f = $this->previewManager->getPreview($file, $x, $y, $a, IPreview::MODE_FILL, $mimeType);
+			$f = $this->previewManager->getPreview($file, $x, $y, !$a, IPreview::MODE_FILL, $mimeType);
 			$response = new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 
 			// Cache previews for 24H

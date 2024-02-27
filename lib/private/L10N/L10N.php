@@ -30,6 +30,7 @@ namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
@@ -215,7 +216,12 @@ class L10N implements IL10N {
 	public function getIdentityTranslator(): IdentityTranslator {
 		if (\is_null($this->identityTranslator)) {
 			$this->identityTranslator = new IdentityTranslator();
-			$this->identityTranslator->setLocale($this->getLocaleCode());
+			// We need to use the language code here instead of the locale,
+			// because Symfony does not distinguish between the two and would
+			// otherwise e.g. with locale "Czech" and language "German" try to
+			// pick a non-existing plural rule, because Czech has 4 plural forms
+			// and German only 2.
+			$this->identityTranslator->setLocale($this->getLanguageCode());
 		}
 
 		return $this->identityTranslator;
@@ -229,7 +235,7 @@ class L10N implements IL10N {
 		$json = json_decode(file_get_contents($translationFile), true);
 		if (!\is_array($json)) {
 			$jsonError = json_last_error();
-			\OC::$server->getLogger()->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
+			\OCP\Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 
